@@ -57,6 +57,7 @@ Now combine that exhaustion with root window-selector totality. Since every sele
 
 The non-escape boundary of \autoref{thm:cauchy-modulus-refinement-nonescape} rules out hidden selector, quotient stream, selected host limit, host real equality, side channel completion object, second meet row, and ambient completeness coordinates. Therefore the displayed sibling rows exhaust the readback surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_root\_readback\_stability}
 
 \begin{theorem}[Cauchy modulus refinement root Real seal exhaustion]
 \label{thm:cauchy-modulus-refinement-root-real-seal-exhaustion}
@@ -116,4 +117,99 @@ Project the accepted carrier. The consumer-visible rows are exactly the displaye
 Apply \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}. This removes any competing selected-window path by requiring $W,Q$ to be obtained through the same $T$ route.
 
 Finally apply \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}. It orders the meet, extraction, selector, finite-window, tolerance, readback, and seal rows before any Real-completion use. Therefore every consumer read is covered by the displayed route and no hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate remains.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared-tail selector determinacy]
+\label{thm:cauchy-modulus-refinement-shared-tail-selector-determinacy}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet whose common-window selector, shared-tail handoff, and Real-consumer coverage rows read the same $\RegSeqRatUp/\StreamNameUp$ window. If two selector routes expose the same dyadic tail budget $Q$ and the same $\RealUp$ seal $E$, then the refinement rows determined by those routes are classifier-equal through the displayed $\BHist$ rows. Equivalently, the routes may differ only by componentwise $\hsame$ transport along the common window and shared-tail rows; they cannot determine distinct refinement rows under the same tail budget and Real seal.
+\end{theorem}
+\begin{proof}
+Project both selector routes to the displayed carrier rows. Root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, forces each route to pass through $M_0,M_1,U,V,T$ before it reaches the selected $\StreamNameUp$ window and dyadic budget rows.
+
+Next apply root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}. Since both routes expose the same $Q$ row and the same $\RegSeqRatUp/\StreamNameUp$ window, their readbacks are transported by the componentwise $H$ row and replayed only through the displayed route row $C$.
+
+Use the shared-tail handoff of \autoref{thm:cauchy-modulus-refinement-shared-tail-handoff}. It identifies the tail-facing route with the same selector-budget, window, tolerance, readback, and seal surface $T,W,Q,E,H,C,P,N$, so no second shared-tail witness can distinguish the two selectors.
+
+Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. The common Real seal is reached only through the displayed finite route, and the packet has no hidden selector, quotient stream, selected host limit, or ambient completeness coordinate. Thus the two projected $\BHist$ rows are connected by componentwise $\hsame$ transport through the common window and shared-tail routes, which is exactly classifier equality for the refinement rows.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector-budget RegSeqRat Real-seal determinacy]
+\label{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose two downstream Real-completion routes expose the same selector-budget row $T$, the same finite-window $\RegSeqRatUp/\StreamNameUp$ readback through $W,Q$, and the same $\RealUp$ seal row $E$. Then the Real-completion consumer surfaces determined by those routes are classifier-equal through the displayed $\BHist$ rows, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CauchyModulusRefinementUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project both downstream routes to the accepted carrier. Root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, forces each route through $M_0,M_1,U,V,T$ before either route reaches a selected finite-window row.
+
+Next use root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}. Since the two routes expose the same $\RegSeqRatUp/\StreamNameUp$ finite-window readback and the same dyadic tolerance rows, $W,Q$ are replayed only through the displayed $H,C,P,N$ rows.
+
+Apply the shared-tail handoff, \autoref{thm:cauchy-modulus-refinement-shared-tail-handoff}. It aligns the selector-budget, finite-window, tolerance, readback, and seal rows with the $\CauchySharedTailModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ sibling surfaces, so no separate RegSeqRat or stream-name route remains.
+
+Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. The displayed packet has no quotient stream, selected host limit, hidden selector, host equality, or ambient completeness coordinate. Therefore two routes with the same $T$, the same $W,Q$ readback, and the same $E$ seal determine the same Real-completion consumer surface through $\BHist$, $H$, $C$, $P$, and $N$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_selector\_budget\_regseqrat\_real\_seal\_determinacy}
+
+\begin{theorem}[Cauchy modulus refinement selector-seal two-step transport]
+\label{thm:cauchy-modulus-refinement-selector-seal-two-step-transport}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose a second downstream route has selector row $V'$, selector-budget row $T'$, tolerance-readback row $Q'$, and seal row $E'$. If the displayed $\hsame$ rows identify $V$ with $V'$ and $E$ with $E'$, and the displayed $\Cont$ rows carry the source-meet route through $U,V',T'$ and then through $T',W,Q'$, then the two routes determine the same selector-budget row and the same $\RealUp$ seal consumer surface through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-stability-lock}. The $\hsame$ agreement on $V,V'$ and the continuation through $U,V',T'$ transport the selector route to the same selector-budget surface, so $T'$ cannot supply a detached selected-window ledger.
+
+Next apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. With the selector-budget agreement in place, the continuation through $T',W,Q'$ places the transported readback on the same $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows, while the $\hsame$ agreement on $E,E'$ identifies the $\RealUp$ seal row.
+
+Finally use the non-escape clauses recorded by window-route factorization, \autoref{thm:cauchy-modulus-refinement-window-route-factorization}. The accepted packet has no hidden selector, quotient stream, selected host limit, second meet row, side-channel completion row, host real equality, or ambient completeness coordinate. Hence the two-step route from selector agreement to seal agreement exhausts the consumer surface through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement window-route factorization]
+\label{thm:cauchy-modulus-refinement-window-route-factorization}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every Real-completion consumer route that exposes the selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance, $\RegSeqRatUp$ readback, and $\RealUp$ seal factors through the ordered subroute
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+If two such routes expose the same selector-budget, selected-window, dyadic-tolerance, and seal rows $T,W,Q,E$, then they determine the same consumer surface through componentwise $\hsame$ transport along $H$, displayed replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\CauchyModulusRefinementUp}$ row $N$. No quotient stream, selected host limit, hidden selector, second meet row, side-channel completion row, host real equality, or ambient completeness coordinate can replace that factorization.
+\end{theorem}
+\begin{proof}
+First extract the selected-window spine. Common-window selector extraction, \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}, and root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, force every selected $\StreamNameUp$ window and $\DyadicRatCoreUp$ tolerance read through $M_0,M_1,U,V,T$ before it reaches $W,Q$.
+
+Next stabilize the readback. Root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}, transports the same $W,Q$ readback only through $H,C,P,N$, so a consumer cannot split the $\RegSeqRatUp$ readback away from the displayed window route.
+
+Then pass to the completion-facing seal. Real-completeness handoff, \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}, places the selected window, dyadic tolerance, regular readback, and Real seal in the displayed order before any completion boundary is consumed.
+
+Finally apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. Agreement on $T,W,Q,E$ identifies the two Real-completion consumer surfaces through componentwise $\hsame$ transport and the displayed $C,P,N$ rows. The excluded coordinates are absent from the accepted packet, so none of them supplies an alternative factorization route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement tail-budget seal uniqueness]
+\label{thm:cauchy-modulus-refinement-tail-budget-seal-uniqueness}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose two Real-completion or diagonal-completion tail-budget consumers expose the same selector-budget row $T$, selected-window row $W$, dyadic tolerance row $Q$, $\RealUp$ seal row $E$, and the same structural rows $H,C,P,N$. Then both consumers determine the same seal surface through the displayed route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+No quotient stream, selected host limit, side-channel completion row, host real equality, hidden selector, or second meet row can produce a different $\RealUp$ tail-budget seal.
+\end{theorem}
+\begin{proof}
+First force the route to the common selector spine. Common-window selector extraction, \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}, together with root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, makes both consumers pass through $M_0,M_1,U,V,T$ before either can read a selected window.
+
+Next stabilize the visible tail rows. Root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}, identifies the shared $W,Q$ readback through the same componentwise $H$ transport and displayed replay row $C$.
+
+The seal row is then fixed by the completion-facing handoff. Real-completeness handoff, \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}, places $E$ after the same selector-budget, selected-window, dyadic-tolerance, and readback rows, with provenance and local naming carried only by $P,N$.
+
+Finally apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}, and window-route factorization, \autoref{thm:cauchy-modulus-refinement-window-route-factorization}. Since the consumers agree on $T,W,Q,E,H,C,P,N$, the displayed route determines a unique seal surface; the excluded coordinates are not packet rows and cannot supply another tail-budget seal.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector-budget tail-meet non-escape]
+\label{thm:cauchy-modulus-refinement-selector-budget-tail-meet-nonescape}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every Real-completion consumer that reads the selector-budget row $T$, selected-window row $W$, dyadic tolerance row $Q$, and $\RealUp$ seal row $E$ must first pass through the shared meet and refinement route
+$$
+M_0,M_1,U,V,T
+$$
+and then through the shared-tail handoff to $W,Q,E,H,C,P,N$. No quotient stream, hidden selector, second meet row, host real equality, or ambient completeness row can replace that shared-tail meet surface.
+\end{theorem}
+\begin{proof}
+First force the selector spine. Common-window selector extraction, \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}, and root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, make every read of $T,W,Q$ pass through $M_0,M_1,U,V,T$ before a selected window is available.
+
+Next pass from the selector spine to the tail-facing interface. The shared-tail handoff of \autoref{thm:cauchy-modulus-refinement-shared-tail-handoff} identifies the same route with the displayed $\CauchySharedTailModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows, so the handoff is carried by $W,Q,E,H,C,P,N$ rather than by a detached completion coordinate.
+
+Now apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. Once the consumer has exposed $T,W,Q,E$, the Real-completion surface is fixed through the displayed $\BHist$ route, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Finally use tail-budget seal uniqueness, \autoref{thm:cauchy-modulus-refinement-tail-budget-seal-uniqueness}. A second route with the same selector budget, selected window, dyadic tolerance, and seal collapses to the same tail-budget seal surface. The excluded quotient stream, hidden selector, second meet row, host real equality, and ambient completeness rows are not packet coordinates, so none can bypass the shared-tail meet route.
 \end{proof}

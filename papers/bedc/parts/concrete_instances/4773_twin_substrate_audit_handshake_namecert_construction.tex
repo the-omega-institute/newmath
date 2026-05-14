@@ -54,3 +54,27 @@ Finally read the provenance and naming rows $P,N$. They package the finite hands
   \notclaimed{This chapter does not close MetaCIC frontier obligations, GroundCompiler host trust, theorem extraction from compiler reports, compiler evidence extraction from MetaCIC theorems, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier exposure, route classification, transport, continuation replay, provenance, naming, and non-conversion exactness for the same finite handshake packet.}
 \end{closurestatus}
+
+\begin{theorem}[Twin-substrate audit-handshake route-classifier trichotomy]
+\label{thm:twin-substrate-audit-handshake-route-classifier-trichotomy}
+Let
+$$
+U=(M,G,B,R,H,C,P,N)
+$$
+be an accepted $\TwinSubstrateAuditHandshakeUp$ carrier. If a public audit read $q$ is exposed by $U$, then the route classifier row $R$ places $q$ in exactly one of the following three displayed route classes:
+\begin{enumerate}
+\item a MetaCIC-facing route, whose readable substrate row is $M$ and whose public content remains closed-CIC audit content;
+\item a GroundCompiler-facing route, whose readable substrate row is $G$ and whose public content remains compiler audit content;
+\item a paired handshake route, whose readable boundary is $B$ and whose context may cite both $M$ and $G$ without converting either row into the other.
+\end{enumerate}
+In all three cases, the transport, continuation, provenance, and naming rows $H,C,P,N$ replay the selected classifier case componentwise. No accepted public read can pass from the $G$ row to MetaCIC proof content or from the $M$ row to compiler evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:twin-substrate-audit-handshake-carrier}. The public rows available to a read are the MetaCIC audit row $M$, the GroundCompiler audit row $G$, the handshake boundary row $B$, the route classifier row $R$, and the structural rows $H,C,P,N$.
+
+The row $R$ is displayed as the finite classifier separating MetaCIC-facing reads, GroundCompiler-facing reads, and paired handshake reads. Therefore a public audit read $q$ must be inspected by one of those three classifier entries. The first entry reads $M$ as closed-CIC audit data; the second reads $G$ as compiler audit data; the third reads $B$ as the boundary that permits a public handshake claim to cite both audit surfaces.
+
+The three entries are exact because no other route-classifier coordinate is present in the carrier. If $q$ is read through the MetaCIC-facing entry, the GroundCompiler row may not be used as proof content, since the carrier has no coordinate turning a GroundCompiler report into MetaCIC proof content. If $q$ is read through the GroundCompiler-facing entry, the MetaCIC row may not be used as compiler evidence, since the carrier has no coordinate turning a MetaCIC theorem into compiler evidence. If $q$ is read through the paired handshake entry, the boundary row $B$ records only the public claim that needs both audit surfaces, and it preserves their separate subject matter.
+
+Finally apply the separation theorem, \autoref{thm:twin-substrate-audit-handshake-separation}. It states that public handshake reads expose both audit rows through $B,R,H,C,P,N$ while preserving the non-conversion boundary. Thus $H,C,P,N$ replay the chosen classifier case componentwise, and any route outside the three displayed cases would require a carrier coordinate outside $U$.
+\end{proof}

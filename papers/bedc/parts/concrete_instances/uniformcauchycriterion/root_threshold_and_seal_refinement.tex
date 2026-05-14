@@ -218,6 +218,24 @@ Next specialize the consumer to $\RealCauchyCompletionUp$. The specialization ch
 Finally combine \autoref{thm:uniform-cauchy-criterion-regular-tail-fusion-factorization} with \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility}. The Real completion consumer is locked to the finite package and seal route, so any claim of Real completeness, quotient-stream equality, selected limits, host equality, countable choice, or ambient completeness lies outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion tail-cofinality schedule handoff]
+\label{thm:uniform-cauchy-criterion-tail-cofinality-schedule-handoff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any $\RealCauchyCompletionUp$-facing consumer that reads the UniformCauchyCriterion root budget through $\RegularCauchyTailMeetUp$ must factor through the sibling $\TailCofinalityScheduleUp$ route of \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert} before the Real seal row $E$ is consumed. The resulting route exports no quotient stream, selected limit, host equality, countable choice, ambient completeness, or second tail-budget source.
+\end{theorem}
+\begin{proof}
+Begin with the root budget package. By \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the accepted packet exposes only the finite rows $I,W,M,Q,T,H,C,P,N$ before the seal row can be used.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock}. A $\RealCauchyCompletionUp$-facing reader reaches $E$ only after that finite package and the $\RegularCauchyTailMeetUp$ sibling have already fixed the shared-tail surface.
+
+Now pass through the sibling schedule. \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route} places every completion-facing seal read on the ordered $\TailCofinalityScheduleUp$ route, and \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization} identifies the shared-tail budget with the same finite window, dyadic ledger, regular readback, and Real seal rows.
+
+The displayed coordinates are exhausted by the package rows of $U$, the $\RegularCauchyTailMeetUp$ shared-tail read, the $\TailCofinalityScheduleUp$ schedule route, and the Real seal row. None of these coordinates carries quotient streams, selected limits, host equality, countable choice, ambient completeness, or another tail-budget source, so no completion-facing consumer can export such data from the handoff.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion common-window exhaustion]
 \label{thm:uniform-cauchy-criterion-common-window-exhaustion}
 Let
@@ -339,4 +357,24 @@ Next apply the shared-tail meet. \autoref{thm:uniform-cauchy-criterion-root-shar
 Now use the root budget package and budget seal eligibility. \autoref{thm:uniform-cauchy-criterion-root-budget-package} packages $I,W,M,Q,T,H,C,P,N$ as the finite synchronizer-facing surface, and \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility} places the seal row $E$ after that package.
 
 Finally invoke \autoref{thm:uniform-cauchy-criterion-root-threshold-synchronizer-readback}. The synchronizer readback is therefore the same ordered route $I,W,M,Q,T,E,H,C,P,N$ with the shared-tail sibling already fixed before any completion-facing consumer reads it. Quotient streams, selected limits, host equality, countable choice, and ambient completeness remain outside the packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion StreamName RegSeqRat Real window lock]
+\label{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet consumed by the Phase Real and Completion route. Every such consumption factors through one finite window-lock surface: the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RealUp$ seal row $E$, componentwise $\hsame$, the displayed $\Cont$ route, the package row $\Pkg$, and the local $\NameCert$ row.
+
+Thus the Real-facing consumer reads $U$ only through the same finite threshold, tolerance, seal, history, continuation, provenance, and local-name rows. It cannot add quotient-stream equality, a selected host limit, countable choice, a second tolerance ledger, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the root budget package. By \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the accepted packet exposes the finite synchronizer-facing surface $I,W,M,Q,T,H,C,P,N$, where $H$ carries the componentwise $\hsame$ transport, $C$ carries the displayed $\Cont$ route, $P$ carries the package row, and $N$ carries the local $\NameCert$ row.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-shared-tail-meet}. The $\StreamNameUp$ finite-window rows and $\RegSeqRatUp$ readback rows meet the same shared-tail packet, so the completion route has no second stream source or second readback surface.
+
+Now use \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}. The $\RealUp$ seal row $E$ is extracted only after the displayed threshold and tolerance ledger; the $\DyadicRatCoreUp$ tolerance data therefore remains the same finite ledger already carried by $Q,T$.
+
+Finally invoke \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock}. The synchronizer locks the root threshold route to the shared-tail meet before any Phase Real or Completion consumer reads the seal. Since each step stays inside the displayed rows of $U$, quotient-stream equality, selected host limits, countable choice, and ambient completeness have no coordinate in the window-lock surface.
 \end{proof}

@@ -63,6 +63,20 @@ Apply the core continuation associativity row cited in \autoref{lem:unary-contin
 For the unit rows, apply \autoref{lem:unary-continuation-unit}. The left and right products with $\emp$ read back to the original unary history under the same classifier. These facts are ledger entries in $C$, not host monoid equalities.
 \end{proof}
 
+\begin{theorem}[Unary Cont monoid operation closure]
+\label{thm:unary-cont-monoid-operation-closure}
+For unary histories $a,b$ and a displayed continuation result $r$ with $\ContR(a,b,r)$, the product row $\mu(a,b)=r$ remains inside the $\UnaryContMonoidUp$ carrier. It is transported componentwise by $\hsame$ and packaged by the same $\Pkg$ provenance and $\NameCert$ rows as the carrier packet.
+
+No quotient product, host monoid multiplication, or external carrier equality is introduced by this operation row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-cont-monoid-carrier}. Its unary row admits histories through $\mathsf{UnaryHistory}$, and its operation row is exactly displayed $\ContR$ composition.
+
+Use the NameCert obligations of \autoref{thm:unary-cont-monoid-namecert-obligations}. They include closure of $\mu$ under displayed $\Cont$ composition, componentwise classifier stability under $\hsame$, and packaging by the provenance and local naming rows $P,N$.
+
+The associativity and unit theorem \autoref{thm:unary-cont-monoid-cont-associativity} supplies the operation ledger used by later algebraic reads. That ledger remains a continuation row inside the same carrier, so it adds neither a quotient product nor a host monoid multiplication nor an external equality.
+\end{proof}
+
 \begin{theorem}[Unary Cont sibling dependency]
 \label{thm:unary-cont-monoid-sibling-dependency}
 The $\UnaryContMonoidUp$ packet is the monoid-shaped dependency sibling of $\ContinuationMonadUp$ and $\CategoryUp$: it consumes the continuation unit and associativity rows named by \autoref{ch:concrete-instances-continuationmonad-namecert}, agrees with the tail-composition reading used by \autoref{ch:concrete-instances-category-namecert}, and realizes the operational interpretation of \autoref{ch:visions-computation-as-continuation} without adding any host monoid primitive, quotient carrier, or non-BEDC operation.
@@ -114,13 +128,31 @@ The public export surface is therefore the finite kernel scope of \autoref{def:u
 Since no listed row names a host monoid, quotient product, arbitrary carrier monoid, or external equality relation, the public $\NameCert_{\UnaryContMonoidUp}$ export is a BEDC continuation packet and not an imported algebraic object.
 \end{proof}
 
+\begin{theorem}[Unary Cont monoid unit-bind surface]
+\label{thm:unary-cont-monoid-unit-bind-surface}
+Every accepted unit and bind read of $\UnaryContMonoidUp$ factors through the concrete rows
+$$
+\mathsf{UnaryHistory},\quad \ContR,\quad \hsame,\quad \emp,\quad \Pkg,\quad \NameCert,\quad \ContinuationMonadUp,\quad \CategoryUp.
+$$
+Left and right unit reads are the empty-history continuation rows, and associativity is the displayed continuation ledger. The surface is not a host monoid equality, a quotient product, or an arbitrary algebraic carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-cont-monoid-carrier}. Its unit coordinate is the empty history $\emp$, its operation coordinate is displayed $\ContR$ composition, and its transport, provenance, and naming rows are $H,C,P,N$.
+
+Apply the associativity and unit theorem, \autoref{thm:unary-cont-monoid-cont-associativity}. The left and right unit clauses are the empty-history continuation rows, while associativity is the comparison of the two displayed continuation ledgers.
+
+Use the sibling dependency theorem, \autoref{thm:unary-cont-monoid-sibling-dependency}. It identifies the same rows as the monoid-shaped reading of $\ContinuationMonadUp$ and $\CategoryUp$, so the unit and bind surface is inherited as BEDC continuation data.
+
+Finally cite the public NameCert export, \autoref{thm:unary-cont-monoid-public-namecert-export}. The exported package is exactly the concrete kernel scope listed above, and no host monoid equality or external carrier can be read from it.
+\end{proof}
+
 \closureat{UnaryContMonoidUp}{publicStr}
 \closureat{UnaryContMonoidUp}{matureStr}
 
 \begin{closurestatus}{\UnaryContMonoidUp}
   \constructivestory{A $\UnaryContMonoidUp$ packet is generated from unary histories, displayed $\Cont$ composition rows, the empty-history unit, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:unary-cont-monoid-carrier}, \autoref{thm:unary-cont-monoid-namecert-obligations}, \autoref{thm:unary-cont-monoid-cont-associativity}, \autoref{thm:unary-cont-monoid-sibling-dependency}, and \autoref{thm:unary-cont-monoid-public-namecert-export} bind the monoid-shaped BEDC continuation packet over $\mathsf{UnaryHistory}$, $\ContR$, $\hsame$, $\emp$, $\Pkg$, $\NameCert$, $\ContinuationMonadUp$, and $\CategoryUp$.}
+  \scopeclosed{\autoref{def:unary-cont-monoid-carrier}, \autoref{thm:unary-cont-monoid-namecert-obligations}, \autoref{thm:unary-cont-monoid-cont-associativity}, \autoref{thm:unary-cont-monoid-sibling-dependency}, \autoref{thm:unary-cont-monoid-public-namecert-export}, and \autoref{thm:unary-cont-monoid-unit-bind-surface} bind the monoid-shaped BEDC continuation packet over $\mathsf{UnaryHistory}$, $\ContR$, $\hsame$, $\emp$, $\Pkg$, $\NameCert$, $\ContinuationMonadUp$, and $\CategoryUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close commutativity, additive naming, host monoids, quotient products, arbitrary carrier monoids, or machine bridge checking.}

@@ -39,6 +39,10 @@ DEFAULT_TIMEOUT = 1800
 COMPILE_TIMEOUT = 600
 MAX_FILE_LINES = 800
 LOGIC_AUDIT_VERSION = "stage2-logic-audit-v1"
+INSPIRATION_ONLY_TARGET_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 EXTERNAL_PROVENANCE_PATTERNS = [
     re.compile(r"Inspired by Omega Project"),
     re.compile(r"\b[Aa]utomath\b"),
@@ -297,6 +301,7 @@ def _logic_surface_audit(content: str) -> dict:
     if re.search(r"\b(bridge|transport|continuation|embedding|projection|interpretation|mirror)\b|\\[hmp]same\b", low):
         if not re.search(
             r"\b(eliminat|cut|factor|intermediate|compose|composition|reduce|through)\b"
+            r"|\b(project|projection|projecting|unfold|unfolding|unfolded|repack|repacking)\b"
             r"|\\autoref\{[^}]*transport[^}]*\}"
             r"|finite observation|common observation|consumer-facing|displayed coordinates|displayed classifier",
             low,
@@ -340,6 +345,9 @@ def _logic_surface_audit(content: str) -> dict:
 
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
     if not suggested:
+        return None
+    rel = suggested.strip().replace("\\", "/")
+    if INSPIRATION_ONLY_TARGET_RE.search(rel):
         return None
     candidate = (REPO_ROOT / suggested).resolve()
     try:
@@ -387,7 +395,49 @@ def _make_paper() -> tuple[bool, str]:
             timeout=COMPILE_TIMEOUT,
         )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
+    if proc.returncode != 0:
+        out = out.rstrip() + "\n\n" + _paper_compile_log_excerpt()
     return (proc.returncode == 0, out)
+
+
+def _paper_compile_log_excerpt() -> str:
+    """Return a compact diagnostic excerpt from papers/bedc/main.log."""
+    log_path = PAPER_DIR / "main.log"
+    if not log_path.exists():
+        return "## main.log diagnostic excerpt\n(no papers/bedc/main.log found)"
+    text = log_path.read_text(encoding="utf-8", errors="replace")
+    lines = text.splitlines()
+    hits: list[int] = []
+    patterns = (
+        "Undefined control sequence",
+        "LaTeX Error",
+        "Emergency stop",
+        "Fatal error",
+        "Runaway argument",
+        "File ended while scanning",
+    )
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("!") or any(p in line for p in patterns):
+            if any(font in line for font in ("OML/lmm", "OT1/lmr", "OMS/lmsy", "OMX/lmex")):
+                continue
+            hits.append(i)
+    if not hits:
+        tail = lines[-80:]
+        return "## main.log diagnostic excerpt\n(no focused TeX error lines found; tail follows)\n" + "\n".join(tail)
+
+    chunks: list[str] = ["## main.log diagnostic excerpt"]
+    seen: set[int] = set()
+    for hit in hits[:8]:
+        start = max(0, hit - 2)
+        end = min(len(lines), hit + 6)
+        for idx in range(start, end):
+            if idx in seen:
+                continue
+            seen.add(idx)
+            chunks.append(lines[idx])
+        chunks.append("---")
+    return "\n".join(chunks).rstrip("-\n")
 
 
 def writeback(
@@ -719,6 +769,7 @@ def main() -> int:
         "rejection_reasons": result.rejection_reasons,
         "rejection_codes": result.rejection_codes or [],
         "error": result.error,
+        "compile_errors": result.compile_errors or [],
         "closure_candidate": result.closure_candidate or {},
         "logic_audit": result.logic_audit or {},
     }, indent=2, ensure_ascii=False))

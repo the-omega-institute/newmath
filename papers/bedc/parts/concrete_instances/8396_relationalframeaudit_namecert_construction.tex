@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RelationalFrameAuditUp$}
+\label{ch:concrete-instances-relationalframeaudit-namecert}
+\origin{ai}
+
+The $\RelationalFrameAuditUp$ packet turns the no-global-frame and observer-symmetry surface of \autoref{ch:visions-inter-hist-locality} into finite NameCert data. It consumes the configuration rows of \autoref{ch:concrete-instances-multihistconfig-namecert}, the causal rows of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the unary-bound rows of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the refusal boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}, and the ledger-local routing of \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}. Its public role is to audit a proposed comparison between two observer frames without admitting a global frame, host synchronization map, or metric primitive.
+
+\begin{definition}[RelationalFrameAudit carrier]
+\label{def:relational-frame-audit-carrier}
+A $\RelationalFrameAuditUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,A,B,Q,S,D,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the accepted $\MultiHistConfigUp$ row supplying the finite multi-history configuration;
+\item $A$ and $B$ are the two displayed observer-history slots whose local frame comparison is being audited;
+\item $Q$ is the frame-request row, recording the requested comparison as a finite local read rather than as an ambient coordinate system;
+\item $S$ is the observer-symmetry audit row, requiring both directions of the comparison to be visible before the request is accepted;
+\item $D$ is the $\CrossHistCausalUp$ row used by the comparison request, read only after the two observer slots are displayed;
+\item $L$ is the $\MaxCausalRateUp$ row that bounds the causal read without introducing a host speed, metric tensor, or synchronized clock;
+\item $F$ is the $\NoGlobalSyncBoundaryUp$ refusal verdict row for any request that asks for a privileged global frame, total observer order, selected synchronization map, or detached frame comparison;
+\item $H$ records componentwise $\hsame$ transport for $M,A,B,Q,S,D,L,F$ and the structural rows;
+\item $C$ records displayed $\Cont$ routes from the frame request either through the two-Hist route $A,B,D,L,S$ or to the refusal row $F$;
+\item $P$ is the $\Pkg$ provenance over $\RelationalFrameAuditUp$, $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\NoGlobalSyncBoundaryUp$, $\InterHistLocalityLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RelationalFrameAuditUp}$ row.
+\end{enumerate}
+The carrier exports a finite audit boundary for frame-comparison requests. It has no coordinate for a global frame, shared clock, metric tensor, host Lorentz chart, selected synchronization function, or comparison detached from the displayed histories.
+\end{definition}
+
+\begin{theorem}[RelationalFrameAudit NameCert obligations]
+\label{thm:relational-frame-audit-namecert-obligations}
+For the carrier of \autoref{def:relational-frame-audit-carrier}, the local $\NameCert_{\RelationalFrameAuditUp}$ surface consists exactly of carrier admission for
+$$
+R=(M,A,B,Q,S,D,L,F,H,C,P,N),
+$$
+two-Hist locality through $M,A,B$, frame-request exposure through $Q$, observer-symmetry audit through $S$, cross-Hist causal routing through $D$, maximum-rate boundary reading through $L$, no-global-frame refusal through $F$, and transport, continuation, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:relational-frame-audit-carrier}. The tuple displays the configuration row, two observer slots, frame request, symmetry audit, causal route, rate boundary, refusal verdict, transport, continuation, provenance, and local name.
+
+The positive comparison route first reads $M,A,B$. The causal row $D$ and maximum-rate row $L$ can then be consumed as finite inter-Hist data, with the observer-symmetry row $S$ requiring that both comparison directions remain visible.
+
+The negative route is the refusal verdict $F$. By the no-global-synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}, a request for a privileged frame, shared clock, total observer order, or selected synchronization map is retained as refused data rather than promoted to an admitted coordinate.
+
+Finally $H,C,P,N$ only transport, replay, package, and name the same rows. Thus the NameCert surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[RelationalFrameAudit no-global-frame refusal]
+\label{thm:relational-frame-audit-no-global-frame-refusal}
+Every accepted $\RelationalFrameAuditUp$ packet that receives a frame request outside the displayed two-Hist route sends that request to the refusal verdict $F$. The accepted packet exports no global frame, shared clock, total observer order, selected synchronization map, host Lorentz chart, metric tensor, or detached comparison row.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The only frame-facing rows are the request row $Q$, the two observer slots $A,B$, the causal and rate rows $D,L$, the observer-symmetry row $S$, and the refusal row $F$.
+
+Apply the NameCert obligations of \autoref{thm:relational-frame-audit-namecert-obligations}. A supported request must travel through the displayed two-Hist route; an unsupported request has no row except the no-global-frame refusal verdict.
+
+Use the no-global-synchronization boundary from \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}. Since the missing global objects are not coordinates of $R=(M,A,B,Q,S,D,L,F,H,C,P,N)$, no continuation or naming projection can export them as admitted data.
+\end{proof}
+
+\begin{theorem}[RelationalFrameAudit observer-symmetry factorization]
+\label{thm:relational-frame-audit-observer-symmetry-factorization}
+Any accepted $\RelationalFrameAuditUp$ packet that exposes a frame comparison factors the read through the displayed two-Hist route
+$$
+A,B \longrightarrow D \longrightarrow L \longrightarrow S
+$$
+together with componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$. If the request does not factor through this route, the packet reads it only through the refusal verdict $F$.
+\end{theorem}
+\begin{proof}
+Project the frame-request row $Q$ from the carrier. The request has only two public exits: the displayed comparison route through $A,B,D,L,S$ or the refusal route through $F$.
+
+For the supported exit, read the two observer-history rows from $M$ and then apply the cross-Hist causal and maximum-rate sibling surfaces of \autoref{ch:concrete-instances-crosshistcausal-namecert} and \autoref{ch:concrete-instances-maxcausalrate-namecert}. The comparison remains local because $D$ and $L$ are finite rows over the displayed multi-Hist configuration.
+
+The row $S$ supplies the observer-symmetry audit. Both directions must be visible before the packet exports the comparison, and $H$ and $C$ only transport and replay the same factorized route.
+
+For the unsupported exit, apply \autoref{thm:relational-frame-audit-no-global-frame-refusal}. A request that does not pass through the two-Hist route has no accepted destination except $F$.
+\end{proof}
+
+\falsifiablePrediction{Any accepted RelationalFrameAuditUp packet that exposes a frame comparison must either factor it through the displayed two-Hist hsame/Cont route or route the request to the no-global-frame refusal row.}
+
+\independenceWitness{multihistconfig, crosshistcausal, maxcausalrate, noglobalsyncboundary, inter-hist-locality-ledger: none is bijective because RelationalFrameAuditUp carries a frame-request row, observer-symmetry audit row, and refusal verdict that the siblings do not all carry.}
+
+The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \RelationalFrameAuditUp$ and $\mathsf{FieldFaithful}\ \RelationalFrameAuditUp$ instances for the displayed rows $M,A,B,Q,S,D,L,F,H,C,P,N$.
+
+\closureat{RelationalFrameAuditUp}{seedStr}
+
+\begin{closurestatus}{\RelationalFrameAuditUp}
+  \constructivestory{A $\RelationalFrameAuditUp$ packet is generated from a multi-Hist configuration, two observer-history slots, a frame request, observer-symmetry audit row, cross-Hist causal route, maximum-rate boundary, no-global-frame refusal verdict, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:relational-frame-audit-carrier}, \autoref{thm:relational-frame-audit-namecert-obligations}, \autoref{thm:relational-frame-audit-no-global-frame-refusal}, and \autoref{thm:relational-frame-audit-observer-symmetry-factorization} display the finite audit boundary for local frame-comparison requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not construct a metric tensor, Lorentz chart, shared clock, global synchronization map, Lean proof, or bridge checking for $\RelationalFrameAuditUp$.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, no-global-frame refusal theorem, observer-symmetry factorization theorem, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

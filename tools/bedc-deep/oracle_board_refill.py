@@ -542,19 +542,30 @@ def build_refill_prompt(
     return prompt
 
 
-def _paper_gap_candidates(*, limit: int = 0) -> list[dict]:
+def _paper_gap_report(*, limit: int = 0) -> tuple[list[dict], dict]:
     try:
-        candidates = paper_gap_scanner.generate_candidates(limit=limit)
+        if hasattr(paper_gap_scanner, "generate_candidate_report"):
+            report = paper_gap_scanner.generate_candidate_report(limit=limit)
+            candidates = report.get("candidates") or []
+            scanner_stats = report.get("scanner_stats") or {}
+        else:
+            candidates = paper_gap_scanner.generate_candidates(limit=limit)
+            scanner_stats = {}
     except Exception as exc:
         print(f"[board_refill] WARN: paper_gap_scanner failed: {exc}", flush=True)
-        return []
+        return [], {"error": str(exc)[:300]}
     tagged = []
     for candidate in candidates:
         if isinstance(candidate, dict):
             tagged.append({**candidate, "source": "paper_gap_scanner"})
     print(f"[board_refill] paper_gap_scanner returned {len(tagged)} raw candidates",
           flush=True)
-    return tagged
+    return tagged, scanner_stats
+
+
+def _paper_gap_candidates(*, limit: int = 0) -> list[dict]:
+    candidates, _scanner_stats = _paper_gap_report(limit=limit)
+    return candidates
 
 
 def _run_local_gap_fallback(
@@ -570,7 +581,7 @@ def _run_local_gap_fallback(
     routes it through the same candidate inbox, judge, logic packet gate, and
     BOARD append path as ordinary discovery.
     """
-    candidates = _paper_gap_candidates(limit=limit)
+    candidates, scanner_stats = _paper_gap_report(limit=limit)
     if not candidates:
         summary = {
             "ok": True,
@@ -584,6 +595,7 @@ def _run_local_gap_fallback(
             "micro_refill": micro_refill,
             "ultra_refill": ultra_refill,
             "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
+            "scanner_stats": scanner_stats,
             "ts": ts,
         }
         (LOG_DIR / f"refill_{ts}.summary.json").write_text(
@@ -615,6 +627,7 @@ def _run_local_gap_fallback(
         "micro_refill": micro_refill,
         "ultra_refill": ultra_refill,
         "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
+        "scanner_stats": scanner_stats,
         "ts": ts,
     }
     (LOG_DIR / f"refill_{ts}.summary.json").write_text(

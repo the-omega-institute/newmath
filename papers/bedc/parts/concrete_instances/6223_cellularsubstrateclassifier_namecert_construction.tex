@@ -27,6 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted carrier observations only through these displayed rows. It has no coordinate for host equality between cellular histories, an infinite orbit, a hidden cellular evaluator, a detached bit-string quotient, or a carrier switch outside the finite NameCert packet.
 \end{definition}
+\leanchecked{BEDC.Derived.CellularSubstrateClassifierUp.TasteGate.CellularSubstrateClassifierTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[Cellular substrate classifier obligation surface]
 \label{def:cellular-substrate-classifier-obligation-surface}
@@ -75,17 +76,48 @@ The factorization route is exactly the order in which those rows are consumed. T
 The carrier has no field for an infinite orbit, host cellular-history equality, hidden evaluator, detached quotient, or external carrier replacement. Therefore every accepted comparison remains inside the finite classifier packet.
 \end{proof}
 
+\begin{theorem}[Cellular substrate classifier orbit-window exhaustion]
+\label{thm:cellular-substrate-classifier-orbit-window-exhaustion}
+Every accepted $\CellularSubstrateClassifierUp$ comparison consumes exactly the BHist source row, bit-row encoding row, orbit-window row, classifier row, transport row, route row, provenance row, and local NameCert row before any cellular carrier comparison is public. No accepted comparison may replace the orbit-window read with source-equivalence transport, host cellular-history equality, an infinite orbit, or a detached bit-string quotient.
+\end{theorem}
+\begin{proof}
+The NameCert boundary theorem \autoref{thm:cellular-substrate-classifier-namecert-boundary} identifies the public boundary with the eight displayed rows of \autoref{def:cellular-substrate-classifier-obligation-surface}. Thus any accepted public comparison must expose $B,E,O,F,H,C,P,N$.
+
+The BHist-orbit compatibility theorem \autoref{thm:cellular-substrate-classifier-bhist-orbit-compatibility} binds the transported BHist source and bit-row encoding to the displayed orbit-window comparison. A second cellular carrier read for the same transported source would require an additional orbit or classifier coordinate, which the carrier does not contain.
+
+Finally apply the non-escape theorem \autoref{thm:cellular-substrate-classifier-nonescape}. Its finite route is the same eight-row route, so coordinate exhaustion leaves no public comparison outside the BHist source row, bit-row encoding, orbit-window row, classifier row, transport row, route row, provenance row, and local NameCert row.
+\end{proof}
+
+\begin{theorem}[Cellular substrate classifier obligation closure]
+\label{thm:cellular-substrate-classifier-obligation-closure}
+The carrier of \autoref{def:cellular-substrate-classifier-carrier}, the obligation surface of \autoref{def:cellular-substrate-classifier-obligation-surface}, the NameCert boundary, BHist-orbit compatibility, non-escape route, orbit-window exhaustion, falsifiable prediction, independence witness, and TasteGate commitments form the obligation-closure package for $\CellularSubstrateClassifierUp$.
+
+The package is exactly over the displayed rows $B,E,O,F,H,C,P,N$. It refuses infinite orbit data, host cellular-history equality, a hidden evaluator, detached bit-string quotients, and replacement of the carrier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with the displayed carrier $K=(B,E,O,F,H,C,P,N)$. The obligation surface records precisely the BHist source row $B$, bit-row encoding $E$, finite orbit-window row $O$, classifier row $F$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local NameCert row $N$.
+
+Apply the NameCert boundary, BHist-orbit compatibility, non-escape, and orbit-window exhaustion theorems. These results identify the accepted public comparison with the same eight rows, force transported BHist and bit-row reads through the displayed orbit window, keep the route finite, and prevent any comparison from bypassing the orbit-window row.
+
+The falsifiable prediction and independence witness test the same surface from the consumer side: omitting one displayed row breaks acceptance, and no listed sibling stores the full BHist, bit-row, orbit-window, classifier, transport, route, provenance, and local naming packet. The TasteGate commitments are therefore attached to the displayed carrier rather than to an external evaluator.
+
+No remaining coordinate exists for an infinite orbit, host cellular-history equality, hidden evaluator, detached bit-string quotient, or carrier replacement. Thus the listed rows and witnesses assemble the obligation-closure package claimed here.
+\end{proof}
+
 The later Lean namespace \texttt{BEDC.Derived.CellularSubstrateClassifierUp.TasteGate} must provide \texttt{Nontrivial CellularSubstrateClassifierUp} and \texttt{FieldFaithful CellularSubstrateClassifierUp} instances for the displayed classifier carrier.
 
 \closureat{CellularSubstrateClassifierUp}{seedStr}
+\closureat{CellularSubstrateClassifierUp}{obligationStr}[BEDC.Derived.CellularSubstrateClassifierUp.TasteGate.CellularSubstrateClassifierTasteGate\_single\_carrier\_alignment]
+\closureat{CellularSubstrateClassifierUp}{scopedStr}[BEDC.Derived.CellularSubstrateClassifierUp.TasteGate.CellularSubstrateClassifierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CellularSubstrateClassifierUp}
   \constructivestory{A $\CellularSubstrateClassifierUp$ packet is generated from a displayed $\BHist$ source row, bit-row encoding, finite orbit-window row, classifier row, componentwise transport row, continuation route row, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cellular-substrate-classifier-carrier}, \autoref{def:cellular-substrate-classifier-obligation-surface}, \autoref{thm:cellular-substrate-classifier-namecert-boundary}, \autoref{thm:cellular-substrate-classifier-bhist-orbit-compatibility}, and \autoref{thm:cellular-substrate-classifier-nonescape} specify the finite carrier, classifier-facing boundary rows, BHist-orbit compatibility, and non-escape route.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cellular-substrate-classifier-carrier}, \autoref{def:cellular-substrate-classifier-obligation-surface}, \autoref{thm:cellular-substrate-classifier-namecert-boundary}, \autoref{thm:cellular-substrate-classifier-bhist-orbit-compatibility}, \autoref{thm:cellular-substrate-classifier-nonescape}, \autoref{thm:cellular-substrate-classifier-orbit-window-exhaustion}, \autoref{thm:cellular-substrate-classifier-obligation-closure}, and \leanchecked{BEDC.Derived.CellularSubstrateClassifierUp.taste\_gate} specify the finite carrier, classifier-facing boundary rows, BHist-orbit compatibility, non-escape route, orbit-window exhaustion, obligation package, and checked TasteGate instance.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CellularSubstrateClassifierUp.TasteGate.CellularSubstrateClassifierTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not replace the $\BHist$ kernel, add a cellular automaton substrate axiom, prove infinite orbit adequacy, supply host cellular-history equality, or close bridge checking.}
-  \upgradepath{Obligation closure requires Lean encoding of the classifier packet and checked carrier admission, classifier accountability, BHist-orbit compatibility, route replay, nontriviality, and field faithfulness for the same rows.}
+  \upgradepath{Public closure next requires an exported public classifier comparison theorem over the same BHist, bit-row, orbit-window, classifier, route, TasteGate, Nontrivial, and FieldFaithful rows.}
 \end{closurestatus}

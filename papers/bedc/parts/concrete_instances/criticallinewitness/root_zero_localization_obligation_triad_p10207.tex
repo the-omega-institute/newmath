@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness zero-localization obligation]
+\label{thm:criticallinewitness-zero-localization-obligation}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet anchored in $\BHist$. The finite zero-localization row is the route that reads the supplied $\ZetaZerosUp$ row $Z$, the $\CritStripUp$ row $S$, the $\RealUp$ real-part row $R$, the $\RatUp$ comparison ledger $Q$, and the local transport, continuation, package, and naming rows $H,C,P,N$. It localizes only the displayed witness packet and does not supply analytic continuation, a global zero-set theorem, host complex equality, quotient representative data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. The rows $Z,S,R,Q,H,C,P,N$ are displayed coordinates of the same finite $\BHist$ packet, so the zero-localization read has no source outside that packet.
+
+Use the zero-row soundness and strip-localization surfaces already established in \autoref{thm:critical-line-witness-zero-row-soundness} and \autoref{thm:critical-line-witness-strip-localization}. They force the supplied zero row and critical-strip row to be read together, with the real and rational comparison rows consumed inside the same local route.
+
+The sibling surfaces \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-rat-namecert} provide only the displayed Real and Rat rows. The ledger therefore cannot import analytic continuation, global zero-set data, host equality, quotient representatives, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Critical-line witness rational height-window obligation]
+\label{thm:criticallinewitness-rational-height-window}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each rational height-window request is answered through the modulus row $M$ and the rational comparison ledger $Q$ as a finite unary-count budget. The request may read the supplied zero row $Z$, strip row $S$, real-part row $R$, and local $H,C,P,N$ rows, but it cannot obtain a host zero search, an analytic-continuation certificate, a global height enumeration, or an unbounded choice selector.
+\end{theorem}
+\begin{proof}
+Start with the modulus coordinate $M$. By carrier projection, it is the only row that answers depth requests, and it is packaged with $R,Q,H,C,P,N$ inside the accepted witness packet.
+
+Apply \autoref{thm:critical-line-witness-root-unblock-modulus-ledger} and \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. These theorems route the height-window read through the displayed $\RealUp$ real-part row and $\RatUp$ comparison ledger, using only the finite depth budget recorded by $M$.
+
+The finite-count boundary is reinforced by \autoref{ch:concrete-instances-riemann-zero-count-ledger-namecert}. That ledger supplies only bounded counting rows, so the request does not become a host zero search, analytic-continuation certificate, global height enumeration, or unbounded choice selector.
+\end{proof}
+
+\begin{theorem}[Critical-line witness critical-strip ledger obligation]
+\label{thm:criticallinewitness-critical-strip-ledger}
+Every ledger read of an accepted $\CriticalLineWitnessUp$ packet remains on the displayed finite route
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The ledger may expose the supplied zero row, critical-strip row, rational height window, Real real-part row, and local replay rows, but it refuses analytic-continuation data, global zero-set data, quotient representatives, host equality rows, selected Real representatives, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The route displayed in \autoref{def:critical-line-witness-carrier} lists exactly the zero, strip, modulus, real, rational, transport, continuation, package, and naming rows.
+
+Combine the zero-localization obligation with the rational height-window obligation above. The first binds the supplied zero and strip rows to the same finite localization route; the second binds height requests to the finite modulus and rational comparison ledger.
+
+Finally apply \autoref{thm:critical-line-witness-ledger-nonescape}. The existing ledger boundary already refuses analytic continuation, global $\mathsf{RH}$ proof data, host complex-zero classifiers, quotient representatives, host equality, and ambient completeness, so the critical-strip ledger is exhausted by the displayed packet.
+\end{proof}

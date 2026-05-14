@@ -1,0 +1,85 @@
+\begin{theorem}[RegSeqRat StreamName Dyadic Real handoff exactness]
+\label{thm:regseqrat-streamname-dyadic-real-handoff-exactness}
+For every accepted $\RegSeqRatUp$ carrier, any public $\RealUp$ seal consumer
+of that carrier factors exactly through the finite route
+\begin{enumerate}
+\item the $\StreamNameUp$ schedule rows selecting the visible finite windows;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows read
+from those windows;
+\item the $\RegSeqRatUp$ classifier rows over the same scheduled dyadic
+observations;
+\item the $\RealUp$ seal rows consuming that finite classifier surface.
+\end{enumerate}
+The factorization preserves the displayed $\hsame$ comparisons, $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows at every stage.
+No quotient stream, host real equality, selected limit, metric-completion
+object, ambient completeness datum, or extra seal coordinate can enter the
+handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regseqrat-stream-carrier} and the
+classifier of \autoref{def:regseqrat-classifier}. Their visible rows are the
+scheduled $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ endpoint and radius
+reads, the finite dyadic-distance rows, regularity rows, classifier rows,
+and the attached $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$
+provenance.
+
+Apply \autoref{thm:regseqrat-window-regularity-ledger} to the schedule side
+and \autoref{thm:regseqrat-dyadic-radius-observation} to the classifier side.
+Together they identify the endpoint, radius, distance, and regularity rows as
+rows of the same finite scheduled observation package.
+
+Transport that package through
+\autoref{thm:regseqrat-finite-window-transport-obligation}. The transport
+keeps the schedule, endpoint, radius, distance, regularity, classifier,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows componentwise, so the
+consumer has no alternative finite source surface available.
+
+Finally use \autoref{thm:regseqrat-real-seal-handoff},
+\autoref{thm:regseqrat-real-seal-classifier-factorization}, and
+\autoref{thm:regseqrat-real-seal-public-handoff-determinacy}. The first
+theorem routes the accepted regular-rational source to the $\RealUp$ seal,
+the second makes the classifier factorization explicit, and the third locks
+the public consumer to the same finite schedule and replay ledger. Since the
+cited surfaces expose only the displayed finite rows, there is no coordinate
+for quotient streams, host real equality, selected limits, completion
+objects, ambient completeness data, or an additional seal route.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Dyadic Real handoff single-source lock]
+\label{thm:regseqrat-streamname-dyadic-real-handoff-single-source-lock}
+Let two public $\RealUp$ seal consumers read the same accepted
+$\RegSeqRatUp$ carrier through displayed $\StreamNameUp$ schedules and
+$\DyadicRatCoreUp$ endpoint and radius ledgers. Then both seal reads factor
+through one finite source route: the schedule rows, dyadic endpoint rows,
+dyadic radius rows, $\RegSeqRatUp$ classifier rows, regularity rows,
+$\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows attached to that carrier.
+
+The lock exposes no quotient stream, host real equality, selected limit,
+metric-completeness datum, or extra $\RealUp$ seal coordinate. A consumer that
+requests any of those objects has left the displayed source route rather than
+reading a second seal source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}.
+It routes each public $\RealUp$ seal read through the same four-stage
+StreamName, DyadicRatCore, RegSeqRat, and Real seal path, preserving the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:regseqrat-l10-source-lattice-pointer}. The L10 source
+lattice records the finite schedule rows, dyadic endpoint and radius rows,
+classifier rows, regularity rows, transports, routes, provenance, and naming
+rows as one visible source packet. Since both consumers start from the same
+accepted carrier, their displayed schedules and dyadic ledgers point into that
+same packet.
+
+Finally use \autoref{thm:regseqrat-real-seal-handoff},
+\autoref{thm:regseqrat-real-seal-classifier-factorization}, and
+\autoref{thm:regseqrat-real-seal-public-handoff-determinacy}. These seal
+handoff results identify the public read with the regular-rational classifier
+surface and rule out a second public seal source. The excluded quotient,
+host-equality, selected-limit, completeness, and extra-coordinate data have no
+row in the route just assembled, so the two seal consumers are locked to one
+finite source route.
+\end{proof}

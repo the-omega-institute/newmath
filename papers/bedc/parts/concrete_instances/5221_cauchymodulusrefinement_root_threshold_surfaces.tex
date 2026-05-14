@@ -18,6 +18,7 @@ Use source-meet exactness, selector-budget totality, and window-tolerance exactn
 \label{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}
 For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, componentwise $\hsame$ transport preserves the same source-meet-selector-window-readback route through $H$ and $C$. A transported classifier read of $R$ is therefore still a read of $M_0,M_1,U,V,T,W,Q,E$ in the displayed order, authenticated by the same package row $P$ and the same local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_classifier\_transport\_exactness}
 \begin{proof}
 Begin with classifier transport from \autoref{thm:cauchy-modulus-refinement-classifier-transport}. The row $H$ stores componentwise $\hsame$ transports for the carrier coordinates, and $C$ stores the displayed continuation route between them.
 
@@ -78,6 +79,30 @@ Apply window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-
 Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed route before reading $E$, the selector budget, finite window, and readback rows exhaust the root budget consumer surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement root-window Real seal determinacy]
+\label{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}
+Let
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+and
+$$
+R'=(M_0,M_1,U,V,T,W,Q,E',H',C',P',N')
+$$
+be accepted $\CauchyModulusRefinementUp$ packets with the same source schedules, shared meet, selector budget, finite window, and readback rows. Every public $\RealUp$ or Completion consumer of the displayed root route classifies the two Real seal rows by $\hsame(E,E')$.
+\end{theorem}
+\begin{proof}
+Apply root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}, to both packets. Since the packets share $M_0,M_1,U,T,W,Q$, both public reads must pass through the displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q
+$$
+before any Real seal row is read.
+
+Next use root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. A public $\RealUp$ or Completion consumer has no hidden selector, quotient stream, host equality, second meet, selected limit, or ambient completeness row available as an alternate seal source.
+
+It remains only to compare the seal coordinates on the common route. Real seal factorization and classifier transport exactness, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}, identify the seal read as the Real-facing coordinate reached from the shared window and readback rows. The transported classifier rows $H,C,P,N$ and $H',C',P',N'$ therefore classify $E$ and $E'$ through the same displayed root route, giving $\hsame(E,E')$.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement root threshold public exhaustion]
 \label{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}
 For every accepted $\CauchyModulusRefinementUp$ root surface
@@ -90,10 +115,60 @@ M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
 $$
 The consumer first reads the source schedules, shared meet, extraction witness, selector budget, finite-window ledger, tolerance and regular-readback ledger, and Real seal row, and then reads only the componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows attached to that same route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_threshold\_public\_exhaustion}
 \begin{proof}
 Start with root carrier threshold admission and classifier transport exactness, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They place $M_0,M_1,U,V,T,W,Q,E$ and the structural rows $H,C,P,N$ in one accepted carrier route.
 
 Apply route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. It fixes the only public route from the two source schedules through the shared meet, selector budget, finite windows, readbacks, and Real seal, with no second meet, hidden selector, quotient stream, host equality, or ambient completeness row.
 
 Finally use budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. Since every public Real or Completion consumer must pass through the selector-budget, window, readback, and seal rows of the same route, the displayed packet exhausts the public root threshold surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root budget stability]
+\label{thm:cauchy-modulus-refinement-root-budget-stability}
+For every accepted $\CauchyModulusRefinementUp$ root surface
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the selector-budget row $T$ is stable under the shared meet row $U$ and under classifier transport through $H$ and $C$. Any public read of the budget row is therefore the same displayed read obtained after $M_0,M_1$ meet at $U$, after the extraction witness $V$ is fixed, and before the selected-window, tolerance-readback, and Real-seal rows $W,Q,E$ are consumed.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_budget\_stability}
+\begin{proof}
+Start from root carrier threshold admission, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission}. It admits $T$ only as a row of the same finite packet that already displays $M_0,M_1,U,V$.
+
+Use classifier transport exactness and route determinacy, \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness} and \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. These keep the transported read on the componentwise route through $H,C,P,N$ and do not allow $T$ to detach from the shared meet.
+
+Finally apply budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. Since every Real-facing consumer reaches $W,Q,E$ only after $T$, the selector budget remains stable at the displayed meet-threshold handoff.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement meet-threshold nonescape]
+\label{thm:cauchy-modulus-refinement-meet-threshold-nonescape}
+After an accepted $\CauchyModulusRefinementUp$ root route reaches the meet-threshold surface
+$$
+M_0,M_1,U,V,T,
+$$
+no public consumer can read a second meet, quotient stream, host equality, selected limit, hidden selector, or ambient completeness datum from that route. All later reads are confined to the selected-window row $W$, tolerance and regular-readback row $Q$, Real seal row $E$, and structural rows $H,C,P,N$ of the same packet.
+\end{theorem}
+\begin{proof}
+Read the deterministic route of \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. The meet-threshold route has the displayed source schedules, shared meet, extraction witness, and selector budget, and no alternate meet coordinate.
+
+Next use root ledger non-escape and budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-ledger-nonescape-totality} and \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. They account for every Real or Completion read through $W,Q,E,H,C,P,N$ after the budget row.
+
+The public exhaustion theorem, \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}, closes the surface. Since the displayed route already exhausts public consumption, the absent second meet, quotient stream, host equality, selected limit, hidden selector, and ambient completeness rows cannot be recovered downstream.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal handoff]
+\label{thm:cauchy-modulus-refinement-real-seal-handoff}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root packet receives the handoff only after the displayed budget route
+$$
+M_0,M_1,U,V,T,W,Q,E.
+$$
+The handoff passes through the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic readback discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-sequence handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}; it does not supply quotient equality, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with root budget stability and meet-threshold nonescape, \autoref{thm:cauchy-modulus-refinement-root-budget-stability} and \autoref{thm:cauchy-modulus-refinement-meet-threshold-nonescape}. They place every downstream read after the shared meet, classifier-stable selector budget, and displayed window-readback route.
+
+Use the sibling concrete-instance surfaces as the public handoff language. The $\StreamNameUp$ chapter names the finite window row, $\DyadicRatCoreUp$ names dyadic readback, $\RegSeqRatUp$ names the regular sequence handoff, and $\RealUp$ names the seal consumed after those rows.
+
+Finally apply root budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. These theorems already cover every Real or Completion consumer of the root packet, so the Real seal is reached only through the displayed budget rows and never through quotient equality, selected limits, host real equality, or ambient completeness.
 \end{proof}

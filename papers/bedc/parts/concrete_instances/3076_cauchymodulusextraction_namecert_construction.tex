@@ -39,6 +39,7 @@ The local $\NameCert_{\CauchyModulusExtractionUp}$ surface for \autoref{def:cauc
 \item ledger exactness stating that all transport, continuation, package, and naming reads factor through $H,C,P,N$ and no external modulus selector is present.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusExtractionUp.CauchyModulusExtractionCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:cauchy-modulus-extraction-carrier}. The tuple lists the tolerance request, finite budget, inspected windows, regular Cauchy schedule, extracted modulus, dyadic ledger, transports, continuations, provenance, and local name.
 
@@ -399,18 +400,38 @@ Now apply the StreamName--RegSeqRat factorization of \autoref{thm:cauchy-modulus
 Finally cite RealUp seal non-escape, \autoref{thm:cauchy-modulus-extraction-realup-seal-nonescape}, together with the public export of \autoref{thm:cauchy-modulus-extraction-public-export}. These results identify the local Real-facing surface with the sibling surface \autoref{ch:concrete-instances-real-namecert}, keep the completion-facing read inside $B,W,S,Q,\mathsf{Mu},H,C,P,N$, and rule out host convergence moduli, quotient streams, selected limits, host real equality, ambient completeness, and choice-selected witnesses.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction dyadic Real consumer factorization]
+\label{thm:cauchy-modulus-extraction-dyadic-real-consumer-factorization}
+For every accepted $\CauchyModulusExtractionUp$ packet
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+every $\RealUp$-completion consumer that reads the extracted modulus row $\mathsf{Mu}$ factors first through the finite budget row $B$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ schedule row $S$, and the $\DyadicRatCoreUp$ ledger row $Q$. The handoff to the Real-facing consumer exports only this displayed dyadic ledger route with $H,C,P,N$ attached; it exports no host modulus, quotient stream equality, selected limit, trichotomy, ambient completeness, or external real-completion witness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. They identify the accepted packet with the rows $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$ and leave no additional carrier coordinate for a Real consumer.
+
+Use budget-window coverage from \autoref{thm:cauchy-modulus-extraction-budget-window-coverage}. Any consumer read of $\mathsf{Mu}$ must first pass through the finite budget $B$ and the displayed window row $W$, so the request is already inside the local ledger route.
+
+Next apply dyadic ledger positivity and StreamName--RegSeqRat factorization, \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-positivity} and \autoref{thm:cauchy-modulus-extraction-streamname-regseqrat-factorization}. These force the route through the regular schedule row $S$ and the dyadic ledger row $Q$ before the extracted modulus can be exposed.
+
+Finally use the Real-completion consumer bridge, \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge}, and carrier non-escape from \autoref{thm:cauchy-modulus-extraction-realup-seal-nonescape}. The bridge supplies the Real-facing handoff, while non-escape excludes host moduli, quotient stream equality, selected limits, trichotomy, ambient completeness, and external completion witnesses from the exported packet.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus-extraction mature package summary]
 \label{thm:cauchy-modulus-extraction-mature-package-summary}
 For every accepted $\CauchyModulusExtractionUp$ packet
 $$
 M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
 $$
-the finite Real-completion consumer surface is the public export, the Real-completion consumer bridge, route exactness, budget-fiber exhaustion, and the no-ambient-completeness boundary of this chapter assembled as one package. A downstream $\RealUp$ or completion consumer reads $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$ in that finite order, obtains the extracted modulus only through the displayed budget-window-dyadic route, and obtains no quotient stream equality, host real equality, selected limit, trichotomy, ambient completeness, or external modulus selector.
+the finite Real-completion consumer surface is the public export, the Real-completion consumer bridge, the dyadic Real consumer factorization, route exactness, budget-fiber exhaustion, and the no-ambient-completeness boundary of this chapter assembled as one package. A downstream $\RealUp$ or completion consumer reads $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$ in that finite order, obtains the extracted modulus only through the displayed budget-window-dyadic route, and obtains no quotient stream equality, host real equality, selected limit, trichotomy, ambient completeness, or external modulus selector.
 \end{theorem}
 \begin{proof}
 Start with \autoref{thm:cauchy-modulus-extraction-public-export}. It collects carrier admission, budget exposure, window and schedule rows, dyadic ledger, Real seal boundary, route exactness, window exhaustion, budget-fiber exhaustion, and obligation closure into the public surface of $M$.
 
 Use \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge}. The bridge sends Real-completion consumers through $B,W,S,Q,\mathsf{Mu},H,C,P,N$ after admission through $E$, so the extracted modulus is not read from an external host selector.
+
+Apply \autoref{thm:cauchy-modulus-extraction-dyadic-real-consumer-factorization}. It records the reusable factorization through $B,W,S,Q$ before the Real-facing consumer can read $\mathsf{Mu}$.
 
 Finally apply \autoref{thm:cauchy-modulus-extraction-route-exactness}, \autoref{thm:cauchy-modulus-extraction-budget-fiber-exhaustion}, and \autoref{thm:cauchy-modulus-extraction-realup-seal-nonescape}. Route exactness fixes the order of the finite rows, budget-fiber exhaustion leaves no second budget source, and the RealUp boundary excludes quotient stream equality, host real equality, selected limits, trichotomy, ambient completeness, and external modulus data.
 \end{proof}
@@ -424,8 +445,9 @@ Finally apply \autoref{thm:cauchy-modulus-extraction-route-exactness}, \autoref{
 \begin{closurestatus}{\CauchyModulusExtractionUp}
   \constructivestory{A $\CauchyModulusExtractionUp$ packet is generated from a positive tolerance request, finite observation budget, StreamNameUp windows, RegSeqRatUp witness schedule, extracted modulus row, dyadic comparison ledger, componentwise transports, continuation routes, package provenance, and a local naming row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-extraction-carrier}, \autoref{thm:cauchy-modulus-extraction-namecert-obligations}, \autoref{thm:cauchy-modulus-extraction-budget-soundness}, \autoref{thm:cauchy-modulus-extraction-streamname-regseqrat-factorization}, \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-nonescape}, \autoref{thm:cauchy-modulus-extraction-real-diagonal-handoff}, \autoref{thm:cauchy-modulus-extraction-obligation-closure-package}, \autoref{thm:cauchy-modulus-extraction-public-export}, \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge}, and \autoref{thm:cauchy-modulus-extraction-mature-package-summary} bind the mature finite Real-completion consumer surface for the modulus-extraction packet.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:cauchy-modulus-extraction-carrier}, \autoref{thm:cauchy-modulus-extraction-namecert-obligations}, \autoref{thm:cauchy-modulus-extraction-budget-soundness}, \autoref{thm:cauchy-modulus-extraction-streamname-regseqrat-factorization}, \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-nonescape}, \autoref{thm:cauchy-modulus-extraction-real-diagonal-handoff}, \autoref{thm:cauchy-modulus-extraction-obligation-closure-package}, \autoref{thm:cauchy-modulus-extraction-public-export}, \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge}, \autoref{thm:cauchy-modulus-extraction-dyadic-real-consumer-factorization}, and \autoref{thm:cauchy-modulus-extraction-mature-package-summary} bind the mature finite Real-completion consumer surface for the modulus-extraction packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CauchyModulusExtractionUp.CauchyModulusExtractionCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, or Lean verification.}

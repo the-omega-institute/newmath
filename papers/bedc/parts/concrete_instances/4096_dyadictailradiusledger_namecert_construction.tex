@@ -59,6 +59,28 @@ Window coverage then follows the StreamName and observation-budget pattern: each
 Transport along $H$ preserves the same displayed coordinates, while $P$ and $N$ keep provenance and naming attached to the route. Thus a tail-radius read has no source outside $E,T,W,D,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-radius ledger tail-radius witness extraction]
+\label{thm:dyadic-tail-radius-ledger-tail-radius-witness-extraction}
+For an accepted $\DyadicTailRadiusLedgerUp$ carrier
+$$
+L=(E,T,W,D,R,S,H,C,P,N),
+$$
+any tail-radius witness requested by a completion-facing consumer is extracted from the displayed finite route
+$$
+E \longmapsto T \longmapsto W \longmapsto D
+$$
+before the $\RegSeqRatUp$ handoff row $R$ and the $\RealUp$ seal row $S$ are readable. The extraction exports no quotient stream equality, host real equality, selected limit, unbounded tail search, independent radius ledger, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the local NameCert obligations of \autoref{thm:dyadic-tail-radius-ledger-namecert-obligations}. They identify $E,T,W,D,R,S,H,C,P,N$ as the whole accepted packet and make tail-radius witness requests part of the displayed finite ledger.
+
+Apply tail-budget coverage from \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}. The requested witness is therefore read from the route $E \longmapsto T \longmapsto W \longmapsto D$ before any source-facing or completion-facing handoff is available.
+
+Next use RegSeqRat and Real handoff, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}. It places $R$ and $S$ strictly downstream of the finite tail-budget route, so a consumer cannot read the handoff or seal before the witness has been extracted from $D$.
+
+Finally compose route replay with non-escape, \autoref{thm:dyadic-tail-radius-ledger-route-replay} and \autoref{thm:dyadic-tail-radius-ledger-nonescape}. Route replay attaches $H,C,P,N$ to the same finite path, and non-escape excludes quotient stream equality, host real equality, selected limits, unbounded tail searches, independent radius ledgers, and ambient completeness from the exported witness.
+\end{proof}
+
 \begin{theorem}[Dyadic tail-radius ledger RegSeqRat and Real handoff]
 \label{thm:dyadic-tail-radius-ledger-regseq-real-handoff}
 For an accepted $\DyadicTailRadiusLedgerUp$ carrier, every $\RegSeqRatUp$ handoff row $R$ and every $\RealUp$ seal row $S$ are downstream of the finite tail-budget route of \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}. In particular, every admitted completion-facing read factors through
@@ -202,6 +224,54 @@ Route replay attaches the same continuation row $C$ to the transported route. Pr
 Finally apply the scoped route package and the shared-tail service boundary. They identify the whole admitted seal route and exclude quotient streams, selected limits, host real equalities, and ambient completeness principles from the exported surface.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-radius ledger refinement-meet totality]
+\label{thm:dyadic-tail-radius-ledger-refinement-meet-totality}
+For an accepted $\DyadicTailRadiusLedgerUp$ carrier
+$$
+L=(E,T,W,D,R,S,H,C,P,N),
+$$
+let $E_1$ and $E_2$ be unary precision requests refining the displayed request $E$. Suppose the carrier displays a common unary refinement row $E_m$ together with a transported tail-window row $T_m$ for that meet. Then every completion-facing read admitted for either $E_1$ or $E_2$ factors through the single finite route
+$$
+E_m \longmapsto T_m \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+The common refinement exports no quotient stream, selected limit, host real equality, unbounded search, or completeness principle.
+\end{theorem}
+\begin{proof}
+Start with tail-budget coverage. It places each refining request inside the displayed finite tail-budget surface and identifies the common row $E_m$ as the carrier-visible refinement through which both requests must be read.
+
+Apply monotone radius handoff to the two requests. Transport through $H$ sends the common refinement to the single tail-window row $T_m$, so tightening either request changes only the first segment of the route and does not introduce a second StreamName, DyadicRatCore, RegSeqRat, or Real seal row.
+
+Route replay then attaches the continuation row $C$ to the common path, while provenance exhaustion attaches $P$ and $N$ to the same carrier coordinates. Thus a completion-facing consumer of either refinement has no admitted source outside $E_m,T_m,W,D,R,S,H,C,P,N$.
+
+Finally apply the shared-tail service boundary. It is exactly the public boundary that permits both refinement consumers to share the tail-radius ledger while refusing quotient streams, selected limits, host real equalities, unbounded searches, and ambient completeness principles.
+\end{proof}
+
+\begin{theorem}[Dyadic tail-radius ledger common-refinement pullback]
+\label{thm:dyadic-tail-radius-ledger-common-refinement-pullback}
+Let
+$$
+L_0=(E_0,T_0,W_0,D_0,R_0,S_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+L_1=(E_1,T_1,W_1,D_1,R_1,S_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\DyadicTailRadiusLedgerUp$ carriers. Suppose $E_0$ and $E_1$ refine to a common unary precision request $E^\ast$, and suppose the finite $\StreamNameUp$ window rows $W_0,W_1$ and the $\RealUp$ seal rows $S_0,S_1$ are componentwise $\hsame$ on a common displayed finite window. Then the two transported tail-radius ledger routes admit a common displayed pullback over the same route
+$$
+E^\ast \longmapsto T^\ast \longmapsto W^\ast \longmapsto D^\ast \longmapsto R^\ast \longmapsto S^\ast.
+$$
+The pullback exports only the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Apply the monotone radius handoff theorem to $L_0$ and $L_1$ along the common request $E^\ast$. This gives transported tail rows over the same refined precision request and keeps each completion-facing read on its displayed finite seal route.
+
+Use route replay and provenance exhaustion for the two accepted carriers. The replay rows identify the visible continuation path, while provenance exhaustion says that any admitted comparison must be assembled from the displayed carrier coordinates and the local $\Pkg$ and $\NameCert$ rows.
+
+The common $\StreamNameUp$ window hypothesis identifies the shared finite window segment. The real seal scope theorem identifies the shared terminal seal segment, and the window route scope theorem keeps the dyadic readback and regular-rational handoff between those endpoints on the same finite route.
+
+It remains to record what the pullback can expose. Non-escape and the shared-tail service boundary remove quotient streams, selected limits, host real equalities, hidden tail searches, and ambient completeness data, leaving only the common displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
 \begin{theorem}[Dyadic tail-radius ledger dependency scope]
 \label{thm:dyadic-tail-radius-ledger-dependency-scope}
 Every accepted $\DyadicTailRadiusLedgerUp$ carrier factors through the displayed rows $E,T,W,D,R,S,H,C,P,N$ over exactly the local dependency scope $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No admitted public read can use a dependency outside this displayed scope.
@@ -269,7 +339,7 @@ The non-escape theorem excludes quotient stream equality, host real equality, se
   \constructivestory{A $\DyadicTailRadiusLedgerUp$ packet is generated from a unary precision request, finite tail-window radius ledger, finite StreamName windows, DyadicRatCore readback rows, RegSeqRat handoff rows, RealUp seal rows, componentwise hsame transports, displayed Cont routes, package provenance, and a local naming row.}
   \leanchecked{BEDC.Derived.DyadicTailRadiusLedgerUp.taste\_gate}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:dyadic-tail-radius-ledger-carrier}, \autoref{thm:dyadic-tail-radius-ledger-namecert-obligations}, \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}, \autoref{thm:dyadic-tail-radius-ledger-nonescape}, \autoref{thm:dyadic-tail-radius-ledger-transport-stability}, \autoref{thm:dyadic-tail-radius-ledger-route-replay}, \autoref{thm:dyadic-tail-radius-ledger-provenance-exhaustion}, \autoref{thm:dyadic-tail-radius-ledger-shared-tail-service-boundary}, \autoref{thm:dyadic-tail-radius-ledger-scoped-route-package}, \autoref{thm:dyadic-tail-radius-ledger-dependency-scope}, \autoref{thm:dyadic-tail-radius-ledger-window-route-scope}, \autoref{thm:dyadic-tail-radius-ledger-real-seal-scope}, and \autoref{thm:dyadic-tail-radius-ledger-mature-consumer-package} bind the finite tail-radius ledger carrier, its local NameCert obligation surface, transport stability, route replay, provenance exhaustion, shared-tail service boundary, dependency scope, window route scope, real seal scope, L10 scoped route package, and mature Real/Completion consumer package.}
+  \scopeclosed{\autoref{def:dyadic-tail-radius-ledger-carrier}, \autoref{thm:dyadic-tail-radius-ledger-namecert-obligations}, \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm:dyadic-tail-radius-ledger-tail-radius-witness-extraction}, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}, \autoref{thm:dyadic-tail-radius-ledger-nonescape}, \autoref{thm:dyadic-tail-radius-ledger-transport-stability}, \autoref{thm:dyadic-tail-radius-ledger-route-replay}, \autoref{thm:dyadic-tail-radius-ledger-provenance-exhaustion}, \autoref{thm:dyadic-tail-radius-ledger-shared-tail-service-boundary}, \autoref{thm:dyadic-tail-radius-ledger-scoped-route-package}, \autoref{thm:dyadic-tail-radius-ledger-common-refinement-pullback}, \autoref{thm:dyadic-tail-radius-ledger-dependency-scope}, \autoref{thm:dyadic-tail-radius-ledger-window-route-scope}, \autoref{thm:dyadic-tail-radius-ledger-real-seal-scope}, and \autoref{thm:dyadic-tail-radius-ledger-mature-consumer-package} bind the finite tail-radius ledger carrier, its local NameCert obligation surface, transport stability, route replay, provenance exhaustion, shared-tail service boundary, common-refinement pullback, dependency scope, window route scope, real seal scope, L10 scoped route package, and mature Real/Completion consumer package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

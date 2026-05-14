@@ -196,6 +196,26 @@ Next apply \autoref{thm:regular-cauchy-triangle-bound-completion-seal-consumer-e
 Finally combine \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-scope} with \autoref{thm:real-diagonal-mesh-budget-realup-handoff}. The selected diagonal-window coverage row supplies the window surface consumed by the mesh-budget packet, and the mesh-budget handoff reads it only through its finite route before the $\RealUp$ seal is exposed.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation cofinal tail-budget route]
+\label{thm:finite-cauchy-approximation-cofinal-tail-budget-route}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. If $F$ is consumed through a cofinal tail-budget route, then every $\RealUp$ or $\CauchyLimitSealUp$ handoff factors through the displayed rows
+$$
+R,n,k,W,D,E,S,H,C,P,N
+$$
+and through the sibling $\CofinalTailBudgetUp$ row before the seal is read.
+
+The route exports no selected real value, quotient stream equality, infinite tail, host metric, or completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the finite approximation handoff. By \autoref{thm:finite-cauchy-approximation-real-handoff}, every real-facing consumer reads the source, precision, threshold, window, dyadic ledger, error row, handoff row, transports, routes, provenance, and local name before the $\RealUp$ or $\CauchyLimitSealUp$ boundary is available.
+
+Next apply seal coverage and mesh-budget projection. The seal coverage theorem confines the handoff to the same finite rows, and \autoref{thm:finite-cauchy-approximation-mesh-budget-projection} keeps diagonal-mesh consumers behind the displayed finite route.
+
+Now read the cofinal tail-budget sibling. By \autoref{thm:cofinal-tail-budget-window-coverage}, the tail-budget packet exposes only the finite windows listed by its cofinal row and the shared threshold recorded by its budget row. By \autoref{thm:cofinal-tail-budget-real-seal-handoff}, its $\RealUp$ seal read passes through those windows and the $\RegSeqRat$ handoff before the seal is consumed.
+
+Composing the two routes gives the stated factorization: a consumer first reads the finite approximation rows of $F$, then the sibling $\CofinalTailBudgetUp$ row, and only then the seal boundary. The non-escape clauses of the finite approximation and cofinal tail-budget packets exclude selected real values, quotient stream equality, infinite tails, host metrics, and completeness.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy approximation obligation closure]
 \label{thm:finite-cauchy-approximation-obligation-closure}
 Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. The carrier row, local $\NameCert_{\FiniteCauchyApproximationUp}$ obligations, window soundness, refinement stability, $\RealUp$ handoff, tail-meet triangle assembly, seal coverage, and mesh-budget projection assemble the local $\NameCert_{\FiniteCauchyApproximationUp}$ obligation closure over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTriangleBoundUp$, $\RealDiagonalWindowCoverageUp$, $\RealDiagonalMeshBudgetUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
@@ -256,6 +276,20 @@ Apply the observation-budget compatibility theorem. Since the precision, window,
 Finally compose the route exclusions from the sibling packets with the local non-escape surface. None of the accepted carriers contains a coordinate for a selected real value, quotient stream equality, hidden limit selector, host metric, or ambient completeness principle, so no $\RealUp$ or $\CauchyLimitSealUp$ consumer can receive such data through the budget route.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation finite-observation selector handoff]
+\label{thm:finite-cauchy-approximation-finite-observation-selector-handoff}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose its precision row, finite-window row, dyadic-ledger row, error row, and $\RealUp$ handoff row are selected by an accepted $\FiniteObservationBudgetSelectorUp$ packet through the displayed $\hsame$ and $\Cont$ rows. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $F$ factors first through the selector's displayed finite-observation route and then through the local finite-approximation rows $R,n,k,W,D,E,S,H,C,P,N$.
+
+The handoff exports no selected real value, quotient stream equality, hidden limit selector, host metric, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-cauchy-approximation-budget-route-exactness}. It already forces every real-facing or limit-seal consumer of $F$ through the finite budget route whenever the precision, window, dyadic, error, and handoff rows agree componentwise with the accepted budget packets.
+
+Read the accepted $\FiniteObservationBudgetSelectorUp$ packet as the displayed selector for that same finite observation budget. Its route is the unique selector-facing route available by hypothesis, so the consumer first passes through the selector's finite-observation surface before the local finite approximation rows are exposed.
+
+Finally compose the non-escape clauses. The budget-route exactness theorem excludes selected real values, quotient stream equality, hidden limit selectors, host metrics, and ambient completeness coordinates, and the selector contributes only the displayed finite-observation route. Therefore the composed handoff reaches $R,n,k,W,D,E,S,H,C,P,N$ without exporting any non-displayed completion data.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy approximation CauchySequenceSpace handoff]
 \label{thm:finite-cauchy-approximation-cauchysequence-space-handoff}
 Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose $F$ shares its source row, schedule and finite-window rows, dyadic ledger, seal rows, componentwise $\hsame$ transports, and displayed $\Cont$ routes with an accepted $\CauchySequenceSpaceUp$ packet. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $F$ routes through the common finite-window surface read by \autoref{ch:concrete-instances-cauchysequencespace-namecert}, with the regular source supplied by \autoref{ch:concrete-instances-regseqrat-namecert} and the finite stream window supplied by \autoref{ch:concrete-instances-streamname-namecert}.
@@ -302,6 +336,28 @@ Use \autoref{thm:finite-cauchy-approximation-shared-window-budget-exhaustion} fo
 Finally use selector-route non-escape. The participating packets contain only displayed finite-window, dyadic-ledger, error, seal, transport, continuation, provenance, and naming rows; they contain no selected real value, quotient stream equality, infinite tail, host metric, ambient completeness theorem, or hidden budget selector.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation shared-budget non-escape]
+\label{thm:finite-cauchy-approximation-shared-budget-nonescape}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose $F$ shares its finite-window rows, dyadic-ledger rows, error rows, handoff rows, selector route, componentwise $\hsame$ transports, and displayed $\Cont$ rows with accepted $\RealObservationBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\CauchySequenceSpaceUp$, and $\FiniteObservationBudgetSelectorUp$ packets. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $F$ factors through the same displayed finite route
+$$
+W \longmapsto D \longmapsto E \longmapsto S
+$$
+and through the same selector-budget route before any $\CauchyLimitSealUp$ or $\RealUp$ seal handoff is available.
+
+The shared route exports only the finite rows of $F$, the displayed budget rows, the shared selector route, the componentwise $\hsame$ transports, the displayed $\Cont$ rows, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no selected real value, quotient stream equality, infinite tail, host metric or equality, ambient completeness theorem, or hidden selector data.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}. This identifies the threshold, finite window $W$, dyadic ledger $D$, explicit error row $E$, handoff row $S$, transport rows, continuation rows, provenance row, and naming row as the displayed route available from $F$.
+
+Next apply \autoref{thm:finite-cauchy-approximation-budget-route-exactness}. The shared $\RealObservationBudgetUp$ and $\RealDiagonalMeshBudgetUp$ packets read the same finite budget surface, so any budget-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer must pass through the displayed $W,D,E,S$ route before a seal handoff is visible.
+
+Use \autoref{thm:finite-cauchy-approximation-cauchysequence-space-handoff} for the sequence-space side. Because the $\CauchySequenceSpaceUp$ packet shares the source, finite-window, dyadic-ledger, seal, $\hsame$, and $\Cont$ rows with $F$, it contributes only the same finite-window handoff route and no separate quotient stream equality or infinite tail.
+
+Now apply \autoref{thm:finite-cauchy-approximation-shared-window-budget-exhaustion} and \autoref{thm:finite-cauchy-approximation-selector-budget-determinacy}. The first theorem exhausts all real and limit-seal reads through the shared finite budget route, and the second fixes the selector-facing read of that route to the displayed selector-budget data.
+
+Composing the non-escape clauses from these route theorems leaves exactly the displayed finite rows, budget rows, selector route, transports, continuations, provenance, and local name. None of the accepted carriers contains a coordinate for selected real values, quotient stream equality, infinite tails, host metric or equality, ambient completeness, or hidden selector data, so no consumer can receive any such object before the seal handoff.
+\end{proof}
+
 \closureat{FiniteCauchyApproximationUp}{seedStr}
 \closureat{FiniteCauchyApproximationUp}{obligationStr}
 \closureat{FiniteCauchyApproximationUp}{scopedStr}
@@ -311,8 +367,9 @@ Finally use selector-route non-escape. The participating packets contain only di
 \begin{closurestatus}{\FiniteCauchyApproximationUp}
   \constructivestory{A $\FiniteCauchyApproximationUp$ packet is generated from a $\RegSeqRatUp$ source row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, $\RealUp$ and $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-precision-weakening-route}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, \autoref{thm:finite-cauchy-approximation-budget-route-exactness}, \autoref{thm:finite-cauchy-approximation-cauchysequence-space-handoff}, and \autoref{thm:finite-cauchy-approximation-shared-window-budget-exhaustion} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-precision-weakening-route}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-cofinal-tail-budget-route}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, \autoref{thm:finite-cauchy-approximation-budget-route-exactness}, \autoref{thm:finite-cauchy-approximation-cauchysequence-space-handoff}, \autoref{thm:finite-cauchy-approximation-shared-window-budget-exhaustion}, and \autoref{thm:finite-cauchy-approximation-shared-budget-nonescape} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FiniteCauchyApproximationUp.FiniteCauchyApproximationCarrier\_obligation\_closure}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient stream equality, selected real values, infinite tails, host real metrics, $\RealUp$ completeness, Lean verification, or bridge checking.}

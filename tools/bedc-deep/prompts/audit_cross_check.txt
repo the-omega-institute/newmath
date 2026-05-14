@@ -32,10 +32,10 @@ access (grep, sed, cat / equivalent):
    implication of the form "P implies Q under setup S". If it's a
    survey or vague intent, DROP.
 
-5. Stress-test scope. If outside the eight chapters
+5. Stress-test scope. If outside the BEDC paper-extension chapters
    (core / proof_obligations / concrete_hardening / concrete_instances /
-   hardening / formalization / proof_sprint / proof_standing /
-   project_governance), DROP.
+   ground_compiler / hardening / formalization / proof_sprint /
+   proof_standing / project_governance / self_compilation), DROP.
 
 6. Sanity-check rationale. The author claimed specific grep counts and
    line numbers — re-run a representative grep yourself. If the cited
@@ -46,6 +46,17 @@ access (grep, sed, cat / equivalent):
    verification-axis, hub-file append, near-line-cap append, and
    parameter-transport echo candidates. Keep only concrete paper theorem
    targets that can land as body content.
+
+8. Candidate-pool quality check. If the candidate carries `quality_score`,
+   `difficulty`, or `selection_rank`, verify that the evidence justifies it.
+   DROP candidates with total quality score below 9, verifiability = 0,
+   downstream_use = 0, line_cap_safety = 0, or inflated difficulty unsupported
+   by the cited paper surface.
+
+9. Evidence/landing separation. DROP any candidate whose `local_inputs`
+   include only `papers/bedc/parts/visions/` or
+   `papers/bedc/parts/conjectures/`. Those files may support rationale but
+   are not executable landing/readback surfaces.
 
 For each candidate, output keep or drop with a one-sentence reason.
 

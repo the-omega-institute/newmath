@@ -90,6 +90,7 @@ The Real seal boundary scope supplies the completion-facing boundary. Apply
 are confined to the displayed BEDC route and receive none of the excluded
 escape coordinates.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorPublicBudgetSource\_downstream\_nonescape\_scope}
 
 \begin{definition}[Diagonal tail selector public budget source]
 \label{def:diagonal-tail-selector-public-budget-source}
@@ -182,6 +183,8 @@ $\RegSeqRatUp$, and $\RealUp$ rows. It cannot export quotient streams,
 selected host limits, countable-choice schedules, host real equality,
 ambient completeness, or hidden tail oracles.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_real\_seal\_budget\_nonescape}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorPublicBudgetSource\_real\_seal\_budget\_nonescape}
 \begin{proof}
 Use the Real seal boundary scope of
 \autoref{thm:diagonal-tail-selector-real-seal-boundary-scope}. It places the
@@ -243,6 +246,45 @@ $\CauchyLimitSealUp$ and $\RealUp$ readers of $S$ stay inside the public
 budget source and the listed sibling rows. Consequently the export contains
 exactly the displayed finite route and none of the excluded quotient,
 choice, host-equality, completeness, or hidden-oracle data.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector public budget threshold order]
+\label{thm:diagonal-tail-selector-public-budget-threshold-order}
+For every accepted $\DiagonalTailSelectorUp$ public budget source of
+\autoref{def:diagonal-tail-selector-public-budget-source}, any downstream
+$\CauchyLimitSealUp$ or $\RealUp$ consumer reads the source rows
+$$
+n,\mu,k,W,D
+$$
+before the transported tail row $T$, before the seal row $S$, and before the
+finite observation-budget selector route of
+\autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert} is
+consumed. Thus the public budget surface inherits the checked
+window-threshold order of the carrier before it exports a seal-facing or
+finite-observation route.
+\end{theorem}
+\begin{proof}
+Start with the carrier-level window-threshold order of
+\autoref{thm:diagonal-tail-selector-window-threshold-order}. It places the
+precision row $n$, modulus row $\mu$, selected cofinal index $k$, finite
+window row $W$, and dyadic readback row $D$ before any read of the
+tail-regularity row $T$ or the seal row $S$.
+
+Next apply the public budget export of
+\autoref{thm:diagonal-tail-selector-public-budget-export}. The exported
+source is exactly the finite route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+Since the export preserves the displayed carrier order, the public consumer
+cannot read $T$ or $S$ before $n,\mu,k,W,D$.
+
+Finally use the non-escape boundary of
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}. Every
+$\CauchyLimitSealUp$ or $\RealUp$ consumer remains inside the same public
+budget source, and the finite observation-budget selector handoff must be a
+read of that already ordered source rather than a route that bypasses the
+window-threshold rows.
 \end{proof}
 
 \begin{theorem}[Diagonal tail selector finite observation-budget handoff]
@@ -318,6 +360,7 @@ The Real and Cauchy-limit readers stay inside that displayed route, so the
 consumer-facing path is total for the public budget handoff and excludes the
 listed quotient, choice, host-equality, completeness, and hidden-oracle data.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_public\_budget\_route\_totality}
 
 \begin{theorem}[DiagonalTailSelector schedule-seal consumer exactness]
 \label{thm:diagonal-tail-selector-schedule-seal-consumer-exactness}
@@ -331,6 +374,7 @@ and $\RealUp$. No quotient stream, host-selected limit, countable-choice
 schedule, host real equality, ambient completeness, or hidden tail oracle can
 be substituted for any segment of that route.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorScheduleSealConsumerExactness}
 \begin{proof}
 For the forward direction, begin with the tail-cofinality factorization of
 \autoref{thm:diagonal-tail-selector-tail-cofinality-factorization}. It places

@@ -1,0 +1,37 @@
+\begin{theorem}[ContinuationMonad root Kleisli associativity surface]
+\label{thm:continuation-monad-root-kleisli-associativity-surface}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the displayed unit rows and bind rows replay through one Kleisli associativity surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The surface is the route carried by $A,B,C,f,g,u,H,K,L,N$, with the $\CategoryUp$ hom-carrier and $\mathsf{ContinuationMorphism}$ readings attached to those rows, and it exports no host function composition, quotient Kleisli arrow, ambient category completion, external evaluator, or unlisted continuation generator.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_kleisli\_associativity\_surface}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-unit-laws} and \autoref{thm:continuation-monad-associativity}. The unit rows and nested bind rows are read as finite ledger rows over $u,f,g,K,L$ rather than as host monad equations.
+
+Use \autoref{thm:continuation-monad-root-kleisli-source-totality} to expose the source histories and continuation tails before any Kleisli-facing consumer reads them. The source remains the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface of $Z$.
+
+Finally combine \autoref{thm:continuation-monad-root-route-source-exposure}, \autoref{thm:continuation-monad-generator-category-route-totality}, and \autoref{thm:continuation-monad-displayed-bind-readback-exhaustion}. These theorems attach the Category hom and generator-boundary faces to the same route, so associativity is visible as one replay surface and not as a quotient or host-composition object.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_associativity\_surface}
+
+\begin{theorem}[ContinuationMonad root generator bind coverage]
+\label{thm:continuation-monad-root-generator-bind-coverage}
+Every root generator consumer of an accepted $\ContinuationMonadUp$ packet reads the source rows $A,B,C$, bind schedule $f,g,K,L$, unit row $u$, componentwise transport $H$, displayed route $K$, provenance through $\Pkg$, and local naming row $N$ before any $\CategoryUp$ or Kleisli surface is exported. The consumer receives no generator, bind evaluator, quotient Kleisli arrow, host function composition, ambient category object, or monad law outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:continuation-monad-root-route-source-exposure} and \autoref{thm:continuation-monad-root-source-coverage}. They force every root read to pass through the displayed histories, continuation tails, unit tail, transport row, route row, ledger row, and local name.
+
+Apply \autoref{thm:continuation-monad-root-kleisli-source-totality}. The Kleisli-facing source is exhausted by $A,B,C,f,g,u,H,K,L,N$, so a generator consumer cannot skip directly to an external Category or Kleisli object.
+
+Use \autoref{thm:continuation-monad-generator-category-route-totality} and \autoref{thm:continuation-monad-root-generator-boundary-readback} to account for the generator face. The generator refusal is attached to the same finite route before any category-facing read is visible, leaving no coordinate for an unlisted continuation generator or external evaluator.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root downstream monad package]
+\label{thm:continuation-monad-root-downstream-monad-package}
+The root downstream monad package for an accepted $\ContinuationMonadUp$ packet is assembled from the displayed source rows, unit rows, bind schedule, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, $\CategoryUp$ hom-carrier readings, generator-boundary refusal, and local $\NameCert$ row carried by $A,B,C,f,g,u,H,K,L,N$. Downstream continuation chapters may consume this package as the finite monad-reading boundary, and no quotient Kleisli category, host function composition, ambient category completion, external evaluator, or unlisted continuation generator is exported.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:continuation-monad-root-unit-bind-exhaustion} and \autoref{thm:continuation-monad-root-kleisli-associativity-surface}. They cover the unit, bind, and associativity readings through $u,f,g,K,L,H,N$ over the source histories $A,B,C$.
+
+Next use \autoref{thm:continuation-monad-root-generator-bind-coverage}. It places the generator-facing consumer behind the same source, route, transport, provenance, and naming rows before any category or Kleisli surface can be consumed.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-unblock-package} and \autoref{thm:continuation-monad-generator-category-route-totality}. These package the unit, bind, generator-boundary, and Category hom faces as one downstream surface, so all external host, quotient, completion, evaluator, and unlisted-generator readings remain outside the packet.
+\end{proof}

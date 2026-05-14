@@ -207,6 +207,26 @@ Now read the convergence-seal packet. \autoref{thm:bounded-monotone-convergence-
 Finally apply \autoref{thm:bounded-monotone-convergence-seal-obligation-package}. It packages the second-stage rows as the displayed convergence-seal obligation surface. Since both stages have exhausted their public ledgers, the combined route has no remaining coordinate for any excluded completion, equality, order, compactness, or choice-selected tail.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal selector synchronization]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-selector-synchronization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any $\BoundedMonotoneConvergenceSealUp$ consumer using $W$ synchronizes its selected tail window through the witness rows $\mu,\sigma,\lambda$ and the seal-facing rows before it reads the convergence-seal selector.
+
+Concretely, a tolerance request is first answered by $\mu$ on the scheduled window $\sigma$ and recorded in the dyadic ledger $\lambda$. The resulting window is then routed through $I,Q,H,C,P,N$ and only then through the convergence-seal rows
+$$
+W,M,K,F',\sigma',D,L,R,H',C',P',N'.
+$$
+Thus the selected limit, quotient equality, host real equality, ambient completeness, and detached tail-oracle readings are unavailable unless they are already exposed by the displayed witness and seal packets.
+\end{theorem}
+\begin{proof}
+Begin with the local carrier. \autoref{def:bounded-monotone-cauchy-witness-carrier} exposes exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the consumer has no selector coordinate outside those rows.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}. It sends each tolerance request to $\mu$, ties the answer to the scheduled windows $\sigma$, and records the requested dyadic tolerance in $\lambda$.
+
+Now route the synchronized tail into the seal-facing side. By \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}, the read of $Q$ passes through the regular-sequence row, the window schedule, the tail modulus, the dyadic ledger, the located trap, transport, continuation, provenance, and local naming rows.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}. The convergence-seal consumer reads the witness packet before it reads $M,K,F',\sigma',D,L,R,H',C',P',N'$. Consequently the selected window is synchronized across $\mu,\sigma,\lambda$ and the seal rows before the convergence-seal selector is available, and the excluded completion and equality coordinates remain outside the combined route.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness scoped dependency package]
 \label{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}
 The scoped dependency package of \autoref{def:bounded-monotone-cauchy-witness-carrier} consists exactly of the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
@@ -647,6 +667,50 @@ Next use \autoref{thm:bounded-monotone-cauchy-witness-seal-factorization-triad}.
 It remains to account for the regular handoff and trap data used by the witness. The located interval trap certificate above keeps $I$ tied to $\LocatedIntervalUp$, $\lambda$, and $H$, while source-tail synchronization keeps $\sigma,\mu,\lambda$ tied to $S$ and $F$.
 
 Finally apply ledger exhaustion. The displayed packet has no additional completion coordinate, quotient representative, host equality, selected limit, completeness principle, trichotomy split, compactness proof, or choice-selected tail, so every Real-completion-facing export is forced through the finite observation, regular rational, and Real seal route already named.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness formal handoff package]
+\label{thm:bounded-monotone-cauchy-witness-formal-handoff-package}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. The paper-side formal handoff for this carrier is exactly the finite package consisting of the bounded source row $S$, regular rational row $F$, $\StreamNameUp$ schedule $\sigma$, Cauchy modulus witness $\mu$, $\DyadicRatCoreUp$ ledger $\lambda$, $\LocatedIntervalUp$ trap $I$, $\RealUp$ seal $Q$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row $N$.
+
+Every Lean-side consumer that claims Real-completion-facing use of $\BoundedMonotoneCauchyWitnessUp$ must formalize those rows before it consumes the Real route. The handoff contains no selected limit, quotient real, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+The carrier definition displays exactly the coordinates $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. The local NameCert obligations then read carrier admission, regular rational exposure, schedule exposure, Cauchy witness exposure, dyadic ledger exposure, trap exposure, seal exposure, transport, continuation, provenance, and local naming from those same rows.
+
+The scoped dependency package identifies the sibling sources of the rows. Monotone tail coherence keeps $\sigma,\mu,\lambda$ tied to the bounded source and regular handoff, while the located interval trap certificate keeps $I$ tied to $\lambda$ and the componentwise transports $H$.
+
+Apply the Real completion export theorem. It forces every Real-completion-facing consumer through the finite observation budget, regular rational handoff, trap, seal, transport, continuation, provenance, and naming rows already displayed by the carrier.
+
+Ledger exhaustion finishes the package comparison. Since the displayed carrier has no remaining coordinate for a selected limit, quotient real, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail, the listed rows are precisely the handoff to be formalized by downstream Lean work.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal terminal synchronization]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-terminal-synchronization}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any convergence-seal-facing or Real-completion-facing consumer of $W$ synchronizes the same finite tail answer through
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+before it can read the convergence-seal rows. In particular, the terminal tail service is the displayed route through the bounded source, regular handoff, schedule, Cauchy witness, dyadic ledger, located trap, Real seal, transport, continuation, provenance, and local naming rows.
+
+The synchronized route exports no selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}. It gives the two-stage route from the bounded monotone witness through the finite tail service and only then to the convergence-seal rows.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-selector-synchronization}. The selector rows $\mu,\sigma,\lambda$ are read as one shared terminal service, so a seal-facing consumer cannot replace the scheduled tail answer by an independently selected threshold.
+
+For consumers that continue to the Real route, use \autoref{thm:bounded-monotone-cauchy-witness-real-completion-export}. It forces the Real-completion-facing read through the same finite observation, regular handoff, trap, seal, transport, continuation, provenance, and naming rows before any terminal export is visible.
+
+Ledger exhaustion closes the synchronization claim. The accepted packet contains no coordinate for a selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail; hence every seal or completion-facing consumer reaches the terminal convergence-seal read only through the displayed finite route above.
 \end{proof}
 
 \input{parts/concrete_instances/boundedmonotonecauchywitness/tail_service_and_seal_handoff}

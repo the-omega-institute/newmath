@@ -2,6 +2,7 @@
 \label{thm:continuation-monad-root-route-source-exposure}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the root route exposes its source only through the displayed histories $A,B,C$, the continuation tails $f,g$, the unit tail $u$, the transport row $H$, the route row $K$, the ledger row $L$, and the local name row $N$. Any downstream root consumer reads the source through these history, tail, and unit rows before it can read the generator-boundary or $\CategoryUp$ hom surfaces.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_route\_source\_exposure}
 \begin{proof}
 Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It displays exactly $A,B,C,f,g,u,H,K,L,N$ as the accepted source packet and leaves no coordinate for an external source object.
 
@@ -14,6 +15,7 @@ Finally use \autoref{thm:continuation-monad-category-hom-row-exposure} and \auto
 \label{thm:continuation-monad-root-continuation-rule-coverage}
 Let $Z=(A,B,C,f,g,u,H,K,L,N)$ be an accepted $\ContinuationMonadUp$ packet. Every root unit read and every root bind read of $Z$ is covered by the rows $K,H,L,N$ together with the displayed tails $u,f,g$ and histories $A,B,C$. The unit laws, associativity read, route provenance, componentwise transport, ledger accounting, and local naming all remain inside this finite row package.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_continuation\_rule\_coverage}
 \begin{proof}
 Use \autoref{thm:continuation-monad-unit-laws} for unit reads and \autoref{thm:continuation-monad-associativity} for bind reads. Both theorems state their laws as ledger reads over the displayed unit and continuation tails.
 

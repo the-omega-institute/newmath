@@ -31,3 +31,16 @@ Next use the scheduled-window pullback of \autoref{thm:cauchy-limit-seal-schedul
 
 Since the carrier has no second schedule coordinate and no quotient, selected-limit, or ambient-completeness row, the shared lattice closes at the same finite window and cannot be rerouted through an external equality or host limit.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal StreamName Real terminal handoff]
+\label{thm:cauchy-limit-seal-streamname-real-terminal-handoff}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every $\RealUp$-facing sealed-limit consumer factors through the same scheduled $\StreamNameUp$ row $S$, then the displayed $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger $D$, the diagonal row $G$, and only then the $\RealUp$ seal row $E$. The route exposes no second schedule, quotient stream equality, selected host limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It places each sealed-limit read on the finite $\StreamNameUp$ window before any downstream consumer can read the seal row.
+
+Apply the StreamName and RegularCauchyName lattice theorem \autoref{thm:cauchy-limit-seal-streamname-regular-name-lattice}. The shared row is the scheduled $S$ row, and its displayed route proceeds through $X$, $D$, and $G$ before reaching $E$.
+
+Finally combine window factorization \autoref{thm:cauchy-limit-seal-window-factorization}, scheduled-window pullback \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}, and non-escape \autoref{thm:cauchy-limit-seal-non-escape}. These local facts rule out a second schedule, quotient equality, selected host limit, host real equality, and ambient completeness as carrier exits, so the only $\RealUp$-facing terminal route is the displayed handoff through $S$, $X$, $D$, $G$, and $E$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_streamname\_real\_terminal\_handoff}

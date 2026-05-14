@@ -4,6 +4,8 @@
 
 The $\CrossPerspectiveAlignmentUp$ surface turns the other-minds locality-cell commitment of \autoref{prin:hard-problems-other-minds-as-locality-cell} into a finite coordination packet. It aligns public observer commitments, locality-cell evidence, and inter-history coherence rows without exposing private $\mathsf{Self}$ coordinates or treating observer agreement as host-level identity.
 
+The row $M$ is consumed from \autoref{ch:concrete-instances-multihistconfig-namecert} as the finite inter-Hist configuration surface. $\CrossPerspectiveAlignmentUp$ adds only locality-cell and public commitment routing on top of that sibling surface, not private observer-state access.
+
 \begin{definition}[CrossPerspectiveAlignment carrier]
 \label{def:cross-perspective-alignment-carrier}
 A $\CrossPerspectiveAlignmentUp$ carrier is a finite $\BHist$ packet
@@ -64,15 +66,55 @@ The rows $L$, $O$, and $M$ are public certificate rows: locality-cell evidence, 
 There is no remaining coordinate for target private $\mathsf{Self}$ access, hidden observer history, host observer equality, a global frame, or unrecorded synchronization. Hence the alignment packet cannot export any of those objects.
 \end{proof}
 
+\begin{theorem}[CrossPerspectiveAlignment observer-identity handoff]
+\label{thm:cross-perspective-alignment-observer-identity-handoff}
+Every accepted $\CrossPerspectiveAlignmentUp$ alignment packet reads the target public identity only through the displayed observer-history identity and other-minds commitment rows. The target row $B$ may be consumed as a public $\ObserverHistIdentityUp/\OtherMindsCommitmentUp$ handoff carried by $O,H,C,P,N$, but no read may pass through a private target $\mathsf{Self}$ coordinate or identify the two observers by host equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cross-perspective-alignment-carrier}. The target row is the public coordinate $B$, and its commitment route is the row $O$ together with the displayed transports and continuations $H$ and $C$.
+
+Use the NameCert obligations of \autoref{thm:cross-perspective-alignment-namecert-obligations}. They require public other-minds commitment through $O$ and make carrier exposure a finite packet read rather than a private observer-state read.
+
+Finally apply the non-escape boundary of \autoref{thm:cross-perspective-alignment-nonescape}. Since the packet has no coordinate for private target $\mathsf{Self}$ access or host observer equality, every accepted target-identity handoff is exhausted by the public observer-history and other-minds rows already displayed.
+\end{proof}
+
+\begin{theorem}[CrossPerspectiveAlignment finite multi-Hist coherence]
+\label{thm:cross-perspective-alignment-finite-multihist-coherence}
+Every inter-history comparison accepted by $\CrossPerspectiveAlignmentUp$ factors through the finite $\MultiHistConfigUp$ row $M$, the componentwise $\hsame$ transports recorded in $H$, and the $\Cont$ routes recorded in $C$. No comparison may appeal to an ambient global history, an unlisted synchronization row, or a hidden equality between observer histories.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The only inter-history configuration coordinate is $M$, and the only transport and consumer routes attached to it are the displayed rows $H$ and $C$.
+
+The locality-cell soundness theorem \autoref{thm:cross-perspective-alignment-locality-cell-soundness} requires $L,O,M,H,C,P,N$ to appear in the same finite packet before the alignment is consumed. Thus comparison across histories is a replay of the finite multi-Hist row through the stored transport and continuation data.
+
+The non-escape theorem \autoref{thm:cross-perspective-alignment-nonescape} excludes hidden observer histories, host observer equality, global frames, and unrecorded synchronization. Hence finite multi-Hist coherence is exactly the route through $M,H,C$, not an ambient comparison outside the packet.
+\end{proof}
+
+\begin{theorem}[CrossPerspectiveAlignment public consumer package]
+\label{thm:cross-perspective-alignment-public-consumer-package}
+The carrier exposure of \autoref{def:cross-perspective-alignment-carrier}, locality-cell soundness, observer-identity handoff, finite multi-Hist coherence, non-escape, and the displayed TasteGate marker assemble the public obligation package for $\CrossPerspectiveAlignmentUp$. A public consumer receives only the finite rows $A,B,L,O,M,H,C,P,N$ with their $\NameCert$ obligations, and receives no private target $\mathsf{Self}$, hidden observer history, host observer equality, global frame, or unrecorded synchronization.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. It displays exactly the source observer, target public observer, locality-cell evidence, other-minds commitment, multi-Hist configuration, componentwise transport, continuation, package provenance, and local naming rows.
+
+Apply the existing NameCert obligation and locality-cell soundness theorems. They bind carrier exposure, public other-minds commitment through $O$, locality-cell evidence through $L$, and finite inter-Hist coherence through $M,H,C$.
+
+The observer-identity handoff and finite multi-Hist coherence theorems above isolate the two consumer routes that would otherwise be ambiguous. The first keeps target public identity behind the observer-history and other-minds rows; the second keeps inter-history comparison behind the finite $M,H,C$ route.
+
+Finally use the non-escape theorem and the checked TasteGate alignment marker. Non-escape removes private and ambient coordinates from the package, while the marker records that the displayed carrier is the single TasteGate-aligned carrier surface. Thus the public obligation package is finite and contains only the listed rows.
+\end{proof}
+
 \closureat{CrossPerspectiveAlignmentUp}{seedStr}
+\closureat{CrossPerspectiveAlignmentUp}{obligationStr}
 
 \begin{closurestatus}{\CrossPerspectiveAlignmentUp}
   \constructivestory{A $\CrossPerspectiveAlignmentUp$ packet is generated from a source observer row, a target public observer row, locality-cell evidence, a public $\OtherMindsCommitmentUp$ row, a finite $\MultiHistConfigUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cross-perspective-alignment-carrier}, \autoref{thm:cross-perspective-alignment-namecert-obligations}, \autoref{thm:cross-perspective-alignment-locality-cell-soundness}, and \autoref{thm:cross-perspective-alignment-nonescape} bind the finite public alignment surface over OtherMindsCommitment, LocalityCell, MultiHistConfig, hsame, Cont, Pkg, and NameCert rows.}
+  \leanchecked{BEDC.Derived.CrossPerspectiveAlignmentUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cross-perspective-alignment-carrier}, \autoref{thm:cross-perspective-alignment-namecert-obligations}, \autoref{thm:cross-perspective-alignment-locality-cell-soundness}, \autoref{thm:cross-perspective-alignment-nonescape}, \autoref{thm:cross-perspective-alignment-observer-identity-handoff}, \autoref{thm:cross-perspective-alignment-finite-multihist-coherence}, and \autoref{thm:cross-perspective-alignment-public-consumer-package} bind the finite public alignment surface over ObserverHistIdentity, OtherMindsCommitment, LocalityCell, MultiHistConfig, hsame, Cont, Pkg, NameCert, and the checked TasteGate carrier marker.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, private access to another observer's $\mathsf{Self}$, hidden observer histories, host observer equality, a global frame, or unrecorded synchronization.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations, locality-cell soundness, and non-escape.}
+  \upgradepath{Scoped closure requires checked carrier admission, observer-identity handoff, finite multi-Hist coherence, locality-cell soundness, non-escape, and TasteGate nontriviality with field faithfulness.}
 \end{closurestatus}

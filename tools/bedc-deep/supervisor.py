@@ -9,8 +9,9 @@ Wraps `oracle_client.py --loop` and adds:
   1. Server health: ensure bedc_oracle_server.py is running on :8767.
   2. Stale cleanup: prune dead .in_progress markers each pass.
   3. Inner loop manager: spawn oracle_client, restart on crash with backoff.
-  4. BOARD low-water: trigger auto_discovery probe when unfinished < threshold.
-  5. Curator: trigger after a batch of new completions.
+  4. BOARD low-water: trigger paper-native refill/review when unfinished < threshold.
+  5. Curator/probe discovery is opt-in only because legacy discovery surfaces
+     may inspect non-paper axes; the default supervisor must remain paper-native.
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
   8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
@@ -41,6 +42,7 @@ STATE_DIR = SCRIPT_DIR / "state"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 STOP_FILE = SCRIPT_DIR / ".stop"
 NETWORK_RESUME_FILE = STATE_DIR / "network_resume.json"
+REQUIRED_BRANCH = "bedc-claim-packet-pipeline"
 
 ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
@@ -60,6 +62,7 @@ DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
+DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY = False
 TAB_STUCK_THRESHOLD_S = 300
 ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 ZERO_EXTRACTION_HANG_SECONDS = 900
@@ -90,6 +93,23 @@ def supervisor_log(msg: str) -> None:
     print(line, flush=True)
     with open(SUPERVISOR_LOG_DIR / "supervisor.log", "a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+
+def assert_required_branch() -> bool:
+    result = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    branch = result.stdout.strip()
+    if result.returncode != 0 or branch != REQUIRED_BRANCH:
+        supervisor_log(
+            f"branch guard: refusing to run on {branch or '?'}; "
+            f"expected {REQUIRED_BRANCH}"
+        )
+        return False
+    return True
 
 
 def _write_network_resume_checkpoint(kind: str, branch: str, reason: str,
@@ -580,92 +600,8 @@ DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
 def git_sync_dev() -> bool:
-    """Fetch + merge the upstream integration branch (origin/codex-auto-dev
-    by default — see dev_sync_resolver.UPSTREAM_BRANCH) with claude-driven
-    conflict resolution.
-
-    Spawned as a subprocess so the resolver's module constants (upstream
-    branch, validation timeouts, claude path) are read fresh from disk on
-    every invocation. This way edits to dev_sync_resolver.py take effect
-    on the next sync cycle without restarting supervisor.
-
-    The subprocess prints a JSON status object on stdout. Behaviour:
-      - holds paper_writes lock for the whole flow
-      - attempts ff/clean merge first
-      - on conflict: spawns claude to resolve each non-protected file,
-        validates with lake build / check-axioms / bedc_ci audit, hard
-        resets on any failure
-      - protected files (lean4/, papers/main.tex, etc.) abort and report
-        to human_inbox via supervisor log
-      - commits + pushes on full success
-
-    Returns True iff upstream commits were actually pulled in (ff_merged
-    or auto_resolved). On any other outcome returns False — caller should
-    treat as "no sync this cycle" and retry later.
-    """
-    try:
-        proc = subprocess.run(
-            ["python3", str(DEV_SYNC_RESOLVER)],
-            cwd=str(REPO_ROOT),
-            capture_output=True,
-            text=True,
-            timeout=2400,  # 40 min: claude resolve + lake build + pdflatex
-        )
-    except subprocess.TimeoutExpired:
-        supervisor_log("git_sync_dev: resolver subprocess timed out (40 min)")
-        return False
-    except Exception as exc:
-        supervisor_log(f"git_sync_dev: resolver subprocess failed to launch: {exc}")
-        return False
-
-    raw_stdout = (proc.stdout or "").strip()
-    raw_stderr = (proc.stderr or "").strip()
-    try:
-        result = json.loads(raw_stdout)
-    except json.JSONDecodeError:
-        supervisor_log(
-            f"git_sync_dev: resolver output not JSON (rc={proc.returncode}). "
-            f"stdout={raw_stdout[:300]}  stderr={raw_stderr[:300]}"
-        )
-        return False
-
-    status = result.get("status", "error")
-    if status == "up_to_date":
-        return False
-    if status == "ff_merged":
-        n = result.get("n_dev_commits", "?")
-        supervisor_log(f"git_sync_dev: ff-merged upstream cleanly ({n} commits)")
-        return True
-    if status == "auto_resolved":
-        n = result.get("n_dev_commits", "?")
-        resolved = result.get("resolved_files") or []
-        validation = (result.get("validation") or {}).get("summary", "?")
-        supervisor_log(
-            f"git_sync_dev: auto-resolved {len(resolved)} conflict(s) "
-            f"({n} commits); validation={validation}"
-        )
-        return True
-    if status == "aborted_protected":
-        files = result.get("conflict_files") or []
-        err = result.get("error") or ""
-        supervisor_log(
-            f"git_sync_dev: ABORTED — protected files in conflict ({err}). "
-            f"This needs human attention. Files: {files}"
-        )
-        return False
-    if status == "aborted_validation":
-        validation = result.get("validation") or {}
-        fails = "; ".join((validation.get("failures") or [])[:1])[:300]
-        supervisor_log(
-            f"git_sync_dev: ABORTED — validation failed after resolution. "
-            f"Hard-reset to ORIG_HEAD. Will retry next cycle. {fails}"
-        )
-        return False
-    if status == "skipped_dirty":
-        # quiet — common case during active Stage 2 / normal pipeline life
-        return False
-    err = result.get("error") or "(no error message)"
-    supervisor_log(f"git_sync_dev: error — {err[:300]}")
+    """Disabled upstream merge hook for the paper-native BEDC supervisor."""
+    supervisor_log("git_sync_dev: disabled for paper-native BEDC supervisor")
     return False
 
 
@@ -677,9 +613,12 @@ def trigger_probe(*, no_dev_sync: bool = False) -> None:
     # visible in the supervisor logs instead of vanishing into DEVNULL.
     log_path = SUPERVISOR_LOG_DIR / f"probe_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "probe", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -699,9 +638,12 @@ def trigger_curriculum_probe(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery curriculum probe")
     log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -722,9 +664,12 @@ def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery paper_review")
     log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -744,15 +689,23 @@ def trigger_oracle_board_refill() -> None:
     run_id = _now_tag_safe()
     log_path = SUPERVISOR_LOG_DIR / f"refill_{run_id}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "python3",
+        str(SCRIPT_DIR / "oracle_board_refill.py"),
+        "--no-attach-pdf",
+        "--run-id",
+        run_id,
+    ]
+    status = server_status()
+    if status.get("dispatch_ready_poll_agents"):
+        supervisor_log(
+            "oracle_board_refill: dispatch-ready tab present; "
+            "ignoring stale refill circuit breaker for this run"
+        )
+        cmd.append("--ignore-refill-circuit-breaker")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            [
-                "python3",
-                str(SCRIPT_DIR / "oracle_board_refill.py"),
-                "--no-attach-pdf",
-                "--run-id",
-                run_id,
-            ],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -832,8 +785,11 @@ def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
+    cmd = ["python3", str(AUTO_DISCOVERY), "curator", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     subprocess.Popen(
-        ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
+        cmd,
         cwd=str(REPO_ROOT),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -913,24 +869,41 @@ def merge_current_upstream_for_push(branch: str) -> bool:
 def retry_pending_network_push() -> bool:
     """Resume a push that may have failed during a network outage.
 
-    This also works when the checkpoint file is absent: if the branch is
-    ahead of its upstream, the supervisor has a clean, deterministic action
-    to take. If the branch is behind as well, leave conflict-aware sync to
-    the normal dev-sync path rather than forcing a blind push.
+    A resume is only valid for the exact HEAD recorded by the checkpoint.
+    Without that guard, an old local merge can be pushed later after the branch
+    has deliberately been moved back to a paper-native BEDC tip.
     """
     branch = current_branch_name()
     if not branch:
         return False
+    checkpoint: dict = {}
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            loaded = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                checkpoint = loaded
+        except (OSError, json.JSONDecodeError):
+            checkpoint = {}
+    if not checkpoint:
+        return False
+    checkpoint_head = str(checkpoint.get("head") or "").strip()
+    head = current_head()
+    if checkpoint_head and checkpoint_head != head:
+        supervisor_log(
+            "network-resume: clearing stale checkpoint "
+            f"head={checkpoint_head[:12]} current={head[:12]}"
+        )
+        _clear_network_resume_checkpoint()
+        return False
     relation = ahead_behind_upstream()
     if relation is None:
-        if NETWORK_RESUME_FILE.exists():
-            _write_network_resume_checkpoint(
-                "upstream_unknown",
-                branch,
-                "could not resolve upstream while checking pending network resume",
-                head=current_head(),
-            )
-            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        _write_network_resume_checkpoint(
+            "upstream_unknown",
+            branch,
+            "could not resolve upstream while checking pending network resume",
+            head=head,
+        )
+        supervisor_log("network-resume: upstream unknown; will retry next tick")
         return False
     ahead, behind = relation
     if ahead == 0:
@@ -939,28 +912,19 @@ def retry_pending_network_push() -> bool:
             _clear_network_resume_checkpoint()
         return False
     if behind:
-        supervisor_log(
-            f"network-resume: branch is ahead={ahead} and behind={behind}; "
-            "merging current upstream before push"
+        reason = (
+            f"branch is ahead={ahead} and behind={behind}; "
+            "auto-merge disabled for paper-native BEDC supervisor"
         )
-        if not merge_current_upstream_for_push(branch):
-            reason = f"branch is ahead={ahead} and behind={behind}; upstream merge failed"
-            _write_network_resume_checkpoint(
-                "push_blocked_diverged",
-                branch,
-                reason,
-                head=current_head(),
-                upstream=current_upstream(),
-            )
-            supervisor_log(f"network-resume: {reason}")
-            return False
-        relation = ahead_behind_upstream()
-        if relation is None:
-            return False
-        ahead, behind = relation
-        if behind:
-            supervisor_log(f"network-resume: still behind={behind} after upstream merge")
-            return False
+        _write_network_resume_checkpoint(
+            "push_blocked_diverged",
+            branch,
+            reason,
+            head=current_head(),
+            upstream=current_upstream(),
+        )
+        supervisor_log(f"network-resume: {reason}")
+        return False
     supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
     push = _git(["push", "origin", branch], capture=False)
     if push.returncode != 0:
@@ -986,6 +950,15 @@ def commit_and_push_if_changed() -> bool:
     # working tree.
     from locks import file_lock
     with file_lock("paper_writes"):
+        pre_relation = ahead_behind_upstream()
+        if pre_relation:
+            pre_ahead, pre_behind = pre_relation
+            if pre_ahead or pre_behind:
+                supervisor_log(
+                    "auto-commit: skipped because branch is not aligned with upstream "
+                    f"(ahead={pre_ahead}, behind={pre_behind})"
+                )
+                return False
         diff = _git([
             "status", "--porcelain",
             "papers/bedc/parts",
@@ -1001,8 +974,24 @@ def commit_and_push_if_changed() -> bool:
                 files.append(parts[1])
         if not files:
             return False
-        supervisor_log(f"auto-commit: {len(files)} changed files")
-        _git(["add", *files], capture=False)
+        committable_files = [
+            path for path in files
+            if path != "tools/bedc-deep/BOARD.md"
+        ]
+        if not committable_files:
+            supervisor_log(
+                "auto-commit: skipped push for local-only BOARD.md queue state"
+            )
+            return False
+        skipped = len(files) - len(committable_files)
+        if skipped:
+            supervisor_log(
+                f"auto-commit: {len(committable_files)} committable changed files "
+                f"({skipped} local-only BOARD.md state file skipped)"
+            )
+        else:
+            supervisor_log(f"auto-commit: {len(committable_files)} changed files")
+        _git(["add", *committable_files], capture=False)
         msg = f"bedc-deep supervisor: paper writeback batch {_now_iso()}"
         rc = _git(["commit", "-m", msg]).returncode
         if rc != 0:
@@ -1013,19 +1002,19 @@ def commit_and_push_if_changed() -> bool:
         if relation:
             ahead, behind = relation
             if behind:
-                supervisor_log(
-                    f"auto-commit: branch behind upstream by {behind}; "
-                    "merging before push"
+                reason = (
+                    f"branch behind upstream by {behind}; "
+                    "auto-merge disabled for paper-native BEDC supervisor"
                 )
-                if not merge_current_upstream_for_push(branch):
-                    _write_network_resume_checkpoint(
-                        "push_blocked_diverged",
-                        branch,
-                        f"branch behind upstream by {behind}; upstream merge failed",
-                        head=current_head(),
-                        upstream=current_upstream(),
-                    )
-                    return False
+                supervisor_log(f"auto-commit: {reason}")
+                _write_network_resume_checkpoint(
+                    "push_blocked_diverged",
+                    branch,
+                    reason,
+                    head=current_head(),
+                    upstream=current_upstream(),
+                )
+                return False
         push = _git(["push", "origin", branch], capture=False)
         if push.returncode != 0:
             supervisor_log(f"auto-commit: push failed rc={push.returncode}")
@@ -1055,7 +1044,9 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
     expanded action surface). The earlier observer-only v0 was retired
     after v1 stabilised; its shared helpers live in pi_common.py.
     """
+    import importlib
     import pi_agent_v1 as pi_module
+    pi_module = importlib.reload(pi_module)
 
     def _restart_inner_cb() -> str | None:
         proc: subprocess.Popen | None = supervisor_state.get("inner")
@@ -1157,18 +1148,36 @@ def main() -> int:
                              "main.pdf attached at project level, which is more robust). "
                              "Set to e.g. 'papers/bedc/main.pdf' to enable userscript-side upload.")
     parser.add_argument("--no-auto-commit", action="store_true")
-    parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
+    parser.add_argument("--dev-sync", action="store_true",
+                        help="Opt in to upstream integration sync before discovery triggers.")
+    parser.add_argument("--no-dev-sync", action="store_true",
+                        help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set.")
+    parser.add_argument("--allow-lean-adjacent-discovery", action="store_true",
+                        default=DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY,
+                        help="Opt in to legacy auto_discovery probe/curriculum/curator triggers. "
+                             "Default off so the always-on BEDC supervisor remains paper-native.")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
-    if STOP_FILE.exists():
-        supervisor_log(f"clearing stale STOP_FILE {STOP_FILE}")
-        STOP_FILE.unlink()
-
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
-    supervisor_log(f"supervisor starting (parallel={args.parallel}, claude_review={'off' if args.no_claude_review else 'on'}, auto_commit={'off' if args.no_auto_commit else 'on'})")
+    if STOP_FILE.exists():
+        supervisor_log(f"STOP_FILE present; supervisor not starting: {STOP_FILE}")
+        return 0
+    if not assert_required_branch():
+        return 2
 
-    if not args.no_dev_sync:
+    dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
+    no_dev_sync = not dev_sync_enabled
+
+    supervisor_log(
+        f"supervisor starting (parallel={args.parallel}, "
+        f"claude_review={'off' if args.no_claude_review else 'on'}, "
+        f"auto_commit={'off' if args.no_auto_commit else 'on'}, "
+        f"dev_sync={'on' if dev_sync_enabled else 'off'}, "
+        f"lean_adjacent_discovery={'on' if args.allow_lean_adjacent_discovery else 'off'})"
+    )
+
+    if dev_sync_enabled:
         try:
             git_sync_dev()
         except Exception as exc:
@@ -1197,10 +1206,13 @@ def main() -> int:
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
+        "allow_lean_adjacent_discovery": args.allow_lean_adjacent_discovery,
     }
 
     try:
         while not STOP_FILE.exists():
+            if not assert_required_branch():
+                break
             ensure_server()
 
             cleaned = stale_cleanup()
@@ -1215,8 +1227,9 @@ def main() -> int:
             if retried:
                 supervisor_log(f"reset {retried} crashed targets for retry")
 
+            unfinished = board_unfinished_count()
             inner = supervisor_state.get("inner")
-            if inner is None or inner.poll() is not None:
+            if unfinished > 0 and (inner is None or inner.poll() is not None):
                 if inner is not None and inner.poll() is not None:
                     rc = inner.poll()
                     supervisor_log(f"inner exited rc={rc}; backoff {args.inner_restart_backoff}s before respawn")
@@ -1229,23 +1242,43 @@ def main() -> int:
                     oracle_parallel=getattr(args, "oracle_parallel", 0) or 0,
                 )
                 supervisor_state["inner"] = inner
+            elif unfinished == 0 and inner is not None and inner.poll() is not None:
+                supervisor_log("inner exited and BOARD has no unfinished targets; waiting for refill")
+                supervisor_state["inner"] = None
 
-            unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
             since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
+            allow_lean_adjacent_discovery = bool(
+                supervisor_state.get("allow_lean_adjacent_discovery", False)
+            )
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
-                trigger_probe(no_dev_sync=args.no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
+                    trigger_probe(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        "BOARD low water: skipped auto_discovery probe "
+                        "because paper-native supervisor defaults forbid "
+                        "Lean-adjacent discovery; oracle_board_refill and "
+                        "paper_review remain enabled"
+                    )
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
-                trigger_curriculum_probe(no_dev_sync=args.no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
+                    trigger_curriculum_probe(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        "BOARD low water: skipped curriculum probe because "
+                        "paper-native supervisor defaults forbid Lean-adjacent "
+                        "discovery"
+                    )
                 last_curriculum_ts = _now()
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
-                trigger_paper_review(no_dev_sync=args.no_dev_sync)
+                trigger_paper_review(no_dev_sync=no_dev_sync)
                 last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
@@ -1255,8 +1288,15 @@ def main() -> int:
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
             if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
-                supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
-                trigger_curator(no_dev_sync=args.no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
+                    trigger_curator(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        f"completions delta={done_now - last_completed_count}: "
+                        "skipped curator because paper-native supervisor "
+                        "defaults forbid Lean-adjacent discovery"
+                    )
                 last_curator_ts = _now()
                 last_completed_count = done_now
 
@@ -1353,11 +1393,6 @@ def main() -> int:
         final_inner = supervisor_state.get("inner") or inner
         if final_inner is not None:
             stop_inner(final_inner)
-        if STOP_FILE.exists():
-            try:
-                STOP_FILE.unlink()
-            except OSError:
-                pass
         supervisor_log("supervisor exiting")
     return 0
 

@@ -28,6 +28,7 @@ Next use \autoref{thm:diagonal-limit-compatibility-root-window-route} and \autor
 
 The package therefore has no second classifier branch. The transported packet reads the same budget-source, mesh-budget, triangle-bound, stream-window, regular-readback, seal-route, $\Pkg$, and $\NameCert$ rows, so the root-route package is stable.
 \end{proof}
+\leanvariant{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_transport\_replay}
 
 \begin{theorem}[Diagonal-limit compatibility root-route consumer exactness]
 \label{thm:diagonal-limit-compatibility-root-route-consumer-exactness}
@@ -139,6 +140,34 @@ Use \autoref{thm:diagonal-limit-compatibility-root-route-consumer-exactness}. Ev
 Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion}. Since every classifier read is exhausted by the same finite row inventory, the selector rows are locked before the readback or seal coordinates are available to any downstream consumer.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility root-route terminal budget lock]
+\label{thm:diagonal-limit-compatibility-root-route-terminal-budget-lock}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every terminal $\RealUp$ or $\CompletionUp$ public read through $K$ first consumes the $\CauchyDiagonalBudgetUp$ source row, the $\RealDiagonalMeshBudgetUp$ mesh row, the $\RegularCauchyTriangleBoundUp$ triangle row, the $\StreamNameUp$ stream-window row, the $\RegSeqRatUp$ regular-readback row, the seal-route row, the $\RealUp$ seal row, the displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. The lock is terminal: after those rows are fixed, no further public read of $Q$, $S$, or $L$ can introduce a host limit, quotient stream, selected limit, host real equality, choice datum, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It gives the finite package over the budget source, mesh budget, triangle bound, stream window, regular readback, seal route, Real seal, transport, continuation, provenance, and local naming rows.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-route-source-exhaustion} and \autoref{thm:diagonal-limit-compatibility-root-route-seal-window-lock}. The source theorem exhausts the budget, mesh, triangle, and stream rows before any readback coordinate is exposed; the seal-window lock then routes the terminal read through the $\StreamNameUp \to \RegSeqRatUp \to \RealUp$ window.
+
+The terminal access to $Q$, $S$, and $L$ is fixed by \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock} and \autoref{thm:diagonal-limit-compatibility-root-route-consumer-exactness}. Together they make the selector order part of the exact consumer package for every $\RealUp$ or $\CompletionUp$ read.
+
+Finally combine \autoref{thm:diagonal-limit-compatibility-root-route-public-factorization}, \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion}, and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. Public readback and classifier readback are exhausted by the same finite package, and the non-escape boundary excludes host limits, quotient streams, selected limits, host equality, choice data, and ambient completeness rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root-route public readback exhaustion]
+\label{thm:diagonal-limit-compatibility-root-route-public-readback-exhaustion}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, public readback of $Q$, $S$, and $L$ is exhausted by the finite route of \autoref{thm:diagonal-limit-compatibility-root-route-terminal-budget-lock}. The public surface exports only the displayed budget, mesh, triangle, stream-window, regular-readback, seal-route, Real-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and exports no host limit, quotient stream, selected limit, host real equality, choice datum, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start from the terminal budget lock. It places $Q$, $S$, and $L$ behind the displayed budget, mesh, triangle, stream, regular, seal, Real, transport, route, provenance, and naming rows.
+
+Use \autoref{thm:diagonal-limit-compatibility-root-route-public-factorization}. Any public $\RealUp$ or $\CompletionUp$ route factors through the same finite root-route package before the readback is exported.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion}. Since every classifier read is exhausted by the package, the public readback has no second classifier coordinate that could detach $Q$, $S$, or $L$ from the locked route.
+
+The excluded exports are ruled out by \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. A host limit, quotient stream, selected limit, host real equality, choice datum, or ambient completeness row is not part of the displayed package, so none is available from the public readback.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root-route completion readback]
 \label{thm:diagonal-limit-compatibility-root-route-completion-readback}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every $\CompletionUp$ or $\RealUp$ readback of the root route factors through the same displayed $D,W,Q,S,L,H,C,P,N$ surface: the diagonal budget source, stream window, regular readback, seal route, Real seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Such a readback cannot read a host limit, quotient stream, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate.
@@ -161,4 +190,34 @@ Begin with \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock}. 
 Then apply \autoref{thm:diagonal-limit-compatibility-root-route-completion-readback}. The seal-facing readback travels through the displayed $D,W,Q,S,L,H,C,P,N$ surface and cannot leave it for a host limit, quotient stream, or ambient completeness coordinate.
 
 It remains to identify the public export. Use \autoref{thm:diagonal-limit-compatibility-root-route-public-factorization} together with \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion}. The public route and the classifier boundary are both exhausted by the same finite package, so the Real seal row $L$ is exported only after selector-lock and completion-readback factorization.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility terminal budget factorization]
+\label{thm:diagonal-limit-compatibility-terminal-budget-factorization}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every terminal $\RealUp$ or $\CompletionUp$ read of $K$ factors through the ordered finite package consisting of the $\CauchyDiagonalBudgetUp$ source row, $\RealDiagonalMeshBudgetUp$ mesh row, $\RegularCauchyTriangleBoundUp$ triangle row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, seal route row, $\RealUp$ seal row, $\BHist$ carrier row, componentwise $\hsame$ row, displayed $\Cont$ route row, $\Pkg$ provenance row, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. The terminal read exports no quotient stream, host limit, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It identifies the accepted root route as the finite package over the budget source, mesh budget, triangle bound, stream window, regular readback, seal route, Real seal, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-route-source-exhaustion}. The source side is already exhausted by the budget, mesh, triangle, and stream rows. Then use \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock}; the regular readback, seal route, and Real seal coordinates are available only after that ordered selector surface has been fixed.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-route-completion-readback}. It sends every completion-facing or Real-facing read through the displayed readback surface. The seal-facing part is then exactly the factorization of \autoref{thm:diagonal-limit-compatibility-root-route-seal-factorization}, so the terminal Real seal export remains a public factor of the same finite package.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion} and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. The classifier has no row outside the package, and the non-escape theorem excludes quotient streams, host limits, host real equality, choice data, hidden tail oracles, and ambient completeness coordinates. Hence every terminal $\RealUp$ or $\CompletionUp$ read factors through precisely the displayed ordered package.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility terminal route completeness]
+\label{thm:diagonal-limit-compatibility-terminal-route-completeness}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. A terminal $\RealUp$ or $\CompletionUp$ read of $K$ is complete exactly when it factors through the ordered finite route consisting of the $\CauchyDiagonalBudgetUp$ source row, the $\RealDiagonalMeshBudgetUp$ mesh row, the $\RegularCauchyTriangleBoundUp$ triangle row, the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, the seal-route row, the $\RealUp$ seal row, and the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. The complete terminal route exports no quotient stream, host-selected limit, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the root-route package of \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It supplies the displayed budget, mesh, triangle, stream-window, readback, seal, Real-seal, transport, continuation, provenance, and local naming rows as one finite carrier.
+
+For the forward direction, apply \autoref{thm:diagonal-limit-compatibility-root-route-terminal-budget-lock} and \autoref{thm:diagonal-limit-compatibility-root-route-completion-readback}. These lock every terminal $\RealUp$ or $\CompletionUp$ read to the source, window, regular-readback, seal-route, and Real-seal order, and they identify completion readback with the same displayed $D,W,Q,S,L,H,C,P,N$ surface.
+
+Then use \autoref{thm:diagonal-limit-compatibility-terminal-budget-factorization}. It gives the exact ordered factorization through the $\CauchyDiagonalBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyTriangleBoundUp$, $\StreamNameUp$, $\RegSeqRatUp$, seal-route, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Thus any complete terminal read is precisely a read through that finite route.
+
+For the reverse direction, a read that factors through the displayed ordered route has already consumed every row made available by the accepted packet. The package theorem and the completion readback theorem show that no additional terminal $\RealUp$ or $\CompletionUp$ coordinate remains outside the listed route.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. It excludes quotient streams, host-selected limits, host real equality, choice data, hidden tail oracles, and ambient completeness coordinates from the exported surface, so completeness of the terminal read is exactly completeness of the displayed finite factorization.
 \end{proof}

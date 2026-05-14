@@ -24,10 +24,12 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 PAPER_PARTS = REPO_ROOT / "papers" / "bedc" / "parts"
+CANDIDATE_INBOX = SCRIPT_DIR / "state" / "candidate_inbox.jsonl"
 
 CONJECTURE_RE = re.compile(r"\\begin\{(conjecture|question)\}")
 THEOREM_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary)\}")
@@ -60,6 +62,41 @@ NON_TARGET_PREFIXES = (
     "\\begin{remark}",
     "\\begin{example}",
 )
+NAMECERT_SURFACE_LINE_CAP = 660
+NAMECERT_SURFACE_TERMS_RE = re.compile(
+    r"(?:route|ledger|consumer|downstream|readback|handoff|boundary|selected|row)"
+    r"[a-z0-9_\- ]{0,80}"
+    r"(?:determinacy|exactness|non[- ]?escape|exhaustion|coverage|handoff)|"
+    r"(?:determinacy|exactness|non[- ]?escape|exhaustion|coverage|handoff)"
+    r"[a-z0-9_\- ]{0,80}"
+    r"(?:route|ledger|consumer|downstream|readback|handoff|boundary|selected|row)",
+    re.IGNORECASE,
+)
+NAMECERT_ROUTE_SURFACE_RE = re.compile(
+    r"\b(?:consumer|downstream|route|readback|handoff|boundary)\b",
+    re.IGNORECASE,
+)
+NAMECERT_MATURE_SURFACE_RE = re.compile(
+    r"\\closureat\{[^}]+\}\{(?:publicStr|bridgedStr|matureStr)\}|"
+    r"\\theoryclosure\{\\(?:public|bridged|mature)Closure\}",
+    re.IGNORECASE,
+)
+NAMECERT_COVERAGE_PROSE_RE = re.compile(
+    r"\b(?:standard bridge surface|standard reading|non[- ]escape|"
+    r"consumer-visible|readback boundary|factors through|cross-map routing|"
+    r"frontier non-closure|mode exhaustion|noncollapse|public standard bridge)\b",
+    re.IGNORECASE,
+)
+NAMECERT_META_SURFACE_RE = re.compile(
+    r"\b(?:audit|axiom|dependency|template|reexport|namespace|cellular pattern catalog)\b",
+    re.IGNORECASE,
+)
+RATE_LIKE_RE = re.compile(
+    r"\b(cauchy|completion|complete|compact|continuity|continuous|limit|"
+    r"convergence|converge|modulus|rate|tail|dyadic|regularization)\b",
+    re.IGNORECASE,
+)
+ALREADY_IN_PAPER_RE = re.compile(r"^already_in_paper:([^;\s]+)")
 
 
 @dataclass(frozen=True)
@@ -223,6 +260,263 @@ def _rationale_snippet(snippet: str) -> str:
     return "\n".join(kept).strip()
 
 
+def _object_title_from_carrier(rec: dict[str, Any], file_rel: str) -> str:
+    title = str(rec.get("title") or "").strip()
+    label = str(rec.get("label") or "").strip()
+    source = title or label
+    source = re.sub(r"\\[A-Za-z]+(?:\{[^}]*\})?", "", source)
+    source = re.sub(r"\b(?:concrete|finite|local|accepted)\b", "", source, flags=re.I)
+    source = re.sub(r"\bcarrier\b", "", source, flags=re.I)
+    source = source.replace("_", " ").replace("-", " ")
+    source = re.sub(r"\s+", " ", source).strip(" :")
+    if source:
+        return source[:55]
+    name = Path(file_rel).name
+    name = re.sub(r"^\d+_", "", name)
+    name = re.sub(r"_namecert_construction\.tex$", "", name)
+    name = name.replace("_", " ")
+    return name[:55] or "NameCert packet"
+
+
+def _budget_for_namecert_surface(obj: str, labels_text: str) -> tuple[str, str, str]:
+    haystack = " ".join([obj, labels_text])
+    if RATE_LIKE_RE.search(haystack):
+        return (
+            "B2_rate_or_modulus",
+            (
+                "Finite readback over an already displayed NameCert carrier "
+                "and obligation surface, with any Cauchy/completion/rate "
+                "content restricted to the displayed modulus, schedule, "
+                "window, or threshold rows."
+            ),
+            (
+                "Displayed finite modulus/schedule/window/threshold rows are "
+                "the complete rate surface; no ambient compactness or hidden "
+                "choice argument is used."
+            ),
+        )
+    return (
+        "B0_finite_witness",
+        (
+            "Finite readback over an already displayed NameCert carrier and "
+            "obligation surface; no host equality, compactness, or "
+            "choice-like principle is required."
+        ),
+        (
+            "Finite displayed packet rows provide the complete schedule; no "
+            "limit, completion, compactness, or Cauchy surface is used."
+        ),
+    )
+
+
+def _covered_namecert_surface(text: str, theorem_surface: str) -> bool:
+    """Skip mature or already-covered NameCert route/readback chapters."""
+    if NAMECERT_MATURE_SURFACE_RE.search(text):
+        return True
+    if NAMECERT_COVERAGE_PROSE_RE.search(text):
+        return True
+    if NAMECERT_SURFACE_TERMS_RE.search(theorem_surface):
+        return True
+    if NAMECERT_ROUTE_SURFACE_RE.search(theorem_surface):
+        return True
+    return False
+
+
+def _namecert_surface_candidates() -> list[dict]:
+    """Surface small existing-chapter NameCert route candidates.
+
+    This is deliberately weaker than a theorem writer: it only finds files that
+    already expose both a carrier and a NameCert obligation surface, then asks
+    the ordinary board_spawn judge and logic_packet_gate whether a small
+    readback-determinacy lemma is worth landing there.
+    """
+    try:
+        import paper_index
+    except Exception:
+        return []
+
+    try:
+        index = paper_index.load_or_build()
+    except Exception:
+        return []
+
+    candidates: list[dict] = []
+    for item in index.get("files") or []:
+        rel = str(item.get("file") or "")
+        if not rel.startswith("papers/bedc/parts/concrete_instances/"):
+            continue
+        if not rel.endswith("_namecert_construction.tex"):
+            continue
+        line_count = int(item.get("line_count") or 0)
+        if line_count >= NAMECERT_SURFACE_LINE_CAP:
+            continue
+        text = _read(REPO_ROOT / rel)
+        if not text:
+            continue
+        if NAMECERT_META_SURFACE_RE.search(text):
+            continue
+        labels = item.get("theorem_like_labels") or item.get("labels") or []
+        carrier = next(
+            (
+                rec for rec in labels
+                if str(rec.get("env") or "") == "definition"
+                and "carrier" in " ".join([
+                    str(rec.get("title") or ""),
+                    str(rec.get("label") or ""),
+                ]).lower()
+            ),
+            None,
+        )
+        obligation = next(
+            (
+                rec for rec in labels
+                if str(rec.get("env") or "") in {"theorem", "lemma", "proposition"}
+                and "namecert" in " ".join([
+                    str(rec.get("title") or ""),
+                    str(rec.get("label") or ""),
+                ]).lower()
+                and re.search(
+                    r"\bobligation|surface\b",
+                    " ".join([
+                        str(rec.get("title") or ""),
+                        str(rec.get("label") or ""),
+                    ]),
+                    re.IGNORECASE,
+                )
+            ),
+            None,
+        )
+        if not carrier or not obligation:
+            continue
+        theorem_surface = "\n".join(
+            " ".join([str(rec.get("title") or ""), str(rec.get("label") or "")])
+            for rec in labels
+            if str(rec.get("env") or "") in {"theorem", "lemma", "proposition"}
+        )
+        if _covered_namecert_surface(text, theorem_surface):
+            continue
+
+        obj = _object_title_from_carrier(carrier, rel)
+        labels_text = theorem_surface + " " + " ".join([
+            str(carrier.get("title") or ""),
+            str(carrier.get("label") or ""),
+            str(obligation.get("title") or ""),
+            str(obligation.get("label") or ""),
+        ])
+        budget, budget_reason, rate_surface = _budget_for_namecert_surface(obj, labels_text)
+        title = f"{obj} local obligation row projection"[:TITLE_MAX_CHARS]
+        carrier_label = str(carrier.get("label") or "")
+        obligation_label = str(obligation.get("label") or "")
+        claim = (
+            f"For an accepted {obj} carrier, the local NameCert obligation "
+            f"surface {obligation_label} has a finite row projection obtained "
+            f"directly from {carrier_label}. The projection records only the "
+            "displayed carrier row and its local certificate row, with no "
+            "additional host, global, or unlisted source row."
+        )
+        dependency = (
+            f"Depends only on {carrier_label}, {obligation_label}, and the "
+            "displayed BHist/hsame/Cont/Pkg/NameCert rows already present in "
+            f"{rel}."
+        )
+        resource = (
+            "Uses one finite carrier projection plus the listed local "
+            "obligation rows; no oracle output, copied history, choice "
+            "principle, or external theorem object is consumed."
+        )
+        candidates.append({
+            "title": title,
+            "claim": claim,
+            "concrete_claim": claim,
+            "local_inputs": [rel],
+            "fit_score": 7,
+            "novelty": 6,
+            "landing_kind": "existing_chapter_lemma",
+            "tastegate_mode": "existing_chapter",
+            "axiom_budget": budget,
+            "strength_level": budget,
+            "budget_reason": budget_reason,
+            "existence_mode": "constructive_witness",
+            "witness_extractor": (
+                f"Project {carrier_label} and select the named row of "
+                f"{obligation_label}; the witness is that displayed finite "
+                "carrier/certificate pair."
+            ),
+            "cut_rank": "1",
+            "elimination_plan": (
+                "Eliminate the one-step bridge by carrier projection and the "
+                "named local certificate row; reject any use of a "
+                "host/global/unlisted coordinate."
+            ),
+            "equality_kind": "bisimilar",
+            "interpretation_kind": "none",
+            "resource_trace": resource,
+            "dependency_trace": dependency,
+            "rate_modulus_surface": rate_surface,
+            "oracle_mode": "candidate_generation",
+            "rationale": (
+                "Deterministic NameCert surface scan found an existing carrier "
+                f"and obligation surface in {rel}: {carrier_label} with "
+                f"{obligation_label}. The proposed landing is a small "
+                "existing-chapter projection lemma over those displayed rows "
+                "only."
+            ),
+            "source": "paper_gap_scanner",
+        })
+    return candidates
+
+
+def _paper_label_set() -> set[str]:
+    try:
+        import paper_index
+
+        index = paper_index.load_or_build()
+    except Exception:
+        return set()
+    labels: set[str] = set()
+    for rec in index.get("labels") or []:
+        label = str(rec.get("label") or "").strip()
+        if label:
+            labels.add(label)
+    return labels
+
+
+def _known_paper_covered_titles(existing_labels: set[str]) -> set[str]:
+    """Return candidate titles already rejected against a live paper label.
+
+    `board_spawn` remains the authoritative intake gate. This only prevents the
+    deterministic fallback scanner from re-offering the same title after the
+    gate has already recorded a paper-coverage rejection and the cited label
+    still exists in the current paper index.
+    """
+    if not existing_labels or not CANDIDATE_INBOX.exists():
+        return set()
+    covered: set[str] = set()
+    try:
+        lines = CANDIDATE_INBOX.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return set()
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rec.get("event") != "rejected":
+            continue
+        if rec.get("source") != "paper_review":
+            continue
+        reason = str(rec.get("reason") or "")
+        match = ALREADY_IN_PAPER_RE.match(reason)
+        if not match:
+            continue
+        if match.group(1) not in existing_labels:
+            continue
+        title = str(rec.get("title") or "").strip().lower()
+        if title:
+            covered.add(title)
+    return covered
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
@@ -310,23 +604,86 @@ def generate_candidates(
     min_novelty: int = 6,
     limit: int = 0,
 ) -> list[dict]:
+    return generate_candidate_report(
+        min_fit=min_fit,
+        min_novelty=min_novelty,
+        limit=limit,
+    )["candidates"]
+
+
+def generate_candidate_report(
+    *,
+    min_fit: int = 7,
+    min_novelty: int = 6,
+    limit: int = 0,
+) -> dict[str, Any]:
     hits = scan_all()
     existing_titles = _existing_board_titles()
-    candidates = []
+    paper_covered_titles = _known_paper_covered_titles(_paper_label_set())
+    stats: dict[str, Any] = {
+        "gap_hits": len(hits),
+        "gap_hits_by_kind": {},
+        "raw_namecert_candidates": 0,
+        "skip_existing_board_or_archive_title": 0,
+        "skip_known_paper_covered_title": 0,
+        "skip_nonsubstantive_gap": 0,
+        "skip_below_threshold": 0,
+        "skip_duplicate_title_in_batch": 0,
+        "prelimit_candidates": 0,
+        "limit": limit,
+        "emitted_candidates": 0,
+    }
+    for hit in hits:
+        by_kind = stats["gap_hits_by_kind"]
+        by_kind[hit.kind] = by_kind.get(hit.kind, 0) + 1
+
+    candidates: list[dict] = []
     for hit in hits:
         candidate = hit_to_candidate(hit)
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in existing_titles:
+            stats["skip_existing_board_or_archive_title"] += 1
+            continue
+        if title_key in paper_covered_titles:
+            stats["skip_known_paper_covered_title"] += 1
             continue
         if _is_substantive_gap(hit, candidate):
             candidates.append(candidate)
-    candidates = [
-        c for c in candidates
-        if c["fit_score"] >= min_fit and c["novelty"] >= min_novelty
-    ]
+        else:
+            stats["skip_nonsubstantive_gap"] += 1
+    namecert_candidates = _namecert_surface_candidates()
+    stats["raw_namecert_candidates"] = len(namecert_candidates)
+    for candidate in namecert_candidates:
+        title_key = str(candidate.get("title") or "").strip().lower()
+        if title_key in existing_titles:
+            stats["skip_existing_board_or_archive_title"] += 1
+            continue
+        if title_key in paper_covered_titles:
+            stats["skip_known_paper_covered_title"] += 1
+            continue
+        candidates.append(candidate)
+    thresholded: list[dict] = []
+    for candidate in candidates:
+        if candidate["fit_score"] >= min_fit and candidate["novelty"] >= min_novelty:
+            thresholded.append(candidate)
+        else:
+            stats["skip_below_threshold"] += 1
+    candidates = thresholded
+    seen_titles: set[str] = set()
+    deduped: list[dict] = []
+    for candidate in candidates:
+        title_key = str(candidate.get("title") or "").strip().lower()
+        if title_key in seen_titles:
+            stats["skip_duplicate_title_in_batch"] += 1
+            continue
+        seen_titles.add(title_key)
+        deduped.append(candidate)
+    candidates = deduped
+    stats["prelimit_candidates"] = len(candidates)
     if limit > 0:
         candidates = candidates[:limit]
-    return candidates
+    stats["emitted_candidates"] = len(candidates)
+    return {"candidates": candidates, "scanner_stats": stats}
 
 
 def _existing_board_titles() -> set[str]:
@@ -346,14 +703,15 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="Emit candidates as JSON")
     args = parser.parse_args()
 
-    candidates = generate_candidates(
+    report = generate_candidate_report(
         min_fit=args.min_fit,
         min_novelty=args.min_novelty,
         limit=args.limit,
     )
+    candidates = report["candidates"]
 
     if args.json:
-        print(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2))
+        print(json.dumps(report, ensure_ascii=False, indent=2))
 
     if args.append:
         if not candidates:

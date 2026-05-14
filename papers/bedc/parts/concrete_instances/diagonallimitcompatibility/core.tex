@@ -87,6 +87,26 @@ limit, host real equality row, choice datum, or ambient completeness principle
 is present, no classifier transport or seal consumer can export one.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility terminal Real route]
+\label{thm:diagonal-limit-compatibility-terminal-real-route}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every terminal $\RealUp$ seal read factors through the displayed route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Here $R$ is read from $\RealCompletenessUp$, $T$ from $\RegularCauchyTriangleBoundUp$, $S$ from $\CauchyLimitSealUp$, $D$ from $\DyadicRatCoreUp$, $W$ from $\StreamNameUp$, $Q$ from $\RegSeqRatUp$, and $L$ from $\RealUp$. The terminal read has no quotient stream, host limit, choice datum, or ambient completeness principle available outside this route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:diagonal-limit-compatibility-carrier}. Its displayed rows name the diagonal-limit packet, triangle estimate, seal route, tolerance ledger, window family, rational readback, terminal Real seal, transport rows, continuation rows, provenance, and local naming row.
+
+Apply the NameCert obligation theorem \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. The triangle-bound clause routes $T$ through $R,W,D$, and the seal-route clause reads $Q$ and $L$ only after $R,T,D,W$ have been fixed.
+
+Finally use the non-escape clause of the same obligation theorem. Since no quotient stream, host limit, choice datum, or ambient completeness principle is a coordinate of $K$, a terminal $\RealUp$ seal read cannot leave the displayed chain.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit triangle selector alignment]
 \label{thm:diagonal-limit-compatibility-triangle-selector-alignment}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
@@ -524,6 +544,26 @@ Use \autoref{thm:diagonallimitcompatibility-triangle-seal-interface} together wi
 Finally apply \autoref{thm:diagonal-limit-compatibility-classifier-transport} and \autoref{thm:diagonal-limit-compatibility-non-escape}. Transport preserves the displayed classifier, and non-escape excludes every host-limit, quotient-stream, choice, host-equality, or ambient-completeness coordinate not carried by $K$.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility window-budget triad lock]
+\label{thm:diagonal-limit-compatibility-window-budget-triad-lock}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+must read the same triad $(D,W,Q)$ before the terminal seal row $L$ is available. Here $W$ is the $\StreamNameUp$ finite-window surface, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, and $Q$ is the $\RegSeqRatUp$ readback row. The three rows form one shared route through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface; no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness principle can supply a second triad.
+\end{theorem}
+\begin{proof}
+Project the accepted packet from \autoref{def:diagonal-limit-compatibility-carrier}. The rows $D,W,Q$ occur as named coordinates of the same finite packet as the terminal seal row $L$.
+
+Apply \autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment}. It binds the selector side to the displayed $\StreamNameUp$ windows $W$ and $\DyadicRatCoreUp$ tolerance ledger $D$, so the window and tolerance coordinates are fixed before any seal-facing read.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. The seal route reaches the $\RegSeqRatUp$ readback $Q$ and terminal row $L$ only through the same $R,T,D,W$ route, so $Q$ is not a separate host readback channel.
+
+Use \autoref{thm:diagonal-limit-compatibility-classifier-transport} to carry this route through the displayed $H$ and $C$ rows. The transported consumer therefore sees the same $(D,W,Q)$ triad that the carrier exposes.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate, no downstream $\RealUp$ or $\CauchyLimitSealUp$ consumer can replace the displayed triad before reading $L$.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit shared modulus terminal seal]
 \label{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
@@ -543,4 +583,24 @@ Start with the accepted diagonal packet. By \autoref{thm:diagonal-limit-compatib
 Next attach the compatible modulus-extraction packet. The public export of \autoref{thm:cauchy-modulus-extraction-public-export} exposes exactly $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$, and the consumer bridge of \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge} forces Real-completion reads of $\mathsf{Mu}$ through those displayed rows.
 
 Finally align the seal envelope. The finite-window budget equivalence of \autoref{thm:cauchy-limit-seal-finite-window-budget-equivalence} identifies the terminal seal read with the same finite budget-window route, and the verification handoff of \autoref{thm:cauchy-limit-seal-verification-handoff} repacks that route as the reusable $\CauchyLimitSealUp$ surface. Thus the Real-facing terminal read is the same finite budget-window-modulus route already displayed by the diagonal packet and the extraction packet, with no extra completion coordinate.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit window synchronizer pullback]
+\label{thm:diagonal-limit-window-synchronizer-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+Z=(W_Z,Q_Z,S_Z,L_Z,D_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\RealWindowSynchronizerUp$ packet whose $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\CauchyLimitSealUp$ row, $\RealUp$ seal row, and shared threshold-budget rows agree componentwise with $W,Q,S,L,D$ through the displayed $\hsame$ and $\Cont$ routes. Then every terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer of $K$ pulls back through the synchronizer finite window-to-seal packet $Z$.
+
+The pullback uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two accepted packets. It does not introduce quotient streams, selected host limits, host real equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First lock the diagonal side. Apply \autoref{thm:diagonal-limit-compatibility-window-budget-triad-lock} to force every terminal read of $K$ through the common $(D,W,Q)$ triad before $L$ is available. Then apply \autoref{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal} to make the terminal $\RealUp$ and $\CauchyLimitSealUp$ reads use the same finite budget-window-modulus route.
+
+Next read the synchronizer side. The budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback} places the synchronizer threshold and window rows over the same finite budget surface. The limit-seal compatibility of \autoref{thm:real-window-synchronizer-limit-seal-compatibility} carries the $\CauchyLimitSealUp$ row through that surface, and the Real-seal exposure of \autoref{thm:real-window-synchronizer-real-seal-exposure} exposes the terminal $\RealUp$ seal only after the same window-to-seal route.
+
+It remains to identify the two finite routes. The hypotheses give componentwise $\hsame$ and $\Cont$ transport from the diagonal rows $W,Q,S,L,D$ to the synchronizer rows $W_Z,Q_Z,S_Z,L_Z,D_Z$. Transport through the displayed $\BHist$, $\Pkg$, and $\NameCert$ rows repacks the consumer as a read of $Z$ without changing the terminal object.
+
+Finally use \autoref{thm:real-window-synchronizer-nonescape}. Since the synchronizer packet exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate, the pulled-back consumer has no route outside the finite window-to-seal packet.
 \end{proof}

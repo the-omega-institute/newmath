@@ -28,9 +28,14 @@ SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
 DISCOVERY_LOG_DIR = STATE_DIR / "discovery_logs"
+BOARD_SPAWN_LATEST = STATE_DIR / "board_spawn_latest.json"
+RESEARCH_CANDIDATES_LATEST = STATE_DIR / "research_candidates_latest.md"
+RESEARCH_BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
+PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
+PI_DRY_BOARD_SUPPRESSION_COMMIT = "cc71b590f8"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -72,6 +77,11 @@ def _git(args: list[str]) -> str:
         ).stdout
     except Exception:
         return ""
+
+
+def _git_commit_ts(commit: str) -> datetime | None:
+    out = _git(["show", "-s", "--format=%cI", commit]).strip()
+    return _parse_iso(out)
 
 
 def _section(title: str) -> str:
@@ -452,6 +462,70 @@ def _classify_board_judge_error(error: str) -> str:
     return ""
 
 
+def _board_judge_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for shared BOARD judge outages."""
+    if "board_judge_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: shared BOARD judge/fallback is unavailable; "
+            "do not bypass board_spawn, and do not refresh BEDC oracle tabs for this."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_cli_missing" in error_kind:
+        lines.append(
+            f"{prefix}action: install or expose the Claude CLI used by board_spawn."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
+def _planner_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for PI planner/fallback outages."""
+    if "planner_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: PI planner/fallback is unavailable; "
+            "this is a CLI-side planning issue, not a BEDC oracle tab-refresh signal."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for PI planning and shared judge paths."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for PI planning."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -706,6 +780,11 @@ def render_board_refill() -> str:
             for name, count in sorted(buckets.items(), key=lambda item: (-item[1], item[0]))
         )
         lines.append(f"  recent refill status buckets: {bucket_text}")
+        if any(name.startswith("judge_unavailable") for name in buckets):
+            lines.append(
+                "  note: recent refill judge outages are Claude/Codex CLI-side; "
+                "they are not BEDC oracle tab-refresh signals."
+            )
 
     lines.append(_next_refill_prompt_note())
 
@@ -744,6 +823,28 @@ def render_board_refill() -> str:
             "  note: BOARD is dry and deterministic local gap fallback found 0 candidates; "
             "treat this as supply exhaustion, not a logic-gate or tab-refresh failure."
         )
+        scanner_stats = latest_local_gap.get("scanner_stats") or {}
+        if isinstance(scanner_stats, dict) and scanner_stats:
+            lines.append(
+                "  scanner: "
+                f"gap_hits={scanner_stats.get('gap_hits', 0)} "
+                f"namecert_raw={scanner_stats.get('raw_namecert_candidates', 0)} "
+                f"prelimit={scanner_stats.get('prelimit_candidates', 0)} "
+                f"emitted={scanner_stats.get('emitted_candidates', 0)}/"
+                f"{scanner_stats.get('limit', 0)} "
+                f"paper_covered_skips={scanner_stats.get('skip_known_paper_covered_title', 0)} "
+                f"board/archive_skips={scanner_stats.get('skip_existing_board_or_archive_title', 0)} "
+                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)} "
+                f"threshold_skips={scanner_stats.get('skip_below_threshold', 0)} "
+                f"batch_dupes={scanner_stats.get('skip_duplicate_title_in_batch', 0)}"
+            )
+            by_kind = scanner_stats.get("gap_hits_by_kind") or {}
+            if isinstance(by_kind, dict) and by_kind:
+                kind_text = ", ".join(
+                    f"{key}={value}"
+                    for key, value in sorted(by_kind.items(), key=lambda item: str(item[0]))
+                )
+                lines.append(f"  scanner gap kinds: {kind_text}")
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
@@ -763,6 +864,35 @@ def render_board_refill() -> str:
             lines.append(
                 "  note: Codex fallback also failed during sandbox app-server initialization."
             )
+    return "\n".join(lines)
+
+
+def render_board_spawn() -> str:
+    if not BOARD_SPAWN_LATEST.exists():
+        return "  (no shared board_spawn status recorded)"
+    try:
+        data = json.loads(BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return "  (unreadable shared board_spawn status)"
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines = [
+        (
+            f"  latest: {age} ago ok={data.get('ok')} "
+            f"input=codex:{data.get('codex_input')} oracle:{data.get('oracle_input')} "
+            f"alive=codex:{data.get('codex_alive')} oracle:{data.get('oracle_alive')}"
+        ),
+        (
+            f"  outcome: accepted={data.get('accepted_count')} "
+            f"rejected={data.get('rejected_count')} cheap_drops={data.get('cheap_drop_count')} "
+            f"appended={len(appended)}"
+        ),
+    ]
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  error_kind: {error_kind}")
+    lines.extend(_board_judge_action_lines(error_kind))
     return "\n".join(lines)
 
 
@@ -846,8 +976,69 @@ def _discovery_status(data: dict) -> str:
     return suffix
 
 
+def _latest_supervisor_discovery_run() -> tuple[float, Path, str] | None:
+    if not SUPERVISOR_LOG_DIR.exists():
+        return None
+    paths: list[Path] = []
+    for pattern in ("probe_*.log", "curriculum_*.log", "paper_review_*.log", "curator_*.log"):
+        paths.extend(SUPERVISOR_LOG_DIR.glob(pattern))
+    latest: tuple[float, Path, str] | None = None
+    for path in paths:
+        try:
+            mtime = path.stat().st_mtime
+            lines = [
+                line.strip()
+                for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                if line.strip()
+            ]
+        except OSError:
+            continue
+        detail = lines[-1] if lines else "(no log output yet)"
+        item = (mtime, path, detail)
+        if latest is None or item[0] > latest[0]:
+            latest = item
+    return latest
+
+
+def _discovery_run_timeout_seconds(path: Path) -> int:
+    if path.name.startswith("curator_"):
+        return 2400
+    return 1800
+
+
+def _completed_discovery_artifact(detail: str) -> Path | None:
+    match = re.search(r"\bfull record:\s+(.+?\.json)\s*$", detail)
+    if not match:
+        return None
+    path = Path(match.group(1))
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    if path.exists():
+        return path
+    return None
+
+
+def _format_pending_discovery_run(mtime: float, path: Path, detail: str) -> str:
+    now = datetime.now(timezone.utc)
+    age_seconds = (now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds()
+    age = _fmt_age(age_seconds)
+    timeout = _discovery_run_timeout_seconds(path)
+    label = "pending/in-flight" if age_seconds <= timeout else "pending/overdue"
+    return (
+        f"  {label}: supervisor {path.stem} log updated {age} ago; "
+        f"timeout={_fmt_age(timeout)}; last line: {detail[:120]}"
+    )
+
+
 def render_discovery_lane() -> str:
+    supervisor_run = _latest_supervisor_discovery_run()
     if not DISCOVERY_LOG_DIR.exists():
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            return (
+                "  (no discovery artifacts)\n"
+                + _format_pending_discovery_run(mtime, path, detail)
+            )
         return "  (no discovery artifacts)"
     records: list[tuple[float, Path, dict]] = []
     for path in DISCOVERY_LOG_DIR.glob("*.json"):
@@ -861,13 +1052,23 @@ def render_discovery_lane() -> str:
         data["_mode"] = path.name.split("_", 1)[0]
         records.append((mtime, path, data))
     if not records:
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            return (
+                "  (no parseable discovery artifacts)\n"
+                + _format_pending_discovery_run(mtime, path, detail)
+            )
         return "  (no parseable discovery artifacts)"
     records.sort(key=lambda item: item[0], reverse=True)
     now = datetime.now(timezone.utc)
     lines: list[str] = []
+    recent_judge_outage = False
     for mtime, path, data in records[:6]:
         age = _fmt_age((now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds())
-        lines.append(f"  {path.stem}: {age} ago   {_discovery_status(data)}")
+        status = _discovery_status(data)
+        lines.append(f"  {path.stem}: {age} ago   {status}")
+        if "discovery_judge_unavailable" in status:
+            recent_judge_outage = True
     latest = records[0][2]
     latest_status = _discovery_status(latest)
     if "discovery_judge_unavailable" in latest_status:
@@ -875,6 +1076,224 @@ def render_discovery_lane() -> str:
             "  alert: discovery lane cannot currently run its maker/checker path; "
             "refreshing BEDC oracle tabs will not fix Claude/Codex CLI auth or sandbox failures."
         )
+    elif recent_judge_outage:
+        lines.append(
+            "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
+            "it is not a BEDC oracle tab-refresh signal."
+        )
+    if supervisor_run:
+        run_mtime, run_path, detail = supervisor_run
+        latest_artifact_mtime = records[0][0]
+        if run_mtime > latest_artifact_mtime and not _completed_discovery_artifact(detail):
+            lines.append(_format_pending_discovery_run(run_mtime, run_path, detail))
+    return "\n".join(lines)
+
+
+def _read_research_latest_counts() -> dict[str, int]:
+    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_recommended": 0}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return counts
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return counts
+    for line in lines:
+        match = re.match(r"-\s+([a-z_]+):\s+(\d+)\s*$", line.strip())
+        if not match:
+            continue
+        key, value = match.groups()
+        if key in counts:
+            counts[key] = int(value)
+    return counts
+
+
+def _read_research_latest_profiles() -> dict[str, str]:
+    profiles: dict[str, str] = {}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return profiles
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return profiles
+    for line in lines:
+        match = re.match(r"-\s+(ready_(?:budget|difficulty|oracle_mode)):\s+(.+?)\s*$", line.strip())
+        if match:
+            profiles[match.group(1)] = match.group(2)
+    return profiles
+
+
+def _read_research_ready_titles(limit: int = 5) -> list[str]:
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return []
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return []
+    titles: list[str] = []
+    in_ready = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "## Ready":
+            in_ready = True
+            continue
+        if in_ready and stripped.startswith("## "):
+            break
+        if not in_ready or not stripped.startswith("- "):
+            continue
+        title = stripped[2:].strip()
+        if " [" in title:
+            title = title.rsplit(" [", 1)[0].strip()
+        if title:
+            titles.append(title)
+        if len(titles) >= limit:
+            break
+    return titles
+
+
+def render_research_candidate_lane() -> str:
+    counts = _read_research_latest_counts()
+    profiles = _read_research_latest_profiles()
+    lines = [
+        (
+            f"  latest packets={counts['packets']} ready={counts['ready']} "
+            f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
+        )
+    ]
+    if counts["ready"] and profiles:
+        if profiles.get("ready_budget"):
+            lines.append(f"  ready budget: {profiles['ready_budget']}")
+        if profiles.get("ready_difficulty"):
+            lines.append(f"  ready difficulty: {profiles['ready_difficulty']}")
+        if profiles.get("ready_oracle_mode"):
+            lines.append(f"  ready oracle modes: {profiles['ready_oracle_mode']}")
+    if not RESEARCH_BOARD_SPAWN_LATEST.exists():
+        lines.append("  append status: no research board_spawn attempt recorded")
+        return "\n".join(lines)
+    try:
+        data = json.loads(RESEARCH_BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        lines.append("  append status: unreadable research board_spawn status")
+        return "\n".join(lines)
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines.append(
+        (
+            f"  last append: {age} ago ok={data.get('ok')} ready={data.get('ready_count')} "
+            f"accepted={data.get('accepted')} rejected={data.get('rejected')} "
+            f"appended={len(appended)}"
+        )
+    )
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  last append error_kind: {error_kind}")
+    lines.extend(_board_judge_action_lines(error_kind))
+    if counts["ready"] and "board_judge_unavailable" in error_kind:
+        titles = _read_research_ready_titles(limit=5)
+        if titles:
+            lines.append("  held ready behind shared judge outage:")
+            for title in titles:
+                lines.append(f"    - {title}")
+    return "\n".join(lines)
+
+
+def _latest_jsonl_record(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            if path == PI_RECENT_CYCLES and rec.get("review_source") == "test":
+                continue
+            return rec
+    return None
+
+
+def _parse_pi_ts(value: object) -> datetime | None:
+    """PI cycle records historically used local naive timestamps."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z") or re.search(r"[+-]\d\d:\d\d$", text):
+        return _parse_iso(text)
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    local_tz = datetime.now().astimezone().tzinfo
+    return ts.replace(tzinfo=local_tz).astimezone(timezone.utc)
+
+
+def render_pi_agent() -> str:
+    rec = _latest_jsonl_record(PI_RECENT_CYCLES)
+    if not rec:
+        return "  (no PI agent cycles recorded)"
+    ts = _parse_pi_ts(rec.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    summary = rec.get("snapshot_summary") if isinstance(rec.get("snapshot_summary"), dict) else {}
+    rates = summary.get("completion_rates") if isinstance(summary.get("completion_rates"), dict) else {}
+    track = summary.get("codex_track_summary") if isinstance(summary.get("codex_track_summary"), dict) else {}
+    lines = [
+        (
+            f"  latest: {age} ago ok={rec.get('ok')} health={rec.get('plan_health')} "
+            f"source={rec.get('review_source')}"
+        ),
+        (
+            f"  actions: planned={rec.get('plan_action_count')} applied={rec.get('applied_count')} "
+            f"inbox={rec.get('inbox_count')} deepen_emitted={rec.get('deepen_emitted')}"
+        ),
+    ]
+    if not rec.get("ok"):
+        error_kind = str(rec.get("error_kind") or "").strip()
+        if error_kind:
+            lines.append(f"  error_kind: {error_kind}")
+            lines.extend(_planner_action_lines(error_kind))
+        else:
+            lines.append("  error_kind: planner_failed_without_classified_reason")
+    if rates:
+        rate_text = ", ".join(f"{k}={v}" for k, v in rates.items())
+        lines.append(f"  completion rates: {rate_text}")
+    if track:
+        parts = []
+        for key in ("v2_total", "codex_close", "oracle_path", "codex_close_rate"):
+            if key in track:
+                parts.append(f"{key}={track.get(key)}")
+        if parts:
+            lines.append("  codex track: " + ", ".join(parts))
+    concerns = [str(c) for c in (rec.get("escalated_concerns") or []) if str(c).strip()]
+    if concerns:
+        lines.append("  escalated concerns: " + " | ".join(c[:90] for c in concerns[:3]))
+    gauntlet = rec.get("gauntlet_results") if isinstance(rec.get("gauntlet_results"), list) else []
+    failed = [g for g in gauntlet if isinstance(g, dict) and not g.get("pass_all")]
+    if failed:
+        for item in failed[:3]:
+            action = item.get("action") if isinstance(item.get("action"), dict) else {}
+            name = str(action.get("action") or "?")
+            summary_text = str(item.get("summary") or "").replace("\n", " ")
+            lines.append(f"  blocked: {name} — {summary_text[:140]}")
+    if rec.get("deepen_emitted"):
+        suppress_ts = _git_commit_ts(PI_DRY_BOARD_SUPPRESSION_COMMIT)
+        if ts and suppress_ts and ts < suppress_ts:
+            lines.append(
+                "  note: latest deepen emission predates dry-board suppression "
+                f"({PI_DRY_BOARD_SUPPRESSION_COMMIT}); watch the next PI cycle."
+            )
     return "\n".join(lines)
 
 
@@ -1076,6 +1495,7 @@ def render_logic_audit_warnings() -> str:
     audited = 0
     warned = 0
     stale_warning_artifacts = 0
+    failed_stale_warning_artifacts = 0
     failed_audited = 0
     failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
@@ -1103,6 +1523,11 @@ def render_logic_audit_warnings() -> str:
             if warnings:
                 warned += 1
         else:
+            current_warnings = _current_logic_audit_warnings(target)
+            if current_warnings is not None:
+                if warnings and current_warnings != warnings:
+                    failed_stale_warning_artifacts += 1
+                warnings = current_warnings
             failed_audited += 1
             if warnings:
                 failed_warned += 1
@@ -1127,6 +1552,11 @@ def render_logic_audit_warnings() -> str:
         lines.append(
             f"  failed/blocked audited={failed_audited} warned={failed_warned} "
             "(not paper body)"
+        )
+    if failed_stale_warning_artifacts:
+        lines.append(
+            "  failed/blocked stale warning artifacts ignored="
+            f"{failed_stale_warning_artifacts}"
         )
     for code, n in sorted(failed_counts.items(), key=lambda kv: -kv[1])[:5]:
         lines.append(
@@ -1191,8 +1621,14 @@ def main() -> int:
     print(render_candidate_inbox())
     print(_section("Board Refill"))
     print(render_board_refill())
+    print(_section("Board Spawn"))
+    print(render_board_spawn())
     print(_section("Discovery Lane"))
     print(render_discovery_lane())
+    print(_section("Research Candidate Lane"))
+    print(render_research_candidate_lane())
+    print(_section("PI Agent"))
+    print(render_pi_agent())
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))

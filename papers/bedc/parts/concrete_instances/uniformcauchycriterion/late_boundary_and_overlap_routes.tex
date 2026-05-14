@@ -130,6 +130,34 @@ Use \autoref{thm:uniform-cauchy-criterion-family-tail-intersection} for nonempty
 Finally apply \autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. The remaining rows $E,H,C,P,N$ package the seal, transport, continuation, provenance, and local name, but they add no quotient stream, selected limit, host real equality, or completeness principle.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion tail-overlap budget exhaustion]
+\label{thm:uniform-cauchy-criterion-tail-overlap-budget-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every overlap of two finite subfamily tail requests in $U$ factors through the same finite rows $I,W,M,Q,T,E,H,C,P,N$. The overlap has no second tail budget, quotient stream family, selected family limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First combine the paired-family union ledger with the shared-window threshold meet. By \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger}, two finite family requests are joined only inside the displayed index ledger $I$. By \autoref{thm:uniform-cauchy-criterion-shared-window-threshold-meet}, their common window and threshold route is the same $W,M$ route, not a pair of separately chosen schedules.
+
+Next pass from the joined family request to the tail read. Use \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}: the common tail is an intersection of the displayed family ledger with $W,M,Q,T$. Thus the dyadic tolerance row and tail ledger row are inherited from $U$ rather than rebuilt for the overlap.
+
+Finally send the overlap to the consumers. Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion} to exhaust the RegSeqRat side by $I,W,M,Q,T,E,H,C,P,N$, and apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the Real seal side downstream of the same package. The non-escape boundary then rules out a second budget, quotient stream family, selected limit, host real equality, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion shared-tail subfamily pullback]
+\label{thm:uniform-cauchy-criterion-shared-tail-subfamily-pullback}
+For every accepted $\UniformCauchyCriterionUp$ packet $U=(I,W,M,Q,T,E,H,C,P,N)$, any downstream $\RegSeqRatUp$ or $\RealUp$ consumer of a displayed subfamily pullback reads the same shared tail route through the finite index ledger. Such a consumer cannot introduce an indexwise modulus family or detach the pullback from the rows $I,W,M,Q,T,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $U$. The only finite family ledger is $I$, the only shared window and threshold route is $W,M$, and the only tail and seal rows available to a consumer are $Q,T,E$ with their displayed transport, continuation, provenance, and naming rows.
+
+For a one-component pullback, use singleton restriction exactness. The singleton request is a read of the existing family ledger and therefore follows the same $W,M,Q,T$ route. For two displayed components, use \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger}; finite pairs are joined inside the displayed ledger before any tail read is exposed.
+
+It remains to handle downstream consumers. Apply \autoref{thm:uniform-cauchy-criterion-tail-overlap-budget-exhaustion}. The pullback is already exhausted by the common finite route, so a $\RegSeqRatUp$ or $\RealUp$ consumer receives only the shared tail package and has no coordinate for an indexwise modulus family.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-index ledger transport]
 \label{thm:uniform-cauchy-criterion-finite-index-ledger-transport}
 Let
@@ -184,6 +212,50 @@ For the shared threshold dependency, apply \autoref{thm:uniform-cauchy-criterion
 Now pass to the $\RealUp$ seal boundary. Use \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}: the completion-facing handoff is exposed only as the seal row $E$ over the already displayed family and tail ledger.
 
 Finally apply \autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. The rows $H,C,P,N$ package transport, continuation, provenance, and the local name, while the packet still exports no quotient stream, selected limit, host real equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion budgeted Real seal factorization]
+\label{thm:uniform-cauchy-criterion-budgeted-real-seal-factorization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every $\RealUp$-facing seal read of $U$ that consumes a uniform family tail factors through the displayed finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+together with the sibling budget surfaces of $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the dyadic tail/tolerance ledger. The factorization exposes only the finite index ledger, shared stream-name window, single threshold row, dyadic tolerance row, shared tail ledger, and Real seal handoff. It exports no quotient stream family, selected family limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First exhaust the family-tail cases before any seal read is considered. Apply \autoref{thm:uniform-cauchy-criterion-empty-family-tail-ledger} for the empty-family boundary and \autoref{thm:uniform-cauchy-criterion-single-member-restriction-exactness} for singleton reads. Apply \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger} for paired-family reads and \autoref{thm:uniform-cauchy-criterion-family-tail-intersection} for nonempty subfamilies.
+
+These four cases land in the shared tail ledger by \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage}. Hence every uniform family tail reaches $T$ only through the displayed $I,W,M,Q$ route and carries no separate stream family, pointwise modulus family, or detached comparison row.
+
+Next route the budget consumers. By \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, the $\RegSeqRatUp$ read is exhausted by $I,W,M,Q,T,E,H,C,P,N$. By \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}, the $\RealUp$ seal read is downstream of the same finite package rather than a separate completion object.
+
+The cited route is exactly the sibling chain through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the dyadic tail/tolerance ledger: $W$ supplies the stream-name family surface, $M,Q,T$ supply the RegSeqRat and dyadic budget rows, and $E$ is the Real seal handoff. Since the route has no coordinate outside those rows, quotient stream families, selected family limits, host real equality, and ambient completeness are refused at the seal boundary.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion terminal late-route exhaustion]
+\label{thm:uniform-cauchy-criterion-terminal-late-route-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every terminal $\RegSeqRatUp$, $\RealUp$, or completion-facing late-boundary consumer of $U$ is exhausted by the shared finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E \longmapsto H,C,P,N.
+$$
+The exhaustion is obtained by splitting only along the displayed late cases: empty family, singleton restriction, paired-family ledger, and nonempty subfamily tail. After those cases are read, the $\RegSeqRatUp$ consumer is handled by \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, and the $\RealUp$ or completion-facing seal consumer is handled by \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The terminal route exports no indexwise modulus family, quotient stream family, selected family limit, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the four late family cases. The empty-family boundary is \autoref{thm:uniform-cauchy-criterion-empty-family-tail-ledger}; the singleton restriction is \autoref{thm:uniform-cauchy-criterion-single-member-restriction-exactness}. Both enter the same displayed $I,W,M,Q,T$ route.
+
+The remaining family cases are paired-family and nonempty-subfamily reads. Apply \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger} for the paired ledger and \autoref{thm:uniform-cauchy-criterion-family-tail-intersection} for the nonempty subfamily tail. These two cases still use the same finite family and tail rows, so no separate modulus family or quotient stream family is introduced.
+
+Now pass from family-tail exhaustion to terminal consumers. Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion} to the $\RegSeqRatUp$-facing route; it reads exactly $I,W,M,Q,T,E,H,C,P,N$.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The $\RealUp$ and completion-facing seal reads factor through the same package, with $E$ as the displayed seal handoff and $H,C,P,N$ as transport, continuation, provenance, and local naming. Since every late case has already been placed on that route, the accepted packet has no coordinate for a selected family limit, host real equality, or ambient completeness principle.
 \end{proof}
 
 \begin{theorem}[UniformCauchyCriterion late-overlap exhaustion]
@@ -376,4 +448,24 @@ Start with \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorizatio
 Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. These identify the only path from the window family to the tail ledger as $W,M,Q,T$.
 
 Finally use \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}. The RegSeqRat-facing side also has no route outside the same finite package, so a second seal handoff would require a second visible row not present in $U$. Hence every seal read is the displayed route through $E$.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion late-boundary formal target packet]
+\label{thm:uniform-cauchy-criterion-late-boundary-formal-target-packet}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ late-boundary packet. Suppose the empty-family tail ledger, paired-family union ledger, family-tail intersection, overlap-refinement determinacy, and seal-route uniqueness rows of $U$ are displayed. Then these rows assemble one finite consumer surface over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\TailBudgetCoherenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Equivalently, every late-boundary consumer reads the same displayed package $I,W,M,Q,T,E,H,C,P,N$ before it reaches a family-tail, overlap, or Real-seal conclusion. The packet exports no second family ledger, detached tail budget, alternate overlap route, selected limit, quotient stream family, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the family endpoints. Apply \autoref{thm:uniform-cauchy-criterion-empty-family-tail-ledger} for the empty-family boundary and \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger} for paired family reads. Both rows remain inside the displayed index, window, modulus, dyadic tail, and tail-budget ledger $I,W,M,Q,T$.
+
+Next read the common tail surface. Apply \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}. Nonempty subfamilies meet the same displayed tail ledger, so the empty, paired, and intersected reads share one finite family-tail package.
+
+Now attach the boundary route. Use \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} to make overlapping refinements read the same $T$ row and seal route, and use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness} to identify the Real-facing handoff as the displayed route through $E$.
+
+The remaining rows $H,C,P,N$ are exactly the transport, continuation, package, and local naming coordinates of the same packet. Since the preceding rows already exhaust the family-tail, overlap, and seal boundaries, there is no carrier coordinate from which an additional consumer surface can be exported.
 \end{proof}

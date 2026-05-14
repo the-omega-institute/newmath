@@ -6,6 +6,7 @@ R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
 $$
 the consumer-visible source rows $M_0,M_1$, the shared meet row $U$, and the extraction row $V$ must be exposed before any selected-window row is read. Thus no root read can reach $T,W,Q,E,H,C,P,N$ as a selected-window route until the displayed source-meet-extraction front $M_0,M_1,U,V$ has been presented.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_source\_window\_lock}
 \begin{proof}
 Read the carrier in \autoref{def:cauchy-modulus-refinement-carrier}. Its accepted packet presents the two source schedules, the shared meet, and the extraction witness as the finite front of the root route.
 
@@ -18,6 +19,7 @@ Finally apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. Every
 \label{thm:cauchy-modulus-refinement-selector-stability-lock}
 For every accepted $\CauchyModulusRefinementUp$ root read, the selector route $V \to T \to W \to Q$ is preserved by the displayed $\hsame$ and $\Cont$ rows. The selected-window and tolerance-readback ledgers cannot be replaced by a hidden selector, a second window ledger, or a detached continuation route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_selector\_stability\_lock}
 \begin{proof}
 Start with \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. It identifies $T$ as the selector-budget row consumed by the selected-window ledger $W$ and the tolerance-readback ledger $Q$.
 

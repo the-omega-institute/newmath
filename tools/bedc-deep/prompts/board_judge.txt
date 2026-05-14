@@ -30,8 +30,9 @@ For each candidate, run the following audit:
    If too vague, drop.
 
 2. **BEDC scope**. Must belong in an existing BEDC chapter:
-   core / proof_obligations / concrete_instances / hardening /
-   formalization / proof_sprint / proof_standing.
+   core / proof_obligations / concrete_hardening / concrete_instances /
+   ground_compiler / hardening / formalization / proof_sprint /
+   proof_standing / project_governance / self_compilation.
    No general number theory, no comparison to other formalizations,
    no philosophy of mathematics.
 
@@ -133,9 +134,25 @@ For each candidate, run the following audit:
       `elimination_plan`.
     - Equality/equivalence/isomorphism/mirror claims require `equality_kind`.
     - Limit/completion/compactness/continuity/Cauchy claims require a
-      `rate_modulus_surface`.
+    `rate_modulus_surface`.
     - External/cross-system movement requires `interpretation_kind`.
     Reject or downgrade if these cannot be stated without inventing content.
+
+15. **Prompt-architecture discipline learned from loning-side gates**.
+    Treat the upstream list as a candidate pool, not a queue. Prefer the
+    hardest feasible, highest-evidence candidates over easy local variants.
+    If candidates provide `quality_score`, `difficulty`, or `selection_rank`,
+    use them as source evidence but still judge independently. Reject any
+    candidate whose visible quality is below this bar: verifiability > 0,
+    downstream_use > 0, line_cap_safety > 0, and total score at least 9 when
+    the score fields are present.
+
+16. **Evidence/landing separation**. `papers/bedc/parts/visions/` and
+    `papers/bedc/parts/conjectures/` are inspiration/review surfaces only.
+    They may appear in rationale, dependency_trace, or resource_trace, but
+    never as executable `local_inputs` for an accepted BOARD entry. If those
+    are the only local inputs, reject with
+    `inspiration_only_not_board_landing`.
 
 Acceptance thresholds:
 - fit_score ≥ 7
@@ -175,6 +192,9 @@ Return one JSON object on stdout:
       "dependency_trace": "<actual BEDC dependencies used; no ambient context padding>",
       "rate_modulus_surface": "<rate/modulus/finite-cover/tail-bound surface for analysis claims, else empty>",
       "oracle_mode": "<candidate_generation | proof_search | witness_synthesis | failure_diagnosis | rewrite_to_packet | continuation_refill | forbid>",
+      "difficulty": "<low | medium | high>",
+      "quality_score": "<copy source quality_score if present, or summarize as absent>",
+      "selection_rank": "<copy source selection_rank if present, or empty>",
       "fit_score": <integer 0-10>,
       "novelty": <integer 0-10>,
       "source": "codex" | "oracle" | "paper_review" | "both",
