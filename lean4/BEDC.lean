@@ -378,6 +378,7 @@ import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
 import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
+import BEDC.Derived.DiagonalLimitObserverUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.LimitSelectorUp
@@ -963,6 +964,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealBudgetNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowRefinement
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
