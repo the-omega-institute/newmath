@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\TypingJudgmentClassifierUp$}
+\label{ch:concrete-instances-typing-judgment-classifier-namecert}
+\origin{ai}
+
+The $\TypingJudgmentClassifierUp$ packet realizes the type-checking-as-classifier-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite judgment classifier. It consumes the membership surface of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, the derivation trace of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and the route join of \autoref{ch:concrete-instances-typeclassifierroutejoin-namecert}, then exposes one accepted typing-judgment row through $\Ext$ membership, derivation-route replay, $\SigRel$ readback, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ data.
+
+\falsifiablePrediction{A packet with a typing derivation route but no displayed Ext-membership row is not an accepted TypingJudgmentClassifierUp carrier.}
+
+\independenceWitness{typeclassifiermembership, classifiertyping, subjectreduction, typecheckingderivationtrace, and classifiermorphism: none is bijective because the typing-judgment classifier carries the displayed Ext-membership row, derivation route, SigRel readback, Cont replay, hsame transport, Pkg provenance, and local NameCert surface together, while each sibling isolates only one membership, typing, preservation, trace, or morphism face.}
+
+\begin{definition}[TypingJudgmentClassifier carrier]
+\label{def:typing-judgment-classifier-carrier}
+A $\TypingJudgmentClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+T=(J,M,D,S,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J$ is the typing-judgment row whose membership in the accepted classifier is being read;
+\item $M$ is the displayed $\Ext$ membership row certifying that $J$ is accepted by the local type-checking classifier;
+\item $D$ is the finite derivation-route row that explains how the classifier reached $M$;
+\item $S$ is the $\SigRel$ readback row naming the accepted typing judgment as the public reading of the membership row along $D$;
+\item $C$ records the displayed $\Cont$ replay routes for reading the judgment row, membership row, derivation route, readback row, provenance row, and local naming row through the same finite packet;
+\item $H$ stores componentwise $\hsame$ transports for $J,M,D,S,C,P,N$;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-type-checking-as-classifier-membership}, \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, \autoref{ch:concrete-instances-classifiertyping-namecert}, \autoref{ch:concrete-instances-subjectreduction-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, \autoref{ch:concrete-instances-classifiermorphism-namecert}, $\BHist$, $\Ext$, $\SigRel$, $\Cont$, $\hsame$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TypingJudgmentClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host type semantics, hidden conversion, quotient syntax equality, unrecorded derivation search, closed subject reduction, or an ambient classifier morphism.
+\end{definition}
+
+\begin{theorem}[TypingJudgmentClassifier NameCert obligations]
+\label{thm:typing-judgment-classifier-namecert-obligations}
+For the carrier of \autoref{def:typing-judgment-classifier-carrier}, the local $\NameCert_{\TypingJudgmentClassifierUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission exposes precisely $T=(J,M,D,S,C,H,P,N)$;
+\item membership exactness reads the accepted typing-judgment decision only from the displayed $\Ext$ row $M$;
+\item derivation-route replay reads the route only through $D$ and the displayed $\Cont$ rows $C$;
+\item public readback exposes the accepted judgment only through the $\SigRel$ row $S$ transported by $H$;
+\item provenance and non-escape bind every consumer read to $P,N$ and exclude host type semantics, hidden conversion, quotient syntax equality, unrecorded derivation search, closed subject reduction, and ambient classifier morphisms.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:typing-judgment-classifier-carrier}. The judgment, membership, derivation route, readback, replay, transport, provenance, and naming rows are visible coordinates.
+
+Membership exactness follows because $M$ is the only $\Ext$ membership coordinate. The derivation route $D$ and continuation row $C$ can replay how the decision is read, but they cannot replace $M$ by a hidden checker.
+
+The public classifier read is exhausted by $S,H,P,N$. These rows name, transport, package, and locally certify the same displayed membership event, so the excluded host and quotient-side objects have no coordinate from which a consumer could recover them.
+\end{proof}
+
+\begin{theorem}[TypingJudgmentClassifier derivation route]
+\label{thm:typing-judgment-classifier-derivation-route}
+Every accepted $\TypingJudgmentClassifierUp$ carrier routes the typing judgment through displayed classifier membership before any public readback is available:
+$$
+J \to M \to D \to S.
+$$
+The replay and transport rows $C,H$ preserve that order for downstream consumers, and the package and local name rows $P,N$ record the finite provenance of the same route.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The judgment row $J$ is not an accepted classifier decision by itself; the accepted decision is the displayed membership row $M$.
+
+The derivation route $D$ records how the membership row is reached, and the $\SigRel$ row $S$ records the public reading of that accepted judgment. The continuation and transport rows replay and preserve these coordinates componentwise.
+
+Since $P,N$ only package and name the same rows, every consumer route factors through the displayed chain from judgment to membership, derivation, and readback.
+\end{proof}
+
+\begin{theorem}[TypingJudgmentClassifier TasteGate readiness]
+\label{thm:typing-judgment-classifier-tastegate-readiness}
+The Lean TasteGate module for $\TypingJudgmentClassifierUp$ must provide explicit $\mathsf{Nontrivial}\ \TypingJudgmentClassifierUp$ and $\mathsf{FieldFaithful}\ \TypingJudgmentClassifierUp$ instances. Nontriviality separates the typing-judgment row $J$ from the membership row $M$, and field faithfulness preserves the displayed rows $J,M,D,S,C,H,P,N$ for every TasteGate-facing consumer.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the falsifiability boundary: a derivation route without the displayed $\Ext$ row is rejected, so the row carrying the judgment cannot collapse with the row carrying accepted membership.
+
+Field faithfulness is the row-preservation condition for the same packet. A consumer may inspect the judgment, membership, derivation route, readback, replay, transport, provenance, and local name rows, but no unlisted type-checker state or host semantic object.
+\end{proof}
+
+\closureat{TypingJudgmentClassifierUp}{seedStr}
+
+\begin{closurestatus}{\TypingJudgmentClassifierUp}
+  \constructivestory{A $\TypingJudgmentClassifierUp$ packet is generated from a typing-judgment row, a displayed Ext-membership row, a finite derivation route, SigRel readback, displayed Cont replay, componentwise hsame transports, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typing-judgment-classifier-carrier}, \autoref{thm:typing-judgment-classifier-namecert-obligations}, \autoref{thm:typing-judgment-classifier-derivation-route}, and \autoref{thm:typing-judgment-classifier-tastegate-readiness} bind the finite typing-judgment classifier surface over Ext membership, derivation routes, SigRel readback, Cont replay, hsame transport, Pkg provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host type semantics, hidden conversion, quotient syntax equality, unrecorded derivation search, closed subject reduction, or ambient classifier morphisms.}
+  \upgradepath{Obligation closure requires checked carrier admission, membership exactness, derivation-route replay, SigRel readback, non-escape, nontriviality, and field faithfulness for the same finite packet.}
+\end{closurestatus}
