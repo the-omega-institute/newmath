@@ -1,0 +1,37 @@
+\begin{theorem}[GapClosureBoundary root router exactness]
+\label{thm:gap-closure-boundary-router-exactness}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, the root router exposes exactly two accepted routes for the hard-problem sibling consumers named in \autoref{thm:gap-closure-boundary-namecert-obligations}: the displayed source route from $G$ to $S$, and the refusal-ledger route from $G$ to $R$. Every accepted consumer route is one of these two routes over $H,C,P,N$, and no hidden closure branch, hidden $\mathsf{T}$ supply, private-access row, causal-necessity row, or aspect-reduction row is exported.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:gap-closure-boundary-carrier}. The packet contains the request row $G$, source row $S$, refusal row $R$, and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:gap-closure-boundary-namecert-obligations} to read the router surface. Its source-route exactness clause accounts for the displayed route from $G$ to $S$, and its refusal-ledger routing clause accounts for the route from $G$ to $R$.
+
+Finally apply \autoref{thm:gap-closure-boundary-refusal-nonescape}. Since an off-source request is retained by $R$ and the structural rows only transport, route, package, and name the same packet, the router has no third accepted branch outside $G,S,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer route totality]
+\label{thm:gap-closure-boundary-consumer-route-totality}
+Every accepted read of a $\GapClosureBoundaryUp$ packet by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ is total over the displayed source/refusal split. A supported read factors through $G \longrightarrow S$ with $H,C,P,N$, an unsupported closure request factors through $G \longrightarrow R$ with $H,C,P,N$, and no listed consumer receives a route that bypasses both $S$ and $R$.
+\end{theorem}
+\begin{proof}
+Begin with the sibling list in \autoref{thm:gap-closure-boundary-namecert-obligations}. The listed consumers are exactly the hard-problem consumers for which the boundary packet records provenance and local naming.
+
+For supported reads, use \autoref{thm:gap-closure-boundary-source-route-totality}. It requires the displayed route from $G$ to $S$ before any listed sibling consumes the structural rows.
+
+For unsupported closure requests, use \autoref{thm:gap-closure-boundary-refusal-route-exactness}. It sends the request through $G \longrightarrow R$ with the same $H,C,P,N$ rows and excludes hidden closure, hidden $\mathsf{T}$ supply, and off-packet continuation.
+
+The two cases cover the consumer ledger by \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. Hence every accepted sibling route is total over the source/refusal split and no consumer-specific route remains.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal ledger stability]
+\label{thm:gap-closure-boundary-refusal-ledger-stability}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, replay along $C$ and transport along $H$ preserve the refusal ledger endpoint $R$ for every unsupported hard-problem consumer request. The rows $P,N$ may package and locally name that endpoint, but they cannot turn the refusal ledger into displayed source routing, internal closure, a hidden $\mathsf{T}$ supply, or a consumer-specific continuation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:gap-closure-boundary-refusal-nonescape}. An unsupported closure request has no displayed route through $S$, so the accepted continuation sends it to the refusal row $R$.
+
+Apply \autoref{thm:gap-closure-boundary-refusal-ledger-routing} and \autoref{thm:gap-closure-boundary-structural-exhaustion}. They identify $H,C,P,N$ as the transport, route, provenance, and local naming rows for the same refusal endpoint, not as generators of another source or closure coordinate.
+
+The consumer route totality theorem then fixes the downstream alternatives. Since every accepted read is either the displayed source route or the refusal-ledger route, a replayed unsupported request remains at $R$ and cannot become a hidden third route.
+\end{proof}

@@ -1,11 +1,16 @@
 import BEDC.Derived.RealTailAgreementSealUp.TasteGate
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.RealTailAgreementSealUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem RealTailAgreementSealCarrier_root_budget_selector_admission
@@ -161,5 +166,49 @@ theorem RealTailAgreementSealCarrier_root_selector_budget_compatibility
   exact
     ⟨tailBudgetUnary, agreementReadUnary, finalReadUnary, rootLimiterRoute,
       tailSelectorRoute, windowDyadicRoute, agreementFinalRoute, agreementExact, finalExact⟩
+
+theorem RealTailAgreementSealCarrier_root_selector_probe_bundle_budget_coverage
+    [AskSetup] [PackageSetup]
+    {R S W D A H C P N limiter tailBudget selectorBudget agreementRead finalRead publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R →
+      UnaryHistory limiter →
+        UnaryHistory selectorBudget →
+          UnaryHistory W →
+            UnaryHistory D →
+              UnaryHistory A →
+                UnaryHistory P →
+                Cont R limiter tailBudget →
+                  Cont tailBudget selectorBudget W →
+                    Cont W D agreementRead →
+                      Cont agreementRead A finalRead →
+                        Cont finalRead P publicRead →
+                          PkgSig bundle publicRead pkg →
+                            (∃ packet : RealTailAgreementSealUp,
+                              packet = RealTailAgreementSealUp.mk R S W D A H C P N) →
+                              UnaryHistory tailBudget ∧ UnaryHistory agreementRead ∧
+                                UnaryHistory finalRead ∧ UnaryHistory publicRead ∧
+                                  Cont R limiter tailBudget ∧ Cont tailBudget selectorBudget W ∧
+                                    Cont W D agreementRead ∧ Cont agreementRead A finalRead ∧
+                                      Cont finalRead P publicRead ∧
+                                        PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro rootUnary limiterUnary selectorUnary windowUnary dyadicUnary agreementUnary
+  intro publicEndpointUnary rootLimiterRoute tailSelectorRoute windowDyadicRoute agreementFinalRoute
+    finalPublicRoute publicPkg packet
+  obtain ⟨_packet, packetEq⟩ := packet
+  cases packetEq
+  have tailBudgetUnary : UnaryHistory tailBudget :=
+    unary_cont_closed rootUnary limiterUnary rootLimiterRoute
+  have agreementReadUnary : UnaryHistory agreementRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicRoute
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed agreementReadUnary agreementUnary agreementFinalRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed finalReadUnary publicEndpointUnary finalPublicRoute
+  exact
+    ⟨tailBudgetUnary, agreementReadUnary, finalReadUnary, publicReadUnary, rootLimiterRoute,
+      tailSelectorRoute, windowDyadicRoute, agreementFinalRoute, finalPublicRoute, publicPkg⟩
 
 end BEDC.Derived.RealTailAgreementSealUp
