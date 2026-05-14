@@ -9,3 +9,39 @@ Use the source-route and interface-totality theorems for the same lattice. They 
 
 The local seal is therefore reached by composing the DyadicRatCore ledger route, the StreamName finite-window route, and the RegSeqRat regular-rational route. This composition does not assert completeness, quotient real equality, selected representatives, or host real equality; it only records the finite sibling route feeding the local $\RealUp$ naming row.
 \end{proof}
+
+\begin{theorem}[Real window synchronizer seal dependency]
+\label{thm:real-window-synchronizer-seal-dependency}
+Every $\RealUp$ seal read in the L10 open phase that depends on synchronized StreamName windows and RegSeqRat tails must pass through the $\RealWindowSynchronizerUp$ carrier of \autoref{def:real-window-synchronizer-carrier}. The read consumes the displayed window, tail, threshold, CauchyLimitSeal row, Real seal row, transport, route, provenance, and local naming rows before the local $\RealUp$ seal is public.
+\end{theorem}
+\begin{proof}
+Start from the open-phase sibling route of \autoref{thm:real-l10-open-phase-sibling-route}. It already places each public Real seal read over the StreamName, RegSeqRat, and DyadicRatCore sibling surfaces.
+
+When the read additionally requires synchronized windows, apply the RealWindowSynchronizer carrier and obligation rows of \autoref{def:real-window-synchronizer-carrier} and \autoref{thm:real-window-synchronizer-obligation-closure-package}. These rows identify the required window-to-seal packet as $W,R,T,L,S,H,C,P,N$.
+
+Thus the seal read reaches the local Real surface only after the synchronizer has replayed the common StreamName window, RegSeqRat tail, shared threshold, CauchyLimitSeal row, and RealUp seal row through the displayed route.
+\end{proof}
+
+\begin{theorem}[Real tail-budget coherence consumer route]
+\label{thm:real-tail-budget-coherence-consumer-route}
+Every L10 open-phase $\RealUp$ or completion-facing consumer that uses shared tail budgets must also read the $\TailBudgetCoherenceUp$ packet of \autoref{ch:concrete-instances-tail-budget-coherence-namecert}. Its route includes the TailMeet threshold, observation budget, selector budget, shared StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, agreement seal, CauchyLimitSeal row, transport, continuation, provenance, and local naming rows before the consumer receives a Real seal.
+\end{theorem}
+\begin{proof}
+Use the open-phase dependency lattice to place the consumer on the finite sibling route through StreamName, RegSeqRat, DyadicRatCore, and the local Real seal.
+
+If the same consumer uses shared tail budgets, apply the TailBudgetCoherence public export boundary and bridge interface from \autoref{thm:tail-budget-coherence-public-export-boundary} and \autoref{thm:tail-budget-coherence-bridge-interface}. These theorems expose the public route $M,O,S,W,D,R,A,L,H,C,P,N$.
+
+The Real consumer therefore reads the shared tail-budget packet before receiving the Real seal. The packet contributes only the displayed tail-budget and seal rows, carried by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{proof}
+
+\begin{theorem}[Real L10 synchronizer non-escape]
+\label{thm:real-l10-synchronizer-nonescape}
+The L10 open-phase route obtained by combining \autoref{thm:real-window-synchronizer-seal-dependency} with \autoref{thm:real-tail-budget-coherence-consumer-route} exports no quotient real equality, selected host limit, host real equality, or ambient completeness principle. It exposes only the finite StreamName, RegSeqRat, DyadicRatCore, RealWindowSynchronizer, TailBudgetCoherence, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route needed for the local $\RealUp$ seal read.
+\end{theorem}
+\begin{proof}
+First use the synchronizer dependency theorem. It routes every synchronized-window Real seal read through the finite RealWindowSynchronizer packet and excludes detached window, tail, limit-seal, and Real-seal routes.
+
+Next use the tail-budget coherence consumer theorem. It routes every shared-budget consumer through the finite TailBudgetCoherence public packet rather than through an ambient completion object.
+
+Finally combine these two finite packets with the original open-phase sibling route. None of the cited surfaces carries quotient real equality, selected host limits, host real equality, or ambient completeness, so the composite L10 route cannot export those coordinates.
+\end{proof}
