@@ -160,6 +160,34 @@ $$
 Dropping any listed field breaks either carrier admission, the synchronized finite route, or the authenticated Real seal handoff. Hence the full public tuple determines the NameCert read, while no proper subtuple exposes the same seal.
 \end{proof}
 
+\begin{theorem}[Cauchy shared-tail modulus public obligation package]
+\label{thm:cauchy-shared-tail-modulus-public-obligation-package}
+For the carrier
+$$
+S=(R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N),
+$$
+carrier admission, paired request exposure, the shared threshold, the dyadic ledger, paired $\StreamNameUp$ windows, paired $\RegSeqRatUp$ readbacks, $\RealUp$ seal ordering, componentwise transport, route replay, package provenance, and local $\NameCert_{\CauchySharedTailModulusUp}$ naming form one public obligation package. A consumer cannot detach any of these rows from the package while still claiming to read the shared-tail Real-completion surface.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $S$. The carrier definition exposes exactly the two sources, two modulus rows, one threshold row, one dyadic ledger, two windows, two readbacks, one Real seal, transport, route, provenance, and local name.
+
+Use the local NameCert obligations and the tail synchronization theorem. They bind carrier admission, paired request exposure, shared-threshold exposure, window service, regular readback, and Real seal ordering to the same finite route.
+
+Now apply the paired-window obligation, threshold uniqueness obligation, and field-faithfulness obligation. These rows prevent a consumer from replacing the shared threshold, splitting the paired windows into private routes, or dropping a public field while preserving the completion-facing Real seal read.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus Real-completion obligation closure]
+\label{thm:cauchy-shared-tail-modulus-real-completion-obligation-closure}
+Every Real-completion-facing consumer route for an accepted $\CauchySharedTailModulusUp$ packet must pass through the public obligation package of \autoref{thm:cauchy-shared-tail-modulus-public-obligation-package} before reading the $\RealUp$ seal. In particular, no such route may replace the shared threshold row $\tau$ and its dyadic ledger row $D$ by private per-source thresholds.
+\end{theorem}
+\begin{proof}
+First apply the public obligation package theorem. It places carrier admission, paired request exposure, shared-threshold exposure, paired windows, paired readbacks, Real seal ordering, transport, replay, provenance, and local naming on one public surface.
+
+Then use the Real seal handoff theorem. Any completion-facing read of the Real seal factors through the displayed route containing $M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N$.
+
+Finally apply the threshold uniqueness obligation. Since the accepted carrier has only the shared threshold coordinate $\tau$ and ledger coordinate $D$, a route with private per-source thresholds is not a read of the packet.
+\end{proof}
+
 \begin{theorem}[Cauchy shared-tail modulus falsifiable prediction]
 \label{thm:cauchy-shared-tail-modulus-falsifiable-prediction}
 If a consumer accepts a $\CauchySharedTailModulusUp$ packet while reading a $\RealUp$ seal before the shared threshold row $\tau$ or while replacing $\tau$ by two independent threshold rows, then that consumer is not reading the packet of \autoref{def:cauchy-shared-tail-modulus-carrier}. The accepted packet exposes one shared dyadic threshold before any Real seal route.
