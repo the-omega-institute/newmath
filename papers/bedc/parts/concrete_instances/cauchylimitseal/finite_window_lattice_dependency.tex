@@ -126,3 +126,17 @@ Apply \autoref{thm:cauchy-window-transducer-regseq-handoff}. A Cauchy window tra
 
 Finally use \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The transducer rows can replay the finite window, tolerance, step, readback, selector handoff, transport, continuation, provenance, and naming data, but no row supplies a quotient stream, selected host limit, hidden tail witness, or ambient completeness coordinate.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal transducer route-budget exhaustion]
+\label{thm:cauchy-limit-seal-transducer-route-budget-exhaustion}
+When a $\CauchyLimitSealUp$ consumer route is served by a $\CauchyWindowTransducerUp$ packet and then read by a $\RealUp$ or $\CompletionUp$ endpoint, the complete route budget is exhausted by the displayed $\StreamNameUp$ finite-window lattice meet, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ ledger, the $\RealCauchyCompletionUp$ diagonal row, the $\RealUp$ seal row, and the transducer finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows already cited by \autoref{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}. No quotient stream, selected host limit, hidden transducer schedule, hidden tail witness, host real equality, or ambient completeness coordinate remains available to the endpoint.
+\end{theorem}
+\begin{proof}
+Start with the Cauchy window transducer pullback of \autoref{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}. It places the served seal route over the $\StreamNameUp$ finite-window lattice meet before the route reaches the displayed $\RegSeqRatUp$ readback and $\RealUp$ seal rows.
+
+Next apply the window budget exhaustion of \autoref{thm:cauchy-limit-seal-window-budget-exhaustion}. This accounts for the CauchyLimitSeal-side budget: the shared finite window, the regular source, the dyadic ledger, the completion diagonal, the seal row, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Now use the transducer handoff theorem \autoref{thm:cauchy-window-transducer-regseq-handoff}. It forces the transducer service through the displayed readback row before a $\RealUp$ or completion-facing endpoint can consume the seal route.
+
+Finally apply \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The transducer contributes only its finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows. Since both sides of the handoff have exhausted their displayed budgets, no quotient stream, selected host limit, hidden transducer schedule, hidden tail witness, host real equality, or ambient completeness coordinate can be exported.
+\end{proof}

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenGliderCatalogUp$}
+\label{ch:concrete-instances-rule110glidercatalog-namecert}
+\origin{human}
+
+The $\RuleOneTenGliderCatalogUp$ packet realizes the finite Rule 110 glider classifier named by the cellular automaton reading of \autoref{ex:cellular-automaton-glider-catalog}. It sits beside the finite rule and orbit surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the carrier-facing substrate packet of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, and the compile-frontier witness of \autoref{ch:concrete-instances-cookcompilefrontierwitness-namecert}. Cook 2004 supplies the Rule 110 universality route, while Martinez 2007 supplies the named finite glider catalog; this packet records only the row-window classifier data needed to inspect that catalog inside BEDC.
+
+\falsifiablePrediction{A $\RuleOneTenGliderCatalogUp$ packet without a displayed Rule 110 row window, catalog tag, phase-period-displacement row, and local match row is not an accepted glider-catalog carrier.}
+
+\independenceWitness{cellularautomaton, cellularsubstrate, cookcompilefrontierwitness, cellularpatterncatalog: none is bijective to $\RuleOneTenGliderCatalogUp$ because this packet carries the Rule 110 row window together with a Martinez-style glider tag, phase-period-displacement row, displayed local match, hsame transport, continuation route, provenance row, and local NameCert. The siblings expose cellular dynamics, substrate rows, compile-frontier coordinates, or a general pattern catalog, but not this finite Rule 110 glider classifier packet.}
+
+\begin{definition}[Rule 110 glider catalog carrier]
+\label{def:rule110-glider-catalog-carrier}
+A $\RuleOneTenGliderCatalogUp$ carrier is a finite $\BHist$ packet
+$$
+J=(R,W,G,P,D,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the Rule 110 rule row and finite row-window source being inspected.
+\item $W$ is the displayed finite row window, including the center position, neighbouring cells, and enough surrounding cells to test the named phase string.
+\item $G$ is the finite catalog-tag row, whose tag is one of ether, refused window, or a Martinez 2007 glider name such as $A$, $B$, $\bar{B}$, $C_1$, $C_2$, $E$, $\bar{E}$, $F$, $G$, or $H$.
+\item $P$ is the phase, period, and displacement row attached to the tag, recording the catalog phase string, fundamental period, and row displacement per period.
+\item $D$ is the displayed local-match row, recording that the row window $W$ matches the phase row $P$ under the catalog's neighbour discipline, or that it is refused by that finite discipline.
+\item $H$ records componentwise $\hsame$ transport for $R,W,G,P,D,K,N$.
+\item $C$ records the displayed $\Cont$ routes from the Rule 110 row to the finite window, from the window to the phase row, from the phase row to the local-match row, and from the local-match row to the catalog tag.
+\item $K$ is the $\Pkg$ provenance over $\CellularAutomatonUp$, $\CellularSubstrateUp$, $\CookCompileFrontierWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RuleOneTenGliderCatalogUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through $R,W,G,P,D,H,C,K,N$. It has no coordinate for an unbounded Rule 110 orbit, a host visual recognizer, a complete all-time glider theorem, a hidden catalog row, or a Cook universality proof.
+\end{definition}
+
+\begin{theorem}[Rule 110 glider catalog NameCert obligations]
+\label{thm:rule110-glider-catalog-namecert-obligations}
+For the carrier of \autoref{def:rule110-glider-catalog-carrier}, the local $\NameCert_{\RuleOneTenGliderCatalogUp}$ surface consists exactly of carrier admission for $J=(R,W,G,P,D,H,C,K,N)$, Rule 110 row-window exposure through $R,W$, catalog-tag exposure through $G$, phase-period-displacement exposure through $P$, displayed local-match exposure through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $K$, and local naming through $N$. Every accepted tag read factors through the finite route
+$$
+R \longmapsto W \longmapsto P \longmapsto D \longmapsto G,
+$$
+with $H,C,K,N$ attached as transport, route, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rule110-glider-catalog-carrier}. The displayed tuple lists the Rule 110 row, finite window, catalog tag, phase-period-displacement row, local match, transport, route, provenance, and local naming rows, and no other row is part of the packet.
+
+The catalog read is finite. A consumer first exposes the Rule 110 row $R$ and finite window $W$, then reads the phase-period-displacement row $P$, then checks the displayed local match $D$, and only then obtains the tag row $G$.
+
+The structural rows do not add new classifier data. The row $H$ transports the displayed entries componentwise, $C$ replays the same finite route, $K$ records provenance through the cellular and compile-frontier siblings, and $N$ names the local packet. Therefore the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rule 110 glider catalog classifier stability]
+\label{thm:rule110-glider-catalog-classifier-stability}
+If two accepted $\RuleOneTenGliderCatalogUp$ carriers agree on their Rule 110 row, finite row window, phase-period-displacement row, displayed local-match row, componentwise transport row, continuation route, provenance row, and local naming row, then their catalog-tag rows classify together under the local $\NameCert_{\RuleOneTenGliderCatalogUp}$ classifier. In particular, classifier agreement cannot be changed by renaming the tag while leaving the displayed window and local-match route fixed.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rule110-glider-catalog-namecert-obligations}. An accepted tag read reaches $G$ only through the route $R \longmapsto W \longmapsto P \longmapsto D \longmapsto G$ with $H,C,K,N$ attached.
+
+For two accepted carriers with the same $R,W,P,D,H,C,K,N$, the finite lookup inputs and the replay route are the same. The Martinez-style tag row is therefore read from the same displayed phase and local-match data inside the same local NameCert surface.
+
+A different classification would require a different row window, phase-period-displacement entry, local-match result, route, provenance, or local naming row, or else an external host recognizer. None is present in the carrier. Hence the two catalog-tag rows classify together.
+\end{proof}
+
+\begin{theorem}[Rule 110 glider catalog substrate handoff]
+\label{thm:rule110-glider-catalog-substrate-handoff}
+Every $\RuleOneTenGliderCatalogUp$ read handed to a cellular substrate consumer exposes the finite Rule 110 row window, catalog tag, phase-period-displacement row, displayed local match, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row before the substrate may cite it as glider-catalog evidence. The handoff uses the cellular rule surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, and the finite compile-frontier coordinate of \autoref{ch:concrete-instances-cookcompilefrontierwitness-namecert}; it exports no unbounded orbit classifier, host visual recognition, or additional universality witness.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{def:rule110-glider-catalog-carrier}. The packet gives the displayed rows $R,W,G,P,D,H,C,K,N$ and excludes unbounded orbit, host recognizer, hidden catalog, and Cook universality coordinates.
+
+Apply the NameCert obligations theorem. It forces every accepted catalog read through the finite route from the Rule 110 row and row window to the phase row, local-match row, and catalog tag.
+
+The sibling handoff is then only a provenance and route handoff. The cellular automaton chapter supplies the finite local rule and orbit surface, the cellular substrate chapter supplies the carrier row through which a substrate consumer reads the window, and the Cook compile-frontier witness supplies the finite coordinate for Cook-facing audit reads. Since none of those siblings adds a hidden classifier coordinate to $J$, the handoff remains exactly the displayed finite glider-catalog packet.
+\end{proof}
+
+\closureat{RuleOneTenGliderCatalogUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenGliderCatalogUp}
+  \constructivestory{A $\RuleOneTenGliderCatalogUp$ packet is generated from a Rule 110 rule row, finite row-window row, catalog-tag row, phase-period-displacement row, displayed local-match row, componentwise hsame transports, displayed continuation routes, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule110-glider-catalog-carrier}, \autoref{thm:rule110-glider-catalog-namecert-obligations}, \autoref{thm:rule110-glider-catalog-classifier-stability}, and \autoref{thm:rule110-glider-catalog-substrate-handoff} bind the finite Rule 110 row-window, catalog tag, phase-period-displacement, local-match, transport, route, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove Lean verification, global classification of all Rule 110 rows, Cook universality, host evaluator correctness, hidden visual recognition, or a public standard bridge.}
+  \upgradepath{A later checked surface can provide Nontrivial and FieldFaithful instances for the displayed Rule 110 glider-catalog rows.}
+\end{closurestatus}
