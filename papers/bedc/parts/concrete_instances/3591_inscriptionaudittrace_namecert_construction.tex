@@ -89,12 +89,24 @@ Apply \autoref{thm:inscription-audit-trace-namecert-obligations} to expose the l
 Apply \autoref{thm:inscription-audit-trace-consumer-nonescape}. Since every downstream consumer, including a $\ChapterTasteGate$ consumer, factors through $S,M,R,K,U,Q,H,C,P,N$, the visible gate surface is exactly the displayed audit trace.
 \end{proof}
 
+\begin{theorem}[Inscription audit trace budget-ledger sibling route]
+\label{thm:inscription-audit-trace-budget-ledger-sibling-route}
+Every accepted $\InscriptionAuditTraceUp$ carrier first reads the inscription-event source and route rows through \autoref{ch:concrete-instances-inscriptionevent-namecert}, then reads the GAP residue row through \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}, then reads the accepted-check budget row through \autoref{ch:concrete-instances-inscription-acceptance-budget-namecert}, and only then exposes the $\ChapterTasteGate$-visible row of \autoref{thm:inscription-audit-trace-tastegate-visible-surface}. The visible gate surface is therefore bound to the source, ledger, and budget siblings before any audit consumer may inspect it.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(S,M,R,K,U,Q,H,C,P,N)$ from \autoref{def:inscription-audit-trace-carrier}. The rows $S,M,R$ are the source, named-record, and route rows inherited from the inscription-event surface, and $U$ names the public audit consumer that eventually reaches the gate-facing read.
+
+The row $Q$ is the GAP residue coordinate, so the route must pass through the sibling ledger surface before the audit trace can describe what remains at the accepted route boundary. The row $K$ is the accepted-check budget coordinate, so the same packet must also pass through the acceptance-budget sibling before exposing a consumer right.
+
+The transport, continuation, provenance, and naming rows $H,C,P,N$ preserve this same route and do not add another inspection coordinate. Because the carrier has no hidden approval channel, private agency predicate, host trace, unchecked route, or unbudgeted consumer row, the $\ChapterTasteGate$ surface is reached only after the inscription-event, GAP-ledger, and acceptance-budget rows have been read.
+\end{proof}
+
 \closureat{InscriptionAuditTraceUp}{seedStr}
 
 \begin{closurestatus}{\InscriptionAuditTraceUp}
   \constructivestory{An $\InscriptionAuditTraceUp$ packet is generated from a source state, named record, route witness, accepted check, downstream audit consumer, GAP residue, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:inscription-audit-trace-carrier}, \autoref{thm:inscription-audit-trace-namecert-obligations}, \autoref{thm:inscription-audit-trace-route-check-residue-exhaustion}, \autoref{thm:inscription-audit-trace-consumer-nonescape}, and \autoref{thm:inscription-audit-trace-tastegate-visible-surface} bind the inscription audit trace as a finite public NameCert packet over inscription-event, GAP-ledger, acceptance-budget, and TasteGate-visible rows.}
+  \scopeclosed{\autoref{def:inscription-audit-trace-carrier}, \autoref{thm:inscription-audit-trace-namecert-obligations}, \autoref{thm:inscription-audit-trace-route-check-residue-exhaustion}, \autoref{thm:inscription-audit-trace-consumer-nonescape}, \autoref{thm:inscription-audit-trace-tastegate-visible-surface}, and \autoref{thm:inscription-audit-trace-budget-ledger-sibling-route} bind the inscription audit trace as a finite public NameCert packet over inscription-event, GAP-ledger, acceptance-budget, and TasteGate-visible rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
