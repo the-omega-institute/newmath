@@ -300,3 +300,50 @@ displayed rows, no quotient stream, host real equality, selected limit, choice
 datum, side-channel completion carrier, or ambient completeness coordinate can
 be exported by the composed route.
 \end{proof}
+
+\begin{theorem}[Root TailMeet refinement Real-seal correspondence]
+\label{thm:diagonal-limit-compatibility-root-tailmeet-refinement-real-seal-correspondence}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet entering through
+$\RegularCauchyTailMeetUp$, refined by $\CauchyModulusRefinementUp$, and read
+by $\RealTailAgreementSealUp$, the endpoint $\RealUp/\CompletionUp$ consumer
+route is equivalent to the staged public read obtained by first consuming the
+displayed diagonal route
+$$
+R,T,S,D,W,Q,L,H,C,P,N,
+$$
+then the TailMeet budget-seal rows, then the refinement rows, and then the
+agreement-seal rows. Under this correspondence the endpoint route exports no
+quotient stream, host real equality, selected limit, choice datum,
+side-channel completion carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from an endpoint $\RealUp/\CompletionUp$
+consumer of the accepted diagonal packet. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain} to place
+the consumer on the displayed $R,T,S,D,W,Q,L,H,C,P,N$ spine. Then use
+\autoref{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion} to
+force the TailMeet budget-seal entry and the refinement handoff before the
+endpoint seal can be read.
+
+The refinement part has no alternate public route. Apply
+\autoref{thm:cauchy-modulus-refinement-tailmeet-budget-route-uniqueness}; it
+identifies the TailMeet-to-refinement handoff with the same exported
+$\RealUp/\CompletionUp$ read. Finally apply
+\autoref{thm:real-tail-agreement-seal-root-selector-completion-lattice} to
+finish the endpoint through the agreement-seal lattice, so the original
+consumer has exactly the staged diagonal, TailMeet, refinement, and
+agreement-seal presentation.
+
+For the reverse direction, begin with a staged public read in that order. The
+diagonal root-budget chain supplies the $\DiagonalLimitCompatibilityUp$
+consumer spine, the route-exhaustion theorem supplies the TailMeet and
+refinement rows, and the uniqueness theorem prevents a second refinement
+handoff from being inserted. The Real-tail agreement lattice then repacks the
+last rows as the endpoint $\RealUp/\CompletionUp$ seal read.
+
+Both directions use only the exposed $\BHist/\hsame/\Cont/\Pkg/\NameCert$
+rows named by the four cited route theorems. Their exhaustion clauses remove
+the remaining possible coordinates, so the correspondence carries no quotient
+stream, host real equality, selected limit, choice datum, side-channel
+completion carrier, or ambient completeness input.
+\end{proof}
