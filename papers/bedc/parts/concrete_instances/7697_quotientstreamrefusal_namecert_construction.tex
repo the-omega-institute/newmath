@@ -126,6 +126,24 @@ Apply \autoref{thm:quotient-stream-refusal-route-exposure}. That theorem reads t
 Thus every accepted completion read follows the finite route from $\StreamNameUp$ through $\RegSeqRatUp$ and $\CauchyLimitSealUp$ to $\RealUp$, with $H,C,P,N$ recording only the visible route.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal terminal route exhaustion]
+\label{thm:quotient-stream-refusal-terminal-route-exhaustion}
+Every terminal Real-completion read accepted by a $\QuotientStreamRefusalUp$ packet is exhausted by the displayed rows
+$$
+S,R,L,E,F,H,C,P,N,
+$$
+where $S$ is the finite $\StreamNameUp$ window, $R$ is the $\RegSeqRatUp$ readback, $L$ is the $\CauchyLimitSealUp$ route, $E$ is the $\RealUp$ seal, and $F$ is the refusal ledger. The structural rows $H,C,P,N$ only transport, replay, record provenance, and name that finite route. After these rows are read, no quotient stream equality, selected limit, host real equality, hidden tail oracle, ambient completeness, or metric-completeness row remains.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:quotient-stream-refusal-namecert-surface}. It identifies the displayed carrier surface as the five route and refusal rows $S,R,L,E,F$ together with the structural rows $H,C,P,N$.
+
+Next apply \autoref{thm:quotient-stream-refusal-nonescape-route} and \autoref{thm:quotient-stream-refusal-route-exposure}. These results force every Real-completion consumer onto the visible route from $S$ through $R$ and $L$ to $E$, with every off-route completion request landing in $F$.
+
+Use \autoref{thm:quotient-stream-refusal-ledger-exactness} for the terminal refusal boundary. The ledger row records requests for quotient-stream equality, selected limits, host real equality, hidden tail data, and completeness data without exporting any requested coordinate.
+
+Finally apply \autoref{thm:quotient-stream-refusal-route-ordering}. The only completion-facing order is $S \longmapsto R \longmapsto L \longmapsto E$, and the rows $H,C,P,N$ are transport, replay, provenance, and name rows for that order. Thus the displayed nine rows exhaust the accepted terminal read, leaving no quotient, selected-limit, host-equality, hidden-tail, ambient-completeness, or metric-completeness row.
+\end{proof}
+
 \begin{theorem}[QuotientStreamRefusal off-route nonescape]
 \label{thm:quotient-stream-refusal-offroute-nonescape}
 If a $\QuotientStreamRefusalUp$ consumer asks for quotient-stream equality, a selected limit, host real equality, hidden family limit, hidden tail data, or ambient completeness, the request lands in the refusal row $F$. The packet records the refusal and exports no completion coordinate outside the ordered route $S \longmapsto R \longmapsto L \longmapsto E$.
