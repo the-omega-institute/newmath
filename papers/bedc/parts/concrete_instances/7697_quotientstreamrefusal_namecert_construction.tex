@@ -172,6 +172,24 @@ Apply \autoref{thm:quotient-stream-refusal-nonescape-route}. It sends those requ
 Finally use \autoref{thm:quotient-stream-refusal-route-ordering}. The only completion-facing route is $S,R,L,E$, so the refusal row cannot be converted into a quotient stream, selected limit, host equality, hidden data source, or ambient completeness theorem.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal tail-fiber boundary]
+\label{thm:quotient-stream-refusal-tail-fiber-boundary}
+Every $\RegularCauchyTailFiberUp$ consumer read that reaches $\QuotientStreamRefusalUp$ must pass through the displayed route
+$$
+S \longmapsto R \longmapsto L \longmapsto E.
+$$
+If the consumer asks to interpret the shared tail-fiber row as quotient-stream equality, a selected limit, host real equality, a hidden tail oracle, or ambient completeness, the request lands in the refusal row $F$. Thus the tail-fiber row may be consumed only as finite seal-route evidence and cannot discharge any refused completion coordinate.
+\end{theorem}
+\begin{proof}
+Start with the $\QuotientStreamRefusalUp$ carrier admission and route ordering. By \autoref{thm:quotient-stream-refusal-carrier-admission} and \autoref{thm:quotient-stream-refusal-route-ordering}, every accepted completion read has exactly the displayed carrier rows and reaches the $\RealUp$ seal only through $S \longmapsto R \longmapsto L \longmapsto E$.
+
+Now read the $\RegularCauchyTailFiberUp$ side. The shared seal factorization of \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} says that tail-meet and tail-agreement consumers share the finite fiber row before the $\RealUp$ seal row is available. The non-escape theorem \autoref{thm:regular-cauchy-tail-fiber-nonescape} says that this packet exports no quotient stream equality, host real equality, selected limit, choice selector, or ambient completeness theorem.
+
+Apply the off-route refusal boundary of \autoref{thm:quotient-stream-refusal-offroute-nonescape}. Any attempt to read the shared fiber as quotient-stream equality, a selected limit, host real equality, hidden tail data, or ambient completeness is therefore not a completion witness; it is routed to $F$.
+
+The only remaining use of the tail-fiber row is finite seal-route evidence feeding the displayed Real route. Hence a $\RegularCauchyTailFiberUp$ consumer can reach $\QuotientStreamRefusalUp$ through $S,R,L,E$, but it cannot turn the shared row into quotient equality or completeness data.
+\end{proof}
+
 \begin{theorem}[QuotientStreamRefusal TasteGate marker route]
 \label{thm:quotient-stream-refusal-tastegate-marker-route}
 The complete paper-side TasteGate route for $\QuotientStreamRefusalUp$ consists exactly of carrier admission, route exposure, refusal-ledger exactness, off-route non-escape, the displayed $\mathsf{Nontrivial}\ \QuotientStreamRefusalUp$ commitment, and the displayed $\mathsf{FieldFaithful}\ \QuotientStreamRefusalUp$ commitment. In carrier coordinates, the route is exhausted by
