@@ -262,4 +262,36 @@ theorem MonotoneCauchyCarrier_public_seal_window_determinacy
       intervalRealSealRead'
   exact ⟨sameSealRead, sameCommonWindow, nameRowPkg, nameRowPkg'⟩
 
+theorem MonotoneCauchyCarrier_real_seal_factorization_obligation [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      commonWindow sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      Cont schedule modulus commonWindow ->
+        Cont interval realSeal sealRead ->
+          UnaryHistory commonWindow ∧ UnaryHistory sealRead ∧
+            hsame nameRow (append interval realSeal) ∧
+              hsame nameRow (append (append modulus ledger) realSeal) ∧
+                Cont transportRow route provenance ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier scheduleModulusCommonWindow intervalRealSealRead
+  obtain ⟨_regularUnary, scheduleUnary, modulusUnary, _ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_cont_closed scheduleUnary modulusUnary scheduleModulusCommonWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed intervalUnary realSealUnary intervalRealSealRead
+  have sameNameIntervalSeal : hsame nameRow (append interval realSeal) := by
+    exact intervalRealSealNameRow
+  have sameNameLedgerSeal : hsame nameRow (append (append modulus ledger) realSeal) := by
+    cases intervalRealSealNameRow
+    cases modulusLedgerInterval
+    rfl
+  exact
+    ⟨commonWindowUnary, sealReadUnary, sameNameIntervalSeal, sameNameLedgerSeal,
+      transportRouteProvenance, nameRowPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
