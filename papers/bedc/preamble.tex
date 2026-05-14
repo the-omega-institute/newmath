@@ -764,38 +764,4 @@
 \newcommand{\FailureCert}{\mathsf{FailureCert}}
 \newcommand{\ObserverHsameClassifierUp}{\ensuremath{\mathsf{ObserverHsameClassifier}^{\uparrow}}}
 
-% --- Per-chapter closurestatus block ------------------------------------
-% Every <X>Up chapter ends with one block of the shape:
-%
-%   \begin{closurestatus}{\<X>Up}
-%     \theoryclosure{\scopedClosure}
-%     \scopeclosed{The displayed empty-history singleton certificate.}
-%     \formalstatus{\theoremCheckedV}
-%     \leantarget{BEDC.Derived.<X>Up.<theorem>}
-%     \bridgestatus{none}
-%     \notclaimed{General <X> theory: ...}
-%     \upgradepath{Public-object certificate + ...}
-%   \end{closurestatus}
-%
-% Underscores inside \leantarget MUST be \_-escaped.
-%
-% The block is parsed by lean4/scripts/bedc_ci.py audit and consumed by
-% lean4/scripts/critical_path.py to decide whether a chapter is retired
-% from the horizon work queue. Both axes are mandatory.
-\NewDocumentEnvironment{closurestatus}{m}{%
-  \par\smallskip\noindent%
-  \begingroup%
-    \footnotesize\sffamily\color{purple!55!black}%
-    \textbf{Closure status for $\NameCert_{#1}$.}\par
-    \def\constructivestory##1{\ifx\\##1\\\else\par\textbf{Constructive story:} ##1\par\fi}%
-    \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
-    \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
-    \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
-    \def\leantarget##1{\textbf{Lean target:} \texttt{\detokenize{##1}}\par}%
-    \def\bridgestatus##1{\textbf{Bridge status:} ##1\par}%
-    \def\notclaimed##1{\textbf{Not claimed:} ##1\par}%
-    \def\upgradepath##1{\textbf{Upgrade path:} ##1\par}%
-    \def\origin##1{\textbf{Origin:} ##1\par}%
-}{%
-  \par\endgroup\smallskip
-}
+\input{preamble_closurestatus_env.tex}
