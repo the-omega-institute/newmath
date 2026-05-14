@@ -94,6 +94,50 @@ Route exposure is \autoref{thm:quotient-stream-refusal-route-exposure}. Refusal-
 The TasteGate paragraph below the independence witness states the remaining commitments: the Lean file will provide nontriviality and field faithfulness for the displayed rows $S,R,L,E,F,H,C,P,N$. Thus the obligation surface is exactly the finite carrier, ordered route, refusal ledger, componentwise field visibility, and the stated TasteGate commitments.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal carrier admission]
+\label{thm:quotient-stream-refusal-carrier-admission}
+Every accepted $\QuotientStreamRefusalUp$ packet exposes exactly
+$$
+Q=(S,R,L,E,F,H,C,P,N).
+$$
+The rows are the finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\CauchyLimitSealUp$ route, $\RealUp$ seal, refusal ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\QuotientStreamRefusalUp}$ row. No accepted packet carries an additional quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The tuple $Q=(S,R,L,E,F,H,C,P,N)$ lists all route, refusal, transport, replay, provenance, and local naming rows of the packet.
+
+Use the NameCert surface theorem. It identifies the same five route and refusal obligations $S,R,L,E,F$ and attaches the structural rows $H,C,P,N$ to them.
+
+Since no further coordinate is present in the carrier or the local certificate surface, every accepted packet admits exactly the displayed tuple and none of the excluded completion objects.
+\end{proof}
+
+\begin{theorem}[QuotientStreamRefusal route ordering]
+\label{thm:quotient-stream-refusal-route-ordering}
+Any accepted completion read through a $\QuotientStreamRefusalUp$ packet consumes $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows in that order:
+$$
+S \longmapsto R \longmapsto L \longmapsto E.
+$$
+The structural rows $H,C,P,N$ transport, replay, package, and name this ordered route, but they do not expose $R$ before $S$, $L$ before $R$, or $E$ before $L$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:quotient-stream-refusal-carrier-admission}. It gives the admitted route rows $S,R,L,E$ together with the structural rows.
+
+Apply \autoref{thm:quotient-stream-refusal-route-exposure}. That theorem reads the same rows in the displayed order and prevents any structural projection from publishing a later row before the preceding one has been consumed.
+
+Thus every accepted completion read follows the finite route from $\StreamNameUp$ through $\RegSeqRatUp$ and $\CauchyLimitSealUp$ to $\RealUp$, with $H,C,P,N$ recording only the visible route.
+\end{proof}
+
+\begin{theorem}[QuotientStreamRefusal off-route nonescape]
+\label{thm:quotient-stream-refusal-offroute-nonescape}
+If a $\QuotientStreamRefusalUp$ consumer asks for quotient-stream equality, a selected limit, host real equality, hidden family limit, hidden tail data, or ambient completeness, the request lands in the refusal row $F$. The packet records the refusal and exports no completion coordinate outside the ordered route $S \longmapsto R \longmapsto L \longmapsto E$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:quotient-stream-refusal-carrier-admission} to identify the only admitted rows. The off-route requests named in the statement are not carrier coordinates.
+
+Apply \autoref{thm:quotient-stream-refusal-nonescape-route}. It sends those requests to the refusal ledger and states that no completion coordinate is exported from them.
+
+Finally use \autoref{thm:quotient-stream-refusal-route-ordering}. The only completion-facing route is $S,R,L,E$, so the refusal row cannot be converted into a quotient stream, selected limit, host equality, hidden data source, or ambient completeness theorem.
+\end{proof}
+
 \falsifiablePrediction{Any accepted Real-completion consumer that asks for quotient-stream equality is refused unless it first factors through the displayed StreamName, RegSeqRat, CauchyLimitSeal, and RealUp seal rows.}
 
 \independenceWitness{streamname, regseqrat, cauchylimitseal, realwindowsynchronizer, real: no sibling is bijective because none carries the refusal row together with all four route surfaces and the non-escape ledger.}
