@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyApartnessBudgetUp$}
+\label{ch:concrete-instances-regular-cauchy-apartness-budget-namecert}
+\origin{ai}
+
+The $\RegularCauchyApartnessBudgetUp$ packet realizes the Real and Completion direction of \autoref{ch:visions-real-completeness} as a finite nonzero-apartness budget certificate for regular Cauchy consumers. It consumes the regular source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic lower-bound readback of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the Real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the reciprocal-window budget surface of \autoref{ch:concrete-instances-cauchyinversebudget-namecert}. The packet isolates the finite lower-bound row shared by reciprocal and apartness consumers before either consumer reaches a Real-facing seal.
+
+\begin{definition}[Regular Cauchy apartness-budget carrier]
+\label{def:regular-cauchy-apartness-budget-carrier}
+A $\RegularCauchyApartnessBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,A,M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the accepted $\RegSeqRatUp$ source whose nonzero lower-bound window is being read;
+\item $A$ is the nonzero-apartness budget row, recording a finite positive lower-bound request for $X$;
+\item $M$ is the finite modulus row selecting the observation precision at which the lower-bound request is inspected;
+\item $W$ is the finite $\StreamNameUp$ window selected from $X$ by the budget and modulus rows;
+\item $D$ is the $\DyadicRatCoreUp$ lower-bound readback row obtained from that window;
+\item $R$ is the $\RegSeqRatUp$ readback row tying the dyadic lower-bound data back to the regular source;
+\item $E$ is the $\RealUp$ seal row exposed only after $A,M,W,D,R$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the source, apartness budget, modulus, window, dyadic lower bound, regular readback, Real seal, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes for source inspection, apartness-budget exposure, finite-window coverage, dyadic lower-bound soundness, regular readback, and Real-seal handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\CauchyInverseBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyApartnessBudgetUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows $X,A,M,W,D,R,E,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy apartness-budget NameCert obligations]
+\label{thm:regular-cauchy-apartness-budget-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-apartness-budget-carrier}, the local $\NameCert_{\RegularCauchyApartnessBudgetUp}$ surface consists of carrier admission, classifier stability, apartness-budget exposure, dyadic lower-bound soundness, and Real-seal non-escape for the same finite packet $B=(X,A,M,W,D,R,E,H,C,P,N)$. Carrier admission exposes exactly the listed rows. Classifier stability transports those rows componentwise through $H$ and replays the same routes through $C$. Apartness-budget exposure requires $A$ before any lower-bound or seal read. Dyadic lower-bound soundness requires $D$ to be read from the finite window $W$ selected by $M$. Real-seal non-escape requires every $\RealUp$ consumer to reach $E$ only after the regular readback $R$ has been displayed.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. The carrier rows are exactly $X,A,M,W,D,R,E,H,C,P,N$, so admission has no hidden coordinate outside the tuple.
+
+Classifier stability is componentwise. The transport row $H$ compares the same source, budget, modulus, window, lower-bound, readback, seal, provenance, and name fields, while $C$ replays the displayed route in the transported packet.
+
+The apartness and dyadic clauses follow from the order of the finite route. The budget row $A$ is read before the selected window and lower-bound row, and $D$ is a read of the finite StreamName window $W$ under the modulus row $M$.
+
+The Real-seal clause then uses the regular readback row $R$. Since $E$ is the only Real seal coordinate and it is reached only through $R,H,C,P,N$, a seal-facing consumer cannot bypass the displayed apartness-budget and dyadic lower-bound rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy apartness-budget non-escape]
+\label{thm:regular-cauchy-apartness-budget-nonescape}
+An accepted $\RegularCauchyApartnessBudgetUp$ packet exports only the rows
+$$
+X,A,M,W,D,R,E,H,C,P,N.
+$$
+It exports no host nonzero real, no trichotomy principle, no quotient stream, no selected representative, no total reciprocal operation, and no ambient completeness theorem. Any reciprocal-window, apartness, regular-Cauchy, dyadic, StreamName, or Real-facing consumer of the packet must read the displayed apartness-budget row before consuming the dyadic lower-bound row or the Real seal row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. The packet has one regular source, one nonzero-apartness budget, one modulus row, one finite window, one dyadic lower-bound readback, one regular readback, one Real seal, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-apartness-budget-namecert-obligations}. They force carrier admission, componentwise classifier stability, apartness-budget exposure, dyadic lower-bound soundness, and Real-seal non-escape to use those same fields.
+
+The excluded objects are not packet fields. A host nonzero real, trichotomy branch, quotient stream, selected representative, total reciprocal operation, or ambient completeness theorem would require an additional coordinate or an additional route, neither of which is present in the accepted carrier.
+\end{proof}
+
+\falsifiablePrediction{Any accepted reciprocal-window consumer that omits the displayed apartness-budget row is not a RegularCauchyApartnessBudgetUp carrier read.}
+
+\independenceWitness{Nearest siblings: cauchyinversebudget, apartnessreal, regseqrat, dyadicratcore, streamname. The carrier is not bijective to CauchyInverseBudgetUp because it has no reciprocal readback row; not to ApartnessRealUp because it keeps finite regular-Cauchy window budgets rather than a completed Real apartness predicate; not to RegSeqRatUp because it adds nonzero lower-bound rows; not to DyadicRatCoreUp because it includes stream-window and Real-seal routes; not to StreamNameUp because it includes dyadic lower-bound and apartness ledger rows.}
+
+The Lean TasteGate route is expected to provide \texttt{Nontrivial RegularCauchyApartnessBudgetUp} with an explicit witness pair and \texttt{FieldFaithful RegularCauchyApartnessBudgetUp} with \texttt{.mk}-derived fields and a match/injection proof.
+
+\closureat{RegularCauchyApartnessBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyApartnessBudgetUp}
+  \constructivestory{A $\RegularCauchyApartnessBudgetUp$ packet is generated from a regular-Cauchy source, a finite nonzero-apartness budget, a modulus row, a finite StreamName window, a DyadicRatCore lower-bound readback, a RegSeqRat readback, a RealUp seal, componentwise transports, displayed routes, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-apartness-budget-carrier}, \autoref{thm:regular-cauchy-apartness-budget-namecert-obligations}, \autoref{thm:regular-cauchy-apartness-budget-nonescape}, the falsifiable prediction, and the independence witness bind the seed surface for finite nonzero-apartness budgets before Real-seal or reciprocal-window consumption.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, host nonzero reals, trichotomy, quotient streams, selected representatives, total reciprocal operations, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, apartness-budget exposure, dyadic lower-bound soundness, Real-seal non-escape, provenance, and TasteGate alignment for the same finite packet.}
+\end{closurestatus}
