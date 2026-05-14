@@ -4,8 +4,10 @@
 The $\BeliefUp$ interface is an AI-proposed BEDC chapter. Its carrier
 sketch and dependency anchors come from the proposal at
 \texttt{papers/bedc/proposals/accepted/}; the seed-stub here records
-the closurestatus block. Dependencies cited by the proposal:
-$\NameCert_{\NatUp}$, $\NameCert_{\SeqUp}$, $\NameCert_{\ProbSpaceUp}$.
+the closurestatus block. Its dependency rows are the finite index spine of
+\autoref{ch:concrete-instances-nat-namecert}, the update trace surface of
+\autoref{ch:concrete-instances-seq-namecert}, and the probability certificate
+surface of \autoref{ch:concrete-instances-probspace-namecert}.
 
 \section{Carrier definition}
 \label{sec:belief-carrier}
@@ -250,6 +252,20 @@ observation, posterior, evidence, classifier-transport, posterior-trace, and
 TasteGate rows repack as exactly the public belief consumer surface, with no
 remaining coordinate for a hidden likelihood object, host update primitive,
 external observation stream, or extra probability witness.
+\end{proof}
+
+\begin{theorem}[Belief sibling dependency lattice]
+\label{thm:belief-sibling-dependency-lattice}
+Every public $\BeliefUp$ consumer reads $\NatUp$ as the finite index spine, $\SeqUp$ as the update trace, and $\ProbSpaceUp$ as the probability certificate before the TasteGate carrier boundary is opened. The packet exports no hidden likelihood object, host update primitive, or extra probability witness outside those sibling rows and the displayed public $\NameCert_{\BeliefUp}$ surface.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:belief-classifier-transport-obligation}. The transported prior, observation, update trace, and probability rows must remain visible finite rows of the same accepted packet, so the finite index spine is read through the displayed $\NatUp$ dependency before the consumer opens the carrier boundary.
+
+Next use \autoref{thm:belief-posterior-trace-transport-obligation}. The posterior endpoint is determined by the transported update trace, and that trace is the $\SeqUp$ row recorded by the packet rather than a host update primitive.
+
+Apply \autoref{thm:belief-finite-evidence-ledger-coverage}. The evidence ledger covers the prior, observation, update trace, probability row, and posterior endpoint, so the probability contribution is exactly the $\ProbSpaceUp$ certificate row already present in the finite ledger.
+
+Finally use \autoref{thm:belief-public-namecert-surface}. The public $\NameCert_{\BeliefUp}$ surface repacks these sibling rows and the TasteGate carrier boundary, leaving no coordinate for a hidden likelihood object, host update primitive, or extra probability witness.
 \end{proof}
 
 \closureat{BeliefUp}{publicStr}[BEDC.Derived.BeliefUp.taste\_gate]
