@@ -4,6 +4,8 @@
 
 The $\EmptyBoundarySelectorUp$ interface realizes the empty-boundary witness surface of \autoref{def:efm-empty-boundary}. It packages one enacted mark above a displayed source $\Hist$ row, the resulting $\Ext$ row, the local witness that this mark is the enacted branch, and the naming boundary that keeps the witness local. It is not a global branch selector and not an oracle for histories outside the packet.
 
+The local enacted-boundary witness is consumed by \autoref{ch:concrete-instances-fablebranchwitness-namecert}, \autoref{ch:concrete-instances-empty-fable-ledger-namecert}, and \autoref{ch:concrete-instances-fablemachineclock-namecert}. $\EmptyBoundarySelectorUp$ supplies the one-step branch row, $\FableBranchWitnessUp$ exposes it as a local branch witness, $\EmptyFableLedgerUp$ records it as a finite ledger entry, and $\FableMachineClockUp$ orders that ledger without promoting the row to a global chooser.
+
 \begin{definition}[EmptyBoundarySelector carrier]
 \label{def:empty-boundary-selector-carrier}
 An $\EmptyBoundarySelectorUp$ carrier is a finite $\BHist$ packet
