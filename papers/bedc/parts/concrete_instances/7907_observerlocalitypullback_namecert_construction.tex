@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ObserverLocalityPullbackUp$}
+\label{ch:concrete-instances-observer-locality-pullback-namecert}
+\origin{ai}
+
+The $\ObserverLocalityPullbackUp$ packet realizes the common observer-locality pullback surface in the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the observer-locality cell surface of \autoref{ch:concrete-instances-observer-locality-cell-namecert}, the causal witness surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}, and the transport packet of \autoref{ch:concrete-instances-observer-locality-transport-namecert}. Its role is to name the finite packet in which all four rows are simultaneously visible before a rate-facing consumer reads the causal-rate surface of \autoref{ch:concrete-instances-crosshistcausalrate-namecert}.
+
+\begin{definition}[Observer-locality pullback carrier]
+\label{def:observer-locality-pullback-carrier}
+An $\ObserverLocalityPullbackUp$ carrier is a finite $\BHist$ packet
+$$
+U=(O,D,M,T,J,H,Q,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\ObserverLocalityCellUp$ row supplying the two-observer locality cell;
+\item $D$ is the displayed finite family of $\CrossHistCausalUp$ rows over the same observer-locality cell;
+\item $M$ is the $\MaxCausalRateUp$ row read only over the causal family $D$;
+\item $T$ is the $\ObserverLocalityTransportUp$ row transporting $O$ through $D$ before $M$ is consumed;
+\item $J$ is the pullback compatibility row asserting that $O,D,M,T$ are one finite packet rather than four detached sibling reads;
+\item $H$ records componentwise $\hsame$ transport for $O,D,M,T,J$ and the local naming row;
+\item $Q$ records $\psame$ stability for the probe reads used by the observer-locality cell, causal rows, maximum-rate row, and transport row;
+\item $C$ records displayed $\Cont$ routes for reading $O$, replaying each row of $D$, reading $M$, transporting through $T$, checking $J$, and auditing the local name;
+\item $P$ is the $\Pkg$ provenance over $\ObserverLocalityPullbackUp$, $\ObserverLocalityCellUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\ObserverLocalityTransportUp$, $\CrossHistCausalRateUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverLocalityPullbackUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed locality cell, causal rows, maximum-rate row, transport row, compatibility row, structural rows, provenance, and local naming data.
+\end{definition}
+
+\begin{theorem}[Observer-locality pullback NameCert obligations]
+\label{thm:observer-locality-pullback-namecert-obligations}
+For the carrier of \autoref{def:observer-locality-pullback-carrier}, the local $\NameCert_{\ObserverLocalityPullbackUp}$ surface consists exactly of carrier admission for
+$$
+U=(O,D,M,T,J,H,Q,C,P,N),
+$$
+observer-locality source exactness through $O$, causal-family exactness through $D$, maximum-rate readback through $M$, transport exactness through $T$, simultaneous pullback compatibility through $J$, componentwise transport through $H$, probe stability through $Q$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-locality-pullback-carrier}. The rows $O,D,M,T,J,H,Q,C,P,N$ are the only coordinates available to a local $\NameCert_{\ObserverLocalityPullbackUp}$ read.
+
+Read the four sibling surfaces in packet order. The observer-locality cell supplies $O$, the displayed causal family supplies $D$, the maximum-rate row $M$ is attached to that family, and the transport row $T$ carries the locality-cell read through the causal and rate rows.
+
+The compatibility row $J$ then records that these four surfaces are simultaneous. The structural rows $H,Q,C,P,N$ transport, stabilize, replay, package, and name the same finite packet, so no detached rate row or host frame can replace the pullback carrier.
+\end{proof}
+
+\begin{theorem}[Observer-locality pullback non-escape]
+\label{thm:observer-locality-pullback-nonescape}
+Every rate-facing consumer of an accepted $\ObserverLocalityPullbackUp$ packet factors through
+$$
+O,D,M,T,J,H,Q,C,P,N.
+$$
+In particular, a consumer cannot read the $\MaxCausalRateUp$ row $M$ unless the displayed $\CrossHistCausalUp$ family $D$, the $\ObserverLocalityCellUp$ row $O$, and the $\ObserverLocalityTransportUp$ row $T$ are present in the same pullback packet. The packet exports no global frame, synchronized clock, metric tensor, Lorentz geometry, host real-valued speed, or detached cross-Hist causal-rate row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The maximum-rate coordinate is $M$, and its only admissible sources in the carrier are the displayed locality cell $O$, causal family $D$, transport row $T$, and compatibility row $J$.
+
+Apply \autoref{thm:observer-locality-pullback-namecert-obligations}. It forces every rate-facing read through the same finite packet and then through $H,Q,C,P,N$ for transport, probe stability, route replay, provenance, and local naming.
+
+The excluded objects have no coordinate in $U$. Therefore a request for a global frame, synchronized clock, metric tensor, Lorentz geometry, host speed, or detached causal-rate row leaves the accepted pullback packet rather than projecting from it.
+\end{proof}
+
+\begin{theorem}[Observer-locality pullback causal-rate handoff]
+\label{thm:observer-locality-pullback-causal-rate-handoff}
+Every $\CrossHistCausalRateUp$ consumer of an accepted $\ObserverLocalityPullbackUp$ packet receives the observer-locality cell, causal family, maximum-rate row, and transport row only through the common compatibility row $J$ and the structural rows $H,Q,C,P,N$. The handoff is therefore a finite pullback packet over the four sibling surfaces, not a separate maximum-rate read followed by an external transport.
+\end{theorem}
+\begin{proof}
+Project $O,D,M,T,J$ from the carrier. The causal-rate consumer has access to the maximum-rate row only together with the causal family and the transport row that bind it to the observer-locality cell.
+
+Use \autoref{thm:observer-locality-pullback-nonescape}. It excludes any route that reads $M$ as a detached rate value or obtains $T$ from an external observer frame.
+
+The remaining route is exactly the displayed structural surface $H,Q,C,P,N$. These rows keep the causal-rate handoff inside the accepted $\BHist$ packet and leave no coordinate for a host real-valued speed or hidden synchronization row.
+\end{proof}
+
+\falsifiablePrediction{A rate-facing consumer cannot read MaxCausalRateUp from an observer-locality cell unless the displayed CrossHistCausalUp and ObserverLocalityTransportUp rows form one pullback packet.}
+
+\independenceWitness{observerlocalitycell, crosshistcausal, maxcausalrate, observerlocalitytransport, crosshistcausalrate: the pullback packet is not bijective to any sibling because it carries the simultaneous compatibility row among all four surfaces.}
+
+The Lean taste-gate file for $\ObserverLocalityPullbackUp$ must include explicit $\mathsf{Nontrivial}\ \ObserverLocalityPullbackUp$ and $\mathsf{FieldFaithful}\ \ObserverLocalityPullbackUp$ instances preserving the locality-cell row, causal family, maximum-rate row, transport row, pullback compatibility row, structural rows, package provenance, and local naming row.
+
+\closureat{ObserverLocalityPullbackUp}{seedStr}
+
+\begin{closurestatus}{\ObserverLocalityPullbackUp}
+  \constructivestory{An $\ObserverLocalityPullbackUp$ packet is generated from an observer-locality cell, finite cross-Hist causal rows, a maximum-rate row, an observer-locality transport row, a simultaneous compatibility row, componentwise $\hsame$ transport, $\psame$ stability, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-locality-pullback-carrier}, \autoref{thm:observer-locality-pullback-namecert-obligations}, \autoref{thm:observer-locality-pullback-nonescape}, and \autoref{thm:observer-locality-pullback-causal-rate-handoff} specify the finite pullback packet, its NameCert surface, rate-facing non-escape boundary, and causal-rate handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive Lorentz geometry, metric tensors, synchronized clocks, global frames, host real-valued speed, Lean verification, or bridge checking for $\ObserverLocalityPullbackUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, sibling exactness for observer-locality cell, causal, maximum-rate, and transport rows, pullback compatibility, no-global-frame refusal, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
