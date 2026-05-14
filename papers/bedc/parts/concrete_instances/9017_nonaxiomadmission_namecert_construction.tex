@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\NonAxiomAdmissionUp$}
+\label{ch:concrete-instances-nonaxiomadmission-namecert}
+\origin{ai}
+
+The $\NonAxiomAdmissionUp$ packet is the concrete admission classifier for the external-supply discipline of \autoref{ch:visions-external-supply-without-axioms}. It sits after the boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the apophatic socket surface of \autoref{ch:concrete-instances-apophaticsocket-namecert}, the selector ledger of \autoref{ch:concrete-instances-selectorledger-namecert}, and the admission gate of \autoref{ch:concrete-instances-tastegateadmission-namecert}. Those siblings record particular boundary, socket, ledger, or chapter-admission rows; this packet classifies the decision surface that accepts a proposed supply position without turning it into an axiom.
+
+\begin{definition}[NonAxiomAdmission carrier]
+\label{def:non-axiom-admission-carrier}
+A $\NonAxiomAdmissionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,F,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the proposed supply position presented for admission;
+\item $F$ is the accepted non-axiom boundary form, chosen from inductive constructor, definitional expansion, setup-field obligation, $\NameCert$ row, $\mathsf{GAP}$ memory, bridge slot, or socket boundary;
+\item $W$ is the displayed witness route showing how the proposed position is consumed through the selected boundary form;
+\item $H$ stores componentwise $\hsame$ transport for the route $X,F,W$;
+\item $C$ stores displayed $\Cont$ replay for the same admitted route;
+\item $P$ stores $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\ApophaticSocketUp$, $\SelectorLedgerUp$, $\TasteGateAdmissionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\NonAxiomAdmissionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate that asserts the supplied content as substrate truth, no hidden chooser, no quotient representative, no proposition-equality collapse, and no global frame from which consumers may recover the proposed supply apart from the displayed rows.
+\end{definition}
+
+\begin{theorem}[NonAxiomAdmission NameCert obligations]
+\label{thm:non-axiom-admission-namecert-obligations}
+For the carrier of \autoref{def:non-axiom-admission-carrier}, the local $\NameCert_{\NonAxiomAdmissionUp}$ surface consists exactly of carrier admission for $A=(X,F,W,H,C,P,N)$, proposed-position exposure through $X$, accepted-form exactness through $F$, witness-route exposure through $W$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Equivalently, every accepted admission decision exposes which supply position was proposed, which non-axiom boundary form admits it, which finite route witnesses the admission, and which transport, replay, provenance, and naming rows preserve the same route. It exposes no consumer route that treats the supplied content itself as substrate truth.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The accepted packet lists exactly $X,F,W,H,C,P,N$, so the local certificate cannot introduce a second proposed supply position, accepted-form row, witness route, transport row, replay route, provenance row, or local name.
+
+Read the admission rows in order. The row $X$ names the proposed supply position, $F$ classifies the boundary form as inductive, definitional, setup-field, $\NameCert$, $\mathsf{GAP}$, bridge, or socket data, and $W$ displays the finite route by which that form is consumed.
+
+Finally inspect $H,C,P,N$. These rows only transport, replay, package, and name the same admitted route. Since none of them contains supplied content as substrate truth, the local NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[NonAxiomAdmission boundary exhaustion]
+\label{thm:non-axiom-admission-boundary-exhaustion}
+Every accepted $\NonAxiomAdmissionUp$ packet classifies a proposed supply position into a displayed non-axiom boundary form. A downstream consumer may read only $X,F,W,H,C,P,N$ and therefore cannot obtain from the packet an axiom, hidden chooser, quotient representative, proposition-equality token, global frame, or second route that treats the supplied content as substrate truth.
+\end{theorem}
+\begin{proof}
+Start with the boundary-form coordinate $F$. By the carrier definition, $F$ ranges only over the displayed forms: inductive constructor, definitional expansion, setup-field obligation, $\NameCert$ row, $\mathsf{GAP}$ memory, bridge slot, or socket boundary. None is an axiom coordinate.
+
+Use the witness route $W$ together with the transport and replay rows $H,C$. They show how the selected boundary form is consumed and preserved, but they do not add a hidden supply source or a second consumer edge.
+
+Now read the provenance and naming rows $P,N$. The provenance row ties the admission to $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\ApophaticSocketUp$, $\SelectorLedgerUp$, $\TasteGateAdmissionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, while $N$ names the local packet. Since consumers can read only $X,F,W,H,C,P,N$, all excluded coordinates are absent from the public route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted NonAxiomAdmissionUp packet classifies a proposed supply position into a displayed non-axiom boundary form and exposes no consumer route that treats the supplied content as substrate truth.}
+
+\independenceWitness{externalsupplyboundary, supplysocketledger, apophaticsocket, selectorledger, and tastegateadmission: those siblings record particular boundary, socket, ledger, and admission rows, while NonAxiomAdmissionUp classifies the admission decision surface itself. No row-preserving bijection can recover the full $X,F,W,H,C,P,N$ classifier from any one sibling packet.}
+
+The Lean follow-up target is $\mathsf{BEDC.Derived.NonAxiomAdmissionUp.taste\_gate}$. Its $\mathsf{TasteGate.lean}$ file must provide explicit $\mathsf{Nontrivial}\ \NonAxiomAdmissionUp$ and $\mathsf{FieldFaithful}\ \NonAxiomAdmissionUp$ instances with a displayed witness pair and field-projection proofs for $X,F,W,H,C,P,N$.
+
+\closureat{NonAxiomAdmissionUp}{seedStr}
+\closureat{NonAxiomAdmissionUp}{obligationStr}

@@ -281,6 +281,10 @@ instance realCauchyWitnessGridChapterTasteGate :
     intro x y hxy heq
     exact hxy (realCauchyWitnessGridToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RealCauchyWitnessGridUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realCauchyWitnessGridChapterTasteGate
+
 instance realCauchyWitnessGridFieldFaithful :
     FieldFaithful RealCauchyWitnessGridUp where
   -- BEDC touchpoint anchor: BHist BMark

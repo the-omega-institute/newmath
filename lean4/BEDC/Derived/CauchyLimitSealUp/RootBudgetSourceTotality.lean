@@ -124,4 +124,41 @@ theorem CauchyLimitSealCarrier_budget_source_endpoint_exhaustion
     ⟨budgetWindowUnary, budgetReadUnary, completionReadUnary, endpointReadUnary,
       sameSealCompletion, sameEndpoint, endpointPkg, cert⟩
 
+theorem CauchyLimitSealCarrier_root_l10_sibling_route [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
+      budgetWindow budgetRead completionRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg ->
+      Cont schedule source budgetWindow ->
+        Cont budgetWindow dyadic budgetRead ->
+          Cont budgetRead diagonal completionRead ->
+            Cont completionRead endpoint rootRead ->
+              hsame dyadic budgetRead ->
+                UnaryHistory rootRead ∧
+                  Cont schedule (append source (append dyadic (append diagonal endpoint)))
+                    rootRead ∧
+                    hsame sealRow completionRead ∧ hsame endpoint (append provenance localCert) ∧
+                      PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier scheduleSourceBudget budgetWindowDyadicRead budgetReadDiagonalCompletion
+    completionEndpointRoot sameDyadicBudget
+  have totality :=
+    CauchyLimitSealCarrier_budget_root_source_totality carrier scheduleSourceBudget
+      budgetWindowDyadicRead budgetReadDiagonalCompletion completionEndpointRoot sameDyadicBudget
+  obtain ⟨_sourceUnary, _scheduleUnary, _dyadicUnary, _diagonalUnary, _sealUnary,
+    _budgetWindowUnary, _budgetReadUnary, _completionReadUnary, rootReadUnary,
+    sameSealCompletion, sameEndpoint, endpointPkg⟩ := totality
+  have scheduleToRoot :
+      Cont schedule (append source (append dyadic (append diagonal endpoint))) rootRead := by
+    cases scheduleSourceBudget
+    cases budgetWindowDyadicRead
+    cases budgetReadDiagonalCompletion
+    cases completionEndpointRoot
+    exact
+      (append_assoc (append (append schedule source) dyadic) diagonal endpoint).trans
+        ((append_assoc (append schedule source) dyadic (append diagonal endpoint)).trans
+          (append_assoc schedule source (append dyadic (append diagonal endpoint))))
+  exact ⟨rootReadUnary, scheduleToRoot, sameSealCompletion, sameEndpoint, endpointPkg⟩
+
 end BEDC.Derived.CauchyLimitSealUp
