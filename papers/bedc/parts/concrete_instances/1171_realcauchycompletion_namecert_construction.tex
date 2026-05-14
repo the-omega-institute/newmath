@@ -145,6 +145,22 @@ Finally, apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope} to 
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_probe\_bundle\_window\_coverage}
 
+\begin{theorem}[RealCauchyCompletion selector-refusal boundary]
+\label{thm:real-cauchy-completion-selector-refusal-boundary}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of precision requests. The bundled read determined by $Q$ may use only the displayed modulus rows, the diagonal packet, the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ observation rows, the $\RealUp$ seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data carried by $C$.
+
+The same bundled read cannot be reinterpreted as a selected host limit, a quotient stream equality, an ambient completeness object, or a host real equality. It remains a finite certificate-row read of the completion interface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-cauchy-completion-probebundle-window-coverage} to the finite request bundle $Q$. This routes every bundled precision request through the displayed modulus row, the finite stream window, the regular-sequence readback row, the dyadic observation ledger, and the assembled $\mathsf{BHist}$ consumer surface.
+
+The selected diagonal row is the one fixed by \autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}. Hence the bundle reuses the carrier's visible diagonal packet and does not acquire any separate completion coordinate beyond the rows already named by $C$.
+
+For the consumer endpoint, use \autoref{thm:real-cauchy-completion-real-seal-readback-scope}. The only real-facing object reached by the bundle is the $\RealUp$ seal along the displayed $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally apply \autoref{thm:real-cauchy-completion-non-escape-boundary}. It excludes selected host limits, quotient stream equality, host real equality, and ambient completeness from the exported surface, so the finite bundle remains a certificate-row read rather than a limit selector.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion obligation closure package]
 \label{thm:real-cauchy-completion-obligation-closure-package}
 The carrier of \autoref{def:real-cauchy-completion-carrier}, the
