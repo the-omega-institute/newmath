@@ -171,6 +171,46 @@ Next combine the terminal accepted-row surface with route determinacy. The rows 
 Finally use the public obligation surface. It includes all finite rows of the packet but still withholds dependency cleanliness unless $Q$ is read, so every axiom query is accounted for by the displayed query ledger.
 \end{proof}
 
+\begin{theorem}[KernelAcceptanceAuditWitness query replay interface]
+\label{thm:kernel-acceptance-audit-witness-query-replay-interface}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+a public audit read of the accepted declaration $A$ reaches replay evidence
+only through the build-replay row $R$ and dependency classification only
+through the axiom-query row $Q$. The pair is routed by the displayed
+continuation row $C$, ledgered by the environment row $L$, packaged by
+$\mathsf{Pkg}$ provenance $P$, and named by the local $\NameCert$ row $N$.
+Neither row can substitute for the other: replay through $R$ is not dependency
+classification, and query classification through $Q$ is not build replay.
+
+The interface exports no kernel correctness, compiler correctness, runtime
+correctness, hidden dependency cleanliness, or paper meaning stronger than the
+accepted declaration and its displayed audit rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}.
+It makes $Q$ the only coordinate through which a consumer classifies the
+transitive dependency ancestry of the accepted declaration, while replay
+through $R$ only reconstructs the local acceptance event.
+
+Apply \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. The
+displayed continuation row $C$ fixes both the replay endpoint and the query
+endpoint for reads of $A$, so no second route can exchange their roles.
+
+Use \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality}. The
+query side is accounted for by the ledgered route $A,L,Q,R,C,N$, with
+dependency cleanliness unavailable unless the query row $Q$ is read.
+
+Finally invoke \autoref{thm:kernel-acceptance-audit-witness-build-replay-coverage}.
+The replay side is covered by $R,L,C,Q,N$ as a replayed and ledgered acceptance
+event. Combining the two rows gives the public interface: $R$ supplies replay,
+$Q$ supplies dependency classification, and $L,C,P,N$ ledger, route, package,
+and name the pair without adding kernel correctness, compiler correctness,
+runtime correctness, hidden dependency cleanliness, or stronger paper meaning.
+\end{proof}
+
 \begin{theorem}[KernelAcceptanceAuditWitness acceptance boundary]
 \label{thm:kernel-acceptance-audit-witness-acceptance-boundary}
 For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
