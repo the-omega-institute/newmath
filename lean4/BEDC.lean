@@ -121,8 +121,10 @@ import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailServiceSealHandoff
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
@@ -251,7 +253,6 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteSupportUp.TasteGate
-import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
@@ -536,6 +537,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
+import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FanTheoremUp
