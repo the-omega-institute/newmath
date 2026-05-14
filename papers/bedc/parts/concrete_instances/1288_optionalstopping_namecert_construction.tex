@@ -124,3 +124,40 @@ Finally apply \autoref{thm:optional-stopping-no-escape-boundary}. The excluded u
   \notclaimed{This chapter does not close unbounded stopping, measure completion, almost-sure quotient equality, uniform integrability beyond the displayed finite row, or bridge checking.}
   \upgradepath{Scoped closure requires Lean targets for carrier transport, stopping-time stability, martingale-window handoff, stopped-value readback, and ledger exactness for the bounded finite packet.}
 \end{closurestatus}
+
+\begin{definition}[OptionalStopping post-stop truncation]
+\label{def:optional-stopping-post-stop-truncation}
+Let
+$$
+O=(\Omega,X,T,b,V,F,I,H,C,P,N)
+$$
+be an accepted $\OptionalStoppingUp$ carrier. A post-stop truncation of $O$ at a displayed branch $\tau<b$ is the finite packet
+$$
+O_{\leq\tau}=(\Omega,X_{\leq\tau},T_{\leq\tau},\tau,V,F_{\leq\tau},I_{\leq\tau},H_{\leq\tau},C_{\leq\tau},P,N)
+$$
+obtained by retaining exactly the probability row $\Omega$, the displayed process rows through $\tau$, the stopping-decision rows through $\tau$, the stopped value row $V$, the filtration-window rows through $\tau$, the integrability rows through $\tau$, the displayed transports and continuation routes whose endpoints remain in those rows, the same package provenance row $P$, and the same local certificate row $N$. All filtration-window, integrability, transport, and continuation rows whose time coordinate lies strictly after $\tau$ are omitted. The truncation is stopping-branch exact when $\tau$ is the first displayed stopping branch of $T$ before $b$ from which the stopped value row $V$ is read.
+\end{definition}
+
+\begin{lemma}[OptionalStopping post-stop tail erasure]
+\label{lem:optional-stopping-post-stop-tail-erasure}
+Let
+$$
+O=(\Omega,X,T,b,V,F,I,H,C,P,N)
+$$
+be an accepted $\OptionalStoppingUp$ carrier. Suppose that $\tau<b$ is the first displayed stopping branch of $T$ before the visible bound $b$, and let $O_{\leq\tau}$ be the stopping-branch exact post-stop truncation of \autoref{def:optional-stopping-post-stop-truncation}. Then $O_{\leq\tau}$ is an accepted $\OptionalStoppingUp$ carrier. Moreover, the stopped value row of $O_{\leq\tau}$ is classifier-equal to the stopped value row $V$ of $O$.
+\end{lemma}
+\begin{proof}
+Project the accepted carrier $O$ through \autoref{def:optional-stopping-carrier}. Its consumer-visible rows are exactly $\Omega$, $X$, $T$, $b$, $V$, $F$, $I$, $H$, $C$, $P$, and $N$, and the local classifier compares stopped-value data only through the transported bounded index, stopped value row, filtration-window ledger, integrability provenance, package row, and local certificate row.
+
+By \autoref{thm:optional-stopping-bounded-stopped-value-readback}, the row $V$ is read from the first displayed stopping branch of $T$ before $b$, together with the corresponding process row of $X$ and filtration-window row of $F$. The hypothesis says that this branch is $\tau$. Therefore every row needed to read $V$ lies among
+$$
+\Omega,\quad X_{\leq\tau},\quad T_{\leq\tau},\quad \tau,\quad V,\quad F_{\leq\tau},\quad I_{\leq\tau},\quad H_{\leq\tau},\quad C_{\leq\tau},\quad P,\quad N.
+$$
+The deleted rows have time coordinate strictly after $\tau$, so none of them is an input to the stopped-value readback route.
+
+Acceptance of the truncated packet is now the carrier formation clause of \autoref{thm:optional-stopping-namecert-obligations} applied to the retained finite tuple. Stopping-time stability is preserved because every retained decision row was already read from its corresponding filtration-window row in $O$, and all those filtration-window rows remain present. The terminal bound for the truncated packet is the displayed branch $\tau$, so the selected stopping decision is still inside the visible finite window.
+
+The martingale-window handoff and integrability requirements are also retained. The handoff for the stopped value uses only the process, filtration, and integrability rows through $\tau$ by \autoref{thm:optional-stopping-bounded-stopped-value-readback}, while \autoref{thm:optional-stopping-finite-expectation-window} places every expectation-style read downstream of the finite probability row, the stopped value row, the filtration-window ledger, the integrability row, the displayed transports, the continuation routes, package provenance, and the local certificate. Those are exactly the rows kept by $O_{\leq\tau}$ for the stopped branch.
+
+It remains to compare stopped values. Both $O$ and $O_{\leq\tau}$ read their stopped value from the same first stopping branch $\tau$, the same process row at that branch, and the same filtration-window row at that branch. The stopped value coordinate is the same displayed row $V$, and the transports and continuation route that identify it with the branch read are retained in $H_{\leq\tau}$ and $C_{\leq\tau}$. Hence the local $\OptionalStoppingUp$ classifier identifies the stopped-value row of the truncated packet with the original stopped value row $V$.
+\end{proof}
