@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionCommitmentSealUp$}
+\label{ch:concrete-instances-inscriptioncommitmentseal-namecert}
+\origin{ai}
+
+The $\InscriptionCommitmentSealUp$ surface isolates the reusable commitment row inside the inscription-event vision of \autoref{ch:visions-inscription-event-as-concrete-instance}. It sits between the full inscription-event packet of \autoref{ch:concrete-instances-inscriptionevent-namecert} and the public residue ledger of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}: the event chapter records a complete accepted inscription packet, while this seal keeps only the finite source, accepted commitment, consumer, ledger, transport, route, provenance, and naming rows needed by downstream audit readers.
+
+\begin{definition}[InscriptionCommitmentSeal carrier]
+\label{def:inscription-commitment-seal-carrier}
+An $\InscriptionCommitmentSealUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,U,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source row from which the commitment is read;
+\item $M$ is the accepted named commitment row, read as public record data rather than private intention;
+\item $U$ is the intended downstream consumer row for the commitment;
+\item $G$ is the public $\mathsf{GAP}$ ledger row attached to the commitment and consumer;
+\item $H$ records componentwise $\hsame$ transports for $S,M,U,G$ together with route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the source, commitment, consumer, and ledger rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InscriptionCommitmentSealUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these eight displayed rows. It has no coordinate for a complete inscription event, unchecked route replay, private motive, host process trace, hidden consumer right, or ledger entry outside $G$.
+\end{definition}
+
+\begin{theorem}[InscriptionCommitmentSeal NameCert obligations]
+\label{thm:inscription-commitment-seal-namecert-obligations}
+The local $\NameCert_{\InscriptionCommitmentSealUp}$ surface for \autoref{def:inscription-commitment-seal-carrier} consists exactly of carrier exposure for
+$$
+K=(S,M,U,G,H,C,P,N),
+$$
+source-row readback through $S$, accepted-commitment readback through $M$, consumer accountability through $U$, public GAP-ledger readback through $G$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed packet. The rows $S,M,U,G,H,C,P,N$ are the complete inventory available to a consumer of the seal.
+
+Read $S,M,U,G$ in order. The source row fixes the finite record state, the accepted commitment row supplies the named public commitment, the consumer row names the permitted reader, and the GAP ledger records the public residue that accompanies that reader.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for a broader event packet, hidden route, private motive, host trace, or unlisted ledger entry, the NameCert surface is exhausted by the displayed seal rows.
+\end{proof}
+
+\begin{theorem}[InscriptionCommitmentSeal consumer-ledger split]
+\label{thm:inscription-commitment-seal-consumer-ledger-split}
+For every accepted $\InscriptionCommitmentSealUp$ carrier $K=(S,M,U,G,H,C,P,N)$, deleting the accepted commitment row $M$ breaks acceptance for the named commitment, while deleting the public GAP ledger row $G$ breaks non-escape for the consumer ledger. The two failures are distinct: $M$ is the record admitted for the consumer, and $G$ is the public residue ledger attached to that admission.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted commitment row and the public GAP ledger row are separate coordinates of the finite packet.
+
+Use the NameCert obligations of \autoref{thm:inscription-commitment-seal-namecert-obligations}. Commitment readback is assigned to $M$, while public ledger readback is assigned to $G$ together with the consumer row $U$ and the displayed routes in $C$.
+
+If $M$ is absent, the packet no longer exposes an accepted named commitment for the consumer. If $G$ is absent, the packet may still name a commitment row, but it loses the public ledger boundary that prevents consumer escape beyond the displayed residue. Thus the two rows support distinct downstream reads.
+\end{proof}
+
+\begin{theorem}[InscriptionCommitmentSeal sibling factorization]
+\label{thm:inscription-commitment-seal-sibling-factorization}
+Every downstream audit read of an accepted $\InscriptionCommitmentSealUp$ packet factors through the inscription-event carrier of \autoref{ch:concrete-instances-inscriptionevent-namecert} for accepted-record locality and through the inscription GAP ledger of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert} for public residue accountability. The seal exports only
+$$
+S,M,U,G,H,C,P,N
+$$
+to that reader, not the full event route, private agency data, or an additional ledger.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier and project the four content rows $S,M,U,G$. The rows $S,M,U$ are the inscription-facing source, accepted commitment, and consumer surface, while $G$ is the public residue ledger.
+
+Apply the two sibling readings. The inscription-event chapter supplies the surrounding accepted-record discipline for $S,M,U$, and the inscription GAP-ledger chapter supplies the residue-ledger discipline for $G$.
+
+The structural rows $H,C,P,N$ then carry exactly the seal packet to downstream audit readers. They do not reconstruct the full event route, add private agency data, or create a second ledger row.
+\end{proof}
+
+\falsifiablePrediction{Deleting the accepted commitment row or the public GAP ledger row breaks a distinct downstream read: acceptance for the named commitment and non-escape for the consumer ledger.}
+
+\independenceWitness{Nearest siblings: inscriptionevent, inscriptiongapledger, kernelacceptancetrace, tastegateadmission. InscriptionEventUp has a full event packet rather than a seal; InscriptionGapLedgerUp has the residue ledger but no accepted commitment row; KernelAcceptanceTraceUp has checker acceptance but no inscription consumer; TasteGateAdmissionUp has admission rows but no GAP commitment ledger. No bijection preserving all rows exists.}
+
+The Lean target family $BEDC.Derived.InscriptionCommitmentSealUp$ should provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed carrier before a TasteGate theorem records the same seal surface.
+
+\closureat{InscriptionCommitmentSealUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionCommitmentSealUp}
+  \constructivestory{An $\InscriptionCommitmentSealUp$ packet is generated from a finite source row, an accepted named commitment row, an intended consumer row, a public GAP ledger row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-commitment-seal-carrier}, \autoref{thm:inscription-commitment-seal-namecert-obligations}, \autoref{thm:inscription-commitment-seal-consumer-ledger-split}, and \autoref{thm:inscription-commitment-seal-sibling-factorization} bind the finite commitment-seal carrier, local NameCert surface, consumer-ledger split, and sibling factorization.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete inscription-event ontology, private intention, hidden host traces, unchecked routes, or ledger rows outside the displayed packet.}
+  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for carrier admission, commitment readback, GAP-ledger non-escape, consumer routing, and local naming.}
+\end{closurestatus}
