@@ -58,6 +58,7 @@ Apply the carrier-admission and tail-window coverage clauses of \autoref{thm:rea
 
 Finally use the shared-threshold discipline of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The present seal consumes that finite threshold surface before its dyadic readback and agreement rows, so the two $\RegSeqRat$ sources synchronize through $W$ rather than through a hidden tail selector or quotient stream equality.
 \end{proof}
+\leanchecked{BEDC.Derived.RealTailAgreementSealUp.RealTailAgreementSeal\_left\_right\_threshold\_synchrony}
 
 \begin{theorem}[Real tail-agreement seal dyadic-window exactness]
 \label{thm:real-tail-agreement-seal-dyadic-window-exactness}
@@ -284,6 +285,50 @@ Project the carrier in \autoref{def:real-tail-agreement-seal-carrier}. The agree
 Apply the tail-window and dyadic-readback clauses of \autoref{thm:real-tail-agreement-seal-namecert-obligations}. They force every public agreement read to pass through $W$ and $D$, so the classifier sees the same finite rows that produced $A$.
 
 Finally apply \autoref{thm:real-tail-agreement-seal-nonescape}. Since the packet exports no quotient equality or hidden tail selector, no classifier can bypass $R,S,W,D$ while still reading the displayed agreement row.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal classifier reflexivity]
+\label{thm:real-tail-agreement-seal-classifier-reflexivity}
+For an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, the displayed tail-agreement classifier reads the same finite route against $Q$ itself:
+$$
+R,S,W,D,A.
+$$
+The reflexive read uses the local paired-window row $W$, the local dyadic readback row $D$, and the displayed agreement row $A$; it does not import quotient stream equality, host real equality, a selected limit, or an additional tail selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-tail-agreement-seal-tail-classifier} to the packet $Q$. The classifier-readable surface is exactly the displayed source, window, readback, and agreement route $R,S,W,D,A$.
+
+Next use \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}. Since the packet is compared with itself, the source rows, window row, and structural rows agree on the nose as displayed BEDC rows, so every public agreement read follows the same local route $W \to D \to A$.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-source-separation-obligation} and \autoref{thm:real-tail-agreement-seal-nonescape}. They rule out a second classifier row and any external equality object, leaving the reflexive classifier read as the displayed finite route already carried by $Q$.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal classifier symmetry]
+\label{thm:real-tail-agreement-seal-classifier-symmetry}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. If a public classifier read displays a paired-window agreement route from $Q$ to $Q'$ through the shared rows $R,S,W,D,A$ and $R',S',W',D',A'$, then the reverse public read displays the corresponding route from $Q'$ to $Q$ through the same finite window and dyadic readback rows. The reversal does not assert quotient stream equality or host real equality; it only reverses the displayed paired-window agreement route.
+\end{theorem}
+\begin{proof}
+Read the forward classifier by \autoref{thm:real-tail-agreement-seal-tail-classifier}. Both endpoints expose their agreement rows only after the paired source rows, paired window rows, and dyadic readback rows have been displayed.
+
+Use \autoref{thm:real-tail-agreement-seal-paired-window-source-lock} on the common boundary. The same finite window route that allows the forward read also fixes the reverse read once the endpoints are exchanged, because the classifier has no separate selector outside $W,D,H,C,P,N$.
+
+Apply \autoref{thm:real-tail-agreement-seal-source-separation-obligation} to both packets. It identifies the visible rows at each endpoint and prevents a second source, window, readback, or agreement coordinate from being substituted during reversal.
+
+Finally use the non-escape and handoff rows recorded in \autoref{thm:real-tail-agreement-seal-nonescape} and \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}. The reverse route remains a finite BEDC classifier read for Real and Completion consumers, not an assertion of quotient stream equality or host real equality.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal classifier transitivity]
+\label{thm:real-tail-agreement-seal-classifier-transitivity}
+Let $Q=(R,S,W,D,A,H,C,P,N)$, $Q'=(R',S',W',D',A',H',C',P',N')$, and $Q''=(R'',S'',W'',D'',A'',H'',C'',P'',N'')$ be accepted $\RealTailAgreementSealUp$ packets. If public classifier reads display a paired-window agreement route from $Q$ to $Q'$ and a paired-window agreement route from $Q'$ to $Q''$, and both reads pass through the shared finite $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback rows at $Q'$, then the composed public read displays a route from $Q$ to $Q''$ through the same finite window-readback chain. The composition exports only the displayed $R,S,W,D,A$ rows at the endpoints and does not add quotient stream equality, host real equality, a selected real value, or a hidden completion selector.
+\end{theorem}
+\begin{proof}
+Start with the two classifier reads and apply \autoref{thm:real-tail-agreement-seal-tail-classifier}. Each read reaches its agreement row only through paired source rows, a finite $\StreamNameUp$ window row, and a $\DyadicRatCoreUp$ readback row.
+
+At the middle packet $Q'$, use \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}. The shared finite window row fixes the same readback route $W' \to D' \to A'$ for both adjacent reads, so the middle packet supplies one displayed hinge rather than two independent classifiers.
+
+Now apply \autoref{thm:real-tail-agreement-seal-source-separation-obligation}. Since the middle packet has unique visible source, window, readback, and agreement coordinates inside the local ledger, the two adjacent routes compose through the displayed $W'$ and $D'$ rows.
+
+Finally use \autoref{thm:real-tail-agreement-seal-nonescape} and \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}. The composed endpoint route is still the finite classifier handoff read by Real and Completion consumers, so it cannot introduce quotient stream equality, host real equality, selected real values, or hidden completion selectors.
 \end{proof}
 
 \begin{theorem}[Real tail-agreement seal Real handoff]
@@ -582,6 +627,90 @@ The shared-tail budget extraction supplies the finite request and threshold rout
 It remains to identify the Completion-facing endpoint. The Cauchy limit seal and diagonal budget siblings consume the displayed agreement boundary after it has been fixed; they do not add a selected limit or ambient completeness coordinate to the present packet.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal root-window readback]
+\label{thm:realtailagreementseal-root-window-readback}
+Every root $\RealTailAgreementSealUp$ read of an accepted packet $Q=(R,S,W,D,A,H,C,P,N)$ factors through the displayed $\RegSeqRatUp$ source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the paired $\StreamNameUp$ finite-window rows of \autoref{ch:concrete-instances-streamname-namecert}, and the $\DyadicRatCoreUp$ readback rows of \autoref{ch:concrete-instances-dyadicratcore-namecert} before the local agreement row $A$ is visible. The route is rooted in the regular-tail surfaces supplied by \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} and \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, and it exposes no independent agreement channel outside $W \to D \to A$.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:real-tail-agreement-seal-carrier}. Its root-readable coordinates present the two regular rational source rows $R,S$, one paired finite window row $W$, one dyadic readback row $D$, and one agreement row $A$.
+
+Use the source separation and paired-window source lock. They force any public agreement read to take the displayed sources into the same finite $\StreamNameUp$ window service before the dyadic readback can be inspected.
+
+Now apply the dyadic exactness and shared-tail budget extraction rows. The readback row $D$ is the only dyadic route attached to the visible windows, and the regular-tail meet and fusion siblings provide the shared threshold surface consumed by that route.
+
+Finally use the Completion handoff totality theorem. Once the consumer reaches the Completion-facing endpoint, the only visible local agreement has already passed through $W \to D \to A$, so no quotient stream equality, selected limit, or hidden agreement selector can be inserted at the root.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal tail-classifier transport]
+\label{thm:realtailagreementseal-tail-classifier-transport}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. If the displayed $\hsame$ rows identify the $\RegSeqRatUp$ sources, the $\StreamNameUp$ windows, and the $\DyadicRatCoreUp$ readbacks along the same finite route used in \autoref{thm:realtailagreementseal-root-window-readback}, then the paired tail classifier is transported from $Q$ to $Q'$ with the same agreement row read. The transport is componentwise through $H,H'$ and does not appeal to quotient stream equality, host convergence, or a choice-selected tail.
+\end{theorem}
+\begin{proof}
+Project both packets by the carrier definition. The transport data available to the theorem are exactly the componentwise $\hsame$ rows $H,H'$ together with the displayed route rows $C,P,N$.
+
+Apply the tail-classifier theorem for the present chapter and the regular-source transport theorem. The classifier is attached to the two $\RegSeqRatUp$ source rows as they pass through the same $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback route.
+
+Use window-agreement determinacy to compare the two packets after transport. Once the sources, windows, readbacks, local transports, and names agree, the public paired agreement row is fixed.
+
+Thus the paired tail classifier moves across the same finite route as the root-window readback. Since no carrier coordinate stores quotient stream equality, host convergence, or a selected tail, there is no second transport path for the classifier.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal completion consumer scope]
+\label{thm:realtailagreementseal-completion-consumer-scope}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet reaches the seal through the finite route consisting of the $\RegSeqRatUp$ source rows, the $\StreamNameUp$ paired windows, the $\DyadicRatCoreUp$ readback rows, the agreement edge $W \to D \to A$, the regular-tail meet and fusion surfaces, and the sibling consumer rows of \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-completion-namecert}, and \autoref{ch:concrete-instances-cauchylimitseal-namecert}. No such consumer reaches the seal through quotient stream equality, a selected limit, host convergence, or a choice-selected tail.
+\end{theorem}
+\begin{proof}
+Begin with the Real--Completion boundary and Completion handoff totality theorems. They put both Real-facing and Completion-facing reads on the displayed packet rows before any sibling consumer can use the seal.
+
+Apply the root-window readback theorem above. It shows that the agreement row is visible only after the source, window, and dyadic readback rows have been displayed along the regular-tail route.
+
+Now use the tail-classifier transport theorem above. The same route preserves the paired classifier under the local $\hsame$ rows, so a consumer cannot switch to an ambient stream equality or host convergence predicate while keeping the same public classifier.
+
+The remaining consumers are exactly the named Real, Completion, and Cauchy-limit-seal siblings. They receive the finite dependency rows already displayed by the packet and add no coordinate for quotient stream equality, selected limits, host convergence, or choice-selected tails.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal limiter-budget factorization]
+\label{thm:real-tail-agreement-seal-limiter-budget-factorization}
+Every paired tail-agreement read of an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ factors first through the finite limiter rows of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert} and the regular tail-budget rows of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}. Only after those two budget services expose the shared threshold may the local route read the displayed $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ readback of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the agreement edge $W \to D \to A$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:real-tail-agreement-seal-carrier}. Its only agreement channel is the displayed row $A$, and that row is attached to the paired window row $W$ and dyadic readback row $D$.
+
+Apply \autoref{thm:real-tail-agreement-seal-shared-tail-budget-extraction}. It sends every Real- or Completion-facing agreement read through the shared finite tail request and the sibling budget route before $W$ and $D$ are consumed.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-completion-handoff-totality}. The Completion endpoint reads only the route already exposed by the limiter and tail-budget services, so the local packet contributes the finite handoff $W \to D \to A$ and no unbounded observation request.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal regular-source transport]
+\label{thm:real-tail-agreement-seal-regular-source-transport}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. If the componentwise $\hsame$ rows in $H,H'$ identify the two $\RegSeqRatUp$ source rows through \autoref{ch:concrete-instances-regseqrat-namecert}, the displayed $\StreamNameUp$ window rows through \autoref{ch:concrete-instances-streamname-namecert}, and the $\DyadicRatCoreUp$ readback rows through \autoref{ch:concrete-instances-dyadicratcore-namecert}, then the two regular sources are transported together to the same displayed paired-window agreement row.
+\end{theorem}
+\begin{proof}
+Project the two carriers from \autoref{def:real-tail-agreement-seal-carrier}. The source rows $R,S$ and $R',S'$ are not ambient streams; they are the displayed regular-rational source entries consumed by the window and readback rows.
+
+Use \autoref{thm:real-tail-agreement-seal-shared-tail-budget-extraction} to put both packets on the same finite tail-budget surface. The componentwise $\hsame$ rows then carry the two $\RegSeqRatUp$ sources through the same $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback rows.
+
+Apply \autoref{thm:real-tail-agreement-seal-window-agreement-determinacy}. Once the source transport, shared budget, windows, readbacks, local transports, and naming rows agree, the public agreement row is determined; no separate quotient-stream equality or Completion equality row is available.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Real handoff exhaustion]
+\label{thm:real-tail-agreement-seal-real-handoff-exhaustion}
+Every $\RealUp$-facing consumer of an accepted $\RealTailAgreementSealUp$ packet receives only the finite route
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+The route is reached after the limiter-budget factorization and regular-source transport rows above, and it is the only handoff made available to the Real and Completion sibling surfaces of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-completion-namecert}. It exports no quotient stream equality, selected limit, host convergence predicate, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:real-tail-agreement-seal-carrier}. It lists exactly the regular source rows, paired window, dyadic readback, agreement row, transports, routes, provenance, and local naming row that a Real-facing consumer can inspect.
+
+Apply \autoref{thm:real-tail-agreement-seal-limiter-budget-factorization}. This puts the agreement read behind the observation limiter and regular tail-budget services before the local route $W \to D \to A$ is available.
+
+Next apply \autoref{thm:real-tail-agreement-seal-regular-source-transport}. The source rows are preserved through the displayed StreamName window and DyadicRatCore readback rows, so the Real-facing consumer cannot replace them by a quotient stream or selected tail.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-completion-handoff-totality}. The same finite packet is the boundary seen by Completion-facing consumers, and the Real-facing handoff has no extra carrier coordinate for a selected limit or host convergence predicate.
+\end{proof}
+
 \closureat{RealTailAgreementSealUp}{obligationStr}
 \closureat{RealTailAgreementSealUp}{scopedStr}[BEDC.Derived.RealTailAgreementSealUp.taste\_gate]
 \closureat{RealTailAgreementSealUp}{publicStr}[BEDC.Derived.RealTailAgreementSealUp.taste\_gate]
@@ -592,7 +721,7 @@ It remains to identify the Completion-facing endpoint. The Cauchy limit seal and
   \constructivestory{A $\RealTailAgreementSealUp$ packet is generated from paired RegSeqRat source rows, finite paired StreamName tail windows, paired DyadicRatCore readbacks, a displayed tail-agreement row, componentwise hsame transports, Cont routes, Pkg provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.RealTailAgreementSealUp.taste\_gate}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, \autoref{thm:real-tail-agreement-seal-left-right-threshold-synchrony}, \autoref{thm:real-tail-agreement-seal-dyadic-window-exactness}, \autoref{thm:real-tail-agreement-seal-real-completion-handoff}, \autoref{thm:real-tail-agreement-seal-nonescape}, \autoref{thm:real-tail-agreement-seal-tail-classifier}, \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}, \autoref{thm:real-tail-agreement-seal-ledger-exhaustion}, \autoref{thm:real-tail-agreement-seal-source-separation-obligation}, \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}, \autoref{thm:real-tail-agreement-seal-terminal-consumer-factorization}, \autoref{thm:real-tail-agreement-seal-dyadic-terminal-nonescape}, \autoref{thm:real-tail-agreement-seal-completion-consumer-exactness}, \autoref{thm:real-tail-agreement-seal-completion-consumer-ledger}, \autoref{thm:real-tail-agreement-seal-completion-budget-threshold-exhaustion}, \autoref{thm:real-tail-agreement-seal-dual-source-window-exhaustion}, \autoref{thm:real-tail-agreement-seal-real-completion-boundary}, \autoref{thm:real-tail-agreement-seal-selector-budget-handoff}, \autoref{thm:real-tail-agreement-seal-finite-approximation-consumer-boundary}, \autoref{thm:real-tail-agreement-seal-real-completion-selector-chain}, and \autoref{thm:real-tail-agreement-seal-tastegate-independence-boundary} bind the finite paired tail-window agreement packet, source separation, left--right threshold synchrony, paired-window route, dyadic readback, Real--Completion handoff, terminal consumer factorization, Completion ledger, completion budget-threshold exhaustion, dual-source window exhaustion, shared Real--Completion boundary, selector-budget handoff, finite approximation consumer boundary, Real--Completion selector chain, and TasteGate independence boundary used by Real and Completion handoff consumers.}
+  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, \autoref{thm:real-tail-agreement-seal-left-right-threshold-synchrony}, \autoref{thm:real-tail-agreement-seal-dyadic-window-exactness}, \autoref{thm:real-tail-agreement-seal-real-completion-handoff}, \autoref{thm:real-tail-agreement-seal-nonescape}, \autoref{thm:real-tail-agreement-seal-tail-classifier}, \autoref{thm:real-tail-agreement-seal-classifier-reflexivity}, \autoref{thm:real-tail-agreement-seal-classifier-symmetry}, \autoref{thm:real-tail-agreement-seal-classifier-transitivity}, \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}, \autoref{thm:real-tail-agreement-seal-ledger-exhaustion}, \autoref{thm:real-tail-agreement-seal-source-separation-obligation}, \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}, \autoref{thm:real-tail-agreement-seal-terminal-consumer-factorization}, \autoref{thm:real-tail-agreement-seal-dyadic-terminal-nonescape}, \autoref{thm:real-tail-agreement-seal-completion-consumer-exactness}, \autoref{thm:real-tail-agreement-seal-completion-consumer-ledger}, \autoref{thm:real-tail-agreement-seal-completion-budget-threshold-exhaustion}, \autoref{thm:real-tail-agreement-seal-dual-source-window-exhaustion}, \autoref{thm:real-tail-agreement-seal-real-completion-boundary}, \autoref{thm:real-tail-agreement-seal-selector-budget-handoff}, \autoref{thm:real-tail-agreement-seal-finite-approximation-consumer-boundary}, \autoref{thm:real-tail-agreement-seal-real-completion-selector-chain}, and \autoref{thm:real-tail-agreement-seal-tastegate-independence-boundary} bind the finite paired tail-window agreement packet, classifier reflexivity, classifier symmetry, classifier transitivity, source separation, left--right threshold synchrony, paired-window route, dyadic readback, Real--Completion handoff, terminal consumer factorization, Completion ledger, completion budget-threshold exhaustion, dual-source window exhaustion, shared Real--Completion boundary, selector-budget handoff, finite approximation consumer boundary, Real--Completion selector chain, and TasteGate independence boundary used by Real and Completion handoff consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
