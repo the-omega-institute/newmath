@@ -449,4 +449,36 @@ theorem BoundedMonotoneCauchyWitnessCarrier_completion_consumer_apartness_budget
       envelopeLedgerApartness, apartnessTrapPreSeal, preSealSealCompletion, provenancePkg,
       completionPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_root_monotone_window_totality
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      windowRead witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source schedule windowRead →
+        Cont windowRead regular witnessRead →
+          PkgSig bundle witnessRead pkg →
+            UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+              UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                UnaryHistory sealRow ∧ UnaryHistory provenance ∧ UnaryHistory windowRead ∧
+                  UnaryHistory witnessRead ∧ Cont source schedule windowRead ∧
+                    Cont windowRead regular witnessRead ∧ Cont source schedule regular ∧
+                      Cont regular witness trap ∧ Cont trap sealRow route ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle witnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceScheduleWindow windowRegularWitness witnessPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, provenanceUnary, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleWindow
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed windowUnary regularUnary windowRegularWitness
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      provenanceUnary, windowUnary, witnessReadUnary, sourceScheduleWindow,
+      windowRegularWitness, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
+      provenancePkg, witnessPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
