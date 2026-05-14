@@ -180,6 +180,28 @@ Now place the seal-facing end of that route at the Cauchy-limit seal boundary su
 Finally apply \autoref{thm:choice-free-limit-schedule-public-seal-export}. The exported Real-completion surface remains exactly the finite schedule-to-seal route with $H,C,P,N$, now read through the displayed Cauchy-limit seal boundary first. Since neither the schedule packet nor the cited seal surface supplies quotient streams, host real equality, countable choice, hidden selectors, or an ambient completeness theorem, the factorization exports none of them.
 \end{proof}
 
+\begin{theorem}[Choice-free limit schedule ProbeBundle fusion]
+\label{thm:choice-free-limit-schedule-probebundle-fusion}
+Let $L=(E,M,W,D,R,S,H,C,P,N)$ be an accepted $\ChoiceFreeLimitScheduleUp$ packet, and let $\mathcal{Q}$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests for completion-facing seal reads of $L$. All reads requested by $\mathcal{Q}$ fuse into one finite schedule-to-seal surface consisting exactly of the schedule row $M$, the finite family of $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal $S$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+Thus the bundled readback consumes the same public route
+$$
+M \to W \to D \to R \to S
+$$
+for every member of $\mathcal{Q}$, with the precision-request row $E$ supplying the accepted unary request surface. The fused bundle exports no quotient stream, host real equality, countable-choice row, hidden selector, selected host limit, ambient completeness theorem, or second completion route.
+\end{theorem}
+\begin{proof}
+Read the finite $\mathsf{ProbeBundle}$ one request at a time. For each unary precision request in $\mathcal{Q}$, \autoref{thm:choice-free-limit-schedule-consumer-readback} places the completion-facing read on the displayed route through $E,M,W,D,R,S,H,C,P,N$.
+
+Package those pointwise reads through the same bundle surface. Because $\mathcal{Q}$ is finite and every member names a seal read of the same accepted packet $L$, the schedule row $M$, window family $W$, dyadic ledger $D$, handoff $R$, seal $S$, and rows $H,C,P,N$ are reused rather than replaced by request-specific carriers.
+
+Apply \autoref{thm:choice-free-limit-schedule-public-seal-export}. It identifies the common public route for Real-facing consumers as the finite schedule-to-seal surface with exactly the displayed transport, continuation, provenance, and local naming rows.
+
+Now use \autoref{thm:choice-free-limit-schedule-cauchy-limit-seal-factorization}. The seal-facing end of the bundled route is read through the $\CauchyLimitSealUp$ boundary before any Real-completion consumer observes the public seal, so the bundle does not open a second completion route.
+
+Finally apply \autoref{thm:choice-free-limit-schedule-no-selector-extraction}. Since hidden selector coordinates are absent from the packet, the finite bundle cannot extract quotient streams, host real equality, countable choice, selected host limits, ambient completeness, or any additional completion surface.
+\end{proof}
+
 \begin{theorem}[Choice-free limit schedule well-founded readback]
 \label{thm:choice-free-limit-schedule-choice-free-well-founded-readback}
 Every completion-facing readback of an accepted $\ChoiceFreeLimitScheduleUp$ packet follows the finite route
