@@ -322,6 +322,7 @@ import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
 import BEDC.Derived.CauchyLimitSealUp.SourceScheduleLedger
 import BEDC.Derived.CauchyLimitSealUp.StreamNameDependency
 import BEDC.Derived.CauchyLimitSealUp.StreamNameLatticeOrphanLink
+import BEDC.Derived.CauchyLimitSealUp.StreamNameRegularNameLattice
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
@@ -799,6 +800,7 @@ import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
@@ -1655,6 +1657,7 @@ import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
+import BEDC.Derived.CertificateAuditGateUp.TasteGate
 import BEDC.DerivedIndexAnalysis
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
