@@ -1180,8 +1180,31 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
        rebase + codex resolution kept producing.
     4. Fast-forward LOCAL BASE_BRANCH to the merged worktree tip.
     5. Push to origin and verify origin contains the worktree tip.
+
+    Concurrency: the entire sequence holds (a) `_git_lock` (process-local,
+    serializes this orchestrator's worker threads) AND (b) the cross-process
+    `acquire_push_lock(BASE_BRANCH)` advisory flock on
+    `.git/<BASE_BRANCH>.push.lock`. The cross-process lock prevents the
+    paper-side orchestrator (`codex_revise.py`) and the bidirectional sync
+    daemon (`sync_with_auto_dev.py`) from concurrently pushing to the same
+    remote branch — the root cause of the chronic `ff update of <branch>
+    failed` and `Merge failed — non-fast-forward` rejections (47% + 23% of
+    R-round FAILs on 2026-05-14). Both other daemons must wrap their
+    own push paths in `acquire_push_lock("codex-auto-dev")` for the
+    serialization to be complete.
     """
-    with _git_lock:
+    # _push_lock_cm imported at module top via lazy attempt — keeps the
+    # daemon importable even when tools/repo_push_lock.py is missing on
+    # older trees (graceful degradation: fall back to threading-only).
+    from contextlib import nullcontext
+    try:
+        from tools.repo_push_lock import acquire_push_lock as _pl
+        # 600s upper bound — if no daemon can acquire in 10min, surface a
+        # `TimeoutError` rather than block worker thread forever.
+        push_lock_cm = _pl(BASE_BRANCH, timeout=600)
+    except Exception:
+        push_lock_cm = nullcontext()
+    with push_lock_cm, _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
         def _do_merge_and_ff(attempt: int) -> bool:
