@@ -460,13 +460,59 @@ The assumed componentwise $\hsame$ agreement transports the budget rows $E,W_B,D
 Finally apply the non-escape clauses on both sides. Since neither packet contains quotient stream equality, host real equality, a selected completed limit, ambient completeness, or an unbounded diagonal schedule as a coordinate, the pullback is exact only at the finite BEDC route and cannot manufacture any stronger analytic object.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule budget selector compatibility]
+\label{thm:regular-cauchy-witness-schedule-budget-selector-compatibility}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every finite precision selector compatible with the $\RealObservationBudgetUp$ route of \autoref{ch:concrete-instances-realobservationbudget-namecert} identifies its request row with $\mu$, its finite window row with $W$, its dyadic ledger row with $D$, and its seal row with $T$, after replaying the componentwise $\hsame$ transports in $H$ and the displayed $\Cont$ routes in $C$.
+
+Thus a selector that reaches the synchronized real observation consumes the same displayed L10 packet
+$$
+X,\mu,W,D,R,T,H,C,P,N
+$$
+as the witness schedule. It has no second precision request, no alternate finite-window source, no hidden dyadic ledger, and no seal row outside the packet displayed by $S$.
+\end{theorem}
+\begin{proof}
+First apply window-modulus alignment to the accepted schedule packet. This pins any finite precision request compatible with the schedule to the modulus row $\mu$ and pins the selected finite $\StreamNameUp$ window to $W$.
+
+Next apply diagonal readback. The observation read from the selected window must use the displayed $\DyadicRatCoreUp$ ledger $D$ and the diagonal row $R$ before it can reach the $\RealUp$ seal row $T$.
+
+Now use budget pullback exactness for the compatible $\RealObservationBudgetUp$ consumer. The budget route agrees componentwise with $\mu,W,D,R,T$ after the transports and continuations in $H$ and $C$ are replayed, so its precision selector is exhausted by those same rows.
+
+The remaining rows $X,H,C,P,N$ supply the source, transport, continuation, provenance, and local naming data attached to the already identified route. Since the budget non-escape clause supplies no additional request, window, dyadic, or seal coordinate, the selector and the witness schedule consume the same finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule tail budget exhaustion]
+\label{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every paired-tail or completion-facing budget consumer that reads the scheduled observation of $S$ before entering the $\RealTailAgreementSealUp$ route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} remains inside the displayed rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The consumer may subsequently add the second source and agreement rows required by the tail-agreement seal, but it cannot add another schedule, tolerance ledger, diagonal readback, real-seal row, or completion principle for the scheduled side.
+\end{theorem}
+\begin{proof}
+Begin with the tail-agreement consumer theorem for $S$. It forces any paired-tail route that uses the scheduled observation to pass through $\mu,W,D,R,T$ together with the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Apply shared-window factorization. Completion-facing and paired-tail consumers share the same finite window surface over $X,\mu,W,D,R,T,H,C,P,N$, so the scheduled side has already spent its request, window, dyadic, diagonal, and seal budget before the downstream route is entered.
+
+Finally use non-escape for the witness schedule and for the budget consumer surface. The only data available before the $\RealTailAgreementSealUp$ carrier is the displayed schedule packet; the seal route can append its paired source and agreement rows only after that finite packet has been consumed.
+
+Therefore every paired-tail or completion-facing budget consumer is exhausted by $X,\mu,W,D,R,T,H,C,P,N$ on the scheduled side, and the later tail-agreement route cannot create a second scheduled observation route.
+\end{proof}
+
 \closureat{RegularCauchyWitnessScheduleUp}{obligationStr}
 \closureat{RegularCauchyWitnessScheduleUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
   \constructivestory{A $\RegularCauchyWitnessScheduleUp$ packet is generated from a $\RegSeqRatUp$ family row, explicit modulus row, selected $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ observation ledger, diagonal readback row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}, \autoref{thm:regular-cauchy-witness-schedule-real-completion-handoff-lock}, \autoref{thm:regular-cauchy-witness-schedule-scope-closed-route}, \autoref{thm:regular-cauchy-witness-schedule-scoped-tail-meet-handoff}, \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}, \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}, \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-factorization}, and \autoref{thm:regular-cauchy-witness-schedule-budget-pullback-exactness} bind the finite modulus-indexed scoped route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal and the shared RegularCauchyTailMeet, RealTailAgreementSeal, and RealObservationBudget consumer surfaces.}
+  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}, \autoref{thm:regular-cauchy-witness-schedule-real-completion-handoff-lock}, \autoref{thm:regular-cauchy-witness-schedule-scope-closed-route}, \autoref{thm:regular-cauchy-witness-schedule-scoped-tail-meet-handoff}, \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}, \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}, \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-factorization}, \autoref{thm:regular-cauchy-witness-schedule-budget-pullback-exactness}, \autoref{thm:regular-cauchy-witness-schedule-budget-selector-compatibility}, and \autoref{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion} bind the finite modulus-indexed scoped route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal and the shared RegularCauchyTailMeet, RealTailAgreementSeal, and RealObservationBudget consumer surfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

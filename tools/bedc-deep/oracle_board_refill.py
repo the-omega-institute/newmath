@@ -191,6 +191,7 @@ def _zero_extraction_hang_details(status: dict) -> list[dict[str, str]]:
                 "elapsed_seconds": metric_text(metrics.get("elapsed_seconds")),
                 "extracted_chars": metric_text(metrics.get("extracted_chars")),
                 "page_chars": metric_text(metrics.get("page_chars")),
+                "generating": metric_text(metrics.get("generating")),
                 "url_tail": str(metrics.get("url_tail") or ""),
             }
         )
@@ -207,12 +208,28 @@ def _format_zero_extraction_hang(details: list[dict[str, str]]) -> str:
             fields.append(f"extracted={detail['extracted_chars']}")
         if detail.get("page_chars"):
             fields.append(f"page_chars={detail['page_chars']}")
+        if detail.get("generating"):
+            fields.append(f"generating={detail['generating']}")
         if detail.get("task_id"):
             fields.append(f"task={detail['task_id']}")
         if detail.get("url_tail"):
             fields.append(f"url_tail={detail['url_tail']}")
         parts.append(" ".join(fields))
     return "; ".join(parts)
+
+
+def _cancel_task(server_url: str, task_id: str) -> dict:
+    return _http_post(f"{server_url}/cancel", {"task_id": task_id}, timeout=30)
+
+
+def _should_cancel_zero_extraction(task_id: str, details: list[dict[str, str]]) -> bool:
+    """Only auto-cancel when the current refill is no longer generating."""
+    for detail in details:
+        if detail.get("task_id") != task_id:
+            continue
+        if str(detail.get("generating") or "").lower() == "false":
+            return True
+    return False
 
 
 def _response_failure_kind(response: str) -> str:
@@ -412,6 +429,14 @@ def poll_result(
                         flush=True,
                     )
                     last_zero_extract_log = now
+                if _should_cancel_zero_extraction(task_id, details):
+                    cancel_resp = _cancel_task(server_url, task_id)
+                    print(
+                        "[board_refill] zero-extraction task is no longer generating; "
+                        f"cancelled task={task_id} response={cancel_resp}",
+                        flush=True,
+                    )
+                    return None
         except Exception:
             pass
         if time.time() - last_log > 60:
