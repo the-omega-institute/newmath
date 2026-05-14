@@ -120,4 +120,53 @@ theorem LimitSelectorCarrier_modulus_seal_scope
       sameAlternateReadback, L.selected_index_route, L.window_readback_route,
       L.seal_route⟩
 
+theorem LimitSelectorCarrier_scoped_source_rows
+    (L : LimitSelectorCarrier) {selected readback sealRead downstream : BHist}
+    (selectedRoute : Cont L.precision L.modulus selected)
+    (readbackRoute : Cont selected L.window readback)
+    (sealRoute : Cont readback L.realSeal sealRead)
+    (downstreamRoute : Cont sealRead L.provenance downstream) :
+    hsame selected L.selectedIndex ∧ hsame readback L.dyadicReadback ∧
+      hsame sealRead L.route ∧ Cont sealRead L.provenance downstream ∧
+        hsame L.regSeq L.regSeq ∧ hsame L.window L.window ∧
+          hsame L.transports L.transports ∧ hsame L.name L.name := by
+  have rows :=
+    LimitSelectorCarrier_diagonal_consumer_exhaustion L selectedRoute readbackRoute
+      sealRoute downstreamRoute
+  have sameSelected : hsame selected L.selectedIndex := rows.left
+  have sameReadback : hsame readback L.dyadicReadback := rows.right.left
+  have sameSealRead : hsame sealRead L.route := rows.right.right.left
+  have downstreamRow : Cont sealRead L.provenance downstream := rows.right.right.right.left
+  exact
+    ⟨sameSelected, sameReadback, sameSealRead, downstreamRow, hsame_refl L.regSeq,
+      hsame_refl L.window, hsame_refl L.transports, hsame_refl L.name⟩
+
+theorem LimitSelectorCarrier_nonescape_scope
+    (L : LimitSelectorCarrier)
+    {selectedA readbackA sealA selectedB readbackB sealB : BHist}
+    (selectedRouteA : Cont L.precision L.modulus selectedA)
+    (readbackRouteA : Cont selectedA L.window readbackA)
+    (sealRouteA : Cont readbackA L.realSeal sealA)
+    (selectedRouteB : Cont L.precision L.modulus selectedB)
+    (readbackRouteB : Cont selectedB L.window readbackB)
+    (sealRouteB : Cont readbackB L.realSeal sealB) :
+    hsame selectedA selectedB ∧ hsame readbackA readbackB ∧ hsame sealA sealB ∧
+      hsame sealA L.route ∧ hsame sealB L.route := by
+  have rowsA :=
+    LimitSelectorCarrier_real_seal_nonescape L selectedRouteA readbackRouteA
+  have sameSelectedA : hsame selectedA L.selectedIndex := rowsA.left
+  have sameReadbackA : hsame readbackA L.dyadicReadback := rowsA.right
+  have sameSealA : hsame sealA L.route :=
+    cont_respects_hsame sameReadbackA (hsame_refl L.realSeal) sealRouteA L.seal_route
+  have rowsB :=
+    LimitSelectorCarrier_real_seal_nonescape L selectedRouteB readbackRouteB
+  have sameSelectedB : hsame selectedB L.selectedIndex := rowsB.left
+  have sameReadbackB : hsame readbackB L.dyadicReadback := rowsB.right
+  have sameSealB : hsame sealB L.route :=
+    cont_respects_hsame sameReadbackB (hsame_refl L.realSeal) sealRouteB L.seal_route
+  exact
+    ⟨hsame_trans sameSelectedA (hsame_symm sameSelectedB),
+      hsame_trans sameReadbackA (hsame_symm sameReadbackB),
+      hsame_trans sameSealA (hsame_symm sameSealB), sameSealA, sameSealB⟩
+
 end BEDC.Derived.LimitSelectorUp

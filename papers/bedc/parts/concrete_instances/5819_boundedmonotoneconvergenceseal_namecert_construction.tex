@@ -313,6 +313,24 @@ The equality of $W,M,K,F,\sigma,D,L,R,H,C,P,N$ therefore transports the same wit
 Now change one of $W,K,F,\sigma,D,L,R$. The witness-consumption theorem detects a change of $W$; the criterion-route theorem detects changes of $K,F,\sigma,D,L$; and the Real-handoff theorem detects a change of $R$. Each changed field is on the unique consumer route to the corresponding public read, so the corresponding route changes.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal route determinacy]
+\label{thm:bounded-monotone-convergence-seal-route-determinacy}
+Two accepted $\BoundedMonotoneConvergenceSealUp$ seal-facing consumer routes with the same displayed rows
+$$
+W,M,K,F,\sigma,D,L,R,H,C,P,N
+$$
+determine the same $\RealUp$ handoff route. Conversely, changing any one of $W,K,F,\sigma,D,L,R$ changes the corresponding witness, criterion, regular-rational, stream, dyadic, limit-seal, or Real-facing read.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and the public handoff theorem. They make every seal-facing consumer route a read of the ordered carrier $W,M,K,F,\sigma,D,L,R,H,C,P,N$ and require the route to pass through the public completion-facing handoff before the Real row is exposed.
+
+Next apply the criterion route and Real handoff. These rows force $W$ to feed the witness surface, $M,K$ to feed the public monotone-tail and Cauchy-criterion gates, $F,\sigma,D$ to feed the regular-rational, stream, and dyadic route, $L$ to feed the CauchyLimitSeal compatibility boundary, and $R$ to feed the Real-facing read.
+
+The obligation package and scoped handoff package then remove alternate route choices. With the same displayed rows, the route replay $C$, componentwise transport $H$, provenance $P$, and local name $N$ can only certify the same finite passage through the same rows.
+
+Finally use field faithfulness. A changed $W,K,F,\sigma,D,L$, or $R$ is a changed field on the unique consumer route to its corresponding surface, so the affected witness, criterion, regular-rational, stream, dyadic, limit-seal, or Real-facing read changes as well.
+\end{proof}
+
 \begin{theorem}[Bounded monotone convergence seal stability envelope]
 \label{thm:bounded-monotone-convergence-seal-stability-envelope}
 For accepted $\BoundedMonotoneConvergenceSealUp$ packets $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$ and $S'=(W',M',K',F',\sigma',D',L',R',H',C',P',N')$, componentwise $\hsame$ transport recorded by $H$ preserves the displayed route
