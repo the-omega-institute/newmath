@@ -91,6 +91,48 @@ Nontriviality rules out a collapsed carrier in which the route witness is indist
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Observer-locality transport obligation carrier admission]
+\label{thm:observer-locality-transport-obligation-carrier-admission}
+For every accepted $\ObserverLocalityTransportUp$ carrier
+$$
+T=(O,D,R,L,H,Q,C,P,N),
+$$
+the finite local $\NameCert_{\ObserverLocalityTransportUp}$ surface admits exactly the displayed transport packet. The admitted rows are the $\ObserverLocalityCellUp$ source row $O$, the $\CrossHistCausalUp$ route family $D$, the $\MaxCausalRateUp$ rate row $R$, the no-global-frame ledger $L$, componentwise transport $H$, probe stability $Q$, continuation replay $C$, package provenance $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier displayed in \autoref{def:observer-locality-transport-carrier}. Its coordinates are precisely $O,D,R,L,H,Q,C,P,N$, and each coordinate already has the named transport role used by the local certificate.
+
+Apply the boundary theorem, \autoref{thm:observer-locality-transport-boundary}. It says every public consumer reads the locality-cell row only through the same tuple, so carrier admission cannot add an external frame, clock, metric, or detached rate coordinate.
+
+Finally apply the rate pullback theorem, \autoref{thm:observer-locality-transport-rate-pullback}. The rate-facing surface also factors through the same packet, which makes the admitted carrier the complete finite NameCert row for later promotion.
+\end{proof}
+
+\begin{theorem}[Observer-locality transport obligation causal-route handoff]
+\label{thm:observer-locality-transport-obligation-causal-route-handoff}
+For every accepted $\ObserverLocalityTransportUp$ carrier $T=(O,D,R,L,H,Q,C,P,N)$, any consumer that reads the maximum-rate row $R$ or the cross-Hist causal-rate surface must first pass through the displayed route family $D$ from the locality-cell row $O$. The handoff is transported only by $H$, stabilized only by $Q$, replayed only by $C$, packaged only by $P$, and locally named only by $N$.
+\end{theorem}
+\begin{proof}
+Begin with the local NameCert obligations of \autoref{thm:observer-locality-transport-namecert-obligations}. Their handoff row places every maximum-rate read after the displayed $\CrossHistCausalUp$ family $D$.
+
+Use \autoref{thm:observer-locality-transport-boundary} to identify the public route. The consumer starts at the locality-cell row $O$, moves through $D$, and only then reaches $R$ or a cross-Hist causal-rate read.
+
+The rate pullback theorem, \autoref{thm:observer-locality-transport-rate-pullback}, keeps this handoff inside $T$. Thus $H,Q,C,P,N$ preserve and replay the same finite route instead of manufacturing a second causal path or detached rate row.
+\end{proof}
+
+\begin{theorem}[Observer-locality transport obligation non-global-frame exhaustion]
+\label{thm:observer-locality-transport-obligation-nonglobal-frame-exhaustion}
+For every accepted $\ObserverLocalityTransportUp$ carrier $T=(O,D,R,L,H,Q,C,P,N)$, the no-global-frame ledger $L$ exhausts every request for a privileged observer frame, synchronized clock, metric tensor, Lorentz-geometry coordinate, host real-valued speed, or locality read not routed through $O,D,R,L,H,Q,C,P,N$. Later promotion reads the existing \texttt{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment} marker together with the $\mathsf{Nontrivial}\ \ObserverLocalityTransportUp$ and $\mathsf{FieldFaithful}\ \ObserverLocalityTransportUp$ instances, so the AI-origin TasteGate discipline is attached to this same finite carrier rather than to a global frame.
+\end{theorem}
+\begin{proof}
+Read the ledger coordinate $L$ in the carrier definition. It records exactly the exclusions for global frame, synchronized clock, metric tensor, Lorentz geometry, host real-valued speed, and off-route locality access.
+
+Apply \autoref{thm:observer-locality-transport-boundary}. Since every public locality read stays inside $T$, any request for a global frame has no coordinate except the refusal recorded by $L$.
+
+Apply \autoref{thm:observer-locality-transport-rate-pullback} for rate-facing consumers. The rate row is available only after the causal route and never as a host real-valued speed or Lorentz coordinate, so the exhaustion covers both locality and rate interfaces.
+
+The TasteGate marker already checked in this chapter is then read as a single-carrier alignment condition. Nontriviality separates the transport packet from its sibling rows, and field faithfulness preserves all coordinates $O,D,R,L,H,Q,C,P,N$ during promotion.
+\end{proof}
+
 \falsifiablePrediction{If the transport packet is atomic, a consumer cannot replace the displayed locality-cell row by a MaxCausalRate row without passing through CrossHistCausal transport.}
 
 \independenceWitness{Nearest siblings: observerlocalitycell, crosshistcausal, maxcausalrate, crosshistcausalrate. The transport packet is not bijective to any of them because it carries a route-level transport row between sibling surfaces, while those siblings carry cell, causal, bound, or rate rows without this route witness.}
