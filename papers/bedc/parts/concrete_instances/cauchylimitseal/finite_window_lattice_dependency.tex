@@ -17,6 +17,20 @@ Use the StreamName lattice-meet exhaustion theorem \autoref{thm:streamname-finit
 Finally apply the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. The sealed route can carry only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance over $X,D,G,E$, so quotient stream equality, host real equality, selected host limits, hidden tail witnesses, and ambient completeness remain outside the exported surface.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal source-schedule lattice coherence]
+\label{thm:cauchy-limit-seal-source-schedule-lattice-coherence}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Any seal-facing consumer of $L$ that factors through the $\StreamNameUp$ finite-window lattice meet uses the same displayed schedule row $S$, the same $\RegSeqRatUp$ source row $X$, the same $\DyadicRatCoreUp$ ledger $D$, the same $\RealCauchyCompletionUp$ diagonal row $G$, and the same $\RealUp$ seal row $E$. No second $\StreamNameUp$ window, quotient stream equality, selected limit, hidden tail witness, host real equality, or ambient completeness datum may replace this route.
+\end{theorem}
+\begin{proof}
+Use the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places every seal-facing consumer route over the $\StreamNameUp$ finite-window lattice meet before the route reaches the displayed source, ledger, diagonal, and seal rows.
+
+Apply the scheduled-window pullback of \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}. The pullback identifies the schedule row $S$ as the common finite-window source for the regular source row $X$, dyadic ledger $D$, completion diagonal $G$, and seal row $E$.
+
+Now use the StreamName lattice-meet exhaustion theorem \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. Once the consumer has entered the meet, the readable window data are exhausted by the displayed finite-window coordinates and cannot be replaced by a second StreamName window or quotient stream equality.
+
+Finally apply the RegSeqRat seal-route exclusion package of \autoref{thm:regseqrat-real-seal-route-exclusion-package}. The regular-source seal route exports no selected limit, hidden tail witness, host real equality, or ambient completeness datum, so the only coherent source-schedule route left for the consumer is the displayed $S,X,D,G,E$ handoff.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal RegSeqRat Real finite-window pullback]
 \label{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Suppose the source row $X$ is consumed as a $\RegSeqRatUp$ packet and the seal row $E$ is read by a $\RealUp$ consumer. Then the consumer route pulls back first through the $\StreamNameUp$ finite-window lattice meet, then through the $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, and the $\RealUp$ seal row $E$. The pulled-back route exposes only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, and it exposes no quotient stream, selected limit, host real equality, or ambient completeness datum.
