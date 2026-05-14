@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CauchyWindowTransducerUp$}
+\label{ch:concrete-instances-cauchy-window-transducer-namecert}
+\origin{ai}
+
+The $\CauchyWindowTransducerUp$ packet realizes the Real-completeness route of \autoref{ch:visions-real-completeness} as a finite transition object between StreamName windows, dyadic tolerance rows, RegSeqRat readbacks, LimitSelector handoffs, and RealUp seals. It is a NameCert carrier for one displayed window step; it is not a quotient stream, a host limit selector, a countable-choice principle, or an ambient completeness theorem.
+
+\begin{definition}[Cauchy window transducer carrier]
+\label{def:cauchy-window-transducer-carrier}
+A $\CauchyWindowTransducerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,D,W,R,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window source row;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row read at the same window scale;
+\item $W$ is the local window-step row translating the source window and dyadic tolerance into the next finite request;
+\item $R$ is the $\RegSeqRatUp$ readback row produced after the window step;
+\item $E$ is the $\RealUp$ seal row consumed only after the readback row is displayed;
+\item $L$ is the $\LimitSelectorUp$ handoff row naming the diagonal-limit selector used by the window step;
+\item $H$ records componentwise $\hsame$ transports for $S,D,W,R,E,L,C,P,N$;
+\item $C$ records displayed $\Cont$ routes from $S,D$ to $W$, from $W$ to $R$, from $R$ to $E$, and from $L$ to the same step route;
+\item $P$ records $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\LimitSelectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyWindowTransducerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected external limit, quotient equality of real names, global stream equality, countable choice, or a RealUp seal read that bypasses the displayed RegSeqRat handoff.
+\end{definition}
+\leandef{BEDC.Derived.CauchyWindowTransducerUp.taste\_gate}
+
+\begin{theorem}[Cauchy window transducer NameCert obligations]
+\label{thm:cauchy-window-transducer-namecert-obligations}
+For the carrier of \autoref{def:cauchy-window-transducer-carrier}, the local $\NameCert_{\CauchyWindowTransducerUp}$ surface consists exactly of carrier admission for
+$$
+T=(S,D,W,R,E,L,H,C,P,N),
+$$
+StreamName window exposure through $S$, dyadic tolerance exposure through $D$, local window-step exposure through $W$, RegSeqRat readback through $R$, RealUp seal routing through $E$, LimitSelector handoff through $L$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $T$. Each public row of the transducer is one of $S,D,W,R,E,L,H,C,P,N$.
+
+The analytic rows are read in order. The StreamName row and dyadic tolerance row supply the finite request surface, the local window-step row consumes that pair, the RegSeqRat row records the readback, and the RealUp seal row is reachable only after that readback.
+
+The LimitSelector row names the diagonal selector used by the same step route. The structural rows $H,C,P,N$ transport, replay, package, and name this finite inventory, so no hidden limit or quotient coordinate remains in the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy window transducer window-step determinacy]
+\label{thm:cauchy-window-transducer-window-step-determinacy}
+Let two accepted $\CauchyWindowTransducerUp$ packets agree on the StreamName window row $S$, dyadic tolerance row $D$, LimitSelector row $L$, and structural rows $H,C,P,N$. If both packets expose the same window-step row $W$, then they determine the same RegSeqRat readback row $R$ and the same RealUp seal route $E$.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:cauchy-window-transducer-carrier}. The only analytic continuation after $S,D,L$ is the displayed window-step row $W$ followed by $R$ and $E$.
+
+Apply \autoref{thm:cauchy-window-transducer-namecert-obligations}. It identifies route replay with the displayed $\Cont$ rows in $C$ and binds the same package provenance and local name through $P$ and $N$.
+
+Since the two packets agree on $S,D,L,W,H,C,P,N$, there is no remaining carrier coordinate from which a second readback or seal route could be selected. The RegSeqRat readback and RealUp seal route are therefore determined by the common window step.
+\end{proof}
+
+\begin{theorem}[Cauchy window transducer RegSeqRat handoff]
+\label{thm:cauchy-window-transducer-regseq-handoff}
+Every accepted $\CauchyWindowTransducerUp$ packet hands a RealUp-facing consumer to the seal row $E$ only through the RegSeqRat readback row $R$. A consumer may inspect the StreamName window, dyadic tolerance, window step, and LimitSelector handoff, but the RealUp seal is not exported until $R$ has been displayed.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to read the analytic route
+$$
+S,D,L \longmapsto W \longmapsto R \longmapsto E.
+$$
+The row $E$ occurs after $R$ in the displayed inventory and has no separate continuation source.
+
+The NameCert obligation theorem then fixes the admissible public reads. Route replay through $C$ reaches the RealUp seal only along the displayed route, while $H$ transports the same rows componentwise and $P,N$ bind the route to the local certificate.
+
+Thus a RealUp-facing consumer can read the seal only after the RegSeqRat handoff row has been consumed. A route that bypasses $R$ is outside the carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy window transducer Real seal non-escape]
+\label{thm:cauchy-window-transducer-real-seal-nonescape}
+No accepted $\CauchyWindowTransducerUp$ packet exports a RealUp seal read from an external limit selector, quotient stream equality, global stream equality, countable-choice row, or hidden completeness theorem. Every RealUp seal read factors through
+$$
+S,D,W,R,E,L,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-window-transducer-regseq-handoff}. It forces every RealUp-facing seal read through the displayed RegSeqRat handoff $R$.
+
+Apply \autoref{thm:cauchy-window-transducer-window-step-determinacy}. Agreement on the source window, tolerance, selector, step, and structural rows determines the readback and seal route, so no hidden selector remains available after the displayed rows are fixed.
+
+Finally use the exclusion clause in \autoref{def:cauchy-window-transducer-carrier} together with \autoref{thm:cauchy-window-transducer-namecert-obligations}. The carrier lists the full finite inventory and explicitly lacks quotient, global equality, choice, and ambient completeness coordinates.
+\end{proof}
+
+\falsifiablePrediction{Removing the window-step row permits a RealUp seal read without a displayed RegSeqRat handoff.}
+
+\independenceWitness{Nearest siblings: StreamName, DyadicRatCore, RegSeqRat, RealUp, and LimitSelector. None is bijective to $\CauchyWindowTransducerUp$ because this carrier stores the joint window source, dyadic tolerance, step row, readback row, seal route, selector handoff, transport, replay, provenance, and local naming rows in one finite packet, while each sibling exposes only one surface of that route.}
