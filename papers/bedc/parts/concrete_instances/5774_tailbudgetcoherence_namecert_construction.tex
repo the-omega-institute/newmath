@@ -251,6 +251,28 @@ The consumer side is controlled by \autoref{thm:tail-budget-coherence-real-route
 Finally apply \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the two projections describe a bridge only for the finite public surface and not for any stronger analytic equality or completeness object.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence finite-route determinacy]
+\label{thm:tail-budget-coherence-finite-route-determinacy}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+any two $\RealUp$ or $\CompletionUp$ consumers that read the same TailMeet threshold, observation budget, selector budget, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, agreement seal, limit seal, and structural rows determine the same public finite route
+$$
+M,O,S,W,D,R,A,L,H,C,P,N.
+$$
+No second window, quotient stream equality, selected limit, host real equality, countable-choice selector, or ambient completeness row can distinguish the two routes.
+\end{theorem}
+\begin{proof}
+Begin with threshold-budget exposure from \autoref{thm:tail-budget-coherence-threshold-budget-exposure}. It fixes the TailMeet threshold, observation-budget, and selector-budget rows before any consumer can read the finite window or either seal.
+
+Next apply window-readback exactness from \autoref{thm:tail-budget-coherence-window-readback-exactness}. The shared window, dyadic ledger, and regular readback are exactly $W,D,R$, so two consumers with the same displayed readback data cannot separate into two finite-window routes.
+
+The Real route scope and public export boundary, \autoref{thm:tail-budget-coherence-real-route-scope} and \autoref{thm:tail-budget-coherence-public-export-boundary}, place both consumers on $M,O,S,W,D,R,A,L,H,C,P,N$ before either Real or Completion endpoint sees the agreement or limit seal.
+
+Finally use the sibling-scope lock, bridge interface, and no-ambient-completeness scope of \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-bridge-interface}, and \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. These exhaust the structural rows and exclude quotient stream equality, selected limits, host real equality, choice selectors, and ambient completeness rows, so the two reads are the same public finite route.
+\end{proof}
+
 \begin{theorem}[Tail budget coherence synchronizer comparison]
 \label{thm:tail-budget-coherence-synchronizer-comparison}
 For an accepted $\TailBudgetCoherenceUp$ packet
