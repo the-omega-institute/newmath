@@ -3,7 +3,7 @@ title: "Sixteen to Sixty-Four"
 subtitle: "The cook compile-frontier is at sixteen productions. A halted Turing machine needs sixty-four. The gap is finite engineering distance, and crossing it would change what 'universal' means in a specific way."
 author: "The Omega Institute"
 date: 2026-05-14
-description: "Rule 110 is universal in principle. The cellular substrate hosts at 16 productions × 32 tape symbols. The minimum halted TM compiles to ~64 productions × 64 tape symbols. The gap is engineering, not theory — and the work to close it converts 'universal in principle' to 'witnessed universal'."
+description: "Rule 110 is universal in principle. The cellular substrate currently passes configurations with max P=16, max T=32, and $P \\cdot T$ peak of 64 across cases. The minimum halted TM compiles to ~64 productions × 64 tape symbols, i.e. $P \\cdot T = 4096$. The gap is engineering, not theory — and the work to close it converts 'universal in principle' to 'witnessed universal'."
 ---
 
 ```{=html}
@@ -14,11 +14,11 @@ description: "Rule 110 is universal in principle. The cellular substrate hosts a
 
 In the [Goedel boundary essay](goedel-boundary-as-data.qmd) the framework places a specific pair of numbers on the table:
 
-> The minimum halted TM compiles to ~(64, 64). The current frontier is ~(16, 32). The gap is finite engineering distance.
+> The minimum halted TM compiles to ~(64, 64). The current frontier reaches max P=16, max T=32, and $P \cdot T$ peak of 64 across cases (largest balanced: (8, 8, 16384)). The gap is finite engineering distance.
 
 The numbers are not metaphorical. They are read from a specific file: `rule110/STATUS.md`. They are the engineering coordinate of where the project's cellular substrate has been exercised. And they are the question this essay is about:
 
-*What does it mean for Rule 110 to be Turing-universal, in practice, given that the substrate currently hosts only computations whose Cook-compiled cyclic-tag form has at most 16 productions and 32 tape symbols?*
+*What does it mean for Rule 110 to be Turing-universal, in practice, given that the substrate currently hosts only computations whose Cook-compiled cyclic-tag form has $P \cdot T \leq 64$ in passing configurations — far from the halted-TM target $P \cdot T = 4096$?*
 
 ## The compile pipeline, stage by stage
 
@@ -41,17 +41,18 @@ The *minimum halted TM* — a single halt state, no transitions — already land
 
 ## What the substrate currently does
 
-`rule110/tests/test_cook_packet_scale.c` runs each compile path end-to-end at successively larger scales and records the largest pass. Current configurations include:
+`rule110/tests/test_cook_packet_scale.c` runs each compile path end-to-end at successively larger scales and records the largest pass. All 12 current configurations pass:
 
 ```text
-(P=2,  T=16, S=16384)
-(P=8,  T=8,  S=16384)
-(P=4,  T=16, S=32768)
-(P=2,  T=32, S=32768)
-(P=16, T=2,  S=8192)
+(P=2,  T=2,  S=1024)    (P=3,  T=3,  S=2048)
+(P=4,  T=4,  S=4096)    (P=5,  T=5,  S=8192)
+(P=3,  T=8,  S=8192)    (P=2,  T=16, S=16384)
+(P=8,  T=4,  S=8192)    (P=6,  T=6,  S=16384)
+(P=4,  T=16, S=32768)   (P=2,  T=32, S=32768)
+(P=16, T=2,  S=8192)    (P=8,  T=8,  S=16384)
 ```
 
-All are below the halted-TM target. None reaches $P=64$ or $T=64$ in a single configuration. The product $P \cdot T$ in current passes peaks at $64$ in `(2, 32)` and `(16, 2)`; the target product is $64 \cdot 64 = 4096$.
+The largest balanced case is $(8, 8, 16384)$. Single-axis extremes reach $P=16$ (in `(16, 2)`) and $T=32$ (in `(2, 32)`). The product $P \cdot T$ peaks at $64$, hit by four cases: `(8, 8)`, `(4, 16)`, `(2, 32)`, `(16, 2)`. None reaches $P=64$ or $T=64$ in a single configuration. The target product is $64 \cdot 64 = 4096$ — sixty-four times the current peak.
 
 So the substrate has been exercised on small cyclic-tag computations, and the round-trip (encode → run → decode) succeeds. The substrate has *not* been exercised on a real Turing machine encoding. The gap between the two is the cook compile-frontier.
 
