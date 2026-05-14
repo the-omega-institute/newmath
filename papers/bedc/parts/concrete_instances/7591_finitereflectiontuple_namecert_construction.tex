@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\FiniteReflectionTupleUp$}
+\label{ch:concrete-instances-finitereflectiontuple-namecert}
+\origin{ai}
+
+The $\FiniteReflectionTupleUp$ packet realizes the TasteGate stability discipline of \autoref{ch:visions-theory-stability-taste-gate} as a finite reflection tuple. It consumes the stability packet of \autoref{ch:concrete-instances-tastegatestability-namecert}, the candidate-admission surface of \autoref{ch:concrete-instances-tastegateadmission-namecert}, and the compiler-witness route of \autoref{ch:concrete-instances-tastegatecompilerwitness-namecert}. The packet is narrower than these siblings: it records the fixed displayed tuple image, the readback rows, the componentwise $\NameCert$ transports, and the reflection-request rows that a downstream bridge request may inspect.
+
+\begin{definition}[FiniteReflectionTuple carrier]
+\label{def:finite-reflection-tuple-carrier}
+A $\FiniteReflectionTupleUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the candidate chapter identity row, recording the chapter label, origin row, and concrete-instance site being reflected;
+\item $S$ is the consumed $\TasteGateStabilityUp$ row, carrying the candidate carrier, $\ChapterTasteGate$ obligations, admission ledger, and non-escape boundary;
+\item $A$ is the consumed $\TasteGateAdmissionUp$ row, exposing the candidate-admission surface and refusal ledger for the same $X$;
+\item $W$ is the consumed $\TasteGateCompilerWitnessUp$ row, exposing the ground-compiler event-flow image, replay rows, dependency ledger, and audit result;
+\item $I$ is the displayed tuple-image row, listing the finite image of $X,S,A,W$ as the exact tuple requested by the reflection route;
+\item $R$ is the readback row, recovering $X,S,A,W$ componentwise from $I$ without importing a second carrier or host semantic judgment;
+\item $H$ stores componentwise $\hsame$ transports for $X,S,A,W,I,R,C,P,Q,N$ and componentwise $\NameCert$ transport for the three consumed TasteGate packets;
+\item $C$ records the displayed $\Cont$ routes that replay tuple formation, image reading, readback, and componentwise NameCert transport;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-theory-stability-taste-gate}, the three consumed TasteGate packets, tuple-image rows, readback rows, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $Q$ is the reflection-request row, recording which $\StdBridge$-facing request may inspect the tuple image and readback;
+\item $N$ is the local $\NameCert_{\FiniteReflectionTupleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden prompt state, oracle taste, unlisted compiler facts, a host-side approval row, a second tuple image, or a reflection request detached from $I$ and $R$.
+\end{definition}
+
+\begin{theorem}[FiniteReflectionTuple NameCert obligations]
+\label{thm:finite-reflection-tuple-namecert-obligations}
+For every accepted $\FiniteReflectionTupleUp$ carrier
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+the local $\NameCert_{\FiniteReflectionTupleUp}$ surface consists exactly of carrier exposure for $F$, candidate identity through $X$, consumed stability data through $S$, consumed admission data through $A$, consumed compiler-witness data through $W$, tuple-image exposure through $I$, readback exposure through $R$, componentwise $\hsame$ and $\NameCert$ transport through $H$, replay routes through $C$, package provenance through $P$, reflection-request exposure through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:finite-reflection-tuple-carrier}. The packet lists every row available to a consumer of the finite reflection tuple.
+
+The TasteGate rows are supplied by \autoref{ch:concrete-instances-tastegatestability-namecert}, \autoref{ch:concrete-instances-tastegateadmission-namecert}, and \autoref{ch:concrete-instances-tastegatecompilerwitness-namecert}. The stability row supplies the carrier and non-escape boundary, the admission row supplies the candidate row being tested, and the compiler witness supplies the ground-compiler evidence read by $W$ and replayed through $C$.
+
+The reflection-specific obligations are $I,R,H,C,P,Q,N$. The tuple image $I$ is the only displayed image, $R$ is the only readback, $H$ gives componentwise transport for both equality and local certificates, and $Q$ records the bridge-facing request that may inspect the tuple.
+
+Since the carrier has no coordinate for hidden prompt state, oracle taste, unlisted compiler facts, host-side approval, a second tuple image, or a request detached from $I$ and $R$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteReflectionTuple field-faithful prediction]
+\label{thm:finite-reflection-tuple-fieldfaithful-prediction}
+Every accepted $\FiniteReflectionTupleUp$ packet is field-faithful to its displayed tuple image. A consumer that asks for the reflected candidate, stability packet, admission packet, compiler witness, componentwise transport, or $\StdBridge$ request must read that field through $I$ and recover it through $R$. A packet lacking either the displayed image row or the readback row is not a public reflection request over the accepted TasteGate route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The only image coordinate is $I$, and the only row that recovers fields from the image is $R$.
+
+Use the NameCert obligations of \autoref{thm:finite-reflection-tuple-namecert-obligations}. They force candidate identity, stability, admission, compiler witness, transport, replay, provenance, and request reads through the displayed tuple surface.
+
+The reflection-request row $Q$ is therefore request data for the same image and readback. If either $I$ or $R$ is absent, a consumer may still name some TasteGate packet, but it cannot present the fixed tuple image/readback surface required by this carrier.
+
+Thus every accepted field read is faithful to the displayed tuple, and a request without both image and readback rows is outside the public reflection packet.
+\end{proof}
+
+\falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
+
+\independenceWitness{tastegatestability, tastegateadmission, tastegatecompilerwitness, kernelacceptancetrace: none contains the fixed tuple image/readback/componentwise transport surface together with a reflection-request row.}
+
+Lean development for this route must provide Nontrivial $\FiniteReflectionTupleUp$ and $\mathsf{FieldFaithful}\ \FiniteReflectionTupleUp$ instances in \texttt{lean4/BEDC/Derived/FiniteReflectionTupleUp/TasteGate.lean}.
