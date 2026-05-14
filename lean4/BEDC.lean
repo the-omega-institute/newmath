@@ -232,6 +232,7 @@ import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
+import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
@@ -675,6 +676,7 @@ import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowSeal
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyRealSealTailCoprovenance
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionBudgetLock
