@@ -12,3 +12,25 @@ The $\RegularCauchyNameUp$ handoff of \autoref{ch:concrete-instances-regularcauc
 
 The non-escape clause is coordinate exhaustion. Neither the StreamName finite-window package nor the RegularCauchyName handoff contains a host sequence, quotient-stream equality, selected limit, independent real carrier, or ambient completeness coordinate, so the routed lattice link cannot export one.
 \end{proof}
+
+\begin{theorem}[StreamName real-seal lattice route]
+\label{thm:streamname-real-seal-lattice-link}
+Every accepted $\StreamNameUp$ finite-window schedule consumed by $\RegularCauchyNameUp$ reaches the $\RealUp$ seal only through the displayed route
+$$
+\StreamNameUp\ \text{window rows}
+\longrightarrow
+\RegularCauchyNameUp\ \text{schedule, radius, ledger, and seal rows}
+\longrightarrow
+\RegSeqRatUp\ \text{regular source rows}
+\longrightarrow
+\RealUp\ \text{seal row}.
+$$
+The $\RegularCauchyNameUp$ segment is the schedule-and-radius packet of \autoref{ch:concrete-instances-regularcauchyname-namecert}, the $\RegSeqRatUp$ segment is the regular source handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal is the real-facing packet of \autoref{ch:concrete-instances-real-namecert}. The route exports no quotient stream equality, selected limit, host sequence equality, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the StreamName-to-RegularCauchyName lattice edge of \autoref{thm:streamname-regularcauchyname-lattice-link}. It identifies the accepted finite-window schedule as the only surface through which $\RegularCauchyNameUp$ reads the source observations, together with the displayed certified unary observations, pointwise $\RegSeqRatUp$ classifier rows, transport rows, continuation rows, package provenance, and local naming data.
+
+The $\RegularCauchyNameUp$ packet then exposes the dyadic-radius row, regularity ledger, and real-seal-facing row named in \autoref{ch:concrete-instances-regularcauchyname-namecert}. The regular source information is the same finite-window $\RegSeqRatUp$ handoff recorded in \autoref{ch:concrete-instances-regseqrat-namecert}, so the route cannot bypass the regular rational source rows before reaching the real-facing seal.
+
+Finally, the terminal consumer is the $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert}. Coordinate exhaustion now gives the non-escape clause: none of the displayed packets contains a quotient stream equality, selected limit, host sequence equality, host real equality, or ambient completeness coordinate, and therefore no such coordinate is exported by their composite route.
+\end{proof}
