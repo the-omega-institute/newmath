@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for an internal witness of the requested supply, no hidden selector, no host quotient, and no theorem asserting that the requested supply exists.
 \end{definition}
+\leanchecked{BEDC.Derived.ExternalSupplyBoundaryUp.ExternalSupplyBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ExternalSupplyBoundary NameCert obligations]
 \label{thm:external-supply-boundary-namecert-obligations}
@@ -54,6 +55,90 @@ Use the accepted-boundary-form row $A$ together with the $\mathsf{GAP}$ ledger $
 Use the gate-question row $Q$ to bind the consumer read to an audit question. A consumer can ask whether the boundary remains visible, but the packet contains no coordinate that answers by supplying the requested content.
 
 The remaining rows $H,C,P,N$ preserve and name only the displayed boundary rows. Since no coordinate stores an internal witness, selector, quotient representative, proposition equality token, or supplied-content theorem, every accepted packet keeps the requested supply external.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyBoundary accepted form exhaustion]
+\label{thm:external-supply-boundary-accepted-form-exhaustion}
+For every accepted $\ExternalSupplyBoundaryUp$ packet
+$$
+E=(B,R,I,A,G,Q,H,C,P,N),
+$$
+the accepted boundary form row $A$ is exhausted by exactly one of the displayed
+boundary forms: setup field, NameCert row, $\mathsf{GAP}$ ledger, bridge slot,
+or apophatic socket. The packet exposes no accepted form outside those rows
+and no internal witness of the requested supply.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:external-supply-boundary-carrier}. The
+accepted-form coordinate is the row $A$, and it is read beside
+$B,R,I,G,Q,H,C,P,N$.
+
+Use \autoref{thm:external-supply-boundary-namecert-obligations}. The local
+NameCert surface binds accepted-form exposure to carrier admission,
+requested-supply exactness, non-internalization, GAP-ledger readback,
+gate-question readback, transport, replay, provenance, and local naming.
+
+Finally apply \autoref{thm:external-supply-boundary-non-internalization}. Since
+the requested supply is not internalized, the accepted form cannot be replaced
+by a hidden witness, selector, quotient representative, proposition equality
+token, or supplied-content theorem.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyBoundary gate question determinacy]
+\label{thm:external-supply-boundary-gate-question-determinacy}
+For every accepted $\ExternalSupplyBoundaryUp$ packet
+$$
+E=(B,R,I,A,G,Q,H,C,P,N),
+$$
+the gate-question row $Q$ is deterministic for downstream reads. Once the
+boundary name $B$, requested-supply shape $R$, non-internalization row $I$,
+accepted form $A$, and $\mathsf{GAP}$ ledger $G$ are fixed, every consumer
+reads the same finite question $Q$ through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The row $Q$ is a coordinate of the same finite
+packet as $B,R,I,A,G,H,C,P,N$, so there is no second question row available to
+a consumer.
+
+Use \autoref{thm:external-supply-boundary-namecert-obligations}. Gate-question
+readback is one of the local obligations, and the structural rows $H,C,P,N$
+only transport, replay, package, and name that row.
+
+Apply \autoref{thm:external-supply-boundary-non-internalization}. The
+determinacy of $Q$ cannot be bypassed by reading an internal witness,
+selector, quotient representative, proposition equality token, or theorem
+that supplies the requested content.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyBoundary sibling compatibility]
+\label{thm:external-supply-boundary-sibling-compatibility}
+Every accepted $\ExternalSupplyBoundaryUp$ packet
+$$
+E=(B,R,I,A,G,Q,H,C,P,N)
+$$
+is compatible with the sibling surfaces $\SupplySocketLedgerUp$,
+$\ApophaticSocketUp$, $\AuditGateBoundaryUp$, and $\ApophaticGateQuestionUp$.
+The row $P$ records those sibling provenances, while $A,G,Q$ expose the
+accepted boundary form, socket or residue ledger, and gate question needed by
+the sibling reads. The compatibility does not internalize the requested
+supply.
+\end{theorem}
+\begin{proof}
+Project the carrier. The provenance row $P$ explicitly ranges over the socket
+ledger, apophatic socket, audit gate boundary, and apophatic gate question
+sibling surfaces, while $A,G,Q$ display the accepted form, residue ledger, and
+question rows they consume.
+
+Use \autoref{thm:external-supply-boundary-namecert-obligations}. It binds
+sibling-facing provenance to the same carrier admission, non-internalization,
+accepted-form readback, GAP-ledger exposure, gate-question readback,
+transport, replay, and local naming rows.
+
+Finally use \autoref{thm:external-supply-boundary-non-internalization}. The
+sibling compatibility route can expose socket use, apophatic refusal, audit
+boundary pressure, and gate-question reads, but it has no coordinate for an
+internal witness, selector, quotient representative, proposition equality
+token, or supplied-content theorem.
 \end{proof}
 
 \falsifiablePrediction{A boundary packet that omits either the non-internalization row or the GAP-ledger row cannot satisfy the non-internalization theorem.}
