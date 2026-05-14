@@ -366,6 +366,42 @@ For unsupported closure requests, apply root ledger routing. The same consumers 
 Finally use the existing independence witness together with root structural exhaustion. The listed siblings package distinct application faces, while the shared root packet contains exactly the common request, source, refusal, transport, route, provenance, and naming rows consumed by all of them.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary downstream source refusal]
+\label{thm:gap-closure-boundary-downstream-source-refusal}
+Every listed downstream hard-problem consumer of an accepted $\GapClosureBoundaryUp$ packet must choose either the displayed source route $G \longrightarrow S$ or the refusal route $G \longrightarrow R$. No downstream consumer among $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ receives a third root route outside $G,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use root source exposure, \autoref{thm:gap-closure-boundary-root-source-exposure}. It fixes the common packet available to the downstream consumers as $G,S,R,H,C,P,N$.
+
+Apply root ledger routing and root consumer coverage, \autoref{thm:gap-closure-boundary-root-ledger-routing} and \autoref{thm:gap-closure-boundary-root-consumer-coverage}. The supported case goes through the displayed source row $S$, while the unsupported case is routed to the refusal ledger $R$.
+
+Root structural exhaustion then excludes the third option. Since the carrier has no private hard-problem route outside the displayed rows, every downstream read is either source-routed or refusal-routed.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary downstream boundary package]
+\label{thm:gap-closure-boundary-downstream-boundary-package}
+For the listed downstream hard-problem consumers, the exact boundary package is the pair of routes $G \longrightarrow S$ and $G \longrightarrow R$ together with the structural rows $H,C,P,N$. This package is the whole exported interface for source exposure, refusal routing, transport, continuation, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with root consumer coverage. It states that each downstream consumer reads the same root-facing packet and receives no additional row outside $G,S,R,H,C,P,N$.
+
+Use downstream source refusal above to split the packet into its two possible root routes. The positive branch is the source route through $S$, and the negative branch is the refusal route through $R$.
+
+The rows $H,C,P,N$ carry the routes without changing their boundary. Thus the downstream package is exactly the two route rows plus the displayed structural support.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary downstream structural exhaustion]
+\label{thm:gap-closure-boundary-downstream-structural-exhaustion}
+The downstream boundary package $G,S,R,H,C,P,N$ cannot add hidden $\mathsf{T}$ supply, private access, causal necessity, aspect reduction, or off-packet continuation for any listed hard-problem consumer. All such requests are refused unless they are already represented by the displayed source or refusal route.
+\end{theorem}
+\begin{proof}
+Start from root structural exhaustion, \autoref{thm:gap-closure-boundary-root-structural-exhaustion}. It removes hidden supply, private rows, causal rows, aspect-reduction rows, and off-packet continuations from the root-facing carrier.
+
+Combine this with the downstream boundary package above. Since the downstream package has only $G,S,R,H,C,P,N$, the structural rows can transport and name a source or refusal route but cannot create any excluded object.
+
+Therefore the listed hard-problem consumers inherit the same exhaustion boundary. A consumer may use the displayed source route or the displayed refusal route, and nothing outside the packet is exported.
+\end{proof}
+
 \begin{theorem}[GapClosureBoundary source-consumer uniformity]\label{thm:gap-closure-boundary-source-consumer-uniformity}
 For an accepted $\GapClosureBoundaryUp$ packet, every supported root read consumed by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ factors through the same displayed source route
 $$
