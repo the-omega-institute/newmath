@@ -242,6 +242,9 @@ instance auditGateCompositionChapterTasteGate : ChapterTasteGate AuditGateCompos
     intro x y hxy heq
     exact hxy (auditGateCompositionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate AuditGateCompositionUp :=
+  auditGateCompositionChapterTasteGate
+
 theorem AuditGateCompositionTasteGate_single_carrier_alignment :
     (∀ h : BHist, auditGateCompositionDecodeBHist (auditGateCompositionEncodeBHist h) = h) ∧
       (∀ x : AuditGateCompositionUp,

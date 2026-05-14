@@ -1,0 +1,35 @@
+\begin{theorem}[$\ZNormalUp$ root total-host fuel frontier]
+\label{thm:znormal-root-total-host-fuel-frontier}
+For every accepted $\ZNormalUp$ packet, any total-host read that precedes a public normal output must expose the displayed rows $T,F,V,R,H,C,P,N$ before that output is available. The typed endpoint $T$, finite fuel $F$, terminal-normality row $V$, terminal continuation readback $R$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local name $N$ are therefore the root-facing fuel frontier for public normal output.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations of \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They list $T,F,V,K,R,H,C,P,N$ as the complete accepted packet and bind every public read to the same local certificate surface.
+
+Apply finite-fuel carrier admission from \autoref{thm:znormal-finite-fuel-carrier-admission}. It places the typed endpoint, finite fuel, terminal-normality row, terminal continuation readback, and structural rows in one finite packet before any root-facing normal-form consumer can read the output.
+
+Finally use terminal consumer totality, \autoref{thm:znormal-terminal-consumer-totality}. Since every terminal consumer is exhausted by the displayed packet, the public normal output cannot precede the rows $T,F,V,R,H,C,P,N$ or obtain a total-host witness from outside them.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root sibling route separation]
+\label{thm:znormal-root-sibling-route-separation}
+For every accepted $\ZNormalUp$ packet, the row $K$ is only the finite Zeckendorf and $\ZCarryUp$ sibling route used for normal-word evidence. It cannot become host conversion, quotient normalization, unrestricted evaluation, substrate halting, divergence detection, or a global normalizer, and it cannot replace the typed endpoint, finite fuel, terminal-normality, continuation, transport, replay, provenance, or naming rows.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:znormal-namecert-obligations} to locate $K$ inside the same accepted packet as $T,F,V,R,H,C,P,N$. The certificate gives $K$ a finite sibling-normal-word role and no host-side conversion coordinate.
+
+Next apply the continuation normal-word pullback of \autoref{thm:znormal-continuation-normal-word-pullback}. It pulls the normal-word row and continuation readback to the same transported route through $H,C,P,N$, so $K$ remains attached to finite Zeckendorf and carry evidence.
+
+Finally combine total-host refusal exhaustion with the no-divergence oracle ledger, \autoref{thm:znormal-total-host-refusal-exhaustion} and \autoref{thm:znormal-no-divergence-oracle-ledger}. These ledgers refuse host conversion, quotient normalization, unrestricted evaluation, substrate halting, divergence detection, and global normalization, leaving $K$ as a sibling route rather than a host conversion principle.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root refusal audit exhaustion]
+\label{thm:znormal-root-refusal-audit-exhaustion}
+For every accepted $\ZNormalUp$ packet, the root refusal ledger exhausts requests for divergence, host conversion, unrestricted evaluation, substrate halting, and global normalization. Any root, normal-form, or MetaCIC-facing consumer must remain inside the displayed $T,F,V,K,R,H,C,P,N$ route and cannot obtain one of those refused objects from a hidden total-host row.
+\end{theorem}
+\begin{proof}
+Start with finite-fuel admission and terminal consumer totality, \autoref{thm:znormal-finite-fuel-carrier-admission} and \autoref{thm:znormal-terminal-consumer-totality}. They expose the finite packet $T,F,V,K,R,H,C,P,N$ as the complete route for terminal normal-form consumers.
+
+Use continuation normal-word pullback to bind the sibling normal-word and continuation rows. By \autoref{thm:znormal-continuation-normal-word-pullback}, downstream normal-word and readback consumers remain on the same transported route through $H,C,P,N$.
+
+Finally apply total-host refusal exhaustion and the no-divergence oracle ledger. The refusal surface of \autoref{thm:znormal-total-host-refusal-exhaustion} and \autoref{thm:znormal-no-divergence-oracle-ledger} has already accounted for divergence, host conversion, unrestricted evaluation, substrate halting, and global normalization requests, so no hidden total-host row remains available.
+\end{proof}

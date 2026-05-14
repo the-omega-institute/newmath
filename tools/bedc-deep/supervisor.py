@@ -679,9 +679,12 @@ def trigger_probe(*, no_dev_sync: bool = False) -> None:
     # visible in the supervisor logs instead of vanishing into DEVNULL.
     log_path = SUPERVISOR_LOG_DIR / f"probe_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "probe", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -701,9 +704,12 @@ def trigger_curriculum_probe(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery curriculum probe")
     log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -724,9 +730,12 @@ def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery paper_review")
     log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -834,8 +843,11 @@ def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
+    cmd = ["python3", str(AUTO_DISCOVERY), "curator", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     subprocess.Popen(
-        ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
+        cmd,
         cwd=str(REPO_ROOT),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -915,24 +927,41 @@ def merge_current_upstream_for_push(branch: str) -> bool:
 def retry_pending_network_push() -> bool:
     """Resume a push that may have failed during a network outage.
 
-    This also works when the checkpoint file is absent: if the branch is
-    ahead of its upstream, the supervisor has a clean, deterministic action
-    to take. If the branch is behind as well, leave conflict-aware sync to
-    the normal dev-sync path rather than forcing a blind push.
+    A resume is only valid for the exact HEAD recorded by the checkpoint.
+    Without that guard, an old local merge can be pushed later after the branch
+    has deliberately been moved back to a paper-native BEDC tip.
     """
     branch = current_branch_name()
     if not branch:
         return False
+    checkpoint: dict = {}
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            loaded = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                checkpoint = loaded
+        except (OSError, json.JSONDecodeError):
+            checkpoint = {}
+    if not checkpoint:
+        return False
+    checkpoint_head = str(checkpoint.get("head") or "").strip()
+    head = current_head()
+    if checkpoint_head and checkpoint_head != head:
+        supervisor_log(
+            "network-resume: clearing stale checkpoint "
+            f"head={checkpoint_head[:12]} current={head[:12]}"
+        )
+        _clear_network_resume_checkpoint()
+        return False
     relation = ahead_behind_upstream()
     if relation is None:
-        if NETWORK_RESUME_FILE.exists():
-            _write_network_resume_checkpoint(
-                "upstream_unknown",
-                branch,
-                "could not resolve upstream while checking pending network resume",
-                head=current_head(),
-            )
-            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        _write_network_resume_checkpoint(
+            "upstream_unknown",
+            branch,
+            "could not resolve upstream while checking pending network resume",
+            head=head,
+        )
+        supervisor_log("network-resume: upstream unknown; will retry next tick")
         return False
     ahead, behind = relation
     if ahead == 0:
@@ -979,6 +1008,15 @@ def commit_and_push_if_changed() -> bool:
     # working tree.
     from locks import file_lock
     with file_lock("paper_writes"):
+        pre_relation = ahead_behind_upstream()
+        if pre_relation:
+            pre_ahead, pre_behind = pre_relation
+            if pre_ahead or pre_behind:
+                supervisor_log(
+                    "auto-commit: skipped because branch is not aligned with upstream "
+                    f"(ahead={pre_ahead}, behind={pre_behind})"
+                )
+                return False
         diff = _git([
             "status", "--porcelain",
             "papers/bedc/parts",
@@ -1175,11 +1213,11 @@ def main() -> int:
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
-    if STOP_FILE.exists():
-        supervisor_log(f"clearing stale STOP_FILE {STOP_FILE}")
-        STOP_FILE.unlink()
-
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    if STOP_FILE.exists():
+        supervisor_log(f"STOP_FILE present; supervisor not starting: {STOP_FILE}")
+        return 0
+
     dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
     no_dev_sync = not dev_sync_enabled
 
