@@ -105,6 +105,30 @@ The NameCert obligation theorem names the rows that must be admitted. The budget
 The two seal theorems then place the CauchyLimitSeal row and the RealUp seal row on the same replay path. Together with the TasteGate marker for single-carrier alignment, these rows state the exact obligation package without claiming a checked Lean proof for the new theorem sites.
 \end{proof}
 
+\begin{theorem}[Real window synchronizer StreamName--RegSeqRat scope]
+\label{thm:real-window-synchronizer-streamname-regseq-scope}
+For an accepted $\RealWindowSynchronizerUp$ carrier $Z=(W,R,T,L,S,H,C,P,N)$, every $\StreamNameUp$ consumer read and every $\RegSeqRatUp$ consumer read used by the synchronizer factors through the same displayed $W,R,T,H,C,P,N$ rows. The synchronizer exposes no second window service, hidden tail oracle, or detached threshold ledger outside that finite route.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z$ to its displayed rows. The only StreamName window coordinate is $W$, the only RegSeqRat tail coordinate is $R$, and the only shared threshold coordinate available to either read is $T$.
+
+Apply the budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback}. It forces every Real or completion-facing read exported by the packet through the same threshold row used by both the window and tail routes.
+
+Apply the non-escape boundary of \autoref{thm:real-window-synchronizer-nonescape}. Since no second window service, hidden tail oracle, or detached threshold ledger occurs among the coordinates, the displayed StreamName and RegSeqRat sibling rows named in the chapter introduction are the only available sources for the synchronizer read.
+\end{proof}
+
+\begin{theorem}[Real window synchronizer limit-seal scope]
+\label{thm:real-window-synchronizer-limit-seal-scope}
+For an accepted $\RealWindowSynchronizerUp$ carrier $Z=(W,R,T,L,S,H,C,P,N)$, the $\CauchyLimitSealUp$ row $L$ and the $\RealUp$ seal row $S$ are scoped by the same synchronized $W,R,T,H,C,P,N$ route. Consequently, no completion-facing consumer can read $L$ or $S$ without the shared window-tail threshold packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-window-synchronizer-streamname-regseq-scope}. It places the StreamName and RegSeqRat reads over the same window, tail, threshold, transport, route, provenance, and local naming rows.
+
+Combine that scope with limit-seal compatibility from \autoref{thm:real-window-synchronizer-limit-seal-compatibility}. The CauchyLimitSeal row $L$ is consumed only after the synchronized $W,R,T$ replay has passed through $H,C,P,N$.
+
+Finally apply the Real seal exposure theorem \autoref{thm:real-window-synchronizer-real-seal-exposure}. It exposes $S$ only after $L$ has been read on the same route, so a completion-facing consumer cannot reach either seal without the shared window-tail threshold packet.
+\end{proof}
+
 \falsifiablePrediction{Removing the shared window row permits a RealUp seal read whose StreamName and RegSeqRat windows no longer agree; removing the seal row prevents any completion-facing consumer from reading the synchronizer as a RealUp route.}
 
 \independenceWitness{Nearest siblings: streamname, regseqrat, cauchylimitseal, regular-cauchy-tail-budget, and real. The synchronizer is not bijective to any one sibling because it carries all five surfaces simultaneously: a StreamName finite window, a RegSeqRat tail threshold, a CauchyLimitSeal row, a RegularCauchyTailBudget service row, and a RealUp seal row; dropping any one row changes the admitted consumer route.}
@@ -118,10 +142,11 @@ The Lean file \texttt{Derived/RealWindowSynchronizerUp/TasteGate.lean} will incl
 \begin{closurestatus}{\RealWindowSynchronizerUp}
   \constructivestory{A $\RealWindowSynchronizerUp$ packet is generated from a StreamName window service row, RegSeqRat tail row, shared threshold row, CauchyLimitSeal row, RealUp seal row, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, \autoref{thm:real-window-synchronizer-nonescape}, \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, \autoref{thm:real-window-synchronizer-real-seal-exposure}, and \autoref{thm:real-window-synchronizer-obligation-closure-package} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, seal compatibility, Real-seal exposure, non-escape boundary, checked TasteGate alignment marker, and TasteGate instance \texttt{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate} for the Real and Completion window-to-seal route.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, \autoref{thm:real-window-synchronizer-nonescape}, \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, \autoref{thm:real-window-synchronizer-real-seal-exposure}, \autoref{thm:real-window-synchronizer-obligation-closure-package}, \autoref{thm:real-window-synchronizer-streamname-regseq-scope}, and \autoref{thm:real-window-synchronizer-limit-seal-scope} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, seal compatibility, Real-seal exposure, non-escape boundary, scoped StreamName--RegSeqRat route, scoped seal route, checked TasteGate alignment marker, and TasteGate instance \texttt{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate} for the Real and Completion window-to-seal route.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, ambient metric completion, or a checked Lean certificate.}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, ambient metric completion, or checked Lean certificates for \autoref{thm:real-window-synchronizer-streamname-regseq-scope} and \autoref{thm:real-window-synchronizer-limit-seal-scope}.}
   \upgradepath{Public closure requires an exported theorem showing that every Real and Completion consumer reads the synchronized window-to-seal packet through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.}
 \end{closurestatus}
