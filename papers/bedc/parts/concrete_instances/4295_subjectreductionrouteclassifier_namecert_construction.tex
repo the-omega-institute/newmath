@@ -211,6 +211,50 @@ In the $\mathsf{typeclass}$ branch, the invocation row first reads the ambient s
 The inversion therefore reconstructs the same four socket rows in both accepted branches. It cannot produce another discharge row, because \autoref{thm:subject-reduction-route-classifier-route-kind-coverage} rules out any additional route kind.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteClassifier audit-handoff totality]
+\label{thm:subject-reduction-route-classifier-audit-handoff-totality}
+Every audit consumer or $\TypePreservingCompilerUp$ consumer of an accepted $\SubjectReductionRouteClassifierUp$ packet reads exactly
+$$
+B,A,L,P,K,I,U,H,C,Q,N.
+$$
+The handoff exposes the four socket discharge rows, the route-kind classifier, invocation row, consumer row, componentwise transports, continuation replay, package provenance, and local name; it exposes no additional proof row for the discharged subject-reduction premises.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}. It confines every consumer read to the displayed classifier packet and rules out compiler correctness, erased semantics, host conversion, and unnamed routes.
+
+Apply \autoref{thm:subject-reduction-route-classifier-socket-scope} and \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}. These identify $B,A,L,P$ as socket-supplied discharge rows and restrict compiler-facing use to invocation-style handoff data.
+
+Now use \autoref{thm:subject-reduction-route-classifier-route-kind-coverage} and \autoref{thm:subject-reduction-route-classifier-invocation-payload-inversion}. The route-kind row has only the two accepted branches, and both branches reconstruct the same socket payload.
+
+Finally, the primitive-scope theorem \autoref{thm:subject-reduction-route-classifier-primitive-scope} accounts for $K,I,U,H,C,Q,N$ as the remaining displayed classifier, invocation, consumer, transport, continuation, provenance, and naming rows. No coordinate remains for another discharge proof.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier invocation row non-escape]
+\label{thm:subject-reduction-route-classifier-invocation-row-nonescape}
+In an accepted $\SubjectReductionRouteClassifierUp$ packet, the invocation row $I$ selects the $\mathsf{bundle}$ presentation or the $\mathsf{typeclass}$ presentation of the same socket payload $B,A,L,P$. The row $I$ never proves beta-substitution preservation, application-argument stability, lambda-domain subject reduction, Pi-domain subject reduction, or any discharge payload beyond those four socket rows.
+\end{theorem}
+\begin{proof}
+The bundle-typeclass correspondence theorem \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence} gives the two meanings of $I$: explicit bundle construction in the $\mathsf{bundle}$ branch and setup-field extraction followed by bundle conversion in the $\mathsf{typeclass}$ branch.
+
+Use \autoref{thm:subject-reduction-route-classifier-invocation-payload-inversion}. Both readings return exactly $B,A,L,P$, so the selected presentation does not change the payload.
+
+Apply \autoref{thm:subject-reduction-route-classifier-route-kind-coverage}. Since no third route kind is admitted, $I$ cannot select a branch whose payload is a discharge proof rather than a presentation of the socket rows.
+
+The remaining non-escape clause follows from \autoref{thm:subject-reduction-route-classifier-socket-scope}. The four named preservation obligations belong to the socket surface, and this classifier records how they are invoked rather than proving them.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier socket-payload coverage]
+\label{thm:subject-reduction-route-classifier-socket-payload-coverage}
+The four discharge rows consumed by every accepted $\SubjectReductionRouteClassifierUp$ packet are exactly the beta-substitution, application-argument, lambda-domain, and Pi-domain rows supplied by $\SubjectReductionDischargeSocketUp$. The classifier creates none of those four rows; it only routes their bundle or typeclass presentation to audit and $\TypePreservingCompilerUp$ consumers.
+\end{theorem}
+\begin{proof}
+Begin with the socket scope theorem \autoref{thm:subject-reduction-route-classifier-socket-scope}. It states that $B,A,L,P$ are consumed from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and that this classifier does not prove the four preservation clauses.
+
+Next apply \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}. A compiler consumer may inspect route style and follow $I$ and $U$ to the same payload, but it receives no additional subject-reduction discharge.
+
+The route-kind coverage theorem and invocation-row non-escape theorem then close the coverage argument. The only accepted route choices are the bundle and typeclass presentations, and the invocation row selects presentation style without manufacturing any socket row.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteClassifier consumer route totality]
 \label{thm:subject-reduction-route-classifier-consumer-route-totality}
 Every $\TypePreservingCompilerUp$ or audit consumer handoff of an accepted $\SubjectReductionRouteClassifierUp$ packet factors through
