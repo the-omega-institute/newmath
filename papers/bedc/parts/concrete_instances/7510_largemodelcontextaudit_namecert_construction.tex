@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelContextAuditUp$}
+\label{ch:concrete-instances-largemodelcontextaudit-namecert}
+\origin{ai}
+
+The $\LargeModelContextAuditUp$ packet realizes the context-and-audit side of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It consumes the context-window commitment of \autoref{ch:concrete-instances-contextwindowcommitment-namecert}, the prompt-response trace of \autoref{ch:concrete-instances-prompt-response-trace-namecert}, the model-trace surface of \autoref{ch:concrete-instances-modeltrace-namecert}, the audit channel of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, and the checked-output harness of \autoref{ch:concrete-instances-verifiedoutputharness-namecert}. Its distinguishing role is a finite context-audit packet: a model output is accepted only after the displayed context, prompt-response, model trace, audit channel, verified harness, refusal, transport, continuation, provenance, and local naming rows have been read together.
+
+\begin{definition}[LargeModelContextAudit carrier]
+\label{def:large-model-context-audit-carrier}
+A $\LargeModelContextAuditUp$ carrier is a finite $\BHist$ packet
+$$
+X=(C,T,M,A,V,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\ContextWindowCommitmentUp$ row naming the bounded prompt context, response boundary, admitted source rows, and downstream consumer surface;
+\item $T$ is the $\PromptResponseTraceUp$ row recording the prompt, response, source-channel route, observer-interface handoff, and obstruction boundary;
+\item $M$ is the $\ModelTraceUp$ row recording the finite model-state trace, output trace, corpus-supply row, refusal row, and accepted readback;
+\item $A$ is the $\LargeModelAuditChannelUp$ row carrying prompt, output, checker, refusal, audit membrane, route, provenance, and local name;
+\item $V$ is the $\VerifiedOutputHarnessUp$ row carrying the checker-facing acceptance harness for the same output record;
+\item $R$ is the refusal row, recording unsupported, out-of-context, unverifiable, policy-refused, or route-incomplete claims before acceptance is exposed;
+\item $H$ records componentwise $\hsame$ transport for context, prompt-response, model-trace, audit-channel, harness, refusal, route, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ route by which a consumer reads $C$, then $T$, then $M$, then $A$ and $V$, before reaching $R,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\ContextWindowCommitmentUp$, $\PromptResponseTraceUp$, $\ModelTraceUp$, $\LargeModelAuditChannelUp$, $\VerifiedOutputHarnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelContextAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden context recovery, unchecked model output acceptance, unrecorded checker state, host semantic understanding, corpus-wide truth, or a private route bypassing the displayed context-audit ledger.
+\end{definition}
+
+\begin{theorem}[LargeModelContextAudit NameCert obligations]
+\label{thm:large-model-context-audit-namecert-obligations}
+For the carrier of \autoref{def:large-model-context-audit-carrier}, the local $\NameCert_{\LargeModelContextAuditUp}$ surface consists of carrier admission for
+$$
+X=(C,T,M,A,V,R,H,K,P,N),
+$$
+classifier transport for the same rows under componentwise $\hsame$, route exactness through the displayed $\Cont$ row $K$, refusal exactness through $R$, audit-channel and verified-harness exposure through $A$ and $V$, provenance through $P$, and local naming through $N$. Every accepted consumer read of a model output factors through the displayed $\ContextWindowCommitmentUp$, $\PromptResponseTraceUp$, $\ModelTraceUp$, $\LargeModelAuditChannelUp$, and $\VerifiedOutputHarnessUp$ rows before the output can be accepted.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:large-model-context-audit-carrier}. The packet displays context, prompt-response trace, model trace, audit channel, verified harness, refusal, transport, route, provenance, and local naming rows as its entire public surface.
+
+Classifier transport is componentwise. A transported packet must carry $C,T,M,A,V,R,H,K,P,N$ together, so a changed context window, trace row, checker row, refusal row, or verified harness cannot be silently retained by the same local name.
+
+Route exactness follows from $K$. A consumer first reads the bounded context row $C$, then the prompt-response row $T$, then the model-trace row $M$, and only then reaches the audit channel $A$ and verified harness $V$ before refusal, provenance, and naming are exposed.
+
+The non-escape clauses follow from the carrier inventory. No row stores hidden context recovery, unchecked acceptance, unrecorded checker state, host semantic understanding, corpus-wide truth, or a private acceptance route.
+\end{proof}
+
+\begin{theorem}[LargeModelContextAudit refusal factorization]
+\label{thm:large-model-context-audit-refusal-factorization}
+Every refusal or accepted-output decision exposed by an accepted $\LargeModelContextAuditUp$ carrier
+$$
+X=(C,T,M,A,V,R,H,K,P,N)
+$$
+factors through the displayed context-window commitment, prompt-response trace, model trace, audit channel, verified output harness, componentwise transport, continuation route, provenance, and local naming rows. In particular, a consumer cannot accept a model output by reading $V$ alone; the read must also pass through $C,T,M,A,R,H,K,P,N$.
+\end{theorem}
+\begin{proof}
+Start with a refusal or accepted-output read. The entry row is the bounded context commitment $C$, because the packet has no separate coordinate for hidden context recovery or a bare output acceptance.
+
+The prompt-response row $T$ and model-trace row $M$ then identify the finite emitted record being audited. These rows bind the output to its prompt, source-channel route, trace, corpus-supply handoff, and refusal boundary before any checker-facing surface is consumed.
+
+The audit-channel row $A$ and verified-harness row $V$ provide the checker and acceptance surfaces. The refusal row $R$ records unsupported or out-of-context outcomes before the local name can expose acceptance.
+
+Finally route the read through $H,K,P,N$. Those rows supply transport, continuation, provenance, and local naming data, so the consumer receives a displayed context-audit packet rather than a private evaluator route or an unchecked model emission.
+\end{proof}
+
+\falsifiablePrediction{Any accepted LargeModelContextAuditUp consumer factors through displayed ContextWindowCommitmentUp, PromptResponseTraceUp, ModelTraceUp, LargeModelAuditChannelUp, and VerifiedOutputHarnessUp rows before accepting a model output.}
+
+\independenceWitness{contextwindowcommitment, promptresponsetrace, modeltrace, largemodelauditchannel, verifiedoutputharness: the context-audit packet is not bijective with these siblings because it binds their rows into one consumer route and adds a shared refusal, transport, continuation, provenance, and local NameCert surface that no single sibling carries alone.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \LargeModelContextAuditUp$ and $\mathsf{FieldFaithful}\ \LargeModelContextAuditUp$ instances in $\mathsf{BEDC.Derived.LargeModelContextAuditUp/TasteGate.lean}$ for the same finite carrier.
+
+\closureat{LargeModelContextAuditUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelContextAuditUp}
+  \constructivestory{A $\LargeModelContextAuditUp$ packet is generated from context-window commitment, prompt-response trace, model trace, audit channel, verified output harness, refusal, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-context-audit-carrier}, \autoref{thm:large-model-context-audit-namecert-obligations}, and \autoref{thm:large-model-context-audit-refusal-factorization} specify the finite context-audit packet and its consumer route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, host semantic understanding, global checker correctness, hidden context recovery, Lean verification, or bridge checking for $\LargeModelContextAuditUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, context-route exactness, refusal factorization, nontriviality, and field faithfulness for the same context-audit carrier.}
+\end{closurestatus}
