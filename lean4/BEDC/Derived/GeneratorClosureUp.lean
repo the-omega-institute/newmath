@@ -78,6 +78,36 @@ theorem GeneratorClosurePacket_carrier_obligation [AskSetup] [PackageSetup]
                   (And.intro exportedRoute
                     (And.intro endpointPkg exportedPkg))))))))
 
+theorem GeneratorClosurePacket_continuation_witness_preservation [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported continuation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame endpoint exported →
+        Cont name exported routes →
+          PkgSig bundle exported pkg →
+            Cont exported witnesses continuation →
+              UnaryHistory witnesses ∧ UnaryHistory exported ∧ UnaryHistory continuation ∧
+                Cont name exported routes ∧ Cont exported witnesses continuation ∧
+                  PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute exportedPkg continuationRoute
+  obtain ⟨_generatorUnary, _constructorsUnary, _authorizedUnary, _classifierUnary,
+    witnessesUnary, _transportUnary, _provenanceUnary, _nameUnary, endpointUnary,
+    _generatorRoute, _classifierRoute, _endpointRoute, _endpointPkg⟩ := packet
+  have exportedUnary : UnaryHistory exported :=
+    unary_transport endpointUnary sameEndpoint
+  have continuationUnary : UnaryHistory continuation :=
+    unary_cont_closed exportedUnary witnessesUnary continuationRoute
+  exact
+    ⟨witnessesUnary,
+      exportedUnary,
+      continuationUnary,
+      exportedRoute,
+      continuationRoute,
+      exportedPkg⟩
+
 theorem GeneratorClosurePacket_classifier_obligation [AskSetup] [PackageSetup]
     {generator constructors authorized classifier witnesses transport routes provenance name endpoint
       generator' constructors' authorized' classifier' witnesses' transport' provenance' name'

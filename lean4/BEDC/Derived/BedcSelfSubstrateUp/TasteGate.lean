@@ -317,7 +317,8 @@ theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
       · constructor
         · rfl
         · constructor
-          · exact bedcSelfSubstrate_field_faithful_concrete
+          · intro x y hfields
+            exact bedcSelfSubstrate_field_faithful_concrete x y hfields
           · exact bedcSelfSubstrate_nontrivial_concrete
 
 end BEDC.Derived.BedcSelfSubstrateUp
