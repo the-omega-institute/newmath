@@ -119,6 +119,46 @@ Apply \autoref{thm:cauchy-witness-ledger-route-determinacy}. Any completion-faci
 Finally apply \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. The Real-facing handoff reaches $K$ only through $Q,B,S$ and the structural rows, and it exports none of the listed external objects. Thus the ledger is exhausted by the displayed analytic and structural rows.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger diagonal observation route]
+\label{thm:cauchy-witness-ledger-diagonal-observation-route}
+Every admitted read of an accepted $\CauchyWitnessLedgerUp$ packet first consumes the $\CauchyDiagonalBudgetUp$ row $Q$ and then the $\RealObservationBudgetUp$ row $B$ over the same finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ surface. The read may continue through $S,K,H,C,P,N$, but it cannot enter the observation row before the diagonal-budget row has fixed the displayed stream, regular-rational, dyadic, and Real-seal route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:cauchy-witness-ledger-carrier} and \autoref{thm:cauchy-witness-ledger-carrier-admission}. The only analytic rows available to the read are $Q,B,S,K$, with $H,C,P,N$ carrying transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. It places the diagonal-budget row before the observation-budget row on the displayed completion route, so the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ data seen by $B$ are the same finite data already fixed by $Q$.
+
+Use \autoref{thm:cauchy-witness-ledger-route-determinacy} and \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}. They rule out a second observation route or a public coordinate outside the carrier, hence every admitted read follows the displayed diagonal-to-observation route.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger synchronizer classifier lock]
+\label{thm:cauchy-witness-ledger-synchronizer-classifier-lock}
+For an accepted $\CauchyWitnessLedgerUp$ packet, the completion-seal classifier row $K$ is public only after the synchronizer row $S$ has consumed the same diagonal-budget row $Q$ and observation-budget row $B$ on the displayed route. Thus no consumer can expose $K$ by separating the classifier from the synchronized $Q \longmapsto B \longmapsto S$ route.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cauchy-witness-ledger-carrier}. The synchronizer row $S$ and completion-seal classifier row $K$ are adjacent analytic coordinates of the same carrier, not independent public objects.
+
+Apply \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. The factorization orders the route as $Q \longmapsto B \longmapsto S \longmapsto K$, and the Real handoff reaches the completion-seal classifier only after the same budget and observation rows have been consumed.
+
+Finally use \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, and \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}. Carrier admission supplies no second classifier row, route determinacy fixes the classifier read once $Q,B,S,H,C,P,N$ are fixed, and ledger exhaustion prevents a public escape around the synchronizer.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger seal budget nonescape]
+\label{thm:cauchy-witness-ledger-seal-budget-nonescape}
+No consumer of an accepted $\CauchyWitnessLedgerUp$ ledger can replace the finite route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with quotient stream equality, host real equality, selected external limits, countable choice, or ambient completeness. The seal-budget route remains the displayed BEDC route over $Q,B,S,K,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the finite route from \autoref{def:cauchy-witness-ledger-carrier} and \autoref{thm:cauchy-witness-ledger-budget-factorization}. The carrier lists the available rows, and the factorization fixes the analytic order from diagonal budget to observation budget, synchronizer, and classifier.
+
+Use \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. Every $\RealUp$-facing consumer reaches the completion-seal classifier through those displayed rows rather than through a host Real object or a selected external limit.
+
+Apply \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, and \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}. Together they keep the consumer inside $Q,B,S,K,H,C,P,N$ and exclude quotient stream equality, host real equality, selected limits, countable choice, and ambient completeness from the public ledger.
+\end{proof}
+
 \begin{theorem}[Cauchy witness ledger componentwise transport]
 \label{thm:cauchy-witness-ledger-componentwise-transport}
 Let
