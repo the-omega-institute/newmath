@@ -70,6 +70,72 @@ Apply \autoref{thm:apophatic-gate-question-visible-socket-nonescape}. Every cons
 Consequently the socket-name dependency is read before audit readback. The sibling socket and name surfaces provide the visible rows that $S$ may reference, while $A$ records only the finite answer to the already displayed gate question.
 \end{proof}
 
+\begin{theorem}[Apophatic gate question source exposure]
+\label{thm:apophatic-gate-question-source-exposure}
+Every accepted $\ApophaticGateQuestionUp$ packet exposes the visible socket-name
+source row $S$ before the gate-question row $Q$ is read. Thus the question is
+asked about an already displayed $\ApophaticSocketUp$ or $\ApophaticNameUp$
+surface, not about a hidden outside-supply witness, host predicate, or detached
+gate answer.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:apophatic-gate-question-carrier}. The
+packet order displays $S$ as the visible socket-name source row and $Q$ as the
+later question row.
+
+Apply the NameCert obligations and socket-name dependency theorems. They force
+carrier admission and every audit route to read the socket-name surface before
+the gate question can be answered.
+
+The non-escape theorem removes the remaining alternatives. Since the packet has
+no coordinate for a hidden outside-supply witness, host predicate, or detached
+gate answer, exposure of $S$ is the unique entrance to $Q$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question visible socket coverage]
+\label{thm:apophatic-gate-question-visible-socket-coverage}
+Every visible socket route of an accepted $\ApophaticGateQuestionUp$ packet is
+read through $\ApophaticSocketUp$ and $\ApophaticNameUp$ before audit readback
+at $A$. The route passes through $S,Q,R,H,C,P,N$ and then records the finite
+readback row $A$, without replacing that readback by an unmarked selector,
+hidden axiom, quotient collapse, or host gate answer.
+\end{theorem}
+\begin{proof}
+Begin with source exposure. It places the visible socket-name row $S$ before the
+question row $Q$ and therefore before the readback row $A$.
+
+Use socket-name dependency. The sibling $\ApophaticSocketUp$ and
+$\ApophaticNameUp$ surfaces provide the only visible rows that $S$ may read, so
+the audit route is already attached to those surfaces when $A$ is recorded.
+
+Finally apply visible socket non-escape. The route through $R,H,C,P,N$ accounts
+for refusal, transport, continuation, provenance, and local naming, and prevents
+an unmarked selector, hidden axiom, quotient collapse, or host gate answer from
+substituting for the displayed readback.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question audit ledger exhaustion]
+\label{thm:apophatic-gate-question-audit-ledger-exhaustion}
+For an accepted $\ApophaticGateQuestionUp$ packet, the rows
+$R,A,H,C,P,N$ exhaust the audit ledger after the visible source and question
+rows have been read. No hidden axiom, quotient collapse, unmarked selector, or
+host gate answer is exported by the packet.
+\end{theorem}
+\begin{proof}
+Read the carrier and NameCert obligations. After $S$ and $Q$, the remaining
+audit-facing rows are exactly the refusal ledger $R$, audit readback $A$,
+componentwise transport $H$, displayed continuation $C$, provenance $P$, and
+local naming row $N$.
+
+Apply visible socket coverage to keep the audit readback attached to the
+$\ApophaticSocketUp$ and $\ApophaticNameUp$ route. The audit ledger therefore
+records a finite answer to the already displayed gate question.
+
+Close with visible socket non-escape. Because the carrier has no coordinate for
+a hidden axiom, quotient collapse, unmarked selector, or host gate answer, the
+listed rows exhaust the audit ledger.
+\end{proof}
+
 \closureat{ApophaticGateQuestionUp}{seedStr}
 
 \begin{closurestatus}{\ApophaticGateQuestionUp}

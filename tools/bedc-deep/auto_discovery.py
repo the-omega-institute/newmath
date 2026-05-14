@@ -73,7 +73,7 @@ def _git(args: list[str]) -> subprocess.CompletedProcess[str]:
     )
 
 
-# Upstream integration branch we sync into bedc-claim-packet-pipeline.
+# Optional upstream integration branch for manual sync into bedc-claim-packet-pipeline.
 # Kept in sync with dev_sync_resolver.UPSTREAM_BRANCH; switched from `dev`
 # to `codex-auto-dev` because codex_formalize merges land there first
 # and `dev` lags by hours-to-days.
@@ -95,6 +95,19 @@ def sync_dev_if_clean() -> bool:
     behind = _git(["rev-list", "--count", f"HEAD..{UPSTREAM_REF}"])
     n = behind.stdout.strip() or "0"
     if n == "0":
+        return False
+    changed = _git(["diff", "--name-only", f"HEAD..{UPSTREAM_REF}"])
+    changed_paths = [line.strip() for line in changed.stdout.splitlines() if line.strip()]
+    forbidden = [
+        path for path in changed_paths
+        if path.startswith("lean4/") or path in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"}
+    ]
+    if forbidden:
+        print(
+            "[discovery] sync_dev refused: upstream touches protected paths "
+            f"({', '.join(forbidden[:5])})",
+            flush=True,
+        )
         return False
     print(f"[discovery] sync_dev pulling {n} commits from {UPSTREAM_REF}", flush=True)
     with file_lock("paper_writes"):
@@ -325,7 +338,8 @@ def _run_two_stage(
 ) -> int:
     """Adversarial two-stage discovery: claude generates with evidence, codex
     cross-checks independently, intersection lands on BOARD."""
-    if not args.no_dev_sync:
+    dev_sync_enabled = bool(getattr(args, "dev_sync", False)) and not bool(args.no_dev_sync)
+    if dev_sync_enabled:
         try:
             sync_dev_if_clean()
         except Exception as exc:
@@ -457,28 +471,32 @@ def main() -> int:
     p_probe.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_probe.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_probe.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_probe.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_probe.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_probe.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_probe.set_defaults(func=cmd_probe)
 
     p_cur = sub.add_parser("curator", help="Codex meta-review of completed targets + BOARD progress")
     p_cur.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_cur.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_cur.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_cur.set_defaults(func=cmd_curator)
 
     p_cur2 = sub.add_parser("curriculum", help="Curriculum gap scan: classical textbook theorems missing from started chapters")
     p_cur2.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur2.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur2.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_cur2.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_cur2.set_defaults(func=cmd_curriculum)
 
     p_pr = sub.add_parser("paper_review", help="Editorial-referee audit: senior-review-grade revision targets (gaps, missing companions, generalisations)")
     p_pr.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_pr.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_pr.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_pr.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_pr.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_pr.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_pr.set_defaults(func=cmd_paper_review)
 
     args = parser.parse_args()
