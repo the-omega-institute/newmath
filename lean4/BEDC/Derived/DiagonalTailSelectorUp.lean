@@ -24,6 +24,12 @@ def DiagonalTailSelectorCarrier [AskSetup] [PackageSetup]
       UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory name ∧
         Cont n mu k ∧ Cont k w d ∧ PkgSig bundle p pkg
 
+def DiagonalTailSelectorPublicBudgetSource [AskSetup] [PackageSetup]
+    (r n mu k w d t s h c p name publicRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ∧
+    Cont p name publicRow ∧ PkgSig bundle publicRow pkg
+
 theorem DiagonalTailSelectorCarrier_window_choice_totality [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name sourceRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -161,6 +167,33 @@ theorem DiagonalTailSelectorCarrier_public_budget_export [AskSetup] [PackageSetu
     }
   exact ⟨publicUnary, publicRoute, publicPkg, cert⟩
 
+theorem DiagonalTailSelectorPublicBudgetSource_tail_budget_compatibility
+    [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+      bundle pkg ->
+      Cont w d t ->
+      Cont t s consumer ->
+      PkgSig bundle consumer pkg ->
+        UnaryHistory publicRow ∧ UnaryHistory consumer ∧ Cont w d t ∧
+          Cont t s consumer ∧ Cont p name publicRow ∧ PkgSig bundle consumer pkg ∧
+            PkgSig bundle publicRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro source wdRoute consumerRoute consumerPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary consumerRoute
+  exact
+    ⟨publicUnary, consumerUnary, wdRoute, consumerRoute, publicRoute, consumerPkg,
+      publicPkg⟩
+
 theorem DiagonalTailSelectorCarrier_real_seal_boundary_scope [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name consumer publicRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -273,5 +306,64 @@ theorem DiagonalTailSelectorCarrier_root_cofinal_admission [AskSetup] [PackageSe
     ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, hUnary,
       cUnary, pUnary, nameUnary, admissionUnary, nMuK, kWD, pNameAdmission,
       carrierPkg⟩
+
+theorem DiagonalTailSelectorCarrier_cofinal_budget_replay [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name admissionRead consumer replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ->
+      Cont p name admissionRead ->
+        Cont w d t ->
+          Cont t s consumer ->
+            Cont consumer admissionRead replay ->
+              PkgSig bundle consumer pkg ->
+                PkgSig bundle replay pkg ->
+                  UnaryHistory r ∧ UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧
+                    UnaryHistory w ∧ UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧
+                      UnaryHistory admissionRead ∧ UnaryHistory consumer ∧
+                        UnaryHistory replay ∧ Cont n mu k ∧ Cont k w d ∧
+                          Cont p name admissionRead ∧ Cont w d t ∧
+                            Cont t s consumer ∧ Cont consumer admissionRead replay ∧
+                              PkgSig bundle p pkg ∧ PkgSig bundle consumer pkg ∧
+                                PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier pNameAdmission wDT tSConsumer consumerAdmissionReplay consumerPkg replayPkg
+  obtain ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have admissionUnary : UnaryHistory admissionRead :=
+    unary_cont_closed pUnary nameUnary pNameAdmission
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wDT
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary tSConsumer
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed consumerUnary admissionUnary consumerAdmissionReplay
+  exact
+    ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnaryFromRoute, sUnary,
+      admissionUnary, consumerUnary, replayUnary, nMuK, kWD, pNameAdmission, wDT,
+      tSConsumer, consumerAdmissionReplay, pPkg, consumerPkg, replayPkg⟩
+
+theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name budgetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont d t budgetRead →
+      Cont budgetRead s sealRead →
+      PkgSig bundle sealRead pkg →
+        UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧ UnaryHistory w ∧
+          UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧ UnaryHistory budgetRead ∧
+            UnaryHistory sealRead ∧ Cont n mu k ∧ Cont k w d ∧
+              Cont d t budgetRead ∧ Cont budgetRead s sealRead ∧ PkgSig bundle p pkg ∧
+                PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier budgetRoute sealRoute sealPkg
+  obtain ⟨_rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary,
+    _hUnary, _cUnary, _pUnary, _nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed dUnary tUnary budgetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed budgetUnary sUnary sealRoute
+  exact
+    ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, budgetUnary,
+      sealUnary, nMuK, kWD, budgetRoute, sealRoute, pPkg, sealPkg⟩
 
 end BEDC.Derived.DiagonalTailSelectorUp

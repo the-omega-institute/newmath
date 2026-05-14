@@ -176,6 +176,49 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def render_active_board_targets(limit: int = 12) -> str:
+    from dispatch_bedc_target import parse_board
+
+    targets = parse_board()
+    rows: list[dict[str, object]] = []
+    now = datetime.now(timezone.utc)
+    for target in targets.values():
+        done_path = STATE_DIR / f"{target.slug}.json"
+        if done_path.exists():
+            continue
+        marker = STATE_DIR / target.slug / ".in_progress"
+        if marker.exists():
+            status = "in_progress"
+            try:
+                age_seconds: object = now.timestamp() - marker.stat().st_mtime
+            except OSError:
+                age_seconds = None
+        else:
+            status = "pending"
+            age_seconds = None
+        rows.append({
+            "target_id": target.target_id,
+            "status": status,
+            "age": _fmt_age(age_seconds) if age_seconds is not None else "-",
+            "slug": target.slug,
+            "title": target.title[:60],
+        })
+    if not rows:
+        return "  (no active BOARD targets)"
+
+    rows.sort(key=lambda item: (item["status"] != "in_progress", str(item["target_id"])))
+    shown = rows if limit <= 0 else rows[:limit]
+    lines = [f"  {'TARGET':<8} {'STATUS':<12} {'AGE':<8} TITLE"]
+    for item in shown:
+        lines.append(
+            f"  {item['target_id']:<8} {item['status']:<12} {item['age']:<8} "
+            f"{item['title']}  [{item['slug']}]"
+        )
+    if limit > 0 and len(rows) > len(shown):
+        lines.append(f"  ... {len(rows) - len(shown)} more active rows omitted")
+    return "\n".join(lines)
+
+
 def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     by_event = data.get("by_event") or {}
     if not by_event:
@@ -338,18 +381,65 @@ def _next_refill_prompt_note() -> str:
     try:
         import oracle_board_refill
 
-        micro_refill = oracle_board_refill.should_use_micro_refill()
+        if oracle_board_refill.refill_circuit_breaker_active():
+            limit = getattr(oracle_board_refill, "DEFAULT_LOCAL_GAP_FALLBACK_LIMIT", 3)
+            return (
+                "  next refill path: local gap fallback "
+                f"(oracle ultra transport circuit breaker active; limit={limit})"
+            )
+        ultra_refill = oracle_board_refill.should_use_ultra_refill()
+        micro_refill = ultra_refill or oracle_board_refill.should_use_micro_refill()
         size = len(
             oracle_board_refill.build_refill_prompt(
                 micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
             ).encode("utf-8")
         )
     except Exception as exc:
         return f"  next prompt estimate: unavailable ({type(exc).__name__})"
-    mode = " micro" if micro_refill else ""
+    mode = " ultra" if ultra_refill else " micro" if micro_refill else ""
     if size >= 1024:
         return f"  next prompt estimate:{mode} {size / 1024:.0f}k"
     return f"  next prompt estimate:{mode} {size}b"
+
+
+def _classify_board_judge_error(error: str) -> str:
+    """Infer the stable BOARD judge outage kind from legacy summary errors."""
+    low = (error or "").lower()
+    if not low:
+        return ""
+
+    claude_kind = "claude_unavailable"
+    if "organization does not have access to claude" in low:
+        claude_kind = "claude_access_denied"
+    elif "not logged in" in low or "please login again" in low:
+        claude_kind = "claude_not_logged_in"
+    elif "claude cli not found" in low:
+        claude_kind = "claude_cli_missing"
+    elif "claude disabled" in low:
+        claude_kind = "claude_disabled"
+    elif "claude judge rc=-9" in low or "timed out" in low:
+        claude_kind = "claude_timeout"
+    elif "claude judge output was not json" in low:
+        claude_kind = "claude_non_json"
+
+    codex_kind = ""
+    if "codex fallback" in low:
+        codex_kind = "codex_fallback_failed"
+        if "failed to initialize in-process app-server client" in low:
+            codex_kind = "codex_sandbox_init_failed"
+        elif "operation not permitted" in low:
+            codex_kind = "codex_operation_not_permitted"
+        elif "output was not json" in low:
+            codex_kind = "codex_non_json"
+
+    if "claude judge" in low or "claude returned" in low or "claude " in low:
+        if codex_kind:
+            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
+        return f"board_judge_unavailable:{claude_kind}"
+    if codex_kind:
+        return f"board_judge_unavailable:{codex_kind}"
+    return ""
 
 
 def _infer_refill_status(rec: dict) -> str:
@@ -359,6 +449,31 @@ def _infer_refill_status(rec: dict) -> str:
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             return "summary_unreadable"
+        if summary.get("fallback") == "local_gap_scanner":
+            accepted = summary.get("accepted", 0)
+            proposed = summary.get("candidates_proposed", 0)
+            error = str(summary.get("error") or "").strip()
+            error_kind = (
+                str(summary.get("error_kind") or "").strip()
+                or _classify_board_judge_error(error)
+            )
+            if summary.get("ok"):
+                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if error_kind.startswith("board_judge_unavailable"):
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed} kind={error_kind}"
+                )
+            if "claude judge" in error.lower() or "codex fallback" in error.lower():
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed}"
+                )
+            return (
+                "local_gap_fallback_failed "
+                f"accepted={accepted} proposed={proposed}"
+                + (f" error={error[:80]}" if error else "")
+            )
         if summary.get("ok"):
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
@@ -398,6 +513,26 @@ def _infer_refill_status(rec: dict) -> str:
     if rec.get("prompt"):
         return "prompt_only"
     return "unknown"
+
+
+def _refill_status_bucket(status: str) -> str:
+    if status.startswith("local_gap_fallback_judge_unavailable"):
+        if "claude_access_denied" in status:
+            return "judge_unavailable:claude_access_denied"
+        if "claude_not_logged_in" in status:
+            return "judge_unavailable:claude_not_logged_in"
+        return "judge_unavailable"
+    if status.startswith("local_gap_fallback accepted="):
+        return "local_gap_fallback_ok"
+    if status.startswith("stopped_before_response"):
+        return "oracle_transport_stopped"
+    if status.startswith("timeout_waiting_for_response"):
+        return "oracle_transport_timeout"
+    if status.startswith("oracle_transport_"):
+        return status.split()[0]
+    if status.startswith("ok "):
+        return "oracle_refill_ok"
+    return status.split()[0] if status else "unknown"
 
 
 def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
@@ -510,6 +645,17 @@ def render_board_refill() -> str:
             f"{status}{prompt_note}{wait_note}{merged_note}"
         )
 
+    buckets: dict[str, int] = {}
+    for rec in ordered[:12]:
+        bucket = _refill_status_bucket(_infer_refill_status(rec))
+        buckets[bucket] = buckets.get(bucket, 0) + 1
+    if buckets:
+        bucket_text = ", ".join(
+            f"{name}={count}"
+            for name, count in sorted(buckets.items(), key=lambda item: (-item[1], item[0]))
+        )
+        lines.append(f"  recent refill status buckets: {bucket_text}")
+
     lines.append(_next_refill_prompt_note())
 
     latest = ordered[0]
@@ -534,6 +680,26 @@ def render_board_refill() -> str:
             lines.append(
                 "  note: latest refill has no response/summary yet; use this to distinguish "
                 "transport stalls from logic-gate rejection."
+            )
+    latest_status = _infer_refill_status(latest)
+    if latest_status.startswith("local_gap_fallback_judge_unavailable"):
+        lines.append(
+            "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
+            "do not bypass the final maker/checker gate."
+        )
+        if "claude_not_logged_in" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI auth for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "claude_access_denied" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI organization access for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "codex_sandbox_init_failed" in latest_status:
+            lines.append(
+                "  note: Codex fallback also failed during sandbox app-server initialization."
             )
     return "\n".join(lines)
 
@@ -698,14 +864,20 @@ def render_reject_clusters() -> str:
             continue
         if d.get("verdict") not in ("reject", "compile_failed"):
             continue
-        for r in d.get("rejection_reasons") or []:
+        reasons = list(d.get("rejection_reasons") or [])
+        reasons.extend(d.get("compile_errors") or [])
+        for r in reasons:
             r_low = (r or "").lower()
             cat = "other"
             m = re.search(r"item\s*(\d+)", r_low)
             if m:
                 cat = f"item_{m.group(1)}"
+            elif "duplicate \\leanchecked" in r_low or "duplicate \\leantarget" in r_low:
+                cat = "duplicate_lean_marker"
             elif "build invariant" in r_low:
                 cat = "build_invariant"
+            elif "undefined control sequence" in r_low or "undefined macro" in r_low:
+                cat = "undefined_macro"
             elif "content duplication" in r_low:
                 cat = "content_duplication"
             elif "non-latex" in r_low or "trailing" in r_low:
@@ -724,8 +896,12 @@ def render_logic_audit_warnings() -> str:
         return "  (no targets dir)"
     counts: dict[str, int] = {}
     examples: dict[str, str] = {}
+    failed_counts: dict[str, int] = {}
+    failed_examples: dict[str, str] = {}
     audited = 0
     warned = 0
+    failed_audited = 0
+    failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
@@ -734,22 +910,46 @@ def render_logic_audit_warnings() -> str:
         audit = d.get("logic_audit") or {}
         if not audit:
             continue
-        audited += 1
+        landed = (
+            d.get("verdict") == "accept"
+            and d.get("appended") is True
+            and d.get("compile_ok") is True
+        )
         warnings = audit.get("warnings") or []
-        if warnings:
-            warned += 1
         target = f.parent.name
+        if landed:
+            audited += 1
+            if warnings:
+                warned += 1
+        else:
+            failed_audited += 1
+            if warnings:
+                failed_warned += 1
         for warning in warnings:
             if not isinstance(warning, dict):
                 continue
             code = str(warning.get("code") or "unknown")
-            counts[code] = counts.get(code, 0) + 1
-            examples.setdefault(code, target)
+            if landed:
+                counts[code] = counts.get(code, 0) + 1
+                examples.setdefault(code, target)
+            else:
+                failed_counts[code] = failed_counts.get(code, 0) + 1
+                failed_examples.setdefault(code, target)
+    lines = [f"  accepted audited={audited} warned={warned}"]
     if not counts:
-        return f"  audited={audited} warned={warned} (no post-write logic warnings)"
-    lines = [f"  audited={audited} warned={warned}"]
+        lines.append("  accepted warnings: none")
     for code, n in sorted(counts.items(), key=lambda kv: -kv[1])[:8]:
         lines.append(f"  {code:<48} {n:>3}  example={examples.get(code, '?')}")
+    if failed_audited:
+        lines.append(
+            f"  failed/blocked audited={failed_audited} warned={failed_warned} "
+            "(not paper body)"
+        )
+    for code, n in sorted(failed_counts.items(), key=lambda kv: -kv[1])[:5]:
+        lines.append(
+            f"  failed/blocked {code:<33} {n:>3}  "
+            f"example={failed_examples.get(code, '?')}"
+        )
     return "\n".join(lines)
 
 
@@ -782,6 +982,8 @@ def main() -> int:
     print(render_server(_safe_get_server()))
     print(_section("BOARD"))
     print(render_board())
+    print(_section("Active BOARD Targets"))
+    print(render_active_board_targets())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
     print(_section("Board Refill"))

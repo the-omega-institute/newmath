@@ -24,6 +24,9 @@ regular-language recognisers to $\BHist$ tuple presentations. That route
 would need a recogniser-to-carrier construction and a uniform component
 transport theorem not supplied by the fixed tuple test target.
 
+\paragraph{Active fixed-tuple test.}
+The active finite test is exactly the fixed-tuple kernel route: a tuple carrier, an image row, a readback row, componentwise $\NameCert$ transport, and the $\ChapterTasteGate$ row. Recognizer-to-carrier construction is not part of this test and remains a separate boundary condition.
+
 \begin{theorem}[Finite BHist injection fixed tuple route]
 \label{thm:finite-bhist-injection-fixed-tuple-route}
 In the fixed finite tuple case, every candidate $\StdBridge$ route must be a displayed $\BHist$ tuple route. The image row, readback row, tuple carrier, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row must all be present before the bridge is requested.
@@ -44,6 +47,43 @@ Before any $\StdBridge$ target is requested in the fixed finite tuple case, the 
 Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It already requires the displayed $\BHist$ tuple carrier, the image row, the readback row, componentwise $\NameCert$ transport, and the $\ChapterTasteGate$ row before the bridge is requested.
 
 The proposition only repacks that route as an obligation surface. It preserves the open recogniser-to-carrier problem because no row here constructs a tuple carrier from an arbitrary regular-language recogniser.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection recognizer boundary]
+\label{thm:finite-bhist-injection-recognizer-boundary}
+A recognizer-to-carrier route can be compared with the fixed-tuple
+$\StdBridge$ route only after it displays a recognizer acceptance row, a finite
+tuple extraction row, a readback row into $\BHist$ components, componentwise
+$\NameCert$ transport, and a $\ChapterTasteGate$ row. These five rows form the
+boundary between arbitrary regular-language recognizers and the fixed finite
+tuple obligation surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It gives the
+fixed tuple, image row, readback row, componentwise $\NameCert$ transport, and
+$\ChapterTasteGate$ row required before the fixed-tuple bridge route is
+requested.
+
+Now use \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}.
+It records the same rows as the public obligation surface and keeps them
+separate from the construction of tuple carriers from arbitrary recognizers.
+
+Thus a recognizer-side comparison must first expose the acceptance row and the
+finite tuple extraction row that land in that surface. This theorem only names
+that boundary; it does not construct the bridge or solve the recognizer-to-tuple
+transport problem.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection regular recognizer weakening]
+\label{thm:finite-bhist-injection-regular-recognizer-weakening}
+A regular recognizer input is admissible for the fixed tuple $\StdBridge$ route only after it exposes a recognizer acceptance row, a finite tuple extraction row, a $\BHist$ component readback row, componentwise $\NameCert$ transport, and a $\ChapterTasteGate$ row. These rows place the recognizer-derived input on the same obligation surface as the fixed tuple route, but they do not construct the recognizer-to-carrier map.
+\end{theorem}
+\begin{proof}
+Apply the fixed tuple route. It requires the displayed tuple carrier, image row, readback row, componentwise naming transport, and $\ChapterTasteGate$ row before the bridge route is requested.
+
+Use the fixed tuple obligation surface to identify those rows as the public preconditions for the route. A regular recognizer input must therefore expose its acceptance row and finite tuple extraction row before it can be compared with the fixed tuple surface.
+
+Finally apply the recognizer boundary theorem. It already separates the required boundary rows from the construction of tuple carriers from arbitrary regular recognizers, so this theorem records admissibility only after the boundary is displayed and does not construct the recognizer-to-carrier map.
 \end{proof}
 
 \begin{theorem}[Finite tuple StdBridge refutation candidate]

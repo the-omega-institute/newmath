@@ -111,6 +111,7 @@ No quotient stream, selected host limit, countable-choice schedule, host
 real equality, ambient completeness principle, or hidden tail oracle is a
 coordinate of this public budget source.
 \end{definition}
+\leandef{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorPublicBudgetSource}
 
 \begin{theorem}[Diagonal tail selector window choice totality]
 \label{thm:diagonal-tail-selector-window-choice-totality}
@@ -150,6 +151,7 @@ with the tail budget: the same finite rows $R,n,\mu,k,W,D,H,C,P,N$ feed the
 TailCofinalitySchedule factorization and the tail-meet consumption route
 before the Real seal row $S$ is read.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorPublicBudgetSource\_tail\_budget\_compatibility}
 \begin{proof}
 Start with \autoref{thm:diagonal-tail-selector-tail-cofinality-factorization}.
 It places the schedule route from precision request through finite window,
@@ -315,4 +317,50 @@ Finally use \autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}.
 The Real and Cauchy-limit readers stay inside that displayed route, so the
 consumer-facing path is total for the public budget handoff and excludes the
 listed quotient, choice, host-equality, completeness, and hidden-oracle data.
+\end{proof}
+
+\begin{theorem}[DiagonalTailSelector schedule-seal consumer exactness]
+\label{thm:diagonal-tail-selector-schedule-seal-consumer-exactness}
+For an accepted $\DiagonalTailSelectorUp$ packet, the completion-facing
+consumer route from the displayed schedule rows to the final seal is exact
+exactly when it factors through the finite rows
+$R,n,\mu,k,W,D,T,S,H,C,P,N$ and the sibling schedule rows supplied by
+$\TailCofinalityScheduleUp$, $\RegularCauchyTailMeetUp$,
+$\CauchyLimitSealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+and $\RealUp$. No quotient stream, host-selected limit, countable-choice
+schedule, host real equality, ambient completeness, or hidden tail oracle can
+be substituted for any segment of that route.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with the tail-cofinality factorization of
+\autoref{thm:diagonal-tail-selector-tail-cofinality-factorization}. It places
+the consumer route on the displayed $\TailCofinalityScheduleUp$ rows before
+any seal-facing read is allowed.
+
+Next apply tail-budget compatibility from
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility}. The scheduled
+tail rows, finite windows, dyadic ledger, transport rows, continuation routes,
+package provenance, and local name are the same rows that the selector public
+budget exposes.
+
+Then use real-seal budget non-escape from
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape} and the public
+budget export of \autoref{thm:diagonal-tail-selector-public-budget-export}.
+Together they identify the only completion-facing export as the displayed
+$R,n,\mu,k,W,D,T,S,H,C,P,N$ route with its
+$\TailCofinalityScheduleUp$, $\RegularCauchyTailMeetUp$,
+$\CauchyLimitSealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ sibling rows.
+
+For the reverse direction, apply the public budget route totality theorem
+\autoref{thm:diagonal-tail-selector-public-budget-route-totality}. A consumer
+that factors through exactly those finite rows already reads the finite
+observation-budget route, the selector public budget export, and the Real seal
+boundary in the required order.
+
+The same non-escape boundary rules out every alternate carrier named in the
+statement. Hence no quotient stream, host-selected limit, countable-choice
+schedule, host real equality, ambient completeness, or hidden tail oracle can
+replace a segment while preserving exactness of the schedule-to-seal consumer
+route.
 \end{proof}

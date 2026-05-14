@@ -216,6 +216,54 @@ Now apply the non-escape and Real--Completion boundary theorems. The packet expo
 
 \input{parts/concrete_instances/realtailagreementseal/budget_route_obligations}
 
+\begin{theorem}[Real tail-agreement seal root budget-route totality]
+\label{thm:real-tail-agreement-seal-root-budget-route-totality}
+Every accepted paired tail-agreement read of a $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ factors through the $\ObservationBudgetLimiterUp$ route and the $\RegularCauchyTailBudgetUp$ source before the local route
+$$
+W \to D \to A
+$$
+is public. The route is total for the finite root read and supplies no uncapped observation request, quotient stream equality, selected real value, host convergence row, or second tail-budget source.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $Q$ and use the local $\NameCert_{\RealTailAgreementSealUp}$ obligations. The only public service rows available before agreement are the displayed source rows $R,S$, the finite window row $W$, the dyadic readback row $D$, and the agreement row $A$, with transport, continuation, provenance, and name data carried by $H,C,P,N$.
+
+Apply \autoref{thm:real-tail-agreement-seal-budget-source-lock} and \autoref{thm:real-tail-agreement-seal-shared-tail-budget-extraction}. They place the paired tail request on the finite $\RegularCauchyTailBudgetUp$ source and cap its observation route through $\ObservationBudgetLimiterUp$ before the shared tail window can be read.
+
+Finally use the window-route exact companion. Once the budgeted route has displayed the finite window, the agreement read proceeds through $W$, then $D$, then $A$. Since the carrier has no coordinate for an uncapped request, quotient equality, selected value, host convergence, or second budget source, the stated budget-route factorization is exhaustive.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root source-window transport]
+\label{thm:real-tail-agreement-seal-root-source-window-transport}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. Componentwise $\hsame$ transport of the displayed source rows $R,S$, paired window row $W$, and dyadic readback row $D$ preserves the same paired source-window route from the budgeted tail request to the agreement row. Thus the transported packet reads the same finite route
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to R,S \to W \to D \to A
+$$
+up to the displayed local transport rows, without introducing quotient stream equality, selected limits, host convergence, or an ambient completion selector.
+\end{theorem}
+\begin{proof}
+Read the componentwise $\hsame$ rows from $H$ and $H'$. These rows identify only the displayed source, window, and readback components; they do not add a new tail source or a separate equality predicate.
+
+Use the root budget-route totality theorem for $Q$ and $Q'$. Both packets place their paired source-window reads behind the same finite budget and limiter surfaces before exposing any local agreement row.
+
+Now apply the tail-classifier transport and window-route determinacy results. Transport of $R,S,W,D$ carries the finite source-window route across the two packets, and determinacy fixes the agreement row reached after $W \to D$. The transported route therefore remains the same paired source-window route, with no quotient, selected-limit, convergence, or external completion coordinate available to replace it.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root completion-boundary exhaustion]
+\label{thm:real-tail-agreement-seal-root-completion-boundary-exhaustion}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet is exhausted by the local rows
+$$
+R,S,W,D,A,H,C,P,N
+$$
+together with the sibling budget, tail-meet, tail-fusion, $\CauchyLimitSealUp$, and Real routes named by \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}. No root consumer obtains quotient stream equality, a selected limit, host convergence, ambient completeness, or a hidden tail selector from the seal.
+\end{theorem}
+\begin{proof}
+Begin with the root budget-route totality theorem. It forces any paired tail-agreement read to pass through the finite budget and limiter route before the local agreement surface $W \to D \to A$ can be consumed.
+
+Next use the source-window transport theorem and the sibling tail-meet and tail-fusion routes. The transport row keeps $R,S,W,D$ on the same paired source-window route, while the meet and fusion siblings supply the shared tail surface that the local packet consumes.
+
+It remains to account for Real and Completion-facing endpoints. Apply \autoref{thm:real-tail-agreement-seal-completion-handoff-totality} together with the $\CauchyLimitSealUp$ and $\RealUp$ sibling routes. These consumers receive only the displayed finite rows and the named sibling surfaces, so the boundary is exhausted without quotient stream equality, selected limits, host convergence, ambient completeness, or hidden tail selection.
+\end{proof}
+
 \begin{theorem}[Real tail-agreement seal downstream route exhaustion]
 \label{thm:real-tail-agreement-seal-downstream-route-exhaustion}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet receives only the route
@@ -671,6 +719,43 @@ Now use the tail-classifier transport theorem above. The same route preserves th
 The remaining consumers are exactly the named Real, Completion, and Cauchy-limit-seal siblings. They receive the finite dependency rows already displayed by the packet and add no coordinate for quotient stream equality, selected limits, host convergence, or choice-selected tails.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal root source-window admission]
+\label{thm:real-tail-agreement-seal-root-source-window-admission}
+Every root read of an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ first admits the displayed $\RegSeqRatUp$ source rows $R,S$ and the paired $\StreamNameUp$ window row $W$ before any agreement row can be consumed. The admission route is the carrier route of \autoref{def:real-tail-agreement-seal-carrier} together with the NameCert source-separation and paired-window obligations, and it exposes no source object outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project $Q$ by the carrier definition. The only source coordinates visible at the root are $R,S$, and the only window coordinate attached to them is the displayed paired row $W$.
+
+Apply the source separation obligation and the paired-window source lock. These obligations force each root read to pass through the $\RegSeqRatUp$ source rows and then the $\StreamNameUp$ paired-window row before any local agreement data is available.
+
+The root-window readback theorem then identifies this admitted window as the first leg of the public readback route. Since no additional source or window coordinate exists in the carrier, the root surface cannot expose an alternative source-window path.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root dyadic agreement exactness]
+\label{thm:real-tail-agreement-seal-root-dyadic-agreement-exactness}
+For every accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, the agreement row $A$ is root-readable only after the displayed dyadic route $W \to D$ has been read. The exact route is the finite $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ readback row $D$, and then the local agreement row $A$; it is not a quotient stream equality, host convergence predicate, or selected tail.
+\end{theorem}
+\begin{proof}
+Begin with the root source-window admission theorem. It places the root read on the displayed paired window row $W$ before the agreement row can be inspected.
+
+Use the dyadic window exactness and dyadic terminal nonescape obligations. They make $D$ the only dyadic readback attached to $W$ and leave no second dyadic carrier for the consumer to choose.
+
+Now apply root-window readback and tail-classifier transport. The public classifier is transported through the same $W \to D$ route, so the agreement row $A$ is reached exactly after that finite dyadic read and not through an ambient equality or convergence principle.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root Completion boundary]
+\label{thm:real-tail-agreement-seal-root-completion-boundary}
+Every root-facing $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet receives only the finite rows $R,S,W,D,A,H,C,P,N$ and the named sibling routes through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, regular-tail meet and fusion, $\RealUp$, $\CompletionUp$, and Cauchy-limit-seal consumers. The boundary supplies no quotient stream equality, selected limit, host convergence, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Read the consumer through the Completion consumer scope theorem. It lists the packet rows and the named sibling consumer routes available at the Real and Completion boundary.
+
+Combine this with root source-window admission and root dyadic agreement exactness. The source, window, dyadic readback, and agreement rows have already been exposed in the order $R,S,W,D,A$ before any sibling consumer receives the packet.
+
+The carrier supplies the remaining local transport, continuity, package, and NameCert rows $H,C,P,N$. Since neither the carrier nor the cited sibling routes contain a coordinate for quotient stream equality, selected limits, host convergence, or choice-selected tails, the root Completion boundary is exhausted by the displayed finite rows.
+\end{proof}
+
+\input{parts/concrete_instances/realtailagreementseal/root_budget_selector_admission}
 \input{parts/concrete_instances/realtailagreementseal/root_unblock_budget_route_surface}
 
 \closureat{RealTailAgreementSealUp}{obligationStr}

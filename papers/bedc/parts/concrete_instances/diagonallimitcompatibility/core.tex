@@ -523,3 +523,24 @@ Use \autoref{thm:diagonallimitcompatibility-triangle-seal-interface} together wi
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-classifier-transport} and \autoref{thm:diagonal-limit-compatibility-non-escape}. Transport preserves the displayed classifier, and non-escape excludes every host-limit, quotient-stream, choice, host-equality, or ambient-completeness coordinate not carried by $K$.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit shared modulus terminal seal]
+\label{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+any terminal $\RealUp$ or $\CauchyLimitSealUp$ seal read that factors through a compatible $\CauchyModulusExtractionUp$ packet
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N)
+$$
+and through the finite-window budget envelope of $\CauchyLimitSealUp$ passes through one shared finite route. The route first reads $R,T,S,D,W,Q,L,H,C,P,N$ from the diagonal-limit packet and then reads the extraction rows $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$ as the same budget-window-modulus surface. It exports no quotient stream, selected host limit, host real equality, trichotomy, choice datum, or ambient completeness.
+\end{theorem}
+\leanvariant{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_seal\_budget\_synchronizer\_handoff}
+\begin{proof}
+Start with the accepted diagonal packet. By \autoref{thm:diagonal-limit-compatibility-non-escape}, every seal-facing read of $K$ is confined to $R,T,S,D,W,Q,L,H,C,P,N$ and cannot import a quotient stream, selected host limit, host real equality, trichotomy, choice datum, or ambient completeness.
+
+Next attach the compatible modulus-extraction packet. The public export of \autoref{thm:cauchy-modulus-extraction-public-export} exposes exactly $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$, and the consumer bridge of \autoref{thm:cauchy-modulus-extraction-real-completion-consumer-bridge} forces Real-completion reads of $\mathsf{Mu}$ through those displayed rows.
+
+Finally align the seal envelope. The finite-window budget equivalence of \autoref{thm:cauchy-limit-seal-finite-window-budget-equivalence} identifies the terminal seal read with the same finite budget-window route, and the verification handoff of \autoref{thm:cauchy-limit-seal-verification-handoff} repacks that route as the reusable $\CauchyLimitSealUp$ surface. Thus the Real-facing terminal read is the same finite budget-window-modulus route already displayed by the diagonal packet and the extraction packet, with no extra completion coordinate.
+\end{proof}

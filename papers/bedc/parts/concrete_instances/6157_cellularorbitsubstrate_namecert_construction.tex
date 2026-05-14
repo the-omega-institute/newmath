@@ -111,15 +111,69 @@ Apply \autoref{thm:cellular-orbit-substrate-local-determinacy} to each accepted 
 Finally use \autoref{thm:cellular-orbit-substrate-observation-nonescape} and \autoref{thm:cellular-orbit-substrate-namecert-surface}. The provenance row $P$ and local name $N$ package the same finite route, so public reads cannot escape to machine code, bounded graph simulation, continuation-tail equality, resource-modulus comparison, or an unbounded orbit object.
 \end{proof}
 
-\closureat{CellularOrbitSubstrateUp}{seedStr}
+\begin{theorem}[Cellular orbit substrate rule-locality obligation]
+\label{thm:cellular-orbit-substrate-rule-locality-obligation}
+Every accepted orbit step of a $\CellularOrbitSubstrateUp$ packet is read from the displayed local transition table $R$ together with the neighboring finite rows recorded in the local-neighborhood ledger $L$. The public route may expose the predecessor neighborhood, the rule-table entry, the successor cell, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows, but it has no coordinate for a hidden cellular evaluator or an external rule oracle.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:cellular-orbit-substrate-carrier}. Its orbit data are exactly the displayed rule table $R$, initial row $I$, orbit-window ledger $W$, and local-neighborhood ledger $L$.
+
+Apply \autoref{thm:cellular-orbit-substrate-local-determinacy}. Each accepted successor entry is determined by the local-neighborhood read in $L$ and the corresponding transition entry in $R$.
+
+Use \autoref{thm:cellular-orbit-substrate-observation-nonescape} and \autoref{thm:cellular-orbit-substrate-continuation-ledger-row} to close the exported route. The continuation, provenance, and local name rows replay only that finite local computation, so no hidden evaluator or external rule oracle can be exported.
+\end{proof}
+
+\begin{theorem}[Cellular orbit substrate orbit-prefix obligation]
+\label{thm:cellular-orbit-substrate-orbit-prefix-obligation}
+Every consumer-visible orbit segment exported by a $\CellularOrbitSubstrateUp$ packet is a finite prefix of the displayed $\BHist$ orbit ledger $W$. The consumer may read the initial row, the accepted finite sequence of successor rows, the local-neighborhood evidence for each displayed step, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows, but it cannot extract an infinite orbit or a detached tail object.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:cellular-orbit-substrate-carrier}. The only orbit carrier row is the finite ledger $W$, with the initial row $I$ and local-neighborhood evidence $L$ attached to its displayed steps.
+
+Apply \autoref{thm:cellular-orbit-substrate-orbit-carrier-row}. Orbit admission is exactly admission of the finite packet $S=(R,I,W,L,H,C,P,N)$, so a public orbit segment must be read as part of the displayed ledger.
+
+Finally use \autoref{thm:cellular-orbit-substrate-continuation-ledger-row} and \autoref{thm:cellular-orbit-substrate-observation-nonescape}. The continuation route replays finite ledger rows only, and the non-escape theorem blocks infinite orbit and detached tail coordinates.
+\end{proof}
+
+\begin{theorem}[Cellular orbit substrate classifier-stability obligation]
+\label{thm:cellular-orbit-substrate-classifier-stability-obligation}
+Classifier replacement for an accepted $\CellularOrbitSubstrateUp$ packet preserves only the displayed local row, finite orbit prefix, componentwise $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ rows. If the replacement agrees on $R,I,W,L,H,C,P,N$, then the public classifier has no further surface on which to distinguish the packets.
+\end{theorem}
+\begin{proof}
+Begin with the classifier inventory in \autoref{def:cellular-orbit-substrate-carrier}. The carrier compares accepted packets only through the local rule table, initial row, finite orbit window, local-neighborhood ledger, transport, replay, provenance, and local name.
+
+Use \autoref{thm:cellular-orbit-substrate-local-classifier-row}. Displayed $\hsame$ transport of the rule table, initial row, orbit window, and local-neighborhood ledger preserves the public successor decisions.
+
+Apply \autoref{thm:cellular-orbit-substrate-rule-locality-obligation} and \autoref{thm:cellular-orbit-substrate-orbit-prefix-obligation}. These obligations identify the classifier-visible computation with the local row and finite prefix.
+
+The route closes by \autoref{thm:cellular-orbit-substrate-continuation-ledger-row} and \autoref{thm:cellular-orbit-substrate-observation-nonescape}. Since every exported read factors through $H,C,P,N$ together with $R,I,W,L$, there is no remaining coordinate for a replacement classifier to observe.
+\end{proof}
+
+\begin{theorem}[Cellular orbit substrate obligation closure package]
+\label{thm:cellular-orbit-substrate-obligation-closure-package}
+The carrier row of \autoref{def:cellular-orbit-substrate-carrier}, local determinacy of \autoref{thm:cellular-orbit-substrate-local-determinacy}, observation non-escape of \autoref{thm:cellular-orbit-substrate-observation-nonescape}, NameCert surface of \autoref{thm:cellular-orbit-substrate-namecert-surface}, orbit carrier row of \autoref{thm:cellular-orbit-substrate-orbit-carrier-row}, local classifier row of \autoref{thm:cellular-orbit-substrate-local-classifier-row}, continuation ledger row of \autoref{thm:cellular-orbit-substrate-continuation-ledger-row}, rule-locality obligation of \autoref{thm:cellular-orbit-substrate-rule-locality-obligation}, orbit-prefix obligation of \autoref{thm:cellular-orbit-substrate-orbit-prefix-obligation}, and classifier-stability obligation of \autoref{thm:cellular-orbit-substrate-classifier-stability-obligation} form the obligation package for $\CellularOrbitSubstrateUp$ over the finite packet $S=(R,I,W,L,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier row first. The packet exposes only the local rule table $R$, initial row $I$, finite orbit window $W$, local-neighborhood ledger $L$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+Apply the local determinacy, observation non-escape, and NameCert surface theorems. They make the finite neighborhood computation carrier-local and keep every public observation inside the displayed certificate rows.
+
+Use the orbit carrier, local classifier, continuation ledger, rule-locality, orbit-prefix, and classifier-stability obligations. These rows exhaust the visible cellular-orbit computation by binding successor decisions, finite prefix reads, and classifier replacement to the same $R,I,W,L,H,C,P,N$ packet.
+
+Therefore the listed rows are exactly the chapter-level obligation package. The package still leaves Rule 110 universality, cellular completeness, infinite-orbit equality, host evaluator correctness, and bridge checking outside the current surface.
+\end{proof}
+
+\closureat{CellularOrbitSubstrateUp}{obligationStr}[BEDC.Derived.CellularOrbitSubstrateUp.CellularOrbitSubstrateTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CellularOrbitSubstrateUp}
   \constructivestory{A $\CellularOrbitSubstrateUp$ packet is generated from a finite local rule table, initial spatial row, finite orbit-window ledger, local-neighborhood ledger, componentwise hsame transport, displayed continuation replay, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cellular-orbit-substrate-carrier}, \autoref{thm:cellular-orbit-substrate-local-determinacy}, \autoref{thm:cellular-orbit-substrate-observation-nonescape}, and \autoref{thm:cellular-orbit-substrate-namecert-surface} specify the finite local-neighborhood orbit certificate surface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cellular-orbit-substrate-carrier}, \autoref{thm:cellular-orbit-substrate-local-determinacy}, \autoref{thm:cellular-orbit-substrate-observation-nonescape}, \autoref{thm:cellular-orbit-substrate-namecert-surface}, \autoref{thm:cellular-orbit-substrate-orbit-carrier-row}, \autoref{thm:cellular-orbit-substrate-local-classifier-row}, \autoref{thm:cellular-orbit-substrate-continuation-ledger-row}, \autoref{thm:cellular-orbit-substrate-rule-locality-obligation}, \autoref{thm:cellular-orbit-substrate-orbit-prefix-obligation}, \autoref{thm:cellular-orbit-substrate-classifier-stability-obligation}, and \autoref{thm:cellular-orbit-substrate-obligation-closure-package} bind the finite local-neighborhood orbit certificate, local classifier, continuation ledger, prefix obligation, and classifier-stability surface.}
+  \formalstatus{\theoremCheckedV}
+  \leanchecked{BEDC.Derived.CellularOrbitSubstrateUp.taste\_gate}
+  \leantarget{BEDC.Derived.CellularOrbitSubstrateUp.CellularOrbitSubstrateTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, Rule 110 universality, cellular completeness, infinite-orbit equality, host evaluator correctness, or standard computational equivalence.}
-  \upgradepath{Obligation closure requires checked carrier admission, local determinacy, observation non-escape, public NameCert surface, nontriviality, and field faithfulness for the same finite-orbit carrier.}
+  \upgradepath{Scoped closure requires binding the obligation package to a primitive cellular-orbit scope over the same finite carrier.}
 \end{closurestatus}

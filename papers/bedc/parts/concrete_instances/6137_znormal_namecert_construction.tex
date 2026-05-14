@@ -181,6 +181,22 @@ Apply \autoref{thm:znormal-namecert-obligations} to bind these rows to the local
 Finally apply \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. The terminal read and sibling normal-word row are reached through the same displayed transport and replay rows, so no external normalizer or host computation route is available.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root terminal non-escape interface]
+\label{thm:znormal-root-terminal-nonescape-interface}
+Every root consumer of an accepted $\ZNormalUp$ packet must read terminal normality through the displayed path
+$$
+T \to F \to V \to R,
+$$
+with $K$ available only as finite sibling normal-word and carry evidence from $\ZeckendorfNormalUp$ and $\ZCarryUp$. No host conversion, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer can enter the root-facing interface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-fuel-normality-nonescape}. It places the terminal normal-form claim on the finite route from typed endpoint $T$ through fuel $F$ and terminal row $V$ to continuation read $R$.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. The terminal read factors through $T,F,V,R,H,C,P,N$, and the row $K$ is consumed only after $V$ is already displayed.
+
+Use \autoref{thm:znormal-sibling-normalword-handoff} to identify $K$ as finite sibling evidence from $\ZeckendorfNormalUp$ and $\ZCarryUp$. Then apply \autoref{thm:znormal-route-transport} to keep the whole root route inside $H,C,P,N$ without host conversion, quotient computation, unrestricted evaluation, divergence, or global normalization.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ root carrier exposure]
 \label{thm:znormal-root-unblock-carrier-exposure}
 Every root consumer of an accepted $\ZNormalUp$ packet first sees exactly the displayed tuple
@@ -262,6 +278,50 @@ The finite boundary is inherited from \autoref{thm:znormal-fuel-normality-nonesc
 \end{proof}
 
 The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp} instances for the same carrier.
+
+\begin{theorem}[$\ZNormalUp$ carrier obligation row]
+\label{thm:znormal-carrier-obligation-row}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+carrier admission binds the typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, Zeckendorf and carry-facing comparison row $K$, continuation terminal-read row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local $\NameCert_{\ZNormalUp}$ row $N$ to the same finite $\BHist$ surface. The carrier row exports no host conversion, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. It displays exactly $T,F,V,K,R,H,C,P,N$ and gives no additional coordinate to a root consumer.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local NameCert surface reads those fields as carrier admission, endpoint exposure, finite fuel, terminal normality, sibling comparison, terminal read, transport, route, provenance, and naming for the same packet.
+
+Use \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-terminal-readback-exactness}. They keep the carrier read inside finite fuel and terminal readback rows, so the excluded host and global-normalization objects cannot be recovered from carrier admission.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ carry classifier row]
+\label{thm:znormal-carry-classifier-row}
+For every accepted $\ZNormalUp$ packet, the comparison coordinate $K$ is the only ZeckendorfNormal and ZCarry classifier surface. It is read as a $\BHist$ row transported by $H$, replayed by $C$, packaged by $P$, and named by $N$ after the typed endpoint, finite fuel, and terminal-normality rows have been displayed. It is not a host conversion row, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They place $K$ inside the same finite packet as $T,F,V,R,H,C,P,N$ and bind it to the local $\NameCert_{\ZNormalUp}$ route.
+
+Apply \autoref{thm:znormal-carry-normalization-obligation} and \autoref{thm:znormal-sibling-normalword-handoff}. These theorems identify the $K$ row with the finite ZeckendorfNormal and ZCarry comparison surface rather than with host computation.
+
+Finally use \autoref{thm:znormal-route-transport}. The comparison row is transported and replayed only through $H$ and $C$, then packaged and named by $P,N$, so no quotient computation, unrestricted evaluator, divergence oracle, or global normalizer can enter the classifier row.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-form ledger row]
+\label{thm:znormal-normal-form-ledger-row}
+For every accepted $\ZNormalUp$ packet, terminal normality is recorded only by the ledger route through
+$$
+T,F,V,R,H,C,P,N,
+$$
+with $K$ available as the finite sibling comparison row named by \autoref{thm:znormal-carry-classifier-row}. The ledger binds the terminal-normality claim to $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows and exports no host conversion, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:znormal-carrier-obligation-row} to expose the displayed packet and no other terminal-normality coordinates. The terminal row is $V$, and the continuation read is $R$.
+
+Apply \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-terminal-readback-exactness}. These theorems force terminal normality through the finite fuel path $T,F,V,R$ and keep readback inside the displayed packet.
+
+Now apply \autoref{thm:znormal-carry-classifier-row} and \autoref{thm:znormal-route-transport}. The sibling comparison row remains finite evidence, while $H,C,P,N$ provide the only transport, replay, package, and naming surface for the normal-form ledger.
+\end{proof}
 
 \closureat{ZNormalUp}{seedStr}
 

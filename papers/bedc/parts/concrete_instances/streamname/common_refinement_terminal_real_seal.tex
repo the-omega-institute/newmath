@@ -1,0 +1,43 @@
+\section{StreamName Common-Refinement Terminal Real Seal}
+\label{sec:streamname-common-refinement-terminal-real-seal}
+
+\begin{theorem}[StreamName common-refinement terminal Real seal]
+\label{thm:streamname-common-refinement-terminal-real-seal}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite-window $\StreamNameUp$ packages over the same certified endpoint maps, and let $\mathcal R$ be a certified common-refinement package restricting to both selected windows. Then every downstream $\RegSeqRatUp$ handoff followed by a finite-window $\RealUp$ seal read factors through the single terminal finite tuple displayed by $\mathcal R$:
+$$
+(\mathsf{RatStreamNameFiniteWindowClassifier}_{\mathcal R},
+\mathsf{ProbeBundle}_{\mathcal R},
+\mathsf{InBundle}_{\mathcal R},
+\mathsf{UnaryHistory}_{\mathcal R},
+\mathsf{RatHistoryClassifier}_{\mathcal R},
+\mathsf{DyadicLedger}_{\mathcal R},
+\hsame_{\mathcal R},
+\Cont_{\mathcal R},
+\Pkg_{\mathcal R},
+\NameCert_{\mathcal R}).
+$$
+The factorization reads the finite-window classifier, the $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, pointwise $\mathsf{RatHistoryClassifier}$ rows, dyadic ledger rows, displayed $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows. It does not identify quotient streams, assert host sequence equality, select limits, use ambient $\RealUp$ completeness, or import metric-completeness data.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-common-refinement-public-exactness}. It pins the two selected windows to the common-refinement source tuple of $\mathcal R$ and keeps the downstream $\RegSeqRatUp$ and finite $\RealUp$ handoff reads on that public packet.
+
+Next apply \autoref{thm:streamname-finite-window-real-handoff-coverage}. The finite seal read exposes only the StreamName window, pointwise rational rows, the finite Real seal boundary, componentwise transport, continuation routes, provenance, and local names.
+
+Use \autoref{thm:streamname-real-regseq-window-lattice-coherence} to place the two selected windows in one common finite-window lattice. The classifier observations, bundle rows, membership rows, unary-history observations, dyadic ledger, transports, routes, provenance, and names are therefore read from the same finite packet.
+
+Finally apply \autoref{thm:streamname-lattice-meet-terminal-factorization}. The meet packet is terminal for the RegSeqRat readback and finite Real seal handoff, so there is no carrier coordinate left for quotient equality, host sequence equality, selected limits, ambient Real completeness, or metric-completeness rows.
+\end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq terminal common-window lock]
+\label{thm:streamname-real-regseq-terminal-common-window-lock}
+Let $\mathcal R$ be a common-refinement $\StreamNameUp$ package whose selected finite window is consumed by $\RegSeqRatUp$ and sealed as a finite-window $\RealUp$ row. Then the public consumer surface is the single terminal packet consisting of the finite $\BHist$ window, $\mathsf{RatHistoryClassifier}$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ rows, $\mathsf{UnaryHistory}$ observations, the $\DyadicRatCoreUp$ ledger, the accepted $\RegSeqRatUp$ readback, the induced $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. The packet exports no quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness row, independent $\RealUp$ carrier, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. It reduces every selected-window RegSeqRat handoff followed by a finite Real seal read to the finite tuple carried by the common-refinement package $\mathcal R$.
+
+Next use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The selected finite window is the meet-facing packet seen by both the StreamName observations and the downstream RegSeqRat consumer, so the classifier, bundle, membership, unary-history, dyadic, transport, continuation, provenance, and naming rows all come from one finite surface.
+
+Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} to identify the StreamName window, RegSeqRat readback, $\DyadicRatCoreUp$ ledger, and Real seal boundary as a common finite pullback. Then use \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} to make the Real-facing seal read deterministic on that pullback.
+
+Finally apply \autoref{thm:streamname-real-terminal-factorization}. The downstream consumer therefore factors through the listed terminal packet and has no exported coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, independent Real carriers, or metric-completeness data.
+\end{proof}

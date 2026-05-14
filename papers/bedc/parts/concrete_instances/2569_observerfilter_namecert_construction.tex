@@ -51,6 +51,7 @@ No further coordinate is present in the carrier. Thus host history equality, quo
 \label{thm:observer-filter-identity-stability}
 Let $F=(H,S,O,R,L,C,P,N)$ and $F'=(H',S',O',R',L',C',P',N')$ be accepted $\ObserverFilterUp$ carriers. If their source rows, selected rows, omitted ledgers, observer ledgers, continuation routes, package rows, and local names are related componentwise by the displayed $\hsame$ transports, then the two carriers determine the same observer-filter identity judgment. The judgment is computed only from the retained subhistory and omitted-row boundary ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilterCarrier\_identity\_stability}
 \begin{proof}
 Project both carriers to their displayed rows. The comparison data are exactly $H,S,O,R,L,C,P,N$ and $H',S',O',R',L',C',P',N'$.
 
@@ -141,14 +142,16 @@ The omitted side remains visible only as $O$. Since neither \autoref{def:observe
 \closureat{ObserverFilterUp}{obligationStr}
 \closureat{ObserverFilterUp}{scopedStr}
 \closureat{ObserverFilterUp}{publicStr}
+\closureat{ObserverFilterUp}{bridgedStr}
+\closureat{ObserverFilterUp}{matureStr}
 
 \begin{closurestatus}{\ObserverFilterUp}
   \constructivestory{An $\ObserverFilterUp$ packet is generated from a source BHist row, selected subhistory row, omitted-row ledger, componentwise hsame transports, observer ledger, displayed Cont routes, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:observer-filter-bhist-carrier}, \autoref{thm:observer-filter-namecert-obligations}, \autoref{thm:observer-filter-identity-stability}, \autoref{thm:observer-filter-streamname-handoff}, \autoref{thm:observer-filter-observer-history-factorization}, \autoref{thm:observer-filter-ledger-exactness}, \autoref{thm:observer-filter-selected-row-totality}, \autoref{thm:observer-filter-omitted-row-boundary-exhaustion}, and \autoref{thm:observer-filter-streamname-selected-subhistory-nonescape} specify the public BHist filter surface, selected-row totality, omitted-row boundary exhaustion, StreamName selected-subhistory non-escape, hsame transport, Cont route, Pkg provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close hidden observer state, quotient identity, unledgered deletion, Lean verification, or bridge checking for $\ObserverFilterUp$.}
-  \upgradepath{Bridged closure next requires a standard bridge for the ObserverFilter public surface.}
+  \upgradepath{The next paper-side step is mature closure examples, or a machine-checked bridge for the displayed ObserverFilter surface.}
 \end{closurestatus}

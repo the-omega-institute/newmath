@@ -1,0 +1,270 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.AuditMapFamilyUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive AuditMapFamilyUp : Type where
+  | mk :
+      (familyTag inventory obstruction routing frontier transport replay provenance
+        localName : BHist) →
+      AuditMapFamilyUp
+  deriving DecidableEq
+
+def auditMapFamilyEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: auditMapFamilyEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: auditMapFamilyEncodeBHist h
+
+def auditMapFamilyDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (auditMapFamilyDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (auditMapFamilyDecodeBHist tail)
+
+private theorem auditMapFamilyDecode_encode_bhist :
+    ∀ h : BHist, auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
+
+def auditMapFamilyFields : AuditMapFamilyUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | AuditMapFamilyUp.mk familyTag inventory obstruction routing frontier transport replay
+      provenance localName =>
+      [familyTag, inventory, obstruction, routing, frontier, transport, replay, provenance,
+        localName]
+
+def auditMapFamilyToEventFlow : AuditMapFamilyUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | AuditMapFamilyUp.mk familyTag inventory obstruction routing frontier transport replay
+      provenance localName =>
+      [[BMark.b0],
+        auditMapFamilyEncodeBHist familyTag,
+        [BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist inventory,
+        [BMark.b1, BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist obstruction,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist routing,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist frontier,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        auditMapFamilyEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        auditMapFamilyEncodeBHist localName]
+
+def auditMapFamilyFromEventFlow : EventFlow → Option AuditMapFamilyUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | familyTag :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | inventory :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | obstruction :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | routing :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | frontier :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | replay :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | localName ::
+                                                                          rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (AuditMapFamilyUp.mk
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    familyTag)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    inventory)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    obstruction)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    routing)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    frontier)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    transport)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    replay)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    provenance)
+                                                                                  (auditMapFamilyDecodeBHist
+                                                                                    localName))
+                                                                          | _ :: _ => none
+
+private theorem auditMapFamily_round_trip :
+    ∀ x : AuditMapFamilyUp,
+      auditMapFamilyFromEventFlow (auditMapFamilyToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk familyTag inventory obstruction routing frontier transport replay provenance
+      localName =>
+      change
+        some
+          (AuditMapFamilyUp.mk
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist familyTag))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist inventory))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist obstruction))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist routing))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist frontier))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist transport))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist replay))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist provenance))
+            (auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist localName))) =
+          some
+            (AuditMapFamilyUp.mk familyTag inventory obstruction routing frontier transport
+              replay provenance localName)
+      rw [auditMapFamilyDecode_encode_bhist familyTag,
+        auditMapFamilyDecode_encode_bhist inventory,
+        auditMapFamilyDecode_encode_bhist obstruction,
+        auditMapFamilyDecode_encode_bhist routing,
+        auditMapFamilyDecode_encode_bhist frontier,
+        auditMapFamilyDecode_encode_bhist transport,
+        auditMapFamilyDecode_encode_bhist replay,
+        auditMapFamilyDecode_encode_bhist provenance,
+        auditMapFamilyDecode_encode_bhist localName]
+
+private theorem auditMapFamilyToEventFlow_injective {x y : AuditMapFamilyUp} :
+    auditMapFamilyToEventFlow x = auditMapFamilyToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      auditMapFamilyFromEventFlow (auditMapFamilyToEventFlow x) =
+        auditMapFamilyFromEventFlow (auditMapFamilyToEventFlow y) :=
+    congrArg auditMapFamilyFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (auditMapFamily_round_trip x).symm
+      (Eq.trans hread (auditMapFamily_round_trip y)))
+
+private theorem AuditMapFamilyTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : AuditMapFamilyUp, auditMapFamilyFields x = auditMapFamilyFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk familyTag inventory obstruction routing frontier transport replay provenance localName =>
+      cases y with
+      | mk familyTag' inventory' obstruction' routing' frontier' transport' replay'
+          provenance' localName' =>
+          injection hfields with hFamilyTag hTail0
+          injection hTail0 with hInventory hTail1
+          injection hTail1 with hObstruction hTail2
+          injection hTail2 with hRouting hTail3
+          injection hTail3 with hFrontier hTail4
+          injection hTail4 with hTransport hTail5
+          injection hTail5 with hReplay hTail6
+          injection hTail6 with hProvenance hTail7
+          injection hTail7 with hLocalName _hNil
+          cases hFamilyTag
+          cases hInventory
+          cases hObstruction
+          cases hRouting
+          cases hFrontier
+          cases hTransport
+          cases hReplay
+          cases hProvenance
+          cases hLocalName
+          rfl
+
+instance auditMapFamilyBHistCarrier : BHistCarrier AuditMapFamilyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := auditMapFamilyToEventFlow
+  fromEventFlow := auditMapFamilyFromEventFlow
+
+instance auditMapFamilyChapterTasteGate : ChapterTasteGate AuditMapFamilyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change auditMapFamilyFromEventFlow (auditMapFamilyToEventFlow x) = some x
+    exact auditMapFamily_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (auditMapFamilyToEventFlow_injective heq)
+
+instance auditMapFamilyFieldFaithful : FieldFaithful AuditMapFamilyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := auditMapFamilyFields
+  field_faithful := AuditMapFamilyTasteGate_single_carrier_alignment_field_faithful
+
+def taste_gate : ChapterTasteGate AuditMapFamilyUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  auditMapFamilyChapterTasteGate
+
+theorem AuditMapFamilyTasteGate_single_carrier_alignment :
+    (∀ h : BHist, auditMapFamilyDecodeBHist (auditMapFamilyEncodeBHist h) = h) ∧
+      (∀ x : AuditMapFamilyUp,
+        auditMapFamilyFromEventFlow (auditMapFamilyToEventFlow x) = some x) ∧
+        (∀ x y : AuditMapFamilyUp,
+          auditMapFamilyToEventFlow x = auditMapFamilyToEventFlow y → x = y) ∧
+          auditMapFamilyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact auditMapFamilyDecode_encode_bhist
+  · constructor
+    · exact auditMapFamily_round_trip
+    · constructor
+      · intro x y heq
+        exact auditMapFamilyToEventFlow_injective heq
+      · rfl
+
+end BEDC.Derived.AuditMapFamilyUp
