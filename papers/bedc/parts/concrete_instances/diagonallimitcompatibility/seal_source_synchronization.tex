@@ -145,3 +145,57 @@ Use the triangle readback lock, \autoref{thm:diagonal-limit-compatibility-triang
 
 Finally apply the Real seal consumer scope theorem, \autoref{thm:diagonal-limit-compatibility-real-seal-consumer-scope}. It routes the consumer through the displayed rows and excludes second source routes, quotient streams, host limits, choice data, and ambient completeness.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit seal source determinacy]
+\label{thm:diagonal-limit-compatibility-seal-source-determinacy}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose their displayed
+rows agree componentwise by $\hsame$:
+$$
+\begin{gathered}
+\hsame{R}{R'},\quad \hsame{T}{T'},\quad \hsame{S}{S'},\quad
+\hsame{D}{D'},\quad \hsame{W}{W'},\quad \hsame{Q}{Q'},\quad
+\hsame{L}{L'},\\
+\hsame{H}{H'},\quad \hsame{C}{C'},\quad \hsame{P}{P'},\quad
+\hsame{N}{N'}.
+\end{gathered}
+$$
+If two $\RealUp$ or $\CauchyLimitSealUp$ consumers both pass through
+\autoref{thm:diagonal-limit-compatibility-seal-source-scope-row}, then they
+determine the same seal-facing finite route. In particular, they cannot be
+distinguished by a host limit, quotient stream, choice datum, ambient
+completeness principle, or second source route.
+\end{theorem}
+\begin{proof}
+Apply seal source synchronization,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}, to
+both accepted packets. Each seal-facing read is first confined to the displayed
+rows $R,T,S,D,W,Q,L,H,C,P,N$ and $R',T',S',D',W',Q',L',H',C',P',N'$.
+
+Use the triangle readback lock,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}. The
+readback coordinate is tied to the same triangle, dyadic, and window rows as
+the seal coordinate, so the componentwise $\hsame$ hypotheses identify the
+finite route through $T,D,W,Q,L$ on both sides.
+
+Next apply real seal factorization,
+\autoref{thm:diagonal-limit-compatibility-real-seal-factorization}, and real
+seal consumer scope,
+\autoref{thm:diagonal-limit-compatibility-real-seal-consumer-scope}. The
+consumer route factors through exactly the displayed coordinates and exports no
+host limit, quotient stream, choice datum, ambient completeness row, or second
+source route.
+
+It remains only to exhaust the coordinates. The hypotheses identify every
+displayed source, structural, provenance, and naming row by $\hsame$, while the
+factorization and scope theorems leave no hidden coordinate outside those rows.
+Thus the two consumers determine the same seal-facing finite route and admit no
+remaining distinguishing datum of the kinds named in the statement.
+\end{proof}

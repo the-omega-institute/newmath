@@ -129,6 +129,22 @@ Combine that scope with limit-seal compatibility from \autoref{thm:real-window-s
 Finally apply the Real seal exposure theorem \autoref{thm:real-window-synchronizer-real-seal-exposure}. It exposes $S$ only after $L$ has been read on the same route, so a completion-facing consumer cannot reach either seal without the shared window-tail threshold packet.
 \end{proof}
 
+\begin{theorem}[Real window synchronizer standard bridge surface]
+\label{thm:real-window-synchronizer-standard-bridge-surface}
+For an accepted $\RealWindowSynchronizerUp$ carrier $Z=(W,R,T,L,S,H,C,P,N)$, the carrier row, local $\NameCert_{\RealWindowSynchronizerUp}$ obligations, shared budget pullback, non-escape row, limit-seal compatibility, Real-seal exposure, StreamName--RegSeqRat scope, limit-seal scope, and the checked TasteGate single-carrier marker
+\texttt{BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment}
+together form the bridge surface from the finite synchronizer packet $(W,R,T,L,S,H,C,P,N)$ to the standard reflection schema.
+\end{theorem}
+\begin{proof}
+The carrier definition \autoref{def:real-window-synchronizer-carrier} fixes the finite packet and excludes every coordinate outside $W,R,T,L,S,H,C,P,N$. The NameCert obligations of \autoref{thm:real-window-synchronizer-namecert-obligations} then identify the local admission rows carried by that same packet.
+
+The public route is obtained by composing the budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback} with the non-escape boundary of \autoref{thm:real-window-synchronizer-nonescape}. These two results make the shared threshold row $T$ the only budget source and prevent any completion-facing read from leaving the displayed synchronizer coordinates.
+
+The seal route is supplied by \autoref{thm:real-window-synchronizer-limit-seal-compatibility} and \autoref{thm:real-window-synchronizer-real-seal-exposure}. The StreamName--RegSeqRat scope of \autoref{thm:real-window-synchronizer-streamname-regseq-scope} and the limit-seal scope of \autoref{thm:real-window-synchronizer-limit-seal-scope} place those reads on the same $W,R,T,H,C,P,N$ route.
+
+Together with the checked TasteGate single-carrier marker, these rows supply the paper-side bridge surface to the standard reflection schema. The verification axis remains grounded in the existing TasteGate target until a checked $\StdBridge$ theorem is present.
+\end{proof}
+
 \falsifiablePrediction{Removing the shared window row permits a RealUp seal read whose StreamName and RegSeqRat windows no longer agree; removing the seal row prevents any completion-facing consumer from reading the synchronizer as a RealUp route.}
 
 \independenceWitness{Nearest siblings: streamname, regseqrat, cauchylimitseal, regular-cauchy-tail-budget, and real. The synchronizer is not bijective to any one sibling because it carries all five surfaces simultaneously: a StreamName finite window, a RegSeqRat tail threshold, a CauchyLimitSeal row, a RegularCauchyTailBudget service row, and a RealUp seal row; dropping any one row changes the admitted consumer route.}
@@ -138,15 +154,17 @@ The Lean file \texttt{Derived/RealWindowSynchronizerUp/TasteGate.lean} will incl
 \closureat{RealWindowSynchronizerUp}{seedStr}
 \closureat{RealWindowSynchronizerUp}{obligationStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
 \closureat{RealWindowSynchronizerUp}{scopedStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
+\closureat{RealWindowSynchronizerUp}{publicStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
+\closureat{RealWindowSynchronizerUp}{bridgedStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealWindowSynchronizerUp}
   \constructivestory{A $\RealWindowSynchronizerUp$ packet is generated from a StreamName window service row, RegSeqRat tail row, shared threshold row, CauchyLimitSeal row, RealUp seal row, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, \autoref{thm:real-window-synchronizer-nonescape}, \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, \autoref{thm:real-window-synchronizer-real-seal-exposure}, \autoref{thm:real-window-synchronizer-obligation-closure-package}, \autoref{thm:real-window-synchronizer-streamname-regseq-scope}, and \autoref{thm:real-window-synchronizer-limit-seal-scope} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, seal compatibility, Real-seal exposure, non-escape boundary, scoped StreamName--RegSeqRat route, scoped seal route, checked TasteGate alignment marker, and TasteGate instance \texttt{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate} for the Real and Completion window-to-seal route.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, \autoref{thm:real-window-synchronizer-nonescape}, \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, \autoref{thm:real-window-synchronizer-real-seal-exposure}, \autoref{thm:real-window-synchronizer-obligation-closure-package}, \autoref{thm:real-window-synchronizer-streamname-regseq-scope}, \autoref{thm:real-window-synchronizer-limit-seal-scope}, and \autoref{thm:real-window-synchronizer-standard-bridge-surface} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, seal compatibility, public Real-seal exposure row, non-escape boundary, StreamName--RegSeqRat route, scoped seal route, standard reflection bridge surface, checked TasteGate alignment marker, and TasteGate instance \texttt{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate} for the Real and Completion window-to-seal route.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, ambient metric completion, or checked Lean certificates for \autoref{thm:real-window-synchronizer-streamname-regseq-scope} and \autoref{thm:real-window-synchronizer-limit-seal-scope}.}
-  \upgradepath{Public closure requires an exported theorem showing that every Real and Completion consumer reads the synchronized window-to-seal packet through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.}
+  \upgradepath{Mature closure requires a checked $\StdBridge$ theorem and downstream examples that consume the displayed standard reflection bridge surface.}
 \end{closurestatus}
