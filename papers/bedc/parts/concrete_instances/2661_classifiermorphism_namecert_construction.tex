@@ -76,6 +76,20 @@ Compose the graph rows relationally through the shared middle packet. For an acc
 The same concatenation applies to $\mathsf{SigRel}$ answers and $\Cont$ routes. Componentwise $\hsame$ rows compose through the shared middle packet, while the two $\Pkg$ and $\NameCert$ rows repack the resulting graph and preservation ledgers as one finite $\ClassifierMorphismUp$ carrier.
 \end{proof}
 
+\begin{theorem}[ClassifierMorphism public composition export]
+\label{thm:classifiermorphism-public-composition-export}
+For accepted $\ClassifierMorphismUp$ packets from classifier-membership packet $A$ to packet $B$ and from $B$ to packet $D$, the two-step classifier-preserving route exports a single public $\ClassifierMorphismUp$ route from $A$ to $D$. Its graph, $\Ext$ preservation, $\mathsf{SigRel}$ preservation, $\Cont$ preservation, $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ rows are exactly the relational composites of the corresponding displayed rows in the two input packets.
+
+Thus a downstream naming-certificate morphism consumer may cite one public route from $A$ to $D$ rather than separately reconstructing graph composition, preservation of classifier reads, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+First build the route. Apply \autoref{thm:classifiermorphism-composition-closure} to the two accepted packets through the shared middle packet $B$. The resulting carrier has source $A$, target $D$, and graph row given by relational composition of the two displayed graph rows.
+
+Next identify the preservation surface. Use \autoref{thm:classifiermorphism-ext-sigrel-preservation} on each input packet and on the composed carrier. The $\Ext$ and $\mathsf{SigRel}$ reads are therefore the composite preservation ledgers, while the $\Cont$ and $\hsame$ rows are the corresponding composite replay and transport rows.
+
+Finally repack the public export through the local boundary. The NameCert obligation surface and the checked TasteGate boundary recorded for \autoref{thm:classifiermorphism-namecert-obligation-surface} expose only the rows $G,E,S,C,H,P,N$. Since those rows in the composed carrier are precisely the relational composites supplied by \autoref{thm:classifiermorphism-composition-closure}, the exported route contains no extra host function, semantic interpretation, quotient equality, or unrecorded relation.
+\end{proof}
+
 \begin{theorem}[ClassifierMorphism preservation non-escape scope]
 \label{thm:classifiermorphism-preservation-nonescape-scope}
 Every classifier-preserving consumer route for an accepted $\ClassifierMorphismUp$ packet factors through exactly the displayed source packet $A$, target packet $B$, graph row $G$, $\Ext$ preservation row $E$, $\mathsf{SigRel}$ preservation row $S$, $\Cont$ preservation row $C$, componentwise $\hsame$ row $H$, $\Pkg$ provenance row $P$, local $\NameCert$ row $N$, and the checked TasteGate boundary. The route exports no host compiler function, semantic type interpretation, quotient equality between source and target histories, or unrecorded source-target relation.

@@ -271,6 +271,10 @@ instance transcendentalInductionSocketChapterTasteGate :
     intro x y hxy heq
     exact hxy (transcendentalInductionSocketToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate TranscendentalInductionSocketUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  transcendentalInductionSocketChapterTasteGate
+
 theorem TranscendentalInductionSocketTasteGate_single_carrier_alignment :
     (forall h : BHist,
       transcendentalInductionSocketDecodeBHist

@@ -338,12 +338,18 @@ def _next_refill_prompt_note() -> str:
     try:
         import oracle_board_refill
 
-        size = len(oracle_board_refill.build_refill_prompt().encode("utf-8"))
+        micro_refill = oracle_board_refill.should_use_micro_refill()
+        size = len(
+            oracle_board_refill.build_refill_prompt(
+                micro_refill=micro_refill,
+            ).encode("utf-8")
+        )
     except Exception as exc:
         return f"  next prompt estimate: unavailable ({type(exc).__name__})"
+    mode = " micro" if micro_refill else ""
     if size >= 1024:
-        return f"  next prompt estimate: {size / 1024:.0f}k"
-    return f"  next prompt estimate: {size}b"
+        return f"  next prompt estimate:{mode} {size / 1024:.0f}k"
+    return f"  next prompt estimate:{mode} {size}b"
 
 
 def _infer_refill_status(rec: dict) -> str:
