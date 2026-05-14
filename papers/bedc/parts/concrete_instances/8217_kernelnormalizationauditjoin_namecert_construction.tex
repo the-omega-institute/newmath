@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\KernelNormalizationAuditJoinUp$}
+\label{ch:concrete-instances-kernel-normalization-audit-join-namecert}
+\origin{ai}
+
+The $\KernelNormalizationAuditJoinUp$ packet realizes the audit-witness route of \autoref{ch:visions-kernel-acceptance-as-audit-witness} as a finite join over kernel acceptance, axiom-query ancestry, normalization-audit replay, and subject-reduction boundary rows. It sits beside the kernel acceptance witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the normalization audit packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}, the subject-reduction boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-boundary-namecert}, and the closed-normal consistency packet of \autoref{ch:concrete-instances-closednormalconsistency-namecert}. Those siblings expose one side of the route; this packet records the simultaneous join needed before a downstream MetaCIC or Real-and-Completion consumer may treat an accepted declaration as replayed normalization-audit evidence.
+
+\begin{definition}[Kernel-normalization audit join carrier]
+\label{def:kernel-normalization-audit-join-carrier}
+A $\KernelNormalizationAuditJoinUp$ carrier is a finite $\BHist$ packet
+$$
+J=(K,A,Q,N,S,B,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the kernel-stamp row supplied by $\KernelAcceptanceAuditWitnessUp$, including the generated candidate, kernel candidate, accepted declaration, and environment ledger;
+\item $A$ is the $\AxiomQueryLedgerUp$ row that records the transitive dependency query, forbidden-dependency comparison, and verdict for the accepted declaration named by $K$;
+\item $Q$ is the normalization-audit replay row read through $\MetacicNormalizationAuditUp$, containing candidate evidence, closed-term projection, finite strong-normalization scope, and replay provenance;
+\item $N$ is the closed-normal consistency row read through $\ClosedNormalConsistencyUp$ when the replay route reaches a beta-strong normal false endpoint;
+\item $S$ is the subject-reduction boundary row read through $\MetaCICSubjectReductionBoundaryUp$, keeping the four discharge obligations and the checked obstruction visible;
+\item $B$ is the non-escape boundary row saying that acceptance, query cleanliness, normalization replay, and closed-normal consistency remain separate from kernel correctness, full closed subject reduction, host evaluation, or ambient completeness;
+\item $R$ is the route-join ledger recording that the acceptance route, axiom-query route, normalization replay route, closed-normal route, and subject-reduction boundary route are consumed as one finite packet;
+\item $H$ records componentwise $\hsame$ transport for $K,A,Q,N,S,B,R,C,P,L$;
+\item $C$ records displayed $\Cont$ replay for accepted-declaration ancestry, axiom-query ledger reads, normalization-audit replay, closed-normal handoff, and boundary inspection;
+\item $P$ is the $\Pkg$ provenance over $\KernelAcceptanceAuditWitnessUp$, $\AxiomQueryLedgerUp$, $\MetacicNormalizationAuditUp$, $\ClosedNormalConsistencyUp$, $\MetaCICSubjectReductionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\KernelNormalizationAuditJoinUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for certifying the Lean kernel, proving full closed subject reduction, manufacturing candidate evidence, erasing axiom-query ancestry, selecting a host evaluator, or turning closed-normal consistency into ambient consistency.
+\end{definition}
+
+\begin{theorem}[Kernel-normalization audit join NameCert obligations]
+\label{thm:kernel-normalization-audit-join-namecert-obligations}
+For the carrier of \autoref{def:kernel-normalization-audit-join-carrier}, the local $\NameCert_{\KernelNormalizationAuditJoinUp}$ surface consists exactly of carrier admission for $J=(K,A,Q,N,S,B,R,H,C,P,L)$, kernel-stamp exposure through $K$, axiom-query exposure through $A$, normalization-audit replay through $Q$, closed-normal handoff through $N$, subject-reduction boundary exposure through $S$, non-escape through $B$, route-join ledger exposure through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-normalization-audit-join-carrier}. The rows $K,A,Q,N,S$ are the only substantive audit rows: kernel acceptance, axiom-query ancestry, normalization replay, closed-normal endpoint, and subject-reduction boundary.
+
+The join ledger $R$ and continuation row $C$ determine how a consumer reads those rows together. The acceptance route reaches the accepted declaration before $A$ can classify its ancestry, and the normalization route reaches $Q$ before $N$ or $S$ can be consumed as consistency-facing boundary data.
+
+The transport, provenance, and local naming rows preserve the same finite inventory. Since $J$ contains no further coordinate, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Kernel-normalization audit join non-escape]
+\label{thm:kernel-normalization-audit-join-nonescape}
+Every accepted $\KernelNormalizationAuditJoinUp$ packet routes normalization-audit replay through accepted declaration ancestry and axiom-query ledger rows before any closed-normal or subject-reduction boundary read is exported. The packet cannot export Lean kernel correctness, replay success without the kernel-stamp row, dependency cleanliness without the axiom-query row, evidence-free global normalization, full closed subject reduction, host evaluation, quotient conversion, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the kernel-stamp and axiom-query side. The rows $K$ and $A$ are distinct coordinates, so acceptance of the declaration and classification of its dependency ancestry cannot be read from either row alone.
+
+Next read the normalization and consistency side. The normalization-audit row $Q$ supplies only the candidate-mediated replay surface, while $N$ supplies the closed-normal endpoint and $S$ keeps the subject-reduction obstruction visible.
+
+Finally inspect the boundary row $B$ together with $R,H,C,P,L$. These rows replay and name the finite join without adding kernel correctness, hidden normalization evidence, closed subject reduction, host evaluation, quotient conversion, or ambient completeness. Hence every exported read remains inside the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{If the kernel-stamp row is removed, the packet cannot route normalization-audit replay through accepted declaration ancestry and axiom-query ledger rows.}
+
+\independenceWitness{kernelacceptanceauditwitness, metacicnormalizationaudit, metacicsubjectreductionboundary, closednormalconsistency: none is bijective because the join carries the simultaneous kernel-stamp, normalization replay, obstruction boundary, and non-escape rows, while each sibling carries only one side of that route.}
+
+The Lean follow-up for $\KernelNormalizationAuditJoinUp$ lands in \texttt{lean4/BEDC/Derived/KernelNormalizationAuditJoinUp/TasteGate.lean}. It must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances with an explicit \texttt{witness\_pair} and field injection proofs for the displayed rows $K,A,Q,N,S,B,R,H,C,P,L$.
+
+\closureat{KernelNormalizationAuditJoinUp}{seedStr}
+
+\begin{closurestatus}{\KernelNormalizationAuditJoinUp}
+  \constructivestory{A $\KernelNormalizationAuditJoinUp$ packet is generated from kernel-stamp, axiom-query ledger, normalization-audit replay, closed-normal handoff, subject-reduction boundary, non-escape, route-join, transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-normalization-audit-join-carrier}, \autoref{thm:kernel-normalization-audit-join-namecert-obligations}, and \autoref{thm:kernel-normalization-audit-join-nonescape} specify the finite join over acceptance ancestry, axiom-query ledger, normalization replay, closed-normal handoff, and subject-reduction boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, Lean kernel correctness, full closed subject reduction, evidence-free global normalization, host evaluation, quotient conversion, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, route-join exactness, non-escape, nontriviality, and field faithfulness over the same packet.}
+\end{closurestatus}

@@ -1336,8 +1336,20 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     surface is a single-shot reconcile, not an N-commit replay. Eliminates
     the "Diverging branches" and "no own-round commit" failure modes that
     rebase + codex resolution kept producing.
+
+    Concurrency: see `lean4/scripts/codex_formalize.py::merge_worktree_to_base`
+    for the cross-process push-lock rationale. Both R-side and P-side
+    orchestrators wrap their merge-to-base in
+    `acquire_push_lock(BASE_BRANCH)` so they cannot race each other on
+    push to origin.
     """
-    with _git_lock:
+    from contextlib import nullcontext
+    try:
+        from tools.repo_push_lock import acquire_push_lock as _pl
+        push_lock_cm = _pl(BASE_BRANCH, timeout=600)
+    except Exception:
+        push_lock_cm = nullcontext()
+    with push_lock_cm, _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
         def _do(attempt: int) -> bool:
