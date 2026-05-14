@@ -123,11 +123,21 @@ def render_server(s: dict) -> str:
     queue = s.get("queue_length", "?")
     completed = s.get("completed", "?")
     active_recent = len(s.get("active_recent_agents") or [])
+    dispatch_ready = len(s.get("dispatch_ready_poll_agents") or [])
     out = [
         f"  diagnosis: {diag}",
         f"  agents:    {busy}/{cap} busy   queue={queue}   completed={completed}",
-        f"  recent agents (last 120s): {active_recent}",
+        f"  recent agents (last 120s): {active_recent}   dispatch-ready: {dispatch_ready}",
     ]
+    if s.get("dispatch_ready_poll_agents"):
+        out.append(
+            "  dispatch-ready tabs: "
+            + ", ".join(map(str, s.get("dispatch_ready_poll_agents") or []))
+        )
+    elif s.get("project_active_poll_agents"):
+        out.append(
+            "  project-active tabs are not dispatch-ready until they are on /c/... conversation pages"
+        )
     for k, v in (s.get("agents") or {}).items():
         out.append(f"    busy {k}: task={v.get('task_id','?')} elapsed={v.get('elapsed','?')}s")
     if s.get("zero_extraction_hang_agents"):

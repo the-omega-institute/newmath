@@ -158,6 +158,7 @@ import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
+import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
