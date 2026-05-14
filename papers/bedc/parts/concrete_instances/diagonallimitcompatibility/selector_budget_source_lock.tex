@@ -51,3 +51,15 @@ Next apply \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-ha
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every completion-facing or $\RealUp$-facing consumer is exhausted by $R,T,S,D,W,Q,L,H,C,P,N$, which rules out quotient streams, selected limits, host equality, choice data, independent completion data, and ambient completeness for the formal target boundary.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget route determinacy]
+\label{thm:diagonal-limit-selector-budget-route-determinacy}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any selector-budget route of $K$ consumed by a downstream $\CompletionUp$ or $\RealUp$ reader is the displayed diagonal route: it is determined by the diagonal source, the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RegSeqRatUp$ readback row $Q$, the $\RealUp$ seal row $L$, and the structural rows $H,C,P,N$. No second selector-budget route through quotient streams, selected limits, host equality, choice data, independent completion data, ambient completeness, or a hidden seal source can serve the same downstream reader.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. It confines every selector-budget read of $K$ to the displayed diagonal source and the finite rows $W,D,Q,L,H,C,P,N$.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-handoff}. The seal-facing handoff sits downstream of the same finite selector-budget prefix, so a downstream reader cannot insert an alternate seal route between the readback row $Q$ and the $\RealUp$ seal row $L$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every $\CompletionUp$-facing or $\RealUp$-facing consumer using the selector budget is exhausted by the displayed packet coordinates. Hence two such consumer routes with the same displayed diagonal source and the same rows $W,D,Q,L,H,C,P,N$ have no coordinate on which to differ, and the selector-budget route is determined by that finite surface.
+\end{proof}
