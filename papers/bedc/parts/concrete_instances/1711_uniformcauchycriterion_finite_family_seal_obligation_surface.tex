@@ -102,6 +102,26 @@ The nonescape and exhaustion results remove the possible branches. \autoref{thm:
 Thus two consumers preserving the displayed ledger rows have no coordinate at which to diverge. The shared route is determined as $I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E$, with all repacking confined to $H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion root-threshold dependency inventory]
+\label{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The finite-family root seal package may use $U$ only after the root-threshold refinement surface has fixed the following four dependencies: threshold schedule determinacy at $M$, tolerance ledger exactness at $Q,T$, seal non-escape at $E$, and shared-tail meet compatibility with $\RegularCauchyTailMeetUp$.
+
+Thus every root seal use is routed through the displayed rows $I,W,M,Q,T,E,H,C,P,N$, and it introduces no selected limit, quotient stream, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy}. It fixes the threshold schedule row $M$ reached from the finite index ledger and shared window rows.
+
+Next use \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}. The downstream dyadic tolerance and tail comparison data are exactly the displayed $Q,T$ ledger.
+
+Then apply \autoref{thm:uniform-cauchy-criterion-root-seal-consumer-nonescape}. The seal consumer reaches $E$ only through the finite root route and cannot export completion-facing data outside the packet.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-root-shared-tail-meet}. Its compatibility with \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} keeps the shared-tail meet on the same displayed root-threshold surface. The four dependencies therefore bind the root seal package without adding a selected limit, quotient stream, host real equality, or ambient completeness datum.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family root seal package]
 \label{thm:uniform-cauchy-criterion-finite-family-root-seal-package}
 For an accepted $\UniformCauchyCriterionUp$ packet
@@ -119,5 +139,5 @@ First use the finite-family seal obligation package. It lists the rows $I,W,M,Q,
 
 Next apply the finite-family RegSeqRat--Real handoff and the nonescape ledger. They identify the route from the finite index ledger through the shared window, threshold, tolerance, tail, and seal rows, and they exclude completion data outside the displayed package.
 
-Finally use the root-threshold schedule determinacy, tolerance ledger exactness, root seal consumer nonescape, and root shared tail meet results from the root-threshold refinement site. These preserve the same route under overlap refinement, so the finite-family package is stable as the root seal package.
+Finally use \autoref{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}. It binds the exact root-threshold dependency package, so overlap refinement preserves the same route and the finite-family package is stable as the root seal package.
 \end{proof}
