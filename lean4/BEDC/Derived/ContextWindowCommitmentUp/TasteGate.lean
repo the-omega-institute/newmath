@@ -65,30 +65,83 @@ def contextWindowCommitmentToEventFlow :
 
 def contextWindowCommitmentFromEventFlow :
     EventFlow → Option ContextWindowCommitmentUp
-  | [[BMark.b0], scope,
-      [BMark.b1, BMark.b0], prompt,
-      [BMark.b1, BMark.b1, BMark.b0], boundary,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], refusal,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], consumer,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], transport,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        routes,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0], provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0], nameCert] =>
-      some
-        (ContextWindowCommitmentUp.mk
-          (contextWindowCommitmentDecodeBHist scope)
-          (contextWindowCommitmentDecodeBHist prompt)
-          (contextWindowCommitmentDecodeBHist boundary)
-          (contextWindowCommitmentDecodeBHist refusal)
-          (contextWindowCommitmentDecodeBHist consumer)
-          (contextWindowCommitmentDecodeBHist transport)
-          (contextWindowCommitmentDecodeBHist routes)
-          (contextWindowCommitmentDecodeBHist provenance)
-          (contextWindowCommitmentDecodeBHist nameCert))
-  | _ => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | scope :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | prompt :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | boundary :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | refusal :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | consumer :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | routes :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameCert :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (ContextWindowCommitmentUp.mk
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    scope)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    prompt)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    boundary)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    refusal)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    consumer)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    transport)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    routes)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    provenance)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    nameCert))
+                                                                          | _ :: _ => none
 
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
@@ -97,8 +150,39 @@ private theorem contextWindowCommitment_round_trip :
   intro x
   cases x with
   | mk scope prompt boundary refusal consumer transport routes provenance nameCert =>
-      simp [contextWindowCommitmentToEventFlow, contextWindowCommitmentFromEventFlow,
-        contextWindowCommitmentDecode_encode_bhist]
+      change
+        some
+            (ContextWindowCommitmentUp.mk
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist scope))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist prompt))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist boundary))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist refusal))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist consumer))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist transport))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist routes))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist provenance))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist nameCert))) =
+          some
+            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
+              provenance nameCert)
+      rw [contextWindowCommitmentDecode_encode_bhist scope]
+      rw [contextWindowCommitmentDecode_encode_bhist prompt]
+      rw [contextWindowCommitmentDecode_encode_bhist boundary]
+      rw [contextWindowCommitmentDecode_encode_bhist refusal]
+      rw [contextWindowCommitmentDecode_encode_bhist consumer]
+      rw [contextWindowCommitmentDecode_encode_bhist transport]
+      rw [contextWindowCommitmentDecode_encode_bhist routes]
+      rw [contextWindowCommitmentDecode_encode_bhist provenance]
+      rw [contextWindowCommitmentDecode_encode_bhist nameCert]
 
 private theorem contextWindowCommitmentToEventFlow_injective
     {x y : ContextWindowCommitmentUp} :
@@ -176,13 +260,78 @@ theorem ContextWindowCommitmentTasteGate_single_carrier_alignment :
           contextWindowCommitmentToEventFlow x =
             contextWindowCommitmentToEventFlow y → x = y) ∧
           contextWindowCommitmentEncodeBHist BHist.Empty = ([] : List BMark) := by
+  have decodeLocal :
+      ∀ h : BHist,
+        contextWindowCommitmentDecodeBHist
+          (contextWindowCommitmentEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  have roundTripLocal :
+      ∀ x : ContextWindowCommitmentUp,
+        contextWindowCommitmentFromEventFlow
+          (contextWindowCommitmentToEventFlow x) = some x := by
+    intro x
+    cases x with
+    | mk scope prompt boundary refusal consumer transport routes provenance nameCert =>
+        change
+          some
+              (ContextWindowCommitmentUp.mk
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist scope))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist prompt))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist boundary))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist refusal))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist consumer))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist transport))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist routes))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist provenance))
+                (contextWindowCommitmentDecodeBHist
+                  (contextWindowCommitmentEncodeBHist nameCert))) =
+            some
+              (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
+                provenance nameCert)
+        rw [decodeLocal scope]
+        rw [decodeLocal prompt]
+        rw [decodeLocal boundary]
+        rw [decodeLocal refusal]
+        rw [decodeLocal consumer]
+        rw [decodeLocal transport]
+        rw [decodeLocal routes]
+        rw [decodeLocal provenance]
+        rw [decodeLocal nameCert]
+  have injectiveLocal :
+      ∀ x y : ContextWindowCommitmentUp,
+        contextWindowCommitmentToEventFlow x =
+          contextWindowCommitmentToEventFlow y → x = y := by
+    intro x y heq
+    have hread :
+        contextWindowCommitmentFromEventFlow
+            (contextWindowCommitmentToEventFlow x) =
+          contextWindowCommitmentFromEventFlow
+            (contextWindowCommitmentToEventFlow y) :=
+      congrArg contextWindowCommitmentFromEventFlow heq
+    exact Option.some.inj
+      (Eq.trans (roundTripLocal x).symm
+        (Eq.trans hread (roundTripLocal y)))
   constructor
-  · exact contextWindowCommitmentDecode_encode_bhist
+  · exact decodeLocal
   · constructor
-    · exact contextWindowCommitment_round_trip
+    · exact roundTripLocal
     · constructor
-      · intro x y heq
-        exact contextWindowCommitmentToEventFlow_injective heq
+      · exact injectiveLocal
       · rfl
 
 end BEDC.Derived.ContextWindowCommitmentUp
