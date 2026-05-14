@@ -193,6 +193,53 @@ completion, host limit, quotient stream, equality row, or choice datum supplies
 another route to $L$.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit shared modulus handoff]
+\label{thm:diagonal-limit-compatibility-modulus-extraction-meet-handoff}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose its
+Real-completion consumer route reads an accepted
+$\CauchyModulusExtractionUp$ packet over the same finite budget, window
+family, regular-rational schedule, and dyadic comparison rows, and suppose it
+also reads an accepted $\CauchyModulusMeetUp$ packet over the same two
+regular-rational stream readbacks. Then the route to the $\RealUp$ seal row
+$L$ passes through one shared finite modulus surface: the selected budget row,
+the $\StreamNameUp$ windows, the $\RegSeqRatUp$ schedule and readback, the
+$\DyadicRatCoreUp$ ledger, the extracted modulus row, and the
+$\CauchyModulusMeetUp$ shared threshold. No quotient stream, selected host
+limit, host real equality, trichotomy, choice datum, or ambient completeness
+principle supplies another handoff to $L$.
+\end{theorem}
+\begin{proof}
+Start with the accepted diagonal packet $K$. Apply
+\autoref{thm:diagonal-limit-compatibility-root-dependency-triad}; the route to
+$L$ has already read the dyadic ledger $D$, the stream windows $W$, and the
+regular-rational readback $Q$, with $R,T,S$ displayed as the source, triangle,
+and seal side rows.
+
+Next read the modulus-extraction packet on that same budget and window
+surface. By \autoref{thm:cauchy-modulus-extraction-public-export} and
+\autoref{thm:cauchy-modulus-extraction-real-diagonal-handoff}, the
+Real-completion consumer can reach the extracted modulus only after the
+selected budget row, $\StreamNameUp$ windows, $\RegSeqRatUp$ schedule,
+$\DyadicRatCoreUp$ ledger, and extracted modulus row have all been displayed
+inside the finite extraction packet.
+
+Now attach the meet packet to the two regular-rational stream readbacks. Apply
+\autoref{thm:cauchy-modulus-meet-real-seal-shared-threshold-determinacy}. The
+meet row determines one shared threshold packet for the paired reads, so the
+seal-facing route cannot split the extracted modulus and the paired readbacks
+into separate threshold surfaces.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the
+diagonal compatibility packet exports no quotient stream, selected host limit,
+host real equality, trichotomy row, choice datum, or ambient completeness
+principle, the shared budget-window-schedule-dyadic-modulus-meet surface is
+the only handoff available before $L$.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit shared-tail budget factorization]
 \label{thm:diagonal-limit-compatibility-shared-tail-budget-factorization}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted
