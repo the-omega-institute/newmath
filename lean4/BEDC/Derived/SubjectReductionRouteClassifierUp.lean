@@ -102,4 +102,25 @@ theorem SubjectReductionRouteClassifierCarrier_namecert_obligations [AskSetup] [
               (And.intro endpointUnary
                 (And.intro betaAppRouteKind endpointRoute))))))
 
+theorem SubjectReductionRouteClassifierCarrier_invocation_payload_inversion [AskSetup]
+    [PackageSetup]
+    {beta app lambda pi routeKind invocation consumer transport route provenance name
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionRouteClassifierCarrier beta app lambda pi routeKind invocation consumer
+        transport route provenance name bundle pkg ->
+      Cont invocation consumer endpoint ->
+        hsame endpoint routeKind ∧ hsame endpoint provenance := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro hCarrier endpointRoute
+  obtain ⟨_betaUnary, _appUnary, _lambdaUnary, _piUnary, _routeKindUnary,
+    _invocationUnary, _consumerUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _betaAppRouteKind, _lambdaPiTransport, invocationConsumerRoute,
+    routeKindReadback, provenanceReadback, _carrierPkg⟩ := hCarrier
+  have endpointRouteReadback : hsame endpoint route :=
+    cont_deterministic endpointRoute invocationConsumerRoute
+  exact And.intro
+    (hsame_trans endpointRouteReadback routeKindReadback)
+    (hsame_trans endpointRouteReadback provenanceReadback)
+
 end BEDC.Derived.SubjectReductionRouteClassifierUp
