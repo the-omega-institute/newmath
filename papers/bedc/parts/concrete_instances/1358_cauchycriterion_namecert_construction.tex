@@ -504,6 +504,55 @@ binds every seal read to the stated finite handoff route and excludes host
 real equality and ambient completeness rows.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion diagonal-budget readback compatibility]
+\label{thm:cauchycriterion-diagonal-budget-readback-compatibility}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+carrier, and let
+$B=(\epsilon,M_B,W_B,D_B,K_B,S_B,H_B,C_B,P_B,N_B)$ be an accepted
+$\CauchyDiagonalBudgetUp$ packet through which the $W,Q,E$ rows of $K$ are
+read by a completion-facing consumer. Then every such readback first
+normalizes to the CauchyCriterion route
+$$
+M \to Q \to T \to W \to E
+$$
+with $H,C,P,N$, and then to the diagonal-budget route
+$$
+\epsilon \to M_B \to W_B \to D_B \to K_B \to S_B
+$$
+with $H_B,C_B,P_B,N_B$. No quotient stream, selected limit, host real
+equality, uniqueness-of-limit theorem, trichotomy row, or ambient
+completeness coordinate may enter either side of the readback.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. It
+normalizes every completion-facing read of $K$ to
+$M \to Q \to T \to W \to E$ with the displayed transport, continuation,
+provenance, and naming rows.
+
+Next use
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. The
+$W$ row is read through the finite $\StreamNameUp$ and $\RegSeqRatUp$
+handoff, while $Q$ supplies the dyadic budget row and $E$ supplies the
+$\RealUp$ seal.
+
+Now pass to the diagonal-budget selector. The route factorization theorem
+\autoref{thm:cauchy-diagonal-budget-route-factorization} identifies every
+completion-facing read through $B$ with the finite route from $\epsilon$
+through $M_B,W_B,D_B,K_B$ to $S_B$.
+
+Finally apply
+\autoref{thm:cauchy-diagonal-budget-regseq-real-route-lock} and
+\autoref{thm:cauchy-diagonal-budget-shared-tail-modulus-seal-factorization}.
+These keep the RegSeqRat-to-Real handoff and the shared-tail modulus seal on
+the displayed diagonal-budget route.
+
+The non-escape scope theorem
+\autoref{thm:cauchy-diagonal-budget-nonescape-scope} then rules out
+quotient streams, selected limits, host real equality, uniqueness-of-limit
+inputs, trichotomy rows, and ambient completeness coordinates.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion RealTailAgreementSeal route correspondence]
 \label{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
