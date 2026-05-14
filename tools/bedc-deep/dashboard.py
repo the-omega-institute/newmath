@@ -749,6 +749,16 @@ def render_board_refill() -> str:
             "  note: BOARD is dry and deterministic local gap fallback found 0 candidates; "
             "treat this as supply exhaustion, not a logic-gate or tab-refresh failure."
         )
+        scanner_stats = latest_local_gap.get("scanner_stats") or {}
+        if isinstance(scanner_stats, dict) and scanner_stats:
+            lines.append(
+                "  scanner: "
+                f"gap_hits={scanner_stats.get('gap_hits', 0)} "
+                f"namecert_raw={scanner_stats.get('raw_namecert_candidates', 0)} "
+                f"paper_covered_skips={scanner_stats.get('skip_known_paper_covered_title', 0)} "
+                f"board/archive_skips={scanner_stats.get('skip_existing_board_or_archive_title', 0)} "
+                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)}"
+            )
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "

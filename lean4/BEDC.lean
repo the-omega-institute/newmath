@@ -360,6 +360,7 @@ import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AxisNatReplacementRefusalUp.TasteGate
+import BEDC.Derived.AxisBoundaryLimitRefusalUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
