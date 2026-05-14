@@ -78,6 +78,26 @@ ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 REFILL_BOARD_CONTEXT_MAX_CHARS = 9000
 REFILL_PAPER_SUMMARY_MAX_CHARS = 8000
 REFILL_RECENT_COMPLETED_LIMIT = 12
+MICRO_REFILL_BOARD_CONTEXT_MAX_CHARS = 4500
+MICRO_REFILL_PAPER_SUMMARY_MAX_CHARS = 5000
+MICRO_REFILL_RECENT_COMPLETED_LIMIT = 6
+MICRO_REFILL_FAILURE_THRESHOLD = 3
+MICRO_REFILL_FAILURE_WINDOW = 5
+MICRO_REFILL_FAILURE_ERRORS = {
+    "oracle_transport_empty_response",
+    "oracle_transport_error_response",
+    "stopped_before_response",
+    "timeout_waiting_for_response",
+}
+MICRO_REFILL_INSTRUCTION = """
+## Micro-refill override
+
+Recent board-refill attempts failed at the browser/transport layer before
+returning parseable candidates.  For this run, propose exactly 2-3 candidates,
+not 5-10.  Prefer high-confidence existing-chapter lemma/obligation targets
+with short local_inputs and complete logic packet metadata.  Do not compensate
+by widening theory scope or inventing a new chapter.
+""".strip()
 
 
 # ---------------------------------------------------------------------------
@@ -246,7 +266,13 @@ def _response_failure_kind(response: str) -> str:
     return "unparseable_response"
 
 
-def _write_failure_summary(ts: str, *, error: str, response_len: int = 0) -> None:
+def _write_failure_summary(
+    ts: str,
+    *,
+    error: str,
+    response_len: int = 0,
+    micro_refill: bool = False,
+) -> None:
     summary = {
         "ok": False,
         "candidates_proposed": 0,
@@ -255,6 +281,7 @@ def _write_failure_summary(ts: str, *, error: str, response_len: int = 0) -> Non
         "appended_ids": [],
         "error": error,
         "response_len": response_len,
+        "micro_refill": micro_refill,
         "ts": ts,
     }
     (LOG_DIR / f"refill_{ts}.summary.json").write_text(
@@ -263,14 +290,65 @@ def _write_failure_summary(ts: str, *, error: str, response_len: int = 0) -> Non
     )
 
 
-def _board_content() -> str:
+def _board_content(*, micro_refill: bool = False) -> str:
     # Refill is a candidate-generation lane. Full title dedup, paper coverage,
     # and schema checks run deterministically after response parsing, so the
     # oracle prompt only needs enough context to avoid obvious repeats.
     return board_context.build_board_prompt_context(
-        max_chars=REFILL_BOARD_CONTEXT_MAX_CHARS,
-        recent_completed_limit=REFILL_RECENT_COMPLETED_LIMIT,
+        max_chars=(
+            MICRO_REFILL_BOARD_CONTEXT_MAX_CHARS
+            if micro_refill
+            else REFILL_BOARD_CONTEXT_MAX_CHARS
+        ),
+        recent_completed_limit=(
+            MICRO_REFILL_RECENT_COMPLETED_LIMIT
+            if micro_refill
+            else REFILL_RECENT_COMPLETED_LIMIT
+        ),
     )
+
+
+def recent_transport_failure_count(
+    *,
+    limit: int = MICRO_REFILL_FAILURE_WINDOW,
+) -> int:
+    """Count consecutive recent refill summaries that failed before candidates.
+
+    This is intentionally about transport/no-response failures, not candidate
+    rejection.  Logic-gate rejection means the oracle returned usable material;
+    stopped/empty/error responses mean the next prompt should get smaller.
+    """
+    if not LOG_DIR.exists():
+        return 0
+    summaries = sorted(
+        LOG_DIR.glob("refill_*.summary.json"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    count = 0
+    inspected = 0
+    for path in summaries:
+        if inspected >= limit:
+            break
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        error = str(data.get("error") or "").strip()
+        if error == "dry_run_prompt_only":
+            continue
+        inspected += 1
+        if data.get("ok"):
+            break
+        if error in MICRO_REFILL_FAILURE_ERRORS:
+            count += 1
+            continue
+        break
+    return count
+
+
+def should_use_micro_refill() -> bool:
+    return recent_transport_failure_count() >= MICRO_REFILL_FAILURE_THRESHOLD
 
 
 def _extract_json_object(text: str) -> Optional[dict]:
@@ -320,11 +398,17 @@ def _extract_json_object(text: str) -> Optional[dict]:
 # ---------------------------------------------------------------------------
 
 
-def build_refill_prompt() -> str:
+def build_refill_prompt(*, micro_refill: bool = False) -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
-    board = _board_content()
+    if micro_refill:
+        template = template.replace("提议 5-10 个", "提议 2-3 个", 1)
+    board = _board_content(micro_refill=micro_refill)
     paper_coverage = paper_index.render_prompt_summary(
-        max_chars=REFILL_PAPER_SUMMARY_MAX_CHARS,
+        max_chars=(
+            MICRO_REFILL_PAPER_SUMMARY_MAX_CHARS
+            if micro_refill
+            else REFILL_PAPER_SUMMARY_MAX_CHARS
+        ),
     )
     discipline = render_prompt_block(
         context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
@@ -335,10 +419,13 @@ def build_refill_prompt() -> str:
             loning_block = loning_assimilator.latest_prompt_block()
         except Exception:
             loning_block = ""
-    return template.format(
+    prompt = template.format(
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
     ) + "\n\n" + discipline + "\n\n" + loning_block + "\n"
+    if micro_refill:
+        prompt += "\n\n" + MICRO_REFILL_INSTRUCTION + "\n"
+    return prompt
 
 
 def _paper_gap_candidates() -> list[dict]:
@@ -474,6 +561,10 @@ def main() -> int:
                         help="Fresh refill retries after oracle transport-only empty/error responses.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Only build + print prompt, don't submit.")
+    parser.add_argument("--micro-refill", action="store_true",
+                        help="Use a smaller prompt and request 2-3 candidates.")
+    parser.add_argument("--no-auto-micro-refill", action="store_true",
+                        help="Disable automatic micro-refill after repeated transport failures.")
     parser.add_argument("--allow-queue-without-tabs", action="store_true",
                         help="Submit even when no active BEDC browser tab is polling.")
     parser.add_argument("--allow-duplicate-refill", action="store_true",
@@ -519,12 +610,28 @@ def main() -> int:
             print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
             return 1
 
-    prompt = build_refill_prompt()
+    failure_count = recent_transport_failure_count()
+    micro_refill = args.micro_refill or (
+        not args.no_auto_micro_refill
+        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
+    )
+    if micro_refill:
+        print(
+            "[board_refill] micro-refill mode enabled "
+            f"(recent_transport_failures={failure_count})",
+            flush=True,
+        )
+
+    prompt = build_refill_prompt(micro_refill=micro_refill)
     (LOG_DIR / f"refill_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
     print(f"[board_refill] prompt built ({len(prompt)} chars)", flush=True)
 
     if args.dry_run:
-        _write_failure_summary(ts, error="dry_run_prompt_only")
+        _write_failure_summary(
+            ts,
+            error="dry_run_prompt_only",
+            micro_refill=micro_refill,
+        )
         print(prompt[:2000])
         print(f"... [{len(prompt)} chars total]")
         return 0
@@ -546,11 +653,19 @@ def main() -> int:
                 f"[board_refill] submit failed with {type(exc).__name__}: {exc}",
                 flush=True,
             )
-            _write_failure_summary(ts, error=f"submit_exception:{type(exc).__name__}")
+            _write_failure_summary(
+                ts,
+                error=f"submit_exception:{type(exc).__name__}",
+                micro_refill=micro_refill,
+            )
             return 1
         if "error" in submit_resp:
             print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
-            _write_failure_summary(ts, error=f"submit_failed:{submit_resp['error']}")
+            _write_failure_summary(
+                ts,
+                error=f"submit_failed:{submit_resp['error']}",
+                micro_refill=micro_refill,
+            )
             return 1
         task_id = submit_resp.get("task_id", "")
         conv_id = submit_resp.get("conversation_id", "")
@@ -559,12 +674,20 @@ def main() -> int:
         response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
         if response is None:
             print("[board_refill] stopped before receiving a response", flush=True)
-            _write_failure_summary(ts, error="stopped_before_response")
+            _write_failure_summary(
+                ts,
+                error="stopped_before_response",
+                micro_refill=micro_refill,
+            )
             return 1
         if not response:
             print(f"[board_refill] timeout waiting for response (limit={args.timeout}s)",
                   flush=True)
-            _write_failure_summary(ts, error="timeout_waiting_for_response")
+            _write_failure_summary(
+                ts,
+                error="timeout_waiting_for_response",
+                micro_refill=micro_refill,
+            )
             return 1
         failure_kind = _response_failure_kind(response)
         if failure_kind.startswith("oracle_transport_") and attempt < max_attempts:
@@ -582,7 +705,12 @@ def main() -> int:
     if not parsed:
         failure_kind = _response_failure_kind(response)
         print(f"[board_refill] response was not parseable JSON ({failure_kind})", flush=True)
-        _write_failure_summary(ts, error=failure_kind, response_len=len(response))
+        _write_failure_summary(
+            ts,
+            error=failure_kind,
+            response_len=len(response),
+            micro_refill=micro_refill,
+        )
         return 1
 
     candidates = parsed.get("candidates") or []
@@ -621,6 +749,7 @@ def main() -> int:
         "rejected": len(spawn_result.rejected),
         "appended_ids": spawn_result.appended_ids,
         "error": spawn_result.error,
+        "micro_refill": micro_refill,
         "ts": ts,
     }
     (LOG_DIR / f"refill_{ts}.summary.json").write_text(
