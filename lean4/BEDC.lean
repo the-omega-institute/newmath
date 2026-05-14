@@ -164,6 +164,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
+import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
