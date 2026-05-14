@@ -285,13 +285,13 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
     return (rc == 0, raw, rc)
 
 
-def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
+def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str, str]:
     ok, stdout, rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
     if ok:
         parsed = _extract_json_object(stdout)
         if parsed:
             parsed.setdefault("_review_source", "claude")
-            return (True, parsed, "claude", stdout)
+            return (True, parsed, "claude", stdout, "")
         claude_error = "claude output was not JSON"
     else:
         claude_error = f"claude unavailable rc={rc}: {stdout[:500]}"
@@ -310,13 +310,26 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
         log_tag="pi_v1_review_codex_fallback",
     )
     if not ok:
-        return (False, None, "codex_fallback", raw)
+        return (False, None, "codex_fallback", raw, _planner_error_kind(raw, rc=rc))
     parsed = _extract_json_object(raw)
     if not parsed:
-        return (False, None, "codex_fallback", raw)
+        return (False, None, "codex_fallback", raw, _planner_error_kind(raw, rc=rc))
     parsed.setdefault("_review_source", "codex_fallback")
     parsed.setdefault("_fallback_reason", claude_error[:500])
-    return (True, parsed, "codex_fallback", raw)
+    return (True, parsed, "codex_fallback", raw, "")
+
+
+def _planner_error_kind(raw: str, *, rc: int) -> str:
+    text = " ".join(str(raw or "").split()).lower()
+    if rc != 0:
+        if not text:
+            return f"planner_fallback_empty_rc:{rc}"
+        if "timed out" in text:
+            return f"planner_fallback_timeout_rc:{rc}"
+        return f"planner_fallback_failed_rc:{rc}"
+    if not text:
+        return "planner_fallback_empty_output"
+    return "planner_fallback_non_json_output"
 
 
 # ---------------------------------------------------------------------------
@@ -1471,7 +1484,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     template = PI_V1_PROMPT_PATH.read_text(encoding="utf-8")
     snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)
     prompt = template.format(snapshot=_safe(snapshot_blob[:30000]))
-    ok, plan, review_source, stdout = _run_pi_planner(prompt)
+    ok, plan, review_source, stdout, error_kind = _run_pi_planner(prompt)
 
     applied: list[dict] = []
     inbox: list[str] = []
@@ -1585,6 +1598,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "ts": _now_iso(),
         "ok": ok,
         "review_source": review_source,
+        "error_kind": error_kind,
         "snapshot_summary": {
             "branch": snapshot.get("current_branch"),
             "completion_rates": snapshot.get("completion_rates"),
