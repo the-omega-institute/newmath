@@ -44,6 +44,18 @@ The audit side is exhausted by $A$ and $Q$. The row $A$ is read through $\Kernel
 Transport, replay, provenance, and naming are confined to $H,C,P,N$. Since the carrier has no further row, the listed obligations are exactly the local $\NameCert$ surface.
 \end{proof}
 
+\begin{theorem}[Generator-audit closure MetaCIC sibling route]
+\label{thm:generator-audit-closure-metacic-sibling-route}
+For every accepted $\GeneratorAuditClosureUp$ carrier $W=(G,K,A,Q,H,C,P,N)$, the rows $A$, $Q$, and $P$ are read through the concrete MetaCIC sibling ledgers. The accepted-declaration surface for $A$ is the surface of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the axiom-query ledger for $Q$ is the ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and the source-channel ledger carried by $P$ is the ledger of \autoref{ch:concrete-instances-kernelsourcechannelledger-namecert}. Thus the generator-audit packet is not an isolated kernel row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:generator-audit-closure-carrier}. The row $A$ is displayed as an accepted closure proof row, $Q$ as an axiom-query or audit-report row, and $P$ as provenance over the sibling acceptance, query, and channel ledgers.
+
+Apply \autoref{thm:generator-audit-closure-namecert-obligations}. It identifies $A$, $Q$, and $P$ as part of the local $\NameCert$ surface rather than as informal side data.
+
+The named sibling chapters supply the concrete route: \autoref{ch:concrete-instances-kernelacceptancewitness-namecert} reads the accepted-declaration surface, \autoref{ch:concrete-instances-axiomqueryledger-namecert} reads the axiom-query ledger, and \autoref{ch:concrete-instances-kernelsourcechannelledger-namecert} reads the source-channel ledger. Since these rows are projected from the same finite packet, the generator-audit certificate consumes the MetaCIC sibling ledgers and cannot stand as an isolated kernel row.
+\end{proof}
+
 \begin{theorem}[Generator-audit substitution and shift audit]
 \label{thm:generator-audit-closure-substitution-shift-audit}
 When $G$ is the MetaCIC \texttt{substitute} or \texttt{shift} generator row and $K$ is the corresponding \texttt{GeneratorClosureClassifier} row, an accepted $\GeneratorAuditClosureUp$ packet routes the closure claim through the displayed accepted proof row $A$ for the substitute or shift closure witness and the audit row $Q$ for that proof.
