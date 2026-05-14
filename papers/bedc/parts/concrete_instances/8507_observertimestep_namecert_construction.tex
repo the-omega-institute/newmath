@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ObserverTimeStepUp$}
+\label{ch:concrete-instances-observer-time-step-namecert}
+\origin{ai}
+
+The $\ObserverTimeStepUp$ packet realizes the Hist time-step direction of \autoref{ch:visions-observer-hist-identity} as one finite local naming certificate. It sits between the elementary observer-history packet of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the local stream packet of \autoref{ch:concrete-instances-histtimestream-namecert}, the clock-budget packet of \autoref{ch:concrete-instances-localclockbudget-namecert}, the licensed comparison packet of \autoref{ch:concrete-instances-observerlicensedcomparison-namecert}, and the bridge ledger of \autoref{ch:concrete-instances-observer-bridge-ledger-namecert}. The packet names the single Hist-growth step, not a global clock, a synchronized observer frame, a quotient history identity, or an external time parameter.
+
+\falsifiablePrediction{Removing the displayed Cont-step row prevents a consumer from preserving the local ObserverTimeStepUp NameCert route.}
+
+\independenceWitness{Nearest siblings: observerhistidentity, histtimestream, localclockbudget, observerlicensedcomparison, observerbridgeledger. None carries exactly the elementary Hist step plus no-global-clock refusal packet: observerhistidentity names observer-history identity without the time-step row, histtimestream records a stream rather than one atomic step, localclockbudget packages a bounded clock window, observerlicensedcomparison compares licensed observer histories, and observerbridgeledger joins bridge rows without isolating the elementary Hist-growth step.}
+
+\begin{definition}[Observer time-step carrier]
+\label{def:observer-time-step-carrier}
+An $\ObserverTimeStepUp$ carrier is a finite $\BHist$ packet
+$$
+T=(H,D,C,R,L,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source $\Hist$ row before the elementary growth step;
+\item $D$ is the distinction tag recording whether the step applies $\Eone$ or $\Ezero$;
+\item $C$ is the displayed $\Cont$ step from $H$ along $D$ to the next local $\Hist$ row;
+\item $R$ records componentwise $\hsame$ transport for the source, distinction, continuation, refusal, provenance, and naming rows;
+\item $L$ is the no-global-clock ledger refusing any synchronized external time coordinate for the step;
+\item $P$ is the $\Pkg$ provenance over $\Hist$, distinction tags, $\Cont$, $\hsame$, no-global-clock refusal, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverTimeStepUp}$ row.
+\end{enumerate}
+The carrier accepts a local observer time step only as the displayed Hist source, distinction tag, Cont step, transport row, no-global-clock ledger, package provenance, and local naming row together.
+\end{definition}
+
+\begin{theorem}[Observer time-step NameCert obligations]
+\label{thm:observer-time-step-namecert-obligations}
+For the carrier of \autoref{def:observer-time-step-carrier}, the local $\NameCert_{\ObserverTimeStepUp}$ surface consists exactly of carrier admission for $T=(H,D,C,R,L,P,N)$, source-Hist exposure through $H$, distinction exposure through $D$, displayed Cont-step replay through $C$, componentwise $\hsame$ transport through $R$, no-global-clock refusal through $L$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the seven displayed rows. The source Hist row, distinction tag, and Cont-step row are visible before a consumer can name the time step.
+
+Transport is then restricted to $R$, which preserves the same source, tag, continuation, refusal, provenance, and local name rows. The no-global-clock ledger $L$ is read as part of the packet, so the local step is never promoted to a synchronized external clock.
+
+The provenance row $P$ and naming row $N$ bind the admitted read to exactly these coordinates. Since no other coordinate appears in the carrier, the listed rows exhaust the NameCert obligations for $\ObserverTimeStepUp$.
+\end{proof}
+
+\begin{theorem}[Observer time-step nonescape]
+\label{thm:observer-time-step-nonescape}
+Every accepted $\ObserverTimeStepUp$ consumer factors through the finite route
+$$
+H,D,C,R,L,P,N.
+$$
+No accepted consumer may replace the displayed Cont step by a global clock tick, a synchronized observer frame, a quotient history identity, an unrecorded Hist predecessor, or an external time parameter.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:observer-time-step-namecert-obligations}. They identify an accepted time-step read with the source Hist row, distinction tag, displayed Cont step, transport row, refusal ledger, provenance, and local name.
+
+The Cont row $C$ is the only route from the source row $H$ and distinction tag $D$ to the next local Hist row. Removing $C$ leaves no displayed replay row for a consumer to preserve.
+
+The refusal ledger $L$ excludes the external clock and synchronized-frame alternatives, while $R,P,N$ only transport, package, and name the same displayed rows. Hence every accepted consumer remains inside the finite route $H,D,C,R,L,P,N$.
+\end{proof}
+
+The later Lean namespace \texttt{BEDC.Derived.ObserverTimeStepUp.TasteGate} must provide explicit $\mathsf{Nontrivial}\ \ObserverTimeStepUp$ and $\mathsf{FieldFaithful}\ \ObserverTimeStepUp$ instances over the displayed source-Hist, distinction-tag, Cont-step, $\hsame$-transport, no-global-clock, $\Pkg$, and $\NameCert$ fields.
+
+\closureat{ObserverTimeStepUp}{seedStr}
+
+\begin{closurestatus}{\ObserverTimeStepUp}
+  \constructivestory{An $\ObserverTimeStepUp$ packet is generated from a source Hist row, distinction tag, displayed Cont step, hsame transport, no-global-clock refusal ledger, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-time-step-carrier}, \autoref{thm:observer-time-step-namecert-obligations}, and \autoref{thm:observer-time-step-nonescape} specify the finite local Hist-growth step and its refusal of global-clock escape.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global clocks, synchronized observer frames, quotient history identity, external time parameters, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-Hist exposure, distinction exposure, Cont-step replay, hsame transport, no-global-clock refusal, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
