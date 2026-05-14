@@ -22,3 +22,15 @@ Because each sibling read is routed through the displayed $\BHist$, $\hsame$,
 $\Cont$, $\Pkg$, and $\NameCert$ rows, the StreamName route is a citeable L10
 sibling dependency rather than a hidden host sequence or completed stream.
 \end{proof}
+
+\begin{theorem}[StreamName Cauchy window transducer source route]
+\label{thm:streamname-cauchy-window-transducer-source-route}
+The finite-window row exported by $\StreamNameUp$ is the source row $S$ consumed by every accepted $\CauchyWindowTransducerUp$ packet. The route passes through \autoref{ch:concrete-instances-cauchy-window-transducer-namecert} only as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-orphan-l10-sibling-route}. It identifies the StreamName public finite-window route as the sibling source consumed by RegSeqRat, DyadicRatCore, and Real-facing rows before any terminal seal can be read.
+
+Now inspect \autoref{def:cauchy-window-transducer-carrier}. The first analytic coordinate of a transducer packet is exactly the StreamName source row $S$, and every later row is routed through $D,W,R,E,L,H,C,P,N$.
+
+Coordinate exhaustion gives the exclusion. Since the transducer carrier has no host sequence coordinate and no completed stream coordinate, the StreamName contribution to the packet is precisely the displayed finite-window row transported through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{proof}
