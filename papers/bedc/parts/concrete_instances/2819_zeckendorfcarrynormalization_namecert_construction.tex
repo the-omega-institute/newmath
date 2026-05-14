@@ -119,6 +119,22 @@ They do not add a global normalizer or a kernel rewrite coordinate, so every
 public value-preservation read remains inside the displayed ledger boundary.
 \end{proof}
 
+\begin{theorem}[Zeckendorf carry-normalization carry and Nat dependency]
+\label{thm:zeckendorf-carry-normalization-axis-nat-dependency}
+For an accepted $\ZeckendorfCarryNormalizationUp$ packet
+$$
+Z=(h,k,W,V,H,C,P,N),
+$$
+the value ledger $V$ is readable only after the local carry row certified by \autoref{ch:concrete-instances-zeckendorfcarry-namecert} and the unary Fibonacci-index discipline of \autoref{ch:concrete-instances-nat-namecert} have been consumed. Thus $V$ is a sibling-dependent ledger row, not an isolated kernel-only row.
+\end{theorem}
+\begin{proof}
+Project $Z=(h,k,W,V,H,C,P,N)$ from \autoref{def:zeckendorf-carry-normalization-carrier}. The row $W$ is the local carry witness, while $V$ is the row that records equality of the displayed Fibonacci sums.
+
+Read $W$ through the Zeckendorf carry sibling of \autoref{ch:concrete-instances-zeckendorfcarry-namecert}. The source and target windows $h,k$ are indexed as unary Nat positions, so the Fibonacci indexing discipline is read through \autoref{ch:concrete-instances-nat-namecert} before the sums named by $V$ are meaningful.
+
+Finally apply \autoref{thm:zeckendorf-carry-normalization-value-ledger}. Since every public value-preservation read factors through $V$ after the carry edge and Nat-index rows have been fixed, $V$ records a sibling-dependent ledger rather than a detached kernel-only certificate.
+\end{proof}
+
 \begin{theorem}[Zeckendorf carry-normalization source-target totality]
 \label{thm:zeckendorf-carry-normalization-source-target-totality}
 For an accepted $\ZeckendorfCarryNormalizationUp$ packet
