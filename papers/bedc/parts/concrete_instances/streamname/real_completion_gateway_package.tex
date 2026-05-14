@@ -65,3 +65,21 @@ Next use \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. 
 
 Finally compare with \autoref{def:streamname-real-completion-gateway-carrier}. The carrier lists exactly those rows and no additional coordinate. Therefore two gateway reads with the same four faces and support rows determine the same finite BEDC gateway route, and every terminal route in the current Real-completion open phase is read through that packet.
 \end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway ordered source readback]
+\label{thm:streamname-real-completion-gateway-ordered-source-readback}
+Every accepted $\StreamNameUp$ Real-completion gateway read consumes the source in the strict order
+$$
+S \longrightarrow D \longrightarrow R \longrightarrow E .
+$$
+The StreamName finite window $S$ is read first, the $\DyadicRatCoreUp$ tolerance ledger $D$ is anchored to that window, the $\RegSeqRatUp$ readback $R$ is available only from $S,D$, and the $\RealUp$ seal $E$ is available only after $R$. The gateway exports no permutation of these four faces, no bypass through $D$, and no direct $S \longrightarrow E$ route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-real-completion-gateway-carrier}. Its displayed route rows name $S$ before $D$, name $R$ only from the paired $S,D$ read, and name $E$ only after the readback row.
+
+Apply \autoref{thm:streamname-real-completion-gateway-obligations}. The NameCert surface exposes the same ordered rows as the accepted gateway packet, so every consumer reads the four faces through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming support.
+
+Use \autoref{thm:streamname-dyadicratcore-window-anchor} to rule out a dyadic bypass. The tolerance ledger is attached to the StreamName window before any RegSeqRat or RealUp consumer can inspect the route.
+
+Finally apply \autoref{thm:streamname-real-completion-gateway-terminality}. Since all terminal Real-completion routes factor through the same four-face packet, a consumer cannot reorder the faces or jump directly from $S$ to $E$ without leaving the exported gateway carrier.
+\end{proof}
