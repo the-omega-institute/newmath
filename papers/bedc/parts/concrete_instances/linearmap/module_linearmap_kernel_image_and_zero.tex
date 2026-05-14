@@ -434,3 +434,60 @@ t\sim_{\LinearMapUp(M,N)}z.
 $$
 The certificate clauses for $s$ and $t$ are also the pointwise-sum certificates already obtained from \autoref{thm:module-linearmap-pointwise-sum-certificate}. The ledger is the inverse certificate ledger for $h$, the two pointwise-sum ledgers for $s$ and $t$, the target additive inverse-law ledgers at each carried input, and the zero-classifier uniqueness ledger of \autoref{thm:module-zero-linearmap-classifier-uniqueness}, matching \autoref{def:linearmap-ledger-policy}.
 \end{proof}
+
+\begin{theorem}[Module zero LinearMap image is the zero fiber]
+\label{thm:module-zero-linearmap-image-zero-fiber}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$, and write $0_M$ and $0_N$ for the source and target zeros. Let $z:M\to N$ be a function satisfying the zero-linear-map hypotheses of \autoref{thm:module-zero-linearmap-certificate}: for every carried $x:M$, the output $z(x)$ is carried in $N$ and
+$$
+z(x)\sim_N0_N.
+$$
+Then $z$ carries a certified linear-map package
+$$
+\mathsf{LinearMapCert}_R(M,N;z),
+$$
+and its image predicate from \autoref{def:module-linearmap-image-predicate} is exactly the target zero fiber. More precisely, for every endpoint $y:N$,
+$$
+\mathsf{Im}_z(y)\Longrightarrow y\text{ is carried in }N\land y\sim_N0_N,
+$$
+and for every carried endpoint $y:N$,
+$$
+y\sim_N0_N\Longrightarrow \mathsf{Im}_z(y).
+$$
+The ten-field fit is: traditional target the image of the zero module homomorphism is the zero submodule; BEDC source the displayed pointwise-zero hypotheses over common $\ModuleUp$ certificates; carrier the image predicate $\mathsf{Im}_z$; classifier the target module classifier $\sim_N$; stability the carried target zero, carrier transport, and classifier symmetry and transitivity rows; ledger the source-zero witness $0_M$, the pointwise zero row for $z$, and the image witness from \autoref{def:module-linearmap-image-predicate}; core theorem this block; exactness predicate the equivalence between image membership and the target zero fiber on carried endpoints; standard bridge the ordinary statement $\operatorname{im}(0)=\{0\}$ for module homomorphisms; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-zero-linearmap-certificate} to the pointwise-zero hypotheses for $z$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,N;z).
+$$
+
+Assume first that $\mathsf{Im}_z(y)$. By \autoref{def:module-linearmap-image-predicate}, choose a carried source witness $x:M$ with
+$$
+z(x)\sim_Ny.
+$$
+The pointwise-zero hypothesis gives that $z(x)$ is carried in $N$ and gives
+$$
+z(x)\sim_N0_N.
+$$
+Carrier transport for the target naming certificate in \autoref{def:lean-carrier-naming-certificate}, applied to $z(x)\sim_Ny$, makes $y$ carried in $N$. Classifier symmetry changes $z(x)\sim_Ny$ into $y\sim_Nz(x)$. Composing this with $z(x)\sim_N0_N$ by \autoref{thm:namecert-equivalence-transitivity} gives
+$$
+y\sim_N0_N.
+$$
+Thus image membership forces membership in the target zero fiber.
+
+Conversely, let $y$ be carried in $N$ and assume
+$$
+y\sim_N0_N.
+$$
+The source module certificate, unpacked through \autoref{def:module-certificate-obligations}, carries $0_M$. Applying the pointwise-zero hypothesis at $0_M$ gives a carried target endpoint $z(0_M)$ and a comparison
+$$
+z(0_M)\sim_N0_N.
+$$
+Classifier symmetry changes the assumed comparison into $0_N\sim_Ny$. Transitivity in the target classifier then gives
+$$
+z(0_M)\sim_Ny.
+$$
+The carried source endpoint $0_M$, together with this comparison, is an image witness in the sense of \autoref{def:module-linearmap-image-predicate}. Hence $\mathsf{Im}_z(y)$.
+
+The two implications identify $\mathsf{Im}_z$ with the target zero fiber on carried target endpoints. The ledger uses one displayed image witness in the first direction and the distinguished carried source-zero witness in the second direction, together with the pointwise-zero row for $z$ and the target classifier symmetry and transitivity rows, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}

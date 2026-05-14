@@ -166,6 +166,48 @@ selection, or ambient completeness datum, so the precision request cannot
 introduce one.
 \end{proof}
 
+\begin{theorem}[StreamName Real budget route determinacy]
+\label{thm:streamname-real-budget-route-determinacy}
+Let two accepted $\StreamNameUp$ finite-window packets induce the same visible
+StreamName window row, the same $\DyadicRatCoreUp$ ledger row, the same
+$\RegSeqRatUp$ readback row, the same $\RealUp$ seal row, and the same accepted
+$\RealObservationBudgetUp$ precision-request route. Then every budget consumer
+reads the same finite BEDC route through the displayed $\BHist$ observations,
+componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$
+provenance, and local $\NameCert$ coordinates.
+
+No quotient stream, host equality, selected limit, trichotomy row, or ambient
+completeness datum can provide an alternate budget source for either packet.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The shared
+visible StreamName window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback,
+and $\RealUp$ seal row place both accepted packets on the same four-row
+pullback surface.
+
+Next attach the budget route. By
+\autoref{thm:streamname-real-observation-budget-factorization}, any
+$\RealObservationBudgetUp$ precision request consuming either packet factors
+through that StreamName-to-dyadic-to-regular-sequence-to-real route. The
+consumer route theorem
+\autoref{thm:real-observation-budget-regseq-real-consumer-factorization}
+confines the budget-facing $\RegSeqRatUp$ and $\RealUp$ reads to the displayed
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Since
+the two packets agree on the four visible rows and on the accepted precision
+request route, the downstream seal-facing consumer has no second row from which
+to choose a different finite budget source.
+
+Finally use consumer exhaustion for the pullback surface. The available
+consumer projections are exactly the listed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ coordinates, so quotient streams, host equalities,
+selected limits, trichotomy rows, and ambient completeness data cannot enter as
+alternate budget inputs.
+\end{proof}
+
 \begin{theorem}[StreamName observation-budget CauchyLimitSeal compatibility]
 \label{thm:streamname-observation-budget-cauchy-limit-seal-compatibility}
 Let an accepted $\StreamNameUp$ finite-window packet be read both by a
