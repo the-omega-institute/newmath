@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\AxisBoundaryLimitRefusalUp$}
+\label{ch:concrete-instances-axis-boundary-limit-refusal-namecert}
+\origin{ai}
+
+The $\AxisBoundaryLimitRefusalUp$ packet isolates the AxisZeckendorf boundary
+token row that \autoref{ch:concrete-instances-axis-zeckendorf-cannot-claim}
+refuses to read as a limit or supremum. It sits beside the dimension-lift
+boundary packet of \autoref{ch:concrete-instances-dimliftboundary-namecert}
+and the FullAxis-to-Real refusal packet of
+\autoref{ch:concrete-instances-fullaxisrealrefusal-namecert}: those siblings
+aggregate broader refusal surfaces, while this carrier names only the
+boundary-token limit-refusal row and its non-escape routes.
+
+\begin{definition}[Axis boundary limit-refusal carrier]
+\label{def:axis-boundary-limit-refusal-carrier}
+An $\AxisBoundaryLimitRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Z,L,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the AxisZeckendorf boundary-token row, including the
+$\mathtt{boundary\_01}$ address from the cannot-claim registry;
+\item $L$ is the limit-refusal row, recording that the boundary token is not a
+limit or supremum carrier;
+\item $R$ is the Real-facing refusal row, recording that the same boundary
+does not provide $\RealUp$ equality, a Cauchy limit, or a completion row;
+\item $Q$ is the completeness-refusal row, recording that no total completeness
+principle is exported by the packet;
+\item $H$ records componentwise $\hsame$ transports preserving the boundary,
+limit-refusal, Real-facing refusal, completeness-refusal, provenance, and
+local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads
+$Z,L,R,Q,H,P,N$ without leaving the finite packet;
+\item $P$ is the $\Pkg$ provenance over $\AxisZeckendorfCannotClaimUp$,
+$\DimLiftBoundaryUp$, $\FullAxisRealRefusalUp$, $\AxisNatReplacementRefusalUp$,
+$\ZeckendorfCarryNormalizationUp$, $\BHist$, $\hsame$, $\Cont$, and
+$\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxisBoundaryLimitRefusalUp}$ row.
+\end{enumerate}
+The carrier exports only this boundary-token refusal packet. It contains no
+limit, supremum, $\RealUp$ equality, Cauchy completion, completeness principle,
+or bridge to an ambient real object.
+\end{definition}
+
+\begin{theorem}[Axis boundary limit-refusal NameCert obligations]
+\label{thm:axis-boundary-limit-refusal-namecert-obligations}
+For the carrier of \autoref{def:axis-boundary-limit-refusal-carrier}, the
+local $\NameCert_{\AxisBoundaryLimitRefusalUp}$ surface consists exactly of
+five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $B=(Z,L,R,Q,H,C,P,N)$;
+\item boundary-token exposure, stating that $Z$ is the only AxisZeckendorf
+boundary row exported by the packet;
+\item limit-refusal exactness, stating that $L$ refuses limit and supremum
+readings of the boundary token;
+\item Real and completeness refusal, stating that $R,Q$ refuse $\RealUp$
+equality, Cauchy completion, and completeness readings;
+\item local naming exhaustion, stating that $H,C,P,N$ preserve and name only
+the displayed refusal rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the tuple in
+\autoref{def:axis-boundary-limit-refusal-carrier}. The rows
+$Z,L,R,Q,H,C,P,N$ are all displayed coordinates of one finite packet.
+
+Boundary-token exposure reads $Z$ against the cannot-claim registry of
+\autoref{ch:concrete-instances-axis-zeckendorf-cannot-claim}. The packet has no
+second boundary coordinate from which a limit object could be selected.
+
+The refusal rows are separate. The row $L$ blocks limit and supremum readings,
+while $R$ and $Q$ block $\RealUp$ equality, Cauchy completion, and
+completeness readings.
+
+Finally, $H,C,P,N$ transport, route, cite, and name those same rows. Since no
+coordinate names a limit, supremum, real equality, completion, or completeness
+object, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Axis boundary limit-refusal non-escape]
+\label{thm:axis-boundary-limit-refusal-nonescape}
+Every consumer read of an accepted $\AxisBoundaryLimitRefusalUp$ packet
+factors through
+$$
+Z \to L \to R \to Q \to H \to C \to P \to N.
+$$
+The read may expose the boundary token and its refusal rows, but it admits no
+consumer route to a limit, supremum, $\RealUp$ equality, Cauchy completion, or
+completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:axis-boundary-limit-refusal-carrier}.
+It lists the boundary token, limit-refusal row, Real-facing refusal row,
+completeness-refusal row, transport, continuation, provenance, and local name
+as the whole packet.
+
+Apply \autoref{thm:axis-boundary-limit-refusal-namecert-obligations}. The
+boundary-token exposure and refusal exactness clauses force every consumer
+read through $Z,L,R,Q$ before the transport and provenance rows are consumed.
+
+The sibling packets
+\autoref{ch:concrete-instances-dimliftboundary-namecert} and
+\autoref{ch:concrete-instances-fullaxisrealrefusal-namecert} provide broader
+refusal contexts, but they do not add a hidden limit or real-completion row to
+this carrier. Thus the displayed route exhausts the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted AxisBoundaryLimitRefusalUp packet exposes a boundary-token refusal row and admits no consumer route to a limit, supremum, RealUp equality, or completeness row.}
+\independenceWitness{axiszeckendorfcannotclaim, dimliftboundary, fullaxisrealrefusal, axisnatreplacementrefusal, zeckendorfcarrynormalization: none is bijective because this carrier isolates the boundary-token refusal row, while the siblings respectively aggregate registry entries, dimension-lift refusal, FullAxis-to-Real refusal, AxisNat replacement refusal, and carry-normalization evidence.}
+
+\closureat{AxisBoundaryLimitRefusalUp}{seedStr}
