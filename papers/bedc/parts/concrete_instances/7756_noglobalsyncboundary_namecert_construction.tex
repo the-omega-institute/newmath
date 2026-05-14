@@ -67,6 +67,18 @@ No coordinate of this tuple is a shared clock, privileged frame, total observer 
 It remains only the refusal case. If such an object is mentioned by an accepted consumer, it must be mentioned through $R$ as excluded boundary data and replayed through the displayed routes in $C$. Otherwise the consumer has introduced a row that is not part of $G=(H,L,R,S,C,P,N)$.
 \end{proof}
 
+\begin{theorem}[NoGlobalSyncBoundary multi-Hist lattice link]
+\label{thm:no-global-sync-boundary-multihist-lattice-link}
+Every accepted $\NoGlobalSyncBoundaryUp$ consumer reads the refusal row as a downstream lattice edge from the multi-history configuration surface of \autoref{ch:concrete-instances-multihistconfig-namecert} through the invariant surface of \autoref{ch:concrete-instances-interhistinvariant-namecert}, the causal-rate surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, and the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}. The consumer may cite those sibling carriers only as displayed dependency rows, and it still exports no shared clock, privileged frame, selected synchronization map, causal-rate route, metric row, or quotient of histories.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:no-global-sync-boundary-carrier}. Its coordinates expose $H,L,R,S,C,P,N$: displayed histories, locality ledgers, the refusal row, componentwise transport, continuation routes, provenance, and local naming.
+
+Apply the local NameCert obligations of \autoref{thm:no-global-sync-boundary-namecert-obligations}. The provenance row $P$ may name the multi-Hist, inter-Hist invariant, cross-Hist causal, and maximum-rate sibling surfaces as dependency rows, while the refusal row $R$ records that no global synchronization object is admitted.
+
+Finally apply \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}. A consumer route that reads the cited siblings still factors through the finite packet $G=(H,L,R,S,C,P,N)$. Thus the sibling rows are provenance and consumer routes for the Inter-Hist locality lattice, not hidden synchronization data, causal-rate data, metric data, or a quotient of histories.
+\end{proof}
+
 \begin{theorem}[NoGlobalSyncBoundary TasteGate obligation]
 \label{thm:no-global-sync-boundary-tastegate-obligation}
 The later Lean site \texttt{lean4/BEDC/Derived/NoGlobalSyncBoundaryUp/TasteGate.lean} will provide explicit $\mathsf{Nontrivial}\ \NoGlobalSyncBoundaryUp$ and $\mathsf{FieldFaithful}\ \NoGlobalSyncBoundaryUp$ instances. These instances must keep the displayed histories, locality rows, refusal row, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming row as distinguishable fields.
@@ -86,7 +98,7 @@ Field faithfulness is the projection discipline for the displayed tuple. Each ro
 \begin{closurestatus}{\NoGlobalSyncBoundaryUp}
   \constructivestory{A $\NoGlobalSyncBoundaryUp$ packet is generated from displayed observer histories, locality ledgers, a no-global-synchronization refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:no-global-sync-boundary-carrier}, \autoref{thm:no-global-sync-boundary-namecert-obligations}, \autoref{thm:no-global-sync-boundary-frame-refusal-handoff}, and \autoref{thm:no-global-sync-boundary-finite-packet-nonescape} specify the finite refusal boundary for no-global-synchronization consumers.}
+  \scopeclosed{\autoref{def:no-global-sync-boundary-carrier}, \autoref{thm:no-global-sync-boundary-namecert-obligations}, \autoref{thm:no-global-sync-boundary-frame-refusal-handoff}, \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}, and \autoref{thm:no-global-sync-boundary-multihist-lattice-link} specify the finite refusal boundary for no-global-synchronization consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
