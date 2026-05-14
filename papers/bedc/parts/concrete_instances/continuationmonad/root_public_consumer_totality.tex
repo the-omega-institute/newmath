@@ -12,6 +12,22 @@ Apply the root public Kleisli readback \autoref{thm:continuation-monad-root-publ
 The exclusions follow by row exhaustion. Since the public consumer has only the displayed rows of $Z$, host evaluators, quotient Kleisli categories, ambient completions, unlisted generators, and external monad-law objects remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad root public source lock]
+\label{thm:continuation-monad-root-public-source-lock}
+Any public $\ContinuationMonadUp$ consumer that preserves the $\CategoryUp$ hom row and the $\GeneratorClosureUp$ source row must preserve the same packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N)
+$$
+before reading the unit, bind, or Kleisli composite rows. Changing either source lock invalidates the public $\ContinuationMonadUp$ consumer route and cannot be repaired by host function composition, quotient Kleisli arrows, or an ambient category completion.
+\end{theorem}
+\begin{proof}
+Begin with root public consumer totality. It places every public consumer of $Z$ behind the Category hom row, GeneratorClosure source row, unit row, bind row, Kleisli row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Apply the category-generator NameCert source lock. The Category and generator faces are source locks for the same $A,B,C,f,g,u,H,K,L,N$ packet, so preserving both rows also preserves the source histories, continuation tails, transport, route, provenance, and local name before any monad-facing read.
+
+Finally use the root Kleisli formal target package. The formal target has no coordinate for host composition, quotient Kleisli arrows, ambient completion, external evaluation, or an unlisted generator. Therefore changing either source lock leaves the displayed package and is not a public $\ContinuationMonadUp$ consumer route.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad root category-generator NameCert source lock]
 \label{thm:continuation-monad-root-category-generator-namecert-source-lock}
 The $\CategoryUp$ and $\GeneratorClosureUp$ rows of an accepted $\ContinuationMonadUp$ packet are source locks for the public Kleisli readback: before a consumer reads the unit, bind, or Kleisli composite surface, it must preserve the same source histories $A,B,C$, continuation tails $f,g,u$, transport row $H$, route row $K$, provenance row $L$, and local $\NameCert$ row $N$. A route that changes either source lock is not a public $\ContinuationMonadUp$ consumer route.
