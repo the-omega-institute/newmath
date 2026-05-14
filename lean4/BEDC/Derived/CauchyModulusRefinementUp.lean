@@ -369,4 +369,27 @@ theorem CauchyModulusRefinementCarrier_root_source_binding [AskSetup] [PackageSe
     unary_cont_closed m0Unary uUnary rootRoute
   exact ⟨m0Unary, m1Unary, uUnary, rootUnary, m0m1u, rootRoute, pPkg, rootPkg, hn⟩
 
+theorem CauchyModulusRefinementCarrier_root_classifier_transport_exactness [AskSetup]
+    [PackageSetup]
+    {m0 m1 u v t w q e h c p n endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont h c endpoint ->
+        PkgSig bundle endpoint pkg ->
+          UnaryHistory m0 /\ UnaryHistory m1 /\ UnaryHistory u /\ UnaryHistory v /\
+            UnaryHistory t /\ UnaryHistory w /\ UnaryHistory q /\ UnaryHistory e /\
+              UnaryHistory endpoint /\ Cont m0 m1 u /\ Cont u v t /\ Cont t w q /\
+                Cont q e h /\ Cont h c endpoint /\ PkgSig bundle p pkg /\
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier endpointRoute endpointPkg
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, hUnary,
+      cUnary, _pUnary, _nUnary, m0m1u, uvt, twq, qeh, pPkg, _hn⟩
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed hUnary cUnary endpointRoute
+  exact
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, endpointUnary,
+      m0m1u, uvt, twq, qeh, endpointRoute, pPkg, endpointPkg⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp
