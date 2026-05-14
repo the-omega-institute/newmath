@@ -154,6 +154,42 @@ Use the fixed classifier theorem above to identify the comparison route. The ker
 Finally apply \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency} and \autoref{thm:quotient-soundness-boundary-non-escape}. The refusal dependency explains why the blocked request is represented negatively, and non-escape prevents any $\mathsf{Quot.sound}$ or host quotient eliminator from entering the kernel route.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary root request triad]
+\label{thm:quotient-soundness-boundary-root-request-triad}
+Every root quotient-style request accepted by a $\QuotientSoundnessBoundaryUp$ packet is exhausted, before any positive transport is consumed, by the relation rows $E$, the requested-representative rows $A$, and the refusal verdict rows $V$. The rows $E$ name the visible relation evidence, $A$ records the demanded representative-selection surface, and $V$ refuses that demand as a kernel-facing object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-soundness-boundary-carrier}. Its request-facing coordinates include the relation rows $E$, the requested representative rows $A$, and the refusal verdict $V$.
+
+Use the NameCert obligations of \autoref{thm:quotient-soundness-boundary-namecert-obligations}. They identify requested-representative refusal as a named certificate obligation, so the representative demand is read from $A$ and judged by $V$ rather than by an ambient quotient principle.
+
+Finally apply kernel non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. Since the kernel route cannot import $\mathsf{Quot.sound}$, a host quotient eliminator, a hidden representative selector, or erased derivation recovery, the root request surface is exactly the finite triad $E,A,V$ before the displayed transport row is used.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame replacement classifier]
+\label{thm:quotient-soundness-boundary-psame-replacement-classifier}
+After the refusal pair $A,V$ has been read, the only accepted classifier-respecting route for a quotient-like consumer is the displayed path through $E,T,H,C,P,N$. The row $T$ is the $\psame$ transport replacement on named source rows, and the packet supplies no quotient carrier, selected representative, quotient equality eliminator, erased relation-derivation recovery, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Begin with the refusal pair supplied by \autoref{thm:quotient-soundness-boundary-root-request-triad}. The pair $A,V$ has already recorded and refused the representative-selection demand before the positive consumer route is read.
+
+Apply transport replacement, \autoref{thm:quotient-soundness-boundary-transport-replacement}, together with the fixed classifier theorem, \autoref{thm:quotient-soundness-boundary-fixed-classifier}. The consumer route is forced through the relation rows $E$, the $\psame$ replacement row $T$, and the stability and locality rows $H,C$.
+
+Use $\psame$ transport exhaustion, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion}. It adds the provenance and naming rows $P,N$ to the same displayed route and excludes a second path through quotient carriers or selected representatives.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary kernel refusal ledger]
+\label{thm:quotient-soundness-boundary-kernel-refusal-ledger}
+The root request triad, the $\psame$ replacement classifier, and kernel non-escape assemble the kernel-facing refusal ledger consumed by downstream quotient-like chapters. The exported surface consists of the refused request rows $E,A,V$ together with the classifier-respecting transport rows $E,T,H,C,P,N$, and no $\mathsf{Quot.sound}$ or host quotient eliminator enters that surface.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:quotient-soundness-boundary-root-request-triad} for the negative part of the ledger. It binds each root quotient-style request to the visible relation evidence $E$, the requested representative rows $A$, and the refusal verdict $V$.
+
+Use \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier} for the positive replacement route. It identifies the accepted classifier-respecting consumer path as $E,T,H,C,P,N$, with $T$ carrying the displayed $\psame$ transport.
+
+Finally apply \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The kernel-facing packet cannot project $\mathsf{Quot.sound}$, a host quotient eliminator, a hidden representative selector, or erased relation-derivation recovery, so downstream quotient-like chapters receive refusal plus displayed transport rather than a hidden quotient principle.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary NameCert ledger]
 \label{thm:quotient-soundness-boundary-namecert-ledger}
 The carrier of \autoref{def:quotient-soundness-boundary-carrier}, the fixed classifier of \autoref{thm:quotient-soundness-boundary-fixed-classifier}, the transport replacement of \autoref{thm:quotient-soundness-boundary-transport-replacement}, the negative-refusal dependency of \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, and the kernel non-escape theorem of \autoref{thm:quotient-soundness-boundary-kernel-nonescape} assemble the local $\NameCert_{\QuotientSoundnessBoundaryUp}$ ledger.
@@ -225,14 +261,15 @@ Finally apply \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The ke
 \closureat{QuotientSoundnessBoundaryUp}{scopedStr}
 \closureat{QuotientSoundnessBoundaryUp}{publicStr}
 \closureat{QuotientSoundnessBoundaryUp}{bridgedStr}
+\closureat{QuotientSoundnessBoundaryUp}{matureStr}
 
 \begin{closurestatus}{\QuotientSoundnessBoundaryUp}
   \constructivestory{A $\QuotientSoundnessBoundaryUp$ packet is generated from relation rows, requested representative rows, classifier-respecting $\psame$ transport, refusal verdicts, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, \autoref{thm:quotient-soundness-boundary-fixed-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, \autoref{thm:quotient-soundness-boundary-bridge-schema}, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape} bind the relation rows, representative-refusal rows, $\psame$ transport row, locality rows, provenance, public bridge, and non-escape boundary.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, \autoref{thm:quotient-soundness-boundary-fixed-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, \autoref{thm:quotient-soundness-boundary-root-request-triad}, \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-refusal-ledger}, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, \autoref{thm:quotient-soundness-boundary-bridge-schema}, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape} bind the relation rows, representative-refusal rows, $\psame$ transport row, locality rows, provenance, public bridge, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not construct quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery maps, or any dependency on $\mathsf{Quot.sound}$.}
-  \upgradepath{Lean verification and bridge checking remain the next obligations for the same finite refusal-and-transport packet.}
+  \upgradepath{No paper theory-axis grade remains; Lean verification and bridge checking remain independent obligations for the same finite refusal-and-transport packet.}
 \end{closurestatus}

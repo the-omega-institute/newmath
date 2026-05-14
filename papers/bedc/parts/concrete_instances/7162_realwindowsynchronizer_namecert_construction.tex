@@ -24,7 +24,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The carrier has no coordinate for a quotient stream, selected host real, ambient completeness theorem, independent seal route, or second window service not transported through $H$.
 \end{definition}
-\leanchecked{BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate}
 \leandef{BEDC.Derived.RealWindowSynchronizerUp.RealWindowSynchronizerUp}
 
 \begin{theorem}[Real window synchronizer NameCert obligations]
@@ -63,6 +63,48 @@ If a consumer removes $W$, the tail row no longer has the displayed StreamName w
 Thus every admitted route is the displayed synchronized route, and every escape route asks for a coordinate not present in the carrier.
 \end{proof}
 
+\begin{theorem}[Real window synchronizer limit-seal compatibility]
+\label{thm:real-window-synchronizer-limit-seal-compatibility}
+For an accepted $\RealWindowSynchronizerUp$ carrier
+$$
+Z=(W,R,T,L,S,H,C,P,N),
+$$
+the $\CauchyLimitSealUp$ row $L$ is consumed only after the same $\StreamNameUp$ window row $W$, the same $\RegSeqRatUp$ tail row $R$, and the same shared threshold row $T$ have been replayed through the displayed transport, route, provenance, and naming rows $H,C,P,N$. No consumer of $L$ may replace $W$, $R$, or $T$ by a second window service, hidden tail oracle, detached threshold ledger, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed coordinates. The only entries available before the limit-seal row are the window $W$, tail $R$, threshold $T$, and the shared transport and route surface $H,C$.
+
+The replay through $C$ first reads the StreamName window and then the RegSeqRat tail at the same threshold. Componentwise $\hsame$ transport in $H$ may rename those rows, but it preserves the ordered route into $L$ rather than creating a second source for the seal.
+
+The provenance and naming rows $P,N$ then certify that the consumed limit seal is the row displayed in the same finite packet. Since the carrier has no hidden tail oracle, detached threshold, second window service, or ambient completeness coordinate, every admitted $L$ read is the synchronized $W,R,T,H,C,P,N$ read.
+\end{proof}
+
+\begin{theorem}[Real window synchronizer Real seal exposure]
+\label{thm:real-window-synchronizer-real-seal-exposure}
+For an accepted $\RealWindowSynchronizerUp$ carrier $Z=(W,R,T,L,S,H,C,P,N)$, the $\RealUp$ seal row $S$ is exposed only after the window row $W$, tail row $R$, threshold row $T$, and limit-seal row $L$ have been read through the displayed route. The exposure exports no quotient stream, selected host real, ambient completeness theorem, detached seal route, or second window service.
+\end{theorem}
+\begin{proof}
+Use the budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback}. It places every Real-facing read over the shared threshold $T$ used by the StreamName window and RegSeqRat tail.
+
+Then apply limit-seal compatibility from \autoref{thm:real-window-synchronizer-limit-seal-compatibility}. The CauchyLimitSeal row is available only after the same $W,R,T$ replay has passed through $H,C,P,N$.
+
+Finally expose the Real seal row $S$ as the last displayed consumer row. The non-escape theorem \autoref{thm:real-window-synchronizer-nonescape} rules out quotient streams, selected host reals, ambient completeness, detached seal routes, and second window services because none is present among the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[Real window synchronizer obligation-closure package]
+\label{thm:real-window-synchronizer-obligation-closure-package}
+The carrier definition of \autoref{def:real-window-synchronizer-carrier}, the local $\NameCert_{\RealWindowSynchronizerUp}$ obligations of \autoref{thm:real-window-synchronizer-namecert-obligations}, the budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback}, the non-escape boundary of \autoref{thm:real-window-synchronizer-nonescape}, the limit-seal compatibility of \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, the Real-seal exposure of \autoref{thm:real-window-synchronizer-real-seal-exposure}, and the checked TasteGate carrier alignment marker
+\texttt{BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment}
+jointly form the $\RealWindowSynchronizerUp$ obligation-closure surface for the finite Real and Completion window-to-seal route.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes the finite packet $Z=(W,R,T,L,S,H,C,P,N)$ and excludes quotient streams, selected host reals, ambient completeness, detached seal routes, and second window services.
+
+The NameCert obligation theorem names the rows that must be admitted. The budget pullback ties the StreamName window and RegSeqRat tail to the shared threshold, while non-escape prevents any consumer from reading outside the displayed packet.
+
+The two seal theorems then place the CauchyLimitSeal row and the RealUp seal row on the same replay path. Together with the TasteGate marker for single-carrier alignment, these rows state the exact obligation package without claiming a checked Lean proof for the new theorem sites.
+\end{proof}
+
 \falsifiablePrediction{Removing the shared window row permits a RealUp seal read whose StreamName and RegSeqRat windows no longer agree; removing the seal row prevents any completion-facing consumer from reading the synchronizer as a RealUp route.}
 
 \independenceWitness{Nearest siblings: streamname, regseqrat, cauchylimitseal, regular-cauchy-tail-budget, and real. The synchronizer is not bijective to any one sibling because it carries all five surfaces simultaneously: a StreamName finite window, a RegSeqRat tail threshold, a CauchyLimitSeal row, a RegularCauchyTailBudget service row, and a RealUp seal row; dropping any one row changes the admitted consumer route.}
@@ -70,14 +112,16 @@ Thus every admitted route is the displayed synchronized route, and every escape 
 The Lean file \texttt{Derived/RealWindowSynchronizerUp/TasteGate.lean} will include $\mathsf{Nontrivial}\ \RealWindowSynchronizerUp$ with an explicit $\mathsf{witness\_pair}$ and $\mathsf{FieldFaithful}\ \RealWindowSynchronizerUp$ by constructor-field injection for the displayed coordinates $W,R,T,L,S,H,C,P,N$.
 
 \closureat{RealWindowSynchronizerUp}{seedStr}
+\closureat{RealWindowSynchronizerUp}{obligationStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
+\closureat{RealWindowSynchronizerUp}{scopedStr}[BEDC.Derived.RealWindowSynchronizerUp.TasteGate.RealWindowSynchronizerTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealWindowSynchronizerUp}
   \constructivestory{A $\RealWindowSynchronizerUp$ packet is generated from a StreamName window service row, RegSeqRat tail row, shared threshold row, CauchyLimitSeal row, RealUp seal row, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, and \autoref{thm:real-window-synchronizer-nonescape} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, and non-escape boundary for the Real and Completion window-to-seal route.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, \autoref{thm:real-window-synchronizer-nonescape}, \autoref{thm:real-window-synchronizer-limit-seal-compatibility}, \autoref{thm:real-window-synchronizer-real-seal-exposure}, and \autoref{thm:real-window-synchronizer-obligation-closure-package} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, seal compatibility, Real-seal exposure, non-escape boundary, checked TasteGate alignment marker, and TasteGate instance \texttt{BEDC.Derived.RealWindowSynchronizerUp.taste\_gate} for the Real and Completion window-to-seal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, ambient metric completion, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires checked carrier admission, shared-window pullback, CauchyLimitSeal route compatibility, RealUp seal exposure, non-escape, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Public closure requires an exported theorem showing that every Real and Completion consumer reads the synchronized window-to-seal packet through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.}
 \end{closurestatus}

@@ -63,6 +63,7 @@ Thus the root seal route is exhausted by the extraction, limit-seal handoff, mon
 
 The sibling route is the concrete L10 chain of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}; the witness packet consumes their finite-window, dyadic-ledger, regular-source, limit-seal, and Real-seal rows before any convergence-seal consumer reads it.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_seal\_route\_exhaustion}
 \begin{proof}
 First apply \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}. It projects the accepted carrier to the finite witness packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and rules out any root coordinate outside that packet.
 
@@ -136,4 +137,28 @@ Next attach the bounded monotone source and the seal handoff. The monotone-bound
 The tail-window and trap theorems close the middle of the route. Root tail-window totality forces consumption of $\sigma,\mu,\lambda$ before any seal-facing row is reached, and located-trap stability keeps $I$ as the pre-seal enclosure rather than replacing it by an ambient interval choice.
 
 Finally apply Real-seal threshold exhaustion. The threshold theorem consumes the seal row $Q$ only after the displayed source, tail, and trap rows, and root seal route exhaustion leaves no coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Therefore the full source-to-seal route is total on the finite packet and exports none of the excluded completion principles.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness root synchronizer handoff]
+\label{thm:bounded-monotone-cauchy-witness-root-synchronizer-handoff}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every root-facing $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, or $\RealUp$ consumer of $W$ factors through the same finite route
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
+$$
+The synchronizer handoff uses the sibling L10 chain
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \CauchyLimitSealUp \longmapsto \RealUp
+$$
+after the displayed bounded monotone source, schedule, tail witness, dyadic ledger, located trap, seal row, transport, continuation, provenance, and local naming rows have been consumed.
+
+Consequently the root packet supplies the shared synchronizer-facing surface for the limit-seal and Real-observation-budget routes. It supplies no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, hidden synchronizer state, or choice-like selector.
+\end{theorem}
+\begin{proof}
+Begin with root extraction and source-seal totality. \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} confines every root read of $W$ to the displayed packet, while \autoref{thm:bounded-monotone-cauchy-witness-root-source-seal-totality} carries that packet from the bounded monotone source through the $\RealUp$ seal.
+
+Next attach the limit-seal and synchronizer-facing legs. The limit-seal handoff theorem places $\CauchyLimitSealUp$ and $\RealUp$ consumers on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and root seal route exhaustion identifies the sibling L10 chain ending at $\RealUp$ as the only seal-facing continuation.
+
+The middle rows are forced by the tail and trap obligations. Root tail-window totality consumes $\sigma,\mu,\lambda$ before any seal-facing read, and located-trap stability keeps $I$ as the pre-seal enclosure rather than replacing it by an ambient interval choice.
+
+Finally use Real-seal threshold exhaustion. The $\RealUp$ threshold is reached only after $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ have been traversed, so a $\CauchySealBudgetSynchronizerUp$ or $\RealObservationBudgetUp$ consumer has no hidden synchronizer coordinate beyond the displayed route. The excluded completion and choice principles are absent from the packet and cannot be exported by the handoff.
 \end{proof}

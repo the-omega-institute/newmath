@@ -4,6 +4,8 @@
 
 The $\ProofTermErasureClassifierUp$ packet is the classifier-level surface for proof-term erasure. It reads proof-term membership as an $\Ext$ row, exposes the erased term through displayed $\Cont$ replay and $\SigRel$ readback, and packages the resulting public classifier row with $\ProofTermErasureTraceUp$ and $\ProofTermErasureAuditRouteUp$ provenance so later consumers receive a finite erasure-preserving membership object.
 
+The classifier consumes the finite trace surface of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert} and the audit-route surface of \autoref{ch:concrete-instances-proofterm-erasure-audit-route-namecert}. It contributes only the erased membership readback row and does not replace either sibling trace or audit route.
+
 \begin{theorem}[Proof-term erasure classifier trace sibling route]
 \label{thm:proof-term-erasure-classifier-trace-sibling-route}
 Every accepted $\ProofTermErasureClassifierUp$ carrier consumes the trace surface of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert} and the audit route of \autoref{ch:concrete-instances-proofterm-erasure-audit-route-namecert} before exporting erased classifier membership. The finite route passes through typing $\Ext$ membership, erasure $\Cont$ replay, $\SigRel$ readback, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ rows.
