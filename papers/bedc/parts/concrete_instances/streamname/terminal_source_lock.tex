@@ -99,3 +99,51 @@ restriction of the lock from adding an off-ledger classifier row.
 Thus the terminal packet is a finite source surface only. Every consumer read
 stays inside $W$, $R$, $S$, $H$, $C$, $P$, and $N$.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real terminal observation coverage]
+\label{thm:streamname-regseqrat-real-terminal-observation-coverage}
+Let $\mathcal{L}=(W,R,S,H,C,P,N)$ be a terminal source lock. Suppose a
+certified finite subwindow or finite refinement displays StreamName point rows,
+$\RegSeqRat$ seal rows, the induced $\RealUp$ seal row, componentwise
+$\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local
+$\NameCert$ row agreeing with the corresponding restriction of
+$\mathcal{L}$. Then the induced finite-window $\RealUp$ read has the same
+terminal observation surface as $\mathcal{L}$ on that restricted packet.
+
+Conversely, every terminal observation read obtained from such a certified
+subwindow or refinement is covered by the parent lock: it reads only the
+restricted StreamName window, restricted $\RegSeqRat$ seal rows, restricted
+induced $\RealUp$ seal row, restricted $\hsame$ and $\Cont$ rows, restricted
+$\Pkg$ provenance, and the restricted local $\NameCert$ row. The coverage
+exports no completion witness, no quotient stream equality, no host index
+equality, no off-ledger $\RealUp$ classifier row, and no ambient completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-realup-terminal-source-lock}. It identifies
+each terminal read with exactly the lock packet coordinates
+$W,R,S,H,C,P,N$, so agreement with a restriction of $\mathcal{L}$ fixes the
+same terminal observation surface on the restricted packet.
+
+Next apply \autoref{thm:streamname-finite-window-real-handoff-coverage} and
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. These results
+identify the finite StreamName observations, accepted $\RegSeqRat$ rows,
+finite $\RealUp$ seal row, transport rows, continuation routes, provenance,
+and local naming rows as the complete handoff surface for certified finite
+windows.
+
+For refinements, use \autoref{thm:streamname-common-refinement-public-exactness}
+and \autoref{thm:streamname-synchronized-window-terminal-source-exhaustion}.
+They say that common-refinement and synchronized-window reads restrict to the
+same displayed finite rows and do not create a second Real-facing source
+coordinate.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-terminal-nonescape}. Since the parent
+lock has no coordinate for completion witnesses, quotient stream equality,
+host index equality, off-ledger $\RealUp$ classifier rows, or ambient
+completeness, neither a certified subwindow nor a finite refinement can export
+one. Thus every terminal observation read from such a packet is already
+covered by the parent lock.
+\end{proof}
