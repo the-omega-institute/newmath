@@ -258,6 +258,10 @@ instance regularCauchyTelescopingBudgetFieldFaithful :
             cases hN
             rfl
 
+def taste_gate : ChapterTasteGate RegularCauchyTelescopingBudgetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  inferInstance
+
 theorem RegularCauchyTelescopingBudgetTasteGate_single_carrier_alignment :
     (forall h : BHist,
       regularCauchyTelescopingBudgetDecodeBHist
