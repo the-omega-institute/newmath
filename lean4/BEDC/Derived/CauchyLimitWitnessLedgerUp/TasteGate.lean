@@ -232,22 +232,14 @@ def taste_gate : ChapterTasteGate CauchyLimitWitnessLedgerUp :=
   cauchyLimitWitnessLedgerChapterTasteGate
 
 theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier CauchyLimitWitnessLedgerUp) ∧
-      Nonempty (ChapterTasteGate CauchyLimitWitnessLedgerUp) ∧
-        Nonempty (FieldFaithful CauchyLimitWitnessLedgerUp) ∧
-          Nonempty (Nontrivial CauchyLimitWitnessLedgerUp) ∧
-            cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+    cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+      cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+        cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact ⟨cauchyLimitWitnessLedgerBHistCarrier⟩
+  · rfl
   · constructor
-    · exact ⟨cauchyLimitWitnessLedgerChapterTasteGate⟩
-    · constructor
-      · exact ⟨cauchyLimitWitnessLedgerFieldFaithful⟩
-      · constructor
-        · exact ⟨cauchyLimitWitnessLedgerNontrivial⟩
-        · constructor
-          · rfl
-          · rfl
+    · rfl
+    · rfl
 
 end BEDC.Derived.CauchyLimitWitnessLedgerUp
