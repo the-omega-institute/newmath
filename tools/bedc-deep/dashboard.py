@@ -28,6 +28,7 @@ SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
 DISCOVERY_LOG_DIR = STATE_DIR / "discovery_logs"
+BOARD_SPAWN_LATEST = STATE_DIR / "board_spawn_latest.json"
 RESEARCH_CANDIDATES_LATEST = STATE_DIR / "research_candidates_latest.md"
 RESEARCH_BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
 PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
@@ -784,6 +785,39 @@ def render_board_refill() -> str:
     return "\n".join(lines)
 
 
+def render_board_spawn() -> str:
+    if not BOARD_SPAWN_LATEST.exists():
+        return "  (no shared board_spawn status recorded)"
+    try:
+        data = json.loads(BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return "  (unreadable shared board_spawn status)"
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines = [
+        (
+            f"  latest: {age} ago ok={data.get('ok')} "
+            f"input=codex:{data.get('codex_input')} oracle:{data.get('oracle_input')} "
+            f"alive=codex:{data.get('codex_alive')} oracle:{data.get('oracle_alive')}"
+        ),
+        (
+            f"  outcome: accepted={data.get('accepted_count')} "
+            f"rejected={data.get('rejected_count')} cheap_drops={data.get('cheap_drop_count')} "
+            f"appended={len(appended)}"
+        ),
+    ]
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  error_kind: {error_kind}")
+    if "board_judge_unavailable" in error_kind:
+        lines.append(
+            "  alert: shared BOARD judge/fallback is unavailable; "
+            "do not bypass board_spawn, and do not refresh BEDC oracle tabs for this."
+        )
+    return "\n".join(lines)
+
+
 def render_loning_assimilation() -> str:
     if not LONING_ASSIMILATION_JOURNAL.exists():
         return "  (no loning assimilation state)"
@@ -1351,6 +1385,8 @@ def main() -> int:
     print(render_candidate_inbox())
     print(_section("Board Refill"))
     print(render_board_refill())
+    print(_section("Board Spawn"))
+    print(render_board_spawn())
     print(_section("Discovery Lane"))
     print(render_discovery_lane())
     print(_section("Research Candidate Lane"))

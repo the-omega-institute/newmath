@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -390,5 +391,71 @@ theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
   exact
     ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, budgetUnary,
       sealUnary, nMuK, kWD, budgetRoute, sealRoute, pPkg, sealPkg⟩
+
+theorem DiagonalTailSelectorCarrier_real_seal_budget_nonescape [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow consumer downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg →
+      Cont w d t →
+      Cont t s consumer →
+      Cont publicRow consumer downstreamRead →
+      PkgSig bundle consumer pkg →
+      PkgSig bundle downstreamRead pkg →
+        UnaryHistory publicRow ∧ UnaryHistory consumer ∧ UnaryHistory downstreamRead ∧
+          Cont w d t ∧ Cont t s consumer ∧ Cont publicRow consumer downstreamRead ∧
+            PkgSig bundle publicRow pkg ∧ PkgSig bundle consumer pkg ∧
+              PkgSig bundle downstreamRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro source wdRoute consumerRoute downstreamRoute consumerPkg downstreamPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary consumerRoute
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed publicUnary consumerUnary downstreamRoute
+  exact
+    ⟨publicUnary, consumerUnary, downstreamUnary, wdRoute, consumerRoute,
+      downstreamRoute, publicPkg, consumerPkg, downstreamPkg⟩
+
+theorem DiagonalTailSelectorPublicBudgetSource_real_seal_budget_nonescape
+    [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow sealRead consumer hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg ->
+      Cont t s sealRead ->
+        Cont publicRow sealRead consumer ->
+          PkgSig bundle sealRead pkg ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory s ∧ UnaryHistory publicRow ∧ UnaryHistory sealRead ∧
+                UnaryHistory consumer ∧ Cont t s sealRead ∧
+                  Cont publicRow sealRead consumer ∧ PkgSig bundle publicRow pkg ∧
+                    PkgSig bundle sealRead pkg ∧ PkgSig bundle consumer pkg ∧
+                      (Cont consumer (BHist.e0 hostTail) publicRow -> False) ∧
+                        (Cont consumer (BHist.e1 hostTail) publicRow -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro source sealRoute consumerRoute sealPkg consumerPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, _wUnary, _dUnary, tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nMuK, _kWD, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tUnary sUnary sealRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed publicUnary sealUnary consumerRoute
+  exact
+    ⟨sUnary, publicUnary, sealUnary, consumerUnary, sealRoute, consumerRoute, publicPkg,
+      sealPkg, consumerPkg,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left consumerRoute hostReturn),
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.right consumerRoute hostReturn)⟩
 
 end BEDC.Derived.DiagonalTailSelectorUp
