@@ -9,10 +9,11 @@ Detection sources (deterministic, no LLM):
   "to be established", "to be shown", "未证", "尚未证明"
 - definitions whose chapter file has no theorem label citing the same concept
 
-Each gap becomes a candidate dict matching the schema accepted by
-oracle_client.append_candidates_to_board. With --append, the scanner appends
-qualifying candidates directly to BOARD.md so the next loop pass picks them
-up automatically.
+Each gap becomes a candidate dict matching the shared board_spawn candidate
+shape. With --append, the scanner routes qualifying candidates through
+board_spawn, candidate_inbox, the judge, and logic_packet_gate before any
+BOARD.md append. It is a deterministic source, not a shortcut around intake
+discipline.
 """
 
 from __future__ import annotations
@@ -161,6 +162,27 @@ def _first_substantive_line(snippet: str) -> str:
     )
 
 
+def _claim_from_hit(hit: GapHit) -> str:
+    """Extract a human claim line rather than a LaTeX structural marker."""
+    substantive: list[str] = []
+    for raw in hit.snippet.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("%"):
+            continue
+        if line.startswith(("\\label", "\\chapter", "\\section", "\\subsection", "\\subsubsection")):
+            continue
+        if re.match(r"\\(?:begin|end)\{(?:conjecture|question|proof|enumerate|itemize)\}", line):
+            continue
+        if line.startswith("\\item"):
+            line = line.removeprefix("\\item").strip()
+        if line:
+            substantive.append(line)
+        if len(" ".join(substantive)) >= 600:
+            break
+    claim = " ".join(substantive).strip()
+    return claim[:600] if claim else f"see {hit.file_rel}:{hit.line_no}"
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
@@ -177,7 +199,7 @@ def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
 
 
 def hit_to_candidate(hit: GapHit) -> dict:
-    """Convert a GapHit to the candidate dict shape append_candidates_to_board expects."""
+    """Convert a GapHit to the shared BOARD candidate dict shape."""
     title = _title_from_hit(hit)
     if hit.kind == "conjecture":
         fit, novelty = 8, 8
@@ -195,18 +217,34 @@ def hit_to_candidate(hit: GapHit) -> dict:
     )
     if len(rationale) < MIN_RATIONALE_CHARS:
         rationale = rationale + "\n\n(snippet was short; widen CONTEXT_AFTER if needed)"
+    claim = _claim_from_hit(hit)
     return {
         "title": title,
-        "concrete_claim": (
-            hit.snippet.split("\n\n", 1)[0][:600]
-            if hit.snippet
-            else f"see {hit.file_rel}:{hit.line_no}"
-        ),
+        "claim": claim,
+        "concrete_claim": claim,
         "local_inputs": [hit.file_rel],
         "fit_score": fit,
         "novelty": novelty,
         "rationale": rationale,
+        "source": "paper_gap_scanner",
     }
+
+
+def append_via_board_spawn(
+    candidates: list[dict],
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> object:
+    """Route deterministic gap candidates through the shared intake gate."""
+    import board_spawn
+
+    return board_spawn.spawn_from_candidates(
+        codex_candidates=candidates,
+        oracle_candidates=[],
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
 
 
 def generate_candidates(
@@ -232,7 +270,7 @@ def generate_candidates(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scan papers/bedc/parts for theory gaps")
-    parser.add_argument("--append", action="store_true", help="Append qualifying gaps to BOARD.md as candidate B-XX entries")
+    parser.add_argument("--append", action="store_true", help="Submit qualifying gaps through board_spawn before any BOARD.md append")
     parser.add_argument("--min-fit", type=int, default=7)
     parser.add_argument("--min-novelty", type=int, default=6)
     parser.add_argument("--limit", type=int, default=0, help="Cap number of candidates (0 = no cap)")
@@ -252,9 +290,24 @@ def main() -> int:
         if not candidates:
             print("(no candidates passed thresholds; nothing appended)", file=sys.stderr)
             return 0
-        from oracle_client import append_candidates_to_board
-        accepted = append_candidates_to_board(candidates)
-        print(f"appended {len(accepted)} candidates to BOARD.md: {accepted}", file=sys.stderr)
+        result = append_via_board_spawn(
+            candidates,
+            fit_threshold=args.min_fit,
+            novelty_threshold=args.min_novelty,
+        )
+        appended = getattr(result, "appended_ids", [])
+        accepted = getattr(result, "accepted", [])
+        rejected = getattr(result, "rejected", [])
+        error = getattr(result, "error", "")
+        print(
+            f"board_spawn ok={getattr(result, 'ok', False)} "
+            f"accepted={len(accepted)} rejected={len(rejected)} "
+            f"appended={len(appended)}: {appended}",
+            file=sys.stderr,
+        )
+        if error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
         return 0
 
     if not args.json:
