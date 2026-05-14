@@ -254,6 +254,9 @@ instance transcendentalSupplyTaxonomyChapterTasteGate :
     intro x y hxy heq
     exact hxy (TranscendentalSupplyTaxonomyTasteGate_single_carrier_alignment_injective heq)
 
+def taste_gate : ChapterTasteGate TranscendentalSupplyTaxonomyUp :=
+  transcendentalSupplyTaxonomyChapterTasteGate
+
 theorem TranscendentalSupplyTaxonomyTasteGate_single_carrier_alignment :
     transcendentalSupplyTaxonomyEncodeBHist BHist.Empty = ([] : List BMark) ∧
       (∀ h : BHist,

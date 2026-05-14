@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\DyadicTailRadiusComparisonUp$}
+\label{ch:concrete-instances-dyadic-tail-radius-comparison-namecert}
+\origin{ai}
+
+The $\DyadicTailRadiusComparisonUp$ packet realizes the shared dyadic threshold comparison row used by the Real and Completion route of \autoref{ch:visions-real-completeness}. It consumes the tail-radius ledger of \autoref{ch:concrete-instances-dyadictailradiusledger-namecert}, the shared-tail modulus surface of \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}, the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet isolates the comparison row between two dyadic radius ledgers before any shared-tail or Real-completion consumer may treat the threshold as usable.
+
+\begin{definition}[Dyadic tail-radius comparison carrier]
+\label{def:dyadic-tail-radius-comparison-carrier}
+A $\DyadicTailRadiusComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+C=(L_0,L_1,\rho_0,\rho_1,\kappa,W_0,W_1,R_0,R_1,E,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L_0$ and $L_1$ are the two accepted $\DyadicTailRadiusLedgerUp$ rows supplying the left and right dyadic tail-radius ledgers;
+\item $\rho_0$ and $\rho_1$ are the displayed radius rows read from those ledgers;
+\item $\kappa$ is the finite dyadic comparison row asserting that the two ledger radii admit a shared threshold usable by the downstream tail route;
+\item $W_0$ and $W_1$ are the $\StreamNameUp$ windows opened only after the comparison row has been displayed;
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows served by the compared windows;
+\item $E$ is the $\RealUp$ seal row reached only after the compared ledger route has been consumed;
+\item $H$ records componentwise $\hsame$ transport for the ledgers, radii, comparison row, windows, readbacks, Real seal, provenance, and local name;
+\item $Q$ records the displayed $\Cont$ routes from each ledger to its radius row, from the two radii to $\kappa$, from $\kappa$ to the windows, from the windows to the readbacks, and from the readbacks to the Real seal;
+\item $P$ is the $\Pkg$ provenance over $\DyadicTailRadiusLedgerUp$, $\CauchySharedTailModulusUp$, $\RegularCauchyTailMeetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicTailRadiusComparisonUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, selected limits, independent radius replacement, an unbounded threshold search, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Dyadic tail-radius comparison NameCert obligations]
+\label{thm:dyadic-tail-radius-comparison-namecert-obligations}
+For the carrier of \autoref{def:dyadic-tail-radius-comparison-carrier}, the local $\NameCert_{\DyadicTailRadiusComparisonUp}$ surface consists exactly of carrier admission for $C$, left and right ledger exposure through $L_0,L_1$, radius exposure through $\rho_0,\rho_1$, comparison admission through $\kappa$, window service through $W_0,W_1$, regular readback through $R_0,R_1$, Real seal ordering through $E$, componentwise transport through $H$, displayed replay through $Q$, provenance through $P$, and local naming through $N$. A shared-tail or Real-completion consumer obtains no seal read unless the displayed comparison row sits between the two radius ledger rows and the downstream windows.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The two ledger rows, their radius rows, the comparison row, paired windows, readbacks, seal, transports, continuations, provenance, and local name are all explicit coordinates of the finite packet.
+
+Read the sibling ledger and shared-tail routes. The two radius rows are consumed from \autoref{ch:concrete-instances-dyadictailradiusledger-namecert}, while the downstream shared-tail consumer has the same finite-threshold shape as \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}. Therefore the local certificate must expose $\rho_0,\rho_1,\kappa$ before the StreamName and RegSeqRat rows can be treated as a shared tail route.
+
+The Real seal row is downstream of the same displayed route. Since the carrier contains no quotient stream, selected limit, hidden radius selector, unbounded threshold search, host real equality, or ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic tail-radius comparison threshold order]
+\label{thm:dyadic-tail-radius-comparison-threshold-order}
+Every accepted $\DyadicTailRadiusComparisonUp$ packet exposes the shared threshold route in the order
+$$
+L_0,L_1,\rho_0,\rho_1,\kappa,W_0,W_1,R_0,R_1.
+$$
+No downstream $\CauchySharedTailModulusUp$, $\RegularCauchyTailMeetUp$, $\RegSeqRatUp$, or $\StreamNameUp$ consumer may read a paired window or readback before the comparison row $\kappa$ has been displayed between the two radius ledger rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:dyadic-tail-radius-comparison-carrier}. The only route from the two radius ledgers to the paired windows passes through $\rho_0,\rho_1$ and then through the single comparison row $\kappa$.
+
+Apply the NameCert obligations of \autoref{thm:dyadic-tail-radius-comparison-namecert-obligations}. Ledger exposure precedes radius exposure, radius exposure precedes comparison admission, and comparison admission precedes window service and regular readback.
+
+Finally compare the sibling shared-tail surfaces. The shared-tail modulus and regular tail-meet chapters may consume this packet only as a finite threshold route, so a consumer that reads $W_0,W_1,R_0,R_1$ without the displayed comparison row is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Dyadic tail-radius comparison Real seal handoff]
+\label{thm:dyadic-tail-radius-comparison-realseal-handoff}
+Every $\RealUp$ seal read admitted through an accepted $\DyadicTailRadiusComparisonUp$ packet factors through
+$$
+L_0,L_1,\rho_0,\rho_1,\kappa,W_0,W_1,R_0,R_1,E,H,Q,P,N.
+$$
+The seal is a handoff from a displayed comparison between two dyadic radius ledgers, not from a quotient stream, a selected completed limit, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use threshold order from \autoref{thm:dyadic-tail-radius-comparison-threshold-order}. It places the paired windows and readbacks behind the two ledger radii and their comparison row.
+
+Read the Real boundary through \autoref{ch:concrete-instances-real-namecert}. The seal row $E$ appears only after the paired readbacks, so the Real-facing route cannot detach the seal from the comparison packet.
+
+The structural rows $H,Q,P,N$ replay and name the same finite route. They add transport, continuation, provenance, and local certificate data, but no hidden radius, no second comparison row, and no external completion object.
+\end{proof}
+
+\begin{theorem}[Dyadic tail-radius comparison non-escape]
+\label{thm:dyadic-tail-radius-comparison-nonescape}
+No accepted $\DyadicTailRadiusComparisonUp$ packet exports quotient stream equality, host real equality, a selected limit, an unbounded tail search, a hidden radius selector, a private comparison oracle, or an ambient completeness principle. Every shared-tail or Real-completion consumer read is exhausted by
+$$
+L_0,L_1,\rho_0,\rho_1,\kappa,W_0,W_1,R_0,R_1,E,H,Q,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The exported mathematical rows are precisely the two dyadic tail-radius ledgers, their two radius rows, one comparison row, two windows, two regular readbacks, and one Real seal.
+
+Apply the Real seal handoff. Any completion-facing consumer must traverse those rows before reaching $E$, and the structural rows only transport, replay, package, and name that route.
+
+The excluded objects have no carrier coordinate and no route in $Q$. Hence extracting any of them is not a read of the accepted comparison packet.
+\end{proof}
+
+\falsifiablePrediction{No admitted $\RealUp$ seal read through $\DyadicTailRadiusComparisonUp$ is accepted unless the displayed dyadic comparison row sits between the two $\DyadicTailRadiusLedgerUp$ radius rows and the downstream shared-tail window/readback rows.}
+
+\independenceWitness{dyadictailradiusledger, cauchysharedtailmodulus, regularcauchytailmeet, streamname, real: none is bijective to $\DyadicTailRadiusComparisonUp$ because this carrier stores two radius ledgers, their explicit comparison row, paired windows, paired readbacks, the Real seal handoff, and the structural certificate rows together.}
+
+The later Lean TasteGate boundary for this carrier must provide $\mathsf{Nontrivial}\ \DyadicTailRadiusComparisonUp$ and $\mathsf{FieldFaithful}\ \DyadicTailRadiusComparisonUp$ instances, so the comparison packet is represented by an inhabited and field-faithful finite row rather than by a vacuous shared-tail annotation.
+
+\closureat{DyadicTailRadiusComparisonUp}{seedStr}
+
+\begin{closurestatus}{\DyadicTailRadiusComparisonUp}
+  \constructivestory{A $\DyadicTailRadiusComparisonUp$ packet is generated from two DyadicTailRadiusLedger rows, two displayed radius rows, one dyadic comparison row, paired StreamName windows, paired RegSeqRat readbacks, a RealUp seal handoff, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-tail-radius-comparison-carrier}, \autoref{thm:dyadic-tail-radius-comparison-namecert-obligations}, \autoref{thm:dyadic-tail-radius-comparison-threshold-order}, \autoref{thm:dyadic-tail-radius-comparison-realseal-handoff}, and \autoref{thm:dyadic-tail-radius-comparison-nonescape} bind the finite dyadic radius comparison row used by shared-tail Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected limits, host real equality, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius-ledger comparison order, shared-tail window and readback routing, RealUp seal handoff, non-escape, and TasteGate instances for the same finite packet.}
+\end{closurestatus}
