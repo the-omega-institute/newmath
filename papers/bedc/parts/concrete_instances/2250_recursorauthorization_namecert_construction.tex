@@ -4,6 +4,8 @@
 
 The $\RecursorAuthorizationUp$ interface records the finite certificate surface by which an accepted Lean \texttt{inductive} declaration authorizes its emitted recursor as a BEDC generator. The packet is built from the accepted constructor signature, the emitted eliminator, the branch package supplied to the eliminator, the structural descent ledger for recursive occurrences, and the \NameCert{} row naming the generated output. It is a naming certificate for authorized generator use; it is not a host-side trust principle for arbitrary recursion.
 
+The $\RecursorAuthorizationUp$ row is the signature-and-recursion authorization row consumed by \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} and refined by \autoref{ch:concrete-instances-recursorgenerator-namecert}. The first sibling supplies the audit boundary for host-kernel accepted recursor calls, while the second packages legal recursor calls and closed-term handoffs.
+
 \begin{definition}[RecursorAuthorization carrier]
 \label{def:recursor-authorization-carrier}
 A $\RecursorAuthorizationUp$ carrier is a finite $\BHist$ packet

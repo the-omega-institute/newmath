@@ -200,6 +200,100 @@ Now read the downstream consumer named in \autoref{ch:concrete-instances-halting
 Thus the sibling route is exact at the finite boundary $Q,T,Z,H,C,P,N$. Since neither side supplies a total halting predicate, global truth predicate, divergence oracle, or host evaluator, the route records only the finite obstruction consumer relation.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction carrier obligation]
+\label{thm:halting-distinction-carrier-obligation}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+the public carrier exposes exactly the certificate-history pair $Q$, finite trace segment $T$, diagonal row $Z$, componentwise transport row $H$, displayed route row $C$, provenance row $P$, and local $\NameCert_{\HaltingDistinctionUp}$ row $N$. These are the only rows available for certificate-history pairing, finite trace reading, diagonal inspection, transport, routing, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:halting-distinction-carrier}. The accepted packet has the seven displayed coordinates $Q,T,Z,H,C,P,N$, and no extra row is introduced by the carrier projection.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations}. It identifies $P$ and $N$ as the finite provenance and local naming witnesses for exactly the displayed certificate-history, trace, diagonal, transport, and route rows.
+
+The conclusion is therefore row-exact: every public read of the carrier must factor through one of $Q,T,Z,H,C,P,N$, and no hidden global classifier row is exposed.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction continuation boundary]
+\label{thm:halting-distinction-continuation-boundary}
+Every termination-facing read from an accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N)
+$$
+factors through the displayed finite $\Cont$ segment $T$ and route row $C$. The continuation boundary records finite trace readability and diagonal routing only; it does not supply a total halting predicate.
+\end{theorem}
+\begin{proof}
+Read the finite trace first. By \autoref{thm:halting-distinction-trace-readability}, termination-facing inspection reaches the packet through the finite trace segment $T$ rather than through an ambient evaluator.
+
+Now apply \autoref{thm:halting-distinction-diagonal-boundary}. The diagonal row $Z$ is reachable only along the displayed route row $C$, with $H$ transporting the already named components.
+
+Since \autoref{thm:halting-distinction-provenance-purity-boundary} prevents the provenance and naming rows from being reinterpreted as a truth predicate, divergence oracle, or host evaluator, the read stops at the finite continuation boundary and never becomes a total halting predicate.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction non-escape package]
+\label{thm:halting-distinction-nonescape}
+For every accepted $\HaltingDistinctionUp$ packet, the carrier obligation, trace readability, diagonal boundary, provenance purity, and obstruction sibling route together exclude any exported global truth predicate, divergence oracle, classical termination decidability row, or host evaluator row. The package exposes only the finite rows $Q,T,Z,H,C,P,N$ and the downstream obstruction route that consumes them.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:halting-distinction-carrier-obligation} to fix the public rows of the accepted packet. The carrier contributes only $Q,T,Z,H,C,P,N$.
+
+Apply \autoref{thm:halting-distinction-trace-readability} and \autoref{thm:halting-distinction-diagonal-boundary}. These force termination-facing and diagonal-facing reads through the finite trace, diagonal, transport, and route rows.
+
+Next apply \autoref{thm:halting-distinction-provenance-purity-boundary}. The provenance and local naming rows remain certificate data, not a global truth predicate, divergence oracle, classical decision principle, or host evaluator.
+
+Finally use \autoref{thm:halting-distinction-obstruction-sibling-route}. The downstream obstruction consumer receives the same finite boundary, so the whole package is non-escaping at exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root carrier surface]
+\label{thm:halting-distinction-root-carrier-surface}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+the root carrier exposes exactly the seven displayed rows $Q,T,Z,H,C,P,N$. The row $Q$ is the certificate-history pair, $T$ is the finite $\Cont_P$ trace segment, $Z$ is the diagonal self-reference row, $H$ is the componentwise $\hsame$ transport row, $C$ is the displayed $\Cont$ route row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert_{\HaltingDistinctionUp}$ ledger. No accepted packet contains a total halting coordinate, a global truth row, a divergence oracle row, or a host evaluator row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:halting-distinction-carrier}. Its displayed coordinates are precisely $Q,T,Z,H,C,P,N$, with the roles named in the statement and no further coordinate.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations} to bind those rows as the local carrier, transport, trace, diagonal, and non-escape obligations. Apply \autoref{thm:halting-distinction-diagonal-boundary} and \autoref{thm:halting-distinction-trace-readability} to locate the diagonal and trace reads inside the same packet.
+
+Finally use \autoref{thm:halting-distinction-obstruction-sibling-route} and \autoref{thm:halting-distinction-nonescape}. Downstream obstruction consumers receive exactly the displayed finite ledger, and the package exports no total halting coordinate, global truth row, divergence oracle row, or host evaluator row.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root classifier transport]
+\label{thm:halting-distinction-root-classifier-transport}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+any public classifier read of the root surface transports certificate-history data only through $H$. If the read follows the continuation-facing route, it reaches the displayed finite segment through $T$, the diagonal row through $Z$, and the public route row through $C$; it never reads a classifier from an unrecorded transport, an ambient evaluator, or a total halting predicate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:halting-distinction-carrier}. The only transport coordinate in the carrier is $H$, so every comparison of the certificate-history pair named by $Q$ must use the componentwise $\hsame$ data recorded there.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations}. Its classifier-transport and trace-readability clauses keep public reads on the displayed transport and continuation rows, while \autoref{thm:halting-distinction-trace-readability} identifies $T$ and $C$ as the finite continuation-facing route.
+
+For the self-reference branch, apply \autoref{thm:halting-distinction-diagonal-boundary}. The diagonal read reaches $Z$ only along the displayed route and then returns to the finite ledger.
+
+Use \autoref{thm:halting-distinction-obstruction-sibling-route} and \autoref{thm:halting-distinction-nonescape} for downstream consumers. They receive the same routed surface and no unrecorded transport, ambient evaluator, or total halting predicate.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root ledger non-escape]
+\label{thm:halting-distinction-root-ledger-nonescape}
+Every downstream $\HaltingObstructionUp$ or trace-normal-form consumer of an accepted $\HaltingDistinctionUp$ packet must read the same finite ledger $Q,T,Z,H,C,P,N$. Such a consumer can use the certificate-history pair, finite trace segment, diagonal row, componentwise transports, displayed routes, provenance, and local $\NameCert$ ledger, but it cannot extract a global truth predicate, divergence oracle, total evaluator, or hidden halting decision from that ledger.
+\end{theorem}
+\begin{proof}
+Project the ledger from \autoref{def:halting-distinction-carrier}. The accepted packet exposes only $Q,T,Z,H,C,P,N$, and \autoref{thm:halting-distinction-namecert-obligations} records those rows as the local obligations available to public readers.
+
+Apply \autoref{thm:halting-distinction-trace-readability} for trace-normal-form reads. They inspect the finite continuation segment $T$ through the displayed route row $C$, with transports supplied only by $H$.
+
+Apply \autoref{thm:halting-distinction-diagonal-boundary} and \autoref{thm:halting-distinction-obstruction-sibling-route} for obstruction reads. The route to $\HaltingObstructionUp$ consumes the same certificate-history, trace, diagonal, transport, route, provenance, and naming rows.
+
+Finally apply \autoref{thm:halting-distinction-nonescape}. Since the packet exports only the finite ledger, downstream consumers cannot extract a global truth predicate, divergence oracle, total evaluator, or hidden halting decision.
+\end{proof}
+
 \closureat{HaltingDistinctionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}
