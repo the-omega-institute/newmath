@@ -19870,3 +19870,47 @@ Rationale:
 This deserves a target slot because FourierUp currently exposes a finite-observation carrier, classifier, ledger, exactness row, and standard bridge, but it does not isolate the closure property needed when a downstream consumer keeps only a displayed finite subpacket of observations. The claim stays fully BEDC-native: it copies visible ProbeBundle/SigRel rows and their attached ledgers, preserves the same SOneUp, RealUp, InnerProductUp, and IntegralUp provenance, and explicitly avoids analytic Fourier theorems. It is not a duplicate of the existing standard bridge because the bridge exports the whole finite interface, while this target gives the local restriction lemma for subpacket consumers.
 
 ---
+
+### B-763 - Matrix singleton additive fold double-reverse readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (both) |
+| Object | Matrix singleton additive fold double-reverse readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a singleton additive fold spine is carried under the MatrixUp singleton fold surface, then the fold over its double reversal is carried and classifier-equal to the original singleton additive fold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `ripeness_risk`: low, because the landing file is short and the proof only composes existing finite reverse readback facts.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only uses finite singleton fold data, finite reverse preservation, reverse involutivity, and transitivity of classifier equality, so no search, choice, quotient, cover, limit, or modulus resource is visible.
+- `witness_extractor`: matrix_singleton_add_fold_double_reverse_readback
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: A carried finite singleton additive fold spine; the existing reverse-carrier readback for the spine and for its reverse; the finite reverse-involutive endpoint normalization; and history-sameness transitivity for the displayed classifier comparison.
+- `dependency_trace`: Uses the MatrixUp singleton additive fold reverse-empty append readback and reverse-carrier readback in papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex; no ambient chapter dependencies beyond the existing MatrixUp finite fold carrier and classifier surface are needed.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is a concrete existing-chapter lemma with a precise implication form, a safe landing file, and visible proof resources already present in the MatrixUp reverse readback surface. It is not a new chapter, not a marker or verification-status task, and not abstract parameter echo: it records a specific finite double-reversal closure/readback fact for the singleton additive fold object. Novelty is only moderate because it is a close corollary of the single-reverse theorem, but the supplied paper and BOARD evidence indicates no existing double-reverse label or target, so it clears the threshold as a small local strengthening.
+
+---
