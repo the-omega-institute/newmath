@@ -141,6 +141,46 @@ or ambient completeness datum, so none of those objects escapes through the
 uniform pullback route.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat Real route transitivity]
+\label{thm:streamname-regseqrat-real-route-transitivity}
+Every accepted $\StreamNameUp$ finite-window packet whose visible StreamName
+row, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ readback row, and
+$\RealUp$ seal row agree with the dyadic pullback route and with the uniform
+finite-window seal route has a single composite $\RealUp$ seal consumer route.
+That route has only the displayed $\BHist$ observations, componentwise
+$\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and
+local $\NameCert$ rows attached to those four sibling surfaces.
+
+The composite route exports no quotient stream, no host real equality, no
+selected limit, no trichotomy row, and no ambient completeness datum. Thus a
+downstream $\RealUp$ seal consumer may cite one finite route from StreamName
+windows through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ rows into the $\RealUp$
+seal, rather than separately choosing among the local handoff surfaces.
+\end{theorem}
+\begin{proof}
+First identify the finite four-row surface. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. It places the
+accepted StreamName packet, the dyadic observation ledger, the RegSeqRat
+readback row, and the Real seal row on one pullback surface whose coordinates
+are exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Next compare the uniform seal with that surface. By
+\autoref{thm:streamname-uniform-pullback-nonescape}, the uniform
+finite-window seal feeds the same StreamName, DyadicRatCore, RegSeqRat, and
+Real rows instead of producing a parallel consumer route. Hence the dyadic
+pullback and the uniform seal name the same finite carrier path for the
+downstream $\RealUp$ seal read.
+
+Finally exhaust the consumer coordinates. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}.
+A downstream consumer can project only the four displayed sibling rows and
+their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. Since
+those rows contain no quotient stream, host real equality, selected limit,
+trichotomy row, or ambient completeness datum, no external coordinate can
+escape through the composite seal route.
+\end{proof}
+
 \begin{theorem}[StreamName Real observation-budget factorization]
 \label{thm:streamname-real-observation-budget-factorization}
 Every accepted $\StreamNameUp$ finite-window packet consumed by a
