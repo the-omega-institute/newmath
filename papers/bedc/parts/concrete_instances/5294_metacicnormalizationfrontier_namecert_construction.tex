@@ -143,6 +143,46 @@ Use \autoref{thm:metacic-normalization-frontier-obstruction-ledger} for the row 
 Finally apply \autoref{thm:metacic-normalization-frontier-nonescape}. The finite replay route therefore remains a fuel route inside the packet and does not export unbounded normalization, global subject reduction, or closed consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization frontier root carrier rows]
+\label{thm:metacic-normalization-frontier-root-carrier-rows}
+Every root consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet first reads exactly the finite carrier rows
+$$
+C,K,E,N,S,H,R,P,L.
+$$
+The rows are the candidate-evidence surface, the closed-candidate surface, the finished-normal evidence surface, the normal-endpoint surface, the obstruction row, the transport row, the replay row, the provenance row, and the local naming row of the root packet.
+\end{theorem}
+\begin{proof}
+Project the carrier definition in \autoref{def:metacic-normalization-frontier-carrier}. It lists $F=(C,K,E,N,S,H,R,P,L)$ as the complete packet and gives no additional root-facing coordinate.
+
+Apply the NameCert obligations of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. Candidate reads enter through $C,K$, finished-normal reads enter through $E,N$, obstruction transport keeps $S$ separate, and closed-normal downstream use replays through $H,R,P,L$.
+
+Finally use the fuel route of \autoref{thm:metacic-normalization-frontier-fuel-route}. Any root consumer that asks for a bounded replay remains inside those carrier rows before it can be consumed by a downstream closed-normal packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root consumer non-escape]
+\label{thm:metacic-normalization-frontier-root-consumer-nonescape}
+No root consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet can extract a blanket strong-normalization theorem, a closed consistency theorem, or erased subject-reduction transport from the rows $C,K,E,N,S,H,R,P,L$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. It exhausts the root packet by the displayed carrier rows and leaves no hidden normalization, consistency, or erased-transport coordinate.
+
+Use \autoref{thm:metacic-normalization-frontier-nonescape}. The chapter already separates candidate and finished-normal evidence from blanket strong normalization, full closed consistency, and erased subject-reduction transport.
+
+Now apply \autoref{thm:metacic-normalization-frontier-redex-boundary} together with \autoref{thm:metacic-normalization-frontier-fuel-route}. The root consumer receives only a bounded redex-boundary and fuel route, with $S$ still displayed as an obstruction row, so none of the excluded global objects can be read from the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root obligation triad]
+\label{thm:metacic-normalization-frontier-root-obligation-triad}
+For downstream closed-normal packets, an accepted $\MetaCICNormalizationFrontierUp$ packet presents exactly the following root obligation triad: the candidate boundary through $C,K$, the finished-normal boundary through $E,N$, and the obstruction separation through $S$, all transported through $H,R,P,L$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-normalization-frontier-namecert-obligations} to read the three obligations. The candidate-evidence boundary is carried by $C,K$, the finished-normal boundary is carried by $E,N$, and subject-reduction obstruction remains separated at $S$.
+
+Apply \autoref{thm:metacic-normalization-frontier-redex-boundary}. It identifies those three surfaces as the finite redex boundary for inspected empty-context typed closed MetaCIC terms.
+
+Finally combine \autoref{thm:metacic-normalization-frontier-fuel-route} with \autoref{thm:metacic-normalization-frontier-root-consumer-nonescape}. Downstream closed-normal packets may consume the triad only through the displayed replay, provenance, transport, package, and local naming rows, and they cannot replace the triad with a blanket normalization, consistency, or erased subject-reduction object.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization frontier kernel non-escape]
 \label{thm:metacic-normalization-frontier-kernel-nonescape}
 For every accepted $\MetaCICNormalizationFrontierUp$ packet, the finite kernel-facing route determined by $C,K,E,N,S,H,R,P,L$ is exhausted by the candidate route of \autoref{thm:metacic-normalization-frontier-candidate-route}, the finished route of \autoref{thm:metacic-normalization-frontier-finished-route}, the obstruction ledger of \autoref{thm:metacic-normalization-frontier-obstruction-ledger}, and the public obligation package of \autoref{thm:metacic-normalization-frontier-public-obligation-package}. A kernel consumer cannot bypass those rows to obtain a blanket strong-normalization theorem, a full closed consistency theorem, or erased subject-reduction transport.
