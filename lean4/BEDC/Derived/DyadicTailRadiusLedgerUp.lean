@@ -166,4 +166,31 @@ theorem DyadicTailRadiusLedgerCarrier_regseq_real_handoff [AskSetup] (ps : Packa
     realSealLocalName, _pkgSig⟩ := carrier
   exact ⟨regSeqHandoffUnary, realSealUnary, routesRegSeqHandoff, realSealLocalName⟩
 
+theorem DyadicTailRadiusLedgerCarrier_tail_radius_witness_extraction [AskSetup] [PackageSetup]
+    {precision tailWindow streamWindows dyadicReadback regSeqHandoff realSeal transport routes
+      provenance localName witness : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailRadiusLedgerCarrier precision tailWindow streamWindows dyadicReadback
+        regSeqHandoff realSeal transport routes provenance localName bundle pkg →
+      Cont dyadicReadback regSeqHandoff witness →
+        PkgSig bundle witness pkg →
+          UnaryHistory precision ∧ UnaryHistory tailWindow ∧ UnaryHistory streamWindows ∧
+            UnaryHistory dyadicReadback ∧ UnaryHistory witness ∧
+              Cont precision tailWindow streamWindows ∧
+                Cont streamWindows dyadicReadback routes ∧
+                  Cont dyadicReadback regSeqHandoff witness ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle witness pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier dyadicReadbackRegSeqWitness witnessPkg
+  obtain ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+    regSeqHandoffUnary, _realSealUnary, _routesUnary, _provenanceUnary, _localNameUnary,
+    precisionTailWindow, streamWindowsDyadicReadback, _routesRegSeqHandoff,
+    _realSealLocalName, provenancePkg⟩ := carrier
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed dyadicReadbackUnary regSeqHandoffUnary dyadicReadbackRegSeqWitness
+  exact
+    ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+      witnessUnary, precisionTailWindow, streamWindowsDyadicReadback,
+      dyadicReadbackRegSeqWitness, provenancePkg, witnessPkg⟩
+
 end BEDC.Derived.DyadicTailRadiusLedgerUp

@@ -52,6 +52,7 @@ Z=(S,T,R,Q,V,H,C,P,N)
 $$
 accepted by $\ContinuationTraceNormalFormUp$, the source-to-trace normalization obligation is exactly the replay from $S$ through the finite $\ContinuationTraceUp$ row $T$, the displayed $\BHist$ and $\BMark$ data inside that row, the continuation routes in $C$, and the local $\NameCert$ row $N$. It contains no host conversion relation, quotient normalization datum, evaluator graph, global confluence theorem, or external normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceNormalFormUp.ContinuationTraceNormalFormCarrier\_source\_normalization\_obligation}
 \begin{proof}
 Project $Z$ by \autoref{def:continuation-trace-normal-form-carrier}. The source row $S$, trace row $T$, route row $C$, and local name $N$ are the only source-to-trace replay coordinates in the accepted carrier.
 
@@ -470,6 +471,128 @@ Next combine terminal scope and the standard bridge surface, \autoref{thm:contin
 Use root readback order exhaustion from \autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}. It fixes the source, trace, terminal, terminal-read, and typed-boundary order before the downstream consumer may read the endpoint.
 
 Finally use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient-normalization, evaluator-graph, global-confluence, and external-normalizer objects are not coordinates of $Z$, so they cannot extend the downstream boundary.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm terminal-consumer cut]
+\label{thm:continuation-trace-normal-form-terminal-consumer-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, any terminal consumer that reads the endpoint row $R$ must pass through the displayed trace row $T$, terminal-read row $Q$, typed-boundary row $V$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$. No host evaluator state, quotient trace representative, global confluence proof, or external normalizer can supply an alternate terminal route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:continuation-trace-normal-form-carrier}. The terminal row $R$ is not a free endpoint; it appears in the finite packet beside $T,Q,V,H,C,P,N$.
+
+Apply terminal scope and terminal readback lock, \autoref{thm:continuation-trace-normal-form-terminal-scope} and \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. These place terminal exposure behind the trace ledger, terminal-read row, transport, continuation route, provenance, and local naming surface.
+
+Finally use consumer readback and downstream boundary, \autoref{thm:continuation-trace-normal-form-consumer-readback-envelope} and \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. The accepted consumer reads $R$ only inside $S,T,R,Q,V,H,C,P,N$, while the excluded host evaluator, quotient, confluence, and external-normalizer coordinates are absent from the packet.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm trace-replay cut]
+\label{thm:continuation-trace-normal-form-trace-replay-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, any replay cut used by a downstream normal-form consumer is exhausted by the displayed $\ContinuationTraceUp$ row $T$ and the displayed $\Cont$ route $C$. The replay cut cannot import a second trace ledger, host evaluator graph, quotient trace equality, global confluence datum, or external normalizer.
+\end{theorem}
+\begin{proof}
+Start with trace ledger exhaustion, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. It says that trace reads exported by the packet are exactly the finite $\ContinuationTraceUp$ ledger rather than a second replay source.
+
+Use prefix splice lock, \autoref{thm:continuation-trace-normal-form-prefix-splice-lock}. The splice available to a downstream normal-form consumer is tied to the displayed $T$ row and the displayed $C$ route.
+
+Finally apply root readback order exhaustion, \autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}. The replay stage precedes terminal and typed-boundary consumption in the displayed packet order, so host evaluator graphs, quotient trace equality, global confluence, and external normalizers have no replay-cut coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm normal-boundary cut]
+\label{thm:continuation-trace-normal-form-normal-boundary-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the normal-boundary consumer cut is exactly the displayed route through $S,T,R,Q,V,H,C,P,N$. A normal-boundary consumer cannot import host conversion, quotient normalization, evaluator graphs, global confluence, or external normalizers as extra boundary data.
+\end{theorem}
+\begin{proof}
+Begin with normal-boundary consumer totality, \autoref{thm:continuation-trace-normal-form-normal-boundary-consumer-totality}. It already exhausts the normal-boundary surface by the displayed packet rows.
+
+Combine the terminal-consumer cut and trace-replay cut. The terminal cut forces reads of $R,Q,V$ through $T,H,C,P,N$, while the replay cut exhausts the trace side by $T$ and $C$.
+
+Finally apply typed-boundary nonescape and downstream normal-form consumer boundary, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape} and \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. Host conversion, quotient normalization, evaluator graphs, global confluence, and external normalizers are not coordinates of $Z$, so the displayed rows are the whole normal-boundary cut.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm root terminal readback totality]
+\label{thm:continuation-trace-normal-form-root-terminal-readback-totality}
+For every accepted $\ContinuationTraceNormalFormUp$ packet
+$Z=(S,T,R,Q,V,H,C,P,N)$, the terminal row $R$ is exposed as a root readback
+row before any downstream normal-form consumer can read it. The exposure is
+anchored by the displayed $\mathsf{BHist}$ source row $S$, the
+$\ContinuationTraceUp$ ledger $T$, the $\ContinuationBigStepUp$ terminal-read
+row $Q$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$
+route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with root readback order exhaustion,
+\autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}.
+It places the terminal row after the source and trace rows, and before any
+downstream terminal or typed-boundary consumer.
+
+Apply the terminal-consumer cut,
+\autoref{thm:continuation-trace-normal-form-terminal-consumer-cut}. It forces
+every terminal consumer through $T,Q,V,H,C,P,N$ before the endpoint row $R$
+can be read.
+
+Finally use the trace-replay cut and normal-boundary cut,
+\autoref{thm:continuation-trace-normal-form-trace-replay-cut} and
+\autoref{thm:continuation-trace-normal-form-normal-boundary-cut}. The replay
+side is exhausted by $T$ and $C$, and the normal-boundary side is exhausted
+by the same finite packet. Thus terminal readback is total at the root before
+consumer access.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm root replay prefix totality]
+\label{thm:continuation-trace-normal-form-root-replay-prefix-totality}
+For every accepted $\ContinuationTraceNormalFormUp$ packet
+$Z=(S,T,R,Q,V,H,C,P,N)$, every root prefix read used for replay factors
+through the displayed $\ContinuationTraceUp$ row $T$ and the displayed
+$\Cont$ route $C$. The prefix read remains attached to the same
+$\mathsf{BHist}$ source row $S$, componentwise $\hsame$ transports $H$,
+$\Pkg$ provenance row $P$, and local $\NameCert$ row $N$; it cannot use an
+off-packet replay, host evaluator prefix, quotient trace equality, global
+confluence datum, or external normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the trace-replay cut,
+\autoref{thm:continuation-trace-normal-form-trace-replay-cut}. It states that
+any replay cut used downstream is exhausted by the displayed trace row $T$
+and displayed continuation route $C$.
+
+Use root readback order exhaustion,
+\autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}.
+The replay stage is part of the ordered root route from $S$ through $T$
+before terminal and typed-boundary rows are consumed.
+
+Now apply the terminal-consumer cut and normal-boundary cut. The terminal cut
+keeps endpoint reads behind the same $T,Q,V,H,C,P,N$ rows, while the normal
+boundary cut prevents host reduction or off-packet boundary data from
+supplying a prefix. Hence every root prefix read is the displayed
+$T$-through-$C$ replay.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm root normal boundary exhaustion]
+\label{thm:continuation-trace-normal-form-root-normal-boundary-exhaustion}
+For every accepted $\ContinuationTraceNormalFormUp$ packet
+$Z=(S,T,R,Q,V,H,C,P,N)$, the root normal-form boundary is exhausted by the
+displayed source, trace, terminal, terminal-read, typed-boundary, transport,
+route, provenance, and local naming rows. The boundary has no host reduction,
+hidden terminal row, or off-packet replay beyond the $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of $Z$.
+\end{theorem}
+\begin{proof}
+First apply the normal-boundary cut,
+\autoref{thm:continuation-trace-normal-form-normal-boundary-cut}. It states
+that the normal-boundary consumer cut is exactly the displayed route through
+$S,T,R,Q,V,H,C,P,N$.
+
+Use root readback order exhaustion to keep the boundary on the root order
+from source through trace, terminal, terminal-read, and typed-boundary rows.
+Then use root terminal readback totality,
+\autoref{thm:continuation-trace-normal-form-root-terminal-readback-totality},
+to expose the terminal row before any consumer can detach it.
+
+Finally apply root replay prefix totality,
+\autoref{thm:continuation-trace-normal-form-root-replay-prefix-totality}. It
+blocks off-packet replay at the prefix stage, while the normal-boundary cut
+already blocks host reduction and hidden terminal data. Therefore the root
+normal-form boundary is exhausted by the displayed packet.
 \end{proof}
 
 \closureat{ContinuationTraceNormalFormUp}{seedStr}

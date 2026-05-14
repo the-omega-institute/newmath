@@ -146,4 +146,33 @@ theorem RealTailAgreementSealTerminalRoute_root_source_window_admission
     ⟨unaryW, unaryLeft, unaryRight, unaryAgreement, leftCont, rightCont, agreementCont,
       agreementWindow⟩
 
+theorem RealTailAgreementSealCarrier_root_selector_consumer_totality
+    {R S W D A P leftRead rightRead leftDyadic rightDyadic agreement terminal
+      publicRead : BHist} :
+    RealTailAgreementSealTerminalRoute R S W D A P leftRead rightRead leftDyadic
+        rightDyadic agreement terminal →
+      Cont terminal P publicRead →
+        UnaryHistory agreement ∧ UnaryHistory terminal ∧ UnaryHistory publicRead ∧
+          hsame agreement (append leftDyadic A) ∧ hsame publicRead (append terminal P) ∧
+            Cont agreement P terminal ∧ Cont terminal P publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro route terminalPublic
+  have summary :=
+    RealTailAgreementSealTerminalRoute_exhaustion route
+  have unaryAgreement : UnaryHistory agreement :=
+    summary.right.right.left
+  have unaryTerminal : UnaryHistory terminal :=
+    summary.right.right.right.left
+  have agreementSame : hsame agreement (append leftDyadic A) :=
+    summary.right.right.right.right.right.right.right.right
+  have agreementTerminal : Cont agreement P terminal :=
+    summary.right.right.right.right.right.right.right.left
+  have unaryP : UnaryHistory P :=
+    route.right.right.right.left
+  have unaryPublic : UnaryHistory publicRead :=
+    unary_cont_closed unaryTerminal unaryP terminalPublic
+  exact
+    ⟨unaryAgreement, unaryTerminal, unaryPublic, agreementSame, terminalPublic,
+      agreementTerminal, terminalPublic⟩
+
 end BEDC.Derived.RealTailAgreementSealUp

@@ -1,0 +1,50 @@
+\section{StreamName Real-RegSeq window source exhaustion}
+\label{sec:streamname-real-regseq-window-source-exhaustion}
+
+\begin{theorem}[StreamName Real-RegSeq finite-window source exhaustion]
+\label{thm:streamname-real-regseq-window-source-exhaustion}
+Every finite-window $\RegSeqRat$ consumer read or finite-window $\RealUp$
+consumer read whose input is a public $\StreamNameUp$ packet factors through
+exactly the public StreamName-RegSeqRat-RealUp source rows already exposed at
+the handoff boundary. The source inventory consists of the selected
+$\mathsf{RatHistoryClassifier}$ rows, the finite $\mathsf{ProbeBundle}$ row,
+the corresponding $\mathsf{InBundle}$ membership rows, the
+$\mathsf{UnaryHistory}$ observation rows, the visible $\hsame$ transports, the
+finite $\Cont$ ledger, the shared $\Pkg$ provenance rows, the accepted
+$\mathsf{DyadicRatCore}$ ledger entries, the accepted $\RegSeqRat$ pointwise
+seal rows, and the $\RealUp$ endpoint seal row.
+
+The factorization exports no quotient representative, no completion object, no
+host index equality, no off-ledger regularity row, no Classical datum, and no
+standard-bridge datum. Thus any finite public consumer read of the
+StreamName-RegSeqRat-RealUp handoff is exhausted by the displayed finite-window
+source inventory.
+\end{theorem}
+\begin{proof}
+First separate the three obligation sources. By
+\autoref{thm:streamname-real-regseq-obligation-separation}, StreamName
+contributes only the carrier, selected rational-history classifier,
+finite-bundle, membership, unary-observation, finite ledger, and public package
+support rows, while RegSeqRat and RealUp supply their own seal-side
+obligations.
+
+Next pass from a single window to any certified finite cover. Apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}.
+It says that cover refinement preserves exactly the displayed StreamName rows,
+bundle-membership rows, unary observations, $\hsame$ transports, finite $\Cont$
+entries, accepted $\mathsf{DyadicRatCore}$ entries, $\Pkg$ provenance rows,
+accepted $\RegSeqRat$ pointwise seal rows, and the $\RealUp$ endpoint seal row.
+
+Now identify the RegSeqRat read. Use
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. The pointwise
+handoff consumes the accepted RegSeqRat seal rows through the same finite
+StreamName packet, so no off-ledger regularity row or hidden host-index
+equality can be introduced by the consumer read.
+
+Finally identify the RealUp read. By
+\autoref{thm:streamname-realup-seal-boundary}, the endpoint seal is fixed by
+the accepted RegSeqRat rows and the visible finite StreamName ledger. Since the
+preceding steps already exhaust the StreamName and RegSeqRat source rows, the
+RealUp endpoint cannot reopen quotient representatives, completion objects,
+Classical data, or standard-bridge data.
+\end{proof}

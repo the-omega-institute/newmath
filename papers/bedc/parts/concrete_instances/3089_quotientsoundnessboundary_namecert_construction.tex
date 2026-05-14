@@ -178,6 +178,42 @@ Use the fixed classifier theorem. It keeps every accepted comparison inside $E,A
 Finally apply the root request triad and kernel non-escape. The triad exhausts the root request by $E,A,V$, and non-escape excludes hidden representative selectors, erased derivation recovery, host quotient eliminators, and $\mathsf{Quot.sound}$.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary root request accountability]
+\label{thm:quotient-soundness-boundary-root-request-accountability}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, relation rows $E$, representative-request rows $A$, and refusal verdict rows $V$ are accountable before any replacement by the transport row $T$. A downstream quotient-style consumer therefore sees the requested relation evidence, the demanded representative surface, and the refusal verdict before it can use $T,H,C,P,N$ as the surviving audit route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}. It places the visible relation rows $E$ before any representative-demand rows in $A$.
+
+Use the root request triad, \autoref{thm:quotient-soundness-boundary-root-request-triad}. The triad binds the representative demand to $A$ and its refusal to $V$, so the negative verdict is part of the root request surface.
+
+After those rows are visible, the transport replacement theorem supplies $T$ only as the classifier-respecting surviving route. The stability, locality, provenance, and naming rows $H,C,P,N$ audit that route and do not erase $E,A,V$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary transport gate]
+\label{thm:quotient-soundness-boundary-transport-gate}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any quotient-like operation that survives the refused representative request must pass through $T,H,C,P,N$. The operation may still read the relation rows $E$, requested-representative rows $A$, and refusal verdict rows $V$ as its accountable source surface, but its positive movement is gated by the displayed transport, stability, locality, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First read the accountability surface from \autoref{thm:quotient-soundness-boundary-root-request-accountability}. It keeps $E,A,V$ visible before any surviving positive route is consumed.
+
+Apply the transport replacement theorem. The only admitted positive motion after refusal is the $\psame$ transport row $T$ on named source rows.
+
+Finally use the NameCert obligations and non-escape theorem. They force every use of $T$ to remain packaged with $H,C,P,N$ and exclude any hidden positive path outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream nonimport]
+\label{thm:quotient-soundness-boundary-downstream-nonimport}
+Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$ receives only the audit surface $E,A,T,V,H,C,P,N$. It receives no $\mathsf{Quot.sound}$ dependency, quotient carrier, representative selector, erased derivation recovery map, or host quotient eliminator.
+\end{theorem}
+\begin{proof}
+Use root request accountability to expose $E,A,V$ as the complete negative request surface. These rows record the visible relation evidence, the representative demand, and the refusal verdict before any surviving operation is available.
+
+Next apply the transport gate. It confines every surviving positive operation to $T,H,C,P,N$, with $T$ carrying classifier-respecting $\psame$ transport and the remaining rows carrying stability, locality, provenance, and local naming.
+
+Close with kernel non-escape. Since the carrier has no coordinate for $\mathsf{Quot.sound}$, quotient carriers, representative selectors, erased derivation recovery, or host quotient eliminators, the downstream consumer imports only the displayed audit surface.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary root transport verdict order]
 \label{thm:quotient-soundness-boundary-root-transport-verdict-order}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, the refusal verdict row $V$ must be read before any positive $\psame$ transport row $T$ is used by a quotient-like consumer. The transport row is therefore a replacement after refusal, not evidence that a representative selector or quotient equality eliminator has been admitted.
@@ -476,6 +512,90 @@ Apply the $\psame$ bridge handoff theorem above for the positive route after ref
 Finally apply \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The kernel-facing route has no quotient primitive coordinate, so any request for such an object must be supplied by a separate certificate outside this chapter.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary erased derivation refusal]
+\label{thm:quotient-soundness-boundary-erased-derivation-refusal}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet
+$$
+Q=(E,A,T,V,H,C,P,N),
+$$
+any request to recover an erased quotient derivation is first routed to the representative-request row $A$ and the refusal-verdict row $V$. The request is refused before the positive transport row $T$ is readable by a downstream consumer.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:quotient-soundness-boundary-carrier} separates representative requests, refusal verdicts, and positive transport into the rows $A,V,T$. A recovery demand for an erased derivation is therefore not a transport demand; it is a representative-side demand.
+
+Apply refusal locality, \autoref{thm:quotient-soundness-boundary-refusal-locality}. It forces the demand through $A,V$ before any consumer can use the positive transport route.
+
+Then use verdict-transport separation, \autoref{thm:quotient-soundness-boundary-verdict-transport-separation}. The refusal row $V$ cannot be reread as the transport row $T$, and $T$ cannot be used to reconstruct a denied representative witness.
+
+Finally apply public bridge non-escape, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. Erased derivation recovery has no bridge coordinate, so the only public response is the local refusal recorded by $A,V$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame-only descent]
+\label{thm:quotient-soundness-boundary-psame-only-descent}
+After the refusal of representative recovery in an accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, every accepted descent route factors only through $E,T,H,C,P,N$ using classifier-respecting $\psame$ transport. No accepted descent route uses representative selection, quotient equality elimination, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
+\end{theorem}
+\begin{proof}
+Begin after the refusal supplied by \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}. At that point the consumer may read the positive route only as a route downstream of $A,V$.
+
+Apply $\psame$ transport exhaustion, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion}. It identifies the surviving positive descent as classifier-respecting $\psame$ transport through $E,T,H,C,P,N$.
+
+Use the $\psame$ bridge handoff, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, to pass this displayed route to the public bridge. Then apply source-row consumer totality, \autoref{thm:quotient-soundness-boundary-source-row-consumer-totality}, which exhausts the downstream read by the finite rows $E,A,T,V,H,C,P,N$.
+
+The excluded quotient primitives have no coordinate in those rows. Hence an accepted descent route is psame-only and cannot pass through representative selection, quotient equality elimination, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary consumer non-escape]
+\label{thm:quotient-soundness-boundary-consumer-nonescape}
+Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet is exhausted by the finite rows
+$$
+E,A,T,V,H,C,P,N.
+$$
+It cannot reinterpret the refusal verdict $V$ or the positive transport row $T$ as quotient equality elimination, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
+\end{theorem}
+\begin{proof}
+First apply erased derivation refusal, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}. Any recovery demand is already localized to $A,V$ and refused before $T$ is available.
+
+Next apply psame-only descent, \autoref{thm:quotient-soundness-boundary-psame-only-descent}. The surviving positive route factors through $E,T,H,C,P,N$ as classifier-respecting $\psame$ transport.
+
+Finally use public bridge non-escape, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. Since every consumer read stays inside $E,A,T,V,H,C,P,N$, neither $V$ nor $T$ can be reinterpreted as a quotient-side eliminator, recovery map, recursion principle, or $\mathsf{Quot.sound}$ witness.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary representative request frontier]
+\label{thm:quotient-soundness-boundary-representative-request-frontier}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any request for a representative, representative selector, erased derivation, or host quotient witness is exhausted by the source row $E$, representative-request row $A$, and refusal-verdict row $V$ before the positive transport row $T$ is readable. The request therefore reaches a visible refusal frontier before any downstream $\psame$ transport is exposed.
+\end{theorem}
+\begin{proof}
+Start with erased derivation refusal, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}. It routes recovery demands to $A,V$ before the positive transport row is available.
+
+Apply refusal locality and verdict-transport separation, \autoref{thm:quotient-soundness-boundary-refusal-locality} and \autoref{thm:quotient-soundness-boundary-verdict-transport-separation}. These rows prevent a representative request from being reread as transport and prevent $T$ from reconstructing a denied witness.
+
+Finally use consumer non-escape, \autoref{thm:quotient-soundness-boundary-consumer-nonescape}. The public consumer remains inside $E,A,T,V,H,C,P,N$, so the representative-side request is exhausted at $E,A,V$ before transport can be used.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame consumer closure]
+\label{thm:quotient-soundness-boundary-psame-consumer-closure}
+After the representative frontier refuses the representative-side request, every surviving downstream consumer closes through $E,T,H,C,P,N$ by classifier-respecting $\psame$ transport. The surviving route has no representative selector, quotient equality eliminator, erased derivation recovery map, host quotient recursion, or $\mathsf{Quot.sound}$ coordinate.
+\end{theorem}
+\begin{proof}
+First apply the representative request frontier above. It leaves the positive route available only after $E,A,V$ have already recorded the refusal boundary.
+
+Use psame-only descent, \autoref{thm:quotient-soundness-boundary-psame-only-descent}. The surviving route factors through $E,T,H,C,P,N$ as classifier-respecting $\psame$ transport.
+
+Then apply the public bridge non-escape theorem, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. The bridge has no coordinate for the excluded quotient primitives, so the psame-only consumer route is closed by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary Quot.sound refusal exactness]
+\label{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}
+In an accepted $\QuotientSoundnessBoundaryUp$ packet, a request for $\mathsf{Quot.sound}$ is refused exactly at the visible boundary rows $E,A,V$ and cannot be served by the positive transport row $T$ or by the consumer rows $H,C,P,N$. Conversely, the admitted positive route through $E,T,H,C,P,N$ is precisely the $\psame$-only route that remains after that refusal.
+\end{theorem}
+\begin{proof}
+For the refusal direction, apply the representative request frontier above. A $\mathsf{Quot.sound}$ demand is a representative-side quotient primitive request, so it is routed to $E,A,V$ before $T$ is readable.
+
+Apply kernel non-escape and public bridge non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape} and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. Neither the kernel-facing route nor the bridge exposes a $\mathsf{Quot.sound}$ coordinate.
+
+For the surviving route, use psame consumer closure above. Once the refusal is recorded, every admitted consumer is exactly the classifier-respecting $\psame$ route through $E,T,H,C,P,N$, so the refusal boundary and the positive route are exact complements inside the finite packet.
+\end{proof}
+
 \closureat{QuotientSoundnessBoundaryUp}{seedStr}
 \closureat{QuotientSoundnessBoundaryUp}{obligationStr}
 \closureat{QuotientSoundnessBoundaryUp}{scopedStr}
@@ -486,7 +606,7 @@ Finally apply \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The ke
 \begin{closurestatus}{\QuotientSoundnessBoundaryUp}
   \constructivestory{A $\QuotientSoundnessBoundaryUp$ packet is generated from relation rows, requested representative rows, classifier-respecting $\psame$ transport, refusal verdicts, componentwise transports, displayed continuations, package provenance, and local naming.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, \autoref{thm:quotient-soundness-boundary-fixed-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, \autoref{thm:quotient-soundness-boundary-root-request-triad}, \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}, \autoref{thm:quotient-soundness-boundary-root-transport-verdict-order}, \autoref{thm:quotient-soundness-boundary-root-downstream-unblock-surface}, \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-refusal-ledger}, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, \autoref{thm:quotient-soundness-boundary-bridge-schema}, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, \autoref{thm:quotient-soundness-boundary-refusal-transport-determinacy}, \autoref{thm:quotient-soundness-boundary-source-row-consumer-totality}, \autoref{thm:quotient-soundness-boundary-verdict-transport-separation}, and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape} bind the relation rows, representative-refusal rows, refusal-to-transport determinacy, source-row consumer totality, verdict-transport separation, root relation exposure, verdict-before-transport order, $\psame$ transport row, locality rows, provenance, public bridge, and non-escape boundary.}
+  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, \autoref{thm:quotient-soundness-boundary-fixed-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, \autoref{thm:quotient-soundness-boundary-root-request-triad}, \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}, \autoref{thm:quotient-soundness-boundary-root-transport-verdict-order}, \autoref{thm:quotient-soundness-boundary-root-downstream-unblock-surface}, \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-refusal-ledger}, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, \autoref{thm:quotient-soundness-boundary-bridge-schema}, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, \autoref{thm:quotient-soundness-boundary-refusal-transport-determinacy}, \autoref{thm:quotient-soundness-boundary-source-row-consumer-totality}, \autoref{thm:quotient-soundness-boundary-verdict-transport-separation}, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}, \autoref{thm:quotient-soundness-boundary-psame-only-descent}, and \autoref{thm:quotient-soundness-boundary-consumer-nonescape} bind the relation rows, representative-refusal rows, refusal-to-transport determinacy, source-row consumer totality, verdict-transport separation, erased derivation refusal, psame-only descent, root relation exposure, verdict-before-transport order, $\psame$ transport row, locality rows, provenance, public bridge, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
