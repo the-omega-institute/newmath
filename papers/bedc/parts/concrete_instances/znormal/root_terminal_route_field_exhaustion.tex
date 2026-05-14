@@ -1,0 +1,79 @@
+\begin{theorem}[$\ZNormalUp$ terminal-route field exhaustion]
+\label{thm:znormal-terminal-route-field-exhaustion}
+Every terminal-route consumer of an accepted $\ZNormalUp$ packet must read the
+finite terminal-normality row, finite fuel row, transport row, provenance row,
+and local $\NameCert$ row from the displayed packet
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The route may use the terminal continuation row $R$ and displayed replay row
+$C$, but it cannot replace the finite terminal packet by host conversion,
+quotient normalization, unrestricted evaluation, divergence detection, or a
+global normalizer.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-root-terminal-carrier-admission}. It displays
+$T,F,V,K,R,H,C,P,N$ as the complete root terminal carrier and leaves no host
+conversion or quotient-normalization coordinate.
+
+Use \autoref{thm:znormal-root-total-host-source} to keep every total-host
+source read inside the same finite packet. The source route therefore reaches
+terminal normality only through the typed endpoint, fuel, continuation,
+transport, replay, provenance, and naming rows already present.
+
+Finally apply \autoref{thm:znormal-terminal-fuel-row-exhaustion}. It exhausts
+terminal-normality consumers by $T,F,V,R,H,C,P,N$, with $K$ available only as
+finite sibling normal-word evidence.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-word sibling bridge]
+\label{thm:znormal-normal-word-sibling-bridge}
+The normal-word route of an accepted $\ZNormalUp$ packet is mediated by the
+ZeckendorfNormal, ZCarry, TypedReductionNormalForm, and
+ContinuationTraceNormalForm sibling surfaces already displayed by the packet.
+The row $K$ is therefore a finite sibling normal-word row transported with
+$T,F,V,R,H,C,P,N$, not a host normalizer, quotient conversion, divergence
+oracle, or unrestricted evaluator.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:znormal-normal-word-sibling-exactness}. It identifies the
+normal-word row $K$ with the finite Zeckendorf and carry-facing sibling routes
+and keeps that row attached to the continuation readback surface.
+
+Next use \autoref{thm:znormal-root-terminal-carrier-admission}. The typed
+endpoint, fuel, terminal-normality, continuation, transport, replay,
+provenance, and naming rows are displayed in the same root carrier, so the
+sibling normal-word route cannot detach from the terminal packet.
+
+Finally apply \autoref{thm:znormal-root-total-host-source}. The total-host
+source is one finite packet, which rules out any separate host normalizer,
+quotient conversion, divergence oracle, or unrestricted evaluator behind the
+sibling bridge.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host refusal readback]
+\label{thm:znormal-total-host-refusal-readback}
+The same accepted $\ZNormalUp$ packet that exposes the terminal route refuses
+readback of divergence, host conversion, quotient normalization,
+unrestricted evaluation, and global normalization. All terminal and
+normal-word reads remain inside
+$$
+T,F,V,K,R,H,C,P,N,
+$$
+with no total-host row outside the finite packet.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:znormal-terminal-route-field-exhaustion} with
+\autoref{thm:znormal-normal-word-sibling-bridge}. Terminal and normal-word
+consumers are both confined to the displayed packet and its finite sibling
+routes.
+
+Use \autoref{thm:znormal-root-total-host-source}. It states that the total-host
+source is the single finite packet, not a separately readable host conversion
+or divergence object.
+
+Finally apply \autoref{thm:znormal-terminal-fuel-row-exhaustion} and
+\autoref{thm:znormal-normal-word-sibling-exactness}. These rows account for
+all admitted terminal and sibling reads, leaving no coordinate for the refused
+total-host readbacks.
+\end{proof}
