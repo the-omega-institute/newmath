@@ -410,7 +410,9 @@ def _classify_board_judge_error(error: str) -> str:
         return ""
 
     claude_kind = "claude_unavailable"
-    if "not logged in" in low:
+    if "organization does not have access to claude" in low:
+        claude_kind = "claude_access_denied"
+    elif "not logged in" in low or "please login again" in low:
         claude_kind = "claude_not_logged_in"
     elif "claude cli not found" in low:
         claude_kind = "claude_cli_missing"
@@ -511,6 +513,26 @@ def _infer_refill_status(rec: dict) -> str:
     if rec.get("prompt"):
         return "prompt_only"
     return "unknown"
+
+
+def _refill_status_bucket(status: str) -> str:
+    if status.startswith("local_gap_fallback_judge_unavailable"):
+        if "claude_access_denied" in status:
+            return "judge_unavailable:claude_access_denied"
+        if "claude_not_logged_in" in status:
+            return "judge_unavailable:claude_not_logged_in"
+        return "judge_unavailable"
+    if status.startswith("local_gap_fallback accepted="):
+        return "local_gap_fallback_ok"
+    if status.startswith("stopped_before_response"):
+        return "oracle_transport_stopped"
+    if status.startswith("timeout_waiting_for_response"):
+        return "oracle_transport_timeout"
+    if status.startswith("oracle_transport_"):
+        return status.split()[0]
+    if status.startswith("ok "):
+        return "oracle_refill_ok"
+    return status.split()[0] if status else "unknown"
 
 
 def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
@@ -623,6 +645,17 @@ def render_board_refill() -> str:
             f"{status}{prompt_note}{wait_note}{merged_note}"
         )
 
+    buckets: dict[str, int] = {}
+    for rec in ordered[:12]:
+        bucket = _refill_status_bucket(_infer_refill_status(rec))
+        buckets[bucket] = buckets.get(bucket, 0) + 1
+    if buckets:
+        bucket_text = ", ".join(
+            f"{name}={count}"
+            for name, count in sorted(buckets.items(), key=lambda item: (-item[1], item[0]))
+        )
+        lines.append(f"  recent refill status buckets: {bucket_text}")
+
     lines.append(_next_refill_prompt_note())
 
     latest = ordered[0]
@@ -654,6 +687,20 @@ def render_board_refill() -> str:
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
             "do not bypass the final maker/checker gate."
         )
+        if "claude_not_logged_in" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI auth for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "claude_access_denied" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI organization access for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "codex_sandbox_init_failed" in latest_status:
+            lines.append(
+                "  note: Codex fallback also failed during sandbox app-server initialization."
+            )
     return "\n".join(lines)
 
 
