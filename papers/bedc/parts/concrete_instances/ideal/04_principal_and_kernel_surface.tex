@@ -305,3 +305,33 @@ The multiplication component is exactly \autoref{thm:ideal-quotient-kernel-multi
 
 Together these five rows are the diagonal, endpoint transport, additive descent, negation descent, and multiplication descent projections returned by the checked Lean package. Thus an IdealUp predicate, including one obtained as a zero fiber or as a ring-map preimage, supplies the concrete quotient-kernel source required before any quotient carrier is formed.
 \end{proof}
+
+\begin{theorem}[Principal generated ideal is least over its generator]
+\label{thm:ideal-principal-generated-least-over-generator}
+Let $R$ carry a $\RingUp$ certificate over $\BHist$, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $a$ be a carried generator, let $\langle a\rangle_R$ be the principal two-sided generated ideal predicate of \autoref{def:ideal-principal-generated-predicate}, and let $I:\BHist\to\mathsf{Prop}$ be an $\IdealUp$ carried predicate over $R$ in the sense of \autoref{def:ideal-carried-predicate-rows}. If $I(a)$, then
+$$
+\langle a\rangle_R\preceq_R I.
+$$
+Equivalently, every endpoint admitted by the finite signed two-sided monomial ledger defining $\langle a\rangle_R$ is a member of any carried ideal predicate that contains the generator $a$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:ideal-inclusion-predicate}, it is enough to fix an endpoint $z:\BHist$ and show that a witness for $\langle a\rangle_R(z)$ yields a witness for $I(z)$.
+
+Unpack the principal witness from \autoref{def:ideal-principal-generated-predicate}. It consists of a finite $\mathsf{HistSpine}$, carried coefficient rows $C(\ell_i)$ and $C(r_i)$, a sign row at each position, a finite additive fold of the signed rows, and a final classifier edge from that fold to $z$.
+
+First consider one unsigned monomial row. From the assumed generator membership $I(a)$ and the left ambient absorption row of the $\IdealUp$ certificate, applied to the carried coefficient $C(\ell_i)$, obtain
+$$
+I(\ell_i\cdot_R a).
+$$
+Applying the right ambient absorption row to the carried coefficient $C(r_i)$ gives
+$$
+I((\ell_i\cdot_R a)\cdot_R r_i).
+$$
+The ambient $\RingUp$ associativity and classifier-transport row for $I$ read this as membership of the displayed two-sided monomial $\ell_i\cdot_R a\cdot_R r_i$ used in the principal ledger.
+
+If the sign row is positive, this is the required membership for the signed row. If the sign row is negative, the additive-inverse row of the $\IdealUp$ certificate sends the monomial membership to membership of its additive inverse. Thus every signed row in the finite principal ledger lies in $I$.
+
+Now fold the finite spine. For the empty spine, the $\IdealUp$ zero-membership row gives $I(0_R)$, matching the empty fold. For a nonempty spine, induct along the displayed finite order of the ledger: the induction hypothesis gives membership of the partial fold, the preceding paragraph gives membership of the next signed row, and the additive-closure row of the $\IdealUp$ certificate gives membership of the extended fold. Hence the whole finite additive fold lies in $I$.
+
+Finally, the principal witness includes a classifier edge from this fold to $z$. The classifier-transport row of the $\IdealUp$ certificate transports the fold membership across that edge and yields $I(z)$. Since $z$ and its principal witness were arbitrary, \autoref{def:ideal-inclusion-predicate} gives $\langle a\rangle_R\preceq_R I$.
+\end{proof}
