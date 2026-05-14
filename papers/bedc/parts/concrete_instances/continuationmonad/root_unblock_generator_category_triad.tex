@@ -1,0 +1,35 @@
+\begin{theorem}[ContinuationMonad generator category triad]
+\label{thm:continuation-monad-generator-category-triad}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the source histories $A,B,C$, continuation tails $f,g,u$, and structural rows $H,K,L,N$ form one generator-category triad. The $\CategoryUp$ hom-carrier surface reads the displayed tails as $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows, while the generator-boundary refusal surface of \autoref{ch:concrete-instances-generatorclosure-namecert} refuses every unit, bind, or continuation generator not already displayed in $Z$.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and classifier stability from \autoref{thm:continuation-monad-carrier-obligation} and \autoref{thm:continuation-monad-classifier-stability}. These rows expose $A,B,C,f,g,u,H,K,L,N$ as one finite packet and keep the transported continuation tails on the same histories.
+
+Next read the category side through \autoref{ch:concrete-instances-category-namecert} and \autoref{thm:continuation-monad-category-hom-row-exposure}. The hom-carrier and continuation-morphism entries are readings of the displayed tails and ledger, not independent category data.
+
+Finally read the generator side through \autoref{ch:concrete-instances-generatorclosure-namecert} and \autoref{thm:continuation-monad-generator-boundary-refusal}. Since the refusal row accepts only the listed continuation rules, the category and generator faces meet on the same $A,B,C,f,g,u,H,K,L,N$ packet.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root bind schedule exhaustion]
+\label{thm:continuation-monad-root-bind-schedule-exhaustion}
+Let $Z=(A,B,C,f,g,u,H,K,L,N)$ be an accepted $\ContinuationMonadUp$ packet. Every root-level unit or bind schedule read of $Z$ is exhausted by the displayed unit tail $u$, continuation tails $f,g$, componentwise transports $H$, route rows $K$, ledger rows $L$, and local name $N$. A downstream read cannot replace this schedule by host function composition, a quotient Kleisli arrow, an ambient hom set, or an unlisted generator rule.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-unit-laws} and \autoref{thm:continuation-monad-associativity}. The unit and bind laws are ledger statements about $u,f,g,K,L$ inside the accepted packet.
+
+Use \autoref{thm:continuation-monad-bind-route-classifier-stability} and \autoref{thm:continuation-monad-namecert-ledger-exactness} to keep every transported bind read on the same $H,K,L,N$ rows. The schedule is therefore the displayed continuation ledger, not a host composition operation.
+
+Finally attach \autoref{thm:continuation-monad-generator-category-triad}. Its category and generator faces account for the only external readings of the schedule, and the refusal surface blocks every unlisted continuation rule.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad downstream unblock route package]
+\label{thm:continuation-monad-downstream-unblock-route-package}
+The generator-category triad of \autoref{thm:continuation-monad-generator-category-triad} and the bind schedule exhaustion of \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} form the downstream unblock route package for $\ContinuationMonadUp$. Any downstream consumer receives exactly $A,B,C,f,g,u,H,K,L,N$, the $\CategoryUp$ hom-carrier reading of those rows, and the generator-boundary refusal of unlisted continuation rules.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-monad-generator-category-triad} to expose the shared source. It binds the three histories, the continuation tails, the CategoryUp hom-carrier surface of \autoref{ch:concrete-instances-category-namecert}, and the generator-boundary refusal surface of \autoref{ch:concrete-instances-generatorclosure-namecert} to one packet.
+
+Use \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} to exhaust unit and bind reads. Every root schedule read factors through $u,f,g,H,K,L,N$ before it can be consumed downstream.
+
+Finally apply \autoref{thm:continuation-monad-downstream-consumer-exhaustion} and \autoref{thm:continuation-monad-root-unblock-package}. They identify the downstream surface with the same finite carrier, route, ledger, package, and local naming rows, so no host function composition, quotient Kleisli category, ambient hom set, or unlisted generator is exported.
+\end{proof}
