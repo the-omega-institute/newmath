@@ -10,7 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FuelBoundedPartialTraceUp : Type where
-  | mk : (fuel substrate initial trace readback refusal transport route provenance name : BHist) →
+  | mk
+      (fuel substrate initial tracePrefix readback refusal transport route provenance
+        nameCert : BHist) :
       FuelBoundedPartialTraceUp
   deriving DecidableEq
 
@@ -26,9 +28,10 @@ def fuelBoundedPartialTraceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (fuelBoundedPartialTraceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (fuelBoundedPartialTraceDecodeBHist tail)
 
-private theorem fuelBoundedPartialTrace_decode_encode_bhist :
+private theorem fuelBoundedPartialTraceDecode_encode_bhist :
     ∀ h : BHist,
-      fuelBoundedPartialTraceDecodeBHist (fuelBoundedPartialTraceEncodeBHist h) = h := by
+      fuelBoundedPartialTraceDecodeBHist
+        (fuelBoundedPartialTraceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,64 +42,143 @@ private theorem fuelBoundedPartialTrace_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def fuelBoundedPartialTraceFields : FuelBoundedPartialTraceUp → List BHist
+private theorem fuelBoundedPartialTrace_mk_congr
+    {fuel fuel' substrate substrate' initial initial' tracePrefix tracePrefix'
+      readback readback' refusal refusal' transport transport' route route'
+      provenance provenance' nameCert nameCert' : BHist}
+    (hFuel : fuel' = fuel)
+    (hSubstrate : substrate' = substrate)
+    (hInitial : initial' = initial)
+    (hTracePrefix : tracePrefix' = tracePrefix)
+    (hReadback : readback' = readback)
+    (hRefusal : refusal' = refusal)
+    (hTransport : transport' = transport)
+    (hRoute : route' = route)
+    (hProvenance : provenance' = provenance)
+    (hNameCert : nameCert' = nameCert) :
+    FuelBoundedPartialTraceUp.mk fuel' substrate' initial' tracePrefix' readback'
+        refusal' transport' route' provenance' nameCert' =
+      FuelBoundedPartialTraceUp.mk fuel substrate initial tracePrefix readback
+        refusal transport route provenance nameCert := by
   -- BEDC touchpoint anchor: BHist BMark
-  | FuelBoundedPartialTraceUp.mk fuel substrate initial trace readback refusal transport route
-      provenance name =>
-      [fuel, substrate, initial, trace, readback, refusal, transport, route, provenance, name]
+  cases hFuel
+  cases hSubstrate
+  cases hInitial
+  cases hTracePrefix
+  cases hReadback
+  cases hRefusal
+  cases hTransport
+  cases hRoute
+  cases hProvenance
+  cases hNameCert
+  rfl
 
-def fuelBoundedPartialTraceToEventFlow : FuelBoundedPartialTraceUp → EventFlow
+def fuelBoundedPartialTraceToEventFlow :
+    FuelBoundedPartialTraceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (fuelBoundedPartialTraceFields x).map fuelBoundedPartialTraceEncodeBHist
+  | FuelBoundedPartialTraceUp.mk fuel substrate initial tracePrefix readback
+      refusal transport route provenance nameCert =>
+      [[BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist fuel,
+        [BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist substrate,
+        [BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist initial,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist tracePrefix,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist readback,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist refusal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist route,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        fuelBoundedPartialTraceEncodeBHist nameCert]
 
-private def fuelBoundedPartialTraceDecodePacket
-    (fuel substrate initial trace readback refusal transport route provenance name : RawEvent) :
-    FuelBoundedPartialTraceUp :=
+def fuelBoundedPartialTraceFromEventFlow :
+    EventFlow → Option FuelBoundedPartialTraceUp
   -- BEDC touchpoint anchor: BHist BMark
-  FuelBoundedPartialTraceUp.mk
-    (fuelBoundedPartialTraceDecodeBHist fuel)
-    (fuelBoundedPartialTraceDecodeBHist substrate)
-    (fuelBoundedPartialTraceDecodeBHist initial)
-    (fuelBoundedPartialTraceDecodeBHist trace)
-    (fuelBoundedPartialTraceDecodeBHist readback)
-    (fuelBoundedPartialTraceDecodeBHist refusal)
-    (fuelBoundedPartialTraceDecodeBHist transport)
-    (fuelBoundedPartialTraceDecodeBHist route)
-    (fuelBoundedPartialTraceDecodeBHist provenance)
-    (fuelBoundedPartialTraceDecodeBHist name)
-
-private def fuelBoundedPartialTraceRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => fuelBoundedPartialTraceRawAt n rest
-
-private def fuelBoundedPartialTraceLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => fuelBoundedPartialTraceLengthEq n rest
-
-def fuelBoundedPartialTraceFromEventFlow : EventFlow → Option FuelBoundedPartialTraceUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match fuelBoundedPartialTraceLengthEq 10 flow with
-      | true =>
-          some
-            (fuelBoundedPartialTraceDecodePacket
-              (fuelBoundedPartialTraceRawAt 0 flow)
-              (fuelBoundedPartialTraceRawAt 1 flow)
-              (fuelBoundedPartialTraceRawAt 2 flow)
-              (fuelBoundedPartialTraceRawAt 3 flow)
-              (fuelBoundedPartialTraceRawAt 4 flow)
-              (fuelBoundedPartialTraceRawAt 5 flow)
-              (fuelBoundedPartialTraceRawAt 6 flow)
-              (fuelBoundedPartialTraceRawAt 7 flow)
-              (fuelBoundedPartialTraceRawAt 8 flow)
-              (fuelBoundedPartialTraceRawAt 9 flow))
-      | false => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | fuel :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | substrate :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | initial :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | tracePrefix :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | readback :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | refusal :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | route :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | provenance :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | nameCert :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (FuelBoundedPartialTraceUp.mk
+                                                                                          (fuelBoundedPartialTraceDecodeBHist fuel)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist substrate)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist initial)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist tracePrefix)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist readback)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist refusal)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist transport)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist route)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist provenance)
+                                                                                          (fuelBoundedPartialTraceDecodeBHist nameCert))
+                                                                                  | _ :: _ => none
 
 private theorem fuelBoundedPartialTrace_round_trip :
     ∀ x : FuelBoundedPartialTraceUp,
@@ -105,34 +187,46 @@ private theorem fuelBoundedPartialTrace_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk fuel substrate initial trace readback refusal transport route provenance name =>
+  | mk fuel substrate initial tracePrefix readback refusal transport route provenance nameCert =>
       change
         some
-          (fuelBoundedPartialTraceDecodePacket
-            (fuelBoundedPartialTraceEncodeBHist fuel)
-            (fuelBoundedPartialTraceEncodeBHist substrate)
-            (fuelBoundedPartialTraceEncodeBHist initial)
-            (fuelBoundedPartialTraceEncodeBHist trace)
-            (fuelBoundedPartialTraceEncodeBHist readback)
-            (fuelBoundedPartialTraceEncodeBHist refusal)
-            (fuelBoundedPartialTraceEncodeBHist transport)
-            (fuelBoundedPartialTraceEncodeBHist route)
-            (fuelBoundedPartialTraceEncodeBHist provenance)
-            (fuelBoundedPartialTraceEncodeBHist name)) =
+          (FuelBoundedPartialTraceUp.mk
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist fuel))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist substrate))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist initial))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist tracePrefix))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist readback))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist refusal))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist transport))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist route))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist provenance))
+            (fuelBoundedPartialTraceDecodeBHist
+              (fuelBoundedPartialTraceEncodeBHist nameCert))) =
           some
-            (FuelBoundedPartialTraceUp.mk fuel substrate initial trace readback refusal
-              transport route provenance name)
-      unfold fuelBoundedPartialTraceDecodePacket
-      rw [fuelBoundedPartialTrace_decode_encode_bhist fuel,
-        fuelBoundedPartialTrace_decode_encode_bhist substrate,
-        fuelBoundedPartialTrace_decode_encode_bhist initial,
-        fuelBoundedPartialTrace_decode_encode_bhist trace,
-        fuelBoundedPartialTrace_decode_encode_bhist readback,
-        fuelBoundedPartialTrace_decode_encode_bhist refusal,
-        fuelBoundedPartialTrace_decode_encode_bhist transport,
-        fuelBoundedPartialTrace_decode_encode_bhist route,
-        fuelBoundedPartialTrace_decode_encode_bhist provenance,
-        fuelBoundedPartialTrace_decode_encode_bhist name]
+            (FuelBoundedPartialTraceUp.mk fuel substrate initial tracePrefix readback
+              refusal transport route provenance nameCert)
+      exact
+        congrArg some
+          (fuelBoundedPartialTrace_mk_congr
+            (fuelBoundedPartialTraceDecode_encode_bhist fuel)
+            (fuelBoundedPartialTraceDecode_encode_bhist substrate)
+            (fuelBoundedPartialTraceDecode_encode_bhist initial)
+            (fuelBoundedPartialTraceDecode_encode_bhist tracePrefix)
+            (fuelBoundedPartialTraceDecode_encode_bhist readback)
+            (fuelBoundedPartialTraceDecode_encode_bhist refusal)
+            (fuelBoundedPartialTraceDecode_encode_bhist transport)
+            (fuelBoundedPartialTraceDecode_encode_bhist route)
+            (fuelBoundedPartialTraceDecode_encode_bhist provenance)
+            (fuelBoundedPartialTraceDecode_encode_bhist nameCert))
 
 private theorem fuelBoundedPartialTraceToEventFlow_injective
     {x y : FuelBoundedPartialTraceUp} :
@@ -149,20 +243,6 @@ private theorem fuelBoundedPartialTraceToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (fuelBoundedPartialTrace_round_trip x).symm
       (Eq.trans hread (fuelBoundedPartialTrace_round_trip y)))
-
-private theorem fuelBoundedPartialTrace_fields_faithful :
-    ∀ x y : FuelBoundedPartialTraceUp,
-      fuelBoundedPartialTraceFields x = fuelBoundedPartialTraceFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk fuel₁ substrate₁ initial₁ trace₁ readback₁ refusal₁ transport₁ route₁
-      provenance₁ name₁ =>
-      cases y with
-      | mk fuel₂ substrate₂ initial₂ trace₂ readback₂ refusal₂ transport₂ route₂
-          provenance₂ name₂ =>
-          cases hfields
-          rfl
 
 instance fuelBoundedPartialTraceBHistCarrier :
     BHistCarrier FuelBoundedPartialTraceUp where
@@ -183,51 +263,48 @@ instance fuelBoundedPartialTraceChapterTasteGate :
     intro x y hxy heq
     exact hxy (fuelBoundedPartialTraceToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate FuelBoundedPartialTraceUp := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact fuelBoundedPartialTraceChapterTasteGate
+
 instance fuelBoundedPartialTraceFieldFaithful :
     FieldFaithful FuelBoundedPartialTraceUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fuelBoundedPartialTraceFields
-  field_faithful := fuelBoundedPartialTrace_fields_faithful
-
-instance fuelBoundedPartialTraceNontrivial :
-    Nontrivial FuelBoundedPartialTraceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨FuelBoundedPartialTraceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      FuelBoundedPartialTraceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate FuelBoundedPartialTraceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fuelBoundedPartialTraceChapterTasteGate
+  fields := fun x =>
+    match x with
+    | FuelBoundedPartialTraceUp.mk fuel substrate initial tracePrefix readback
+        refusal transport route provenance nameCert =>
+        [fuel, substrate, initial, tracePrefix, readback, refusal, transport, route,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk fuel substrate initial tracePrefix readback refusal transport route provenance nameCert =>
+        cases y with
+        | mk fuel' substrate' initial' tracePrefix' readback' refusal' transport'
+            route' provenance' nameCert' =>
+            cases hfields
+            rfl
 
 theorem FuelBoundedPartialTraceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FuelBoundedPartialTraceUp) ∧
-      Nonempty (FieldFaithful FuelBoundedPartialTraceUp) ∧
-        Nonempty (Nontrivial FuelBoundedPartialTraceUp) ∧
-          (∀ h : BHist,
-            fuelBoundedPartialTraceDecodeBHist
-              (fuelBoundedPartialTraceEncodeBHist h) = h) ∧
-            (∀ x : FuelBoundedPartialTraceUp,
-              fuelBoundedPartialTraceFromEventFlow
-                (fuelBoundedPartialTraceToEventFlow x) = some x) ∧
-              (∀ x y : FuelBoundedPartialTraceUp,
-                fuelBoundedPartialTraceToEventFlow x =
-                    fuelBoundedPartialTraceToEventFlow y →
-                  x = y) ∧
-                fuelBoundedPartialTraceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      fuelBoundedPartialTraceDecodeBHist
+        (fuelBoundedPartialTraceEncodeBHist h) = h) ∧
+      (∀ x : FuelBoundedPartialTraceUp,
+        fuelBoundedPartialTraceFromEventFlow
+          (fuelBoundedPartialTraceToEventFlow x) = some x) ∧
+        (∀ x y : FuelBoundedPartialTraceUp,
+          fuelBoundedPartialTraceToEventFlow x =
+            fuelBoundedPartialTraceToEventFlow y → x = y) ∧
+          fuelBoundedPartialTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  exact
-    ⟨⟨fuelBoundedPartialTraceChapterTasteGate⟩,
-      ⟨fuelBoundedPartialTraceFieldFaithful⟩,
-      ⟨fuelBoundedPartialTraceNontrivial⟩,
-      fuelBoundedPartialTrace_decode_encode_bhist,
-      fuelBoundedPartialTrace_round_trip,
-      (fun _ _ heq => fuelBoundedPartialTraceToEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact fuelBoundedPartialTraceDecode_encode_bhist
+  · constructor
+    · exact fuelBoundedPartialTrace_round_trip
+    · constructor
+      · intro x y heq
+        exact fuelBoundedPartialTraceToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.FuelBoundedPartialTraceUp
