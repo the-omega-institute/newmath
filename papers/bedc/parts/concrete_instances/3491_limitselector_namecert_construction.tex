@@ -134,6 +134,7 @@ Finally apply seal non-escape. Since neither the selector carrier nor the observ
 \label{thm:limit-selector-scoped-source-rows}
 Every accepted $\LimitSelectorUp$ packet exposes its scoped source as the displayed $\BHist$ carrier $L=(R,n,\mu,k,W,D,S,H,C,P,N)$, with the $\StreamNameUp$ finite window $W$, the $\RegSeqRat$ input row $R$, the $\RealObservationBudgetUp$ route through $n,W,D,S,H,C,P,N$, the componentwise $\hsame$ transports and $\Cont$ route, the $\Pkg$ provenance row, and the local $\NameCert_{\LimitSelectorUp}$ row. No source row is supplied outside this displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.LimitSelectorUp.LimitSelectorCarrier\_scoped\_source\_rows}
 \begin{proof}
 Project the carrier of \autoref{def:limit-selector-carrier}. The accepted packet displays the $\BHist$ tuple $L=(R,n,\mu,k,W,D,S,H,C,P,N)$, so the regular-sequence source, precision request, modulus, selected index, finite stream window, dyadic readback, seal, transport, route, provenance, and naming rows are all visible coordinates.
 
@@ -163,6 +164,7 @@ Finally use \autoref{thm:limit-selector-observation-budget-handoff}. The shared 
 \label{thm:limit-selector-nonescape-scope}
 The scoped $\LimitSelectorUp$ packet exports no quotient stream, no host limit selection, no ambient completeness principle, and no open-cover compactness datum. Its exported content is exhausted by the carrier, finite witness route, observation-budget handoff, Real seal non-escape, and diagonal consumer exhaustion theorems of this chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.LimitSelectorUp.LimitSelectorCarrier\_nonescape\_scope}
 \begin{proof}
 Read the packet through \autoref{def:limit-selector-carrier} and \autoref{thm:limit-selector-namecert-obligations}. The only exported coordinates are $R,n,\mu,k,W,D,S,H,C,P,N$ and the finite obligations attached to them.
 
