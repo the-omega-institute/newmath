@@ -1,0 +1,48 @@
+\begin{theorem}[Closed-term substitution boundary recognizer landing surface]
+\label{thm:closed-term-substitution-boundary-recognizer-landing-surface}
+Any recognizer-side read of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must first pass through $\GroundCompilerRecognizerFlowUp$ acceptance, the generated recognizer row, the $\FiniteReflectionTupleUp$ tuple image, and the $\FiniteReflectionTupleUp$ readback row. Only after that route has recovered the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+may a closed-substitution consumer read the packet. The route supplies a recognizer-to-finite-tuple landing surface and no direct closedness readback outside the accepted finite packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They make $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ the complete public packet and give the recognizer read no coordinate outside those rows.
+
+Next apply the root source and operation rows of \autoref{thm:closed-term-substitution-boundary-source-triad}, \autoref{thm:closed-term-substitution-boundary-root-closedness-budget-exhaustion}, and \autoref{thm:closed-term-substitution-boundary-root-shift-substitution-totality}. These rows force source, value, depth, closedness, shift, substitution, ledger, audit, transport, route, provenance, and local naming data to appear before any closed-substitution consumer can proceed.
+
+The recognizer side is supplied by \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness}. Its event-flow, source-channel, generated-recognizer, and certificate-gate rows ensure that acceptance is mediated by the generated recognizer rather than by source text or an unmediated compiler export.
+
+Finally use \autoref{thm:finite-reflection-tuple-namecert-obligations} and \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. They force the accepted recognizer export to land in a displayed tuple image and to recover each field through the readback row. Therefore the closed-substitution consumer can read the boundary only after recognizer acceptance, tuple-image landing, and componentwise readback of the displayed packet.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary finite tuple readback]
+\label{thm:closed-term-substitution-boundary-finite-tuple-readback}
+For any accepted $\ClosedTermSubstitutionBoundaryUp$ packet routed through the recognizer landing surface of \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}, the finite tuple readback must recover the source term $T$, value term $V$, depth row $d$, closedness rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$, shift row $Q$, substitution row $R$, ledger $L$, and audit row $A$ as $\BHist$ components before $R$ can be consumed by a downstream closed-substitution read.
+\end{theorem}
+\begin{proof}
+Project the accepted boundary packet through the carrier. The source term, value term, depth, closedness witnesses, shift row, substitution row, ledger, audit row, transports, continuation routes, provenance, and local naming row are all displayed $\BHist$ coordinates of the same packet.
+
+Use \autoref{thm:closed-term-substitution-boundary-root-closedness-budget-exhaustion}. It prevents the substitution row from being consumed before $T,V,d,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ have been exposed.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-root-shift-substitution-totality}. Once the closedness budget is visible, the operation read is still forced through $Q,R,L,A,H,C,P,N$, so $R$ is not available as a standalone row.
+
+The tuple route is then componentwise by \autoref{thm:finite-reflection-tuple-namecert-obligations} and \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. Since the recognizer landing theorem already places the accepted packet in the tuple image/readback surface, the readback must recover $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A$ as $\BHist$ components before any consumer can use $R$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary substitution recognizer non-escape]
+\label{thm:closed-term-substitution-boundary-substitution-recognizer-nonescape}
+The combined $\GroundCompilerRecognizerFlowUp$ and $\FiniteReflectionTupleUp$ route for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet exports no open-term coordinate, free-variable leak, host syntax quotient, unchecked evaluator, compiler correctness theorem, or ambient subject reduction. Its public substitution read is exactly the recognizer-accepted tuple readback of
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Begin with the downstream non-escape boundary of \autoref{thm:closed-term-substitution-boundary-audit-nonescape}. It excludes free-variable leaks, host equality, unchecked compiler state, subject reduction, and host substitution semantics from the accepted boundary packet.
+
+Add the root consumer separation of \autoref{thm:closed-term-substitution-boundary-root-consumer-namecert-separation}. That theorem keeps the root $\NameCert$ route separate from subject reduction, host substitution semantics, host syntax quotients, hidden evaluator state, and hidden compiler state.
+
+Now compose the recognizer and tuple routes. By \autoref{thm:groundcompiler-recognizer-flow-non-evidence-refusal}, report-like source, host compiler state, proof text, and raw classifier quotients remain non-evidence inside $\GroundCompilerRecognizerFlowUp$. By \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}, the reflected packet can be read only through the displayed tuple image and readback.
+
+Finally invoke \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}. The recognizer side reaches the boundary only after acceptance, generated recognition, tuple-image landing, and readback of the displayed rows. Therefore no open-term coordinate, free-variable leak, host syntax quotient, unchecked evaluator, compiler correctness theorem, or ambient subject reduction escapes the combined route.
+\end{proof}
