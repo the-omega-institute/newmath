@@ -26,6 +26,35 @@ def BoundedMonotoneCauchyWitnessCarrier [AskSetup] [PackageSetup]
         Cont regular witness trap ∧ Cont trap sealRow route ∧ Cont transport localCert route ∧
           Cont route provenance sealRow ∧ PkgSig bundle provenance pkg
 
+theorem BoundedMonotoneCauchyWitnessCarrier_tail_seal_synchronization [AskSetup]
+    [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      tailRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source schedule tailRead →
+        Cont tailRead witness sealRead →
+          Cont sealRead sealRow route →
+            PkgSig bundle route pkg →
+              UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory witness ∧
+                UnaryHistory sealRow ∧ UnaryHistory tailRead ∧ UnaryHistory sealRead ∧
+                  Cont source schedule tailRead ∧ Cont tailRead witness sealRead ∧
+                    Cont sealRead sealRow route ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceScheduleTail tailWitnessSeal sealRowRoute routePkg
+  obtain ⟨sourceUnary, _regularUnary, scheduleUnary, witnessUnary, _ledgerUnary, _trapUnary,
+    sealUnary, _provenanceUnary, _sourceScheduleRegular, _regularWitnessTrap, _trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleTail
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary witnessUnary tailWitnessSeal
+  exact
+    ⟨sourceUnary, scheduleUnary, witnessUnary, sealUnary, tailUnary, sealReadUnary,
+      sourceScheduleTail, tailWitnessSeal, sealRowRoute, provenancePkg, routePkg⟩
+
 theorem BoundedMonotoneCauchyWitnessCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {source regular schedule witness ledger trap sealRow transport route provenance
       localCert : BHist}
