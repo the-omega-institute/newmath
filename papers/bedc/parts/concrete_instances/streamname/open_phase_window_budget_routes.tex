@@ -33,6 +33,26 @@ Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The Stream
 Finally invoke \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} and \autoref{thm:streamname-open-phase-terminal-nonescape}. Seal determinacy pins the Real-facing read to that finite pullback, and non-escape removes quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data from the exported surface.
 \end{proof}
 
+\begin{theorem}[StreamName open-phase budget source determinacy]
+\label{thm:streamname-open-phase-budget-source-determinacy}
+Every Phase Real and Completion consumer that reaches a finite $\RealUp$ seal through the StreamName finite-window budget has a unique displayed source route. The route is the ordered four-face handoff
+$$
+\StreamNameUp\text{ window budget}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ finite seal}.
+$$
+If a second displayed route has the same $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, then that route factors through the same finite-window budget packet. Thus the source of the finite $\RealUp$ seal is determined by the StreamName budget packet together with its RegSeqRat readback and DyadicRatCore ledger.
+
+The determinacy statement exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-open-phase-finite-window-budget}. It places the Phase Real and Completion consumer on a displayed finite packet whose source is the nonempty StreamName window budget and whose downstream faces are the RegSeqRat readback, the DyadicRatCore ledger, and the finite Real seal row.
+
+Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The four displayed faces are not independent rows: they form one finite pullback over the same StreamName window budget packet, with the same $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Now use \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Any second displayed route with the same observations, transports, routes, provenance, and name rows reaches the same finite Real seal only by factoring through that pullback. Hence it factors through the original finite-window budget packet and cannot supply a distinct source for the seal.
+
+Finally invoke \autoref{thm:streamname-open-phase-terminal-nonescape}. The terminal packet has no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, or metric-completeness data, so the determinacy claim is entirely a finite displayed-route statement.
+\end{proof}
+
 \begin{theorem}[StreamName open-phase tail-budget stability]
 \label{thm:streamname-open-phase-tail-budget-stability}
 Every Phase Real and Completion consumer routed through the finite-window budget of \autoref{thm:streamname-open-phase-finite-window-budget} keeps the same nonempty StreamName window-budget source after certified successor and tail reindexing. The transported read still factors through the ordered public route

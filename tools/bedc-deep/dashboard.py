@@ -35,6 +35,7 @@ PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
+PI_DRY_BOARD_SUPPRESSION_COMMIT = "cc71b590f8"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -76,6 +77,11 @@ def _git(args: list[str]) -> str:
         ).stdout
     except Exception:
         return ""
+
+
+def _git_commit_ts(commit: str) -> datetime | None:
+    out = _git(["show", "-s", "--format=%cI", commit]).strip()
+    return _parse_iso(out)
 
 
 def _section(title: str) -> str:
@@ -1000,6 +1006,18 @@ def _discovery_run_timeout_seconds(path: Path) -> int:
     return 1800
 
 
+def _completed_discovery_artifact(detail: str) -> Path | None:
+    match = re.search(r"\bfull record:\s+(.+?\.json)\s*$", detail)
+    if not match:
+        return None
+    path = Path(match.group(1))
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    if path.exists():
+        return path
+    return None
+
+
 def _format_pending_discovery_run(mtime: float, path: Path, detail: str) -> str:
     now = datetime.now(timezone.utc)
     age_seconds = (now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds()
@@ -1066,7 +1084,7 @@ def render_discovery_lane() -> str:
     if supervisor_run:
         run_mtime, run_path, detail = supervisor_run
         latest_artifact_mtime = records[0][0]
-        if run_mtime > latest_artifact_mtime:
+        if run_mtime > latest_artifact_mtime and not _completed_discovery_artifact(detail):
             lines.append(_format_pending_discovery_run(run_mtime, run_path, detail))
     return "\n".join(lines)
 
@@ -1201,6 +1219,8 @@ def _latest_jsonl_record(path: Path) -> dict | None:
         except json.JSONDecodeError:
             continue
         if isinstance(rec, dict):
+            if path == PI_RECENT_CYCLES and rec.get("review_source") == "test":
+                continue
             return rec
     return None
 
@@ -1267,6 +1287,13 @@ def render_pi_agent() -> str:
             name = str(action.get("action") or "?")
             summary_text = str(item.get("summary") or "").replace("\n", " ")
             lines.append(f"  blocked: {name} — {summary_text[:140]}")
+    if rec.get("deepen_emitted"):
+        suppress_ts = _git_commit_ts(PI_DRY_BOARD_SUPPRESSION_COMMIT)
+        if ts and suppress_ts and ts < suppress_ts:
+            lines.append(
+                "  note: latest deepen emission predates dry-board suppression "
+                f"({PI_DRY_BOARD_SUPPRESSION_COMMIT}); watch the next PI cycle."
+            )
     return "\n".join(lines)
 
 
@@ -1468,6 +1495,7 @@ def render_logic_audit_warnings() -> str:
     audited = 0
     warned = 0
     stale_warning_artifacts = 0
+    failed_stale_warning_artifacts = 0
     failed_audited = 0
     failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
@@ -1495,6 +1523,11 @@ def render_logic_audit_warnings() -> str:
             if warnings:
                 warned += 1
         else:
+            current_warnings = _current_logic_audit_warnings(target)
+            if current_warnings is not None:
+                if warnings and current_warnings != warnings:
+                    failed_stale_warning_artifacts += 1
+                warnings = current_warnings
             failed_audited += 1
             if warnings:
                 failed_warned += 1
@@ -1519,6 +1552,11 @@ def render_logic_audit_warnings() -> str:
         lines.append(
             f"  failed/blocked audited={failed_audited} warned={failed_warned} "
             "(not paper body)"
+        )
+    if failed_stale_warning_artifacts:
+        lines.append(
+            "  failed/blocked stale warning artifacts ignored="
+            f"{failed_stale_warning_artifacts}"
         )
     for code, n in sorted(failed_counts.items(), key=lambda kv: -kv[1])[:5]:
         lines.append(

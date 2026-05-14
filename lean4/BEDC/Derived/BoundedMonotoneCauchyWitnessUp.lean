@@ -172,4 +172,31 @@ theorem BoundedMonotoneCauchyWitnessCarrier_completion_consumer_nonescape [AskSe
       completionRoute, sourceScheduleRegular, regularWitnessTrap, trapSealRoute, provenancePkg,
       completionPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_root_extraction [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source regular rootRead →
+        Cont rootRead witness sealRow →
+          PkgSig bundle rootRead pkg →
+            UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+              UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                UnaryHistory sealRow ∧ UnaryHistory provenance ∧ UnaryHistory rootRead ∧
+                  Cont source regular rootRead ∧ Cont rootRead witness sealRow ∧
+                    Cont trap sealRow route ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle rootRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceRegularRoot rootWitnessSeal rootPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, provenanceUnary, _sourceScheduleRegular, _regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed sourceUnary regularUnary sourceRegularRoot
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      provenanceUnary, rootUnary, sourceRegularRoot, rootWitnessSeal, trapSealRoute,
+      provenancePkg, rootPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
