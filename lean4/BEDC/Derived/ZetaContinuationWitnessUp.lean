@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ZetaContinuationWitnessUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 def ZetaContinuationWitnessPacket [AskSetup] [PackageSetup]
     (basic eta analytic pole functional zeroLedger gamma transports routes provenance name : BHist)
@@ -53,14 +55,27 @@ theorem ZetaContinuationWitnessPacket_dependency_ledger [AskSetup] [PackageSetup
                       have provenanceSame : hsame provenance provenance' :=
                         cont_respects_hsame transportsSame (hsame_refl routes) transportProvenance
                           provenanceRoute
-                      constructor
-                      · exact analyticSame
-                      · constructor
-                        · exact transportsSame
-                        · constructor
-                          · exact provenanceSame
-                          · constructor
-                            · exact namePkg
-                            · exact provenancePkg
+                      exact
+                        ⟨analyticSame, transportsSame, provenanceSame, namePkg,
+                          provenancePkg⟩
+
+theorem ZetaContinuationWitnessPacket_public_export [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+        transports routes provenance name bundle pkg →
+      UnaryHistory routes →
+        UnaryHistory name →
+          Cont routes name exportRow →
+            UnaryHistory exportRow ∧ hsame exportRow (append routes name) ∧
+              PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet routesUnary nameUnary routesNameExport
+  obtain ⟨_basicEtaAnalytic, _analyticFunctionalTransports, _poleZeroLedgerGamma,
+    _transportsRoutesProvenance, namePkg, provenancePkg⟩ := packet
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed routesUnary nameUnary routesNameExport
+  exact ⟨exportUnary, routesNameExport, namePkg, provenancePkg⟩
 
 end BEDC.Derived.ZetaContinuationWitnessUp
