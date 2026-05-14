@@ -1075,6 +1075,12 @@ def render_pi_agent() -> str:
             f"inbox={rec.get('inbox_count')} deepen_emitted={rec.get('deepen_emitted')}"
         ),
     ]
+    if not rec.get("ok"):
+        error_kind = str(rec.get("error_kind") or "").strip()
+        if error_kind:
+            lines.append(f"  error_kind: {error_kind}")
+        else:
+            lines.append("  error_kind: planner_failed_without_classified_reason")
     if rates:
         rate_text = ", ".join(f"{k}={v}" for k, v in rates.items())
         lines.append(f"  completion rates: {rate_text}")
