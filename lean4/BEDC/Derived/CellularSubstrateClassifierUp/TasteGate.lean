@@ -253,3 +253,11 @@ theorem CellularSubstrateClassifierTasteGate_single_carrier_alignment :
       fun _ _ => cellularSubstrateClassifierToEventFlow_injective, rfl⟩
 
 end BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
+
+namespace BEDC.Derived.CellularSubstrateClassifierUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CellularSubstrateClassifierUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.CellularSubstrateClassifierUp
