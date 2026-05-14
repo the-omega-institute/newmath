@@ -458,4 +458,35 @@ theorem DiagonalTailSelectorPublicBudgetSource_real_seal_budget_nonescape
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right consumerRoute hostReturn)⟩
 
+theorem DiagonalTailSelectorCarrier_public_budget_route_totality [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow routeRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg →
+      Cont n mu k →
+      Cont k w d →
+      Cont w d t →
+      Cont t s sealRead →
+      Cont h c routeRead →
+      PkgSig bundle routeRead pkg →
+      PkgSig bundle sealRead pkg →
+        UnaryHistory publicRow ∧ UnaryHistory routeRead ∧ UnaryHistory sealRead ∧
+          Cont n mu k ∧ Cont k w d ∧ Cont w d t ∧ Cont t s sealRead ∧
+            Cont h c routeRead ∧ Cont p name publicRow ∧
+              PkgSig bundle routeRead pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro source nMuRoute kWRoute wDRoute sealRoute routeReadRoute routePkg sealPkg
+  obtain ⟨carrier, publicRoute, _publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, _wUnary, _dUnary, tUnary, sUnary,
+    hUnary, cUnary, pUnary, nameUnary, _carrierNMu, _carrierKW, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed hUnary cUnary routeReadRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tUnary sUnary sealRoute
+  exact
+    ⟨publicUnary, routeUnary, sealUnary, nMuRoute, kWRoute, wDRoute, sealRoute,
+      routeReadRoute, publicRoute, routePkg, sealPkg⟩
+
 end BEDC.Derived.DiagonalTailSelectorUp
