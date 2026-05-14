@@ -102,4 +102,27 @@ theorem BinderContextSubstitutionSealCarrier_namecert_obligations [AskSetup] [Pa
               (And.intro endpointUnary
                 (And.intro termDepthResult endpointRoute))))))
 
+theorem BinderContextSubstitutionSealCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {term depth payload result boundary transport route provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderContextSubstitutionSealCarrier term depth payload result boundary transport route
+        provenance name bundle pkg ->
+      Cont result boundary endpoint ->
+        PkgSig bundle endpoint pkg ->
+          hsame endpoint result ∧ UnaryHistory endpoint ∧ Cont term depth result ∧
+            Cont result boundary endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro hCarrier endpointRoute endpointPkg
+  obtain ⟨_termUnary, _depthUnary, _payloadUnary, resultUnary, boundaryUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, termDepthResult,
+    boundaryEmpty, _payloadResultTransport, _transportBoundaryRoute, _provenanceResult,
+    _carrierPkg⟩ := hCarrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed resultUnary boundaryUnary endpointRoute
+  have endpointResult : hsame endpoint result := by
+    cases boundaryEmpty
+    exact cont_deterministic endpointRoute (cont_right_unit result)
+  exact
+    ⟨endpointResult, endpointUnary, termDepthResult, endpointRoute, endpointPkg⟩
+
 end BEDC.Derived.BinderContextSubstitutionSealUp
