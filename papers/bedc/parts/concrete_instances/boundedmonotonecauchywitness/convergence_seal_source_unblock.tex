@@ -128,3 +128,23 @@ Next use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback}
 
 Finally invoke \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape}. The non-escape result keeps the consumer inside the finite route through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. Since the route has no coordinate for the excluded analytic or choice-like objects, no downstream consumer can substitute such an object for the source supplied by $W$.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal route exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every convergence-seal or Real-completion consumer of $W$ factors through the displayed finite route
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,
+$$
+
+then through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+
+The route exports no selected limit, quotient stream equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+First apply the checked source theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source}. It identifies the source surface available to a convergence-seal consumer with exactly the finite witness rows of $W$.
+
+Next use the criterion-tail factorization and the Real-seal public route exhaustion. These force the downstream handoff through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ before any Real-completion-facing consumer can read the seal.
+
+Finally combine the readback, non-escape, and source-lock theorems above. Readback returns consumer-side information to the same finite packet, non-escape prevents a branch to an external completion principle, and source-lock prevents replacement of $W$ by any unrecorded selected limit, quotient equality, host equality, trichotomy, compactness, completeness, or selector coordinate.
+\end{proof}
