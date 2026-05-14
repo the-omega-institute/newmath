@@ -71,6 +71,18 @@ Add the finite value row $F$ for the two displayed words and route it through $C
 Package the resulting rows with $P$ and $N$. The package exposes value preservation only through the finite NameCert surface, so the existing separation between carry-relatedness and history sameness remains part of the public contract.
 \end{proof}
 
+\begin{theorem}[Zeckendorf carry-value classifier dependency]
+\label{thm:zeckendorf-carry-value-classifier-dependency}
+Every accepted $\ZeckendorfCarryValueUp$ packet consumes the carry row, source and target windows, normality boundary rows, and non-$\HSame$ separation supplied by the carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert} before it adds the Fibonacci value row. The value-preservation surface is therefore a finite row over the $\ZCarryUp$ classifier, not a replacement for that classifier.
+\end{theorem}
+\begin{proof}
+Project the carrier $V=(h,k,G,N_h,N_k,F,H,C,P,N)$ from \autoref{def:zeckendorf-carry-value-carrier}. The rows $h,k,G,N_h,N_k,H$ are the carry-side data: the two displayed windows, the carry row, the source and target normality boundaries, and the public separation from $\HSame$.
+
+Use the local non-$\HSame$ boundary and NameCert package, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary} and \autoref{thm:zeckendorf-carry-value-namecert-package}. They keep the value surface tied to the carry classifier while preventing the finite value equality from becoming a source-target history-sameness proof.
+
+The additional row is $F$, routed through $C$ and recorded with $P$ and $N$. Thus the accepted packet first cites the sibling carry classifier of \autoref{ch:concrete-instances-zeckendorf-carry-classifier-namecert} and then appends the finite Fibonacci value-preservation row over that cited carrier.
+\end{proof}
+
 \closureat{ZeckendorfCarryValueUp}{seedStr}
 
 \begin{closurestatus}{\ZeckendorfCarryValueUp}

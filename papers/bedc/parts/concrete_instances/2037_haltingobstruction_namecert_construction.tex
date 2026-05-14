@@ -149,6 +149,18 @@ Apply the five NameCert obligations of \autoref{thm:halting-obstruction-namecert
 Now use \autoref{thm:halting-obstruction-distinction-boundary}. Downstream HaltingDistinction and HaltingDiagonal uses consume the finite ledger after the displayed certificate-history and self-reference boundary have been read, so the public object is not a global halting classifier.
 \end{proof}
 
+\begin{theorem}[Halting obstruction finite counterread refusal]
+\label{thm:halting-obstruction-finite-counterread-refusal}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. Any read that presents the finite trace row $T$ together with the diagonal policy row $D$ as a total classifier for arbitrary continuation chains is refused by the carrier: the public packet exposes only $S,I,T,R,D,H,C,P,N$, and no global halting classifier, divergence oracle, unbounded search surface, host oracle, or quotient equality of names.
+\end{theorem}
+\begin{proof}
+Use trace coverage from \autoref{thm:halting-obstruction-trace-coverage}. The row $T$ covers exactly the displayed finite positive trace facts admitted by the packet, not all possible continuation chains.
+
+Next apply diagonal policy ledger exactness from \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}. The row $D$ records the local diagonal policy attached to the same certificate-history and self-reference route, so it does not decide arbitrary continuations outside that route.
+
+Finally use the public read boundary of \autoref{thm:halting-obstruction-public-read-boundary}. A downstream read receives the finite obstruction ledger $S,I,T,R,D,H,C,P,N$ rather than a global classifier. Therefore a counterread that treats $T$ and $D$ as a total halting decision procedure is not a public read of the accepted packet.
+\end{proof}
+
 \begin{theorem}[Halting obstruction local NameCert repackaging]
 \label{thm:halting-obstruction-local-namecert-repackaging}
 For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, the package row $P$ and local naming row $N$ repackage only the carrier exposure, trace exactness, self-reference readability, diagonal policy locality, and package/name closure already displayed by the packet. They add no new classifier, search surface, host oracle, quotient equality, or alternate diagonal route.
