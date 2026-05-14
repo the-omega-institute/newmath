@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\InterHistSymmetryBudgetUp$}
+\label{ch:concrete-instances-interhist-symmetry-budget-namecert}
+\origin{ai}
+
+The $\InterHistSymmetryBudgetUp$ packet realizes the two-direction locality budget from \autoref{ch:visions-inter-hist-locality} as finite NameCert data. It consumes the ledger-local route of \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}, the two-observer cell of \autoref{ch:concrete-instances-observer-locality-cell-namecert}, the invariant readback of \autoref{ch:concrete-instances-interhistinvariant-namecert}, the observer-Hist identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}, and the no-global-synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}. Its role is to budget both directional reads before any downstream consumer treats an inter-Hist relation as symmetric.
+
+\falsifiablePrediction{Every accepted InterHistSymmetryBudgetUp packet exposes both directional locality rows and admits no consumer route to a global synchronization history or host frame.}
+
+\independenceWitness{Nearest siblings: interhistlocalityledger, observerlocalitycell, interhistinvariant, observerhistidentity, and noglobalsyncboundary. None is bijective to this carrier because $\InterHistSymmetryBudgetUp$ stores both directional locality rows, one invariant readback row, one no-global-synchronization refusal row, transport, continuation, provenance, and local naming data in a single budget packet, while each sibling omits at least one of those rows or records a different consumer surface.}
+
+\begin{definition}[InterHistSymmetryBudget carrier]
+\label{def:inter-hist-symmetry-budget-carrier}
+An $\InterHistSymmetryBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+Y=(A,B,L_{AB},L_{BA},O,I,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source history rows whose symmetric locality budget is being certified;
+\item $L_{AB}$ is the directional locality row reading finite data from $A$ toward $B$;
+\item $L_{BA}$ is the directional locality row reading finite data from $B$ toward $A$;
+\item $O$ is the $\ObserverLocalityCellUp$ row consumed before the two directional reads are compared;
+\item $I$ is the $\InterHistInvariantUp$ readback row that receives the two-direction locality budget;
+\item $G$ is the $\NoGlobalSyncBoundaryUp$ refusal row, recording that neither direction supplies a global synchronization history, shared clock, privileged host frame, or selected all-observer map;
+\item $H$ stores componentwise $\hsame$ transport for the source histories, directional locality rows, observer-locality cell, invariant readback, no-global-synchronization row, route rows, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes by which consumers read $A,B,L_{AB},L_{BA},O,I,G,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistIdentityUp$, $\InterHistLocalityLedgerUp$, $\ObserverLocalityCellUp$, $\InterHistInvariantUp$, $\NoGlobalSyncBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InterHistSymmetryBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global synchronization history, host frame, shared clock, total observer order, quotient of histories, metric spacetime, or ambient equality oracle.
+\end{definition}
+
+\begin{theorem}[InterHistSymmetryBudget NameCert obligations]
+\label{thm:inter-hist-symmetry-budget-namecert-obligations}
+For the carrier of \autoref{def:inter-hist-symmetry-budget-carrier}, the local $\NameCert_{\InterHistSymmetryBudgetUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $Y=(A,B,L_{AB},L_{BA},O,I,G,H,C,P,N)$;
+\item two-direction locality exposure, requiring both $L_{AB}$ and $L_{BA}$ after the observer-Hist rows $A,B$ have been read;
+\item observer-locality and invariant readback, requiring $O$ before $I$ receives the paired directional rows;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming through $H,C,P,N$;
+\item non-escape through the no-global-synchronization row $G$, excluding global synchronization histories, host frames, shared clocks, total observer orders, quotient histories, metric spacetime, and ambient equality oracles.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:inter-hist-symmetry-budget-carrier}. The rows $A,B,L_{AB},L_{BA},O,I,G,H,C,P,N$ display the two source histories, the two directional locality reads, the locality cell, invariant readback, no-global-synchronization refusal, transport, routes, provenance, and local name.
+
+The two-direction locality obligation reads $L_{AB}$ and $L_{BA}$ separately. The observer-Hist identity surface supplies the two source histories, while the inter-Hist locality ledger supplies the directional route discipline for each read.
+
+The observer-locality and invariant rows then receive the paired budget. The row $O$ records the finite two-observer cell, and the row $I$ records the observer-symmetric invariant readback after both directions have been displayed.
+
+Finally $H,C,P,N$ provide transport, continuation replay, provenance, and local naming. The row $G$ supplies the no-global-synchronization refusal, so no remaining obligation can export a global synchronization history, host frame, shared clock, quotient history, metric spacetime, or ambient equality oracle.
+\end{proof}
+
+\begin{theorem}[InterHistSymmetryBudget non-escape]
+\label{thm:inter-hist-symmetry-budget-nonescape}
+Every public consumer of an accepted $\InterHistSymmetryBudgetUp$ carrier reads only the rows
+$$
+A,B,L_{AB},L_{BA},O,I,G,H,C,P,N.
+$$
+It may consume both directional locality rows, invariant readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It receives no global synchronization history, host frame, shared clock, total observer order, quotient of histories, metric spacetime, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:inter-hist-symmetry-budget-carrier}. Every public row is one of $A,B,L_{AB},L_{BA},O,I,G,H,C,P,N$.
+
+The positive route data remain finite. The two source histories, the two directional locality rows, the observer-locality cell, and the invariant readback are transported by $H$ and replayed by $C$ before provenance and local naming are read through $P$ and $N$.
+
+The no-global-synchronization row $G$ is a refusal row, not a hidden synchronization object. Since no coordinate supplies a global history, host frame, shared clock, total observer order, quotient history, metric spacetime, or ambient equality oracle, no consumer can export such an object from the accepted packet.
+\end{proof}
+
+\begin{theorem}[InterHistSymmetryBudget TasteGate obligation]
+\label{thm:inter-hist-symmetry-budget-tastegate-obligation}
+The later Lean site for $\InterHistSymmetryBudgetUp$ must provide explicit $\mathsf{Nontrivial}\ \InterHistSymmetryBudgetUp$ and $\mathsf{FieldFaithful}\ \InterHistSymmetryBudgetUp$ instances. These instances must keep the two source histories, two directional locality rows, observer-locality cell, invariant readback, no-global-synchronization refusal row, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row as distinguishable fields.
+\end{theorem}
+\begin{proof}
+The carrier separates the two directions $L_{AB}$ and $L_{BA}$ from the invariant readback $I$ and the refusal row $G$. A trivial collapse would identify a directional locality read with the symmetric budget or with the no-global-synchronization boundary, erasing the consumer distinction this packet exposes.
+
+Field faithfulness is the projection discipline for $Y=(A,B,L_{AB},L_{BA},O,I,G,H,C,P,N)$. Each row has a distinct consumer role, so a later TasteGate witness must preserve those projections before any downstream causal-rate or no-global-sync chapter consumes the budget.
+\end{proof}
+
+\closureat{InterHistSymmetryBudgetUp}{seedStr}
+
+\begin{closurestatus}{\InterHistSymmetryBudgetUp}
+  \constructivestory{An $\InterHistSymmetryBudgetUp$ packet is generated from two source histories, two directional locality rows, an observer-locality cell, an invariant readback row, a no-global-synchronization refusal row, componentwise hsame transport, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inter-hist-symmetry-budget-carrier}, \autoref{thm:inter-hist-symmetry-budget-namecert-obligations}, and \autoref{thm:inter-hist-symmetry-budget-nonescape} specify the finite two-direction locality budget and its no-global-synchronization boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not construct a global synchronization history, host frame, shared clock, total observer order, quotient history, metric spacetime, Lean proof, or bridge checking for $\InterHistSymmetryBudgetUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-direction locality exposure, invariant readback, no-global-synchronization non-escape, Nontrivial, and FieldFaithful for the same packet.}
+\end{closurestatus}
