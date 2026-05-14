@@ -174,4 +174,29 @@ theorem RealDiagonalMeshBudgetCarrier_budget_monotonicity
       enlargedWindowRoute, omegaReadbackRoute, readbackLedgerRoute, sameBudgetResult,
       provenanceSame, nameSame⟩
 
+theorem RealDiagonalMeshBudgetCarrier_nonescape
+    {q b omega rho delta theta e h c p n sealConsumer downstreamConsumer : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      Cont theta e sealConsumer ->
+        Cont sealConsumer p downstreamConsumer ->
+          UnaryHistory q ∧ UnaryHistory b ∧ UnaryHistory omega ∧ UnaryHistory rho ∧
+            UnaryHistory delta ∧ UnaryHistory theta ∧ UnaryHistory e ∧
+              UnaryHistory sealConsumer ∧ UnaryHistory downstreamConsumer ∧ Cont q b h ∧
+                Cont b omega theta ∧ Cont omega rho c ∧ Cont rho delta e ∧
+                  Cont theta e sealConsumer ∧ Cont sealConsumer p downstreamConsumer ∧
+                    hsame p p ∧ hsame n n := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro carrier sealRoute downstreamRoute
+  obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
+    qbRoute, budgetWindowRoute, omegaReadbackRoute, readbackLedgerRoute,
+    provenanceUnary, provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  have downstreamUnary : UnaryHistory downstreamConsumer :=
+    unary_cont_closed sealUnary provenanceUnary downstreamRoute
+  exact
+    ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
+      sealUnary, downstreamUnary, qbRoute, budgetWindowRoute, omegaReadbackRoute,
+      readbackLedgerRoute, sealRoute, downstreamRoute, provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp

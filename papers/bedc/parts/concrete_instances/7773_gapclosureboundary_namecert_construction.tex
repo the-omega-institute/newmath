@@ -47,6 +47,48 @@ When $S$ is present, the consumer remains a reader of the finite source row and 
 When $S$ is absent, the only available continuation is the refusal route into $R$. The refusal row is a ledger entry rather than a supply witness, so the excluded closure, access, necessity, reduction, hidden-source, and off-packet continuation coordinates cannot be exported.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary displayed source precondition]
+\label{thm:gap-closure-boundary-displayed-source-precondition}
+For every accepted $\GapClosureBoundaryUp$ carrier
+
+$$
+B=(G,S,R,H,C,P,N),
+$$
+
+any supported closure read of $B$ must expose the displayed source observation or socket row $S$ before a hard-problem sibling consumer reads the packet. The only public precondition for such a read is the finite $\BHist$ packet together with the $\hsame$ transports in $H$, the $\Cont$ source route in $C$, the $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The packet has exactly the request row $G$, the displayed source row $S$, the refusal ledger $R$, and the structural rows $H,C,P,N$.
+
+Use the NameCert obligation theorem \autoref{thm:gap-closure-boundary-namecert-obligations}. Its source-route exactness clause requires a supported observation or socket-facing read to display $S$ before any sibling application consumes the boundary.
+
+The refusal non-escape theorem \autoref{thm:gap-closure-boundary-refusal-nonescape} rules out replacing this precondition by an internal universal closure row. Thus the supported closure read has to expose $S$ and remains inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal ledger transport]
+\label{thm:gap-closure-boundary-refusal-ledger-transport}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any off-source closure read of the request row $G$ is transported to the refusal ledger $R$ along the displayed structural rows $H,C,P,N$. This transport uses only componentwise $\hsame$, the displayed $\Cont$ route to refusal, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with an off-source request. By definition it has no displayed source route through $S$, so it cannot satisfy the source precondition of \autoref{thm:gap-closure-boundary-displayed-source-precondition}.
+
+Apply refusal non-escape. The only available continuation sends the request to $R$, while the rows $H,C,P,N$ transport, route, package, and name the same finite packet.
+
+The structural rows do not add a hidden source. They preserve the refusal ledger through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so the off-source read is transported to $R$ rather than to internal universal closure, private access, causal necessity, aspect reduction, or a hidden $\mathsf{T}$ supply.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary sibling consumer exhaustion]
+\label{thm:gap-closure-boundary-sibling-consumer-exhaustion}
+The hard-problem sibling consumers listed in the $\GapClosureBoundaryUp$ packet exhaust the exported boundary surface of $B=(G,S,R,H,C,P,N)$. Causal commitment, finite witnessed refutation, other-minds commitment, aspect-chain, and solipsism-refusal consumers may read the common request row $G$, source row $S$, refusal ledger $R$, and structural rows $H,C,P,N$, but none gains internal universal closure beyond that finite packet.
+\end{theorem}
+\begin{proof}
+Read the carrier and the NameCert obligation surface. The provenance row $P$ records exactly the hard-problem sibling packets that consume this boundary, and the local certificate exposes no row beyond $G,S,R,H,C,P,N$.
+
+Supported sibling reads use \autoref{thm:gap-closure-boundary-displayed-source-precondition}; they must expose $S$ before consuming the packet. Off-source sibling reads use \autoref{thm:gap-closure-boundary-refusal-ledger-transport}; they are sent to $R$ through $H,C,P,N$.
+
+Thus every listed sibling consumer is accounted for by either the displayed source route or the refusal ledger route. Since neither route contains an internal universal closure coordinate, the exported boundary is exhausted by the finite packet and no sibling acquires a stronger closure principle.
+\end{proof}
+
 \begin{theorem}[GapClosureBoundary source route exactness]
 \label{thm:gap-closure-boundary-source-route-exactness}
 For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any
