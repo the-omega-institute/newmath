@@ -37,4 +37,27 @@ theorem RealTailAgreementSealWindowRoute_result_deterministic {W D A r s : BHist
     · exact hr
     · exact hs
 
+theorem RealTailAgreementSeal_left_right_threshold_synchrony
+    {R S W D A H C P N leftRead rightRead leftDyadic rightDyadic : BHist} :
+    Cont R W leftRead →
+      Cont S W rightRead →
+        Cont leftRead D leftDyadic →
+          Cont rightRead D rightDyadic →
+            hsame leftDyadic (append (append R W) D) ∧
+              hsame rightDyadic (append (append S W) D) ∧
+                Cont R W leftRead ∧ Cont S W rightRead := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro leftWindow rightWindow leftReadback rightReadback
+  constructor
+  · cases leftWindow
+    cases leftReadback
+    rfl
+  · constructor
+    · cases rightWindow
+      cases rightReadback
+      rfl
+    · constructor
+      · exact leftWindow
+      · exact rightWindow
+
 end BEDC.Derived.RealTailAgreementSealUp
