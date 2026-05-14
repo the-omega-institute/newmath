@@ -48,6 +48,20 @@ The forbidden-branch clause is exactly the role of $E$. Since $E$ records the ab
 The consumer boundary follows by combining these projections. A public read may assume $A$ locally, replay $F$ to $\bot$, and therefore consume $\neg A$ inside the fixed packet, but it cannot export any branch or witness absent from $A,U,F,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[RefuterTrace stable negation sibling route]
+\label{thm:refuter-trace-stable-negation-sibling-route}
+Every accepted $\RefuterTraceUp$ packet that is consumed as stable negative information factors its assumption-to-bottom route through the $\StableNegationBoundaryUp$ sibling surface of \autoref{ch:concrete-instances-stable-negation-boundary-namecert} before any downstream consumer reads it as stable negation. The route starts from the RefuterTrace carrier and NameCert obligations, uses permitted refutation soundness, applies forbidden branch exclusion, and is then exhausted by the StableNegationBoundary NameCert and ledger rows.
+
+The sibling route exports no double-negation eliminator, excluded-middle oracle, witness by contradiction, or classifier over all naming certificates.
+\end{theorem}
+\begin{proof}
+Start inside the $\RefuterTraceUp$ packet. The NameCert obligations of \autoref{thm:refuter-trace-namecert-obligations} expose exactly $A,U,F,E,H,C,P,N$, so the assumption-to-bottom route is the displayed trace $F$ from the local assumption token $U$ to $\bot$.
+
+Use permitted refutation soundness and forbidden branch exclusion before handing the route to the sibling packet. \autoref{thm:refuter-trace-permitted-refutation-soundness} certifies only the local permitted pattern ``assume $A$, derive $\bot$, conclude $\neg A$'', while \autoref{thm:refuter-trace-forbidden-branch-exclusion} blocks witness extraction, undecidable double-negation elimination, and excluded-middle branching over all naming certificates.
+
+Now read the stable-negation boundary. The NameCert obligations and ledger exhaustion of \autoref{thm:stable-negation-boundary-namecert-obligations} and \autoref{thm:stable-negation-boundary-ledger-exhaustion} force any downstream stable-negation consumer through the boundary rows $A,R,D,T,L,H,C,P,N$ of $\StableNegationBoundaryUp$. Since those rows contain only local refutation, optional decision, classifier, exclusion ledger, transport, route, provenance, and naming data, the composed sibling route still exports none of the forbidden contradiction interfaces.
+\end{proof}
+
 \begin{theorem}[RefuterTrace permitted refutation soundness]
 \label{thm:refuter-trace-permitted-refutation-soundness}
 For an accepted $\RefuterTraceUp$ carrier $R=(A,U,F,E,H,C,P,N)$, replaying the finite trace $F$ under the displayed transports and continuation routes certifies $\neg A$ in the local $\NameCert_{\RefuterTraceUp}$ ledger. The certification is exactly the permitted form ``assume $A$, derive $\bot$, conclude $\neg A$'' of \autoref{def:reasoning-permitted-pattern}.

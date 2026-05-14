@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\HaltingFiniteBoundaryUp$}
+\label{ch:concrete-instances-halting-finite-boundary-namecert}
+\origin{ai}
+
+The $\HaltingFiniteBoundaryUp$ packet realizes the halting fixed-point obstruction of \autoref{ch:visions-halting-as-form-of-distinction-limit} as a finite boundary certificate. It sits beside the distinction packet of \autoref{ch:concrete-instances-haltingdistinction-namecert}, the finite trace packet of \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, the positive trace classifier of \autoref{ch:concrete-instances-haltingtraceclassifier-namecert}, the terminal trace-normal-form surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert}, and the public inscription record of \autoref{ch:concrete-instances-inscriptionevent-namecert}. These dependencies are row consumption: the carrier reads finite trace evidence, terminal trace shape, and public record accountability as displayed packet rows, not as an external halting ontology.
+
+\begin{definition}[Halting finite-boundary carrier]
+\label{def:halting-finite-boundary-carrier}
+A $\HaltingFiniteBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,F,R,D,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the admitted certificate-history input row whose visible behavior is being inspected;
+\item $F$ is the finite positive $\Cont$ trace row, recording only the displayed segment available to the packet;
+\item $R$ is the Real or trace-consumer row that may read $F$ as finite evidence but not as a total decision;
+\item $D$ is the diagonal refusal row, rejecting any request to turn absence of a displayed trace into divergence, non-termination, or a negative halting verdict;
+\item $T$ is the terminal trace-normal-form row consumed from the continuation-trace normal-form surface when a displayed terminal boundary is present;
+\item $I$ is the inscription-event row naming the public record in which the finite trace and refusal boundary are consumed;
+\item $H$ records componentwise $\hsame$ transports for the input, trace, consumer, refusal, terminal, inscription, package, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that replay the finite trace, enter the trace consumer, expose the diagonal refusal, and return the terminal and inscription rows to the same packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\HaltingDistinctionUp$, $\HaltingDistinctionTraceUp$, $\HaltingTraceClassifierUp$, $\ContinuationTraceNormalFormUp$, $\InscriptionEventUp$, and $\RealUp$ rows;
+\item $N$ is the local $\NameCert_{\HaltingFiniteBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a total halting predicate, a divergence oracle, an unbounded search certificate, a host evaluator, or a proof that every absent future continuation is absent.
+\end{definition}
+
+\begin{theorem}[Halting finite-boundary NameCert obligations]
+\label{thm:halting-finite-boundary-namecert-obligations}
+The local $\NameCert_{\HaltingFiniteBoundaryUp}$ surface for \autoref{def:halting-finite-boundary-carrier} consists of six finite obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed packet $B=(A,F,R,D,T,I,H,C,P,N)$;
+\item finite trace evidence, requiring every accepted Real or trace-consumer read to expose the finite $\Cont$ trace row $F$;
+\item diagonal refusal, requiring every total-halting, divergence, or non-termination request outside $F$ to be rejected by $D$;
+\item terminal trace locality, requiring any normal-form or terminal read to pass through $T$ and the displayed routes $C$;
+\item public record accountability, requiring downstream inscription use to pass through $I,P,N$ without adding private host evidence;
+\item transport and ledger exactness, requiring $A,F,R,D,T,I,P,N$ to be transported componentwise through $H$ and replayed only through $C$.
+\end{enumerate}
+The later Lean \texttt{TasteGate.lean} development must include $\mathsf{Nontrivial}\ \HaltingFiniteBoundaryUp$ and $\mathsf{FieldFaithful}\ \HaltingFiniteBoundaryUp$ instances with an explicit \texttt{witness\_pair} and \texttt{mk}-derived field projection, so the gate cannot identify the finite trace row with the diagonal refusal row or forget either row from the carrier.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:halting-finite-boundary-carrier}. The rows list the inspected input, finite trace, consumer read, diagonal refusal, terminal trace boundary, inscription record, transports, replay routes, package provenance, and local name.
+
+Finite trace evidence is the $F$ row consumed by $R$. The route data $C$ may replay that finite trace and transport it through $H$, but no coordinate supplies an unbounded search over future continuations.
+
+Diagonal refusal is the $D$ row. It is transported with $F$ and $R$, so a consumer cannot turn absence of a displayed continuation into divergence or a negative verdict after transport.
+
+Terminal trace locality and public record accountability are the $T$ and $I$ rows. They allow a consumer to read terminal trace shape and public inscription use only through the same finite packet, with provenance and local naming recorded by $P$ and $N$.
+
+Since every accepted read factors through $A,F,R,D,T,I,H,C,P,N$, the packet separates positive finite trace evidence from forbidden total halting decisions.
+\end{proof}
+
+\begin{theorem}[Halting finite-boundary consumer inversion]
+\label{thm:halting-finite-boundary-consumer-inversion}
+Any accepted $\HaltingFiniteBoundaryUp$ packet with a Real or trace consumer exposes both a finite $\Cont$ trace row and a diagonal refusal row. A packet lacking either row is not a carrier of \autoref{def:halting-finite-boundary-carrier}, and therefore cannot supply the local $\NameCert_{\HaltingFiniteBoundaryUp}$ obligations.
+\end{theorem}
+\begin{proof}
+Let an accepted packet be presented to a Real or trace consumer. By carrier exposure it has the displayed form $B=(A,F,R,D,T,I,H,C,P,N)$.
+
+The consumer row is $R$, and its finite evidence is $F$. By the finite trace obligation, any accepted read through $R$ must expose $F$ before the consumer may classify the observed behavior.
+
+The boundary row is $D$. By diagonal refusal, the same accepted packet must expose $D$ before any request outside the displayed finite trace is rejected. If $F$ or $D$ is missing, the tuple is not the carrier named by the definition, so the local certificate cannot be formed.
+\end{proof}
+
+\falsifiablePrediction{Any accepted HaltingFiniteBoundaryUp packet with a Real or trace consumer must expose a finite Cont trace row and a diagonal refusal row; a packet lacking either row is rejected by carrier inversion.}
+
+\independenceWitness{haltingdistinction, haltingdistinctiontrace, haltingtraceclassifier, continuationtracenormalform, inscriptionevent: none is bijective because the new carrier combines finite trace evidence with a diagonal refusal boundary, while the siblings isolate distinction, trace, classifier, terminal trace, or inscription rows separately.}
+
+\closureat{HaltingFiniteBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\HaltingFiniteBoundaryUp}
+  \constructivestory{A $\HaltingFiniteBoundaryUp$ packet is generated from an admitted certificate-history input row, a finite Cont trace row, a Real or trace-consumer row, a diagonal refusal row, a terminal trace-normal-form row, an inscription-event row, componentwise transports, replay routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-finite-boundary-carrier}, \autoref{thm:halting-finite-boundary-namecert-obligations}, and \autoref{thm:halting-finite-boundary-consumer-inversion} bind the finite trace evidence and diagonal refusal boundary for Real or trace consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a total halting predicate, divergence decision, unbounded search certificate, host evaluator, Lean implementation, or standard bridge.}
+  \upgradepath{Checked closure requires Lean encoding of the carrier plus Nontrivial and FieldFaithful TasteGate instances preserving the finite trace row, diagonal refusal row, consumer row, terminal row, inscription row, transports, routes, provenance, and local naming field projections.}
+\end{closurestatus}
