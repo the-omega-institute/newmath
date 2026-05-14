@@ -718,6 +718,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
+import BEDC.Derived.UniformCauchyCriterionUp.EndpointBudgetReflector
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowSeal
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyRealSealTailCoprovenance
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
