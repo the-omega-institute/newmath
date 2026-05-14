@@ -84,6 +84,7 @@ Apply \autoref{thm:tail-cofinality-schedule-namecert-obligations}. It places thr
 
 The diagonal handoff theorem then gives the route $W \longmapsto D \longmapsto R$. Thus every regular-rational readback consumes the dyadic ledger first, and the packet has no coordinate from which an unbounded or host-selected readback could be recovered.
 \end{proof}
+\leanchecked{BEDC.Derived.TailCofinalityScheduleUp.TailCofinalityScheduleCarrier\_threshold\_sufficiency}
 
 \begin{theorem}[Tail cofinality schedule Real seal readback]
 \label{thm:tail-cofinality-schedule-real-seal-readback}
@@ -223,6 +224,49 @@ read. Since neither carrier contains coordinates for quotient streams,
 selected host limits, countable choice, ambient completeness, hidden tail
 oracles, or another budget source, the joint consumer path is exactly the
 displayed schedule route.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule selector-completion pullback]
+\label{thm:tail-cofinality-schedule-selector-completion-pullback}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted
+$\TailCofinalityScheduleUp$ packet consumed both by an accepted
+$\DiagonalTailSelectorUp$ public budget source and by a
+$\RealCauchyCompletionUp$ diagonal read. Then the selector-facing read and
+the completion-facing seal read pull back to one finite public surface
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
+$$
+with structural rows $H,C,P,N$. No quotient stream, selected host limit,
+countable choice, ambient completeness, hidden tail oracle, independent
+completion endpoint, or second budget source distinguishes the selector-facing
+and completion-facing public surfaces.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}.
+The selector-facing consumer can read the accepted schedule only through the
+displayed route, with the selector carrier contributing public budget,
+$\ProbeBundle$ support, $\Pkg$ provenance, $\hsame$ transport, and $\Cont$
+replay.
+
+For the completion-facing read, use
+\autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route} and
+\autoref{thm:tail-cofinality-schedule-real-completion-diagonal-route}. These
+place the $\RealCauchyCompletionUp$ diagonal handoff on the same ordered
+schedule route before the public $\RealUp$ seal is available.
+
+It remains to identify the common budget surface. By
+\autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization}, the
+simultaneous $\RegularCauchyTailMeetUp$, $\StreamNameUp$,
+$\RealTailAgreementSealUp$, and $\RealCauchyCompletionUp$ consumers all factor
+through the same finite window, dyadic ledger, shared threshold, readback, and
+seal rows.
+
+Thus the two reads have the same pullback surface
+$(E,W,D,R,L,H,C,P,N)$. Since the schedule, selector, and completion carriers
+contain no coordinate for the excluded host or oracle data, no second endpoint
+or budget source can separate the selector-facing and completion-facing
+public surfaces.
 \end{proof}
 
 \closureat{TailCofinalityScheduleUp}{seedStr}
