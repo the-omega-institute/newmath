@@ -1001,8 +1001,24 @@ def commit_and_push_if_changed() -> bool:
                 files.append(parts[1])
         if not files:
             return False
-        supervisor_log(f"auto-commit: {len(files)} changed files")
-        _git(["add", *files], capture=False)
+        committable_files = [
+            path for path in files
+            if path != "tools/bedc-deep/BOARD.md"
+        ]
+        if not committable_files:
+            supervisor_log(
+                "auto-commit: skipped push for local-only BOARD.md queue state"
+            )
+            return False
+        skipped = len(files) - len(committable_files)
+        if skipped:
+            supervisor_log(
+                f"auto-commit: {len(committable_files)} committable changed files "
+                f"({skipped} local-only BOARD.md state file skipped)"
+            )
+        else:
+            supervisor_log(f"auto-commit: {len(committable_files)} changed files")
+        _git(["add", *committable_files], capture=False)
         msg = f"bedc-deep supervisor: paper writeback batch {_now_iso()}"
         rc = _git(["commit", "-m", msg]).returncode
         if rc != 0:
