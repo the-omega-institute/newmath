@@ -1,0 +1,18 @@
+\section{StreamName Open-Phase Terminal Route}
+\label{sec:streamname-open-phase-terminal-route}
+
+\begin{theorem}[StreamName open-phase terminal route]
+\label{thm:streamname-open-phase-terminal-route}
+Every Phase Real and Completion finite-window $\StreamNameUp$ consumer whose route reaches the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} and then the $\RealUp$ seal surface of \autoref{ch:concrete-instances-real-namecert} factors through one terminal finite packet. The packet consists of the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RealUp$ seal row, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The boundary is a finite BEDC handoff route. It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. It places the StreamName finite-window consumer on the common-refinement packet carrying the visible window, observation rows, transports, routes, provenance, and local names.
+
+Next apply \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. The route from the StreamName window into the $\RegSeqRatUp$ readback and the finite $\RealUp$ seal is locked to a single terminal consumer surface.
+
+Now use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert} occupy one finite pullback rather than independent carrier routes.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The seal-facing consumer is determined by that pullback, so the Phase Real and Completion boundary reads only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates already present in the terminal packet.
+\end{proof}

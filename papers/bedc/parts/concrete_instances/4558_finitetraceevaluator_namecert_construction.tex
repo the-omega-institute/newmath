@@ -431,6 +431,95 @@ classifier, validation, provenance, and naming package, with no further
 runtime content available to the consumer.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator runtime-checkpoint boundary]
+\label{thm:finite-trace-evaluator-runtime-checkpoint-boundary}
+Every $\ReflectionRuntimeCheckpointUp$ consumer of an accepted
+$\FiniteTraceEvaluatorUp$ packet reads only the displayed evaluator rows
+$I,T,A,V,H,C,P,N$, together with the runtime-candidate boundary and
+checkpoint-state rows supplied by the checkpoint packet. The read never imports
+host validation, a total truth predicate, a total halting predicate, an
+unbounded evaluator, or an infinite execution stream.
+\end{theorem}
+\begin{proof}
+Project the accepted evaluator packet through
+\autoref{def:finite-trace-evaluator-carrier}. The consumer can see the coded
+input row $I$, finite trace row $T$, accepted-result row $A$,
+validation-boundary row $V$, componentwise transport, continuation,
+provenance, and local name.
+
+Apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage} and
+\autoref{thm:finite-trace-evaluator-result-classifier-exactness}. These rows
+force every accepted result read through the finite trace route $I \to T \to A$
+before any runtime-facing checkpoint can inspect it.
+
+Next use \autoref{thm:finite-trace-evaluator-validation-row-nonescape} and
+\autoref{thm:finite-trace-evaluator-runtime-nonimport}. The validation row
+remains a boundary row, and the runtime-candidate and checkpoint-state data are
+read as object-level packet rows rather than as a host runtime.
+
+Finally attach provenance exhaustion from
+\autoref{thm:finite-trace-evaluator-provenance-exhaustion} and accepted-result
+ledger exhaustion from
+\autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}. The
+checkpoint consumer has no carrier coordinate left for host validation, a total
+truth predicate, a total halting predicate, an unbounded evaluator, or an
+infinite execution stream.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator trace-window accountability]
+\label{thm:finite-trace-evaluator-trace-window-accountability}
+Every accepted result row of an accepted $\FiniteTraceEvaluatorUp$ packet has
+a finite trace-window coordinate in $T$. The accepted result cannot be supplied
+by an unbounded execution stream, by a host evaluator, or by a total halting
+predicate outside the displayed packet $E=(I,T,A,V,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. It
+places the trace evidence for every accepted result inside the finite row $T$
+of the displayed evaluator packet.
+
+Use \autoref{thm:finite-trace-evaluator-result-classifier-exactness}. The row
+$A$ classifies a result only after the finite trace-step row has been read from
+$I$, so the accepted result has no source separate from the finite trace
+window.
+
+Now apply \autoref{thm:finite-trace-evaluator-runtime-nonimport}. The external
+runtime-candidate and diagonal-trace objects remain dependencies at the
+boundary and do not enter the packet as an unbounded execution stream.
+
+Finally use \autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}.
+The ledger exposes only $T,A,V,P,N$ inside the finite packet, leaving no row
+that could supply an accepted result from a host evaluator or total halting
+predicate.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator validation refusal package]
+\label{thm:finite-trace-evaluator-validation-refusal-package}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the validation-boundary row
+$V$ remains a refusal package after transport through $H,C,P,N$. It records the
+boundary at which host validation is not imported, and it cannot be converted
+into a self-validator for the same accepted packet.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(I,T,A,V,H,C,P,N)$. The only validation-facing row is
+$V$, while $H,C,P,N$ provide componentwise transport, continuation, provenance,
+and local naming.
+
+Apply \autoref{thm:finite-trace-evaluator-validation-row-nonescape}. The row
+$V$ refuses to become the validating host judgment for its own evaluator
+packet.
+
+Next use \autoref{thm:finite-trace-evaluator-boundary-exhaustion} and
+\autoref{thm:finite-trace-evaluator-provenance-exhaustion}. Transport through
+$H,C,P,N$ preserves the displayed boundary route and records its finite
+dependencies without adding a validator row.
+
+Finally apply \autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}.
+The accepted result ledger is already exhausted by the finite trace,
+classifier, validation boundary, provenance, and name, so the refusal package
+cannot be repackaged as a self-validator.
+\end{proof}
+
 \closureat{FiniteTraceEvaluatorUp}{seedStr}
 
 \begin{closurestatus}{\FiniteTraceEvaluatorUp}
