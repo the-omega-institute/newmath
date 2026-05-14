@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.AuditMembraneUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def AuditMembraneCarrier (G B R D H P N : BHist) : Prop :=
@@ -52,5 +54,41 @@ theorem AuditMembraneCarrier_drift_resolution {G B R D H P N drift : BHist} :
   have unaryDrift : UnaryHistory drift :=
     unary_cont_closed unaryD unaryP driftRoute
   exact ⟨unaryD, unaryP, unaryDrift, driftRoute, sameAuditFace, replayRoute⟩
+
+theorem AuditMembraneCarrier_namecert_obligations {G B R D H P N : BHist} :
+    AuditMembraneCarrier G B R D H P N →
+      SemanticNameCert
+          (fun row : BHist => AuditMembraneCarrier G B R D H P N ∧ hsame row N)
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist => hsame row N ∧ hsame H (append G B))
+          hsame ∧
+        UnaryHistory R ∧ UnaryHistory N ∧ hsame H (append G B) := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame UnaryHistory Cont
+  intro carrier
+  have closure := AuditMembraneCarrier_refusal_replay_closure carrier
+  have unaryN : UnaryHistory N := closure.right.left
+  have sameAuditFace : hsame H (append G B) := closure.right.right
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => AuditMembraneCarrier G B R D H P N ∧ hsame row N)
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist => hsame row N ∧ hsame H (append G B))
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro N ⟨carrier, hsame_refl N⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      exact ⟨source.right, unary_transport unaryN (hsame_symm source.right)⟩
+    · intro row source
+      exact ⟨source.right, sameAuditFace⟩
+  exact ⟨cert, closure.left, unaryN, sameAuditFace⟩
 
 end BEDC.Derived.AuditMembraneUp
