@@ -147,6 +147,42 @@ Use \autoref{thm:diagonal-limit-stability-primitive-route-exhaustion}. It fixes 
 Now apply \autoref{thm:diagonal-limit-stability-obligation-package}. Since the carrier, handoff, representative-seal comparison, window coverage, and transport replay have already been packaged for the same finite tuple, the local NameCert scope closes exactly over the displayed selector-seal packet and over nothing else.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit stability selector-seal primitive binding]
+\label{thm:diagonal-limit-stability-selector-seal-primitive-binding}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the row $D$ is bound to the $\DiagonalTailSelectorUp$ primitive surface, and the row $S$ is bound to the $\CauchyLimitSealUp$ primitive surface together with the displayed $\RealUp$ seal row. Both reads are replayed only through the displayed $\BHist$ packet, componentwise $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitStabilityUp}$ row.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to isolate the two route rows. The coordinate $D$ is the only diagonal representative row available to the packet, and the coordinate $S$ is the only seal row available to the packet.
+
+Apply \autoref{thm:diagonal-limit-stability-selector-seal-scope}. It fixes the consumer-visible order in which the selector row and seal row can be read before a Real-completeness consumer inspects the stability comparison.
+
+Now apply \autoref{thm:diagonal-limit-stability-primitive-route-exhaustion}. The replay rows are exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so neither the selector read nor the seal read has a second primitive route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability window-transport primitive binding]
+\label{thm:diagonal-limit-stability-window-transport-primitive-binding}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the common finite window $W$ and the replay rows $H,C,P,N$ are the whole primitive transport surface for the selector-seal comparison. This surface contains no quotient stream, host real equality, selected representative, trichotomy row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-stability-window-coverage}. It forces every Real-completeness consumer to pass through the common window $W$ and the structural rows $H,C,P,N$ after the representative side or the seal side has been chosen.
+
+Use \autoref{thm:diagonal-limit-stability-transport-replay}. The $H$ and $C$ rows replay the same accepted carrier, while $P$ and $N$ keep provenance and local naming attached to that carrier.
+
+The exclusions follow from the carrier definition and from \autoref{thm:diagonal-limit-stability-primitive-route-exhaustion}. Since none of the excluded objects is a coordinate of $T$, it cannot enter the primitive transport surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability scoped NameCert boundary]
+\label{thm:diagonal-limit-stability-scoped-namecert-boundary}
+The selector-seal primitive binding of \autoref{thm:diagonal-limit-stability-selector-seal-primitive-binding}, the window-transport primitive binding of \autoref{thm:diagonal-limit-stability-window-transport-primitive-binding}, and the local scope closure of \autoref{thm:diagonal-limit-stability-namecert-scope-closure} justify scoped closure for the displayed $\NameCert_{\DiagonalLimitStabilityUp}$ boundary of $T=(R,D,L,S,W,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+The selector-seal primitive binding fixes the only route by which $D$ and $S$ can be read. It binds the representative side to $\DiagonalTailSelectorUp$ and the seal side to $\CauchyLimitSealUp$ and $\RealUp$.
+
+The window-transport primitive binding fixes the only route by which those reads are transported. It keeps $W,H,C,P,N$ as the finite primitive surface and excludes the analytic and quotient-level coordinates absent from the carrier.
+
+Finally apply \autoref{thm:diagonal-limit-stability-namecert-scope-closure}. Its closed local scope is therefore not merely an obligation list; it is the displayed scoped boundary of the local $\NameCert_{\DiagonalLimitStabilityUp}$ packet.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit stability tail-refinement invariance]
 \label{thm:diagonal-limit-stability-tail-refinement-invariance}
 Let
@@ -171,16 +207,17 @@ Finally apply \autoref{thm:diagonal-limit-stability-namecert-scope-closure}. The
 
 \closureat{DiagonalLimitStabilityUp}{seedStr}
 \closureat{DiagonalLimitStabilityUp}{obligationStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
+\closureat{DiagonalLimitStabilityUp}{scopedStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\DiagonalLimitStabilityUp}
   \constructivestory{A $\DiagonalLimitStabilityUp$ packet is generated from a $\RegSeqRatUp$ source row, diagonal representative row, limit selector row, $\RealUp$ seal row, finite $\StreamNameUp$ window, componentwise $\hsame$ transports, displayed $\Cont$ continuations, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:diagonal-limit-stability-carrier}, \autoref{thm:diagonal-limit-stability-namecert-obligations}, \autoref{thm:diagonal-limit-stability-real-completeness-handoff}, and \autoref{thm:diagonal-limit-stability-obligation-package} define the finite stability carrier, its NameCert obligation rows, the RealCompleteness handoff boundary, and the assembled obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:diagonal-limit-stability-selector-seal-primitive-binding}, \autoref{thm:diagonal-limit-stability-window-transport-primitive-binding}, and \autoref{thm:diagonal-limit-stability-scoped-namecert-boundary} bind the selector row, seal row, finite-window transport, replay surface, provenance, and local NameCert row to the displayed BEDC primitives.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.DiagonalLimitStabilityUp.taste\_gate}
   \notclaimed{This chapter does not prove quotient-stream equality, host real equality, a choice-selected limit representative, trichotomy, ambient completeness, or a public standard bridge.}
-  \upgradepath{The next paper step is scoped closure by binding selector route exactness, seal route exactness, finite-window coverage, transport replay, provenance, and local NameCert rows to their BEDC primitives.}
+  \upgradepath{The next paper step is a public object surface or a standard bridge; the local selector-seal primitive boundary remains scoped to the displayed packet.}
 \end{closurestatus}

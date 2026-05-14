@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BoundaryGateUp$}
+\label{ch:concrete-instances-boundary-gate-namecert}
+\origin{ai}
+
+The $\BoundaryGateUp$ packet realizes the boundary-gate construction of \autoref{ch:visions-external-supply-without-axioms} as a finite NameCert surface. It sits beside the external-supply boundary of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the supply-kind router of \autoref{ch:concrete-instances-supply-kind-router-namecert}, the audit membrane of \autoref{ch:concrete-instances-auditmembrane-namecert}, and the audit-gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}. Those siblings isolate boundary records, socket ledgers, kind routing, refusal replay, or audit inventory; this packet binds the gate question and audit verdict to the visible boundary form and site route in one carrier.
+
+\begin{definition}[BoundaryGate carrier]
+\label{def:boundary-gate-carrier}
+A $\BoundaryGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,Q,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary-form row, recording the accepted external-supply boundary form being tested;
+\item $Q$ is the gate-question row, recording the finite question asked of that boundary form;
+\item $V$ is the audit-verdict row, recording the pass-or-refuse result for the question $Q$ at boundary form $B$;
+\item $S$ is the visible site route, recording the socket, marker, dependency, certificate row, or import edge at which the boundary is read;
+\item $H$ records componentwise $\hsame$ transports for $B,Q,V,S$ together with continuation, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect the boundary form, gate question, audit verdict, and visible site route;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\SupplyKindRouterUp$, $\AuditMembraneUp$, $\AuditGateBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BoundaryGateUp}$ row.
+\end{enumerate}
+The carrier exports no hidden boundary content, no verdict detached from the boundary form, no route that treats refused supply as substrate theorem content, and no host-side permission to answer the gate without displaying $B,Q,V,S,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[BoundaryGate NameCert obligations]
+\label{thm:boundary-gate-namecert-obligations}
+For the carrier of \autoref{def:boundary-gate-carrier}, the local $\NameCert_{\BoundaryGateUp}$ surface consists exactly of carrier admission for
+$$
+G=(B,Q,V,S,H,C,P,N),
+$$
+boundary-form exposure through $B$, gate-question exposure through $Q$, audit-verdict exposure through $V$, visible-site routing through $S$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Consequently, an accepted $\BoundaryGateUp$ packet cannot expose a verdict without the boundary form it judges, cannot expose a boundary form without the gate question and site route, and cannot route refused boundary content into substrate theorem content.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The accepted packet lists $B,Q,V,S,H,C,P,N$ as its full inventory, so the local naming certificate has no coordinate from which to introduce a second boundary form, gate question, verdict, site route, transport, continuation, provenance, or local name.
+
+Read the gate-facing rows first. The boundary form $B$ names what kind of external-supply boundary is being tested, $Q$ names the finite question asked of that form, and $V$ records the audit verdict for that question.
+
+Next read the routing rows. The site route $S$ makes the tested location visible, while $H$ and $C$ transport and replay only the same displayed rows.
+
+Finally inspect $P$ and $N$. Provenance ties the packet to its sibling surfaces, and the local name binds the finite inventory. Since the carrier has no coordinate for hidden boundary content or detached verdicts, every accepted read remains inside the displayed NameCert surface.
+\end{proof}
+
+\begin{theorem}[BoundaryGate non-internalization]
+\label{thm:boundary-gate-noninternalization}
+Every accepted $\BoundaryGateUp$ packet preserves the external-supply boundary it judges. A downstream consumer may read $B,Q,V,S,H,C,P,N$ as a finite audit surface for the boundary gate, but it may not read from the packet an internal witness of the requested supply, a replacement theorem for refused content, an off-site verdict, a selected boundary representative, a quotient collapse, a hidden host equality, or a bridge row.
+\end{theorem}
+\begin{proof}
+Begin with the boundary-form and gate-question rows. The pair $B,Q$ fixes the boundary and the finite question as displayed certificate content rather than as an implicit host-side convention.
+
+Use the audit-verdict row $V$ together with the visible site route $S$. A verdict is accepted only as the result of testing the displayed boundary form at the displayed site; it is not an independent source of requested supply.
+
+The transport and replay rows $H$ and $C$ preserve that same packet under componentwise movement and consumer access. They do not add a selector, quotient representative, theorem object, host equality, or bridge coordinate.
+
+The provenance and local naming rows $P,N$ bind the packet to $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\SupplyKindRouterUp$, $\AuditMembraneUp$, and $\AuditGateBoundaryUp$ as sibling sources. Since none of the displayed rows supplies the refused content itself, the accepted boundary gate keeps the judged supply external.
+\end{proof}
+
+\falsifiablePrediction{Any accepted BoundaryGateUp packet that admits boundary content without exposing both the boundary-form row and the audit-verdict row is rejected by the NameCert surface.}
+
+\independenceWitness{Nearest siblings: external-supply-boundary, supply-socket-ledger, supply-kind-router, audit-membrane, audit-gate-boundary. None is bijective because BoundaryGateUp carries the gate question and verdict rows together with the visible boundary form and site route, while the siblings isolate boundary, socket kind, kind routing, refusal replay, or gate-boundary inventory.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \BoundaryGateUp$ and $\mathsf{FieldFaithful}\ \BoundaryGateUp$ in $\mathsf{lean4/BEDC/Derived/BoundaryGateUp/TasteGate.lean}$ before the taste-gate target $\mathsf{BEDC.Derived.BoundaryGateUp.TasteGate.boundaryGateTasteGate}$ can be used as a checked correspondence.
+
+\closureat{BoundaryGateUp}{seedStr}
+\closureat{BoundaryGateUp}{obligationStr}
