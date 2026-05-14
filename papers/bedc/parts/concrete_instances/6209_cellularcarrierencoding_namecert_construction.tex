@@ -133,6 +133,30 @@ Route stability fixes how those rows are consumed. The displayed route reaches t
 Provenance exhaustion and non-escape rule out the remaining alternatives. The sibling rows certify the visible finite dependency already present in the packet; they do not create a detached cellular computation, an unbounded orbit read, or a bypass around the carrier's displayed path.
 \end{proof}
 
+\begin{theorem}[CellularCarrierEncoding cell-row accountability]
+\label{thm:cellular-carrier-encoding-cell-row-accountability}
+Every accepted $\CellularCarrierEncodingUp$ packet read of the bit encoding and readback row $T$ exposes the cell-row embedding coordinate $R$ before the carrier can be consumed as a cellular row. The route cannot bypass $R$ through a hidden offset, host byte layout, unstated default fill, detached evaluator, or unrecorded row slice.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-carrier-encoding-carrier}. The bit encoding and readback data are stored in $T$, while the only row that places that word inside a cellular row is $R$.
+
+Use readback exactness and non-escape, \autoref{thm:cellular-carrier-encoding-readback-exactness} and \autoref{thm:cellular-carrier-encoding-nonescape}. They force the route from the source trace through $T$ and then through the displayed embedding coordinate before any cellular carrier read is available.
+
+The excluded alternatives are absent carrier coordinates. Since the packet stores no hidden offset, host byte layout, detached evaluator, unrecorded default fill, or second row slice, the accepted read exposes $R$ as its only cell-row accountability witness.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding substrate witness completeness]
+\label{thm:cellular-carrier-encoding-substrate-witness-completeness}
+Every substrate-facing read of an accepted $\CellularCarrierEncodingUp$ packet factors through the displayed $\CellularTrustSubstrateUp$ sibling row and the existing $\CellularAutomatonUp$ dependency named by $S$ and $P$. No extra substrate carrier, global cellular evaluator, unbounded orbit, or detached trust path is available outside that displayed sibling route.
+\end{theorem}
+\begin{proof}
+Read the substrate coordinates from the carrier. The row $S$ names the cellular substrate witness, and the provenance row $P$ records the $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ dependencies used by that witness.
+
+Apply sibling scope binding. It states that the cellular siblings are consumed as visible dependencies of the finite embedding and provenance route, with no hidden evaluator or unbounded substrate read.
+
+Finally combine route stability with provenance exhaustion. The $\hsame$ and $\Cont$ rows preserve the same $B,T,R,S$ path, and $P,N$ name only that path. Thus a substrate-facing consumer has no route to any extra substrate carrier beyond the displayed sibling rows.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
@@ -145,5 +169,5 @@ The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} an
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, hidden offset exclusion beyond the displayed packet, or bridge checking.}
-  \upgradepath{Obligation closure requires carrier admission, bit-readback exactness, cell-row embedding accountability, substrate witnessing, route stability, provenance, non-escape, and Lean TasteGate instances for the same finite packet.}
+  \upgradepath{Obligation closure requires binding the displayed accountability and substrate witness obligations to the BHist, hsame, Cont, CellularAutomatonUp, and CellularTrustSubstrateUp source rows, plus Lean TasteGate instances for the same finite packet.}
 \end{closurestatus}
