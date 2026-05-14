@@ -403,6 +403,47 @@ theorem DiagonalLimitCompatibilityRootRouteBudgetPackage [AskSetup] [PackageSetu
       diagonalDyadicRoot, dyadicWindowsReadback, readbackRealSealRoute, provenancePkg,
       rootRoutePkg⟩
 
+theorem DiagonalLimitCompatibilityBudgetSelectorCarrier [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector selectedWindow selectedRead selectedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont diagonal dyadic selector →
+        Cont selector windows selectedWindow →
+          Cont selectedWindow readback selectedRead →
+            Cont selectedRead realSeal selectedSeal →
+              PkgSig bundle selectedSeal pkg →
+                UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory windows ∧
+                  UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory selector ∧
+                    UnaryHistory selectedWindow ∧ UnaryHistory selectedRead ∧
+                      UnaryHistory selectedSeal ∧ Cont diagonal dyadic selector ∧
+                        Cont selector windows selectedWindow ∧
+                          Cont selectedWindow readback selectedRead ∧
+                            Cont selectedRead realSeal selectedSeal ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle selectedSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalDyadicSelector selectorWindowsSelectedWindow
+    selectedWindowReadbackSelectedRead selectedReadRealSealSelectedSeal selectedSealPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicSelector
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed selectorUnary windowsUnary selectorWindowsSelectedWindow
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed selectedWindowUnary readbackUnary selectedWindowReadbackSelectedRead
+  have selectedSealUnary : UnaryHistory selectedSeal :=
+    unary_cont_closed selectedReadUnary realSealUnary selectedReadRealSealSelectedSeal
+  exact
+    ⟨diagonalUnary, dyadicUnary, windowsUnary, readbackUnary, realSealUnary, selectorUnary,
+      selectedWindowUnary, selectedReadUnary, selectedSealUnary, diagonalDyadicSelector,
+      selectorWindowsSelectedWindow, selectedWindowReadbackSelectedRead,
+      selectedReadRealSealSelectedSeal, provenancePkg, selectedSealPkg⟩
+
 theorem DiagonalLimitCompatibilityRootRequestCoverage [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       rootBudget rootWindow rootReadback rootSeal : BHist}
