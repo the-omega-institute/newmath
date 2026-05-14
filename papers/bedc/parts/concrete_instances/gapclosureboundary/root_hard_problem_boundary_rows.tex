@@ -1,0 +1,37 @@
+\begin{theorem}[GapClosureBoundary source-refusal triad]
+\label{thm:gap-closure-boundary-source-refusal-triad}
+Every accepted $\GapClosureBoundaryUp$ boundary packet exposes exactly the request row $G$, the source row $S$, and the refusal row $R$ before any hard-problem consumer reads the boundary. The remaining rows $H,C,P,N$ transport, replay, package, and name that triad, but they do not add an internal closure witness, hidden $\mathsf{T}$ supply, private-access row, or direct aspect-reduction row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert rows, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite packet $G,S,R,H,C,P,N$ and separate carrier exposure from source-route and refusal-ledger duties.
+
+Use source-route totality for supported reads and refusal-route exactness for unsupported reads, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. Together they force every listed hard-problem consumer to see $G$ with either the displayed source row $S$ or the displayed refusal row $R$.
+
+Finally apply refusal non-escape and structural row conservation, \autoref{thm:gap-closure-boundary-refusal-nonescape} and \autoref{thm:gap-closure-boundary-structural-row-conservation}. These rows keep $H,C,P,N$ from manufacturing a hidden closure, hidden supply, private access, or aspect-reduction coordinate after the triad has been exposed.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer ledger factorization]
+\label{thm:gap-closure-boundary-consumer-ledger-factorization}
+Every hard-problem consumer access to an accepted $\GapClosureBoundaryUp$ packet factors through the displayed rows $G,S,R,H,C,P,N$. A supported access factors through $G \longrightarrow S$ and an unsupported closure request factors through $G \longrightarrow R$, but no consumer can manufacture an internal closure witness from the ledger, transport, continuation, provenance, or naming rows.
+\end{theorem}
+\begin{proof}
+Start from hard-problem consumer factorization, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization}. It places the listed causal, finite-refutation, other-minds, aspect-chain, and solipsism-refusal consumers inside the common packet $G,S,R,H,C,P,N$.
+
+For supported access, apply source route totality and source observation totality, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-source-observation-totality}. The consumer receives the source branch only through the displayed route from $G$ to $S$.
+
+For unsupported closure requests, apply refusal route exactness and refusal ledger totality, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-ledger-totality}. The request is sent to $R$ through the same structural rows rather than to an internal closure witness.
+
+The consumer-exactness package and structural row conservation, \autoref{thm:gap-closure-boundary-consumer-exactness-package} and \autoref{thm:gap-closure-boundary-structural-row-conservation}, exclude a third ledger route. Thus consumer access factors through the displayed rows and nowhere else.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary hard-problem route exhaustion]
+\label{thm:gap-closure-boundary-hard-problem-route-exhaustion}
+The finite witnessed-refutation and hard-problem sibling consumers of a $\GapClosureBoundaryUp$ packet consume only the displayed boundary rows $G,S,R,H,C,P,N$. Their positive reads use the exposed source route, their negative reads use the exposed refusal route, and neither kind of read imports a consumer-specific closure witness outside the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Project the root boundary packet using \autoref{thm:gap-closure-boundary-source-refusal-triad}. Before any sibling reads the boundary, the request, source, and refusal rows are visible as the common triad carried by $H,C,P,N$.
+
+For the finite witnessed-refutation and hard-problem siblings, use hard-problem consumer factorization and consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization} and \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. These theorems divide all listed sibling reads between the source branch and refusal branch.
+
+Consumer ledger factorization then binds both branches to the displayed rows $G,S,R,H,C,P,N$. Since refusal non-escape and the consumer-exactness package exclude hidden closure and off-packet continuation rows, the siblings consume exactly the public GapClosureBoundary surface.
+\end{proof}
