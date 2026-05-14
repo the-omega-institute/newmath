@@ -41,6 +41,24 @@ Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. Every p
 The two packets therefore have the same complete public inventory. Since the coverage theorem leaves no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or standard bridge rows, there is no remaining source from which two distinct terminal packets could be read.
 \end{proof}
 
+\begin{theorem}[StreamName Real-RegSeqRat terminal factorization]
+\label{thm:streamname-real-regseq-terminal-factorization}
+Any Phase Real and Completion consumer that reaches a $\RealUp$ seal through $\StreamNameUp$ factors uniquely through the ordered four-face route
+$$
+\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}
+$$
+with displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The factorization is the consumer contract for the terminal seal read: no quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness row, metric-completeness row, or bridge row can serve as an alternate factor.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It supplies existence of the ordered route from the StreamName window through RegSeqRat readback and DyadicRatCore ledger to the RealUp seal.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-ledger-coverage}. The coverage theorem exhausts the terminal ledger by the four faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Use \autoref{thm:streamname-open-phase-terminal-readback-determinacy} for uniqueness. Once the four faces and support rows agree, two consumer reads determine the same finite terminal packet.
+
+Finally use \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. The boundary theorem rules out quotient stream, host sequence equality, selected limit, ambient Real completeness, metric-completeness, and bridge rows as alternate routes, so the factorization is the unique consumer contract.
+\end{proof}
+
 \begin{theorem}[StreamName-RegSeqRat-RealUp terminal seal boundary]
 \label{thm:streamname-regseqrat-realup-terminal-seal-boundary}
 Any Phase Real and Completion consumer that reaches a quotient-refusal or seal-facing boundary through $\StreamNameUp$ must expose exactly the terminal four-face route

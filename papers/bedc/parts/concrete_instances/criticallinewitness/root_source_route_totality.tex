@@ -1,0 +1,94 @@
+\begin{theorem}[CriticalLineWitness source-route totality]
+\label{thm:critical-line-witness-source-route-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Before any critical-line consumer reads $W$, the packet exposes its supplied
+$\BHist$ source row $Z$, fixed zero-strip row $S$, rational modulus row $M$,
+zeta-continuation witness row, comparison ledger rows $R,Q$, componentwise
+$\hsame$ transport row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance row
+$P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The consumer
+therefore enters the packet only through the finite source route
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with the root source triad of
+\autoref{thm:critical-line-witness-root-source-triad}. It exposes the supplied
+zero row, fixed critical-strip row, and source-facing comparison row as finite
+$\BHist$ data before a critical-line consumer can inspect the packet.
+
+Next apply the root comparison ledger
+\autoref{thm:critical-line-witness-root-comparison-ledger} and the root modulus
+readback theorem \autoref{thm:critical-line-witness-root-modulus-readback}.
+These rows attach the rational modulus, real-part, and rational-comparison
+coordinates to $M,R,Q,H,C,P,N$ rather than to a host analytic object.
+
+Finally use the NameCert obligations of
+\autoref{thm:critical-line-witness-namecert-obligations}. Carrier admission,
+transport, displayed continuation, provenance, and local naming are all read
+on the same accepted tuple, so no critical-line consumer can read $W$ before
+the displayed source route has been exposed.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zeta-boundary non-escape]
+\label{thm:critical-line-witness-zeta-boundary-nonescape}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, every zeta-facing read of $W$ remains inside the finite
+$\ZetaContinuationWitnessUp$ ledger carried by the supplied source row and the
+displayed route $Z,S,M,R,Q,H,C,P,N$. Such a read cannot import an
+$\mathsf{RH}$ predicate, a global zero classifier, a completed $\GammaUp$
+certificate, or a selected non-trivial-zero locator.
+\end{theorem}
+\begin{proof}
+Read the supplied source through
+\autoref{thm:critical-line-witness-source-route-totality}. The
+critical-line witness has already exposed the zeta-continuation witness row and
+the structural rows $H,C,P,N$ before any zeta-facing consumer can use it.
+
+Now apply the ZetaContinuationWitness source obligation and analytic readback
+obligation,
+\autoref{thm:zeta-continuation-witness-source-obligation} and
+\autoref{thm:zeta-continuation-witness-analytic-readback-obligation}. They keep
+zeta-facing reads inside the displayed continuation ledger and its pole,
+functional-equation, Gamma-boundary, transport, continuation, provenance, and
+local naming rows.
+
+Close with the ZetaContinuationWitness zero ledger non-escape theorem
+\autoref{thm:zeta-continuation-witness-zero-ledger-nonescape}. It refuses
+$\mathsf{RH}$ predicates, non-trivial-zero locators, global zero classifiers,
+and completed Gamma certificates, so the CriticalLineWitness read cannot gain
+those objects by passing through the supplied zeta ledger.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness NameCert obligation triad]
+\label{thm:critical-line-witness-namecert-obligation-triad}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+source-route totality of
+\autoref{thm:critical-line-witness-source-route-totality}, the zeta-boundary
+non-escape of \autoref{thm:critical-line-witness-zeta-boundary-nonescape}, and
+the modulus readback of
+\autoref{thm:critical-line-witness-root-modulus-readback} form the local root
+$\NameCert_{\CriticalLineWitnessUp}$ obligation triad. Together they expose the
+finite $\BHist$ source, rational modulus, zeta-continuation, zero-strip,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows while refusing every off-packet
+analytic, zero-classification, and host-equality exit.
+\end{theorem}
+\begin{proof}
+The source-route totality theorem supplies the carrier side of the triad. It
+projects the accepted packet to the displayed finite rows
+$Z,S,M,R,Q,H,C,P,N$ before a critical-line consumer can read the witness.
+
+The zeta-boundary non-escape theorem supplies the analytic boundary side. It
+keeps zeta-facing reads inside the finite $\ZetaContinuationWitnessUp$ ledger
+and refuses RH, zero-classifier, Gamma-completion, and non-trivial-zero
+selection exits.
+
+The modulus readback theorem supplies the numeric side. It routes rational
+modulus, real-part, and rational comparison reads through $M,R,Q,H,C,P,N$ and
+not through a host numeric oracle or quotient representative.
+
+Combining these three coordinates gives exactly the local root
+$\NameCert_{\CriticalLineWitnessUp}$ surface: source totality, boundary
+non-escape, and modulus readback are all obligations over the same displayed
+packet and no further root obligation row is introduced.
+\end{proof}

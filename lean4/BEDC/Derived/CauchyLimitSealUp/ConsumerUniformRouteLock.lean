@@ -43,4 +43,48 @@ theorem CauchyLimitSealCarrier_consumer_uniform_route_lock [AskSetup] [PackageSe
     ⟨windowUnary, observationUnary, realReadUnary, consumerReadUnary, uniformReadUnary,
       sameSealRead, sameEndpoint, endpointPkg⟩
 
+theorem CauchyLimitSealCarrier_budget_route_pairing_determinacy [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
+      leftWindow leftBudget leftCompletion leftConsumer rightWindow rightBudget rightCompletion
+      rightConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg →
+      Cont schedule source leftWindow →
+        Cont leftWindow dyadic leftBudget →
+          Cont leftBudget diagonal leftCompletion →
+            Cont leftCompletion endpoint leftConsumer →
+              Cont schedule source rightWindow →
+                Cont rightWindow dyadic rightBudget →
+                  Cont rightBudget diagonal rightCompletion →
+                    Cont rightCompletion endpoint rightConsumer →
+                      hsame leftWindow rightWindow →
+                        hsame dyadic leftBudget →
+                          hsame dyadic rightBudget →
+                            hsame leftConsumer rightConsumer ∧ hsame sealRow leftCompletion ∧
+                              hsame sealRow rightCompletion ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier _leftSchedule leftWindowDyadic leftBudgetDiagonal leftCompletionEndpoint
+    _rightSchedule rightWindowDyadic rightBudgetDiagonal rightCompletionEndpoint sameWindows
+    sameDyadicLeft sameDyadicRight
+  obtain ⟨_sourceUnary, _scheduleUnary, _dyadicUnary, _diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpointCarrier, endpointPkg⟩ := carrier
+  have sameSealLeft : hsame sealRow leftCompletion :=
+    cont_respects_hsame sameDyadicLeft (hsame_refl diagonal) dyadicDiagonalSeal
+      leftBudgetDiagonal
+  have sameSealRight : hsame sealRow rightCompletion :=
+    cont_respects_hsame sameDyadicRight (hsame_refl diagonal) dyadicDiagonalSeal
+      rightBudgetDiagonal
+  have sameBudgets : hsame leftBudget rightBudget :=
+    cont_respects_hsame sameWindows (hsame_refl dyadic) leftWindowDyadic rightWindowDyadic
+  have sameCompletion : hsame leftCompletion rightCompletion :=
+    cont_respects_hsame sameBudgets (hsame_refl diagonal) leftBudgetDiagonal
+      rightBudgetDiagonal
+  have sameConsumer : hsame leftConsumer rightConsumer :=
+    cont_respects_hsame sameCompletion (hsame_refl endpoint) leftCompletionEndpoint
+      rightCompletionEndpoint
+  exact ⟨sameConsumer, sameSealLeft, sameSealRight, endpointPkg⟩
+
 end BEDC.Derived.CauchyLimitSealUp

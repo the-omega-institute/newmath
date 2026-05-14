@@ -409,6 +409,24 @@ Inspect a dyadic containment read. By \autoref{thm:locatedinterval-dyadic-refine
 Finally apply \autoref{thm:locatedinterval-containment-transport-scope}. The transport row preserves the endpoint, cell, and refinement coordinates componentwise, so rational and dyadic coverage cannot leave $I$, $D$, and the finite BEDC rows that carry them.
 \end{proof}
 
+\begin{theorem}[LocatedInterval dyadic real-seal handoff]
+\label{thm:locatedinterval-dyadic-real-seal-handoff}
+For every accepted $\LocatedIntervalUp$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+every dyadic refinement row in $D$ that contributes to a $\RealUp$ seal read must pass through its rational parent cell in $I$, the endpoint-window rows $S$, the $\RegSeqRatUp$ readback rows $R$, the $\RealUp$ seal rows $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,C,P,N$. The handoff has no coordinate for a host interval, selected endpoint value, quotient real, or ambient order-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-carrier}. Its refinement data appear as the displayed row $D$, and its seal-facing data appear only through the endpoint windows $S$, readbacks $R$, seal rows $E$, and the transport, continuation, provenance, and naming rows $H,C,P,N$.
+
+Use containment exactness and dyadic refinement handoff. Theorems~\ref{thm:locatedinterval-containment-exactness} and~\ref{thm:locatedinterval-dyadic-refinement-handoff} force every dyadic read in $D$ back through the rational parent cell ledger $I$ before it can be consumed as interval evidence.
+
+Now apply real-seal non-escape and rational-cell coverage. Theorems~\ref{thm:locatedinterval-real-seal-non-escape} and~\ref{thm:locatedinterval-rational-cell-coverage-route} keep the Real-facing read attached to the endpoint-window, regular-readback, seal, rational-cell, and dyadic-refinement rows of the same packet.
+
+Finally use the carrier inventory. Since $J$ contains no host interval coordinate, selected endpoint selector, quotient real carrier, or order-completeness field, the only possible handoff from dyadic refinement evidence to a $\RealUp$ seal read is the finite route through $I,S,R,E,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[LocatedInterval downstream root package]
 \label{thm:locatedinterval-downstream-root-package}
 For every accepted $\LocatedIntervalUp$ packet, the downstream root package consists exactly of carrier habitation, endpoint order windows, rational-cell coverage routes, dyadic refinement handoff, real-seal non-escape, and containment transport scope over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$. Any downstream interval or $\RealUp$ consumer must factor through this finite package.
