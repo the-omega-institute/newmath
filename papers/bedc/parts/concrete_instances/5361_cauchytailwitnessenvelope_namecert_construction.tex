@@ -130,17 +130,85 @@ Follow the route order. The selector handoff places $S$ before $F,Q,A,R$, finite
 Finally apply non-escape. Quotient stream equality, host equality, a host-selected limit, a choice selector, and ambient completeness are not coordinates of $E$, so no hidden row remains outside the displayed obligation surface.
 \end{proof}
 
+\begin{theorem}[CauchyTailWitnessEnvelope scoped route binding]
+\label{thm:cauchy-tail-witness-envelope-scoped-route-binding}
+Every accepted $\CauchyTailWitnessEnvelopeUp$ packet
+$$
+E=(S,F,Q,A,R,H,C,P,N)
+$$
+exposes the selected $\StreamNameUp$ window $S$, the $\FiniteWindowEnvelopeUp$ row $F$, the $\CauchyTailComparisonUp$ row $Q$, the $\RealTailAgreementSealUp$ row $A$, the $\RealUp$ readback row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ as one finite L10 witness-envelope route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The route exposes no quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start from the local NameCert obligations. They identify the displayed coordinates $S,F,Q,A,R,H,C,P,N$ as the entire accepted packet surface, and the TasteGate marker for $\CauchyTailWitnessEnvelopeUp$ aligns this single carrier with its named field-faithful carrier route.
+
+Use the selector handoff to place the route on the selected window. The row $S$ is consumed by the finite-window envelope $F$, and $F$ supplies the endpoint ledger that the tail-comparison row $Q$ reads.
+
+Apply finite-window exactness and tail-comparison exactness. These results make the selected window, endpoint envelope, and Cauchy tail-comparison ledger the same finite route before the RealTailAgreementSeal row is available.
+
+Finally use the Real-tail seal boundary and non-escape theorem. The seal row $A$, RealUp readback row $R$, transports $H$, continuations $C$, provenance $P$, and naming row $N$ remain inside the same finite packet, while quotient stream equality, host real equality, selected host limits, countable choice, and ambient completeness have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope consumer interface exactness]
+\label{thm:cauchy-tail-witness-envelope-consumer-interface-exactness}
+For every accepted $\CauchyTailWitnessEnvelopeUp$ packet
+$$
+E=(S,F,Q,A,R,H,C,P,N)
+$$
+a public consumer of $\CauchyTailWitnessEnvelopeUp$ has exactly the finite interface consisting of the selected $\StreamNameUp$ window $S$, the $\FiniteWindowEnvelopeUp$ endpoint row $F$, the $\CauchyTailComparisonUp$ row $Q$, the $\RealTailAgreementSealUp$ boundary row $A$, the $\RealUp$ readback row $R$, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $H,C,P,N$.
+
+Conversely, the displayed rows $S,F,Q,A,R,H,C,P,N$ suffice for the public consumer interface. They export no quotient stream equality, host real equality, host-selected limit, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+For exactness, project the carrier $E=(S,F,Q,A,R,H,C,P,N)$. By the NameCert obligation theorem, these are exactly the rows admitted for the local $\NameCert_{\CauchyTailWitnessEnvelopeUp}$ surface, so a public consumer has no off-packet coordinate before the route is inspected.
+
+Use the selector handoff and finite-window exactness. The selected window $S$ is first read through the envelope $F$, and the endpoint ledger exported to the consumer is the one displayed by that same finite-window row.
+
+Next apply tail-comparison exactness. The row $Q$ reads the same $S,F$ ledger before the Real-tail seal can be consumed, so the comparison branch cannot replace the finite ledger by quotient stream equality or host real equality.
+
+Now use the Real-tail seal boundary, obligation closure, and scoped route binding. The rows $A$ and $R$ are reached only after $S,F,Q,H,C,P,N$ have been displayed, and the structural rows transport, replay, package, and name that same finite route.
+
+For sufficiency, start with the displayed rows $S,F,Q,A,R,H,C,P,N$. The NameCert obligations admit them as one local naming surface, the selector handoff places the analytic rows in the required order, and the finite-window, tail-comparison, and seal-boundary theorems provide the endpoint, comparison, boundary, and readback components of the consumer route.
+
+Finally apply non-escape and scoped route binding. Since the accepted packet has no coordinate for a quotient stream, host real equality, host-selected limit, countable-choice selector, or ambient completeness principle, the displayed rows provide the whole public interface and no stronger object is exported.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope standard bridge surface]
+\label{thm:cauchy-tail-witness-envelope-standard-bridge-surface}
+Every standard-facing read of an accepted $\CauchyTailWitnessEnvelopeUp$ packet $E=(S,F,Q,A,R,H,C,P,N)$ factors through the selected $\StreamNameUp$ window $S$, the $\FiniteWindowEnvelopeUp$ endpoint row $F$, the $\CauchyTailComparisonUp$ row $Q$, the $\RealTailAgreementSealUp$ boundary row $A$, the $\RealUp$ readback row $R$, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $H,C,P,N$.
+
+The bridge surface exports no quotient stream equality, host real equality, host-selected limit, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the local NameCert obligations of \autoref{thm:cauchy-tail-witness-envelope-namecert-obligations}. They identify $S,F,Q,A,R,H,C,P,N$ as the complete accepted carrier surface for the local $\NameCert_{\CauchyTailWitnessEnvelopeUp}$ row.
+
+Use the selector handoff theorem \autoref{thm:cauchy-tail-witness-envelope-selector-handoff}. It places every diagonal-tail read first on the selected $\StreamNameUp$ window and then on the finite-window envelope before the comparison, seal, or readback rows are consumed.
+
+Apply finite-window exactness and tail-comparison exactness from \autoref{thm:cauchy-tail-witness-envelope-finite-window-exactness} and \autoref{thm:cauchy-tail-witness-envelope-tail-comparison-exactness}. These results bind the endpoint ledger and comparison row to the same finite $S,F$ surface.
+
+Next use the Real-tail seal boundary of \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}. The rows $A$ and $R$ are reached only after the selected window, finite-window envelope, comparison row, transports, continuations, provenance, and local name have been displayed.
+
+Now combine non-escape, scoped route binding, and consumer interface exactness from \autoref{thm:cauchy-tail-witness-envelope-nonescape}, \autoref{thm:cauchy-tail-witness-envelope-scoped-route-binding}, and \autoref{thm:cauchy-tail-witness-envelope-consumer-interface-exactness}. Together they state that a public or standard-facing consumer has exactly the listed finite interface and no off-packet coordinate.
+
+Therefore the standard bridge surface is precisely the displayed $S,F,Q,A,R,H,C,P,N$ route, with no quotient stream equality, host real equality, host-selected limit, countable-choice selector, or ambient completeness coordinate.
+\end{proof}
+
 \closureat{CauchyTailWitnessEnvelopeUp}{seedStr}
 \closureat{CauchyTailWitnessEnvelopeUp}{obligationStr}
+\closureat{CauchyTailWitnessEnvelopeUp}{scopedStr}
+\closureat{CauchyTailWitnessEnvelopeUp}{publicStr}
+\closureat{CauchyTailWitnessEnvelopeUp}{bridgedStr}[BEDC.Derived.CauchyTailWitnessEnvelopeUp.CauchyTailWitnessEnvelopeTasteGate\_single\_carrier\_alignment]
+\closureat{CauchyTailWitnessEnvelopeUp}{matureStr}
 
 \begin{closurestatus}{\CauchyTailWitnessEnvelopeUp}
   \constructivestory{A $\CauchyTailWitnessEnvelopeUp$ packet is generated from a selected $\StreamNameUp$ window, a finite-window envelope row, a Cauchy tail-comparison row, a $\RealTailAgreementSealUp$ row, a $\RealUp$ readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-tail-witness-envelope-carrier}, \autoref{thm:cauchy-tail-witness-envelope-namecert-obligations}, \autoref{thm:cauchy-tail-witness-envelope-selector-handoff}, \autoref{thm:cauchy-tail-witness-envelope-finite-window-exactness}, \autoref{thm:cauchy-tail-witness-envelope-tail-comparison-exactness}, \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}, \autoref{thm:cauchy-tail-witness-envelope-nonescape}, and \autoref{thm:cauchy-tail-witness-envelope-obligation-closure} bind the selected StreamName window, finite-window envelope, tail-comparison row, RealTailAgreementSeal row, RealUp readback row, and BEDC transport and provenance rows.}
-  \formalstatus{\unformalizedV}
-  \leantarget{BEDC.Derived.CauchyTailWitnessEnvelopeUp.taste\_gate}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-witness-envelope-carrier}, \autoref{thm:cauchy-tail-witness-envelope-namecert-obligations}, \autoref{thm:cauchy-tail-witness-envelope-selector-handoff}, \autoref{thm:cauchy-tail-witness-envelope-finite-window-exactness}, \autoref{thm:cauchy-tail-witness-envelope-tail-comparison-exactness}, \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}, \autoref{thm:cauchy-tail-witness-envelope-nonescape}, \autoref{thm:cauchy-tail-witness-envelope-scoped-route-binding}, the bridge-facing public consumer surface \autoref{thm:cauchy-tail-witness-envelope-consumer-interface-exactness}, and the standard bridge surface \autoref{thm:cauchy-tail-witness-envelope-standard-bridge-surface} bind the selected StreamName window, finite-window envelope, tail-comparison row, RealTailAgreementSeal row, RealUp readback row, BHist carrier surface, hsame transports, Cont routes, Pkg provenance, NameCert row, public consumer interface, and standard-facing read as one finite bridge-facing surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyTailWitnessEnvelopeUp.CauchyTailWitnessEnvelopeTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{paperBridge}
   \origin{ai}
-  \notclaimed{This chapter does not close quotient streams, host real equality, selected host limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checking the displayed StreamName, FiniteWindowEnvelope, CauchyTailComparison, RealTailAgreementSeal, RealUp, BHist, hsame, Cont, Pkg, and NameCert dependency scope.}
+  \notclaimed{This chapter does not close quotient streams, host real equality, selected host limits, countable choice, ambient completeness, or machine bridge checking.}
+  \upgradepath{No further paper-side closure upgrade remains; machine bridge checking stays on the formal axis.}
 \end{closurestatus}
