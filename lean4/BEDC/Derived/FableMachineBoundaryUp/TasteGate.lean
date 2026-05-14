@@ -41,37 +41,6 @@ private theorem fableMachineBoundaryDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem fableMachineBoundary_mk_congr
-    {history history' emptyBoundary emptyBoundary' ledger ledger' selector selector'
-      witness witness' clock clock' transport transport' route route'
-      provenance provenance' name name' : BHist}
-    (hHistory : history' = history)
-    (hEmptyBoundary : emptyBoundary' = emptyBoundary)
-    (hLedger : ledger' = ledger)
-    (hSelector : selector' = selector)
-    (hWitness : witness' = witness)
-    (hClock : clock' = clock)
-    (hTransport : transport' = transport)
-    (hRoute : route' = route)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    FableMachineBoundaryUp.mk history' emptyBoundary' ledger' selector' witness' clock'
-        transport' route' provenance' name' =
-      FableMachineBoundaryUp.mk history emptyBoundary ledger selector witness clock transport
-        route provenance name := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hHistory
-  cases hEmptyBoundary
-  cases hLedger
-  cases hSelector
-  cases hWitness
-  cases hClock
-  cases hTransport
-  cases hRoute
-  cases hProvenance
-  cases hName
-  rfl
-
 def fableMachineBoundaryToEventFlow : FableMachineBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | FableMachineBoundaryUp.mk history emptyBoundary ledger selector witness clock transport
@@ -204,19 +173,16 @@ private theorem fableMachineBoundary_round_trip :
           some
             (FableMachineBoundaryUp.mk history emptyBoundary ledger selector witness clock
               transport route provenance name)
-      exact
-        congrArg some
-          (fableMachineBoundary_mk_congr
-            (fableMachineBoundaryDecode_encode_bhist history)
-            (fableMachineBoundaryDecode_encode_bhist emptyBoundary)
-            (fableMachineBoundaryDecode_encode_bhist ledger)
-            (fableMachineBoundaryDecode_encode_bhist selector)
-            (fableMachineBoundaryDecode_encode_bhist witness)
-            (fableMachineBoundaryDecode_encode_bhist clock)
-            (fableMachineBoundaryDecode_encode_bhist transport)
-            (fableMachineBoundaryDecode_encode_bhist route)
-            (fableMachineBoundaryDecode_encode_bhist provenance)
-            (fableMachineBoundaryDecode_encode_bhist name))
+      rw [fableMachineBoundaryDecode_encode_bhist history,
+        fableMachineBoundaryDecode_encode_bhist emptyBoundary,
+        fableMachineBoundaryDecode_encode_bhist ledger,
+        fableMachineBoundaryDecode_encode_bhist selector,
+        fableMachineBoundaryDecode_encode_bhist witness,
+        fableMachineBoundaryDecode_encode_bhist clock,
+        fableMachineBoundaryDecode_encode_bhist transport,
+        fableMachineBoundaryDecode_encode_bhist route,
+        fableMachineBoundaryDecode_encode_bhist provenance,
+        fableMachineBoundaryDecode_encode_bhist name]
 
 private theorem fableMachineBoundaryToEventFlow_injective
     {x y : FableMachineBoundaryUp} :
@@ -230,6 +196,26 @@ private theorem fableMachineBoundaryToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (fableMachineBoundary_round_trip x).symm
       (Eq.trans hread (fableMachineBoundary_round_trip y)))
+
+private def fableMachineBoundaryFields : FableMachineBoundaryUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FableMachineBoundaryUp.mk history emptyBoundary ledger selector witness clock transport
+      route provenance name =>
+      [history, emptyBoundary, ledger, selector, witness, clock, transport, route, provenance,
+        name]
+
+private theorem fableMachineBoundary_field_faithful :
+    ∀ x y : FableMachineBoundaryUp,
+      fableMachineBoundaryFields x = fableMachineBoundaryFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk history emptyBoundary ledger selector witness clock transport route provenance name =>
+      cases y with
+      | mk history' emptyBoundary' ledger' selector' witness' clock' transport' route'
+          provenance' name' =>
+          cases hfields
+          rfl
 
 instance fableMachineBoundaryBHistCarrier : BHistCarrier FableMachineBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -249,42 +235,24 @@ instance fableMachineBoundaryChapterTasteGate :
 
 instance fableMachineBoundaryFieldFaithful : FieldFaithful FableMachineBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | FableMachineBoundaryUp.mk history emptyBoundary ledger selector witness clock
-        transport route provenance name =>
-        [history, emptyBoundary, ledger, selector, witness, clock, transport, route,
-          provenance, name]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk history₁ emptyBoundary₁ ledger₁ selector₁ witness₁ clock₁ transport₁ route₁
-        provenance₁ name₁ =>
-        cases y with
-        | mk history₂ emptyBoundary₂ ledger₂ selector₂ witness₂ clock₂ transport₂ route₂
-            provenance₂ name₂ =>
-            simp only [] at h
-            injection h with hHistory hRest₁
-            injection hRest₁ with hEmptyBoundary hRest₂
-            injection hRest₂ with hLedger hRest₃
-            injection hRest₃ with hSelector hRest₄
-            injection hRest₄ with hWitness hRest₅
-            injection hRest₅ with hClock hRest₆
-            injection hRest₆ with hTransport hRest₇
-            injection hRest₇ with hRoute hRest₈
-            injection hRest₈ with hProvenance hRest₉
-            injection hRest₉ with hName _
-            subst hHistory
-            subst hEmptyBoundary
-            subst hLedger
-            subst hSelector
-            subst hWitness
-            subst hClock
-            subst hTransport
-            subst hRoute
-            subst hProvenance
-            subst hName
-            rfl
+  fields := fableMachineBoundaryFields
+  field_faithful := fableMachineBoundary_field_faithful
+
+instance fableMachineBoundaryNontrivial : Nontrivial FableMachineBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FableMachineBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FableMachineBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate FableMachineBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fableMachineBoundaryChapterTasteGate
 
 theorem FableMachineBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist,
