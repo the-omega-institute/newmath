@@ -109,6 +109,7 @@ import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
+import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
@@ -394,6 +395,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
+import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
 import BEDC.Derived.FastCauchyUp.Middle
@@ -801,6 +803,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
+import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
