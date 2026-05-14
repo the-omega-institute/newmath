@@ -539,6 +539,26 @@ The seal portion is fixed by \autoref{thm:regular-cauchy-sequence-realseal-hando
 Finally apply \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrier contains no coordinate for quotient streams, choice, hidden tail oracles, ambient completeness, or $\RealUp$ completeness, the consumer route is exhausted by the finite packet $S$ and exports no off-surface completion data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence Cauchy witness ledger handoff]
+\label{thm:regular-cauchy-sequence-cauchy-witness-ledger-handoff}
+For every accepted $\RegularCauchySequenceUp$ packet
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+whose selected-window rows, dyadic ledger, $\RegSeqRatUp$ row, $\RealDiagonalWindowCoverageUp$ row, and $\RealUp$ seal handoff are consumed by an accepted $\CauchyWitnessLedgerUp$ packet of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, every completion-facing read passes through the same finite route $W,D,R,G,E,H,C,P,N$ before the witness ledger can read its observation-budget and completion-seal rows.
+
+The handoff exports no quotient stream, host limit, selected external limit, choice coordinate, hidden tail oracle, ambient completeness theorem, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-sequence-public-export}. The accepted packet exposes the selected-window rows, dyadic ledger, regular-rational readback, diagonal-window coverage, $\RealUp$ seal handoff, and structural rows as one public $\NameCert_{\RegularCauchySequenceUp}$ surface.
+
+Apply \autoref{thm:regular-cauchy-sequence-mature-consumer-route}. Any Real or Completion consumer using the regular Cauchy family must read $W,D,R,G,E$ and the structural rows $H,C,P,N$, with no off-surface limit, choice, or completeness coordinate.
+
+Now read the witness-ledger side through \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. The ledger reaches its observation-budget and completion-seal classifier rows only through the displayed diagonal-budget, observation-budget, seal-synchronizer, and structural route.
+
+Combining these routes forces the Cauchy witness ledger consumer to inherit the regular Cauchy packet's finite public route before any completion-facing read is admitted. The same non-escape clauses from the regular Cauchy packet and the witness ledger remove quotient streams, host limits, selected external limits, choice coordinates, hidden tail oracles, ambient completeness, and $\RealUp$ completeness from the handoff.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence modulus-refinement consumer lock]
 \label{thm:regular-cauchy-sequence-modulus-refinement-consumer-lock}
 For every accepted $\RegularCauchySequenceUp$ packet
