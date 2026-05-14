@@ -206,6 +206,10 @@ instance cellularOrbitSubstrateChapterTasteGate :
     intro x y hxy heq
     exact hxy (cellularOrbitSubstrateToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CellularOrbitSubstrateUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cellularOrbitSubstrateChapterTasteGate
+
 instance cellularOrbitSubstrateFieldFaithful : FieldFaithful CellularOrbitSubstrateUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

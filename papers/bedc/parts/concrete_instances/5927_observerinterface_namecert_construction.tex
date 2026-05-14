@@ -65,6 +65,18 @@ Use \autoref{thm:observer-interface-namecert-obligations} to identify the accept
 Use \autoref{thm:observer-interface-filter-history-handoff} for StreamName-facing consumers. That handoff keeps omitted rows as boundary certificates and selected rows as the only exported observation data, so no hidden observer state, quotient identity, host equality, unledgered omission, unlicensed observation, or subject parameter has a public coordinate.
 \end{proof}
 
+\begin{theorem}[ObserverInterface obligation closure package]
+\label{thm:observer-interface-obligation-closure-package}
+For the carrier of \autoref{def:observer-interface-carrier}, the obligation-closure surface of $\ObserverInterfaceUp$ consists of carrier admission, filter selection, attention-ledger exposure, selected-row ledger, omitted-row boundary, licensed observation, $\StreamNameUp$ handoff, no-subject exactness, componentwise transport, displayed continuation, package provenance, local naming, the falsifiable prediction boundary, and the independence witness against the observer-filter, observer-history-identity, attention-ledger, and StreamName siblings. Selected rows are the only $\StreamNameUp$-facing data, and omitted rows remain boundary certificates.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:observer-interface-namecert-obligations}. They expose the accepted carrier rows $H,F,A,S,O,U,W,Q,R,L,C,P,N$ and assign each public observation to the filter, attention, selected, omitted, licensed-observation, handoff, no-subject, transport, ledger, route, provenance, and local naming surface.
+
+Use the filter-history handoff of \autoref{thm:observer-interface-filter-history-handoff}. It identifies $S$ and $U$ as the only selected rows that can feed $W$, while $O$ remains visible only as an omitted-row boundary.
+
+Finally apply non-escape, \autoref{thm:observer-interface-nonescape}. Because the packet has no hidden observer state, quotient observer identity, host equality of histories, unledgered omitted row, unlicensed observation, or subject parameter, the falsifiable prediction and independence witness read exactly this finite obligation surface.
+\end{proof}
+
 \falsifiablePrediction{Every accepted ObserverInterfaceUp packet routes StreamName-facing reads through selected observer-filter rows and cannot export an unledgered omitted row.}
 
 \independenceWitness{observerfilter, observerhistoryidentity, attentionledger, streamname: the interface packet has all four row families simultaneously, while each sibling lacks at least one of filter partition, no-subject history identity, attention ledger, or countable handoff rows.}
