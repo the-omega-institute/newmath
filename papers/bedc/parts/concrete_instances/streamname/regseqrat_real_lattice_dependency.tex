@@ -263,3 +263,45 @@ route contains a quotient stream, host equality, selected limit, ambient
 completeness, metric-completion row, or standard bridge row, the two
 consumers cannot diverge into hidden completion routes.
 \end{proof}
+
+\begin{theorem}[StreamName Real RegSeqRat seal pullback exhaustion]
+\label{thm:streamname-real-regseq-seal-pullback-exhaustion}
+Every accepted $\RealUp$ seal pullback read routed through an accepted
+$\StreamNameUp$ finite-window packet, the $\RegSeqRatUp$ classifier row, and
+the $\RealUp$ seal factors through exactly the displayed rows of this route:
+the StreamName finite-window row, the $\DyadicRatCoreUp$ observation ledger,
+the $\RegSeqRatUp$ readback and classifier surface, the $\RealUp$ seal row,
+and the attached $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+coordinates.
+
+Thus the Real seal pullback route exports no quotient stream, no selected
+limit, no host real equality, and no ambient completeness witness. A
+downstream seal consumer receives only the same finite packet presented by
+the StreamName finite window, the RegSeqRat row, and the Real seal boundary.
+\end{theorem}
+\begin{proof}
+Start with the source lattice. By
+\autoref{thm:streamname-regseqrat-real-lattice-dependency}, the accepted
+StreamName-to-RegSeqRat-to-Real route is already confined to the visible
+finite-window rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates. The theorem also records that the route has no
+quotient stream, host real equality, selected limit, or ambient completeness
+coordinate.
+
+Next force the finite pullback route. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} to read the
+StreamName finite-window row, the $\DyadicRatCoreUp$ ledger, the
+$\RegSeqRatUp$ readback row, and the $\RealUp$ seal row as one finite surface.
+Then use
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}
+to restrict every downstream consumer of that surface to the four displayed
+rows and their listed BEDC coordinates.
+
+Finally compare the seal consumer. The compatibility theorem
+\autoref{thm:streamname-observation-budget-cauchy-limit-seal-compatibility}
+identifies the observation-budget read and the $\CauchyLimitSealUp$ read on
+the same finite pullback packet. Hence a Real seal pullback read routed
+through StreamName, RegSeqRat, and Real cannot select another source: it
+delivers precisely that finite packet to downstream seal consumers and no
+hidden completion witness beyond it.
+\end{proof}
