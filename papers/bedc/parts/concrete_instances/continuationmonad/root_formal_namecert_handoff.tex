@@ -15,3 +15,34 @@ Next use \autoref{thm:continuation-monad-root-formal-route-saturation}. Downstre
 
 Finally compose with \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. The ledger boundary is the same finite packet and admits no extra entry for quotient Kleisli arrows, host-function composition, ambient category completion, external evaluators, or unlisted continuation generators. Hence the local $\NameCert$ row reaches downstream formal targets only through the named packet and not through an external monad schema.
 \end{proof}
+
+\begin{theorem}[Category ContinuationMonad hom-carrier route]
+\label{thm:category-continuationmonad-hom-carrier-route}
+Every downstream formal target reading a $\ContinuationMonadUp$ packet through
+$A,B,C,f,g,u,H,K,L,N$ receives its $\CategoryUp$ hom-carrier exposure exactly
+through the displayed $\mathsf{CategoryHomCarrier}$ and
+$\mathsf{ContinuationMorphism}$ rows. The route is the finite continuation
+packet route; it is not host function composition, a quotient Kleisli arrow,
+an ambient category completion, or an external monad evaluator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It
+fixes the downstream formal handoff to the finite packet
+$A,B,C,f,g,u,H,K,L,N$ and already names the Category hom-carrier and
+$\mathsf{ContinuationMorphism}$ readings as packet rows.
+
+Next apply
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}.
+The Category side reads a hom carrier exactly as unary endpoint rows together
+with a continuation morphism whose displayed tail is the morphism history.
+Thus the $\mathsf{CategoryHomCarrier}$ row consumed downstream is the
+continuation-tail row of the same packet.
+
+Finally use \autoref{thm:continuation-monad-root-source-coverage},
+\autoref{thm:continuation-monad-root-formal-route-saturation}, and
+\autoref{thm:continuation-monad-root-ledger-saturation-boundary}. These root
+source and ledger saturation results leave no additional coordinate for host
+composition, quotient Kleisli arrows, ambient category completion, external
+evaluators, or unlisted continuation generators, so the Category hom-carrier
+route is exactly the displayed continuation packet route.
+\end{proof}
