@@ -147,6 +147,58 @@ countable-choice selectors, host real equality, metric completeness, and
 ambient completeness from the locked tail-budget seal read.
 \end{proof}
 
+\begin{theorem}[StreamName budget CauchyLimitSeal pullback]
+\label{thm:streamname-budget-cauchy-limit-seal-pullback}
+Let an accepted finite $\StreamNameUp$ window be routed through
+$\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$, and let a
+public $\RealUp$ or completion-facing $\CauchyLimitSealUp$ consumer read that
+route. Then the consumed route factors through the same finite rows:
+$$
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory},\quad \ObservationBudgetLimiterUp,\quad
+\RegularCauchyTailBudgetUp,\quad \DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad \RealUp,
+$$
+together with the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance. The pullback exposes exactly the budget cap, tail
+threshold, finite StreamName window, dyadic ledger, RegSeqRat readback, and
+Real seal already locked by the StreamName budget route. It exports no quotient
+streams, selected host limits, countable-choice selectors, host real equality,
+metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite-window budget handoff of
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It places
+the accepted StreamName window, $\mathsf{ProbeBundle}$ ledger,
+$\mathsf{InBundle}$ membership rows, and $\mathsf{UnaryHistory}$ observations
+before any regularity row, dyadic tolerance row, or $\RealUp$ seal row is
+consumed.
+
+Next attach the sibling route of
+\autoref{thm:streamname-budget-handoff-sibling-chapter-route}. The route passes
+through the $\ObservationBudgetLimiterUp$ budget cap and then through the
+$\RegularCauchyTailBudgetUp$ tail service before the dyadic ledger,
+$\RegSeqRatUp$ readback, and $\RealUp$ seal are exposed.
+
+Now use the tail regular seal lock of
+\autoref{thm:streamname-budget-tail-regular-seal-lock}. It identifies the
+budget cap, tail threshold, finite window, dyadic ledger, readback, seal rows,
+and visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+provenance as one locked finite route.
+
+Finally pass the locked route through the $\CauchyLimitSealUp$ consumer
+boundary. The public route boundary of
+\autoref{thm:cauchy-limit-seal-public-route-boundary} confines every public
+$\RealUp$ or completion-facing read to the displayed route packet, and the
+downstream completion handoff of
+\autoref{thm:cauchy-limit-seal-downstream-completion-handoff} lets a completion
+consumer pull back only along that same scheduled window, dyadic observation
+ledger, regular source row, completion row, and seal row. The non-escape
+clauses from the cited StreamName and CauchyLimitSeal boundaries rule out
+quotient streams, selected host limits, countable-choice selectors, host real
+equality, metric completeness, and ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[StreamName ObserverFilter finite-window handoff]
 \label{thm:streamname-observer-filter-finite-window-handoff}
 Every accepted finite $\ObserverFilterUp$ selected-subhistory handoff to
