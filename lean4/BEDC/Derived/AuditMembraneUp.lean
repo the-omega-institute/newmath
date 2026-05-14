@@ -34,4 +34,23 @@ theorem AuditMembraneCarrier_refusal_replay_closure {G B R D H P N : BHist} :
     unary_cont_closed unaryR unaryD replayRoute
   exact ⟨unaryR, unaryN, sameAuditFace⟩
 
+theorem AuditMembraneCarrier_drift_resolution {G B R D H P N drift : BHist} :
+    AuditMembraneCarrier G B R D H P N →
+      Cont D P drift →
+        UnaryHistory D ∧ UnaryHistory P ∧ UnaryHistory drift ∧ Cont D P drift ∧
+          hsame H (append G B) ∧ Cont R D N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet driftRoute
+  have unaryD : UnaryHistory D :=
+    packet.right.right.left
+  have unaryP : UnaryHistory P :=
+    packet.right.right.right.left
+  have sameAuditFace : hsame H (append G B) :=
+    packet.right.right.right.right.left
+  have replayRoute : Cont R D N :=
+    packet.right.right.right.right.right.right
+  have unaryDrift : UnaryHistory drift :=
+    unary_cont_closed unaryD unaryP driftRoute
+  exact ⟨unaryD, unaryP, unaryDrift, driftRoute, sameAuditFace, replayRoute⟩
+
 end BEDC.Derived.AuditMembraneUp
