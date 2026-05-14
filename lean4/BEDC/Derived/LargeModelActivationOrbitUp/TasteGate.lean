@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LargeModelActivationOrbitUp
+namespace BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -56,35 +56,35 @@ def largeModelActivationOrbitToEventFlow : LargeModelActivationOrbitUp → Event
 def largeModelActivationOrbitFromEventFlow : EventFlow → Option LargeModelActivationOrbitUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | modelWeight :: rest1 =>
-      match rest1 with
+  | modelWeight :: rest0 =>
+      match rest0 with
       | [] => none
-      | transition :: rest2 =>
-          match rest2 with
+      | transition :: rest1 =>
+          match rest1 with
           | [] => none
-          | activationWindow :: rest3 =>
-              match rest3 with
+          | activationWindow :: rest2 =>
+              match rest2 with
               | [] => none
-              | prompt :: rest4 =>
-                  match rest4 with
+              | prompt :: rest3 =>
+                  match rest3 with
                   | [] => none
-                  | output :: rest5 =>
-                      match rest5 with
+                  | output :: rest4 =>
+                      match rest4 with
                       | [] => none
-                      | auditRefusal :: rest6 =>
-                          match rest6 with
+                      | auditRefusal :: rest5 =>
+                          match rest5 with
                           | [] => none
-                          | transport :: rest7 =>
-                              match rest7 with
+                          | transport :: rest6 =>
+                              match rest6 with
                               | [] => none
-                              | route :: rest8 =>
-                                  match rest8 with
+                              | route :: rest7 =>
+                                  match rest7 with
                                   | [] => none
-                                  | provenance :: rest9 =>
-                                      match rest9 with
+                                  | provenance :: rest8 =>
+                                      match rest8 with
                                       | [] => none
-                                      | nameCert :: rest10 =>
-                                          match rest10 with
+                                      | nameCert :: rest9 =>
+                                          match rest9 with
                                           | [] =>
                                               some
                                                 (LargeModelActivationOrbitUp.mk
@@ -221,6 +221,10 @@ instance largeModelActivationOrbitNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate LargeModelActivationOrbitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  largeModelActivationOrbitChapterTasteGate
+
 theorem LargeModelActivationOrbitTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       largeModelActivationOrbitDecodeBHist (largeModelActivationOrbitEncodeBHist h) = h) ∧
@@ -241,4 +245,4 @@ theorem LargeModelActivationOrbitTasteGate_single_carrier_alignment :
         exact largeModelActivationOrbitToEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.LargeModelActivationOrbitUp
+end BEDC.Derived.LargeModelActivationOrbitUp.TasteGate

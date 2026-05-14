@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DigestLoopRefusalUp$}
+\label{ch:concrete-instances-digest-loop-refusal-namecert}
+\origin{ai}
+
+The $\DigestLoopRefusalUp$ packet realizes the loop-facing refusal in the hash-like apophatic fixed-point discipline of \autoref{ch:visions-hash-like-apophatic-fixed-point}. It sits after the digest provenance packet of \autoref{ch:concrete-instances-digestprovenancepacket-namecert}, the fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, the hash apophatic seal of \autoref{ch:concrete-instances-hashapophaticseal-namecert}, the apophatic far-end socket of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}, and the inscription hash trace of \autoref{ch:concrete-instances-inscription-hash-trace-namecert}. Those siblings expose visible digest, source, fiber, far-end, and inscription routes; this carrier adds the row that refuses the loop in which digest equality is treated as a source-preimage generator.
+
+\begin{definition}[DigestLoopRefusal carrier]
+\label{def:digest-loop-refusal-carrier}
+A $\DigestLoopRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+D=(V,F,A,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the visible digest row, read through the digest provenance and hash-trace surfaces;
+\item $F$ is the fiber ledger row, recording which source-side histories may be mentioned behind $V$ without identifying them with the digest;
+\item $A$ is the apophatic far-end socket row for the hidden end of the fiber;
+\item $L$ is the loop-refusal row blocking the route from digest equality back to global source-preimage assertion;
+\item $R$ is the exactness-refusal ledger row, distinguishing displayed local exactness certificates from absent global preimage data;
+\item $H$ records componentwise $\hsame$ transport for $V,F,A,L,R,C,P,N$;
+\item $C$ records displayed $\Cont$ replay routes for the digest, fiber, socket, loop-refusal, exactness-refusal, transport, provenance, and naming rows;
+\item $P$ is the $\Pkg$ provenance over $\DigestProvenancePacketUp$, $\DigestFiberLedgerUp$, $\HashApophaticSealUp$, $\InscriptionHashTraceUp$, $\ApophaticFarEndSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DigestLoopRefusalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden preimage selector, digest-as-source equality, global source universe, quotient source representative, host hash-function inverse, or internal object at the apophatic far end.
+\end{definition}
+
+\begin{theorem}[DigestLoopRefusal NameCert obligations]
+\label{thm:digest-loop-refusal-namecert-obligations}
+For an accepted $\DigestLoopRefusalUp$ carrier
+$$
+D=(V,F,A,L,R,H,C,P,N),
+$$
+the local $\NameCert_{\DigestLoopRefusalUp}$ surface consists exactly of carrier admission for the nine displayed rows, visible digest exposure through $V$, fiber-ledger exposure through $F$, apophatic far-end socket exposure through $A$, loop-refusal exposure through $L$, exactness-refusal exposure through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every accepted consumer must preserve the loop-refusal row together with the digest and fiber rows. Thus digest equality can be used only as a visible digest comparison unless a separate displayed exactness certificate is supplied outside the $\DigestLoopRefusalUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:digest-loop-refusal-carrier}. Its displayed coordinates are precisely $V,F,A,L,R,H,C,P,N$, so the local NameCert row has no hidden coordinate from which to read a preimage selector or host inverse.
+
+Read the sibling inputs in their local roles. The digest provenance packet supplies digest and source discipline, the digest fiber ledger supplies the fiber row, the hash apophatic seal supplies the common far-end refusal, the inscription hash trace supplies the route audit, and the apophatic far-end socket supplies the negative socket boundary.
+
+The loop-refusal row $L$ is then the additional public obstruction. Transport, replay, provenance, and naming rows preserve that same obstruction through $H,C,P,N$ and do not add exactness data. Therefore the NameCert obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[DigestLoopRefusal no global preimage]
+\label{thm:digest-loop-refusal-no-global-preimage}
+No accepted $\DigestLoopRefusalUp$ consumer can derive a global source-preimage row from equality of visible digest rows alone. A source-preimage claim is admissible only when a separate exactness certificate is displayed; otherwise the consumer receives only the digest row $V$, fiber row $F$, far-end socket row $A$, loop-refusal row $L$, exactness-refusal row $R$, and structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with two visible digest reads. The carrier exposes those reads through $V$, while $F$ records the fiber ledger and $A$ records the apophatic far-end socket.
+
+Apply the NameCert obligations of \autoref{thm:digest-loop-refusal-namecert-obligations}. They require the loop-refusal row $L$ and the exactness-refusal row $R$ to remain attached to any digest-facing consumer route.
+
+Now inspect the excluded coordinates in \autoref{def:digest-loop-refusal-carrier}. There is no hidden preimage selector, no global source universe, no quotient representative, and no host inverse row. Without an external exactness certificate, equality of digest rows therefore remains a visible comparison and cannot become a global source-preimage row.
+\end{proof}
+
+\begin{theorem}[DigestLoopRefusal fiber nonescape]
+\label{thm:digest-loop-refusal-fiber-nonescape}
+Every accepted $\DigestLoopRefusalUp$ consumer that reads the fiber ledger $F$ must also preserve the visible digest row $V$, the apophatic far-end socket $A$, the loop-refusal row $L$, the exactness-refusal row $R$, componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$. The fiber read exports no source equality, selected preimage, host equality, quotient source representative, global digest universe, or internal far-end object.
+\end{theorem}
+\begin{proof}
+Begin with the fiber row $F$. By \autoref{def:digest-loop-refusal-carrier}, $F$ is one coordinate of the accepted packet and is not a source object by itself.
+
+Use the digest-fiber and apophatic sibling routes through \autoref{ch:concrete-instances-digestfiberledger-namecert} and \autoref{ch:concrete-instances-hashapophaticseal-namecert}. They already force fiber reads to keep GAP, far-end, and refusal rows visible rather than internalizing the source side.
+
+Finally apply the loop-refusal obligations of \autoref{thm:digest-loop-refusal-namecert-obligations}. The rows $L,R,H,C,P,N$ keep the fiber read on the same finite packet and remove the forbidden source-equality and preimage exits.
+\end{proof}
+
+\falsifiablePrediction{If a DigestLoopRefusalUp carrier is accepted, no consumer can derive a global source-preimage row from digest equality without an explicit exactness certificate.}
+
+\independenceWitness{digestprovenancepacket, digestfiberledger, hashapophaticseal, inscriptionhashtrace, and apophaticfarendsocket: this carrier is not bijective to any sibling because it adds the loop-refusal row that blocks digest-to-source inversion while preserving visible digest, fiber ledger, apophatic far-end socket, exactness-refusal, transport, replay, provenance, and local naming rows.}
+
+The Lean follow-up target is \texttt{BEDC.Derived.DigestLoopRefusalUp}. Its \texttt{TasteGate.lean} file must provide \texttt{Nontrivial DigestLoopRefusalUp} and \texttt{FieldFaithful DigestLoopRefusalUp} instances for the same displayed digest, fiber, far-end socket, loop-refusal, exactness-refusal, transport, replay, provenance, and naming carrier.
+
+\closureat{DigestLoopRefusalUp}{seedStr}
+\closureat{DigestLoopRefusalUp}{obligationStr}
