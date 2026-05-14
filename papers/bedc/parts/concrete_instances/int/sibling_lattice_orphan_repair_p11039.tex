@@ -1,0 +1,15 @@
+\begin{theorem}[IntUp signed-pair sibling lattice repair]
+\label{thm:int-sibling-lattice-orphan-repair}
+The $\IntUp$ signed-pair carrier is a sibling-lattice node between unary natural arithmetic and rational denominator arithmetic. It consumes the unary source rows of \autoref{ch:concrete-instances-nat-namecert} and the balancing rows of \autoref{ch:concrete-instances-add-namecert}; it supplies signed numerator, denominator-normalization, and sign-readback rows later read by \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}. Thus the signed-pair construction is not a kernel-only hub: its public route is the finite dependency lattice
+$$
+\NatUp,\AddUp \longrightarrow \IntUp \longrightarrow \RatUp,\DyadicRatCoreUp
+$$
+through displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Read the left side of the route first. The signed-pair carrier uses unary magnitude rows licensed by \autoref{ch:concrete-instances-nat-namecert}, and it uses balancing data from \autoref{ch:concrete-instances-add-namecert} to identify opposite signed presentations without importing quotient equality.
+
+Now read the right side. The rational packet of \autoref{ch:concrete-instances-rat-namecert} consumes the signed numerator and positive denominator discipline, while \autoref{ch:concrete-instances-dyadicratcore-namecert} consumes the dyadic denominator and sign-readback rows used by finite dyadic arithmetic.
+
+The local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserve this route as public data. Therefore $\IntUp$ is a lattice handoff between Nat/Add input rows and Rat/DyadicRatCore consumer rows, not an isolated integer naming site.
+\end{proof}

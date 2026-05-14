@@ -67,6 +67,7 @@ S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)
 $$
 consumes the witness row $W$ through $\BoundedMonotoneCauchyWitnessUp$ before any public $\RealUp$ or completion-facing seal row is available. A completion-facing consumer therefore receives the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor from $W$ before it reads $M,K,F,\sigma,D,L$, or $R$.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneConvergenceSealUp.BoundedMonotoneConvergenceSealUp\_witness\_consumption}
 \begin{proof}
 Start with \autoref{def:bounded-monotone-convergence-seal-carrier}. The first displayed coordinate of the accepted packet is $W$, and the carrier names it as the accepted $\BoundedMonotoneCauchyWitnessUp$ row that supplies the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor.
 
@@ -635,6 +636,32 @@ Project the route obligation closure above. The paper-side boundary already bind
 Now use the chapter's TasteGate statement for the same displayed carrier. Nontriviality and field faithfulness are read as obligations over the existing packet; they do not add a Lean theorem marker or a new formal-status target.
 
 Thus the closure ledger may record obligation-level theory closure while leaving the Lean verification grade unchanged. The two axes remain independent: the paper surface states the route and TasteGate obligations, while future Lean work must still encode and verify them.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal witness-grid factorization]
+\label{thm:bounded-monotone-convergence-seal-witness-grid-factorization}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
+$$
+whose witness row $W$ is read through the $\RealCauchyWitnessGridUp$ surface of \autoref{ch:concrete-instances-real-cauchy-witness-grid-namecert}, every Real-facing consumer route factors through the convergence-seal rows
+$$
+W,M,K,F,\sigma,D,L,R,H,C,P,N
+$$
+and through the sibling grid rows
+$$
+B,L,K,T,S,R,E,H,C,P,N
+$$
+before any $\RealUp$ seal is consumed. The route uses the witness ledger of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, and the tail-witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}; it exports no Real completeness theorem, selected external limit, quotient stream equality, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-monotone-convergence-seal-carrier}. The rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$ are the complete convergence-seal packet, so a Real-facing consumer starts from the displayed finite carrier and not from an ambient completeness object.
+
+Use the public handoff and criterion route, \autoref{thm:bounded-monotone-convergence-seal-public-handoff} and \autoref{thm:bounded-monotone-convergence-seal-criterion-route}. These place the bounded witness, monotone row, criterion row, stream-window row, dyadic ledger, regular-rational handoff, and limit-seal row on one ordered route before the Real handoff is available.
+
+Now read the witness row through \autoref{ch:concrete-instances-real-cauchy-witness-grid-namecert}. That chapter factors the Real-facing diagonal grid through $B,L,K,T,S,R,E,H,C,P,N$ and ties those rows to the witness ledger, completion-seal classifier, and tail-witness envelope named in \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, and \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}.
+
+Finally apply the Real handoff and TasteGate obligation boundary from \autoref{thm:bounded-monotone-convergence-seal-real-handoff} and \autoref{thm:bounded-monotone-convergence-seal-tastegate-obligation-boundary}. The Real seal is therefore consumed only after both finite surfaces have been displayed, and the non-escape clauses leave no coordinate for Real completeness, a selected external limit, quotient stream equality, or host real equality.
 \end{proof}
 
 \falsifiablePrediction{Every accepted consumer of the convergence seal factors through BoundedMonotoneCauchyWitnessUp, MonotoneCauchyUp, CauchyCriterionUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp rows before it reads the Real convergence handoff.}

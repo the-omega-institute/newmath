@@ -105,6 +105,36 @@ Move to the selector route. Apply \autoref{thm:finite-observation-budget-selecto
 Finally apply \autoref{thm:finite-observation-budget-selector-public-export} together with the non-escape theorem of this chapter. These two boundaries remove quotient streams, hidden limit selectors, host real equality, countable choice, and ambient completeness data, so the shared $\RealUp$ or $\CauchyLimitSealUp$ consumer can read only the two displayed finite routes and their visible transport, continuation, provenance, and naming rows.
 \end{proof}
 
+\begin{theorem}[Regular-Cauchy finite observation route interface lock]
+\label{thm:regular-cauchy-finite-observation-route-interface-lock}
+Let
+$$
+Z=(Q,W,D,R,B,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyFiniteObservationRouteUp$ packet, and let
+$$
+O=(S_0,R_0,D_0,T_0,E_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\FiniteObservationInterfaceUp$ packet. If the displayed $\hsame$ transports identify $W$ with $S_0$, $R$ with $R_0$, $D$ with $D_0$, the selected finite window read by $W$ with $T_0$, and the $\RealUp$ seal endpoint $S$ with the Real-facing endpoint routed by $C_0$, then every $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through both concrete finite routes
+$$
+Q \to W \to D \to R \to B \to S
+$$
+and
+$$
+S_0 \to R_0 \to D_0 \to T_0 \to E_0 .
+$$
+The omitted-tail ledger $E_0$ remains a tail ledger only: it cannot be exported as a selected stream row, quotient stream equality, host real equality, hidden limit selection, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First apply the Real seal handoff theorem for $Z$. It places every $\RealUp$ read behind the displayed route $Q \to W \to D \to R \to B \to S$, with $H,C,P,N$ carrying only transport, replay, provenance, and local naming data.
+
+Next apply the budget-selector pullback to the same route boundary. This keeps $\RealUp$ and $\CauchyLimitSealUp$ consumers on the concrete finite observation side and excludes quotient streams, hidden limit selectors, host real equality, countable choice, and ambient completeness.
+
+Now read the interface packet through \autoref{thm:finite-observation-interface-selected-stream-handoff} and \autoref{thm:finite-observation-interface-namecert-obligations}. The selected finite window is $T_0$, while $E_0$ is the omitted-tail ledger and has no selected-stream role. The assumed componentwise $\hsame$ transports identify this interface window, regular-rational handoff, dyadic tolerance row, and Real-facing endpoint with the corresponding rows of $Z$.
+
+The two route descriptions therefore name the same consumer boundary through the displayed packet rows. Since neither local $\NameCert$ surface contains a coordinate for exporting the omitted tail as selected data, quotient equality, host equality, hidden limit choice, or ambient completeness, the shared consumer has no such escape route.
+\end{proof}
+
 \falsifiablePrediction{Every accepted route factors through the displayed finite observation budget before any RealUp seal read; a seal read bypassing the budget refutes this chapter.}
 \independenceWitness{real-observation-budget, finiteobservationbudgetselector, stationarypartitiondiagonal, cauchyproduct, streamname: none is bijective because this carrier simultaneously records the route from regular-Cauchy finite windows to the observation budget and RealUp seal, while each sibling lacks at least one of the route, budget, diagonal, product, or stream-only rows.}
 
@@ -113,7 +143,7 @@ Finally apply \autoref{thm:finite-observation-budget-selector-public-export} tog
 \begin{closurestatus}{\RegularCauchyFiniteObservationRouteUp}
   \constructivestory{A $\RegularCauchyFiniteObservationRouteUp$ packet is generated from a finite regular-Cauchy request, selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ handoff, $\RealObservationBudgetUp$ budget row, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-finite-observation-route-carrier}, \autoref{thm:regular-cauchy-finite-observation-route-obligations}, \autoref{thm:regular-cauchy-finite-observation-route-nonescape}, \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, \autoref{thm:regular-cauchy-finite-observation-route-vision-concretization}, and \autoref{thm:regular-cauchy-finite-observation-route-budget-selector-pullback} define the route carrier, obligation surface, non-escape boundary, Real seal handoff, vision-facing concretization, and budget-selector pullback.}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-observation-route-carrier}, \autoref{thm:regular-cauchy-finite-observation-route-obligations}, \autoref{thm:regular-cauchy-finite-observation-route-nonescape}, \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, \autoref{thm:regular-cauchy-finite-observation-route-vision-concretization}, \autoref{thm:regular-cauchy-finite-observation-route-budget-selector-pullback}, and \autoref{thm:regular-cauchy-finite-observation-route-interface-lock} define the route carrier, obligation surface, non-escape boundary, Real seal handoff, vision-facing concretization, budget-selector pullback, and finite-observation interface lock.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

@@ -1,0 +1,41 @@
+\begin{theorem}[GapClosureBoundary root visible refusal audit]
+\label{thm:gap-closure-boundary-root-visible-refusal-audit}
+For every accepted $\GapClosureBoundaryUp$ root packet $B=(G,S,R,H,C,P,N)$, every downstream refusal read must first display the gap request row $G$, the refusal ledger row $R$, the structural boundary rows $H,C,P,N$, the finite $\BHist$ carrier, the componentwise $\hsame$ transports, the displayed $\Cont$ refusal route, the $\Pkg$ provenance row, and the local $\NameCert_{\GapClosureBoundaryUp}$ row. The read is therefore an audit of the visible root boundary and not a request for a hidden closure, hidden $\mathsf{T}$ supply, private access row, host equality row, direct aspect-reduction row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row of \autoref{def:gap-closure-boundary-carrier}. It exposes exactly the request, source, refusal, transport, continuation, provenance, and local naming rows of the finite packet $B=(G,S,R,H,C,P,N)$.
+
+Use the NameCert obligations of \autoref{thm:gap-closure-boundary-namecert-obligations} and the root readiness inventory of \autoref{def:gap-closure-boundary-hub-root-inventory}. These rows identify the finite $\BHist$ carrier together with $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data before any listed hard-problem consumer reads the boundary.
+
+For an unsupported downstream read, apply refusal-route exactness and refusal route determinacy, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-route-determinacy}. The read is sent to the displayed refusal ledger $R$ over $H,C,P,N$.
+
+Finally use structural row conservation, \autoref{thm:gap-closure-boundary-structural-row-conservation}. The structural rows conserve the visible source/refusal split and do not create any of the hidden rows excluded in the statement.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root package consumer cut]
+\label{thm:gap-closure-boundary-root-package-consumer-cut}
+Every downstream consumer of an accepted $\GapClosureBoundaryUp$ root packet factors through the displayed package and provenance surface $G,S,R,H,C,P,N$. A supported consumer factors through the displayed source route $G \longrightarrow S$ with $H,C,P,N$, an unsupported consumer factors through the refusal route to $R$ with $H,C,P,N$, and no listed consumer may bypass these rows to a concealed closure theorem outside the local $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Start from hard-problem consumer factorization, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization}. It places the causal, finite-refutation, other-minds, aspect-chain, and solipsism-refusal consumers inside the same displayed packet.
+
+For supported reads, use source-route totality and closure-request determinacy, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-closure-request-determinacy}. The consumer receives the source branch only through $G \longrightarrow S$ and the structural rows.
+
+For unsupported reads, use refusal-route exactness and the consumer ledger exhaustion theorem, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. They route the request to $R$ and leave no third consumer route.
+
+The consumer-exactness package of \autoref{thm:gap-closure-boundary-consumer-exactness-package} supplies the cut: every exported consumer read is already a read of the displayed package and provenance surface, so there is no bypass to an external closure theorem.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root NameCert replay]
+\label{thm:gap-closure-boundary-root-namecert-replay}
+Replay along the displayed $\Cont$ rows and transport along the componentwise $\hsame$ rows preserve exactly the root boundary rows displayed by an accepted $\GapClosureBoundaryUp$ packet. The replay may carry the source route $G \longrightarrow S$ or the refusal route to $R$ through $H,C,P,N$, but it does not create quotient data, host equality data, ambient closure data, a hidden $\mathsf{T}$ supply, or any consumer-specific row outside the local $\NameCert_{\GapClosureBoundaryUp}$ surface.
+\end{theorem}
+\begin{proof}
+Read the structural rows from \autoref{thm:gap-closure-boundary-structural-exhaustion}. The rows $H,C,P,N$ serve as transport, continuation, provenance, and naming data for the already displayed carrier rows.
+
+For the supported branch, apply source-route totality, closure-request determinacy, and structural row conservation, \autoref{thm:gap-closure-boundary-source-route-totality}, \autoref{thm:gap-closure-boundary-closure-request-determinacy}, and \autoref{thm:gap-closure-boundary-structural-row-conservation}. Replay along $\Cont$ and transport along $\hsame$ keep the branch at $G \longrightarrow S$ with the same package rows.
+
+For the refusal branch, apply refusal route determinacy and refusal route exactness, \autoref{thm:gap-closure-boundary-refusal-route-determinacy} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The replay endpoint is the displayed refusal ledger $R$ over the same $H,C,P,N$ rows.
+
+Finally use source-refusal orthogonality and hard-problem consumer factorization. They keep the two replayed branches inside the common boundary packet and prevent $\Cont$, $\hsame$, $\Pkg$, or local $\NameCert$ rows from generating quotient, host equality, ambient closure, hidden supply, or consumer-specific data.
+\end{proof}
