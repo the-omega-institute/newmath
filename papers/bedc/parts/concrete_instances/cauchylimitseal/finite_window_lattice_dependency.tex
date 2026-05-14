@@ -58,3 +58,15 @@ Then apply the RegSeqRat finite-window transport closure of \autoref{thm:regseqr
 
 Finally use the CauchyLimitSeal RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The $\RealUp$ endpoint therefore consumes the same displayed boundary rows $X,D,G,E$ after transport, and the common finite window is reused for either seal-facing route.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal Cauchy window transducer pullback]
+\label{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}
+When a $\CauchyLimitSealUp$ consumer route is served through a $\CauchyWindowTransducerUp$ packet, the transducer rows pull back first to the $\StreamNameUp$ finite-window lattice meet and then through the displayed $\RegSeqRatUp$ readback and $\RealUp$ seal rows. No quotient stream, selected host limit, hidden tail witness, or ambient completeness coordinate is introduced.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-limit-seal-common-window-transport}. It says that a seal-facing CauchyLimitSeal route transported to a common finite window preserves the displayed RegSeqRat source, dyadic ledger, completion diagonal, and Real seal rows while remaining inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Apply \autoref{thm:cauchy-window-transducer-regseq-handoff}. A Cauchy window transducer serving such a route can expose its RealUp seal row only after the displayed RegSeqRat readback row is available.
+
+Finally use \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The transducer rows can replay the finite window, tolerance, step, readback, selector handoff, transport, continuation, provenance, and naming data, but no row supplies a quotient stream, selected host limit, hidden tail witness, or ambient completeness coordinate.
+\end{proof}
