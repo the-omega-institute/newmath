@@ -117,15 +117,13 @@ terminal exit read.
 
 \begin{theorem}[Real completeness four-face exit certificate]
 \label{thm:real-completeness-four-face-exit-certificate}
-Every completion-facing public read of the current $\RealUp$ seal that
-satisfies the four-face route
+A completion-facing public read of the current $\RealUp$ seal is accepted if
+and only if its visible rows factor through the four-face route
 $$
 \DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
 $$
-is accepted exactly through the displayed $\BHist$, $\hsame$, $\Cont$,
-$\Pkg$, and $\NameCert$ rows on that route. Conversely, every accepted
-completion-facing public read of the current $\RealUp$ seal exposes only
-those rows on the displayed route.
+using exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows on that route.
 
 Any purported completion-facing read that uses quotient stream equality,
 countable choice, host limits, metric completeness, ambient completion, host
@@ -133,10 +131,11 @@ real equality, or a direct $\RealUp$ seal bypass is rejected by the current
 Phase Real and Completion surface.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-terminal-four-face-open-phase-exit}. Its forward
-direction sends every accepted terminal $\RealUp$ seal read to the ordered
-four-face route and restricts the visible coordinates to the displayed
-$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+For the forward direction, apply
+\autoref{thm:real-terminal-four-face-open-phase-exit}. It sends every accepted
+terminal $\RealUp$ seal read to the ordered four-face route and restricts the
+visible coordinates to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
 
 For the converse direction, use the same theorem in the reverse direction:
 visible rows on the ordered four-face route, with no extra coordinate, repack
