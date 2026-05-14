@@ -8,6 +8,17 @@ convergent rows, certified dyadic error radii, stream observations, regular
 rational handoff rows, and a real-name boundary without completing an infinite
 expansion or quotienting tails.
 
+The partial-quotient spine consumes the $\NatUp$ carrier of
+\autoref{ch:concrete-instances-nat-namecert}. The convergent numerator and
+denominator rows consume the rational arithmetic surface of
+\autoref{ch:concrete-instances-rat-namecert}, and the certified error-radius
+row consumes \autoref{ch:concrete-instances-dyadicratcore-namecert}. The
+scheduled handoff and seal route then consume
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}, locating the finite
+continued-fraction carrier in the Real-completion dependency lattice.
+
 \begin{definition}[ContinuedFraction carrier packet]
 \label{def:continuedfraction-carrier}
 A $\ContinuedFractionUp$ carrier packet is a finite $\mathsf{BHist}$ record
@@ -108,6 +119,37 @@ the carrier packet.
 No coordinate of the carrier stores an infinite tail, a quotient class of
 tails, or a completed real. The handoff is consequently a finite
 regular-sequence surface over the visible convergent ledger.
+\end{proof}
+
+\begin{theorem}[ContinuedFraction L10 sibling dependency route]
+\label{thm:continuedfraction-l10-sibling-dependency-route}
+Every $\RegSeqRatUp$ or $\RealUp$ boundary read of an accepted
+$\ContinuedFractionUp$ packet first factors through the existing L10 sibling
+route
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. Only after those
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows have
+been read through the displayed carrier route may the finite continued-fraction
+seal be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuedfraction-carrier}. The rows
+$e,s,r,b$ are exactly the dyadic-radius row, stream observation schedule,
+regular-rational handoff, and real seal boundary; there is no second coordinate
+for a real-facing read outside these rows.
+
+Apply \autoref{thm:continuedfraction-regseqrat-handoff}. It forces the
+$\RegSeqRatUp$ boundary through the scheduled finite convergent windows, their
+$\RatUp$ numerator and denominator rows, the $\DyadicRatCoreUp$ radius row, and
+the displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The $\RealUp$ read then consumes the same handoff row before it reaches the
+seal coordinate $b$. Thus the boundary route is the concrete-instance sibling
+lattice route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$, followed by the finite continued-fraction seal and no kernel-only
+island remains.
 \end{proof}
 
 \begin{theorem}[ContinuedFraction RealUp boundary]
