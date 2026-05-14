@@ -90,6 +90,18 @@ The positive order data are $O_0,O_1,R,C$. The boundary and structural data are 
 No coordinate remains for host time, a global synchronization map, ambient simultaneity, time reversal, or deletion of displayed records. Therefore no accepted packet can export those objects.
 \end{proof}
 
+\begin{theorem}[ObservationTimeOrder HistTimeStream dependency]
+\label{thm:observation-time-order-hist-time-stream-dependency}
+The retained-record route of $\ObservationTimeOrderUp$ consumes the local Hist time stream of \autoref{ch:concrete-instances-histtimestream-namecert} and the finite clock-budget boundary of \autoref{ch:concrete-instances-localclockbudget-namecert} before it can expose the order comparison row $R$.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:observation-time-order-carrier}. The packet exposes the two observation rows $O_0,O_1$ before the retained-record classifier $R$, and it records the public read order through the displayed continuation row $C$.
+
+The package row $P$ already names $\HistTimeStreamUp$ as source certificate data for the local history stream consumed by the two observation rows. The finite comparison remains bounded by the internal rows $O_0,O_1,R,C,G,H,P,N$, so the LocalClockBudget sibling supplies a boundary for admissible clock reads rather than a host-time coordinate.
+
+Thus the sibling references are substantive: the packet depends on the local Hist time stream and finite clock-budget boundary to present $R$. Because all visible rows remain internal $\BHist$, $\Cont$, and $\Gap$ route rows with $\hsame$, $\Pkg$, and $\NameCert$ packaging, the dependency adds no scalar host time or global synchronization map.
+\end{proof}
+
 \closureat{ObservationTimeOrderUp}{seedStr}
 
 \begin{closurestatus}{\ObservationTimeOrderUp}
