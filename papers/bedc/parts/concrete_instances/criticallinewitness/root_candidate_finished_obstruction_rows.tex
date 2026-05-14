@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness candidate closed route]
+\label{thm:critical-line-witness-candidate-closed-route}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Before any modulus read, every candidate critical-line route exposed by $W$ is the finite source route through the supplied zero row $Z$, the critical-strip row $S$, the componentwise $\hsame$ row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The route is a $\BHist$ candidate surface carried by the source triad and fixed-strip source rows, not a host zero source or analytic-continuation surface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier definition and the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. These rows expose $Z$ and $S$ as the source side of the same finite $\BHist$ packet.
+
+Next use the root unblock source triad and fixed-strip source boundary, \autoref{thm:critical-line-witness-root-unblock-source-triad} and \autoref{def:critical-line-witness-fixed-strip-source}. They keep the candidate route on $Z,S,H,C,P,N$ before the modulus coordinate $M$ is read.
+
+The NameCert obligations then compose the displayed $\hsame$, $\Cont$, and $\Pkg$ rows with the local name $N$. Since the candidate has already been exhausted by $Z,S,H,C,P,N$, it exports no host zero source and no analytic-continuation route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness finished endpoint handoff]
+\label{thm:critical-line-witness-finished-endpoint-handoff}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every finished critical-line endpoint handoff factors through $M,R,Q,H,C,P,N$: it consumes the $\NatUp$ depth row $M$, the $\RealUp$ real-part row $R$, the $\RatUp$ comparison ledger $Q$, the componentwise $\hsame$ transport $H$, the $\Cont$ replay route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. No quotient representative selector or host-equality witness is consumed by the handoff.
+\end{theorem}
+\begin{proof}
+Begin with the root unblock modulus ledger of \autoref{thm:critical-line-witness-root-unblock-modulus-ledger}. It identifies $M,R,Q,H,C,P,N$ as the complete endpoint-facing route for each modulus request.
+
+Apply the modulus readback row and strip reflection boundary, \autoref{thm:critical-line-witness-modulus-readback-row} and \autoref{thm:critical-line-witness-strip-reflection-boundary}. These rows attach the finished endpoint handoff to the $\NatUp$, $\RealUp$, and $\RatUp$ sources while keeping the transport and replay data inside $H,C,P,N$.
+
+Finally use the NameCert obligations. The local naming and non-escape rows close the handoff over the displayed $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ coordinates, leaving no slot for quotient representative selection or host equality.
+\end{proof}
+
+\begin{theorem}[Critical-line witness obstruction separation]
+\label{thm:critical-line-witness-obstruction-separation}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the obstruction row is exactly the refusal boundary of the packet. Downstream readers may cite the source triad, endpoint handoff, and local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$ rows, but they cannot read an $\mathsf{RH}$ proof, a zero-producing search, an analytic-continuation certificate, host equality, a quotient representative, or ambient completeness from $W$.
+\end{theorem}
+\begin{proof}
+Start from the root unblock refusal boundary of \autoref{thm:critical-line-witness-root-unblock-refusal-boundary}. It states the missing analytic, host, quotient, and completeness coordinates for the accepted packet.
+
+Use the candidate route and finished endpoint handoff above. The first route exhausts the pre-modulus candidate surface through $Z,S,H,C,P,N$, while the second route exhausts the finished endpoint surface through $M,R,Q,H,C,P,N$.
+
+Apply the downstream RH unblock package and fixed-strip RH consumer nonescape, \autoref{thm:critical-line-witness-downstream-rh-unblock-package} and \autoref{thm:critical-line-witness-rh-consumer-nonescape}. Together they show that every downstream read remains inside the displayed packet rows, so the obstruction row is precisely the refusal boundary and not an implicit analytic or host-level witness.
+\end{proof}
