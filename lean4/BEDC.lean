@@ -101,6 +101,7 @@ import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
@@ -184,6 +185,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.ObserverLocalityTransportUp.TasteGate
+import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
@@ -345,6 +347,7 @@ import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
+import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
@@ -1712,6 +1715,9 @@ import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CausalContinuitySocketUp.TasteGate
+import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
+import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.FunctorUp.CompositionIdentityRespect
 import BEDC.Derived.FunctorUp.IdentityFunctor
 import BEDC.Derived.FunctorUp.OppositeCertificate

@@ -423,6 +423,74 @@ theorem DiagonalTailSelectorCarrier_real_seal_budget_nonescape [AskSetup] [Packa
     ⟨publicUnary, consumerUnary, downstreamUnary, wdRoute, consumerRoute,
       downstreamRoute, publicPkg, consumerPkg, downstreamPkg⟩
 
+theorem DiagonalTailSelectorPublicBudgetSource_downstream_nonescape_scope
+    [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow consumer downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg ->
+      Cont w d t ->
+      Cont t s consumer ->
+      Cont publicRow consumer downstreamRead ->
+      PkgSig bundle consumer pkg ->
+      PkgSig bundle downstreamRead pkg ->
+        SemanticNameCert
+          (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row ∧
+            PkgSig bundle row pkg)
+          (fun row : BHist => Cont publicRow consumer row ∧ PkgSig bundle publicRow pkg)
+          (fun row : BHist => PkgSig bundle row pkg ∧ Cont w d t ∧ Cont t s consumer)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro source wdRoute consumerRoute downstreamRoute _consumerPkg downstreamPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary consumerRoute
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed publicUnary consumerUnary downstreamRoute
+  have sourceDownstream :
+      (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row ∧
+        PkgSig bundle row pkg) downstreamRead := by
+    exact ⟨hsame_refl downstreamRead, downstreamUnary, downstreamPkg⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist => Cont publicRow consumer row ∧ PkgSig bundle publicRow pkg)
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont w d t ∧ Cont t s consumer)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro downstreamRead sourceDownstream
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          cases same
+          exact source
+      }
+      pattern_sound := by
+        intro row source
+        cases source.left
+        exact And.intro downstreamRoute publicPkg
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right.right, wdRoute, consumerRoute⟩
+    }
+  exact cert
+
 theorem DiagonalTailSelectorPublicBudgetSource_real_seal_budget_nonescape
     [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name publicRow sealRead consumer hostTail : BHist}

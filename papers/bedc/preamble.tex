@@ -137,6 +137,7 @@
 \newcommand{\GroundCompilerEvidenceBoundaryUp}{\mathsf{GroundCompilerEvidenceBoundary}^{\uparrow}}
 \newcommand{\GroundCompilerRecognitionUp}{\mathsf{GroundCompilerRecognition}^{\uparrow}}
 \newcommand{\FinitePrefixAutomatonUp}{\mathsf{FinitePrefixAutomaton}^{\uparrow}}
+\newcommand{\FinitePrefixMachineUp}{\mathsf{FinitePrefixMachine}^{\uparrow}}
 \newcommand{\LegalChannelUp}{\ensuremath{\mathsf{LegalChannel}^{\uparrow}}}
 \newcommand{\CertificatePipelineStageBoundaryUp}{\mathsf{CertificatePipelineStageBoundary}^{\uparrow}}
 \newcommand{\DecompilerRightInverseUp}{\mathsf{DecompilerRightInverse}^{\uparrow}}
@@ -519,6 +520,7 @@
 \newcommand{\RuntimeCandidateBoundaryUp}{\mathsf{RuntimeCandidateBoundary}^{\uparrow}}
 \newcommand{\RuntimeReflectionBoundaryUp}{\mathsf{RuntimeReflectionBoundary}^{\uparrow}}
 \newcommand{\ReflectionRuntimeCheckpointUp}{\mathsf{ReflectionRuntimeCheckpoint}^{\uparrow}}
+\newcommand{\RuntimeTruthSeparationUp}{\mathsf{RuntimeTruthSeparation}^{\uparrow}}
 \newcommand{\FiniteTraceEvaluatorUp}{\mathsf{FiniteTraceEvaluator}^{\uparrow}}
 \newcommand{\AnalyticContinuationSocketUp}{\mathsf{AnalyticContinuationSocket}^{\uparrow}}
 \newcommand{\MetaCICIdentityUp}{\mathsf{MetaCICIdentity}^{\uparrow}}
@@ -681,61 +683,6 @@
 \newcommand{\OracleSubstrateBoundaryUp}{\mathsf{OracleSubstrateBoundary}^{\uparrow}}
 \newcommand{\OracleResponseLedgerUp}{\mathsf{OracleResponseLedger}^{\uparrow}}
 \newcommand{\GapClosureBoundaryUp}{\mathsf{GapClosureBoundary}^{\uparrow}}
-% Closure-and-verification discipline macros
-% (\autoref{ch:closure-and-verification-discipline})
-
-% --- Theoretical closure axis (paper-internal) ---------------------------
-\newcommand{\TheoryClosure}{\mathsf{TheoryClosure}}
-\newcommand{\TheoryGate}{\mathsf{TheoryGate}}
-\newcommand{\seedClosure}{\mathsf{seed}}
-\newcommand{\obligationClosure}{\mathsf{obligation}}
-\newcommand{\scopedClosure}{\mathsf{scopedClosed}}
-\newcommand{\publicClosure}{\mathsf{publicClosed}}
-\newcommand{\bridgedClosure}{\mathsf{bridgedClosed}}
-\newcommand{\matureClosure}{\mathsf{maturePackageClosed}}
-
-% --- Formal verification axis (Lean-side audit) --------------------------
-\newcommand{\FormalStatus}{\mathsf{FormalStatus}}
-\newcommand{\VerifiedGate}{\mathsf{VerifiedGate}}
-\newcommand{\unformalizedV}{\mathsf{unformalized}}
-\newcommand{\formalTargetV}{\mathsf{formalTarget}}
-\newcommand{\encodedDefV}{\mathsf{encodedDef}}
-\newcommand{\scaffoldCheckedV}{\mathsf{scaffoldChecked}}
-\newcommand{\theoremCheckedV}{\mathsf{theoremChecked}}
-\newcommand{\auditCleanV}{\mathsf{auditClean}}
-\newcommand{\axiomCleanV}{\mathsf{axiomClean}}
-\newcommand{\bridgeCheckedV}{\mathsf{bridgeChecked}}
-
-% --- closurestatus field name tokens (for prose references) ---------------
-% These are used as math display names in text (e.g. $\theoryclosure$).
-% The same names are redefined as callable field macros inside the
-% closurestatus environment; the global definitions below are only
-% for use outside of that environment.
-\newcommand{\theoryclosure}{\mathsf{theoryclosure}}
-\newcommand{\scopeclosed}{\mathsf{scopeclosed}}
-\newcommand{\formalstatus}{\mathsf{formalstatus}}
-\newcommand{\leantarget}{\mathsf{leantarget}}
-\newcommand{\bridgestatus}{\mathsf{bridgestatus}}
-\newcommand{\notclaimed}{\mathsf{notclaimed}}
-\newcommand{\upgradepath}{\mathsf{upgradepath}}
-\newcommand{\constructivestory}{\mathsf{constructivestory}}
-\newcommand{\concretizedIn}[2]{%
-  \par\smallskip\noindent\textit{Concretized in
-  \hyperref[#1]{\S\ref*{#1}}:} #2\par\smallskip}
-% Falsifiable prediction row for \origin{ai} chapters — chapter's
-% commitment to a concrete BEDC-verifiable consequence that would
-% invalidate the chapter if disproved within N rounds.
-\newcommand{\falsifiablePrediction}[1]{%
-  \par\smallskip\noindent\textbf{Falsifiable prediction:} #1\par\smallskip}
-% Independence witness row for \origin{ai} chapters — chapter's
-% commitment that the carrier is NOT reducible to listed siblings.
-\newcommand{\independenceWitness}[1]{%
-  \par\smallskip\noindent\textbf{Independence witness:} #1\par\smallskip}
-% Conjecture environment for parts/conjectures/ open problems.
-\newtheorem{conjecture}[definition]{Conjecture}
-% Conjecture status marker (open / weakened / closed / refuted).
-\newcommand{\conjectureStatus}[1]{%
-  \par\smallskip\noindent\textbf{Status:} \texttt{#1}\par\smallskip}
 \newcommand{\ClosedNormalConsistencyBoundaryUp}{\mathsf{ClosedNormalConsistencyBoundary}^{\uparrow}}
 \newcommand{\BoundedNormalEqualityCheckerUp}{\mathsf{BoundedNormalEqualityChecker}^{\uparrow}}
 \newcommand{\MetaCICDecidableBoundaryUp}{\mathsf{MetaCICDecidableBoundary}^{\uparrow}}
@@ -773,6 +720,7 @@
 \newcommand{\GroundCompilerAuditVerdictUp}{\mathsf{GroundCompilerAuditVerdict}^{\uparrow}}
 \newcommand{\GroundCompilerEventFlowAuditUp}{\mathsf{GroundCompilerEventFlowAudit}^{\uparrow}}
 \newcommand{\GroundCompilerAuditMapUp}{\mathsf{GroundCompilerAuditMap}^{\uparrow}}
+\newcommand{\GroundCompilerRecognizerFlowUp}{\mathsf{GroundCompilerRecognizerFlow}^{\uparrow}}
 \newcommand{\GroundCompilerEventFlowAuditRouteUp}{\mathsf{GroundCompilerEventFlowAuditRoute}^{\uparrow}}
 \newcommand{\GroundCompilerAuditWitnessUp}{\mathsf{GroundCompilerAuditWitness}^{\uparrow}}
 \newcommand{\MetacicSubstitutionAuditPacketUp}{\MetaCICSubstitutionAuditPacketUp}

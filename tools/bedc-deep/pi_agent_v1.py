@@ -650,6 +650,33 @@ def _is_shallow_deepen_action(action: dict) -> bool:
     )
 
 
+def _board_is_dry(snapshot: dict) -> bool:
+    try:
+        return int(snapshot.get("board_unfinished") or 0) == 0
+    except (TypeError, ValueError):
+        return False
+
+
+def _should_suppress_deepen_action(action: dict, snapshot: dict) -> tuple[bool, str]:
+    if not isinstance(action, dict):
+        return (False, "")
+    if (action.get("action") or "").strip() != "request_deepen_target":
+        return (False, "")
+    if _board_is_dry(snapshot):
+        return (
+            True,
+            "BOARD is dry; completed-target deepen is not a refill path. "
+            "Prefer fresh supply, held-ready candidates, or discovery/refill wait-state.",
+        )
+    if _is_shallow_deepen_action(action):
+        return (
+            True,
+            "shallow-completed findings are advisory audit signals; "
+            "routing to human inbox instead of gauntlet",
+        )
+    return (False, "")
+
+
 def _snapshot_has_active_refill(snapshot: dict) -> bool:
     server = snapshot.get("server") or {}
     for task in (server.get("agents") or {}).values():
@@ -1542,20 +1569,26 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
             recent_pi_cycles,
         )
-        suppressed = [
-            a for a in autonomous_actions
-            if _is_shallow_deepen_action(a)
-        ]
+        suppressed = []
+        suppressed_reasons: list[str] = []
+        for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                suppressed.append(action)
+                if suppress_reason and suppress_reason not in suppressed_reasons:
+                    suppressed_reasons.append(suppress_reason)
         if suppressed:
             autonomous_actions = [
                 a for a in autonomous_actions
-                if not _is_shallow_deepen_action(a)
+                if a not in suppressed
             ]
-            inbox.append(
-                "**suppressed autonomous action** (request_deepen_target) — "
-                "shallow-completed findings are advisory audit signals; "
-                "routing to human inbox instead of gauntlet"
-            )
+            if not suppressed_reasons:
+                suppressed_reasons.append("request_deepen_target is not safe for autonomous execution")
+            for reason in suppressed_reasons:
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    + reason
+                )
         if shallow and not _snapshot_has_active_refill(snapshot):
             if recent_shallow_deepen_rejections >= 4:
                 inbox.append(
@@ -1580,6 +1613,16 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
 
         deepen_seen = False
         for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                inbox.append(
+                    "**blocked autonomous action** (request_deepen_target) — "
+                    + (
+                        suppress_reason
+                        or "request_deepen_target is not safe for autonomous execution"
+                    )
+                )
+                continue
             if (action.get("action") or "").strip() == "request_deepen_target":
                 if deepen_seen:
                     inbox.append("**blocked autonomous action** (request_deepen_target) — one deepen action already emitted this cycle")
