@@ -1,0 +1,45 @@
+\begin{theorem}[$\ZNormalUp$ root downstream totality]
+\label{thm:znormal-root-downstream-totality}
+Every downstream normal-form consumer of an accepted $\ZNormalUp$ packet factors through the root carrier rows
+$$
+T,F,V,K,R,H,C,P,N.
+$$
+The consumer may read terminal normality through $T,F,V,R$, finite normal-word evidence through $K$, transport through $H$, continuation replay through $C$, package provenance through $P$, and local naming through $N$; it receives no normal-form row outside that displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:znormal-carrier}. It displays exactly $T,F,V,K,R,H,C,P,N$ as the accepted packet and gives a downstream consumer no separate carrier coordinate.
+
+Use \autoref{thm:znormal-namecert-obligations} to bind those rows to the local $\NameCert_{\ZNormalUp}$ surface. Then apply \autoref{thm:znormal-root-visible-source-package}, which places every normal-output read after the same visible source package has been exposed.
+
+The routing clauses are supplied by \autoref{thm:znormal-root-normal-word-route-totality} and \autoref{thm:znormal-root-continuation-terminal-exhaustion}. The first theorem fixes the finite normal-word route through $K$, and the second fixes continuation-terminal reads through $T,F,V,R,H,C,P,N$. Hence every downstream normal-form consumer factors through the displayed packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root sibling normal-word consumption]
+\label{thm:znormal-root-sibling-normalword-consumption}
+For every accepted $\ZNormalUp$ packet, the $K$ row is consumed only through the finite sibling surfaces of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. No downstream normal-form consumer may read $K$ as host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, or global normalization.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:znormal-carrier}. The row $K$ appears inside the same finite packet as $T,F,V,R,H,C,P,N$ and is not a separate host-facing row.
+
+Apply \autoref{thm:znormal-root-normal-word-route-totality}. It routes the normal-word evidence through the ZeckendorfNormal and ZCarry sibling surfaces before any root consumer reads the local $K$ row.
+
+Next use \autoref{thm:znormal-root-continuation-terminal-exhaustion}. Continuation-trace normal-form reads remain terminal continuation reads through $T,F,V,R,H,C,P,N$, so the same downstream consumer cannot detach $K$ from the terminal route.
+
+Finally apply \autoref{thm:znormal-root-downstream-totality}. Since every downstream normal-form consumer factors through the displayed packet, the sibling normal-word row is consumed only through those finite sibling surfaces and not through any excluded host or global-normalization object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root total-host refusal]
+\label{thm:znormal-root-total-host-refusal}
+The root interface of an accepted $\ZNormalUp$ packet exports no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, substrate-halting row, or global normalizer. Any total-host or downstream normal-form use must remain inside
+$$
+T,F,V,K,R,H,C,P,N
+$$
+and the finite sibling consumption route of \autoref{thm:znormal-root-sibling-normalword-consumption}.
+\end{theorem}
+\begin{proof}
+Project the visible source package using \autoref{thm:znormal-root-visible-source-package}. It exposes the typed endpoint, finite fuel, terminal-normality, normal-word, continuation, transport, replay, package, and naming rows before any normal-output consumer reads the packet.
+
+Use \autoref{thm:znormal-root-downstream-totality} to cover downstream normal-form consumers, and use \autoref{thm:znormal-root-sibling-normalword-consumption} to cover the finite sibling route through $K$.
+
+It remains to exclude total-host escape. Apply \autoref{thm:znormal-root-continuation-terminal-exhaustion}; continuation reads are terminal route reads through the displayed packet and expose no unrestricted evaluator, divergence oracle, host conversion, quotient normalizer, substrate-halting row, or global normalizer. Therefore the root interface refuses exactly those host and global-normalization objects.
+\end{proof}
