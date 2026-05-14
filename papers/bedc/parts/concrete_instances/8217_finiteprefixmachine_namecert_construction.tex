@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixMachineUp$}
+\label{ch:concrete-instances-finite-prefix-machine-namecert}
+\origin{ai}
+
+The $\FinitePrefixMachineUp$ packet realizes the machine-specific bounded-prefix reading of \autoref{ch:visions-computation-as-continuation}. It sits between the finite recognizer surface of \autoref{ch:concrete-instances-finiteprefixautomaton-namecert}, the continuation-transition surface of \autoref{ch:concrete-instances-continuationautomaton-namecert}, the machine-code surface of \autoref{ch:concrete-instances-turingmachine-namecert}, and the finite trace replay surface of \autoref{ch:concrete-instances-continuationtrace-namecert}. Its distinguishing datum is that the machine row, state row, transition row, finite prefix, endpoint, acceptance, replay, and local naming rows are all read as one displayed packet.
+
+\falsifiablePrediction{Removing the prefix-bound row permits a terminal read not backed by a displayed finite machine prefix, which the local classifier rejects.}
+
+\independenceWitness{finiteprefixautomaton, continuationautomaton, turingmachine, continuationtrace: FinitePrefixMachineUp is not bijective to any sibling because it carries machine state, transition, finite prefix, endpoint, acceptance, replay, and local naming rows in one packet.}
+
+\begin{theorem}[FinitePrefixMachine carrier]
+\label{thm:finite-prefix-machine-carrier}
+A $\FinitePrefixMachineUp$ carrier is a finite $\BHist$ packet
+$$
+P=(M,Q,T,F,E,A,H,C,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $M$ is the finite machine row, including the machine identifier and its displayed input alphabet surface;
+\item $Q$ is the current state and finite state-ledger row read by the bounded prefix;
+\item $T$ is the transition-row ledger whose entries expose source state, input mark, target state, and the displayed $\Cont$ witness for the step;
+\item $F$ is the finite prefix-bound row, listing the machine input prefix and the visible prefix positions admitted for replay;
+\item $E$ is the endpoint row reached after the displayed prefix has been replayed;
+\item $A$ is the acceptance row read from the endpoint and the machine acceptance ledger;
+\item $H$ stores componentwise $\hsame$ transports for machine identity, state rows, transition rows, prefix positions, endpoint rows, acceptance rows, replay rows, and local naming;
+\item $C$ stores the displayed $\Cont$ replay routes for every accepted transition in the finite prefix and for the endpoint read;
+\item $N$ is the local $\NameCert_{\FinitePrefixMachineUp}$ row.
+\end{enumerate}
+The carrier exposes one machine-specific bounded continuation prefix. It contains no language quotient, no host evaluator, no unlisted transition rule, no infinite trace semantics, and no terminal read outside the displayed finite prefix.
+\end{theorem}
+\begin{proof}
+The packet is read by projection from the finite $\BHist$ carrier. The displayed tuple names the machine row, the state ledger, the transition ledger, the prefix-bound row, endpoint, acceptance, transports, replay routes, and local naming row.
+
+The neighbouring surfaces explain why each coordinate is public. \autoref{ch:concrete-instances-finiteprefixautomaton-namecert} supplies the bounded prefix-run shape, \autoref{ch:concrete-instances-continuationautomaton-namecert} supplies the transition-as-continuation shape, \autoref{ch:concrete-instances-turingmachine-namecert} supplies the machine row, and \autoref{ch:concrete-instances-continuationtrace-namecert} supplies finite replay.
+
+Since no other coordinate is present, every accepted read is confined to $M,Q,T,F,E,A,H,C,N$.
+\end{proof}
+
+\begin{theorem}[FinitePrefixMachine NameCert obligations]
+\label{thm:finite-prefix-machine-namecert-obligations}
+The local $\NameCert_{\FinitePrefixMachineUp}$ surface for the carrier of \autoref{thm:finite-prefix-machine-carrier} consists of seven finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $P=(M,Q,T,F,E,A,H,C,N)$;
+\item machine binding, stating that $Q,T,F,E,A$ are read as rows of the displayed machine row $M$;
+\item prefix-bound exposure for the finite prefix row $F$ before any endpoint read is accepted;
+\item transition exactness for every visible prefix step through the displayed ledger $T$ and the corresponding $\Cont$ route in $C$;
+\item endpoint and acceptance exactness through $E$ and $A$;
+\item componentwise stability through $H$ and replay through $C$;
+\item non-escape, stating that no accepted terminal read may consult a host evaluator, an unlisted transition rule, a language quotient, an infinite trace, or a terminal row not backed by $F$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{thm:finite-prefix-machine-carrier}. It gives the finite machine packet and names every row on the local certificate surface.
+
+The machine-binding and prefix-bound obligations are read from $M,Q,T,F,E,A$. The transition ledger $T$ is meaningful only as a row of the machine $M$, and the endpoint row $E$ can be read only after the finite prefix-bound row $F$ has displayed the positions being replayed.
+
+Transition exactness, endpoint exactness, and acceptance exactness are then local checks over the same packet. Each accepted step uses a row of $T$ and a replay route in $C$; the endpoint row $E$ is the terminal row of that finite replay; and $A$ reads acceptance from the endpoint and the displayed machine acceptance ledger.
+
+Finally, $H,C,N$ transport, replay, and name only the displayed rows. Because the carrier has no coordinate for a host evaluator, unlisted rule, quotient language, infinite trace, or off-prefix terminal row, the non-escape obligation follows from the packet boundary.
+\end{proof}
+
+\begin{theorem}[FinitePrefixMachine prefix determinacy]
+\label{thm:finite-prefix-machine-prefix-determinacy}
+For an accepted $\FinitePrefixMachineUp$ carrier $P=(M,Q,T,F,E,A,H,C,N)$, the displayed machine row $M$, transition ledger $T$, and finite prefix-bound row $F$ determine the endpoint row $E$ and acceptance row $A$ inside the packet. If another accepted endpoint and acceptance pair $E',A'$ is admitted over the same $M,Q,T,F,H,C,N$, then $E$ is $\hsame$ to $E'$ and $A$ is $\hsame$ to $A'$ through the displayed transport rows in $H$.
+\end{theorem}
+\begin{proof}
+Begin with the prefix-bound row $F$. It fixes the visible input prefix and the prefix positions admitted for replay, so a terminal read cannot skip to an endpoint outside that finite row.
+
+At each prefix position, the transition-exactness obligation of \autoref{thm:finite-prefix-machine-namecert-obligations} forces the next state row to be the target of the displayed transition row in $T$ for the machine $M$. The replay route in $C$ records the same step as a $\Cont$ read; it does not add a second transition source.
+
+After the last displayed prefix position, endpoint exactness forces $E$ to be the row reached by that replay, and acceptance exactness forces $A$ to be read from $E$ and the acceptance surface of $M$.
+
+Apply the componentwise transport rows in $H$ to any second accepted pair $E',A'$ over the same machine, transition, and prefix rows. The packet therefore identifies the two endpoint rows and the two acceptance rows internally, without using a host evaluator or an unlisted transition rule.
+\end{proof}
+
+\begin{theorem}[FinitePrefixMachine non-escape]
+\label{thm:finite-prefix-machine-nonescape}
+Every accepted $\FinitePrefixMachineUp$ consumer route factors through
+$$
+M,Q,T,F,E,A,H,C,N.
+$$
+In particular, a terminal read must pass through the finite prefix-bound row $F$, the transition ledger $T$, and the replay row $C$ before the endpoint row $E$ and acceptance row $A$ can be exported. The route cannot be replaced by a finite-prefix automaton quotient, a continuation automaton behaviour class, a Turing-machine host evaluator, or an unbounded continuation trace.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{thm:finite-prefix-machine-carrier}. The only machine-specific data available to a consumer are $M,Q,T,F,E,A$ together with transport, replay, and naming rows.
+
+Use the NameCert obligations of \autoref{thm:finite-prefix-machine-namecert-obligations}. They require machine binding, prefix-bound exposure, transition exactness, endpoint exactness, and acceptance exactness before a terminal read is exported.
+
+The sibling chapters keep their own surfaces. \autoref{ch:concrete-instances-finiteprefixautomaton-namecert} records bounded automaton runs, \autoref{ch:concrete-instances-continuationautomaton-namecert} records continuation-labelled automaton transitions, \autoref{ch:concrete-instances-turingmachine-namecert} records machine-code rows, and \autoref{ch:concrete-instances-continuationtrace-namecert} records finite replay traces. None supplies the missing combined packet for this machine-specific prefix read.
+
+Therefore every accepted terminal route remains inside $M,Q,T,F,E,A,H,C,N$.
+\end{proof}
+
+\begin{theorem}[FinitePrefixMachine public export]
+\label{thm:finite-prefix-machine-public-export}
+The public export of an accepted $\FinitePrefixMachineUp$ packet is exactly the machine-specific bounded prefix surface
+$$
+M \longmapsto Q \longmapsto T \longmapsto F \longmapsto E \longmapsto A
+$$
+together with componentwise $\hsame$ transport, $\Cont$ replay, and the local $\NameCert_{\FinitePrefixMachineUp}$ row. The export supplies a displayed bounded machine-prefix read for downstream consumers, but it does not publish language equality, behavior-class equality, unbounded halting, total host execution, or a trace outside the finite prefix row.
+\end{theorem}
+\begin{proof}
+Carrier admission supplies the displayed packet $P=(M,Q,T,F,E,A,H,C,N)$. The public machine-facing route is the finite sequence from machine row through state, transition, prefix bound, endpoint, and acceptance rows.
+
+Prefix determinacy is \autoref{thm:finite-prefix-machine-prefix-determinacy}. It makes the endpoint and acceptance rows functions of the displayed machine, transition, and prefix rows inside the local packet.
+
+Non-escape is \autoref{thm:finite-prefix-machine-nonescape}. It prevents any downstream consumer from replacing the finite prefix route by a host evaluator, behaviour quotient, language quotient, unbounded halting claim, or hidden trace oracle.
+
+Thus the exported surface is exactly the displayed bounded machine-prefix read, together with the transport, replay, and local naming rows that certify it.
+\end{proof}
+
+The Lean file \texttt{Derived/FinitePrefixMachineUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \FinitePrefixMachineUp$ and $\mathsf{FieldFaithful}\ \FinitePrefixMachineUp$ instances for the displayed rows $M,Q,T,F,E,A,H,C,N$.
