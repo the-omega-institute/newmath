@@ -73,6 +73,48 @@ Then apply the RegSeqRat finite-window transport closure of \autoref{thm:regseqr
 Finally use the CauchyLimitSeal RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The $\RealUp$ endpoint therefore consumes the same displayed boundary rows $X,D,G,E$ after transport, and the common finite window is reused for either seal-facing route.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal shared window route]
+\label{thm:cauchy-limit-seal-shared-window-route}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every $\RealUp$ or completion-facing consumer of $L$ factors through the same finite route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealCauchyCompletionUp \to \RealUp
+$$
+displayed by the rows $S,X,D,G,E$ and carried by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The shared route is the root L10 handoff of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}, and it has no quotient stream equality, selected limit, host real equality, hidden tail witness, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It forces every seal-facing read to enter through the $\StreamNameUp$ finite-window meet before any regular source, dyadic ledger, completion diagonal, or seal row is consumed.
+
+Next use source-schedule lattice coherence from \autoref{thm:cauchy-limit-seal-source-schedule-lattice-coherence}. The meet route is not merely some finite route: it is the displayed schedule row $S$ followed by the displayed $X,D,G,E$ rows.
+
+Finally transport along the common window by \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport preserves the displayed rows and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Composing this with the root L10 sibling route of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route} gives the stated shared handoff and excludes every listed hidden coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal route audit projection]
+\label{thm:cauchy-limit-seal-route-audit-projection}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. The route audit visible to downstream $\RealUp$ and completion consumers is exactly the tuple consisting of the $\StreamNameUp$ window $S$, the $\RegSeqRatUp$ source $X$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, the $\RealUp$ seal row $E$, and the structural provenance carried by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+No consumer-visible audit row contains quotient stream equality, selected host limit, host real equality, hidden tail witness, ambient completeness, or an off-route seal source.
+\end{theorem}
+\begin{proof}
+Begin with the shared window route of \autoref{thm:cauchy-limit-seal-shared-window-route}. It identifies the only seal-facing route available to a downstream consumer with the displayed $S,X,D,G,E$ handoff and its structural provenance.
+
+Apply the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. The endpoint projection may read the seal only through the displayed completion and seal rows, together with the visible history, transport, continuation, package, and local naming data.
+
+Finally use the RegSeqRat seal-route exclusion package of \autoref{thm:regseqrat-real-seal-route-exclusion-package}. The regular source contributes no quotient stream equality, selected host limit, host real equality, hidden tail witness, or ambient completeness coordinate. The audit projection is therefore exactly the displayed tuple and no larger route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal window budget exhaustion]
+\label{thm:cauchy-limit-seal-window-budget-exhaustion}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. No $\RealUp$ or completion-facing consumer may replace the shared finite window of \autoref{thm:cauchy-limit-seal-shared-window-route} by a second schedule, quotient stream equality, selected host limit, hidden tail witness, or ambient completeness datum. The complete consumer budget is exhausted by the displayed finite window, the rows $X,D,G,E$, and the provenance $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with middle-window meet determinacy from \autoref{thm:cauchy-limit-seal-middle-window-meet-determinacy}. Once a consumer read reaches the finite-window meet, the displayed rows $X,D,G,E$ determine the handoff and a second $\StreamNameUp$ schedule cannot determine the same seal route.
+
+Next apply common-window transport from \autoref{thm:cauchy-limit-seal-common-window-transport}. Transporting to the shared finite window preserves the carrier rows and does not introduce quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness.
+
+Finally compose with the route audit projection of \autoref{thm:cauchy-limit-seal-route-audit-projection}. Since the downstream audit tuple is exactly the displayed window, source, ledger, diagonal, seal, and structural provenance, all consumer-visible coordinates have been accounted for and the window budget is exhausted.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal Cauchy window transducer pullback]
 \label{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}
 When a $\CauchyLimitSealUp$ consumer route is served through a $\CauchyWindowTransducerUp$ packet, the transducer rows pull back first to the $\StreamNameUp$ finite-window lattice meet and then through the displayed $\RegSeqRatUp$ readback and $\RealUp$ seal rows. No quotient stream, selected host limit, hidden tail witness, or ambient completeness coordinate is introduced.
