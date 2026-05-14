@@ -35,6 +35,7 @@ PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
+PI_DRY_BOARD_SUPPRESSION_COMMIT = "4c65afc404"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -76,6 +77,11 @@ def _git(args: list[str]) -> str:
         ).stdout
     except Exception:
         return ""
+
+
+def _git_commit_ts(commit: str) -> datetime | None:
+    out = _git(["show", "-s", "--format=%cI", commit]).strip()
+    return _parse_iso(out)
 
 
 def _section(title: str) -> str:
@@ -1279,6 +1285,13 @@ def render_pi_agent() -> str:
             name = str(action.get("action") or "?")
             summary_text = str(item.get("summary") or "").replace("\n", " ")
             lines.append(f"  blocked: {name} — {summary_text[:140]}")
+    if rec.get("deepen_emitted"):
+        suppress_ts = _git_commit_ts(PI_DRY_BOARD_SUPPRESSION_COMMIT)
+        if ts and suppress_ts and ts < suppress_ts:
+            lines.append(
+                "  note: latest deepen emission predates dry-board suppression "
+                f"({PI_DRY_BOARD_SUPPRESSION_COMMIT}); watch the next PI cycle."
+            )
     return "\n".join(lines)
 
 
