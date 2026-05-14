@@ -10,124 +10,147 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LargeModelAuditChannelUp : Type where
-  | mk (prompt response activation audit replay transport provenance nameCert : BHist) :
-      LargeModelAuditChannelUp
+  | mk : (M Q O C R U V H K P N : BHist) → LargeModelAuditChannelUp
   deriving DecidableEq
 
-private def largeModelAuditChannelEncodeBHist : BHist → RawEvent
+def largeModelAuditChannelEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: largeModelAuditChannelEncodeBHist h
   | BHist.e1 h => BMark.b1 :: largeModelAuditChannelEncodeBHist h
 
-private def largeModelAuditChannelDecodeBHist : RawEvent → BHist
+def largeModelAuditChannelDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (largeModelAuditChannelDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (largeModelAuditChannelDecodeBHist tail)
 
 private theorem largeModelAuditChannelDecode_encode_bhist :
-    ∀ h : BHist,
-      largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist h) = h := by
+    ∀ h : BHist, largeModelAuditChannelDecodeBHist
+      (largeModelAuditChannelEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-private def largeModelAuditChannelToEventFlow : LargeModelAuditChannelUp → EventFlow
+def largeModelAuditChannelToEventFlow : LargeModelAuditChannelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | LargeModelAuditChannelUp.mk prompt response activation audit replay transport provenance
-      nameCert =>
+  | LargeModelAuditChannelUp.mk M Q O C R U V H K P N =>
       [[BMark.b0],
-        largeModelAuditChannelEncodeBHist prompt,
+        largeModelAuditChannelEncodeBHist M,
         [BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist response,
+        largeModelAuditChannelEncodeBHist Q,
         [BMark.b1, BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist activation,
+        largeModelAuditChannelEncodeBHist O,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist audit,
+        largeModelAuditChannelEncodeBHist C,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist replay,
+        largeModelAuditChannelEncodeBHist R,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist transport,
+        largeModelAuditChannelEncodeBHist U,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        largeModelAuditChannelEncodeBHist provenance,
+        largeModelAuditChannelEncodeBHist V,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        largeModelAuditChannelEncodeBHist nameCert]
+        largeModelAuditChannelEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        largeModelAuditChannelEncodeBHist K,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        largeModelAuditChannelEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        largeModelAuditChannelEncodeBHist N]
 
-private def largeModelAuditChannelFromEventFlow : EventFlow → Option LargeModelAuditChannelUp
+def largeModelAuditChannelFromEventFlow : EventFlow → Option LargeModelAuditChannelUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | prompt :: rest1 =>
+      | M :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | response :: rest3 =>
+              | Q :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | activation :: rest5 =>
+                      | O :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | audit :: rest7 =>
+                              | C :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | replay :: rest9 =>
+                                      | R :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transport :: rest11 =>
+                                              | U :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | provenance :: rest13 =>
+                                                      | V :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | nameCert :: rest15 =>
+                                                              | H :: rest15 =>
                                                                   match rest15 with
-                                                                  | [] =>
-                                                                      some
-                                                                        (LargeModelAuditChannelUp.mk
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            prompt)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            response)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            activation)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            audit)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            replay)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            transport)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            provenance)
-                                                                          (largeModelAuditChannelDecodeBHist
-                                                                            nameCert))
-                                                                  | _ :: _ => none
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | K :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | P :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | N :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] =>
+                                                                                              some
+                                                                                                (LargeModelAuditChannelUp.mk
+                                                                                                  (largeModelAuditChannelDecodeBHist M)
+                                                                                                  (largeModelAuditChannelDecodeBHist Q)
+                                                                                                  (largeModelAuditChannelDecodeBHist O)
+                                                                                                  (largeModelAuditChannelDecodeBHist C)
+                                                                                                  (largeModelAuditChannelDecodeBHist R)
+                                                                                                  (largeModelAuditChannelDecodeBHist U)
+                                                                                                  (largeModelAuditChannelDecodeBHist V)
+                                                                                                  (largeModelAuditChannelDecodeBHist H)
+                                                                                                  (largeModelAuditChannelDecodeBHist K)
+                                                                                                  (largeModelAuditChannelDecodeBHist P)
+                                                                                                  (largeModelAuditChannelDecodeBHist N))
+                                                                                          | _ :: _ => none
 
 private theorem largeModelAuditChannel_round_trip :
     ∀ x : LargeModelAuditChannelUp,
@@ -135,36 +158,35 @@ private theorem largeModelAuditChannel_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk prompt response activation audit replay transport provenance nameCert =>
+  | mk M Q O C R U V H K P N =>
       change
         some
           (LargeModelAuditChannelUp.mk
-            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist prompt))
-            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist response))
-            (largeModelAuditChannelDecodeBHist
-              (largeModelAuditChannelEncodeBHist activation))
-            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist audit))
-            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist replay))
-            (largeModelAuditChannelDecodeBHist
-              (largeModelAuditChannelEncodeBHist transport))
-            (largeModelAuditChannelDecodeBHist
-              (largeModelAuditChannelEncodeBHist provenance))
-            (largeModelAuditChannelDecodeBHist
-              (largeModelAuditChannelEncodeBHist nameCert))) =
-          some
-            (LargeModelAuditChannelUp.mk prompt response activation audit replay transport
-              provenance nameCert)
-      rw [largeModelAuditChannelDecode_encode_bhist prompt,
-        largeModelAuditChannelDecode_encode_bhist response,
-        largeModelAuditChannelDecode_encode_bhist activation,
-        largeModelAuditChannelDecode_encode_bhist audit,
-        largeModelAuditChannelDecode_encode_bhist replay,
-        largeModelAuditChannelDecode_encode_bhist transport,
-        largeModelAuditChannelDecode_encode_bhist provenance,
-        largeModelAuditChannelDecode_encode_bhist nameCert]
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist M))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist Q))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist O))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist C))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist R))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist U))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist V))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist H))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist K))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist P))
+            (largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist N))) =
+          some (LargeModelAuditChannelUp.mk M Q O C R U V H K P N)
+      rw [largeModelAuditChannelDecode_encode_bhist M,
+        largeModelAuditChannelDecode_encode_bhist Q,
+        largeModelAuditChannelDecode_encode_bhist O,
+        largeModelAuditChannelDecode_encode_bhist C,
+        largeModelAuditChannelDecode_encode_bhist R,
+        largeModelAuditChannelDecode_encode_bhist U,
+        largeModelAuditChannelDecode_encode_bhist V,
+        largeModelAuditChannelDecode_encode_bhist H,
+        largeModelAuditChannelDecode_encode_bhist K,
+        largeModelAuditChannelDecode_encode_bhist P,
+        largeModelAuditChannelDecode_encode_bhist N]
 
-private theorem largeModelAuditChannelToEventFlow_injective
-    {x y : LargeModelAuditChannelUp} :
+private theorem largeModelAuditChannelToEventFlow_injective {x y : LargeModelAuditChannelUp} :
     largeModelAuditChannelToEventFlow x = largeModelAuditChannelToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -181,8 +203,7 @@ instance largeModelAuditChannelBHistCarrier : BHistCarrier LargeModelAuditChanne
   toEventFlow := largeModelAuditChannelToEventFlow
   fromEventFlow := largeModelAuditChannelFromEventFlow
 
-instance largeModelAuditChannelChapterTasteGate :
-    ChapterTasteGate LargeModelAuditChannelUp where
+instance largeModelAuditChannelChapterTasteGate : ChapterTasteGate LargeModelAuditChannelUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -196,40 +217,25 @@ instance largeModelAuditChannelFieldFaithful : FieldFaithful LargeModelAuditChan
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | LargeModelAuditChannelUp.mk prompt response activation audit replay transport
-        provenance nameCert =>
-        [prompt, response, activation, audit, replay, transport, provenance, nameCert]
+    | LargeModelAuditChannelUp.mk M Q O C R U V H K P N =>
+        [M, Q, O, C, R, U, V, H, K, P, N]
   field_faithful := by
     intro x y h
     cases x with
-    | mk prompt₁ response₁ activation₁ audit₁ replay₁ transport₁ provenance₁ nameCert₁ =>
+    | mk M1 Q1 O1 C1 R1 U1 V1 H1 K1 P1 N1 =>
         cases y with
-        | mk prompt₂ response₂ activation₂ audit₂ replay₂ transport₂ provenance₂ nameCert₂ =>
-            injection h with hprompt t1
-            injection t1 with hresponse t2
-            injection t2 with hactivation t3
-            injection t3 with haudit t4
-            injection t4 with hreplay t5
-            injection t5 with htransport t6
-            injection t6 with hprovenance t7
-            injection t7 with hnameCert _
-            cases hprompt
-            cases hresponse
-            cases hactivation
-            cases haudit
-            cases hreplay
-            cases htransport
-            cases hprovenance
-            cases hnameCert
+        | mk M2 Q2 O2 C2 R2 U2 V2 H2 K2 P2 N2 =>
+            cases h
             rfl
 
 instance largeModelAuditChannelNontrivial : Nontrivial LargeModelAuditChannelUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨LargeModelAuditChannelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       LargeModelAuditChannelUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -239,19 +245,19 @@ def taste_gate : ChapterTasteGate LargeModelAuditChannelUp :=
   largeModelAuditChannelChapterTasteGate
 
 theorem LargeModelAuditChannelTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      largeModelAuditChannelDecodeBHist (largeModelAuditChannelEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate LargeModelAuditChannelUp) ∧
       (∀ x : LargeModelAuditChannelUp,
         largeModelAuditChannelFromEventFlow (largeModelAuditChannelToEventFlow x) = some x) ∧
-        (∀ x y : LargeModelAuditChannelUp,
-          largeModelAuditChannelToEventFlow x =
-            largeModelAuditChannelToEventFlow y → x = y) ∧
-          largeModelAuditChannelEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x y : LargeModelAuditChannelUp,
+        largeModelAuditChannelToEventFlow x = largeModelAuditChannelToEventFlow y → x = y) ∧
+      largeModelAuditChannelEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact largeModelAuditChannelDecode_encode_bhist
+  · exact ⟨largeModelAuditChannelChapterTasteGate⟩
   · constructor
-    · exact largeModelAuditChannel_round_trip
+    · intro x
+      change largeModelAuditChannelFromEventFlow (largeModelAuditChannelToEventFlow x) = some x
+      exact largeModelAuditChannel_round_trip x
     · constructor
       · intro x y heq
         exact largeModelAuditChannelToEventFlow_injective heq

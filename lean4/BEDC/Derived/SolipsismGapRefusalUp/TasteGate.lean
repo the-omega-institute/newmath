@@ -10,111 +10,106 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SolipsismGapRefusalUp : Type where
-  | mk (evidence refusal residue transport route provenance nameCert : BHist) :
-      SolipsismGapRefusalUp
+  | mk : (E R G H C P N : BHist) → SolipsismGapRefusalUp
   deriving DecidableEq
 
-private def solipsismGapRefusalEncodeBHist : BHist → RawEvent
+def solipsismGapRefusalEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: solipsismGapRefusalEncodeBHist h
   | BHist.e1 h => BMark.b1 :: solipsismGapRefusalEncodeBHist h
 
-private def solipsismGapRefusalDecodeBHist : RawEvent → BHist
+def solipsismGapRefusalDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (solipsismGapRefusalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (solipsismGapRefusalDecodeBHist tail)
 
 private theorem solipsismGapRefusalDecode_encode_bhist :
-    ∀ h : BHist,
-      solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist h) = h := by
+    ∀ h : BHist, solipsismGapRefusalDecodeBHist
+      (solipsismGapRefusalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-private def solipsismGapRefusalToEventFlow : SolipsismGapRefusalUp → EventFlow
+def solipsismGapRefusalToEventFlow : SolipsismGapRefusalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SolipsismGapRefusalUp.mk evidence refusal residue transport route provenance nameCert =>
+  | SolipsismGapRefusalUp.mk E R G H C P N =>
       [[BMark.b0],
-        solipsismGapRefusalEncodeBHist evidence,
+        solipsismGapRefusalEncodeBHist E,
         [BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist refusal,
+        solipsismGapRefusalEncodeBHist R,
         [BMark.b1, BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist residue,
+        solipsismGapRefusalEncodeBHist G,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist transport,
+        solipsismGapRefusalEncodeBHist H,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist route,
+        solipsismGapRefusalEncodeBHist C,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist provenance,
+        solipsismGapRefusalEncodeBHist P,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        solipsismGapRefusalEncodeBHist nameCert]
+        solipsismGapRefusalEncodeBHist N]
 
-private def solipsismGapRefusalFromEventFlow : EventFlow → Option SolipsismGapRefusalUp
+def solipsismGapRefusalFromEventFlow : EventFlow → Option SolipsismGapRefusalUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | evidence :: rest1 =>
+      | E :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | refusal :: rest3 =>
+              | R :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | residue :: rest5 =>
+                      | G :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | transport :: rest7 =>
+                              | H :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | route :: rest9 =>
+                                      | C :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | provenance :: rest11 =>
+                                              | P :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | nameCert :: rest13 =>
+                                                      | N :: rest13 =>
                                                           match rest13 with
                                                           | [] =>
                                                               some
                                                                 (SolipsismGapRefusalUp.mk
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    evidence)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    refusal)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    residue)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    transport)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    route)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    provenance)
-                                                                  (solipsismGapRefusalDecodeBHist
-                                                                    nameCert))
+                                                                  (solipsismGapRefusalDecodeBHist E)
+                                                                  (solipsismGapRefusalDecodeBHist R)
+                                                                  (solipsismGapRefusalDecodeBHist G)
+                                                                  (solipsismGapRefusalDecodeBHist H)
+                                                                  (solipsismGapRefusalDecodeBHist C)
+                                                                  (solipsismGapRefusalDecodeBHist P)
+                                                                  (solipsismGapRefusalDecodeBHist N))
                                                           | _ :: _ => none
 
 private theorem solipsismGapRefusal_round_trip :
@@ -123,30 +118,27 @@ private theorem solipsismGapRefusal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk evidence refusal residue transport route provenance nameCert =>
+  | mk E R G H C P N =>
       change
         some
           (SolipsismGapRefusalUp.mk
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist evidence))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist refusal))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist residue))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist transport))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist route))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist provenance))
-            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist nameCert))) =
-          some
-            (SolipsismGapRefusalUp.mk evidence refusal residue transport route provenance
-              nameCert)
-      rw [solipsismGapRefusalDecode_encode_bhist evidence,
-        solipsismGapRefusalDecode_encode_bhist refusal,
-        solipsismGapRefusalDecode_encode_bhist residue,
-        solipsismGapRefusalDecode_encode_bhist transport,
-        solipsismGapRefusalDecode_encode_bhist route,
-        solipsismGapRefusalDecode_encode_bhist provenance,
-        solipsismGapRefusalDecode_encode_bhist nameCert]
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist E))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist R))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist G))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist H))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist C))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist P))
+            (solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist N))) =
+          some (SolipsismGapRefusalUp.mk E R G H C P N)
+      rw [solipsismGapRefusalDecode_encode_bhist E,
+        solipsismGapRefusalDecode_encode_bhist R,
+        solipsismGapRefusalDecode_encode_bhist G,
+        solipsismGapRefusalDecode_encode_bhist H,
+        solipsismGapRefusalDecode_encode_bhist C,
+        solipsismGapRefusalDecode_encode_bhist P,
+        solipsismGapRefusalDecode_encode_bhist N]
 
-private theorem solipsismGapRefusalToEventFlow_injective
-    {x y : SolipsismGapRefusalUp} :
+private theorem solipsismGapRefusalToEventFlow_injective {x y : SolipsismGapRefusalUp} :
     solipsismGapRefusalToEventFlow x = solipsismGapRefusalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -163,8 +155,7 @@ instance solipsismGapRefusalBHistCarrier : BHistCarrier SolipsismGapRefusalUp wh
   toEventFlow := solipsismGapRefusalToEventFlow
   fromEventFlow := solipsismGapRefusalFromEventFlow
 
-instance solipsismGapRefusalChapterTasteGate :
-    ChapterTasteGate SolipsismGapRefusalUp where
+instance solipsismGapRefusalChapterTasteGate : ChapterTasteGate SolipsismGapRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -178,37 +169,23 @@ instance solipsismGapRefusalFieldFaithful : FieldFaithful SolipsismGapRefusalUp 
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | SolipsismGapRefusalUp.mk evidence refusal residue transport route provenance nameCert =>
-        [evidence, refusal, residue, transport, route, provenance, nameCert]
+    | SolipsismGapRefusalUp.mk E R G H C P N => [E, R, G, H, C, P, N]
   field_faithful := by
     intro x y h
     cases x with
-    | mk evidence₁ refusal₁ residue₁ transport₁ route₁ provenance₁ nameCert₁ =>
+    | mk E1 R1 G1 H1 C1 P1 N1 =>
         cases y with
-        | mk evidence₂ refusal₂ residue₂ transport₂ route₂ provenance₂ nameCert₂ =>
-            injection h with hevidence t1
-            injection t1 with hrefusal t2
-            injection t2 with hresidue t3
-            injection t3 with htransport t4
-            injection t4 with hroute t5
-            injection t5 with hprovenance t6
-            injection t6 with hnameCert _
-            cases hevidence
-            cases hrefusal
-            cases hresidue
-            cases htransport
-            cases hroute
-            cases hprovenance
-            cases hnameCert
+        | mk E2 R2 G2 H2 C2 P2 N2 =>
+            cases h
             rfl
 
 instance solipsismGapRefusalNontrivial : Nontrivial SolipsismGapRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨SolipsismGapRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      SolipsismGapRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨SolipsismGapRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty,
+      SolipsismGapRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -218,18 +195,19 @@ def taste_gate : ChapterTasteGate SolipsismGapRefusalUp :=
   solipsismGapRefusalChapterTasteGate
 
 theorem SolipsismGapRefusalTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      solipsismGapRefusalDecodeBHist (solipsismGapRefusalEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate SolipsismGapRefusalUp) ∧
       (∀ x : SolipsismGapRefusalUp,
         solipsismGapRefusalFromEventFlow (solipsismGapRefusalToEventFlow x) = some x) ∧
-        (∀ x y : SolipsismGapRefusalUp,
-          solipsismGapRefusalToEventFlow x = solipsismGapRefusalToEventFlow y → x = y) ∧
-          solipsismGapRefusalEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x y : SolipsismGapRefusalUp,
+        solipsismGapRefusalToEventFlow x = solipsismGapRefusalToEventFlow y → x = y) ∧
+      solipsismGapRefusalEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact solipsismGapRefusalDecode_encode_bhist
+  · exact ⟨solipsismGapRefusalChapterTasteGate⟩
   · constructor
-    · exact solipsismGapRefusal_round_trip
+    · intro x
+      change solipsismGapRefusalFromEventFlow (solipsismGapRefusalToEventFlow x) = some x
+      exact solipsismGapRefusal_round_trip x
     · constructor
       · intro x y heq
         exact solipsismGapRefusalToEventFlow_injective heq
