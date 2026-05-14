@@ -521,6 +521,42 @@ Supported source consumption is supplied by \autoref{thm:gap-closure-boundary-so
 Finally combine refusal non-escape with the TasteGate readiness package already displayed in this chapter. The result is a three-row root obligation surface: expose the carrier, route supported reads through the source, and route unsupported reads to refusal without importing any hidden closure principle.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary source-refusal orthogonality]
+\label{thm:gap-closure-boundary-source-refusal-orthogonality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, a supported root read must pass through the displayed source row $S$, while an unsupported closure read is routed to the refusal ledger $R$. The two routes are orthogonal at the public boundary: neither $S$ nor $R$ can be reread as a hidden closure supply, and no accepted read obtains both a source witness and a refusal witness as a concealed substitute for internal closure.
+\end{theorem}
+\begin{proof}
+Project the seven-row carrier from \autoref{def:gap-closure-boundary-carrier}. The only source-facing coordinate is $S$, and the only off-source endpoint is the refusal ledger $R$.
+
+Apply the NameCert obligations and displayed source precondition, \autoref{thm:gap-closure-boundary-namecert-obligations} and \autoref{thm:gap-closure-boundary-displayed-source-precondition}. A supported read of the request row $G$ has to expose $S$ before any downstream consumer can use the boundary.
+
+For an unsupported read, use refusal non-escape, \autoref{thm:gap-closure-boundary-refusal-nonescape}. The read is routed to $R$ and receives no internal universal closure, hidden $\mathsf{T}$ supply, private access row, causal necessity row, direct aspect reduction, or off-packet continuation. Thus the source route and refusal route remain separate public alternatives rather than a combined hidden supply.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary hard-problem consumer factorization]
+\label{thm:gap-closure-boundary-hard-problem-consumer-factorization}
+Every accepted root read used by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ factors through the same displayed packet $G,S,R,H,C,P,N$. A supported consumer factors through $G,S,H,C,P,N$, and an unsupported consumer factors through $G,R,H,C,P,N$; no listed consumer receives a consumer-specific carrier outside the $\GapClosureBoundaryUp$ rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the shared root packet and record the hard-problem sibling packets only through the provenance row $P$.
+
+For supported consumers, apply the displayed source precondition. The causal, refutation, other-minds, aspect, and solipsism routes can use the boundary only after $G$ has been read through $S$ and transported, replayed, packaged, and named by $H,C,P,N$.
+
+For unsupported consumers, apply refusal non-escape. The same hard-problem request is sent to $R$ through the structural rows, and the excluded closure, private access, causal necessity, direct aspect reduction, hidden $\mathsf{T}$ supply, and off-packet continuation are absent from the carrier. Hence every listed consumer factors through one of the two displayed finite routes.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary closure-request determinacy]
+\label{thm:gap-closure-boundary-closure-request-determinacy}
+For accepted $\GapClosureBoundaryUp$ carriers, agreement on the request row $G$, source row $S$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$ determines whether a root closure request is supported or refusal-routed. If the displayed source route through $S$ is available, the read is supported through $G,S,H,C,P,N$; if that route is absent, the same continuation and naming surface routes the request to $R$.
+\end{theorem}
+\begin{proof}
+Read the displayed source precondition, \autoref{thm:gap-closure-boundary-displayed-source-precondition}. It identifies the public support condition as the presence of the source observation or socket row $S$ together with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Use the NameCert obligation theorem to inspect the continuation row. The row $C$ routes supported reads through the source row and routes unsupported closure reads to the refusal row, while $H,P,N$ transport, package, and name that same decision.
+
+Finally apply refusal non-escape. Once the source route is absent, the request cannot escape to an internal closure coordinate or hidden $\mathsf{T}$ supply, so the public data $G,S,H,C,P,N$ fixes the branch: supported through $S$ when the source route is displayed, and refusal-routed to $R$ otherwise.
+\end{proof}
+
 \closureat{GapClosureBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\GapClosureBoundaryUp}

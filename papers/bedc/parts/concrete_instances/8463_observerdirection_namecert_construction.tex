@@ -1,0 +1,89 @@
+\chapter{ObserverDirectionUp NameCert construction}
+\label{ch:concrete-instances-observer-direction-namecert}
+\origin{ai}
+
+The $\ObserverDirectionUp$ surface realizes the direction-sensitive readback part of \autoref{ch:visions-observer-hist-identity} as a finite observer-to-target carrier. It sits after the regular observer packet of \autoref{ch:concrete-instances-observerregular-namecert}, the observer-history identity packet of \autoref{ch:concrete-instances-observerhistidentity-namecert}, and the licensed comparison packet of \autoref{ch:concrete-instances-observerlicensedcomparison-namecert}. Its role is to keep the observer route, target readback, direction token, comparison ledger, and local naming row together before a consumer treats a comparison as an oriented observation rather than an unordered pair of histories.
+
+\falsifiablePrediction{Removing the direction-token row collapses two distinct observer-to-target routes and breaks the licensed comparison handoff.}
+
+\independenceWitness{Compare observerregular, observerhistidentity, observerlicensedcomparison, observerbridgeledger, and streamname siblings: none is bijective because this carrier alone stores the direction token together with observer route, target readback, and comparison ledger.}
+
+\begin{definition}[Observer direction carrier]
+\label{def:observer-direction-carrier}
+An $\ObserverDirectionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R,T,U,L,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the observer-row packet, read through the regular observer and observer-history identity surfaces;
+\item $T$ is the target-row packet whose readback is being oriented;
+\item $U$ is the direction-token row, naming which observer-to-target route is being read;
+\item $L$ is the licensed comparison ledger, read through the sibling surface of \autoref{ch:concrete-instances-observerlicensedcomparison-namecert};
+\item $B$ is the target readback row produced only after $R,T,U,L$ have been displayed together;
+\item $H$ records the componentwise $\hsame$ transports for observer, target, direction token, comparison ledger, readback, route, provenance, and local name rows;
+\item $C$ records the displayed $\Cont$ routes from the observer row to the target row and from that oriented route to the comparison readback;
+\item $P$ is the $\Pkg$ provenance over $\ObserverRegularUp$, $\ObserverHistIdentityUp$, $\mathsf{ObserverLicensedComparison}^{\uparrow}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverDirectionUp}$ row.
+\end{enumerate}
+The carrier accepts an oriented observer comparison only when the observer row, target row, direction token, licensed comparison, readback, $\hsame$ transport, continuation route, provenance, and local naming row are all displayed in one finite packet. It exports no unordered comparison, hidden observer-substance, host equality of observers, global frame, unlicensed readback, or route outside the displayed direction token.
+\end{definition}
+
+\begin{theorem}[Observer direction NameCert obligations]
+\label{thm:observer-direction-namecert-obligations}
+For the carrier of \autoref{def:observer-direction-carrier}, the local $\NameCert_{\ObserverDirectionUp}$ surface consists exactly of carrier admission for $O=(R,T,U,L,B,H,C,P,N)$, observer-row anchoring through $R$, target-row anchoring through $T$, direction-token exactness through $U$, licensed comparison handoff through $L$, target readback through $B$, componentwise $\hsame$ transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and non-escape from unordered comparison, hidden observer-substance, host equality, global frames, unlicensed readback, and routes outside the displayed direction token.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the nine rows of \autoref{def:observer-direction-carrier}. The observer row and target row become comparable only after the direction token and licensed comparison ledger are displayed with them.
+
+The direction-token exactness is the row $U$. A public read may consume the observer-to-target route only through the displayed continuation row $C$, and the licensed comparison handoff must pass through $L$ before the target readback row $B$ is available.
+
+The transport and provenance rows then bind the read to the observerregular, observerhistidentity, and observerlicensedcomparison siblings cited above. Since none of the excluded objects is a coordinate of $O$, the local NameCert surface is exhausted by the listed finite obligations.
+\end{proof}
+
+\begin{theorem}[Observer direction falsifiable boundary]
+\label{thm:observer-direction-falsifiable-boundary}
+If the direction-token row $U$ is removed from an accepted $\ObserverDirectionUp$ packet, two packets that differ only by reversing the observer-to-target route have the same remaining rows $R,T,L,B,H,C,P,N$. The licensed comparison handoff can then no longer distinguish the oriented readback, so the packet is not an $\ObserverDirectionUp$ carrier.
+\end{theorem}
+\begin{proof}
+Remove $U$ from $O=(R,T,U,L,B,H,C,P,N)$. The remaining rows still display an observer row, target row, comparison ledger, readback, transport, continuation route, provenance, and local name, but they no longer name which oriented route the readback follows.
+
+A reversed observer-to-target route can preserve the unordered pair of visible rows while changing the intended comparison handoff. The licensed comparison sibling records a comparison ledger, not the missing direction token itself.
+
+Thus the carrier loses the row that separates the two oriented routes. The result is outside \autoref{def:observer-direction-carrier}, and the falsifiable prediction is the loss of the licensed oriented handoff.
+\end{proof}
+
+\begin{theorem}[Observer direction nontrivial boundary]
+\label{thm:observer-direction-nontrivial-boundary}
+The $\ObserverDirectionUp$ packet is nontrivial at the paper boundary: an accepted packet with direction token $U$ and the same observer, target, comparison, transport, route, provenance, and name rows but opposite displayed direction token is not identified by the carrier predicate. The later Lean \texttt{TasteGate.lean} must include an explicit $\mathsf{Nontrivial}\ \ObserverDirectionUp$ instance for this displayed carrier.
+\end{theorem}
+\begin{proof}
+The carrier contains the direction-token row as a coordinate. Two packets with different displayed direction tokens therefore differ as finite $\BHist$ packets even when their observer, target, comparison, transport, route, provenance, and name rows agree.
+
+The licensed comparison row does not erase this distinction, because it is read after the direction token has fixed the observer-to-target route. The paper boundary is therefore nontrivial: the packet can witness two oriented reads over the same visible endpoints.
+\end{proof}
+
+\begin{theorem}[Observer direction field-faithful boundary]
+\label{thm:observer-direction-field-faithful-boundary}
+Every public $\ObserverDirectionUp$ consumer preserves the nine displayed fields $R,T,U,L,B,H,C,P,N$ of \autoref{def:observer-direction-carrier}. In particular, it may not identify a direction-token change with a target-readback change, a licensed-comparison change, or a provenance change. The later Lean \texttt{TasteGate.lean} must include an explicit $\mathsf{FieldFaithful}\ \ObserverDirectionUp$ instance for this displayed carrier.
+\end{theorem}
+\begin{proof}
+Read a public consumer as a projection from the accepted carrier. The only fields available to the consumer are the observer row, target row, direction token, licensed comparison ledger, target readback, $\hsame$ transport row, continuation route, package provenance, and local name.
+
+Field faithfulness follows from the order of the read. The direction token $U$ gates the route in $C$, the licensed comparison ledger $L$ gates the readback $B$, and the provenance row $P$ records the sibling sources separately.
+
+Since these rows occupy separate coordinates, a consumer that merges one coordinate into another no longer preserves the carrier of \autoref{def:observer-direction-carrier}. The public boundary is therefore faithful to the listed fields.
+\end{proof}
+
+\closureat{ObserverDirectionUp}{seedStr}
+
+\begin{closurestatus}{\ObserverDirectionUp}
+  \constructivestory{An $\ObserverDirectionUp$ packet is generated from observer-row, target-row, direction-token, licensed-comparison, readback, hsame transport, displayed Cont route, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-direction-carrier}, \autoref{thm:observer-direction-namecert-obligations}, \autoref{thm:observer-direction-falsifiable-boundary}, \autoref{thm:observer-direction-nontrivial-boundary}, and \autoref{thm:observer-direction-field-faithful-boundary} specify the finite oriented observer-readback carrier, its NameCert obligations, direction-token boundary, nontriviality boundary, and field-faithfulness boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full observer-history identity, observer-filter completeness, hidden observer state, quotient history identity, global observer frames, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked TasteGate carrier admission, direction-token exactness, licensed-comparison handoff, readback confinement, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
