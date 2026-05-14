@@ -142,50 +142,26 @@ def boundedMonotoneConvergenceSealFromEventFlow :
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | transport ::
-                                                                          rest17 =>
+                                                                      | transport :: rest17 =>
                                                                           match rest17 with
                                                                           | [] => none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
-                                                                              match
-                                                                                rest18
-                                                                              with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | route ::
-                                                                                  rest19 =>
-                                                                                  match
-                                                                                    rest19
-                                                                                  with
-                                                                                  | [] =>
-                                                                                      none
-                                                                                  | _tag10 ::
-                                                                                      rest20 =>
-                                                                                      match
-                                                                                        rest20
-                                                                                      with
-                                                                                      | [] =>
-                                                                                          none
-                                                                                      | provenance ::
-                                                                                          rest21 =>
-                                                                                          match
-                                                                                            rest21
-                                                                                          with
-                                                                                          | [] =>
-                                                                                              none
-                                                                                          | _tag11 ::
-                                                                                              rest22 =>
-                                                                                              match
-                                                                                                rest22
-                                                                                              with
-                                                                                              | [] =>
-                                                                                                  none
-                                                                                              | name ::
-                                                                                                  rest23 =>
-                                                                                                  match
-                                                                                                    rest23
-                                                                                                  with
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | route :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | provenance :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] => none
+                                                                                          | _tag11 :: rest22 =>
+                                                                                              match rest22 with
+                                                                                              | [] => none
+                                                                                              | name :: rest23 =>
+                                                                                                  match rest23 with
                                                                                                   | [] =>
                                                                                                       some
                                                                                                         (boundedMonotoneConvergenceSealDecodePacket
@@ -201,8 +177,7 @@ def boundedMonotoneConvergenceSealFromEventFlow :
                                                                                                           route
                                                                                                           provenance
                                                                                                           name)
-                                                                                                  | _ :: _ =>
-                                                                                                      none
+                                                                                                  | _ :: _ => none
 
 private theorem boundedMonotoneConvergenceSeal_round_trip :
     ∀ x : BoundedMonotoneConvergenceSealUp,

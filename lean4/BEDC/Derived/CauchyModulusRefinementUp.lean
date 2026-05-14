@@ -234,6 +234,25 @@ theorem CauchyModulusRefinement_selector_budget_regseqrat_real_seal_determinacy
     cont_respects_hsame sameQ sameSeal carrierSeal transportedSeal
   exact ⟨sameQ, sameH⟩
 
+theorem CauchyModulusRefinementCarrier_source_window_lock [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n selected : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg →
+      Cont t w selected →
+        UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory u ∧ UnaryHistory v ∧
+          UnaryHistory t ∧ UnaryHistory w ∧ UnaryHistory selected ∧ Cont m0 m1 u ∧
+            Cont u v t ∧ Cont t w selected ∧ PkgSig bundle p pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier selectedWindow
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, _qUnary, _eUnary, _hUnary,
+      _cUnary, _pUnary, _nUnary, m0m1u, uvt, _twq, _qeh, pPkg, hn⟩
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed tUnary wUnary selectedWindow
+  exact
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, selectedUnary, m0m1u, uvt,
+      selectedWindow, pPkg, hn⟩
+
 theorem CauchyModulusRefinement_selector_stability_lock [AskSetup] [PackageSetup]
     {m0 m1 u v t w q e h c p n v' t' q' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -253,5 +272,50 @@ theorem CauchyModulusRefinement_selector_stability_lock [AskSetup] [PackageSetup
   have sameQ : hsame q q' :=
     cont_respects_hsame sameT (hsame_refl w) carrierWindow transportedWindow
   exact ⟨sameT, sameQ⟩
+
+theorem CauchyModulusRefinementCarrier_root_budget_stability [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ∧
+            hsame row t)
+        (fun row : BHist =>
+          Cont m0 m1 u ∧ Cont u v t ∧ hsame row t ∧ PkgSig bundle p pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle p pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, hUnary, cUnary,
+      pUnary, nUnary, m0m1u, uvt, twq, qeh, pPkg, hn⟩
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro t (And.intro
+          ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, qUnary, eUnary, hUnary,
+            cUnary, pUnary, nUnary, m0m1u, uvt, twq, qeh, pPkg, hn⟩
+          (hsame_refl t))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨m0m1u, uvt, source.right, pPkg⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport tUnary (hsame_symm source.right), pPkg⟩
+  }
 
 end BEDC.Derived.CauchyModulusRefinementUp
