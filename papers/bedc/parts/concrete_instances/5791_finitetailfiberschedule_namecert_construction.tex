@@ -68,3 +68,35 @@ The later Lean \texttt{TasteGate.lean} boundary for this carrier must provide \t
   \notclaimed{This chapter does not close Lean verification, quotient reals, host real completeness, selected limits, countable choice, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, schedule-to-fiber exactness, dyadic and regular readback exactness, RealUp seal handoff, transport closure, and TasteGate nontriviality with field faithfulness.}
 \end{closurestatus}
+
+\begin{lemma}[FiniteTailFiberSchedule seal-route determinacy]
+\label{lem:finite-tail-fiber-schedule-seal-route-determinacy}
+Let
+$$
+Q=(T,F,S,D,R,E,H,C,P,N)
+$$
+and
+$$
+Q'=(T',F',S',D',R',E',H',C',P',N')
+$$
+be accepted $\FiniteTailFiberScheduleUp$ packets. Suppose the displayed non-seal rows agree componentwise through the packet classifier:
+$$
+T=T',\quad F=F',\quad S=S',\quad D=D',\quad R=R',\quad H=H',\quad C=C',\quad P=P',\quad N=N'.
+$$
+Then the $\RealUp$ seal rows $E$ and $E'$ are classified along the same finite tail-fiber route. More explicitly, any accepted read of $E$ and any accepted read of $E'$ both factor through the common route
+$$
+T,F,S,D,R,H,C,P,N,
+$$
+so the seal comparison has no independent coordinate from which to distinguish two RealUp seal routes under the same displayed tail index, finite fiber, schedule, dyadic ledger, RegSeqRat readback, transport, continuation, provenance, and local naming rows.
+\end{lemma}
+\begin{proof}
+Project both packets to the carrier of \autoref{def:finite-tail-fiber-schedule-carrier}. The only row that can expose a RealUp seal is the seal coordinate attached to the same tuple as the displayed tail index, finite fiber, schedule row, dyadic ledger, RegSeqRat readback, componentwise transports, continuation routes, package provenance, and local name.
+
+Apply the schedule-to-fiber obligation from \autoref{thm:finite-tail-fiber-schedule-namecert-obligations}. In each accepted packet, a seal-facing schedule read must first pass through the displayed tail index and finite fiber row. Since $T=T'$, $F=F'$, and $S=S'$, the two packets present one scheduled tail-fiber route before either seal row can be cited.
+
+Apply the dyadic and regular readback obligation from the same theorem. A seal-facing radius read is the displayed dyadic ledger $D$, and the regular-rational read is the displayed $\RegSeqRatUp$ row $R$. Since $D=D'$ and $R=R'$, the readback portion of the two seal routes is the same finite ledger rather than two separate regular-rational sources.
+
+The transport and continuation rows now identify the remaining route data. The common rows $H=H'$ and $C=C'$ replay the same componentwise $\hsame$ transport and the same displayed $\Cont$ route through the stream-name readback, dyadic-radius use, regular-rational readback, tail-meet comparison, and seal consumption. The common rows $P=P'$ and $N=N'$ attach the same package provenance and local naming surface to that replay.
+
+Finally use non-escape from \autoref{thm:finite-tail-fiber-schedule-namecert-obligations}. The packet has no coordinate for a quotient real, selected host limit, infinite tail oracle, countable-choice row, ambient completeness theorem, or second seal selector. Therefore an alleged distinct seal route would need an unlisted coordinate, while every accepted seal read is already forced through the common finite route $T,F,S,D,R,H,C,P,N$. Hence $E$ and $E'$ classify together along that route.
+\end{proof}

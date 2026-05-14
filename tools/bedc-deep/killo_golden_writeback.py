@@ -301,6 +301,7 @@ def _logic_surface_audit(content: str) -> dict:
     if re.search(r"\b(bridge|transport|continuation|embedding|projection|interpretation|mirror)\b|\\[hmp]same\b", low):
         if not re.search(
             r"\b(eliminat|cut|factor|intermediate|compose|composition|reduce|through)\b"
+            r"|\b(project|projection|projecting|unfold|unfolding|unfolded|repack|repacking)\b"
             r"|\\autoref\{[^}]*transport[^}]*\}"
             r"|finite observation|common observation|consumer-facing|displayed coordinates|displayed classifier",
             low,

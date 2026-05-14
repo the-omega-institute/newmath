@@ -213,17 +213,34 @@ Trace and acceptance consumption are exhausted by \autoref{thm:continuation-auto
 Since each cited row is a projection or replay of $Q,q_0,F,T,B,H,C,P,N$, the consumer package has no coordinate for a host evaluator, external state space, trace quotient, or transition rule outside $T$.
 \end{proof}
 
+\begin{theorem}[ContinuationAutomaton public consumer export]
+\label{thm:continuation-automaton-public-consumer-export}
+For an accepted $\ContinuationAutomatonUp$ packet, the public export to $\UnaryContinuationCategoryUp$ and $\ContinuationMonadUp$ consumers is exactly the finite carrier surface
+$$
+Q,q_0,F,T,B,H,C,P,N.
+$$
+The TasteGate marker preserves the same single-carrier surface: carrier rows, behaviour classifier rows, transition-route rows, acceptance-ledger rows, trace rows, provenance rows, and local naming rows are exported as one packet, with no host evaluator, trace quotient, or unlisted transition rule.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-automaton-obligation-closure-consumer-pack}. It assembles carrier admission, behaviour classifier stability, step-continuation correspondence, trace exhaustion, acceptance ledger exactness, and ledger factorization for the two named consumers.
+
+Use \autoref{thm:continuation-automaton-acceptance-ledger-exactness}. The acceptance side of the export is exhausted by $F,T,B,H,C,P,N$ and remains attached to the same state ledger $Q$ and initial row $q_0$.
+
+Finally apply the checked TasteGate marker for $BEDC.Derived.ContinuationAutomatonUp.taste\_gate$. It records that the displayed carrier remains the single consumer-visible surface, so the public export is $Q,q_0,F,T,B,H,C,P,N$ and nothing outside the finite packet.
+\end{proof}
+
 \closureat{ContinuationAutomatonUp}{obligationStr}
 \closureat{ContinuationAutomatonUp}{scopedStr}[BEDC.Derived.ContinuationAutomatonUp.taste\_gate]
+\closureat{ContinuationAutomatonUp}{publicStr}[BEDC.Derived.ContinuationAutomatonUp.ContinuationAutomatonTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ContinuationAutomatonUp}
   \constructivestory{A $\ContinuationAutomatonUp$ packet is generated from finite $\BHist$ state rows, an initial row, accepting rows, $\Mark$-labelled transition rows carrying displayed $\Cont$ witnesses, behaviour classifier rows, componentwise $\hsame$ transports, displayed inspection routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:continuationautomaton-carrier}, \autoref{thm:continuationautomaton-step-continuation-correspondence}, \autoref{thm:continuationautomaton-namecert-obligations}, \autoref{thm:continuation-automaton-state-source-determinacy}, \autoref{thm:continuation-automaton-transition-route-closure}, \autoref{thm:continuation-automaton-trace-exhaustion}, \autoref{thm:continuation-automaton-acceptance-ledger-exactness}, \autoref{thm:continuation-automaton-namecert-obligation-pack}, and the TasteGate marker bind the finite automaton carrier, NameCert obligations, step-continuation correspondence, trace exhaustion, NameCert obligation pack, behaviour classifier surface, transition routes, acceptance ledger, transport rows, package provenance, and local naming row as the scoped paper surface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:continuationautomaton-carrier}, \autoref{thm:continuationautomaton-step-continuation-correspondence}, \autoref{thm:continuationautomaton-namecert-obligations}, \autoref{thm:continuation-automaton-state-source-determinacy}, \autoref{thm:continuation-automaton-transition-route-closure}, \autoref{thm:continuation-automaton-trace-exhaustion}, \autoref{thm:continuation-automaton-acceptance-ledger-exactness}, \autoref{thm:continuation-automaton-namecert-obligation-pack}, \autoref{thm:continuation-automaton-public-consumer-export}, and the TasteGate marker bind the finite automaton carrier, NameCert obligations, step-continuation correspondence, trace exhaustion, NameCert obligation pack, behaviour classifier surface, transition routes, acceptance ledger, transport rows, package provenance, local naming row, and public consumer export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.ContinuationAutomatonUp.taste\_gate}
   \notclaimed{This chapter does not close external operational semantics, host configurations, trace quotients, deterministic transition selection, or a public standard bridge.}
-  \upgradepath{Public closure requires a public consumer export for the finite automaton carrier, classifier, transition-route, acceptance-ledger, trace, provenance, and TasteGate rows.}
+  \upgradepath{Bridged closure requires an explicit bridge from the finite automaton carrier, classifier, transition route, acceptance ledger, trace, provenance, and TasteGate rows to the downstream public interface.}
 \end{closurestatus}
