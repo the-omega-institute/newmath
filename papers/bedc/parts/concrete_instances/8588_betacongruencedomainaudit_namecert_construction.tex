@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\BetaCongruenceDomainAuditUp$}
+\label{ch:concrete-instances-beta-congruence-domain-audit-namecert}
+\origin{ai}
+
+The $\BetaCongruenceDomainAuditUp$ packet realizes the binder-domain trigger surface identified in \autoref{ch:metacic-beta-audit-map}. It sits beside the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert} and the beta-substitution preservation packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}: those siblings expose the raw beta relation and the redex-substitution preservation row, while this packet binds the $\texttt{congLamDom}$ and $\texttt{congPiDom}$ domain-trigger rows as finite subject-reduction audit data.
+
+\falsifiablePrediction{A packet omitting the displayed binder-domain trigger row is not an accepted \BetaCongruenceDomainAuditUp carrier.}
+
+\independenceWitness{betastepboundary, betasubstitutionpreservation, metacic-subject-reduction-obstruction, subjectreductiondischarge: no sibling is bijective because the new packet stores the binder-domain beta-congruence trigger, displayed domain readback, subject-reduction handoff row, transport, route, provenance, and local naming together.}
+
+\begin{definition}[BetaCongruenceDomainAudit carrier]
+\label{def:beta-congruence-domain-audit-carrier}
+A $\BetaCongruenceDomainAuditUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,M,\Pi,R,S,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the binder-domain trigger row, tagged by the local $\texttt{congLamDom}$ or $\texttt{congPiDom}$ beta constructor;
+\item $M$ is the lambda-domain readback row for the displayed old and new lambda annotations, when the trigger is the lambda-domain constructor;
+\item $\Pi$ is the Pi-domain readback row for the displayed old and new Pi annotations, when the trigger is the Pi-domain constructor;
+\item $R$ is the subject-reduction handoff row naming the binder-domain discharge surface consumed by $\SubjectReductionDischargeUp$;
+\item $S$ is the finite subject-reduction trigger ledger tying $T,M,\Pi,R$ to the same domain-congruence beta step;
+\item $H$ stores componentwise $\hsame$ transports for the trigger, readback, handoff, ledger, route, provenance, and naming rows;
+\item $K$ stores the displayed $\Cont$ routes for reading the trigger, replaying the domain readback, and handing the row to the subject-reduction discharge interface;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-beta-audit-map}, \autoref{ch:concrete-instances-betastepboundary-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BetaCongruenceDomainAuditUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no beta-redex substitution semantics, no typed preservation theorem, no unrestricted conversion, and no closed subject-reduction theorem.
+\end{definition}
+
+\begin{theorem}[BetaCongruenceDomainAudit NameCert obligations]
+\label{thm:beta-congruence-domain-audit-namecert-obligations}
+For the carrier of \autoref{def:beta-congruence-domain-audit-carrier}, the local $\NameCert_{\BetaCongruenceDomainAuditUp}$ surface consists of carrier admission for
+$$
+D=(T,M,\Pi,R,S,H,K,P,N),
+$$
+binder-domain trigger readback, lambda-domain readback, Pi-domain readback, subject-reduction handoff replay, finite trigger-ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and non-escape from beta-redex substitution semantics, typed preservation, unrestricted conversion, and closed subject reduction.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:beta-congruence-domain-audit-carrier}. The packet exposes exactly $T,M,\Pi,R,S,H,K,P,N$.
+
+The trigger row $T$ records whether the beta step is the lambda-domain constructor or the Pi-domain constructor named in \autoref{ch:metacic-beta-audit-map}. The readback rows $M$ and $\Pi$ keep the displayed old and new domain annotations separate from any redex-substitution row.
+
+The handoff row $R$ and ledger row $S$ place the trigger beside the subject-reduction discharge surface without discharging it. The transports $H$, routes $K$, provenance $P$, and local name $N$ bind the read into one finite NameCert packet.
+
+Since no coordinate supplies beta-redex substitution semantics, typed preservation, unrestricted conversion, or closed subject reduction, no consumer of the local certificate can export those objects from the binder-domain trigger packet.
+\end{proof}
+
+\begin{theorem}[BetaCongruenceDomainAudit trigger handoff]
+\label{thm:beta-congruence-domain-audit-trigger-handoff}
+An accepted $\BetaCongruenceDomainAuditUp$ packet presents the $\texttt{congLamDom}$ and $\texttt{congPiDom}$ beta constructors as finite subject-reduction trigger rows. The handoff to $\SubjectReductionDischargeUp$ reads only
+$$
+D=(T,M,\Pi,R,S,H,K,P,N),
+$$
+where $T$ is the binder-domain trigger, $M$ and $\Pi$ are the displayed domain readbacks, $R$ is the discharge-facing row, $S$ is the finite trigger ledger, and $H,K,P,N$ are the local transport, route, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First read the trigger from $T$. The beta-step boundary sibling records that $\texttt{congLamDom}$ and $\texttt{congPiDom}$ are beta constructors, while this carrier stores which binder-domain constructor is being audited.
+
+Next read the displayed domain annotations. The lambda-domain case uses $M$, and the Pi-domain case uses $\Pi$; each route is replayed through $H$ and $K$ before the handoff row $R$ is visible.
+
+Finally apply the provenance row $P$. It links the trigger to the beta audit map, beta-step boundary, beta-substitution preservation sibling, and subject-reduction discharge surface, but it does not identify the binder-domain trigger with redex substitution or typed preservation.
+\end{proof}
+
+\begin{theorem}[BetaCongruenceDomainAudit non-escape]
+\label{thm:beta-congruence-domain-audit-nonescape}
+Every accepted $\BetaCongruenceDomainAuditUp$ packet exposes binder-domain beta-congruence only through the rows
+$$
+T,M,\Pi,R,S,H,K,P,N.
+$$
+A downstream consumer may read the binder-domain trigger, displayed lambda-domain readback, displayed Pi-domain readback, discharge-facing handoff, finite trigger ledger, transports, routes, provenance, and local naming row. It cannot replace those rows by beta-redex substitution semantics, typed preservation, unrestricted conversion, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only beta-facing row is $T$, and the only binder annotation readbacks are $M$ and $\Pi$.
+
+Use the NameCert obligations of \autoref{thm:beta-congruence-domain-audit-namecert-obligations}. They require the handoff and ledger rows to remain tied to the same trigger packet through $H,K,P,N$.
+
+The exclusions follow from absence of coordinates. Redex substitution, typed preservation, unrestricted conversion, and closed subject reduction would each require a separate row or external route, and none is present in $D$.
+\end{proof}
+
+\begin{theorem}[BetaCongruenceDomainAudit TasteGate target]
+\label{thm:beta-congruence-domain-audit-tastegate-target}
+The Lean-facing taste gate for $\BetaCongruenceDomainAuditUp$ is the finite carrier discipline of \autoref{def:beta-congruence-domain-audit-carrier} together with the obligation, handoff, and non-escape theorems of this chapter. The downstream taste-gate module \texttt{Derived/BetaCongruenceDomainAuditUp/TasteGate.lean} must provide \texttt{Nontrivial BetaCongruenceDomainAuditUp} and \texttt{FieldFaithful BetaCongruenceDomainAuditUp} instances for the rows $T,M,\Pi,R,S,H,K,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier theorem fixes the finite row inventory. The NameCert obligations identify the admission, readback, handoff, ledger, transport, route, provenance, and naming fields.
+
+The handoff theorem shows the packet is not merely a beta-step boundary: it has a discharge-facing route for binder-domain triggers. The non-escape theorem shows it is not a typed preservation theorem or unrestricted conversion rule.
+
+These three facts are exactly the paper-side target for a nontrivial instance and a field-faithful instance: an accepted carrier has the displayed rows, and each row is recoverable without adding hidden host semantics.
+\end{proof}
