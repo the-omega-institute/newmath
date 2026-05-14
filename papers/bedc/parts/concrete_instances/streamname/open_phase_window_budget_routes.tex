@@ -1,0 +1,54 @@
+\section{StreamName Open-Phase Window Budget Routes}
+\label{sec:streamname-open-phase-window-budget-routes}
+
+\begin{theorem}[StreamName open-phase window index nonempty]
+\label{thm:streamname-open-phase-window-index-nonempty}
+Every Phase Real and Completion consumer satisfying the open-phase terminal route of \autoref{thm:streamname-open-phase-terminal-route} reads a nonempty finite window-index surface before it reaches the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the finite $\RealUp$ handoff rows of \autoref{ch:concrete-instances-real-namecert}. The window-index surface is the one carried by the common-refinement terminal Real seal of \autoref{thm:streamname-common-refinement-terminal-real-seal}; it consists only of displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The route exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-open-phase-terminal-route}. It places the Phase Real and Completion consumer on the terminal finite packet whose visible entries include the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite $\RealUp$ seal row.
+
+Apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The common-refinement packet displays the finite-window classifier, probe rows, membership rows, unary-history observations, rational-history rows, dyadic ledger rows, transports, routes, provenance, and local names before the downstream handoff is read.
+
+Now use \autoref{thm:streamname-window-index-nonempty-handoff}. The accepted finite-window handoff must expose a nonempty index row on that displayed packet, so the Phase Real and Completion route has a finite window-index surface before it can reach the RegSeqRat, DyadicRatCore, or Real-facing rows.
+
+Finally apply \autoref{thm:streamname-open-phase-terminal-nonescape}. Since the terminal packet contains no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, or metric-completeness data, none of those objects is exported by the nonempty index route.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase finite-window budget]
+\label{thm:streamname-open-phase-finite-window-budget}
+Every Phase Real and Completion consumer routed through the terminal StreamName packet has a finite-window budget route whose source is the nonempty StreamName window index, whose middle rows are the $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ ledger, and whose target is the finite $\RealUp$ seal handoff. The budget is consumed on the common-refinement terminal surface of \autoref{thm:streamname-common-refinement-terminal-real-seal} and the open-phase terminal route of \autoref{thm:streamname-open-phase-terminal-route}.
+
+The budget route carries only displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-open-phase-window-index-nonempty}. The consumer has a finite nonempty StreamName window-index surface before any downstream Real-facing read occurs.
+
+Next use \autoref{thm:streamname-finite-window-budget-monotonicity}. Enlarging or transporting the selected finite window changes only the displayed budget rows and keeps the consumer inside the finite StreamName packet.
+
+Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and finite $\RealUp$ seal row form one finite pullback, so the same window budget supports all three downstream faces.
+
+Finally invoke \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} and \autoref{thm:streamname-open-phase-terminal-nonescape}. Seal determinacy pins the Real-facing read to that finite pullback, and non-escape removes quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data from the exported surface.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase Real seal route]
+\label{thm:streamname-open-phase-real-seal-route}
+Every Phase Real and Completion handoff that begins at a $\StreamNameUp$ finite window and ends at a finite $\RealUp$ seal row factors through the finite-window budget route of \autoref{thm:streamname-open-phase-finite-window-budget}. The handoff therefore has the ordered public route
+$$
+\StreamNameUp\text{ window budget}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ finite seal}.
+$$
+The route is the terminal BEDC surface already exposed by \autoref{thm:streamname-open-phase-terminal-route} and \autoref{thm:streamname-common-refinement-terminal-real-seal}.
+
+It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window budget route of \autoref{thm:streamname-open-phase-finite-window-budget}. It supplies the nonempty window-index source, the RegSeqRat readback, the DyadicRatCore ledger, and the finite Real seal row on one displayed packet.
+
+Next apply \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. The RegSeqRat readback and Real seal access are locked to the same common finite window, with the dyadic ledger read from that packet rather than from an independent carrier.
+
+Use \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The common-refinement seal pullback is unique for the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real seal row.
+
+Finally apply \autoref{thm:streamname-open-phase-four-face-lock}. The Phase Real and Completion handoff is exactly the displayed four-face route, and the non-escape clauses already attached to that route exclude quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data.
+\end{proof}
