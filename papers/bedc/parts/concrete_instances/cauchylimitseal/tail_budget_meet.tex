@@ -32,6 +32,20 @@ For the selector side, use \autoref{thm:cauchy-limit-seal-choice-free-selector-s
 For the budget side, use the observation-budget pullback and consumer package from \autoref{thm:cauchy-limit-seal-observation-budget-pullback} and \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. These rows preserve the precision request, window, ledger, regular handoff, seal, route, provenance, and naming rows. Hence every transported read remains inside the same finite meet packet.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal tail-budget meet exactness]
+\label{thm:cauchy-limit-seal-tail-budget-meet-exactness}
+Let $L$ be an accepted $\CauchyLimitSealUp$ packet and let $B$ be an accepted $\RealObservationBudgetUp$ packet over the same displayed precision request and finite $\StreamNameUp$ window. The two packets classify through the same finite tail-budget meet row if and only if their selector row, observation-budget row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows agree componentwise inside the meet surface. This exactness statement excludes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, project the finite meet row supplied by \autoref{thm:cauchy-limit-seal-tail-budget-meet}. The meet has no coordinates other than the selector, budget, dyadic ledger, regular handoff, real seal, transport, continuation, provenance, and naming rows, so classification through the same row identifies those coordinates componentwise.
+
+Apply \autoref{thm:cauchy-limit-seal-selector-budget-transport}. It keeps the selector side and observation-budget side on the same precision request, stream window, dyadic ledger, regular handoff, real seal, transport row, continuation route, package row, and local name under every displayed $\hsame$ and $\Cont$ replay.
+
+For the reverse direction, start from componentwise agreement of the listed coordinates. Repack the selector read, observation-budget read, dyadic ledger, regular handoff, real seal, transports, routes, provenance, and naming row into the meet supplied by \autoref{thm:cauchy-limit-seal-tail-budget-meet}.
+
+The repacked meet is accepted because each coordinate is already an accepted coordinate of $L$ and $B$ over the same precision request and finite window. Since no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate is present, the shared componentwise row is exactly the common classifier surface.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal completion-budget root unblock]
 \label{thm:cauchy-limit-seal-completion-budget-root-unblock}
 The tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet} and its selector-budget transport of \autoref{thm:cauchy-limit-seal-selector-budget-transport} package the root-unblock and completion-consumer rows into one downstream surface. A $\RealUp$ or completion consumer may cite this surface as the finite route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ supplied by the accepted $\CauchyLimitSealUp$ and $\RealObservationBudgetUp$ packets. The package explicitly excludes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness.
