@@ -213,6 +213,52 @@ Use \autoref{thm:gap-closure-boundary-namecert-obligations} to read this invento
 Finally apply structural exhaustion, \autoref{thm:gap-closure-boundary-structural-exhaustion}. The rows $H,C,P,N$ only transport, route, package, and name $G,S,R$, so a root consumer has no pre-packet coordinate from which to read internal closure, private access, causal necessity, direct aspect reduction, or a hidden $\mathsf{T}$ supply.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary shared socket route package]
+\label{thm:gap-closure-boundary-shared-socket-route-package}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the shared socket route available to root hard-problem consumers is the finite package consisting of the request row $G$, displayed source row $S$, refusal row $R$, componentwise transport $H$, displayed continuation routes $C$, package provenance $P$, and local naming row $N$. A supported socket read uses the route $G \longrightarrow S$ through $H,C,P,N$; an unsupported socket read uses the route $G \longrightarrow R$ through the same structural rows.
+\end{theorem}
+\begin{proof}
+Project the carrier exposure theorem, \autoref{thm:gap-closure-boundary-root-carrier-exposure}. It fixes the root inventory as the seven rows $G,S,R,H,C,P,N$.
+
+Use the NameCert obligations of \autoref{thm:gap-closure-boundary-namecert-obligations}. They separate the source-route obligation from the refusal-ledger obligation while keeping both routes inside the same finite packet.
+
+The displayed source precondition, \autoref{thm:gap-closure-boundary-displayed-source-precondition}, gives the supported branch $G \longrightarrow S$. The refusal-ledger transport theorem, \autoref{thm:gap-closure-boundary-refusal-ledger-transport}, gives the unsupported branch $G \longrightarrow R$.
+
+Thus the shared socket route is not a hidden supply route. It is exactly the public packet $G,S,R,H,C,P,N$ with one supported source branch and one refusal branch.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary source refusal exhaustion]
+\label{thm:gap-closure-boundary-source-refusal-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every supported root read is exhausted by the displayed source row $S$, and every unsupported root read is exhausted by the refusal row $R$. No accepted root read of $B$ has a third route to internal closure, private access, causal necessity, direct aspect reduction, hidden $\mathsf{T}$ supply, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the shared socket route package above. It presents the root-facing read as either the source branch $G \longrightarrow S$ or the refusal branch $G \longrightarrow R$, transported through $H,C,P,N$.
+
+For a supported read, apply \autoref{thm:gap-closure-boundary-displayed-source-precondition}. The consumer must expose the displayed source observation or socket row $S$ before the packet is consumed, so the supported branch is exhausted by $S$ and the structural rows.
+
+For an unsupported read, apply \autoref{thm:gap-closure-boundary-refusal-ledger-transport}. The request has no displayed source route and is sent to $R$ along $H,C,P,N$.
+
+Finally use sibling consumer exhaustion, \autoref{thm:gap-closure-boundary-sibling-consumer-exhaustion}. The listed hard-problem consumers receive no route outside the finite packet, so the source row and refusal row exhaust the root alternatives.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary hard-problem consumer handoff]
+\label{thm:gap-closure-boundary-hard-problem-consumer-handoff}
+Every $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ consumer of an accepted $\GapClosureBoundaryUp$ packet receives only the finite boundary packet
+$$
+B=(G,S,R,H,C,P,N).
+$$
+The consumer may read a supported source route through $G,S,H,C,P,N$ or an unsupported refusal route through $G,R,H,C,P,N$, but it receives no consumer-specific closure row outside that packet.
+\end{theorem}
+\begin{proof}
+Read the carrier exposure theorem first. The handoff begins with $B=(G,S,R,H,C,P,N)$, so every downstream consumer starts from the same finite request, source, refusal, transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:gap-closure-boundary-namecert-obligations}. The local certificate exposes carrier, source-route, refusal-ledger, and structural duties; it does not expose a separate consumer-specific hard-problem row.
+
+Use source refusal exhaustion above to split the handoff. Supported consumers receive the route through $S$, while unsupported consumers receive the refusal route through $R$.
+
+Finally apply \autoref{thm:gap-closure-boundary-sibling-consumer-exhaustion}. The causal commitment, finite witnessed refutation, other-minds commitment, aspect-chain, and solipsism-refusal chapters consume the shared packet only, so the handoff remains a finite boundary rather than hidden supply.
+\end{proof}
+
 \begin{theorem}[GapClosureBoundary source-route obligation]
 \label{thm:gap-closure-boundary-source-route-obligation}
 For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any supported root read of the $\mathsf{GAP}$ request must pass through the displayed source row $S$ before a hard-problem sibling consumer may use the boundary. The support route is transported only by $H$, replayed only by $C$, packaged only by $P$, and locally named only by $N$.
