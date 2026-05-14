@@ -116,14 +116,15 @@ Finally apply \autoref{thm:continuation-trace-normal-form-non-escape}. The packe
 This terminal-scope row is the paper obligation needed before Lean can formalize the continuation trace normal-form handoff.
 
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
+\closureat{ContinuationTraceNormalFormUp}{obligationStr}
 
 \begin{closurestatus}{\ContinuationTraceNormalFormUp}
   \constructivestory{A $\ContinuationTraceNormalFormUp$ packet is generated from a source history row, a finite $\ContinuationTraceUp$ ledger, a terminal row, a $\ContinuationBigStepUp$ terminal-read witness, a $\TypedReductionNormalFormUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, and \autoref{thm:continuation-trace-normal-form-terminal-scope} bind terminal trace normalization as a finite continuation-replay NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, typed subject reduction, global confluence, host conversion, evaluator correctness, quotient behaviour, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, trace replay, terminal-read exposure, typed normal-form readback, and non-escape for the $\ContinuationTraceNormalFormUp$ packet.}
+  \upgradepath{Scoped closure requires binding the existing carrier, trace replay, terminal-read exposure, typed normal-form readback, non-escape, trace-ledger exhaustion, terminal readback lock, and typed-boundary non-escape rows to the explicit BEDC primitives $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
