@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\UnaryDirectionNormalizerUp$}
+\label{ch:concrete-instances-unarydirectionnormalizer-namecert}
+\origin{ai}
+
+The $\UnaryDirectionNormalizerUp$ packet realizes the unary-direction bridge of \autoref{ch:concrete-instances-unary-direction-bridge} as a finite NameCert carrier. It consumes the axis-unary-spine surface of \autoref{ch:concrete-instances-axisunaryspinenormalizer-namecert} and the zero-spine standard surface of \autoref{ch:concrete-instances-unary-zero-spine-standard-iso-namecert}, then adds a local direction decision row that keeps host integer axes outside the exported packet.
+
+\begin{definition}[UnaryDirectionNormalizer carrier]
+\label{def:unary-direction-normalizer-carrier}
+A $\UnaryDirectionNormalizerUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,Z,K,D,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $A$ is the axis-unary-spine row supplied by $\AxisUnarySpineNormalizerUp$;
+\item $Z$ is the zero-spine standard row supplied by $\UnaryZeroSpineStandardIsoUp$;
+\item $K$ is the Zeckendorf carry-normalization row used by axis-side carry consumers;
+\item $D$ is the direction-normalization decision row choosing the unary-to-axis, axis-to-unary, or neutral bridge presentation;
+\item $H$ stores componentwise $\hsame$ transports for $A,Z,K,D$ and the local naming row;
+\item $C$ stores the displayed $\Cont$ replay routes for axis-spine exposure, zero-spine exposure, carry-normalization routing, direction-decision readback, and NameCert audit;
+\item $P$ records $\Pkg$ provenance over $\AxisUnarySpineNormalizerUp$, $\UnaryZeroSpineStandardIsoUp$, $\ZeckendorfCarryNormalizationUp$, $\UnaryDirectionBridgeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UnaryDirectionNormalizerUp}$ row.
+\end{enumerate}
+The packet has no coordinate for a host integer-axis function, a quotient between unary and zero-spine carriers, or an ambient standard-model normalizer outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[UnaryDirectionNormalizer NameCert obligations]
+\label{thm:unary-direction-normalizer-namecert-obligations}
+The local $\NameCert_{\UnaryDirectionNormalizerUp}$ surface for \autoref{def:unary-direction-normalizer-carrier} consists of carrier admission, axis-row exposure, zero-spine compatibility, carry-normalization routing, direction-decision stability, and non-escape from host integer axes. In particular, an accepted packet exposes the finite rows $A,Z,K,D,H,C,P,N$ and exports a direction-normalized unary packet only through those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $U=(A,Z,K,D,H,C,P,N)$. The axis-row exposure clause reads $A$ through the sibling surface of \autoref{ch:concrete-instances-axisunaryspinenormalizer-namecert}, and the zero-spine compatibility clause reads $Z$ through \autoref{ch:concrete-instances-unary-zero-spine-standard-iso-namecert}.
+
+The carry route is separate from the direction decision. The row $K$ supplies the Zeckendorf carry-normalization input, while $D$ records which bridge direction is being normalized for the downstream consumer.
+
+Stability is componentwise. The row $H$ transports $A,Z,K,D$ and the local name without merging the axis-unary and zero-spine carriers, and $C$ replays the same reads as finite continuation routes.
+
+The non-escape condition follows from the absence of any host integer-axis coordinate. Since $P$ lists only the displayed BEDC dependencies and $N$ binds the local NameCert row, a consumer that bypasses $A$ or $Z$ has no route from which to export a direction-normalized unary packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionNormalizer bridge realization]
+\label{thm:unary-direction-normalizer-bridge-realization}
+Every accepted $\UnaryDirectionNormalizerUp$ carrier realizes the unary-direction bridge as a finite axis, zero-spine, carry, direction, transport, route, provenance, and NameCert packet. Its public reads factor through the bridge source \autoref{ch:concrete-instances-unary-direction-bridge}, the axis-unary-spine sibling, and the unary-zero-spine standard sibling, and they do not export a host integer-axis normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:unary-direction-normalizer-carrier}. The route begins at $A$ and $Z$, so the bridge read is anchored in the two concrete sibling surfaces rather than in a free host-axis map.
+
+Apply \autoref{thm:unary-direction-normalizer-namecert-obligations}. It forces carry-normalization reads through $K$, direction reads through $D$, transport through $H$, continuation replay through $C$, provenance through $P$, and the public naming surface through $N$.
+
+The stated non-escape boundary is therefore immediate: a consumer may inspect the finite bridge packet, but it cannot replace the packet by an external integer-axis normalizer or by a kernel identification of the unary and zero-spine carriers.
+\end{proof}
+
+\falsifiablePrediction{Any accepted UnaryDirectionNormalizerUp consumer that bypasses the axis-unary-spine row or zero-spine standard row cannot export a direction-normalized unary packet.}
+
+\independenceWitness{axisunaryspinenormalizer, unaryzerospinestandardiso, zeckendorfcarrynormalization, nat, add: none is bijective to UnaryDirectionNormalizerUp because the new carrier contains the combined direction row D and the local NameCert row N tying axis, zero-spine, and carry-normalization routes together.}
+
+The Lean taste-gate file $\mathsf{TasteGate.lean}$ will provide $\mathsf{Nontrivial}\ \UnaryDirectionNormalizerUp$ and $\mathsf{FieldFaithful}\ \UnaryDirectionNormalizerUp$ instances for the displayed carrier.
+
+\closureat{UnaryDirectionNormalizerUp}{seedStr}
+
+\begin{closurestatus}{\UnaryDirectionNormalizerUp}
+  \constructivestory{A $\UnaryDirectionNormalizerUp$ packet is generated by an axis-unary-spine row, a zero-spine standard row, a Zeckendorf carry-normalization row, a direction decision row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:unary-direction-normalizer-carrier}, \autoref{thm:unary-direction-normalizer-namecert-obligations}, and \autoref{thm:unary-direction-normalizer-bridge-realization} bind the finite unary-direction normalizer packet without host integer-axis escape.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean formalization, bridge checking, host integer-axis normalization, kernel equality between unary and zero-spine histories, or a public additive isomorphism.}
+  \upgradepath{Obligation closure requires checked carrier admission, axis-row exposure, zero-spine compatibility, carry-normalization routing, direction-decision stability, and non-escape for the same finite packet.}
+\end{closurestatus}

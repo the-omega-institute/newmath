@@ -86,6 +86,20 @@ Use the fixed tuple obligation surface to identify those rows as the public prec
 Finally apply the recognizer boundary theorem. It already separates the required boundary rows from the construction of tuple carriers from arbitrary regular recognizers, so this theorem records admissibility only after the boundary is displayed and does not construct the recognizer-to-carrier map.
 \end{proof}
 
+\begin{theorem}[Finite tuple StdBridge fixed-route closure]
+\label{thm:finite-tuple-stdbridge-fixed-route-closure}
+In the fixed finite tuple case, once the tuple carrier, image row, readback row, componentwise $\NameCert$ transports, and $\ChapterTasteGate$ row are displayed, the $\StdBridge$ obligation surface is closed for that fixed route. This closure is only the displayed tuple route; it leaves the arbitrary regular-language recogniser-to-carrier problem open.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It identifies the fixed tuple carrier, image row, readback row, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row as the whole route that must be present before the bridge is requested.
+
+Use \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}. The proposition repacks those rows as the exact public obligation surface, so no extra row is needed for the fixed tuple route once all five displayed rows are present.
+
+Finally apply \autoref{thm:finite-tuple-stdbridge-refutation-candidate}. Any counter-instance at the fixed route must keep the whole displayed tuple surface present and locate an additional reflection-axis obstruction. A missing tuple, image row, readback row, componentwise transport, or taste-gate row is therefore outside the closed fixed-route surface.
+
+The theorem does not solve the arbitrary regular-language recogniser-to-carrier problem. That problem still requires a recogniser acceptance row, tuple extraction row, and uniform component transport beyond the fixed tuple route.
+\end{proof}
+
 \begin{theorem}[Finite tuple StdBridge refutation candidate]
 \label{thm:finite-tuple-stdbridge-refutation-candidate}
 A valid counter-instance to \autoref{conj:finite-bhist-injection-admits-stdbridge} in the fixed finite tuple case must display all five fixed-tuple rows: the tuple carrier $(b_0,b_1,\ldots,b_k)$, the image row, the readback row, the componentwise $\NameCert$ transport rows, and the $\ChapterTasteGate$ row. It must also display a reflection-axis requirement for the same chapter that is incompatible with the standard reflection schema consumed by $\StdBridge$.
