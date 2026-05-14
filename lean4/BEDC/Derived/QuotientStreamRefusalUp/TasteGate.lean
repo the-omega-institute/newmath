@@ -10,9 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive QuotientStreamRefusalUp : Type where
-  | mk :
-      (stream sealRow refusal route ledger witness nameCert : BHist) →
-        QuotientStreamRefusalUp
+  | mk (stream regular cauchySeal realSeal refusal transport route provenance name : BHist) :
+      QuotientStreamRefusalUp
   deriving DecidableEq
 
 def quotientStreamRefusalEncodeBHist : BHist → RawEvent
@@ -27,66 +26,121 @@ def quotientStreamRefusalDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (quotientStreamRefusalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (quotientStreamRefusalDecodeBHist tail)
 
-private theorem quotientStreamRefusal_decode_encode_bhist :
-    ∀ h : BHist,
-      quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist h) = h := by
+private theorem quotientStreamRefusalDecode_encode_bhist :
+    ∀ h : BHist, quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def quotientStreamRefusalToEventFlow : QuotientStreamRefusalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | QuotientStreamRefusalUp.mk stream sealRow refusal route ledger witness nameCert =>
+  | QuotientStreamRefusalUp.mk stream regular cauchySeal realSeal refusal transport route
+      provenance name =>
       [[BMark.b0],
         quotientStreamRefusalEncodeBHist stream,
         [BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist sealRow,
+        quotientStreamRefusalEncodeBHist regular,
         [BMark.b1, BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist refusal,
+        quotientStreamRefusalEncodeBHist cauchySeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist route,
+        quotientStreamRefusalEncodeBHist realSeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist ledger,
+        quotientStreamRefusalEncodeBHist refusal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist witness,
+        quotientStreamRefusalEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        quotientStreamRefusalEncodeBHist nameCert]
+        quotientStreamRefusalEncodeBHist route,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        quotientStreamRefusalEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        quotientStreamRefusalEncodeBHist name]
 
-private def quotientStreamRefusalRawAt : Nat → EventFlow → RawEvent
+private def quotientStreamRefusalDecodePacket
+    (stream regular cauchySeal realSeal refusal transport route provenance name : RawEvent) :
+    QuotientStreamRefusalUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => quotientStreamRefusalRawAt n rest
-
-private def quotientStreamRefusalLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => quotientStreamRefusalLengthEq n rest
+  QuotientStreamRefusalUp.mk
+    (quotientStreamRefusalDecodeBHist stream)
+    (quotientStreamRefusalDecodeBHist regular)
+    (quotientStreamRefusalDecodeBHist cauchySeal)
+    (quotientStreamRefusalDecodeBHist realSeal)
+    (quotientStreamRefusalDecodeBHist refusal)
+    (quotientStreamRefusalDecodeBHist transport)
+    (quotientStreamRefusalDecodeBHist route)
+    (quotientStreamRefusalDecodeBHist provenance)
+    (quotientStreamRefusalDecodeBHist name)
 
 def quotientStreamRefusalFromEventFlow : EventFlow → Option QuotientStreamRefusalUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match quotientStreamRefusalLengthEq 14 flow with
-      | true =>
-          some
-            (QuotientStreamRefusalUp.mk
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 1 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 3 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 5 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 7 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 9 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 11 flow))
-              (quotientStreamRefusalDecodeBHist (quotientStreamRefusalRawAt 13 flow)))
-      | false => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | stream :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | regular :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | cauchySeal :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | realSeal :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | refusal :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | route :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (quotientStreamRefusalDecodePacket
+                                                                                  stream regular
+                                                                                  cauchySeal
+                                                                                  realSeal
+                                                                                  refusal transport
+                                                                                  route
+                                                                                  provenance name)
+                                                                          | _ :: _ => none
 
 private theorem quotientStreamRefusal_round_trip :
     ∀ x : QuotientStreamRefusalUp,
@@ -94,26 +148,32 @@ private theorem quotientStreamRefusal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk stream sealRow refusal route ledger witness nameCert =>
+  | mk stream regular cauchySeal realSeal refusal transport route provenance name =>
       change
         some
-          (QuotientStreamRefusalUp.mk
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist stream))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist sealRow))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist refusal))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist route))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist ledger))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist witness))
-            (quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist nameCert))) =
+            (quotientStreamRefusalDecodePacket
+              (quotientStreamRefusalEncodeBHist stream)
+              (quotientStreamRefusalEncodeBHist regular)
+              (quotientStreamRefusalEncodeBHist cauchySeal)
+              (quotientStreamRefusalEncodeBHist realSeal)
+              (quotientStreamRefusalEncodeBHist refusal)
+              (quotientStreamRefusalEncodeBHist transport)
+              (quotientStreamRefusalEncodeBHist route)
+              (quotientStreamRefusalEncodeBHist provenance)
+              (quotientStreamRefusalEncodeBHist name)) =
           some
-            (QuotientStreamRefusalUp.mk stream sealRow refusal route ledger witness nameCert)
-      rw [quotientStreamRefusal_decode_encode_bhist stream,
-        quotientStreamRefusal_decode_encode_bhist sealRow,
-        quotientStreamRefusal_decode_encode_bhist refusal,
-        quotientStreamRefusal_decode_encode_bhist route,
-        quotientStreamRefusal_decode_encode_bhist ledger,
-        quotientStreamRefusal_decode_encode_bhist witness,
-        quotientStreamRefusal_decode_encode_bhist nameCert]
+            (QuotientStreamRefusalUp.mk stream regular cauchySeal realSeal refusal transport route
+              provenance name)
+      unfold quotientStreamRefusalDecodePacket
+      rw [quotientStreamRefusalDecode_encode_bhist stream,
+        quotientStreamRefusalDecode_encode_bhist regular,
+        quotientStreamRefusalDecode_encode_bhist cauchySeal,
+        quotientStreamRefusalDecode_encode_bhist realSeal,
+        quotientStreamRefusalDecode_encode_bhist refusal,
+        quotientStreamRefusalDecode_encode_bhist transport,
+        quotientStreamRefusalDecode_encode_bhist route,
+        quotientStreamRefusalDecode_encode_bhist provenance,
+        quotientStreamRefusalDecode_encode_bhist name]
 
 private theorem quotientStreamRefusalToEventFlow_injective {x y : QuotientStreamRefusalUp} :
     quotientStreamRefusalToEventFlow x = quotientStreamRefusalToEventFlow y → x = y := by
@@ -132,8 +192,7 @@ instance quotientStreamRefusalBHistCarrier : BHistCarrier QuotientStreamRefusalU
   toEventFlow := quotientStreamRefusalToEventFlow
   fromEventFlow := quotientStreamRefusalFromEventFlow
 
-instance quotientStreamRefusalChapterTasteGate :
-    ChapterTasteGate QuotientStreamRefusalUp where
+instance quotientStreamRefusalChapterTasteGate : ChapterTasteGate QuotientStreamRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -144,27 +203,45 @@ instance quotientStreamRefusalChapterTasteGate :
     exact hxy (quotientStreamRefusalToEventFlow_injective heq)
 
 instance quotientStreamRefusalFieldFaithful : FieldFaithful QuotientStreamRefusalUp where
-  -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | QuotientStreamRefusalUp.mk stream sealRow refusal route ledger witness nameCert =>
-        [stream, sealRow, refusal, route, ledger, witness, nameCert]
+    | QuotientStreamRefusalUp.mk stream regular cauchySeal realSeal refusal transport route
+        provenance name =>
+        [stream, regular, cauchySeal, realSeal, refusal, transport, route, provenance, name]
   field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
-    | mk stream1 sealRow1 refusal1 route1 ledger1 witness1 nameCert1 =>
+    | mk stream₁ regular₁ cauchySeal₁ realSeal₁ refusal₁ transport₁ route₁ provenance₁ name₁ =>
         cases y with
-        | mk stream2 sealRow2 refusal2 route2 ledger2 witness2 nameCert2 =>
-            cases h
+        | mk stream₂ regular₂ cauchySeal₂ realSeal₂ refusal₂ transport₂ route₂ provenance₂ name₂ =>
+            injection h with hStream hTail₁
+            injection hTail₁ with hRegular hTail₂
+            injection hTail₂ with hCauchySeal hTail₃
+            injection hTail₃ with hRealSeal hTail₄
+            injection hTail₄ with hRefusal hTail₅
+            injection hTail₅ with hTransport hTail₆
+            injection hTail₆ with hRoute hTail₇
+            injection hTail₇ with hProvenance hTail₈
+            injection hTail₈ with hName _
+            subst hStream
+            subst hRegular
+            subst hCauchySeal
+            subst hRealSeal
+            subst hRefusal
+            subst hTransport
+            subst hRoute
+            subst hProvenance
+            subst hName
             rfl
 
 instance quotientStreamRefusalNontrivial : Nontrivial QuotientStreamRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨QuotientStreamRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      QuotientStreamRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨QuotientStreamRefusalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      QuotientStreamRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -174,20 +251,20 @@ def taste_gate : ChapterTasteGate QuotientStreamRefusalUp :=
   quotientStreamRefusalChapterTasteGate
 
 theorem QuotientStreamRefusalTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist h) = h) ∧
+    (∀ h : BHist, quotientStreamRefusalDecodeBHist (quotientStreamRefusalEncodeBHist h) = h) ∧
       (∀ x : QuotientStreamRefusalUp,
         quotientStreamRefusalFromEventFlow (quotientStreamRefusalToEventFlow x) = some x) ∧
         (∀ x y : QuotientStreamRefusalUp,
           quotientStreamRefusalToEventFlow x = quotientStreamRefusalToEventFlow y → x = y) ∧
           quotientStreamRefusalEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨quotientStreamRefusal_decode_encode_bhist,
-      quotientStreamRefusal_round_trip,
-      by
-        intro x y heq
-        exact quotientStreamRefusalToEventFlow_injective heq,
-      rfl⟩
+  constructor
+  · exact quotientStreamRefusalDecode_encode_bhist
+  · constructor
+    · exact quotientStreamRefusal_round_trip
+    · constructor
+      · intro x y heq
+        exact quotientStreamRefusalToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.QuotientStreamRefusalUp

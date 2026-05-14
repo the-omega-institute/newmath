@@ -101,8 +101,18 @@ LOG_DIRS = [
 # on the codex API rather than CPU/RAM.
 # ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 6
-LEAN_MAX = 20  # DO NOT CHANGE — pinned
+LEAN_MIN = 4
+LEAN_MAX = 8   # lowered 2026-05-14 from 20: push-race analysis showed
+               # 47% of R FAILs are `ff update of codex-auto-dev failed`
+               # and 23% are `Merge failed —` — cross-process race between
+               # R + P orchestrators + sync daemon all pushing to the same
+               # shared origin/codex-auto-dev branch. _git_lock is a
+               # threading.Lock (process-local), doesn't serialize across
+               # daemons. Until a cross-process file lock is wired into all
+               # three daemons (requires restart), the cheapest mitigation
+               # is dropping R concurrency so the per-tick push count
+               # halves. 8 keeps R throughput at ~5-7/h (above demand) and
+               # cuts ff-rejection rate dramatically.
 
 PAPER_BUFFER = 4
 PAPER_MIN = 18  # raised 2026-05-12 from 12: P-side discovery channels
