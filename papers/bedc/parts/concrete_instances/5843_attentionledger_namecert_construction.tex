@@ -92,6 +92,18 @@ The falsifiable prediction and independence witness record the same finite separ
 Thus the obligation package is complete at the paper surface named here. It remains confined to $S,O,U,W,R,C,P,N$ together with the source, filter, and exactness rows $H,F,L$, and it has no coordinate for the excluded host or quotient objects.
 \end{proof}
 
+\begin{theorem}[Attention ledger scoped kernel boundary]
+\label{thm:attention-ledger-scoped-kernel-boundary}
+Every accepted $\AttentionLedgerUp$ consumer route is scoped exactly by the displayed selected ledger $S$, omitted ledger $O$, public attention row $U$, StreamName handoff $W$, componentwise $\hsame$ row $R$, ledger exactness row $L$, $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert$ row $N$. The route also reads the source observer-history row $H$ and filter row $F$ as the incoming selection surface, but it exports no host observer equality, quotient stream equality, hidden attention state, or unledgered deletion of an omitted row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:attention-ledger-carrier}. The packet has exactly the rows $H,F,S,O,U,W,R,L,C,P,N$, so every consumer route must be assembled from the displayed source, filter, ledger, public, transport, continuation, provenance, and local naming coordinates.
+
+Use non-escape and the ObserverFilter handoff. By \autoref{thm:attention-ledger-non-escape}, omitted rows remain confined to $O$ and its boundary reasons. By \autoref{thm:attention-ledger-observer-filter-handoff}, the selected side reaches StreamName only through $S,U,W,R,C,P,N$ after the filter row $F$ has separated the source rows.
+
+Now apply the public boundary and the obligation package. \autoref{thm:attention-ledger-public-boundary} requires $S$ and $O$ together before a StreamName-facing row can be exported, while \autoref{thm:attention-ledger-obligation-closure-package} repacks the same rows as the finite NameCert surface. Thus the scoped route is exactly the displayed kernel boundary and contains no coordinate for host observer equality, quotient stream equality, hidden attention state, or unledgered omission.
+\end{proof}
+
 \falsifiablePrediction{An accepted AttentionLedgerUp consumer cannot export a StreamName-facing row unless the selected-row ledger and omitted-row boundary are both present.}
 
 \independenceWitness{observerfilter, observerhistoryidentity, streamname, interhistinvariant, observertracekernel: no sibling is bijective to $\AttentionLedgerUp$ because this carrier simultaneously stores the selected ledger, omitted ledger, and public attention row. Observerfilter has the split but not the public attention row; observerhistoryidentity has source identity without selection; streamname has the exported surface without the omitted boundary; interhistinvariant has invariant readback rather than an attention split; observertracekernel has trace composition without the selected or omitted ledger pair.}
@@ -100,11 +112,12 @@ The Lean TasteGate namespace $\mathsf{BEDC.Derived.AttentionLedgerUp.TasteGate}$
 
 \closureat{AttentionLedgerUp}{seedStr}
 \closureat{AttentionLedgerUp}{obligationStr}
+\closureat{AttentionLedgerUp}{scopedStr}
 
 \begin{closurestatus}{\AttentionLedgerUp}
   \constructivestory{An $\AttentionLedgerUp$ packet is generated from observer-history identity, observer-filter selection, selected-row ledger, omitted-row ledger, public attention row, StreamName handoff, componentwise transport, ledger exactness, displayed continuation, package provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:attention-ledger-carrier}, \autoref{thm:attention-ledger-namecert-obligations}, \autoref{thm:attention-ledger-non-escape}, \autoref{thm:attention-ledger-observer-filter-handoff}, \autoref{thm:attention-ledger-public-boundary}, \autoref{thm:attention-ledger-obligation-closure-package}, and \leandef{BEDC.Derived.AttentionLedgerUp.taste\_gate} specify the finite attention-ledger packet, selected-row ledger, omitted-row boundary, public attention row, StreamName handoff, and TasteGate-aware obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:attention-ledger-carrier}, \autoref{thm:attention-ledger-namecert-obligations}, \autoref{thm:attention-ledger-non-escape}, \autoref{thm:attention-ledger-observer-filter-handoff}, \autoref{thm:attention-ledger-public-boundary}, \autoref{thm:attention-ledger-obligation-closure-package}, \autoref{thm:attention-ledger-scoped-kernel-boundary}, and \leandef{BEDC.Derived.AttentionLedgerUp.taste\_gate} specify the finite attention-ledger packet, selected-row ledger, omitted-row boundary, public attention row, StreamName handoff, scoped kernel boundary, and TasteGate-aware obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

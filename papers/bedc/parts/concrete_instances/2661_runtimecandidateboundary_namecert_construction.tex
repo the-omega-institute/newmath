@@ -2,7 +2,9 @@
 \label{ch:concrete-instances-runtimecandidateboundary-namecert}
 \origin{ai}
 
-The $\RuntimeCandidateBoundaryUp$ interface realizes the runtime-candidate boundary of \autoref{def:reflection-runtime-candidate} as a finite NameCert packet. It records object-level rows for coded $\mathrm{CIC}^{*}$ expressions, proof objects, states, transitions, accepted-result classification, stability transports, consumer routes, package provenance, and local naming, while leaving validation by the host checker outside the packet.
+The $\RuntimeCandidateBoundaryUp$ interface realizes the runtime-candidate boundary of \autoref{def:reflection-runtime-candidate} as a finite NameCert packet. It records object-level rows for coded $\mathrm{CIC}^{*}$ expressions, proof objects, states, transitions, accepted-result classification, stability transports, consumer routes, package provenance, and local naming, while leaving validation by the host checker outside the packet. The bounded finite-trace evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} consumes this boundary by reading the object-level source, transition, accepted-result, transport, route, provenance, and local naming rows while keeping host validation external.
+
+The packet is the object-level candidate boundary consumed by \autoref{ch:concrete-instances-finitetraceevaluator-namecert} and sits below the runtime-request and refusal packet of \autoref{ch:concrete-instances-runtime-reflection-boundary-namecert}. The substantive dependency is the row split: $\RuntimeCandidateBoundaryUp$ supplies the source, transition, accepted-result, transport, route, provenance, and local-name rows $R=(S,T,A,H,C,P,N)$; $\RuntimeReflectionBoundaryUp$ adds request, refusal, and report rows above that candidate surface; and $\FiniteTraceEvaluatorUp$ consumes the candidate boundary as its bounded evaluator provenance.
 
 \begin{definition}[Runtime-candidate boundary carrier]
 \label{def:runtime-candidate-boundary-carrier}

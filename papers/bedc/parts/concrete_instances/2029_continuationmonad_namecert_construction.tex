@@ -153,6 +153,42 @@ The unit and associativity rows are supplied by \autoref{thm:continuation-monad-
 Finally combine \autoref{ch:concrete-instances-category-namecert} with \autoref{ch:concrete-instances-generatorclosure-namecert}. The category-facing hom-carrier and the authorized generator boundary account for every public route into the packet, so no host function, quotient Kleisli arrow, or unlisted generator rule remains visible.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad root-unblock source triad]
+\label{thm:continuation-monad-root-unblock-source-triad}
+Every accepted $\ContinuationMonadUp$ packet must expose the source history $A$, middle history $B$, target history $C$, continuation tails $f,g$, and unit tail $u$ together before any Kleisli read is available. The first readable root surface is therefore the finite triad-and-tail packet $A,B,C,f,g,u,H,K,L,N$, not an external function space or quotient Kleisli category.
+\end{theorem}
+\begin{proof}
+Project carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. The accepted packet displays the three histories, the two continuation tails, the unit tail, componentwise transports, route rows, ledger rows, and the local name as one finite carrier.
+
+Use ledger exactness from \autoref{thm:continuation-monad-namecert-ledger-exactness}. A Kleisli read is consumer-visible only through the carrier, classifier, unit, bind, associativity, $\Cont$, $\Pkg$, and $\NameCert$ rows of that same packet.
+
+Thus the read cannot begin from a host function, an external quotient, or a partial tail. The root surface is the displayed source, middle, and target triad together with $f,g,u,H,K,L,N$.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root-unblock bind totality]
+\label{thm:continuation-monad-root-unblock-bind-totality}
+Every bind-route consumer of an accepted $\ContinuationMonadUp$ packet factors through the displayed $\Cont$ row $K$, the componentwise $\hsame$ row $H$, and the ledger row $L$. The bind route is total only as a read of $A,B,C,f,g,u,H,K,L,N$ and is not host function composition, host monad equality, or a quotient Kleisli arrow.
+\end{theorem}
+\begin{proof}
+Start with a bind-route consumer and project the packet rows. The only displayed route row is $K$, the only componentwise transport row is $H$, and the consumer-visible accounting row is $L$.
+
+Use \autoref{thm:continuation-monad-bind-route-classifier-stability}. Transport along $H$ preserves the local Kleisli classifier and keeps the route on the same displayed histories and continuation tails.
+
+Use \autoref{thm:continuation-monad-namecert-ledger-exactness} to close the readback. Since every consumer-visible continuation-monad route is exhausted by the displayed rows, the bind route is total precisely through $K,H,L$ inside the finite packet and has no host-composition coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root-unblock downstream package]
+\label{thm:continuation-monad-root-unblock-downstream-package}
+The source triad of \autoref{thm:continuation-monad-root-unblock-source-triad} and the bind totality of \autoref{thm:continuation-monad-root-unblock-bind-totality} form the downstream root-unblock package consumed by the CategoryUp surface of \autoref{ch:concrete-instances-category-namecert} and the generator-boundary surface of \autoref{ch:concrete-instances-generatorclosure-namecert}. Downstream consumers receive exactly $A,B,C,f,g,u,H,K,L,N$ together with the displayed category and generator readings; they receive no host function composition, quotient Kleisli category, or unlisted continuation rule.
+\end{theorem}
+\begin{proof}
+First expose the source packet. \autoref{thm:continuation-monad-root-unblock-source-triad} supplies the three histories, two continuation tails, unit tail, transports, routes, ledger, and local name before any Kleisli read.
+
+Next expose the bind route. \autoref{thm:continuation-monad-root-unblock-bind-totality} forces every bind consumer through $K,H,L$ inside the same finite packet.
+
+Finally read the downstream surfaces. The CategoryUp chapter reads the displayed hom-carrier and continuation-morphism rows, while the generator-boundary chapter refuses unlisted continuation rules. Together with ledger exactness, these readings package the root-unblock surface without exporting host function composition, quotient Kleisli categories, or extra continuation generators.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad Kleisli composition boundary]
 \label{thm:continuation-monad-kleisli-composition-boundary}
 Every Kleisli-style consumer of an accepted $\ContinuationMonadUp$ packet factors through the displayed route
@@ -517,6 +553,42 @@ Package provenance and the local $\NameCert$ row then close the route for every
 CategoryUp consumer. Because the packet has no coordinate for an independent
 category object or host evaluator, the displayed hom route is total on exactly
 the finite packet.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad category-generator source triad]
+\label{thm:continuation-monad-category-generator-source-triad}
+Every accepted $\ContinuationMonadUp$ packet exposes the $\CategoryUp$ hom-carrier row, the $\mathsf{ContinuationMorphism}$ row, and the generator-closure refusal row before either the public unit read or the public bind read is available. The exposed triad is read from $A,B,C,f,g,u,H,K,L,N$ over $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$, and not from an independent category object, quotient Kleisli arrow, host function space, or unlisted generator family.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and the root generator obligation. The carrier obligation identifies $A,B,C,f,g,u,H,K,L,N$ as the available rows, while the root generator obligation places the refusal surface before any generator-facing read can use unit or bind.
+
+Next apply bind-route classifier stability and the Category hom route totality theorem. These results route the $\CategoryUp$ hom-carrier and $\mathsf{ContinuationMorphism}$ entries through the same finite ledger $L$ and the same transport row $H$.
+
+The unit and bind reads therefore come after the triad is already visible. Since the packet has no coordinate for an independent category object, quotient Kleisli arrow, host function space, or unlisted generator family, no downstream reader can bypass the displayed triad.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad bind readback exhaustion]
+\label{thm:continuation-monad-bind-readback-exhaustion}
+Every bind readback exposed by an accepted $\ContinuationMonadUp$ packet is exhausted by the rows $A,B,C,f,g,u,H,K,L,N$. The readback may inspect the source histories $A,B,C$, the displayed continuation tails $f,g,u$, the transport row $H$, the route and ledger rows $K,L$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$; it cannot read host functions, quotient Kleisli arrows, unlisted generators, or an external monad evaluator.
+\end{theorem}
+\begin{proof}
+First use bind-route classifier stability. It identifies every accepted bind read with the displayed continuation route through $f,g,u,K,L$ and transports that read only through $H$.
+
+Then use NameCert ledger exactness. The ledger records exactly the finite rows $A,B,C,f,g,u,H,K,L,N$ with $\Pkg$ provenance, so any consumer-visible bind readback must be a readback of that finite packet.
+
+Finally apply the Kleisli composite scope and bind-route coverage theorems. They prevent a host function, quotient Kleisli arrow, unlisted generator, or external evaluator from supplying another bind readback outside the listed rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root-unblock package]
+\label{thm:continuation-monad-root-unblock-package}
+The root obligation package of an accepted $\ContinuationMonadUp$ packet consists exactly of carrier admission, classifier stability, $\CategoryUp$ hom routing, generator refusal, ledger exactness, and the local $\NameCert$ rows over $A,B,C,f,g,u,H,K,L,N$. This package is the surface available to downstream continuation chapters before they read any standard monad boundary, and it exports no quotient Kleisli category, host function composition, ambient effect algebra, or independent generator list.
+\end{theorem}
+\begin{proof}
+Assemble the package from the existing obligation rows. Carrier admission supplies the packet rows, classifier stability fixes their $\hsame$ transport, category hom routing places the $\CategoryUp$ read in the finite ledger, and generator refusal excludes unlisted continuation rules.
+
+Add NameCert ledger exactness and Kleisli composite scope. These rows make the visible ledger exact for $A,B,C,f,g,u,H,K,L,N$ and keep every composite read inside the same finite route.
+
+The resulting package is precisely the root obligation surface available to downstream continuation chapters. Any quotient Kleisli category, host function composition, ambient effect algebra, or independent generator list would require a row outside the displayed carrier, and no such row is exported.
 \end{proof}
 
 \closureat{ContinuationMonadUp}{seedStr}
