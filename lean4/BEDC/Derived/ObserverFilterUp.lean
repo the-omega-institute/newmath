@@ -124,6 +124,24 @@ theorem ObserverFilter_ledger_exactness [AskSetup] [PackageSetup]
       exact And.intro (unary_transport omittedUnary (hsame_symm sourceData.right)) pkgSig
   }
 
+theorem ObserverFilterCarrier_streamname_handoff [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName streamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      Cont selected ledger streamRead →
+        UnaryHistory selected ∧ UnaryHistory ledger ∧ UnaryHistory streamRead ∧
+          Cont source selected ledger ∧ Cont selected ledger streamRead ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectedLedger
+  obtain ⟨_sourceUnary, selectedUnary, _omittedUnary, ledgerUnary, _routesUnary,
+    _provenanceUnary, _localNameUnary, sourceSelected, _ledgerOmitted,
+    _routesLocalName, pkgSig⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed selectedUnary ledgerUnary selectedLedger
+  exact ⟨selectedUnary, ledgerUnary, streamUnary, sourceSelected, selectedLedger, pkgSig⟩
+
 theorem ObserverFilter_streamname_handoff [AskSetup] [PackageSetup]
     {source selected omitted transport ledger routes provenance localName streamRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

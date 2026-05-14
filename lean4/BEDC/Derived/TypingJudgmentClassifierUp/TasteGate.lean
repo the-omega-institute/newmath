@@ -11,8 +11,9 @@ open BEDC.Meta.TasteGate
 
 inductive TypingJudgmentClassifierUp : Type where
   | mk :
-      (judgment membership derivation readback replay transport provenance localName : BHist) →
-        TypingJudgmentClassifierUp
+      (judgment membership derivation sigReadback contReplay transport provenance localName :
+        BHist) →
+      TypingJudgmentClassifierUp
   deriving DecidableEq
 
 def typingJudgmentClassifierEncodeBHist : BHist → RawEvent
@@ -27,7 +28,7 @@ def typingJudgmentClassifierDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (typingJudgmentClassifierDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (typingJudgmentClassifierDecodeBHist tail)
 
-private theorem typingJudgmentClassifier_decode_encode_bhist :
+private theorem typingJudgmentClassifierDecode_encode_bhist :
     ∀ h : BHist,
       typingJudgmentClassifierDecodeBHist (typingJudgmentClassifierEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -40,11 +41,10 @@ private theorem typingJudgmentClassifier_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def typingJudgmentClassifierToEventFlow :
-    TypingJudgmentClassifierUp → EventFlow
+def typingJudgmentClassifierToEventFlow : TypingJudgmentClassifierUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | TypingJudgmentClassifierUp.mk judgment membership derivation readback replay transport
-      provenance localName =>
+  | TypingJudgmentClassifierUp.mk judgment membership derivation sigReadback contReplay
+      transport provenance localName =>
       [[BMark.b0],
         typingJudgmentClassifierEncodeBHist judgment,
         [BMark.b1, BMark.b0],
@@ -52,9 +52,9 @@ def typingJudgmentClassifierToEventFlow :
         [BMark.b1, BMark.b1, BMark.b0],
         typingJudgmentClassifierEncodeBHist derivation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        typingJudgmentClassifierEncodeBHist readback,
+        typingJudgmentClassifierEncodeBHist sigReadback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        typingJudgmentClassifierEncodeBHist replay,
+        typingJudgmentClassifierEncodeBHist contReplay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         typingJudgmentClassifierEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -63,8 +63,7 @@ def typingJudgmentClassifierToEventFlow :
           BMark.b0],
         typingJudgmentClassifierEncodeBHist localName]
 
-def typingJudgmentClassifierFromEventFlow :
-    EventFlow → Option TypingJudgmentClassifierUp
+def typingJudgmentClassifierFromEventFlow : EventFlow → Option TypingJudgmentClassifierUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -88,13 +87,13 @@ def typingJudgmentClassifierFromEventFlow :
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | readback :: rest7 =>
+                              | sigReadback :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | replay :: rest9 =>
+                                      | contReplay :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -124,9 +123,9 @@ def typingJudgmentClassifierFromEventFlow :
                                                                           (typingJudgmentClassifierDecodeBHist
                                                                             derivation)
                                                                           (typingJudgmentClassifierDecodeBHist
-                                                                            readback)
+                                                                            sigReadback)
                                                                           (typingJudgmentClassifierDecodeBHist
-                                                                            replay)
+                                                                            contReplay)
                                                                           (typingJudgmentClassifierDecodeBHist
                                                                             transport)
                                                                           (typingJudgmentClassifierDecodeBHist
@@ -142,7 +141,7 @@ private theorem typingJudgmentClassifier_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk judgment membership derivation readback replay transport provenance localName =>
+  | mk judgment membership derivation sigReadback contReplay transport provenance localName =>
       change
         some
           (TypingJudgmentClassifierUp.mk
@@ -153,9 +152,9 @@ private theorem typingJudgmentClassifier_round_trip :
             (typingJudgmentClassifierDecodeBHist
               (typingJudgmentClassifierEncodeBHist derivation))
             (typingJudgmentClassifierDecodeBHist
-              (typingJudgmentClassifierEncodeBHist readback))
+              (typingJudgmentClassifierEncodeBHist sigReadback))
             (typingJudgmentClassifierDecodeBHist
-              (typingJudgmentClassifierEncodeBHist replay))
+              (typingJudgmentClassifierEncodeBHist contReplay))
             (typingJudgmentClassifierDecodeBHist
               (typingJudgmentClassifierEncodeBHist transport))
             (typingJudgmentClassifierDecodeBHist
@@ -163,16 +162,16 @@ private theorem typingJudgmentClassifier_round_trip :
             (typingJudgmentClassifierDecodeBHist
               (typingJudgmentClassifierEncodeBHist localName))) =
           some
-            (TypingJudgmentClassifierUp.mk judgment membership derivation readback replay
-              transport provenance localName)
-      rw [typingJudgmentClassifier_decode_encode_bhist judgment,
-        typingJudgmentClassifier_decode_encode_bhist membership,
-        typingJudgmentClassifier_decode_encode_bhist derivation,
-        typingJudgmentClassifier_decode_encode_bhist readback,
-        typingJudgmentClassifier_decode_encode_bhist replay,
-        typingJudgmentClassifier_decode_encode_bhist transport,
-        typingJudgmentClassifier_decode_encode_bhist provenance,
-        typingJudgmentClassifier_decode_encode_bhist localName]
+            (TypingJudgmentClassifierUp.mk judgment membership derivation sigReadback
+              contReplay transport provenance localName)
+      rw [typingJudgmentClassifierDecode_encode_bhist judgment,
+        typingJudgmentClassifierDecode_encode_bhist membership,
+        typingJudgmentClassifierDecode_encode_bhist derivation,
+        typingJudgmentClassifierDecode_encode_bhist sigReadback,
+        typingJudgmentClassifierDecode_encode_bhist contReplay,
+        typingJudgmentClassifierDecode_encode_bhist transport,
+        typingJudgmentClassifierDecode_encode_bhist provenance,
+        typingJudgmentClassifierDecode_encode_bhist localName]
 
 private theorem typingJudgmentClassifierToEventFlow_injective
     {x y : TypingJudgmentClassifierUp} :
@@ -199,8 +198,9 @@ instance typingJudgmentClassifierChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change typingJudgmentClassifierFromEventFlow
-        (typingJudgmentClassifierToEventFlow x) = some x
+    change
+      typingJudgmentClassifierFromEventFlow (typingJudgmentClassifierToEventFlow x) =
+        some x
     exact typingJudgmentClassifier_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -211,43 +211,23 @@ instance typingJudgmentClassifierFieldFaithful :
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | TypingJudgmentClassifierUp.mk judgment membership derivation readback replay transport
-        provenance localName =>
-        [judgment, membership, derivation, readback, replay, transport, provenance,
+    | TypingJudgmentClassifierUp.mk judgment membership derivation sigReadback contReplay
+        transport provenance localName =>
+        [judgment, membership, derivation, sigReadback, contReplay, transport, provenance,
           localName]
   field_faithful := by
     intro x y h
     cases x with
-    | mk judgment₁ membership₁ derivation₁ readback₁ replay₁ transport₁ provenance₁
-        localName₁ =>
+    | mk judgment1 membership1 derivation1 sigReadback1 contReplay1 transport1 provenance1
+        localName1 =>
         cases y with
-        | mk judgment₂ membership₂ derivation₂ readback₂ replay₂ transport₂ provenance₂
-            localName₂ =>
-            change
-              [judgment₁, membership₁, derivation₁, readback₁, replay₁, transport₁,
-                provenance₁, localName₁] =
-                [judgment₂, membership₂, derivation₂, readback₂, replay₂, transport₂,
-                  provenance₂, localName₂] at h
-            injection h with hJudgment tail₁
-            injection tail₁ with hMembership tail₂
-            injection tail₂ with hDerivation tail₃
-            injection tail₃ with hReadback tail₄
-            injection tail₄ with hReplay tail₅
-            injection tail₅ with hTransport tail₆
-            injection tail₆ with hProvenance tail₇
-            injection tail₇ with hLocalName _
-            cases hJudgment
-            cases hMembership
-            cases hDerivation
-            cases hReadback
-            cases hReplay
-            cases hTransport
-            cases hProvenance
-            cases hLocalName
+        | mk judgment2 membership2 derivation2 sigReadback2 contReplay2 transport2
+            provenance2 localName2 =>
+            cases h
             rfl
 
 instance typingJudgmentClassifierNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial TypingJudgmentClassifierUp where
+    Nontrivial TypingJudgmentClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨TypingJudgmentClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -276,7 +256,7 @@ theorem TypingJudgmentClassifierTasteGate_readiness :
           typingJudgmentClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact typingJudgmentClassifier_decode_encode_bhist
+  · exact typingJudgmentClassifierDecode_encode_bhist
   · constructor
     · intro x
       exact typingJudgmentClassifier_round_trip x
@@ -286,5 +266,18 @@ theorem TypingJudgmentClassifierTasteGate_readiness :
       · rfl
 
 end TasteGate
+
+theorem TypingJudgmentClassifierUp_taste_gate_readiness :
+    ChapterTasteGate TypingJudgmentClassifierUp ∧
+      Nonempty (Nontrivial TypingJudgmentClassifierUp) ∧
+        Nonempty (FieldFaithful TypingJudgmentClassifierUp) ∧
+        (∀ h : BHist,
+          typingJudgmentClassifierDecodeBHist (typingJudgmentClassifierEncodeBHist h) = h) ∧
+          typingJudgmentClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨typingJudgmentClassifierChapterTasteGate, ⟨typingJudgmentClassifierNontrivial⟩,
+      ⟨typingJudgmentClassifierFieldFaithful⟩, typingJudgmentClassifierDecode_encode_bhist,
+      rfl⟩
 
 end BEDC.Derived.TypingJudgmentClassifierUp
