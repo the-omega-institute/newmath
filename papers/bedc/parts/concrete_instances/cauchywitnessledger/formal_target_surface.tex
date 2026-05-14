@@ -61,3 +61,15 @@ The root seal threshold is \autoref{thm:cauchy-witness-ledger-root-seal-route-to
 
 The local naming threshold is \autoref{thm:cauchy-witness-ledger-root-namecert-threshold}. Together with \autoref{thm:cauchy-witness-ledger-real-completion-nonescape}, it keeps completion-facing reads inside the same finite route and excludes selected limits, quotient streams, host equality, countable choice, ambient completeness, hidden tails, and alternate seals. Thus the named Lean target is exactly the finite formal surface whose later checking must preserve those rows.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger four-face Real completion lock]
+\label{thm:cauchy-witness-ledger-four-face-real-completion-lock}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Its formal target surface factors through exactly the four Phase Real and Completion faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Thus every roadmap-exit consumer of the ledger reads the same four-face route and no route adds quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-witness-ledger-formal-target-surface}. It identifies the accepted formal surface with the finite route $Q,B,S,K,H,C,P,N$, so a consumer can expose only the budget, window, readback, Real-seal classifier, and structural rows already carried by $L$.
+
+Next apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autoref{thm:streamname-real-completion-four-object-exit-consumer-exhaustion}. These force the Real-completion exit route through the four displayed faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and exhaust every consumer read at that boundary.
+
+Finally use \autoref{thm:streamname-cauchy-witness-ledger-exit-saturation}. It attaches the Cauchy witness ledger to that same four-object exit packet through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Since neither the ledger surface nor the exit packet carries quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows, no second completion-facing route remains.
+\end{proof}
