@@ -220,4 +220,30 @@ theorem DiagonalLimitCompatibility_window_route_lock [AskSetup] [PackageSetup]
       endpointUnary, diagonalWindowsSelector, selectorReadbackLocked,
       lockedRealSealEndpoint, provenancePkg, endpointPkg⟩
 
+theorem DiagonalLimitCompatibilityRootRouteBudgetPackage [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      rootRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic rootRoute ->
+        PkgSig bundle rootRoute pkg ->
+          UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory windows ∧
+            UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory rootRoute ∧
+              Cont diagonal dyadic rootRoute ∧ Cont dyadic windows readback ∧
+                Cont readback realSeal route ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle rootRoute pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalDyadicRoot rootRoutePkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, dyadicWindowsReadback, readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have rootRouteUnary : UnaryHistory rootRoute :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicRoot
+  exact
+    ⟨diagonalUnary, dyadicUnary, windowsUnary, readbackUnary, realSealUnary, rootRouteUnary,
+      diagonalDyadicRoot, dyadicWindowsReadback, readbackRealSealRoute, provenancePkg,
+      rootRoutePkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
