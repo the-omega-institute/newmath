@@ -398,4 +398,33 @@ theorem RegularCauchyTailMeetPacket_selector_budget_route_lock [AskSetup] [Packa
       selectorUnary, sealReadUnary, r0w0Row, r1w1Row, m0m1Row, tauqRow, rootRoute,
       selectorRoute, sealReadRoute, pkgRow, selectorPkg, sealReadPkg⟩
 
+theorem RegularCauchyTailMeetPacket_consumer_exactness [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n realSeal diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont l n realSeal ->
+        Cont tau realSeal diagonalRead ->
+          PkgSig bundle realSeal pkg ->
+            PkgSig bundle diagonalRead pkg ->
+              UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+                UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory tau ∧ UnaryHistory q ∧
+                  UnaryHistory l ∧ UnaryHistory n ∧ UnaryHistory realSeal ∧
+                    UnaryHistory diagonalRead ∧ Cont r0 w0 h ∧ Cont r1 w1 c ∧
+                      Cont m0 m1 tau ∧ Cont tau q l ∧ Cont l n realSeal ∧
+                        Cont tau realSeal diagonalRead ∧ PkgSig bundle l pkg ∧
+                          PkgSig bundle realSeal pkg ∧ PkgSig bundle diagonalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet realSealRoute diagonalRoute realSealPkg diagonalPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, m0Unary, m1Unary, tauUnary,
+    qUnary, _hUnary, _cUnary, lUnary, nUnary, r0w0Row, r1w1Row, m0m1Row,
+    tauqRow, pkgRow⟩ := packet
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed lUnary nUnary realSealRoute
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed tauUnary realSealUnary diagonalRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, m0Unary, m1Unary, tauUnary, qUnary,
+      lUnary, nUnary, realSealUnary, diagonalUnary, r0w0Row, r1w1Row, m0m1Row,
+      tauqRow, realSealRoute, diagonalRoute, pkgRow, realSealPkg, diagonalPkg⟩
+
 end BEDC.Derived.RegularCauchyTailMeetUp

@@ -248,4 +248,18 @@ theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
         exact realWindowSynchronizerToEventFlow_injective heq
       · rfl
 
+namespace TasteGate
+
+theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist h) = h) ∧
+      (∀ x : RealWindowSynchronizerUp,
+        realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x) ∧
+        (∀ x y : RealWindowSynchronizerUp,
+          realWindowSynchronizerToEventFlow x = realWindowSynchronizerToEventFlow y → x = y) ∧
+          realWindowSynchronizerEncodeBHist BHist.Empty = ([] : List BMark) :=
+  RealWindowSynchronizerUp.RealWindowSynchronizerTasteGate_single_carrier_alignment
+
+end TasteGate
+
 end BEDC.Derived.RealWindowSynchronizerUp

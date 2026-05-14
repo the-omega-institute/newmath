@@ -499,6 +499,52 @@ Apply the shift-substitution ledger lock and audit route coverage. Together they
 Finally use operation-row determinacy, consumer factorization, and recursor-generator scope lock, \autoref{thm:closed-term-substitution-boundary-operation-row-determinacy}, \autoref{thm:closed-term-substitution-boundary-consumer-factorization}, and \autoref{thm:closed-term-substitution-boundary-recursor-generator-scope-lock}. These theorems leave no export route for host substitution semantics, an ambient subject-reduction theorem, a host syntax quotient, a hidden evaluator, or compiler state outside the displayed packet. Thus the local $\NameCert$ export is total for exactly the finite boundary rows.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary consumer route determinacy]
+\label{thm:closed-term-substitution-boundary-consumer-route-determinacy}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, any consumer route preserving
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+determines the same closed-term substitution boundary surface. The route may read the displayed term rows, closedness witnesses, operation rows, ledger, audit row, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, but it cannot switch to host substitution semantics, a hidden evaluator, a host syntax quotient, or an ambient subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. They expose exactly the displayed term, depth, closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-operation-row-determinacy}. The operation rows $Q$ and $R$ are fixed once $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ and the ledger row are fixed.
+
+Use \autoref{thm:closed-term-substitution-boundary-consumer-factorization} and \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. Every consumer route preserving the displayed rows therefore factors through the same finite boundary surface, and the local certificate exports no host substitution semantics or ambient subject-reduction coordinate.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary ledger-route separation]
+\label{thm:closed-term-substitution-boundary-ledger-route-separation}
+In an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, ledger reads of $L,A$ are separate from operation-row reads of $Q,R$ and must precede any exported operation boundary. The ledger rows record closedness and audit visibility for the displayed source and value witnesses, while $Q$ and $R$ remain the closed shift and closed substitution operation rows routed through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. It places every closed shift or closed substitution read behind the source and value closedness witnesses, the closedness ledger $L$, and the audit row $A$.
+
+Apply \autoref{thm:closed-term-substitution-boundary-audit-route-coverage}. The audit-visible route covers reads of $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$, but it keeps the ledger and audit rows as the consumer-visible precondition for operation export.
+
+The separation follows by coordinate inspection. The rows $L,A$ are ledger and audit coordinates, while $Q,R$ are operation coordinates; because the exported boundary factors through the displayed route, no consumer can expose $Q$ or $R$ before the ledger and audit reads have been fixed.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary audit-boundary factorization]
+\label{thm:closed-term-substitution-boundary-audit-boundary-factorization}
+Every audit-visible consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through the carrier, ledger non-escape, shift-substitution ledger lock, and $\NameCert$ export totality. Consequently the audit boundary is the finite route over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and not an appeal to host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, or compiler state outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First read the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. It supplies the finite $\BHist$ packet and the surrounding $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger route has no coordinate for unregistered free variables, hidden host equality, unchecked compiler state, or ambient subject reduction.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. It forces operation reads through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ before any exported closed shift or closed substitution boundary is visible.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The local certificate exports exactly the displayed finite rows, so every audit-visible consumer factors through that boundary and no host substitution surface is added.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{scopedStr}
