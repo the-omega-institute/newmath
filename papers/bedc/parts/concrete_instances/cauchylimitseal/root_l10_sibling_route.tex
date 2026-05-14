@@ -12,6 +12,7 @@ Apply the RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-sea
 
 Finally use the common-window transport of \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport to the shared finite window preserves the displayed $X,D,G,E$ route and adds no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness coordinate. Hence the root route is exactly the sibling route through StreamName, RegSeqRat, DyadicRatCore, and RealUp.
 \end{proof}
+
 \leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_root\_l10\_sibling\_route\_certificate}
 \leanvariant{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_root\_l10\_sibling\_route}
 
@@ -75,4 +76,22 @@ Next use the stream-RegSeq seal factorization of \autoref{thm:cauchy-limit-seal-
 The Real tail side is supplied by \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}. It places the tail witness read on the finite envelope surface rather than on a host limit, host equality, or quotient stream. The refinement side is supplied by \autoref{thm:cauchy-modulus-refinement-bridged-route-surface}, which routes the modulus refinement through the displayed bridged surface before it can serve completion-facing consumers.
 
 Finally apply the no-unbudgeted-limit theorem \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. Since quotient streams, host real equality, selected host limits, hidden selectors, independent completion carriers, and ambient completeness coordinates do not occur in the displayed packet rows, no accepted route can export them.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal budget-tail root join]
+\label{thm:cauchy-limit-seal-budget-tail-root-join}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Suppose a $\RealObservationBudgetUp$-facing read and a $\CauchyTailWitnessEnvelopeUp$-facing tail read are accepted through $L$ over the same finite $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ ledger. Then the two reads join on one displayed L10 packet through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The joined packet exports the shared finite window, regular source row, dyadic ledger, RealUp seal surface, transport, route, package, and local naming rows. It exports no quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply root source-schedule lattice consumption from \autoref{thm:cauchy-limit-seal-root-source-schedule-lattice-consumption}. It fixes every accepted root route on the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ source row, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, and structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next use root envelope-refinement exhaustion from \autoref{thm:cauchy-limit-seal-root-envelope-refinement-exhaustion}. The tail-facing read is forced through the finite envelope surface rather than through a hidden host limit, quotient stream, or independent completion endpoint.
+
+Now apply budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. Since the budget-facing read uses the same finite $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ ledger, it has no second source surface outside the displayed root L10 packet.
+
+The tail boundary is supplied by \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}. It places the $\CauchyTailWitnessEnvelopeUp$ leg on the same finite witness-envelope route before any RealUp readback is public.
+
+Finally apply the no-unbudgeted-limit theorem \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. The joined route contains only the displayed packet rows, so it cannot export a quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
 \end{proof}

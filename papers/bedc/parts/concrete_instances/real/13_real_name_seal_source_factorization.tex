@@ -78,6 +78,28 @@ Transport and stability are componentwise. The $H$ row moves the displayed sourc
 Ledger exhaustion is supplied by \autoref{thm:real-name-seal-source-factorization} together with the RegularCauchyName exhaustion theorems cited there. Thus the local $\NameCert_{\RealUp}$ obligations are exactly carrier, classifier, stability, ledger, and source-factorization obligations.
 \end{proof}
 
+\begin{theorem}[Real name seal classifier stability]
+\label{thm:real-name-seal-classifier-stability}
+Let
+$$
+R=(D,S,Q,L,E,H,C,P,N)
+\qquad\text{and}\qquad
+R'=(D',S',Q',L',E',H',C',P',N')
+$$
+be accepted $\RealUp$ name-seal packets for the carrier of \autoref{def:real-name-seal-carrier}. Suppose the displayed source rows $D,S,Q,L$ and $D',S',Q',L'$ and the seal rows $E,E'$ are related componentwise by the $\hsame$ transports recorded in $H$ and $H'$. Suppose also that the displayed $\Cont$ routes in $C$ and $C'$ preserve the same source reads from the finite-window schedule through the dyadic observation row, the regularity row, and the finite ledger. Then the local $\RealUp$ seal classifier presents the same public seal row for $R$ and $R'$ after passing through the $\DyadicRatCoreUp$ observation, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ regularity row, the finite ledger, and the local $\RealUp$ seal.
+
+This classifier equality has no coordinate for quotient streams, selected host limits, host equality, ambient completeness, metric-completeness data, or choice rows.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:real-name-seal-carrier}. The only analytic coordinates available to the classifier are the dyadic observation rows $D,D'$, the finite-window schedules $S,S'$, the regularity rows $Q,Q'$, the ledgers $L,L'$, and the seal rows $E,E'$; the rows $H,H',C,C',P,P',N,N'$ supply transport, replay, provenance, and naming data.
+
+Apply \autoref{thm:real-name-seal-source-factorization} to both packets. Each public seal read factors through the displayed route from the StreamName window, DyadicRatCore observation, RegSeqRat regularity row, and finite ledger before reaching the local seal. Apply \autoref{thm:real-name-seal-namecert-obligations} to read the same route as the NameCert classifier-transport and route-stability surface.
+
+Now compose the sibling faces of \autoref{thm:real-streamname-regseqrat-seal-route}. The StreamName face is fixed by \autoref{thm:streamname-public-finite-window-interface}; the DyadicRatCore face is fixed by \autoref{thm:dyadicratcore-real-phase-source-coverage}; the RegSeqRat face is fixed by \autoref{thm:regseqrat-real-seal-handoff}; and the local Real face is fixed by \autoref{thm:real-stream-finite-prefix-exactness}. The componentwise $\hsame$ rows identify the corresponding displayed rows, and the $\Cont$ rows replay the same source reads through those faces.
+
+The two accepted packets therefore present the same finite public route to the seal classifier, hence the same public seal row. Since the carrier and the cited faces expose only those finite BEDC rows, no quotient stream, selected host limit, host equality, ambient completeness theorem, metric-completeness datum, or choice row can enter the classifier comparison.
+\end{proof}
+
 \begin{theorem}[Real name seal non-completeness boundary]
 \label{thm:real-name-seal-no-completeness}
 An accepted $\RealUp$ name-seal carrier exports only the finite packet rows $D,S,Q,L,E,H,C,P,N$ of \autoref{def:real-name-seal-carrier}. It exports no quotient stream, no selected limit, no host real equality, no host sequence equality, and no ambient completeness theorem.
