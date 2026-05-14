@@ -90,4 +90,34 @@ theorem LimitSelectorCarrier_observation_budget_handoff
     ⟨sameSelected, sameReadback, sameBudgetSeal, L.selected_index_route,
       L.window_readback_route, L.seal_route⟩
 
+theorem LimitSelectorCarrier_modulus_seal_scope
+    (L : LimitSelectorCarrier) {selected readback sealRead alternateSelected
+      alternateReadback : BHist}
+    (selectedRoute : Cont L.precision L.modulus selected)
+    (readbackRoute : Cont selected L.window readback)
+    (sealRoute : Cont readback L.realSeal sealRead)
+    (alternateSelectedRoute : Cont L.precision L.modulus alternateSelected)
+    (alternateReadbackRoute : Cont alternateSelected L.window alternateReadback) :
+    hsame selected L.selectedIndex ∧ hsame readback L.dyadicReadback ∧
+      hsame sealRead L.route ∧ hsame alternateSelected L.selectedIndex ∧
+        hsame alternateReadback L.dyadicReadback ∧
+          Cont L.precision L.modulus L.selectedIndex ∧
+            Cont L.selectedIndex L.window L.dyadicReadback ∧
+              Cont L.dyadicReadback L.realSeal L.route := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  have selectedRows :=
+    LimitSelectorCarrier_real_seal_nonescape L selectedRoute readbackRoute
+  have sameSelected : hsame selected L.selectedIndex := selectedRows.left
+  have sameReadback : hsame readback L.dyadicReadback := selectedRows.right
+  have sameSealRead : hsame sealRead L.route :=
+    cont_respects_hsame sameReadback (hsame_refl L.realSeal) sealRoute L.seal_route
+  have alternateRows :=
+    LimitSelectorCarrier_real_seal_nonescape L alternateSelectedRoute alternateReadbackRoute
+  have sameAlternateSelected : hsame alternateSelected L.selectedIndex := alternateRows.left
+  have sameAlternateReadback : hsame alternateReadback L.dyadicReadback := alternateRows.right
+  exact
+    ⟨sameSelected, sameReadback, sameSealRead, sameAlternateSelected,
+      sameAlternateReadback, L.selected_index_route, L.window_readback_route,
+      L.seal_route⟩
+
 end BEDC.Derived.LimitSelectorUp
