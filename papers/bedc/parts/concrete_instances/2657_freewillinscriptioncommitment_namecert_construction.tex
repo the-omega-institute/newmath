@@ -6,6 +6,18 @@ The $\FreeWillInscriptionCommitmentUp$ surface packages the free-will reading of
 
 The commitment packet consumes the inscription-event carrier of \autoref{ch:concrete-instances-inscriptionevent-namecert} and the gap-ledger surface of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}. In the displayed carrier below, $I$ is the event row, $G$ is the gap provenance row, and $R$ records that consumers may compare the event with the prior boundary without extracting a closed reducer from $B$ to $I$.
 
+\begin{theorem}[FreeWillInscriptionCommitment inscription-event route]
+\label{thm:free-will-inscription-commitment-inscription-event-route}
+Every accepted $\FreeWillInscriptionCommitmentUp$ packet reads its inscription-event coordinate $I$ through the finite $\InscriptionEventUp$ surface of \autoref{ch:concrete-instances-inscriptionevent-namecert} before the non-reduction ledger $R$ is exposed. The route records prior boundary, inscription row, GAP provenance, transport, continuation, package, and local name, and it exports no hidden agency source or deterministic reducer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $W=(B,I,G,T,R,H,C,P,N)$. The coordinate $I$ is the only inscription-event row in the packet, and it is displayed together with the prior boundary $B$ and GAP provenance $G$ before the ledger row $R$ is read.
+
+Read $I$ through the concrete $\InscriptionEventUp$ surface named by \autoref{ch:concrete-instances-inscriptionevent-namecert}. The transport row $T$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local naming row $N$ replay that same finite event route.
+
+Finally apply the non-escape boundary of \autoref{thm:free-will-inscription-commitment-nonescape}. Since the carrier has no coordinate for a hidden agency source or a deterministic reducer from $B$ to $I$, exposing $R$ cannot add one after the inscription-event read.
+\end{proof}
+
 \begin{definition}[FreeWillInscriptionCommitment carrier]
 \label{def:free-will-inscription-commitment-carrier}
 A $\FreeWillInscriptionCommitmentUp$ carrier is a finite $\BHist$ packet
