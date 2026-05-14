@@ -122,6 +122,28 @@ The shared seal-route determinacy theorem now compares the two refinements. Sinc
 Finally apply root seal pullback non-escape. \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape} removes selected limits, quotient streams, host real equality, detached tail oracles, and ambient completeness witnesses from the completion-facing surface. Thus the two overlap refinements determine the same tail row and seal handoff, with no second public route.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family endpoint budget reflector]
+\label{thm:uniform-cauchy-criterion-finite-family-endpoint-budget-reflector}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal surface. Every finite-family endpoint request for $U$ reflects through the displayed route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Consequently the $\RegSeqRatUp$ tail reads and $\RealUp$ seal reads are the same budgeted endpoint route, and no request can split into a second $\StreamNameUp$ family, selected limit, quotient stream, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First assemble the endpoint surface from the finite-family seal obligation package. Theorem~\ref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package} lists the rows $I,W,M,Q,T,E,H,C,P,N$ as the complete inventory available to a tail or seal consumer.
+
+Next apply the RegSeqRat--Real handoff. Theorem~\ref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff} identifies the $\RegSeqRatUp$ tail side and the $\RealUp$ seal side with the same route from the finite index ledger through the shared window, threshold, tolerance, tail, and seal rows.
+
+Now use the nonescape ledger and window seal exhaustion. Theorems~\ref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} and~\ref{thm:uniform-cauchy-criterion-finite-family-window-seal-exhaustion} remove selected limits, quotient streams, host real equality, ambient completeness witnesses, detached tail oracles, and any bypass of the shared window or tail ledger.
+
+Finally compose shared seal-route determinacy with seal overlap determinacy. Theorem~\ref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy} fixes the public route once the displayed rows are preserved, and \autoref{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy} prevents overlap refinements from adding a second stream family or seal handoff. Hence every finite-family endpoint request reflects through the single budgeted route displayed above.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family route lock]
 \label{thm:uniform-cauchy-criterion-finite-family-route-lock}
 Let
