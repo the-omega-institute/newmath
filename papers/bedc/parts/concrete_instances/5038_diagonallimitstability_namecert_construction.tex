@@ -55,6 +55,18 @@ The representative side of $T$ is the row $D$, which is anchored in the diagonal
 The structural rows $H,C,P,N$ replay the same finite comparison for downstream consumers. Since no additional representative, seal, quotient, host equality, selected external limit, or ambient completeness row is present, every sealed diagonal-limit read factors through the displayed handoff.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit stability budget-seal factorization]
+\label{thm:diagonal-limit-stability-budget-seal-factorization}
+Every $\DiagonalLimitStabilityUp$ consumer that reads the $\RealCompletenessUp$ handoff factors through the diagonal budget row $D$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $R$, $\RealUp$ seal row $S$, $\BHist$ history rows, componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DiagonalLimitStabilityUp}$ row $N$. The consumer receives no host limit, ambient completeness coordinate, external representative equality, or detached Real seal outside this packet.
+\end{theorem}
+\begin{proof}
+Start from the Real-completeness handoff theorem, \autoref{thm:diagonal-limit-stability-real-completeness-handoff}. It forces every sealed diagonal-limit read to enter through $D$ or $S$ and then replay through the same finite window and structural rows.
+
+Use the root-route budget package from the sibling diagonal-limit compatibility chapter, \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It supplies the finite budget route that feeds the diagonal representative side before the Real seal is read.
+
+The local NameCert obligations in \autoref{thm:diagonal-limit-stability-namecert-obligations} keep the readback row $R$, window row $W$, transports $H$, continuation $C$, provenance $P$, and naming row $N$ attached to the same carrier. Hence the Real-completion handoff factors from finite budget to seal without exporting a host limit or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Representative-seal window comparison]
 \label{thm:diagonal-limit-stability-representative-seal-comparison}
 For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the displayed diagonal representative row $D$ and the displayed $\RealUp$ seal row $S$ are compared only through the common finite window row $W$. Neither $D$ nor $S$ can be consumed as an independent Real-completeness input outside the same packet.
