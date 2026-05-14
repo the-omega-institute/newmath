@@ -808,6 +808,105 @@ def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     return level
 
 
+def bake_dagre_layout(
+    nodes: list[str], edges: list[tuple[str, str]]
+) -> dict[str, tuple[float, float]] | None:
+    """Run the real dagre LR layout via ``tools/dagre_layout/layout.mjs``
+    (Node.js helper) and return ``{node_id: (x, y)}``. This is the same
+    layout the browser used to compute on every cold load (~20s of main-
+    thread block for 980 nodes); baking it once at build time lets the
+    page use ``layout: preset`` and stay responsive.
+
+    Returns ``None`` if Node or the helper isn't available, so the caller
+    can fall back to the local Python layout.
+    """
+    import subprocess
+    script = ROOT / "tools" / "dagre_layout" / "layout.mjs"
+    if not script.exists():
+        return None
+    payload = json.dumps({
+        "nodes": [{"id": n} for n in nodes],
+        "edges": [{"source": s, "target": t} for s, t in edges],
+    })
+    try:
+        r = subprocess.run(
+            ["node", str(script)],
+            input=payload, capture_output=True, text=True, check=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        print(f"[build-dossier-status] dagre bake failed ({e}); using Python fallback", file=sys.stderr)
+        return None
+    if r.stderr:
+        sys.stderr.write(r.stderr if r.stderr.endswith("\n") else r.stderr + "\n")
+    pos = json.loads(r.stdout)
+    return {nid: (float(p[0]), float(p[1])) for nid, p in pos.items()}
+
+
+def bake_layered_layout(
+    nodes: list[str],
+    edges: list[tuple[str, str]],
+    levels: dict[str, int],
+    rank_sep: float = 480.0,
+    node_sep: float = 110.0,
+) -> dict[str, tuple[float, float]]:
+    """Python-only LR layered fallback used when Node/dagre isn't
+    available. Visually weaker than dagre (no real crossing reduction)
+    but still produces a deterministic, well-separated layered diagram.
+    """
+    if not nodes:
+        return {}
+
+    by_rank: dict[int, list[str]] = {}
+    for n in nodes:
+        by_rank.setdefault(levels.get(n, 0), []).append(n)
+    for r in by_rank:
+        by_rank[r].sort()
+
+    up: dict[str, list[str]] = {n: [] for n in nodes}
+    down: dict[str, list[str]] = {n: [] for n in nodes}
+    for s, t in edges:
+        if s in up and t in up:
+            up[t].append(s)
+            down[s].append(t)
+
+    order: dict[str, int] = {}
+    for r in sorted(by_rank):
+        for i, n in enumerate(by_rank[r]):
+            order[n] = i
+
+    def median(neighbors: list[str]) -> float:
+        if not neighbors:
+            return -1.0
+        pos = sorted(order[m] for m in neighbors if m in order)
+        if not pos:
+            return -1.0
+        k = len(pos)
+        return pos[k // 2] if k % 2 else (pos[k // 2 - 1] + pos[k // 2]) / 2.0
+
+    ranks_asc = sorted(by_rank)
+    for _ in range(6):
+        for r in ranks_asc[1:]:
+            keyed = [(median(up[n]), order[n], n) for n in by_rank[r]]
+            keyed.sort(key=lambda t: (t[0] if t[0] >= 0 else float("inf"), t[1]))
+            by_rank[r] = [t[2] for t in keyed]
+            for i, n in enumerate(by_rank[r]):
+                order[n] = i
+        for r in reversed(ranks_asc[:-1]):
+            keyed = [(median(down[n]), order[n], n) for n in by_rank[r]]
+            keyed.sort(key=lambda t: (t[0] if t[0] >= 0 else float("inf"), t[1]))
+            by_rank[r] = [t[2] for t in keyed]
+            for i, n in enumerate(by_rank[r]):
+                order[n] = i
+
+    coords: dict[str, tuple[float, float]] = {}
+    for r in ranks_asc:
+        col = by_rank[r]
+        h = (len(col) - 1) * node_sep
+        for i, n in enumerate(col):
+            coords[n] = (r * rank_sep, i * node_sep - h / 2.0)
+    return coords
+
+
 def _grade_index(grade: str | None, order: list[str]) -> int:
     if grade in order:
         return order.index(grade)
@@ -916,6 +1015,12 @@ def build_dependency_graph() -> dict:
     levels = compute_levels(deps_map)
     max_level = max(levels.values()) if levels else 0
 
+    edge_pairs = [(d, nid) for nid, ds in deps_map.items() for d in ds]
+    print("[build-dossier-status] baking dagre layout (this is the slow step)...", file=sys.stderr)
+    coords = bake_dagre_layout(sorted(all_regions), edge_pairs)
+    if coords is None:
+        coords = bake_layered_layout(sorted(all_regions), edge_pairs, levels)
+
     # critical_path data, but only for regions we know about
     cp_data: dict[str, dict] = {}
     for entry in cp.get("top", []):
@@ -936,51 +1041,39 @@ def build_dependency_graph() -> dict:
         else:
             label_en = nid + "Up"
             label_zh = nid + "Up"
+        x, y = coords.get(nid, (levels.get(nid, 0) * 480.0, 0.0))
+        cb = closure_per_region.get(nid) or {}
         nodes.append({
             "id": nid,
             "label_en": label_en,
             "label_zh": label_zh,
             "thms": thms,
             "level": levels.get(nid, 0),
+            "x": x,
+            "y": y,
             "downstream": cp_entry.get("downstream", 0),
             "score": cp_entry.get("score", 0.0),
             "checked": markers["checked"],
             "stmt": markers["stmt"],
             "defs": markers["def"],
             "schema_only": nid in schema_set,
-            # Author-declared chapter closure block, shared with critical_path.py.
-            # null until the author writes both axes in a closurestatus block.
-            "closed_theoryclosure": (
-                closure_per_region.get(nid) or {}
-            ).get("theory_closure"),
-            "closed_formalstatus": (
-                closure_per_region.get(nid) or {}
-            ).get("formal_status"),
-            "closure_grounding": (
-                closure_per_region.get(nid) or {}
-            ).get("lean_target"),
-            "closed_bridge_status": (
-                closure_per_region.get(nid) or {}
-            ).get("bridge_status"),
-            "scope_closed": (
-                closure_per_region.get(nid) or {}
-            ).get("scope_closed"),
-            "not_claimed": (
-                closure_per_region.get(nid) or {}
-            ).get("not_claimed"),
-            "upgrade_path": (
-                closure_per_region.get(nid) or {}
-            ).get("upgrade_path"),
-            # Bottom-up construction story (paper EN). ZH counterpart is
-            # injected at glossary-merge time below.
-            "constructive_story_en": (
-                closure_per_region.get(nid) or {}
-            ).get("constructive_story"),
-            # Namecert-theorem-grounded data (kept for the detail panel,
-            # NOT used for proven/progress classification; closure is).
-            "namecert_theorems": namecerts,
+            "closed_theoryclosure": cb.get("theory_closure"),
+            "closed_formalstatus": cb.get("formal_status"),
             "namecert_checked": len(namecerts_checked),
             "namecert_stmt": len(namecerts_stmt),
+            # `_details` carries the heavy paper-text fields (constructive
+            # story, scope_closed, upgrade_path, namecert_theorems list, ...)
+            # — emitted to a sibling file and lazy-fetched when a node is
+            # tapped, so the first paint isn't blocked on multi-MB JSON.
+            "_details": {
+                "closure_grounding": cb.get("lean_target"),
+                "closed_bridge_status": cb.get("bridge_status"),
+                "scope_closed": cb.get("scope_closed"),
+                "not_claimed": cb.get("not_claimed"),
+                "upgrade_path": cb.get("upgrade_path"),
+                "constructive_story_en": cb.get("constructive_story"),
+                "namecert_theorems": namecerts,
+            },
         })
 
     edges: list[dict] = []
@@ -1089,9 +1182,6 @@ def main() -> int:
     print("[build-dossier-status] scanning Lean theorem counts...", file=sys.stderr)
     region_thms = count_lean_theorems_per_region()
 
-    print("[build-dossier-status] scanning paper markers...", file=sys.stderr)
-    paper_markers = count_paper_markers_per_chapter()
-
     print("[build-dossier-status] computing daily activity...", file=sys.stderr)
     activity = daily_commit_activity()
 
@@ -1117,23 +1207,15 @@ def main() -> int:
         node["label_zh"] = glossary[nid]["zh"]["label"]
         # Bottom-up construction story (ZH; optional). EN was attached
         # from the paper closurestatus block in build_dependency_graph.
-        node["constructive_story_zh"] = glossary[nid].get("constructive_story_zh") or None
+        node["_details"]["constructive_story_zh"] = (
+            glossary[nid].get("constructive_story_zh") or None
+        )
 
     total_thms = sum(r["theorems"] for r in region_thms.values())
     valid_region_ids = {n["id"] for n in deps["nodes"]}
-    # Region universe = dep-graph nodes ∪ Lean-derived regions. Dep nodes
-    # without Lean code yet are listed with zero counts so the regions table
-    # mirrors the graph 1:1 and consumers can join on `name == node.id`.
-    region_stats = {nid: {"theorems": 0, "defs": 0, "files": 0} for nid in valid_region_ids}
-    region_stats.update(region_thms)
     status = {
         "generated_at": datetime.utcnow().isoformat() + "Z",
         "total_theorems": total_thms,
-        "regions": [
-            {"name": name, **stats}
-            for name, stats in sorted(region_stats.items(), key=lambda kv: -kv[1]["theorems"])
-        ],
-        "paper_markers": paper_markers,
         "daily_activity": activity,
         "critical_path": [
             entry for entry in cp.get("top", [])
@@ -1152,9 +1234,26 @@ def main() -> int:
     print("[build-dossier-status] extracting MathJax macros from preamble...", file=sys.stderr)
     mathjax_macros = extract_mathjax_macros()
 
+    # Split detail fields into a sibling file so the first paint isn't blocked
+    # on multi-MB JSON. dependency.json keeps only render-critical fields;
+    # dependency_details.json is lazy-fetched when a node is tapped.
+    details: dict[str, dict] = {}
+    for node in deps["nodes"]:
+        nid = node["id"]
+        if "_details" in node:
+            details[nid] = node.pop("_details")
+
+    # glossary.json is hot-path (loaded on first paint, used for labels);
+    # `constructive_story_zh` is heavy detail prose already mirrored into
+    # dependency_details.json, so strip it here.
+    glossary_min = {
+        k: {ek: ev for ek, ev in v.items() if ek != "constructive_story_zh"}
+        for k, v in glossary.items()
+    }
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
-    (DATA_DIR / "glossary.json").write_text(json.dumps(glossary, indent=2, ensure_ascii=False), encoding="utf-8")
+    (DATA_DIR / "glossary.json").write_text(json.dumps(glossary_min, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
+    (DATA_DIR / "dependency_details.json").write_text(json.dumps(details, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "mathjax_macros.json").write_text(json.dumps(mathjax_macros, indent=2, ensure_ascii=False), encoding="utf-8")
     if args.output:
         args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
