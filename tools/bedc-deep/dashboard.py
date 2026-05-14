@@ -453,12 +453,16 @@ def _infer_refill_status(rec: dict) -> str:
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
             error = str(summary.get("error") or "").strip()
+            reject_suffix = _format_refill_reject_suffix(summary)
             error_kind = (
                 str(summary.get("error_kind") or "").strip()
                 or _classify_board_judge_error(error)
             )
             if summary.get("ok"):
-                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+                return (
+                    f"local_gap_fallback accepted={accepted} proposed={proposed}"
+                    f"{reject_suffix}"
+                )
             if error_kind.startswith("board_judge_unavailable"):
                 return (
                     "local_gap_fallback_judge_unavailable "
@@ -472,6 +476,7 @@ def _infer_refill_status(rec: dict) -> str:
             return (
                 "local_gap_fallback_failed "
                 f"accepted={accepted} proposed={proposed}"
+                f"{reject_suffix}"
                 + (f" error={error[:80]}" if error else "")
             )
         if summary.get("ok"):
@@ -513,6 +518,29 @@ def _infer_refill_status(rec: dict) -> str:
     if rec.get("prompt"):
         return "prompt_only"
     return "unknown"
+
+
+def _format_refill_reject_suffix(summary: dict) -> str:
+    reasons = summary.get("reject_reasons")
+    examples = summary.get("reject_examples")
+    if not isinstance(reasons, dict) or not reasons:
+        return ""
+    reason_items: list[tuple[str, int]] = []
+    for key, value in reasons.items():
+        try:
+            count = int(value)
+        except (TypeError, ValueError):
+            continue
+        reason_items.append((str(key), count))
+    if not reason_items:
+        return ""
+    top_reason, top_count = sorted(reason_items, key=lambda kv: (-kv[1], kv[0]))[0]
+    suffix = f" top_reject={top_reason}:{top_count}"
+    if isinstance(examples, dict):
+        example = str(examples.get(top_reason) or "").strip()
+        if example:
+            suffix += f" example={example[:60]}"
+    return suffix
 
 
 def _refill_status_bucket(status: str) -> str:
