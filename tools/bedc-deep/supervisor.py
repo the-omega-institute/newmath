@@ -580,94 +580,8 @@ DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
 def git_sync_dev() -> bool:
-    """Fetch + merge the upstream integration branch when explicitly enabled.
-
-    This is opt-in for the BEDC supervisor. The paper-native pipeline must not
-    pull formalization-lane files as a side effect of refilling BOARD or writing
-    paper content.
-
-    Spawned as a subprocess so the resolver's module constants (upstream
-    branch, validation timeouts, claude path) are read fresh from disk on
-    every invocation. This way edits to dev_sync_resolver.py take effect
-    on the next sync cycle without restarting supervisor.
-
-    The subprocess prints a JSON status object on stdout. Behaviour:
-      - holds paper_writes lock for the whole flow
-      - attempts ff/clean merge first
-      - on conflict: spawns claude to resolve each non-protected file,
-        validates with lake build / check-axioms / bedc_ci audit, hard
-        resets on any failure
-      - protected files (lean4/, papers/main.tex, etc.) abort and report
-        to human_inbox via supervisor log
-      - commits + pushes on full success
-
-    Returns True iff upstream commits were actually pulled in (ff_merged
-    or auto_resolved). On any other outcome returns False — caller should
-    treat as "no sync this cycle" and retry later.
-    """
-    try:
-        proc = subprocess.run(
-            ["python3", str(DEV_SYNC_RESOLVER)],
-            cwd=str(REPO_ROOT),
-            capture_output=True,
-            text=True,
-            timeout=2400,  # 40 min: claude resolve + lake build + pdflatex
-        )
-    except subprocess.TimeoutExpired:
-        supervisor_log("git_sync_dev: resolver subprocess timed out (40 min)")
-        return False
-    except Exception as exc:
-        supervisor_log(f"git_sync_dev: resolver subprocess failed to launch: {exc}")
-        return False
-
-    raw_stdout = (proc.stdout or "").strip()
-    raw_stderr = (proc.stderr or "").strip()
-    try:
-        result = json.loads(raw_stdout)
-    except json.JSONDecodeError:
-        supervisor_log(
-            f"git_sync_dev: resolver output not JSON (rc={proc.returncode}). "
-            f"stdout={raw_stdout[:300]}  stderr={raw_stderr[:300]}"
-        )
-        return False
-
-    status = result.get("status", "error")
-    if status == "up_to_date":
-        return False
-    if status == "ff_merged":
-        n = result.get("n_dev_commits", "?")
-        supervisor_log(f"git_sync_dev: ff-merged upstream cleanly ({n} commits)")
-        return True
-    if status == "auto_resolved":
-        n = result.get("n_dev_commits", "?")
-        resolved = result.get("resolved_files") or []
-        validation = (result.get("validation") or {}).get("summary", "?")
-        supervisor_log(
-            f"git_sync_dev: auto-resolved {len(resolved)} conflict(s) "
-            f"({n} commits); validation={validation}"
-        )
-        return True
-    if status == "aborted_protected":
-        files = result.get("conflict_files") or []
-        err = result.get("error") or ""
-        supervisor_log(
-            f"git_sync_dev: ABORTED — protected files in conflict ({err}). "
-            f"This needs human attention. Files: {files}"
-        )
-        return False
-    if status == "aborted_validation":
-        validation = result.get("validation") or {}
-        fails = "; ".join((validation.get("failures") or [])[:1])[:300]
-        supervisor_log(
-            f"git_sync_dev: ABORTED — validation failed after resolution. "
-            f"Hard-reset to ORIG_HEAD. Will retry next cycle. {fails}"
-        )
-        return False
-    if status == "skipped_dirty":
-        # quiet — common case during active Stage 2 / normal pipeline life
-        return False
-    err = result.get("error") or "(no error message)"
-    supervisor_log(f"git_sync_dev: error — {err[:300]}")
+    """Disabled upstream merge hook for the paper-native BEDC supervisor."""
+    supervisor_log("git_sync_dev: disabled for paper-native BEDC supervisor")
     return False
 
 
@@ -679,9 +593,12 @@ def trigger_probe(*, no_dev_sync: bool = False) -> None:
     # visible in the supervisor logs instead of vanishing into DEVNULL.
     log_path = SUPERVISOR_LOG_DIR / f"probe_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "probe", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -701,9 +618,12 @@ def trigger_curriculum_probe(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery curriculum probe")
     log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -724,9 +644,12 @@ def trigger_paper_review(*, no_dev_sync: bool = False) -> None:
     supervisor_log("triggering auto_discovery paper_review")
     log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -834,8 +757,11 @@ def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
     supervisor_log("triggering auto_discovery curator")
+    cmd = ["python3", str(AUTO_DISCOVERY), "curator", "--append"]
+    if no_dev_sync:
+        cmd.append("--no-dev-sync")
     subprocess.Popen(
-        ["python3", str(AUTO_DISCOVERY), "curator", "--append"],
+        cmd,
         cwd=str(REPO_ROOT),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -996,6 +922,15 @@ def commit_and_push_if_changed() -> bool:
     # working tree.
     from locks import file_lock
     with file_lock("paper_writes"):
+        pre_relation = ahead_behind_upstream()
+        if pre_relation:
+            pre_ahead, pre_behind = pre_relation
+            if pre_ahead or pre_behind:
+                supervisor_log(
+                    "auto-commit: skipped because branch is not aligned with upstream "
+                    f"(ahead={pre_ahead}, behind={pre_behind})"
+                )
+                return False
         diff = _git([
             "status", "--porcelain",
             "papers/bedc/parts",
@@ -1192,11 +1127,11 @@ def main() -> int:
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
-    if STOP_FILE.exists():
-        supervisor_log(f"clearing stale STOP_FILE {STOP_FILE}")
-        STOP_FILE.unlink()
-
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    if STOP_FILE.exists():
+        supervisor_log(f"STOP_FILE present; supervisor not starting: {STOP_FILE}")
+        return 0
+
     dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
     no_dev_sync = not dev_sync_enabled
 
