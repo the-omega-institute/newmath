@@ -636,6 +636,42 @@ Next use refusal before transport above. The representative-request row and refu
 Finally combine root psame route totality with quotient-sound refusal exactness. The surviving side is exactly the $\psame$ replacement route through $E,T,H,C,P,N$, while the refused side stays at $E,A,V$; kernel non-escape then rules out any additional quotient-soundness coordinate.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary root representative refusal]
+\label{thm:quotient-soundness-boundary-root-representative-refusal}
+Every root representative-side quotient request accepted by a $\QuotientSoundnessBoundaryUp$ packet is read through the relation row $E$, the requested-representative row $A$, and the refusal-verdict row $V$ before the transport row $T$ becomes available. Thus the root request reaches the visible representative refusal frontier before any surviving $\psame$ replacement route can be consumed.
+\end{theorem}
+\begin{proof}
+Start with the representative request frontier, \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. It exhausts representative, representative-selector, erased-derivation, and host quotient requests by $E,A,V$ before the transport row $T$ is readable.
+
+Apply refusal before transport, \autoref{thm:quotient-soundness-boundary-refusal-before-transport}. The refusal verdict is consumed before any positive transport use, so a downstream root consumer cannot reverse the order and treat $T$ as representative evidence.
+
+Finally use the kernel consumer audit triad, \autoref{thm:quotient-soundness-boundary-kernel-consumer-audit-triad}. The kernel-facing surface keeps the refusal side $E,A,V$ distinct from the surviving transport side $E,T,H,C,P,N$, giving the stated root order.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary root psame transport admission]
+\label{thm:quotient-soundness-boundary-root-psame-transport-admission}
+Every surviving root operation of an accepted $\QuotientSoundnessBoundaryUp$ packet is admitted only through the classifier-respecting $\psame$ transport route $E,T,H,C,P,N$. The operation may read the refused representative-side rows $E,A,V$ as its accountability surface, but its positive movement is exactly the displayed transport, stability, locality, provenance, and naming route.
+\end{theorem}
+\begin{proof}
+Begin after the refusal surface has been read. By \autoref{thm:quotient-soundness-boundary-root-representative-refusal}, every root representative-side request has already passed through $E,A,V$ before the positive route is available.
+
+Use psame-only descent, \autoref{thm:quotient-soundness-boundary-psame-only-descent}. It states that accepted descent after refusal factors only through $E,T,H,C,P,N$ by classifier-respecting $\psame$ transport.
+
+Now apply root psame route totality, \autoref{thm:quotient-soundness-boundary-root-psame-route-totality}. This makes the same $E,T,H,C,P,N$ route total for surviving root operations and excludes representative selection, quotient equality elimination, erased derivation recovery, host quotient recursion, and $\mathsf{Quot.sound}$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary root nonimport ledger]
+\label{thm:quotient-soundness-boundary-root-nonimport-ledger}
+The root kernel ledger exported by a $\QuotientSoundnessBoundaryUp$ packet is exactly the refused representative surface $E,A,V$ together with the admitted $\psame$ transport surface $E,T,H,C,P,N$. It imports no quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+First combine root representative refusal with root $\psame$ transport admission, \autoref{thm:quotient-soundness-boundary-root-representative-refusal} and \autoref{thm:quotient-soundness-boundary-root-psame-transport-admission}. These two rows identify the negative ledger side $E,A,V$ and the surviving positive side $E,T,H,C,P,N$.
+
+Apply the kernel consumer audit triad, \autoref{thm:quotient-soundness-boundary-kernel-consumer-audit-triad}. It packages those two sides as the kernel-facing audit surface and records that no further quotient-soundness coordinate is exported.
+
+Finally cite public bridge non-escape and psame-only descent, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape} and \autoref{thm:quotient-soundness-boundary-psame-only-descent}. The bridge and descent rows exclude quotient carriers, representative selectors, erased derivation recovery, host quotient recursion, and $\mathsf{Quot.sound}$, so the ledger is a nonimport ledger rather than a quotient extension.
+\end{proof}
+
 \closureat{QuotientSoundnessBoundaryUp}{seedStr}
 \closureat{QuotientSoundnessBoundaryUp}{obligationStr}
 \closureat{QuotientSoundnessBoundaryUp}{scopedStr}
