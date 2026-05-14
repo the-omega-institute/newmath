@@ -414,8 +414,14 @@ def _infer_refill_status(rec: dict) -> str:
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
             error = str(summary.get("error") or "").strip()
+            error_kind = str(summary.get("error_kind") or "").strip()
             if summary.get("ok"):
                 return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if error_kind.startswith("board_judge_unavailable"):
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed} kind={error_kind}"
+                )
             if "claude judge" in error.lower() or "codex fallback" in error.lower():
                 return (
                     "local_gap_fallback_judge_unavailable "
