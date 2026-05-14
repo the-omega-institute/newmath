@@ -61,3 +61,35 @@ The root seal threshold is \autoref{thm:cauchy-witness-ledger-root-seal-route-to
 
 The local naming threshold is \autoref{thm:cauchy-witness-ledger-root-namecert-threshold}. Together with \autoref{thm:cauchy-witness-ledger-real-completion-nonescape}, it keeps completion-facing reads inside the same finite route and excludes selected limits, quotient streams, host equality, countable choice, ambient completeness, hidden tails, and alternate seals. Thus the named Lean target is exactly the finite formal surface whose later checking must preserve those rows.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger four-face Real completion lock]
+\label{thm:cauchy-witness-ledger-four-face-real-completion-lock}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Its formal target surface factors through exactly the four Phase Real and Completion faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Thus every roadmap-exit consumer of the ledger reads the same four-face route and no route adds quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-witness-ledger-formal-target-surface}. It identifies the accepted formal surface with the finite route $Q,B,S,K,H,C,P,N$, so a consumer can expose only the budget, window, readback, Real-seal classifier, and structural rows already carried by $L$.
+
+Next apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autoref{thm:streamname-real-completion-four-object-exit-consumer-exhaustion}. These force the Real-completion exit route through the four displayed faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and exhaust every consumer read at that boundary.
+
+Finally use \autoref{thm:streamname-cauchy-witness-ledger-exit-saturation}. It attaches the Cauchy witness ledger to that same four-object exit packet through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Since neither the ledger surface nor the exit packet carries quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows, no second completion-facing route remains.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger budget-selector four-face exhaustion]
+\label{thm:cauchy-witness-ledger-budget-selector-four-face-exhaustion}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet, and let $F=(B_0,S_0,W,D,R,E,H_0,C_0,P_0,N_0)$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet whose selected finite windows $W$ are the same $\StreamNameUp$ window face consumed by $L$. Then every Phase Real and Completion consumer of $L$ factors through the selector route of $F$ and the same terminal four-face packet
+$$
+\FiniteObservationBudgetSelectorUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Thus passing through the observation-budget selector preserves the terminal route already locked by $L$: the consumer receives the selected window face, the dyadic ledger face, the regular-rational readback face, and the Real seal face, but no quotient stream, selected limit, host sequence equality, ambient Real completeness, metric-completeness datum, countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-witness-ledger-four-face-real-completion-lock}. It places every roadmap-exit consumer of $L$ on the four Phase Real and Completion faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Move to the selector packet. By \autoref{thm:finite-observation-budget-selector-budget-route-determinacy}, the accepted packet $F$ determines one finite route from its budget row through the selected schedule, window family, dyadic ledger, regular readback, and seal. By \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, every dyadic observation exported by $D$ is already read from the selected finite windows $W$.
+
+Use the shared-window hypothesis to identify $W$ with the $\StreamNameUp$ window face consumed by $L$. The selector therefore supplies exactly the same window and dyadic-ledger coordinates that the ledger route exposes before the $\RegSeqRatUp$ readback and $\RealUp$ seal are public.
+
+Finally apply \autoref{thm:streamname-open-phase-four-face-terminality}. Once the shared window, dyadic ledger, readback, seal, and displayed support rows agree, the Phase Real and Completion consumer has no second terminal route. Since neither the selector route nor the ledger route carries quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows, passing through $\FiniteObservationBudgetSelectorUp$ preserves the same terminal four-face packet.
+\end{proof}

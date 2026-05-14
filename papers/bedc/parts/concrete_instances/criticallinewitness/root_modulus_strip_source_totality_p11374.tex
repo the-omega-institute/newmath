@@ -1,0 +1,97 @@
+\begin{theorem}[CriticalLineWitness modulus-strip source totality]
+\label{thm:critical-line-witness-modulus-strip-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Before any downstream $\mathsf{RH}$-refusal consumer reads $W$, the root read
+exposes the fixed critical-line source row $Z$, zero-strip row $S$, rational
+modulus and budget rows $M,R,Q$, componentwise $\hsame$ transport row $H$,
+displayed $\Cont$ route $C$, $\Pkg$ provenance row $P$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ row $N$. Thus every such consumer enters
+the witness through the finite root surface
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with the source-route totality surface
+\autoref{thm:critical-line-witness-source-route-totality}. It places the
+supplied $\BHist$ source row, fixed strip row, rational modulus row, transport,
+route, provenance, and local naming row before any critical-line consumer can
+inspect the packet.
+
+Next use the root bridge readback totality theorem
+\autoref{thm:critical-line-witness-root-bridge-readback-totality}. The bridge
+readback consumes the same root-source, comparison-ledger, fixed-tuple,
+transport, replay, provenance, and naming coordinates, so the consumer has no
+second entry point outside $Z,S,M,R,Q,H,C,P,N$.
+
+Finally apply the zero-strip NameCert completion surface
+\autoref{thm:critical-line-witness-namecert-obligation-package}. The carrier,
+zero-strip source, zeta-comparison ledger, refusal boundary, and downstream
+readback rows are all obligations of the same local naming packet, giving the
+announced finite root surface before an $\mathsf{RH}$-refusal read begins.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness finite budget readback determinacy]
+\label{thm:critical-line-witness-finite-budget-readback-determinacy}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ and
+$W'=(Z',S',M',R',Q',H',C',P',N')$ be accepted $\CriticalLineWitnessUp$ packets.
+If the displayed modulus rows, zero-strip rows, rational budget rows,
+componentwise $\hsame$ transport rows, $\Cont$ routes, $\Pkg$ provenance rows,
+and local $\NameCert_{\CriticalLineWitnessUp}$ rows agree, then $W$ and $W'$
+present the same finite root readback surface to every downstream
+$\mathsf{RH}$-refusal consumer. In particular the consumer cannot distinguish
+the two reads by asking for a different source, modulus, strip, budget,
+transport, route, provenance, or local naming row.
+\end{theorem}
+\begin{proof}
+Read both packets through
+\autoref{thm:critical-line-witness-source-route-totality}. Each accepted
+packet is exposed only as its finite route
+$Z,S,M,R,Q,H,C,P,N$ or $Z',S',M',R',Q',H',C',P',N'$ before a downstream
+consumer reads it.
+
+The assumed agreement identifies the displayed modulus, strip, rational
+budget, transport, route, provenance, and naming coordinates. The root bridge
+readback theorem
+\autoref{thm:critical-line-witness-root-bridge-readback-totality} then leaves
+no bridge-visible coordinate outside those displayed rows.
+
+It remains to compare the refusal-facing surface. The zero-strip NameCert
+completion theorem
+\autoref{thm:critical-line-witness-namecert-obligation-package} binds the
+carrier, zero-strip source, comparison ledger, refusal boundary, and downstream
+readback rows to the same local naming packet. Hence the two accepted packets
+determine the same finite readback surface for every allowed consumer.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root consumer non-escape]
+\label{thm:critical-line-witness-root-consumer-nonescape}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, no
+downstream root consumer that reads only the displayed finite rows
+$Z,S,M,R,Q,H,C,P,N$ extracts a completed $\mathsf{RH}$ proof, an analytic
+continuation theorem, a host zero oracle, a quotient representative, host
+equality, ambient completeness, or an unbounded critical-line search. Every
+positive read remains inside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert$, finite modulus, and zero-strip rows of $W$.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:critical-line-witness-root-bridge-readback-totality}. It states
+that root bridge readback is exhausted by
+$Z,S,M,R,Q,H,C,P,N$ and exports no $\mathsf{RH}$ proof, host zero classifier,
+analytic-continuation theorem, quotient representative, host equality, or
+ambient completeness coordinate.
+
+The source-route totality theorem
+\autoref{thm:critical-line-witness-source-route-totality} identifies the
+positive rows that remain readable: the supplied source, fixed strip, rational
+modulus, zeta-continuation witness, comparison ledger, transport, route,
+provenance, and local naming rows.
+
+Finally use
+\autoref{thm:critical-line-witness-namecert-obligation-package}. Its refusal
+boundary is part of the same local NameCert surface, while its carrier,
+source, comparison, and downstream readback rows account for every allowed
+finite read. Thus a root consumer stays inside the displayed packet and cannot
+turn those rows into an unbounded search or an off-packet analytic witness.
+\end{proof}

@@ -171,6 +171,24 @@ Next apply the observer-locality lattice link. That theorem identifies the same 
 Finally use the consumption bridge of \autoref{thm:histtimestream-observer-locality-consumption-bridge}. Since the consumed packet has no coordinate for a global clock, host time index, inter-Hist synchronization, or rate measurement, the bridge route cannot add any such row downstream.
 \end{proof}
 
+\begin{theorem}[HistTimeStream observer-locality transport]
+\label{thm:histtimestream-observer-locality-transport}
+Let
+$$
+Q=(H,T,S,C,L,P,N)
+$$
+be an accepted $\HistTimeStreamUp$ packet. If the public export of $Q$ is consumed by $\ObserverHistoryIdentityUp$ or $\ObserverLocalityTransportUp$, then the transport through the sibling observer-locality surfaces carries exactly the displayed local-time rows $H,T,S,C,L,P,N$. It preserves the no-global-clock ledger $L$ and cannot add inter-Hist synchronization, host-indexed time, temporal-rate rows, or hidden routes.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of \autoref{def:histtimestream-namecert-carrier}. The accepted packet has only the source $\Hist$ row $H$, finite $\Eone/\Ezero$ schedule $T$, start-at-empty ledger $S$, displayed $\Cont$ replay row $C$, componentwise $\hsame$ and no-global-clock ledger $L$, package provenance row $P$, and local $\NameCert$ row $N$.
+
+Apply the public export theorem, \autoref{thm:histtimestream-public-export}. It identifies those seven rows as the whole public local-time stream surface and excludes a global clock, host time index, inter-Hist synchronization row, temporal-rate claim, or hidden route from the exported packet.
+
+Next use the observer-locality lattice link, \autoref{thm:histtimestream-observer-locality-lattice-link}. The sibling $\ObserverHistoryIdentityUp$ and $\ObserverLocalityTransportUp$ surfaces consume the exported local-time rows as the same finite stream, so the consumer receives no additional time coordinate before transport.
+
+Finally apply the route order of \autoref{thm:histtimestream-observer-locality-bridge-route}. Since the route reaches the sibling observer-locality surfaces only after $H,T,S,C,L,P,N$ have been read, the resulting transport preserves the no-global-clock ledger and cannot attach any forbidden synchronization, host-indexed time, rate, or hidden-route row.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
