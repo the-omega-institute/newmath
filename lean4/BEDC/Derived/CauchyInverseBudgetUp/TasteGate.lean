@@ -230,6 +230,9 @@ instance cauchyInverseBudgetChapterTasteGate : ChapterTasteGate CauchyInverseBud
     intro x y hxy heq
     exact hxy (cauchyInverseBudgetToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CauchyInverseBudgetUp :=
+  cauchyInverseBudgetChapterTasteGate
+
 instance cauchyInverseBudgetFieldFaithful : FieldFaithful CauchyInverseBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
