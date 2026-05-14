@@ -120,3 +120,23 @@ Next apply \autoref{thm:zeta-continuation-witness-zero-route-input-package}. Zer
 
 Finally combine \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}, \autoref{thm:zeta-continuation-witness-public-export-factorization}, and \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. These rows keep Gamma-facing and contour-facing reads source-locked inside the same packet and rule out RH predicates, zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates.
 \end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public export route lock]
+\label{thm:zeta-continuation-witness-public-export-route-lock}
+Every public critical-strip, zero-facing, contour-facing, or Gamma-facing consumer of an accepted $\ZetaContinuationWitnessUp$ packet must first read the source-locked rows
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Agreement on those rows and support data determines the same public export route.
+
+The route lock exports no RH predicate, no non-trivial-zero locator, no global zero classifier, no off-packet analytic branch, and no completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:zeta-continuation-witness-carrier-row}, \autoref{thm:zeta-continuation-witness-contour-route}, and \autoref{thm:zeta-continuation-witness-obligation-triad}. These results put the carrier coordinates, contour-facing route, and root-facing obligation packet on the same displayed rows $B,E,A,P,F,T,G,H,C,R,N$.
+
+Next use \autoref{thm:zeta-continuation-witness-public-export} and \autoref{thm:zeta-continuation-witness-zero-route-input-package}. The public export and zero-route input package say that critical-strip and zero-facing consumers receive only the finite witness packet and its displayed BEDC support.
+
+For Gamma-facing and contour-facing reads, apply \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}, \autoref{thm:zeta-continuation-witness-public-zero-route-factorization}, and \autoref{thm:zeta-continuation-witness-public-contour-gamma-separation}. These theorems keep Gamma data and contour data on the same public rows and remove off-packet analytic branches, completed Gamma certificates, RH predicates, non-trivial-zero locators, and global zero classifiers.
+
+Finally invoke \autoref{thm:zeta-continuation-witness-public-source-lock-handoff}. Since every public consumer must receive the source-locked packet before using it as continuation evidence, two accepted packets that agree on the rows and support data determine the same public export route.
+\end{proof}
