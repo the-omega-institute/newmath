@@ -580,9 +580,11 @@ DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
 def git_sync_dev() -> bool:
-    """Fetch + merge the upstream integration branch (origin/codex-auto-dev
-    by default — see dev_sync_resolver.UPSTREAM_BRANCH) with claude-driven
-    conflict resolution.
+    """Fetch + merge the upstream integration branch when explicitly enabled.
+
+    This is opt-in for the BEDC supervisor. The paper-native pipeline must not
+    pull formalization-lane files as a side effect of refilling BOARD or writing
+    paper content.
 
     Spawned as a subprocess so the resolver's module constants (upstream
     branch, validation timeouts, claude path) are read fresh from disk on
@@ -913,24 +915,41 @@ def merge_current_upstream_for_push(branch: str) -> bool:
 def retry_pending_network_push() -> bool:
     """Resume a push that may have failed during a network outage.
 
-    This also works when the checkpoint file is absent: if the branch is
-    ahead of its upstream, the supervisor has a clean, deterministic action
-    to take. If the branch is behind as well, leave conflict-aware sync to
-    the normal dev-sync path rather than forcing a blind push.
+    A resume is only valid for the exact HEAD recorded by the checkpoint.
+    Without that guard, an old local merge can be pushed later after the branch
+    has deliberately been moved back to a paper-native BEDC tip.
     """
     branch = current_branch_name()
     if not branch:
         return False
+    checkpoint: dict = {}
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            loaded = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                checkpoint = loaded
+        except (OSError, json.JSONDecodeError):
+            checkpoint = {}
+    if not checkpoint:
+        return False
+    checkpoint_head = str(checkpoint.get("head") or "").strip()
+    head = current_head()
+    if checkpoint_head and checkpoint_head != head:
+        supervisor_log(
+            "network-resume: clearing stale checkpoint "
+            f"head={checkpoint_head[:12]} current={head[:12]}"
+        )
+        _clear_network_resume_checkpoint()
+        return False
     relation = ahead_behind_upstream()
     if relation is None:
-        if NETWORK_RESUME_FILE.exists():
-            _write_network_resume_checkpoint(
-                "upstream_unknown",
-                branch,
-                "could not resolve upstream while checking pending network resume",
-                head=current_head(),
-            )
-            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        _write_network_resume_checkpoint(
+            "upstream_unknown",
+            branch,
+            "could not resolve upstream while checking pending network resume",
+            head=head,
+        )
+        supervisor_log("network-resume: upstream unknown; will retry next tick")
         return False
     ahead, behind = relation
     if ahead == 0:
@@ -939,28 +958,19 @@ def retry_pending_network_push() -> bool:
             _clear_network_resume_checkpoint()
         return False
     if behind:
-        supervisor_log(
-            f"network-resume: branch is ahead={ahead} and behind={behind}; "
-            "merging current upstream before push"
+        reason = (
+            f"branch is ahead={ahead} and behind={behind}; "
+            "auto-merge disabled for paper-native BEDC supervisor"
         )
-        if not merge_current_upstream_for_push(branch):
-            reason = f"branch is ahead={ahead} and behind={behind}; upstream merge failed"
-            _write_network_resume_checkpoint(
-                "push_blocked_diverged",
-                branch,
-                reason,
-                head=current_head(),
-                upstream=current_upstream(),
-            )
-            supervisor_log(f"network-resume: {reason}")
-            return False
-        relation = ahead_behind_upstream()
-        if relation is None:
-            return False
-        ahead, behind = relation
-        if behind:
-            supervisor_log(f"network-resume: still behind={behind} after upstream merge")
-            return False
+        _write_network_resume_checkpoint(
+            "push_blocked_diverged",
+            branch,
+            reason,
+            head=current_head(),
+            upstream=current_upstream(),
+        )
+        supervisor_log(f"network-resume: {reason}")
+        return False
     supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
     push = _git(["push", "origin", branch], capture=False)
     if push.returncode != 0:
@@ -1029,19 +1039,19 @@ def commit_and_push_if_changed() -> bool:
         if relation:
             ahead, behind = relation
             if behind:
-                supervisor_log(
-                    f"auto-commit: branch behind upstream by {behind}; "
-                    "merging before push"
+                reason = (
+                    f"branch behind upstream by {behind}; "
+                    "auto-merge disabled for paper-native BEDC supervisor"
                 )
-                if not merge_current_upstream_for_push(branch):
-                    _write_network_resume_checkpoint(
-                        "push_blocked_diverged",
-                        branch,
-                        f"branch behind upstream by {behind}; upstream merge failed",
-                        head=current_head(),
-                        upstream=current_upstream(),
-                    )
-                    return False
+                supervisor_log(f"auto-commit: {reason}")
+                _write_network_resume_checkpoint(
+                    "push_blocked_diverged",
+                    branch,
+                    reason,
+                    head=current_head(),
+                    upstream=current_upstream(),
+                )
+                return False
         push = _git(["push", "origin", branch], capture=False)
         if push.returncode != 0:
             supervisor_log(f"auto-commit: push failed rc={push.returncode}")
@@ -1175,7 +1185,10 @@ def main() -> int:
                              "main.pdf attached at project level, which is more robust). "
                              "Set to e.g. 'papers/bedc/main.pdf' to enable userscript-side upload.")
     parser.add_argument("--no-auto-commit", action="store_true")
-    parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
+    parser.add_argument("--dev-sync", action="store_true",
+                        help="Opt in to upstream integration sync before discovery triggers.")
+    parser.add_argument("--no-dev-sync", action="store_true",
+                        help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set.")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
@@ -1184,9 +1197,17 @@ def main() -> int:
         STOP_FILE.unlink()
 
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
-    supervisor_log(f"supervisor starting (parallel={args.parallel}, claude_review={'off' if args.no_claude_review else 'on'}, auto_commit={'off' if args.no_auto_commit else 'on'})")
+    dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
+    no_dev_sync = not dev_sync_enabled
 
-    if not args.no_dev_sync:
+    supervisor_log(
+        f"supervisor starting (parallel={args.parallel}, "
+        f"claude_review={'off' if args.no_claude_review else 'on'}, "
+        f"auto_commit={'off' if args.no_auto_commit else 'on'}, "
+        f"dev_sync={'on' if dev_sync_enabled else 'off'})"
+    )
+
+    if dev_sync_enabled:
         try:
             git_sync_dev()
         except Exception as exc:
@@ -1255,15 +1276,15 @@ def main() -> int:
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
-                trigger_probe(no_dev_sync=args.no_dev_sync)
+                trigger_probe(no_dev_sync=no_dev_sync)
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
-                trigger_curriculum_probe(no_dev_sync=args.no_dev_sync)
+                trigger_curriculum_probe(no_dev_sync=no_dev_sync)
                 last_curriculum_ts = _now()
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
-                trigger_paper_review(no_dev_sync=args.no_dev_sync)
+                trigger_paper_review(no_dev_sync=no_dev_sync)
                 last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
@@ -1274,7 +1295,7 @@ def main() -> int:
             since_curator_h = (_now() - last_curator_ts) / 3600.0
             if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
                 supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
-                trigger_curator(no_dev_sync=args.no_dev_sync)
+                trigger_curator(no_dev_sync=no_dev_sync)
                 last_curator_ts = _now()
                 last_completed_count = done_now
 
