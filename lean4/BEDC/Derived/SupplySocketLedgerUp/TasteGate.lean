@@ -203,6 +203,9 @@ instance supplySocketLedgerChapterTasteGate : ChapterTasteGate SupplySocketLedge
     intro x y hxy heq
     exact hxy (supplySocketLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate SupplySocketLedgerUp :=
+  supplySocketLedgerChapterTasteGate
+
 theorem SupplySocketLedgerTasteGate_single_carrier_alignment :
     supplySocketLedgerFromEventFlow
         (supplySocketLedgerToEventFlow
