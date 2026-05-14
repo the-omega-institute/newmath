@@ -70,4 +70,29 @@ theorem HaltingObstructionTraceCoverage [AskSetup] [PackageSetup]
     ⟨traceReadUnary, endpointUnary, traceTransportRead, readPolicyEndpoint, provenancePkg,
       endpointPkg⟩
 
+theorem HaltingObstructionSelfReferenceRouteDeterminacy [AskSetup] [PackageSetup]
+    {cert input trace self policy transport route provenance name selfRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingObstructionCarrier cert input trace self policy transport route provenance name
+        bundle pkg →
+      Cont input trace selfRead →
+        Cont selfRead self endpoint →
+          PkgSig bundle endpoint pkg →
+            UnaryHistory selfRead ∧ UnaryHistory endpoint ∧ Cont cert input trace ∧
+              Cont input trace selfRead ∧ Cont selfRead self endpoint ∧
+                Cont trace self route ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier inputTraceRead readSelfEndpoint endpointPkg
+  obtain ⟨_certUnary, inputUnary, traceUnary, selfUnary, _policyUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, certInputTrace, traceSelfRoute,
+    _routePolicyName, provenancePkg⟩ := carrier
+  have selfReadUnary : UnaryHistory selfRead :=
+    unary_cont_closed inputUnary traceUnary inputTraceRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed selfReadUnary selfUnary readSelfEndpoint
+  exact
+    ⟨selfReadUnary, endpointUnary, certInputTrace, inputTraceRead, readSelfEndpoint,
+      traceSelfRoute, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.HaltingObstructionUp

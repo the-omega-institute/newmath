@@ -494,6 +494,45 @@ so no open-cover compactness, host metric primitive, selected center, quotient
 point equality, or external modulus remains available.
 \end{proof}
 
+\begin{theorem}[Compact net modulus selector selected precision exactness]
+\label{thm:compact-net-modulus-selector-selected-precision-exactness}
+For an accepted $\CompactNetModulusSelectorUp$ carrier
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N),
+$$
+a downstream $\UniformModulusUp$ consumer reads the selected precision row $D$
+if and only if the same visible tolerance row $E$, finite probe spine
+$\mathcal{P}$, coverage row $C$, subordinate radius rows $R$,
+pointwise-modulus rows $M$, fold row $F$, transports $H$, routes $Q$,
+provenance $P$, and local $\NameCert$ row $N$ are displayed. The read is
+therefore completely determined by those visible rows and exports no
+open-cover compactness, host minimum, quotient point equality,
+choice-selected center, or external modulus function.
+\end{theorem}
+\begin{proof}
+For necessity, start with
+\autoref{thm:compact-net-modulus-selector-uniform-request-factorization}. Any
+downstream $\UniformModulusUp$ consumer must factor through the displayed
+selector route before it can read $D$.
+
+Apply \autoref{thm:compact-net-modulus-selector-namecert-obligations}. The
+carrier, compact-net, pointwise-modulus, lower-bound fold, transport, route,
+provenance, and local naming clauses keep
+$E,\mathcal{P},C,R,M,F,H,Q,P,N$ attached to the same accepted packet.
+
+For sufficiency, use \autoref{thm:compact-net-modulus-selector-fold-soundness}.
+Once the finite probe spine, radius ledger, pointwise-modulus rows, and fold
+row are displayed inside the same packet, $D$ is the selected finite lower-bound
+read rather than a host minimum.
+
+Finally apply \autoref{thm:compact-net-modulus-selector-ledger-route-exactness}
+and \autoref{thm:compact-net-modulus-selector-uniform-request-factorization}.
+The ledger route and uniform request factorization carry exactly that visible
+packet to the downstream consumer, so open-cover compactness, host minima,
+quotient point equality, choice-selected centers, and external modulus
+functions have no coordinate from which to determine $D$.
+\end{proof}
+
 \begin{theorem}[CompactNetModulusSelector finite-net budget route]
 \label{thm:compact-net-modulus-selector-finite-net-budget-route}
 For an accepted $\CompactNetModulusSelectorUp$ packet
