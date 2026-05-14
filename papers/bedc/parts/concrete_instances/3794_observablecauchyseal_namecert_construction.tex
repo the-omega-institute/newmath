@@ -72,6 +72,22 @@ Apply the window factorization theorem. Before $S$ can be consumed, the route ha
 The structural rows $H,C,P,N$ carry only transport, replay, provenance, and local naming for that finite route. Hence the RealUp consumer receives the displayed finite observation handoff and no additional completion coordinate.
 \end{proof}
 
+\begin{theorem}[Observable Cauchy seal L10 dependency lattice]
+\label{thm:observable-cauchy-seal-l10-dependency-lattice}
+Every accepted $\ObservableCauchySealUp$ packet consumes the L10 route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} in the displayed order
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+No Real-facing consumer may bypass the finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ readback ledger, or the $\RegSeqRatUp$ handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:observable-cauchy-seal-carrier}. The rows $E,W,D,R,S,H,C,P,N$ are the only public coordinates of the packet, with $W$ naming the finite stream window, $D$ recording the dyadic readbacks and radii, $R$ recording the regular-rational handoff, and $S$ recording the RealUp seal row.
+
+Apply \autoref{thm:observable-cauchy-seal-window-factorization}. Any public read of $S$ factors through the route $E \longmapsto W \longmapsto D \longmapsto R \longmapsto S$, while $H,C,P,N$ only transport, replay, package, and name that same finite route. The named chapter route is therefore the horizontal dependency lattice from \StreamNameUp to \DyadicRatCoreUp, then to \RegSeqRatUp, and finally to \RealUp.
+
+Apply \autoref{thm:observable-cauchy-seal-real-handoff} to the Real-facing consumer and \autoref{thm:observable-cauchy-seal-nonescape} to the attempted exits. Since the carrier contains no quotient stream equality, host real equality, ambient completeness witness, completed real value, or unrecorded Cauchy tail, the consumer cannot reach $S$ by a route outside the finite window, dyadic ledger, and RegSeqRat handoff.
+\end{proof}
+
 \begin{theorem}[Observable Cauchy seal non-escape]
 \label{thm:observable-cauchy-seal-nonescape}
 An accepted $\ObservableCauchySealUp$ packet exports no real-completeness theorem, no quotient stream equality, no host real equality, no countable-choice selector, and no unrecorded Cauchy tail. Any attempted consumer omitting $E$, $W$, $D$, or $R$ is outside the packet and cannot export the $\RealUp$ seal row $S$.

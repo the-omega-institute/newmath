@@ -210,6 +210,9 @@ instance inscriptionPointChapterTasteGate : ChapterTasteGate InscriptionPointUp 
     intro x y hxy heq
     exact hxy (inscriptionPointToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionPointUp :=
+  inscriptionPointChapterTasteGate
+
 theorem InscriptionPointTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionPointDecodeBHist (inscriptionPointEncodeBHist h) = h) ∧
       (∀ x : InscriptionPointUp,
