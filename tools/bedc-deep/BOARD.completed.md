@@ -18989,3 +18989,90 @@ Rationale:
 This belongs as an existing-chapter obligation theorem for the MetaCICCriticalPath concrete packet. The paper already has the carrier, the consistency handoff, and the obstruction boundary, but it lacks the single NameCert obligation theorem that states the exact local surface and the non-escape conditions together. It is distinct from the completed MetaCIC discharge-obligation BOARD items, which target specific proof-obligation names rather than this critical-path packet surface.
 
 ---
+
+### B-741 - KernelAcceptanceWitness public export package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KernelAcceptanceWitness public export package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+Under the KernelAcceptanceWitness NameCert setup, if K=(G,A,E,Q,R,H,C,P,N) is an accepted KernelAcceptanceWitness packet satisfying candidate-to-acceptance matching, environment replay, purity-query visibility, and refusal separation, then the public BEDC acceptance-witness export consists exactly of G,A,E,Q,R,H,C,P,N and exports no refused or unresolved row as accepted content.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2358_kernelacceptancewitness_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: project the nine-row KernelAcceptanceWitness carrier, use the local NameCert obligations to identify the accepted, environment, query, refusal, transport, route, provenance, and naming rows, then compose ledger purity with refusal separation to eliminate any route that exports R-side evidence as accepted content.
+- `ripeness_risk`: low, the source chapter is short, non-hub, and explicitly names this public export package as the next paper-axis step.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim is a finite packet projection and boundary-separation theorem over displayed certificate rows, with no semantic kernel-completeness or infinite construction requirement.
+- `witness_extractor`: acceptance_witness_packet_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: project the nine-row KernelAcceptanceWitness carrier, use the local NameCert obligations to identify the accepted, environment, query, refusal, transport, route, provenance, and naming rows, then compose ledger purity with refusal separation to eliminate any route that exports R-side evidence as accepted content.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Generated-candidate row G, accepted-declaration row A, environment-ledger row E, axiom-query row Q, refusal-boundary row R, transport row H, continuation row C, provenance row P, and local naming row N.
+- `dependency_trace`: Uses def:kernel-acceptance-witness-carrier, thm:kernel-acceptance-witness-namecert-obligations, thm:kernel-acceptance-witness-ledger-purity, and thm:kernel-acceptance-witness-refusal-separation.
+- `oracle_mode`: proof_search
+Rationale:
+This is a BEDC-native finite certificate export theorem in an existing concrete_instances chapter. It is not a Lean marker, closurestatus edit, or general discussion item; it would add a theorem-level public export row that packages existing acceptance, environment, query, and refusal boundaries into the chapter's named next paper-axis step. It is close to existing ledger-purity and refusal-separation results, so novelty is moderate rather than high, but it is not already labeled in the paper and does not duplicate an existing BOARD title.
+
+---
+
+### B-743 - Polynomial normalized addition commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial normalized addition commutativity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a scalar ring supplies additive commutativity together with the polynomial raw-add and trim data, then every pair of finite coefficient spines p and q satisfies PolySame_R(PolyAdd_R(p,q), PolyAdd_R(q,p)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, raw-add commutativity and PolyAdd are already present and the landing files are below the line cap
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem only repackages finite coefficient-spine raw-add commutativity through trim normalization and uses no search, limit, quotient, or choice principle.
+- `witness_extractor`: finite-spine structural swap plus trim-normalization witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the existing raw-add structural swap, scalar additive commutativity row, PolyAdd definition, PolySame classifier, and trim idempotence/zero-tail normalization rows.
+- `dependency_trace`: Uses def:polynomial-raw-add-comparison-data, def:polynomial-stability-certificate, thm:polynomial-raw-add-commutativity-from-scalar-additive-commutativity, and the PolyAdd definition in papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a small but real normalized-polynomial algebra gap: the paper already has raw-add commutativity and defines PolyAdd as trimmed raw addition, while the existing BOARD index contains polynomial multiplication, raw addition associativity, and distributivity targets but no normalized PolyAdd commutativity target. It is concrete, local to the polynomial add/trim files, and should close by applying raw commutativity to trimmed representatives and folding back PolySame.
+
+---
