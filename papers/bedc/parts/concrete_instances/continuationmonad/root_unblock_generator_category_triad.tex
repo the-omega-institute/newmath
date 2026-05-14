@@ -66,10 +66,23 @@ The downstream package of \autoref{thm:continuation-monad-downstream-unblock-rou
 \label{thm:continuation-monad-category-generator-exactness}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the $\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face are exact on the same displayed rows. The category face reads precisely the continuation tails and transport ledger exposed by $Z$, and the generator face refuses precisely the unit, bind, and continuation generators not displayed by those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_generator\_exactness}
 \begin{proof}
 Apply \autoref{thm:continuation-monad-generator-category-triad}. It already places the CategoryUp hom-carrier surface and the GeneratorClosureUp refusal surface on the same $A,B,C,f,g,u,H,K,L,N$ packet.
 
 Use \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} to identify which unit and bind reads are available. The schedule is the displayed continuation ledger, so exactness is measured against $u,f,g,H,K,L,N$ rather than against host composition.
 
 Finally use \autoref{thm:continuation-monad-downstream-unblock-route-package}. The downstream route exports exactly the category hom-carrier reading and generator refusal reading of the same packet, which proves that the two faces are exact on the displayed rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad bind-Cont unit coherence]
+\label{thm:continuation-monad-bind-cont-unit-coherence}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the unit tail $u$, bind tails $f,g$, $\CategoryUp$ hom-carrier face, and $\GeneratorClosureUp$ refusal face are coherent exactly when every displayed bind read is a $\Cont$-route read through $H,K,L,N$. The packet exports no quotient Kleisli arrow, host function composition, ambient hom set, or detached unit law beyond those displayed routes.
+\end{theorem}
+\begin{proof}
+Start with root bind schedule exhaustion. It says that every root unit or bind schedule read is exhausted by $u,f,g,H,K,L,N$ and refuses host function composition, quotient Kleisli arrows, ambient hom sets, and unlisted generator rules.
+
+Apply the generator-category triad. The $\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face are readings of the same displayed continuation packet, so the category and generator sides do not introduce an extra bind source.
+
+Use category-generator exactness and the downstream unblock route package. They identify the exported downstream surface with the same hom-carrier reading, generator refusal reading, and $H,K,L,N$ route rows. Hence bind-Cont unit coherence is exactly the condition that displayed bind reads pass through those $\Cont$ routes.
 \end{proof}
