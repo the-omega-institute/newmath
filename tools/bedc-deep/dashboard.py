@@ -857,6 +857,7 @@ def render_reject_clusters() -> str:
     if not TARGETS_DIR.exists():
         return "  (no targets dir)"
     counts: dict[str, int] = {}
+    examples: dict[str, str] = {}
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
@@ -867,28 +868,61 @@ def render_reject_clusters() -> str:
         reasons = list(d.get("rejection_reasons") or [])
         reasons.extend(d.get("compile_errors") or [])
         for r in reasons:
-            r_low = (r or "").lower()
-            cat = "other"
-            m = re.search(r"item\s*(\d+)", r_low)
-            if m:
-                cat = f"item_{m.group(1)}"
-            elif "duplicate \\leanchecked" in r_low or "duplicate \\leantarget" in r_low:
-                cat = "duplicate_lean_marker"
-            elif "build invariant" in r_low:
-                cat = "build_invariant"
-            elif "undefined control sequence" in r_low or "undefined macro" in r_low:
-                cat = "undefined_macro"
-            elif "content duplication" in r_low:
-                cat = "content_duplication"
-            elif "non-latex" in r_low or "trailing" in r_low:
-                cat = "non_latex_trailing"
+            cat = _stage2_reject_category(str(r or ""))
             counts[cat] = counts.get(cat, 0) + 1
+            examples.setdefault(cat, f.parent.name)
     if not counts:
         return "  (no Stage 2 rejects yet)"
     return "\n".join(
-        f"  {k:<24}  {v:>3}  {'█' * min(40, v * 2)}"
+        f"  {k:<38}  {v:>3}  {'█' * min(40, v * 2)}  example={examples.get(k, '-')}"
         for k, v in sorted(counts.items(), key=lambda kv: -kv[1])
     )
+
+
+def _stage2_reject_category(reason: str) -> str:
+    """Normalize Stage 2 checklist prose into audit-ready buckets."""
+    r_low = reason.lower()
+    if "duplicate \\leanchecked" in r_low or "duplicate \\leantarget" in r_low:
+        return "duplicate_lean_marker"
+    if "build invariant" in r_low:
+        return "build_invariant"
+    if "undefined control sequence" in r_low or "undefined macro" in r_low:
+        return "undefined_macro"
+    if "content duplication" in r_low:
+        return "content_duplication"
+    if "non-latex" in r_low or "trailing" in r_low:
+        return "non_latex_trailing"
+    if (
+        "800-line" in r_low
+        or "line cap" in r_low
+        or "far past the 800" in r_low
+        or "exceed 800 lines" in r_low
+    ):
+        return "line_cap"
+    if (
+        ("target" in r_low and "does not exist" in r_low)
+        or "not a concrete body file" in r_low
+    ):
+        return "bad_target_file"
+    if (
+        "transport-style" in r_low
+        or "without a transport-citation" in r_low
+        or "without a transport citation" in r_low
+        or "implicit transport step" in r_low
+    ):
+        return "implicit_transport_without_citation"
+    if "implicit inversion" in r_low or "no labeled theorem/lemma" in r_low:
+        return "missing_inversion_or_projection_lemma"
+    if "display math" in r_low or "undefined control sequence" in r_low:
+        return "latex_layout"
+    if "operatorname" in r_low or "macro convention" in r_low:
+        return "macro_convention"
+    if "no theorem" in r_low or "no \\begin{theorem}" in r_low or "contains json" in r_low:
+        return "missing_appendable_latex_environment"
+    m = re.search(r"item\s*(\d+)", r_low)
+    if m:
+        return f"checklist_item_{m.group(1)}"
+    return "other"
 
 
 def render_logic_audit_warnings() -> str:
