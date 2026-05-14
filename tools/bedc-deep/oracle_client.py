@@ -1059,12 +1059,20 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             # - verdict=="compile_failed": pdflatex broke; feed compile_errors as reasons
             # - other: nothing useful for codex; break
             corrective_reasons: list[str] = []
+            rejection_codes = list(getattr(result, "rejection_codes", None) or [])
             if result.verdict == "reject" and result.rejection_reasons:
                 corrective_reasons = list(result.rejection_reasons)
+                if rejection_codes:
+                    corrective_reasons = [
+                        "Stage 2 rejection code(s): " + ", ".join(rejection_codes),
+                        *corrective_reasons,
+                    ]
             elif result.verdict == "compile_failed":
                 ce = list(getattr(result, "compile_errors", None) or [])
                 if ce:
                     corrective_reasons = [
+                        "Stage 2 rejection code(s): "
+                        + ", ".join(rejection_codes or ["compile_failed"]),
                         "Stage 2 paper compile failed; pdflatex emitted these errors:",
                         *ce,
                         "Please fix the LaTeX so it compiles. Common patterns: "
@@ -1074,6 +1082,10 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                         "`$$ ... $$` display math not on its own line; undefined "
                         "control sequence (likely a typo or mashed token).",
                     ]
+            elif result.verdict == "reject" and rejection_codes:
+                corrective_reasons = [
+                    "Stage 2 rejection code(s): " + ", ".join(rejection_codes)
+                ]
             if not corrective_reasons:
                 break
 
@@ -1114,7 +1126,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 args=args,
                 target=target,
                 conversation_id=conversation_id,
-                rejection_reasons=result.rejection_reasons,
+                rejection_reasons=corrective_reasons,
                 out_dir=out_dir,
                 attempt=attempt,
             )
