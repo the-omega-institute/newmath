@@ -117,3 +117,36 @@ the sibling handoff cannot export quotient stream equality, selected limits,
 countable-choice selectors, host real equality, metric completeness, or ambient
 $\RealUp$ completeness.
 \end{proof}
+
+\begin{theorem}[StreamName ObserverFilter finite-window handoff]
+\label{thm:streamname-observer-filter-finite-window-handoff}
+Every accepted finite $\ObserverFilterUp$ selected-subhistory handoff to
+$\StreamNameUp$ enters the finite-window budget surface only through the
+selected row $S$, observer ledger $L$, componentwise transports $R$, continuation
+routes $C$, provenance $P$, and local name $N$. The omitted rows $O$ remain
+boundary witnesses in the observer-filter ledger. They do not supply RegSeqRat
+regularity, Real seal data, quotient stream equality, selected host limits,
+countable-choice selectors, or host real equality to the StreamName consumer.
+\end{theorem}
+\begin{proof}
+Start with the ObserverFilter handoff theorem
+\autoref{thm:observer-filter-streamname-handoff}. It identifies the
+stream-facing route of an accepted filter packet as the selected subhistory
+through $S,L,R,C,P,N$.
+
+Apply \autoref{thm:observer-filter-ledger-exactness}. The finite source ledger
+is exhausted by the selected side and the omitted side, and the omitted side is
+kept as $O$ rather than exported as StreamName data.
+
+Now use \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. Once
+the selected subhistory is read as a finite $\StreamNameUp$ window, every
+regularity, dyadic tolerance, and $\RealUp$ seal row must pass through the
+finite observation-budget surface.
+
+Finally apply \autoref{thm:streamname-regular-seal-sibling-route}. The sibling
+route carries no coordinates for quotient stream equality, selected host limits,
+countable-choice selectors, host real equality, metric completeness, or ambient
+$\RealUp$ completeness. Since $O$ is not part of the selected StreamName source,
+omitted rows remain boundary ledger witnesses and cannot serve any of those
+downstream roles.
+\end{proof}
