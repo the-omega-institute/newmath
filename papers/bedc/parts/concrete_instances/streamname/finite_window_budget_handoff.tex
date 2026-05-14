@@ -199,6 +199,45 @@ quotient streams, selected host limits, countable-choice selectors, host real
 equality, metric completeness, and ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[StreamName budget regular readback exhaustion]
+\label{thm:streamname-budget-regular-readback-exhaustion}
+Every accepted finite $\StreamNameUp$ window routed through
+$\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$ to a public
+$\RealUp$ consumer or a completion-facing $\CauchyLimitSealUp$ consumer is
+exhausted by the same finite readback route:
+$$
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory},\quad \ObservationBudgetLimiterUp,\quad
+\RegularCauchyTailBudgetUp,\quad \DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad \RealUp.
+$$
+The exhausted packet carries exactly the displayed $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ provenance of the StreamName budget handoff.
+It exports no quotient stream, selected host limit, countable-choice selector,
+host real equality, metric completeness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-budget-cauchy-limit-seal-pullback}. It already
+pulls every public $\RealUp$ read and every completion-facing
+$\CauchyLimitSealUp$ read back to the finite StreamName budget route through
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, the
+budget limiter, the regular tail budget, the dyadic core, the regular sequence
+row, and the Real seal.
+
+Next use \autoref{thm:streamname-budget-tail-regular-seal-lock}. The lock
+identifies the shared budget cap, tail threshold, finite window, dyadic ledger,
+readback, and seal rows as a single route with its visible $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Finally apply
+\autoref{thm:streamname-finite-window-regularity-real-seal-nonescape}. Its
+non-escape clause excludes quotient streams, selected host limits,
+countable-choice selectors, host real equality, metric completeness, and
+ambient completeness from any such consumer read. Since the pullback and the
+lock name the same carrier coordinates, the consumer has no remaining route
+outside the displayed finite packet.
+\end{proof}
+
 \begin{theorem}[StreamName ObserverFilter finite-window handoff]
 \label{thm:streamname-observer-filter-finite-window-handoff}
 Every accepted finite $\ObserverFilterUp$ selected-subhistory handoff to
