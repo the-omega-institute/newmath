@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for quotient stream equality, host real equality, selected limits, independent per-source seal exposure, hidden threshold replacement, or an ambient completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchySharedTailModulusUp.CauchySharedTailModulusTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy shared-tail modulus NameCert obligations]
 \label{thm:cauchy-shared-tail-modulus-namecert-obligations}
@@ -61,12 +62,57 @@ M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N.
 $$
 The Real seal $E$ is therefore a handoff from one shared dyadic tail threshold, not from two independent tail witnesses or an ambient completeness oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySharedTailModulusUp.CauchySharedTailModulusCarrier\_real\_seal\_handoff}
 \begin{proof}
 Read the Real seal coordinate in the carrier. The only $\RealUp$ seal row is $E$, and it appears after the paired request, threshold, dyadic, window, and readback rows.
 
 Apply \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}. It places both regular-Cauchy tails on the same threshold $\tau$ before either readback can reach the seal.
 
 Finally use the displayed transport, route, provenance, and naming rows $H,C,P,N$. They authenticate the same finite route and do not add an independent seal coordinate, so the completion-facing read is exactly the listed handoff.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus carrier admission exactness]
+\label{thm:cauchy-shared-tail-modulus-carrier-admission-exactness}
+An accepted $\CauchySharedTailModulusUp$ packet exposes exactly the carrier rows
+$$
+R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N.
+$$
+The local $\NameCert_{\CauchySharedTailModulusUp}$ admission read has no additional coordinate for quotient stream equality, host real equality, selected limits, independent per-source seal exposure, hidden threshold replacement, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-shared-tail-modulus-carrier}. The accepted packet is the displayed finite tuple, so carrier admission can expose precisely its two source rows, two extracted modulus rows, one shared threshold row, the dyadic ledger, two windows, two readbacks, the Real seal, transport, route, provenance, and local name.
+
+Apply the local NameCert obligations of \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}. They match the admission surface field by field and assign each row to one visible obligation: paired request exposure, shared-threshold exposure, paired window service, regular readback, Real seal ordering, componentwise stability, displayed replay, provenance, and local naming.
+
+Finally use the Real seal handoff of \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}. Any completion-facing read still factors through the same displayed rows, so a purported extra coordinate would not be read from the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus paired-window readback service]
+\label{thm:cauchy-shared-tail-modulus-paired-window-readback-service}
+For every accepted $\CauchySharedTailModulusUp$ packet, both finite windows $W_0,W_1$ and both regular readbacks $Q_0,Q_1$ are served from the one shared threshold row $\tau$ together with its dyadic ledger row $D$. No consumer reads either window or readback through a private threshold row.
+\end{theorem}
+\begin{proof}
+Start from carrier admission exactness, \autoref{thm:cauchy-shared-tail-modulus-carrier-admission-exactness}. The only threshold row available to the accepted packet is $\tau$, and the only dyadic threshold ledger row is $D$.
+
+Apply the synchronization theorem \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}. It orders the paired request rows $M_0,M_1$ before $\tau,D$, then routes both windows $W_0,W_1$ and both readbacks $Q_0,Q_1$ through that shared threshold service.
+
+The paired-window obligation and Real seal handoff keep the downstream read on the same row. Thus every window and readback consumer is served from $\tau,D$, and a private-threshold window is not a read of the displayed packet.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus route replay provenance]
+\label{thm:cauchy-shared-tail-modulus-route-replay-provenance}
+For an accepted $\CauchySharedTailModulusUp$ packet, the rows $H,C,P,N$ transport, replay, package, and name only the displayed route
+$$
+R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E.
+$$
+They do not certify an alternate route with hidden thresholds, independent Real seals, quotient stream equality, host real equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use carrier admission exactness to identify the public route inventory. The non-structural rows before $H,C,P,N$ are exactly $R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E$, so transport and replay have no hidden source outside this list.
+
+Next apply the local NameCert obligations. The transport row $H$ is componentwise, the replay row $C$ follows the displayed continuation routes, the provenance row $P$ packages the cited concrete BEDC surfaces, and $N$ names the local certificate.
+
+Finally compose with paired-window readback service and the Real seal handoff. Those two theorems force the middle route and the completion-facing seal to use the same $\tau,D,W_0,W_1,Q_0,Q_1,E$ path, so $H,C,P,N$ certify only the displayed route.
 \end{proof}
 
 \begin{theorem}[Cauchy shared-tail modulus paired-window obligation]
@@ -137,7 +183,7 @@ The Lean follow-up must create \texttt{lean4/BEDC/Derived/CauchySharedTailModulu
 \begin{closurestatus}{\CauchySharedTailModulusUp}
   \constructivestory{A $\CauchySharedTailModulusUp$ packet is generated from two regular-Cauchy source rows, extracted modulus rows, one shared dyadic threshold, a dyadic tolerance ledger, paired finite windows, paired regular readbacks, a Real seal handoff row, componentwise transports, displayed replay, provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-shared-tail-modulus-carrier}, \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}, \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}, \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}, \autoref{thm:cauchy-shared-tail-modulus-falsifiable-prediction}, and the independence witness bind the seed surface for shared-tail synchronization before Real seal exposure.}
+  \scopeclosed{\autoref{def:cauchy-shared-tail-modulus-carrier}, \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}, \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}, \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}, \autoref{thm:cauchy-shared-tail-modulus-carrier-admission-exactness}, \autoref{thm:cauchy-shared-tail-modulus-paired-window-readback-service}, \autoref{thm:cauchy-shared-tail-modulus-route-replay-provenance}, \autoref{thm:cauchy-shared-tail-modulus-falsifiable-prediction}, and the independence witness bind the seed surface for shared-tail synchronization before Real seal exposure.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
