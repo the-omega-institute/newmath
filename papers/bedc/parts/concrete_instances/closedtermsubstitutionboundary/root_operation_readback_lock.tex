@@ -1,0 +1,47 @@
+\begin{theorem}[Closed-term substitution boundary root depth-value lock]
+\label{thm:closed-term-substitution-boundary-root-depth-value-lock}
+Every root operation consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must read the source term row $T$, value row $V$, depth row $d$, source closedness row $C_{\mathsf{src}}$, and value closedness row $C_{\mathsf{val}}$ before either the closed shift row $Q$ or the substitute-closed row $R$ is exported. The lock is carried by the same finite route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and uses the carrier, classifier, local $\NameCert$ obligations, root audit totality, and root $\NameCert$ handoff of the parent packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier and classifier. The displayed rows list the source term, value, inspected depth, closedness witnesses, operation rows, ledger, audit row, transports, continuations, provenance, and local naming row as one finite surface.
+
+Apply the local $\NameCert$ obligations. They place $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ in the packet before the operation rows may be consumed as accepted closed-boundary data.
+
+Finally use root audit totality and the root $\NameCert$ handoff. Both root-facing rows factor through the same displayed carrier, so the depth-value surface is locked before $Q$ or $R$ can be exported.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root operation readback lock]
+\label{thm:closed-term-substitution-boundary-root-operation-readback-lock}
+Every root read of the closed shift row $Q$ or substitute-closed row $R$ of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The operation readback is admitted only after the depth-value lock, the local classifier, the $\NameCert$ obligation surface, the audit row $A$, and the root $\NameCert$ handoff agree on the same finite packet. It exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, or hidden compiler state.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-root-depth-value-lock}. It fixes $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ before either operation row is available.
+
+Read the operation rows through the existing ledger and audit surface. The rows $Q$ and $R$ are not standalone host operations; they are displayed packet coordinates routed through $L$ and checked by $A$.
+
+Now apply the root audit totality and root $\NameCert$ handoff. They force every root consumer back through the same $H,C,P,N$ structural rows, so no operation readback can leave the finite carrier for a host substitution or compiler surface.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root consumer audit factorization]
+\label{thm:closed-term-substitution-boundary-root-consumer-audit-factorization}
+Every root consumer that uses the operation readback surface of $\ClosedTermSubstitutionBoundaryUp$ factors as a finite audit route over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The factorization first exposes the term, value, depth, and closedness rows; then reads the closed shift and substitute-closed rows through $Q,R,L,A$; and finally packages the same rows through componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Use the root depth-value lock for the first stage of the factorization. It fixes the source, value, inspected depth, and closedness budget before the root operation rows are visible.
+
+Use the root operation readback lock for the second stage. It routes $Q$ and $R$ through the ledger and audit rows and prevents a consumer from replacing them by host substitution semantics or an ambient subject-reduction theorem.
+
+The final stage is the parent root $\NameCert$ handoff. The structural rows $H,C,P,N$ carry exactly the same finite packet to downstream consumers, so the root audit factorization has no extra host syntax, evaluator, compiler-state, or quotient coordinate.
+\end{proof}
