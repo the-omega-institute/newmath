@@ -100,3 +100,41 @@ as part of the public finite-data surface, so the endpoint comparison lands in
 $\mathsf{ProdHistoryClassifier}(L,R)$ and exports no outside-ledger component
 projection.
 \end{proof}
+
+\begin{theorem}[Prod finite-data closure status record]
+\label{thm:prod-finite-data-closure-status-record}
+The scoped row record of
+\autoref{thm:prod-finite-data-scoped-closure-record}, the consumer-row
+exhaustion theorem
+\autoref{thm:prod-finite-data-consumer-row-exhaustion}, and the endpoint
+determinacy theorem
+\autoref{thm:prod-component-ledger-endpoint-determinacy}, together with the
+checked envelope certificate \autoref{thm:concrete-prod-namecert}, give the
+Phase Finite Data scoped closure surface for $\ProdUp$. The resulting surface
+is exactly the public finite-data exit package: componentwise semantic
+certificate rows, displayed-pair ledger endpoints, descent into
+$\mathsf{ProdHistoryClassifier}(L,R)$, $\hsame/\Cont$ transport rows, source
+$\NameCert$ rows, and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Project first through \autoref{thm:prod-public-finite-data-exit-package}. The
+finite-data scoped record identifies the rows exported by that package and
+places each row inside the BEDC history envelope rather than in host tuple
+equality.
+
+Next use \autoref{thm:prod-finite-data-consumer-row-exhaustion}. It says that a
+consumer of the package has no access to rows beyond the componentwise
+certificate, the displayed-pair ledger endpoints, the descent row, the endpoint
+transports, the source certificates, and the provenance rows.
+
+The endpoint determinacy theorem then fixes the visible ledger endpoints by the
+source classifiers and repacks them through
+$\mathsf{ProdHistoryClassifier}(L,R)$. The checked envelope certificate
+\autoref{thm:concrete-prod-namecert} supplies the semantic-name certificate
+row for that repacking.
+
+Combining these projections gives the Phase Finite Data scoped closure surface
+for $\ProdUp$: every exported row is one of the public finite-data rows, every
+endpoint comparison lands in the checked product-history classifier, and no
+outside-ledger component projection or host tuple equality is exported.
+\end{proof}
