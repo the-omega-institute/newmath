@@ -242,6 +242,31 @@ def taste_gate : ChapterTasteGate TypingJudgmentClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   typingJudgmentClassifierChapterTasteGate
 
+namespace TasteGate
+
+theorem TypingJudgmentClassifierTasteGate_readiness :
+    (∀ h : BHist,
+      typingJudgmentClassifierDecodeBHist (typingJudgmentClassifierEncodeBHist h) = h) ∧
+      (∀ x : TypingJudgmentClassifierUp,
+        typingJudgmentClassifierFromEventFlow (typingJudgmentClassifierToEventFlow x) =
+          some x) ∧
+        (∀ x y : TypingJudgmentClassifierUp,
+          typingJudgmentClassifierToEventFlow x = typingJudgmentClassifierToEventFlow y →
+            x = y) ∧
+          typingJudgmentClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact typingJudgmentClassifierDecode_encode_bhist
+  · constructor
+    · intro x
+      exact typingJudgmentClassifier_round_trip x
+    · constructor
+      · intro x y heq
+        exact typingJudgmentClassifierToEventFlow_injective heq
+      · rfl
+
+end TasteGate
+
 theorem TypingJudgmentClassifierUp_taste_gate_readiness :
     ChapterTasteGate TypingJudgmentClassifierUp ∧
       Nonempty (Nontrivial TypingJudgmentClassifierUp) ∧
