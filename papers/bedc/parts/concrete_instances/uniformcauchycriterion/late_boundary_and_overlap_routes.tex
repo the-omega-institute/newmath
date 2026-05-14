@@ -97,8 +97,6 @@ Next apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. Th
 
 It remains to rule out later selection. Use \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness} and \autoref{thm:uniform-cauchy-criterion-real-seal-handoff}: $Q,T,E$ are consumer rows downstream of $I,W,M$, not sources for a second modulus family.
 \end{proof}
-\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_shared\_window\_threshold\_meet}
-
 \begin{theorem}[UniformCauchyCriterion family-tail intersection]
 \label{thm:uniform-cauchy-criterion-family-tail-intersection}
 For every accepted $\UniformCauchyCriterionUp$ packet and every nonempty subfamily request, the tail read is an intersection of the existing finite family ledger with the same $W,M,Q,T$ route. It is not an independently chosen family of moduli, and it cannot detach a subfamily from the displayed index ledger $I$ or the shared threshold route.
@@ -212,6 +210,58 @@ Now apply \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage}. Th
 Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. Every $\RegSeqRatUp$ or $\RealUp$ consumer is exhausted by $I,W,M,Q,T,E,H,C,P,N$, and the seal boundary exports no indexwise moduli, selected family limits, quotient stream families, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion tail-budget Real route]
+\label{thm:uniform-cauchy-criterion-tail-budget-real-route}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every Real-facing or completion-facing read of $U$ factors first through the public route
+$$
+I,W,M,Q,T,E,H,C,P,N
+$$
+and then through the $\TailBudgetCoherenceUp$ public boundary for finite tail-budget handoffs. The consumer receives the finite index ledger, shared window family, single threshold row, dyadic tolerance row, tail ledger, Real seal row, transports, continuation routes, provenance, and local name; it receives no direct Real equality, quotient completion object, selected family limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:uniform-cauchy-criterion-late-overlap-exhaustion}. It sends every empty-family, singleton, paired-family, nonempty subfamily, and transported-family request to the same finite route $I,W,M,Q,T,E,H,C,P,N$ before the request can reach a $\RegSeqRatUp$ or $\RealUp$ consumer.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage}. The tail row used by those consumers is the shared $T$ ledger reached through $I,W,M,Q$, so the route already has the finite tail-budget shape expected by the tail-budget handoff.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} together with \autoref{thm:tail-budget-coherence-public-export-boundary}. The Real seal row $E$ is therefore read as a finite public tail-budget export, and every stronger Real or completion object would require a coordinate outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion shared-window nonescape]
+\label{thm:uniform-cauchy-criterion-shared-window-nonescape}
+For an accepted $\UniformCauchyCriterionUp$ packet $U=(I,W,M,Q,T,E,H,C,P,N)$, the shared-window and tail-budget route rules out any consumer escape to indexwise moduli, quotient stream families, selected family limits, host real equality, or ambient completeness. Every such attempted read is refused unless it is represented by the displayed finite rows $I,W,M,Q,T,E,H,C,P,N$ and then by the $\TailBudgetCoherenceUp$ public route.
+\end{theorem}
+\begin{proof}
+The shared window is fixed by \autoref{thm:uniform-cauchy-criterion-shared-window-threshold-meet}. All later tolerance and tail requests inherit the single $W,M$ route.
+
+Use \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage} to place the empty, singleton, paired, and nonempty family reads on the same $I,W,M,Q,T$ ledger. No separate indexwise modulus family or quotient stream family is introduced in any case.
+
+Now apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The Real seal and completion-facing reads are exhausted by $E,H,C,P,N$ over the same finite route.
+
+The remaining excluded reads are exactly the stronger analytic objects denied by \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Thus the packet has no escape path to selected family limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion completion consumer package]
+\label{thm:uniform-cauchy-criterion-completion-consumer-package}
+Every completion-facing consumer of an accepted $\UniformCauchyCriterionUp$ packet is packaged by the finite chain of sibling surfaces
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\CauchyLimitSealUp,\TailBudgetCoherenceUp,\RealUp .
+$$
+The package reads the shared window, rational regular-sequence readback, dyadic tolerance row, limit-seal handoff, finite tail-budget coherence row, and Real-facing seal only through $I,W,M,Q,T,E,H,C,P,N$. It exports no quotient completion carrier, countable-choice selector, selected family limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the late-overlap theorem. By \autoref{thm:uniform-cauchy-criterion-late-overlap-exhaustion}, every family-tail or transported-family request reaching a completion consumer has already passed through the finite package $I,W,M,Q,T,E,H,C,P,N$.
+
+Read the sibling rows in order. The shared window supplies the $\StreamNameUp$-style finite window, the rational readback supplies the $\RegSeqRatUp$ surface, the tolerance row supplies the $\DyadicRatCoreUp$ datum, and the seal row supplies the $\CauchyLimitSealUp$ handoff.
+
+The public export boundary of \autoref{thm:tail-budget-coherence-public-export-boundary} then repackages these rows as the $\TailBudgetCoherenceUp$ route consumed by $\RealUp$.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-shared-window-nonescape}. Since every consumer-facing row stays inside the same finite package, the excluded quotient, selector, limit, equality, and completeness objects have no exported coordinate.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion index restriction]
 \label{thm:uniform-cauchy-criterion-index-restriction}
 Let
@@ -233,6 +283,7 @@ Apply \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. The tail evi
 
 Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The seal read is downstream of the same finite package, so the restricted packet cannot export selected limits, host equality, quotient streams, or ambient completeness.
 \end{proof}
+\leanvariant{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_subfamily\_restriction}
 
 \begin{theorem}[UniformCauchyCriterion window refinement]
 \label{thm:uniform-cauchy-criterion-window-refinement}
@@ -318,6 +369,7 @@ I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
 $$
 The packet therefore has one consumer-visible seal handoff and no alternate handoff through selected limits, host real equality, quotient stream names, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_seal\_route\_uniqueness}
 \begin{proof}
 Start with \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. Any $\RealUp$ seal-facing consumer is exhausted by the displayed finite package $I,W,M,Q,T,E,H,C,P,N$.
 

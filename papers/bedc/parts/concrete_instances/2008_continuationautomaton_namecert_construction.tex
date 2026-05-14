@@ -57,15 +57,158 @@ Classifier admission reads only the rows $q_0,F,T,B$. The row $B$ classifies beh
 Stability is componentwise through $H$, while exactness is \autoref{thm:continuationautomaton-step-continuation-correspondence}. The remaining ledgers $C,P,N$ route, record provenance, and name the packet. No carrier coordinate can introduce a separate operational semantics, so the five displayed rows exhaust the NameCert surface.
 \end{proof}
 
+\begin{theorem}[ContinuationAutomaton behaviour classifier stability]
+\label{thm:continuation-automaton-behaviour-classifier-stability}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$, every behaviour read is determined by the displayed initial row $q_0$, accepting ledger $F$, transition table $T$, classifier row $B$, transports $H$, routes $C$, provenance $P$, and local name $N$. Componentwise $\hsame$ transport may rename these displayed rows, but it cannot import host configurations, quotient traces, or unlisted transition rules.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The behaviour classifier $B$ has access only to the initial row, accepting rows, and transition table named by $q_0,F,T$.
+
+Use the NameCert obligations. Classifier admission and stability require behaviour reads to pass through the displayed transport row $H$ and inspection routes $C$ while keeping the provenance and local naming rows $P,N$ attached.
+
+The step-continuation correspondence supplies the transition exactness boundary. Since no host configuration, quotient trace, or unlisted transition rule is a coordinate of $A$, classifier stability cannot read one.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton acceptance nonescape]
+\label{thm:continuation-automaton-acceptance-nonescape}
+Every accepting read of an accepted $\ContinuationAutomatonUp$ packet factors through $q_0,F,T,B,H,C,P,N$ inside the carrier $A=(Q,q_0,F,T,B,H,C,P,N)$. Acceptance may inspect the finite state ledger $Q$, but it exports no host run relation, no quotient of traces, and no transition rule outside the displayed table $T$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and the accepting ledger $F$. An accepting read can only ask whether a displayed state row belongs to the finite ledger already stored in the packet.
+
+Apply the NameCert obligations and the step-continuation correspondence. Transition reachability is replayed through rows of $T$ carrying displayed $\Cont$ witnesses, and behaviour inspection is routed through $B,H,C,P,N$.
+
+Use the carrier exclusion clause. A host run relation, quotient trace, or unlisted transition rule is absent from $A$, so acceptance cannot escape the finite ledger and transition table.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton ledger factorization]
+\label{thm:continuation-automaton-ledger-factorization}
+The unary-continuation-category and continuationmonad consumers of an accepted $\ContinuationAutomatonUp$ carrier receive only the finite packet
+$$
+Q,q_0,F,T,B,H,C,P,N.
+$$
+Their object, transition, unit, composition, and associativity reads factor through the displayed state ledger, initial and accepting rows, $\Cont$-labelled transition table, behaviour classifier, transports, routes, provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Read the consumer boundary through \autoref{def:continuationautomaton-carrier}. The only exported rows are $Q,q_0,F,T,B,H,C,P,N$.
+
+Use the NameCert obligations and behaviour classifier stability. They bind classifier reads, transport stability, transition exactness, and ledger inspection to the same finite rows.
+
+Apply acceptance nonescape and the step-continuation correspondence for the categorical and monadic routes. Object and transition data are rows of $Q$ and $T$, while unit, composition, and associativity ledgers are repackings through $C,H,P,N$, not host operational semantics.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton transition determinacy]\label{thm:continuation-automaton-transition-determinacy}
+Let $A=(Q,q_0,F,T,B,H,C,P,N)$ be an accepted $\ContinuationAutomatonUp$ carrier. If two displayed transition rows of $T$ have the same source state $q$, the same mark $m$, and the same target state $q'$, then their transition readings are identified by the stored $\Cont(q,m,q')$ witness and by the corresponding componentwise $\hsame$ transport row in $H$. Thus determinacy is a finite row equality inside the packet, not a claim about an external evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier and read both transition rows from the same finite table $T$. Each row exposes only $q$, $m$, $q'$, and a displayed continuation witness.
+
+The checked single-carrier alignment marker attached to \autoref{thm:continuationautomaton-step-continuation-correspondence}, named \texttt{ContinuationAutomatonTasteGate\_single\_carrier\_alignment}, identifies transition evidence with the carrier field that stores it. Componentwise transport through $H$ therefore compares the two rows by their displayed endpoints and their stored $\Cont(q,m,q')$ witnesses.
+
+No host transition function is available in the carrier. Hence the determinacy statement is exactly the equality of the displayed transition row data under the packet's own $\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton trace exhaustion]\label{thm:continuation-automaton-trace-exhaustion}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$, every accepted finite behaviour trace is a finite list of rows from $T$ replayed through the displayed continuation routes in $C$ and transported through the componentwise rows in $H$. The trace exports no quotient of traces, host run relation, or unlisted transition rule.
+\end{theorem}
+\begin{proof}
+Read the behaviour classifier $B$ through the carrier. Its accepted behaviours are licensed only by the initial row $q_0$, accepting membership in $F$, and transition rows already present in $T$.
+
+Replay a finite trace by listing its transition rows in order and composing the corresponding displayed routes through $C$. At each endpoint comparison, use the componentwise transport rows in $H$ to move between representatives of the same displayed state row.
+
+The single-carrier alignment marker cited above prevents a trace step from being replaced by a host operational step outside $T$. Therefore the finite list of transition rows, together with $C$ and $H$, exhausts the accepted trace surface.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton NameCert obligation pack]\label{thm:continuation-automaton-namecert-obligation-pack}
+For an accepted $\ContinuationAutomatonUp$ carrier, carrier admission, classifier stability, transition exactness, trace exhaustion, $\Pkg$ provenance, and local naming form the finite obligation package consumed by \autoref{ch:concrete-instances-unary-continuation-category-namecert} and \autoref{ch:concrete-instances-continuationmonad-namecert}. These consumers receive only the displayed automaton rows $Q,q_0,F,T,B,H,C,P,N$ and no external state space or evaluator.
+\end{theorem}
+\begin{proof}
+Carrier admission and classifier stability are the first three rows of \autoref{thm:continuationautomaton-namecert-obligations}. Transition exactness is \autoref{thm:continuationautomaton-step-continuation-correspondence}, with the checked single-carrier alignment marker ensuring that the transition row is the stored continuation evidence.
+
+Trace exhaustion is \autoref{thm:continuation-automaton-trace-exhaustion}. It supplies the finite list-of-transition-rows surface that categorical and monadic consumers can replay through $C$ and transport through $H$.
+
+Finally $P$ records the package provenance and $N$ records the local naming row. Repacking these rows gives unary-continuation-category and continuationmonad their object, hom, unit, composition, and associativity inputs without granting any unlisted operational semantics.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton state-source determinacy]\label{thm:continuation-automaton-state-source-determinacy}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$,
+every accepted state read is one of the finite rows of $Q$ reached from $q_0$
+through displayed transition rows in $T$, replayed through routes in $C$, and
+transported through componentwise rows in $H$.
+\end{theorem}
+\begin{proof}
+Project the state source from \autoref{def:continuationautomaton-carrier}.
+The only state inventory exposed by the carrier is the finite row family $Q$,
+together with the initial row $q_0$.
+
+Use \autoref{thm:continuationautomaton-step-continuation-correspondence} and
+\autoref{thm:continuationautomaton-namecert-obligations}. They identify every
+step read with a displayed transition row in $T$ and keep transport inside
+$H,C$.
+
+Apply \autoref{thm:continuation-automaton-acceptance-nonescape},
+\autoref{thm:continuation-automaton-trace-exhaustion}, and
+\autoref{thm:continuation-automaton-namecert-obligation-pack}. No host state
+space or evaluator is exported, so each accepted state read is one of the
+displayed rows reached from $q_0$ through the finite packet.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton transition route closure]\label{thm:continuation-automaton-transition-route-closure}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$,
+every transition consumer factors through a displayed row $(q,m,q',c)$ of
+$T$, where $q,q'$ are state rows of $Q$, $m$ is the read mark, and $c$ is the
+stored $\Cont(q,m,q')$ witness. The consumer cannot add a host operational rule
+or a transition relation outside the packet.
+\end{theorem}
+\begin{proof}
+Read transition evidence from \autoref{def:continuationautomaton-carrier}. A
+transition row stores only its source, mark, target, and displayed continuation
+witness.
+
+Apply \autoref{thm:continuationautomaton-step-continuation-correspondence} and
+\autoref{thm:continuation-automaton-transition-determinacy}. They make the
+stored $\Cont(q,m,q')$ witness the transition route and compare duplicate
+reads only by the packet's componentwise transport.
+
+Use \autoref{thm:continuation-automaton-acceptance-nonescape},
+\autoref{thm:continuation-automaton-trace-exhaustion}, and
+\autoref{thm:continuation-automaton-namecert-obligation-pack}. The finite
+trace and consumer ledgers replay rows of $T$ through $C,H,P,N$, so no
+additional operational semantics enters the route.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton acceptance ledger exactness]\label{thm:continuation-automaton-acceptance-ledger-exactness}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$,
+all acceptance reads are exhausted by the rows $F,T,B,H,C,P,N$. This is the
+exact ledger consumed by \autoref{ch:concrete-instances-unary-continuation-category-namecert}
+and \autoref{ch:concrete-instances-continuationmonad-namecert}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuationautomaton-namecert-obligations}. It places
+accepted behaviours on the displayed classifier row $B$, accepting rows $F$,
+transition table $T$, componentwise transport $H$, replay routes $C$,
+provenance $P$, and local naming $N$.
+
+Use \autoref{thm:continuation-automaton-acceptance-nonescape} and
+\autoref{thm:continuation-automaton-trace-exhaustion}. They exclude external
+operational semantics, host configurations, trace quotients, and unlisted
+transition rules from the accepted trace surface.
+
+Finally apply \autoref{thm:continuation-automaton-namecert-obligation-pack}.
+The categorical and monadic siblings consume exactly the displayed finite
+ledger, so their object, hom, unit, composition, and associativity reads do
+not enlarge the acceptance boundary.
+\end{proof}
+
 \closureat{ContinuationAutomatonUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationAutomatonUp}
   \constructivestory{A $\ContinuationAutomatonUp$ packet is generated from finite $\BHist$ state rows, an initial row, accepting rows, $\Mark$-labelled transition rows carrying displayed $\Cont$ witnesses, behaviour classifier rows, componentwise $\hsame$ transports, displayed inspection routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuationautomaton-carrier}, \autoref{thm:continuationautomaton-step-continuation-correspondence}, and \autoref{thm:continuationautomaton-namecert-obligations} bind the finite automaton carrier, step-continuation exactness, behaviour classifier surface, transport rows, continuation routes, package provenance, and local naming row.}
+  \scopeclosed{\autoref{def:continuationautomaton-carrier}, \autoref{thm:continuationautomaton-step-continuation-correspondence}, \autoref{thm:continuationautomaton-namecert-obligations}, \autoref{thm:continuation-automaton-state-source-determinacy}, \autoref{thm:continuation-automaton-transition-route-closure}, and \autoref{thm:continuation-automaton-acceptance-ledger-exactness} bind the finite automaton carrier, step-continuation exactness, behaviour classifier surface, state-source determinacy, transition route closure, acceptance ledger exactness, transport rows, continuation routes, package provenance, and local naming row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close external operational semantics, host configurations, trace quotients, deterministic transition selection, or a public standard bridge.}
-  \upgradepath{Obligation closure next requires checked carrier admission, classifier stability, step-continuation exactness, and ledger factorization for the same finite continuation automaton packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, state-source determinacy, transition route closure, acceptance ledger exactness, and ledger factorization for the same finite continuation automaton packet.}
 \end{closurestatus}

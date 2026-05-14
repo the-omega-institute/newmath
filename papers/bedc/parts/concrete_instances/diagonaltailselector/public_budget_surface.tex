@@ -50,6 +50,7 @@ Finally apply \autoref{thm:diagonal-tail-selector-seal-nonescape}. The
 $\CauchyLimitSealUp$ and $\RealUp$ boundary therefore has no escape channel
 outside the displayed BEDC route.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_real\_seal\_boundary\_scope}
 
 \begin{theorem}[Diagonal tail selector downstream non-escape scope]
 \label{thm:diagonal-tail-selector-downstream-nonescape-scope}
@@ -283,4 +284,35 @@ $\CauchyLimitSealUp$ and $\RealUp$ consumers remain inside the displayed
 public budget source. Thus the handoff cannot pass through quotient streams,
 host-selected limits, countable choice, host real equality, ambient
 completeness, or hidden tail oracles.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector public budget route totality]
+\label{thm:diagonal-tail-selector-public-budget-route-totality}
+Any downstream $\CauchyLimitSealUp$ or $\RealUp$ consumer of the
+$\DiagonalTailSelectorUp$ public budget source must read the finite
+observation-budget route first, then the selector public budget export, and
+then the Real seal boundary. The route is entirely through $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\FiniteObservationBudgetSelectorUp$, $\CauchyLimitSealUp$,
+and $\RealUp$ rows; it has no quotient stream, host-selected limit,
+countable-choice schedule, host real equality, ambient completeness, or hidden
+tail oracle.
+\end{theorem}
+\begin{proof}
+Begin with the finite observation-budget handoff of
+\autoref{thm:diagonal-tail-selector-finite-observation-budget-selector-link}.
+It forces every seal-facing consumer to read the finite selector route before
+the $\DiagonalTailSelectorUp$ seal row is consumed.
+
+Next apply the public budget export of
+\autoref{thm:diagonal-tail-selector-public-budget-export}. This identifies the
+selector source as the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+$\FiniteObservationBudgetSelectorUp$, $\CauchyLimitSealUp$, and $\RealUp$
+surface.
+
+Finally use \autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}.
+The Real and Cauchy-limit readers stay inside that displayed route, so the
+consumer-facing path is total for the public budget handoff and excludes the
+listed quotient, choice, host-equality, completeness, and hidden-oracle data.
 \end{proof}

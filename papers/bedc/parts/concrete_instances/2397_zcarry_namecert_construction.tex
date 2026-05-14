@@ -90,6 +90,18 @@ $C$ preserves the target and source ledgers as separate rows, so normality can b
 reported only with the same displayed source-target orientation.
 \end{proof}
 
+\begin{theorem}[ZCarry Zeckendorf normal sibling dependency]
+\label{thm:zcarry-zeckendorf-normal-sibling-dependency}
+For every accepted $\ZCarryUp$ packet $Z=(h,k,G,N_h,N_k,H,C,P,N)$, the source non-normal row $N_h$ and target normal row $N_k$ are read through the Zeckendorf normal-form sibling surface of \autoref{ch:concrete-instances-zeckendorf-normal-namecert} before the local carry packet assembles its $\NameCert_{\ZCarryUp}$ boundary. The $\ZCarryUp$ packet supplies the generated carry classifier, the non-$\hsame$ ledger, and the local transport, continuation, provenance, and naming rows; it does not duplicate the sibling normal-word evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $h,k,G,N_h,N_k,H,C,P,N$. The two normality rows are separate fields of the local carrier, while $G$ and $H$ record the carry classifier and the non-$\hsame$ boundary.
+
+Apply \autoref{thm:zcarry-normal-target-ledger}. It reads $N_k$ as the target normal row and $N_h$ as the source non-normal row with the displayed source-target orientation.
+
+The normal-word evidence used by those rows is supplied through the sibling chapter \autoref{ch:concrete-instances-zeckendorf-normal-namecert}. The local packet then contributes $H,C,P,N$ and the generated carry row $G$, so the NameCert boundary consumes the sibling normal-form surface without replacing it.
+\end{proof}
+
 \begin{theorem}[ZCarry NameCert assembly]
 \label{thm:zcarry-namecert-assembly}
 The carrier of \autoref{def:zcarry-finite-carry-packet}, the obligation surface

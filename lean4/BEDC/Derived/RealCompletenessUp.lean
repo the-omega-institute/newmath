@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -15,6 +16,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -333,5 +335,53 @@ theorem RealCompletenessBHistCarrier_consumer_route_totality [AskSetup] [Package
     ⟨familyUnary, modulusUnary, selectorUnary, requestUnary, dyadicUnary, diagonalUnary,
       windowsUnary, witnessUnary, sealUnary, endpointUnary', consumerUnary, modulusSelector,
       requestDyadic, diagonalWindows, witnessSeal, endpointConsumer, endpointPkg, consumerPkg⟩
+
+theorem RealCompletenessBHistCarrier_public_seal_export [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert
+      endpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg →
+      Cont sealRow cert publicRead →
+        PkgSig bundle publicRead pkg →
+          SemanticNameCert
+            (fun row : BHist => hsame row publicRead ∧ UnaryHistory row ∧
+              PkgSig bundle row pkg)
+            (fun row : BHist => Cont sealRow cert row ∧ Cont transport route endpoint)
+            (fun row : BHist => PkgSig bundle row pkg ∧ Cont transport route endpoint)
+            (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg NameCert
+  intro carrier publicReadRoute publicReadPkg
+  obtain ⟨_familyUnary, _modulusUnary, _selectorUnary, _dyadicUnary, _windowsUnary,
+    _readbackUnary, sealUnary, _transportUnary, _routeUnary, _provenanceUnary, certUnary,
+    _endpointUnary, endpointRoute, _endpointPkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary certUnary publicReadRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicReadUnary, publicReadPkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact ⟨publicReadRoute, endpointRoute⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, endpointRoute⟩
+  }
 
 end BEDC.Derived.RealCompletenessUp

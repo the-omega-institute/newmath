@@ -67,6 +67,7 @@ task_queue: deque[dict] = deque()
 results: dict[str, dict] = {}             # task_id -> result record
 pending_tasks: dict[str, dict] = {}       # agent_id -> task currently in flight
 dispatch_times: dict[str, float] = {}     # agent_id -> dispatch timestamp
+task_started_times: dict[str, float] = {} # agent_id -> original dispatch timestamp
 recent_agents: dict[str, dict] = {}       # agent_id -> latest poll/ack/result
 sessions: dict[str, dict] = {}            # conv_id -> session record
 cancelled_tasks: set[str] = set()
@@ -258,10 +259,21 @@ def _page_in_bedc_project(url: str) -> bool:
     return parsed.netloc in {"chatgpt.com", "chat.openai.com"} and parsed.path.startswith(BEDC_PROJECT_PREFIX)
 
 
+def _page_is_bedc_conversation(url: str) -> bool:
+    if not _page_in_bedc_project(url):
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    return bool(re.search(r"/c/[a-f0-9-]{6,}", parsed.path))
+
+
 def _cancel_pending_for_agent(agent_id: str, *, reason: str) -> str:
     """Drop one pending task for an agent that is no longer valid."""
     task = pending_tasks.pop(agent_id, None)
     dispatch_times.pop(agent_id, None)
+    task_started_times.pop(agent_id, None)
     recent_agents.pop(agent_id, None)
     task_id = str((task or {}).get("task_id") or "")
     if task_id:
@@ -278,6 +290,7 @@ def _cancel_pending_task_id(task_id: str, *, reason: str) -> str:
         if task.get("task_id") == task_id:
             pending_tasks.pop(aid, None)
             dispatch_times.pop(aid, None)
+            task_started_times.pop(aid, None)
             recent_agents.pop(aid, None)
             cancelled_tasks.add(task_id)
             print(f"[server] Cancelled {task_id} for {aid}: {reason}", flush=True)
@@ -368,6 +381,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
             for aid in stale:
                 task = pending_tasks.pop(aid)
                 dispatch_times.pop(aid, None)
+                task_started_times.pop(aid, None)
                 task_queue.appendleft(task)
                 print(f"[server] Agent {aid} timed out — task {task['task_id']} re-queued")
 
@@ -415,11 +429,18 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         "agent_script_version": poll_metrics["script_version"],
                     })
                     return
+                if not _page_is_bedc_conversation(poll_metrics["page_url"]):
+                    self._send_json({
+                        "status": "idle",
+                        "reason": "agent on BEDC Project root; waiting for conversation page before dispatch",
+                    })
+                    return
                 if task_queue and len(pending_tasks) < MAX_AGENTS:
                     task = task_queue.popleft()
                     task["assigned_agent"] = agent_id
                     pending_tasks[agent_id] = task
                     dispatch_times[agent_id] = time.time()
+                    task_started_times[agent_id] = dispatch_times[agent_id]
                     print(f"[server] Dispatched {task['task_id']} → {agent_id} "
                           f"(conv={task.get('conversation_id','-')[:12]} "
                           f"agents={len(pending_tasks)}/{MAX_AGENTS} "
@@ -436,7 +457,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 agents_info = {
                     aid: {"task_id": t.get("task_id", "?"),
                           "conversation_id": t.get("conversation_id", ""),
-                          "elapsed": int(time.time() - dispatch_times.get(aid, time.time()))}
+                          "elapsed": int(time.time() - task_started_times.get(aid, dispatch_times.get(aid, time.time())))}
                     for aid, t in pending_tasks.items()
                 }
                 recent = _agent_summary(now)
@@ -454,6 +475,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 project_active_poll = [
                     aid for aid in compatible_active_poll
                     if _page_in_bedc_project(
+                        ((recent.get(aid, {}).get("metrics") or {}).get("page_url") or "")
+                    )
+                ]
+                dispatch_ready_poll = [
+                    aid for aid in compatible_active_poll
+                    if _page_is_bedc_conversation(
                         ((recent.get(aid, {}).get("metrics") or {}).get("page_url") or "")
                     )
                 ]
@@ -476,6 +503,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     diagnosis = "queue_waiting_for_compatible_agent"
                 elif task_queue and not pending_tasks and not project_active_poll:
                     diagnosis = "queue_waiting_for_project_agent"
+                elif task_queue and not pending_tasks and not dispatch_ready_poll:
+                    diagnosis = "queue_waiting_for_dispatch_ready_agent"
                 elif pending_tasks:
                     if stale_busy:
                         diagnosis = "agent_busy_with_stale"
@@ -498,6 +527,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "active_poll_agents": active_poll,
                     "compatible_active_poll_agents": compatible_active_poll,
                     "project_active_poll_agents": project_active_poll,
+                    "dispatch_ready_poll_agents": dispatch_ready_poll,
                     "stale_busy_agents": stale_busy,
                     "mismatched_busy_agents": mismatched_busy,
                     "zero_extraction_hang_agents": zero_extraction_hang,
@@ -680,6 +710,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 if pending_tasks[aid].get("task_id") == task_id:
                     task = pending_tasks.pop(aid)
                     dispatch_times.pop(aid, None)
+                    task_started_times.pop(aid, None)
                     freed_agent = aid
                     break
             existing = results.get(task_id)
@@ -693,9 +724,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         seen_url = chatgpt_url or data.get("page_url", "")
         if task is not None and _task_url_mismatch(task, seen_url):
             with _lock:
+                assigned_agent = str(task.get("assigned_agent") or "")
                 task["status"] = "queued"
                 task.pop("assigned_agent", None)
                 task_queue.appendleft(task)
+                if assigned_agent:
+                    task_started_times.pop(assigned_agent, None)
             expected = str(task.get("conversation_url") or "")
             print(
                 f"[server] Ignored mismatched-url result {task_id} "
@@ -835,6 +869,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         cancelled_tasks.add(tid)
                     pending_tasks.pop(aid, None)
                     dispatch_times.pop(aid, None)
+                    task_started_times.pop(aid, None)
                     recent_agents.pop(aid, None)
             elif task_id:
                 kept: deque[dict] = deque()
@@ -852,6 +887,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         cancelled_tasks.add(task_id)
                         pending_tasks.pop(aid, None)
                         dispatch_times.pop(aid, None)
+                        task_started_times.pop(aid, None)
                         recent_agents.pop(aid, None)
             else:
                 self._send_json({"error": "task_id or all=true required"}, 400)

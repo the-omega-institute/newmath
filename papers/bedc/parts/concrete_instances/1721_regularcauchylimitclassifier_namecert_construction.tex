@@ -247,6 +247,64 @@ Use diagonal-seal uniqueness and finite-route exactness to compare the two route
 Finally inspect the carrier coordinates of $Q$, $B$, and $Z$. None contains quotient stream equality, host real equality, a selected limit, a hidden selector, or an ambient completeness witness, so no further route can distinguish the two finite presentations.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit classifier real tail-agreement seal factorization]
+\label{thm:regular-cauchy-limit-classifier-real-tail-agreement-seal-factorization}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet. Let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet, let
+$$
+Z=(E_Z,S_Z,B_Z,T_Z,D_Z,L_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\CauchySealBudgetSynchronizerUp$ packet, and let
+$$
+A=(R_A,S_A,W_A,D_A,A_A,H_A,C_A,P_A,N_A)
+$$
+be an accepted $\RealTailAgreementSealUp$ packet. Suppose that these packets read the same displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks, $\RegSeqRatUp$ source rows, and $\RealUp$ seal row of $Q$ through their displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. Then every completion-facing classifier read factors through the finite chain
+$$
+\RegularCauchyLimitClassifierUp \longmapsto \RealObservationBudgetUp \longmapsto \CauchySealBudgetSynchronizerUp \longmapsto \RealTailAgreementSealUp \longmapsto \RealUp \text{ seal}.
+$$
+The factorization exports no quotient stream equality, host real equality, selected limit, hidden tail selector, ambient completeness premise, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First put the classifier on the observation-budget route. The factorization of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization} sends every $\RealUp$ seal handoff of $Q$ through $E_B,W_B,D_B,R_B,S_B$, and \autoref{thm:real-observation-budget-consumer-exactness} records that $\RegSeqRatUp$ and $\RealUp$ consumers of $B$ read exactly those finite rows.
+
+Next compare the budget route with the synchronizer route. The route agreement theorem \autoref{thm:regular-cauchy-limit-classifier-budget-synchronizer-route-agreement} identifies the observation-budget and synchronizer presentations, while \autoref{thm:cauchy-seal-budget-synchronizer-real-seal-budget-exhaustion} exhausts the Real-facing synchronizer read by the request, seal, budget, tail schedule, selector, compatibility, transport, route, provenance, and local naming rows of $Z$.
+
+Finally pass to the paired tail-agreement seal. The shared window, dyadic readback, regular source, and seal hypotheses place the same read on the $\RealTailAgreementSealUp$ boundary of \autoref{thm:real-tail-agreement-seal-real-completion-boundary}. Its completion handoff theorem \autoref{thm:real-tail-agreement-seal-completion-handoff-totality} then makes the displayed chain the whole completion-facing route, and the non-escape clauses in the cited packets exclude quotient streams, host real equality, selected limits, hidden tail selectors, ambient completeness, and choice-selected tails.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier budgeted seal pullback]
+\label{thm:regular-cauchy-limit-classifier-budgeted-seal-pullback}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet. Let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet, and let
+$$
+Z=(E_Z,S_Z,B_Z,T_Z,D_Z,L_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\CauchySealBudgetSynchronizerUp$ packet. Suppose that $Q$, $B$, and $Z$ share the displayed diagonal window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, observation budget, synchronizer, and $\RealUp$ seal rows through their displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. Then every completion-facing classifier read factors through the same finite pullback route determined by those shared rows.
+
+The pullback exports no quotient stream equality, host real equality, selected limit, hidden selector, unbounded schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First combine the observation-budget factorization with finite-route exactness. By \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, every seal handoff read through $B$ lies on the finite observation route, and \autoref{thm:regular-cauchy-limit-classifier-finite-route-exactness} identifies that route with the classifier rows of $Q$.
+
+Next combine the synchronizer factorization with route agreement. By \autoref{thm:regular-cauchy-limit-classifier-synchronizer-factorization}, the same displayed diagonal window, readback, dyadic ledger, and seal rows read through $Z$ lie on the synchronizer route. The agreement theorem \autoref{thm:regular-cauchy-limit-classifier-budget-synchronizer-route-agreement} identifies the budget route and synchronizer route as one completion-facing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ path.
+
+Finally apply the completion-consumer boundary. \autoref{thm:regular-cauchy-limit-classifier-completion-consumer-boundary} excludes quotient stream equality, host real equality, selected limits, hidden selectors, ambient completeness, and unbounded schedules from the composed packet, so the shared finite pullback is the whole classifier read.
+\end{proof}
+
 \closureat{RegularCauchyLimitClassifierUp}{seedStr}
 \closureat{RegularCauchyLimitClassifierUp}{obligationStr}
 \closureat{RegularCauchyLimitClassifierUp}{scopedStr}

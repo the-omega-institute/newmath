@@ -123,11 +123,21 @@ def render_server(s: dict) -> str:
     queue = s.get("queue_length", "?")
     completed = s.get("completed", "?")
     active_recent = len(s.get("active_recent_agents") or [])
+    dispatch_ready = len(s.get("dispatch_ready_poll_agents") or [])
     out = [
         f"  diagnosis: {diag}",
         f"  agents:    {busy}/{cap} busy   queue={queue}   completed={completed}",
-        f"  recent agents (last 120s): {active_recent}",
+        f"  recent agents (last 120s): {active_recent}   dispatch-ready: {dispatch_ready}",
     ]
+    if s.get("dispatch_ready_poll_agents"):
+        out.append(
+            "  dispatch-ready tabs: "
+            + ", ".join(map(str, s.get("dispatch_ready_poll_agents") or []))
+        )
+    elif s.get("project_active_poll_agents"):
+        out.append(
+            "  project-active tabs are not dispatch-ready until they are on /c/... conversation pages"
+        )
     for k, v in (s.get("agents") or {}).items():
         out.append(f"    busy {k}: task={v.get('task_id','?')} elapsed={v.get('elapsed','?')}s")
     if s.get("zero_extraction_hang_agents"):
@@ -311,6 +321,39 @@ def _refill_wait_seconds(rec: dict) -> int | None:
         return None
 
 
+def _refill_prompt_note(rec: dict) -> str:
+    prompt_path = rec.get("prompt")
+    if not isinstance(prompt_path, Path) or not prompt_path.exists():
+        return ""
+    try:
+        size = prompt_path.stat().st_size
+    except OSError:
+        return ""
+    if size >= 1024:
+        return f" prompt={size / 1024:.0f}k"
+    return f" prompt={size}b"
+
+
+def _next_refill_prompt_note() -> str:
+    try:
+        import oracle_board_refill
+
+        ultra_refill = oracle_board_refill.should_use_ultra_refill()
+        micro_refill = ultra_refill or oracle_board_refill.should_use_micro_refill()
+        size = len(
+            oracle_board_refill.build_refill_prompt(
+                micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
+            ).encode("utf-8")
+        )
+    except Exception as exc:
+        return f"  next prompt estimate: unavailable ({type(exc).__name__})"
+    mode = " ultra" if ultra_refill else " micro" if micro_refill else ""
+    if size >= 1024:
+        return f"  next prompt estimate:{mode} {size / 1024:.0f}k"
+    return f"  next prompt estimate:{mode} {size}b"
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -341,6 +384,8 @@ def _infer_refill_status(rec: dict) -> str:
         text = _read_text_prefix(log_path, max_chars=3000)
         if "existing board-refill task is queued or active" in text:
             return "skip_duplicate_refill"
+        if "no dispatch-ready BEDC conversation tabs polling" in text:
+            return "skip_no_dispatch_ready_tab"
         if "no compatible BEDC Project tabs polling" in text:
             return "skip_no_project_tab"
         if "zero-extraction hang" in text:
@@ -439,7 +484,7 @@ def render_board_refill() -> str:
                 pass
 
     if not records:
-        return "  (no board refill artifacts)"
+        return "\n".join(["  (no board refill artifacts)", _next_refill_prompt_note()])
 
     ordered = sorted(
         _coalesce_split_refill_records(records),
@@ -458,13 +503,16 @@ def render_board_refill() -> str:
         )
         status = _infer_refill_status(rec)
         wait_seconds = _refill_wait_seconds(rec)
+        prompt_note = _refill_prompt_note(rec)
         wait_note = f" wait={_fmt_age(wait_seconds)}" if wait_seconds is not None else ""
         merged = rec.get("merged_stems") or []
         merged_note = f" merged={','.join(merged)}" if merged else ""
         lines.append(
             f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
-            f"{status}{wait_note}{merged_note}"
+            f"{status}{prompt_note}{wait_note}{merged_note}"
         )
+
+    lines.append(_next_refill_prompt_note())
 
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):

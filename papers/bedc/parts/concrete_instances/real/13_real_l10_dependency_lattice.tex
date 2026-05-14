@@ -144,3 +144,95 @@ over the four named faces, so quotient stream equality, selected limits, host
 real equality, ambient completeness, and outside seal data have no terminal
 coordinate to consume.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal comparison exhaustion]
+\label{thm:real-l10-terminal-comparison-exhaustion}
+Let $X$ and $Y$ be accepted terminal $\RealUp$ L10 reads. Every
+completion-facing comparison between $X$ and $Y$ factors through the same
+four faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+displayed in \autoref{def:real-l10-dependency-lattice}. The comparison may
+use only the common $\BHist$ packet, the displayed $\hsame$ transports, the
+displayed $\Cont$ routes, the displayed $\Pkg$ provenance, and the local
+$\NameCert$ coordinates of those faces.
+
+No completion-facing comparison of $X$ and $Y$ has a coordinate for quotient
+stream equality, selected limits, host real equality, ambient completeness,
+arithmetic or order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Apply the terminal face order theorem,
+\autoref{thm:real-l10-terminal-face-order}, to both accepted reads. It places
+the dyadic observation face, the finite StreamName window face, the RegSeqRat
+classifier face, and the Real seal face in the same terminal order for $X$
+and $Y$.
+
+Next apply the four-face route lock,
+\autoref{thm:real-l10-four-face-route-lock}. A completion-facing comparison
+cannot leave the displayed route once the two terminal reads have been
+accepted on that route; its transport and readback data remain confined to
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+The shared finite surface is supplied by
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. It identifies
+the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real
+seal boundary as one pullback surface for the two terminal reads.
+
+Finally use the observation triangle
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. The
+dyadic, stream, and regular-rational observations meet on the same finite
+triangle before the Real seal is consumed. Since the cited routes export no
+quotient stream equality, selected limit, host real equality, ambient
+completeness, arithmetic or order package, or metric-completeness coordinate,
+the comparison is exhausted by the four displayed faces.
+\end{proof}
+
+\begin{theorem}[Real L10 four-face canonical route]
+\label{thm:real-l10-four-face-canonical-route}
+Every accepted current Phase Real or Completion consumer of a $\RealUp$ L10
+packet has a canonical finite route through exactly the four faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+of \autoref{def:real-l10-dependency-lattice}. The route is displayed only by
+the common $\BHist$ packet, the shown $\hsame$ transports, the shown $\Cont$
+routes, the shown $\Pkg$ provenance, and the local $\NameCert$ rows.
+
+If two route presentations have the same four faces and the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, then they induce
+the same consumer surface. No quotient stream, selected host limit, host real
+equality, countable-choice selector, ambient completeness principle,
+arithmetic or order package, or metric-completeness row can serve as an
+alternate route.
+\end{theorem}
+\begin{proof}
+The four faces are the faces of the dependency lattice in
+\autoref{def:real-l10-dependency-lattice}. Apply the non-escape theorem,
+\autoref{thm:real-l10-source-route-nonescape}, to exclude any route that
+leaves the dyadic, StreamName, RegSeqRat, and local Real seal sequence.
+
+Next apply interface totality,
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. It says that
+every current Phase Real and Completion interface read factors through
+exactly those four faces, using only the displayed $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows. The terminal order theorem,
+\autoref{thm:real-l10-terminal-face-order}, fixes their order as
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
+
+For comparisons of two accepted presentations, apply
+\autoref{thm:real-l10-terminal-comparison-exhaustion}. It confines every
+completion-facing comparison to the common $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ data over the same ordered four faces.
+
+The shared finite consumer surface is then the pullback surface of
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} together with
+the observation triangle of
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. These
+identify the dyadic observations, finite stream windows, regular-rational
+readback, and Real seal boundary before the consumer surface is read. With no
+exported coordinate for quotient streams, selected host limits, host real
+equality, countable choice, ambient completeness, arithmetic or order
+packages, or metric-completeness rows, no alternate route remains.
+\end{proof}
