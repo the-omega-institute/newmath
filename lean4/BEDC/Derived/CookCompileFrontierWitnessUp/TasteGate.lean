@@ -10,17 +10,17 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CookCompileFrontierWitnessUp : Type where
-  | mk :
-      (stage coordinate audit obstruction transport route provenance name : BHist) →
-      CookCompileFrontierWitnessUp
+  | mk : (s q a o h c p n : BHist) → CookCompileFrontierWitnessUp
   deriving DecidableEq
 
 def cookCompileFrontierWitnessEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cookCompileFrontierWitnessEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cookCompileFrontierWitnessEncodeBHist h
 
 def cookCompileFrontierWitnessDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cookCompileFrontierWitnessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cookCompileFrontierWitnessDecodeBHist tail)
@@ -39,64 +39,90 @@ private theorem cookCompileFrontierWitnessDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def cookCompileFrontierWitnessToEventFlow :
-    CookCompileFrontierWitnessUp → EventFlow
-  | CookCompileFrontierWitnessUp.mk stage coordinate audit obstruction transport route
-      provenance name =>
+def cookCompileFrontierWitnessToEventFlow : CookCompileFrontierWitnessUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | CookCompileFrontierWitnessUp.mk s q a o h c p n =>
       [[BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist stage,
+        cookCompileFrontierWitnessEncodeBHist s,
         [BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist coordinate,
+        cookCompileFrontierWitnessEncodeBHist q,
         [BMark.b1, BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist audit,
+        cookCompileFrontierWitnessEncodeBHist a,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist obstruction,
+        cookCompileFrontierWitnessEncodeBHist o,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist transport,
+        cookCompileFrontierWitnessEncodeBHist h,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist route,
+        cookCompileFrontierWitnessEncodeBHist c,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist provenance,
+        cookCompileFrontierWitnessEncodeBHist p,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        cookCompileFrontierWitnessEncodeBHist name]
+        cookCompileFrontierWitnessEncodeBHist n]
 
-private def cookCompileFrontierWitnessRawAt : Nat → EventFlow → RawEvent
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => cookCompileFrontierWitnessRawAt n rest
-
-private def cookCompileFrontierWitnessLengthEq : Nat → EventFlow → Bool
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => cookCompileFrontierWitnessLengthEq n rest
-
-private def cookCompileFrontierWitnessFromEventFlow :
+def cookCompileFrontierWitnessFromEventFlow :
     EventFlow → Option CookCompileFrontierWitnessUp
-  | flow =>
-      match cookCompileFrontierWitnessLengthEq 16 flow with
-      | true =>
-          some
-            (CookCompileFrontierWitnessUp.mk
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 1 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 3 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 5 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 7 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 9 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 11 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 13 flow))
-              (cookCompileFrontierWitnessDecodeBHist
-                (cookCompileFrontierWitnessRawAt 15 flow)))
-      | false => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | s :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | q :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | a :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | o :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | h :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | c :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | p :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | n :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (CookCompileFrontierWitnessUp.mk
+                                                                          (cookCompileFrontierWitnessDecodeBHist s)
+                                                                          (cookCompileFrontierWitnessDecodeBHist q)
+                                                                          (cookCompileFrontierWitnessDecodeBHist a)
+                                                                          (cookCompileFrontierWitnessDecodeBHist o)
+                                                                          (cookCompileFrontierWitnessDecodeBHist h)
+                                                                          (cookCompileFrontierWitnessDecodeBHist c)
+                                                                          (cookCompileFrontierWitnessDecodeBHist p)
+                                                                          (cookCompileFrontierWitnessDecodeBHist n))
+                                                                  | _ :: _ => none
 
 private theorem cookCompileFrontierWitness_round_trip :
     ∀ x : CookCompileFrontierWitnessUp,
@@ -105,64 +131,35 @@ private theorem cookCompileFrontierWitness_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk stage coordinate audit obstruction transport route provenance name =>
+  | mk s q a o h c p n =>
       change
         some
           (CookCompileFrontierWitnessUp.mk
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist stage))
+              (cookCompileFrontierWitnessEncodeBHist s))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist coordinate))
+              (cookCompileFrontierWitnessEncodeBHist q))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist audit))
+              (cookCompileFrontierWitnessEncodeBHist a))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist obstruction))
+              (cookCompileFrontierWitnessEncodeBHist o))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist transport))
+              (cookCompileFrontierWitnessEncodeBHist h))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist route))
+              (cookCompileFrontierWitnessEncodeBHist c))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist provenance))
+              (cookCompileFrontierWitnessEncodeBHist p))
             (cookCompileFrontierWitnessDecodeBHist
-              (cookCompileFrontierWitnessEncodeBHist name))) =
-          some
-            (CookCompileFrontierWitnessUp.mk stage coordinate audit obstruction transport
-              route provenance name)
-      let mkCongr
-          {stage' coordinate' audit' obstruction' transport' route' provenance' name' :
-            BHist}
-          (hStage : stage' = stage)
-          (hCoordinate : coordinate' = coordinate)
-          (hAudit : audit' = audit)
-          (hObstruction : obstruction' = obstruction)
-          (hTransport : transport' = transport)
-          (hRoute : route' = route)
-          (hProvenance : provenance' = provenance)
-          (hName : name' = name) :
-          CookCompileFrontierWitnessUp.mk stage' coordinate' audit' obstruction'
-              transport' route' provenance' name' =
-            CookCompileFrontierWitnessUp.mk stage coordinate audit obstruction transport
-              route provenance name := by
-        cases hStage
-        cases hCoordinate
-        cases hAudit
-        cases hObstruction
-        cases hTransport
-        cases hRoute
-        cases hProvenance
-        cases hName
-        rfl
-      exact
-        congrArg some
-          (mkCongr
-            (cookCompileFrontierWitnessDecode_encode_bhist stage)
-            (cookCompileFrontierWitnessDecode_encode_bhist coordinate)
-            (cookCompileFrontierWitnessDecode_encode_bhist audit)
-            (cookCompileFrontierWitnessDecode_encode_bhist obstruction)
-            (cookCompileFrontierWitnessDecode_encode_bhist transport)
-            (cookCompileFrontierWitnessDecode_encode_bhist route)
-            (cookCompileFrontierWitnessDecode_encode_bhist provenance)
-            (cookCompileFrontierWitnessDecode_encode_bhist name))
+              (cookCompileFrontierWitnessEncodeBHist n))) =
+          some (CookCompileFrontierWitnessUp.mk s q a o h c p n)
+      rw [cookCompileFrontierWitnessDecode_encode_bhist s,
+        cookCompileFrontierWitnessDecode_encode_bhist q,
+        cookCompileFrontierWitnessDecode_encode_bhist a,
+        cookCompileFrontierWitnessDecode_encode_bhist o,
+        cookCompileFrontierWitnessDecode_encode_bhist h,
+        cookCompileFrontierWitnessDecode_encode_bhist c,
+        cookCompileFrontierWitnessDecode_encode_bhist p,
+        cookCompileFrontierWitnessDecode_encode_bhist n]
 
 private theorem cookCompileFrontierWitnessToEventFlow_injective
     {x y : CookCompileFrontierWitnessUp} :
@@ -171,10 +168,8 @@ private theorem cookCompileFrontierWitnessToEventFlow_injective
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      cookCompileFrontierWitnessFromEventFlow
-          (cookCompileFrontierWitnessToEventFlow x) =
-        cookCompileFrontierWitnessFromEventFlow
-          (cookCompileFrontierWitnessToEventFlow y) :=
+      cookCompileFrontierWitnessFromEventFlow (cookCompileFrontierWitnessToEventFlow x) =
+        cookCompileFrontierWitnessFromEventFlow (cookCompileFrontierWitnessToEventFlow y) :=
     congrArg cookCompileFrontierWitnessFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (cookCompileFrontierWitness_round_trip x).symm
@@ -193,16 +188,27 @@ instance cookCompileFrontierWitnessChapterTasteGate :
     intro x
     change
       cookCompileFrontierWitnessFromEventFlow
-          (cookCompileFrontierWitnessToEventFlow x) =
-        some x
+        (cookCompileFrontierWitnessToEventFlow x) = some x
     exact cookCompileFrontierWitness_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (cookCompileFrontierWitnessToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate CookCompileFrontierWitnessUp :=
+instance cookCompileFrontierWitnessFieldFaithful :
+    FieldFaithful CookCompileFrontierWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
-  cookCompileFrontierWitnessChapterTasteGate
+  fields := fun x =>
+    match x with
+    | CookCompileFrontierWitnessUp.mk s q a o h c p n => [s, q, a, o, h, c, p, n]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y hfields
+    cases x with
+    | mk s1 q1 a1 o1 h1 c1 p1 n1 =>
+        cases y with
+        | mk s2 q2 a2 o2 h2 c2 p2 n2 =>
+            cases hfields
+            rfl
 
 instance cookCompileFrontierWitnessNontrivial :
     Nontrivial CookCompileFrontierWitnessUp where
@@ -216,44 +222,31 @@ instance cookCompileFrontierWitnessNontrivial :
         intro h
         cases h⟩
 
-def cookCompileFrontierWitnessFields :
-    CookCompileFrontierWitnessUp → List BHist
-  | CookCompileFrontierWitnessUp.mk stage coordinate audit obstruction transport route
-      provenance name =>
-      [stage, coordinate, audit, obstruction, transport, route, provenance, name]
-
-private theorem cookCompileFrontierWitness_field_faithful_concrete :
-    ∀ x y : CookCompileFrontierWitnessUp,
-      cookCompileFrontierWitnessFields x =
-        cookCompileFrontierWitnessFields y → x = y := by
+def taste_gate : ChapterTasteGate CookCompileFrontierWitnessUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk stage coordinate audit obstruction transport route provenance name =>
-      cases y with
-      | mk stage' coordinate' audit' obstruction' transport' route' provenance' name' =>
-          injection hfields with hStage hTail0
-          injection hTail0 with hCoordinate hTail1
-          injection hTail1 with hAudit hTail2
-          injection hTail2 with hObstruction hTail3
-          injection hTail3 with hTransport hTail4
-          injection hTail4 with hRoute hTail5
-          injection hTail5 with hProvenance hTail6
-          injection hTail6 with hName _hNil
-          cases hStage
-          cases hCoordinate
-          cases hAudit
-          cases hObstruction
-          cases hTransport
-          cases hRoute
-          cases hProvenance
-          cases hName
-          rfl
+  cookCompileFrontierWitnessChapterTasteGate
 
-instance cookCompileFrontierWitnessFieldFaithful :
-    FieldFaithful CookCompileFrontierWitnessUp where
+theorem CookCompileFrontierWitnessTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      cookCompileFrontierWitnessDecodeBHist
+        (cookCompileFrontierWitnessEncodeBHist h) = h) ∧
+      (∀ x : CookCompileFrontierWitnessUp,
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+        (∀ x y : CookCompileFrontierWitnessUp,
+          BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) ∧
+          cookCompileFrontierWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  fields := cookCompileFrontierWitnessFields
-  field_faithful := cookCompileFrontierWitness_field_faithful_concrete
+  constructor
+  · exact cookCompileFrontierWitnessDecode_encode_bhist
+  · constructor
+    · intro x
+      change
+        cookCompileFrontierWitnessFromEventFlow
+          (cookCompileFrontierWitnessToEventFlow x) = some x
+      exact cookCompileFrontierWitness_round_trip x
+    · constructor
+      · intro x y heq
+        exact cookCompileFrontierWitnessToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.CookCompileFrontierWitnessUp
