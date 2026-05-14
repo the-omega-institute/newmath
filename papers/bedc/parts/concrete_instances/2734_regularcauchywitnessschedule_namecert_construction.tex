@@ -583,6 +583,26 @@ For the reverse direction, start with the standard finite witness-schedule recor
 Since neither construction introduces a field outside those rows, the bridge has no coordinate for $\RealUp$ completeness, quotient streams, selected limits, host real equality, or choice. The BEDC export and the standard finite witness-schedule record therefore read back to one another over exactly the displayed finite carrier.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule finite-observation terminal coverage]
+\label{thm:regular-cauchy-witness-schedule-finite-observation-terminal-coverage}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet, where $X$ is the $\RegSeqRatUp$ family row, $\mu$ is the modulus-selector row, $W$ is the $\StreamNameUp$ finite window, $D$ is the $\DyadicRatCoreUp$ ledger, $R$ is the diagonal readback row, and $T$ is the $\RealUp$ seal. Every terminal finite observation consumed from $S$ by a $\RealUp$ or completion-facing route factors through exactly the rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The terminal consumer receives no $\RealUp$ completeness principle, quotient stream, selected completed limit, host real equality, or choice operation, and it cannot add a second scheduled observation route downstream.
+\end{theorem}
+\begin{proof}
+Begin with the public export package of \autoref{thm:regular-cauchy-witness-schedule-public-export-package}. It exposes the terminal observation as the finite BEDC packet $X,\mu,W,D,R,T,H,C,P,N$, with the family, modulus, window, dyadic ledger, diagonal readback, and Real seal already displayed before a completion-facing consumer can read the observation.
+
+Next use the standard bridge of \autoref{thm:regular-cauchy-witness-schedule-standard-bridge}. The bridge identifies the same finite witness-schedule record, so a terminal consumer cannot reinterpret $W,D,R,T$ as a quotient stream, selected limit, host real equality, or choice-selected completion object.
+
+Finally apply tail budget exhaustion from \autoref{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}. Once the downstream route has spent the scheduled-side budget on $X,\mu,W,D,R,T,H,C,P,N$, any later completion or paired-tail consumer may only use the route already carried by those rows and cannot introduce a second scheduled observation path.
+\end{proof}
+
 \closureat{RegularCauchyWitnessScheduleUp}{obligationStr}
 \closureat{RegularCauchyWitnessScheduleUp}{scopedStr}
 \closureat{RegularCauchyWitnessScheduleUp}{publicStr}
