@@ -515,6 +515,7 @@ import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
