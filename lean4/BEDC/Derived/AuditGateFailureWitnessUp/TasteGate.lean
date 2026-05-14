@@ -242,4 +242,22 @@ theorem AuditGateFailureWitnessTasteGate_single_carrier_alignment :
         exact auditGateFailureWitnessToEventFlow_injective heq
       · rfl
 
+theorem AuditGateFailureWitnessUp_obligation_surface :
+    Nonempty (BHistCarrier AuditGateFailureWitnessUp) ∧
+      Nonempty (ChapterTasteGate AuditGateFailureWitnessUp) ∧
+      ∃ x : AuditGateFailureWitnessUp,
+        x =
+            AuditGateFailureWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x : AuditGateFailureWitnessUp :=
+    AuditGateFailureWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  constructor
+  · exact ⟨auditGateFailureWitnessBHistCarrier⟩
+  · constructor
+    · exact ⟨auditGateFailureWitnessChapterTasteGate⟩
+    · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
 end BEDC.Derived.AuditGateFailureWitnessUp
