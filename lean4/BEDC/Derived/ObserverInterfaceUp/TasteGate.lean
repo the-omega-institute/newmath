@@ -347,3 +347,10 @@ theorem ObserverInterfaceTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.ObserverInterfaceUp.TasteGate
+
+namespace BEDC.Derived.ObserverInterfaceUp
+
+def taste_gate : BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.ObserverInterfaceUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.ObserverInterfaceUp
