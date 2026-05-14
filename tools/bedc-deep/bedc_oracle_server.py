@@ -258,6 +258,16 @@ def _page_in_bedc_project(url: str) -> bool:
     return parsed.netloc in {"chatgpt.com", "chat.openai.com"} and parsed.path.startswith(BEDC_PROJECT_PREFIX)
 
 
+def _page_is_bedc_conversation(url: str) -> bool:
+    if not _page_in_bedc_project(url):
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    return bool(re.search(r"/c/[a-f0-9-]{6,}", parsed.path))
+
+
 def _cancel_pending_for_agent(agent_id: str, *, reason: str) -> str:
     """Drop one pending task for an agent that is no longer valid."""
     task = pending_tasks.pop(agent_id, None)
@@ -415,6 +425,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         "agent_script_version": poll_metrics["script_version"],
                     })
                     return
+                if not _page_is_bedc_conversation(poll_metrics["page_url"]):
+                    self._send_json({
+                        "status": "idle",
+                        "reason": "agent on BEDC Project root; waiting for conversation page before dispatch",
+                    })
+                    return
                 if task_queue and len(pending_tasks) < MAX_AGENTS:
                     task = task_queue.popleft()
                     task["assigned_agent"] = agent_id
@@ -457,6 +473,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         ((recent.get(aid, {}).get("metrics") or {}).get("page_url") or "")
                     )
                 ]
+                dispatch_ready_poll = [
+                    aid for aid in compatible_active_poll
+                    if _page_is_bedc_conversation(
+                        ((recent.get(aid, {}).get("metrics") or {}).get("page_url") or "")
+                    )
+                ]
                 stale_busy = [
                     aid for aid, task in pending_tasks.items()
                     if not _busy_agent_is_current(aid, recent.get(aid), task)
@@ -476,6 +498,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     diagnosis = "queue_waiting_for_compatible_agent"
                 elif task_queue and not pending_tasks and not project_active_poll:
                     diagnosis = "queue_waiting_for_project_agent"
+                elif task_queue and not pending_tasks and not dispatch_ready_poll:
+                    diagnosis = "queue_waiting_for_dispatch_ready_agent"
                 elif pending_tasks:
                     if stale_busy:
                         diagnosis = "agent_busy_with_stale"
@@ -498,6 +522,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "active_poll_agents": active_poll,
                     "compatible_active_poll_agents": compatible_active_poll,
                     "project_active_poll_agents": project_active_poll,
+                    "dispatch_ready_poll_agents": dispatch_ready_poll,
                     "stale_busy_agents": stale_busy,
                     "mismatched_busy_agents": mismatched_busy,
                     "zero_extraction_hang_agents": zero_extraction_hang,
