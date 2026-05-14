@@ -1032,6 +1032,24 @@ def _read_research_latest_counts() -> dict[str, int]:
     return counts
 
 
+def _read_research_latest_profiles() -> dict[str, str]:
+    profiles: dict[str, str] = {}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return profiles
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return profiles
+    for line in lines:
+        match = re.match(r"-\s+(ready_(?:budget|difficulty|oracle_mode)):\s+(.+?)\s*$", line.strip())
+        if match:
+            profiles[match.group(1)] = match.group(2)
+    return profiles
+
+
 def _read_research_ready_titles(limit: int = 5) -> list[str]:
     if not RESEARCH_CANDIDATES_LATEST.exists():
         return []
@@ -1065,12 +1083,20 @@ def _read_research_ready_titles(limit: int = 5) -> list[str]:
 
 def render_research_candidate_lane() -> str:
     counts = _read_research_latest_counts()
+    profiles = _read_research_latest_profiles()
     lines = [
         (
             f"  latest packets={counts['packets']} ready={counts['ready']} "
             f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
         )
     ]
+    if counts["ready"] and profiles:
+        if profiles.get("ready_budget"):
+            lines.append(f"  ready budget: {profiles['ready_budget']}")
+        if profiles.get("ready_difficulty"):
+            lines.append(f"  ready difficulty: {profiles['ready_difficulty']}")
+        if profiles.get("ready_oracle_mode"):
+            lines.append(f"  ready oracle modes: {profiles['ready_oracle_mode']}")
     if not RESEARCH_BOARD_SPAWN_LATEST.exists():
         lines.append("  append status: no research board_spawn attempt recorded")
         return "\n".join(lines)
