@@ -197,6 +197,48 @@ choice datum, selected limit, or ambient completeness input outside the
 displayed packet route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility root-budget handoff totality]
+\label{thm:diagonal-limit-compatibility-root-budget-handoff-totality}
+Every root-budget handoff from an accepted
+$\DiagonalLimitCompatibilityUp$ packet to a $\RealUp$ or $\CompletionUp$
+consumer is exhausted by the ordered route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The handoff is already the finite Real and Completion route carried by the
+packet. It exposes no host real equality, quotient stream, selected limit,
+choice data, ambient completeness, or second budget source.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It fixes the
+root budget on the displayed $D,W,Q,L,H,C,P,N$ carrier rows before any
+downstream consumer can read the packet.
+
+Next apply
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}.
+This consumes the selector contribution on $R,T,S,D,W,Q,L$ and leaves only
+the displayed transport, continuation, provenance, and naming rows available
+to the handoff.
+
+Now use
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. The
+Real-facing read reaches $L$ only after the public selector and budget rows
+have already been fixed on the same route.
+
+Apply
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary} and
+\autoref{thm:diagonal-limit-compatibility-root-budget-public-boundary}. These
+two public-boundary theorems package the root budget, selector budget, Real
+seal lock, and finite-window handoff as one route for $\RealUp$ and
+$\CompletionUp$ consumers.
+
+The non-escape clauses attached to those five rows remove every remaining
+off-route coordinate. Hence the root-budget handoff is total for the displayed
+finite route, with no host real equality, quotient stream, selected limit,
+choice data, ambient completeness, or second budget source.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root budget consumer chain]
 \label{thm:diagonal-limit-compatibility-root-budget-consumer-chain}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
