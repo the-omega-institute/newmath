@@ -33,6 +33,24 @@ Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The Stream
 Finally invoke \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} and \autoref{thm:streamname-open-phase-terminal-nonescape}. Seal determinacy pins the Real-facing read to that finite pullback, and non-escape removes quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data from the exported surface.
 \end{proof}
 
+\begin{theorem}[StreamName open-phase tail-budget stability]
+\label{thm:streamname-open-phase-tail-budget-stability}
+Every Phase Real and Completion consumer routed through the finite-window budget of \autoref{thm:streamname-open-phase-finite-window-budget} keeps the same nonempty StreamName window-budget source after certified successor and tail reindexing. The transported read still factors through the ordered public route
+$$
+\StreamNameUp\text{ window budget}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ finite seal}.
+$$
+In particular, every $\RegSeqRatUp$ tail read obtained from that reindexing remains a read of the original finite budget packet, with transported $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-open-phase-finite-window-budget}. It supplies the nonempty StreamName window-budget source and places the $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and finite $\RealUp$ seal row on the same common-refinement terminal packet.
+
+Apply \autoref{thm:rat-stream-name-successor-reindexing-stability} to the certified successor read. Then use \autoref{thm:streamname-tail-window-cover-common-refinement} and \autoref{thm:streamname-regseqrat-realup-tail-selector-transport} to transport the visible tail window back through the common StreamName refinement. These steps change only the selected finite window indices and their displayed transport rows; they do not introduce a new source for the budget.
+
+Now invoke \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The transported StreamName window, the RegSeqRat tail readback, the DyadicRatCore ledger, and the finite Real seal row are still one finite pullback, so the successor-tail read factors through the same four-face route as the original budget.
+
+Finally apply \autoref{thm:streamname-open-phase-terminal-nonescape}. Since the terminal packet has no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, or metric-completeness data, the transported tail-budget route cannot export any of those objects.
+\end{proof}
+
 \begin{theorem}[StreamName open-phase Real seal route]
 \label{thm:streamname-open-phase-real-seal-route}
 Every Phase Real and Completion handoff that begins at a $\StreamNameUp$ finite window and ends at a finite $\RealUp$ seal row factors through the finite-window budget route of \autoref{thm:streamname-open-phase-finite-window-budget}. The handoff therefore has the ordered public route
