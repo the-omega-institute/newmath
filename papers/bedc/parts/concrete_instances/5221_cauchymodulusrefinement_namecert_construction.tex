@@ -200,6 +200,22 @@ Next read the window and tolerance side. Window readback exhaustion forces the s
 The only route into the $\RealUp$ seal is the displayed continuation from $Q$ to $E$, stabilized by $H$ and recorded by $P,N$. A packet that omits $U$ or $T$ therefore omits a required coordinate of the seal route and is refused as a $\CauchyModulusRefinementUp$ carrier.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement shared-route totality]
+\label{thm:cauchy-modulus-refinement-shared-route-totality}
+Every $\RealUp$-facing consumer of an accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ factors through the single displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+Along this route the consumer obtains the shared meet, refinement witness, selector budget, selected windows, tolerance readback, and Real seal rows, but obtains no quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Use shared-meet dependency, \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency}, and selector-budget dependency, \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}, to bind the source side. They force every accepted consumer route to read $M_0,M_1$ before the shared meet $U$, and then to pass through the refinement witness $V$ and selector-budget row $T$.
+
+Apply window readback exhaustion, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}. It places every selected-window and $\RegSeqRatUp$ readback through $T,W,Q$ and leaves no hidden selector, quotient stream, selected limit, or second window ledger outside those rows.
+
+Finally apply Real seal refusal, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}. Since the seal row $E$ refuses reads that bypass $U$ or $T$, the only accepted $\RealUp$-facing route is the displayed chain ending in $E$, with host real equality and ambient completeness still outside the carrier.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement classifier transport]
 \label{thm:cauchy-modulus-refinement-classifier-transport}
 For every accepted $\CauchyModulusRefinementUp$ packet
@@ -730,6 +746,8 @@ Apply \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}.
 
 Finally apply \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}. It orders the meet, extraction, selector, finite-window, tolerance, readback, and seal rows before any Real-completion use. Therefore every consumer read is covered by the displayed route and no hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate remains.
 \end{proof}
+
+\input{parts/concrete_instances/cauchymodulusrefinement/root_unblock_obligation_surface}
 
 \closureat{CauchyModulusRefinementUp}{seedStr}
 \closureat{CauchyModulusRefinementUp}{obligationStr}
