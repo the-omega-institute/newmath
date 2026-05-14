@@ -200,6 +200,19 @@ ledger, so their object, hom, unit, composition, and associativity reads do
 not enlarge the acceptance boundary.
 \end{proof}
 
+\begin{theorem}[ContinuationAutomaton obligation-closure consumer pack]\label{thm:continuation-automaton-obligation-closure-consumer-pack}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$, carrier admission, behaviour classifier stability, step-continuation correspondence, trace exhaustion, acceptance ledger exactness, and ledger factorization assemble the obligation-closure package consumed by \autoref{ch:concrete-instances-unary-continuation-category-namecert} and \autoref{ch:concrete-instances-continuationmonad-namecert}. Those consumers receive only $Q,q_0,F,T,B,H,C,P,N$: no host evaluator, external state space, trace quotient, or unlisted transition rule is exported.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:continuationautomaton-carrier} together with \autoref{thm:continuationautomaton-namecert-obligations}. These rows provide the finite state ledger, initial row, accepting ledger, transition table, classifier, transports, routes, provenance, and local name.
+
+The behaviour surface is fixed by \autoref{thm:continuation-automaton-behaviour-classifier-stability}. The step surface is fixed by \autoref{thm:continuationautomaton-step-continuation-correspondence}, so every transition read is the displayed $\Cont(q,m,q')$ row already stored in $T$.
+
+Trace and acceptance consumption are exhausted by \autoref{thm:continuation-automaton-trace-exhaustion} and \autoref{thm:continuation-automaton-acceptance-ledger-exactness}. The ledger factorization of \autoref{thm:continuation-automaton-ledger-factorization} then repacks the same rows for the unary-continuation-category and continuationmonad consumers.
+
+Since each cited row is a projection or replay of $Q,q_0,F,T,B,H,C,P,N$, the consumer package has no coordinate for a host evaluator, external state space, trace quotient, or transition rule outside $T$.
+\end{proof}
+
 \closureat{ContinuationAutomatonUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationAutomatonUp}
