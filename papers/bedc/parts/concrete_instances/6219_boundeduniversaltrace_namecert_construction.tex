@@ -238,7 +238,23 @@ transport preserves the three public roles without collapsing them into one
 another or into terminal readback.
 \end{proof}
 
-The Lean \texttt{TasteGate.lean} development for $\BoundedUniversalTraceUp$ must include explicit $\mathsf{Nontrivial}\ \BoundedUniversalTraceUp$ and $\mathsf{FieldFaithful}\ \BoundedUniversalTraceUp$ instances for the displayed carrier. These instances must preserve the fuel row, substrate row, source row, finite continuation ledger, terminal readback row, transport rows, route rows, package provenance, and local naming row.
+\begin{theorem}[BoundedUniversalTrace TasteGate readiness package]
+\label{thm:bounded-universal-trace-tastegate-readiness-package}
+For every accepted $\BoundedUniversalTraceUp$ carrier
+$$
+U=(F,M,S,T,R,H,C,P,N),
+$$
+the rows $F,M,S,T,R,H,C,P,N$ form the exact TasteGate readiness package for a single future carrier. The $\mathsf{Nontrivial}$ instance must distinguish at least two packets by one displayed row, the $\mathsf{FieldFaithful}$ instance must project all nine fields, and no proof may collapse fuel, substrate, ledger, or readback into a hidden host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:bounded-universal-trace-carrier}. It displays the fuel row $F$, substrate row $M$, finite source row $S$, continuation ledger $T$, terminal readback row $R$, transport row $H$, route row $C$, package row $P$, and local name row $N$ as separate fields of one finite packet.
+
+Apply \autoref{thm:bounded-universal-trace-namecert-obligations}, \autoref{thm:bounded-universal-trace-step-index-readback}, and \autoref{thm:bounded-universal-trace-non-escape}. These rows bind admission, bounded readback, and the refusal of any unbounded evaluator, divergence oracle, or total halting classifier outside the displayed carrier.
+
+Next use \autoref{thm:bounded-universal-trace-fuel-determinacy}, \autoref{thm:bounded-universal-trace-ledger-exhaustion}, and \autoref{thm:bounded-universal-trace-fuel-substrate-ledger-separation}. They keep $F$, $M$, $T$, and $R$ as distinct public roles while $H,C,P,N$ only transport, replay, cite, and name the same finite surface.
+
+Thus a future TasteGate carrier has one exact package to encode. Nontriviality can witness distinct packets by changing a displayed row, and field faithfulness must project each of the nine rows rather than replacing the finite trace by host evaluation.
+\end{proof}
 
 \closureat{BoundedUniversalTraceUp}{seedStr}
 
