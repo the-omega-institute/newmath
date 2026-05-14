@@ -1,0 +1,69 @@
+\begin{theorem}[Closed-term substitution boundary root substitution scope]
+\label{thm:closed-term-substitution-boundary-root-substitution-scope}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the root substitution-scope obligation is the finite read of the substitution row $R$ only after the source and value closedness rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ have been displayed in the same $\BHist$ packet. The read is transported only by the recorded $\hsame$ row $H$ and consumed only through the displayed $\Cont$ route $C$ under the $\Pkg$ provenance $P$ and local $\NameCert$ row $N$.
+
+Thus a downstream root consumer receives the substitution boundary through
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},R,L,A,H,C,P,N
+$$
+and not through host substitution semantics, subject reduction, hidden compiler state, or an unregistered free-variable coordinate.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make a substitution-row read depend on the displayed source and value closedness rows before $R$ can be consumed.
+
+Next apply ledger non-escape, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger $L$ and audit row $A$ keep the substitution read inside the finite carrier and prevent a route to host equality, hidden compiler state, or a subject-reduction theorem.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. Their root routes package the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for downstream consumers, so the substitution-scope obligation is exactly the displayed finite read of $R$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root shift scope]
+\label{thm:closed-term-substitution-boundary-root-shift-scope}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the root shift-scope obligation is the finite read of the shift row $Q$ only after the source closedness row $C_{\mathsf{src}}$ has been displayed in the same $\BHist$ packet. The read is transported only by the recorded $\hsame$ row $H$ and consumed only through the displayed $\Cont$ route $C$ under the $\Pkg$ provenance $P$ and local $\NameCert$ row $N$.
+
+Thus a downstream root consumer receives the shift boundary through
+$$
+T,V,d,C_{\mathsf{src}},Q,L,A,H,C,P,N
+$$
+and not through a hidden depth convention, host substitution semantics, subject reduction, hidden compiler state, or an unregistered free-variable coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Their shift exactness clause makes $C_{\mathsf{src}}$ the prerequisite for consuming the closed shift row $Q$.
+
+Use ledger non-escape from \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. Since the ledger and audit rows have no coordinate for a hidden depth convention, host substitution semantics, compiler state, or subject reduction, the shift read remains inside the displayed packet.
+
+Close with \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The root handoff exports the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so the shift-scope obligation is separated from the substitution-scope obligation while sharing the same finite packet boundary.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root-unblock obligation package]
+\label{thm:closed-term-substitution-boundary-root-unblock-obligation-package}
+The root-unblock surface of $\ClosedTermSubstitutionBoundaryUp$ is the pair of operation-specific obligations carried by the displayed packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N).
+$$
+The shift side is the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of \autoref{thm:closed-term-substitution-boundary-root-shift-scope}. The substitution side is the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of \autoref{thm:closed-term-substitution-boundary-root-substitution-scope}.
+
+Consequently downstream self-compilation, recursor, and compiler-schedule consumers may cite the root-unblock package only as the finite obligation packet
+$$
+(C_{\mathsf{src}},Q,L,A,H,C,P,N)
+\quad\text{and}\quad
+(C_{\mathsf{src}},C_{\mathsf{val}},R,L,A,H,C,P,N),
+$$
+with both sides grounded in \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}.
+\end{theorem}
+\begin{proof}
+First isolate the shift side. Apply \autoref{thm:closed-term-substitution-boundary-root-shift-scope}. It packages the $Q$ read through $C_{\mathsf{src}}$, $L$, $A$, $H$, $C$, $P$, and $N$.
+
+Next isolate the substitution side. Apply \autoref{thm:closed-term-substitution-boundary-root-substitution-scope}. It packages the $R$ read through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $L$, $A$, $H$, $C$, $P$, and $N$.
+
+The shared root boundary is supplied by \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. These theorems ensure that both operation-specific routes remain in the same displayed $\BHist$ carrier with componentwise $\hsame$ transport, displayed $\Cont$ consumption, $\Pkg$ provenance, and local $\NameCert$ authority.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. Since neither side has a coordinate for host substitution semantics, hidden compiler state, subject reduction, or an unregistered free variable, the combined package is exactly the finite root-unblock obligation surface.
+\end{proof}
