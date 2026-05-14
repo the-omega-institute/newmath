@@ -181,6 +181,22 @@ Apply \autoref{thm:znormal-namecert-obligations} to bind these rows to the local
 Finally apply \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. The terminal read and sibling normal-word row are reached through the same displayed transport and replay rows, so no external normalizer or host computation route is available.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root terminal non-escape interface]
+\label{thm:znormal-root-terminal-nonescape-interface}
+Every root consumer of an accepted $\ZNormalUp$ packet must read terminal normality through the displayed path
+$$
+T \to F \to V \to R,
+$$
+with $K$ available only as finite sibling normal-word and carry evidence from $\ZeckendorfNormalUp$ and $\ZCarryUp$. No host conversion, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer can enter the root-facing interface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-fuel-normality-nonescape}. It places the terminal normal-form claim on the finite route from typed endpoint $T$ through fuel $F$ and terminal row $V$ to continuation read $R$.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. The terminal read factors through $T,F,V,R,H,C,P,N$, and the row $K$ is consumed only after $V$ is already displayed.
+
+Use \autoref{thm:znormal-sibling-normalword-handoff} to identify $K$ as finite sibling evidence from $\ZeckendorfNormalUp$ and $\ZCarryUp$. Then apply \autoref{thm:znormal-route-transport} to keep the whole root route inside $H,C,P,N$ without host conversion, quotient computation, unrestricted evaluation, divergence, or global normalization.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ root carrier exposure]
 \label{thm:znormal-root-unblock-carrier-exposure}
 Every root consumer of an accepted $\ZNormalUp$ packet first sees exactly the displayed tuple
