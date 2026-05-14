@@ -43,6 +43,40 @@ The synchronizer $S$ then ties the selected diagonal budget and observation rout
 The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route. Since the carrier has no quotient stream, host equality, external limit, choice, or ambient completeness coordinate, these rows exhaust the local certificate surface.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger TasteGate nontriviality]
+\label{thm:cauchy-witness-ledger-tastegate-nontriviality}
+For every accepted $\CauchyWitnessLedgerUp$ packet, the TasteGate-facing surface must contain two distinguishable accepted ledger witnesses whose separation is witnessed by at least one displayed analytic row among $Q,B,S,K$. Hence carrier admission for the packet cannot collapse to a one-point surface: a missing-row packet or a packet that reaches $K$ while bypassing one of $Q,B,S$ is rejected by the same local NameCert surface.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier as
+$$
+L=(Q,B,S,K,H,C,P,N).
+$$
+The NameCert obligation theorem says that the public surface contains all four analytic rows $Q,B,S,K$ and all four structural rows $H,C,P,N$. Therefore the TasteGate input is not a bare carrier name; it is the displayed ledger packet with analytic rows available for comparison.
+
+The falsifiable prediction for this chapter fixes the rejection test: any admitted Real-facing read must factor through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows. A packet with a missing analytic row, or a packet whose read bypasses one of these rows before reaching $K$, fails that test and is not an accepted witness for the ledger surface.
+
+The independence witness separates this carrier from each nearest sibling. Each sibling lacks at least one of the four ledger coordinates, while $\CauchyWitnessLedgerUp$ requires the simultaneous factorization through all four. Thus the accepted packet supplies a witness pair for Lean's $\mathsf{Nontrivial}$ obligation: one witness reads the displayed budget route and another reads a displayed seal route separated by at least one of $Q,B,S,K$, and the local certificate rejects the attempted one-point collapse.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger FieldFaithful row]
+\label{thm:cauchy-witness-ledger-field-faithful-row}
+Any $\mathsf{FieldFaithful}\ \CauchyWitnessLedgerUp$ instance for the same accepted packet must project exactly the rows
+$$
+Q,B,S,K,H,C,P,N.
+$$
+Equality of all eight projected rows is the only permitted carrier equality route for TasteGate consumers. No compressed classifier, quotient stream, host real equality, selected external limit, or ambient completeness row may replace constructor-field faithfulness for this packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligations. The carrier has exactly the tuple $L=(Q,B,S,K,H,C,P,N)$, and the local certificate surface exposes precisely those analytic, transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The analytic part of the read is forced through $Q \longmapsto B \longmapsto S \longmapsto K$, so a faithful field projection cannot expose $K$ from a compressed classifier while hiding one of the prior analytic fields.
+
+Next use \autoref{thm:cauchy-witness-ledger-route-determinacy} and \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}. Once all eight displayed rows agree, there is no remaining public coordinate from which a second carrier equality route could be chosen. Conversely, omitting any displayed row leaves one of the admitted route, transport, replay, provenance, or naming obligations unread.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. Quotient stream equality, host Real equality, selected external limits, countable choice, and ambient completeness are excluded from the carrier. Therefore TasteGate consumers can be field-faithful only by projecting the eight constructor rows and using equality of those rows as the carrier equality route.
+\end{proof}
+
 \begin{theorem}[Cauchy witness ledger budget factorization]
 \label{thm:cauchy-witness-ledger-budget-factorization}
 Every admitted completion-facing read of an accepted $\CauchyWitnessLedgerUp$ packet factors through the finite route

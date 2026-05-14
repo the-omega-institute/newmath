@@ -92,6 +92,8 @@ import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
+import BEDC.Derived.BetaCriticalPairUp.TasteGate
+import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinderBudgetSealUp.TasteGate

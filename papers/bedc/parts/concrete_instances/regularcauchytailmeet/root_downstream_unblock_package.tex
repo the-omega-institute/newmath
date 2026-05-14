@@ -219,6 +219,45 @@ root consumer budget is the route just constructed. The nonescape exclusions
 remove every alternative carrier for a second budget.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet root budget route lock]
+\label{thm:regular-cauchy-tail-meet-root-budget-route-lock}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any $\RealUp$,
+$\CompletionUp$, $\FiniteObservationBudgetSelectorUp$, or
+$\RegularCauchyTailSelectorUp$ consumer preserving the displayed rows must use
+the single route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,\Pkg,N.
+$$
+No selected limit, quotient stream, host equality, trichotomy row, independent
+tail oracle, or ambient completeness row can supply a second route.
+\end{theorem}
+\begin{proof}
+Start with the downstream window exhaustion and threshold stability theorems.
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-window-exhaustion} fixes
+the paired source windows and modulus rows, while
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-threshold-stability}
+keeps the shared threshold and comparison row on the same accepted packet.
+
+Next apply the nonescape package and seal route.
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-nonescape-package}
+removes every unlisted root resource, and
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-seal-route} attaches the
+consumer to the displayed $\hsame$, $\Cont$, ledger, package, and local naming
+rows.
+
+Now use the budget-selector handoff together with root consumer budget
+uniqueness.
+\autoref{thm:regular-cauchy-tail-meet-budget-selector-handoff} forces
+$\FiniteObservationBudgetSelectorUp$ and $\RegularCauchyTailSelectorUp$
+consumers through the displayed route, and
+\autoref{thm:regular-cauchy-tail-meet-root-consumer-budget-uniqueness} gives
+the same route to $\RealUp$ and $\CompletionUp$ root consumers.
+
+Thus every listed consumer reads exactly
+$R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,\Pkg,N$. The excluded rows have already
+been removed from the packet surface, so none can witness a second route.
+\end{proof}
+
 \begin{theorem}[RegularCauchyTailMeet seal consumer tail-fiber factorization]
 \label{thm:regular-cauchy-tail-meet-seal-consumer-tail-fiber-factorization}
 For an accepted $\RegularCauchyTailMeetUp$ packet, every seal-facing consumer
