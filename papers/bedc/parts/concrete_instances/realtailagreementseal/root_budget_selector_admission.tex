@@ -143,6 +143,7 @@ The cross-sibling lock and tail-fusion lock carry that coordinate exhaustion to 
 \label{thm:real-tail-agreement-seal-root-selector-consumer-totality}
 Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet admitted by the root budget-selector route. Every root-facing consumer whose endpoint is $\RealUp$ or $\CompletionUp$, including the downstream $\RegularCauchyTailFusionUp$, $\CauchyLimitSealUp$, and $\RealUp$ consumers, is accounted for by the completion-lattice factorization and the window non-escape boundary. Consequently the root selector surface is total for this finite NameCert route: each admitted consumer reaches the endpoint through the displayed L10 chain and no admitted consumer remains outside it.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealTailAgreementSealUp.RealTailAgreementSealCarrier\_root\_selector\_consumer\_totality}
 \begin{proof}
 First assemble the entry route. Apply \autoref{thm:real-tail-agreement-seal-root-budget-selector-admission}, \autoref{thm:real-tail-agreement-seal-root-budget-shared-threshold-factorization}, and \autoref{thm:real-tail-agreement-seal-root-budget-selector-shared-threshold-exactness} to put each admitted consumer on the limiter, tail-budget, tail-meet, selector-budget, window, dyadic-readback, and agreement chain.
 
@@ -161,6 +162,7 @@ $$
 $$
 The bundle therefore consumes one finite budget surface: the displayed limiter, tail-budget, tail-meet, selector-budget, stream window, dyadic readback, rational-sequence readback, agreement row, limit-seal row, and public real endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealTailAgreementSealUp.RealTailAgreementSealCarrier\_root\_selector\_probe\_bundle\_budget\_coverage}
 \begin{proof}
 Inspect the finite $\mathsf{ProbeBundle}$ one request at a time. For each member, \autoref{thm:real-tail-agreement-seal-root-budget-selector-admission} places the root read behind the limiter, tail-budget, selector-budget, window, dyadic readback, and agreement rows of $Q$.
 
@@ -183,4 +185,22 @@ Apply \autoref{thm:real-tail-agreement-seal-root-budget-selector-cross-sibling-l
 Next use \autoref{thm:real-tail-agreement-seal-root-budget-selector-tail-fusion-lock}. The downstream tail-fusion, limit-seal, and real endpoint reads are determined by the same agreement row and NameCert packet, so the endpoint route is not an independent choice.
 
 Finally combine \autoref{thm:real-tail-agreement-seal-root-selector-completion-lattice} with \autoref{thm:real-tail-agreement-seal-root-selector-consumer-totality}. Every admitted consumer is already exhausted by the displayed completion lattice, and the matching displayed rows leave no coordinate where a quotient stream, selected limit, or host convergence row could separate the two endpoint routes.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root selector bundle endpoint exactness]
+\label{thm:real-tail-agreement-seal-root-selector-bundle-endpoint-exactness}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet admitted by the root selector route. Any finite $\mathsf{ProbeBundle}$ of root-facing $\RealUp$ and $\CompletionUp$ requests whose members preserve the displayed limiter, tail-budget, tail-meet, selector-budget, $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback, $\RegSeqRatUp$ readback, agreement row, and local $\NameCert$ row determines exactly one public endpoint route
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \RegularCauchySelectorBudgetUp \to \StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealTailAgreementSealUp \to \CauchyLimitSealUp \to \RealUp.
+$$
+Thus bundle coverage and endpoint determinacy are the same finite public route for $Q$, with no second selector, second threshold, quotient stream, selected limit, host convergence row, choice-selected tail, or independent completion endpoint.
+\end{theorem}
+\begin{proof}
+Start with $\mathsf{ProbeBundle}$ budget coverage. Theorem~\ref{thm:real-tail-agreement-seal-root-selector-probebundle-budget-coverage} places each member of the finite bundle on the displayed completion-lattice chain, and it identifies the consumed rows as the limiter, tail-budget, tail-meet, selector-budget, stream window, dyadic readback, rational-sequence readback, agreement row, limit-seal row, and public real endpoint.
+
+Next use completion-lattice exactness and window non-escape. Theorem~\ref{thm:real-tail-agreement-seal-root-selector-completion-lattice} fixes the order of the rows through $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, and $\RealUp$, while \autoref{thm:real-tail-agreement-seal-root-selector-window-nonescape} prevents any bundle member from leaving the displayed window and readback rows.
+
+Now apply consumer totality. Theorem~\ref{thm:real-tail-agreement-seal-root-selector-consumer-totality} accounts for every root-facing $\RealUp$ or $\CompletionUp$ request in the finite bundle, including the downstream tail-fusion, limit-seal, and real consumers.
+
+Finally apply endpoint determinacy. Since the bundle members preserve the displayed budget, window, readback, agreement, and local naming rows, \autoref{thm:real-tail-agreement-seal-root-selector-endpoint-determinacy} leaves only one public endpoint route. The excluded selector, threshold, quotient, limit, host-convergence, and choice-tail surfaces are not coordinates of the accepted packet, so the finite bundle determines the single route displayed above.
 \end{proof}

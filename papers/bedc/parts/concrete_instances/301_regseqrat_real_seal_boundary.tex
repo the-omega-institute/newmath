@@ -489,6 +489,51 @@ point, or $\RealUp$ completeness datum, so confluence has no hidden
 real-number coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal endpoint coverage]
+\label{thm:regseqrat-real-seal-endpoint-coverage}
+Every accepted finite $\RegSeqRatUp$-to-$\RealUp$ seal endpoint factors through
+exactly the displayed endpoint package with four open-phase faces:
+\begin{enumerate}
+  \item the $\StreamNameUp$ finite-window rows;
+  \item the $\DyadicRatCoreUp$ endpoint and radius ledger;
+  \item the $\RegSeqRatUp$ regularity and transported classifier rows;
+  \item the terminal $\RealUp$ seal row.
+\end{enumerate}
+The carrier data of the package are only $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows. Conversely, any accepted seal
+endpoint with those four faces and those carrier rows has no additional route
+coordinate beyond the terminal finite $\RealUp$ seal endpoint named by the
+schedule.
+
+In particular, the endpoint package excludes quotient streams, host equality,
+selected limits, completion points, $\RealUp$ completeness, and
+metric-completeness rows from the finite endpoint surface.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-real-seal-schedule-coverage}. It gives the
+finite schedule inventory for any accepted endpoint, so the visible rows are
+the $\StreamNameUp$ windows, dyadic endpoint and radius ledgers, regularity
+rows, transported classifier rows, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:regseqrat-real-seal-route-exclusion-package}. This
+locks the route coordinates to the displayed finite package and removes
+quotient streams, host equality, selected limits, completion points,
+$\RealUp$ completeness, and metric-completeness data from the accepted
+endpoint read.
+
+Now invoke \autoref{thm:regseqrat-real-seal-classifier-exhaustion}. The
+transported $\RegSeqRatUp$ regularity and classifier rows exhaust the visible
+classifier surface, so there is no second classifier face, package row, or
+local naming coordinate that can refine the endpoint.
+
+Finally use \autoref{thm:regseqrat-real-seal-schedule-confluence}. Any two
+accepted reads with the same four displayed faces and the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows
+replay to one terminal finite $\RealUp$ seal route. Hence the four-face
+package is exactly the finite endpoint coverage package.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]

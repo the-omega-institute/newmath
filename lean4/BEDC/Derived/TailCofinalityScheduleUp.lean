@@ -128,4 +128,28 @@ theorem TailCofinalityScheduleCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨precisionUnary, windowUnary, dyadicUnary, windowReadUnary, precisionWindowDyadic,
       precisionWindowRead, endpointPkg, windowReadPkg⟩
 
+theorem TailCofinalityScheduleCarrier_threshold_sufficiency [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      thresholdRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont window dyadic thresholdRead →
+        PkgSig bundle thresholdRead pkg →
+          UnaryHistory window ∧ UnaryHistory dyadic ∧ UnaryHistory regseq ∧
+            UnaryHistory thresholdRead ∧ Cont precision window dyadic ∧
+              Cont window dyadic thresholdRead ∧ Cont dyadic regseq sealRow ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle thresholdRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier windowDyadicThreshold thresholdPkg
+  obtain ⟨_precisionUnary, windowUnary, dyadicUnary, regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have thresholdUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicThreshold
+  exact
+    ⟨windowUnary, dyadicUnary, regseqUnary, thresholdUnary, precisionWindowDyadic,
+      windowDyadicThreshold, dyadicRegseqSeal, endpointPkg, thresholdPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp

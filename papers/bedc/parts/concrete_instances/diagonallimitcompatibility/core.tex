@@ -139,6 +139,62 @@ Apply the NameCert obligation theorem. Its seal-route compatibility clause place
 Now use \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet exports only the displayed coordinates, $S$ has no continuation route to $Q$ or $L$ except through $R,T,D,W$ and the continuation rows already recorded in $C$.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit selector-observer seal correspondence]
+\label{thm:diagonal-limit-compatibility-selector-observer-seal-correspondence}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+U=(B,W_U,Q_U,S_U,L_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet, and let
+$$
+O=(R_O,W_O,Q_O,D_O,S_O,L_O,H_O,C_O,P_O,N_O)
+$$
+be an accepted $\DiagonalLimitObserverUp$ packet. The three packets name the
+same terminal $\RealUp$ seal route exactly when their displayed L10 rows agree
+componentwise by $\hsame$: the $\StreamNameUp$ windows $W,W_U,W_O$, the
+$\RegSeqRatUp$ readback rows $Q,Q_U,Q_O$, the $\CauchyLimitSealUp$ rows
+$S,S_U,S_O$, the $\DyadicRatCoreUp$ tolerance ledgers $D,D_O$, and the terminal
+$\RealUp$ rows $L,L_U,L_O$ are transported through the displayed $H,H_U,H_O$,
+$C,C_U,C_O$, $P,P_U,P_O$, and $N,N_U,N_O$ rows. No quotient stream, host real
+equality, hidden selector, selected host limit, detached limit object, or
+ambient completeness principle can witness equality of the terminal route.
+\end{theorem}
+\begin{proof}
+Project the three accepted carriers. The compatibility packet exposes
+$W,Q,S,D,L$ through $H,C,P,N$; the selector-seal packet exposes
+$W_U,Q_U,S_U,L_U$ through $H_U,C_U,P_U,N_U$; and the observer packet exposes
+$W_O,Q_O,D_O,S_O,L_O$ through $H_O,C_O,P_O,N_O$.
+
+First suppose the displayed L10 rows agree componentwise by $\hsame$ through
+those structural rows. Apply
+\autoref{thm:diagonal-limit-compatibility-seal-route-compatibility} and
+\autoref{thm:diagonal-limit-compatibility-root-dependency-triad}. They place
+the compatibility seal route behind the same stream-window, tolerance,
+readback, seal, and terminal Real rows.
+
+Next apply
+\autoref{thm:real-completion-selector-seal-l10-handoff-scope} and
+\autoref{thm:diagonal-limit-observer-seal-exposure}. The selector and observer
+packets expose the same downstream route positions, so the componentwise
+transport rows identify one terminal $\RealUp$ seal route.
+
+Conversely, suppose the three accepted packets name the same terminal route.
+The cited seal-route and root-dependency theorems force any compatibility read
+of the terminal row through $W,Q,S,D,L$, while the selector handoff and observer
+exposure theorems force the sibling packets through their corresponding
+window, readback, tolerance, seal, and terminal rows.
+
+Finally use the non-escape clauses of the three packets. Since none exports a
+quotient stream, host equality, hidden selector, selected host limit, detached
+limit object, or ambient completeness coordinate, the terminal-route equality
+has no witness except componentwise $\hsame$ through the displayed $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility classifier transport]
 \label{thm:diagonal-limit-compatibility-classifier-transport}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
