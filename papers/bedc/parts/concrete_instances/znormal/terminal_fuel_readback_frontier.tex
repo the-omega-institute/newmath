@@ -1,0 +1,101 @@
+\begin{theorem}[$\ZNormalUp$ terminal fuel readback frontier]
+\label{thm:znormal-terminal-fuel-readback-frontier}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every terminal fuel read factors through the displayed typed endpoint $T$,
+finite fuel row $F$, terminal-normality row $V$, continuation readback row
+$R$, componentwise transport $H$, displayed route $C$, provenance $P$, and
+local $\NameCert_{\ZNormalUp}$ row $N$. The sibling normal-word row $K$ may be
+consulted only as finite sibling evidence after $V$ is displayed.
+
+The frontier exports no divergence oracle, host conversion row, quotient
+computation, unrestricted evaluator, global normalizer, or total-host claim
+outside $T,F,V,K,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. Its terminal-facing
+coordinates are the typed endpoint, finite fuel, terminal-normality,
+continuation readback, transport, route, provenance, and local naming rows.
+
+Use \autoref{thm:znormal-namecert-obligations} to bind those coordinates to
+the local certificate surface. The finite fuel row and terminal-normality row
+are therefore read before any terminal continuation row is consumed.
+
+Apply \autoref{thm:znormal-fuel-normality-nonescape},
+\autoref{thm:znormal-terminal-readback-exactness}, and
+\autoref{thm:znormal-terminal-fuel-route-admission}. These results force the
+terminal read through $T,F,V,R,H,C,P,N$ and keep $K$ as a finite sibling row.
+
+Finally use \autoref{thm:znormal-sibling-normalword-handoff} for the only
+allowed $K$ consumption. The carrier has no coordinate for divergence, host
+conversion, quotient computation, unrestricted evaluation, global
+normalization, or total-host escape, so the displayed frontier is exhaustive.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host frontier lock]
+\label{thm:znormal-total-host-frontier-lock}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host boundary is locked to the finite rows
+$T,F,V,K,R,H,C,P,N$. A consumer may not reread that boundary as a divergence
+row, host conversion row, quotient computation, unrestricted evaluator,
+global normalization procedure, or substrate halting statement.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:znormal-carrier} and
+\autoref{thm:znormal-namecert-obligations}. Together they list the complete
+accepted packet and attach every public read to the local $\NameCert$ surface.
+
+Apply \autoref{thm:znormal-total-host-boundary}. It identifies the packet as a
+finite interface for the total-host side and refuses host Turing completeness
+or substrate halting content beyond the accepted rows.
+
+Now use \autoref{thm:znormal-fuel-normality-nonescape} and
+\autoref{thm:znormal-terminal-readback-exactness}. Terminal normality is read
+through finite fuel and continuation readback, not through a host conversion or
+unrestricted evaluator.
+
+The route admission theorem,
+\autoref{thm:znormal-terminal-fuel-route-admission}, keeps the readback route
+inside $H,C,P,N$, while
+\autoref{thm:znormal-sibling-normalword-handoff} keeps the sibling row finite.
+Thus no excluded total-host or quotient object can be recovered from the
+frontier.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream consumer boundary]
+\label{thm:znormal-downstream-consumer-boundary}
+Every downstream consumer of an accepted $\ZNormalUp$ packet factors only
+through the typed endpoint $T$, finite fuel $F$, terminal normality $V$,
+sibling normal-word handoff $K$, continuation readback $R$, componentwise
+transport $H$, displayed route $C$, provenance $P$, and local
+$\NameCert_{\ZNormalUp}$ row $N$.
+
+Consequently downstream normal-form consumers receive the finite terminal
+frontier and no divergence oracle, host conversion row, quotient computation,
+unrestricted evaluator, global normalizer, or total-host computation row.
+\end{theorem}
+\begin{proof}
+First expose the finite packet with \autoref{def:znormal-carrier}. The
+downstream-facing rows are exactly $T,F,V,K,R,H,C,P,N$.
+
+Next bind the local certificate. By
+\autoref{thm:znormal-namecert-obligations}, carrier admission, typed endpoint
+readback, fuel, terminal normality, sibling handoff, continuation readback,
+transport, route, provenance, and naming all belong to that same finite
+surface.
+
+Use \autoref{thm:znormal-terminal-fuel-readback-frontier} to force terminal
+fuel readback through $T,F,V,R,H,C,P,N$. Then use
+\autoref{thm:znormal-sibling-normalword-handoff} to identify the only allowed
+$K$ consumption as finite sibling normal-word evidence.
+
+Finally apply \autoref{thm:znormal-total-host-frontier-lock}. Since the locked
+frontier refuses divergence, host conversion, quotient computation,
+unrestricted evaluation, global normalization, and total-host computation,
+every downstream consumer remains inside the displayed terminal-fuel boundary.
+\end{proof}
