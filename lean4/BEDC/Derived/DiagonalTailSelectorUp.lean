@@ -49,6 +49,31 @@ theorem DiagonalTailSelectorCarrier_window_choice_totality [AskSetup] [PackageSe
     ⟨nUnary, muUnary, kUnary, wUnary, dUnary, sourceUnary, nmuRoute, kwRoute,
       sourceRoute, sourcePkg⟩
 
+theorem DiagonalTailSelectorCarrier_window_threshold_order [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name tailRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont w d t →
+      Cont t s tailRead →
+      Cont tailRead s sealRead →
+      PkgSig bundle sealRead pkg →
+        UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧ UnaryHistory w ∧
+          UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧ UnaryHistory tailRead ∧
+            UnaryHistory sealRead ∧ Cont n mu k ∧ Cont k w d ∧ Cont w d t ∧
+              Cont t s tailRead ∧ Cont tailRead s sealRead ∧ PkgSig bundle p pkg ∧
+                PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier wdRoute tailRoute sealRoute sealPkg
+  obtain ⟨_rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary,
+    _hUnary, _cUnary, _pUnary, _nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed tUnary sUnary tailRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary sUnary sealRoute
+  exact
+    ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, tailUnary,
+      sealUnary, nMuK, kWD, wdRoute, tailRoute, sealRoute, pPkg, sealPkg⟩
+
 theorem DiagonalTailSelectorCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
