@@ -124,12 +124,14 @@ python3 tools/bedc-deep/oracle_client.py --loop --parallel 3 --preflight-agent-w
 ```
 
 Scan the paper for theory gaps (conjecture / question blocks, TODO comments,
-"remains open" / "to be proved" / 未证 prose, orphan definitions) and
-optionally append qualifying ones to BOARD.md as auto-spawned candidates:
+"remains open" / "to be proved" / 未证 prose, orphan definitions). Listing and
+JSON output are deterministic; `--append` submits qualifying gaps through
+`board_spawn` / `candidate_inbox` / `logic_packet_gate` before any BOARD.md
+append:
 
 ```bash
 python3 tools/bedc-deep/paper_gap_scanner.py            # list only
-python3 tools/bedc-deep/paper_gap_scanner.py --append   # append to BOARD.md
+python3 tools/bedc-deep/paper_gap_scanner.py --append   # shared intake gate, then append if accepted
 python3 tools/bedc-deep/paper_gap_scanner.py --json     # machine-readable
 ```
 
