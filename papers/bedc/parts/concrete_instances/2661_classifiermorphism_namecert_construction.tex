@@ -63,6 +63,22 @@ Finally route both reads through $H,C,P,N$. These rows record componentwise same
 \end{proof}
 \leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_ext\_sigrel\_preservation}
 
+\begin{theorem}[ClassifierMorphism source-target route lock]
+\label{thm:classifier-morphism-source-target-route-lock}
+Let $M=(A,B,G,E,S,C,H,P,N)$ be an accepted $\ClassifierMorphismUp$ packet. Any classifier-preserving read from the source packet $A$ to the target packet $B$ must pass through the same displayed graph row $G$, $\Ext$ row $E$, $\mathsf{SigRel}$ row $S$, $\Cont$ row $C$, componentwise $\hsame$ row $H$, package row $P$, and local $\NameCert$ row $N$.
+
+In particular, the route cannot split $\Ext$ preservation and $\mathsf{SigRel}$ preservation into separate host functions, cannot replace the graph row by an unrecorded semantic relation, and cannot consume either preservation row outside the displayed source-target packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:classifiermorphism-carrier}. The only source-target transport row is $G$, and the only preservation ledgers attached to it are $E$, $S$, $C$, $H$, $P$, and $N$.
+
+Use the classifier of \autoref{def:classifiermorphism-classifier}. It can inspect source and target packets only through their visible $\Ext$, $\mathsf{SigRel}$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ coordinates, so a classifier-preserving read has no independent host function available.
+
+Apply \autoref{thm:classifiermorphism-ext-sigrel-preservation}. It binds target $\Ext$ and target $\mathsf{SigRel}$ reads to the same graph coordinate and the same support rows.
+
+Finally use \autoref{thm:classifiermorphism-namecert-obligation-surface}. The local certificate surface is exhausted by $A,B,G,E,S,C,H,P,N$, so the accepted read is locked to that displayed packet and cannot factor through an unrecorded semantic relation.
+\end{proof}
+
 \begin{theorem}[ClassifierMorphism type-membership dependency]
 \label{thm:classifier-morphism-type-membership-dependency}
 The source packet $A$ and target packet $B$ of an accepted $\ClassifierMorphismUp$ carrier are classifier-membership surfaces in the sense of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. The morphism rows $G,E,S,C,H,P,N$ preserve $\Ext$, $\mathsf{SigRel}$, and $\Cont$ reads between those packets, and the preservation route cannot be read as a host compiler function, semantic type interpretation, quotient equality, or unrecorded source-target relation.
