@@ -159,3 +159,43 @@ Now attach the CauchyLimitSeal boundary. Apply \autoref{thm:real-tail-agreement-
 
 Finally use \autoref{thm:real-tail-agreement-seal-real-completion-consumer-exhaustion}. Its non-escape clause confines the consumer to $R,S,W,D,A,H,C,P,N$ and leaves quotient streams, selected limits, host convergence predicates, and choice-selected tails outside the handoff.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal root budget route determinacy]
+\label{thm:real-tail-agreement-seal-root-budget-route-determinacy}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. Suppose the two packets share the same $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\CauchyLimitSealUp$ budget rows, and suppose the displayed rows agree componentwise:
+$$
+R=R',\quad S=S',\quad W=W',\quad D=D',\quad A=A',\quad H=H',\quad C=C',\quad P=P',\quad N=N'.
+$$
+Then $Q$ and $Q'$ determine the same public $\RealUp$/$\CompletionUp$ handoff route. The route is the displayed chain through the shared limiter budget, shared regular Cauchy tail budget, shared stream window, shared dyadic readback, shared CauchyLimitSeal budget packet, and the same public rows $R,S,W,D,A,H,C,P,N$. No quotient stream, selected limit, host real equality, hidden family limit, or ambient completeness coordinate is available to distinguish the two handoffs.
+\end{theorem}
+\begin{proof}
+First apply limiter-budget factorization. By \autoref{thm:real-tail-agreement-seal-limiter-budget-factorization}, both accepted packets enter the public handoff through the same finite observation limiter and the same regular tail-budget threshold rows.
+
+Next use dyadic readback route totality. \autoref{thm:real-tail-agreement-seal-dyadic-readback-route-totality} fixes the local read of the shared window and dyadic rows as the displayed route $W \to D \to A$; componentwise agreement makes this local route identical for $Q$ and $Q'$.
+
+Attach the CauchyLimitSeal budget handoff with \autoref{thm:real-tail-agreement-seal-cauchy-limit-budget-handoff}. Since the $\CauchyLimitSealUp$ budget packet is shared, the regular source, finite window, dyadic readback, and seal-facing budget rows are the same public rows on both sides.
+
+Finally apply the budget Real handoff theorem above. \autoref{thm:real-tail-agreement-seal-budget-real-handoff} confines every $\RealUp$- or $\CompletionUp$-facing read to the same displayed rows and named budget surfaces. The excluded quotient stream, selected limit, host real equality, hidden family limit, and ambient completeness coordinate are not fields of either handoff, so they cannot separate the two public routes.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal budget-fusion non-escape]
+\label{thm:real-tail-agreement-seal-budget-fusion-nonescape}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. Suppose the two packets share the same limiter budget, regular Cauchy tail budget, $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback, $\CauchyLimitSealUp$ budget packet, and displayed carrier rows:
+$$
+R=R',\quad S=S',\quad W=W',\quad D=D',\quad A=A',\quad H=H',\quad C=C',\quad P=P',\quad N=N'.
+$$
+Then every $\RealUp$ or $\CompletionUp$ consumer of $Q$ and $Q'$ factors through the same finite budget-fusion surface
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \StreamNameUp \to \DyadicRatCoreUp \to \CauchyLimitSealUp \to R,S,W,D,A,H,C,P,N.
+$$
+After this factorization the consumer cannot distinguish the two handoffs by quotient stream equality, selected limit, host convergence, choice-selected tail, hidden family limit, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+First bind the shared finite budget entrance. Apply \autoref{thm:real-tail-agreement-seal-limiter-budget-factorization}. Both accepted packets must pass through the same observation limiter and regular Cauchy tail-budget rows before any local agreement row can be read.
+
+Next bind the displayed window and readback route. Use \autoref{thm:real-tail-agreement-seal-dyadic-readback-route-totality}. The shared $\StreamNameUp$ and $\DyadicRatCoreUp$ rows make the local path exactly $W \to D \to A$ on both packets, and the componentwise row equalities identify the displayed carrier surface.
+
+Now attach the completion-facing budget packet. Apply \autoref{thm:real-tail-agreement-seal-cauchy-limit-budget-handoff}. The shared $\CauchyLimitSealUp$ packet receives the same regular source, finite window, dyadic readback, and $\RealUp$ seal surface before any Real or Completion consumer can inspect the handoff.
+
+Finally use root budget route determinacy together with the Real and Completion consumer exhaustion rows. \autoref{thm:real-tail-agreement-seal-root-budget-route-determinacy} identifies the public handoff route, while \autoref{thm:real-tail-agreement-seal-real-completion-consumer-exhaustion} and \autoref{thm:real-tail-agreement-seal-budget-real-handoff} list the available consumer rows. Quotient stream equality, selected limits, host convergence predicates, choice-selected tails, hidden family limits, and ambient completeness data are outside that list, so they cannot distinguish the two handoffs.
+\end{proof}

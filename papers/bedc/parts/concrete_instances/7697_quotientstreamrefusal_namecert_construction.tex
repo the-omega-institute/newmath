@@ -248,17 +248,37 @@ The displayed TasteGate commitment supplies the remaining two marker obligations
 
 The Lean file \texttt{Derived/QuotientStreamRefusalUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \QuotientStreamRefusalUp$ and $\mathsf{FieldFaithful}\ \QuotientStreamRefusalUp$ instances for the displayed rows $S,R,L,E,F,H,C,P,N$.
 
+\begin{theorem}[QuotientStreamRefusal Real-completion bridge]
+\label{thm:quotient-stream-refusal-real-completion-bridge}
+Every standard Real-completion-boundary read accepted through a $\QuotientStreamRefusalUp$ packet factors through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+$$
+Q=(S,R,L,E,F,H,C,P,N).
+$$
+The accepted route is $S \longmapsto R \longmapsto L \longmapsto E$, with $H,C,P,N$ transporting, replaying, packaging, and naming that route. Requests for quotient-stream equality, selected limits, host real equality, hidden family limits, hidden tail data, ambient completeness, or metric completeness are routed to $F$ and do not cross the bridge as completion witnesses.
+\end{theorem}
+\begin{proof}
+Apply the obligation closure of \autoref{thm:quotient-stream-refusal-obligation-closure}. It fixes the accepted packet as $Q=(S,R,L,E,F,H,C,P,N)$ over the displayed StreamName, RegSeqRat, CauchyLimitSeal, Real, history, transport, continuation, package, and naming rows.
+
+Use the route ordering of \autoref{thm:quotient-stream-refusal-route-ordering}. The only public Real-completion route is $S \longmapsto R \longmapsto L \longmapsto E$, and the structural rows record that route rather than exposing a later completion coordinate early.
+
+Now apply the TasteGate marker route of \autoref{thm:quotient-stream-refusal-tastegate-marker-route}. It identifies the same carrier route together with nontriviality and field-faithfulness commitments, so the public refusal export is the object seen by a standard Real-completion-boundary reader.
+
+Finally use the ledger exactness of \autoref{thm:quotient-stream-refusal-ledger-exactness}. Each quotient-stream equality, selected-limit, host-real-equality, hidden-family-limit, hidden-tail, ambient-completeness, or metric-completeness request terminates at $F$. Hence the bridge admits the displayed finite route and refuses the listed completion witnesses.
+\end{proof}
+
 \closureat{QuotientStreamRefusalUp}{seedStr}
 \closureat{QuotientStreamRefusalUp}{obligationStr}
 \closureat{QuotientStreamRefusalUp}{scopedStr}
+\closureat{QuotientStreamRefusalUp}{publicStr}[BEDC.Derived.QuotientStreamRefusalUp.taste\_gate]
+\closureat{QuotientStreamRefusalUp}{bridgedStr}
 
 \begin{closurestatus}{\QuotientStreamRefusalUp}
   \constructivestory{A $\QuotientStreamRefusalUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, CauchyLimitSeal route row, RealUp seal row, quotient-refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming; the TasteGate row is recorded at BEDC.Derived.QuotientStreamRefusalUp.taste\_gate.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, and \autoref{thm:quotient-stream-refusal-tastegate-marker-route} display the finite refusal scope over StreamNameUp, RegSeqRatUp, CauchyLimitSealUp, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, \autoref{thm:quotient-stream-refusal-tastegate-marker-route}, and \autoref{thm:quotient-stream-refusal-real-completion-bridge} display the finite refusal scope, public refusal route, and Real-completion bridge over StreamNameUp, RegSeqRatUp, CauchyLimitSealUp, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not construct quotient streams, select limits, prove host real equality, close ambient completeness, or provide a checked Lean certificate.}
-  \upgradepath{The next paper step is public closure: a public Real-completion refusal export for the same displayed StreamName, RegSeqRat, CauchyLimitSeal, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
+  \upgradepath{Mature closure next requires downstream examples or a consumer lattice for the bridged refusal boundary.}
 \end{closurestatus}

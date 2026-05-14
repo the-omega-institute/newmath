@@ -107,6 +107,7 @@ Thus the sibling relation is a lattice refinement: $\ObserverLocalityCellUp$ may
 \closureat{LocalityCellUp}{obligationStr}
 \closureat{LocalityCellUp}{scopedStr}[BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment]
 \closureat{LocalityCellUp}{publicStr}[BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment]
+\closureat{LocalityCellUp}{bridgedStr}[BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment]
 
 \begin{theorem}[LocalityCell scoped kernel route]
 \label{thm:localitycell-scoped-kernel-route}
@@ -122,15 +123,29 @@ Use \autoref{thm:locality-cell-hsame-transport} and \autoref{thm:locality-cell-i
 Finally use the chapter's TasteGate-visible Lean target recorded in the closure block. It records the single-carrier alignment at the Lean boundary, and the paper route above identifies the same alignment with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{proof}
 
+\begin{theorem}[LocalityCell standard bridge surface]
+\label{thm:locality-cell-standard-bridge-surface}
+The bilateral $\LocalityCellUp$ packet bridges to the concrete-instance schema exactly through the two observer histories $A,B$, the two event rows $r_A,r_B$, the two $\mathsf{GAP}$ commitments $g_A,g_B$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ routes $C$, the package row $P$, and the local $\NameCert$ row $N$ of \autoref{def:locality-cell-carrier}. The bridge exports the public locality-cell readback of \autoref{thm:locality-cell-interobserver-readback} and the scoped kernel route of \autoref{thm:localitycell-scoped-kernel-route}; it contains no shared clock, global frame, synchronization map, ambient metric, or observer-independent space-time carrier.
+\end{theorem}
+\begin{proof}
+Project the bilateral carrier $L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)$. Its bridge surface is the same finite packet: two histories, two event records, two bilateral $\mathsf{GAP}$ commitments, componentwise transport, continuation routes, package provenance, and local naming.
+
+Apply \autoref{thm:locality-cell-interobserver-readback}. Public event coordination already factors through exactly these histories, event rows, $\mathsf{GAP}$ rows, $H$, and $C$, so the bridge has no separate event object to expose.
+
+Use \autoref{thm:localitycell-scoped-kernel-route} to attach $\Pkg$ and $\NameCert$ without changing the carrier. The TasteGate-visible single-carrier alignment keeps the bridge on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Since neither the carrier nor any cited route contains a clock, global frame, synchronization map, ambient metric, or observer-independent space-time coordinate, the bridge is exactly the displayed bilateral surface and nothing beyond it.
+\end{proof}
+
 \begin{closurestatus}{\LocalityCellUp}
   \constructivestory{A $\LocalityCellUp$ packet is generated from two observer $\BHist$ rows, two event-record rows, two bilateral $\mathsf{GAP}$ commitments, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
   \leanchecked{BEDC.Derived.LocalityCellUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:locality-cell-carrier}, \autoref{def:locality-cell-classifier}, \autoref{thm:locality-cell-namecert-obligations}, \autoref{thm:locality-cell-hsame-transport}, \autoref{thm:locality-cell-interobserver-readback}, and \autoref{thm:localitycell-scoped-kernel-route} bind the finite bilateral carrier, classifier, transport, ledger, inter-observer readback, scoped kernel route, and TasteGate-visible single-carrier alignment.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:locality-cell-carrier}, \autoref{def:locality-cell-classifier}, \autoref{thm:locality-cell-namecert-obligations}, \autoref{thm:locality-cell-hsame-transport}, \autoref{thm:locality-cell-interobserver-readback}, \autoref{thm:localitycell-scoped-kernel-route}, and \autoref{thm:locality-cell-standard-bridge-surface} bind the finite bilateral carrier, classifier, transport, ledger, inter-observer readback, scoped kernel route, bridge surface, and TasteGate-visible single-carrier alignment.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close a Lean implementation, a standard bridge, a global frame, a shared clock, a synchronization map, ambient metric geometry, or observer-independent space-time ontology.}
-  \upgradepath{Bridged closure requires a bridge surface from the public locality-cell packet to the abstract concrete-instance schema.}
+  \notclaimed{This chapter does not close a global frame, a shared clock, a synchronization map, ambient metric geometry, observer-independent space-time ontology, or bridgeChecked verification.}
+  \upgradepath{Mature closure requires downstream examples and cross-chapter consumers for the bilateral locality-cell bridge surface.}
 \end{closurestatus}

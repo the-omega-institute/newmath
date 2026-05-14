@@ -110,6 +110,24 @@ The input-state exposure forces reads through $I$ and $S$ before trace or valida
 The validation non-escape route forces every validation-facing read through $V$. The TasteGate obligation contributes the single-carrier alignment: nontriviality supplies distinguishable checkpoint packets, and field faithfulness preserves every displayed coordinate. These ingredients give downstream consumers a finite checkpoint package and no additional root-facing validation surface.
 \end{proof}
 
+\begin{theorem}[ReflectionRuntimeCheckpoint validation boundary totality]
+\label{thm:reflection-runtime-checkpoint-validation-boundary-totality}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, every validation-facing consumer has a total boundary route
+$$
+I \longmapsto S \longmapsto T \longmapsto V \longmapsto H,C,P,N.
+$$
+If a consumer route omits $V$, then it may read only the runtime-candidate input, checkpoint state, and bounded trace evidence supplied by $I,S,T$ and the local transport, route, provenance, and naming rows $H,C,P,N$. Such a route does not read host validation, total truth, or an unbounded evaluator.
+\end{theorem}
+\begin{proof}
+Project the rows of \autoref{def:reflection-runtime-checkpoint-carrier}. They give the displayed carrier order $I,S,T,V,H,C,P,N$, with $V$ singled out as the validation-boundary coordinate and the later rows serving only as transport, continuation route, provenance, and local naming data.
+
+Use \autoref{thm:reflection-runtime-checkpoint-namecert-obligations} to bind the validation-boundary row to the local NameCert obligations. The non-escape clause prevents any consumer from replacing $V$ by host validation, total truth, or an unbounded evaluator.
+
+Next apply \autoref{thm:reflection-runtime-checkpoint-input-state-exposure} and \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}. The first forces every checkpoint read through $I$ and $S$, while the second identifies $T$ as bounded trace evidence before any validation-facing row is reached.
+
+Finally apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route} and \autoref{thm:reflection-runtime-checkpoint-root-unblock-package}. Together they make the route through $V$ total for validation-facing consumers and keep the whole boundary package finite, local, and exhausted by $I,S,T,V,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[ReflectionRuntimeCheckpoint validation row precedence]
 \label{thm:reflection-runtime-checkpoint-validation-row-precedence}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, any validation-facing checkpoint consumer must read the displayed rows $I,S,T,V$ in that order: $I$ supplies the admitted runtime-candidate input, $S$ supplies the checkpoint state reached by that input, $T$ supplies bounded trace evidence for that state, and only then $V$ supplies the validation-boundary row. In particular, neither $S$ nor $T$ may be treated as a validation row.
@@ -220,6 +238,46 @@ Start with the carrier and NameCert obligations, \autoref{def:reflection-runtime
 Apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route}. The only validation-facing row is $V$, and every read through the remaining packet rows fails to export host validation or total truth.
 
 Finish with \autoref{thm:reflection-runtime-checkpoint-audit-provenance-exhaustion} and \autoref{thm:reflection-runtime-checkpoint-host-validation-nonescape}. The audit route accounts for $H,C,P,N$, while host-validation nonescape keeps the refusal ledger distinct from any external bridge certificate that would be needed to assert host-valid runtime validation.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint validation trace scope row]
+\label{thm:reflection-runtime-checkpoint-validation-trace-scope-row}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, every validation-facing read must pass through the input row $I$, the checkpoint-state row $S$, the bounded trace row $T$, and only then the validation-boundary row $V$. The local transport, route, provenance, and naming rows $H,C,P,N$ may carry that read, but they do not supply a detached validation source.
+\end{theorem}
+\begin{proof}
+Begin with the input-state exposure theorem \autoref{thm:reflection-runtime-checkpoint-input-state-exposure}. It forces checkpoint consumers through $I$ and $S$ before any trace-evidence or validation-facing row is available.
+
+Next apply the trace-boundary readback of \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}. The row $T$ is bounded trace evidence routed through the finite trace evaluator and finite trace gap-socket siblings, not an unbounded evaluator or detached validation act.
+
+Finally use \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route} and \autoref{thm:reflection-runtime-checkpoint-validation-boundary-order}. They place every validation-facing read at $V$ after the displayed input, state, and trace rows, with $H,C,P,N$ serving only as the finite route ledger.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint provenance consumer row]
+\label{thm:reflection-runtime-checkpoint-provenance-consumer-row}
+Every downstream $\ReflectionRuntimeCheckpointUp$ consumer route uses the provenance row $P$ through the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, reflection-limit boundary, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No second provenance row for host validation, total truth, or unbounded evaluation is exported.
+\end{theorem}
+\begin{proof}
+Start from the audit-boundary consumer lock of \autoref{thm:reflection-runtime-checkpoint-audit-boundary-consumer-lock}. It gives each downstream consumer exactly the displayed checkpoint rows and the sibling route cited by $P$.
+
+Apply \autoref{thm:reflection-runtime-checkpoint-audit-provenance-exhaustion}. The provenance row already exhausts the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, reflection-limit boundary, and local structural rows.
+
+Finish with \autoref{thm:reflection-runtime-checkpoint-root-unblock-package}. The downstream consumer receives the finite checkpoint packet and no additional root-facing validation surface, so there is no second provenance source outside $P$.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint host-boundary obligation row]
+\label{thm:reflection-runtime-checkpoint-host-boundary-obligation-row}
+No $\ReflectionRuntimeCheckpointUp$ packet exports a host-valid runtime judgment, total truth predicate, or unbounded evaluator outside the displayed rows
+$$
+I,S,T,V,H,C,P,N.
+$$
+Any host-boundary obligation available to a downstream consumer is the finite validation boundary already routed through $I,S,T,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First use the validation trace scope row of \autoref{thm:reflection-runtime-checkpoint-validation-trace-scope-row}. It forces validation-facing access through $I,S,T,V$ and prevents $H,C,P,N$ from acting as independent validation sources.
+
+Next apply the provenance consumer row of \autoref{thm:reflection-runtime-checkpoint-provenance-consumer-row}. This exhausts the sibling route through the runtime-candidate, finite evaluator, gap-socket, and reflection-limit boundaries.
+
+Finally use the host-validation nonescape theorem \autoref{thm:reflection-runtime-checkpoint-host-validation-nonescape}. Since no listed row exports host validation, total truth, or an unbounded evaluator, the only available host-boundary obligation is the finite boundary displayed by $I,S,T,V,H,C,P,N$.
 \end{proof}
 
 \falsifiablePrediction{A checkpoint consumer that omits the validation-boundary row cannot export a host-valid runtime judgment or total truth row.}

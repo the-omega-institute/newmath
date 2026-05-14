@@ -117,4 +117,33 @@ theorem DiagonalLimitCompatibilityRootBudget_ledger_row [AskSetup] [PackageSetup
       budgetRootWindowsBudgetWindow, budgetWindowReadbackBudgetRead,
       budgetReadRealSealBudgetSeal, provenancePkg, budgetSealPkg⟩
 
+theorem DiagonalLimitCompatibilityRootBudget_terminal_route_uniqueness
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      terminal0 terminal1 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont readback realSeal terminal0 →
+        Cont readback realSeal terminal1 →
+          PkgSig bundle terminal0 pkg →
+            PkgSig bundle terminal1 pkg →
+              hsame terminal0 terminal1 ∧ UnaryHistory terminal0 ∧
+                UnaryHistory terminal1 ∧ PkgSig bundle terminal0 pkg ∧
+                  PkgSig bundle terminal1 pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle PkgSig
+  intro carrier readbackRealSealTerminal0 readbackRealSealTerminal1 terminal0Pkg
+    terminal1Pkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealRowUnary, _dyadicUnary, _windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, _provenancePkg⟩ := carrier
+  have sameTerminal : hsame terminal0 terminal1 :=
+    cont_deterministic readbackRealSealTerminal0 readbackRealSealTerminal1
+  have terminal0Unary : UnaryHistory terminal0 :=
+    unary_cont_closed readbackUnary realSealUnary readbackRealSealTerminal0
+  have terminal1Unary : UnaryHistory terminal1 :=
+    unary_cont_closed readbackUnary realSealUnary readbackRealSealTerminal1
+  exact ⟨sameTerminal, terminal0Unary, terminal1Unary, terminal0Pkg, terminal1Pkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

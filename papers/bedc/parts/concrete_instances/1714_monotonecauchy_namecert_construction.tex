@@ -190,6 +190,43 @@ Apply \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}. Every se
 Use \autoref{thm:monotone-cauchy-real-seal-boundary} for the final handoff. The boundary reads only the displayed located interval and the seal row, and \autoref{thm:monotone-cauchy-ledger-exhaustion} rules out any additional hidden coordinate for the excluded analytic objects.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy public seal window determinacy]
+\label{thm:monotone-cauchy-public-seal-window-determinacy}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+\quad\hbox{and}\quad
+M'=(F',\sigma',\mu',\lambda',I',Q',H',C',P',N')
+$$
+be accepted $\MonotoneCauchyUp$ packets. Suppose their $F,\sigma,\mu,\lambda$ tail-window rows are displayed on the same finite window, and their $I,Q,H,C,P,N$ rows are transported componentwise by the shown $\hsame$ data. Then any public $\RealUp$ seal read of $Q$ and any public $\RealUp$ seal read of $Q'$ factor through the same finite route
+$$
+\StreamNameUp
+\longrightarrow
+\CauchyModulusUp
+\longrightarrow
+\DyadicRatCoreUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\LocatedIntervalUp
+\longrightarrow
+\RealUp
+$$
+before reaching the seal row.
+
+Consequently the two public seal reads determine the same finite tail-window seal surface under the displayed $\hsame$ transport. They cannot diverge through quotient equality, selected representatives, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonotoneCauchyUp.MonotoneCauchyCarrier\_public\_seal\_window\_determinacy}
+\begin{proof}
+First apply \autoref{thm:monotone-cauchy-common-window-classifier}. The two accepted packets are compared only after the schedule and modulus rows expose the same finite tail window for the displayed $F,\sigma,\mu,\lambda$ data.
+
+Next use \autoref{thm:monotone-cauchy-modulus-tail-stability}. The componentwise $\hsame$ transport keeps the Cauchy and monotone rows attached to that shared window, so neither packet can move the seal read to a different tail route.
+
+The interval stage is supplied by \autoref{thm:monotone-cauchy-located-trap-certificate}. The located trap consumes the transported dyadic ledger and produces the same $\LocatedIntervalUp$ surface before any $\RealUp$ seal row is read.
+
+Finally apply \autoref{thm:monotone-cauchy-tail-window-real-seal-certificate} and \autoref{thm:monotone-cauchy-ledger-exhaustion}. The former forces each public seal read through the displayed tail-window route, and the latter says that every public read has already appeared in the finite ledger. Since no excluded quotient, representative, host-real, compactness, completeness, or choice coordinate occurs in the carrier, the two transported seal reads have the same finite seal surface.
+\end{proof}
+
 \begin{theorem}[Monotone Cauchy obligation package]
 \label{thm:monotone-cauchy-obligation-package}
 The rows $F$, $\sigma$, $\mu$, $\lambda$, $I$, $Q$, $H$, $C$, $P$, and $N$ of an accepted $\MonotoneCauchyUp$ carrier assemble into the five-row $\NameCert$ obligation package for located monotone Cauchy data: carrier admission, classifier by common finite windows, monotone-row transport through the modulus tail, located interval handoff, and $\RealUp$ seal non-escape. Each row is read from the displayed packet and its local $\Pkg$ and $\NameCert$ data.
