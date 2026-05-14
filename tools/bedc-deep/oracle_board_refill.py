@@ -88,6 +88,7 @@ MICRO_REFILL_FAILURE_THRESHOLD = 3
 MICRO_REFILL_FAILURE_WINDOW = 5
 ULTRA_REFILL_MICRO_FAILURE_THRESHOLD = 1
 REFILL_CIRCUIT_BREAKER_ULTRA_FAILURE_THRESHOLD = 1
+DEFAULT_LOCAL_GAP_FALLBACK_LIMIT = 3
 MICRO_REFILL_FAILURE_ERRORS = {
     "oracle_transport_empty_response",
     "oracle_transport_error_response",
@@ -354,7 +355,7 @@ def recent_transport_failure_count(
         except (OSError, json.JSONDecodeError):
             continue
         error = str(data.get("error") or "").strip()
-        if error == "dry_run_prompt_only":
+        if error == "dry_run_prompt_only" or data.get("fallback") == "local_gap_scanner":
             continue
         inspected += 1
         if data.get("ok"):
@@ -387,7 +388,7 @@ def recent_micro_transport_failure_count(
         except (OSError, json.JSONDecodeError):
             continue
         error = str(data.get("error") or "").strip()
-        if error == "dry_run_prompt_only":
+        if error == "dry_run_prompt_only" or data.get("fallback") == "local_gap_scanner":
             continue
         inspected += 1
         if data.get("ok"):
@@ -422,7 +423,7 @@ def recent_ultra_transport_failure_count(
         except (OSError, json.JSONDecodeError):
             continue
         error = str(data.get("error") or "").strip()
-        if error == "dry_run_prompt_only":
+        if error == "dry_run_prompt_only" or data.get("fallback") == "local_gap_scanner":
             continue
         inspected += 1
         if data.get("ok"):
@@ -541,9 +542,9 @@ def build_refill_prompt(
     return prompt
 
 
-def _paper_gap_candidates() -> list[dict]:
+def _paper_gap_candidates(*, limit: int = 0) -> list[dict]:
     try:
-        candidates = paper_gap_scanner.generate_candidates()
+        candidates = paper_gap_scanner.generate_candidates(limit=limit)
     except Exception as exc:
         print(f"[board_refill] WARN: paper_gap_scanner failed: {exc}", flush=True)
         return []
@@ -554,6 +555,70 @@ def _paper_gap_candidates() -> list[dict]:
     print(f"[board_refill] paper_gap_scanner returned {len(tagged)} raw candidates",
           flush=True)
     return tagged
+
+
+def _run_local_gap_fallback(
+    ts: str,
+    *,
+    micro_refill: bool,
+    ultra_refill: bool,
+    limit: int,
+) -> int:
+    """Use deterministic paper gaps when oracle refill transport is circuit-broken.
+
+    This is not a substitute oracle: it only reuses local scanner output and
+    routes it through the same candidate inbox, judge, logic packet gate, and
+    BOARD append path as ordinary discovery.
+    """
+    candidates = _paper_gap_candidates(limit=limit)
+    if not candidates:
+        summary = {
+            "ok": True,
+            "candidates_proposed": 0,
+            "accepted": 0,
+            "rejected": 0,
+            "appended_ids": [],
+            "error": "",
+            "fallback": "local_gap_scanner",
+            "fallback_reason": "refill_circuit_breaker_active",
+            "micro_refill": micro_refill,
+            "ultra_refill": ultra_refill,
+            "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
+            "ts": ts,
+        }
+        (LOG_DIR / f"refill_{ts}.summary.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+        return 0
+
+    import board_spawn
+
+    spawn_result = board_spawn.spawn_from_candidates(
+        codex_candidates=candidates,
+        oracle_candidates=[],
+    )
+    summary = {
+        "ok": spawn_result.ok,
+        "candidates_proposed": len(candidates),
+        "accepted": len(spawn_result.accepted),
+        "rejected": len(spawn_result.rejected),
+        "appended_ids": spawn_result.appended_ids,
+        "error": spawn_result.error,
+        "error_kind": getattr(spawn_result, "error_kind", ""),
+        "fallback": "local_gap_scanner",
+        "fallback_reason": "refill_circuit_breaker_active",
+        "micro_refill": micro_refill,
+        "ultra_refill": ultra_refill,
+        "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
+        "ts": ts,
+    }
+    (LOG_DIR / f"refill_{ts}.summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8",
+    )
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    return 0 if spawn_result.ok else 1
 
 
 # ---------------------------------------------------------------------------
@@ -684,6 +749,10 @@ def main() -> int:
                         help="Disable automatic ultra-refill after a failed micro-refill.")
     parser.add_argument("--ignore-refill-circuit-breaker", action="store_true",
                         help="Submit even after recent ultra-refill transport failures.")
+    parser.add_argument("--no-local-gap-fallback", action="store_true",
+                        help="When the refill circuit breaker is active, skip instead of routing deterministic paper gaps through the intake gate.")
+    parser.add_argument("--local-gap-fallback-limit", type=int, default=DEFAULT_LOCAL_GAP_FALLBACK_LIMIT,
+                        help="Maximum deterministic paper-gap candidates to try when oracle refill transport is circuit-broken.")
     parser.add_argument("--allow-queue-without-tabs", action="store_true",
                         help="Submit even when no active BEDC browser tab is polling.")
     parser.add_argument("--allow-duplicate-refill", action="store_true",
@@ -698,6 +767,57 @@ def main() -> int:
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     ts = _safe_run_id(args.run_id)
+
+    failure_count = recent_transport_failure_count()
+    micro_failure_count = recent_micro_transport_failure_count()
+    ultra_refill = args.ultra_refill or (
+        not args.no_auto_ultra_refill
+        and not args.no_auto_micro_refill
+        and micro_failure_count >= ULTRA_REFILL_MICRO_FAILURE_THRESHOLD
+        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
+    )
+    micro_refill = ultra_refill or args.micro_refill or (
+        not args.no_auto_micro_refill
+        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
+    )
+    if ultra_refill:
+        print(
+            "[board_refill] ultra-refill mode enabled "
+            f"(recent_transport_failures={failure_count}, "
+            f"recent_micro_failures={micro_failure_count})",
+            flush=True,
+        )
+    elif micro_refill:
+        print(
+            "[board_refill] micro-refill mode enabled "
+            f"(recent_transport_failures={failure_count})",
+            flush=True,
+        )
+
+    if (
+        not args.dry_run
+        and not args.ignore_refill_circuit_breaker
+        and refill_circuit_breaker_active()
+    ):
+        print(
+            "[board_refill] circuit breaker active after recent ultra-refill "
+            "transport failure.",
+            flush=True,
+        )
+        if args.no_local_gap_fallback:
+            print("[board_refill] local gap fallback disabled; skipping submit.", flush=True)
+            return 0
+        print(
+            "[board_refill] using deterministic local gap fallback through "
+            "candidate_inbox/board_spawn/logic_packet_gate.",
+            flush=True,
+        )
+        return _run_local_gap_fallback(
+            ts,
+            micro_refill=micro_refill,
+            ultra_refill=ultra_refill,
+            limit=max(0, int(args.local_gap_fallback_limit or 0)),
+        )
 
     if not args.dry_run:
         # Verify server readiness before building/logging a prompt. Duplicate or
@@ -728,44 +848,6 @@ def main() -> int:
         except Exception as exc:
             print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
             return 1
-
-    if (
-        not args.dry_run
-        and not args.ignore_refill_circuit_breaker
-        and refill_circuit_breaker_active()
-    ):
-        print(
-            "[board_refill] circuit breaker active after recent ultra-refill "
-            "transport failure; skipping submit.",
-            flush=True,
-        )
-        return 0
-
-    failure_count = recent_transport_failure_count()
-    micro_failure_count = recent_micro_transport_failure_count()
-    ultra_refill = args.ultra_refill or (
-        not args.no_auto_ultra_refill
-        and not args.no_auto_micro_refill
-        and micro_failure_count >= ULTRA_REFILL_MICRO_FAILURE_THRESHOLD
-        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
-    )
-    micro_refill = ultra_refill or args.micro_refill or (
-        not args.no_auto_micro_refill
-        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
-    )
-    if ultra_refill:
-        print(
-            "[board_refill] ultra-refill mode enabled "
-            f"(recent_transport_failures={failure_count}, "
-            f"recent_micro_failures={micro_failure_count})",
-            flush=True,
-        )
-    elif micro_refill:
-        print(
-            "[board_refill] micro-refill mode enabled "
-            f"(recent_transport_failures={failure_count})",
-            flush=True,
-        )
 
     prompt = build_refill_prompt(
         micro_refill=micro_refill,
@@ -903,6 +985,7 @@ def main() -> int:
         "rejected": len(spawn_result.rejected),
         "appended_ids": spawn_result.appended_ids,
         "error": spawn_result.error,
+        "error_kind": getattr(spawn_result, "error_kind", ""),
         "micro_refill": micro_refill,
         "ultra_refill": ultra_refill,
         "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",

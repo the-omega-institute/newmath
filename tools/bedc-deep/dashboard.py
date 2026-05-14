@@ -382,7 +382,11 @@ def _next_refill_prompt_note() -> str:
         import oracle_board_refill
 
         if oracle_board_refill.refill_circuit_breaker_active():
-            return "  next prompt estimate: blocked (ultra transport failure)"
+            limit = getattr(oracle_board_refill, "DEFAULT_LOCAL_GAP_FALLBACK_LIMIT", 3)
+            return (
+                "  next refill path: local gap fallback "
+                f"(oracle ultra transport circuit breaker active; limit={limit})"
+            )
         ultra_refill = oracle_board_refill.should_use_ultra_refill()
         micro_refill = ultra_refill or oracle_board_refill.should_use_micro_refill()
         size = len(
@@ -399,6 +403,43 @@ def _next_refill_prompt_note() -> str:
     return f"  next prompt estimate:{mode} {size}b"
 
 
+def _classify_board_judge_error(error: str) -> str:
+    """Infer the stable BOARD judge outage kind from legacy summary errors."""
+    low = (error or "").lower()
+    if not low:
+        return ""
+
+    claude_kind = "claude_unavailable"
+    if "not logged in" in low:
+        claude_kind = "claude_not_logged_in"
+    elif "claude cli not found" in low:
+        claude_kind = "claude_cli_missing"
+    elif "claude disabled" in low:
+        claude_kind = "claude_disabled"
+    elif "claude judge rc=-9" in low or "timed out" in low:
+        claude_kind = "claude_timeout"
+    elif "claude judge output was not json" in low:
+        claude_kind = "claude_non_json"
+
+    codex_kind = ""
+    if "codex fallback" in low:
+        codex_kind = "codex_fallback_failed"
+        if "failed to initialize in-process app-server client" in low:
+            codex_kind = "codex_sandbox_init_failed"
+        elif "operation not permitted" in low:
+            codex_kind = "codex_operation_not_permitted"
+        elif "output was not json" in low:
+            codex_kind = "codex_non_json"
+
+    if "claude judge" in low or "claude returned" in low or "claude " in low:
+        if codex_kind:
+            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
+        return f"board_judge_unavailable:{claude_kind}"
+    if codex_kind:
+        return f"board_judge_unavailable:{codex_kind}"
+    return ""
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -406,6 +447,31 @@ def _infer_refill_status(rec: dict) -> str:
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             return "summary_unreadable"
+        if summary.get("fallback") == "local_gap_scanner":
+            accepted = summary.get("accepted", 0)
+            proposed = summary.get("candidates_proposed", 0)
+            error = str(summary.get("error") or "").strip()
+            error_kind = (
+                str(summary.get("error_kind") or "").strip()
+                or _classify_board_judge_error(error)
+            )
+            if summary.get("ok"):
+                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if error_kind.startswith("board_judge_unavailable"):
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed} kind={error_kind}"
+                )
+            if "claude judge" in error.lower() or "codex fallback" in error.lower():
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed}"
+                )
+            return (
+                "local_gap_fallback_failed "
+                f"accepted={accepted} proposed={proposed}"
+                + (f" error={error[:80]}" if error else "")
+            )
         if summary.get("ok"):
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
@@ -582,6 +648,12 @@ def render_board_refill() -> str:
                 "  note: latest refill has no response/summary yet; use this to distinguish "
                 "transport stalls from logic-gate rejection."
             )
+    latest_status = _infer_refill_status(latest)
+    if latest_status.startswith("local_gap_fallback_judge_unavailable"):
+        lines.append(
+            "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
+            "do not bypass the final maker/checker gate."
+        )
     return "\n".join(lines)
 
 
