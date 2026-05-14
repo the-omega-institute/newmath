@@ -294,6 +294,48 @@ Apply \autoref{thm:halting-distinction-diagonal-boundary} and \autoref{thm:halti
 Finally apply \autoref{thm:halting-distinction-nonescape}. Since the packet exports only the finite ledger, downstream consumers cannot extract a global truth predicate, divergence oracle, total evaluator, or hidden halting decision.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction trace-normal-form handoff]
+\label{thm:halting-distinction-trace-normal-form-handoff}
+Every trace-normal-form consumer of an accepted $\HaltingDistinctionUp$ packet receives only the finite trace row $T$, the route row $C$, the transport row $H$, the provenance row $P$, and the local ledger $N$. The rows $Q$ and $Z$ remain the surrounding certificate-history and diagonal rows for that handoff, so the consumer reads the normal-form trace surface without acquiring a total halting predicate, host evaluator, divergence oracle, or hidden classifier.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{def:halting-distinction-carrier}. The only displayed rows are $Q,T,Z,H,C,P,N$, and the trace-facing coordinate is the finite continuation segment $T$.
+
+Apply \autoref{thm:halting-distinction-trace-readability} and \autoref{thm:halting-distinction-root-classifier-transport}. These force every trace-normal-form read through $T$ and $C$, with componentwise comparison data supplied by $H$ and provenance supplied by $P,N$.
+
+The rows $Q$ and $Z$ are not exported as new evaluators. By \autoref{thm:halting-distinction-diagonal-boundary} and \autoref{thm:halting-distinction-root-ledger-nonescape}, they remain the surrounding certificate-history and diagonal rows of the same finite ledger.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction inscription-event handoff]
+\label{thm:halting-distinction-inscription-event-handoff}
+Every inscription-event consumer of an accepted $\HaltingDistinctionUp$ packet receives the diagonal pair row only through the displayed route
+$$
+Q,T,Z,H,C,P,N.
+$$
+The event read may use the certificate-history pair, finite trace segment, diagonal row, componentwise transports, displayed routes, provenance, and local ledger, but it cannot turn that diagonal pair into an external evaluator, total halting predicate, divergence oracle, or host truth classifier.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:halting-distinction-carrier} to expose the diagonal row $Z$ inside the finite packet $Q,T,Z,H,C,P,N$. There is no separate evaluator coordinate in the carrier.
+
+Apply \autoref{thm:halting-distinction-diagonal-boundary}. The diagonal pair can be read only along the route row $C$, with the certificate-history pair named by $Q$ and the componentwise transports named by $H$.
+
+Finally apply \autoref{thm:halting-distinction-provenance-purity-boundary} and \autoref{thm:halting-distinction-nonescape}. The provenance and local ledger remain $\Pkg$ and $\NameCert$ rows, so the inscription-event consumer cannot reinterpret the diagonal pair as a total halting predicate or external evaluator.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction downstream sibling package]
+\label{thm:halting-distinction-obstruction-sibling-joint-package}
+The trace-normal-form route of \autoref{ch:concrete-instances-continuationtracenormalform-namecert}, the inscription-event route of \autoref{ch:concrete-instances-inscriptionevent-namecert}, the finite trace surface of \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, and the obstruction route of \autoref{ch:concrete-instances-haltingobstruction-namecert} jointly consume an accepted $\HaltingDistinctionUp$ packet only through the finite boundary $Q,T,Z,H,C,P,N$. This joint sibling package stays inside $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ data and exports no total halting predicate, external evaluator, divergence oracle, or global truth classifier.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:halting-distinction-trace-normal-form-handoff}. It gives the trace-normal-form consumer the finite trace, route, transport, provenance, and local ledger rows while keeping the certificate-history and diagonal rows as surrounding ledger data.
+
+Next use \autoref{thm:halting-distinction-inscription-event-handoff}. It routes the inscription-event read of the diagonal pair through exactly the displayed $Q,T,Z,H,C,P,N$ boundary.
+
+For the obstruction side, apply \autoref{thm:halting-distinction-obstruction-sibling-route} and \autoref{thm:halting-distinction-root-ledger-nonescape}. The obstruction consumer receives the same finite ledger and no extra evaluator row.
+
+Combining these routes gives the stated downstream sibling boundary. The non-escape clauses of \autoref{thm:halting-distinction-nonescape} exclude total halting predicates, external evaluators, divergence oracles, and global truth classifiers from the joint package.
+\end{proof}
+
 \closureat{HaltingDistinctionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}
