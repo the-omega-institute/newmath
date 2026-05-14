@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationInterfaceUp$}
+\label{ch:concrete-instances-finite-observation-interface-namecert}
+\origin{ai}
+
+The $\FiniteObservationInterfaceUp$ packet realizes the Real and Completion target of \autoref{ch:visions-real-completeness} as a finite read surface. It consumes the StreamName observation boundary of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat regularity surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the DyadicRatCore tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the RealUp handoff surface of \autoref{ch:concrete-instances-real-namecert}. It is narrower than a completion theorem: the packet exposes a selected finite observation window, records the omitted tail as a ledger, and then routes every real-facing read through the displayed sibling rows.
+
+\begin{definition}[Finite observation interface carrier]
+\label{def:finite-observation-interface-carrier}
+A $\FiniteObservationInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,R,D,T,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row whose finite read entries are visible before any real-facing handoff;
+\item $R$ is the $\RegSeqRatUp$ regularity row that reads the same observation entries as regular rational data;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row accounting for every displayed precision request and dyadic error bound used by the read;
+\item $T$ is the selected finite-window row, listing the exact bounded observation window exposed to the consumer;
+\item $E$ is the omitted-tail ledger, recording precisely which StreamName and RegSeqRat entries lie outside $T$ and are not exported as selected rows;
+\item $H$ stores componentwise $\hsame$ transports for the observation row, regularity row, tolerance row, selected window, omitted-tail ledger, provenance, and local naming row;
+\item $C$ stores the displayed $\Cont$ replay routes that read $S$, then $R$, then $D$, expose $T$, record $E$, and only then hand off to the RealUp row consumed by the downstream route;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, selected finite-window rows, omitted-tail ledgers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteObservationInterfaceUp}$ row naming exactly this finite observation interface packet.
+\end{enumerate}
+The carrier has no coordinate for a full Real completeness proof, quotient stream equality, host real equality, selected limit, or export of the omitted tail as a selected stream row.
+\end{definition}
+
+\begin{theorem}[Finite observation interface NameCert obligations]
+\label{thm:finite-observation-interface-namecert-obligations}
+For every accepted $\FiniteObservationInterfaceUp$ carrier $O=(S,R,D,T,E,H,C,P,N)$, the local $\NameCert_{\FiniteObservationInterfaceUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission: the accepted packet displays exactly the rows $S,R,D,T,E,H,C,P,N$ of \autoref{def:finite-observation-interface-carrier};
+\item selected-window exposure: the finite window $T$ is exposed before any RealUp handoff is made available to a consumer;
+\item omitted-tail ledger exactness: the ledger $E$ records the entries outside $T$ and cannot be read as a selected stream row;
+\item dyadic tolerance accountability: every precision request used by the read is accounted for by the dyadic row $D$ before the route reaches the RealUp surface;
+\item StreamName/RegSeqRat/Real handoff non-escape: every handoff to RealUp factors through $S$, $R$, $D$, $T$, $E$, $H$, $C$, $P$, and $N$, and no quotient stream equality, host real equality, full Real completeness, or selected limit is exported.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-observation-interface-carrier}. The StreamName observation row, RegSeqRat regularity row, DyadicRatCore tolerance row, selected window, omitted-tail ledger, transport, continuation, provenance, and naming coordinates are all displayed in the same finite packet.
+
+The selected-window and omitted-tail obligations are separated by the two rows $T$ and $E$. A consumer may inspect the selected finite window $T$; it may also inspect the ledger $E$ as the exact record of entries outside that window. The ledger row is not a second selected stream row, because the carrier gives it only the omitted-tail role.
+
+Dyadic accountability is read through $D$ before the Real-facing route is exposed. The replay rows $H,C,P,N$ keep the StreamName, RegSeqRat, dyadic, selected-window, and tail-ledger reads in one local NameCert packet, so the Real handoff has no coordinate from which to obtain completeness, quotient equality, host equality, or a selected limit.
+\end{proof}
+
+\begin{theorem}[Finite observation interface selected-stream handoff]
+\label{thm:finite-observation-interface-selected-stream-handoff}
+Every Real-facing finite observation read of an accepted $\FiniteObservationInterfaceUp$ packet routes through the displayed StreamName row $S$, RegSeqRat row $R$, DyadicRatCore row $D$, selected finite-window row $T$, omitted-tail ledger $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The route cannot assert full Real completeness, quotient stream equality, host real equality, or the existence of a selected limit.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing consumer read. By the NameCert obligations, the read reaches the RealUp side only after the StreamName observation row $S$, the RegSeqRat regularity row $R$, and the DyadicRatCore tolerance row $D$ have been displayed.
+
+The selected stream information is then exactly the finite window $T$. The omitted-tail ledger $E$ is read as a boundary record for what the packet withholds from the selected window; it is not exported through the same classifier role as $T$.
+
+Finally replay the route through $H,C,P,N$. These rows transport and package the displayed finite packet, and they do not add a coordinate for ambient Real completeness, quotient stream equality, host real equality, or limit selection. Thus every Real-facing finite observation read remains inside the displayed interface route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted FiniteObservationInterfaceUp packet exposes a selected finite observation window before any RealUp handoff and cannot export an omitted tail as a selected stream row.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, finitewindowenvelope: the interface packet combines selected-window, omitted-tail, dyadic tolerance, regularity, and Real handoff rows; each sibling lacks at least one of these carrier rows, so no bijection preserves the full field inventory.}
+
+The Lean file \texttt{Derived/FiniteObservationInterfaceUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \FiniteObservationInterfaceUp$ and $\mathsf{FieldFaithful}\ \FiniteObservationInterfaceUp$ instances for the displayed coordinates $S,R,D,T,E,H,C,P,N$.
+
+\closureat{FiniteObservationInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationInterfaceUp}
+  \constructivestory{A $\FiniteObservationInterfaceUp$ packet is generated from a StreamName observation row, RegSeqRat regularity row, DyadicRatCore tolerance row, selected finite-window row, omitted-tail ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-interface-carrier}, \autoref{thm:finite-observation-interface-namecert-obligations}, and \autoref{thm:finite-observation-interface-selected-stream-handoff} bind the finite observation carrier, local NameCert obligation surface, selected-window route, omitted-tail boundary, and Real-facing non-escape claim.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, selected-limit existence, quotient stream equality, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite observation packet, TasteGate nontriviality, field faithfulness, selected-window exposure, omitted-tail exactness, dyadic accountability, and Real handoff non-escape.}
+\end{closurestatus}

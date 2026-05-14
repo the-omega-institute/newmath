@@ -76,6 +76,32 @@ When a tail schedule is present, use \autoref{thm:diagonal-limit-compatibility-t
 Finally apply \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. The composed route exports only the displayed compatibility rows, synchronizer rows, tail-schedule rows, regular-rational readback, and $\RealUp$ seal, so no quotient stream, selected host limit, host equality, independent seal object, countable-choice row, or ambient completeness coordinate can escape it.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitCompatibility root selector window pullback uniqueness]
+\label{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads. If the two reads share the same selector-budget source, the same $\CauchySealBudgetSynchronizerUp$ handoff, the same finite $\StreamNameUp$ window, the same $\RegSeqRatUp$ readback, the same $\DyadicRatCoreUp$ ledger, and the same $\RealUp$ seal row, then their completion-facing consumer surfaces are the same finite pullback through
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+No quotient stream, selected host limit, host real equality, independent seal object, countable-choice row, or ambient completeness coordinate can distinguish the two reads.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. It places both root-selector reads on the same selector-budget source and the same structural route before any consumer can inspect the diagonal ledger, finite window, regular readback, or Real seal.
+
+Next use \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff} and \autoref{thm:diagonal-limit-compatibility-tail-schedule-readback}. The shared synchronizer handoff and shared finite window force the reads through the same tail-schedule surface, the same $Q$ readback, and the same $D,L$ seal-facing rows.
+
+Apply \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion} and \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. These theorems exhaust every completion-facing or $\RealUp$ consumer by the displayed package rows and exclude all routes through quotient streams, selected host limits, host equality, independent seals, countable choice, or ambient completeness.
+
+The carrier inventory then identifies the public pullback. Since the two reads agree on the source, handoff, window, readback, dyadic ledger, and Real seal rows, and since the only remaining exported rows are $H,C,P,N$ for transport, route, provenance, and local naming of that same packet, the completion-facing surfaces cannot diverge.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility completion consumer package]
 \label{thm:diagonal-limit-compatibility-completion-consumer-package}
 The root-selector budget lock, the seal-budget route exhaustion row, the root-route budget package, and the seal-source synchronization rows assemble the public completion-facing package for any accepted $\DiagonalLimitCompatibilityUp$ packet:
