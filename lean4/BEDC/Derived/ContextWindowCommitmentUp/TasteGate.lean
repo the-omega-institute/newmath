@@ -25,6 +25,17 @@ def contextWindowCommitmentDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (contextWindowCommitmentDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (contextWindowCommitmentDecodeBHist tail)
 
+def contextWindowCommitmentTag : Nat → RawEvent → Bool
+  | Nat.zero, [] => false
+  | Nat.zero, BMark.b0 :: tail =>
+      match tail with
+      | [] => true
+      | _ :: _ => false
+  | Nat.zero, BMark.b1 :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ _, BMark.b0 :: _ => false
+  | Nat.succ n, BMark.b1 :: tail => contextWindowCommitmentTag n tail
+
 private theorem contextWindowCommitmentDecode_encode_bhist :
     ∀ h : BHist,
       contextWindowCommitmentDecodeBHist
@@ -65,30 +76,109 @@ def contextWindowCommitmentToEventFlow :
 
 def contextWindowCommitmentFromEventFlow :
     EventFlow → Option ContextWindowCommitmentUp
-  | [[BMark.b0], scope,
-      [BMark.b1, BMark.b0], prompt,
-      [BMark.b1, BMark.b1, BMark.b0], boundary,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], refusal,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], consumer,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], transport,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        routes,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0], provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0], nameCert] =>
-      some
-        (ContextWindowCommitmentUp.mk
-          (contextWindowCommitmentDecodeBHist scope)
-          (contextWindowCommitmentDecodeBHist prompt)
-          (contextWindowCommitmentDecodeBHist boundary)
-          (contextWindowCommitmentDecodeBHist refusal)
-          (contextWindowCommitmentDecodeBHist consumer)
-          (contextWindowCommitmentDecodeBHist transport)
-          (contextWindowCommitmentDecodeBHist routes)
-          (contextWindowCommitmentDecodeBHist provenance)
-          (contextWindowCommitmentDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | tag0 :: tail0 =>
+      match tail0 with
+      | [] => none
+      | scope :: tail1 =>
+          match tail1 with
+          | [] => none
+          | tag10 :: tail2 =>
+              match tail2 with
+              | [] => none
+              | prompt :: tail3 =>
+                  match tail3 with
+                  | [] => none
+                  | tag110 :: tail4 =>
+                      match tail4 with
+                      | [] => none
+                      | boundary :: tail5 =>
+                          match tail5 with
+                          | [] => none
+                          | tag1110 :: tail6 =>
+                              match tail6 with
+                              | [] => none
+                              | refusal :: tail7 =>
+                                  match tail7 with
+                                  | [] => none
+                                  | tag11110 :: tail8 =>
+                                      match tail8 with
+                                      | [] => none
+                                      | consumer :: tail9 =>
+                                          match tail9 with
+                                          | [] => none
+                                          | tag111110 :: tail10 =>
+                                              match tail10 with
+                                              | [] => none
+                                              | transport :: tail11 =>
+                                                  match tail11 with
+                                                  | [] => none
+                                                  | tag1111110 :: tail12 =>
+                                                      match tail12 with
+                                                      | [] => none
+                                                      | routes :: tail13 =>
+                                                          match tail13 with
+                                                          | [] => none
+                                                          | tag11111110 :: tail14 =>
+                                                              match tail14 with
+                                                              | [] => none
+                                                              | provenance :: tail15 =>
+                                                                  match tail15 with
+                                                                  | [] => none
+                                                                  | tag111111110 :: tail16 =>
+                                                                      match tail16 with
+                                                                      | [] => none
+                                                                      | nameCert :: tail17 =>
+                                                                          match tail17 with
+                                                                          | _ :: _ => none
+                                                                          | [] =>
+                                                                              match
+                                                                                  contextWindowCommitmentTag 0 tag0 with
+                                                                              | false => none
+                                                                              | true =>
+                                                                                  match
+                                                                                      contextWindowCommitmentTag 1 tag10 with
+                                                                                  | false => none
+                                                                                  | true =>
+                                                                                      match
+                                                                                          contextWindowCommitmentTag 2 tag110 with
+                                                                                      | false => none
+                                                                                      | true =>
+                                                                                          match
+                                                                                              contextWindowCommitmentTag 3 tag1110 with
+                                                                                          | false => none
+                                                                                          | true =>
+                                                                                              match
+                                                                                                  contextWindowCommitmentTag 4 tag11110 with
+                                                                                              | false => none
+                                                                                              | true =>
+                                                                                                  match
+                                                                                                      contextWindowCommitmentTag 5 tag111110 with
+                                                                                                  | false => none
+                                                                                                  | true =>
+                                                                                                      match
+                                                                                                          contextWindowCommitmentTag 6 tag1111110 with
+                                                                                                      | false => none
+                                                                                                      | true =>
+                                                                                                          match
+                                                                                                              contextWindowCommitmentTag 7 tag11111110 with
+                                                                                                          | false => none
+                                                                                                          | true =>
+                                                                                                              match
+                                                                                                                  contextWindowCommitmentTag 8 tag111111110 with
+                                                                                                              | false => none
+                                                                                                              | true =>
+                                                                                                                  some
+                                                                                                                    (ContextWindowCommitmentUp.mk
+                                                                                                                      (contextWindowCommitmentDecodeBHist scope)
+                                                                                                                      (contextWindowCommitmentDecodeBHist prompt)
+                                                                                                                      (contextWindowCommitmentDecodeBHist boundary)
+                                                                                                                      (contextWindowCommitmentDecodeBHist refusal)
+                                                                                                                      (contextWindowCommitmentDecodeBHist consumer)
+                                                                                                                      (contextWindowCommitmentDecodeBHist transport)
+                                                                                                                      (contextWindowCommitmentDecodeBHist routes)
+                                                                                                                      (contextWindowCommitmentDecodeBHist provenance)
+                                                                                                                      (contextWindowCommitmentDecodeBHist nameCert))
 
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
@@ -97,8 +187,39 @@ private theorem contextWindowCommitment_round_trip :
   intro x
   cases x with
   | mk scope prompt boundary refusal consumer transport routes provenance nameCert =>
-      simp [contextWindowCommitmentToEventFlow, contextWindowCommitmentFromEventFlow,
-        contextWindowCommitmentDecode_encode_bhist]
+      change
+        some
+            (ContextWindowCommitmentUp.mk
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist scope))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist prompt))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist boundary))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist refusal))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist consumer))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist transport))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist routes))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist provenance))
+              (contextWindowCommitmentDecodeBHist
+                (contextWindowCommitmentEncodeBHist nameCert))) =
+          some
+            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport
+              routes provenance nameCert)
+      rw [contextWindowCommitmentDecode_encode_bhist scope]
+      rw [contextWindowCommitmentDecode_encode_bhist prompt]
+      rw [contextWindowCommitmentDecode_encode_bhist boundary]
+      rw [contextWindowCommitmentDecode_encode_bhist refusal]
+      rw [contextWindowCommitmentDecode_encode_bhist consumer]
+      rw [contextWindowCommitmentDecode_encode_bhist transport]
+      rw [contextWindowCommitmentDecode_encode_bhist routes]
+      rw [contextWindowCommitmentDecode_encode_bhist provenance]
+      rw [contextWindowCommitmentDecode_encode_bhist nameCert]
 
 private theorem contextWindowCommitmentToEventFlow_injective
     {x y : ContextWindowCommitmentUp} :
