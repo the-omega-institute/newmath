@@ -1,0 +1,39 @@
+\begin{theorem}[ZetaContinuationWitness public root export]
+\label{thm:zeta-continuation-witness-public-root-export}
+For an accepted $\ZetaContinuationWitnessUp$ packet, the scoped rows
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+export a public root witness only through the displayed $\ZetaBasicUp$, $\ZetaContUp$, $\AnalyticContUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No public root consumer receives a witness row outside that carrier, dependency ledger, public export packet, and public export closure surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-continuation-witness-carrier}. The packet rows $B,E,A,P,F,T,G,H,C,R,N$ are the complete displayed witness carrier, so every public root read starts from those coordinates.
+
+Apply \autoref{thm:zeta-continuation-witness-namecert-obligation-surface}, \autoref{thm:zeta-continuation-witness-source-lock-coverage}, and \autoref{thm:zeta-continuation-witness-dependency-ledger}. These bind the source, continuation, analytic, holomorphic, complex, history, transport, package, and naming data to the same finite packet before any public consumer can read it.
+
+Finally use \autoref{thm:zeta-continuation-witness-public-export} and \autoref{thm:zeta-continuation-witness-public-export-factorization}. The public export and its closure surface factor through the displayed packet and leave no route to an off-carrier root witness.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness critical-strip root handoff]
+\label{thm:zeta-continuation-witness-critical-strip-root-handoff}
+Every critical-strip consumer receives the public root witness of an accepted $\ZetaContinuationWitnessUp$ packet only after the source lock, pole ledger, trivial-zero ledger, and Gamma boundary have been displayed inside the same packet. The handoff does not expose an RH predicate, a non-trivial-zero locator, a global zero classifier, or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:zeta-continuation-witness-source-lock-coverage}. It requires the source row $B$, eta row $E$, analytic-continuation row $A$, functional-equation row $F$, and the ledger rows $P,T,G$ to be visible before a continuation, zero-facing, or critical-strip read can consume the packet.
+
+Use \autoref{thm:zeta-continuation-witness-pole-gamma-boundary} for the pole and Gamma side, and use the carrier row to keep the trivial-zero ledger $T$ as a displayed coordinate of $W=(B,E,A,P,F,T,G,H,C,R,N)$.
+
+Close with \autoref{thm:zeta-continuation-witness-critical-strip-route-separation} and \autoref{thm:zeta-continuation-witness-no-rh-nonescape}. The critical-strip route remains a read from the displayed public root packet, so the excluded RH, zero-location, global-classifier, and completed-Gamma data have no input position.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma boundary public export]
+\label{thm:zeta-continuation-witness-gamma-boundary-public-export}
+The public export of Gamma-facing data from an accepted $\ZetaContinuationWitnessUp$ packet is exhausted by the rows $P,F,G,H,C,R,N$. This Gamma-facing export does not close a Gamma chapter, an RH predicate, a non-trivial-zero locator, or any hidden analytic branch.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:zeta-continuation-witness-pole-gamma-boundary}. A Gamma-facing read either uses the Gamma factor already displayed in the functional-equation row $F$ or stops at the Gamma boundary row $G$, with $P$ recording the adjacent pole ledger.
+
+Apply \autoref{thm:zeta-continuation-witness-namecert-obligation-surface} and \autoref{thm:zeta-continuation-witness-gamma-boundary-public-ledger}. The transport, continuation, provenance, and local naming rows $H,C,R,N$ authenticate the same public ledger, and the ledger has no Gamma coordinate beyond $P,F,G,H,C,R,N$.
+
+Finally use \autoref{thm:zeta-continuation-witness-public-export-factorization} together with \autoref{thm:zeta-continuation-witness-no-rh-nonescape}. The public export remains a finite packet boundary, not a Gamma chapter closure, RH assertion, non-trivial-zero locator, or hidden analytic branch.
+\end{proof}
