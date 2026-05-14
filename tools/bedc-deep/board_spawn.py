@@ -264,6 +264,44 @@ class BoardSpawnResult:
     rejected: list[dict] = field(default_factory=list)
     appended_ids: list[str] = field(default_factory=list)
     error: str = ""
+    error_kind: str = ""
+
+
+def classify_judge_error(error: str) -> str:
+    """Return a stable outage kind for BOARD judge failures."""
+    low = (error or "").lower()
+    if not low:
+        return ""
+
+    claude_kind = "claude_unavailable"
+    if "not logged in" in low:
+        claude_kind = "claude_not_logged_in"
+    elif "claude cli not found" in low:
+        claude_kind = "claude_cli_missing"
+    elif "claude disabled" in low:
+        claude_kind = "claude_disabled"
+    elif "claude judge rc=-9" in low or "timed out" in low:
+        claude_kind = "claude_timeout"
+    elif "claude judge output was not json" in low:
+        claude_kind = "claude_non_json"
+
+    codex_kind = ""
+    if "codex fallback" in low:
+        codex_kind = "codex_fallback_failed"
+        if "failed to initialize in-process app-server client" in low:
+            codex_kind = "codex_sandbox_init_failed"
+        elif "operation not permitted" in low:
+            codex_kind = "codex_operation_not_permitted"
+        elif "output was not json" in low:
+            codex_kind = "codex_non_json"
+
+    if "claude judge" in low or "claude returned" in low or "claude " in low:
+        if codex_kind:
+            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
+        return f"board_judge_unavailable:{claude_kind}"
+    if codex_kind:
+        return f"board_judge_unavailable:{codex_kind}"
+    return "board_judge_failed"
 
 
 def _judge_candidates(
@@ -535,7 +573,12 @@ def spawn_from_candidates(
         oracle_candidates=oracle_alive,
     )
     if err:
-        return BoardSpawnResult(ok=False, error=err, rejected=cheap_drops + rejected)
+        return BoardSpawnResult(
+            ok=False,
+            error=err,
+            error_kind=classify_judge_error(err),
+            rejected=cheap_drops + rejected,
+        )
 
     # Step 3: enforce thresholds (judge may have already, double-check defensively).
     final_accepted: list[dict] = []
@@ -686,6 +729,7 @@ def main() -> int:
         "accepted_count": len(result.accepted),
         "rejected_count": len(result.rejected),
         "error": result.error,
+        "error_kind": result.error_kind,
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok else 1
 
