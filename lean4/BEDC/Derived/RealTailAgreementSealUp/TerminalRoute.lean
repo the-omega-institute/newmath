@@ -1,0 +1,76 @@
+import BEDC.Derived.RealTailAgreementSealUp.TasteGate
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary.History
+
+namespace BEDC.Derived.RealTailAgreementSealUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+def RealTailAgreementSealTerminalRoute
+    (R S W D A P leftRead rightRead leftDyadic rightDyadic agreement terminal : BHist) :
+    Prop :=
+  UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory A ∧ UnaryHistory P ∧
+    Cont W D leftDyadic ∧ Cont W D rightDyadic ∧ Cont leftDyadic A agreement ∧
+      Cont agreement P terminal ∧
+        ∃ packet : RealTailAgreementSealUp,
+          packet =
+            RealTailAgreementSealUp.mk R S W D A leftRead rightRead agreement terminal
+
+theorem RealTailAgreementSealTerminalRoute_exhaustion
+    {R S W D A P leftRead rightRead leftDyadic rightDyadic agreement terminal : BHist} :
+    RealTailAgreementSealTerminalRoute R S W D A P leftRead rightRead leftDyadic
+      rightDyadic agreement terminal →
+      UnaryHistory leftDyadic ∧ UnaryHistory rightDyadic ∧ UnaryHistory agreement ∧
+        UnaryHistory terminal ∧ Cont W D leftDyadic ∧ Cont W D rightDyadic ∧
+          Cont leftDyadic A agreement ∧ Cont agreement P terminal ∧
+            hsame agreement (append leftDyadic A) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro route
+  cases route with
+  | intro unaryW routeTail =>
+      cases routeTail with
+      | intro unaryD routeTail =>
+          cases routeTail with
+          | intro unaryA routeTail =>
+              cases routeTail with
+              | intro unaryP routeTail =>
+                  cases routeTail with
+                  | intro leftCont routeTail =>
+                      cases routeTail with
+                      | intro rightCont routeTail =>
+                          cases routeTail with
+                          | intro agreementCont routeTail =>
+                              cases routeTail with
+                              | intro terminalCont packetWitness =>
+                                  cases packetWitness with
+                                  | intro packet packetEq =>
+                                      cases packetEq
+                                      have unaryLeftDyadic : UnaryHistory leftDyadic :=
+                                        unary_cont_closed unaryW unaryD leftCont
+                                      have unaryRightDyadic : UnaryHistory rightDyadic :=
+                                        unary_cont_closed unaryW unaryD rightCont
+                                      have unaryAgreement : UnaryHistory agreement :=
+                                        unary_cont_closed unaryLeftDyadic unaryA agreementCont
+                                      have unaryTerminal : UnaryHistory terminal :=
+                                        unary_cont_closed unaryAgreement unaryP terminalCont
+                                      constructor
+                                      · exact unaryLeftDyadic
+                                      · constructor
+                                        · exact unaryRightDyadic
+                                        · constructor
+                                          · exact unaryAgreement
+                                          · constructor
+                                            · exact unaryTerminal
+                                            · constructor
+                                              · exact leftCont
+                                              · constructor
+                                                · exact rightCont
+                                                · constructor
+                                                  · exact agreementCont
+                                                  · constructor
+                                                    · exact terminalCont
+                                                    · exact agreementCont
+
+end BEDC.Derived.RealTailAgreementSealUp

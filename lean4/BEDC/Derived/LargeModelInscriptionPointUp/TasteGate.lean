@@ -259,3 +259,10 @@ theorem LargeModelInscriptionPointTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
+
+namespace BEDC.Derived.LargeModelInscriptionPointUp
+
+def taste_gate :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.LargeModelInscriptionPointUp
