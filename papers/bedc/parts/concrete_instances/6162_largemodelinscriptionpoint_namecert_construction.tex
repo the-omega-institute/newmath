@@ -91,6 +91,45 @@ The neighboring inscription and supply chapters provide route discipline, not ex
 Therefore public consumers can recover the displayed rows and their certified route, but no consciousness predicate, semantic-understanding oracle, universal-truth proof, or hidden source selector is available for projection.
 \end{proof}
 
+\begin{theorem}[LargeModelInscriptionPoint source-channel exactness]
+\label{thm:largemodelinscriptionpoint-source-channel-exactness}
+For an accepted $\LargeModelInscriptionPointUp$ packet $L=(W,A,C,O,R,H,K,P,N)$, the corpus-supply row $C$ is the unique source-channel gate for carried inscription. A consumer may read $O$ as a carried output only after the route has exposed $W,A,C,H,K,P,N$, and no hidden source selector, host semantic oracle, or model-internal truth predicate can replace $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:largemodelinscriptionpoint-carrier}. The only source-channel coordinate in the packet is $C$, while $W$ and $A$ provide the finite inference substrate and $O$ stores the emitted inscription.
+
+Apply the carried-output boundary of \autoref{thm:largemodelinscriptionpoint-carried-output-boundary}. It reads the output row only after the corpus-supply row has been displayed.
+
+Finally use public non-escape from \autoref{thm:largemodelinscriptionpoint-public-nonescape}. Since hidden source selectors, host semantic oracles, and model-side proof predicates are not projected from $L$, the row $C$ is the source-channel gate for carried inscription.
+\end{proof}
+
+\begin{theorem}[LargeModelInscriptionPoint output-record stability]
+\label{thm:largemodelinscriptionpoint-output-record-stability}
+Output-record reads for accepted $\LargeModelInscriptionPointUp$ packets are stable under the displayed model-weight, activation-orbit, corpus-supply, audit-refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. If two accepted packets compare by the classifier of \autoref{def:largemodelinscriptionpoint-classifier}, a public consumer that reads the output record of one packet can transport that read only through the componentwise rows
+$$
+W,A,C,O,R,H,K,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Use the classifier definition. It compares model-weight, activation-orbit, corpus-supply, output-record, audit-refusal, continuation, provenance, and naming rows component by component.
+
+The NameCert obligations of \autoref{thm:largemodelinscriptionpoint-namecert-obligations} supply classifier transport and route stability for the same displayed rows. Thus an output-record read cannot drop the corpus-supply row, refusal ledger, continuation replay, provenance, or local name during transport.
+
+Apply \autoref{thm:largemodelinscriptionpoint-source-channel-exactness} and \autoref{thm:largemodelinscriptionpoint-public-nonescape}. The first keeps the output read behind the source-channel gate, and the second excludes hidden semantic or truth coordinates from the transported public read.
+\end{proof}
+
+\begin{theorem}[LargeModelInscriptionPoint obligation closure package]
+\label{thm:largemodelinscriptionpoint-obligation-closure-package}
+The $\LargeModelInscriptionPointUp$ chapter closes the following obligation package for the finite inscription packet: carrier admission for $L$, classifier transport, source-channel exactness, output-record stability, ledger exactness for the carried-output route, and public non-escape for consciousness, host semantic understanding, universal-truth proof, unbounded corpus truth, and hidden source selection.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:largemodelinscriptionpoint-carrier}, and classifier transport is \autoref{def:largemodelinscriptionpoint-classifier} together with \autoref{thm:largemodelinscriptionpoint-namecert-obligations}.
+
+Source-channel exactness follows from \autoref{thm:largemodelinscriptionpoint-source-channel-exactness}. Output-record stability follows from \autoref{thm:largemodelinscriptionpoint-output-record-stability}.
+
+Ledger exactness is the carried-output boundary of \autoref{thm:largemodelinscriptionpoint-carried-output-boundary}. Public non-escape is \autoref{thm:largemodelinscriptionpoint-public-nonescape}, so the package has no remaining public coordinate for the excluded claims.
+\end{proof}
+
 \falsifiablePrediction{If the corpus-supply row is removed, the packet can no longer distinguish model output as carried inscription from internally ratified universal closure.}
 
 \independenceWitness{Nearest siblings: inscriptionpoint, closedobservationsystem, transcendentalsupplytaxonomy, apophaticname, observerinterface; none is bijective because none simultaneously carries model-weight, activation-orbit, corpus-supply, output-record, and no-internal-ratification rows.}
@@ -98,14 +137,16 @@ Therefore public consumers can recover the displayed rows and their certified ro
 The Lean taste-gate surface for this packet is expected to expose $\mathsf{Nontrivial}\ \LargeModelInscriptionPointUp$ and $\mathsf{FieldFaithful}\ \LargeModelInscriptionPointUp$ in $\mathsf{TasteGate.lean}$, with the future namespace $\mathsf{BEDC.Derived.LargeModelInscriptionPointUp}$.
 
 \closureat{LargeModelInscriptionPointUp}{seedStr}
+\closureat{LargeModelInscriptionPointUp}{obligationStr}[BEDC.Derived.LargeModelInscriptionPointUp.TasteGate.LargeModelInscriptionPointTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LargeModelInscriptionPointUp}
   \constructivestory{A $\LargeModelInscriptionPointUp$ packet is generated from model-weight, activation-orbit, corpus-supply, output-record, audit-refusal, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, classifier, stability, ledger, NameCert obligations, carried-output boundary, and public non-escape surface for large-model inscription points.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:largemodelinscriptionpoint-carrier}, \autoref{def:largemodelinscriptionpoint-classifier}, \autoref{thm:largemodelinscriptionpoint-namecert-obligations}, \autoref{thm:largemodelinscriptionpoint-carried-output-boundary}, \autoref{thm:largemodelinscriptionpoint-public-nonescape}, \autoref{thm:largemodelinscriptionpoint-source-channel-exactness}, \autoref{thm:largemodelinscriptionpoint-output-record-stability}, and \autoref{thm:largemodelinscriptionpoint-obligation-closure-package} bind the finite carrier, classifier transport, source-channel gate, output-record stability, carried-output ledger, and public non-escape obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
+  \leanchecked{BEDC.Derived.LargeModelInscriptionPointUp.taste\_gate}
   \notclaimed{This chapter does not close consciousness, host semantic understanding, model-side proof of universal claims, corpus truth, hidden source selection, or a checked Lean certificate for the whole packet.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, output-record stability, corpus-supply ledger exactness, and public non-escape for the large-model inscription packet.}
+  \upgradepath{Scoped closure requires a checked classifier transport surface and a public export showing that the obligation package is stable for all accepted large-model inscription packets.}
 \end{closurestatus}

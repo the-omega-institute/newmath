@@ -184,6 +184,87 @@ Apply \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations} and \
 Now use \autoref{thm:bounded-monotone-convergence-seal-obligation-package}, \autoref{thm:bounded-monotone-convergence-seal-scoped-handoff-package}, and \autoref{thm:bounded-monotone-convergence-seal-provenance-local-naming}. They package the same route as $W \to (M,K) \to (F,\sigma,D,L) \to R$ together with $H,C,P,N$, bind it to the primitive $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and prevent the provenance or local name from adding any unlisted Real-completion content.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal witness scope]
+\label{thm:bounded-monotone-convergence-seal-witness-scope}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
+$$
+the row $W$ is the unique bounded-witness entry point into the L10 Real-completion chain. Every subsequent public row of the packet depends on the $\BoundedMonotoneCauchyWitnessUp$ surface exposed by $W$: the monotone-tail gate $M$, the Cauchy-criterion gate $K$, the finite route $F,\sigma,D,L$, the Real handoff $R$, and the bookkeeping rows $H,C,P,N$ have no independent entry route that avoids $W$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:bounded-monotone-convergence-seal-carrier}. It places $W$ as the first displayed row and identifies it as the accepted $\BoundedMonotoneCauchyWitnessUp$ row carrying the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-witness-consumption}. It states that a completion-facing consumer consumes $W$ before any of $M,K,F,\sigma,D,L$, or $R$ is available.
+
+Now use \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route}. The checked route is exactly $W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N)$, so every later row is downstream of the witness surface and no second witness entry point is exported.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal criterion scope]
+\label{thm:bounded-monotone-convergence-seal-criterion-scope}
+Within an accepted $\BoundedMonotoneConvergenceSealUp$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
+$$
+the rows $M$ and $K$ are mandatory public gates before the L10 route reaches $F,\sigma,D,L$, or $R$. The row $M$ is the $\MonotoneCauchyUp$ tail-window gate and the row $K$ is the $\CauchyCriterionUp$ tolerance gate; no StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, or Real handoff row is readable as a public convergence route until both gates have been consumed after $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:bounded-monotone-convergence-seal-carrier}. The rows $M$ and $K$ occur immediately after $W$ and before the finite route rows $F,\sigma,D,L$ and the Real row $R$.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-criterion-route}. It prevents a tolerance-facing read from bypassing $M$ or $K$ when it asks for a tail window, dyadic tolerance ledger, stream window, regular-rational handoff, or CauchyLimitSeal boundary.
+
+Finally use \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route}. Since the displayed route is $W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N)$, the public criterion surface is a gate in the L10 chain rather than optional explanatory data.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal stream and Real scope]
+\label{thm:bounded-monotone-convergence-seal-stream-real-scope}
+After the witness and criterion gates of an accepted $\BoundedMonotoneConvergenceSealUp$ packet have been consumed, the finite L10 route consumes the rows in the displayed order
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \CauchyLimitSealUp,\ \RealUp
+$$
+as the public surfaces named by the packet rows $\sigma,D,F,L,R$. These surfaces are read from the carrier's finite block
+$$
+W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N),
+$$
+so the StreamName, dyadic, regular-rational, limit-seal, and Real rows are consumed as one finite completion chain rather than as detached analytic endpoints.
+\end{theorem}
+\begin{proof}
+Read the rows in \autoref{def:bounded-monotone-convergence-seal-carrier}. The finite completion-facing part of the packet contains the regular-rational row $F$, the stream-window row $\sigma$, the dyadic row $D$, the CauchyLimitSeal boundary $L$, and the Real handoff $R$.
+
+Use \autoref{thm:bounded-monotone-convergence-seal-real-handoff}. It places $R$ after $W,M,K,F,\sigma,D,L$ and identifies $R$ as the terminal $\RealUp$ handoff rather than a selected limit or host equality. Thus the public consumption order of the finite L10 surfaces is read from the same finite block, not from an external analytic route.
+
+The StreamName, dyadic, regular-rational, CauchyLimitSeal, and Real rows are therefore the finite L10 route named by \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route}. The theorem's route order supplies the public consumption order for the chain, while the theorem statement records the sibling surfaces consumed by those rows.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal ledger exclusion scope]
+\label{thm:bounded-monotone-convergence-seal-ledger-exclusion-scope}
+The ledger of an accepted $\BoundedMonotoneConvergenceSealUp$ packet excludes selected limits, quotient stream equality, host real equality, trichotomy, detached tail oracles, open-cover compactness, and ambient completeness. Its only completion-facing rows are the bounded witness $W$, public gates $M,K$, finite route rows $F,\sigma,D,L,R$, transport and route rows $H,C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:bounded-monotone-convergence-seal-carrier}. The definition explicitly lists the rows of $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$ and states that the carrier contains no selected limit representative, quotient stream equality, host real equality, trichotomy row, open-cover compactness row, detached tail oracle, or ambient completeness theorem.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-ledger-exhaustion}. It identifies $P$ and $N$ as provenance and local naming rows for exactly the displayed packet and prevents them from importing any excluded analytic object.
+
+Finally use \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route}. The route already accounts for every witness, criterion, finite completion, Real, transport, provenance, and naming row, so the exclusions are part of the scoped obligation surface rather than a separate side condition.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal obligation scope package]
+\label{thm:bounded-monotone-convergence-seal-obligation-scope-package}
+The four scoped rows
+\autoref{thm:bounded-monotone-convergence-seal-witness-scope},
+\autoref{thm:bounded-monotone-convergence-seal-criterion-scope},
+\autoref{thm:bounded-monotone-convergence-seal-stream-real-scope}, and
+\autoref{thm:bounded-monotone-convergence-seal-ledger-exclusion-scope}
+form the obligation package for the L10 completion-chain reading of $\BoundedMonotoneConvergenceSealUp$. Together they bind the unique witness entry, mandatory public criterion gates, finite StreamName--DyadicRatCore--RegSeqRat--CauchyLimitSeal--Real route, and non-escape ledger for any $\obligationClosure$ treatment of this packet.
+\end{theorem}
+\begin{proof}
+The witness-scope row identifies $W$ as the only bounded-witness entry point. The criterion-scope row then forces $M$ and $K$ to be consumed as public $\MonotoneCauchyUp$ and $\CauchyCriterionUp$ gates before any completion-facing route can proceed.
+
+The stream-and-Real scope row records the finite L10 consumption chain through $\sigma,D,F,L,R$, and the ledger-exclusion scope row removes selected limits, quotient equality, host equality, trichotomy, detached tail oracles, open-cover compactness, and ambient completeness from the packet.
+
+Combining these rows with \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route} gives exactly the package $W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N)$. Hence the packet has a concrete obligation surface ready for a closure-grade reading without adding any Lean marker in this chapter.
+\end{proof}
+
 \begin{theorem}[Bounded monotone convergence seal carrier admission]
 \label{thm:bounded-monotone-convergence-seal-carrier-admission}
 Every accepted $\BoundedMonotoneConvergenceSealUp$ packet projects exactly the displayed carrier rows
@@ -230,6 +311,24 @@ Assume the displayed fields of $S$ and $S'$ agree. By \autoref{thm:bounded-monot
 The equality of $W,M,K,F,\sigma,D,L,R,H,C,P,N$ therefore transports the same witness, public tail, criterion, finite route, CauchyLimitSeal boundary, Real seal, route replay, provenance, and local name. The public seal read is equal because it has no coordinate outside that carrier inventory.
 
 Now change one of $W,K,F,\sigma,D,L,R$. The witness-consumption theorem detects a change of $W$; the criterion-route theorem detects changes of $K,F,\sigma,D,L$; and the Real-handoff theorem detects a change of $R$. Each changed field is on the unique consumer route to the corresponding public read, so the corresponding route changes.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal route determinacy]
+\label{thm:bounded-monotone-convergence-seal-route-determinacy}
+Two accepted $\BoundedMonotoneConvergenceSealUp$ seal-facing consumer routes with the same displayed rows
+$$
+W,M,K,F,\sigma,D,L,R,H,C,P,N
+$$
+determine the same $\RealUp$ handoff route. Conversely, changing any one of $W,K,F,\sigma,D,L,R$ changes the corresponding witness, criterion, regular-rational, stream, dyadic, limit-seal, or Real-facing read.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and the public handoff theorem. They make every seal-facing consumer route a read of the ordered carrier $W,M,K,F,\sigma,D,L,R,H,C,P,N$ and require the route to pass through the public completion-facing handoff before the Real row is exposed.
+
+Next apply the criterion route and Real handoff. These rows force $W$ to feed the witness surface, $M,K$ to feed the public monotone-tail and Cauchy-criterion gates, $F,\sigma,D$ to feed the regular-rational, stream, and dyadic route, $L$ to feed the CauchyLimitSeal compatibility boundary, and $R$ to feed the Real-facing read.
+
+The obligation package and scoped handoff package then remove alternate route choices. With the same displayed rows, the route replay $C$, componentwise transport $H$, provenance $P$, and local name $N$ can only certify the same finite passage through the same rows.
+
+Finally use field faithfulness. A changed $W,K,F,\sigma,D,L$, or $R$ is a changed field on the unique consumer route to its corresponding surface, so the affected witness, criterion, regular-rational, stream, dyadic, limit-seal, or Real-facing read changes as well.
 \end{proof}
 
 \begin{theorem}[Bounded monotone convergence seal stability envelope]

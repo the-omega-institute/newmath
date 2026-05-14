@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness route readback exhaustion]
+\label{thm:critical-line-witness-route-readback-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every downstream readback accepted by $W$ factors through the zero-strip source row fixed by \autoref{thm:critical-line-witness-root-source-lock}, the strip reflection boundary of \autoref{thm:critical-line-witness-strip-reflection-boundary}, and the downstream RH unblock package of \autoref{thm:critical-line-witness-downstream-rh-unblock-package}. No downstream readback can replace that finite route by analytic continuation, a host evaluator, global zero classification, an $\mathsf{RH}$ truth value, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the root source lock. It fixes the source-facing side of $W$ to the displayed rows $Z,S,M,R,Q,H,C,P,N$ and refuses analytic or host-level replacements before a downstream consumer can read the packet.
+
+Next apply the strip reflection boundary. Every zero-strip or strip-reflection consumer remains on the same finite packet, so the readback cannot leave the zero-strip source row for a separate analytic-continuation route.
+
+Finally use the downstream RH unblock package. It exposes exactly the same finite rows to downstream consumers and records the missing $\mathsf{RH}$ truth-value and host-evaluator rows as refusals. Thus every downstream readback is exhausted by the displayed source package.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream zero-strip exactness]
+\label{thm:critical-line-witness-downstream-zero-strip-exactness}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every zero-strip consumer receives the same modulus comparison surface $M,R,Q,H,C,P,N$ after reading the zero-strip source rows $Z,S$. The consumer may transport and replay that surface through $H$ and $C$, and may cite the provenance and local name through $P$ and $N$, but it receives no second modulus row, no host zero classifier, and no proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Project the zero-strip source through \autoref{thm:critical-line-witness-root-source-lock}. The rows $Z,S$ are the source side of the same accepted packet as the modulus, real-part, and rational comparison rows.
+
+Apply \autoref{thm:critical-line-witness-strip-reflection-boundary}. It keeps each zero-strip consumer inside $Z,S,M,R,Q,H,C,P,N$ and refuses host classifiers and analytic exits.
+
+Use \autoref{thm:critical-line-witness-downstream-rh-unblock-package} to read the downstream surface. The package exposes the modulus comparison rows $M,R,Q$ only through the same transport, route, provenance, and local name. Therefore all zero-strip consumers receive the same comparison surface and no separate $\mathsf{RH}$ proof.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus refusal ledger soundness]
+\label{thm:critical-line-witness-modulus-refusal-ledger-soundness}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, any off-route request for an $\mathsf{RH}$ proof, analytic-continuation certificate, global zero classification, host evaluator, quotient representative, host equality, or ambient completeness theorem lands in the refusal ledger attached to the displayed rows. The packet exports the zero-strip source and modulus comparison surface, not a proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:critical-line-witness-root-source-lock} to identify the only root-facing source route. The route is finite and displayed, so an off-route analytic request has no source coordinate outside $Z,S,M,R,Q,H,C,P,N$.
+
+Next use \autoref{thm:critical-line-witness-strip-reflection-boundary}. Strip and zero-strip consumers remain inside the same boundary, where analytic continuation, $\mathsf{RH}$ truth values, global zero classification, and host evaluators are refused.
+
+Finally apply \autoref{thm:critical-line-witness-downstream-rh-unblock-package}. It presents the downstream surface as an unblock package for finite BEDC reads only. The listed off-route requests therefore terminate in the refusal ledger and cannot be repacked as a proof of $\mathsf{RH}$.
+\end{proof}

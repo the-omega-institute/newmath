@@ -41,61 +41,111 @@ private theorem certificateAuditGateDecode_encode_bhist :
 def certificateAuditGateToEventFlow : CertificateAuditGateUp -> EventFlow
   | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
       continuation provenance name =>
-      [certificateAuditGateEncodeBHist gateInput,
+      [[BMark.b0],
+        certificateAuditGateEncodeBHist gateInput,
+        [BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist checkedSurface,
+        [BMark.b1, BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist refusal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist drift,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist axiomPurity,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
         certificateAuditGateEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
         certificateAuditGateEncodeBHist name]
 
 def certificateAuditGateFromEventFlow : EventFlow -> Option CertificateAuditGateUp
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | gateInput :: rest1 =>
-      match rest1 with
+  | _tag0 :: rest0 =>
+      match rest0 with
       | [] => none
-      | checkedSurface :: rest2 =>
-          match rest2 with
+      | gateInput :: rest1 =>
+          match rest1 with
           | [] => none
-          | refusal :: rest3 =>
-              match rest3 with
+          | _tag1 :: rest2 =>
+              match rest2 with
               | [] => none
-              | drift :: rest4 =>
-                  match rest4 with
+              | checkedSurface :: rest3 =>
+                  match rest3 with
                   | [] => none
-                  | axiomPurity :: rest5 =>
-                      match rest5 with
+                  | _tag2 :: rest4 =>
+                      match rest4 with
                       | [] => none
-                      | transport :: rest6 =>
-                          match rest6 with
+                      | refusal :: rest5 =>
+                          match rest5 with
                           | [] => none
-                          | continuation :: rest7 =>
-                              match rest7 with
+                          | _tag3 :: rest6 =>
+                              match rest6 with
                               | [] => none
-                              | provenance :: rest8 =>
-                                  match rest8 with
+                              | drift :: rest7 =>
+                                  match rest7 with
                                   | [] => none
-                                  | name :: rest9 =>
-                                      match rest9 with
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
                                       | [] =>
-                                          some
-                                            (CertificateAuditGateUp.mk
-                                              (certificateAuditGateDecodeBHist gateInput)
-                                              (certificateAuditGateDecodeBHist checkedSurface)
-                                              (certificateAuditGateDecodeBHist refusal)
-                                              (certificateAuditGateDecodeBHist drift)
-                                              (certificateAuditGateDecodeBHist axiomPurity)
-                                              (certificateAuditGateDecodeBHist transport)
-                                              (certificateAuditGateDecodeBHist continuation)
-                                              (certificateAuditGateDecodeBHist provenance)
-                                              (certificateAuditGateDecodeBHist name))
-                                      | _ :: _ => none
+                                          none
+                                      | axiomPurity :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | continuation :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (CertificateAuditGateUp.mk
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    gateInput)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    checkedSurface)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    refusal)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    drift)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    axiomPurity)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    transport)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    continuation)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    provenance)
+                                                                                  (certificateAuditGateDecodeBHist
+                                                                                    name))
+                                                                          | _ :: _ => none
 
 private theorem certificateAuditGate_round_trip :
     forall x : CertificateAuditGateUp,
       certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
@@ -128,6 +178,7 @@ private theorem certificateAuditGate_round_trip :
 private theorem certificateAuditGateToEventFlow_injective
     {x y : CertificateAuditGateUp} :
     certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
       certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) =
@@ -138,13 +189,16 @@ private theorem certificateAuditGateToEventFlow_injective
       (Eq.trans hread (certificateAuditGate_round_trip y)))
 
 instance certificateAuditGateBHistCarrier : BHistCarrier CertificateAuditGateUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := certificateAuditGateToEventFlow
   fromEventFlow := certificateAuditGateFromEventFlow
 
 instance certificateAuditGateChapterTasteGate :
     ChapterTasteGate CertificateAuditGateUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
+    change certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x
     exact certificateAuditGate_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -152,6 +206,7 @@ instance certificateAuditGateChapterTasteGate :
 
 instance certificateAuditGateFieldFaithful :
     FieldFaithful CertificateAuditGateUp where
+  -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
     | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
@@ -159,6 +214,7 @@ instance certificateAuditGateFieldFaithful :
         [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
           provenance, name]
   field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
     | mk gateInput1 checkedSurface1 refusal1 drift1 axiomPurity1 transport1 continuation1
@@ -170,6 +226,7 @@ instance certificateAuditGateFieldFaithful :
             rfl
 
 instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CertificateAuditGateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
@@ -180,6 +237,7 @@ instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp wher
         cases h⟩
 
 def taste_gate : ChapterTasteGate CertificateAuditGateUp :=
+  -- BEDC touchpoint anchor: BHist BMark
   certificateAuditGateChapterTasteGate
 
 theorem CertificateAuditGateTasteGate_single_carrier_alignment :
@@ -191,7 +249,9 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
           certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y -> x = y) /\
           Nonempty (ChapterTasteGate CertificateAuditGateUp) /\
             Nonempty (FieldFaithful CertificateAuditGateUp) /\
-              Nonempty (Nontrivial CertificateAuditGateUp) := by
+              Nonempty (Nontrivial CertificateAuditGateUp) /\
+                certificateAuditGateEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact certificateAuditGateDecode_encode_bhist
   · constructor
@@ -199,10 +259,13 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact certificateAuditGateToEventFlow_injective heq
-      · exact
-          ⟨⟨certificateAuditGateChapterTasteGate⟩,
-            ⟨certificateAuditGateFieldFaithful⟩,
-            ⟨certificateAuditGateNontrivial⟩⟩
+      · constructor
+        · exact ⟨certificateAuditGateChapterTasteGate⟩
+        · constructor
+          · exact ⟨certificateAuditGateFieldFaithful⟩
+          · constructor
+            · exact ⟨certificateAuditGateNontrivial⟩
+            · rfl
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
 
@@ -210,6 +273,7 @@ namespace BEDC.Derived.CertificateAuditGateUp
 
 def taste_gate :
     BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CertificateAuditGateUp :=
+  -- BEDC touchpoint anchor: BHist BMark
   TasteGate.taste_gate
 
 end BEDC.Derived.CertificateAuditGateUp
