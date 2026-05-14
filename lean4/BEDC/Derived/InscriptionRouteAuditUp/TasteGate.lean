@@ -10,7 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive InscriptionRouteAuditUp : Type where
-  | mk (source gap route accepted downstream transport continuations provenance name : BHist) :
+  | mk :
+      (source gap route accepted downstream transport continuations provenance name : BHist) →
       InscriptionRouteAuditUp
   deriving DecidableEq
 
@@ -32,9 +33,12 @@ private theorem inscriptionRouteAuditDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def inscriptionRouteAuditToEventFlow : InscriptionRouteAuditUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -116,8 +120,7 @@ def inscriptionRouteAuditFromEventFlow : EventFlow → Option InscriptionRouteAu
                                                                       match rest16 with
                                                                       | [] => none
                                                                       | name :: rest17 =>
-                                                                          match rest17
-                                                                            with
+                                                                          match rest17 with
                                                                           | [] =>
                                                                               some
                                                                                 (InscriptionRouteAuditUp.mk
@@ -187,6 +190,26 @@ theorem inscriptionRouteAuditToEventFlow_injective
     (Eq.trans (inscriptionRouteAudit_round_trip x).symm
       (Eq.trans hread (inscriptionRouteAudit_round_trip y)))
 
+def inscriptionRouteAuditFields : InscriptionRouteAuditUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | InscriptionRouteAuditUp.mk source gap route accepted downstream transport continuations
+      provenance name =>
+      [source, gap, route, accepted, downstream, transport, continuations, provenance, name]
+
+private theorem inscriptionRouteAudit_field_faithful :
+    ∀ x y : InscriptionRouteAuditUp,
+      inscriptionRouteAuditFields x = inscriptionRouteAuditFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk source₁ gap₁ route₁ accepted₁ downstream₁ transport₁ continuations₁ provenance₁
+      name₁ =>
+      cases y with
+      | mk source₂ gap₂ route₂ accepted₂ downstream₂ transport₂ continuations₂ provenance₂
+          name₂ =>
+          cases h
+          rfl
+
 instance inscriptionRouteAuditBHistCarrier : BHistCarrier InscriptionRouteAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := inscriptionRouteAuditToEventFlow
@@ -204,30 +227,16 @@ instance inscriptionRouteAuditChapterTasteGate : ChapterTasteGate InscriptionRou
 
 instance inscriptionRouteAuditFieldFaithful : FieldFaithful InscriptionRouteAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | InscriptionRouteAuditUp.mk source gap route accepted downstream transport continuations
-        provenance name =>
-        [source, gap, route, accepted, downstream, transport, continuations, provenance, name]
-  field_faithful := by
-    -- BEDC touchpoint anchor: BHist BMark
-    intro x y h
-    cases x with
-    | mk source₁ gap₁ route₁ accepted₁ downstream₁ transport₁ continuations₁ provenance₁
-        name₁ =>
-        cases y with
-        | mk source₂ gap₂ route₂ accepted₂ downstream₂ transport₂ continuations₂
-            provenance₂ name₂ =>
-            cases h
-            rfl
+  fields := inscriptionRouteAuditFields
+  field_faithful := inscriptionRouteAudit_field_faithful
 
 instance inscriptionRouteAuditNontrivial : Nontrivial InscriptionRouteAuditUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨InscriptionRouteAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨InscriptionRouteAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      InscriptionRouteAuditUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      InscriptionRouteAuditUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -260,12 +269,13 @@ theorem InscriptionRouteAuditTasteGate_single_carrier_alignment :
           []] ∧
       Nonempty (ChapterTasteGate InscriptionRouteAuditUp) ∧
       Nonempty (FieldFaithful InscriptionRouteAuditUp) ∧
-      Nonempty (Nontrivial InscriptionRouteAuditUp) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      Nonempty (Nontrivial InscriptionRouteAuditUp) ∧
+      inscriptionRouteAuditEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
     ⟨inscriptionRouteAuditDecode_encode_bhist, inscriptionRouteAudit_round_trip,
       fun x y heq => inscriptionRouteAuditToEventFlow_injective heq, rfl,
       ⟨inscriptionRouteAuditChapterTasteGate⟩, ⟨inscriptionRouteAuditFieldFaithful⟩,
-      ⟨inscriptionRouteAuditNontrivial⟩⟩
+      ⟨inscriptionRouteAuditNontrivial⟩, rfl⟩
 
 end BEDC.Derived.InscriptionRouteAuditUp.TasteGate
