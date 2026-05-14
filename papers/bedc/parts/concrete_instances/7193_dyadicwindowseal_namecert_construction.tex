@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\DyadicWindowSealUp$}
+\label{ch:concrete-instances-dyadic-window-seal-namecert}
+\origin{ai}
+
+The $\DyadicWindowSealUp$ packet realizes the Real and Completion route of \autoref{ch:visions-real-completeness} as a finite service boundary before a $\RealUp$ seal consumer is allowed to read completion-facing data. It sits between the dyadic precision surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the observation-budget surface of \autoref{ch:concrete-instances-real-observation-budget-namecert}, the seal synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}. The packet is a finite Real-and-Completion seal service, not a quotient stream, selected host limit, host real equality, hidden selector, unbounded schedule, or ambient completeness principle.
+
+\begin{definition}[Dyadic window seal carrier]
+\label{def:dyadic-window-seal-carrier}
+A $\DyadicWindowSealUp$ carrier is a finite $\BHist$ packet
+$$
+W=(q,w,r,b,z,s,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the dyadic precision and request row read from the $\DyadicRatCoreUp$ ledger;
+\item $w$ is the finite $\StreamNameUp$ window served for that request;
+\item $r$ is the $\RegSeqRatUp$ readback row obtained through the window;
+\item $b$ is the $\RealObservationBudgetUp$ row that admits the finite observation service;
+\item $z$ is the $\CauchySealBudgetSynchronizerUp$ row tying the request, budget, shared threshold, and seal service together;
+\item $s$ is the $\RealUp$ seal row that may be consumed only after $q,w,r,b,z$ are displayed;
+\item $h$ records componentwise $\hsame$ transport for the request, window, readback, budget, synchronizer, and seal rows;
+\item $c$ records the displayed $\Cont$ routes by which every consumer reaches those rows;
+\item $p$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\DyadicWindowSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient stream representative, host real equality, selected host limit, hidden selector, unbounded observation schedule, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Dyadic window seal NameCert obligations]
+\label{thm:dyadic-window-seal-namecert-obligations}
+For the carrier of \autoref{def:dyadic-window-seal-carrier}, the local $\NameCert_{\DyadicWindowSealUp}$ surface consists of six finite rows:
+\begin{enumerate}
+\item carrier admission for $W=(q,w,r,b,z,s,h,c,p,n)$ as one displayed $\BHist$ packet;
+\item dyadic request exactness identifying $q$ with the precision and request ledger row served by $\DyadicRatCoreUp$;
+\item finite-window readback exactness identifying $w$ and $r$ as the $\StreamNameUp$ window and $\RegSeqRatUp$ readback for the same request;
+\item observation-budget admission through $b$ before any $\RealUp$ seal row is exposed;
+\item synchronizer agreement through $z$, forcing the request, budget, shared-threshold, and seal rows to be read as one finite route;
+\item transport, route, provenance, and local naming exactness through $h,c,p,n$.
+\end{enumerate}
+Lean \texttt{BEDC.Derived.DyadicWindowSealUp.TasteGate} must provide explicit \texttt{Nontrivial DyadicWindowSealUp} and \texttt{FieldFaithful DyadicWindowSealUp} instances for this same carrier surface.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:dyadic-window-seal-carrier}. The request, window, readback, budget, synchronizer, seal, transport, route, provenance, and naming rows are all displayed coordinates of the packet.
+
+The dyadic request row fixes the precision service, and the window and readback rows fix the finite observation through $\StreamNameUp$ and $\RegSeqRatUp$. The budget row admits the service only as a finite observation, while the synchronizer row ties that budget to the same seal route.
+
+Finally the transport and continuation rows authenticate componentwise movement of the displayed service. Repacking those rows with $p$ and $n$ gives the local NameCert surface and leaves no carrier coordinate through which a hidden selector, quotient stream, host real equality, selected limit, unbounded schedule, or ambient completeness premise can enter.
+\end{proof}
+
+\begin{theorem}[Dyadic window seal budget pullback]
+\label{thm:dyadic-window-seal-budget-pullback}
+Let $W=(q,w,r,b,z,s,h,c,p,n)$ be an accepted $\DyadicWindowSealUp$ packet. Every observation-budget consumer that reaches the $\RealUp$ seal row $s$ factors through the finite pullback route
+$$
+q \longmapsto w \longmapsto r \longmapsto b \longmapsto z \longmapsto s.
+$$
+The route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet, and exports no quotient stream equality, host real equality, selected host limit, hidden selector, unbounded schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:dyadic-window-seal-namecert-obligations}. It requires the dyadic request row, stream window, regular readback, observation budget, synchronizer, and seal row to belong to one accepted packet.
+
+Read the consumer through the observation-budget row. Since $b$ is displayed as a coordinate of the same carrier, the admitted service can inspect only the request, window, readback, and budget rows already named by $q,w,r,b$.
+
+Now apply synchronizer agreement. The row $z$ binds that budget route to the shared seal route ending at $s$, while $h,c,p,n$ record the componentwise transport, continuation replay, provenance, and local naming. Carrier inspection supplies the stated exclusions.
+\end{proof}
+
+\begin{theorem}[Dyadic window seal non-escape]
+\label{thm:dyadic-window-seal-nonescape}
+No accepted $\DyadicWindowSealUp$ read can export a $\RealUp$ seal consumer without first displaying the dyadic request row, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealObservationBudgetUp$ row, and $\CauchySealBudgetSynchronizerUp$ row of the same packet. Any read that bypasses one of those rows has no remaining coordinate from which to export a completion-facing seal service.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to $W=(q,w,r,b,z,s,h,c,p,n)$. The only seal-facing coordinate is $s$, and the only service route into it is the displayed finite chain through $q,w,r,b,z$.
+
+Use \autoref{thm:dyadic-window-seal-budget-pullback}. It places every observation-budget consumer of $s$ on the same pullback route and authenticates the route through $h,c,p,n$.
+
+The carrier definition then rules out all bypasses. There is no quotient-stream coordinate, host equality test, selected host limit, hidden selector, unbounded schedule, or ambient completeness field that could replace a missing request, window, readback, budget, or synchronizer row.
+\end{proof}
+
+\begin{theorem}[Dyadic window seal Real handoff]
+\label{thm:dyadic-window-seal-real-handoff}
+Every accepted $\DyadicWindowSealUp$ consumer that hands data to $\RealUp$ hands only the finite packet rows
+$$
+q,w,r,b,z,s,h,c,p,n.
+$$
+In particular, a $\RealUp$ seal read factors through the displayed dyadic precision request, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, observation budget, and synchronizer row before the seal is consumed.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-window-seal-namecert-obligations} to identify the displayed Real-and-Completion service surface. The only rows available to a consumer are the request, window, readback, budget, synchronizer, seal, transport, route, provenance, and local naming rows.
+
+Apply \autoref{thm:dyadic-window-seal-budget-pullback}. It orders every seal read through $q,w,r,b,z$ before the consumer reaches $s$.
+
+Finally apply \autoref{thm:dyadic-window-seal-nonescape}. Since no alternate analytic or quotient coordinate is present, the handoff to $\RealUp$ is exactly the finite packet route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted DyadicWindowSealUp RealUp consumer factors through the displayed dyadic window and synchronizer rows before any seal read.}
+
+\independenceWitness{Nearest siblings: real-observation-budget, cauchy-seal-budget-synchronizer, finite-tail-diagonal-seal, regular-cauchy-limit-classifier, and real-completion-seal-classifier; none is bijective because DyadicWindowSealUp uniquely carries the dyadic request, finite StreamName window, RegSeqRat readback, observation budget, synchronizer row, and RealUp seal in one carrier.}
+
+\closureat{DyadicWindowSealUp}{seedStr}
+
+\begin{closurestatus}{\DyadicWindowSealUp}
+  \constructivestory{A $\DyadicWindowSealUp$ packet is generated from a dyadic precision request, finite StreamName window, RegSeqRat readback, observation-budget row, seal synchronizer row, RealUp seal, componentwise transports, displayed continuations, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-window-seal-carrier}, \autoref{thm:dyadic-window-seal-namecert-obligations}, \autoref{thm:dyadic-window-seal-budget-pullback}, \autoref{thm:dyadic-window-seal-nonescape}, and \autoref{thm:dyadic-window-seal-real-handoff} bind the finite Real-and-Completion service packet to the displayed dyadic request, window, readback, budget, synchronizer, seal, transport, route, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, host real equality, selected host limits, hidden selectors, unbounded schedules, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier, obligation, pullback, non-escape, and Real handoff targets for the same finite packet surface.}
+\end{closurestatus}
