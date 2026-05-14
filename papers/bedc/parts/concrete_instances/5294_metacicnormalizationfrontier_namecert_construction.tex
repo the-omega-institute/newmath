@@ -58,6 +58,42 @@ The replay and provenance rows $R$ and $P$ do not add new normalization evidence
 The obstruction row $S$ is separate from those positive rows. Since the packet has no coordinate for global closed strong normalization, full closed consistency, or erased subject-reduction transport, none of those objects can be exported by its local certificate.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization frontier candidate route]
+\label{thm:metacic-normalization-frontier-candidate-route}
+Every closed-normal consumer of candidate evidence in an accepted $\MetaCICNormalizationFrontierUp$ packet factors through the candidate row $C$, the closed-candidate row $K$, the replay row $R$, the provenance row $P$, and the local naming row $L$. The support rows are read inside the same finite $\BHist$ packet and transported only by the displayed $\hsame$ and $\Cont$ coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(C,K,E,N,S,H,R,P,L)$. The only candidate-facing rows are $C$ and $K$, and the only consumer-facing support rows for replay, provenance, and local naming are $R$, $P$, and $L$.
+
+Apply the candidate-evidence boundary clause of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It requires any candidate-mediated read to pass through $C$ and $K$ before it can be used by a closed-normal consumer.
+
+Finally use \autoref{thm:metacic-normalization-frontier-nonescape}. A consumer bypassing $C,K,R,P,L$ has no carrier coordinate from which to read candidate evidence, so the displayed route is the whole candidate route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier finished route]
+\label{thm:metacic-normalization-frontier-finished-route}
+Every closed-normal consumer of finished-normal evidence in an accepted $\MetaCICNormalizationFrontierUp$ packet factors through the finished-normal evidence row $E$, the normal-endpoint row $N$, the replay row $R$, the provenance row $P$, and the local naming row $L$. The route uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the frontier packet.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The finished-normal side is represented by $E$ and $N$, while $R$, $P$, and $L$ record the replay, provenance, and local certificate rows through which a consumer can read that side.
+
+Apply the finished-normal boundary and closed-normal handoff clauses of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. They place $E$ before $N$ and then replay the endpoint through $R,P,L$.
+
+The non-escape theorem rules out a hidden blanket normalization coordinate. Thus a finished-normal consumer that stays inside the packet must read exactly the displayed finished route and cannot replace it with an ambient normalization theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction ledger]
+\label{thm:metacic-normalization-frontier-obstruction-ledger}
+In every accepted $\MetaCICNormalizationFrontierUp$ packet, the subject-reduction obstruction row $S$ is transported and named as a separate coordinate. It cannot be discharged by reading the candidate rows $C,K$ or the finished-normal rows $E,N$, and no consumer may erase it while remaining inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The row $S$ is listed separately from $C,K,E,N$ before the transport, replay, provenance, and local naming rows are attached.
+
+Use the subject-reduction-obstruction separation clause of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It states that $S$ remains distinct from the candidate and finished-normal evidence surfaces.
+
+Apply \autoref{thm:metacic-normalization-frontier-nonescape}. Since no erased subject-reduction transport is exported, $S$ can only be carried as a named obstruction coordinate; it cannot be solved by reading $C,K,E,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization frontier public obligation package]
 \label{thm:metacic-normalization-frontier-public-obligation-package}
 Every accepted $\MetaCICNormalizationFrontierUp$ packet exposes the public obligation package consisting of carrier admission for
