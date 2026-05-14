@@ -1497,50 +1497,40 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
             recent_pi_cycles,
         )
-        if recent_shallow_deepen_rejections >= 4:
-            suppressed = [
+        suppressed = [
+            a for a in autonomous_actions
+            if _is_shallow_deepen_action(a)
+        ]
+        if suppressed:
+            autonomous_actions = [
                 a for a in autonomous_actions
-                if _is_shallow_deepen_action(a)
+                if not _is_shallow_deepen_action(a)
             ]
-            if suppressed:
-                autonomous_actions = [
-                    a for a in autonomous_actions
-                    if not _is_shallow_deepen_action(a)
-                ]
-                inbox.append(
-                    "**suppressed autonomous action** (request_deepen_target) — "
-                    "shallow-completed heuristic was rejected by the gauntlet "
-                    f"{recent_shallow_deepen_rejections} recent cycles"
-                )
-        elif shallow and recent_deepen_rejections >= 3:
             inbox.append(
                 "**suppressed autonomous action** (request_deepen_target) — "
-                f"{shallow.get('target_id')} was rejected by the gauntlet "
-                f"{recent_deepen_rejections} recent cycles"
+                "shallow-completed findings are advisory audit signals; "
+                "routing to human inbox instead of gauntlet"
             )
-        if (
-            shallow
-            and not has_deepen
-            and not autonomous_actions
-            and recent_deepen_rejections < 3
-            and recent_shallow_deepen_rejections < 4
-            and not _snapshot_has_active_refill(snapshot)
-        ):
-            autonomous_actions.append({
-                "action": "request_deepen_target",
-                "args": {
-                    "target_id": shallow.get("target_id"),
-                    "reason": shallow.get("reason", "shallow completed target"),
-                    "title": shallow.get("title"),
-                    "slug": shallow.get("slug"),
-                    "audit_score": shallow.get("audit_score"),
-                    "rounds_total": shallow.get("rounds_total"),
-                },
-                "intent": "Re-queue a completed target whose accepted deliverable looks shallow.",
-                "expected_effect": "The next attempt runs with deepen_request metadata and an obligation-traversal directive.",
-                "risk_level": "operational",
-                "source": "pi_agent_v1_shallow_completed_heuristic",
-            })
+        if shallow and not _snapshot_has_active_refill(snapshot):
+            if recent_shallow_deepen_rejections >= 4:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    "the heuristic was rejected by the gauntlet "
+                    f"{recent_shallow_deepen_rejections} recent cycles; "
+                    "do not use completed-target deepen as BOARD refill."
+                )
+            elif recent_deepen_rejections >= 3:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    f"{shallow.get('target_id')} was rejected by the gauntlet "
+                    f"{recent_deepen_rejections} recent cycles."
+                )
+            else:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    f"{shallow.get('target_id')} {shallow.get('title')!r} "
+                    f"({shallow.get('reason')})."
+                )
         plan["autonomous_actions"] = autonomous_actions
 
         deepen_seen = False
