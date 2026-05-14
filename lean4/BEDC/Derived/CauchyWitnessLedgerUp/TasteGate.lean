@@ -236,6 +236,9 @@ instance cauchyWitnessLedgerChapterTasteGate :
     intro x y hxy heq
     exact hxy (cauchyWitnessLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CauchyWitnessLedgerUp :=
+  cauchyWitnessLedgerChapterTasteGate
+
 instance cauchyWitnessLedgerFieldFaithful :
     FieldFaithful CauchyWitnessLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
