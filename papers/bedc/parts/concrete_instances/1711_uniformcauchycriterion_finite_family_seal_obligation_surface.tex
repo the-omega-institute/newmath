@@ -386,3 +386,29 @@ Next apply the finite-family RegSeqRat--Real handoff, \autoref{thm:regseqrat-str
 
 Finally use shared seal-route determinacy. Once $I,W,M,Q,T,E$ and the structural rows $H,C,P,N$ are preserved, there is no second public seal handoff through which a terminal Real-facing consumer could obtain an independent classifier. Hence the three displayed classifier views are projections of the ordered route rather than additional completion data.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion terminal RegSeqRat--Real classifier correspondence]
+\label{thm:uniform-cauchy-criterion-terminal-regseq-real-classifier-correspondence}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. For any terminal consumer preserving the finite index ledger $I$, shared window $W$, threshold schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, seal handoff $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$, the following three classifier views determine one another:
+the $\RegSeqRatUp$ tail classifier, the $\StreamNameUp$ finite-window classifier, and the $\RealUp$ finite-window seal classifier.
+The determination is bidirectional because each view is exactly the corresponding projection of the ordered route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Thus a read of any one of the three classifiers is a read of the same terminal seal classifier through its own interface projection, and none of the three views imports a selected limit, quotient stream, host real equality, ambient completeness witness, detached tail oracle, or second stream family.
+\end{theorem}
+\begin{proof}
+First compose the finite-family seal package with the finite-family RegSeqRat--Real handoff and the root tail seal route totality theorem. These results put every accepted packet on the common route from $I$ to $E$, carry $H,C,P,N$ as the structural rows, and make every root-facing tail or seal read factor through that route.
+
+Next apply \autoref{thm:regseqrat-streamname-scoped-interface}, \autoref{thm:regseqrat-finite-window-real-seal-interface}, and \autoref{thm:realup-scoped-finite-window-read-surface}. They identify the RegSeqRat tail side, the StreamName finite-window side, and the Real finite-window read surface as interface projections of the same finite-window classifier.
+
+For the forward direction, a RegSeqRat tail-classifier read fixes the route through $I,W,M,Q,T,E$. The StreamName and Real classifier reads are then the finite-window and seal projections supplied by the scoped interface and finite-window Real-seal interface.
+
+For the reverse direction, a StreamName or Real classifier read reaches the same route through the finite-window read surface and the RegSeqRat--Real handoff. Root tail seal totality sends the resulting terminal read back to the RegSeqRat tail classifier, with no extra completion coordinate.
+
+Finally use shared seal-route determinacy together with the nonescape ledger. Determinacy rules out a second public seal handoff once $I,W,M,Q,T,E,H,C,P,N$ are preserved, and the ledger excludes selected limits, quotient streams, host real equality, ambient completeness, detached tail oracles, and second stream families. Hence the three classifiers correspond bidirectionally as projections of the displayed route.
+\end{proof}
