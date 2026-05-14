@@ -61,6 +61,8 @@ import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
+import BEDC.Derived.ExternalSupplyBoundaryUp
+import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.TasteGate
@@ -145,6 +147,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
+import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
@@ -389,6 +392,7 @@ import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
 import BEDC.Derived.InterHistRateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
+import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
@@ -1266,6 +1270,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZnormalUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
