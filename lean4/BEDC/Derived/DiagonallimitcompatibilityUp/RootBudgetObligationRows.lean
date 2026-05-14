@@ -70,4 +70,51 @@ theorem DiagonalLimitCompatibilityCarrier_root_budget_classifier_row [AskSetup] 
       budgetWindowReadbackBudgetRead, budgetReadRealSealBudgetSeal, provenancePkg,
       budgetSealPkg⟩
 
+theorem DiagonalLimitCompatibilityRootBudget_ledger_row [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetRoot budgetWindow budgetRead budgetSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic budgetRoot ->
+        Cont budgetRoot windows budgetWindow ->
+          Cont budgetWindow readback budgetRead ->
+            Cont budgetRead realSeal budgetSeal ->
+              PkgSig bundle budgetSeal pkg ->
+                UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory sealRow ∧
+                  UnaryHistory dyadic ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+                    UnaryHistory realSeal ∧ UnaryHistory route ∧ UnaryHistory transport ∧
+                      UnaryHistory budgetRoot ∧ UnaryHistory budgetWindow ∧
+                        UnaryHistory budgetRead ∧ UnaryHistory budgetSeal ∧
+                          Cont diagonal triangle sealRow ∧ Cont dyadic windows readback ∧
+                            Cont readback realSeal route ∧ Cont route cert transport ∧
+                              Cont diagonal dyadic budgetRoot ∧
+                                Cont budgetRoot windows budgetWindow ∧
+                                  Cont budgetWindow readback budgetRead ∧
+                                    Cont budgetRead realSeal budgetSeal ∧
+                                      PkgSig bundle provenance pkg ∧
+                                        PkgSig bundle budgetSeal pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier diagonalDyadicBudgetRoot budgetRootWindowsBudgetWindow
+    budgetWindowReadbackBudgetRead budgetReadRealSealBudgetSeal budgetSealPkg
+  obtain ⟨diagonalUnary, triangleUnary, sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, transportUnary, routeUnary, _provenanceUnary,
+    _certUnary, diagonalTriangleSealRow, dyadicWindowsReadback, readbackRealSealRoute,
+    routeCertTransport, provenancePkg⟩ := carrier
+  have budgetRootUnary : UnaryHistory budgetRoot :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicBudgetRoot
+  have budgetWindowUnary : UnaryHistory budgetWindow :=
+    unary_cont_closed budgetRootUnary windowsUnary budgetRootWindowsBudgetWindow
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_cont_closed budgetWindowUnary readbackUnary budgetWindowReadbackBudgetRead
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetReadUnary realSealUnary budgetReadRealSealBudgetSeal
+  exact
+    ⟨diagonalUnary, triangleUnary, sealRowUnary, dyadicUnary, windowsUnary, readbackUnary,
+      realSealUnary, routeUnary, transportUnary, budgetRootUnary, budgetWindowUnary,
+      budgetReadUnary, budgetSealUnary, diagonalTriangleSealRow, dyadicWindowsReadback,
+      readbackRealSealRoute, routeCertTransport, diagonalDyadicBudgetRoot,
+      budgetRootWindowsBudgetWindow, budgetWindowReadbackBudgetRead,
+      budgetReadRealSealBudgetSeal, provenancePkg, budgetSealPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
