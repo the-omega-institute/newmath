@@ -22,6 +22,7 @@ import candidate_inbox
 import logic_packet_gate
 import paper_gap_scanner
 import paper_index
+import structural_relation_miner
 
 from dispatch_bedc_target import REPO_ROOT, SCRIPT_DIR
 
@@ -54,7 +55,7 @@ EXISTENCE_RE = re.compile(
     re.IGNORECASE,
 )
 ORACLE_WORTHY_RE = re.compile(
-    r"\b(obstruction|counterexample|classification|uniqueness|non[- ]?escape|impossib|boundary|failure|deep)\b",
+    r"\b(obstruction|counterexample|classification|uniqueness|non[- ]?escape|impossib|failure|deep)\b",
     re.IGNORECASE,
 )
 INBOX_RECOVER_EVENTS = {"received", "pre_gate_accept"}
@@ -276,11 +277,19 @@ def _difficulty(candidate: dict[str, Any]) -> str:
 
 
 def collect_candidates(limit: int) -> list[dict[str, Any]]:
-    candidates = paper_gap_scanner.generate_candidates(limit=limit)
+    candidates: list[dict[str, Any]] = []
+    source_limit = max(limit, 1)
+
+    gap_candidates = paper_gap_scanner.generate_candidates(limit=source_limit)
+    candidates.extend(gap_candidates)
     for cand in candidates:
-        cand.setdefault("source", "research_lane:paper_gap_scanner")
-    if len(candidates) < limit:
-        candidates.extend(_candidate_inbox_candidates(limit - len(candidates)))
+        if str(cand.get("source") or "") == "paper_gap_scanner":
+            cand["source"] = "research_lane:paper_gap_scanner"
+        else:
+            cand.setdefault("source", "research_lane:paper_gap_scanner")
+
+    candidates.extend(structural_relation_miner.generate_candidates(limit=source_limit))
+    candidates.extend(_candidate_inbox_candidates(source_limit))
     return _dedupe_candidates(candidates)[:limit]
 
 
