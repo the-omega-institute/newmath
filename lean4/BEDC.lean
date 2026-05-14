@@ -254,6 +254,7 @@ import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
+import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
@@ -815,6 +816,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRequestSelectorExhaustion
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
