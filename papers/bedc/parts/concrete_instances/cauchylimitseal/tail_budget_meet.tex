@@ -36,6 +36,7 @@ For the budget side, use the observation-budget pullback and consumer package fr
 \label{thm:cauchy-limit-seal-tail-budget-meet-exactness}
 Let $L$ be an accepted $\CauchyLimitSealUp$ packet and let $B$ be an accepted $\RealObservationBudgetUp$ packet over the same displayed precision request and finite $\StreamNameUp$ window. The two packets classify through the same finite tail-budget meet row if and only if their selector row, observation-budget row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows agree componentwise inside the meet surface. This exactness statement excludes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_tail\_budget\_meet\_exactness}
 \begin{proof}
 For the forward direction, project the finite meet row supplied by \autoref{thm:cauchy-limit-seal-tail-budget-meet}. The meet has no coordinates other than the selector, budget, dyadic ledger, regular handoff, real seal, transport, continuation, provenance, and naming rows, so classification through the same row identifies those coordinates componentwise.
 
@@ -96,4 +97,18 @@ Transport that meet by \autoref{thm:cauchy-limit-seal-selector-budget-transport}
 Apply the consumer normal form of \autoref{thm:cauchy-limit-seal-tail-budget-consumer-normal-form}. A $\RealUp$ or $\CompletionUp$ consumer therefore receives the meet only through the stated finite envelope and cannot switch to a quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, independent completion row, or ambient completeness witness.
 
 Finally attach the UniformCauchyCriterion side by \autoref{thm:regular-cauchy-tail-meet-completion-uniform-frontier} and \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}. These frontiers force the displayed uniform tail ledger to read the same finite family, dyadic tolerance, regular-rational tail, and real-seal handoff before any uniform-family consumer inspects it, so $U$ enters the selector-budget route through the same finite envelope.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal tail-meet refusal fork]
+\label{thm:cauchy-limit-seal-tail-meet-refusal-fork}
+Every $\RealUp$ or $\CompletionUp$ consumer of the tail-budget meet has exactly one of the following two routes. Either it factors through the finite envelope consisting of the $\StreamNameUp$ window, $\RegSeqRatUp$ source row, $\DyadicRatCoreUp$ ledger, $\UniformCauchyCriterionUp$ tail ledger, $\RealObservationBudgetUp$ rows, $\CauchyLimitSealUp$ seal row, and shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; or its request is routed to the visible refusal boundary for quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, independent completion row, ambient completeness, or metric-completeness.
+\end{theorem}
+\begin{proof}
+First use the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet}. It supplies the common route over the selector read, observation-budget read, completion-consumer read, and shared structural rows.
+
+Transport that common route with \autoref{thm:cauchy-limit-seal-selector-budget-transport}. The transported consumer still sees only the finite precision request, window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and naming rows.
+
+Apply the consumer normal form of \autoref{thm:cauchy-limit-seal-tail-budget-consumer-normal-form} together with the root unblock of \autoref{thm:cauchy-limit-seal-completion-budget-root-unblock}. These results force every $\RealUp$ or $\CompletionUp$ read to enter the downstream surface through the displayed finite meet before any completion-facing inspection occurs.
+
+Finally attach the uniform selector route from \autoref{thm:cauchy-limit-seal-tail-meet-uniform-selector-route}. Inspecting its envelope shows that quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, independent completion row, ambient completeness, and metric-completeness are not coordinates of the finite route. A request for any such coordinate therefore cannot be served by the envelope and is sent to the visible refusal boundary.
 \end{proof}
