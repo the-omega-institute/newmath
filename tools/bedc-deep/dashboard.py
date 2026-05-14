@@ -994,21 +994,32 @@ def _latest_supervisor_discovery_run() -> tuple[float, Path, str] | None:
     return latest
 
 
+def _discovery_run_timeout_seconds(path: Path) -> int:
+    if path.name.startswith("curator_"):
+        return 2400
+    return 1800
+
+
+def _format_pending_discovery_run(mtime: float, path: Path, detail: str) -> str:
+    now = datetime.now(timezone.utc)
+    age_seconds = (now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds()
+    age = _fmt_age(age_seconds)
+    timeout = _discovery_run_timeout_seconds(path)
+    label = "pending/in-flight" if age_seconds <= timeout else "pending/overdue"
+    return (
+        f"  {label}: supervisor {path.stem} log updated {age} ago; "
+        f"timeout={_fmt_age(timeout)}; last line: {detail[:120]}"
+    )
+
+
 def render_discovery_lane() -> str:
     supervisor_run = _latest_supervisor_discovery_run()
     if not DISCOVERY_LOG_DIR.exists():
         if supervisor_run:
             mtime, path, detail = supervisor_run
-            age = _fmt_age(
-                (
-                    datetime.now(timezone.utc)
-                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
-                ).total_seconds()
-            )
             return (
                 "  (no discovery artifacts)\n"
-                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
-                f"last line: {detail[:120]}"
+                + _format_pending_discovery_run(mtime, path, detail)
             )
         return "  (no discovery artifacts)"
     records: list[tuple[float, Path, dict]] = []
@@ -1025,16 +1036,9 @@ def render_discovery_lane() -> str:
     if not records:
         if supervisor_run:
             mtime, path, detail = supervisor_run
-            age = _fmt_age(
-                (
-                    datetime.now(timezone.utc)
-                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
-                ).total_seconds()
-            )
             return (
                 "  (no parseable discovery artifacts)\n"
-                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
-                f"last line: {detail[:120]}"
+                + _format_pending_discovery_run(mtime, path, detail)
             )
         return "  (no parseable discovery artifacts)"
     records.sort(key=lambda item: item[0], reverse=True)
@@ -1063,13 +1067,7 @@ def render_discovery_lane() -> str:
         run_mtime, run_path, detail = supervisor_run
         latest_artifact_mtime = records[0][0]
         if run_mtime > latest_artifact_mtime:
-            age = _fmt_age(
-                (now - datetime.fromtimestamp(run_mtime, tz=timezone.utc)).total_seconds()
-            )
-            lines.append(
-                f"  pending/no-artifact: supervisor {run_path.stem} log updated {age} ago; "
-                f"last line: {detail[:120]}"
-            )
+            lines.append(_format_pending_discovery_run(run_mtime, run_path, detail))
     return "\n".join(lines)
 
 
