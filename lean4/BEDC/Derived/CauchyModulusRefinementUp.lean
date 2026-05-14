@@ -556,4 +556,26 @@ theorem CauchyModulusRefinementCarrier_root_window_exhaustion
         ⟨unary_transport publicReadUnary (hsame_symm source.right), publicPkg⟩
   }
 
+theorem CauchyModulusRefinementCarrier_shared_budget_pullback [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n selected readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg →
+      Cont t w selected →
+        Cont selected q readback →
+          UnaryHistory selected ∧ UnaryHistory readback ∧ Cont m0 m1 u ∧ Cont u v t ∧
+            Cont t w selected ∧ Cont selected q readback ∧ PkgSig bundle p pkg ∧
+              hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier tWSelected selectedQReadback
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, tUnary, wUnary, qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, m0m1u, uvt, _twq, _qeh, pPkg, hn⟩
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed tUnary wUnary tWSelected
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectedUnary qUnary selectedQReadback
+  exact
+    ⟨selectedUnary, readbackUnary, m0m1u, uvt, tWSelected, selectedQReadback, pPkg,
+      hn⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp

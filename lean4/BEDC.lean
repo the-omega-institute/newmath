@@ -82,6 +82,7 @@ import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
+import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
 import BEDC.Derived.ZCarryUp
@@ -176,6 +177,7 @@ import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyLimitSealUp.RealTailAgreementHandoff
+import BEDC.Derived.CauchyLimitSealUp.CompletionConsumerReplay
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
