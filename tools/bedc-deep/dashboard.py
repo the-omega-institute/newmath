@@ -823,10 +823,22 @@ def render_board_refill() -> str:
                 "  scanner: "
                 f"gap_hits={scanner_stats.get('gap_hits', 0)} "
                 f"namecert_raw={scanner_stats.get('raw_namecert_candidates', 0)} "
+                f"prelimit={scanner_stats.get('prelimit_candidates', 0)} "
+                f"emitted={scanner_stats.get('emitted_candidates', 0)}/"
+                f"{scanner_stats.get('limit', 0)} "
                 f"paper_covered_skips={scanner_stats.get('skip_known_paper_covered_title', 0)} "
                 f"board/archive_skips={scanner_stats.get('skip_existing_board_or_archive_title', 0)} "
-                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)}"
+                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)} "
+                f"threshold_skips={scanner_stats.get('skip_below_threshold', 0)} "
+                f"batch_dupes={scanner_stats.get('skip_duplicate_title_in_batch', 0)}"
             )
+            by_kind = scanner_stats.get("gap_hits_by_kind") or {}
+            if isinstance(by_kind, dict) and by_kind:
+                kind_text = ", ".join(
+                    f"{key}={value}"
+                    for key, value in sorted(by_kind.items(), key=lambda item: str(item[0]))
+                )
+                lines.append(f"  scanner gap kinds: {kind_text}")
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
