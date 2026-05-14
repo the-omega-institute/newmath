@@ -78,6 +78,30 @@ Apply window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-
 Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed route before reading $E$, the selector budget, finite window, and readback rows exhaust the root budget consumer surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement root-window Real seal determinacy]
+\label{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}
+Let
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+and
+$$
+R'=(M_0,M_1,U,V,T,W,Q,E',H',C',P',N')
+$$
+be accepted $\CauchyModulusRefinementUp$ packets with the same source schedules, shared meet, selector budget, finite window, and readback rows. Every public $\RealUp$ or Completion consumer of the displayed root route classifies the two Real seal rows by $\hsame(E,E')$.
+\end{theorem}
+\begin{proof}
+Apply root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}, to both packets. Since the packets share $M_0,M_1,U,T,W,Q$, both public reads must pass through the displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q
+$$
+before any Real seal row is read.
+
+Next use root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. A public $\RealUp$ or Completion consumer has no hidden selector, quotient stream, host equality, second meet, selected limit, or ambient completeness row available as an alternate seal source.
+
+It remains only to compare the seal coordinates on the common route. Real seal factorization and classifier transport exactness, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}, identify the seal read as the Real-facing coordinate reached from the shared window and readback rows. The transported classifier rows $H,C,P,N$ and $H',C',P',N'$ therefore classify $E$ and $E'$ through the same displayed root route, giving $\hsame(E,E')$.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement root threshold public exhaustion]
 \label{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}
 For every accepted $\CauchyModulusRefinementUp$ root surface
