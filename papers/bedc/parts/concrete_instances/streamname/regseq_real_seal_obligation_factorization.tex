@@ -1,0 +1,56 @@
+\begin{theorem}[StreamName-RegSeqRat-Real seal obligation factorization]
+\label{thm:streamname-regseq-real-seal-obligation-factorization}
+Let $C$ be a Real-facing completion consumer whose route is displayed through
+a public $\StreamNameUp$ finite-window surface, a $\RegSeqRatUp$ readback
+surface over the same selected rational-history rows, and a $\RealUp$ seal
+ledger row. Then the finite Real-facing seal route factors through exactly the
+following three obligation blocks:
+\begin{enumerate}
+  \item the $\StreamNameUp$ block consisting of the rational-history
+  classifier rows, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows,
+  $\mathsf{UnaryHistory}$ observations, visible $\hsame$ transports, finite
+  $\Cont$ routes, and $\Pkg$ provenance rows;
+  \item the $\RegSeqRatUp$ block consisting of regularity,
+  dyadic-tolerance, transport, stream-spine, and seal-interface rows over the
+  same selected rational-history surface;
+  \item the $\RealUp$ block consisting of the seal classifier and its finite
+  ledger boundary row.
+\end{enumerate}
+Conversely, any packet carrying exactly those three displayed blocks repacks
+into the same finite Real-facing seal route.
+
+The factorization exports no quotient stream equality, selected host limit,
+host real equality, completion witness not carried by the packet, choice
+schedule, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First isolate the finite StreamName source. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It identifies the
+only rows exported by the public finite-window surface as the selected
+rational-history classifier rows, the finite probe ledger, membership rows,
+unary observations, and the visible transport and provenance data.
+
+Next separate the downstream obligations. Apply
+\autoref{thm:streamname-real-regseq-obligation-separation}. The separation row
+assigns the classifier, bundle, membership, unary-history, $\hsame$, $\Cont$,
+and $\Pkg$ data to the StreamName block; the regularity, dyadic-tolerance,
+transport, and stream-spine data to the RegSeqRat block; and the seal
+classifier to the RealUp block.
+
+Now compose the seal route. Use
+\autoref{thm:streamname-regseqrat-real-seal-composition} to pass from those
+three displayed surfaces to the Real-facing finite-window ledger boundary.
+This gives the forward factorization of $C$ through the StreamName block, the
+RegSeqRat block, and the RealUp block.
+
+For the reverse direction, read the same composition theorem from the three
+blocks back to the public route, and then apply
+\autoref{thm:streamname-realup-seal-boundary}. The RealUp boundary confirms
+that the repacked row is the same finite seal route because the seal is read
+only through the displayed finite ledger boundary.
+
+The exclusion clause follows from the same four boundary theorems. None of
+them introduces quotient stream equality, selected host limits, host real
+equality, completion witnesses outside the packet, choice schedules, or ambient
+completeness rows, so the factorized route exports none of those coordinates.
+\end{proof}
