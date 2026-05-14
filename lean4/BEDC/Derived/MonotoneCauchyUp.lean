@@ -221,4 +221,77 @@ theorem MonotoneCauchyCarrier_modulus_tail_stability [AskSetup] [PackageSetup]
       nameRowPkg'⟩
   exact ⟨transported, sameInterval, sameRealSeal, sameNameRow⟩
 
+theorem MonotoneCauchyCarrier_public_seal_window_determinacy
+    [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      regular' schedule' modulus' ledger' interval' realSeal' nameRow' commonWindow
+      commonWindow' sealRead sealRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      MonotoneCauchyCarrier regular' schedule' modulus' ledger' interval' realSeal'
+          transportRow route provenance nameRow' bundle pkg ->
+        Cont schedule modulus commonWindow ->
+          Cont schedule' modulus' commonWindow' ->
+            hsame schedule schedule' ->
+              hsame modulus modulus' ->
+                hsame ledger ledger' ->
+                  hsame realSeal realSeal' ->
+                    Cont interval realSeal sealRead ->
+                      Cont interval' realSeal' sealRead' ->
+                        hsame sealRead sealRead' ∧ hsame commonWindow commonWindow' ∧
+                          PkgSig bundle nameRow pkg ∧ PkgSig bundle nameRow' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier carrier' scheduleModulusWindow scheduleModulusWindow' sameSchedule
+    sameModulus sameLedger sameRealSeal intervalRealSealRead intervalRealSealRead'
+  obtain ⟨_regularUnary, _scheduleUnary, _modulusUnary, _ledgerUnary, _intervalUnary,
+    _realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, modulusLedgerInterval, _intervalRealSealNameRow,
+    _transportRouteProvenance, nameRowPkg⟩ := carrier
+  obtain ⟨_regularUnary', _scheduleUnary', _modulusUnary', _ledgerUnary', _intervalUnary',
+    _realSealUnary', _transportRowUnary', _routeUnary', _provenanceUnary', _nameRowUnary',
+    _regularScheduleModulus', modulusLedgerInterval', _intervalRealSealNameRow',
+    _transportRouteProvenance', nameRowPkg'⟩ := carrier'
+  have sameCommonWindow : hsame commonWindow commonWindow' :=
+    cont_respects_hsame sameSchedule sameModulus scheduleModulusWindow
+      scheduleModulusWindow'
+  have sameInterval : hsame interval interval' :=
+    cont_respects_hsame sameModulus sameLedger modulusLedgerInterval modulusLedgerInterval'
+  have sameSealRead : hsame sealRead sealRead' :=
+    cont_respects_hsame sameInterval sameRealSeal intervalRealSealRead
+      intervalRealSealRead'
+  exact ⟨sameSealRead, sameCommonWindow, nameRowPkg, nameRowPkg'⟩
+
+theorem MonotoneCauchyCarrier_real_seal_factorization_obligation [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      commonWindow sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      Cont schedule modulus commonWindow ->
+        Cont interval realSeal sealRead ->
+          UnaryHistory commonWindow ∧ UnaryHistory sealRead ∧
+            hsame nameRow (append interval realSeal) ∧
+              hsame nameRow (append (append modulus ledger) realSeal) ∧
+                Cont transportRow route provenance ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier scheduleModulusCommonWindow intervalRealSealRead
+  obtain ⟨_regularUnary, scheduleUnary, modulusUnary, _ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_cont_closed scheduleUnary modulusUnary scheduleModulusCommonWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed intervalUnary realSealUnary intervalRealSealRead
+  have sameNameIntervalSeal : hsame nameRow (append interval realSeal) := by
+    exact intervalRealSealNameRow
+  have sameNameLedgerSeal : hsame nameRow (append (append modulus ledger) realSeal) := by
+    cases intervalRealSealNameRow
+    cases modulusLedgerInterval
+    rfl
+  exact
+    ⟨commonWindowUnary, sealReadUnary, sameNameIntervalSeal, sameNameLedgerSeal,
+      transportRouteProvenance, nameRowPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp

@@ -1,0 +1,63 @@
+\begin{theorem}[$\ZNormalUp$ root carrier obligation completion]
+\label{thm:znormal-root-carrier-obligation-completion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+root-readiness carrier admission is exhausted by the displayed typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, sibling normal-word row $K$, terminal readback row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local $\NameCert_{\ZNormalUp}$ row $N$. No root-readiness consumer receives carrier data for host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, total host computation, or global normalization outside that packet.
+\end{theorem}
+\begin{proof}
+Project the carrier using \autoref{def:znormal-carrier} and the root carrier exposure of \autoref{thm:znormal-root-unblock-carrier-exposure}. These rows identify $Z=(T,F,V,K,R,H,C,P,N)$ as the complete root-facing packet.
+
+Apply \autoref{thm:znormal-namecert-obligations} to read the same coordinates as the local $\NameCert_{\ZNormalUp}$ surface. The structural rows $H,C,P,N$ provide transport, replay, provenance, and naming; they do not add a host-side computation coordinate.
+
+Finally use \autoref{thm:znormal-root-total-host-refusal}. Since every total-host request remains inside the displayed packet and the finite sibling route, the carrier obligation is complete for root readiness and excludes the listed host and global-normalization objects.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal route obligation completion]
+\label{thm:znormal-terminal-route-obligation-completion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the terminal-route obligation for root readiness is the finite route from $T$ through $F$ and $V$ to $R$, transported by $H$, replayed by $C$, packaged by $P$, and named by $N$. The sibling normal-word row $K$ may be consumed only as the finite Zeckendorf, carry, and continuation-facing evidence specified by the root sibling route; it is not a host conversion, quotient normalizer, unrestricted evaluator, divergence detector, substrate-halting row, total host-computation row, or global normalizer.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:znormal-root-unblock-terminal-route} and \autoref{thm:znormal-root-terminal-carrier-admission}. They place the terminal root read on the route $T \to F \to V \to R$ inside the displayed carrier.
+
+Next apply \autoref{thm:znormal-root-sibling-normalword-consumption}. The $K$ row is consumed only through the finite sibling surfaces of the Zeckendorf normal, carry, and continuation-trace normal-form packets.
+
+The terminal route is then exhausted by \autoref{thm:znormal-root-continuation-terminal-exhaustion} and \autoref{thm:znormal-root-total-host-refusal-ledger}. These results keep terminal reads inside $T,F,V,K,R,H,C,P,N$ and refuse the excluded host and global-normalization rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream readiness obligation package]
+\label{thm:znormal-downstream-readiness-obligation-package}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the downstream normal-form readiness package consists exactly of carrier admission for $Z$, terminal-route exposure through $T,F,V,R,H,C,P,N$, sibling normal-word consumption through $K$, total-host refusal, and downstream normal-form totality over the displayed rows. Every downstream normal-form consumer obtains a finite BEDC route through that package and no route to host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, total host computation, or global normalization.
+\end{theorem}
+\begin{proof}
+Start with carrier completion above. It fixes the root-readiness carrier as the finite packet $Z=(T,F,V,K,R,H,C,P,N)$ and leaves no extra host-facing coordinate.
+
+Use terminal route obligation completion to bind terminal normality to $T,F,V,R,H,C,P,N$ and to keep $K$ as finite sibling normal-word evidence.
+
+Finally apply \autoref{thm:znormal-root-downstream-totality} and \autoref{thm:znormal-root-total-host-refusal}. The first theorem gives every downstream normal-form consumer a route through the displayed packet, while the second refuses total-host escape. Hence the downstream readiness package is the finite root route itself.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root-readiness terminal-refusal closure]
+\label{thm:znormal-root-readiness-terminal-refusal-closure}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+whose carrier admission, terminal route, sibling normal-word row, downstream totality, and total-host refusal rows are displayed, the root-readiness terminal-refusal surface is closed by the finite packet $Z$. Downstream normal-form consumers receive only the finite terminal route and receive no host conversion, quotient normalization, unrestricted evaluation, substrate halting, divergence detector, total host computation, or global normalizer.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:znormal-root-carrier-obligation-completion}. It fixes the carrier admission surface as the displayed rows $T,F,V,K,R,H,C,P,N$ and excludes hidden host-facing coordinates.
+
+Next apply \autoref{thm:znormal-terminal-route-obligation-completion}. The terminal route is the finite route from $T$ through $F$ and $V$ to $R$, transported and replayed by $H,C,P,N$, with $K$ consumed only as sibling normal-word evidence.
+
+Finally combine \autoref{thm:znormal-downstream-readiness-obligation-package}, \autoref{thm:znormal-root-total-host-refusal}, and \autoref{thm:znormal-root-downstream-totality}. These rows give downstream consumers their finite route and refuse every total-host or global-normalization escape listed in the statement.
+\end{proof}

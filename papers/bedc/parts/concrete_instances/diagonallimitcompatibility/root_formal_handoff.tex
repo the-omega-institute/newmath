@@ -34,3 +34,15 @@ Quotient streams and host limits would require additional equality or limit coor
 
 Thus every accepted route stays inside the finite handoff packet. Any consumer that asks for one of the excluded principles has asked for data not carried by the $\DiagonalLimitCompatibilityUp$ source tuple.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility root readback determinacy]
+\label{thm:diagonal-limit-compatibility-root-readback-determinacy}
+Let $S=(B,T,W,R,L,H,C,P,N)$ and $S'=(B',T',W',R',L',H',C',P',N')$ be accepted $\DiagonalLimitCompatibilityUp$ root formal routes. If the displayed $\CauchyDiagonalBudgetUp$ rows agree as $B=B'$, the displayed $\DiagonalTailSelectorUp$ rows agree as $T=T'$, the displayed $\StreamNameUp$ finite windows agree as $W=W'$, the displayed $\RegSeqRatUp$ handoff rows agree as $R=R'$, and the displayed $\RealUp$ seal rows agree as $L=L'$, then the two routes determine the same local $\DiagonalLimitCompatibilityUp$ readback through $H,C,P,N$. They cannot be separated by quotient streams, host limits, countable-choice selectors, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-limit-compatibility-root-formal-route} to both accepted routes. Each route is forced through the finite source tuple of \autoref{def:diagonal-limit-compatibility-root-formal-source}, so every readback begins with the same five displayed source rows $B,T,W,R,L$.
+
+Compare those five source rows componentwise. The budget, selector, finite-window, regular handoff, and seal agreements identify the only external rows available before the local $\DiagonalLimitCompatibilityUp$ route reaches $H,C,P,N$.
+
+It remains to exclude a later separating coordinate. By \autoref{thm:diagonal-limit-compatibility-root-formal-nonescape}, neither route can introduce quotient streams, host limits, countable-choice selectors, or ambient completeness in place of the finite tuple. Hence the remaining local readback through $H,C,P,N$ is determined by the same displayed source data.
+\end{proof}

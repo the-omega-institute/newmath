@@ -27,6 +27,8 @@ transport theorem not supplied by the fixed tuple test target.
 \paragraph{Active fixed-tuple test.}
 The active finite test is exactly the fixed-tuple kernel route: a tuple carrier, an image row, a readback row, componentwise $\NameCert$ transport, and the $\ChapterTasteGate$ row. Recognizer-to-carrier construction is not part of this test and remains a separate boundary condition.
 
+The exact remaining target is recognizer-to-carrier construction. It must produce a recognizer acceptance row, finite tuple extraction, $\BHist$ component readback, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ from the recognizer presentation before any stronger $\StdBridge$ conjecture is reopened.
+
 \begin{theorem}[Finite BHist injection fixed tuple route]
 \label{thm:finite-bhist-injection-fixed-tuple-route}
 In the fixed finite tuple case, every candidate $\StdBridge$ route must be a displayed $\BHist$ tuple route. The image row, readback row, tuple carrier, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row must all be present before the bridge is requested.
@@ -138,6 +140,20 @@ Use \autoref{thm:finite-bhist-injection-recognizer-boundary}. It places a recogn
 Apply \autoref{thm:finite-bhist-injection-regular-recognizer-weakening} and \autoref{thm:finite-bhist-injection-recognizer-restatement}. Together they keep the weakened conjecture at the fixed-tuple surface while naming the remaining recognizer-to-carrier map as the unresolved boundary.
 
 Therefore a counter-boundary must keep all five displayed recognizer rows present and then locate the obstruction in the recognizer-to-carrier map itself. Missing acceptance, extraction, readback, transport, or taste-gate data only shows that the boundary has not been reached.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection recognizer-to-tuple landing surface]
+\label{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}
+Any recognizer-side strengthening of \autoref{conj:finite-bhist-injection-admits-stdbridge} must land in the existing $\FiniteReflectionTupleUp$ surface of \autoref{ch:concrete-instances-finitereflectiontuple-namecert}. Before it can be compared with the fixed finite tuple route, it must pass through the $\GroundCompilerRecognizerFlowUp$ acceptance row of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, the generated-recognizer row, the certificate-gate row, the finite tuple-image row, the readback row, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. This is not a $\StdBridge$ construction and not a recognizer-to-carrier construction; it only sharpens the remaining boundary.
+\end{theorem}
+\begin{proof}
+Start with the fixed finite tuple route. By \autoref{thm:finite-bhist-injection-fixed-tuple-route} and \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}, the bridge-facing packet must already display the tuple carrier, image row, readback row, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row before the fixed route is tested.
+
+Now apply the recognizer boundary. Theorems~\ref{thm:finite-bhist-injection-recognizer-boundary} and~\ref{thm:finite-bhist-injection-regular-recognizer-weakening} add the recognizer acceptance row and finite tuple extraction row ahead of the fixed tuple surface, while keeping the recognizer-to-carrier map outside the available route.
+
+The concrete landing surface is supplied by the two packet chapters. The FiniteReflectionTuple field-faithful prediction, \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}, forces every bridge-facing read through the displayed tuple image $I$ and readback $R$, with componentwise transport as part of the same packet. The GroundCompiler recognizer-flow certificate-gate exactness theorem, \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness}, forces any accepted compiler export through the event-flow row, source-channel row, generated-recognizer row, and certificate gate before it can be read as accepted evidence.
+
+Composing these rows gives the announced landing surface: recognizer acceptance and generated-recognizer mediation must pass the certificate gate before the finite tuple-image and readback rows can be consumed by $\FiniteReflectionTupleUp$. The result therefore narrows the remaining recognizer-to-carrier boundary to these concrete packet surfaces, without producing a carrier map and without producing a $\StdBridge$ theorem.
 \end{proof}
 
 \begin{theorem}[Finite BHist injection weakened status closure]

@@ -118,6 +118,7 @@ $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,\Pkg,N$, and it exports no quotient
 stream, selected limit, host equality, trichotomy row, independent tail oracle,
 or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_downstream\_unblock\_package}
 \begin{proof}
 Apply
 \autoref{thm:regular-cauchy-tail-meet-root-downstream-window-exhaustion}. Every
@@ -219,6 +220,45 @@ root consumer budget is the route just constructed. The nonescape exclusions
 remove every alternative carrier for a second budget.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet root budget route lock]
+\label{thm:regular-cauchy-tail-meet-root-budget-route-lock}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any $\RealUp$,
+$\CompletionUp$, $\FiniteObservationBudgetSelectorUp$, or
+$\RegularCauchyTailSelectorUp$ consumer preserving the displayed rows must use
+the single route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,\Pkg,N.
+$$
+No selected limit, quotient stream, host equality, trichotomy row, independent
+tail oracle, or ambient completeness row can supply a second route.
+\end{theorem}
+\begin{proof}
+Start with the downstream window exhaustion and threshold stability theorems.
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-window-exhaustion} fixes
+the paired source windows and modulus rows, while
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-threshold-stability}
+keeps the shared threshold and comparison row on the same accepted packet.
+
+Next apply the nonescape package and seal route.
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-nonescape-package}
+removes every unlisted root resource, and
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-seal-route} attaches the
+consumer to the displayed $\hsame$, $\Cont$, ledger, package, and local naming
+rows.
+
+Now use the budget-selector handoff together with root consumer budget
+uniqueness.
+\autoref{thm:regular-cauchy-tail-meet-budget-selector-handoff} forces
+$\FiniteObservationBudgetSelectorUp$ and $\RegularCauchyTailSelectorUp$
+consumers through the displayed route, and
+\autoref{thm:regular-cauchy-tail-meet-root-consumer-budget-uniqueness} gives
+the same route to $\RealUp$ and $\CompletionUp$ root consumers.
+
+Thus every listed consumer reads exactly
+$R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,\Pkg,N$. The excluded rows have already
+been removed from the packet surface, so none can witness a second route.
+\end{proof}
+
 \begin{theorem}[RegularCauchyTailMeet seal consumer tail-fiber factorization]
 \label{thm:regular-cauchy-tail-meet-seal-consumer-tail-fiber-factorization}
 For an accepted $\RegularCauchyTailMeetUp$ packet, every seal-facing consumer
@@ -250,6 +290,49 @@ before the tail-fiber row is visible. Since the intermediate route contains no
 quotient stream, selected limit, host equality, independent tail oracle, or
 ambient completeness witness, none of those objects can be supplied by the
 factorization.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet tail-fiber seal exactness]
+\label{thm:regular-cauchy-tail-meet-tail-fiber-seal-exactness}
+For an accepted $\RegularCauchyTailMeetUp$ packet whose seal-facing consumer
+passes through $\RegularCauchyTailFiberUp$, the TailMeet threshold route and the
+TailFiber paired-window route have the same finite support through the two
+$\RegSeqRatUp$ source rows, the two $\StreamNameUp$ windows, the two dyadic
+ledger rows, the shared fiber or threshold row, the
+$\RealTailAgreementSealUp$ row, componentwise $\hsame$ rows, displayed $\Cont$
+routes, $\Pkg$ provenance, and local $\NameCert$ rows. Conversely, any accepted
+TailFiber paired-window seal route supplies the same TailMeet seal-consumer
+entrance. The exactness statement exports no quotient streams, selected limits,
+host real equality, hidden tail oracles, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with
+\autoref{thm:regular-cauchy-tail-meet-seal-consumer-tail-fiber-factorization}.
+It forces the seal-facing consumer through the displayed TailMeet threshold
+tuple before the $\RegularCauchyTailFiberUp$ row is available.
+
+Apply root consumer budget uniqueness together with the TailMeet root
+downstream seal route. These identify the source windows, threshold data,
+continuation rows, package row, and local name row as the only TailMeet entrance
+for a seal-facing read.
+
+Now use TailFiber paired-window exactness and TailFiber seal-consumer
+exhaustion. The TailFiber route reads the two regular-rational source rows, two
+stream windows, two dyadic ledgers, shared fiber row, seal row, componentwise
+$\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows, and no further
+consumer coordinate is present.
+
+For the converse direction, begin with an accepted TailFiber paired-window seal
+route. TailFiber paired-window exactness supplies the common finite support up
+to the shared fiber row, and seal-consumer exhaustion keeps every listed
+TailMeet, Real-tail-agreement, and Real-facing consumer inside the same packet.
+
+Re-enter TailMeet through the seal-consumer factorization theorem. The
+TailFiber route therefore supplies exactly the TailMeet seal-consumer entrance
+already fixed by root consumer budget uniqueness and the TailMeet seal route.
+The exclusions in the TailMeet nonescape package and TailFiber ledger
+exhaustion rule out quotient streams, selected limits, host real equality,
+hidden tail oracles, and ambient completeness.
 \end{proof}
 
 \begin{theorem}[RegularCauchyTailMeet budget window service lock]

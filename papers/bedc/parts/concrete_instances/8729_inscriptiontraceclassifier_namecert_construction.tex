@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionTraceClassifierUp$}
+\label{ch:concrete-instances-inscription-trace-classifier-namecert}
+\origin{ai}
+
+The $\InscriptionTraceClassifierUp$ packet realizes the source/name/route/check/consumer surface of the inscription-event vision in \autoref{ch:visions-inscription-event-as-concrete-instance}. It sits beside the full event packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}, the public residue ledger of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}, the trace reader of \autoref{ch:concrete-instances-inscriptionaudittrace-namecert}, and the route audit of \autoref{ch:concrete-instances-inscription-route-audit-namecert}. These siblings expose event, ledger, trace, and route aspects; the present classifier isolates the finite packet a downstream consumer must display before an inscription event may be exported as public record data.
+
+\begin{definition}[Inscription trace-classifier carrier]
+\label{def:inscription-trace-classifier-carrier}
+An $\InscriptionTraceClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,M,R,K,U,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source row from which the inscription trace is read;
+\item $M$ is the public name row attached to the trace;
+\item $R$ is the displayed route row from source to named trace;
+\item $K$ is the accepted check row that admits the route as public record data;
+\item $U$ is the downstream consumer row permitted to read the accepted trace;
+\item $L$ is the refusal-ledger row for incomplete source, name, route, check, or consumer displays;
+\item $H$ records componentwise $\hsame$ transports for $S,M,R,K,U,L$ together with continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads source, name, route, check, consumer, and refusal-ledger rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\InscriptionAuditTraceUp$, $\InscriptionRouteAuditUp$, $\InscriptionCommitmentSealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InscriptionTraceClassifierUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with these ten displayed rows. It has no coordinate for a private source, hidden name, unchecked route, off-packet checker, consumer right outside $U$, or inscription-event export that bypasses the refusal ledger $L$.
+\end{definition}
+
+\begin{theorem}[Inscription trace-classifier obligations]
+\label{thm:inscription-trace-classifier-obligations}
+For the carrier of \autoref{def:inscription-trace-classifier-carrier}, the local $\NameCert_{\InscriptionTraceClassifierUp}$ surface consists exactly of carrier exposure for
+$$
+T=(S,M,R,K,U,L,H,C,P,N),
+$$
+source visibility through $S$, public naming through $M$, route exactness through $R$, accepted-check admission through $K$, consumer accountability through $U$, refusal-ledger coverage through $L$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed packet. The rows $S,M,R,K,U,L,H,C,P,N$ are the whole inventory available to a trace-classifier reader.
+
+Read the content rows in order. The source row $S$ supplies the visible origin, the name row $M$ supplies the public handle, the route row $R$ supplies the trace path, the check row $K$ admits that path as public record data, and the consumer row $U$ names the permitted downstream reader.
+
+The refusal row $L$ covers every incomplete display among those five rows. The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite packet. Since no carrier coordinate exports a hidden source, hidden name, unchecked route, off-packet checker, or extra consumer right, these rows exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Any accepted trace-classifier consumer without displayed source, name, route, check, and consumer rows factors to the refusal ledger rather than exporting an inscription event.}
+
+\begin{theorem}[Inscription trace-classifier falsifiable prediction]
+\label{thm:inscription-trace-classifier-falsifiable-prediction}
+For every accepted $\InscriptionTraceClassifierUp$ packet $T=(S,M,R,K,U,L,H,C,P,N)$, any purported trace-classifier consumer that omits one of the displayed source, name, route, check, or consumer rows factors through the refusal ledger $L$ rather than exporting an $\InscriptionEventUp$ row. Thus an inscription event is public only after $S,M,R,K,U$ are visible in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-trace-classifier-carrier}. The only inscription-facing export path is the displayed chain through $S,M,R,K,U$.
+
+Apply \autoref{thm:inscription-trace-classifier-obligations}. It assigns missing source, name, route, check, or consumer data to the refusal-ledger row $L$, while the accepted event-facing path requires the five displayed content rows.
+
+The transport, continuation, provenance, and local naming rows preserve this same split. Therefore a consumer that omits any one of $S,M,R,K,U$ has no event-export coordinate left in the carrier and must be read through $L$.
+\end{proof}
+
+\independenceWitness{inscriptionevent, inscriptiongapledger, inscriptionaudittrace, inscriptionrouteaudit, inscriptioncommitmentseal: this classifier packet has the simultaneous source/name/route/check/consumer acceptance chain and a refusal-ledger fallback, while the named siblings respectively expose a full event packet, residue ledger, trace audit, route audit, or commitment seal. No carrier bijection preserves all rows.}
+
+\begin{theorem}[Inscription trace-classifier independence witness]
+\label{thm:inscription-trace-classifier-independence-witness}
+The $\InscriptionTraceClassifierUp$ carrier is not bijective, under NameCert-row preservation, with $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\InscriptionAuditTraceUp$, $\InscriptionRouteAuditUp$, or $\InscriptionCommitmentSealUp$. It uniquely binds the displayed source, name, route, accepted check, downstream consumer, and refusal-ledger rows as one classifier packet.
+\end{theorem}
+\begin{proof}
+Compare the displayed coordinates. The present carrier contains the accepted classifier chain
+$$
+S \to M \to R \to K \to U
+$$
+together with the refusal-ledger row $L$ for incomplete presentations.
+
+The inscription event sibling contains the full event packet rather than the classifier fallback. The gap ledger sibling records public residue, but not the simultaneous accepted source/name/route/check/consumer chain. The audit trace sibling records trace readback, and the route-audit sibling isolates the accepted route to a consumer, but neither supplies this packet's refusal fallback for missing classifier rows.
+
+The commitment seal sibling records an accepted commitment and ledger rather than the full trace-classifier surface. Hence no bijection preserving the local NameCert rows can identify any of those carriers with $T=(S,M,R,K,U,L,H,C,P,N)$.
+\end{proof}
+
+\closureat{InscriptionTraceClassifierUp}{seedStr}
+\closureat{InscriptionTraceClassifierUp}{obligationStr}[BEDC.Derived.InscriptionTraceClassifierUp.TasteGate.InscriptionTraceClassifierTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\InscriptionTraceClassifierUp}
+  \constructivestory{An $\InscriptionTraceClassifierUp$ packet is generated from visible source, public name, displayed route, accepted check, downstream consumer, refusal-ledger fallback, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:inscription-trace-classifier-carrier}, \autoref{thm:inscription-trace-classifier-obligations}, \autoref{thm:inscription-trace-classifier-falsifiable-prediction}, and \autoref{thm:inscription-trace-classifier-independence-witness} bind the finite source/name/route/check/consumer classifier packet and its refusal-ledger fallback.}
+  \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.InscriptionTraceClassifierUp.taste\_gate}
+  \leantarget{BEDC.Derived.InscriptionTraceClassifierUp.TasteGate.InscriptionTraceClassifierTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close bridge checking, private agency, host process traces, unchecked routes, inscription-event completeness, or consumer rights outside the displayed packet.}
+  \upgradepath{Scoped closure requires binding the classifier packet to each downstream inscription-event consumer route without adding any row beyond $S,M,R,K,U,L,H,C,P,N$.}
+\end{closurestatus}

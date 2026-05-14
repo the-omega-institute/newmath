@@ -235,20 +235,57 @@ instance bedcSelfSubstrateNontrivial : Nontrivial BedcSelfSubstrateUp where
         intro h
         cases h⟩
 
+def bedcSelfSubstrateFields : BedcSelfSubstrateUp → List BHist
+  | BedcSelfSubstrateUp.mk generators equality recursors purity boundary transport route
+      provenance name =>
+      [generators, equality, recursors, purity, boundary, transport, route, provenance, name]
+
+private theorem bedcSelfSubstrate_field_faithful_concrete :
+    ∀ x y : BedcSelfSubstrateUp, bedcSelfSubstrateFields x = bedcSelfSubstrateFields y → x = y := by
+  intro x y hfields
+  cases x with
+  | mk generators equality recursors purity boundary transport route provenance name =>
+      cases y with
+      | mk generators' equality' recursors' purity' boundary' transport' route' provenance'
+          name' =>
+          change
+            [generators, equality, recursors, purity, boundary, transport, route, provenance,
+                name] =
+              [generators', equality', recursors', purity', boundary', transport', route',
+                provenance', name'] at hfields
+          injection hfields with hGenerators hTail0
+          injection hTail0 with hEquality hTail1
+          injection hTail1 with hRecursors hTail2
+          injection hTail2 with hPurity hTail3
+          injection hTail3 with hBoundary hTail4
+          injection hTail4 with hTransport hTail5
+          injection hTail5 with hRoute hTail6
+          injection hTail6 with hProvenance hTail7
+          injection hTail7 with hName _hNil
+          cases hGenerators
+          cases hEquality
+          cases hRecursors
+          cases hPurity
+          cases hBoundary
+          cases hTransport
+          cases hRoute
+          cases hProvenance
+          cases hName
+          rfl
+
 instance bedcSelfSubstrateFieldFaithful : FieldFaithful BedcSelfSubstrateUp where
-  fields
-    | BedcSelfSubstrateUp.mk generators equality recursors purity boundary transport route
-        provenance name =>
-        [generators, equality, recursors, purity, boundary, transport, route, provenance, name]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk generators equality recursors purity boundary transport route provenance name =>
-        cases y with
-        | mk generators' equality' recursors' purity' boundary' transport' route' provenance'
-            name' =>
-            cases hfields
-            rfl
+  fields := bedcSelfSubstrateFields
+  field_faithful := bedcSelfSubstrate_field_faithful_concrete
+
+private theorem bedcSelfSubstrate_nontrivial_concrete :
+    ∃ x y : BedcSelfSubstrateUp, x ≠ y :=
+  ⟨BedcSelfSubstrateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    BedcSelfSubstrateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    by
+      intro h
+      cases h⟩
 
 theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
     (∀ h : BHist, bedcSelfSubstrateDecodeBHist (bedcSelfSubstrateEncodeBHist h) = h) ∧
@@ -281,42 +318,7 @@ theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
         · rfl
         · constructor
           · intro x y hfields
-            cases x with
-            | mk generators equality recursors purity boundary transport route provenance name =>
-                cases y with
-                | mk generators' equality' recursors' purity' boundary' transport' route'
-                    provenance' name' =>
-                    change
-                      [generators, equality, recursors, purity, boundary, transport, route,
-                          provenance, name] =
-                        [generators', equality', recursors', purity', boundary', transport',
-                          route', provenance', name'] at hfields
-                    injection hfields with hGenerators hTail0
-                    injection hTail0 with hEquality hTail1
-                    injection hTail1 with hRecursors hTail2
-                    injection hTail2 with hPurity hTail3
-                    injection hTail3 with hBoundary hTail4
-                    injection hTail4 with hTransport hTail5
-                    injection hTail5 with hRoute hTail6
-                    injection hTail6 with hProvenance hTail7
-                    injection hTail7 with hName _hNil
-                    cases hGenerators
-                    cases hEquality
-                    cases hRecursors
-                    cases hPurity
-                    cases hBoundary
-                    cases hTransport
-                    cases hRoute
-                    cases hProvenance
-                    cases hName
-                    rfl
-          · exact
-              ⟨BedcSelfSubstrateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-                BedcSelfSubstrateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-                by
-                  intro h
-                  cases h⟩
+            exact bedcSelfSubstrate_field_faithful_concrete x y hfields
+          · exact bedcSelfSubstrate_nontrivial_concrete
 
 end BEDC.Derived.BedcSelfSubstrateUp

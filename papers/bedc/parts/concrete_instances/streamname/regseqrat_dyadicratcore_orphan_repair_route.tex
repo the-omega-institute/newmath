@@ -1,1 +1,83 @@
 The $\StreamNameUp$ finite-window ledger consumes $\DyadicRatCoreUp$ point certificates through \autoref{ch:concrete-instances-dyadicratcore-namecert} and $\RegSeqRatUp$ regular sequence windows through \autoref{ch:concrete-instances-regseqrat-namecert}, so its Real-facing route records the open L10 dependency lattice without introducing a second point carrier or quotient stream equality.
+
+\begin{definition}[StreamName Dyadic-RegSeq route packet]
+\label{def:streamname-dyadic-regseq-route-packet}
+The $\StreamNameUp$ Dyadic-RegSeq route packet is the finite certificate
+packet read by a $\StreamNameUp$ finite-window consumer before it reaches a
+$\RegSeqRatUp$ readback or a $\RealUp$ seal boundary. Its coordinates are:
+\begin{enumerate}
+\item the StreamName finite-window rows;
+\item the $\DyadicRatCoreUp$ observation and tolerance ledger of
+  \autoref{ch:concrete-instances-dyadicratcore-namecert};
+\item the $\RegSeqRatUp$ regular-source readback rows of
+  \autoref{ch:concrete-instances-regseqrat-namecert};
+\item the $\RealUp$ seal-boundary rows of
+  \autoref{ch:concrete-instances-real-namecert};
+\item the displayed $\BHist$ observations, componentwise $\hsame$
+  transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local
+  $\NameCert$ rows that name the packet.
+\end{enumerate}
+No other coordinate belongs to the packet.
+\end{definition}
+
+\begin{theorem}[StreamName Dyadic-RegSeq route factorization]
+\label{thm:streamname-dyadic-regseq-route-factorization}
+Every accepted $\StreamNameUp$ finite-window consumer whose route reaches the
+$\RegSeqRatUp$ readback surface or the $\RealUp$ seal boundary factors through
+the finite packet of
+\autoref{def:streamname-dyadic-regseq-route-packet}. The factorization reads
+the StreamName window first, anchors it in the $\DyadicRatCoreUp$ observation
+and tolerance ledger, transports the anchored rows to the $\RegSeqRatUp$
+regular-source readback, and only then presents the $\RealUp$ seal-boundary
+rows. The only structural data exposed along the route are the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates of the
+packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-dyadicratcore-window-anchor}. It places
+every StreamName finite-window read consumed by $\RegSeqRatUp$ or by a
+$\RealUp$ seal route on the $\DyadicRatCoreUp$ observation and tolerance
+ledger before any regular-rational handoff is read.
+
+The three sibling chapters provide the packet faces. The dyadic ledger comes
+from \autoref{ch:concrete-instances-dyadicratcore-namecert}, the
+regular-source readback comes from
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal
+boundary comes from \autoref{ch:concrete-instances-real-namecert}.
+
+Finally, repack the accepted consumer by the finite coordinates listed in
+\autoref{def:streamname-dyadic-regseq-route-packet}. The packet contains the
+StreamName rows, the dyadic ledger, the RegSeqRat readback, the Real seal
+boundary, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ data, so the consumer factors through exactly that route.
+\end{proof}
+
+\begin{theorem}[StreamName Dyadic-RegSeq route no-completion leak]
+\label{thm:streamname-dyadic-regseq-route-no-completion-leak}
+The packet of \autoref{def:streamname-dyadic-regseq-route-packet} exports no
+quotient stream equality, host sequence equality, selected limit,
+countable-choice selector, $\RealUp$ completeness row, metric-completeness
+datum, or standard bridge row. Therefore an accepted $\StreamNameUp$
+finite-window consumer that factors through the packet has no coordinate from
+which to read completion structure beyond the displayed $\RealUp$ seal
+boundary.
+\end{theorem}
+\begin{proof}
+Inspect the coordinates of
+\autoref{def:streamname-dyadic-regseq-route-packet}. They are exactly the
+StreamName finite-window rows, the $\DyadicRatCoreUp$ observation and
+tolerance ledger, the $\RegSeqRatUp$ regular-source readback, the $\RealUp$
+seal boundary, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+
+Apply the factorization theorem,
+\autoref{thm:streamname-dyadic-regseq-route-factorization}. Any accepted
+consumer reaching $\RegSeqRatUp$ or $\RealUp$ is read through those coordinates
+and through no independent route outside the packet.
+
+The coordinate list contains no quotient stream equality, host sequence
+equality, selected limit, countable-choice selector, $\RealUp$ completeness
+row, metric-completeness datum, or standard bridge row. Exhaustion of the
+defined packet therefore excludes each of those reads from the accepted
+consumer surface.
+\end{proof}
