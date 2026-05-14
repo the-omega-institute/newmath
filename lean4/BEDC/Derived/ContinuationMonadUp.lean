@@ -233,6 +233,37 @@ theorem ContinuationMonadCarrier_root_downstream_readback_package
     ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
       unaryK, unaryL, sameEndpoint, cert⟩
 
+theorem ContinuationMonadCarrier_root_downstream_consumer_separation
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      Cont L N consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧
+            UnaryHistory g ∧ UnaryHistory u ∧ UnaryHistory K ∧ UnaryHistory L ∧
+              UnaryHistory consumer ∧ Cont A f B ∧ Cont B g C ∧ Cont f g K ∧
+                Cont K u L ∧ Cont L N consumer ∧ hsame N L ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryL (hsame_symm sameEndpoint)
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed unaryL unaryN consumerRoute
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, unaryK, unaryL, consumerUnary,
+      routeB, routeC, routeK, routeL, consumerRoute, sameEndpoint, consumerPkg⟩
+
 theorem ContinuationMonadCarrier_root_continuation_rule_coverage
     [AskSetup] [PackageSetup]
     {A B C f g u H K L N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
