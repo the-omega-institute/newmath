@@ -49,3 +49,39 @@ Next attach analytic readback. The analytic obligation routes every root-facing 
 
 Finally apply zero ledger non-escape. The zero-facing ledger remains the displayed $T$ row inside $W$, while RH predicates, zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates remain outside the packet.
 \end{proof}
+
+\begin{theorem}[ZetaContinuationWitness root zero-ledger totality]
+\label{thm:zeta-continuation-witness-root-zero-ledger-totality}
+For an accepted $\ZetaContinuationWitnessUp$ packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N),
+$$
+every root-facing zero read is either the displayed trivial-zero ledger row
+$T$ transported through $H,C,R,N$, or is refused as an RH-facing,
+non-trivial-zero, or global-zero-classifier request. No root-facing consumer
+can obtain a zero read outside the source, analytic readback, zero ledger
+non-escape, and root package surfaces already bound to $W$.
+\end{theorem}
+\begin{proof}
+Begin with the source obligation of
+\autoref{thm:zeta-continuation-witness-source-obligation}. It fixes the packet
+coordinates $B,E,A,P,F,T,G,H,C,R,N$ before any root-facing consumer can read a
+zero-facing row.
+
+Next use the analytic readback obligation of
+\autoref{thm:zeta-continuation-witness-analytic-readback-obligation}. Any
+analytic access to a root-facing readback must pass through the displayed
+source, functional-equation, pole-Gamma, transport, continuation, provenance,
+and naming rows, so it cannot import an off-packet zero classifier.
+
+Apply \autoref{thm:zeta-continuation-witness-zero-ledger-nonescape} to the
+zero-facing coordinate. The only zero ledger row exported by the packet is
+$T$, and RH predicates, non-trivial-zero locators, and global zero classifiers
+remain outside the accepted surface.
+
+Finally invoke \autoref{thm:zeta-continuation-witness-root-package}. The root
+package is exactly the source obligation, analytic readback obligation, and
+zero ledger non-escape boundary. Hence each root-facing zero read is the
+transported $T$ row through $H,C,R,N$, or else it is refused at the displayed
+boundary.
+\end{proof}

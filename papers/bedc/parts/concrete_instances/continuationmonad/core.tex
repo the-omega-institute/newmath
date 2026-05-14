@@ -217,6 +217,7 @@ Ledger exactness closes the refusal. Since \autoref{thm:continuation-monad-namec
 \label{thm:continuation-monad-cont-route-ledger-totality}
 Every unit or bind consumer of an accepted $\ContinuationMonadUp$ packet factors through the displayed $\Cont$ route row $K$, the componentwise $\hsame$ transport row $H$, the ledger row $L$, and the local $\NameCert_{\ContinuationMonadUp}$ row $N$. The total route is the finite read of $A,B,C,f,g,u,H,K,L,N$; it is not host monad evaluation, quotient Kleisli composition, or an unrecorded continuation evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_cont\_route\_ledger\_totality}
 \begin{proof}
 First use the unit and bind rows already exposed in this chapter. \autoref{thm:continuation-monad-unit-laws} places the unit tail inside the displayed route, and \autoref{thm:continuation-monad-bind-route-classifier-stability} keeps bind reads stable under the $H$ transports.
 
@@ -738,6 +739,7 @@ Add the generator-category lock. It places generator refusal and Category hom re
 
 Thus the ledger boundary is precisely the finite root package. Objects outside $A,B,C,f,g,u,H,K,L,N$ are not recorded by the ledger and cannot be consumed as formal-target input.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_ledger\_formal\_boundary}
 
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}

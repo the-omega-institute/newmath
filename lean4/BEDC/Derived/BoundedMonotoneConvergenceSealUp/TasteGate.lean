@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedMonotoneConvergenceSealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -456,5 +458,39 @@ theorem BoundedMonotoneConvergenceSealTasteGate_single_carrier_alignment :
           congrArg boundedMonotoneConvergenceSealFromEventFlow heq
         exact Option.some.inj (Eq.trans hx.symm (Eq.trans hread hy))
       · rfl
+
+theorem BoundedMonotoneConvergenceSealUp_witness_consumption
+    {witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+      provenance name witness' monotone' criterion' regular' stream' dyadic' limitSeal'
+      realSeal' transport' route' provenance' name' : BHist} :
+    FieldFaithful.fields
+        (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream dyadic
+          limitSeal realSeal transport route provenance name) =
+      FieldFaithful.fields
+        (BoundedMonotoneConvergenceSealUp.mk witness' monotone' criterion' regular' stream'
+          dyadic' limitSeal' realSeal' transport' route' provenance' name') →
+      Cont witness monotone route →
+        Cont witness' monotone' route' →
+          witness = witness' ∧ monotone = monotone' ∧ route = route' := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  intro hfields _route _route'
+  change
+      boundedMonotoneConvergenceSealFields
+          (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream
+            dyadic limitSeal realSeal transport route provenance name) =
+        boundedMonotoneConvergenceSealFields
+          (BoundedMonotoneConvergenceSealUp.mk witness' monotone' criterion' regular'
+            stream' dyadic' limitSeal' realSeal' transport' route' provenance' name') at hfields
+  injection hfields with hWitness tail0
+  injection tail0 with hMonotone tail1
+  injection tail1 with _hCriterion tail2
+  injection tail2 with _hRegular tail3
+  injection tail3 with _hStream tail4
+  injection tail4 with _hDyadic tail5
+  injection tail5 with _hLimitSeal tail6
+  injection tail6 with _hRealSeal tail7
+  injection tail7 with _hTransport tail8
+  injection tail8 with hRoute _tail9
+  exact ⟨hWitness, hMonotone, hRoute⟩
 
 end BEDC.Derived.BoundedMonotoneConvergenceSealUp

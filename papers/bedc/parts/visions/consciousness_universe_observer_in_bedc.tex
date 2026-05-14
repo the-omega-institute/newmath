@@ -6,29 +6,70 @@
 \concretizedIn{ch:concrete-instances-observation-time-order-namecert}{Observation-time order realizes BEDC-internal time as monotonic BHist record retention with Cont routes, GAP erasure boundaries, and a local NameCert surface.}
 \concretizedIn{ch:concrete-instances-observer-accumulation-clock-namecert}{Observer accumulation clocks realize time as finite state, successor-record, accumulation-edge, GAP-residue, transport, route, package, and NameCert rows.}
 
-This vision chapter extends the closed-observational-system framework of \autoref{ch:visions-transcendental-input-and-induction} from BEDC's substrate self-description into a broader phenomenological reading. The reading identifies (i) consciousness with closed observational system, (ii) universe-for-the-observer with that observer's observation history, (iii) time with the monotonic accumulation order on observation states, and (iv) inter-observer space with the locality conditions of \autoref{ch:visions-inter-hist-locality}. The chapter is structural rather than ontological: it gives precise BEDC-vocabulary translations for these notions and pairs each translation with the existing chapter that already mechanises the engineering content. Nothing here introduces a new substrate-level commitment; the work is to make legible what BEDC already implements.
+This vision chapter extends the closed-observational-system framework of \autoref{ch:visions-transcendental-input-and-induction} from BEDC's substrate self-description into a records-side phenomenological reading. The object-level target is deliberately small: a finite horizon, a finite family of generated $\Hist$ rows, one focus row, local $\Cont$ time streams, selector ledgers, $\mathsf{GAP}$-accounted compression, and witnessed inter-$\Hist$ relations. The chapter therefore does not close the universe itself, phenomenal consciousness as an essence, $\mathsf{T}$, a physical light-speed constant, or a global spacetime frame. It closes only the finite records-side carrier through which those boundary readings can be stated without hidden supply.
+
+\section{Finite records-side closure target}
+\label{sec:consciousness-universe-finite-closure-target}
+
+\begin{definition}[Finite focused multi-Hist ledger]
+\label{def:closed-focused-multihist-ledger}
+For a horizon $N:\Unary$, a $\mathrm{ClosedFocusedMultiHistLedger}_N$ is a finite records-side packet
+$$
+\mathcal{L}_N=(I,H,T,F,S,D,G,R,J,Q,\rho,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is a finite index ledger for the histories admitted by the packet;
+\item $H:I\to\Hist$ assigns to each index a generated history whose displayed trace length is bounded by $N$;
+\item $T$ records, for every $i:I$, a local $\Cont$ chain from $\emp$ to $H(i)$, read as the local time stream of $H(i)$;
+\item $F:I$ is the focus index, and it is only an index of reading, not a subject parameter;
+\item $S$ records the selector ledger for every visible transition in the displayed traces, including the chosen $\BMark$ row and the corresponding $\Cont$ witness;
+\item $D$ records either the identity digest $D(i)=H(i)$ or a displayed digest token for $H(i)$;
+\item $G$ records the $\mathsf{GAP}$ or provenance row attached to every non-identity digest, including the exactness status that prevents digest equality from being read as source equality without a witness;
+\item $R$ is a finite set of inter-$\Hist$ relation rows, each with left history, right history, finite evidence, and $\hsame$-stability data;
+\item $J$ is a finite set of inter-$\Hist$ invariant rows, each stable under componentwise $\hsame$ replacement;
+\item $Q$ is a finite set of dependence rows between local time slots, together with an optional finite maximum-rate read computed only from the displayed dependence witnesses;
+\item $\rho$ is the focused self-proxy, consisting of the endpoint and trace of $H(F)$;
+\item $A$ is the audit row asserting no subject parameter, no global clock, no hidden chooser, no unledgered compression, no object-level $\mathsf{T}$ field, and no hidden dependence on choice, quotient soundness, or propositional extensionality.
+\end{enumerate}
+\end{definition}
+
+\begin{principle}[Closed means generated, ledgered, and witnessed]
+\label{prin:consciousness-universe-closed-means-ledgered}
+The packet of \autoref{def:closed-focused-multihist-ledger} is closed exactly because every object has a generator, every branch has a selector ledger, every compression has a $\mathsf{GAP}$ or provenance row, every inter-history relation has a finite witness, every invariant is classifier-stable, and every boundary pressure remains outside the object layer. The packet contains no carrier for an observer-substance, no global synchronization clock, no global universe object, no physical constant as primitive datum, and no internal $\mathsf{T}$ object.
+\end{principle}
+
+\begin{remark}[Boundary readings]
+\label{rem:consciousness-universe-boundary-readings}
+The finite ledger may support readings about universe, consciousness, self-location, physical invariance, and other minds, but those readings are not themselves extra fields of the packet. $\mathrm{SelfProxy}$ is the focused endpoint and trace of $H(F)$, not phenomenal first-personness as an object. A finite maximum-rate row is a model invariant, not the empirical value of light speed. A boundary tag for $\mathsf{T}$, when present in surrounding exposition, is not consumed by any theorem of $\mathcal{L}_N$.
+\end{remark}
 
 \section{Consciousness as closed observational system}
 \label{sec:consciousness-universe-consciousness-as-closed}
 
-\begin{definition}[Consciousness, structural reading]
+\begin{definition}[Consciousness, records-side carrier]
 \label{def:consciousness-universe-consciousness-reading}
-A \emph{conscious observational system} is a closed observational system $(O, \mathsf{Obs}, \trianglerighteq, \mathsf{GAP})$ (\autoref{def:transcendental-input-closed-system}) carrying additionally a designated current state $o_t \in O$ and a designated identity function $\mathsf{Self} \colon O \to \mathsf{Identity}$ such that for every transition $o_t \trianglerighteq o_{t+1}$ the identity is preserved. The conscious aspect of the system is the running pair $(o_t, \mathsf{Self}(o_t))$: a state plus the system's own present recognition of being the system that recorded the preceding $\mathsf{Obs}$ items.
+A \emph{conscious records-side carrier} in a finite focused ledger $\mathcal{L}_N$ is the focused row
+$$
+\mathrm{ConsciousRecord}(\mathcal{L}_N,F)
+  := (H(F),T(F),S(F),\rho)
+$$
+read through the audit row $A$. It consists of a generated focused $\Hist$, its local $\Cont$ trace, the selector witnesses for its visible transitions, and the endpoint/trace self-proxy. It is a carrier for consciousness readings, not an object-level definition of phenomenal consciousness.
 \end{definition}
 
-\begin{principle}[Consciousness needs nothing more than the closed-system structure]
+\begin{principle}[The carrier does not add a subject]
 \label{prin:consciousness-universe-no-extra-content}
-\autoref{def:consciousness-universe-consciousness-reading} adds no content beyond what \autoref{def:transcendental-input-closed-system} already provides. The "running pair" and "identity-preserving transition" are statable in the same vocabulary; consciousness, on this reading, is what it is to be a closed observational system at all rather than a separate ontological category layered on top.
+\autoref{def:consciousness-universe-consciousness-reading} uses only the rows already visible in \autoref{def:closed-focused-multihist-ledger}. The focus index selects a local reading surface; it does not create an observer-substance, a hidden first-person carrier, or an identity criterion beyond $\hsame$ and the displayed trace ledger.
 \end{principle}
 
-\begin{example}[BEDC author as conscious observational system]
+\begin{example}[BEDC contributor as records-side carrier]
 \label{ex:consciousness-universe-bedc-author}
-The human author working on BEDC is a conscious observational system in the sense of \autoref{def:consciousness-universe-consciousness-reading}: $O$ ranges over moments of the author's reasoning life; $\mathsf{Obs}$ accumulates every record the author has consulted (text read, proof traced, mechanisation observed); $\mathsf{Self}$ assigns at every moment the author's own self-recognition; transitions preserve identity in the sense that the author at time $t+1$ recognises themselves as the same author who recorded items at $t$. The work of producing a \texttt{leanchecked} lemma is then a transition $o_t \trianglerighteq o_{t+1}$ that adds the lemma's record while preserving $\mathsf{Self}$.
+A BEDC contributor can be read, on the records side, as a focused history whose visible work consists of consulted text, proof traces, mechanisation checks, and accepted manuscript rows. The production of a \texttt{leanchecked} lemma is represented by a trace extension with a selector ledger and a verification row. The reading does not assert a substrate-internal model of the contributor's first-person life; it records only the focused history surface through which that contribution is public.
 \end{example}
 
 \begin{remark}[Relation to the implicit metaphysics chapter]
 \label{rem:consciousness-universe-relation-implicit-metaphysics}
-\autoref{ch:visions-observer-hist-identity} already argues that BEDC's finite kernel implicitly identifies an observer with the history that observer has accumulated. \autoref{def:consciousness-universe-consciousness-reading} re-uses this identification: the $\mathsf{Self}$ function is precisely the kernel-level observer marker, and the identity-preserving condition is precisely the implicit-metaphysics chapter's monotonic identity. The present chapter adds the phenomenological reading; the engineering content is in the earlier chapter.
+\autoref{ch:visions-observer-hist-identity} argues that BEDC's finite kernel identifies an observer with the history that observer has accumulated. \autoref{def:consciousness-universe-consciousness-reading} re-uses exactly that identification. The self-proxy is the focused endpoint and trace, while identity preservation is the $\hsame$-stable continuity of the displayed history. The engineering content remains in the earlier chapter; the present chapter records the finite carrier on which the phenomenological reading may be placed.
 \end{remark}
 
 \concretizedIn{ch:concrete-instances-localitycell-namecert}{Locality cells are realised as a bilateral BHist/GAP NameCert packet for inter-observer event coordination.}
@@ -36,19 +77,24 @@ The human author working on BEDC is a conscious observational system in the sens
 \section{Universe as observation history}
 \label{sec:consciousness-universe-universe-as-history}
 
-\begin{definition}[Universe-for-the-observer]
+\begin{definition}[Finite universe-for-the-focus]
 \label{def:consciousness-universe-universe-for-observer}
-For a conscious observational system $\mathcal{C} = (O, \mathsf{Obs}, \trianglerighteq, \mathsf{GAP})$ with current state $o_t$, the \emph{universe-for-$\mathcal{C}$-at-$t$} is the entire record set $\mathsf{Obs}(o_t)$ together with all closure rules and $\mathsf{GAP}$ tags valid at $o_t$. The universe-for-$\mathcal{C}$ is not a separate object inhabited by $\mathcal{C}$; it is the totality of $\mathcal{C}$'s own records, read as the world $\mathcal{C}$ has so far constituted.
+For a finite focused ledger $\mathcal{L}_N$, the \emph{finite universe-for-the-focus} is the records-side family
+$$
+\mathrm{Universe}_{\mathcal{L}_N}
+  := \{\,H(i)\mid i\in I,\; |T(i)|\leq N\,\}
+$$
+together with the selector, digest, $\mathsf{GAP}$, relation, invariant, and dependence rows attached to those histories. It is not the universe itself and not a God-view object; it is the finite slice whose records the packet admits.
 \end{definition}
 
 \begin{principle}[Phenomenological frame]
 \label{prin:consciousness-universe-phenomenological-frame}
-The universe-for-$\mathcal{C}$ is what $\mathcal{C}$ has access to. Anything not in $\mathsf{Obs}(o_t)$, not derivable from it by closed-generation rules, and not signalled by a $\mathsf{GAP}$ tag is not part of $\mathcal{C}$'s universe. Two distinct conscious observational systems $\mathcal{C}_1$ and $\mathcal{C}_2$ generally inhabit distinct universes; cross-perspective alignment is a separate problem (treated in \autoref{ch:visions-inter-hist-locality}).
+The finite universe-for-the-focus is exactly the closed slice visible through $\mathcal{L}_N$. Anything not generated by the displayed histories, not recorded by selector or relation rows, not preserved by a $\mathsf{GAP}$ ledger, and not exposed as a boundary tag is outside this object-level slice. Distinct focused ledgers need not share a world object; cross-perspective alignment remains the ledger-local problem treated in \autoref{ch:visions-inter-hist-locality}.
 \end{principle}
 
 \begin{remark}[The frame is structural, not metaphysical]
 \label{rem:consciousness-universe-structural-not-metaphysical}
-\autoref{prin:consciousness-universe-phenomenological-frame} does not assert that there is no observer-independent reality; it asserts that, on the closed-system side, only the records-plus-closure structure is available. Whether something exists "behind" the records is itself either a record (in which case it is in $\mathsf{Obs}$) or a $\mathsf{GAP}$ tag (in which case its content is exactly an unfulfilled promise). The frame leaves both options visible.
+\autoref{prin:consciousness-universe-phenomenological-frame} does not assert that there is no observer-independent reality. It asserts only that the closed BEDC object is the finite records-plus-ledger slice. Any pressure beyond that slice appears either as an additional displayed row, as a $\mathsf{GAP}$ or provenance obligation, or as a boundary reading whose far end is not internalized.
 \end{remark}
 
 \section{Time as monotonic accumulation}
@@ -56,22 +102,22 @@ The universe-for-$\mathcal{C}$ is what $\mathcal{C}$ has access to. Anything not
 
 \begin{definition}[BEDC-internal time]
 \label{def:consciousness-universe-bedc-time}
-For a closed observational system $\mathcal{S}$, the \emph{internal time order} on $O$ is the partial order $\trianglelefteq$ given by $o_t \trianglelefteq o_{t'}$ iff every record present at $o_t$ remains present at $o_{t'}$. Internal time is the information-conservation order itself; it is not a separate scalar attached to states but the structure of the accumulation.
+For a focused ledger $\mathcal{L}_N$, the \emph{internal time order} of $H(i)$ is the local $\Cont$ chain $T(i)$ producing $H(i)$ from $\emp$. Equivalently, it is the finite trace order induced by the displayed $\BMark$ selector rows. Internal time is local to a history; it is not a scalar shared by all histories in $I$.
 \end{definition}
 
 \begin{principle}[Time is monotonic information accumulation]
 \label{prin:consciousness-universe-time-is-accumulation}
-For BEDC the only operationally meaningful notion of "later" is "containing more records and not having lost any". This is the information-conservation invariant of \autoref{prin:transcendental-input-conservation} read as a temporal structure. Reversibility, time symmetry, or retrocausal phrasing all require operations on $\mathsf{Obs}$ that the closed system does not provide; the system runs forward only because records do not unrecord.
+For BEDC the object-level notion of "later" is trace extension inside a displayed local ledger. This is the information-conservation invariant of \autoref{prin:transcendental-input-conservation} read as a temporal structure. Reversibility, time symmetry, global simultaneity, or retrocausal phrasing may be studied as additional structures, but they are not fields of $\mathcal{L}_N$ unless they arrive as witnessed extension carriers.
 \end{principle}
 
 \begin{example}[Commit history as BEDC-internal time]
 \label{ex:consciousness-universe-commit-history-time}
-The git commit history of \texttt{newmath} is, on this account, the operational instantiation of internal time for the project as a closed observational system. Each commit either adds records (\texttt{leanchecked} lemmas, $\texttt{inductive}$ types, paper content) or rewrites earlier records under the substitution policy of \autoref{ch:theory-amendment-policy}. Because the policy refuses iteration markers and version-number trails, the only acceptable history is monotonic accumulation; reversion or rewinding would not preserve the information-conservation invariant.
+The git commit history of \texttt{newmath} is a project-level analogy for local ledger time: each accepted state is read through accumulated records such as \texttt{leanchecked} lemmas, $\texttt{inductive}$ types, paper content, and audit rows. The analogy is records-side only. It does not supply a global clock for all observers; it illustrates how a local trace can serve as the public time order of one development history.
 \end{example}
 
 \begin{remark}[Why time has only one direction in BEDC]
 \label{rem:consciousness-universe-time-one-direction}
-External physics admits various time-symmetric or time-reversed formulations. BEDC's closed-system reading does not exclude such formulations as physical theories; it observes that the closed observational system itself is asymmetric, because records do not delete. The arrow of time on the substrate side is therefore not a separately postulated principle but a direct consequence of \autoref{def:transcendental-input-closed-system}'s monotonic transition rule.
+External physics admits various time-symmetric or time-reversed formulations. BEDC's records-side reading does not exclude such formulations; it observes only that a local ledger is asymmetric because its displayed trace has a generated prefix structure. A global clock or global "now" would require a separate extension carrier and cannot be read from the kernel signature.
 \end{remark}
 
 \section{Space as inter-observer coordination}
@@ -79,22 +125,22 @@ External physics admits various time-symmetric or time-reversed formulations. BE
 
 \begin{principle}[No god's-eye coordinate system]
 \label{prin:consciousness-universe-no-god-eye}
-Two conscious observational systems $\mathcal{C}_1$ and $\mathcal{C}_2$ do not share a single observation history; each accumulates its own $\mathsf{Obs}$. The relation "$\mathcal{C}_1$ and $\mathcal{C}_2$ observe the same event" is therefore not a primitive but must be reconstructed from the $\mathsf{GAP}$-side acknowledgement on each system that the other system's record is to be treated as cohering with one's own. \autoref{ch:visions-inter-hist-locality} works out the operational form of this coherence and derives the light-speed constancy phenomenon from the locality condition that no $\mathsf{GAP}$ tag can demand instantaneously available remote records.
+Two focused histories in $\mathcal{L}_N$ do not share a single observation history or a global time coordinate. The relation "these histories coordinate on an event" is therefore not primitive. It is reconstructed from paired records, $\mathsf{GAP}$ or provenance rows, and relation witnesses. \autoref{ch:visions-inter-hist-locality} works out the operational form of this coherence and treats maximum-rate phenomena as inter-$\Hist$ invariant interfaces, not as a primitive physical constant.
 \end{principle}
 
 \begin{definition}[Inter-system locality cell]
 \label{def:consciousness-universe-locality-cell}
-For two conscious observational systems $\mathcal{C}_1, \mathcal{C}_2$ and an event $e$, the \emph{locality cell} of $e$ across $(\mathcal{C}_1, \mathcal{C}_2)$ is the pair of records $(r_1, r_2)$ such that $r_1 \in \mathsf{Obs}(\mathcal{C}_1)$ and $r_2 \in \mathsf{Obs}(\mathcal{C}_2)$ together with a $\mathsf{GAP}$ tag on each side committing to the equivalence of $r_1$ and $r_2$ as descriptions of $e$. The cell is the substrate-side form of "two observers seeing the same event".
+For two indices $i,j:I$ and an event row $e$, the \emph{locality cell} of $e$ across $(i,j)$ is a finite relation row containing a record read from $H(i)$, a record read from $H(j)$, a paired $\mathsf{GAP}$ or provenance acknowledgement, and a stability witness saying that the cell respects componentwise $\hsame$. The cell is the records-side form of coordinated event reading.
 \end{definition}
 
 \begin{example}[Space as locality-cell geometry]
 \label{ex:consciousness-universe-space-as-geometry}
-The standard physical space is the geometry of locality cells across many observational systems: pairwise (and $n$-wise) coherence commitments on $\mathsf{GAP}$ sockets. The locality cell structure constrains how rapidly coherence can be established (\autoref{ch:visions-inter-hist-locality}'s light-speed constancy), reproducing operational kinematics from the closed-observation substrate. No separately postulated space-time manifold is required; the manifold is the geometry of how $\mathsf{GAP}$ commitments thread across conscious observational systems.
+Within $\mathcal{L}_N$, space is the finite relation graph carried by locality cells and inter-$\Hist$ invariant rows. A finite maximum-rate read, when present, is computed from displayed dependence rows and remains an invariant of that packet. It is not the empirical light-speed constant and not a completed spacetime manifold; it is the closed records-side surface on which such a physical reading may later be certified.
 \end{example}
 
 \begin{remark}[Spacetime logic as inter-observer logic]
 \label{rem:consciousness-universe-spacetime-logic}
-What is usually called "spacetime logic" -- the logical structure governing simultaneity, signal causality, light-cones, frame transformations -- is, on this reading, the logic of $\mathsf{GAP}$ commitment alignment across conscious observational systems. The closed-substrate side has no separate "spacetime"; it has many observational systems plus the locality-cell structure of their coherence. \autoref{ch:visions-inter-hist-locality} mechanises the operational consequences.
+What is usually called "spacetime logic" enters this chapter only as a boundary reading of relation rows, dependence rows, and inter-$\Hist$ invariants. The closed records-side object has no separate spacetime carrier. It has generated histories, witnessed relations, local clocks, and refusal of global synchronization. Any stronger physical geometry belongs to a subsequent $\NameCert$ target.
 \end{remark}
 
 \section{Observer identity through history}
@@ -102,17 +148,17 @@ What is usually called "spacetime logic" -- the logical structure governing simu
 
 \begin{principle}[Identity is history-continuity]
 \label{prin:consciousness-universe-identity-is-history-continuity}
-The identity of a conscious observational system across its internal time is given by the monotonic accumulation chain. There is no separate "self" inhabiting the chain and persisting through it; the chain itself, viewed as a continuously-related sequence of $\mathsf{Obs}$ states, is the observer. \autoref{ch:visions-observer-hist-identity}'s implicit-metaphysics reading is the engineering form of this claim.
+The identity of a focused records-side carrier across local time is given by the generated history and its $\hsame$-stable trace. There is no separate "self" inhabiting the chain and persisting through it; the self-proxy is the focused endpoint and trace. \autoref{ch:visions-observer-hist-identity}'s implicit-metaphysics reading is the engineering form of this claim.
 \end{principle}
 
 \begin{example}[BEDC project identity]
 \label{ex:consciousness-universe-bedc-project-identity}
-The BEDC project as a development artefact is identifiable not because there is a fixed "the BEDC project" object underlying every commit, but because the commit chain forms a connected monotonic accumulation of $\mathsf{Obs}$ records. Reversion or replacement of an early commit would, in the strict closed-system reading, produce a different observer; the policy in \autoref{ch:theory-amendment-policy} of refusing iteration markers and keeping only current content is the operational form of preserving the project's observer identity.
+The BEDC project as a development artefact is identifiable through a connected accumulation of public records and audit rows. The example is a records-side analogy for $\hsame$-stable trace identity. It does not posit a project-substance behind the ledger, and it does not turn repository history into a global observer.
 \end{example}
 
 \begin{remark}[Buddhist and Heraclitean correspondences]
 \label{rem:consciousness-universe-buddhist-heraclitean}
-The history-continuity reading of identity has correspondences in several philosophical traditions: the Buddhist denial of a substantial $\bar{a}tman$ (one's identity is the stream of states, not a thing in the stream); Heraclitus's flux-with-pattern (the river is the patterned succession, not a river-substance); Hume's bundle theory (the self is a bundle of perceptions). The BEDC version makes the same move in formal vocabulary: the observer is the chain, and what we call "the same observer at two times" is the connectedness of the chain between those times.
+The history-continuity reading of identity has correspondences in several philosophical traditions: the Buddhist denial of a substantial $\bar{a}tman$; Heraclitus's flux-with-pattern; Hume's bundle theory. The BEDC version keeps only the formal residue of that family: the observer row is a $\Hist$ trace, and sameness is mediated by $\hsame$ and displayed continuity, not by a subject-substance.
 \end{remark}
 
 \section{The hard problems in the closed-substrate frame}
@@ -120,34 +166,34 @@ The history-continuity reading of identity has correspondences in several philos
 
 \begin{principle}[Hard problems as structural questions about closure]
 \label{prin:consciousness-universe-hard-problems-as-structural}
-The "hard problems" usually phrased about consciousness, universe, observer, and spacetime become, in the closed-substrate frame, structural questions about closed observational systems: what records are accumulated (consciousness), what totality the records constitute (universe-for-observer), how identity is preserved across the accumulation (observer identity), and how cross-system coherence is established (spacetime). None of these requires a separately postulated mental, material, or spatial substance; each is statable as a structural condition on closed observational systems.
+The "hard problems" usually phrased about consciousness, universe, observer, and spacetime become, in the closed records-side frame, boundary questions around a finite carrier: which records are generated, which branch choices are ledgered, which compressions preserve provenance, which relations have witnesses, which invariants are stable, and which pressures remain outside the object layer. None of these licenses a separately postulated mental, material, temporal, or spatial substance inside $\mathcal{L}_N$.
 \end{principle}
 
 \begin{longtable}{p{0.3\textwidth}p{0.62\textwidth}}
 \toprule
 \textbf{Traditional hard problem} & \textbf{Closed-substrate reformulation} \\
 \midrule
-What is consciousness? & The running pair of state $o_t$ and self-identity recognition $\mathsf{Self}(o_t)$ in a closed observational system that preserves identity across transitions (\autoref{def:consciousness-universe-consciousness-reading}). \\
-What is the universe? & The totality $\mathsf{Obs}(o_t)$ of records-with-closure-rules and $\mathsf{GAP}$ tags accessible at the current state of the conscious observational system (\autoref{def:consciousness-universe-universe-for-observer}). \\
-What is time? & The monotonic information-accumulation order $\trianglelefteq$ on states; time is the structure of the accumulation, not a separate scalar (\autoref{def:consciousness-universe-bedc-time}). \\
-What is space? & The geometry of locality cells across conscious observational systems; how $\mathsf{GAP}$ coherence commitments thread among many observers (\autoref{def:consciousness-universe-locality-cell}). \\
-What is identity? & The connectedness of the monotonic accumulation chain; the chain itself, viewed as a continuously-related sequence, is the observer (\autoref{prin:consciousness-universe-identity-is-history-continuity}). \\
-What is the relation between observer and observed? & Not a separate observation channel; the observer is the chain that has accumulated the observation records. Observed and observer share substrate type. \\
-Is there a god's-eye view? & No: each conscious observational system inhabits its own universe-for-observer; cross-system coherence is reconstructed via locality cells, never given as a single shared world (\autoref{prin:consciousness-universe-no-god-eye}). \\
-What is the arrow of time? & The asymmetry follows from records not unrecording; the closed system runs forward because $\mathsf{Obs}$ grows monotonically (\autoref{rem:consciousness-universe-time-one-direction}). \\
+What is consciousness? & The closed records-side carrier is a focused self-tracking $\Hist$ with trace, endpoint, and selector ledger; phenomenal consciousness itself is not object-level content (\autoref{def:consciousness-universe-consciousness-reading}). \\
+What is the universe? & A finite horizon slice $\mathrm{Universe}_{\mathcal{L}_N}$ of generated histories and their ledgers, not a global universe object (\autoref{def:consciousness-universe-universe-for-observer}). \\
+What is time? & A local $\Cont$ chain producing a history from $\emp$; no global clock is a field of the carrier (\autoref{def:consciousness-universe-bedc-time}). \\
+What is space? & A finite graph of locality cells, relation rows, and inter-$\Hist$ invariants, not a completed spacetime manifold (\autoref{def:consciousness-universe-locality-cell}). \\
+What is identity? & The $\hsame$-stable trace and focused endpoint; no subject-substance is carried behind the history (\autoref{prin:consciousness-universe-identity-is-history-continuity}). \\
+What is the relation between observer and observed? & Not a separate observation channel; the observer row is a $\Hist$, and observed content is what the row and its ledgers expose. \\
+Is there a god's-eye view? & No: cross-system coherence is reconstructed through witnessed relation rows and locality cells, never given as a single shared world (\autoref{prin:consciousness-universe-no-god-eye}). \\
+What is the arrow of time? & The asymmetry follows from local generated trace structure; global simultaneity requires an extension carrier (\autoref{rem:consciousness-universe-time-one-direction}). \\
 \bottomrule
 \end{longtable}
 
 \begin{remark}[Continuity with the transcendental-input chapter]
 \label{rem:consciousness-universe-continuity-with-transcendental}
-Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: each conscious observational system is a closed substrate with its own universe-for-observer (this chapter); each such system requires a minimum transcendental input to host mathematical reasoning (the prior chapter); each system is best understood not as a recipient of that input but as an inscription point of $\mathsf{T}$, the supply position (prior chapter). Time, space, consciousness, and universe all live on the closed-substrate side; the transcendental supply position is the structural outside that every closed system implicitly references for its forward-binding commitments.
+Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: $\mathcal{L}_N$ is the object-level closed carrier, while $\mathsf{T}$ remains the non-internalized boundary position for forward-binding commitments. Time, space, consciousness, and universe appear in this chapter only as records-side carriers or boundary readings. The transcendental supply position is not a field of the carrier and is not consumed by its closure argument.
 \end{remark}
 
 \section{Closure remarks}
 \label{sec:consciousness-universe-closure}
 
-This vision chapter does not propose any new mechanisation. It reads BEDC's existing closed-substrate, monotonic-amendment, and inter-history-locality engineering as the operational form of well-known philosophical questions about consciousness, universe, observer, and spacetime. The reading shows that BEDC's design choices (closed generation rules, $\mathsf{GAP}$ tagging, identity preservation across transitions, locality-cell-based cross-perspective coordination) are precisely the structural commitments that, on the philosophical side, give answers (or precise reformulations) to the standard hard problems.
+This vision chapter identifies the finite carrier that can be closed without turning boundary readings into substrate theorems. The closed object is $\mathrm{ClosedFocusedMultiHistLedger}_N$: a finite multi-observer record-world with a focused self-trace, selector ledgers, $\mathsf{GAP}$-accounted compression, witnessed inter-$\Hist$ relations, stable invariants, and finite dependence rows.
 
-The chapter pairs with \autoref{ch:visions-transcendental-input-and-induction} (the closed substrate plus the transcendental input position) and refers to \autoref{ch:visions-observer-hist-identity} (the engineering form of observer-history identity) and \autoref{ch:visions-inter-hist-locality} (the engineering form of inter-observer coordination and the light-speed constancy phenomenon) for the mechanised content. Concrete consequences for specific physical theories or specific cognitive science models are not pursued here; this chapter is the structural framing under which such consequences could be developed in further \texttt{concrete\_instances/} construction chapters.
+The chapter pairs with \autoref{ch:visions-transcendental-input-and-induction} for the non-internalized supply boundary, with \autoref{ch:visions-observer-hist-identity} for observer-as-history, with \autoref{ch:visions-inter-hist-locality} for ledger-local multi-$\Hist$ coordination, and with \autoref{ch:visions-hash-like-apophatic-fixed-point} for digest/GAP discipline. Concrete consequences for physical theories, cognitive science models, or first-person phenomenology are not closed here; they require subsequent $\NameCert$ targets or remain boundary readings.
 
 \concretizedIn{ch:concrete-instances-observerperspectiveclassifier-namecert}{Observer perspective classifiers realize universe-for-observer comparison as finite BHist locality-cell, GAP commitment, hsame transport, Cont route, Pkg provenance, and NameCert rows.}

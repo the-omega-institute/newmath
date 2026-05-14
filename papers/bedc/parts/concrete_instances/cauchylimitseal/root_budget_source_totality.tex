@@ -215,6 +215,7 @@ Use tail-schedule budget cofinality from \autoref{thm:cauchy-limit-seal-tail-sch
 
 Finally apply completion-consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. With the seal rows, budget rows, dyadic ledger, finite packet, and tail schedule already accounting for the endpoint, no additional completion-facing coordinate remains.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_budget\_source\_endpoint\_exhaustion}
 
 \begin{theorem}[CauchyLimitSeal completion route uniqueness]
 \label{thm:cauchy-limit-seal-completion-route-uniqueness}
@@ -242,4 +243,20 @@ Next apply endpoint exhaustion from \autoref{thm:cauchy-limit-seal-budget-source
 Attach the tail-agreement seal by \autoref{thm:real-tail-agreement-seal-cauchy-limit-budget-handoff}. The accepted $\RealTailAgreementSealUp$ packet reads the same regular source, finite window, dyadic ledger, and $\RealUp$ seal surface, so it is a consumer of the route already fixed by the budget packet.
 
 Finally use \autoref{thm:real-tail-agreement-seal-budget-real-handoff}. The Real and Completion consumers of the tail-agreement packet are confined to the same displayed budget route. Since all listed rows have already been accounted for, quotient stream identity, selected limits, host real equality, hidden family limits, hidden tail oracles, and ambient completeness remain outside the terminal packet.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal terminal route exhaustion]
+\label{thm:cauchy-limit-seal-terminal-route-exhaustion}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, suppose accepted $\RealObservationBudgetUp$, $\FiniteCauchyApproximationUp$, $\TailCofinalityScheduleUp$, and $\RealTailAgreementSealUp$ legs read the same regular source rows, the same finite $\StreamNameUp$ window, the same $\DyadicRatCoreUp$ ledger, and the same $\RealUp$ seal through one accepted $\CauchyLimitSealUp$ packet. Then every $\RealUp$ or $\CompletionUp$ consumer is exhausted by that one displayed public route over $\RealObservationBudgetUp$, $\FiniteCauchyApproximationUp$, $\TailCofinalityScheduleUp$, $\RealTailAgreementSealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply budget selector totality from \autoref{thm:cauchy-limit-seal-budget-selector-totality}. The observation budget, finite approximation, and tail schedule are placed on one displayed L10 packet over the shared regular source rows, finite $\StreamNameUp$ window, dyadic ledger, $\RealUp$ handoff, history, transport, continuation, provenance, and naming rows.
+
+Next apply endpoint exhaustion from \autoref{thm:cauchy-limit-seal-budget-source-endpoint-exhaustion}. This confines every completion-facing endpoint read to the displayed seal rows, budget rows, dyadic-window ledger, finite-approximation packet, and tail schedule.
+
+Now use completion route uniqueness from \autoref{thm:cauchy-limit-seal-completion-route-uniqueness}. Since the accepted legs agree on the displayed budget, window, dyadic, approximation, and schedule rows, there is only one public completion route over the named BEDC surface.
+
+Attach the RealTailAgreement face by \autoref{thm:cauchy-limit-seal-budget-real-tail-agreement-terminality}. Its accepted packet reads the same regular source rows, finite window, dyadic ledger, and $\RealUp$ seal, so its Real and Completion consumers are terminals of the same displayed route rather than separate endpoints.
+
+Finally apply root completion consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. With all four legs already bound to the accepted $\CauchyLimitSealUp$ packet, no quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate remains available to any $\RealUp$ or $\CompletionUp$ consumer.
 \end{proof}

@@ -129,6 +129,23 @@ Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-hando
 
 Finally use \autoref{thm:real-cauchy-completion-non-escape-boundary} and \autoref{thm:real-cauchy-completion-real-seal-readback-scope}. These rows identify $E$ as the only exported $\RealUp$ seal reached by the route, while excluding quotient stream equality, host real equality, choice of a selected limit, and ambient completeness from the consumer surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_stream\_regseq\_tail\_seal\_factorization}
+
+\begin{theorem}[RealCauchyCompletion RegularCauchyName terminal handoff]
+\label{thm:real-cauchy-completion-regularcauchyname-terminal-handoff}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier whose regular-family input is read through an accepted $\RegularCauchyNameUp$ source packet $G=(S,Q,\rho,L,E_G,P_G,N_G)$. Every completion-facing $\RealUp$ seal read of $C$ factors through the RegularCauchyName finite window ledger $L$, the dyadic-radius row $\rho$, the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback row, the $\RealDiagonalCompletionUp$ packet $D$, and the $\RealCauchyCompletionUp$ seal row $E$.
+
+The handoff exports no quotient stream, no selected host limit, no host real equality, no ambient completeness row, and no metric-completeness row. It is a finite certificate route through the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data of the two accepted packets.
+\end{theorem}
+\begin{proof}
+Start from the accepted $\RegularCauchyNameUp$ packet $G$. By \autoref{thm:regularcauchyname-window-ledger-exhaustion}, every precision read of $G$ is exhausted by the displayed finite route through the stream schedule, dyadic observation row, dyadic-radius row, finite ledger, seal row, package provenance, and local certificate.
+
+Use \autoref{thm:regularcauchyname-real-seal-factorization} to identify the real-facing endpoint of that route. The $\RealUp$ seal exposed by $G$ is reached only after the same dyadic-radius row, $\StreamNameUp$ handoff, and $\RegSeqRatUp$ readback have been displayed as certificate rows.
+
+Now pass to the accepted completion carrier $C$. By \autoref{thm:real-cauchy-completion-stream-regseq-tail-seal-factorization}, the completion-facing seal read factors through the selected finite stream window, the regular-sequence readback row, the dyadic observation ledger, the diagonal packet $D$, and then the exported $\RealUp$ seal row $E$.
+
+Combining the two routes gives the terminal handoff from the RegularCauchyName finite ledger into the RealDiagonalCompletion packet and then into the RealCauchyCompletion seal row. Finally, \autoref{thm:real-cauchy-completion-non-escape-boundary} excludes quotient streams, selected host limits, host real equality, ambient completeness, and metric-completeness data from the exported surface.
+\end{proof}
 
 \begin{theorem}[RealCauchyCompletion ProbeBundle window coverage]
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
@@ -619,7 +636,8 @@ Finally apply \autoref{thm:uniform-cauchy-criterion-downstream-real-consumer-exp
   \constructivestory{A $\RealCauchyCompletionUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy family, an explicit unary modulus, a $\RealDiagonalCompletionUp$ diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The mature paper scope is the public real-name export, standard bridge boundary, and limit-seal consumer surface through the displayed regular-family row, unary modulus, diagonal packet, finite windows, regular-rational readback, dyadic ledger, $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_namecert\_obligation\_surface}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
