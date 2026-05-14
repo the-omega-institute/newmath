@@ -1071,7 +1071,9 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
     expanded action surface). The earlier observer-only v0 was retired
     after v1 stabilised; its shared helpers live in pi_common.py.
     """
+    import importlib
     import pi_agent_v1 as pi_module
+    pi_module = importlib.reload(pi_module)
 
     def _restart_inner_cb() -> str | None:
         proc: subprocess.Popen | None = supervisor_state.get("inner")
