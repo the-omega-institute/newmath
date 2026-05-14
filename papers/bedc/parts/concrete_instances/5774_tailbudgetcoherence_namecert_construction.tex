@@ -251,6 +251,72 @@ The consumer side is controlled by \autoref{thm:tail-budget-coherence-real-route
 Finally apply \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the two projections describe a bridge only for the finite public surface and not for any stronger analytic equality or completeness object.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence finite-route determinacy]
+\label{thm:tail-budget-coherence-finite-route-determinacy}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+any two $\RealUp$ or $\CompletionUp$ consumers that read the same TailMeet threshold, observation budget, selector budget, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, agreement seal, limit seal, and structural rows determine the same public finite route
+$$
+M,O,S,W,D,R,A,L,H,C,P,N.
+$$
+No second window, quotient stream equality, selected limit, host real equality, countable-choice selector, or ambient completeness row can distinguish the two routes.
+\end{theorem}
+\begin{proof}
+Begin with threshold-budget exposure from \autoref{thm:tail-budget-coherence-threshold-budget-exposure}. It fixes the TailMeet threshold, observation-budget, and selector-budget rows before any consumer can read the finite window or either seal.
+
+Next apply window-readback exactness from \autoref{thm:tail-budget-coherence-window-readback-exactness}. The shared window, dyadic ledger, and regular readback are exactly $W,D,R$, so two consumers with the same displayed readback data cannot separate into two finite-window routes.
+
+The Real route scope and public export boundary, \autoref{thm:tail-budget-coherence-real-route-scope} and \autoref{thm:tail-budget-coherence-public-export-boundary}, place both consumers on $M,O,S,W,D,R,A,L,H,C,P,N$ before either Real or Completion endpoint sees the agreement or limit seal.
+
+Finally use the sibling-scope lock, bridge interface, and no-ambient-completeness scope of \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-bridge-interface}, and \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. These exhaust the structural rows and exclude quotient stream equality, selected limits, host real equality, choice selectors, and ambient completeness rows, so the two reads are the same public finite route.
+\end{proof}
+
+\begin{theorem}[Tail budget coherence synchronizer comparison]
+\label{thm:tail-budget-coherence-synchronizer-comparison}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+the $\RealWindowSynchronizerUp$ packet on the same consumer route is the window-to-seal projection of $T$: it reads the shared StreamName window $W$, RegSeqRat readback $R$, threshold-budget spine $M,O,S$, CauchyLimitSeal row $L$, transport, continuation, provenance, and local naming rows, and then exposes only the corresponding Real-window seal surface. The projection discards no hidden completion coordinate because $T$ carries none.
+\end{theorem}
+\begin{proof}
+Begin with the TailBudgetCoherence bridge interface of \autoref{thm:tail-budget-coherence-bridge-interface}. It presents the public consumer route as $M,O,S,W,D,R,A,L,H,C,P,N$.
+
+Compare this route with the RealWindowSynchronizer carrier and obligation package from \autoref{def:real-window-synchronizer-carrier} and \autoref{thm:real-window-synchronizer-obligation-closure-package}. The synchronizer reads the same window $W$, readback $R$, threshold spine, limit seal $L$, transport, continuation, provenance, and naming rows when it exposes its Real-window seal.
+
+The TailBudgetCoherence no-ambient-completeness scope ensures that the larger packet has no quotient stream, selected limit, host real equality, or ambient completeness coordinate to hide from the projection. Hence the synchronizer packet is exactly the window-to-seal projection of the public tail-budget packet.
+\end{proof}
+
+\begin{theorem}[Tail budget coherence shared-window refinement]
+\label{thm:tail-budget-coherence-shared-window-refinement}
+In an accepted $\TailBudgetCoherenceUp$ packet $T=(M,O,S,A,L,W,R,D,H,C,P,N)$, the shared window and refinement rows $W,D,R$ agree under the threshold-budget rows $M,O,S$. Any RealWindowSynchronizer consumer that reads $W$ and $R$ through this packet also reads the dyadic tolerance ledger $D$ as the displayed refinement witness for the same shared threshold-budget spine.
+\end{theorem}
+\begin{proof}
+Apply threshold-budget exposure from \autoref{thm:tail-budget-coherence-threshold-budget-exposure}. It places the TailMeet threshold, observation budget, and selector budget rows $M,O,S$ before the finite window, dyadic tolerance ledger, and regular readback are consumed.
+
+Then use window-readback exactness from \autoref{thm:tail-budget-coherence-window-readback-exactness}. It identifies $W,D,R$ as the exact StreamName, DyadicRatCore, and RegSeqRat route under those same threshold-budget rows.
+
+A RealWindowSynchronizer consumer reading through the TailBudgetCoherence packet therefore cannot choose a second window or readback row. It receives $W$ and $R$ together with $D$ as the refinement witness for the shared $M,O,S$ spine.
+\end{proof}
+
+\begin{theorem}[Tail budget coherence Real-window consumer route]
+\label{thm:tail-budget-coherence-real-window-consumer-route}
+Any $\RealWindowSynchronizerUp$ consumer that uses an accepted $\TailBudgetCoherenceUp$ packet follows the public route
+$$
+M,O,S,W,D,R,A,L,H,C,P,N.
+$$
+The route carries the TailMeet threshold, observation budget, selector budget, shared StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, agreement seal, CauchyLimitSeal row, transport, continuation, provenance, and local naming rows, and it exports no quotient stream or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Use the synchronizer comparison of \autoref{thm:tail-budget-coherence-synchronizer-comparison} to place the RealWindowSynchronizer consumer as a projection of the TailBudgetCoherence public packet.
+
+Apply shared-window refinement from \autoref{thm:tail-budget-coherence-shared-window-refinement}. The window, dyadic ledger, and readback rows are the displayed $W,D,R$ rows under the same threshold-budget spine $M,O,S$.
+
+Finally use the public export boundary and no-ambient-completeness scope of \autoref{thm:tail-budget-coherence-public-export-boundary} and \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. The consumer route is exactly $M,O,S,W,D,R,A,L,H,C,P,N$, with no quotient stream or ambient completeness coordinate.
+\end{proof}
+
 \falsifiablePrediction{If a completion-facing consumer reads the limit seal without a displayed TailMeet threshold, observation budget, selector budget, finite window ledger, dyadic tolerance ledger, regular readback, and agreement-seal row, that read is not accepted by $\TailBudgetCoherenceUp$.}
 
 The composite-dependency explanation is the replacement for an atomic independence witness. The carrier is deliberately assembled from existing $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows; its content is the coherence of those rows at the Real-completion handoff, not a new primitive analytic object.
