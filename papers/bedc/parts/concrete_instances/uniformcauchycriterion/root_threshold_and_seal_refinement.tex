@@ -277,6 +277,50 @@ introducing quotient streams, selected limits, host equality, countable choice,
 or ambient completeness.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion window refinement seal route]
+\label{thm:uniform-cauchy-criterion-window-refinement-seal-route}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. If a transported window
+refinement is accepted over the same finite threshold and tolerance route, then
+the refinement preserves the packet rows and routes the refined window through
+the seal read before returning to the root readback. The visible route is still
+only
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+\longmapsto H \longmapsto C \longmapsto P \longmapsto N,
+$$
+with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+carrying the transported refinement. No quotient stream, selected limit, host
+real equality, countable-choice schedule, or ambient completeness coordinate is
+created by the refined window.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_window\_refinement\_seal\_route}
+\begin{proof}
+First use the shared-threshold transport rows of the accepted packet. The
+transport keeps the refinement on the same $I,W,M,Q,T$ surface, so the refined
+window does not become a second schedule or a second tolerance ledger.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-budget-package}. The
+root package exposes the transported rows only as the finite surface
+$I,W,M,Q,T,H,C,P,N$, with $H,C,P,N$ recording the displayed history transport,
+continuation route, provenance, and local name.
+
+Then use \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility}.
+The seal row $E$ is read after the finite threshold and tolerance package, so
+the transported refinement reaches the seal through the same root budget.
+
+Finally invoke
+\autoref{thm:uniform-cauchy-criterion-root-threshold-synchronizer-readback}.
+The synchronizer readback returns from the seal-facing route to the ordered
+root route $I,W,M,Q,T,E,H,C,P,N$. Since every step has used only the displayed
+rows, the refined window has no coordinate from which to export quotient
+streams, selected limits, host equality, countable choice, or ambient
+completeness.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion root synchronizer tail-meet lock]
 \label{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock}
 Let
