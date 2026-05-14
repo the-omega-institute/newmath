@@ -69,6 +69,51 @@ Apply \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}. It places b
 Finally use the displayed transport, route, provenance, and naming rows $H,C,P,N$. They authenticate the same finite route and do not add an independent seal coordinate, so the completion-facing read is exactly the listed handoff.
 \end{proof}
 
+\begin{theorem}[Cauchy shared-tail modulus paired-window obligation]
+\label{thm:cauchy-shared-tail-modulus-paired-window-obligation}
+For every accepted $\CauchySharedTailModulusUp$ packet, the two $\StreamNameUp$ window rows $W_0,W_1$ are exposed only after the paired request rows $M_0,M_1$ and the single dyadic threshold package $\tau,D$ have been displayed. Thus no consumer of the packet may read either window as a unilateral source window or as a window opened by a private threshold.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-shared-tail-modulus-carrier}. The rows $M_0,M_1,\tau,D,W_0,W_1$ are displayed in the finite packet, with a single threshold coordinate $\tau$ and a single dyadic tolerance ledger $D$ serving both requests.
+
+Apply \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}. It places $M_0$ and $M_1$ before the shared threshold read, and it routes both StreamName windows through the same $\tau,D$ rows.
+
+The public route row $C$ and transport row $H$ replay that ordering componentwise. Since the carrier has no hidden threshold or unilateral window coordinate, the only accepted window read is the paired read through $M_0,M_1,\tau,D$.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus threshold uniqueness obligation]
+\label{thm:cauchy-shared-tail-modulus-threshold-uniqueness-obligation}
+Let a consumer route claim to read an accepted $\CauchySharedTailModulusUp$ packet while replacing the shared threshold row $\tau$ by two independent threshold rows. Then the route is not a read of the carrier in \autoref{def:cauchy-shared-tail-modulus-carrier}. Any completion-facing route that reaches the Real seal must use the unique public threshold coordinate $\tau$ and its dyadic ledger row $D$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The packet contains one threshold row $\tau$ and one dyadic ledger row $D$; it contains no coordinates for separate left and right thresholds.
+
+Apply carrier-coordinate uniqueness in the displayed tuple. A route that supplies two independent threshold rows asks for two carrier coordinates where the carrier presents only one, so it leaves the packet surface before any Real seal read is considered.
+
+Now apply \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}. Every completion-facing Real seal read factors through the displayed route containing the same $\tau,D$ rows. Therefore a route that replaces $\tau$ cannot be a read of the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus field-faithfulness obligation]
+\label{thm:cauchy-shared-tail-modulus-field-faithfulness-obligation}
+For the carrier
+$$
+S=(R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N),
+$$
+the public fields $R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N$ determine the local $\NameCert_{\CauchySharedTailModulusUp}$ read. No proper subtuple of these fields exposes the same completion-facing $\RealUp$ seal, because omitting any paired source, request, threshold, dyadic ledger, window, readback, seal, transport, route, provenance, or local name removes a row used by the displayed handoff.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}. It lists the carrier admission row, paired requests, shared threshold, dyadic ledger, paired windows, paired readbacks, Real seal, componentwise stability, route replay, provenance, and local name as the public NameCert surface.
+
+Use \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization} for the middle of the read. It forces the two request rows, the single threshold row, the dyadic ledger, both windows, and both regular readbacks to appear in the same finite route.
+
+Finally apply \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}. The Real seal is exposed only through the complete displayed route
+$$
+M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N.
+$$
+
+Dropping any listed field breaks either carrier admission, the synchronized finite route, or the authenticated Real seal handoff. Hence the full public tuple determines the NameCert read, while no proper subtuple exposes the same seal.
+\end{proof}
+
 \begin{theorem}[Cauchy shared-tail modulus falsifiable prediction]
 \label{thm:cauchy-shared-tail-modulus-falsifiable-prediction}
 If a consumer accepts a $\CauchySharedTailModulusUp$ packet while reading a $\RealUp$ seal before the shared threshold row $\tau$ or while replacing $\tau$ by two independent threshold rows, then that consumer is not reading the packet of \autoref{def:cauchy-shared-tail-modulus-carrier}. The accepted packet exposes one shared dyadic threshold before any Real seal route.
