@@ -1219,6 +1219,8 @@ def _latest_jsonl_record(path: Path) -> dict | None:
         except json.JSONDecodeError:
             continue
         if isinstance(rec, dict):
+            if path == PI_RECENT_CYCLES and rec.get("review_source") == "test":
+                continue
             return rec
     return None
 
