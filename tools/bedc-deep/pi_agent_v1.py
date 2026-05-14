@@ -650,6 +650,13 @@ def _is_shallow_deepen_action(action: dict) -> bool:
     )
 
 
+def _board_is_dry(snapshot: dict) -> bool:
+    try:
+        return int(snapshot.get("board_unfinished") or 0) == 0
+    except (TypeError, ValueError):
+        return False
+
+
 def _snapshot_has_active_refill(snapshot: dict) -> bool:
     server = snapshot.get("server") or {}
     for task in (server.get("agents") or {}).values():
@@ -1542,20 +1549,31 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
             recent_pi_cycles,
         )
-        suppressed = [
-            a for a in autonomous_actions
-            if _is_shallow_deepen_action(a)
-        ]
+        board_dry = _board_is_dry(snapshot)
+        suppressed = []
+        for action in autonomous_actions:
+            if _is_shallow_deepen_action(action):
+                suppressed.append(action)
+                continue
+            if board_dry and (action.get("action") or "").strip() == "request_deepen_target":
+                suppressed.append(action)
         if suppressed:
             autonomous_actions = [
                 a for a in autonomous_actions
-                if not _is_shallow_deepen_action(a)
+                if a not in suppressed
             ]
-            inbox.append(
-                "**suppressed autonomous action** (request_deepen_target) — "
-                "shallow-completed findings are advisory audit signals; "
-                "routing to human inbox instead of gauntlet"
-            )
+            if board_dry:
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    "BOARD is dry; completed-target deepen is not a refill path. "
+                    "Prefer fresh supply, held-ready candidates, or discovery/refill wait-state."
+                )
+            else:
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    "shallow-completed findings are advisory audit signals; "
+                    "routing to human inbox instead of gauntlet"
+                )
         if shallow and not _snapshot_has_active_refill(snapshot):
             if recent_shallow_deepen_rejections >= 4:
                 inbox.append(
