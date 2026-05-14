@@ -16,3 +16,17 @@ Now use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The Stre
 
 Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The seal-facing consumer is determined by that pullback, so the Phase Real and Completion boundary reads only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates already present in the terminal packet.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase terminal non-escape]
+\label{thm:streamname-open-phase-terminal-nonescape}
+Every Phase Real and Completion consumer satisfying the terminal finite packet route of \autoref{thm:streamname-open-phase-terminal-route} receives only the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It receives no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:streamname-open-phase-terminal-route}. It identifies the consumer route with the terminal finite packet and names the StreamName window, readback, ledger, seal row, observations, transports, displayed routes, provenance, and local naming rows that the packet exposes.
+
+Next apply \autoref{thm:streamname-common-refinement-terminal-real-seal} and \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. These results place the Phase Real and Completion read on the common-refinement terminal surface and lock the $\RegSeqRatUp$ readback and $\RealUp$ seal access to the same finite window.
+
+Use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row form one finite pullback, so a consumer read has no independent carrier route outside that packet.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Pullback seal determinacy exhausts the seal-facing read by the displayed packet coordinates, excluding quotient streams, host sequence equality, selected limits, ambient completeness rows, metric-completeness data, and standard bridge rows.
+\end{proof}
