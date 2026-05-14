@@ -449,4 +449,23 @@ theorem RegularCauchyTailMeetPacket_root_threshold_readback_determinacy [AskSetu
     cont_deterministic rootRoute rootRoute'
   exact ⟨rootUnary, rootUnary', sameRoot, m0m1Row, tauqRow, pkgRow⟩
 
+theorem RegularCauchyTailMeetPacket_root_modulus_route_exactness [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont q n rootRead ->
+        UnaryHistory m0 /\ UnaryHistory m1 /\ UnaryHistory tau /\ UnaryHistory q /\
+          UnaryHistory l /\ UnaryHistory rootRead /\ Cont m0 m1 tau /\ Cont tau q l /\
+            Cont q n rootRead /\ PkgSig bundle l pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet rootRoute
+  obtain ⟨_r0Unary, _r1Unary, _w0Unary, _w1Unary, m0Unary, m1Unary, tauUnary,
+    qUnary, _hUnary, _cUnary, lUnary, nUnary, _r0w0Row, _r1w1Row, m0m1Row,
+    tauqRow, pkgRow⟩ := packet
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed qUnary nUnary rootRoute
+  exact
+    ⟨m0Unary, m1Unary, tauUnary, qUnary, lUnary, rootUnary, m0m1Row, tauqRow,
+      rootRoute, pkgRow⟩
+
 end BEDC.Derived.RegularCauchyTailMeetUp

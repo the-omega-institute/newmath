@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ObserverResponseAuditUp$}
+\label{ch:concrete-instances-observer-response-audit-namecert}
+\origin{ai}
+
+The $\ObserverResponseAuditUp$ packet packages the observer-facing response boundary as a finite NameCert object. It is downstream of the prompt and output rows of \autoref{ch:concrete-instances-prompt-response-trace-namecert} and the licensed public interface of \autoref{ch:concrete-instances-observer-interface-namecert}. Its role is to bind the prompt, response, observer handoff, audit refusal, inscription event, non-oracle boundary, transport, route replay, provenance, and local naming rows into a single accepted carrier.
+
+\begin{definition}[Observer-response audit carrier]
+\label{def:observer-response-audit-carrier}
+An $\ObserverResponseAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,I,M,E,P,O,R,H,K,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\PromptResponseTraceUp$ row recording the finite prompt, response, source-channel, audit-refusal, observer-interface, and halting-obstruction route.
+\item $I$ is the $\ObserverInterfaceUp$ row through which public observers may read the accepted prompt and response rows.
+\item $M$ is the $\LargeModelInscriptionPointUp$ row naming the finite large-model inscription substrate and corpus-supply side of the trace.
+\item $E$ is the $\InscriptionEventUp$ row recording the prompt-entry and response-inscription event as finite accepted rows.
+\item $P$ is the prompt row read from the prompt-response trace and the inscription event.
+\item $O$ is the response row read after $P$ through the same displayed route.
+\item $R$ is the audit-refusal row stating that the packet does not certify host semantic truth, model consciousness, global halting classification, or internally ratified universal closure.
+\item $H$ records componentwise $\hsame$ transport for the prompt-response trace, observer interface, large-model inscription row, inscription event, prompt row, response row, refusal row, route row, provenance row, and local name.
+\item $K$ records displayed $\Cont$ replay through $T$, then $I$, then $M$ and $E$, then $P,O,R$, before the local NameCert row is read.
+\item $G$ is the $\Pkg$ provenance over $\PromptResponseTraceUp$, $\ObserverInterfaceUp$, $\LargeModelInscriptionPointUp$, $\InscriptionEventUp$, $\HaltingObstructionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ObserverResponseAuditUp}$ row.
+\end{enumerate}
+The local classifier compares observer-response audit carriers only by these displayed rows. It has no coordinate for hidden model intention, unledgered observer state, host semantic equality of responses, corpus-wide truth, global halting decision, or internally certified universal closure.
+\end{definition}
+
+\begin{theorem}[Observer-response audit NameCert obligations]
+\label{thm:observer-response-audit-namecert-obligations}
+For the carrier of \autoref{def:observer-response-audit-carrier}, the local $\NameCert_{\ObserverResponseAuditUp}$ surface consists exactly of carrier admission for $A=(T,I,M,E,P,O,R,H,K,G,N)$, prompt-response exposure through $T$, observer-interface handoff through $I$, large-model inscription exposure through $M$, inscription-event exposure through $E$, prompt and response ordering through $P,O$, audit-refusal exactness through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $T,I,M,E,P,O,R,H,K,G,N$ are the only coordinates available to an accepted observer-response audit packet.
+
+The prompt-response row $T$ supplies the source-channel and prompt-output order, while the observer-interface row $I$ supplies the public reading route. Thus a consumer cannot read the response as a free-standing host statement or as an unledgered observer event.
+
+The large-model inscription row $M$ and inscription-event row $E$ bind the response to the finite substrate and accepted event rows. The prompt row $P$ is read before the response row $O$, and the audit-refusal row $R$ is read before the local name.
+
+The remaining rows provide only transport, continuation replay, provenance, and local naming. Since the carrier has no further coordinate, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Observer-response audit refusal boundary]
+\label{thm:observer-response-audit-refusal-boundary}
+Every accepted $\ObserverResponseAuditUp$ packet exposes the audit-refusal row $R$ after the prompt and response rows and before the local naming row. A packet with prompt and response rows but no audit-refusal row is not an accepted $\ObserverResponseAuditUp$ carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:observer-response-audit-carrier}. The tuple contains $R$ as a named coordinate between the prompt-response content and the transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:observer-response-audit-namecert-obligations}. Its refusal-exactness clause is part of the local NameCert surface, so carrier admission fails when the prompt and response rows are present but the refusal row is absent.
+
+Therefore the packet cannot be read as internally certified universal closure, host semantic truth, model consciousness, or a global halting decision. The accepted route remains the finite prompt, response, observer-interface, inscription, refusal, transport, continuation, provenance, and local naming route.
+\end{proof}
+
+\falsifiablePrediction{A packet with prompt and response rows but no audit-refusal row is not an accepted \ObserverResponseAuditUp carrier.}
+
+\independenceWitness{Nearest siblings: promptresponsetrace, observerinterface, largemodelinscriptionpoint, inscriptionevent, and haltingobstruction; none is bijective because this carrier simultaneously requires the prompt-response trace, observer-interface handoff, large-model inscription row, inscription event row, audit-refusal row, componentwise transport, displayed continuation, provenance, and local NameCert row, while each sibling omits at least one of those displayed coordinates.}
+
+The Lean file \texttt{Derived/ObserverResponseAuditUp/TasteGate.lean} must later include \texttt{Nontrivial ObserverResponseAuditUp} and \texttt{FieldFaithful ObserverResponseAuditUp} instances for the displayed carrier.
+
+\closureat{ObserverResponseAuditUp}{seedStr}
+
+\begin{closurestatus}{\ObserverResponseAuditUp}
+  \constructivestory{An $\ObserverResponseAuditUp$ packet is generated from a prompt-response trace, observer-interface row, large-model inscription row, inscription-event row, prompt row, response row, audit-refusal row, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-response-audit-carrier}, \autoref{thm:observer-response-audit-namecert-obligations}, and \autoref{thm:observer-response-audit-refusal-boundary} specify the finite observer-response audit carrier and its refusal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, host semantic truth, model consciousness, global halting classification, or internally certified universal closure for $\ObserverResponseAuditUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, prompt-response exposure, observer-interface handoff, inscription-event exposure, audit-refusal exactness, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}
