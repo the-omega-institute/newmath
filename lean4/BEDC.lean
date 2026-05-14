@@ -454,6 +454,7 @@ import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
+import BEDC.Derived.ObserverHsameClassifierUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
