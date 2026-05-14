@@ -67,6 +67,42 @@ Apply \autoref{thm:large-model-audit-channel-namecert-obligations}. Any accepted
 If $C$ is removed, the remaining packet still contains a prompt and an output but no displayed evaluation harness or proof-checking surface. The consumer then has no finite coordinate by which to separate inspected output from unaudited emission.
 \end{proof}
 
+\begin{theorem}[LargeModelAuditChannel checker exposure]
+\label{thm:large-model-audit-channel-checker-exposure}
+Every audited-output read of an accepted $\LargeModelAuditChannelUp$ carrier must expose the checker row $C$ after the prompt row $Q$ and output row $O$ and before any acceptance of the output as audited. The row $C$ is the displayed finite harness, proof checker, policy checker, or replay procedure by which the output inscription is inspected.
+\end{theorem}
+\begin{proof}
+Project the carrier $A=(M,Q,O,C,R,U,V,H,K,P,N)$ of \autoref{def:large-model-audit-channel-carrier}. The prompt and output rows are $Q$ and $O$, while $C$ is the only coordinate naming the finite checking procedure.
+
+Apply \autoref{thm:large-model-audit-channel-namecert-obligations}. It orders the public read through prompt exposure, output exposure, checker exposure, refusal exposure, membrane handoff, route replay, provenance, and local naming.
+
+Thus an output cannot be accepted as audited before $C$ is displayed. Without that row the packet still carries an emitted inscription, but it does not carry the consumer-facing checker surface required by the local $\NameCert$ packet.
+\end{proof}
+
+\begin{theorem}[LargeModelAuditChannel refusal exactness]
+\label{thm:large-model-audit-channel-refusal-exactness}
+For an accepted $\LargeModelAuditChannelUp$ carrier, the refusal row $R$ is exact for rejected claims, unsupported checker outcomes, and unverifiable universal closures. A consumer can read such a negative audit result only through $R$ together with the displayed checker row $C$ and the route rows $V,K$.
+\end{theorem}
+\begin{proof}
+Start with the carrier row $R$ in \autoref{def:large-model-audit-channel-carrier}. Its listed contents are rejected claims, unverifiable universal closures, policy refusals, and unsupported checker outcomes.
+
+Use \autoref{thm:large-model-audit-channel-namecert-obligations}. The local NameCert surface exposes refusal through $R$ and replay through $V$ and $K$ after the checker row $C$ has been displayed.
+
+Now apply \autoref{thm:large-model-audit-channel-audited-output-boundary}. Every audited-output read factors through $Q,O,C,R,U,V,K,P,N$, so no rejected or unsupported result can be read from a hidden evaluator, model-side intention, or unchecked continuation outside the displayed refusal row.
+\end{proof}
+
+\begin{theorem}[LargeModelAuditChannel membrane route replay]
+\label{thm:large-model-audit-channel-membrane-route-replay}
+Every public channel read of an accepted $\LargeModelAuditChannelUp$ carrier replays the audit membrane row $U$ and the route rows $V,K$. The replay exposes prompt, output, checker, refusal, provenance, and local naming through the public channel and exports no hidden model state, private evaluator access, or unchecked route around the membrane.
+\end{theorem}
+\begin{proof}
+Read the membrane and route coordinates from the carrier. The row $U$ is the public audit membrane, while $V$ records the displayed continuation and $K$ records the accepted $\Cont$ replay.
+
+Apply \autoref{thm:large-model-audit-channel-namecert-obligations}. The consumer-facing NameCert packet obtains audited output only after membrane handoff through $U$ and route replay through $V$ and $K$ are displayed.
+
+Then use \autoref{thm:large-model-audit-channel-audited-output-boundary}. Since every audited-output read factors through the same displayed rows, the public channel has no coordinate for hidden model state, private evaluator access, or an unchecked continuation around the membrane route.
+\end{proof}
+
 \falsifiablePrediction{If the checker row is absent, the packet cannot distinguish audited output from an unaudited model emission.}
 
 \independenceWitness{largemodelinscriptionpoint, inscriptionevent, inscription-acceptance-budget, auditmembrane, observerinterface: none is bijective because the audit-channel packet carries prompt, output, checker, refusal, route, provenance, and local NameCert rows together.}
@@ -74,11 +110,12 @@ If $C$ is removed, the remaining packet still contains a prompt and an output bu
 The future Lean TasteGate namespace $\mathsf{BEDC.Derived.LargeModelAuditChannelUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \LargeModelAuditChannelUp$ and $\mathsf{FieldFaithful}\ \LargeModelAuditChannelUp$ instances for this finite carrier.
 
 \closureat{LargeModelAuditChannelUp}{seedStr}
+\closureat{LargeModelAuditChannelUp}{obligationStr}[BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LargeModelAuditChannelUp}
   \constructivestory{A $\LargeModelAuditChannelUp$ packet is generated from a large-model inscription row, prompt row, output row, checker row, refusal row, audit membrane, displayed route, componentwise transport, replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:large-model-audit-channel-carrier}, \autoref{def:large-model-audit-channel-classifier}, \autoref{thm:large-model-audit-channel-namecert-obligations}, and \autoref{thm:large-model-audit-channel-audited-output-boundary} specify the finite consumer-facing audit-channel packet for large-model output records.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:large-model-audit-channel-carrier}, \autoref{def:large-model-audit-channel-classifier}, \autoref{thm:large-model-audit-channel-namecert-obligations}, \autoref{thm:large-model-audit-channel-audited-output-boundary}, \autoref{thm:large-model-audit-channel-checker-exposure}, \autoref{thm:large-model-audit-channel-refusal-exactness}, \autoref{thm:large-model-audit-channel-membrane-route-replay}, and \leanchecked{BEDC.Derived.LargeModelAuditChannelUp.taste\_gate} specify the finite consumer-facing audit-channel packet and its concrete obligation rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
