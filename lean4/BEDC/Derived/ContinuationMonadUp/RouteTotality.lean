@@ -129,4 +129,80 @@ theorem ContinuationMonadCarrier_root_category_generator_namecert_source_lock
       unaryCategory, unaryGenerator, unaryPublicRead, routeB, routeC, routeK, routeL,
       categoryRoute, generatorRoute, publicRoute, sameEndpoint, publicPkg, cert⟩
 
+theorem ContinuationMonadCarrier_displayed_bind_readback_exhaustion
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N bindRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      Cont K L bindRead ->
+        PkgSig bundle bindRead pkg ->
+          UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧
+            UnaryHistory g ∧ UnaryHistory u ∧ UnaryHistory K ∧ UnaryHistory L ∧
+              UnaryHistory bindRead ∧ Cont A f B ∧ Cont B g C ∧ Cont f g K ∧
+                Cont K u L ∧ Cont K L bindRead ∧ hsame N L ∧
+                  PkgSig bundle bindRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier bindReadRoute bindReadPkg
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  have unaryBindRead : UnaryHistory bindRead :=
+    unary_cont_closed unaryK unaryL bindReadRoute
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, unaryK, unaryL, unaryBindRead,
+      routeB, routeC, routeK, routeL, bindReadRoute, sameEndpoint, bindReadPkg⟩
+
+theorem ContinuationMonadCarrier_root_consumer_nonescape
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N category generator formal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      Cont L N category ->
+        Cont category K generator ->
+          Cont generator u formal ->
+            Cont formal N consumer ->
+              PkgSig bundle consumer pkg ->
+                UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧
+                  UnaryHistory g ∧ UnaryHistory u ∧ UnaryHistory K ∧ UnaryHistory L ∧
+                    UnaryHistory N ∧ UnaryHistory category ∧ UnaryHistory generator ∧
+                      UnaryHistory formal ∧ UnaryHistory consumer ∧ Cont A f B ∧
+                        Cont B g C ∧ Cont f g K ∧ Cont K u L ∧ Cont L N category ∧
+                          Cont category K generator ∧ Cont generator u formal ∧
+                            Cont formal N consumer ∧ hsame N L ∧
+                              PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier categoryRoute generatorRoute formalRoute consumerRoute consumerPkg
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryL (hsame_symm sameEndpoint)
+  have unaryCategory : UnaryHistory category :=
+    unary_cont_closed unaryL unaryN categoryRoute
+  have unaryGenerator : UnaryHistory generator :=
+    unary_cont_closed unaryCategory unaryK generatorRoute
+  have unaryFormal : UnaryHistory formal :=
+    unary_cont_closed unaryGenerator unaryU formalRoute
+  have unaryConsumer : UnaryHistory consumer :=
+    unary_cont_closed unaryFormal unaryN consumerRoute
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, unaryK, unaryL, unaryN,
+      unaryCategory, unaryGenerator, unaryFormal, unaryConsumer, routeB, routeC,
+      routeK, routeL, categoryRoute, generatorRoute, formalRoute, consumerRoute,
+      sameEndpoint, consumerPkg⟩
+
 end BEDC.Derived.ContinuationMonadUp
