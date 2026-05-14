@@ -42,7 +42,6 @@ source packets;
 The carrier exports only the displayed gate rows, boundary rows, refusal rows,
 composed trace, transport, replay, provenance, and local naming rows.
 \end{definition}
-\leanchecked{BEDC.Derived.AuditGateCompositionUp.AuditGateCompositionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Audit-gate composition NameCert obligations]
 \label{thm:audit-gate-composition-namecert-obligations}
@@ -316,15 +315,92 @@ $\NameCert$ row $N$ can only package the refusal trace already displayed by
 the packet.
 \end{proof}
 
+\begin{theorem}[Audit-gate composition root-boundary totality]
+\label{thm:audit-gate-composition-root-boundary-totality}
+Every root read of an accepted $\AuditGateCompositionUp$ packet exposes the
+two audit-gate rows, both boundary-content rows, both refusal rows, the
+shared-boundary transport, the replay row, the package row, and the local
+NameCert row. The root packet has no public coordinate outside
+$G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N$ for reinterpreting the composed refusal
+trace as a host permission or as an external boundary oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of
+\autoref{def:audit-gate-composition-carrier}. Its displayed coordinates are
+exactly the two gate rows, two boundary rows, two refusal rows, composed
+trace, transport row, replay row, package provenance, and local NameCert
+row.
+
+Apply the NameCert obligations of
+\autoref{thm:audit-gate-composition-namecert-obligations}. They expose the
+first gate, second gate, shared boundary, composed refusal replay, and
+consumer non-escape obligations over the same tuple.
+
+The refusal-replay totality theorem and the consumer-permission exclusion
+theorem then exhaust the root read. Since the carrier contains no further
+coordinate, the root boundary cannot export a permission row, host repair
+row, or external boundary oracle.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition operational membrane route]
+\label{thm:audit-gate-composition-operational-membrane-route}
+Every operational-membrane consumption route for an accepted
+$\AuditGateCompositionUp$ packet is consumed only through the
+$\AuditGateBoundaryUp$, $\OperationalMembraneUp$, and $\AuditMembraneUp$
+surfaces named by the carrier provenance. The composed route cannot bypass
+these named surfaces by reading an ambient membrane, a detached host policy,
+or an unlisted audit row.
+\end{theorem}
+\begin{proof}
+Read the provenance row $P$ in the carrier. It names
+$\AuditGateBoundaryUp$, $\OperationalMembraneUp$, $\AuditMembraneUp$, the
+forbidden-ancestry audit rows, paper-Lean drift rows, and the local
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ sources.
+
+Use the sibling dependency route theorem
+\autoref{thm:audit-gate-composition-sibling-dependency-route}. It forces the
+composed refusal trace to consume the audit-gate boundary and operational
+membrane rows before the local packet exports $Q$.
+
+Finally apply consumer non-escape and consumer-permission exclusion. These
+two boundaries leave no coordinate for an ambient membrane read, detached
+host policy, or unlisted audit row, so the operational route remains inside
+the three named membrane surfaces.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition downstream ledger exhaustion]
+\label{thm:audit-gate-composition-downstream-ledger-exhaustion}
+Every downstream ledger read of an accepted $\AuditGateCompositionUp$ packet
+exhausts the composed refusal trace $R_0 \longmapsto R_1 \longmapsto Q$.
+The exported ledger contains no bypass, host repair, external ancestry
+oracle, permission row, skipped-gate witness, or policy-weakening coordinate.
+\end{theorem}
+\begin{proof}
+Start from refusal transitivity. It orders the two refusal rows through the
+shared-boundary transport and states that every public read of the composed
+surface factors through $Q$.
+
+Refusal-replay totality then identifies the downstream ledger as the route
+through $R_0$, the transported boundary row, $R_1$, and $Q$. The package and
+local name rows only record that displayed route.
+
+Consumer-permission exclusion supplies the final exhaustion step. A bypass,
+host repair, external ancestry oracle, permission row, skipped-gate witness,
+or policy-weakening coordinate would require an additional public row, but
+the accepted carrier exports only the displayed finite ledger.
+\end{proof}
+
 \closureat{AuditGateCompositionUp}{seedStr}
+\closureat{AuditGateCompositionUp}{obligationStr}[BEDC.Derived.AuditGateCompositionUp.AuditGateCompositionTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\AuditGateCompositionUp}
   \constructivestory{An $\AuditGateCompositionUp$ packet is generated from two audit-gate rows, two boundary-content rows, two refusal-result rows, a composed refusal trace, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:audit-gate-composition-carrier}, \autoref{thm:audit-gate-composition-namecert-obligations}, \autoref{thm:audit-gate-composition-refusal-transitivity}, and \autoref{thm:audit-gate-composition-consumer-nonescape} bind composed audit-gate surfaces as a finite NameCert packet.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:audit-gate-composition-carrier}, \autoref{thm:audit-gate-composition-namecert-obligations}, \autoref{thm:audit-gate-composition-refusal-transitivity}, \autoref{thm:audit-gate-composition-consumer-nonescape}, \autoref{thm:audit-gate-composition-consumer-permission-exclusion}, \autoref{thm:audit-gate-composition-root-boundary-totality}, \autoref{thm:audit-gate-composition-operational-membrane-route}, \autoref{thm:audit-gate-composition-downstream-ledger-exhaustion}, and \leanchecked{BEDC.Derived.AuditGateCompositionUp.taste\_gate} bind the root boundary, membrane route, downstream refusal ledger, and checked TasteGate instance of the finite audit-gate composition packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AuditGateCompositionUp.AuditGateCompositionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, audit-policy completeness, external ancestry search, marker repair, operational-membrane override, or a public standard bridge.}
-  \upgradepath{Scoped closure requires checked carrier admission, shared-boundary transport, refusal-transitivity replay, and consumer non-escape for the same finite audit-gate composition packet.}
+  \notclaimed{This chapter does not close audit-policy completeness, external ancestry search, marker repair, operational-membrane override, or a public standard bridge.}
+  \upgradepath{Scoped closure requires the same finite gate-composition packet to expose a public dependency scope for the root boundary, operational membrane route, downstream refusal ledger, and checked carrier alignment.}
 \end{closurestatus}
