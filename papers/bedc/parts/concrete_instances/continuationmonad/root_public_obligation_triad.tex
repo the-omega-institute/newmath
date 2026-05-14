@@ -1,0 +1,80 @@
+\begin{theorem}[ContinuationMonad root public obligation triad]
+\label{thm:continuation-monad-root-public-obligation-triad}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, the root public surface exposes one obligation
+triad: the source histories $A,B,C$, the continuation tails $f,g,u$, and the
+NameCert rows $H,K,L,N$. Any downstream root consumer that reads the
+$\BHist$, $\Cont$, $\Pkg$, or $\NameCert$ face of $Z$ receives that triad
+before it can consume a Category, generator-boundary, or Kleisli route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-carrier-obligation} and
+\autoref{thm:continuation-monad-root-source-coverage}. They expose
+$A,B,C,f,g,u,H,K,L,N$ as the finite source read of the accepted packet.
+
+Next use \autoref{thm:continuation-monad-generator-category-triad}. It
+identifies the Category and generator-boundary faces as readings of the same
+displayed source histories, continuation tails, transports, routes, ledger,
+and local name.
+
+Finally apply
+\autoref{thm:continuation-monad-downstream-unblock-route-package}. Since
+every public root consumer is routed through the same $\BHist$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows, the triad is the public obligation surface and
+not a host Kleisli object or an ambient category object.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root public generator boundary]
+\label{thm:continuation-monad-root-public-generator-boundary}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, a public root generator read is admitted only
+through the displayed continuation tails $f,g,u$, route row $K$, ledger row
+$L$, package provenance, and local $\NameCert$ row $N$. The boundary exports
+no unit rule, bind rule, continuation generator, host evaluator, quotient
+Kleisli arrow, or ambient hom set outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read the root source through
+\autoref{thm:continuation-monad-root-kleisli-source-totality}. It exhausts
+the source by $A,B,C,f,g,u,H,K,L,N$ before any generator-facing route is
+visible.
+
+Apply the generator boundary readback of
+\autoref{thm:continuation-monad-root-generator-boundary-readback}. The
+generator face is the authorized refusal boundary attached to the same
+finite packet.
+
+Use \autoref{thm:continuation-monad-root-generator-bind-coverage} to close
+the public boundary. It places generator consumers behind the displayed
+source, bind schedule, unit row, transports, route, provenance, and local
+name, leaving no coordinate for an unlisted generator or host Kleisli
+operation.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root public Kleisli readback]
+\label{thm:continuation-monad-root-public-kleisli-readback}
+Every root public Kleisli readback of an accepted $\ContinuationMonadUp$
+packet $Z=(A,B,C,f,g,u,H,K,L,N)$ is total on the displayed finite packet: it
+reads the source histories, continuation tails, unit tail, componentwise
+$\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, ledger, and
+local $\NameCert$ row before any downstream monad consumer receives the
+surface. It exports no host function composition, quotient Kleisli category,
+ambient category completion, external evaluator, or unlisted continuation
+rule.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:continuation-monad-root-kleisli-associativity-surface}. It
+identifies unit, bind, and associativity reads as the finite replay surface
+over $A,B,C,f,g,u,H,K,L,N$.
+
+Next use \autoref{thm:continuation-monad-root-public-obligation-triad}. The
+public source exposure, continuation tails, and NameCert rows are already
+fixed before a downstream consumer reads the Kleisli face.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-monad-package}.
+The package consumes the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+Category hom, generator boundary, and local $\NameCert$ rows, so the public
+Kleisli readback is total on the displayed packet and has no external
+evaluator or quotient-category coordinate.
+\end{proof}

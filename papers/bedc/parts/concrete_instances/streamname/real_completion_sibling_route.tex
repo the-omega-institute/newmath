@@ -1,0 +1,11 @@
+\begin{theorem}[StreamName Real-completion sibling route]
+\label{thm:streamname-real-completion-sibling-route}
+Every finite-window $\StreamNameUp$ read consumed by the Real and Completion route factors through the sibling surfaces \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before it can become $\RealUp$ seal data. The route exposes finite-window transport and Real handoff rows only; it does not turn a stream window into quotient stream equality or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the existing Real handoff rows for $\StreamNameUp$. They expose a finite-window read before any Real-facing consumer can inspect the stream data.
+
+Apply the finite-window transport rows already carried by the StreamName child files. These rows keep the window index, transport budget, and common refinement data inside the displayed $\StreamNameUp$ packet.
+
+The sibling route then passes through \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The regular-rational row supplies the finite sequence handoff, the dyadic row supplies the tolerance ledger, and the Real row supplies only the terminal seal data.
+\end{proof}
