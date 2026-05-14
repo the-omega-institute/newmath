@@ -282,16 +282,18 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
         raw = output_file.read_text(encoding="utf-8", errors="replace")
     if not raw:
         raw = stdout
+    if not raw and rc != 0:
+        raw = stderr
     return (rc == 0, raw, rc)
 
 
-def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
+def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str, str]:
     ok, stdout, rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
     if ok:
         parsed = _extract_json_object(stdout)
         if parsed:
             parsed.setdefault("_review_source", "claude")
-            return (True, parsed, "claude", stdout)
+            return (True, parsed, "claude", stdout, "")
         claude_error = "claude output was not JSON"
     else:
         claude_error = f"claude unavailable rc={rc}: {stdout[:500]}"
@@ -310,13 +312,56 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
         log_tag="pi_v1_review_codex_fallback",
     )
     if not ok:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed = _extract_json_object(raw)
     if not parsed:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed.setdefault("_review_source", "codex_fallback")
     parsed.setdefault("_fallback_reason", claude_error[:500])
-    return (True, parsed, "codex_fallback", raw)
+    return (True, parsed, "codex_fallback", raw, "")
+
+
+def _planner_error_kind(raw: str, *, rc: int, claude_error: str = "") -> str:
+    text = " ".join(str(raw or "").split()).lower()
+    claude_text = str(claude_error or "").lower()
+    claude_kind = ""
+    if "not logged in" in claude_text or "please run /login" in claude_text:
+        claude_kind = "claude_not_logged_in"
+    elif "claude output was not json" in claude_text:
+        claude_kind = "claude_non_json"
+    elif "claude unavailable" in claude_text:
+        claude_kind = "claude_unavailable"
+
+    codex_kind = ""
+    if "failed to initialize in-process app-server client" in text:
+        codex_kind = "codex_sandbox_init_failed"
+    elif "operation not permitted" in text:
+        codex_kind = "codex_operation_not_permitted"
+    elif "timed out" in text:
+        codex_kind = "codex_timeout"
+    if claude_kind or codex_kind:
+        return "planner_unavailable:" + "+".join(
+            part for part in (claude_kind, codex_kind) if part
+        )
+    if rc != 0:
+        if not text:
+            return f"planner_fallback_empty_rc:{rc}"
+        return f"planner_fallback_failed_rc:{rc}"
+    if not text:
+        return "planner_fallback_empty_output"
+    return "planner_fallback_non_json_output"
 
 
 # ---------------------------------------------------------------------------
@@ -603,6 +648,33 @@ def _is_shallow_deepen_action(action: dict) -> bool:
         and (action.get("action") or "").strip() == "request_deepen_target"
         and action.get("source") == "pi_agent_v1_shallow_completed_heuristic"
     )
+
+
+def _board_is_dry(snapshot: dict) -> bool:
+    try:
+        return int(snapshot.get("board_unfinished") or 0) == 0
+    except (TypeError, ValueError):
+        return False
+
+
+def _should_suppress_deepen_action(action: dict, snapshot: dict) -> tuple[bool, str]:
+    if not isinstance(action, dict):
+        return (False, "")
+    if (action.get("action") or "").strip() != "request_deepen_target":
+        return (False, "")
+    if _board_is_dry(snapshot):
+        return (
+            True,
+            "BOARD is dry; completed-target deepen is not a refill path. "
+            "Prefer fresh supply, held-ready candidates, or discovery/refill wait-state.",
+        )
+    if _is_shallow_deepen_action(action):
+        return (
+            True,
+            "shallow-completed findings are advisory audit signals; "
+            "routing to human inbox instead of gauntlet",
+        )
+    return (False, "")
 
 
 def _snapshot_has_active_refill(snapshot: dict) -> bool:
@@ -1471,7 +1543,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     template = PI_V1_PROMPT_PATH.read_text(encoding="utf-8")
     snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)
     prompt = template.format(snapshot=_safe(snapshot_blob[:30000]))
-    ok, plan, review_source, stdout = _run_pi_planner(prompt)
+    ok, plan, review_source, stdout, error_kind = _run_pi_planner(prompt)
 
     applied: list[dict] = []
     inbox: list[str] = []
@@ -1497,20 +1569,26 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
             recent_pi_cycles,
         )
-        suppressed = [
-            a for a in autonomous_actions
-            if _is_shallow_deepen_action(a)
-        ]
+        suppressed = []
+        suppressed_reasons: list[str] = []
+        for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                suppressed.append(action)
+                if suppress_reason and suppress_reason not in suppressed_reasons:
+                    suppressed_reasons.append(suppress_reason)
         if suppressed:
             autonomous_actions = [
                 a for a in autonomous_actions
-                if not _is_shallow_deepen_action(a)
+                if a not in suppressed
             ]
-            inbox.append(
-                "**suppressed autonomous action** (request_deepen_target) — "
-                "shallow-completed findings are advisory audit signals; "
-                "routing to human inbox instead of gauntlet"
-            )
+            if not suppressed_reasons:
+                suppressed_reasons.append("request_deepen_target is not safe for autonomous execution")
+            for reason in suppressed_reasons:
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    + reason
+                )
         if shallow and not _snapshot_has_active_refill(snapshot):
             if recent_shallow_deepen_rejections >= 4:
                 inbox.append(
@@ -1535,6 +1613,16 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
 
         deepen_seen = False
         for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                inbox.append(
+                    "**blocked autonomous action** (request_deepen_target) — "
+                    + (
+                        suppress_reason
+                        or "request_deepen_target is not safe for autonomous execution"
+                    )
+                )
+                continue
             if (action.get("action") or "").strip() == "request_deepen_target":
                 if deepen_seen:
                     inbox.append("**blocked autonomous action** (request_deepen_target) — one deepen action already emitted this cycle")
@@ -1585,6 +1673,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "ts": _now_iso(),
         "ok": ok,
         "review_source": review_source,
+        "error_kind": error_kind,
         "snapshot_summary": {
             "branch": snapshot.get("current_branch"),
             "completion_rates": snapshot.get("completion_rates"),

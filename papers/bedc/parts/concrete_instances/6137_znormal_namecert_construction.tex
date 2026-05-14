@@ -141,6 +141,30 @@ Use the displayed continuation routes in $C$. They replay the path from $T$ thro
 The row $K$ is a sibling normal-word coordinate rather than a terminal readback source. Since no coordinate names host conversion, quotient computation, unrestricted evaluation, or a global normalizer, every accepted terminal read is exactly the displayed finite readback surface.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ terminal fuel route admission]
+\label{thm:znormal-terminal-fuel-route-admission}
+For any accepted $\ZNormalUp$ packet, every terminal read must expose the finite sequence $T,F,V,R$ before consumer use. The sequence is transported only by the displayed $\hsame$ row $H$, replayed only by the displayed $\Cont$ row $C$, packaged only by $P$, and named only by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The terminal-facing rows are the typed endpoint $T$, finite fuel $F$, terminal-normality row $V$, and continuation terminal-read row $R$.
+
+Use \autoref{thm:znormal-continuation-terminal-route} and \autoref{thm:znormal-terminal-readback-exactness}. They place $R$ after $T,F,V$ and keep the terminal read inside the displayed finite route.
+
+The structural rows are exactly $H,C,P,N$. They transport, replay, package, and name the route, and no other carrier coordinate can admit a terminal read before the finite fuel and terminal-normality rows have been displayed.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ finite host boundary refusal]
+\label{thm:znormal-finite-host-boundary-refusal}
+No accepted $\ZNormalUp$ packet route can replace the displayed rows $T,F,V,R$ by host conversion, quotient computation, divergence oracle, unrestricted evaluator, or global normalizer. Every accepted route remains a $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$-local read of the finite carrier.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:znormal-carrier}. It lists $T,F,V,K,R,H,C,P,N$ as the complete packet and names no host conversion row, quotient computation, divergence oracle, unrestricted evaluator, or global normalizer.
+
+Apply \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-terminal-fuel-route-admission}. The terminal claim is read through finite fuel and terminal normality before the continuation row is consumed.
+
+Finally use \autoref{thm:znormal-route-transport}. The only movement available to the packet is through $H,C,P,N$, so an accepted route cannot substitute any excluded host or quotient object for the displayed terminal fuel rows.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ sibling normal-word handoff]
 \label{thm:znormal-sibling-normalword-handoff}
 The $K$ row of an accepted $\ZNormalUp$ packet may consume the sibling surfaces of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} only as displayed finite evidence. It does not provide host computation, a conversion oracle, a quotient normalizer, or a proof that all external computations normalize.
@@ -548,6 +572,211 @@ Use \autoref{thm:znormal-terminal-normality-consumer-gate} for the continuation 
 Apply \autoref{thm:znormal-root-unblock-nonescape-ledger} and \autoref{thm:znormal-total-host-refusal-exhaustion}. These exhaust root-facing reads through the displayed transport, continuation, package, and naming ledger, and refuse total-host requests that do not factor through the packet.
 
 Thus the ledger has no exported coordinate from which a divergence oracle, host conversion, quotient computation, unrestricted evaluator, or global normalizer could be read.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal consumer totality]
+\label{thm:znormal-terminal-consumer-totality}
+Let
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+be an accepted $\ZNormalUp$ packet. Every terminal normal-form consumer that reads $R$ or $K$ must first pass through carrier admission, the local $\NameCert_{\ZNormalUp}$ obligations, terminal-normality consumer gate, and total-host refusal exhaustion. The consumer therefore reads only the typed endpoint, finite fuel, terminal-normality, finite normal-word, terminal continuation, transport, replay, package, and local naming rows $T,F,V,K,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with finite-fuel carrier admission. \autoref{thm:znormal-finite-fuel-carrier-admission} exposes $T,F,V,K,R,H,C,P,N$ as one finite $\BHist$ packet and gives no coordinate outside that packet to a terminal consumer.
+
+Next apply the NameCert obligations and the terminal-normality consumer gate. The obligation surface binds the local naming row to the carrier, while \autoref{thm:znormal-terminal-normality-consumer-gate} places any continuation read behind $T,F,V$ and transports it only through $H,C,P,N$.
+
+Finally use no-divergence and total-host refusal. \autoref{thm:znormal-no-divergence-oracle-ledger} and \autoref{thm:znormal-total-host-refusal-exhaustion} exhaust the terminal-facing reads by the displayed rows, so the consumer has no route to host conversion, quotient computation, unrestricted evaluation, a divergence oracle, or a global normalizer.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ finite-route readback boundary]
+\label{thm:znormal-finite-route-readback-boundary}
+For an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every downstream readback of a normal word or terminal continuation factors through the finite routes certified by \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-continuation-normal-word-pullback}. The readback boundary is $T,F,V,K,R,H,C,P,N$ and no host conversion, quotient computation, divergence oracle, unrestricted evaluator, or global normalizer is exposed at that boundary.
+\end{theorem}
+\begin{proof}
+Begin with the terminal readback exactness theorem. It makes $R$ a readback row of the accepted packet rather than a host-side evaluator result.
+
+Now attach the normal-word row. \autoref{thm:znormal-sibling-normalword-handoff} reads $K$ through the finite sibling normal-word surfaces, and \autoref{thm:znormal-continuation-normal-word-pullback} binds $K$ and $R$ into one transported and replayed route through $H,C,P,N$.
+
+The total-host refusal theorem closes the boundary. Since any total-host request that does not factor through the packet is refused, the finite readback route cannot be replaced by host conversion, quotient computation, a divergence oracle, unrestricted evaluation, or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream normal-form package]
+\label{thm:znormal-downstream-normal-form-package}
+Every downstream normal-form consumer of an accepted $\ZNormalUp$ packet factors through the finite package
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The package is assembled from carrier admission, local $\NameCert$ obligations, terminal consumer totality, finite-route readback boundary, no-divergence ledger, continuation normal-word pullback, and total-host refusal exhaustion. It exports no host conversion, quotient computation, divergence oracle, unrestricted evaluator, total host computation, substrate halting row, or global normalizer.
+\end{theorem}
+\begin{proof}
+First expose the packet. The carrier admission theorem and the local NameCert obligations make $T,F,V,K,R,H,C,P,N$ the complete finite inventory available to a downstream normal-form consumer.
+
+Next apply terminal consumer totality and finite-route readback boundary. The first theorem forces terminal consumers through $T,F,V,K,R,H,C,P,N$, and the second places normal-word and continuation readbacks on the same transported finite route.
+
+Finally combine the no-divergence ledger, continuation normal-word pullback, and total-host refusal exhaustion. These results exhaust all public normal-form reads through the displayed rows and refuse every host-side or quotient-style request that lacks a coordinate in the accepted packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ TasteGate scope binding]
+\label{thm:znormal-tastegate-scope-binding}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the finite rows $T,F,V,K,R,H,C,P,N$ are the exact field surface later consumed
+by \texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp}. The
+TasteGate-facing surface reads typed endpoint, finite fuel, terminal
+normality, finite sibling normal-word evidence, terminal continuation,
+componentwise transport, displayed continuation, package provenance, and local
+NameCert rows, and it exports no host conversion, quotient computation,
+unrestricted evaluation, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Begin with finite-fuel carrier admission and the local NameCert obligations.
+They expose exactly $T,F,V,K,R,H,C,P,N$ as one finite $\BHist$ packet and bind
+the same rows to the local $\NameCert_{\ZNormalUp}$ surface.
+
+Apply the displayed TasteGate contract row through the normal-form package. The
+consumer receives the terminal and sibling evidence already routed through the
+packet, so the later Nontrivial and FieldFaithful instances consume the same
+field surface rather than a host-side computation.
+
+Finally use the fuel non-escape and total-host refusal rows. Since the packet
+contains no coordinate for host conversion, quotient computation, unrestricted
+evaluation, divergence, or global normalization, the TasteGate scope is exactly
+the displayed finite field surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal fuel field scope]
+\label{thm:znormal-terminal-fuel-field-scope}
+Every terminal-normality read of an accepted $\ZNormalUp$ packet factors
+through the finite chain
+$$
+T \to F \to V \to R,
+$$
+with $K$ available only as finite Zeckendorf and carry-facing sibling evidence.
+The structural rows $H,C,P,N$ transport, replay, package, and name this chain;
+they do not replace it by host conversion, quotient computation, unrestricted
+evaluation, divergence detection, or global normalization.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:znormal-terminal-normality-consumer-gate}. It places every
+continuation read behind the typed endpoint $T$, finite fuel $F$, and
+terminal-normality row $V$ in the same packet.
+
+Next apply terminal readback exactness and sibling normal-word handoff. The
+readback row is $R$, while $K$ remains finite sibling evidence through the
+Zeckendorf and carry-facing surfaces.
+
+The route transport theorem supplies the only structural movement. Rows
+$H,C,P,N$ transport, replay, package, and name the finite chain, and fuel
+non-escape rules out any replacement by an omitted host or global object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host consumer scope]
+\label{thm:znormal-total-host-consumer-scope}
+No total-host consumer of an accepted $\ZNormalUp$ packet can read divergence,
+host conversion, quotient computation, unrestricted evaluation, or global
+normalization from the packet. Every such consumer is confined to
+$$
+T,F,V,K,R,H,C,P,N
+$$
+and to the finite sibling routes named by $K$ and $R$.
+\end{theorem}
+\begin{proof}
+Start with the total-host refusal exhaustion theorem. It already confines
+total-host requests to the displayed packet and the finite sibling surfaces
+cited by the normal-word and continuation rows.
+
+Use the terminal fuel field scope above to isolate the terminal-normality
+chain. Then use the continuation normal-word pullback to keep $K$ and $R$ in
+one transported, replayed, packaged, and named packet.
+
+Finally apply the no-divergence oracle ledger and root non-escape ledger.
+Together they exhaust all consumer reads through the displayed rows, so none
+of the excluded host, quotient, evaluator, divergence, or global-normalization
+objects is available.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal fuel row exhaustion]
+\label{thm:znormal-terminal-fuel-row-exhaustion}
+Every terminal-normality read of an accepted $\ZNormalUp$ packet is exhausted
+by the rows
+$$
+T,F,V,R,H,C,P,N.
+$$
+The row $K$ contributes only the finite Zeckendorf and carry-facing sibling
+normal-word surface already available to the packet, and the TasteGate-facing
+consumer surface is the same field surface later used by
+\texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:znormal-terminal-fuel-field-scope}. It places each
+terminal-normality read behind $T,F,V,R$ and uses $H,C,P,N$ only as transport,
+replay, package, and naming rows.
+
+Next use \autoref{thm:znormal-total-host-consumer-scope}. A consumer that asks
+for host conversion, quotient computation, divergence, unrestricted
+evaluation, or global normalization receives no additional row.
+
+The remaining sibling evidence is exactly the finite handoff of
+\autoref{thm:znormal-sibling-normalword-handoff}. Thus the TasteGate boundary
+seen by later Nontrivial and FieldFaithful instances is the displayed finite
+surface, not a host evaluator.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-word sibling exactness]
+\label{thm:znormal-normal-word-sibling-exactness}
+The normal-word row $K$ of an accepted $\ZNormalUp$ packet is exact only
+through the Zeckendorf and carry-facing sibling routes cited by
+\autoref{thm:znormal-sibling-normalword-handoff}. Together with the
+continuation readback row $R$, it is transported through $H,C,P,N$ and not
+through host conversion, quotient computation, divergence, unrestricted
+evaluation, or global normalization.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-sibling-normalword-handoff}. It identifies $K$
+with the finite Zeckendorf and carry-facing sibling normal-word evidence.
+
+Now apply \autoref{thm:znormal-continuation-normal-word-pullback}. This places
+$K$ and $R$ on one transported route and permits only the structural rows
+$H,C,P,N$ to move that route across the packet.
+
+Finally use \autoref{thm:znormal-total-host-consumer-scope}. Since the packet
+exports no host or quotient-facing normalizer, the exactness of $K$ is exactly
+the sibling exactness already named in the finite rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host refusal package]
+\label{thm:znormal-total-host-refusal-package}
+For every accepted $\ZNormalUp$ packet, the public refusal package excludes
+host conversion, quotient computation, divergence oracle, unrestricted
+evaluator, and global normalizer. All admitted reads factor through
+$$
+T,F,V,K,R,H,C,P,N,
+$$
+with terminal-normality routed by $T,F,V,R,H,C,P,N$ and sibling normal-word
+evidence routed by $K$ through the Zeckendorf and carry-facing sibling surface.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:znormal-terminal-fuel-row-exhaustion} with
+\autoref{thm:znormal-normal-word-sibling-exactness}. These rows separate the
+terminal-normality route from the sibling normal-word route while keeping both
+inside the same finite packet.
+
+Next apply \autoref{thm:znormal-total-host-consumer-scope}. It refuses every
+total-host request whose requested object has no coordinate in
+$T,F,V,K,R,H,C,P,N$.
+
+The TasteGate surface is therefore explicit: later Nontrivial and
+FieldFaithful instances consume the same finite field surface, and no hidden
+host conversion, quotient computation, divergence oracle, unrestricted
+evaluator, or global normalizer is packaged.
 \end{proof}
 
 \closureat{ZNormalUp}{seedStr}

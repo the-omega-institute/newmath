@@ -122,3 +122,51 @@ Finally use terminal consumer route exhaustion. It identifies the only later pub
 
 Coordinate exhaustion gives the exclusions. Quotient streams, selected limits, uncapped observations, host convergence witnesses, and second agreement coordinates have no carrier row in the displayed root route.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal budget route canonical form]
+\label{thm:real-tail-agreement-seal-budget-route-canonical-form}
+Every accepted terminal agreement route of a $\RealTailAgreementSealUp$ packet has the canonical displayed order
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to W \to D \to A \to R,S,H,C,P,N.
+$$
+Any public read of the agreement row $A$ is equivalent, as a $\BHist$ route through the packet, to traversing that order before $A$ is exposed.
+\end{theorem}
+\begin{proof}
+First use the budget-source window service and shared-threshold budget exactness. They place every public window request behind the observation cap, the regular Cauchy tail budget, and the shared $\RegularCauchyTailMeetUp$ threshold before $W$ is available.
+
+Next apply budgeted TailMeet window exhaustion. It forces the route from the shared threshold through the finite StreamName window $W$, then through the dyadic readback row $D$, and only then to the agreement row $A$.
+
+The Real-completion budgeted route and terminal consumer route exhaustion identify the remaining public rows as $R,S,H,C,P,N$. Budget route uniqueness then rules out any accepted terminal route that omits or reorders one of the displayed rows.
+
+Therefore a public read of $A$ is exactly a traversal of the canonical route shown in the statement.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal budget synchronizer factorization]
+\label{thm:real-tail-agreement-seal-budget-synchronizer-factorization}
+Every accepted terminal agreement route of a $\RealTailAgreementSealUp$ packet factors through the budget synchronizer before any $\RealUp$ or $\CompletionUp$ seal consumer receives the classifier. The route has the ordered public surface
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \CauchySealBudgetSynchronizerUp \to W \to D \to A \to R,S,H,C,P,N.
+$$
+Here $W$ is the finite $\StreamNameUp$ window, $D$ is the $\DyadicRatCoreUp$ readback obtained from the $\RegSeqRatUp$ handoff, and $A$ is the unique agreement row exported to the Real and Completion consumers. No quotient stream equality, selected limit, uncapped observation request, host convergence witness, or second agreement row is available before those consumers read the classifier.
+\end{theorem}
+\begin{proof}
+Start with the budget-source window service and shared-threshold exactness. They place any terminal agreement route behind $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, and the shared $\RegularCauchyTailMeetUp$ threshold before the finite window row can be public.
+
+Next apply budgeted TailMeet exhaustion and the synchronizer row. The shared threshold is routed through $\CauchySealBudgetSynchronizerUp$ before the $\StreamNameUp$ window $W$ is read, and the $\RegSeqRatUp$ handoff supplies the finite regular-sequence data used by the $\DyadicRatCoreUp$ readback row $D$.
+
+Use the canonical-form theorem \autoref{thm:real-tail-agreement-seal-budget-route-canonical-form}. It identifies the terminal agreement route with the displayed order through $W$, $D$, and the agreement row $A$ before the remaining seal rows $R,S,H,C,P,N$ are public.
+
+Finally apply terminal consumer route exhaustion and downstream route no-branching. The exported classifier therefore reaches $\RealUp$ and $\CompletionUp$ only through the displayed synchronizer route, and the non-escape clauses exclude quotient streams, selected limits, uncapped observations, host convergence, and second agreement rows.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal downstream route no-branching]
+\label{thm:real-tail-agreement-seal-downstream-route-no-branching}
+No downstream $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet can branch around the budget route through quotient stream equality, selected limits, uncapped observations, host convergence, or a second agreement coordinate. Every such consumer remains on the canonical route through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $W$, $D$, $A$, and the displayed $R,S,H,C,P,N$ rows.
+\end{theorem}
+\begin{proof}
+Begin with root budget-source totality. It places any root-facing agreement read behind the observation cap, tail budget, shared TailMeet threshold, finite window, dyadic readback, and agreement row.
+
+Use the canonical-form theorem \autoref{thm:real-tail-agreement-seal-budget-route-canonical-form}. It identifies any public read of $A$ with the single displayed order through the finite carrier rows.
+
+Finally apply terminal consumer route exhaustion and budget route uniqueness. These theorems leave no coordinate for quotient stream equality, selected limits, uncapped observations, host convergence witnesses, or a second agreement row, so no downstream $\RealUp$ or $\CompletionUp$ consumer can branch around the budget route.
+\end{proof}

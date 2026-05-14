@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness RH-interface carrier]
+\label{thm:critical-line-witness-rh-interface-carrier}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Its RH-facing carrier exposes only the critical-line row read through $R,Q$, the zero-strip row $Z,S$, the modulus row $M$, the source-lock row determined by the displayed zero-strip source, the componentwise transport row $H$, the route row $C$, the provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. A downstream consumer may cite the sibling $\ZetaContinuationWitnessUp$ surface of \autoref{ch:concrete-instances-zeta-continuation-witness-namecert}, but it receives no RH truth claim, no nontrivial-zero location theorem, and no completed $\GammaUp$ certificate from this carrier.
+\end{theorem}
+\begin{proof}
+Begin with the source exposure package of \autoref{thm:critical-line-witness-root-source-exposure}. It opens the zero-strip source, modulus, real-part, and rational-comparison rows as the finite surface of $W$.
+
+Next use the source-modulus interface of \autoref{thm:critical-line-witness-source-normalization-interface} and the modulus ledger of \autoref{thm:critical-line-witness-root-modulus-ledger}. These rows keep the critical-line, zero-strip, and modulus reads attached to $Z,S,M,R,Q$ before any downstream consumer sees the packet.
+
+Finally use the sibling $\ZetaContinuationWitnessUp$ refusal rows, especially \autoref{thm:zeta-continuation-witness-critical-strip-route-separation} and \autoref{thm:zeta-continuation-witness-no-rh-nonescape}. They allow the continuation surface to be cited as a finite input boundary while refusing RH truth, zero-location, and completed Gamma data. Thus $H,C,P,N$ authenticate only the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus ledger exhaustion]
+\label{thm:critical-line-witness-modulus-ledger-exhaustion}
+Every zero-strip or RH-facing consumer of an accepted $\CriticalLineWitnessUp$ packet must read the displayed modulus ledger $M,R,Q,H,C,P,N$ before any downstream use of the zero-strip row, critical-line row, or sibling $\ZetaContinuationWitnessUp$ route. The consumer receives the ledger as a finite BEDC source surface, not as an RH proof, a zero-location theorem, or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Project the consumer route through \autoref{thm:critical-line-witness-zero-strip-consumer-boundary}. It requires zero-strip consumers to pass through $Z,S,M,R,Q,H,C,P,N$, so the modulus ledger is already part of the visible packet.
+
+Apply the downstream RH-boundary refinement of \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement}. The RH-facing route is exhausted by the same displayed rows and refuses analytic continuation, quotient, host-equality, global-zero, and RH-proof exits.
+
+The sibling $\ZetaContinuationWitnessUp$ boundary contributes only its finite source lock and refusal surface. By \autoref{thm:zeta-continuation-witness-source-lock-coverage} and \autoref{thm:zeta-continuation-witness-no-rh-nonescape}, continuation reads are displayed before downstream use and do not supply RH truth, zero-location, or completed Gamma data. Hence the local modulus ledger is mandatory for every downstream read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream source package]
+\label{thm:critical-line-witness-downstream-source-package}
+For an accepted $\CriticalLineWitnessUp$ packet, the critical-line and zero-strip rows assemble with the displayed modulus ledger into the finite source package consumed by zeta-boundary downstream chapters:
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+This package is the downstream source surface for RH-boundary reads and zeta-continuation handoffs; it does not assert RH, locate a nontrivial zero, or close the Gamma side of the functional-equation route.
+\end{theorem}
+\begin{proof}
+Start with the RH-interface carrier above. It identifies the rows that can be exposed to downstream consumers and excludes RH truth, zero-location, and completed Gamma coordinates from the carrier.
+
+Use the modulus ledger exhaustion theorem. Every zero-strip, critical-line, or RH-facing consumer must read $M,R,Q,H,C,P,N$ together with the source rows before downstream use.
+
+Finally combine the local package with the zeta dependency lattice of \autoref{thm:critical-line-witness-zeta-link} and the sibling $\ZetaContinuationWitnessUp$ source lock of \autoref{thm:zeta-continuation-witness-source-lock-coverage}. The resulting finite surface is exactly $Z,S,M,R,Q,H,C,P,N$, suitable for downstream zeta-boundary chapters and nothing stronger.
+\end{proof}
