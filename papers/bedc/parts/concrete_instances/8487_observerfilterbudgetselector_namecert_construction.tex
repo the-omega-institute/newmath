@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ObserverFilterBudgetSelectorUp$}
+\label{ch:concrete-instances-observer-filter-budget-selector-namecert}
+\origin{ai}
+
+The $\ObserverFilterBudgetSelectorUp$ packet realizes observer-history identity as a finite selected-row budget feeding the StreamName and Real-completion observation routes. It consumes the selected and omitted rows of \autoref{ch:concrete-instances-observer-filter-namecert}, the observer-history source of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the finite StreamName window route of \autoref{ch:concrete-instances-streamname-namecert}, and the L10 budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. Its role is to bind those routes into one local NameCert packet, not to create a quotient stream, host real equality, selected host limit, or hidden observation selector.
+
+\falsifiablePrediction{A packet with a finite observation budget but no selected ObserverFilter row is rejected by the local classifier.}
+
+\independenceWitness{observerfilter, finiteobservationbudgetselector, observerhistoryidentity, streamname, real: no sibling is bijective because none carries selected and omitted observer rows together with a finite L10 observation budget and Real-seal handoff.}
+
+\begin{definition}[Observer-filter budget-selector carrier]
+\label{def:observer-filter-budget-selector-carrier}
+An $\ObserverFilterBudgetSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,I,S,O,B,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is an accepted $\ObserverFilterUp$ packet with selected subhistory row $S$ and omitted-row ledger $O$;
+\item $I$ is the $\ObserverHistoryIdentityUp$ source row factored by the observer filter;
+\item $B$ is an accepted $\FiniteObservationBudgetSelectorUp$ row whose selected schedule reads only from $S$;
+\item $W$ is the finite $\StreamNameUp$ window family selected from that schedule;
+\item $D$ is the $\DyadicRatCoreUp$ ledger read from the finite windows in $W$;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached after the dyadic ledger;
+\item $E$ is the $\RealUp$ seal row exposed only after the displayed budget route;
+\item $H$ records componentwise $\hsame$ transports for the observer-filter, identity, selected row, omitted ledger, budget, window, dyadic, handoff, seal, provenance, and local name rows;
+\item $C$ records the displayed $\Cont$ routes from $I$ to $F$, from $S$ to $B$, from $B$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistoryIdentityUp$, $\ObserverFilterUp$, $\StreamNameUp$, $\FiniteObservationBudgetSelectorUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObserverFilterBudgetSelectorUp}$ row.
+\end{enumerate}
+The classifier accepts $G$ only when the budget row $B$ reads from the selected row $S$ of $F$ and the omitted ledger $O$ remains a boundary row. The carrier has no coordinate for a finite budget without an observer-filter selection, an omitted-row observation window, quotient streams, host real equality, countable choice, hidden limit selectors, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Observer-filter budget-selector NameCert surface]
+\label{thm:observer-filter-budget-selector-namecert-surface}
+For the carrier of \autoref{def:observer-filter-budget-selector-carrier}, the local $\NameCert_{\ObserverFilterBudgetSelectorUp}$ surface consists exactly of carrier admission for $G=(F,I,S,O,B,W,D,R,E,H,C,P,N)$, observer-history factorization through $I$ and $F$, selected-row budget admission through $S$ and $B$, StreamName window exposure through $W$, dyadic ledger exposure through $D$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape for omitted rows in $O$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed packet contains the observer-history row, observer filter, selected and omitted rows, budget selector, finite windows, dyadic ledger, regular handoff, Real seal, and the four structural rows $H,C,P,N$.
+
+Read the positive route in order. The observer-history row $I$ is first consumed by the observer filter $F$; the selected subhistory $S$ then supplies the only schedule source for $B$; the budget selector exposes the finite windows $W$ before the dyadic ledger $D$, handoff row $R$, and seal row $E$ are available.
+
+The omitted ledger is checked by coordinate exhaustion. It appears as $O$ and nowhere as $B$, $W$, $D$, $R$, or $E$. Since the carrier also omits quotient streams, host real equality, countable choice, hidden selectors, and ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Observer-filter budget-selector StreamName handoff]
+\label{thm:observer-filter-budget-selector-streamname-handoff}
+Every accepted $\ObserverFilterBudgetSelectorUp$ packet routes its finite observation budget through the selected ObserverFilter row before any $\StreamNameUp$ window is available:
+$$
+I \to F \to S \to B \to W \to D \to R \to E.
+$$
+The omitted ledger $O$ may be read only as boundary data through $H,C,P,N$; it cannot supply StreamName windows, dyadic observations, $\RegSeqRatUp$ handoff rows, $\RealUp$ seals, quotient streams, host real equality rows, or hidden limit selectors.
+\end{theorem}
+\begin{proof}
+Start with the NameCert surface theorem. It identifies the accepted packet with $G=(F,I,S,O,B,W,D,R,E,H,C,P,N)$ and places the budget selector after the selected row $S$.
+
+Apply the ObserverFilter L10 handoff of \autoref{thm:observer-filter-budget-selector-l10-handoff}. That handoff forces every budget-selector route whose schedule reads from $S$ through the chain from observer-history identity to observer filter, StreamName, and the finite observation-budget selector.
+
+The remaining coordinates are the budget-selector continuation. The route from $B$ to $W,D,R,E$ is the finite observation route, while $H,C,P,N$ only transport, replay, package, and name the same packet.
+
+Thus the public handoff is exactly the displayed finite route. Because $O$ is not a selected row or budget coordinate, no omitted row can become any of the named observation, completion, equality, or selector objects.
+\end{proof}
+
+The Lean file \texttt{Derived/ObserverFilterBudgetSelectorUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \ObserverFilterBudgetSelectorUp$ and $\mathsf{FieldFaithful}\ \ObserverFilterBudgetSelectorUp$ instances over the displayed rows.
+
+\closureat{ObserverFilterBudgetSelectorUp}{seedStr}
+
+\begin{closurestatus}{\ObserverFilterBudgetSelectorUp}
+  \constructivestory{An $\ObserverFilterBudgetSelectorUp$ packet is generated from observer-history identity, observer-filter selected and omitted rows, a finite observation-budget selector, StreamName windows, DyadicRatCore observations, RegSeqRat handoff, Real seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-filter-budget-selector-carrier}, \autoref{thm:observer-filter-budget-selector-namecert-surface}, and \autoref{thm:observer-filter-budget-selector-streamname-handoff} bind the finite selected-row budget route over ObserverHistoryIdentityUp, ObserverFilterUp, StreamNameUp, FiniteObservationBudgetSelectorUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient streams, host real equality, selected host limits, countable choice, hidden limit selectors, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selected-row budget admission, StreamName handoff, omitted-row non-escape, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

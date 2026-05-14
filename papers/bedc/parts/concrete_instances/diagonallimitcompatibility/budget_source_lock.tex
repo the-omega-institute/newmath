@@ -48,3 +48,17 @@ Next use the seal-budget route of \autoref{thm:diagonal-limit-compatibility-seal
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate}. Its consumer gate covers the $\RealUp$ and $\CompletionUp$ exits, and the regular readback row is one of the displayed rows feeding those exits. The non-escape clauses exclude quotient streams, selected limits, host equality, and ambient completeness, so the budget-source readback prefix is total for all listed consumers.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility synchronized budget terminality]
+\label{thm:diagonal-limit-compatibility-synchronized-budget-terminality}
+Every $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet that reaches a $\CauchyLimitSealUp$ read or a $\CauchySealBudgetSynchronizerUp$ handoff is exhausted by the synchronized budget route. Such a consumer first passes through the displayed budget-source readback prefix and then through the synchronized seal-source route, with no escape through quotient streams, host limits, host equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-limit-compatibility-budget-source-lock}. It fixes the first visible rows of any seal-facing packet route as the diagonal budget, mesh budget, triangle bound, and stream-window source rows.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. The $\CauchyLimitSealUp$ read and the $\CauchySealBudgetSynchronizerUp$ handoff are downstream of the same displayed prefix, so the seal-source route is synchronized with the budget-source route rather than supplied by a second analytic object.
+
+Use \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate} for the $\RealUp$ and $\CompletionUp$ exits, and use \autoref{thm:diagonal-limit-compatibility-budget-source-readback-totality} for the $\RegSeqRatUp$ readback side. Together these results cover all listed consumers that reach the seal handoff.
+
+The remaining non-escape clauses are exactly the absence claims carried by those gates. The terminal route exposes no quotient stream, host limit, host equality, choice datum, or ambient completeness coordinate, so every listed consumer is exhausted by the synchronized budget route.
+\end{proof}
