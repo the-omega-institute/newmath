@@ -429,6 +429,48 @@ Next combine the prefix splice lock with terminal prefix transport. The splice i
 Finally apply \autoref{thm:continuation-trace-normal-form-non-escape}. Since the accepted carrier has no host conversion, quotient-normalization, evaluator-graph, global-confluence, or external-normalizer coordinate, the displayed rows exhaust every normal-boundary consumer read.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm root readback order exhaustion]
+\label{thm:continuation-trace-normal-form-root-readback-order-exhaustion}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, root readback is exhausted in the order source row $S$, $\ContinuationTraceUp$ trace ledger $T$, terminal row $R$, $\ContinuationBigStepUp$ terminal-read row $Q$, $\TypedReductionNormalFormUp$ typed-boundary row $V$, then the structural rows $H,C,P,N$. No downstream normal-form consumer may read a terminal or typed boundary before that displayed order has been consumed.
+\end{theorem}
+\begin{proof}
+Begin with terminal scope, \autoref{thm:continuation-trace-normal-form-terminal-scope}. It places terminal exposure behind the trace ledger, terminal-read row, and typed normal-form row of the same accepted packet.
+
+Next use trace ledger exhaustion, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. The trace portion is exactly the finite $T$ row replayed from source $S$, so no second trace source can enter before the terminal rows are read.
+
+Apply terminal readback lock, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. It locks $R$ behind $T,Q,H,C,P,N$, which fixes the terminal-read stage before any downstream endpoint consumer is exposed.
+
+Finally use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The typed boundary $V$ has no host conversion, quotient-normalization, evaluator-graph, global-confluence, or external-normalizer substitute, so the displayed order exhausts root readback.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm trace-terminal-typed lock]
+\label{thm:continuation-trace-normal-form-trace-terminal-typed-lock}
+Let $Z=(S,T,R,Q,V,H,C,P,N)$ and $Z'=(S',T',R',Q',V',H,C,P,N)$ be accepted $\ContinuationTraceNormalFormUp$ packets with the same structural rows $H,C,P,N$. If their source, trace, terminal, terminal-read, and typed-boundary reads are transported through those shared rows, then both packets expose the same trace-terminal-typed boundary to every downstream normal-form consumer.
+\end{theorem}
+\begin{proof}
+First apply trace ledger exhaustion, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. Any trace read is exhausted by the displayed ledger and replayed through the shared continuation row $C$.
+
+Next apply terminal readback lock, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. The shared $H,C,P,N$ rows place terminal readback behind the same transport, replay, provenance, and naming surface in both packets.
+
+Use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The typed boundary is a row of the packet and cannot be separated by host conversion, quotient normalization, evaluator graphs, global confluence, or an external normalizer.
+
+Finally invoke the standard bridge surface, \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. The public consumer sees exactly the continuation trace, terminal-read, typed-boundary, transport, route, provenance, and naming rows, so shared $H,C,P,N$ lock the trace-terminal-typed boundary.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm downstream normal-form consumer boundary]
+\label{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}
+Every downstream normal-form consumer of an accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$ is bounded by the displayed source, trace, terminal, terminal-read, typed-boundary, transport, route, provenance, and local naming rows. The consumer surface excludes host conversion, quotient normalization, evaluator graphs, global confluence, and external normalizers.
+\end{theorem}
+\begin{proof}
+Start from normal-boundary consumer totality, \autoref{thm:continuation-trace-normal-form-normal-boundary-consumer-totality}. It exhausts the normal-boundary surface by the rows $S,T,R,Q,V,H,C,P,N$.
+
+Next combine terminal scope and the standard bridge surface, \autoref{thm:continuation-trace-normal-form-terminal-scope} and \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. Together they route the public consumer through $\ContinuationTraceUp$, $\ContinuationBigStepUp$, and $\TypedReductionNormalFormUp$ inside the same finite packet.
+
+Use root readback order exhaustion from \autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}. It fixes the source, trace, terminal, terminal-read, and typed-boundary order before the downstream consumer may read the endpoint.
+
+Finally use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient-normalization, evaluator-graph, global-confluence, and external-normalizer objects are not coordinates of $Z$, so they cannot extend the downstream boundary.
+\end{proof}
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 \closureat{ContinuationTraceNormalFormUp}{obligationStr}
 \closureat{ContinuationTraceNormalFormUp}{scopedStr}
