@@ -219,6 +219,9 @@ instance crossPerspectiveAlignmentChapterTasteGate :
     intro x y hxy heq
     exact hxy (crossPerspectiveAlignmentToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CrossPerspectiveAlignmentUp :=
+  crossPerspectiveAlignmentChapterTasteGate
+
 theorem CrossPerspectiveAlignmentTasteGate_single_carrier_alignment :
     (forall h : BHist,
       crossPerspectiveAlignmentDecodeBHist (crossPerspectiveAlignmentEncodeBHist h) = h) /\
