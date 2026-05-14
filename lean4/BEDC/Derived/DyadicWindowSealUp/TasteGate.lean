@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DyadicWindowSealUp : Type where
-  | mk :
-      (request window readback budget synchronizer sealRow transport route provenance
-        name : BHist) →
-      DyadicWindowSealUp
+  | mk (q w r b z s h c p n : BHist) : DyadicWindowSealUp
   deriving DecidableEq
 
 def dyadicWindowSealEncodeBHist : BHist → RawEvent
@@ -28,75 +25,63 @@ def dyadicWindowSealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (dyadicWindowSealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicWindowSealDecodeBHist tail)
 
-private theorem dyadicWindowSealDecodeEncodeBHist :
+private theorem dyadicWindowSeal_decode_encode_bhist :
     ∀ h : BHist, dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
-
-def dyadicWindowSealFields : DyadicWindowSealUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | DyadicWindowSealUp.mk request window readback budget synchronizer sealRow transport route
-      provenance name =>
-      [request, window, readback, budget, synchronizer, sealRow, transport, route, provenance,
-        name]
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def dyadicWindowSealToEventFlow : DyadicWindowSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (dyadicWindowSealFields x).map dyadicWindowSealEncodeBHist
+  | DyadicWindowSealUp.mk q w r b z s h c p n =>
+      [[BMark.b0],
+        dyadicWindowSealEncodeBHist q,
+        [BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist w,
+        [BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist r,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist b,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist z,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist s,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist h,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        dyadicWindowSealEncodeBHist c,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist p,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        dyadicWindowSealEncodeBHist n]
 
-def dyadicWindowSealFromEventFlow : EventFlow → Option DyadicWindowSealUp
+private def dyadicWindowSealEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | request :: rest0 =>
-      match rest0 with
-      | [] => none
-      | window :: rest1 =>
-          match rest1 with
-          | [] => none
-          | readback :: rest2 =>
-              match rest2 with
-              | [] => none
-              | budget :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | synchronizer :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | sealRow :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | transport :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | route :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | provenance :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | name :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (DyadicWindowSealUp.mk
-                                                  (dyadicWindowSealDecodeBHist request)
-                                                  (dyadicWindowSealDecodeBHist window)
-                                                  (dyadicWindowSealDecodeBHist readback)
-                                                  (dyadicWindowSealDecodeBHist budget)
-                                                  (dyadicWindowSealDecodeBHist synchronizer)
-                                                  (dyadicWindowSealDecodeBHist sealRow)
-                                                  (dyadicWindowSealDecodeBHist transport)
-                                                  (dyadicWindowSealDecodeBHist route)
-                                                  (dyadicWindowSealDecodeBHist provenance)
-                                                  (dyadicWindowSealDecodeBHist name))
-                                          | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => dyadicWindowSealEventAtDefault index rest
+
+def dyadicWindowSealFromEventFlow (ef : EventFlow) : Option DyadicWindowSealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (DyadicWindowSealUp.mk
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 1 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 3 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 5 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 7 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 9 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 11 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 13 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 15 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 17 ef))
+      (dyadicWindowSealDecodeBHist (dyadicWindowSealEventAtDefault 19 ef)))
 
 private theorem dyadicWindowSeal_round_trip :
     ∀ x : DyadicWindowSealUp,
@@ -104,29 +89,26 @@ private theorem dyadicWindowSeal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk request window readback budget synchronizer sealRow transport route provenance name =>
+  | mk q w r b z s h c p n =>
       change
         some
           (DyadicWindowSealUp.mk
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist request))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist window))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist readback))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist budget))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist synchronizer))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist sealRow))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist transport))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist route))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist provenance))
-            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist name))) =
-          some
-            (DyadicWindowSealUp.mk request window readback budget synchronizer sealRow
-              transport route provenance name)
-      rw [dyadicWindowSealDecodeEncodeBHist request, dyadicWindowSealDecodeEncodeBHist window,
-        dyadicWindowSealDecodeEncodeBHist readback, dyadicWindowSealDecodeEncodeBHist budget,
-        dyadicWindowSealDecodeEncodeBHist synchronizer,
-        dyadicWindowSealDecodeEncodeBHist sealRow,
-        dyadicWindowSealDecodeEncodeBHist transport, dyadicWindowSealDecodeEncodeBHist route,
-        dyadicWindowSealDecodeEncodeBHist provenance, dyadicWindowSealDecodeEncodeBHist name]
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist q))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist w))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist r))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist b))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist z))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist s))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist h))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist c))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist p))
+            (dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist n))) =
+          some (DyadicWindowSealUp.mk q w r b z s h c p n)
+      rw [dyadicWindowSeal_decode_encode_bhist q, dyadicWindowSeal_decode_encode_bhist w,
+        dyadicWindowSeal_decode_encode_bhist r, dyadicWindowSeal_decode_encode_bhist b,
+        dyadicWindowSeal_decode_encode_bhist z, dyadicWindowSeal_decode_encode_bhist s,
+        dyadicWindowSeal_decode_encode_bhist h, dyadicWindowSeal_decode_encode_bhist c,
+        dyadicWindowSeal_decode_encode_bhist p, dyadicWindowSeal_decode_encode_bhist n]
 
 private theorem dyadicWindowSealToEventFlow_injective {x y : DyadicWindowSealUp} :
     dyadicWindowSealToEventFlow x = dyadicWindowSealToEventFlow y → x = y := by
@@ -140,37 +122,19 @@ private theorem dyadicWindowSealToEventFlow_injective {x y : DyadicWindowSealUp}
     (Eq.trans (dyadicWindowSeal_round_trip x).symm
       (Eq.trans hread (dyadicWindowSeal_round_trip y)))
 
-private theorem dyadicWindowSeal_fields_faithful :
-    ∀ x y : DyadicWindowSealUp, dyadicWindowSealFields x = dyadicWindowSealFields y → x = y :=
-    by
+private def dyadicWindowSealFields : DyadicWindowSealUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | DyadicWindowSealUp.mk q w r b z s h c p n => [q, w, r, b, z, s, h, c, p, n]
+
+private theorem dyadicWindowSeal_field_faithful :
+    ∀ x y : DyadicWindowSealUp, dyadicWindowSealFields x = dyadicWindowSealFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk request₁ window₁ readback₁ budget₁ synchronizer₁ sealRow₁ transport₁ route₁
-      provenance₁ name₁ =>
+  | mk q₁ w₁ r₁ b₁ z₁ s₁ h₁ c₁ p₁ n₁ =>
       cases y with
-      | mk request₂ window₂ readback₂ budget₂ synchronizer₂ sealRow₂ transport₂ route₂
-          provenance₂ name₂ =>
-          injection hfields with hRequest tail0
-          injection tail0 with hWindow tail1
-          injection tail1 with hReadback tail2
-          injection tail2 with hBudget tail3
-          injection tail3 with hSynchronizer tail4
-          injection tail4 with hSealRow tail5
-          injection tail5 with hTransport tail6
-          injection tail6 with hRoute tail7
-          injection tail7 with hProvenance tail8
-          injection tail8 with hName _
-          subst hRequest
-          subst hWindow
-          subst hReadback
-          subst hBudget
-          subst hSynchronizer
-          subst hSealRow
-          subst hTransport
-          subst hRoute
-          subst hProvenance
-          subst hName
+      | mk q₂ w₂ r₂ b₂ z₂ s₂ h₂ c₂ p₂ n₂ =>
+          cases hfields
           rfl
 
 instance dyadicWindowSealBHistCarrier : BHistCarrier DyadicWindowSealUp where
@@ -188,53 +152,44 @@ instance dyadicWindowSealChapterTasteGate : ChapterTasteGate DyadicWindowSealUp 
     intro x y hxy heq
     exact hxy (dyadicWindowSealToEventFlow_injective heq)
 
-def taste_gate : ChapterTasteGate DyadicWindowSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change dyadicWindowSealFromEventFlow (dyadicWindowSealToEventFlow x) = some x
-    exact dyadicWindowSeal_round_trip x
-  layer_separation := by
-    intro x y hxy heq
-    exact hxy (dyadicWindowSealToEventFlow_injective heq)
-
 instance dyadicWindowSealFieldFaithful : FieldFaithful DyadicWindowSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := dyadicWindowSealFields
-  field_faithful := dyadicWindowSeal_fields_faithful
+  field_faithful := dyadicWindowSeal_field_faithful
 
 instance dyadicWindowSealNontrivial : Nontrivial DyadicWindowSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨DyadicWindowSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      DyadicWindowSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨DyadicWindowSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DyadicWindowSealUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate DyadicWindowSealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  dyadicWindowSealChapterTasteGate
+
 theorem DyadicWindowSealTasteGate_single_carrier_alignment :
-    (∀ h : BHist, dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist h) = h) ∧
-      (∀ x : DyadicWindowSealUp,
-        dyadicWindowSealFromEventFlow (dyadicWindowSealToEventFlow x) = some x) ∧
-        (∀ x y : DyadicWindowSealUp,
-          dyadicWindowSealToEventFlow x = dyadicWindowSealToEventFlow y → x = y) ∧
-          Nonempty (FieldFaithful DyadicWindowSealUp) ∧
-            Nonempty (Nontrivial DyadicWindowSealUp) ∧
-              dyadicWindowSealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  constructor
-  · exact dyadicWindowSealDecodeEncodeBHist
-  · constructor
-    · exact dyadicWindowSeal_round_trip
-    · constructor
-      · intro x y heq
-        exact dyadicWindowSealToEventFlow_injective heq
-      · constructor
-        · exact ⟨dyadicWindowSealFieldFaithful⟩
-        · constructor
-          · exact ⟨dyadicWindowSealNontrivial⟩
-          · rfl
+    Nonempty (ChapterTasteGate DyadicWindowSealUp) ∧
+      Nonempty (FieldFaithful DyadicWindowSealUp) ∧
+        Nonempty (Nontrivial DyadicWindowSealUp) ∧
+          (∀ h : BHist, dyadicWindowSealDecodeBHist (dyadicWindowSealEncodeBHist h) = h) ∧
+            (∀ x : DyadicWindowSealUp,
+              dyadicWindowSealFromEventFlow (dyadicWindowSealToEventFlow x) = some x) ∧
+              (∀ x y : DyadicWindowSealUp,
+                dyadicWindowSealToEventFlow x = dyadicWindowSealToEventFlow y → x = y) ∧
+                dyadicWindowSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨⟨dyadicWindowSealChapterTasteGate⟩,
+      ⟨dyadicWindowSealFieldFaithful⟩,
+      ⟨dyadicWindowSealNontrivial⟩,
+      dyadicWindowSeal_decode_encode_bhist,
+      dyadicWindowSeal_round_trip,
+      (fun _ _ heq => dyadicWindowSealToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.DyadicWindowSealUp
