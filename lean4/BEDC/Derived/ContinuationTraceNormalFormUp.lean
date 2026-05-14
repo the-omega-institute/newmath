@@ -48,4 +48,26 @@ theorem ContinuationTraceNormalFormCarrier_namecert_obligations [AskSetup] [Pack
     ⟨replayUnary, endpointUnary, traceRouteReplay, replayNormalEndpoint, provenancePkg,
       endpointPkg⟩
 
+theorem ContinuationTraceNormalFormCarrier_source_normalization_obligation [AskSetup]
+    [PackageSetup]
+    {source trace terminal terminalRead normal transport route provenance cert replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceNormalFormCarrier source trace terminal terminalRead normal transport route
+        provenance cert bundle pkg →
+      Cont trace route replay →
+        PkgSig bundle replay pkg →
+          UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory route ∧ UnaryHistory cert ∧
+            UnaryHistory replay ∧ Cont source trace terminal ∧ Cont trace route replay ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro carrier traceRouteReplay replayPkg
+  obtain ⟨sourceUnary, traceUnary, _terminalUnary, _terminalReadUnary, _normalUnary,
+    _transportUnary, routeUnary, _provenanceUnary, certUnary, sourceTraceTerminal,
+    _terminalReadRoute, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed traceUnary routeUnary traceRouteReplay
+  exact
+    ⟨sourceUnary, traceUnary, routeUnary, certUnary, replayUnary, sourceTraceTerminal,
+      traceRouteReplay, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.ContinuationTraceNormalFormUp
