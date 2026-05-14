@@ -262,6 +262,9 @@ instance externalSupplyBoundaryChapterTasteGate : ChapterTasteGate ExternalSuppl
     intro x y hxy heq
     exact hxy (externalSupplyBoundaryToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ExternalSupplyBoundaryUp :=
+  externalSupplyBoundaryChapterTasteGate
+
 theorem ExternalSupplyBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       externalSupplyBoundaryDecodeBHist (externalSupplyBoundaryEncodeBHist h) = h) ∧
