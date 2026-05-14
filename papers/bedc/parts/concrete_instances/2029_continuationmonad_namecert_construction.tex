@@ -555,6 +555,42 @@ category object or host evaluator, the displayed hom route is total on exactly
 the finite packet.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad category-generator source triad]
+\label{thm:continuation-monad-category-generator-source-triad}
+Every accepted $\ContinuationMonadUp$ packet exposes the $\CategoryUp$ hom-carrier row, the $\mathsf{ContinuationMorphism}$ row, and the generator-closure refusal row before either the public unit read or the public bind read is available. The exposed triad is read from $A,B,C,f,g,u,H,K,L,N$ over $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$, and not from an independent category object, quotient Kleisli arrow, host function space, or unlisted generator family.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and the root generator obligation. The carrier obligation identifies $A,B,C,f,g,u,H,K,L,N$ as the available rows, while the root generator obligation places the refusal surface before any generator-facing read can use unit or bind.
+
+Next apply bind-route classifier stability and the Category hom route totality theorem. These results route the $\CategoryUp$ hom-carrier and $\mathsf{ContinuationMorphism}$ entries through the same finite ledger $L$ and the same transport row $H$.
+
+The unit and bind reads therefore come after the triad is already visible. Since the packet has no coordinate for an independent category object, quotient Kleisli arrow, host function space, or unlisted generator family, no downstream reader can bypass the displayed triad.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad bind readback exhaustion]
+\label{thm:continuation-monad-bind-readback-exhaustion}
+Every bind readback exposed by an accepted $\ContinuationMonadUp$ packet is exhausted by the rows $A,B,C,f,g,u,H,K,L,N$. The readback may inspect the source histories $A,B,C$, the displayed continuation tails $f,g,u$, the transport row $H$, the route and ledger rows $K,L$, the $\Pkg$ provenance, and the local $\NameCert$ row $N$; it cannot read host functions, quotient Kleisli arrows, unlisted generators, or an external monad evaluator.
+\end{theorem}
+\begin{proof}
+First use bind-route classifier stability. It identifies every accepted bind read with the displayed continuation route through $f,g,u,K,L$ and transports that read only through $H$.
+
+Then use NameCert ledger exactness. The ledger records exactly the finite rows $A,B,C,f,g,u,H,K,L,N$ with $\Pkg$ provenance, so any consumer-visible bind readback must be a readback of that finite packet.
+
+Finally apply the Kleisli composite scope and bind-route coverage theorems. They prevent a host function, quotient Kleisli arrow, unlisted generator, or external evaluator from supplying another bind readback outside the listed rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root-unblock package]
+\label{thm:continuation-monad-root-unblock-package}
+The root obligation package of an accepted $\ContinuationMonadUp$ packet consists exactly of carrier admission, classifier stability, $\CategoryUp$ hom routing, generator refusal, ledger exactness, and the local $\NameCert$ rows over $A,B,C,f,g,u,H,K,L,N$. This package is the surface available to downstream continuation chapters before they read any standard monad boundary, and it exports no quotient Kleisli category, host function composition, ambient effect algebra, or independent generator list.
+\end{theorem}
+\begin{proof}
+Assemble the package from the existing obligation rows. Carrier admission supplies the packet rows, classifier stability fixes their $\hsame$ transport, category hom routing places the $\CategoryUp$ read in the finite ledger, and generator refusal excludes unlisted continuation rules.
+
+Add NameCert ledger exactness and Kleisli composite scope. These rows make the visible ledger exact for $A,B,C,f,g,u,H,K,L,N$ and keep every composite read inside the same finite route.
+
+The resulting package is precisely the root obligation surface available to downstream continuation chapters. Any quotient Kleisli category, host function composition, ambient effect algebra, or independent generator list would require a row outside the displayed carrier, and no such row is exported.
+\end{proof}
+
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
 \closureat{ContinuationMonadUp}{scopedStr}
