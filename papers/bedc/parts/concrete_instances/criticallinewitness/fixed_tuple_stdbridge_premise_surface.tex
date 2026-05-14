@@ -1,0 +1,49 @@
+\begin{theorem}[CriticalLineWitness fixed tuple image row]
+\label{thm:critical-line-witness-fixed-tuple-image-row}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Its $\StdBridge$-facing image is the fixed finite tuple of displayed $\BHist$ rows
+$$
+(Z,S,M,R,Q,H,C,P,N).
+$$
+Every accepted carrier read of $W$ lands in exactly one of these nine rows: the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational-comparison row $Q$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, or local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The image row contains no $\mathsf{RH}$ proof, no host zero classifier, no analytic-continuation theorem, no quotient representative, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:critical-line-witness-carrier}. The carrier is already the finite $\BHist$ packet $Z,S,M,R,Q,H,C,P,N$, so the image visible to a bridge-facing consumer has one displayed row for each coordinate and no further coordinate to inspect.
+
+Use the carrier-admission and ledger-exactness clauses of \autoref{thm:critical-line-witness-namecert-obligations}. They identify accepted public reads with the displayed packet rows and prevent an accepted read from leaving the packet.
+
+Finally apply \autoref{thm:critical-line-witness-root-stdbridge-refusal-source}. The root-facing source is a finite refusal surface over the same nine rows, so the image row remains a tuple of $\BHist$ data and does not become a bridge theorem or an $\mathsf{RH}$ proof.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed tuple readback row]
+\label{thm:critical-line-witness-fixed-tuple-readback-row}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet whose image row is the displayed tuple of \autoref{thm:critical-line-witness-fixed-tuple-image-row}. Each displayed image row reads back to the corresponding tuple coordinate through the local structural route: $Z,S,M,R,Q$ are recovered through their componentwise $\hsame$ entries in $H$, their displayed $\Cont$ routes in $C$, their $\Pkg$ provenance in $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$; the structural rows $H,C,P,N$ read back as the transport, continuation, provenance, and naming coordinates of the same carrier.
+\end{theorem}
+\begin{proof}
+Begin with the root zero-strip readback theorem \autoref{thm:critical-line-witness-root-zero-strip-readback}. It exhausts every source-side readback by the supplied zero row $Z$, strip row $S$, modulus or depth row $M$, real-part row $R$, rational-comparison row $Q$, and the structural route $H,C,P,N$.
+
+For the data rows $Z,S,M,R,Q$, use the zero-strip compatibility, modulus-discipline, and ledger-exactness clauses of \autoref{thm:critical-line-witness-namecert-obligations}. These clauses say that the rows are transported by $H$, replayed by $C$, recorded by $P$, and named by $N$ before any public consumer can read them.
+
+For the structural rows, read the same carrier projection directly. The rows $H,C,P,N$ are not extra witnesses outside the image; they are the tuple coordinates that supply componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure for the readback itself.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness StdBridge premise surface]
+\label{thm:critical-line-witness-stdbridge-premise-surface}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the fixed-route $\StdBridge$ premise surface is exactly the following finite collection:
+\begin{enumerate}
+\item the tuple carrier $(Z,S,M,R,Q,H,C,P,N)$ from \autoref{def:critical-line-witness-carrier};
+\item the image row of \autoref{thm:critical-line-witness-fixed-tuple-image-row};
+\item the readback row of \autoref{thm:critical-line-witness-fixed-tuple-readback-row};
+\item componentwise $\NameCert_{\CriticalLineWitnessUp}$ transport through the displayed $H,C,P,N$ rows;
+\item the $\ChapterTasteGate$ row required by the fixed finite $\BHist$ tuple surface.
+\end{enumerate}
+These are the premises for the fixed-route $\StdBridge$ surface and nothing stronger: they do not prove $\mathsf{RH}$, construct a bridge theorem, solve recognizer-to-carrier transport, or add analytic, quotient, host-equality, or completeness data.
+\end{theorem}
+\begin{proof}
+Assemble the tuple carrier from \autoref{def:critical-line-witness-carrier}. The carrier supplies the nine displayed $\BHist$ rows and the local naming coordinate that all downstream reads must use.
+
+Add the image and readback rows. The image theorem confines every accepted carrier read to the finite tuple, while the readback theorem returns each displayed row to its corresponding coordinate through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
+
+Transport the naming obligations component by component using \autoref{thm:critical-line-witness-namecert-obligations}. The root refusal and readback controls of \autoref{thm:critical-line-witness-root-stdbridge-refusal-source} and \autoref{thm:critical-line-witness-root-zero-strip-readback} keep the route on the same finite packet.
+
+Finally compare the assembled rows with \autoref{thm:finite-bhist-injection-fixed-tuple-route} and \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}. Those results name the tuple carrier, image row, readback row, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row as the exact fixed finite $\BHist$ premise surface before any $\StdBridge$ request. The present theorem only identifies that premise surface for $\CriticalLineWitnessUp$.
+\end{proof}
