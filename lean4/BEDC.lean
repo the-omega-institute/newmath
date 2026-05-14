@@ -203,6 +203,7 @@ import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
+import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
