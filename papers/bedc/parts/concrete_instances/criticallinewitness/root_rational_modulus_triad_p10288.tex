@@ -1,0 +1,43 @@
+\begin{theorem}[Critical-line witness strip-depth readback totality]
+\label{thm:critical-line-witness-strip-depth-readback-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every strip-depth read that starts from the supplied zero row $Z$, the fixed critical-strip row $S$, or a bounded depth request in $M$ routes through the finite rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The read may expose the supplied $\ZetaZerosUp$ row, the $\CritStripUp$ boundary, the $\NatUp$ depth budget, the $\RealUp$ real-part row, the $\RatUp$ comparison ledger, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but no other strip-depth source.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:critical-line-witness-carrier}. The rows $Z,S,M,R,Q,H,C,P,N$ are the displayed coordinates of the same finite $\BHist$ packet, so a strip-depth consumer has no carrier coordinate outside that tuple.
+
+Use \autoref{thm:critical-line-witness-zero-source-totality}, \autoref{thm:critical-line-witness-root-unblock-modulus-ledger}, and \autoref{thm:criticallinewitness-rational-height-window}. They route supplied zero reads, fixed-strip reads, and bounded depth requests through $Z,S,M$ before the real and rational comparison rows $R,Q$ are exposed.
+
+Finally apply \autoref{thm:critical-line-witness-ledger-nonescape}. The transport, continuation, package, and local naming rows $H,C,P,N$ exhaust the remaining public readback surface, so every strip-depth read is confined to the displayed route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness rational comparison ledger totality]
+\label{thm:critical-line-witness-rational-comparison-ledger-totality}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each rational comparison read is exhausted by the $\RealUp$ row $R$ and the $\RatUp$ ledger row $Q$, together with the local transport, continuation, package, and naming rows $H,C,P,N$. Such a read cannot import analytic-continuation data, a host zero theorem, a selected quotient representative, or proof data for $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Begin with the rational comparison surface. By \autoref{thm:critical-line-witness-root-comparison-ledger} and \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}, the only rows that compare the real-part and rational boundary data are $R$ and $Q$.
+
+The depth source remains finite by \autoref{thm:critical-line-witness-strip-depth-readback-totality}. Thus the comparison read first consumes $Z,S,M$ as source and depth data, then reads $R,Q$ as the comparison ledger inside the same packet.
+
+The refusal boundary follows from \autoref{thm:critical-line-witness-ledger-nonescape} and \autoref{thm:criticallinewitness-critical-strip-ledger}. Analytic continuation, host zero theorems, quotient representatives, and $\mathsf{RH}$ proof data have no coordinate in $W$, so the rational comparison ledger is total exactly at $R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH refusal ledger exactness]
+\label{thm:critical-line-witness-rh-refusal-ledger-exactness}
+Every $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet receives only the finite refusal boundary carried by
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer may read the supplied zero row, fixed strip row, bounded depth row, real-part row, rational comparison row, transport row, continuation row, package row, and local naming row. It receives no proof of $\mathsf{RH}$, zero generator, quotient representative, host equality row, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the consumer route to the displayed carrier. The $\mathsf{RH}$-facing surface is still a read of the same finite packet $W=(Z,S,M,R,Q,H,C,P,N)$, not a separate analytic object.
+
+Apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}, \autoref{thm:critical-line-witness-root-refusal-route}, and \autoref{thm:critical-line-witness-rational-comparison-ledger-totality}. These rows expose only the supplied zero, strip, depth, real, rational, transport, continuation, provenance, and naming data before the refusal boundary is reached.
+
+The excluded objects would require coordinates for an $\mathsf{RH}$ theorem, a zero-producing generator, quotient representatives, host equality, or ambient completeness. Since none is present in the accepted packet, the refusal ledger is exact for every downstream $\mathsf{RH}$-facing consumer.
+\end{proof}
