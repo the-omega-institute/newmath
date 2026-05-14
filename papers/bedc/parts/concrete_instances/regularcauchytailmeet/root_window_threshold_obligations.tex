@@ -19,6 +19,7 @@ Finally apply shared-threshold non-escape and consumer exactness. The displayed 
 \label{thm:regular-cauchy-tail-meet-root-modulus-route-exactness}
 For an accepted $\RegularCauchyTailMeetUp$ packet, the source-modulus rows are the only admissible route into the shared-threshold ledger. A root threshold read is admitted exactly when it factors through the source-window-modulus route, the shared-threshold transport, and the displayed non-escape boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_root\_modulus\_route\_exactness}
 \begin{proof}
 Apply ledger exactness first. The shared threshold ledger has only the displayed dyadic threshold coordinate, so a proposed route cannot enter the ledger through an unlisted analytic row.
 
@@ -203,4 +204,22 @@ Now identify the shared $\StreamNameUp$ window. The finite-window lattice depend
 For the converse direction, start with exactly those displayed TailMeet, stream-window, regular-source, dyadic, real, transport, continuation, package, and naming rows. The cited finite-window and tail-budget meet theorems repack them as the $\CauchyLimitSealUp$ seal row together with the $\RealObservationBudgetUp$ entrance, while the TailMeet budget-limiter factorization supplies the root consumer route.
 
 Finally use \autoref{thm:regular-cauchy-tail-meet-root-threshold-readback-determinacy}. It identifies all readbacks along the displayed route with the same threshold row $\tau$, so the forward pullback and the reverse repacking describe one deterministic route and none of the excluded analytic rows has a coordinate from which to enter it.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet observation-budget route uniqueness]
+\label{thm:regular-cauchy-tail-meet-observation-budget-route-uniqueness}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any two exports into $\RealObservationBudgetUp$ or $\CauchyLimitSealUp$ that use the same displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+reach the same observation-budget entrance and the same seal-facing pullback route. No quotient stream, selected limit, host real equality, trichotomy row, hidden selector, uncapped observation schedule, independent completion carrier, or ambient completeness principle can separate the two exports after those rows are fixed.
+\end{theorem}
+\begin{proof}
+First apply the root observation-budget entry theorem, \autoref{thm:regular-cauchy-tail-meet-root-observation-budget-entry}. It places any export into $\RealObservationBudgetUp$ on the displayed TailMeet rows and their comparison, transport, continuation, ledger, and local naming coordinates.
+
+Next use root threshold readback determinacy, \autoref{thm:regular-cauchy-tail-meet-root-threshold-readback-determinacy}. Since both exports use the same displayed rows, every readback reaches the same dyadic threshold row $\tau$.
+
+The root seal budget synchronization and root budget-limiter factorization, \autoref{thm:regular-cauchy-tail-meet-root-seal-budget-synchronization} and \autoref{thm:regular-cauchy-tail-meet-root-budget-limiter-factorization}, put the finite budget entrance before any seal-facing Real or Completion read.
+
+Finally apply the limit seal window pullback of \autoref{thm:regular-cauchy-tail-meet-limit-seal-window-pullback}. It repacks the fixed TailMeet rows with the shared finite-window and seal rows, so both exports reach one observation-budget entrance and one seal-facing pullback route with none of the excluded analytic coordinates available.
 \end{proof}
