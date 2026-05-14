@@ -145,6 +145,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RootConsumerPackage
+import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
@@ -987,6 +988,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTerminalTotality
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSealPackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootWindowRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRequestSelectorExhaustion
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerCoverage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowPullbackUniqueness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
