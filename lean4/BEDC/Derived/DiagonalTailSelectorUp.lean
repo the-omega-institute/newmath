@@ -24,6 +24,12 @@ def DiagonalTailSelectorCarrier [AskSetup] [PackageSetup]
       UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory name ∧
         Cont n mu k ∧ Cont k w d ∧ PkgSig bundle p pkg
 
+def DiagonalTailSelectorPublicBudgetSource [AskSetup] [PackageSetup]
+    (r n mu k w d t s h c p name publicRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ∧
+    Cont p name publicRow ∧ PkgSig bundle publicRow pkg
+
 theorem DiagonalTailSelectorCarrier_window_choice_totality [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name sourceRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -160,6 +166,33 @@ theorem DiagonalTailSelectorCarrier_public_budget_export [AskSetup] [PackageSetu
         exact And.intro source.left pPkg
     }
   exact ⟨publicUnary, publicRoute, publicPkg, cert⟩
+
+theorem DiagonalTailSelectorPublicBudgetSource_tail_budget_compatibility
+    [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+      bundle pkg ->
+      Cont w d t ->
+      Cont t s consumer ->
+      PkgSig bundle consumer pkg ->
+        UnaryHistory publicRow ∧ UnaryHistory consumer ∧ Cont w d t ∧
+          Cont t s consumer ∧ Cont p name publicRow ∧ PkgSig bundle consumer pkg ∧
+            PkgSig bundle publicRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro source wdRoute consumerRoute consumerPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary consumerRoute
+  exact
+    ⟨publicUnary, consumerUnary, wdRoute, consumerRoute, publicRoute, consumerPkg,
+      publicPkg⟩
 
 theorem DiagonalTailSelectorCarrier_real_seal_boundary_scope [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name consumer publicRow : BHist}
