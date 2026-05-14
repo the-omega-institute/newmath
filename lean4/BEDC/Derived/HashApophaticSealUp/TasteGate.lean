@@ -62,38 +62,83 @@ def hashApophaticSealToEventFlow : HashApophaticSealUp → EventFlow
         hashApophaticSealEncodeBHist name]
 
 def hashApophaticSealFromEventFlow : EventFlow → Option HashApophaticSealUp
-  | [[BMark.b0],
-      digest,
-      [BMark.b1, BMark.b0],
-      fiber,
-      [BMark.b1, BMark.b1, BMark.b0],
-      gap,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      farEnd,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      refusal,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      transport,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-      continuation,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0],
-      provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0],
-      name] =>
-      some
-        (HashApophaticSealUp.mk
-          (hashApophaticSealDecodeBHist digest)
-          (hashApophaticSealDecodeBHist fiber)
-          (hashApophaticSealDecodeBHist gap)
-          (hashApophaticSealDecodeBHist farEnd)
-          (hashApophaticSealDecodeBHist refusal)
-          (hashApophaticSealDecodeBHist transport)
-          (hashApophaticSealDecodeBHist continuation)
-          (hashApophaticSealDecodeBHist provenance)
-          (hashApophaticSealDecodeBHist name))
-  | _ => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | digest :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | fiber :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | gap :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | farEnd :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | refusal :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | continuation :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (HashApophaticSealUp.mk
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    digest)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    fiber)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    gap)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    farEnd)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    refusal)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    transport)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    continuation)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    provenance)
+                                                                                  (hashApophaticSealDecodeBHist
+                                                                                    name))
+                                                                          | _ :: _ => none
 
 private theorem hashApophaticSeal_round_trip :
     ∀ x : HashApophaticSealUp,
