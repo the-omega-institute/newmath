@@ -53,6 +53,18 @@ Now apply the NameCert obligations of \autoref{thm:supply-kind-router-namecert-o
 The absence of hidden branches follows from the carrier inventory. No coordinate names an additional kind, a default route, or a ledger read outside the finite classifier.
 \end{proof}
 
+\begin{theorem}[SupplyKindRouter apophatic socket dependency]
+\label{thm:supply-kind-router-apophatic-socket-dependency}
+Every accepted $\SupplyKindRouterUp$ packet consumes the apophatic named-boundary surface of \autoref{ch:concrete-instances-apophaticname-namecert} when its socket site $S$ and requested-shape row $R$ are read. The router refines that sibling boundary by choosing exactly one supply-kind row $K$ before the refusal row $A$, and it does not create the requested supply.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:supply-kind-router-carrier}. The socket site $S$ and requested-shape row $R$ are named boundary data, so their concrete sibling dependency is the ApophaticName surface that records a named boundary without supplying the requested content.
+
+Apply \autoref{thm:supply-kind-router-kind-exhaustion}. It forces exactly one classifier row $K$ to be exposed before a consumer reaches the requested-shape row or refusal row, so the router only refines the sibling boundary by kind selection.
+
+The refusal row $A$ then records the failed supply route. Because the carrier has no coordinate for a supplied witness, quotient equality, unrestricted induction principle, or hidden source object, the requested supply is not created by the router.
+\end{proof}
+
 \begin{theorem}[SupplyKindRouter non-escape]
 \label{thm:supply-kind-router-nonescape}
 Every consumer of an accepted $\SupplyKindRouterUp$ packet reads only
@@ -81,7 +93,7 @@ boundary.
 \begin{closurestatus}{\SupplyKindRouterUp}
   \constructivestory{A $\SupplyKindRouterUp$ packet is generated from a $\Gap$ socket site, exactly one of the seven supply-kind rows, a requested-shape row, an audit-gate refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:supply-kind-router-carrier}, \autoref{thm:supply-kind-router-namecert-obligations}, \autoref{thm:supply-kind-router-kind-exhaustion}, and \autoref{thm:supply-kind-router-nonescape} bind the finite classifier router, seven-kind coverage, requested-shape routing, audit refusal, transport, continuation, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:supply-kind-router-carrier}, \autoref{thm:supply-kind-router-namecert-obligations}, \autoref{thm:supply-kind-router-kind-exhaustion}, \autoref{thm:supply-kind-router-apophatic-socket-dependency}, and \autoref{thm:supply-kind-router-nonescape} bind the finite classifier router, apophatic socket dependency, seven-kind coverage, requested-shape routing, audit refusal, transport, continuation, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

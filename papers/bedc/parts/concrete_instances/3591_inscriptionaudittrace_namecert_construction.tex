@@ -4,7 +4,7 @@
 
 The $\InscriptionAuditTraceUp$ surface realizes the audit trace of an inscription event as a finite NameCert packet. It combines the inscription-event source and named-record rows, the GAP-ledger residue rows, and the accepted-check consumer-budget rows into one public audit object. The packet records only the rows that a certificate, citation, theorem site, or $\ChapterTasteGate$ consumer may inspect.
 
-The audit trace consumes \autoref{ch:concrete-instances-inscriptionevent-namecert} for the source, name, route, and check rows, \autoref{ch:concrete-instances-inscription-gap-ledger-namecert} for the residue row, and \autoref{ch:concrete-instances-inscription-acceptance-budget-namecert} for the accepted-check and downstream consumer-budget surface. These sibling packets are the horizontal lattice route used by the carrier below.
+The audit trace consumes \autoref{ch:concrete-instances-inscriptionevent-namecert} for the source, name, route, and check rows, \autoref{ch:concrete-instances-inscription-gap-ledger-namecert} for the residue row, and \autoref{ch:concrete-instances-inscription-acceptance-budget-namecert} for the accepted-check and downstream consumer-budget surface before it exposes its local public trace. The packet $S,M,R,K,U,Q,H,C,P,N$ is the finite join of those sibling surfaces: $S,M,R,K,U$ carry the event route and consumer boundary, $Q$ carries the GAP residue, and $H,C,P,N$ carry the transports, displayed continuations, provenance, and local certificate row. These sibling packets are the horizontal lattice route used by the carrier below, and no private agency predicate or host trace is exported by this join.
 
 \begin{definition}[Inscription audit trace carrier]
 \label{def:inscription-audit-trace-carrier}
