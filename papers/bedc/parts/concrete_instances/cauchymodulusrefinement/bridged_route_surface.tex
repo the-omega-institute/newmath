@@ -51,3 +51,21 @@ Now apply the local bridged-route surface and determinacy theorems, \autoref{thm
 
 Finally use the non-escape clauses in the bridge-surface proof. Those clauses exclude hidden selectors, quotient streams, selected host limits, host real equalities, second meet rows, side-channel completion objects, and ambient completeness coordinates. Combining the incoming TailMeet budget route with the local refinement route therefore exhausts every standard bridge consumer before any $\RealUp$ or $\CompletionUp$ seal read is exported.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement TailMeet budget route uniqueness]
+\label{thm:cauchy-modulus-refinement-tailmeet-budget-route-uniqueness}
+Let two standard bridge consumers enter an accepted $\CauchyModulusRefinementUp$ packet through the same $\RegularCauchyTailMeetUp$ budget-seal package and expose the same displayed refinement rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Then the two exported $\RealUp$ and $\CompletionUp$ seal handoff routes are the same public route under the componentwise $\hsame$ rows of $H$. The comparison reads only the shared TailMeet budget-seal rows and the displayed refinement rows; it has no coordinate for a hidden selector, quotient stream, selected host limit, host real equality, ambient completeness principle, or side-channel completion carrier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-tail-meet-root-downstream-budget-seal-package}. Since both consumers enter through the same $\RegularCauchyTailMeetUp$ budget-seal package, their incoming routes first share the displayed TailMeet rows, finite observation budget, and limiter surface before the refinement packet is read.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-root-seal-exactness}. The shared incoming package is the exact budgeted seal interface, so neither consumer can insert an independent $\RealUp$ or $\CompletionUp$ seal route before the named TailMeet budget rows.
+
+Now use \autoref{thm:cauchy-modulus-refinement-bridged-route-determinacy}. The two consumers expose the same $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ rows, so the refinement-side public bridge read determines the same Real and Completion handoff surface under the componentwise $\hsame$ rows of $H$.
+
+Finally apply \autoref{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion}. Every accepted consumer entering from the TailMeet budget package is already exhausted by the TailMeet route followed by the displayed refinement route. The excluded hidden selector, quotient stream, selected host limit, host real equality, ambient completeness, and side-channel completion coordinates therefore cannot distinguish the two exported seal handoffs.
+\end{proof}
