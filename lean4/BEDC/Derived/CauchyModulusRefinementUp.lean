@@ -234,6 +234,36 @@ theorem CauchyModulusRefinement_selector_budget_regseqrat_real_seal_determinacy
     cont_respects_hsame sameQ sameSeal carrierSeal transportedSeal
   exact ⟨sameQ, sameH⟩
 
+theorem CauchyModulusRefinement_classifier_transport [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n m0' m1' u' v' t' w' q' e' h' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      hsame m0 m0' ->
+        hsame m1 m1' ->
+          hsame v v' ->
+            hsame w w' ->
+              hsame e e' ->
+                Cont m0' m1' u' ->
+                  Cont u' v' t' ->
+                    Cont t' w' q' ->
+                      Cont q' e' h' ->
+                        hsame u u' ∧ hsame t t' ∧ hsame q q' ∧ hsame h h' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier sameM0 sameM1 sameV sameW sameE sourceRoute selectorRoute windowRoute sealRoute
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, _tUnary, _wUnary, _qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, carrierSource, carrierSelector,
+      carrierWindow, carrierSeal, _pPkg, _hn⟩
+  have sameU : hsame u u' :=
+    cont_respects_hsame sameM0 sameM1 carrierSource sourceRoute
+  have sameT : hsame t t' :=
+    cont_respects_hsame sameU sameV carrierSelector selectorRoute
+  have sameQ : hsame q q' :=
+    cont_respects_hsame sameT sameW carrierWindow windowRoute
+  have sameH : hsame h h' :=
+    cont_respects_hsame sameQ sameE carrierSeal sealRoute
+  exact ⟨sameU, sameT, sameQ, sameH⟩
+
 theorem CauchyModulusRefinementCarrier_source_window_lock [AskSetup] [PackageSetup]
     {m0 m1 u v t w q e h c p n selected : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
