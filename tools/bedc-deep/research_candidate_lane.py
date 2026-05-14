@@ -236,6 +236,9 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
     oracle_recommended = bool(ORACLE_WORTHY_RE.search(text)) and not reasons
     if oracle_recommended:
         enriched["oracle_mode"] = "proof_search"
+    _set_missing(enriched, "difficulty", _difficulty(enriched))
+    _set_missing(enriched, "quality_score", _quality_score(enriched, reasons))
+    _set_missing(enriched, "selection_rank", "")
     return {
         "ts": now_iso(),
         "source": source,
@@ -244,6 +247,32 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         "oracle_recommended": oracle_recommended,
         "candidate": enriched,
     }
+
+
+def _quality_score(candidate: dict[str, Any], reasons: list[str]) -> dict[str, int]:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    safe_landing = bool(candidate.get("local_inputs")) and not reasons
+    text = _text(candidate).lower()
+    return {
+        "verifiability": 3 if safe_landing else 0,
+        "locality": 2 if safe_landing else 0,
+        "downstream_use": 2 if fit >= 8 else 1 if fit >= DEFAULT_FIT_THRESHOLD else 0,
+        "line_cap_safety": 2 if safe_landing else 0,
+        "nontriviality": 2 if novelty >= 8 else 1 if novelty >= DEFAULT_NOVELTY_THRESHOLD else 0,
+        "cross_chapter_unification": 2 if len(_as_list(candidate.get("local_inputs"))) >= 3 else 1 if "sibling" in text else 0,
+    }
+
+
+def _difficulty(candidate: dict[str, Any]) -> str:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    text = _text(candidate)
+    if novelty >= 8 and (ORACLE_WORTHY_RE.search(text) or BRIDGE_RE.search(text)):
+        return "high"
+    if fit >= 8 and novelty >= 7:
+        return "medium"
+    return "low"
 
 
 def collect_candidates(limit: int) -> list[dict[str, Any]]:
@@ -308,6 +337,9 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
                 "dependency_trace",
                 "rate_modulus_surface",
                 "oracle_mode",
+                "difficulty",
+                "quality_score",
+                "selection_rank",
             )
         }
         candidate["source"] = "research_lane:candidate_inbox"
