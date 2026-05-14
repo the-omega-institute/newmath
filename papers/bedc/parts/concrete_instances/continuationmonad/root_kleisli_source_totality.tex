@@ -1,0 +1,41 @@
+\begin{theorem}[ContinuationMonad root Kleisli source totality]
+\label{thm:continuation-monad-root-kleisli-source-totality}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the Kleisli source exposed to any root consumer is exhausted by the displayed $\BHist$ source histories $A,B,C$, the continuation tails $f,g$, the unit tail $u$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route row $K$, the ledger row $L$, and the local $\NameCert$ row $N$.
+
+No host function, quotient Kleisli arrow, ambient hom set, external monad evaluator, or continuation rule outside $Z$ is part of that source.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It displays exactly $A,B,C,f,g,u,H,K,L,N$ as the accepted source packet.
+
+Next use \autoref{thm:continuation-monad-root-source-coverage}. Every root read must pass through the displayed histories and continuation tails before unit or bind data can be consumed.
+
+Finally apply ledger exactness from \autoref{thm:continuation-monad-namecert-ledger-exactness}. The consumer-visible Kleisli read is exhausted by the carrier, classifier, unit, bind, associativity, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same finite packet, so no external source coordinate remains.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root generator boundary readback]
+\label{thm:continuation-monad-root-generator-boundary-readback}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every generator-facing readback of the root Kleisli source factors through the authorized generator boundary named by \autoref{ch:concrete-instances-generatorclosure-namecert} and the displayed generator-boundary refusal for $Z$.
+
+Such a readback may replay only the listed histories, continuation tails, unit tail, transport rows, route rows, ledger rows, package rows, and local name rows. It cannot introduce an unlisted continuation rule or a second generator route.
+\end{theorem}
+\begin{proof}
+Read the generator face through \autoref{thm:continuation-monad-generator-category-triad}. It attaches the generator boundary to the same packet $A,B,C,f,g,u,H,K,L,N$.
+
+Apply \autoref{thm:continuation-monad-generator-boundary-refusal}. The refusal row blocks every unit row, bind row, continuation rule, or route generator that is not already displayed in the accepted packet.
+
+Close the readback with \autoref{thm:continuation-monad-root-generator-consumer-lock}. Generator-facing consumers inherit the same refusal and the same finite source surface, so the readback has no coordinate for an unlisted continuation rule.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root CategoryHomCarrier consumer totality]
+\label{thm:continuation-monad-root-category-hom-consumer-totality}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every $\mathsf{CategoryHomCarrier}$-facing consumer of the root Kleisli source is exhausted by the displayed continuation tails $f,g,u$ and the $\CategoryUp$ hom-row reading over $A,B,C,H,K,L,N$.
+
+The consumer may use the componentwise $\hsame$ transports, displayed $\Cont$ routes, ledger, package provenance, and local $\NameCert$ row of $Z$, but it receives no ambient hom set, host composition operation, quotient Kleisli arrow, or external category completion.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-category-hom-row-exposure}. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ entries are exposed only as reads of the displayed continuation tails over the same histories, transports, routes, ledger, and local name.
+
+Next use \autoref{thm:continuation-monad-root-category-generator-obligation-surface}. It places the $\CategoryUp$ hom-carrier reading on the shared finite root package and excludes independent category data.
+
+Finally apply \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} and \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. Unit and bind schedules are exhausted by $u,f,g,H,K,L,N$, while the ledger boundary admits no quotient Kleisli arrow, host-function composition, ambient category completion, external evaluator, or unlisted generator.
+\end{proof}
