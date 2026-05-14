@@ -1,0 +1,87 @@
+\begin{definition}[RegSeqRat constant dyadic source]
+\label{def:regseqrat-constant-dyadic-source}
+A $\RegSeqRatUp$ constant dyadic source packet for a displayed dyadic endpoint
+$d$ is the finite packet obtained by reading one $\DyadicRatCoreUp$ endpoint
+row for $d$, the constant $\StreamNameUp$ schedule that returns that same row
+at every requested unary window, and the $\RegSeqRatUp$ regularity ledger that
+compares any two displayed positions by the same endpoint row. Its visible
+rows are the dyadic endpoint row, the dyadic radius row requested by each
+window, the zero dyadic-distance row for equal endpoints, the regularity bound
+row, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ provenance.
+
+The packet is only a finite BEDC source description. It is not a quotient
+stream, host real equality, selected limit, metric completion object, Real
+completeness row, or ambient embedding principle.
+\end{definition}
+
+\begin{theorem}[RegSeqRat constant dyadic regularity]
+\label{thm:regseqrat-constant-dyadic-regularity}
+Every finite window of a $\RegSeqRatUp$ constant dyadic source is regular. For
+requested precisions $n$ and $m$, both displayed endpoints are the same
+$\DyadicRatCoreUp$ row $d$, the dyadic-distance row is the equal-endpoint row,
+and the regularity ledger is the displayed bound
+$$
+0 \leq 2^{-n}+2^{-m}.
+$$
+Thus the window supplies exactly the RegSeqRat regularity row over the constant
+StreamName schedule, together with its $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the constant dyadic source of
+\autoref{def:regseqrat-constant-dyadic-source}. The two endpoint projections
+in any finite window are the same $\DyadicRatCoreUp$ endpoint row, because the
+$\StreamNameUp$ schedule is constant.
+
+Read the equal-endpoint dyadic-distance row from
+\autoref{ch:concrete-instances-dyadicratcore-namecert}. The radius ledger for
+the same window supplies the two displayed radii $2^{-n}$ and $2^{-m}$, so the
+regularity comparison is bounded by the displayed sum.
+
+Finally apply the RegSeqRat regularity obligation surface of
+\autoref{thm:regseqrat-regularity-obligation-surface} and the finite-window
+transport closure of
+\autoref{thm:regseqrat-finite-window-transport-obligation}. They repack the
+constant StreamName schedule of
+\autoref{ch:concrete-instances-streamname-namecert} and the dyadic endpoint
+rows as the required RegSeqRat regularity ledger, without adding quotient or
+completion data.
+\end{proof}
+
+\begin{theorem}[RegSeqRat constant RealUp seal handoff]
+\label{thm:regseqrat-constant-real-seal-handoff}
+A $\RegSeqRatUp$ constant dyadic source reaches the $\RealUp$ seal only through
+the four visible faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+The source first reads the constant StreamName schedule, then the shared
+DyadicRatCore endpoint and radius rows, then the RegSeqRat regularity and
+classifier ledger of \autoref{thm:regseqrat-constant-dyadic-regularity}, and
+then the RealUp seal row of
+\autoref{ch:concrete-instances-real-namecert}. The handoff exports no quotient
+stream equality, host real equality, completion object, selected limit, ambient
+embedding theorem, or RealUp completeness row.
+\end{theorem}
+\begin{proof}
+Start with the constant schedule and endpoint packet of
+\autoref{def:regseqrat-constant-dyadic-source}. Its source rows are already the
+StreamName and DyadicRatCore rows named by
+\autoref{ch:concrete-instances-streamname-namecert} and
+\autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+Use \autoref{thm:regseqrat-constant-dyadic-regularity} to place every finite
+window on the RegSeqRat regularity surface. The cited theorem supplies the
+same endpoint, radius, distance, transport, route, package, and naming rows in
+each requested window.
+
+Finally apply the existing RegSeqRat seal route:
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness},
+\autoref{thm:regseqrat-tail-budget-meet-handoff}, and
+\autoref{thm:regseqrat-real-seal-handoff}. These route the finite
+regular-rational packet to the RealUp seal through the four visible faces.
+Since none of those faces contains a coordinate for quotient stream equality,
+host real equality, completion objects, selected limits, embedding theorems, or
+RealUp completeness, the constant packet exports no such row.
+\end{proof}
