@@ -458,6 +458,8 @@ def histogram() -> dict[str, int]:
     if not STATE_DIR.exists():
         return counts
     for state_file in STATE_DIR.glob("*.json"):
+        if not re.match(r"^b-\d+_", state_file.stem):
+            continue
         try:
             data = json.loads(state_file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
