@@ -139,6 +139,43 @@ theorem DiagonalLimitCompatibilitySealBudgetRoute [AskSetup] [PackageSetup]
       dyadicWindowsBudgetPrefix, budgetPrefixSealRow, readbackRealSealRoute, provenancePkg,
       sealBudgetPkg⟩
 
+theorem DiagonalLimitCompatibility_root_route_budget_package [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetPrefix sealBudget endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont dyadic windows budgetPrefix →
+      Cont budgetPrefix sealRow sealBudget →
+      Cont readback realSeal endpoint →
+      PkgSig bundle sealBudget pkg →
+      PkgSig bundle endpoint pkg →
+        UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory sealRow ∧
+          UnaryHistory dyadic ∧ UnaryHistory windows ∧ UnaryHistory budgetPrefix ∧
+            UnaryHistory sealBudget ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+              UnaryHistory endpoint ∧ Cont diagonal triangle sealRow ∧
+                Cont dyadic windows budgetPrefix ∧ Cont budgetPrefix sealRow sealBudget ∧
+                  Cont readback realSeal endpoint ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle sealBudget pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier dyadicWindowsBudgetPrefix budgetPrefixSealRow readbackEndpoint
+    sealBudgetPkg endpointPkg
+  obtain ⟨diagonalUnary, triangleUnary, sealUnary, dyadicUnary, windowsUnary, readbackUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    diagonalTriangleSeal, _carrierDyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have budgetPrefixUnary : UnaryHistory budgetPrefix :=
+    unary_cont_closed dyadicUnary windowsUnary dyadicWindowsBudgetPrefix
+  have sealBudgetUnary : UnaryHistory sealBudget :=
+    unary_cont_closed budgetPrefixUnary sealUnary budgetPrefixSealRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary realSealUnary readbackEndpoint
+  exact
+    ⟨diagonalUnary, triangleUnary, sealUnary, dyadicUnary, windowsUnary, budgetPrefixUnary,
+      sealBudgetUnary, readbackUnary, realSealUnary, endpointUnary, diagonalTriangleSeal,
+      dyadicWindowsBudgetPrefix, budgetPrefixSealRow, readbackEndpoint, provenancePkg,
+      sealBudgetPkg, endpointPkg⟩
+
 theorem DiagonalLimitCompatibility_tolerance_ledger_handoff [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       endpoint : BHist}
