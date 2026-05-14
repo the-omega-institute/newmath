@@ -615,18 +615,114 @@ row is needed for that encoding; the rows are already the displayed packet
 surface of this chapter.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator obligation closure status]
+\label{thm:finite-trace-evaluator-obligation-closure-status}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+the carrier row, the local $\NameCert_{\FiniteTraceEvaluatorUp}$ obligations,
+the trace-result route, validation-row non-escape, provenance exhaustion,
+result classifier exactness, the nontrivial carrier pair, the field-faithful
+public rows, and the $\mathrm{TasteGate}$ readiness surface assemble the
+paper-side obligation-closure package over $I,T,A,V,H,C,P,N$. The package is
+bounded to the displayed evaluator packet and does not assert Lean
+formalization, host validation, total truth, total halting, or unbounded
+evaluation.
+\end{theorem}
+\begin{proof}
+The carrier and local naming surface are fixed by
+\autoref{def:finite-trace-evaluator-carrier} and
+\autoref{thm:finite-trace-evaluator-namecert-obligations}. They display the
+rows $I,T,A,V,H,C,P,N$ and restrict the available obligations to carrier
+admission, trace exposure, accepted-result classification, validation
+non-escape, and ledger exhaustion.
+
+The evaluator-result part is supplied by
+\autoref{thm:finite-trace-evaluator-trace-result-route} and
+\autoref{thm:finite-trace-evaluator-result-classifier-exactness}. These place
+every accepted result on the finite route from $I$ through $T$ to $A$.
+
+The boundary and ledger part is supplied by
+\autoref{thm:finite-trace-evaluator-validation-row-nonescape} and
+\autoref{thm:finite-trace-evaluator-provenance-exhaustion}. Thus every
+validation read remains at $V,H,C,P,N$, and provenance introduces no host
+validator, truth predicate, total halting predicate, or infinite trace.
+
+Finally,
+\autoref{thm:finite-trace-evaluator-nontrivial-carrier-pair},
+\autoref{thm:finite-trace-evaluator-field-faithful-rows}, and
+\autoref{thm:finite-trace-evaluator-tastegate-readiness} give the public
+carrier separation and route sensitivity required by the later
+$\mathrm{TasteGate}$ surface. These references assemble the paper-side
+obligation package while leaving the verification and bridge axes unchanged.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root trace-result totality]
+\label{thm:finite-trace-evaluator-root-trace-result-totality}
+Every root-level downstream consumer of an accepted $\FiniteTraceEvaluatorUp$
+packet that reads accepted-result data first factors through
+$$
+I \to T \to A.
+$$
+The consumer may then continue through the remaining rows of
+$E=(I,T,A,V,H,C,P,N)$, but it cannot read an accepted result before the coded
+input and finite trace-step rows have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with the bounded trace coverage of
+\autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. It sends every
+accepted evaluator result through the displayed route $I \to T \to A$.
+
+Use \autoref{thm:finite-trace-evaluator-trace-result-route} and
+\autoref{thm:finite-trace-evaluator-result-classifier-exactness}. They make
+$A$ exact for accepted results only after the finite trace-step row in $T$ has
+been read from $I$.
+
+Any root-level downstream consumer is still a consumer of the same displayed
+packet. By \autoref{thm:finite-trace-evaluator-public-consumer-package} and
+\autoref{thm:finite-trace-evaluator-runtime-checkpoint-boundary}, the public
+and checkpoint routes continue through $V,H,C,P,N$ without adding a second
+accepted-result channel.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root validation boundary]
+\label{thm:finite-trace-evaluator-root-validation-boundary}
+Every root-level validation read of an accepted $\FiniteTraceEvaluatorUp$
+packet terminates at the displayed boundary, transport, continuation,
+provenance, and local naming rows $V,H,C,P,N$. Such a read cannot become host
+validation, total truth for $\mathrm{CIC}^{*}$ sentences, total halting, or
+unbounded evaluation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-trace-evaluator-validation-row-nonescape}. It
+states that $V$ is a boundary row and refuses host validation, total truth,
+self-validation, and unbounded execution as packet coordinates.
+
+Attach the surrounding transport and naming rows by
+\autoref{thm:finite-trace-evaluator-boundary-exhaustion} and
+\autoref{thm:finite-trace-evaluator-validation-refusal-package}. These keep
+the validation read on the route through $V,H,C,P,N$.
+
+Finally apply \autoref{thm:finite-trace-evaluator-provenance-exhaustion} and
+\autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}. The
+ledger is exhausted by the displayed finite packet, so no root-level read can
+recover a host validator, total truth predicate, total halting predicate, or
+unbounded evaluator from the validation boundary.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FiniteTraceEvaluatorUp$ packet whose public read treats the input-only trace shape and the accepted-result shape as the same packet fails the carrier separation witnessed by the displayed $A,V$ rows.}
 \independenceWitness{runtimecandidateboundary, haltingdistinctiontrace, finite-trace-gap-socket, reflection-runtime-checkpoint: none is bijective to $\FiniteTraceEvaluatorUp$ because those siblings expose runtime candidate, halting distinction, gap socket, or reflection checkpoint rows, while this carrier binds coded input, finite trace, accepted-result classifier, validation boundary, transport, continuation, provenance, and local naming in one evaluator packet.}
 
-\closureat{FiniteTraceEvaluatorUp}{seedStr}
+\closureat{FiniteTraceEvaluatorUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteTraceEvaluatorUp}
   \constructivestory{A $\FiniteTraceEvaluatorUp$ packet is generated from coded input rows, finite trace-step rows, accepted-result classifier rows, a validation-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-trace-evaluator-carrier}, \autoref{thm:finite-trace-evaluator-namecert-obligations}, and \autoref{thm:finite-trace-evaluator-object-level-boundary} bind the finite evaluator trace carrier, accepted-result classifier, validation boundary, and ledger exhaustion surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-trace-evaluator-carrier}, \autoref{thm:finite-trace-evaluator-namecert-obligations}, \autoref{thm:finite-trace-evaluator-obligation-closure-status}, \autoref{thm:finite-trace-evaluator-root-trace-result-totality}, \autoref{thm:finite-trace-evaluator-root-validation-boundary}, and \leanchecked{BEDC.Derived.FiniteTraceEvaluatorUp.taste\_gate} bind the finite evaluator trace carrier, accepted-result classifier, validation boundary, ledger exhaustion surface, downstream consumer boundary, and TasteGate instance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host validation, total halting, truth for $\mathrm{CIC}^{*}$ sentences, unbounded evaluation, infinite traces, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite trace-step exposure, accepted-result classifier exactness, runtime-validation non-escape, ledger exhaustion, and consumer-route factorization for the same packet.}
+  \upgradepath{The next closure grade requires Lean-checked carrier admission, finite trace-step exposure, accepted-result classifier exactness, runtime-validation non-escape, ledger exhaustion, and consumer-route factorization for the same packet.}
 \end{closurestatus}
