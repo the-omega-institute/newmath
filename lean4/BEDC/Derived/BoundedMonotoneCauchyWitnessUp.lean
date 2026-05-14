@@ -237,4 +237,36 @@ theorem BoundedMonotoneCauchyWitnessCarrier_convergence_seal_input_package [AskS
       criterionRoute, convergenceRoute, sourceScheduleRegular, regularWitnessTrap,
       trapSealRoute, provenancePkg, convergencePkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_criterion_tail_factorization
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      criterionTail convergenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg ->
+      Cont regular witness criterionTail ->
+        Cont criterionTail sealRow convergenceRead ->
+          PkgSig bundle convergenceRead pkg ->
+            UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+              UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                UnaryHistory sealRow ∧ UnaryHistory criterionTail ∧
+                  UnaryHistory convergenceRead ∧ Cont source schedule regular ∧
+                    Cont regular witness criterionTail ∧
+                      Cont criterionTail sealRow convergenceRead ∧ Cont trap sealRow route ∧
+                        PkgSig bundle provenance pkg ∧
+                          PkgSig bundle convergenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier regularWitnessCriterion criterionSealConvergence convergencePkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, _provenanceUnary, sourceScheduleRegular, _regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have criterionUnary : UnaryHistory criterionTail :=
+    unary_cont_closed regularUnary witnessUnary regularWitnessCriterion
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed criterionUnary sealUnary criterionSealConvergence
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      criterionUnary, convergenceUnary, sourceScheduleRegular, regularWitnessCriterion,
+      criterionSealConvergence, trapSealRoute, provenancePkg, convergencePkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
