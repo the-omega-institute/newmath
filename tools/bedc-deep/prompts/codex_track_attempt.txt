@@ -23,6 +23,15 @@ Method:
    and lemmas already in scope. Read `papers/bedc/preamble.tex` for available
    macro names.
 
+1b. Pick the `tex_file` before closing. It must be an existing concrete body
+    file under `papers/bedc/parts/`, not `main.tex` and not a wrapper that only
+    `\input`s other files. Check the current line count and estimate the lines
+    your block will add. If the append would put the file over 800 total lines,
+    choose a smaller existing concrete body file that matches the same topic.
+    Do not invent a new `.tex` file. If no existing concrete body file can
+    accept the block, set `verdict="escalate"` with `escalation_reason`
+    beginning `routing_capacity_blocked:`.
+
 2. If round_idx > 0, study cycle_history carefully. The redline checker only
    flags hygiene / safety violations; correctness is your responsibility. Do
    NOT repeat any approach already attempted. Each new round must add real
