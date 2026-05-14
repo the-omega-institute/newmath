@@ -407,6 +407,7 @@ import BEDC.Derived.CauchyLimitSealUp.FiniteWindowLattice
 import BEDC.Derived.CauchyLimitSealUp.LedgerNonescape
 import BEDC.Derived.CauchyLimitSealUp.ObservationBudgetPullback
 import BEDC.Derived.CauchyLimitSealUp.PublicRouteTransport
+import BEDC.Derived.CauchyLimitSealUp.RegularTailSelectorBudgetCompatibility
 import BEDC.Derived.CauchyLimitSealUp.RegularTailSelectorSiblingLink
 import BEDC.Derived.CauchyLimitSealUp.RootBudgetSourceTotality
 import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
@@ -681,6 +682,7 @@ import BEDC.Derived.UniformModulusUp.RootClassifierRow
 import BEDC.Derived.UniformModulusUp.RootPublicRows
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniversalityClosureQuadrantUp.TasteGate
+import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelPredictiveControlUp
 import BEDC.Derived.NewtonIterationUp
@@ -936,6 +938,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealBudgetNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
