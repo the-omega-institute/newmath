@@ -141,6 +141,76 @@ carrier has no bypass, marker-repair, membrane-override, or acceptance-after-
 refusal coordinate, none of those objects can escape to the consumer.
 \end{proof}
 
+\begin{theorem}[Audit-gate composition root-source boundary]
+\label{thm:audit-gate-composition-root-source-boundary}
+Every root read of an accepted $\AuditGateCompositionUp$ packet exposes the
+two audit-gate rows $G_0,G_1$, the two shared boundary rows $B_0,B_1$, and
+the transport rows in $H$ before it may read the composed trace $Q$. The
+root surface therefore has no direct route from either gate row to $Q$ that
+bypasses the displayed shared-boundary packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-composition-carrier}. The
+only rows preceding the composed trace are $G_0,G_1,B_0,B_1,R_0,R_1$ and
+the componentwise transport data in $H$; no second source row is present.
+
+The NameCert surface of
+\autoref{thm:audit-gate-composition-namecert-obligations} binds those rows
+as the displayed root source for the composition. Refusal transitivity then
+reads the trace through the shared boundary, so any consumer that reaches
+$Q$ has already exposed $G_0,G_1,B_0,B_1$ through the same finite packet.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition composed-refusal inheritance]
+\label{thm:audit-gate-composition-composed-refusal-inheritance}
+Every composed trace of an accepted $\AuditGateCompositionUp$ packet inherits
+both refusal rows $R_0$ and $R_1$ through the shared boundary. The trace $Q$
+is not a new refusal object; it is the replay of $R_0$, the transported
+boundary read, and $R_1$ inside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with the refusal rows in the carrier and the boundary rows named by
+\autoref{thm:audit-gate-composition-root-source-boundary}. These are the
+only displayed sources from which $Q$ can be read.
+
+Use \autoref{thm:audit-gate-composition-refusal-transitivity}. It orders the
+composition by the first refusal row, the shared-boundary transport, and the
+second refusal row. Since consumer non-escape adds no host refusal channel,
+the composed trace can inherit only $R_0$ and $R_1$ through that boundary.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition downstream root package]
+\label{thm:audit-gate-composition-downstream-unblock-package}
+The downstream root package for $\AuditGateCompositionUp$ consists of
+carrier exposure, shared-boundary transport, composed refusal replay, and
+consumer non-escape. Concretely, every accepted packet exposes
+$$
+G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N
+$$
+as a finite NameCert surface for downstream audit-gate consumers, and exports
+no bypass row, skipped-gate row, external ancestry oracle, or host acceptance
+coordinate.
+\end{theorem}
+\begin{proof}
+Carrier exposure is \autoref{def:audit-gate-composition-carrier}, and the
+NameCert obligations are
+\autoref{thm:audit-gate-composition-namecert-obligations}. Together they
+display the two gate rows, two boundary rows, two refusal rows, trace row,
+transports, replay route, provenance, and local name.
+
+Shared-boundary transport is supplied by
+\autoref{thm:audit-gate-composition-root-source-boundary}. Composed refusal
+replay is supplied by
+\autoref{thm:audit-gate-composition-composed-refusal-inheritance} and
+\autoref{thm:audit-gate-composition-refusal-transitivity}.
+
+Finally apply
+\autoref{thm:audit-gate-composition-consumer-nonescape}. It removes every
+consumer route to bypass rows, skipped-gate rows, external ancestry oracles,
+and host acceptance coordinates, leaving exactly the displayed downstream
+root package.
+\end{proof}
+
 \begin{theorem}[Audit-gate composition shared-boundary source]
 \label{thm:audit-gate-composition-shared-boundary-source}
 In every accepted $\AuditGateCompositionUp$ carrier
