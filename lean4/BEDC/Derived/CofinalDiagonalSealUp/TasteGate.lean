@@ -11,9 +11,9 @@ open BEDC.Meta.TasteGate
 
 inductive CofinalDiagonalSealUp : Type where
   | mk :
-      (precision tail diagonal limit regular window dyadic sealRow transport route provenance name :
-        BHist) →
-      CofinalDiagonalSealUp
+      (precision cofinalTail diagonalBudget diagonalLimit regularSource streamWindow
+        dyadicLedger realSeal transport replay provenance nameCert : BHist) →
+        CofinalDiagonalSealUp
   deriving DecidableEq
 
 def cofinalDiagonalSealEncodeBHist : BHist → RawEvent
@@ -29,8 +29,7 @@ def cofinalDiagonalSealDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (cofinalDiagonalSealDecodeBHist tail)
 
 private theorem cofinalDiagonalSeal_decode_encode_bhist :
-    ∀ h : BHist,
-      cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist h) = h := by
+    ∀ h : BHist, cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,37 +42,37 @@ private theorem cofinalDiagonalSeal_decode_encode_bhist :
 
 def cofinalDiagonalSealToEventFlow : CofinalDiagonalSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | CofinalDiagonalSealUp.mk precision tail diagonal limit regular window dyadic sealRow
-      transport route provenance name =>
+  | CofinalDiagonalSealUp.mk precision cofinalTail diagonalBudget diagonalLimit regularSource
+      streamWindow dyadicLedger realSeal transport replay provenance nameCert =>
       [[BMark.b0],
         cofinalDiagonalSealEncodeBHist precision,
         [BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist tail,
+        cofinalDiagonalSealEncodeBHist cofinalTail,
         [BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist diagonal,
+        cofinalDiagonalSealEncodeBHist diagonalBudget,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist limit,
+        cofinalDiagonalSealEncodeBHist diagonalLimit,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist regular,
+        cofinalDiagonalSealEncodeBHist regularSource,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist window,
+        cofinalDiagonalSealEncodeBHist streamWindow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist dyadic,
+        cofinalDiagonalSealEncodeBHist dyadicLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        cofinalDiagonalSealEncodeBHist sealRow,
+        cofinalDiagonalSealEncodeBHist realSeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
         cofinalDiagonalSealEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist route,
+        cofinalDiagonalSealEncodeBHist replay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         cofinalDiagonalSealEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        cofinalDiagonalSealEncodeBHist name]
+        cofinalDiagonalSealEncodeBHist nameCert]
 
 private def cofinalDiagonalSealRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -89,7 +88,8 @@ private def cofinalDiagonalSealLengthEq : Nat → EventFlow → Bool
   | Nat.succ _, [] => false
   | Nat.succ n, _ :: rest => cofinalDiagonalSealLengthEq n rest
 
-def cofinalDiagonalSealFromEventFlow : EventFlow → Option CofinalDiagonalSealUp
+def cofinalDiagonalSealFromEventFlow :
+    EventFlow → Option CofinalDiagonalSealUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
       match cofinalDiagonalSealLengthEq 24 flow with
@@ -112,43 +112,47 @@ def cofinalDiagonalSealFromEventFlow : EventFlow → Option CofinalDiagonalSealU
 
 private theorem cofinalDiagonalSeal_round_trip :
     ∀ x : CofinalDiagonalSealUp,
-      cofinalDiagonalSealFromEventFlow (cofinalDiagonalSealToEventFlow x) = some x := by
+      cofinalDiagonalSealFromEventFlow
+        (cofinalDiagonalSealToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk precision tail diagonal limit regular window dyadic sealRow transport route provenance name =>
+  | mk precision cofinalTail diagonalBudget diagonalLimit regularSource streamWindow
+      dyadicLedger realSeal transport replay provenance nameCert =>
       change
         some
           (CofinalDiagonalSealUp.mk
             (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist precision))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist tail))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist diagonal))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist limit))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist regular))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist window))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist dyadic))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist sealRow))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist cofinalTail))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist diagonalBudget))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist diagonalLimit))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist regularSource))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist streamWindow))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist dyadicLedger))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist realSeal))
             (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist transport))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist route))
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist replay))
             (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist provenance))
-            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist name))) =
+            (cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist nameCert))) =
           some
-            (CofinalDiagonalSealUp.mk precision tail diagonal limit regular window dyadic sealRow
-              transport route provenance name)
+            (CofinalDiagonalSealUp.mk precision cofinalTail diagonalBudget diagonalLimit
+              regularSource streamWindow dyadicLedger realSeal transport replay provenance
+              nameCert)
       rw [cofinalDiagonalSeal_decode_encode_bhist precision,
-        cofinalDiagonalSeal_decode_encode_bhist tail,
-        cofinalDiagonalSeal_decode_encode_bhist diagonal,
-        cofinalDiagonalSeal_decode_encode_bhist limit,
-        cofinalDiagonalSeal_decode_encode_bhist regular,
-        cofinalDiagonalSeal_decode_encode_bhist window,
-        cofinalDiagonalSeal_decode_encode_bhist dyadic,
-        cofinalDiagonalSeal_decode_encode_bhist sealRow,
+        cofinalDiagonalSeal_decode_encode_bhist cofinalTail,
+        cofinalDiagonalSeal_decode_encode_bhist diagonalBudget,
+        cofinalDiagonalSeal_decode_encode_bhist diagonalLimit,
+        cofinalDiagonalSeal_decode_encode_bhist regularSource,
+        cofinalDiagonalSeal_decode_encode_bhist streamWindow,
+        cofinalDiagonalSeal_decode_encode_bhist dyadicLedger,
+        cofinalDiagonalSeal_decode_encode_bhist realSeal,
         cofinalDiagonalSeal_decode_encode_bhist transport,
-        cofinalDiagonalSeal_decode_encode_bhist route,
+        cofinalDiagonalSeal_decode_encode_bhist replay,
         cofinalDiagonalSeal_decode_encode_bhist provenance,
-        cofinalDiagonalSeal_decode_encode_bhist name]
+        cofinalDiagonalSeal_decode_encode_bhist nameCert]
 
-private theorem cofinalDiagonalSealToEventFlow_injective {x y : CofinalDiagonalSealUp} :
+private theorem cofinalDiagonalSealToEventFlow_injective
+    {x y : CofinalDiagonalSealUp} :
     cofinalDiagonalSealToEventFlow x = cofinalDiagonalSealToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -160,41 +164,47 @@ private theorem cofinalDiagonalSealToEventFlow_injective {x y : CofinalDiagonalS
     (Eq.trans (cofinalDiagonalSeal_round_trip x).symm
       (Eq.trans hread (cofinalDiagonalSeal_round_trip y)))
 
-instance cofinalDiagonalSealBHistCarrier : BHistCarrier CofinalDiagonalSealUp where
+instance cofinalDiagonalSealBHistCarrier :
+    BHistCarrier CofinalDiagonalSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := cofinalDiagonalSealToEventFlow
   fromEventFlow := cofinalDiagonalSealFromEventFlow
 
-instance cofinalDiagonalSealChapterTasteGate : ChapterTasteGate CofinalDiagonalSealUp where
+instance cofinalDiagonalSealChapterTasteGate :
+    ChapterTasteGate CofinalDiagonalSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change cofinalDiagonalSealFromEventFlow (cofinalDiagonalSealToEventFlow x) = some x
+    change
+      cofinalDiagonalSealFromEventFlow
+        (cofinalDiagonalSealToEventFlow x) = some x
     exact cofinalDiagonalSeal_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (cofinalDiagonalSealToEventFlow_injective heq)
 
-instance cofinalDiagonalSealFieldFaithful : FieldFaithful CofinalDiagonalSealUp where
+instance cofinalDiagonalSealFieldFaithful :
+    FieldFaithful CofinalDiagonalSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | CofinalDiagonalSealUp.mk precision tail diagonal limit regular window dyadic sealRow
-        transport route provenance name =>
-        [precision, tail, diagonal, limit, regular, window, dyadic, sealRow, transport, route,
-          provenance, name]
+    | CofinalDiagonalSealUp.mk precision cofinalTail diagonalBudget diagonalLimit regularSource
+        streamWindow dyadicLedger realSeal transport replay provenance nameCert =>
+        [precision, cofinalTail, diagonalBudget, diagonalLimit, regularSource, streamWindow,
+          dyadicLedger, realSeal, transport, replay, provenance, nameCert]
   field_faithful := by
-    intro x y h
+    intro x y hfields
     cases x with
-    | mk precision1 tail1 diagonal1 limit1 regular1 window1 dyadic1 seal1 transport1 route1
-        provenance1 name1 =>
+    | mk precision1 cofinalTail1 diagonalBudget1 diagonalLimit1 regularSource1 streamWindow1
+        dyadicLedger1 realSeal1 transport1 replay1 provenance1 nameCert1 =>
         cases y with
-        | mk precision2 tail2 diagonal2 limit2 regular2 window2 dyadic2 seal2 transport2 route2
-            provenance2 name2 =>
-            cases h
+        | mk precision2 cofinalTail2 diagonalBudget2 diagonalLimit2 regularSource2
+            streamWindow2 dyadicLedger2 realSeal2 transport2 replay2 provenance2 nameCert2 =>
+            cases hfields
             rfl
 
-instance cofinalDiagonalSealNontrivial : Nontrivial CofinalDiagonalSealUp where
+instance cofinalDiagonalSealNontrivial :
+    Nontrivial CofinalDiagonalSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨CofinalDiagonalSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -211,19 +221,28 @@ def taste_gate : ChapterTasteGate CofinalDiagonalSealUp :=
   cofinalDiagonalSealChapterTasteGate
 
 theorem CofinalDiagonalSealTasteGate_single_carrier_alignment :
-    ChapterTasteGate CofinalDiagonalSealUp ∧
-      Nonempty (Nontrivial CofinalDiagonalSealUp) ∧
-        Nonempty (FieldFaithful CofinalDiagonalSealUp) ∧
-          (∀ h : BHist,
-            cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist h) = h) ∧
-            (∀ x y : CofinalDiagonalSealUp,
-              cofinalDiagonalSealToEventFlow x = cofinalDiagonalSealToEventFlow y → x = y) := by
+    (∀ h : BHist, cofinalDiagonalSealDecodeBHist (cofinalDiagonalSealEncodeBHist h) = h) ∧
+      (∀ x : CofinalDiagonalSealUp,
+        cofinalDiagonalSealFromEventFlow (cofinalDiagonalSealToEventFlow x) = some x) ∧
+        (∀ x y : CofinalDiagonalSealUp,
+          cofinalDiagonalSealToEventFlow x = cofinalDiagonalSealToEventFlow y → x = y) ∧
+          cofinalDiagonalSealEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∃ x y : CofinalDiagonalSealUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨cofinalDiagonalSealChapterTasteGate, ⟨cofinalDiagonalSealNontrivial⟩,
-      ⟨cofinalDiagonalSealFieldFaithful⟩, cofinalDiagonalSeal_decode_encode_bhist,
+    ⟨cofinalDiagonalSeal_decode_encode_bhist,
+      cofinalDiagonalSeal_round_trip,
       by
         intro x y heq
-        exact cofinalDiagonalSealToEventFlow_injective heq⟩
+        exact cofinalDiagonalSealToEventFlow_injective heq,
+      rfl,
+      ⟨CofinalDiagonalSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        CofinalDiagonalSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty,
+        by
+          intro h
+          cases h⟩⟩
 
 end BEDC.Derived.CofinalDiagonalSealUp
