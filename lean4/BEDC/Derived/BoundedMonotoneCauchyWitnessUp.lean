@@ -269,4 +269,55 @@ theorem BoundedMonotoneCauchyWitnessCarrier_criterion_tail_factorization
       criterionUnary, convergenceUnary, sourceScheduleRegular, regularWitnessCriterion,
       criterionSealConvergence, trapSealRoute, provenancePkg, convergencePkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_root_seal_route_exhaustion
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      rootRead limitRead monotoneRead sealExhaustRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source regular rootRead →
+        Cont rootRead witness sealRow →
+          Cont sealRow provenance limitRead →
+            Cont source schedule monotoneRead →
+              Cont monotoneRead trap sealExhaustRead →
+                PkgSig bundle rootRead pkg →
+                  PkgSig bundle limitRead pkg →
+                    PkgSig bundle sealExhaustRead pkg →
+                      UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+                        UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                          UnaryHistory sealRow ∧ UnaryHistory provenance ∧
+                            UnaryHistory rootRead ∧ UnaryHistory limitRead ∧
+                              UnaryHistory monotoneRead ∧ UnaryHistory sealExhaustRead ∧
+                                Cont source regular rootRead ∧
+                                  Cont rootRead witness sealRow ∧
+                                    Cont sealRow provenance limitRead ∧
+                                      Cont source schedule monotoneRead ∧
+                                        Cont monotoneRead trap sealExhaustRead ∧
+                                          Cont trap sealRow route ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle rootRead pkg ∧
+                                                PkgSig bundle limitRead pkg ∧
+                                                  PkgSig bundle sealExhaustRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceRegularRoot rootWitnessSeal sealProvenanceLimit sourceScheduleMonotone
+    monotoneTrapSealExhaust rootPkg limitPkg sealExhaustPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, provenanceUnary, _sourceScheduleRegular, _regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed sourceUnary regularUnary sourceRegularRoot
+  have limitUnary : UnaryHistory limitRead :=
+    unary_cont_closed sealUnary provenanceUnary sealProvenanceLimit
+  have monotoneUnary : UnaryHistory monotoneRead :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleMonotone
+  have sealExhaustUnary : UnaryHistory sealExhaustRead :=
+    unary_cont_closed monotoneUnary trapUnary monotoneTrapSealExhaust
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      provenanceUnary, rootUnary, limitUnary, monotoneUnary, sealExhaustUnary,
+      sourceRegularRoot, rootWitnessSeal, sealProvenanceLimit, sourceScheduleMonotone,
+      monotoneTrapSealExhaust, trapSealRoute, provenancePkg, rootPkg, limitPkg,
+      sealExhaustPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp

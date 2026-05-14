@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness root carrier classifier boundary]
+\label{thm:critical-line-witness-root-carrier-classifier-boundary}
+For every accepted $\CriticalLineWitnessUp$ root packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the public carrier boundary exposes the displayed $\BHist$ rows $Z,S,M,R,Q$, the componentwise $\hsame$ classifier-transport row $H$, the displayed $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ before any critical-line read of $M$ or $R$ is available. A root consumer may therefore enter the critical-line witness only through the finite packet surface of \autoref{def:critical-line-witness-carrier} and the obligation rows of \autoref{thm:critical-line-witness-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:critical-line-witness-carrier}. Its displayed packet lists the zero row, strip row, modulus row, real-part row, rational comparison ledger, classifier transport, continuation route, provenance row, and local naming row as one finite $\BHist$ surface.
+
+Apply \autoref{thm:critical-line-witness-namecert-obligations}. Carrier admission exposes the tuple itself, zero-strip compatibility supplies the componentwise $\hsame$ classifier transport, modulus discipline keeps each critical-line read attached to $M,R,Q$, and ledger exactness keeps $C,P,N$ inside the same accepted packet.
+
+The downstream boundary is therefore ordered by the packet rows: $H,C,P,N$ authenticate and route the displayed carrier before any public read reaches the critical-line modulus. The carrier has no alternate host equality, quotient, or analytic-completeness coordinate from which such a read could bypass the displayed boundary.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root zero-strip supported handoff]
+\label{thm:critical-line-witness-root-zero-strip-supported-handoff}
+For every accepted $\CriticalLineWitnessUp$ root packet $W=(Z,S,M,R,Q,H,C,P,N)$, the zero-strip handoff from the supplied $\ZetaZerosUp$ row $Z$ and $\CritStripUp$ row $S$ to a critical-line read is readable only through the $\RealUp$ row $R$, the $\RatUp$ comparison ledger $Q$, and the displayed modulus route $M,H,C,P,N$. The handoff may cite the sibling $\RealUp$ and $\RatUp$ certificate surfaces of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-rat-namecert}, but it exports no $\mathsf{RH}$ proof and no zero-location theorem.
+\end{theorem}
+\begin{proof}
+Start with the supplied zero row and strip row. By \autoref{thm:critical-line-witness-zeta-zero-boundary}, $Z$ is a boundary row for the accepted packet, readable only together with the remaining displayed coordinates and not as a zero constructor or global enumeration.
+
+Next read the critical-line side through the modulus route. The modulus row of \autoref{thm:critical-line-witness-modulus-row} consumes the real-part row $R$ and the rational comparison ledger $Q$, while \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness} identifies $Q$ with the finite $\RatUp$ comparison rows used by that route.
+
+Finally apply \autoref{thm:critical-line-witness-rh-nonproof-boundary}. Since the accepted packet supplies no universal zero classifier, no $\mathsf{RH}$ theorem, no zero-producing search, and no ambient analytic completeness, the zero-strip handoff is exactly the supported route through $R,Q,M,H,C,P,N$ and the sibling $\RealUp$ and $\RatUp$ rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root zeta ledger non-escape]
+\label{thm:critical-line-witness-root-zeta-ledger-nonescape}
+Every zeta-facing downstream consumer of an accepted $\CriticalLineWitnessUp$ root packet is exhausted by the existing $\ZetaContinuationWitnessUp$ continuation boundary, the local $\ZetaZerosUp$ row $Z$, the zero-strip boundary rows of \autoref{thm:critical-line-witness-zeta-zero-boundary}, and the refusal ledger of \autoref{thm:critical-line-witness-rh-nonproof-boundary}. The consumer receives the named packet $Z,S,M,R,Q,H,C,P,N$ and the sibling continuation surface of \autoref{ch:concrete-instances-zeta-continuation-witness-namecert}; it receives no proof of $\mathsf{RH}$ and no analytic-continuation theorem beyond that named packet.
+\end{theorem}
+\begin{proof}
+Begin with the local zeta row. The carrier of \autoref{def:critical-line-witness-carrier} stores $Z$ as supplied $\ZetaZerosUp$ input, and \autoref{thm:critical-line-witness-zeta-zero-boundary} keeps that row tied to $S,M,R,Q,H,C,P,N$ rather than turning it into a zero constructor or a global zeta-zero enumeration.
+
+Now attach the continuation side only as a sibling boundary. The $\ZetaContinuationWitnessUp$ chapter supplies its continuation handoff and consumer-ledger rows through \autoref{ch:concrete-instances-zeta-continuation-witness-namecert}; the local packet may cite that surface, but the CriticalLineWitness carrier still exports only the displayed root packet.
+
+Apply \autoref{thm:critical-line-witness-rh-nonproof-boundary}. The refusal ledger excludes an $\mathsf{RH}$ proof, zero-producing search, universal zero classifier, and ambient analytic-completeness input. Therefore every zeta-facing downstream read is exhausted by the named continuation boundary, the local zero boundary, and the refusal rows already displayed by the packet.
+\end{proof}
