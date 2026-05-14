@@ -551,6 +551,7 @@ import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
@@ -643,6 +644,7 @@ import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
+import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
@@ -669,6 +671,7 @@ import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
+import BEDC.Derived.HistTimeStreamUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
