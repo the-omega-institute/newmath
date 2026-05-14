@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary source route totality]
+\label{thm:gap-closure-boundary-source-route-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every supported hard-problem consumer read by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ must expose the source route
+$$
+G \longrightarrow S
+$$
+before consuming the structural rows $H,C,P,N$. No listed supported consumer may read the structural surface as a substitute for the displayed source row.
+\end{theorem}
+\begin{proof}
+Start with hard-problem consumer factorization, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization}. It places every listed supported consumer inside the shared packet $G,S,R,H,C,P,N$ rather than inside a consumer-specific carrier.
+
+Apply sibling source totality. \autoref{thm:gap-closure-boundary-sibling-source-totality} requires the displayed route $G \longrightarrow S$ before any of the structural rows $H,C,P,N$ are consumed by a listed sibling.
+
+Finally use source-refusal orthogonality and structural row conservation. \autoref{thm:gap-closure-boundary-source-refusal-orthogonality} keeps the source route separate from the refusal ledger, while \autoref{thm:gap-closure-boundary-structural-row-conservation} prevents $H,C,P,N$ from generating a hidden source, closure, or $\mathsf{T}$ supply. Hence the source route is total for supported hard-problem reads.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal route exactness]
+\label{thm:gap-closure-boundary-refusal-route-exactness}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every unsupported closure request by a listed hard-problem consumer is routed exactly through
+$$
+G \longrightarrow R
+$$
+with the structural rows $H,C,P,N$. Such a request cannot export hidden closure, hidden $\mathsf{T}$ supply, private access, causal necessity, direct aspect reduction, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with closure-request determinacy. By \autoref{thm:gap-closure-boundary-closure-request-determinacy}, once the displayed source route is absent, the same continuation and naming surface determines the refusal branch.
+
+Apply refusal route determinacy. \autoref{thm:gap-closure-boundary-refusal-route-determinacy} sends the unsupported request to $R$ over $H,C,P,N$ and excludes a second source row, hidden closure row, private access row, and hidden $\mathsf{T}$ supply.
+
+The exactness of this route is preserved by source-refusal orthogonality and structural row conservation. The first prevents $R$ from being reread as a concealed source, and the second keeps $H,C,P,N$ as transport, route, package, and local naming rows for the displayed refusal branch.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer ledger exhaustion]
+\label{thm:gap-closure-boundary-consumer-ledger-exhaustion}
+For the listed hard-problem siblings $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$, source-route totality together with refusal-route exactness exhausts the $\GapClosureBoundaryUp$ consumer ledger. Every supported read is accounted for by $G \longrightarrow S$ with $H,C,P,N$, every unsupported closure request is accounted for by $G \longrightarrow R$ with $H,C,P,N$, and no third consumer route is exported.
+\end{theorem}
+\begin{proof}
+First account for supported reads. \autoref{thm:gap-closure-boundary-source-route-totality} forces every listed supported consumer through $G \longrightarrow S$ before the structural rows are read.
+
+Next account for unsupported requests. \autoref{thm:gap-closure-boundary-refusal-route-exactness} routes each unsupported closure request through $G \longrightarrow R$ with $H,C,P,N$ and excludes hidden closure, hidden $\mathsf{T}$ supply, and off-packet continuations.
+
+It remains to exclude a third ledger entry. Apply hard-problem consumer factorization and closure-request determinacy to keep every listed consumer inside the same source/refusal split, then apply structural row conservation to prevent $H,C,P,N$ from introducing a consumer-specific route. Thus the two displayed branches exhaust the consumer ledger.
+\end{proof}
