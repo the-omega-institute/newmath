@@ -23,6 +23,20 @@ with the following visible rows:
 The carrier predicate is $\mathsf{NestedDyadicIntervalPacket}(K)$. Its dependency list is exactly $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{definition}
 
+\begin{theorem}[NestedDyadicInterval dyadic interval source route]
+\label{thm:nesteddyadicinterval-dyadicinterval-source-route}
+Every accepted $\NestedDyadicIntervalUp$ carrier first consumes the displayed endpoint and order rows of \autoref{ch:concrete-instances-dyadicinterval-namecert} and the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} before its nested-refinement ledger, $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, or $\RealUp$ seal can be read.
+
+Thus downstream regular-rational and real-name consumers see nested-chain data only through those sibling source rows together with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no completed intersection point, quotient interval, host real interval, hidden infinite tail, or completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $K=(I_0,\ldots,I_n,S,R,P,L)$ through \autoref{def:nesteddyadicinterval-carrier}. The first carrier row says that each displayed $I_i$ is already a $\DyadicIntervalUp$ endpoint packet, with lower and upper $\DyadicRatCoreUp$ endpoint rows and the displayed interval-order ledger attached to that packet.
+
+Read the provenance row $P$ next. It is the source route that names the consumed $\DyadicRatCoreUp$ and $\DyadicIntervalUp$ certificate surfaces before the nested-refinement ledger, schedule, regular-rational handoff, or real seal is exposed. Therefore a later read of $R$, $S$, the $\RegSeqRatUp$ handoff, or the $\RealUp$ boundary can only replay the sibling dyadic rows already named by $P$.
+
+The remaining public coordinates add only transport, containment, package, and naming evidence: $\hsame$ compares endpoint rows, $\Cont$ records adjacent containment, $\Pkg$ records provenance, and $\NameCert$ records the local certificate surface. None of these coordinates contains a completed intersection point, quotient interval, host real interval, hidden infinite tail, or completeness witness, so the downstream consumer receives exactly the displayed finite route claimed in the statement.
+\end{proof}
+
 \begin{definition}[NestedDyadicInterval finite-window classifier]
 \label{def:nesteddyadicinterval-classifier}
 For accepted carriers $K=(I_0,\ldots,I_n,S,R,P,L)$ and $K'=(I'_0,\ldots,I'_m,S',R',P',L')$, the predicate $\mathsf{NestedDyadicIntervalClassifier}(K,K')$ says that every shared scheduled window transports endpointwise and that every common window has the same refined dyadic enclosure.
