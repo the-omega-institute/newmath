@@ -41,3 +41,39 @@ Apply the Real-consumer coverage theorem, \autoref{thm:cauchy-modulus-refinement
 
 Finally apply non-escape, \autoref{thm:cauchy-modulus-refinement-nonescape}. Since quotient streams, selected limits, host real equality, hidden selectors, second meet rows, and ambient completeness coordinates are absent from the carrier, the displayed ledger exhausts the root consumer surface.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root route determinacy]
+\label{thm:cauchy-modulus-refinement-root-route-determinacy}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the root read has the unique displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+The rows $H,C,P,N$ respectively carry the componentwise $\hsame$ transports, displayed $\Cont$ route, local $\Pkg$ provenance, and local $\NameCert$ authentication for that route. No accepted root read may substitute a second meet, hidden selector, quotient stream, host real equality, or ambient completeness row for any coordinate of the displayed route.
+\end{theorem}
+\begin{proof}
+First read the root carrier threshold admission and classifier transport exactness theorems, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They place the accepted carrier and its componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on the same displayed finite packet.
+
+Next bind the source and selected-window parts of the route. Source-meet exactness and selector-budget totality, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness} and \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, force every accepted read from $M_0,M_1$ through $U,V,T$ before any selected finite-window row can be read.
+
+Finally use Real seal factorization together with root ledger non-escape, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-root-ledger-nonescape-totality}. The seal is reached only after $W,Q$, and the ledger contains no second meet, hidden selector, quotient stream, host real equality, or ambient completeness coordinate. Hence the displayed route is the unique root route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root budget consumer exhaustion]
+\label{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root surface first passes through the selector-budget row $T$, the finite $\StreamNameUp$ window row $W$, and the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readback row $Q$ before reading the $\RealUp$ seal row $E$. Thus the root budget consumer surface is exhausted by the displayed route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N,
+$$
+with no hidden selector, quotient stream, host real equality, second meet row, selected limit, or ambient completeness datum available to downstream Real or Completion use.
+\end{theorem}
+\begin{proof}
+Begin with the root carrier and classifier transport rows, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They expose $T,W,Q,E$ as carrier coordinates transported by the same componentwise route and authenticated by the local package and naming rows.
+
+Apply window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. It forces every selected-window and dyadic or regular-rational readback through $T,W,Q$.
+
+Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed route before reading $E$, the selector budget, finite window, and readback rows exhaust the root budget consumer surface.
+\end{proof}

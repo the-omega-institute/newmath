@@ -412,6 +412,42 @@ finite terminal route. Carrier exhaustion leaves no host conversion, quotient
 normalizer, substrate halting coordinate, or global normalizer to export.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root carrier total-host readiness]
+\label{thm:znormal-root-carrier-total-host-readiness}
+Every accepted $\ZNormalUp$ packet exposes the typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, carry and normal-word row $K$, continuation terminal route $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert$ row $N$ before any total-host read. A total-host consumer receives only this finite root package and cannot read host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, substrate halting row, or global normalizer outside it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The tuple $Z=(T,F,V,K,R,H,C,P,N)$ lists every root coordinate available before a total-host read.
+
+Use \autoref{thm:znormal-root-visible-source-package} and \autoref{thm:znormal-terminal-host-boundary}. These rows place typed endpoint, fuel, terminal normality, sibling normal-word evidence, continuation readback, transports, continuations, package provenance, and local naming on the visible terminal-host route.
+
+Apply \autoref{thm:znormal-root-unblock-nonescape-ledger}. Since the non-escape ledger exhausts the carrier and structural rows, no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, substrate halting row, or global normalizer can be read outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root continuation-trace readiness]
+\label{thm:znormal-root-continuation-trace-readiness}
+Every continuation-trace consumer of an accepted $\ZNormalUp$ packet must factor through \autoref{thm:znormal-continuation-terminal-route}, \autoref{thm:znormal-root-terminal-nonescape-interface}, and \autoref{thm:znormal-root-unblock-terminal-route}. The continuation read is therefore reached only after $T,F,V$ have been displayed, with $K$ available as finite sibling normal-word evidence and $H,C,P,N$ providing only transport, replay, provenance, and naming.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-continuation-terminal-route}. It places the continuation row $R$ after the typed endpoint, finite fuel, and terminal-normality rows.
+
+Next use \autoref{thm:znormal-root-terminal-nonescape-interface}. The root-facing interface keeps the terminal route on $T \to F \to V \to R$ and treats $K$ only as finite sibling evidence.
+
+Finally apply \autoref{thm:znormal-root-unblock-terminal-route}. The terminal route is transported through $H$, replayed through $C$, packaged through $P$, and named through $N$, with no replacement by host conversion, quotient computation, unrestricted evaluation, divergence, or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root NameCert readiness]
+\label{thm:znormal-root-namecert-readiness}
+The displayed carrier and continuation rows of an accepted $\ZNormalUp$ packet give a local $\NameCert_{\ZNormalUp}$ readiness surface for downstream normal-form consumers. The surface consists of $T,F,V,K,R,H,C,P,N$ with the continuation route constrained by the root terminal interface, and it exports no host conversion, quotient normalizer, divergence oracle, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-namecert-obligations}. It identifies carrier admission, typed endpoint readback, finite fuel, terminal normality, sibling normal-word comparison, continuation terminal-read exposure, transport, replay, provenance, and local naming as the complete $\NameCert_{\ZNormalUp}$ surface.
+
+Apply \autoref{thm:znormal-root-carrier-total-host-readiness} to make the carrier rows visible before any total-host use. Then apply \autoref{thm:znormal-root-continuation-trace-readiness} to force continuation-trace consumers through the terminal route rather than an ambient evaluator.
+
+The same carrier exhaustion proves the exclusion clause. No displayed coordinate names host conversion, a quotient normalizer, a divergence oracle, or a global normalization procedure, so the local NameCert readiness surface cannot export one.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}
