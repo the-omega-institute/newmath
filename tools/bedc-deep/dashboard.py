@@ -403,6 +403,43 @@ def _next_refill_prompt_note() -> str:
     return f"  next prompt estimate:{mode} {size}b"
 
 
+def _classify_board_judge_error(error: str) -> str:
+    """Infer the stable BOARD judge outage kind from legacy summary errors."""
+    low = (error or "").lower()
+    if not low:
+        return ""
+
+    claude_kind = "claude_unavailable"
+    if "not logged in" in low:
+        claude_kind = "claude_not_logged_in"
+    elif "claude cli not found" in low:
+        claude_kind = "claude_cli_missing"
+    elif "claude disabled" in low:
+        claude_kind = "claude_disabled"
+    elif "claude judge rc=-9" in low or "timed out" in low:
+        claude_kind = "claude_timeout"
+    elif "claude judge output was not json" in low:
+        claude_kind = "claude_non_json"
+
+    codex_kind = ""
+    if "codex fallback" in low:
+        codex_kind = "codex_fallback_failed"
+        if "failed to initialize in-process app-server client" in low:
+            codex_kind = "codex_sandbox_init_failed"
+        elif "operation not permitted" in low:
+            codex_kind = "codex_operation_not_permitted"
+        elif "output was not json" in low:
+            codex_kind = "codex_non_json"
+
+    if "claude judge" in low or "claude returned" in low or "claude " in low:
+        if codex_kind:
+            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
+        return f"board_judge_unavailable:{claude_kind}"
+    if codex_kind:
+        return f"board_judge_unavailable:{codex_kind}"
+    return ""
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -414,8 +451,17 @@ def _infer_refill_status(rec: dict) -> str:
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
             error = str(summary.get("error") or "").strip()
+            error_kind = (
+                str(summary.get("error_kind") or "").strip()
+                or _classify_board_judge_error(error)
+            )
             if summary.get("ok"):
                 return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if error_kind.startswith("board_judge_unavailable"):
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed} kind={error_kind}"
+                )
             if "claude judge" in error.lower() or "codex fallback" in error.lower():
                 return (
                     "local_gap_fallback_judge_unavailable "
