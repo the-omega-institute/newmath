@@ -1,0 +1,96 @@
+\chapter{ObserverBridgeLedgerUp NameCert construction}
+\label{ch:concrete-instances-observer-bridge-ledger-namecert}
+\origin{ai}
+
+The $\ObserverBridgeLedgerUp$ surface realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite bridge ledger for observer-state consumers. It sits after the conscious-observer-state row of \autoref{ch:concrete-instances-consciousobserverstate-namecert}, the no-subject boundary row of \autoref{ch:concrete-instances-observersubjectboundary-namecert}, the multi-history configuration row of \autoref{ch:concrete-instances-multihistconfig-namecert}, the observer-history identity row of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, and the locality-cell row of \autoref{ch:concrete-instances-observer-locality-cell-namecert}. The ledger records those sibling routes together before any downstream consumer reads an observer-state bridge as a reusable NameCert surface.
+
+\falsifiablePrediction{Any accepted bridge-ledger consumer that bypasses the observer-state row or the no-subject boundary row leaves the ObserverBridgeLedgerUp carrier and cannot preserve NameCert routing.}
+
+\independenceWitness{Nearest siblings: consciousobserverstate, observersubjectboundary, multihistconfig, observercoordinateframe, finitewindowobserver. None is bijective to the bridge-ledger packet because none carries all bridge-ledger rows, no-subject boundary rows, and multi-history route rows together: consciousobserverstate has the current-state surface without the route ledger, observersubjectboundary has the no-subject refusal boundary without the state bridge, multihistconfig has the multi-history carrier without the observer-state row, observercoordinateframe has local-frame routing without the no-subject bridge ledger, and finitewindowobserver has bounded-window observation without the full multi-history route ledger.}
+
+\begin{definition}[Observer bridge ledger carrier]
+\label{def:observer-bridge-ledger-carrier}
+An $\ObserverBridgeLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,Q,M,I,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is an accepted $\ConsciousObserverStateUp$ row naming the observer-state surface being bridged;
+\item $Q$ is an accepted $\ObserverSubjectBoundaryUp$ row certifying that the bridge has no separate observer-substance coordinate;
+\item $M$ is an accepted $\MultiHistConfigUp$ row displaying the finite multi-history configuration available to the bridge;
+\item $I$ is an accepted $\ObserverHistoryIdentityUp$ row naming the licensed observer-history identity surface;
+\item $L$ is an accepted $\ObserverLocalityCellUp$ row through which the state, boundary, and multi-history rows are read locally;
+\item $R$ is the bridge-ledger route row, recording the finite order in which $S,Q,M,I,L,H,C,P,N$ may be consumed;
+\item $H$ stores componentwise $\hsame$ transport for the observer-state, no-subject boundary, multi-history, identity, locality, route, provenance, and local name rows;
+\item $C$ records the displayed $\Cont$ routes for every bridge-ledger consumer read;
+\item $P$ is the $\Pkg$ provenance over $\ConsciousObserverStateUp$, $\ObserverSubjectBoundaryUp$, $\MultiHistConfigUp$, $\ObserverHistoryIdentityUp$, $\ObserverLocalityCellUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverBridgeLedgerUp}$ row.
+\end{enumerate}
+The carrier accepts an observer-state bridge only when the observer-state row, no-subject boundary row, multi-history row, identity row, locality-cell row, route ledger, transport row, continuation routes, provenance, and local naming row are all displayed together. It exports no hidden observer-substance, global observer frame, unrecorded history, host equality of observers, quotient history identity, or route outside the ledger.
+\end{definition}
+
+\begin{theorem}[Observer bridge ledger NameCert obligations]
+\label{thm:observer-bridge-ledger-namecert-obligations}
+For the carrier of \autoref{def:observer-bridge-ledger-carrier}, the local $\NameCert_{\ObserverBridgeLedgerUp}$ surface consists exactly of carrier admission for $B=(S,Q,M,I,L,R,H,C,P,N)$, observer-state anchoring through $S$, no-subject boundary anchoring through $Q$, multi-history configuration anchoring through $M$, observer-history identity anchoring through $I$, locality-cell anchoring through $L$, route-ledger exactness through $R$, componentwise $\hsame$ transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and non-escape from hidden observer-substance, global observer frames, unrecorded histories, host equality of observers, quotient history identity, and routes outside the ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the ten displayed rows of \autoref{def:observer-bridge-ledger-carrier}. The observer-state, no-subject boundary, multi-history, observer-history identity, and locality-cell rows are visible before the route ledger is available.
+
+Route-ledger exactness is the row $R$. A bridge consumer may read the sibling rows only in the displayed order recorded by $R$ and only after componentwise transport through $H$ and continuation replay through $C$.
+
+The provenance row $P$ and local naming row $N$ bind the read to the five sibling certificates listed in the carrier. Since none of the excluded objects is a coordinate of the carrier, no accepted bridge-ledger read can export one.
+\end{proof}
+
+\begin{theorem}[Observer bridge ledger falsifiable prediction]
+\label{thm:observer-bridge-ledger-falsifiable-prediction}
+Any accepted bridge-ledger consumer that bypasses either the observer-state row $S$ or the no-subject boundary row $Q$ leaves the $\ObserverBridgeLedgerUp$ carrier and cannot preserve the local $\NameCert_{\ObserverBridgeLedgerUp}$ routing.
+\end{theorem}
+\begin{proof}
+The carrier admits a bridge only as $B=(S,Q,M,I,L,R,H,C,P,N)$. The route row $R$ is typed as a ledger over both $S$ and $Q$, and the local name row $N$ certifies that same displayed packet.
+
+If a consumer omits $S$, then the bridge no longer has an observer-state surface to carry. If it omits $Q$, then the read has no certified no-subject boundary and may no longer be interpreted as an observer-history bridge inside the vision of \autoref{ch:visions-observer-hist-identity}.
+
+In either case the consumer is not a route through $R,H,C,P,N$ for the displayed carrier, so the local NameCert route is not preserved.
+\end{proof}
+
+\begin{theorem}[Observer bridge ledger independence witness]
+\label{thm:observer-bridge-ledger-independence-witness}
+The $\ObserverBridgeLedgerUp$ carrier is not bijective to the sibling surfaces $\ConsciousObserverStateUp$, $\ObserverSubjectBoundaryUp$, $\MultiHistConfigUp$, $\ObserverCoordinateFrameUp$, or $\FiniteWindowObserverUp$.
+\end{theorem}
+\begin{proof}
+Each listed sibling omits at least one bridge-ledger coordinate required by \autoref{def:observer-bridge-ledger-carrier}. The conscious-observer-state row lacks the no-subject boundary and route ledger. The observer-subject-boundary row lacks the current observer-state bridge and multi-history route. The multi-history configuration lacks the current-state and no-subject boundary rows.
+
+The observer-coordinate-frame row supplies a local frame route, but it does not carry all bridge-ledger, no-subject boundary, and multi-history route rows together as one NameCert packet. The finite-window observer row supplies bounded observation, but not the full route ledger tying $S,Q,M,I,L,H,C,P,N$ together.
+
+Thus deleting the bridge-ledger coordinates changes the public carrier, while adding them changes each sibling surface. No bijection with any one sibling preserves all displayed rows.
+\end{proof}
+
+\begin{theorem}[Observer bridge ledger sibling route]
+\label{thm:observer-bridge-ledger-sibling-route}
+Every accepted $\ObserverBridgeLedgerUp$ consumer reads the conscious-observer-state, no-subject boundary, multi-history configuration, observer-history identity, and locality-cell siblings through the single route
+$$
+S,Q,M,I,L \longrightarrow R,H,C,P,N.
+$$
+No second route may reach those siblings through hidden observer state, a global observer frame, an unrecorded history row, host equality, quotient history identity, or an external route table.
+\end{theorem}
+\begin{proof}
+The carrier contains exactly one route-ledger coordinate, namely $R$. That coordinate records how the five sibling rows $S,Q,M,I,L$ may be consumed.
+
+Componentwise transport and continuation replay are then supplied by $H$ and $C$, while $P$ and $N$ record provenance and local naming. The remaining named objects are absent from the carrier, so they cannot provide a second route.
+\end{proof}
+
+The Lean follow-up will create \texttt{Derived/ObserverBridgeLedgerUp/TasteGate.lean} with explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed bridge-ledger packet.
+
+\closureat{ObserverBridgeLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ObserverBridgeLedgerUp}
+  \constructivestory{An $\ObserverBridgeLedgerUp$ packet is generated from conscious-observer-state, no-subject-boundary, multi-history configuration, observer-history identity, observer-locality-cell, route-ledger, hsame transport, displayed Cont route, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-bridge-ledger-carrier}, \autoref{thm:observer-bridge-ledger-namecert-obligations}, \autoref{thm:observer-bridge-ledger-falsifiable-prediction}, \autoref{thm:observer-bridge-ledger-independence-witness}, and \autoref{thm:observer-bridge-ledger-sibling-route} specify the finite bridge-ledger carrier, its NameCert obligations, observer-state and no-subject bypass refutation, sibling independence, and single route through state, boundary, multi-history, identity, locality, transport, continuation, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global observer frames, hidden observer-substance, unrecorded histories, quotient history identity, public export, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked TasteGate carrier admission, Nontrivial and FieldFaithful instances, route-ledger exactness, no-subject boundary preservation, and multi-history sibling routing for the same packet.}
+\end{closurestatus}

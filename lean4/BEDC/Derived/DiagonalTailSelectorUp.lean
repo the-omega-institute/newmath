@@ -392,6 +392,29 @@ theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
     ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, budgetUnary,
       sealUnary, nMuK, kWD, budgetRoute, sealRoute, pPkg, sealPkg⟩
 
+theorem DiagonalTailSelectorCarrier_source_schedule_readback [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name sourceRead scheduleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont r n sourceRead →
+      Cont sourceRead mu scheduleRead →
+      PkgSig bundle scheduleRead pkg →
+        UnaryHistory r ∧ UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧
+          UnaryHistory sourceRead ∧ UnaryHistory scheduleRead ∧
+            Cont r n sourceRead ∧ Cont sourceRead mu scheduleRead ∧ Cont n mu k ∧
+              Cont k w d ∧ PkgSig bundle p pkg ∧ PkgSig bundle scheduleRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier sourceRoute scheduleRoute schedulePkg
+  obtain ⟨rUnary, nUnary, muUnary, kUnary, _wUnary, _dUnary, _tUnary, _sUnary,
+    _hUnary, _cUnary, _pUnary, _nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed rUnary nUnary sourceRoute
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed sourceUnary muUnary scheduleRoute
+  exact
+    ⟨rUnary, nUnary, muUnary, kUnary, sourceUnary, scheduleUnary, sourceRoute,
+      scheduleRoute, nMuK, kWD, pPkg, schedulePkg⟩
+
 theorem DiagonalTailSelectorCarrier_real_seal_budget_nonescape [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name publicRow consumer downstreamRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

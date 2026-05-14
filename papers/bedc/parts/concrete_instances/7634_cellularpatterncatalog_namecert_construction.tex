@@ -58,3 +58,37 @@ Finally, $H,C,P,N$ preserve and name the same finite catalog. Since no row of $K
   \notclaimed{This chapter does not close Lean verification, a complete orbit classifier, host visual recognition, global classification of all future rows, or a public standard bridge.}
   \upgradepath{Lean follow-up will include Nontrivial and FieldFaithful instances in \texttt{lean4/BEDC/Derived/CellularPatternCatalogUp/TasteGate.lean}.}
 \end{closurestatus}
+
+\begin{lemma}[CellularPatternCatalog tag lookup determinacy]
+\label{lem:cellular-pattern-catalog-tag-lookup-determinacy}
+Let
+$$
+K=(R,W,T,G,H,C,P,N)
+$$
+and
+$$
+K'=(R',W',T',G',H',C',P',N')
+$$
+be accepted $\CellularPatternCatalogUp$ carriers in the sense of \autoref{def:cellular-pattern-catalog-carrier}. Suppose that the two packets agree on the rule-identity row, finite local-window row, catalog row, componentwise transport row, continuation route row, provenance row, and local naming row:
+$$
+R=R',\quad W=W',\quad G=G',\quad H=H',\quad C=C',\quad P=P',\quad N=N'.
+$$
+Then the exposed finite phase, glider, and ether tag rows $T$ and $T'$ classify together under the local $\NameCert_{\CellularPatternCatalogUp}$ classifier.
+\end{lemma}
+\begin{proof}
+By \autoref{thm:cellular-pattern-catalog-namecert-obligations}, every accepted tag read in a $\CellularPatternCatalogUp$ packet is consumed through the displayed route
+$$
+R \longmapsto W \longmapsto G \longmapsto T,
+$$
+with $H,C,P,N$ attached as the transport, route replay, provenance, and local naming rows. Thus $T$ is not an independent tag judgment: it is the tag row exposed by the finite catalog lookup whose visible inputs are the rule row $R$, the local window row $W$, and the catalog row $G$.
+
+The same statement holds for $K'$ through the route
+$$
+R' \longmapsto W' \longmapsto G' \longmapsto T'.
+$$
+The hypotheses identify the lookup inputs $R,W,G$ with $R',W',G'$ and also identify the rows $H,C,P,N$ with $H',C',P',N'$. Therefore both accepted packets replay the same finite catalog row against the same finite local window under the same local naming and provenance surface.
+
+The catalog row $G$ is finite by \autoref{def:cellular-pattern-catalog-carrier}, and its tag labels are drawn from the closed tag table described in \autoref{def:cellular-automaton-pattern-classifier} and instantiated by the glider and ether catalog of \autoref{ex:cellular-automaton-glider-catalog}. On a fixed finite rule row and fixed finite local window, reading the same displayed catalog row exposes a single local tag-classification row. A failure of $T$ and $T'$ to classify together would therefore require either a different rule identity, a different local window, a different catalog row, a different replay or transport row, or an extra host-side tag coordinate outside the carrier.
+
+No such coordinate is present in \autoref{def:cellular-pattern-catalog-carrier}, and the agreed rows exhaust the lookup route of \autoref{thm:cellular-pattern-catalog-namecert-obligations}. Hence the two exposed finite phase, glider, and ether tag rows classify together.
+\end{proof}

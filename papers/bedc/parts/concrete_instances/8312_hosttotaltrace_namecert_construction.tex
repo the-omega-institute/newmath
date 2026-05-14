@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\HostTotalTraceUp$}
+\label{ch:concrete-instances-hosttotaltrace-namecert}
+\origin{ai}
+
+The $\HostTotalTraceUp$ packet is the finite host-trace object for the total-host side of \autoref{ch:visions-strong-normalization-vs-turing-completeness}. It sits beside \autoref{ch:concrete-instances-step-indexed-total-host-namecert}, \autoref{ch:concrete-instances-fuel-indexed-substrate-bridge-namecert}, \autoref{ch:concrete-instances-znormal-namecert}, and \autoref{ch:concrete-instances-reductionfuelboundary-namecert}. Its distinguishing datum is that one packet carries host readback, finite fuel, substrate endpoint, timeout refusal, componentwise transport, route replay, provenance, and local naming rows without collapsing them into the broader step-indexed host boundary.
+
+\falsifiablePrediction{HostTotalTraceUp has no morphism to StepIndexedTotalHostUp that preserves timeout refusal while forgetting trace endpoint readback.}
+
+\independenceWitness{StepIndexedTotalHostUp, FuelIndexedSubstrateBridgeUp, ZNormalUp, ReductionFuelBoundaryUp: HostTotalTraceUp carries both host readback and timeout-refusal rows, while these siblings separately expose total-host boundary, substrate bridge, normal-form predicate, or fuel boundary without the same trace-level packet.}
+
+\begin{definition}[HostTotalTrace carrier]
+\label{def:host-total-trace-carrier}
+A $\HostTotalTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(H,F,R,E,U,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the total-host readback row, naming the finite host computation being inspected;
+\item $F$ is the finite fuel row under which the trace is accepted;
+\item $R$ is the normal-form readback row, read through the host-side normality discipline of $\ZNormalUp$;
+\item $E$ is the substrate endpoint row reached by the finite trace when an endpoint is displayed;
+\item $U$ is the timeout-refusal row, recording fuel exhaustion as a refused endpoint rather than as nontermination, convergence, or halting evidence;
+\item $L$ records componentwise $\hsame$ transports for $H,F,R,E,U,C,P,N$;
+\item $C$ records displayed $\Cont$ routes from host readback to fuel, from fuel to normal-form readback, from the same fuel to substrate endpoint or timeout refusal, and from barred semantic requests to the refusal row;
+\item $P$ is the $\Pkg$ provenance over $\HostTotalTraceUp$, \autoref{ch:visions-strong-normalization-vs-turing-completeness}, $\StepIndexedTotalHostUp$, $\FuelIndexedSubstrateBridgeUp$, $\ZNormalUp$, $\ReductionFuelBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HostTotalTraceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $H,F,R,E,U,L,C,P,N$. It has no coordinate for host partiality, unbounded substrate completion, quotient endpoint equality, host-substrate equality, or a detached timeout oracle.
+\end{definition}
+
+\begin{definition}[HostTotalTrace classifier]
+\label{def:host-total-trace-classifier}
+The $\HostTotalTraceUp$ classifier compares two accepted packets only by the displayed tuple
+$$
+H,F,R,E,U,L,C,P,N.
+$$
+Two packet presentations agree when their host readback, fuel, normal-form readback, substrate endpoint, timeout-refusal, componentwise transport, route, provenance, and local naming rows agree componentwise. The classifier does not compare partial host evaluators, unbounded substrate completions, quotient endpoints, host-substrate equalities, or detached timeout oracles.
+\end{definition}
+
+\begin{theorem}[HostTotalTrace NameCert obligations]
+\label{thm:host-total-trace-namecert-obligations}
+For the carrier of \autoref{def:host-total-trace-carrier} and classifier of \autoref{def:host-total-trace-classifier}, the local $\NameCert_{\HostTotalTraceUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission and classifier exactness for $T=(H,F,R,E,U,L,C,P,N)$;
+\item host readback and finite fuel exposure through $H,F$;
+\item normal-form readback and substrate endpoint exposure through $R,E$;
+\item timeout-refusal exactness through $U$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $L,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier in \autoref{def:host-total-trace-carrier} and \autoref{def:host-total-trace-classifier}. They display exactly the rows $H,F,R,E,U,L,C,P,N$, so carrier admission and classifier exactness cannot introduce a detached endpoint, alternate fuel, or hidden timeout branch.
+
+Read the constructive rows in order. The host readback row $H$ is accepted only under the finite fuel row $F$; the normal-form readback $R$ and substrate endpoint $E$ are public only as rows of that same finite trace packet.
+
+The refusal row $U$ accounts for fuel exhaustion. It records timeout as a boundary outcome and not as nontermination, halting, convergence, host-substrate equality, or quotient endpoint equality.
+
+Finally $L,C,P,N$ preserve and replay only the same finite packet. The five listed rows therefore exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[HostTotalTrace timeout endpoint separation]
+\label{thm:host-total-trace-timeout-endpoint-separation}
+Every accepted $\HostTotalTraceUp$ packet separates endpoint readback from timeout refusal by the displayed route
+$$
+H,F,R,E,U,L,C,P,N.
+$$
+A consumer may read the host readback, fuel, normal-form readback, displayed substrate endpoint, and timeout-refusal rows. It may not erase $E$ while preserving $U$, turn timeout into nontermination, turn endpoint readback into unbounded convergence, or identify the host trace with the substrate bridge.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:host-total-trace-namecert-obligations}. The endpoint row $E$ and timeout-refusal row $U$ are separate coordinates of the same accepted packet.
+
+Compare the sibling surfaces. $\StepIndexedTotalHostUp$ supplies the broader total-host boundary, $\FuelIndexedSubstrateBridgeUp$ supplies the substrate bridge, $\ZNormalUp$ supplies the normal-form predicate, and $\ReductionFuelBoundaryUp$ supplies the fuel-boundary refusal discipline. None lets this packet forget endpoint readback while retaining the local timeout row.
+
+The route and transport rows $L,C,P,N$ preserve that separation. Hence a downstream consumer can replay the finite trace, but it cannot convert timeout into a semantic nontermination claim or endpoint readback into unbounded convergence.
+\end{proof}
+
+The proposed Lean follow-up is the module \texttt{lean4/BEDC/Derived/HostTotalTraceUp/TasteGate.lean}. It must provide explicit $\mathsf{Nontrivial}\ \HostTotalTraceUp$ and $\mathsf{FieldFaithful}\ \HostTotalTraceUp$ instances preserving the host readback, finite fuel, normal-form readback, substrate endpoint, timeout refusal, componentwise transport, displayed route, provenance, and local naming rows.
+
+\closureat{HostTotalTraceUp}{seedStr}
+
+\begin{closurestatus}{\HostTotalTraceUp}
+  \constructivestory{A $\HostTotalTraceUp$ packet is generated from host readback, finite fuel, normal-form readback, substrate endpoint, timeout-refusal, componentwise hsame transport, displayed Cont route, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:host-total-trace-carrier}, \autoref{def:host-total-trace-classifier}, \autoref{thm:host-total-trace-namecert-obligations}, and \autoref{thm:host-total-trace-timeout-endpoint-separation} specify the finite host-trace packet separating endpoint readback from timeout refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, host partiality, unbounded substrate completion, halting decidability, quotient endpoint equality, or host-substrate equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, host readback, fuel exposure, normal-form readback, endpoint exposure, timeout-refusal exactness, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
