@@ -269,6 +269,7 @@ import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
+import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
@@ -769,6 +770,7 @@ import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
 import BEDC.Derived.SubstitutionAuditWindowRouteUp.TasteGate
+import BEDC.Derived.SubstitutionGeneratorAuditUp.TasteGate
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitDiskUp
