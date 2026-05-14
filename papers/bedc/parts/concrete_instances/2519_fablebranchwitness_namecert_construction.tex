@@ -4,6 +4,8 @@
 
 The $\FableBranchWitnessUp$ interface turns the local selector-step surface of \autoref{sec:efm-multi-branch} into a finite naming certificate. It isolates a single realized branch from the accumulated selector ledger: a consumer sees the source Hist row, selected mark, result Hist row, empty-boundary step, local admissibility certificate, transport rows, read routes, provenance, and local naming row, but it receives no global chooser and no completed branch policy.
 
+The enacted local branch row is supplied by \autoref{ch:concrete-instances-emptyboundaryselector-namecert}, while \autoref{ch:concrete-instances-empty-fable-ledger-namecert} is the finite selector-ledger consumer of the same branch shape. The witness packet therefore sits between the one-step empty-boundary selector and the ledger surface that records the branch without turning it into a global policy.
+
 \begin{definition}[FableBranchWitness carrier]
 \label{def:fable-branch-witness-carrier}
 A $\FableBranchWitnessUp$ carrier is a finite $\BHist$ packet
@@ -54,6 +56,22 @@ Project the accepted carrier to the mark row $m$ and the route row $C$. These tw
 The rows $E$ and $A$ bind the selector to the same local branch: $E$ records the empty-boundary extension from $h$ through $m$ to $r$, and $A$ records admissibility for that displayed triple. The transport row $H$ preserves those coordinates componentwise.
 
 Finally apply the non-escape part of \autoref{thm:fable-branch-witness-namecert-obligations}. Since the packet has only the listed rows, it realizes local branch selection without exporting a global choice function or an accumulated ledger.
+\end{proof}
+
+\begin{theorem}[FableBranchWitness empty-boundary selector dependency]
+\label{thm:fable-branch-witness-empty-boundary-selector-dependency}
+Every accepted $\FableBranchWitnessUp$ packet reads
+$$
+h,m,r,E,A,H,C,P,N
+$$
+as the same local branch shape supplied by \autoref{ch:concrete-instances-emptyboundaryselector-namecert} and consumed by \autoref{ch:concrete-instances-empty-fable-ledger-namecert}. The source row, selected mark, result row, empty-boundary extension, admissibility witness, transport, continuation route, provenance, and local name remain a finite one-step selector surface, with no global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:fable-branch-witness-carrier}. Its visible rows are exactly the local branch tuple $h,m,r,E,A,H,C,P,N$.
+
+Use \autoref{thm:fable-branch-witness-selector-exposure}. The selected mark $m$ and the route row $C$ expose the same one-step branch to every consumer, while $E$ binds $h,m,r$ as the empty-boundary extension and $A$ records local admissibility.
+
+Compare this exposed tuple with \autoref{ch:concrete-instances-emptyboundaryselector-namecert} and \autoref{ch:concrete-instances-empty-fable-ledger-namecert}. The former supplies the enacted local branch row, and the latter consumes the finite selector-ledger row. Since the witness carrier has no coordinate for a global chooser, completed branch policy, hidden selector, infinite ledger, or truth oracle, the dependency is exactly the displayed local branch shape.
 \end{proof}
 
 \closureat{FableBranchWitnessUp}{seedStr}
