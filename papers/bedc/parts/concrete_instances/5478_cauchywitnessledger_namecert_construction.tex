@@ -212,6 +212,88 @@ is exhausted by $Q,B,S,K,H,C,P,N$, and the excluded coordinates cannot be
 recovered from the public export.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger route coverage]
+\label{thm:cauchy-witness-ledger-route-coverage}
+Every accepted $\CauchyWitnessLedgerUp$ ledger route is covered by the finite
+rows
+$$
+Q,B,S,K,H,C,P,N.
+$$
+The route may read the diagonal-budget row, observation-budget row,
+seal-synchronizer row, completion-seal classifier row, componentwise transport
+row, displayed continuation row, package-provenance row, and local NameCert
+row, but it has no public coordinate outside this inventory.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligation theorem. They
+identify the accepted packet with the displayed tuple
+$L=(Q,B,S,K,H,C,P,N)$ and make those rows the complete local certificate
+surface.
+
+Next use carrier admission, route determinacy, and ledger exhaustion. Carrier
+admission supplies the finite row inventory, route determinacy prevents a
+second completion-seal classifier read once the displayed route is fixed, and
+ledger exhaustion says every public read is already consumed by the same
+analytic and structural rows.
+
+Finally apply public export and forbidden-coordinate exclusion. The public
+route is the Real-facing ledger route through $Q \longmapsto B \longmapsto S
+\longmapsto K$ with $H,C,P,N$, while quotient stream equality, host real
+equality, selected external limits, countable choice, and ambient completeness
+are absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger budget-seal lock]
+\label{thm:cauchy-witness-ledger-budget-seal-lock}
+No completion-seal read of an accepted $\CauchyWitnessLedgerUp$ packet can
+reach the row $K$ unless it has first read the diagonal-budget row $Q$, the
+observation-budget row $B$, and the seal-synchronizer row $S$ on the same
+displayed BEDC route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only analytic route to the completion-seal
+classifier is the ordered surface
+$Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Apply budget factorization and route replay exactness. Budget factorization
+places $Q$, then $B$, then $S$ before $K$, and route replay exactness records
+that the displayed $\Cont$ row $C$ must replay that same route before any
+$\RealUp$-facing read is admitted.
+
+Use the Real completion handoff and public export to pass the lock to every
+completion-facing consumer. The handoff reaches $K$ only through the three
+budget and seal rows, and the public export has no second completion route
+from which $K$ could be selected independently.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger Real consumer nonescape]
+\label{thm:cauchy-witness-ledger-real-consumer-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\CauchyWitnessLedgerUp$ packet
+receives only the finite ledger route
+$$
+Q,B,S,K,H,C,P,N.
+$$
+It receives no quotient stream, host equality, selected limit,
+countable-choice row, ambient completeness theorem, or completion-facing route
+outside the displayed BEDC rows.
+\end{theorem}
+\begin{proof}
+Begin with the Real completion handoff. It sends each $\RealUp$-facing
+consumer through the diagonal budget, observation budget, seal synchronizer,
+completion-seal classifier, componentwise transports, route replay,
+provenance, and local NameCert rows.
+
+Now combine route coverage with the budget-seal lock. Route coverage confines
+the consumer to $Q,B,S,K,H,C,P,N$, and the lock prevents the consumer from
+reading $K$ before the $Q,B,S$ budget and seal route has been consumed.
+
+Finally use forbidden-coordinate exclusion. Since the excluded coordinates are
+not rows of the carrier and are not exported by the public route, the
+Real-facing consumer cannot recover a quotient stream, host equality, selected
+limit, countable-choice row, ambient completeness theorem, or alternate
+completion channel from the ledger.
+\end{proof}
+
 \falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
 
 \independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}

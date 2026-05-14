@@ -228,6 +228,50 @@ Inside that carrier, \autoref{thm:closed-term-substitution-boundary-namecert-obl
 The handoff cannot bypass the finite packet. By \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, the packet exports no unregistered free variable, host equality witness, unchecked compiler state, or subject-reduction theorem, so the generated branch output receives only the certified closed-term substitution boundary.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary authorized recursor audit route]
+\label{thm:closed-term-substitution-boundary-authorized-recursor-audit-route}
+Every $\AuthorizedGeneratorRecursorUp$ output that consumes closed substitution reaches it only through the displayed $\ClosedTermSubstitutionBoundaryUp$ rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+together with the authorized recursor audit provenance and local naming rows. The authorized recursor may attach its own branch-output boundary, but it cannot read closed substitution through host equality, unchecked compiler state, hidden evaluator data, or subject reduction outside the boundary packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They display the closed source, closed value, operation, ledger, audit, transport, route, provenance, and naming rows that any substitution consumer must read.
+
+Apply ledger non-escape and the self-compile route, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-self-compile-route}. These results force closed shift and closed substitution to remain inside the finite boundary packet before a self-compilation consumer can cite them.
+
+Now use the consumer boundary and recursor handoff, \autoref{thm:closed-term-substitution-boundary-consumer-boundary} and \autoref{thm:closed-term-substitution-boundary-recursor-handoff}. The authorized recursor output is a downstream branch-output package over the same rows, so its audit provenance augments the route without replacing the closed substitution boundary.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary output non-escape]
+\label{thm:closed-term-substitution-boundary-output-nonescape}
+Generated output rows downstream of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet cannot export free variables, host equality, unchecked compiler state, or subject reduction outside the packet. Every such output that cites closed shift or closed substitution must carry the displayed boundary rows, the audit row $A$, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the carrier and the local NameCert obligations. The rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ are the whole closed-term substitution surface, with no coordinate for an exported free variable, host equality witness, unchecked compiler state, or ambient subject-reduction theorem.
+
+Use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. They make the ledger and audit rows prerequisites for any consumer-facing closed shift or closed substitution read.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-recursor-handoff} and \autoref{thm:closed-term-substitution-boundary-authorized-recursor-audit-route}. Generated branch output and authorized recursor output therefore inherit the same finite non-escape boundary instead of exporting a detached substitution or compiler theorem.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary self-compile public package]
+\label{thm:closed-term-substitution-boundary-self-compile-public-package}
+The public self-compilation package supplied by $\ClosedTermSubstitutionBoundaryUp$ is exactly the assembly of closed shift, closed substitution, recursor handoff, and audit-visible non-escape rows over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+It exposes the closed-boundary service to downstream self-compilation consumers without exporting host substitution semantics, subject reduction, host syntax quotienting, unchecked compiler state, or an external evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the carrier, NameCert obligations, and ledger non-escape theorem. They identify the displayed closedness witnesses, operation rows, ledger, audit row, transports, route, provenance, and local name as the complete boundary packet.
+
+Next use the self-compile route and consumer boundary, \autoref{thm:closed-term-substitution-boundary-self-compile-route} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. These rows make the closed shift and closed substitution service public only as a finite packet read, not as a host substitution semantics.
+
+Finally add the recursor and audit-output routes. By \autoref{thm:closed-term-substitution-boundary-recursor-handoff}, \autoref{thm:closed-term-substitution-boundary-authorized-recursor-audit-route}, and \autoref{thm:closed-term-substitution-boundary-output-nonescape}, branch-output consumers receive the same packet with audit provenance and no export route for free variables, unchecked compiler state, subject reduction, or hidden evaluator data.
+\end{proof}
+
 \begin{theorem}[Closed-term substitution boundary normalization-frontier handoff]
 \label{thm:closed-term-substitution-boundary-normalization-frontier-handoff}
 Every MetaCIC normalization-frontier consumer of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} reads closed substitution from $\ClosedTermSubstitutionBoundaryUp$ only through the displayed rows
