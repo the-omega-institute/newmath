@@ -1344,10 +1344,16 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     push to origin.
     """
     from contextlib import nullcontext
+    import sys as _sys
+    _tools_path = str(REPO_ROOT / "tools")
+    if _tools_path not in _sys.path:
+        _sys.path.insert(0, _tools_path)
     try:
-        from tools.repo_push_lock import acquire_push_lock as _pl
+        from repo_push_lock import acquire_push_lock as _pl
         push_lock_cm = _pl(BASE_BRANCH, timeout=600)
-    except Exception:
+        logger.info(f"[P{wt.round_number}] holding cross-process push lock for {BASE_BRANCH}")
+    except Exception as exc:
+        logger.warning(f"[P{wt.round_number}] push-lock import/acquire failed: {exc}; falling back to threading lock only")
         push_lock_cm = nullcontext()
     with push_lock_cm, _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")

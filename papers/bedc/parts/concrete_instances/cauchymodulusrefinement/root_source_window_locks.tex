@@ -43,3 +43,17 @@ Next apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. It 
 
 Finally use \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Every Real or Completion consumer is exhausted by the displayed route, so the handoff factors through $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and exports no additional Real-seal coordinate.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root window exhaustion]
+\label{thm:cauchy-modulus-refinement-root-window-exhaustion}
+Every accepted $\CauchyModulusRefinementUp$ $\RealUp$ or Completion selected-window consumer is equivalent, as a finite BEDC route, to first reading the source and meet rows $M_0,M_1,U,V$, then the selector and selected-window rows $T,W,Q,E$, and then the structural rows $H,C,P,N$. Conversely, any displayed route of this form determines the same $\RealUp$ or Completion selected-window consumer. Quotient streams, selected limits, host real equality, hidden selectors, second meet rows, and ambient completeness have no route coordinate for such a consumer.
+\end{theorem}
+\begin{proof}
+The forward direction starts with the source-window lock, \autoref{thm:cauchy-modulus-refinement-source-window-lock}. It forces every accepted consumer route to expose $M_0,M_1,U,V$ before any selected-window read is available.
+
+Next apply the selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-stability-lock}. The displayed selector path from $V$ through $T,W,Q$ is preserved by the $\hsame$ and $\Cont$ rows, so no hidden selector or detached selected-window ledger can supply a second route.
+
+Now use the Real-seal root handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-root-handoff}. It places $E,H,C,P,N$ after the same source and selector rows for every $\RealUp$ or Completion handoff, and it excludes quotient streams, selected limits, host real equality, second meet rows, and ambient completeness as route coordinates.
+
+For the reverse direction, read an accepted packet in exactly the displayed order. The three locks just cited identify each segment with the only source, selector, selected-window, Real-seal, and structural surface exported by the carrier. Therefore the route determines the same $\RealUp$ or Completion selected-window consumer.
+\end{proof}
