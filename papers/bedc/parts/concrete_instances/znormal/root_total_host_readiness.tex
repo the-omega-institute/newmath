@@ -1,0 +1,47 @@
+\begin{theorem}[$\ZNormalUp$ root total-host readiness]
+\label{thm:znormal-root-total-host-readiness}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root total-host consumer may read only the typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, sibling normal-word row $K$, continuation readback row $R$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\ZNormalUp}$ row $N$. The consumer receives no host conversion row, quotient normalization row, divergence oracle, unrestricted evaluation row, or global-normalization coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The displayed packet $Z=(T,F,V,K,R,H,C,P,N)$ lists every root-readable coordinate of an accepted $\ZNormalUp$ packet.
+
+Apply the NameCert obligations of \autoref{thm:znormal-namecert-obligations}. They bind carrier admission, typed endpoint readback, finite fuel, terminal normality, sibling normal-word evidence, continuation readback, transport, replay, provenance, and local naming into one finite surface.
+
+Since the carrier and the NameCert surface contain no host conversion, quotient normalization, divergence, unrestricted evaluation, or global-normalization row, a total-host consumer can only read the displayed packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root kernel source totality]
+\label{thm:znormal-root-kernel-source-totality}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root kernel source is total over the displayed packet rows: typed endpoint $T$, finite fuel $F$, terminal normality $V$, sibling normal-word evidence $K$, continuation readback $R$, $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and $\NameCert_{\ZNormalUp}$ naming $N$. No kernel consumer can source the same normal-form read from host conversion, quotient normalization, divergence detection, unrestricted evaluation, or a global normalizer outside those rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:znormal-carrier}. Its finite $\BHist$ packet supplies the complete source tuple and does not expose any second kernel-source coordinate.
+
+Use \autoref{thm:znormal-namecert-obligations} to read the same rows through the local naming surface. The typed endpoint, fuel, terminal row, sibling normal-word row, continuation readback, transport, replay, package, and naming obligations are all discharged inside $Z$.
+
+The non-escape conclusion is constructive projection: every kernel consumer obtains its source by selecting one of the displayed rows and following the structural route through $H,C,P,N$. The excluded host and quotient objects are absent from the packet, so they cannot serve as kernel sources.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root normal-form consumer exhaustion]
+\label{thm:znormal-root-normal-form-consumer-exhaustion}
+Every root normal-form consumer of an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+is exhausted by typed endpoint $T$, finite fuel $F$, terminal-normality row $V$, sibling normal-word row $K$, continuation readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ZNormalUp}$ row $N$. The normal-form read has no remaining route to host conversion, quotient normalization, a divergence oracle, unrestricted evaluation, or global normalization.
+\end{theorem}
+\begin{proof}
+First expose the displayed packet with \autoref{def:znormal-carrier}. It gives the normal-form consumer exactly the nine rows $T,F,V,K,R,H,C,P,N$.
+
+Then apply \autoref{thm:znormal-namecert-obligations}. The local certificate forces endpoint, fuel, terminal-normality, sibling normal-word, continuation readback, transport, replay, provenance, and naming to be consumed as one finite route.
+
+It remains to rule out escape. Because neither the carrier nor the NameCert obligation surface contains host conversion, quotient normalization, divergence, unrestricted evaluation, or global normalization, no normal-form consumer can continue past the displayed route.
+\end{proof}
