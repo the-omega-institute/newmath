@@ -865,7 +865,12 @@ def render_reject_clusters() -> str:
             continue
         if d.get("verdict") not in ("reject", "compile_failed"):
             continue
-        reasons = list(d.get("rejection_reasons") or [])
+        rejection_codes = list(d.get("rejection_codes") or [])
+        for code in rejection_codes:
+            cat = _stage2_reject_category(str(code or ""))
+            counts[cat] = counts.get(cat, 0) + 1
+            examples.setdefault(cat, f.parent.name)
+        reasons = [] if rejection_codes else list(d.get("rejection_reasons") or [])
         reasons.extend(d.get("compile_errors") or [])
         for r in reasons:
             cat = _stage2_reject_category(str(r or ""))
@@ -884,6 +889,15 @@ def _stage2_reject_category(reason: str) -> str:
     r_low = reason.lower()
     if "duplicate \\leanchecked" in r_low or "duplicate \\leantarget" in r_low:
         return "duplicate_lean_marker"
+    if r_low in {
+        "bad_target_file",
+        "line_cap",
+        "empty_content",
+        "compile_failed",
+        "external_provenance_leak",
+        "killo_review_reject",
+    }:
+        return r_low
     if "build invariant" in r_low:
         return "build_invariant"
     if "undefined control sequence" in r_low or "undefined macro" in r_low:

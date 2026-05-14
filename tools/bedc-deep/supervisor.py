@@ -328,6 +328,12 @@ def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dic
             continue
         if data.get("verdict") != "reject":
             continue
+        rejection_codes = list(data.get("rejection_codes") or [])
+        for code in rejection_codes:
+            cat = _stage2_reject_category(str(code or ""))
+            counts[cat] = counts.get(cat, 0) + 1
+        if rejection_codes:
+            continue
         for reason in data.get("rejection_reasons") or []:
             cat = _stage2_reject_category(str(reason or ""))
             counts[cat] = counts.get(cat, 0) + 1
@@ -336,6 +342,15 @@ def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dic
 
 def _stage2_reject_category(reason: str) -> str:
     r = reason.lower()
+    if r in {
+        "bad_target_file",
+        "line_cap",
+        "empty_content",
+        "compile_failed",
+        "external_provenance_leak",
+        "killo_review_reject",
+    }:
+        return r
     if "duplicate \\leanchecked" in r or "duplicate \\leantarget" in r:
         return "duplicate_lean_marker"
     if "build invariant" in r:
