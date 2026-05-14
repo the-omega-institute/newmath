@@ -222,6 +222,8 @@ import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
+import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
+import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
 import BEDC.Derived.ObserverFilterBudgetSelectorUp.TasteGate
