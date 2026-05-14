@@ -234,6 +234,45 @@ instance subjectReductionRouteChoiceChapterTasteGate :
     intro x y hxy heq
     exact hxy (subjectReductionRouteChoiceToEventFlow_injective heq)
 
+instance subjectReductionRouteChoiceFieldFaithful :
+    FieldFaithful SubjectReductionRouteChoiceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | SubjectReductionRouteChoiceUp.mk bundle setup setupToBundle bundleConsumption
+        setupConsumption obstruction transport route provenance name =>
+        [bundle, setup, setupToBundle, bundleConsumption, setupConsumption, obstruction,
+          transport, route, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk bundle1 setup1 setupToBundle1 bundleConsumption1 setupConsumption1 obstruction1
+        transport1 route1 provenance1 name1 =>
+        cases y with
+        | mk bundle2 setup2 setupToBundle2 bundleConsumption2 setupConsumption2 obstruction2
+            transport2 route2 provenance2 name2 =>
+            injection h with hBundle t1
+            injection t1 with hSetup t2
+            injection t2 with hSetupToBundle t3
+            injection t3 with hBundleConsumption t4
+            injection t4 with hSetupConsumption t5
+            injection t5 with hObstruction t6
+            injection t6 with hTransport t7
+            injection t7 with hRoute t8
+            injection t8 with hProvenance t9
+            injection t9 with hName _
+            cases hBundle
+            cases hSetup
+            cases hSetupToBundle
+            cases hBundleConsumption
+            cases hSetupConsumption
+            cases hObstruction
+            cases hTransport
+            cases hRoute
+            cases hProvenance
+            cases hName
+            rfl
+
 theorem SubjectReductionRouteChoiceTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       subjectReductionRouteChoiceDecodeBHist
