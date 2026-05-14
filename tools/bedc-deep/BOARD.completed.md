@@ -19825,3 +19825,48 @@ Rationale:
 This target fills a concrete gap in the PdeUp surface. The chapter already defines a carried source row with finite PDE relation entries over named derivative endpoints and proves transport and public-interface export theorems, but those theorems treat the relation row as a whole packet. A finite subrow projection lemma is distinct from relation transport: it states that selecting displayed relation entries and preserving their endpoint/order/type data yields a smaller carried relation row over the same sources. The claim is finite, local, and useful for downstream PDE examples that consume only part of a displayed equation packet.
 
 ---
+
+### B-760 - Fourier finite observation subpacket restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Fourier finite observation subpacket restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a FourierUp finite-observation package carries coefficient observations, transform samples, inner-product probes, and integral witnesses, and a displayed finite subpacket selects some of those observations with their attached ledger entries, then the selected subpacket is again a FourierUp finite-observation package over the same SOneUp, RealUp, InnerProductUp, and IntegralUp sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/102_fourier_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `ripeness_risk`: low, the landing file is short and the claim is a finite selector over already exposed Fourier observation rows.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a displayed finite selector over already certified observation and ledger rows, with no convergence, inversion, or Plancherel content.
+- `witness_extractor`: fourier_observation_subpacket_selector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: finite coefficient observations, transform samples, inner-product probes, integral witnesses, ProbeBundle/SigRel rows, attached truncation windows, orthogonality probes, integration witnesses, convergence-modulus ledger entries, and same source-package provenance
+- `dependency_trace`: Uses thm:fourier-carrier-obligation for the finite observation carrier surface, thm:fourier-ledger-obligation for attached truncation/window/orthogonality/integration/modulus rows, and thm:fourier-exactness-obligation for finite-package coverage, soundness, and completeness.
+- `rate_modulus_surface`: finite coefficient and transform observation package with coefficient windows, truncation-bound ledger entries, orthogonality probes, integration witness rows, and convergence-modulus ledger entries recorded beside the selected observations
+- `oracle_mode`: proof_search
+Rationale:
+This deserves a target slot because FourierUp currently exposes a finite-observation carrier, classifier, ledger, exactness row, and standard bridge, but it does not isolate the closure property needed when a downstream consumer keeps only a displayed finite subpacket of observations. The claim stays fully BEDC-native: it copies visible ProbeBundle/SigRel rows and their attached ledgers, preserves the same SOneUp, RealUp, InnerProductUp, and IntegralUp provenance, and explicitly avoids analytic Fourier theorems. It is not a duplicate of the existing standard bridge because the bridge exports the whole finite interface, while this target gives the local restriction lemma for subpacket consumers.
+
+---
