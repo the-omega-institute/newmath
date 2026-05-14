@@ -166,6 +166,46 @@ predicate, classical decision principle, divergence oracle, or host evaluator,
 the provenance and naming rows cannot be reinterpreted as any of those objects.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction normal-form route consumption]
+\label{thm:halting-distinction-normal-form-route-consumption}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Every accepted public read that reaches the trace-normal-form route consumes the $\ContinuationTraceNormalFormUp$ sibling surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert} before the diagonal row $Z$ can be used. The read remains a finite route through $Q,T,H,C,P,N$ into $Z$; it does not obtain a host evaluator, an unbounded execution semantics, or a total halting classifier.
+\end{theorem}
+\begin{proof}
+First project the carrier. By \autoref{def:halting-distinction-carrier}, the only trace coordinate is $T$, the only displayed continuation routes are in $C$, and the only transport row for carrying the trace into later reads is $H$.
+
+Apply \autoref{thm:halting-distinction-trace-readability} and \autoref{thm:halting-distinction-trace-normal-form-scope}. A termination-facing read reaches the finite $\Cont_P$ segment through $T$ and $C$, and the normal-form sibling supplies the named finite normal-form surface consumed by that same route.
+
+Only after that route has been consumed may the read enter the diagonal row. \autoref{thm:halting-distinction-diagonal-boundary} identifies $Z$ as the displayed self-reference boundary, while \autoref{thm:halting-distinction-provenance-purity-boundary} keeps $P$ and $N$ from becoming evaluator or truth-predicate data.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction inscription-event boundary]
+\label{thm:halting-distinction-inscription-event-boundary}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Every diagonal public read consumes the inscription-event record surface of \autoref{ch:concrete-instances-inscriptionevent-namecert} before any self-reference boundary is exposed. The read records the diagonal pair and self-application event through $Q,Z,H,C,P,N$ and exports no total halting predicate, divergence oracle, global truth predicate, or host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the diagonal coordinates. The carrier names the certificate-history pair in $Q$ and the self-reference row in $Z$, with $H$ carrying the componentwise $\hsame$ transports and $C$ carrying the displayed route.
+
+Apply \autoref{thm:halting-distinction-inscription-event-route}. The diagonal pair is consumed together with the inscription-event sibling before the public obstruction read is exposed, so the inscription-facing record is part of the route rather than an external semantic oracle.
+
+Now apply \autoref{thm:halting-distinction-diagonal-boundary}. The self-reference boundary becomes visible only at the displayed row $Z$ after the finite inscription and route data have been read. \autoref{thm:halting-distinction-consumer-non-escape} excludes any hidden halting predicate, divergence oracle, global truth predicate, or host evaluator from that exposure.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction downstream obstruction handoff]
+\label{thm:halting-distinction-downstream-obstruction-handoff}
+Every $\HaltingObstructionUp$ consumer of an accepted $\HaltingDistinctionUp$ packet receives only the finite rows
+$$
+Q,T,Z,H,C,P,N
+$$
+together with the named sibling routes through \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, \autoref{ch:concrete-instances-continuationtracenormalform-namecert}, \autoref{ch:concrete-instances-inscriptionevent-namecert}, and \autoref{ch:concrete-instances-haltingobstruction-namecert}. The handoff is a finite obstruction-facing boundary and does not supply a total halting predicate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. \autoref{thm:halting-distinction-consumer-non-escape} says every consumer receives only the rows $Q,T,Z,H,C,P,N$, and \autoref{thm:halting-distinction-root-unblock-sibling-consumer-lock} locks the trace, inscription, and normal-form siblings to that same finite packet.
+
+Next read the obstruction-facing package. \autoref{thm:halting-distinction-diagonal-obstruction-public-package} combines diagonal boundary, trace readability, provenance purity, and consumer non-escape as the public obstruction surface.
+
+Finally apply \autoref{thm:halting-distinction-obstruction-sibling-route} and \autoref{thm:halting-distinction-obstruction-consumer-boundary}. They identify the downstream $\HaltingObstructionUp$ read as a consumer of the finite distinction boundary, not as a source of a total halting predicate, divergence oracle, global truth predicate, or host evaluator.
+\end{proof}
+
 \begin{theorem}[HaltingDistinction diagonal obstruction public package]
 \label{thm:halting-distinction-diagonal-obstruction-public-package}
 For every accepted $\HaltingDistinctionUp$ packet
