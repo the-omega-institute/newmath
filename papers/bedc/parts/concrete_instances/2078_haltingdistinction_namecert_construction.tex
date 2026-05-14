@@ -232,6 +232,54 @@ Apply \autoref{thm:halting-distinction-namecert-obligations}. The local $\NameCe
 Finally use \autoref{thm:halting-distinction-provenance-purity-boundary} and \autoref{thm:halting-distinction-consumer-non-escape}. These prevent the provenance and consumer rows from being reinterpreted as external semantic or evaluator data. Thus stability of $Q$ is exactly the stability transported by $H$.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction root carrier-route exhaustion]
+\label{thm:halting-distinction-root-unblock-carrier-route-exhaustion}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+every root read exposed by the packet factors through the carrier row $Q$, the finite trace row $T$, the route row $C$, the provenance row $P$, and the local $\NameCert_{\HaltingDistinctionUp}$ row $N$, with the diagonal row $Z$ and componentwise $\hsame$ transport row $H$ used only as displayed coordinates of that same finite packet. No root read has access to a row outside the carrier, finite trace, route, provenance, and local naming surface.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{def:halting-distinction-carrier}. The carrier lists exactly $Q,T,Z,H,C,P,N$, so the root read begins with the displayed $\BHist$ rows and has no hidden coordinate to inspect.
+
+Apply \autoref{thm:halting-distinction-carrier-obligation}. It turns the carrier projection into the public obligation surface and identifies the finite rows that may be consumed by root readers.
+
+Now use \autoref{thm:halting-distinction-trace-readability}. A termination-facing read must pass through the finite $\Cont_P$ trace row $T$ and the route row $C$, while $P$ and $N$ remain the $\Pkg$ provenance and local $\NameCert$ ledger for exactly those rows.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root diagonal non-escape]
+\label{thm:halting-distinction-root-unblock-diagonal-nonescape}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+any diagonal root read factors through $Q,T,Z,H,C,P,N$. The self-reference row may identify the classifier question with its own certificate-history input through the displayed $\hsame$ transports, but the read cannot produce a total halting predicate, a global truth predicate, a divergence oracle, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the diagonal boundary of \autoref{thm:halting-distinction-diagonal-boundary}. It routes the self-reference read through $Q,T,Z,H,C,P,N$ and stops the read at the displayed diagonal row.
+
+Apply \autoref{thm:halting-distinction-provenance-purity-boundary}. The $\Pkg$ provenance row $P$ and local naming row $N$ certify only the finite carrier, trace, route, transport, and diagonal data.
+
+Finally use \autoref{thm:halting-distinction-consumer-non-escape}. Since every public consumer receives only the displayed rows, the diagonal read cannot be reinterpreted as a total halting predicate, global truth predicate, divergence oracle, or host evaluator.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root sibling consumer lock]
+\label{thm:halting-distinction-root-unblock-sibling-consumer-lock}
+The same finite boundary
+$$
+Q,T,Z,H,C,P,N
+$$
+is the only sibling route consumed by $\HaltingDistinctionTraceUp$ in \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, by $\InscriptionEventUp$ in \autoref{ch:concrete-instances-inscriptionevent-namecert}, and by $\ContinuationTraceNormalFormUp$ in \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. These consumers may read the finite $\Cont$ trace, diagonal inscription row, componentwise $\hsame$ transports, $\Pkg$ provenance, and local $\NameCert$ ledger, but none may extend the route to an external halting classifier or host evaluator.
+\end{theorem}
+\begin{proof}
+First read the root carrier-route exhaustion theorem. \autoref{thm:halting-distinction-root-unblock-carrier-route-exhaustion} fixes the available rows as $Q,T,Z,H,C,P,N$ and assigns trace, route, provenance, and local naming roles to them.
+
+For the diagonal consumer, apply \autoref{thm:halting-distinction-root-unblock-diagonal-nonescape}. The inscription-facing read can use $Z$ only inside the same finite boundary and cannot turn the diagonal row into evaluator data.
+
+The sibling chapters named in the statement consume exactly those rows: the trace chapter consumes the finite $\Cont$ trace surface, the inscription chapter consumes the diagonal event surface, and the trace-normal-form chapter consumes the finite normal-form route. Combining those readings locks all three consumers to the same $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ packet.
+\end{proof}
+
 \begin{theorem}[HaltingDistinction route stability]
 \label{thm:halting-distinction-route-stability}
 Every termination-facing route from an accepted $\HaltingDistinctionUp$ packet
