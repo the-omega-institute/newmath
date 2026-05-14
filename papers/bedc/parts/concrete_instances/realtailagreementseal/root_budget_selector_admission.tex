@@ -51,3 +51,21 @@ It remains to account for the named downstream consumers. The tail-fusion and $\
 
 The carrier rows are exhausted by $R,S,W,D,A,H,C,P,N$, with $H,C,P,N$ serving only transport, displayed continuation, provenance, and naming roles. Since neither the carrier nor the named sibling routes add a quotient stream, selected limit, host convergence row, choice-selected tail, hidden completion selector, or second agreement row, every admitted consumer remains inside the stated boundary.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal selector shared-threshold exactness]
+\label{thm:real-tail-agreement-seal-root-budget-selector-shared-threshold-exactness}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. Any root-facing $\RealUp$ or $\CompletionUp$ consumer that first passes through the budget-selector admission route and then asks for the shared-threshold row factors through the same finite chain
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \RegularCauchySelectorBudgetUp \to \StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to A.
+$$
+The selector-budget row and the shared-threshold row are therefore not two independent admissions: they are the same displayed L10 route through the limiter, tail-budget, tail-meet, selector-budget, paired-window, dyadic-readback, regular-rational readback, and local agreement rows of $Q$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-tail-agreement-seal-root-budget-selector-admission}. It fixes the root-facing consumer behind the $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, and $\RegularCauchySelectorBudgetUp$ rows before the local agreement edge $W \to D \to A$ is public.
+
+Next apply \autoref{thm:real-tail-agreement-seal-root-budget-shared-threshold-factorization}. The requested shared-threshold row is not an extra coordinate of $Q$; it is the $\RegularCauchyTailMeetUp$ step in the same finite route, after the limiter and tail-budget rows and before the selector-budget, window, dyadic readback, regular-rational readback, and agreement rows.
+
+Finally use \autoref{thm:real-tail-agreement-seal-root-budget-completion-consumer-exhaustion}. Completion-facing consumption has no quotient stream, selected limit, host convergence row, choice-selected tail, hidden completion selector, or second agreement surface from which a different threshold could be read.
+
+Combining these three local results gives exactness of the route: any consumer admitted by the selector budget and then reading the shared threshold must traverse the displayed chain above, and every row in that chain is one of the finite L10 carrier or named sibling rows already exposed by the accepted packet.
+\end{proof}

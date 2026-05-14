@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationBisimulationUp$}
+\label{ch:concrete-instances-continuation-bisimulation-namecert}
+\origin{ai}
+
+The $\ContinuationBisimulationUp$ packet realizes the behavioral-equivalence direction of \autoref{ch:visions-computation-as-continuation} as a finite paired-simulation certificate. It is adjacent to the small-step trace packet of \autoref{ch:concrete-instances-continuationtrace-namecert}, the terminal-read packet of \autoref{ch:concrete-instances-continuationbigstep-namecert}, and the bounded evaluator packet of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, but it stores a different public surface: two endpoint traces together with forward and backward simulation rows over the same endpoints.
+
+\falsifiablePrediction{An accepted $\ContinuationBisimulationUp$ packet with a forward simulation row but no backward simulation row fails the local NameCert obligations.}
+
+\independenceWitness{continuationtrace, continuationbigstep, continuationtracenormalform, continuationautomaton, finitetraceevaluator: none is bijective to $\ContinuationBisimulationUp$ because those siblings record traces, terminal reads, normal forms, automata, or bounded evaluator rows, while this carrier requires paired forward and backward simulation rows over the same endpoints.}
+
+\begin{definition}[ContinuationBisimulation carrier]
+\label{def:continuation-bisimulation-carrier}
+A $\ContinuationBisimulationUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(L,R,F,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left finite $\ContinuationTraceUp$ ledger, including its source, mark-and-tail, target, and trace rows;
+\item $R$ is the right finite $\ContinuationTraceUp$ ledger over the comparison endpoint;
+\item $F$ is the forward simulation row, reading each visible left trace step as a right trace step with matching endpoint classifier;
+\item $B$ is the backward simulation row, reading each visible right trace step as a left trace step with matching endpoint classifier;
+\item $E$ is the endpoint classifier row comparing the two source endpoints and the two target endpoints after the paired simulations have been read;
+\item $H$ stores componentwise $\hsame$ transports for the two trace ledgers, the forward and backward simulation rows, endpoint classifiers, replay rows, provenance, and local naming;
+\item $C$ stores the displayed $\Cont$ replay routes used to replay the left trace, the right trace, the forward simulation, the backward simulation, and the endpoint reads;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-computation-as-continuation}, \autoref{ch:concrete-instances-continuationtrace-namecert}, \autoref{ch:concrete-instances-continuationbigstep-namecert}, \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ContinuationBisimulationUp}$ row.
+\end{enumerate}
+The carrier exposes a symmetric finite behavioral-equivalence packet. It contains no host evaluator, quotient behaviour class, unbounded trace semantics, terminal-result selector, or one-sided simulation shortcut.
+\end{definition}
+
+\begin{theorem}[ContinuationBisimulation NameCert obligations]
+\label{thm:continuation-bisimulation-namecert-obligations}
+The local $\NameCert_{\ContinuationBisimulationUp}$ surface for the carrier of \autoref{def:continuation-bisimulation-carrier} consists of seven finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $Z=(L,R,F,B,E,H,C,P,N)$;
+\item left trace admission for $L$ through the finite $\ContinuationTraceUp$ rows;
+\item right trace admission for $R$ through the finite $\ContinuationTraceUp$ rows;
+\item forward simulation exactness, requiring every visible step read from $L$ to be matched by a displayed step read from $R$ through $F$;
+\item backward simulation exactness, requiring every visible step read from $R$ to be matched by a displayed step read from $L$ through $B$;
+\item endpoint-classifier stability through $E,H,C$ for the two source endpoints and the two target endpoints;
+\item non-escape, stating that every accepted behavioral-equivalence read factors through $L,R,F,B,E,H,C,P,N$ and cannot consult a host evaluator, quotient behaviour class, unbounded trace semantics, terminal-result selector, or one-sided simulation row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:continuation-bisimulation-carrier}. The accepted packet displays exactly the two trace ledgers, the two simulation rows, the endpoint classifier, the transport row, the replay row, provenance, and the local naming row.
+
+Read the two trace obligations through \autoref{ch:concrete-instances-continuationtrace-namecert}. The rows $L$ and $R$ are finite continuation traces, so their visible steps are source, mark-and-tail, target, trace-ledger, and replay reads rather than host-level transition facts.
+
+The simulation obligations are then paired. The forward row $F$ accounts for every visible left step by a right-step read, and the backward row $B$ accounts for every visible right step by a left-step read. Since both rows are coordinates of the same packet, the local NameCert can reject a one-sided packet before endpoint equivalence is exported.
+
+Finally, $E,H,C,P,N$ provide endpoint comparison, componentwise transport, replay, provenance, and local naming for the paired route. No coordinate remains for a quotient behaviour class, an evaluator graph, an unbounded trace semantics, a terminal-result selector, or a hidden one-sided simulation, so the seven obligations exhaust the packet.
+\end{proof}
+
+\begin{theorem}[ContinuationBisimulation non-escape]
+\label{thm:continuation-bisimulation-nonescape}
+Every accepted $\ContinuationBisimulationUp$ consumer route factors through the displayed finite rows
+$$
+L,R,F,B,E,H,C,P,N.
+$$
+In particular, a behavioral-equivalence consumer must read both the forward simulation row $F$ and the backward simulation row $B$ before the endpoint classifier $E$ can be exported. The route cannot be replaced by a host evaluator, a quotient of behaviours, an automaton-language equivalence, a bounded evaluator verdict, or a terminal-only big-step read.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:continuation-bisimulation-carrier}. The only trace data available to a consumer are the two finite ledgers $L$ and $R$, and the only simulation data are the displayed rows $F$ and $B$.
+
+Use the NameCert obligations of \autoref{thm:continuation-bisimulation-namecert-obligations}. They force left-step reads through $L$, right-step reads through $R$, forward matching through $F$, backward matching through $B$, and endpoint comparison through $E,H,C$.
+
+The surrounding siblings keep their own surfaces. \autoref{ch:concrete-instances-continuationbigstep-namecert} reads terminal rows, \autoref{ch:concrete-instances-finitetraceevaluator-namecert} records bounded evaluator rows, and \autoref{ch:concrete-instances-continuationautomaton-namecert} records automaton transition rows. None supplies the missing opposite simulation row for this packet.
+
+Therefore every accepted behavioral-equivalence read remains inside $L,R,F,B,E,H,C,P,N$. Removing either $F$ or $B$ changes the local NameCert surface and leaves no route by which the endpoint classifier may export symmetric equivalence.
+\end{proof}
