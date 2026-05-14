@@ -45,3 +45,35 @@ Next apply \autoref{thm:cauchy-witness-ledger-completion-consumer-factorization}
 
 Finally combine that route with \autoref{thm:cauchy-witness-ledger-regular-real-dependency-scope}. The dependency theorem names every allowed BEDC object and excludes the off-scope completion principles, so the resulting package is precisely the root-unblock surface available to downstream consumers.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger terminal L10 pullback]
+\label{thm:cauchy-witness-ledger-root-streamname-pullback}
+For any downstream root consumer of an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$, the terminal L10 surface is the single finite pullback
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+together with the internal ledger route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K.
+$$
+Every read of the root surface factors through these two displayed chains and the structural rows $H,C,P,N$; no consumer receives a second stream-name branch, an alternate regular-rational readback, or a detached Real completion endpoint.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-witness-ledger-completion-consumer-factorization}. It already places every completion-facing consumer on the sibling chain from $\DyadicRatCoreUp$ through $\StreamNameUp$ and $\RegSeqRatUp$ to $\RealUp$, and on the internal ledger route $Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Use \autoref{thm:cauchy-witness-ledger-regular-real-dependency-scope}. This identifies the exact BEDC dependency scope of the regular-Real route and keeps the dyadic core, stream name, regular rational readback, and Real endpoint attached to the same finite carrier surface.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-root-unblock-obligation-package}. The root package admits only the displayed ledger rows and the named sibling route, so the two chains form the terminal L10 pullback available to root consumers.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root completion nonescape]
+\label{thm:cauchy-witness-ledger-root-real-completion-nonescape}
+The terminal pullback of \autoref{thm:cauchy-witness-ledger-root-streamname-pullback} exports no quotient stream, selected limit, host equality, choice row, ambient completeness principle, metric-completion datum, or standard bridge row. Its public data are exactly the finite sibling route $\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp$, the ledger route $Q \longmapsto B \longmapsto S \longmapsto K$, and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the allowed data from \autoref{thm:cauchy-witness-ledger-root-streamname-pullback}. It exposes only the sibling chain, the internal ledger chain, and the structural rows.
+
+The regular-Real dependency scope of \autoref{thm:cauchy-witness-ledger-regular-real-dependency-scope} excludes host equality, quotient streams, selected limits, countable choice, and ambient completeness from the dependency surface.
+
+The root-unblock obligation package of \autoref{thm:cauchy-witness-ledger-root-unblock-obligation-package} supplies the same exclusion to downstream root consumers. Since no metric-completion datum or standard bridge row is one of $Q,B,S,K,H,C,P,N$ or one of the four sibling objects, neither is exported by the terminal pullback.
+\end{proof}
