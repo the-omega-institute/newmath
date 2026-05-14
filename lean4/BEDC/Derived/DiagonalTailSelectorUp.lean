@@ -549,4 +549,82 @@ theorem DiagonalTailSelectorPublicBudgetSource_real_seal_budget_nonescape
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right consumerRoute hostReturn)⟩
 
+theorem DiagonalTailSelectorScheduleSealConsumerExactness [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow scheduleRead sealRead consumer
+      hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg ->
+      Cont w d t ->
+      Cont t s scheduleRead ->
+      Cont scheduleRead s sealRead ->
+      Cont publicRow sealRead consumer ->
+      PkgSig bundle sealRead pkg ->
+      PkgSig bundle consumer pkg ->
+        SemanticNameCert
+            (fun row : BHist => hsame row p ∧ UnaryHistory row)
+            (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+            (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+            hsame ∧
+          UnaryHistory scheduleRead ∧ UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+            Cont w d t ∧ Cont t s scheduleRead ∧ Cont scheduleRead s sealRead ∧
+              Cont publicRow sealRead consumer ∧ PkgSig bundle publicRow pkg ∧
+                PkgSig bundle sealRead pkg ∧ PkgSig bundle consumer pkg ∧
+                  (Cont consumer (BHist.e0 hostTail) publicRow -> False) ∧
+                    (Cont consumer (BHist.e1 hostTail) publicRow -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert
+  intro source wdRoute scheduleRoute sealRoute consumerRoute sealPkg consumerPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nMuK, _kWD, pPkg⟩ := carrier
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed tUnaryFromRoute sUnary scheduleRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed scheduleUnary sUnary sealRoute
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed publicUnary sealUnary consumerRoute
+  have sourceP : (fun row : BHist => hsame row p ∧ UnaryHistory row) p := by
+    exact And.intro (hsame_refl p) pUnary
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row p ∧ UnaryHistory row)
+        (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+        (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro p sourceP
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact And.intro source.left pPkg
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left pPkg
+    }
+  exact
+    ⟨cert, scheduleUnary, sealUnary, consumerUnary, wdRoute, scheduleRoute, sealRoute,
+      consumerRoute, publicPkg, sealPkg, consumerPkg,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left consumerRoute hostReturn),
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.right consumerRoute hostReturn)⟩
+
 end BEDC.Derived.DiagonalTailSelectorUp
