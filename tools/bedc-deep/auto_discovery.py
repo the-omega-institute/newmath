@@ -11,8 +11,10 @@ Modes:
   paper_review — paper-only referee audit over `papers/bedc/parts/`; kept
             candidates route through board_spawn before entering BOARD.
 
-Discovery modes are invoked manually or by supervisor low-water refill, so the user can
-inspect candidates before they enter the queue.
+Discovery modes are invoked manually or by supervisor low-water refill. When
+`--append` is used, kept candidates route through board_spawn so candidate_inbox,
+landing-kind checks, pre-TasteGate admission, and logic_packet_gate apply before
+anything enters BOARD.md.
 
 Pattern matches the rest of bedc-deep: codex generates, claude gates.
 """
@@ -39,7 +41,6 @@ from oracle_client import (
     DEFAULT_CANDIDATE_NOVELTY_THRESHOLD,
     STATE_DIR,
     TARGETS_DIR,
-    append_candidates_to_board,
 )
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -300,8 +301,6 @@ def _run_two_stage(
     args: argparse.Namespace,
     mode: str,
     claude_template: str,
-    *,
-    append_via_board_spawn: bool = False,
     **claude_kwargs,
 ) -> int:
     """Adversarial two-stage discovery: claude generates with evidence, codex
@@ -359,27 +358,20 @@ def _run_two_stage(
 
     appended: list[str] = []
     if args.append and kept:
-        if append_via_board_spawn:
-            spawn_candidates = [_for_board_spawn(c, mode=mode) for c in kept]
-            spawn_result = board_spawn.spawn_from_candidates(
-                codex_candidates=spawn_candidates,
-                oracle_candidates=[],
-                fit_threshold=args.candidate_fit_threshold,
-                novelty_threshold=args.candidate_novelty_threshold,
-            )
-            final_state["board_spawn"] = {
-                "ok": spawn_result.ok,
-                "error": spawn_result.error,
-                "accepted": spawn_result.accepted,
-                "rejected": spawn_result.rejected,
-            }
-            appended = spawn_result.appended_ids if spawn_result.ok else []
-        else:
-            appended = append_candidates_to_board(
-                kept,
-                fit_threshold=args.candidate_fit_threshold,
-                novelty_threshold=args.candidate_novelty_threshold,
-            )
+        spawn_candidates = [_for_board_spawn(c, mode=mode) for c in kept]
+        spawn_result = board_spawn.spawn_from_candidates(
+            codex_candidates=spawn_candidates,
+            oracle_candidates=[],
+            fit_threshold=args.candidate_fit_threshold,
+            novelty_threshold=args.candidate_novelty_threshold,
+        )
+        final_state["board_spawn"] = {
+            "ok": spawn_result.ok,
+            "error": spawn_result.error,
+            "accepted": spawn_result.accepted,
+            "rejected": spawn_result.rejected,
+        }
+        appended = spawn_result.appended_ids if spawn_result.ok else []
         final_state["appended_ids"] = appended
         print(f"[{mode}] appended {len(appended)} to BOARD.md: {appended}", flush=True)
 
@@ -393,7 +385,6 @@ def cmd_probe(args: argparse.Namespace) -> int:
         args,
         "probe",
         "theory_probe.txt",
-        append_via_board_spawn=True,
         board_content=_board_text(),
     )
 
@@ -434,7 +425,6 @@ def cmd_paper_review(args: argparse.Namespace) -> int:
         args,
         "paper_review",
         "paper_review_probe.txt",
-        append_via_board_spawn=True,
         board_content=_board_text(),
     )
 
