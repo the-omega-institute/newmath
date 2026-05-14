@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ModelTraceUp.TasteGate
+namespace BEDC.Derived.ModelTraceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,10 +10,11 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ModelTraceUp : Type where
-  | mk :
-      (orbit output corpus refusal inscription observer readback transport route provenance
-        nameCert : BHist) →
+  | mk
+      (inferenceState outputTrace corpusSupply auditRefusal largeModelInscription
+        observerInterface readback transport route provenance name : BHist) :
       ModelTraceUp
+  deriving DecidableEq
 
 def modelTraceEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,22 +37,57 @@ private theorem modelTraceDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem modelTrace_mk_congr
+    {inferenceState inferenceState' outputTrace outputTrace' corpusSupply corpusSupply'
+      auditRefusal auditRefusal' largeModelInscription largeModelInscription'
+      observerInterface observerInterface' readback readback' transport transport' route route'
+      provenance provenance' name name' : BHist}
+    (hInferenceState : inferenceState' = inferenceState)
+    (hOutputTrace : outputTrace' = outputTrace)
+    (hCorpusSupply : corpusSupply' = corpusSupply)
+    (hAuditRefusal : auditRefusal' = auditRefusal)
+    (hLargeModelInscription : largeModelInscription' = largeModelInscription)
+    (hObserverInterface : observerInterface' = observerInterface)
+    (hReadback : readback' = readback)
+    (hTransport : transport' = transport)
+    (hRoute : route' = route)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    ModelTraceUp.mk inferenceState' outputTrace' corpusSupply' auditRefusal'
+        largeModelInscription' observerInterface' readback' transport' route' provenance'
+        name' =
+      ModelTraceUp.mk inferenceState outputTrace corpusSupply auditRefusal
+        largeModelInscription observerInterface readback transport route provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hInferenceState
+  cases hOutputTrace
+  cases hCorpusSupply
+  cases hAuditRefusal
+  cases hLargeModelInscription
+  cases hObserverInterface
+  cases hReadback
+  cases hTransport
+  cases hRoute
+  cases hProvenance
+  cases hName
+  rfl
+
 def modelTraceToEventFlow : ModelTraceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ModelTraceUp.mk orbit output corpus refusal inscription observer readback transport route
-      provenance nameCert =>
+  | ModelTraceUp.mk inferenceState outputTrace corpusSupply auditRefusal largeModelInscription
+      observerInterface readback transport route provenance name =>
       [[BMark.b0],
-        modelTraceEncodeBHist orbit,
+        modelTraceEncodeBHist inferenceState,
         [BMark.b1, BMark.b0],
-        modelTraceEncodeBHist output,
+        modelTraceEncodeBHist outputTrace,
         [BMark.b1, BMark.b1, BMark.b0],
-        modelTraceEncodeBHist corpus,
+        modelTraceEncodeBHist corpusSupply,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        modelTraceEncodeBHist refusal,
+        modelTraceEncodeBHist auditRefusal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        modelTraceEncodeBHist inscription,
+        modelTraceEncodeBHist largeModelInscription,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        modelTraceEncodeBHist observer,
+        modelTraceEncodeBHist observerInterface,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         modelTraceEncodeBHist readback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
@@ -65,107 +101,69 @@ def modelTraceToEventFlow : ModelTraceUp → EventFlow
         modelTraceEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        modelTraceEncodeBHist nameCert]
+        modelTraceEncodeBHist name]
 
-private def modelTraceDecodeEventRows : Nat → EventFlow → Option (List RawEvent)
+private def modelTraceEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => some []
-  | Nat.zero, _ :: _ => none
-  | Nat.succ _, [] => none
-  | Nat.succ n, _tag :: rest0 =>
-      match rest0 with
-      | [] => none
-      | row :: rest1 =>
-          match modelTraceDecodeEventRows n rest1 with
-          | none => none
-          | some rows => some (row :: rows)
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => modelTraceEventAtDefault index rest
 
-def modelTraceFromEventFlow : EventFlow → Option ModelTraceUp
+def modelTraceFromEventFlow (ef : EventFlow) : Option ModelTraceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      match modelTraceDecodeEventRows 11 ef with
-      | none => none
-      | some rows =>
-          match rows with
-          | [] => none
-          | orbit :: rest0 =>
-              match rest0 with
-              | [] => none
-              | output :: rest1 =>
-                  match rest1 with
-                  | [] => none
-                  | corpus :: rest2 =>
-                      match rest2 with
-                      | [] => none
-                      | refusal :: rest3 =>
-                          match rest3 with
-                          | [] => none
-                          | inscription :: rest4 =>
-                              match rest4 with
-                              | [] => none
-                              | observer :: rest5 =>
-                                  match rest5 with
-                                  | [] => none
-                                  | readback :: rest6 =>
-                                      match rest6 with
-                                      | [] => none
-                                      | transport :: rest7 =>
-                                          match rest7 with
-                                          | [] => none
-                                          | route :: rest8 =>
-                                              match rest8 with
-                                              | [] => none
-                                              | provenance :: rest9 =>
-                                                  match rest9 with
-                                                  | [] => none
-                                                  | nameCert :: rest10 =>
-                                                      match rest10 with
-                                                      | [] =>
-                                                          some
-                                                            (ModelTraceUp.mk
-                                                              (modelTraceDecodeBHist orbit)
-                                                              (modelTraceDecodeBHist output)
-                                                              (modelTraceDecodeBHist corpus)
-                                                              (modelTraceDecodeBHist refusal)
-                                                              (modelTraceDecodeBHist inscription)
-                                                              (modelTraceDecodeBHist observer)
-                                                              (modelTraceDecodeBHist readback)
-                                                              (modelTraceDecodeBHist transport)
-                                                              (modelTraceDecodeBHist route)
-                                                              (modelTraceDecodeBHist provenance)
-                                                              (modelTraceDecodeBHist nameCert))
-                                                      | _ :: _ => none
+  some
+    (ModelTraceUp.mk
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 1 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 3 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 5 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 7 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 9 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 11 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 13 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 15 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 17 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 19 ef))
+      (modelTraceDecodeBHist (modelTraceEventAtDefault 21 ef)))
 
 private theorem modelTrace_round_trip :
     ∀ x : ModelTraceUp, modelTraceFromEventFlow (modelTraceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk orbit output corpus refusal inscription observer readback transport route provenance
-      nameCert =>
+  | mk inferenceState outputTrace corpusSupply auditRefusal largeModelInscription
+      observerInterface readback transport route provenance name =>
       change
         some
           (ModelTraceUp.mk
-            (modelTraceDecodeBHist (modelTraceEncodeBHist orbit))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist output))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist corpus))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist refusal))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist inscription))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist observer))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist inferenceState))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist outputTrace))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist corpusSupply))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist auditRefusal))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist largeModelInscription))
+            (modelTraceDecodeBHist (modelTraceEncodeBHist observerInterface))
             (modelTraceDecodeBHist (modelTraceEncodeBHist readback))
             (modelTraceDecodeBHist (modelTraceEncodeBHist transport))
             (modelTraceDecodeBHist (modelTraceEncodeBHist route))
             (modelTraceDecodeBHist (modelTraceEncodeBHist provenance))
-            (modelTraceDecodeBHist (modelTraceEncodeBHist nameCert))) =
+            (modelTraceDecodeBHist (modelTraceEncodeBHist name))) =
           some
-            (ModelTraceUp.mk orbit output corpus refusal inscription observer readback
-              transport route provenance nameCert)
-      rw [modelTraceDecode_encode_bhist orbit, modelTraceDecode_encode_bhist output,
-        modelTraceDecode_encode_bhist corpus, modelTraceDecode_encode_bhist refusal,
-        modelTraceDecode_encode_bhist inscription, modelTraceDecode_encode_bhist observer,
-        modelTraceDecode_encode_bhist readback, modelTraceDecode_encode_bhist transport,
-        modelTraceDecode_encode_bhist route, modelTraceDecode_encode_bhist provenance,
-        modelTraceDecode_encode_bhist nameCert]
+            (ModelTraceUp.mk inferenceState outputTrace corpusSupply auditRefusal
+              largeModelInscription observerInterface readback transport route provenance name)
+      exact
+        congrArg some
+          (modelTrace_mk_congr
+            (modelTraceDecode_encode_bhist inferenceState)
+            (modelTraceDecode_encode_bhist outputTrace)
+            (modelTraceDecode_encode_bhist corpusSupply)
+            (modelTraceDecode_encode_bhist auditRefusal)
+            (modelTraceDecode_encode_bhist largeModelInscription)
+            (modelTraceDecode_encode_bhist observerInterface)
+            (modelTraceDecode_encode_bhist readback)
+            (modelTraceDecode_encode_bhist transport)
+            (modelTraceDecode_encode_bhist route)
+            (modelTraceDecode_encode_bhist provenance)
+            (modelTraceDecode_encode_bhist name))
 
 private theorem modelTraceToEventFlow_injective {x y : ModelTraceUp} :
     modelTraceToEventFlow x = modelTraceToEventFlow y → x = y := by
@@ -176,8 +174,7 @@ private theorem modelTraceToEventFlow_injective {x y : ModelTraceUp} :
         modelTraceFromEventFlow (modelTraceToEventFlow y) :=
     congrArg modelTraceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (modelTrace_round_trip x).symm
-      (Eq.trans hread (modelTrace_round_trip y)))
+    (Eq.trans (modelTrace_round_trip x).symm (Eq.trans hread (modelTrace_round_trip y)))
 
 instance modelTraceBHistCarrier : BHistCarrier ModelTraceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -198,41 +195,41 @@ instance modelTraceFieldFaithful : FieldFaithful ModelTraceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | ModelTraceUp.mk orbit output corpus refusal inscription observer readback transport route
-        provenance nameCert =>
-        [orbit, output, corpus, refusal, inscription, observer, readback, transport, route,
-          provenance, nameCert]
+    | ModelTraceUp.mk inferenceState outputTrace corpusSupply auditRefusal
+        largeModelInscription observerInterface readback transport route provenance name =>
+        [inferenceState, outputTrace, corpusSupply, auditRefusal, largeModelInscription,
+          observerInterface, readback, transport, route, provenance, name]
   field_faithful := by
     intro x y h
     cases x with
-    | mk orbit₁ output₁ corpus₁ refusal₁ inscription₁ observer₁ readback₁ transport₁
-        route₁ provenance₁ nameCert₁ =>
-      cases y with
-      | mk orbit₂ output₂ corpus₂ refusal₂ inscription₂ observer₂ readback₂ transport₂
-          route₂ provenance₂ nameCert₂ =>
-        injection h with hOrbit t1
-        injection t1 with hOutput t2
-        injection t2 with hCorpus t3
-        injection t3 with hRefusal t4
-        injection t4 with hInscription t5
-        injection t5 with hObserver t6
-        injection t6 with hReadback t7
-        injection t7 with hTransport t8
-        injection t8 with hRoute t9
-        injection t9 with hProvenance t10
-        injection t10 with hNameCert _
-        cases hOrbit
-        cases hOutput
-        cases hCorpus
-        cases hRefusal
-        cases hInscription
-        cases hObserver
-        cases hReadback
-        cases hTransport
-        cases hRoute
-        cases hProvenance
-        cases hNameCert
-        rfl
+    | mk inferenceState₁ outputTrace₁ corpusSupply₁ auditRefusal₁ largeModelInscription₁
+        observerInterface₁ readback₁ transport₁ route₁ provenance₁ name₁ =>
+        cases y with
+        | mk inferenceState₂ outputTrace₂ corpusSupply₂ auditRefusal₂ largeModelInscription₂
+            observerInterface₂ readback₂ transport₂ route₂ provenance₂ name₂ =>
+            injection h with hInferenceState hRest₁
+            injection hRest₁ with hOutputTrace hRest₂
+            injection hRest₂ with hCorpusSupply hRest₃
+            injection hRest₃ with hAuditRefusal hRest₄
+            injection hRest₄ with hLargeModelInscription hRest₅
+            injection hRest₅ with hObserverInterface hRest₆
+            injection hRest₆ with hReadback hRest₇
+            injection hRest₇ with hTransport hRest₈
+            injection hRest₈ with hRoute hRest₉
+            injection hRest₉ with hProvenance hRest₁₀
+            injection hRest₁₀ with hName _
+            cases hInferenceState
+            cases hOutputTrace
+            cases hCorpusSupply
+            cases hAuditRefusal
+            cases hLargeModelInscription
+            cases hObserverInterface
+            cases hReadback
+            cases hTransport
+            cases hRoute
+            cases hProvenance
+            cases hName
+            rfl
 
 instance modelTraceNontrivial : Nontrivial ModelTraceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -240,8 +237,7 @@ instance modelTraceNontrivial : Nontrivial ModelTraceUp where
     ⟨ModelTraceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       ModelTraceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -269,13 +265,5 @@ theorem ModelTraceTasteGate_single_carrier_alignment :
         · constructor
           · exact ⟨modelTraceNontrivial⟩
           · rfl
-
-end BEDC.Derived.ModelTraceUp.TasteGate
-
-namespace BEDC.Derived.ModelTraceUp
-
-def taste_gate :=
-  -- BEDC touchpoint anchor: BHist BMark
-  TasteGate.taste_gate
 
 end BEDC.Derived.ModelTraceUp

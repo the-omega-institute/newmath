@@ -270,3 +270,21 @@ Use Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer
 
 Finally apply selector-budget tail-meet non-escape, \autoref{thm:cauchy-modulus-refinement-selector-budget-tail-meet-nonescape}. Once the consumer reads $T,W,Q,E$, every admissible route has already passed through $M_0,M_1,U,V,T$, so the excluded off-route data cannot supply a second RegSeqRat or Real route.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared-budget pullback handoff]
+\label{thm:cauchy-modulus-refinement-shared-budget-pullback-handoff}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every $\RealUp$ or Completion consumer that uses the terminal selector-seal surface of $R$ enters through the shared-budget pullback route fixed by
+$$
+U,V,T,W,Q,E,H,C,P,N.
+$$
+If two such consumers agree on those rows, then they expose the same terminal $\RealUp$ seal surface. No quotient stream, hidden selector, second meet row, host real equality, selected host limit, side-channel completion row, or ambient completeness coordinate supplies an alternate handoff.
+\end{theorem}
+\begin{proof}
+First bind the shared budget. The shared-budget pullback theorem, \autoref{thm:cauchy-modulus-refinement-shared-budget-pullback}, makes the meet row $U$ and selector-budget row $T$ determine the selected-window row $W$ and tolerance-readback row $Q$ through the displayed refinement route.
+
+Next route the terminal handoff through the finite sibling surfaces. The shared-tail handoff of \autoref{thm:cauchy-modulus-refinement-shared-tail-handoff} carries $W,Q,E,H,C,P,N$ across the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces, while \autoref{thm:cauchy-modulus-refinement-shared-meet-regseqrat-route} places every RegSeqRat and Real consumer behind the same shared meet and extraction route $U,V,T$.
+
+Now identify the terminal selector-seal surface. By \autoref{thm:cauchy-modulus-refinement-terminal-selector-seal-correspondence}, agreement on the displayed selector-budget, selected-window, tolerance-readback, seal, transport, replay, provenance, and local naming rows is exactly agreement on the terminal selector surface and its $\RealUp$ seal.
+
+Finally apply tail-budget selector lock, \autoref{thm:cauchy-modulus-refinement-tail-budget-selector-lock}. The excluded off-route data are not coordinates of the accepted packet, so they cannot supply a second handoff once $U,V,T,W,Q,E,H,C,P,N$ have fixed the terminal route.
+\end{proof}
