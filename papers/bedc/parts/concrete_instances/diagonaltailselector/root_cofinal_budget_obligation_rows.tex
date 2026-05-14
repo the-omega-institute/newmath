@@ -319,3 +319,54 @@ route. Carrier-coordinate exhaustion leaves exactly the listed packet and
 route, with no remaining coordinate from which an excluded object could be
 read.
 \end{proof}
+
+\begin{theorem}[Diagonal tail selector terminal cofinal route exhaustion]
+\label{thm:diagonal-tail-selector-terminal-cofinal-route-exhaustion}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Every terminal $\RealUp$ or
+$\CompletionUp$ consumer of the cofinal selector route is exhausted by the
+displayed packet $G$ together with the L10 route through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+No quotient stream, countable-choice selector, host-selected limit, host real
+equality, hidden tail oracle, or ambient completeness row can be recovered from
+such a terminal consumer.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission} and
+\autoref{thm:diagonal-tail-selector-root-budget-handoff}. These identify the
+accepted root surface with the displayed coordinates of $G$ and send that same
+finite budget into the terminal route.
+
+Next use
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay}. The replay keeps
+the cofinal route on the named L10 spine through $\LimitSelectorUp$,
+$\RegularCauchyTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+
+The public surface is then the one supplied by
+\autoref{thm:diagonal-tail-selector-public-root-replay-package}. By
+\autoref{thm:diagonal-tail-selector-budget-readback-nonescape}, a terminal
+readback from this surface cannot export a quotient stream, countable-choice
+selector, host-selected limit, host real equality, hidden tail oracle, or
+ambient completeness row.
+
+Finally apply
+\autoref{thm:diagonal-tail-selector-terminal-budget-determinacy} and
+\autoref{thm:diagonal-tail-selector-root-formal-target-surface}. They identify
+every terminal $\RealUp$ or $\CompletionUp$ consumer with the same packet and
+route. Carrier-coordinate exhaustion therefore leaves exactly the displayed
+coordinates and no remaining carrier from which one of the excluded objects
+could be read.
+\end{proof}
