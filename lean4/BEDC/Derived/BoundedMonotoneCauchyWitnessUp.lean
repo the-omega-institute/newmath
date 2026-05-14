@@ -542,4 +542,39 @@ theorem BoundedMonotoneCauchyWitnessCarrier_tail_seal_row_determinacy
   exact ⟨tailUnaryA, tailUnaryB, readUnaryA, readUnaryB, sameTail, sameRead, tailSealReadA,
     tailSealReadB, readPkgA, readPkgB⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_root_located_real_seal_route
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      locatedRead toleranceRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont trap ledger locatedRead →
+        Cont locatedRead witness toleranceRead →
+          Cont toleranceRead sealRow realRead →
+            PkgSig bundle realRead pkg →
+              UnaryHistory trap ∧ UnaryHistory ledger ∧ UnaryHistory witness ∧
+                UnaryHistory sealRow ∧ UnaryHistory locatedRead ∧
+                  UnaryHistory toleranceRead ∧ UnaryHistory realRead ∧
+                    Cont trap ledger locatedRead ∧
+                      Cont locatedRead witness toleranceRead ∧
+                        Cont toleranceRead sealRow realRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier trapLedgerLocated locatedWitnessTolerance toleranceSealReal realPkg
+  obtain ⟨_sourceUnary, _regularUnary, _scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, _provenanceUnary, _sourceScheduleRegular, _regularWitnessTrap,
+    _trapSealRoute, _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ :=
+    carrier
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed trapUnary ledgerUnary trapLedgerLocated
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed locatedUnary witnessUnary locatedWitnessTolerance
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed toleranceUnary sealUnary toleranceSealReal
+  exact
+    ⟨trapUnary, ledgerUnary, witnessUnary, sealUnary, locatedUnary, toleranceUnary,
+      realUnary, trapLedgerLocated, locatedWitnessTolerance, toleranceSealReal, provenancePkg,
+      realPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
