@@ -58,13 +58,13 @@ The remaining rows $F,\sigma,D,L,R,H,C,P,N$ carry the public convergence handoff
 Thus every consumer route is exhausted by the displayed packet. A route that omits $W$ or $K$ has no access to the bounded witness or Cauchy criterion rows, and a route that asks for selected limits, quotient streams, host equality, ambient completeness, detached tail oracles, trichotomy, or compactness asks for data absent from the carrier.
 \end{proof}
 
-\begin{theorem}[Bounded monotone convergence seal witness exposure]
-\label{thm:bounded-monotone-convergence-seal-witness-exposure}
+\begin{theorem}[Bounded monotone convergence seal witness consumption]
+\label{thm:bounded-monotone-convergence-seal-witness-consumption}
 Every accepted $\BoundedMonotoneConvergenceSealUp$ packet
 $$
 S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)
 $$
-first exposes the bounded witness row $W$ as a $\BoundedMonotoneCauchyWitnessUp$ surface before any public tail, criterion, stream, dyadic, regular-rational, CauchyLimitSeal, or Real row can be consumed. A completion-facing consumer therefore receives the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor from $W$ before it reads $M,K,F,\sigma,D,L$, or $R$.
+consumes the witness row $W$ through $\BoundedMonotoneCauchyWitnessUp$ before any public $\RealUp$ or completion-facing seal row is available. A completion-facing consumer therefore receives the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor from $W$ before it reads $M,K,F,\sigma,D,L$, or $R$.
 \end{theorem}
 \begin{proof}
 Start with \autoref{def:bounded-monotone-convergence-seal-carrier}. The first displayed coordinate of the accepted packet is $W$, and the carrier names it as the accepted $\BoundedMonotoneCauchyWitnessUp$ row that supplies the bounded source, tail witness, dyadic ledger, located trap, and Real-seal precursor.
@@ -74,9 +74,9 @@ The sibling surface \autoref{ch:concrete-instances-boundedmonotonecauchywitness-
 Finally apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. Every $\RealUp$ or completion-facing consumer factors through $W$ before it reaches the public rows $M,K$ and the route $F,\sigma,D,L,R,H,C,P,N$. Thus the witness row is exposed first and no direct completion read is available.
 \end{proof}
 
-\begin{theorem}[Bounded monotone convergence seal tail window exposure]
-\label{thm:bounded-monotone-convergence-seal-tail-window-exposure}
-After the witness row $W$ has been exposed, every accepted $\BoundedMonotoneConvergenceSealUp$ read exposes the public $\MonotoneCauchyUp$ row $M$ and the public $\CauchyCriterionUp$ row $K$ before it exposes the finite route $F,\sigma,D,L$ or the Real seal row $R$. The rows $M$ and $K$ are therefore the public tail-window and Cauchy-criterion gate between the bounded witness surface and the completion-facing seal surface.
+\begin{theorem}[Bounded monotone convergence seal criterion route]
+\label{thm:bounded-monotone-convergence-seal-criterion-route}
+After the witness row $W$ has been consumed, every tolerance-facing $\BoundedMonotoneConvergenceSealUp$ read routes through the public rows $M,K,F,\sigma,D,L$ before it reaches the Real seal row $R$. Such a read cannot bypass the public $\MonotoneCauchyUp$ row $M$ or the public $\CauchyCriterionUp$ row $K$ when it asks for a tail window, dyadic tolerance ledger, stream window, regular-rational handoff, or CauchyLimitSeal compatibility boundary.
 \end{theorem}
 \begin{proof}
 Project \autoref{def:bounded-monotone-convergence-seal-carrier}. The carrier places $M$ and $K$ immediately after the bounded witness row $W$ and before the regular-rational, stream, dyadic, CauchyLimitSeal, and Real rows.
@@ -86,17 +86,17 @@ The public tail and criterion rows are the sibling surfaces of \autoref{ch:concr
 Now use \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations} together with \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. The NameCert surface names public monotone tail-window exposure through $M$ and public Cauchy criterion exposure through $K$, and the handoff theorem forces every completion-facing route through $W,M,K$ before $F,\sigma,D,L,R,H,C,P,N$ can be consumed.
 \end{proof}
 
-\begin{theorem}[Bounded monotone convergence seal Real handoff exactness]
-\label{thm:bounded-monotone-convergence-seal-real-handoff-exactness}
+\begin{theorem}[Bounded monotone convergence seal Real handoff]
+\label{thm:bounded-monotone-convergence-seal-real-handoff}
 For every accepted $\BoundedMonotoneConvergenceSealUp$ packet
 $$
 S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
 $$
-the Real seal row $R$ is readable only after the finite route
+the Real-facing handoff reaches $R$ only after the finite route
 $$
-F,\sigma,D,L
+W,M,K,F,\sigma,D,L,R,H,C,P,N
 $$
-has exposed the $\RegSeqRatUp$ handoff row, the $\StreamNameUp$ finite window ledger, the $\DyadicRatCoreUp$ tolerance and upper-bound ledger, and the $\CauchyLimitSealUp$ compatibility row. The row $R$ is exactly the $\RealUp$ handoff at the end of this route and not a selected limit, quotient stream equality, host real equality, ambient completeness row, or metric-completeness row.
+has displayed the witness, criterion, stream, dyadic, limit-seal, transport, route, package, and NameCert rows. The row $R$ is exactly the $\RealUp$ handoff at the end of this displayed route and not a selected limit, quotient stream equality, host real equality, ambient completeness row, or metric-completeness row.
 \end{theorem}
 \begin{proof}
 Read the displayed order in \autoref{def:bounded-monotone-convergence-seal-carrier}. The route reaches $R$ only after $W,M,K,F,\sigma,D,L$ have appeared, and the rows $F,\sigma,D,L$ are the regular-rational, stream-window, dyadic-ledger, and CauchyLimitSeal compatibility coordinates.
