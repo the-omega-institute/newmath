@@ -100,6 +100,10 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "retry_budget": 1,
         "next_action": "retry_resume",
     },
+    "stage2_gate_error": {
+        "retry_budget": 1,
+        "next_action": "retry_resume",
+    },
     "stage2_blocked_after_retries": {
         "retry_budget": 0,
         "next_action": "alert_user",
@@ -356,6 +360,8 @@ def derive_failure_kind(state: dict) -> str:
             if _is_posthoc_paper_covered_target(state):
                 return "posthoc_paper_covered"
             return "stage2_compile_failed"
+        if s2v == "error":
+            return "stage2_gate_error"
         if s2v == "reject":
             attempts = s2.get("attempts") or []
             if isinstance(attempts, list) and len(attempts) >= 2:
