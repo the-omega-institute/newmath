@@ -39,6 +39,10 @@ DEFAULT_TIMEOUT = 1800
 COMPILE_TIMEOUT = 600
 MAX_FILE_LINES = 800
 LOGIC_AUDIT_VERSION = "stage2-logic-audit-v1"
+INSPIRATION_ONLY_TARGET_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 EXTERNAL_PROVENANCE_PATTERNS = [
     re.compile(r"Inspired by Omega Project"),
     re.compile(r"\b[Aa]utomath\b"),
@@ -340,6 +344,9 @@ def _logic_surface_audit(content: str) -> dict:
 
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
     if not suggested:
+        return None
+    rel = suggested.strip().replace("\\", "/")
+    if INSPIRATION_ONLY_TARGET_RE.search(rel):
         return None
     candidate = (REPO_ROOT / suggested).resolve()
     try:

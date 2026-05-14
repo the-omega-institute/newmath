@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ContourReversalLedgerUp$}
+\label{ch:concrete-instances-contour-reversal-ledger-namecert}
+\origin{ai}
+
+The $\ContourReversalLedgerUp$ packet realizes the reversal law surface of \autoref{ch:concrete-instances-contour-integral} as finite NameCert data. It reads the contour-operation packet of \autoref{ch:concrete-instances-contourintegraloperation-namecert}, displays the original and reversed piecewise-linear contour rows, and exposes the negated $\ComplexUp$ output only through the same reversal route.
+
+\begin{definition}[Contour reversal ledger carrier]
+\label{def:contour-reversal-ledger-carrier}
+A $\ContourReversalLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,G^{-},F,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source $\mathsf{PLContour}$ row, including the finite endpoint list and segment rows read by the contour-integral operation surface;
+\item $G^{-}$ is the reversed $\mathsf{PLContour}$ row obtained by reading the same endpoints and segment rows in the displayed opposite orientation;
+\item $F$ is the accepted $\ContourIntegralOperationUp$ row for the integrand and the source contour data that supplies the operation-law ledger containing reversal;
+\item $I$ is the negated $\ComplexUp$ output row certified as the value of the same integrand along $G^{-}$ after the output row for $G$ has been read;
+\item $H$ records componentwise $\hsame$ transports for $G,G^{-},F,I$ and for the provenance and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from $G$ to $G^{-}$, from $F$ to the reversal-law ledger, and from the source output row to the negated $\ComplexUp$ output row $I$;
+\item $P$ records $\Pkg$ provenance over $\mathsf{PLContour}$, $\ContourIntegralOperationUp$, $\ContourIntegralSocketUp$, $\ContourSumWindowUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ContourReversalLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host smooth path, a quotient path class, an ambient analytic-continuation principle, an unrecorded integral value, or a nonledgered sign choice.
+\end{definition}
+
+\begin{theorem}[Contour reversal ledger NameCert obligations]
+\label{thm:contour-reversal-ledger-namecert-obligations}
+The local $\NameCert_{\ContourReversalLedgerUp}$ surface for \autoref{def:contour-reversal-ledger-carrier} consists of carrier exposure for $R=(G,G^{-},F,I,H,C,P,N)$, orientation-pair exposure for the two $\mathsf{PLContour}$ rows, contour-operation ledger exposure for the reversal law, negated $\ComplexUp$ output routing, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local naming row. Any accepted consumer that asks for the reversed-contour output must first read the displayed PLContour row, reversed-contour row, and $\ContourIntegralOperationUp$ row.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the tuple in \autoref{def:contour-reversal-ledger-carrier}. The source contour row, reversed-contour row, operation row, negated output row, transport row, continuation row, provenance row, and local naming row are all displayed before any consumer can read the reversal result.
+
+The orientation-pair obligation is confined to $G$ and $G^{-}$. The route in $C$ first reads the finite endpoint and segment data of $G$, then reads the opposite-orientation row $G^{-}$, so no host path object or quotient path class can replace either contour coordinate.
+
+The reversal-law obligation is read through the $\ContourIntegralOperationUp$ row $F$ and its operation-law ledger. The negated output row $I$ is available only after that ledger has exposed the source contour, reversed contour, and operation row.
+
+Finally, the rows $H,C,P,N$ transport the displayed coordinates, replay the finite routes, record the dependency packages, and name the local ledger. Since no carrier coordinate stores an ambient analytic-continuation theorem, unrecorded integral value, or nonledgered sign choice, none of those objects can be exported.
+\end{proof}
+
+\begin{theorem}[Contour reversal ledger contour-integral handoff]
+\label{thm:contour-reversal-ledger-contourintegral-handoff}
+Let $R=(G,G^{-},F,I,H,C,P,N)$ be an accepted $\ContourReversalLedgerUp$ carrier. Every $\ContourIntegralOperationUp$, $\ContourIntegralSocketUp$, $\ContourSumWindowUp$, residue-facing, or RH scaffold consumer of the reversal row factors first through $G$, $G^{-}$, and $F$ before it may read the negated $\ComplexUp$ output row $I$.
+
+The handoff exports only the displayed paired orientation rows, the contour-operation reversal ledger, the negated output route, componentwise transports, displayed continuations, package provenance, and local $\NameCert$ row. It exports no host path equality, hidden branch choice, ambient integral operator, quotient path class, or unrecorded analytic-continuation coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:contour-reversal-ledger-namecert-obligations}. It exposes the paired contour rows and forces the reversal-law read through the local $\ContourIntegralOperationUp$ row before the negated output row can be inspected.
+
+For a contour-operation or contour-socket consumer, apply the operation-law ledger closure of \autoref{ch:concrete-instances-contourintegraloperation-namecert} and the socket boundary of \autoref{ch:concrete-instances-contourintegralsocket-namecert}. Both sibling surfaces read contour data through displayed finite rows and ledgered routes, so the reversal handoff cannot bypass $G,G^{-},F,H,C,P,N$.
+
+For a contour-sum, residue-facing, or RH scaffold consumer, read the same handoff through the provenance row $P$. That row names the contour-sum window and analytic neighbors only as dependency packets; it does not add a host integral, quotient path, branch selector, or unrecorded analytic-continuation coordinate.
+
+Thus every accepted consumer reaches the negated $\ComplexUp$ output through the displayed orientation pair and contour-operation ledger, and the exported surface is exactly the finite packet $R$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted ContourReversalLedgerUp consumer reaches the negated ComplexUp output only after reading the displayed PLContour row, reversed-contour row, and ContourIntegralOperation row.}
+
+\independenceWitness{contourintegraloperation, contoursumwindow, analyticcontinuationoperation, branchobstruction, holomorphic: none is bijective because the reversal ledger has the paired orientation rows and negated-output route that each sibling lacks.}
+
+The Lean file \texttt{TasteGate.lean} must include explicit $\mathsf{Nontrivial}\ \ContourReversalLedgerUp$ and $\mathsf{FieldFaithful}\ \ContourReversalLedgerUp$ instances for the displayed carrier $R=(G,G^{-},F,I,H,C,P,N)$.
+
+\closureat{ContourReversalLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ContourReversalLedgerUp}
+  \constructivestory{A $\ContourReversalLedgerUp$ packet is generated from a displayed $\mathsf{PLContour}$ row, its reversed-contour row, a $\ContourIntegralOperationUp$ reversal-law row, a negated $\ComplexUp$ output row, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contour-reversal-ledger-carrier}, \autoref{thm:contour-reversal-ledger-namecert-obligations}, and \autoref{thm:contour-reversal-ledger-contourintegral-handoff} bind the finite orientation-pair ledger and negated-output route over $\mathsf{PLContour}$, $\ContourIntegralOperationUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Cauchy's theorem, residue calculus, RH zero-location consequences, host path equality, global branch selection, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, reversal-ledger exactness, contour-operation handoff, TasteGate nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
