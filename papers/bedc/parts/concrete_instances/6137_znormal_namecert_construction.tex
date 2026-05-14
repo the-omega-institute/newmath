@@ -323,12 +323,28 @@ Apply \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-te
 Now apply \autoref{thm:znormal-carry-classifier-row} and \autoref{thm:znormal-route-transport}. The sibling comparison row remains finite evidence, while $H,C,P,N$ provide the only transport, replay, package, and naming surface for the normal-form ledger.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ terminal-host boundary row]
+\label{thm:znormal-terminal-host-boundary}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+terminal-host use of $\ZNormalUp$ must factor through the typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, continuation terminal-read row $R$, sibling normal-word row $K$, and the structural rows $H,C,P,N$. No consumer of this terminal-host boundary may read host conversion, quotient computation, unrestricted evaluator, divergence oracle, substrate halting, or global normalizer outside that finite BEDC packet.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:znormal-carrier}. The displayed carrier gives the typed endpoint, finite fuel, terminal-normality, continuation readback, sibling normal-word evidence, transports, continuations, package provenance, and NameCert row as the only terminal-host coordinates.
+
+Apply \autoref{thm:znormal-normal-form-ledger-row} and \autoref{thm:znormal-carry-classifier-row}. The normal-form ledger binds $T,F,V,R,H,C,P,N$, while the classifier row identifies $K$ as finite sibling normal-word evidence rather than host computation.
+
+Use \autoref{thm:znormal-continuation-terminal-route} and \autoref{thm:znormal-fuel-normality-nonescape}. These force the continuation read and terminal-normality claim through finite fuel and terminal route data, so the host-side boundary is only finite BEDC packet data and exposes none of the excluded host or global-normalization objects.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}
   \constructivestory{A $\ZNormalUp$ packet is generated from a typed reduction normal-form row, finite fuel row, terminal-normality row, finite Zeckendorf and carry-facing comparison row, continuation terminal-read row, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-carry-normalization-obligation}, \autoref{thm:znormal-continuation-terminal-route}, \autoref{thm:znormal-typed-boundary-exhaustion}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, \autoref{thm:znormal-obligation-closure-package}, \autoref{thm:znormal-route-transport}, \autoref{thm:znormal-normal-output-boundary}, and \autoref{thm:znormal-consumer-nonescape} bind the finite normal-form packet, carry normalization obligation, continuation terminal route, typed boundary exhaustion, terminal readback, sibling handoff, route transport, public normal-output boundary, consumer non-escape, and host-side total-language boundary.}
+  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-carry-normalization-obligation}, \autoref{thm:znormal-continuation-terminal-route}, \autoref{thm:znormal-typed-boundary-exhaustion}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, \autoref{thm:znormal-obligation-closure-package}, \autoref{thm:znormal-route-transport}, \autoref{thm:znormal-normal-output-boundary}, \autoref{thm:znormal-consumer-nonescape}, and \autoref{thm:znormal-terminal-host-boundary} bind the finite normal-form packet, carry normalization obligation, continuation terminal route, typed boundary exhaustion, terminal readback, sibling handoff, route transport, public normal-output boundary, consumer non-escape, host-side total-language boundary, and terminal-host boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
