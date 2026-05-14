@@ -4,6 +4,8 @@
 
 The $\KernelSourceChannelLedgerUp$ packet names the finite source-channel audit surface surrounding a Lean kernel acceptance event. It separates generated candidates, classifier stamps, accepted declarations, environment ancestry, axiom-query refusal rows, compiler routes, and local naming. The packet is a concrete $\NameCert$ carrier over the audit rows already exposed by $\KernelAcceptanceTraceUp$, $\CertificateCompilerUp$, and $\NameCertMorphismUp$; it does not certify the host kernel from inside BEDC and does not replace the displayed ancestry rows by source-text confidence.
 
+The ledger is therefore not a kernel-only packet. Row $T$ consumes the accepted-declaration audit surface of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}; row $M$ consumes either the executable certificate route of \autoref{ch:concrete-instances-certificatecompiler-namecert} or the certificate-preservation graph of \autoref{ch:concrete-instances-namecertmorphism-namecert}; and row $F$ keeps those sibling channels separated before any audit consumer reads $Q,R$.
+
 \begin{definition}[Kernel source-channel ledger carrier]
 \label{def:kernel-source-channel-ledger-carrier}
 A $\KernelSourceChannelLedgerUp$ carrier is a finite $\BHist$ packet
