@@ -73,4 +73,37 @@ theorem RealTailAgreementSealTerminalRoute_exhaustion
                                                     · exact terminalCont
                                                     · exact agreementCont
 
+theorem RealTailAgreementSealTerminalRoute_root_source_window_admission
+    {R S W D A P leftRead rightRead leftDyadic rightDyadic agreement terminal : BHist}
+    (route : RealTailAgreementSealTerminalRoute R S W D A P leftRead rightRead leftDyadic
+      rightDyadic agreement terminal) :
+    UnaryHistory W ∧ UnaryHistory leftDyadic ∧ UnaryHistory rightDyadic ∧
+      UnaryHistory agreement ∧ Cont W D leftDyadic ∧ Cont W D rightDyadic ∧
+        Cont leftDyadic A agreement ∧ hsame agreement (append (append W D) A) := by
+  -- BEDC touchpoint anchor: BHist Cont
+  have summary :=
+    RealTailAgreementSealTerminalRoute_exhaustion route
+  have unaryW : UnaryHistory W :=
+    route.left
+  have unaryLeft : UnaryHistory leftDyadic :=
+    summary.left
+  have unaryRight : UnaryHistory rightDyadic :=
+    summary.right.left
+  have unaryAgreement : UnaryHistory agreement :=
+    summary.right.right.left
+  have leftCont : Cont W D leftDyadic :=
+    summary.right.right.right.right.left
+  have rightCont : Cont W D rightDyadic :=
+    summary.right.right.right.right.right.left
+  have agreementCont : Cont leftDyadic A agreement :=
+    summary.right.right.right.right.right.right.left
+  have sourceWindow : hsame leftDyadic (append W D) :=
+    leftCont
+  have agreementWindow : hsame agreement (append (append W D) A) := by
+    cases sourceWindow
+    exact agreementCont
+  exact
+    ⟨unaryW, unaryLeft, unaryRight, unaryAgreement, leftCont, rightCont, agreementCont,
+      agreementWindow⟩
+
 end BEDC.Derived.RealTailAgreementSealUp
