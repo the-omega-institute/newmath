@@ -71,6 +71,46 @@ The sibling boundaries are therefore separate. $\TuringMachineUp$ machine code, 
 
 The later Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularOrbitSubstrateUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \CellularOrbitSubstrateUp$ and $\mathsf{FieldFaithful}\ \CellularOrbitSubstrateUp$ instances for the displayed finite-orbit carrier.
 
+\begin{theorem}[Cellular orbit substrate orbit carrier row]
+\label{thm:cellular-orbit-substrate-orbit-carrier-row}
+Finite orbit admission for a $\CellularOrbitSubstrateUp$ packet is exactly admission of the displayed local-neighborhood carrier
+$$
+S=(R,I,W,L,H,C,P,N)
+$$
+of \autoref{def:cellular-orbit-substrate-carrier}. The admitted orbit row consists of the rule table $R$, the initial spatial row $I$, the finite orbit-window ledger $W$, the local-neighborhood ledger $L$, the transport row $H$, the continuation replay $C$, provenance $P$, and local name $N$, and it imports no infinite orbit, hidden evaluator, quotient stream, host cellular equality, or external cellular oracle.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:cellular-orbit-substrate-carrier}. Carrier admission exposes exactly the rule table, initial row, finite orbit window, local-neighborhood ledger, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:cellular-orbit-substrate-local-determinacy}. Once $R$ and $I$ are admitted, each successor entry in the finite window is determined by the corresponding local-neighborhood read in $L$.
+
+Apply \autoref{thm:cellular-orbit-substrate-observation-nonescape} and \autoref{thm:cellular-orbit-substrate-namecert-surface}. They identify the public orbit carrier with the finite route $R,I,W,L,H,C,P,N$ and exclude all unbounded or host-level cellular objects.
+\end{proof}
+
+\begin{theorem}[Cellular orbit substrate local classifier row]
+\label{thm:cellular-orbit-substrate-local-classifier-row}
+The $\CellularOrbitSubstrateUp$ classifier is stable under displayed $\hsame$ transport of cell states and orbit windows. If two accepted packets transport the same rule-table row, initial spatial row, finite orbit-window ledger, and local-neighborhood ledger through their displayed $H$ rows, then the public classifier reads the same local successor decisions through the corresponding continuation replay and naming rows.
+\end{theorem}
+\begin{proof}
+Begin with the local classifier surface of \autoref{def:cellular-orbit-substrate-carrier}. The classifier has access only to $R,I,W,L,H,C,P,N$.
+
+Apply \autoref{thm:cellular-orbit-substrate-local-determinacy}. The rule table fixes every successor value for each transported predecessor neighborhood, and $L$ records the displayed entry used for each accepted successor cell.
+
+Use \autoref{thm:cellular-orbit-substrate-observation-nonescape} and \autoref{thm:cellular-orbit-substrate-namecert-surface} to close the route. Since no hidden evaluator or quotient stream is available, $\hsame$-transported cell states and orbit windows preserve the public classifier row.
+\end{proof}
+
+\begin{theorem}[Cellular orbit substrate continuation ledger row]
+\label{thm:cellular-orbit-substrate-continuation-ledger-row}
+Every public read of the $\CellularOrbitSubstrateUp$ cellular orbit route factors through the listed $\Cont$, $\Pkg$, and $\NameCert$ rows of the displayed carrier. The finite continuation replay $C$ reads from $R,I,W,L,H$, the provenance row $P$ records that finite cellular route, and the local name $N$ exports only that packet to public consumers.
+\end{theorem}
+\begin{proof}
+Read the continuation route from \autoref{def:cellular-orbit-substrate-carrier}. The row $C$ is the only displayed replay path from the rule table and initial row through the orbit window and local-neighborhood ledger.
+
+Apply \autoref{thm:cellular-orbit-substrate-local-determinacy} to each accepted successor read. The replay cannot choose a second successor row because $L$ records the unique local-neighborhood entry used with $R$.
+
+Finally use \autoref{thm:cellular-orbit-substrate-observation-nonescape} and \autoref{thm:cellular-orbit-substrate-namecert-surface}. The provenance row $P$ and local name $N$ package the same finite route, so public reads cannot escape to machine code, bounded graph simulation, continuation-tail equality, resource-modulus comparison, or an unbounded orbit object.
+\end{proof}
+
 \closureat{CellularOrbitSubstrateUp}{seedStr}
 
 \begin{closurestatus}{\CellularOrbitSubstrateUp}

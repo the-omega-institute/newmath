@@ -10,9 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive GroundCompilerRecognizerBoundaryUp : Type where
-  | mk
+  | mk :
       (eventFlow sourceChannel recognizer certificateGate metricReport motifReport
-        bootstrapEvidence transports routes provenance localName : BHist) :
+        bootstrapEvidence transport continuation provenance localName : BHist) →
       GroundCompilerRecognizerBoundaryUp
   deriving DecidableEq
 
@@ -31,21 +31,19 @@ def groundCompilerRecognizerBoundaryDecodeBHist : RawEvent → BHist
 private theorem groundCompilerRecognizerBoundaryDecode_encode_bhist :
     ∀ h : BHist,
       groundCompilerRecognizerBoundaryDecodeBHist
-        (groundCompilerRecognizerBoundaryEncodeBHist h) = h := by
+          (groundCompilerRecognizerBoundaryEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 private theorem groundCompilerRecognizerBoundary_mk_congr
     {eventFlow eventFlow' sourceChannel sourceChannel' recognizer recognizer'
       certificateGate certificateGate' metricReport metricReport' motifReport motifReport'
-      bootstrapEvidence bootstrapEvidence' transports transports' routes routes'
+      bootstrapEvidence bootstrapEvidence' transport transport' continuation continuation'
       provenance provenance' localName localName' : BHist}
     (hEventFlow : eventFlow' = eventFlow)
     (hSourceChannel : sourceChannel' = sourceChannel)
@@ -54,15 +52,16 @@ private theorem groundCompilerRecognizerBoundary_mk_congr
     (hMetricReport : metricReport' = metricReport)
     (hMotifReport : motifReport' = motifReport)
     (hBootstrapEvidence : bootstrapEvidence' = bootstrapEvidence)
-    (hTransports : transports' = transports)
-    (hRoutes : routes' = routes)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
     (hProvenance : provenance' = provenance)
     (hLocalName : localName' = localName) :
     GroundCompilerRecognizerBoundaryUp.mk eventFlow' sourceChannel' recognizer'
-        certificateGate' metricReport' motifReport' bootstrapEvidence' transports' routes'
-        provenance' localName' =
-      GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer certificateGate
-        metricReport motifReport bootstrapEvidence transports routes provenance localName := by
+        certificateGate' metricReport' motifReport' bootstrapEvidence' transport'
+        continuation' provenance' localName' =
+      GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer
+        certificateGate metricReport motifReport bootstrapEvidence transport continuation
+        provenance localName := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hEventFlow
   cases hSourceChannel
@@ -71,8 +70,8 @@ private theorem groundCompilerRecognizerBoundary_mk_congr
   cases hMetricReport
   cases hMotifReport
   cases hBootstrapEvidence
-  cases hTransports
-  cases hRoutes
+  cases hTransport
+  cases hContinuation
   cases hProvenance
   cases hLocalName
   rfl
@@ -80,92 +79,68 @@ private theorem groundCompilerRecognizerBoundary_mk_congr
 def groundCompilerRecognizerBoundaryToEventFlow :
     GroundCompilerRecognizerBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer certificateGate
-      metricReport motifReport bootstrapEvidence transports routes provenance localName =>
-      [groundCompilerRecognizerBoundaryEncodeBHist eventFlow,
+  | GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer
+      certificateGate metricReport motifReport bootstrapEvidence transport continuation
+      provenance localName =>
+      [[BMark.b0],
+        groundCompilerRecognizerBoundaryEncodeBHist eventFlow,
+        [BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist sourceChannel,
+        [BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist recognizer,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist certificateGate,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist metricReport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist motifReport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist bootstrapEvidence,
-        groundCompilerRecognizerBoundaryEncodeBHist transports,
-        groundCompilerRecognizerBoundaryEncodeBHist routes,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        groundCompilerRecognizerBoundaryEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        groundCompilerRecognizerBoundaryEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         groundCompilerRecognizerBoundaryEncodeBHist localName]
 
 def groundCompilerRecognizerBoundaryFromEventFlow :
     EventFlow → Option GroundCompilerRecognizerBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | eventFlow :: rest0 =>
-      match rest0 with
-      | [] => none
-      | sourceChannel :: rest1 =>
-          match rest1 with
-          | [] => none
-          | recognizer :: rest2 =>
-              match rest2 with
-              | [] => none
-              | certificateGate :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | metricReport :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | motifReport :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | bootstrapEvidence :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | transports :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | routes :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | provenance :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | localName :: rest10 =>
-                                              match rest10 with
-                                              | [] =>
-                                                  some
-                                                    (GroundCompilerRecognizerBoundaryUp.mk
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        eventFlow)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        sourceChannel)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        recognizer)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        certificateGate)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        metricReport)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        motifReport)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        bootstrapEvidence)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        transports)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        routes)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        provenance)
-                                                      (groundCompilerRecognizerBoundaryDecodeBHist
-                                                        localName))
-                                              | _ :: _ => none
+  | _tag0 :: eventFlow :: _tag1 :: sourceChannel :: _tag2 :: recognizer ::
+      _tag3 :: certificateGate :: _tag4 :: metricReport :: _tag5 :: motifReport ::
+      _tag6 :: bootstrapEvidence :: _tag7 :: transport :: _tag8 :: continuation ::
+      _tag9 :: provenance :: _tag10 :: localName :: [] =>
+      some
+        (GroundCompilerRecognizerBoundaryUp.mk
+          (groundCompilerRecognizerBoundaryDecodeBHist eventFlow)
+          (groundCompilerRecognizerBoundaryDecodeBHist sourceChannel)
+          (groundCompilerRecognizerBoundaryDecodeBHist recognizer)
+          (groundCompilerRecognizerBoundaryDecodeBHist certificateGate)
+          (groundCompilerRecognizerBoundaryDecodeBHist metricReport)
+          (groundCompilerRecognizerBoundaryDecodeBHist motifReport)
+          (groundCompilerRecognizerBoundaryDecodeBHist bootstrapEvidence)
+          (groundCompilerRecognizerBoundaryDecodeBHist transport)
+          (groundCompilerRecognizerBoundaryDecodeBHist continuation)
+          (groundCompilerRecognizerBoundaryDecodeBHist provenance)
+          (groundCompilerRecognizerBoundaryDecodeBHist localName))
+  | _ => none
 
 private theorem groundCompilerRecognizerBoundary_round_trip :
     ∀ x : GroundCompilerRecognizerBoundaryUp,
       groundCompilerRecognizerBoundaryFromEventFlow
-        (groundCompilerRecognizerBoundaryToEventFlow x) = some x := by
+          (groundCompilerRecognizerBoundaryToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk eventFlow sourceChannel recognizer certificateGate metricReport motifReport
-      bootstrapEvidence transports routes provenance localName =>
+      bootstrapEvidence transport continuation provenance localName =>
       change
         some
           (GroundCompilerRecognizerBoundaryUp.mk
@@ -184,17 +159,17 @@ private theorem groundCompilerRecognizerBoundary_round_trip :
             (groundCompilerRecognizerBoundaryDecodeBHist
               (groundCompilerRecognizerBoundaryEncodeBHist bootstrapEvidence))
             (groundCompilerRecognizerBoundaryDecodeBHist
-              (groundCompilerRecognizerBoundaryEncodeBHist transports))
+              (groundCompilerRecognizerBoundaryEncodeBHist transport))
             (groundCompilerRecognizerBoundaryDecodeBHist
-              (groundCompilerRecognizerBoundaryEncodeBHist routes))
+              (groundCompilerRecognizerBoundaryEncodeBHist continuation))
             (groundCompilerRecognizerBoundaryDecodeBHist
               (groundCompilerRecognizerBoundaryEncodeBHist provenance))
             (groundCompilerRecognizerBoundaryDecodeBHist
               (groundCompilerRecognizerBoundaryEncodeBHist localName))) =
           some
             (GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer
-              certificateGate metricReport motifReport bootstrapEvidence transports routes
-              provenance localName)
+              certificateGate metricReport motifReport bootstrapEvidence transport
+              continuation provenance localName)
       exact
         congrArg some
           (groundCompilerRecognizerBoundary_mk_congr
@@ -205,15 +180,16 @@ private theorem groundCompilerRecognizerBoundary_round_trip :
             (groundCompilerRecognizerBoundaryDecode_encode_bhist metricReport)
             (groundCompilerRecognizerBoundaryDecode_encode_bhist motifReport)
             (groundCompilerRecognizerBoundaryDecode_encode_bhist bootstrapEvidence)
-            (groundCompilerRecognizerBoundaryDecode_encode_bhist transports)
-            (groundCompilerRecognizerBoundaryDecode_encode_bhist routes)
+            (groundCompilerRecognizerBoundaryDecode_encode_bhist transport)
+            (groundCompilerRecognizerBoundaryDecode_encode_bhist continuation)
             (groundCompilerRecognizerBoundaryDecode_encode_bhist provenance)
             (groundCompilerRecognizerBoundaryDecode_encode_bhist localName))
 
 private theorem groundCompilerRecognizerBoundaryToEventFlow_injective
     {x y : GroundCompilerRecognizerBoundaryUp} :
     groundCompilerRecognizerBoundaryToEventFlow x =
-      groundCompilerRecognizerBoundaryToEventFlow y → x = y := by
+        groundCompilerRecognizerBoundaryToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -237,9 +213,8 @@ instance groundCompilerRecognizerBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      groundCompilerRecognizerBoundaryFromEventFlow
-        (groundCompilerRecognizerBoundaryToEventFlow x) = some x
+    change groundCompilerRecognizerBoundaryFromEventFlow
+      (groundCompilerRecognizerBoundaryToEventFlow x) = some x
     exact groundCompilerRecognizerBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -250,18 +225,19 @@ instance groundCompilerRecognizerBoundaryFieldFaithful :
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer certificateGate
-        metricReport motifReport bootstrapEvidence transports routes provenance localName =>
+    | GroundCompilerRecognizerBoundaryUp.mk eventFlow sourceChannel recognizer
+        certificateGate metricReport motifReport bootstrapEvidence transport continuation
+        provenance localName =>
         [eventFlow, sourceChannel, recognizer, certificateGate, metricReport, motifReport,
-          bootstrapEvidence, transports, routes, provenance, localName]
+          bootstrapEvidence, transport, continuation, provenance, localName]
   field_faithful := by
     intro x y h
     cases x with
-    | mk eventFlow₁ sourceChannel₁ recognizer₁ certificateGate₁ metricReport₁ motifReport₁
-        bootstrapEvidence₁ transports₁ routes₁ provenance₁ localName₁ =>
+    | mk eventFlow1 sourceChannel1 recognizer1 certificateGate1 metricReport1 motifReport1
+        bootstrapEvidence1 transport1 continuation1 provenance1 localName1 =>
         cases y with
-        | mk eventFlow₂ sourceChannel₂ recognizer₂ certificateGate₂ metricReport₂ motifReport₂
-            bootstrapEvidence₂ transports₂ routes₂ provenance₂ localName₂ =>
+        | mk eventFlow2 sourceChannel2 recognizer2 certificateGate2 metricReport2 motifReport2
+            bootstrapEvidence2 transport2 continuation2 provenance2 localName2 =>
             injection h with hEventFlow t1
             injection t1 with hSourceChannel t2
             injection t2 with hRecognizer t3
@@ -269,8 +245,8 @@ instance groundCompilerRecognizerBoundaryFieldFaithful :
             injection t4 with hMetricReport t5
             injection t5 with hMotifReport t6
             injection t6 with hBootstrapEvidence t7
-            injection t7 with hTransports t8
-            injection t8 with hRoutes t9
+            injection t7 with hTransport t8
+            injection t8 with hContinuation t9
             injection t9 with hProvenance t10
             injection t10 with hLocalName _
             cases hEventFlow
@@ -280,31 +256,10 @@ instance groundCompilerRecognizerBoundaryFieldFaithful :
             cases hMetricReport
             cases hMotifReport
             cases hBootstrapEvidence
-            cases hTransports
-            cases hRoutes
+            cases hTransport
+            cases hContinuation
             cases hProvenance
             cases hLocalName
             rfl
-
-theorem GroundCompilerRecognizerBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      groundCompilerRecognizerBoundaryDecodeBHist
-        (groundCompilerRecognizerBoundaryEncodeBHist h) = h) ∧
-      (∀ x : GroundCompilerRecognizerBoundaryUp,
-        groundCompilerRecognizerBoundaryFromEventFlow
-          (groundCompilerRecognizerBoundaryToEventFlow x) = some x) ∧
-        (∀ x y : GroundCompilerRecognizerBoundaryUp,
-          groundCompilerRecognizerBoundaryToEventFlow x =
-            groundCompilerRecognizerBoundaryToEventFlow y → x = y) ∧
-          groundCompilerRecognizerBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact groundCompilerRecognizerBoundaryDecode_encode_bhist
-  · constructor
-    · exact groundCompilerRecognizerBoundary_round_trip
-    · constructor
-      · intro x y heq
-        exact groundCompilerRecognizerBoundaryToEventFlow_injective heq
-      · rfl
 
 end BEDC.Derived.GroundCompilerRecognizerBoundaryUp
