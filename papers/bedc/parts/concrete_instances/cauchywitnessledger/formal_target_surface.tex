@@ -109,3 +109,23 @@ Apply \autoref{thm:cauchy-witness-ledger-four-face-real-completion-lock} and \au
 
 Thus a downstream consumer can only replay the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route already carried by $L$. Since each cited row is exhausted by that route, no coordinate remains from which an external completion object or second Real handoff could be read.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger selector-seal terminality]
+\label{thm:cauchy-witness-ledger-selector-seal-terminality}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Let $T=(B_0,W,R,L_0,E,H_0,C_0,P_0,N_0)$ be an accepted $\RealCompletionSelectorSealUp$ packet whose selected window row $W$, $\RegSeqRatUp$ readback row $R$, and $\CauchyLimitSealUp$ row $L_0$ agree with the ledger route exposed by $L$ through the observation-budget selector.
+
+Then every Phase Real and Completion consumer of $L$ factors through the unique terminal route
+$$
+\CauchyWitnessLedgerUp \longmapsto \FiniteObservationBudgetSelectorUp \longmapsto \RealCompletionSelectorSealUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyLimitSealUp \longmapsto \RealUp
+$$
+with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No quotient stream, selected limit, host equality, ambient completeness, countable-choice row, second completion route, or standard bridge row remains after this factorization.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-witness-ledger-open-phase-budget-route-handoff}. It places every open-phase consumer of $L$ on the finite Real-and-completion handoff surface through the displayed budget, named stream window, regular-rational readback, and Real seal rows, with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next apply \autoref{thm:cauchy-witness-ledger-budget-selector-four-face-exhaustion}. The observation-budget selector transports the same selected window and readback information without adding quotient streams, selected limits, host sequence equality, ambient Real completeness, metric-completeness data, countable choice, or standard bridge rows.
+
+Use the agreement hypotheses for $T$. The selected window $W$, readback row $R$, and limit row $L_0$ are the same rows already consumed by the ledger route, so the selector-seal packet is attached to the handoff rather than forming a second completion source.
+
+Finally use \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-nonescape}. Determinacy gives a single finite selector-seal route, and non-escape exhausts every completion consumer at $B_0,W,R,L_0,E,H_0,C_0,P_0,N_0$. Hence the only remaining route is the displayed terminal chain from $\CauchyWitnessLedgerUp$ to $\RealUp$ through the selector and seal packets.
+\end{proof}
