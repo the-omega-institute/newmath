@@ -126,3 +126,42 @@ has no quotient stream, host real equality, selected limit, trichotomy row,
 or ambient completeness datum, so none of those objects escapes through the
 uniform pullback route.
 \end{proof}
+
+\begin{theorem}[StreamName Real observation-budget factorization]
+\label{thm:streamname-real-observation-budget-factorization}
+Every accepted $\StreamNameUp$ finite-window packet consumed by a
+$\RealObservationBudgetUp$ precision request factors through the same visible
+route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp.
+$$
+The consumer may use only the displayed $\BHist$ observations, componentwise
+$\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ rows available on that route. The request supplies no quotient
+stream, no host equality, no hidden limit selection, and no ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the finite StreamName packet. By
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}, the packet is
+already read through the four visible sibling rows: StreamName finite window,
+$\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ readback, and $\RealUp$
+seal boundary.
+
+Next attach the observation-budget consumer. The finite-route coverage theorem
+\autoref{thm:real-observation-budget-finite-route-coverage} routes every
+accepted $\RealObservationBudgetUp$ seal read through its precision request,
+finite window family, dyadic readback rows, regular-sequence handoff rows, and
+real seal rows. The consumer factorization theorem
+\autoref{thm:real-observation-budget-regseq-real-consumer-factorization}
+confines the $\RegSeqRatUp$ and $\RealUp$ reads to the same displayed
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data.
+
+Finally use
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}.
+The StreamName handoff exposes only the four finite rows and their listed BEDC
+coordinates, while the observation-budget theorems consume exactly those rows.
+No cited surface carries a quotient stream, host equality, hidden limit
+selection, or ambient completeness datum, so the precision request cannot
+introduce one.
+\end{proof}
