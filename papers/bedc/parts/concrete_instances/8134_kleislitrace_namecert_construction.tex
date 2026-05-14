@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\KleisliTraceUp$}
+\label{ch:concrete-instances-kleislitrace-namecert}
+\origin{ai}
+
+The $\KleisliTraceUp$ packet realizes the continuation-as-small-step direction of \autoref{ch:visions-computation-as-continuation} as a finite trace surface for Kleisli computation. It sits between the certified Kleisli interface of \autoref{ch:concrete-instances-continuationmonad-namecert} and the terminal replay surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert}: the former supplies bind and return rows, while the latter supplies the trace-normal-form row that lets a consumer read the whole route as one finite continuation trace. The same packet also exposes the $\CategoryUp$ hom rows consumed by categorical continuation users, so Kleisli bind and category composition read from the same displayed route instead of from two unrelated ledgers.
+
+\falsifiablePrediction{If the trace-normal-form row is removed, the packet cannot route both Kleisli bind and CategoryHomCarrier consumers through one finite continuation trace.}
+
+\independenceWitness{continuationmonad, continuationtracenormalform, category, generatorclosure: $\ContinuationMonadUp$ supplies bind and return rows without a single exported trace ledger, $\ContinuationTraceNormalFormUp$ supplies terminal replay without Kleisli source and target bind slots, $\CategoryUp$ supplies hom rows without monadic provenance, and generator closure supplies source saturation without the five-row local naming surface below.}
+
+\begin{definition}[KleisliTrace carrier]
+\label{def:kleisli-trace-carrier}
+A $\KleisliTraceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,T,G,H,C,P,N)
+$$
+whose displayed rows are:
+\begin{enumerate}
+\item $S$ is the source continuation computation row accepted by the $\ContinuationMonadUp$ surface;
+\item $B$ is the Kleisli bind row, including the return slot, middle continuation, and composed continuation read from the $\ContinuationMonadUp$ packet;
+\item $T$ is the finite $\ContinuationTraceNormalFormUp$ row that replays the same Kleisli computation as one terminal trace-normal-form route;
+\item $G$ is the $\CategoryUp$ hom row, exposing the source object, target object, and morphism history consumed by categorical continuation users;
+\item $H$ is the componentwise $\hsame$ transport row for the monad row, trace-normal-form row, hom row, replay rows, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ replay routes that connect the Kleisli bind read, trace replay, and category hom read;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-computation-as-continuation}, \autoref{ch:concrete-instances-continuationmonad-namecert}, \autoref{ch:concrete-instances-continuationtracenormalform-namecert}, \autoref{ch:concrete-instances-category-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KleisliTraceUp}$ row.
+\end{enumerate}
+The packet contains no host evaluator, no hidden category composition oracle, no selected normalizer, and no quotient of computations. Every exported computation read is a row of $K$.
+\end{definition}
+
+\begin{theorem}[KleisliTrace NameCert obligation surface]
+\label{thm:kleisli-trace-namecert-obligation-surface}
+For the carrier of \autoref{def:kleisli-trace-carrier}, the local $\NameCert_{\KleisliTraceUp}$ surface consists of five rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $K=(S,B,T,G,H,C,P,N)$;
+\item Kleisli source and bind readback through the $\ContinuationMonadUp$ row $S,B$;
+\item trace-normal-form replay through the finite $\ContinuationTraceNormalFormUp$ row $T$ and the displayed $\Cont$ routes $C$;
+\item Category hom readback through $G$, with componentwise $\hsame$ transport through $H$;
+\item provenance and local naming through $P,N$, together with non-escape from host evaluators, hidden category composition, selected normalizers, and quotient computation objects.
+\end{enumerate}
+These five rows are the obligation surface that a later Lean TasteGate must expose through both $\mathsf{Nontrivial}\,\KleisliTraceUp$ and $\mathsf{FieldFaithful}\,\KleisliTraceUp$ instances.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:kleisli-trace-carrier}. The accepted packet exposes exactly $S,B,T,G,H,C,P,N$.
+
+Read the Kleisli side through \autoref{ch:concrete-instances-continuationmonad-namecert}. The rows $S$ and $B$ display the source computation, return slot, middle continuation, and composed bind route before any consumer asks for a trace.
+
+Read the trace side through \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. The row $T$ and replay routes $C$ show that the same bind route is consumed as one terminal finite trace-normal-form packet.
+
+Finally read the categorical side through $\CategoryUp$. The hom row $G$ gives the source, target, and morphism surface consumed by category users, while $H,P,N$ provide transport, provenance, and local naming. Since the carrier has no coordinate for a host evaluator, hidden category composition oracle, selected normalizer, or quotient computation object, the five rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[KleisliTrace common trace route]
+\label{thm:kleisli-trace-common-trace-route}
+Every accepted $\KleisliTraceUp$ consumer route for Kleisli bind or for a $\CategoryUp$ hom read factors through the same finite rows
+$$
+S,B,T,G,H,C,P,N.
+$$
+The Kleisli consumer reads $S,B,T,C,H,P,N$; the category consumer reads $G,T,C,H,P,N$. Neither consumer can replace the displayed trace-normal-form row by a host evaluator, hidden composition oracle, selected normalizer, or quotient computation object.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. Both consumer routes have access only to $S,B,T,G,H,C,P,N$.
+
+For the Kleisli consumer, apply \autoref{thm:kleisli-trace-namecert-obligation-surface}. The source and bind rows are read through $S,B$, and the route is replayed through $T,C$ before provenance and local naming are exported.
+
+For the categorical consumer, use the same obligation surface. The hom row $G$ is read together with the trace-normal-form row $T$, the replay row $C$, transport row $H$, provenance row $P$, and local name $N$.
+
+The excluded alternatives have no coordinate in the accepted packet. Thus the two consumers share the same finite continuation trace rather than importing a second evaluator, composition, normalization, or quotient surface.
+\end{proof}
+
+\begin{theorem}[KleisliTrace trace-normal-form necessity]
+\label{thm:kleisli-trace-normal-form-necessity}
+An accepted $\KleisliTraceUp$ packet cannot export both its Kleisli bind read and its $\CategoryUp$ hom read after removing the trace-normal-form row $T$. The finite replay row $T$ is the common surface that identifies the monadic bind route and the category hom route as one continuation trace.
+\end{theorem}
+\begin{proof}
+Assume the packet is accepted but omit the row $T$. The remaining rows still mention the Kleisli source and bind data $S,B$ and the category hom data $G$, but they no longer contain the finite terminal replay surface consumed by both users.
+
+Apply \autoref{thm:kleisli-trace-namecert-obligation-surface}. The second row reads the monadic bind surface, the third row requires trace-normal-form replay through $T,C$, and the fourth row reads the category hom surface through $G,H$.
+
+Apply \autoref{thm:kleisli-trace-common-trace-route}. Its shared route for both consumers passes through $T$. Without that row, the two reads would need a second evaluator, hidden category composition, selected normalizer, or quotient computation object, each of which is excluded by the carrier.
+\end{proof}
+
+\closureat{KleisliTraceUp}{seedStr}
+\closureat{KleisliTraceUp}{obligationStr}
+\closureat{KleisliTraceUp}{scopedStr}
