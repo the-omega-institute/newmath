@@ -328,12 +328,133 @@ theorem BoundedMonotoneConvergenceSealTasteGate_single_carrier_alignment :
             boundedMonotoneConvergenceSealToEventFlow y → x = y) ∧
           boundedMonotoneConvergenceSealEncodeBHist BHist.Empty = ([] : List BMark) := by
   constructor
-  · exact boundedMonotoneConvergenceSealDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact boundedMonotoneConvergenceSeal_round_trip
+    · intro x
+      cases x with
+      | mk witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+          provenance name =>
+          change
+            some
+                (boundedMonotoneConvergenceSealDecodePacket
+                  (boundedMonotoneConvergenceSealEncodeBHist witness)
+                  (boundedMonotoneConvergenceSealEncodeBHist monotone)
+                  (boundedMonotoneConvergenceSealEncodeBHist criterion)
+                  (boundedMonotoneConvergenceSealEncodeBHist regular)
+                  (boundedMonotoneConvergenceSealEncodeBHist stream)
+                  (boundedMonotoneConvergenceSealEncodeBHist dyadic)
+                  (boundedMonotoneConvergenceSealEncodeBHist limitSeal)
+                  (boundedMonotoneConvergenceSealEncodeBHist realSeal)
+                  (boundedMonotoneConvergenceSealEncodeBHist transport)
+                  (boundedMonotoneConvergenceSealEncodeBHist route)
+                  (boundedMonotoneConvergenceSealEncodeBHist provenance)
+                  (boundedMonotoneConvergenceSealEncodeBHist name)) =
+              some
+                (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream
+                  dyadic limitSeal realSeal transport route provenance name)
+          unfold boundedMonotoneConvergenceSealDecodePacket
+          rw [boundedMonotoneConvergenceSealDecode_encode_bhist witness,
+            boundedMonotoneConvergenceSealDecode_encode_bhist monotone,
+            boundedMonotoneConvergenceSealDecode_encode_bhist criterion,
+            boundedMonotoneConvergenceSealDecode_encode_bhist regular,
+            boundedMonotoneConvergenceSealDecode_encode_bhist stream,
+            boundedMonotoneConvergenceSealDecode_encode_bhist dyadic,
+            boundedMonotoneConvergenceSealDecode_encode_bhist limitSeal,
+            boundedMonotoneConvergenceSealDecode_encode_bhist realSeal,
+            boundedMonotoneConvergenceSealDecode_encode_bhist transport,
+            boundedMonotoneConvergenceSealDecode_encode_bhist route,
+            boundedMonotoneConvergenceSealDecode_encode_bhist provenance,
+            boundedMonotoneConvergenceSealDecode_encode_bhist name]
     · constructor
       · intro x y heq
-        exact boundedMonotoneConvergenceSealToEventFlow_injective heq
+        have hx :
+            boundedMonotoneConvergenceSealFromEventFlow
+              (boundedMonotoneConvergenceSealToEventFlow x) = some x := by
+          cases x with
+          | mk witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+              provenance name =>
+              change
+                some
+                    (boundedMonotoneConvergenceSealDecodePacket
+                      (boundedMonotoneConvergenceSealEncodeBHist witness)
+                      (boundedMonotoneConvergenceSealEncodeBHist monotone)
+                      (boundedMonotoneConvergenceSealEncodeBHist criterion)
+                      (boundedMonotoneConvergenceSealEncodeBHist regular)
+                      (boundedMonotoneConvergenceSealEncodeBHist stream)
+                      (boundedMonotoneConvergenceSealEncodeBHist dyadic)
+                      (boundedMonotoneConvergenceSealEncodeBHist limitSeal)
+                      (boundedMonotoneConvergenceSealEncodeBHist realSeal)
+                      (boundedMonotoneConvergenceSealEncodeBHist transport)
+                      (boundedMonotoneConvergenceSealEncodeBHist route)
+                      (boundedMonotoneConvergenceSealEncodeBHist provenance)
+                      (boundedMonotoneConvergenceSealEncodeBHist name)) =
+                  some
+                    (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream
+                      dyadic limitSeal realSeal transport route provenance name)
+              unfold boundedMonotoneConvergenceSealDecodePacket
+              rw [boundedMonotoneConvergenceSealDecode_encode_bhist witness,
+                boundedMonotoneConvergenceSealDecode_encode_bhist monotone,
+                boundedMonotoneConvergenceSealDecode_encode_bhist criterion,
+                boundedMonotoneConvergenceSealDecode_encode_bhist regular,
+                boundedMonotoneConvergenceSealDecode_encode_bhist stream,
+                boundedMonotoneConvergenceSealDecode_encode_bhist dyadic,
+                boundedMonotoneConvergenceSealDecode_encode_bhist limitSeal,
+                boundedMonotoneConvergenceSealDecode_encode_bhist realSeal,
+                boundedMonotoneConvergenceSealDecode_encode_bhist transport,
+                boundedMonotoneConvergenceSealDecode_encode_bhist route,
+                boundedMonotoneConvergenceSealDecode_encode_bhist provenance,
+                boundedMonotoneConvergenceSealDecode_encode_bhist name]
+        have hy :
+            boundedMonotoneConvergenceSealFromEventFlow
+              (boundedMonotoneConvergenceSealToEventFlow y) = some y := by
+          cases y with
+          | mk witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+              provenance name =>
+              change
+                some
+                    (boundedMonotoneConvergenceSealDecodePacket
+                      (boundedMonotoneConvergenceSealEncodeBHist witness)
+                      (boundedMonotoneConvergenceSealEncodeBHist monotone)
+                      (boundedMonotoneConvergenceSealEncodeBHist criterion)
+                      (boundedMonotoneConvergenceSealEncodeBHist regular)
+                      (boundedMonotoneConvergenceSealEncodeBHist stream)
+                      (boundedMonotoneConvergenceSealEncodeBHist dyadic)
+                      (boundedMonotoneConvergenceSealEncodeBHist limitSeal)
+                      (boundedMonotoneConvergenceSealEncodeBHist realSeal)
+                      (boundedMonotoneConvergenceSealEncodeBHist transport)
+                      (boundedMonotoneConvergenceSealEncodeBHist route)
+                      (boundedMonotoneConvergenceSealEncodeBHist provenance)
+                      (boundedMonotoneConvergenceSealEncodeBHist name)) =
+                  some
+                    (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream
+                      dyadic limitSeal realSeal transport route provenance name)
+              unfold boundedMonotoneConvergenceSealDecodePacket
+              rw [boundedMonotoneConvergenceSealDecode_encode_bhist witness,
+                boundedMonotoneConvergenceSealDecode_encode_bhist monotone,
+                boundedMonotoneConvergenceSealDecode_encode_bhist criterion,
+                boundedMonotoneConvergenceSealDecode_encode_bhist regular,
+                boundedMonotoneConvergenceSealDecode_encode_bhist stream,
+                boundedMonotoneConvergenceSealDecode_encode_bhist dyadic,
+                boundedMonotoneConvergenceSealDecode_encode_bhist limitSeal,
+                boundedMonotoneConvergenceSealDecode_encode_bhist realSeal,
+                boundedMonotoneConvergenceSealDecode_encode_bhist transport,
+                boundedMonotoneConvergenceSealDecode_encode_bhist route,
+                boundedMonotoneConvergenceSealDecode_encode_bhist provenance,
+                boundedMonotoneConvergenceSealDecode_encode_bhist name]
+        have hread :
+            boundedMonotoneConvergenceSealFromEventFlow
+                (boundedMonotoneConvergenceSealToEventFlow x) =
+              boundedMonotoneConvergenceSealFromEventFlow
+                (boundedMonotoneConvergenceSealToEventFlow y) :=
+          congrArg boundedMonotoneConvergenceSealFromEventFlow heq
+        exact Option.some.inj (Eq.trans hx.symm (Eq.trans hread hy))
       · rfl
 
 end BEDC.Derived.BoundedMonotoneConvergenceSealUp
