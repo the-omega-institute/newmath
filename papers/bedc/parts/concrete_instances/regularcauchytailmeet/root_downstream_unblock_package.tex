@@ -183,3 +183,37 @@ after consuming the already displayed finite route. Since that route contains no
 selected limit, quotient stream, host equality, trichotomy row, independent tail
 oracle, or ambient completeness witness, none is exported by the handoff.
 \end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet quotient-refusal factorization]
+\label{thm:regular-cauchy-tail-meet-quotient-refusal-factorization}
+Every completion-facing consumer of an accepted $\RegularCauchyTailMeetUp$
+packet that requests quotient-stream equality must first pass through the finite
+TailMeet source-window route and then through the $\QuotientStreamRefusalUp$
+route of \autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. If
+either route is missing, the request is routed to the refusal ledger. The
+handoff exports no selected limit, quotient stream equality, host real equality,
+trichotomy, independent tail oracle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the downstream unblock package. It exposes the paired source windows
+$R_0,R_1,W_0,W_1$, modulus rows $M_0,M_1$, shared threshold $\tau$, comparison
+row $Q$, and structural rows $H,C,L,\Pkg,N$ before any completion-facing read is
+available.
+
+Apply the threshold stability and budget-selector handoff theorems. They keep
+the selected downstream budget attached to the same finite TailMeet packet and
+prevent a selector from bypassing the source windows, modulus rows, threshold,
+comparison, ledger, package, or local name.
+
+Next use the $\QuotientStreamRefusalUp$ non-escape route of
+\autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. A
+quotient-stream equality request has a route only after it is translated into
+the displayed StreamName, RegSeqRat, CauchyLimitSeal, and RealUp seal rows; an
+off-route request is sent to the refusal ledger.
+
+The two routes therefore factor the completion-facing consumer through the
+TailMeet finite source-window surface and then through the quotient-refusal
+surface. Since neither packet contains selected limits, quotient stream
+equality, host real equality, trichotomy, independent tail oracles, or ambient
+completeness, none of those objects is exported.
+\end{proof}
