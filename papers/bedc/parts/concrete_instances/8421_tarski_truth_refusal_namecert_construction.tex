@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\TarskiTruthRefusalUp$}
+\label{ch:concrete-instances-tarski-truth-refusal-namecert}
+\origin{ai}
+
+The $\TarskiTruthRefusalUp$ packet realizes the Tarski side of the reflection-limit vision of \autoref{ch:visions-reflection-and-limits} as finite naming data. It consumes the truth-total obstruction of \autoref{ch:concrete-instances-truthtotalreflection-namecert} and the structural boundary of \autoref{ch:concrete-instances-reflectionlimitboundary-namecert}, but its carrier is narrower: it records the refusal row that separates $\mathrm{CIC}^{*}$ sentence codes from any BEDC-internal truth predicate.
+
+\begin{definition}[Tarski truth-refusal carrier]
+\label{def:tarski-truth-refusal-carrier}
+A $\TarskiTruthRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,Q,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\mathrm{CIC}^{*}$ sentence-code row, recording the finite coded sentence surface being read;
+\item $Q$ is the attempted truth-read query row, recording the request for an internal classifier deciding represented sentence truth;
+\item $R$ is the truth-read refusal row, recording that the requested predicate is not a carrier coordinate;
+\item $D$ is the diagonal pressure row, recording the self-application shape that would turn $Q$ into the Tarski obstruction;
+\item $L$ is the boundary ledger separating admitted structural sentence-code reads from refused truth-predicate reads;
+\item $H$ records componentwise $\hsame$ transports for sentence codes, truth-read queries, refusals, diagonal rows, ledgers, routes, provenance, and local names;
+\item $C$ records the displayed $\Cont$ routes by which a consumer may inspect sentence codes, replay the query, read the refusal, and return to the boundary ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\mathrm{CIC}^{*}$ sentence-code rows, truth-read queries, Tarski diagonal rows, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TarskiTruthRefusalUp}$ ledger.
+\end{enumerate}
+The carrier contains no BEDC truth predicate, no truth-value classifier for all $\mathrm{CIC}^{*}$ sentence codes, no runtime validator, and no route converting the structural self-description of BEDC into a truth predicate for that description.
+\end{definition}
+
+\begin{theorem}[Tarski truth-refusal NameCert obligations]
+\label{thm:tarski-truth-refusal-namecert-obligations}
+The local $\NameCert_{\TarskiTruthRefusalUp}$ surface for \autoref{def:tarski-truth-refusal-carrier} consists of carrier admission for $T=(S,Q,R,D,L,H,C,P,N)$, sentence-code exposure through $S$, attempted truth-read exposure through $Q$, refusal exactness through $R$, diagonal-pressure accounting through $D$, boundary-ledger exactness through $L$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:tarski-truth-refusal-carrier}. The packet lists the sentence-code, query, refusal, diagonal, ledger, transport, route, provenance, and naming rows as the complete public surface.
+
+The sentence-code row $S$ is read structurally. It may expose the same kind of coded syntax that appears in the reflection-limit chapter, but it does not decide the truth of the represented sentence.
+
+The query and refusal rows $Q,R$ record the Tarski boundary. A consumer may ask for an internal truth predicate, and the packet answers only by displaying the refusal row together with the diagonal pressure row $D$ and the ledger $L$.
+
+The remaining rows $H,C,P,N$ only transport, replay, package, and name the same finite surface. Since none of them contains a truth predicate coordinate, the local NameCert obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Tarski truth-refusal non-escape]
+\label{thm:tarski-truth-refusal-nonescape}
+Every accepted $\TarskiTruthRefusalUp$ packet exports $\mathrm{CIC}^{*}$ sentence-code information only through
+$$
+S,Q,R,D,L,H,C,P,N.
+$$
+Any consumer request for a BEDC-internal truth predicate factors through the truth-read refusal row $R$ and the boundary ledger $L$. No projection from the packet yields a predicate classifying every represented sentence code by truth value.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $T=(S,Q,R,D,L,H,C,P,N)$. The carrier definition identifies $R$ as the only row whose role answers the truth-read query, and it answers by refusal.
+
+The structural read of $S$ is therefore separated from the attempted truth read $Q$. The diagonal row $D$ records why accepting $Q$ as a truth predicate would cross the Tarski boundary, while $L$ records that the accepted consumer surface stops at the refusal.
+
+The transport, route, provenance, and local naming rows preserve this same separation. They can replay the sentence-code read and the refusal read, but they add no classifier that decides all represented sentence codes.
+\end{proof}
+
+\falsifiablePrediction{If the truth-read refusal row is removed, the packet can no longer block an attempted internal truth predicate for CIC-star sentence codes.}
+
+\independenceWitness{truthtotalreflection, selfreferencetruthbranch, reflectionlimitboundary, runtime-reflection-boundary, and groundloopboundary: none is bijective to $\TarskiTruthRefusalUp$ while preserving the NameCert fields. TruthTotalReflection carries a broader truth-total attempt and diagonal obstruction surface rather than the isolated truth-read refusal row $R$. SelfReferenceTruthBranch carries a certificate-indexed branch query and socket report rather than the sentence-code refusal ledger $S,Q,R,D,L$. ReflectionLimitBoundary carries closed ground-loop and structural meta-description rows in addition to a truth-boundary ledger, while this carrier contains no ground-loop coordinate. RuntimeReflectionBoundary carries runtime-request and execution-refusal rows rather than a Tarski sentence-code truth-read refusal. GroundLoopBoundary carries primitive mark distinction closure and no $\mathrm{CIC}^{*}$ sentence-code truth query.}
+
+The Lean follow-up \texttt{TasteGate.lean} must include \texttt{Nontrivial TarskiTruthRefusalUp} with explicit \texttt{witness\_pair} and \texttt{FieldFaithful TarskiTruthRefusalUp} by constructor-field injection. The canonical downstream declaration surface is \texttt{BEDC.Derived.TarskiTruthRefusalUp.taste\_gate}.
+
+\closureat{TarskiTruthRefusalUp}{seedStr}
+
+\begin{closurestatus}{\TarskiTruthRefusalUp}
+  \constructivestory{A $\TarskiTruthRefusalUp$ packet is generated from a $\mathrm{CIC}^{*}$ sentence-code row, an attempted truth-read query, a truth-read refusal row, a diagonal-pressure row, a boundary ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tarski-truth-refusal-carrier}, \autoref{thm:tarski-truth-refusal-namecert-obligations}, and \autoref{thm:tarski-truth-refusal-nonescape} bind the finite sentence-code refusal carrier and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a BEDC truth predicate, a truth-value classifier for all $\mathrm{CIC}^{*}$ sentence codes, runtime validation, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, truth-read refusal exactness, diagonal-pressure accounting, boundary-ledger exactness, Nontrivial, and FieldFaithful for the displayed packet.}
+\end{closurestatus}
