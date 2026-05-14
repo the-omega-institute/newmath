@@ -4,6 +4,8 @@
 
 The $\InductionClosureLedgerUp$ surface realizes generator-internal induction as a finite naming certificate. It records the authorized generator rows, the generator-closure classifier rows, the $\Gap$ residue left at every attempted free-floating induction claim, and the transport, continuation, provenance, and naming rows that make the ledger auditable.
 
+The ledger consumes the authorized-generator row from \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} and the generator-closure classifier row from \autoref{ch:concrete-instances-generatorclosure-namecert} before the $\Gap$ residue row is exported. Requests that fail to stay inside those displayed generator closures are recorded as $\Gap$ residue rather than as free-standing induction authority.
+
 \begin{definition}[InductionClosureLedger carrier]
 \label{def:induction-closure-ledger-carrier}
 An $\InductionClosureLedgerUp$ carrier is a finite $\BHist$ packet

@@ -169,3 +169,51 @@ The excluded objects are precisely the objects ruled out by
 has no row beyond the accepted packet and its displayed L10 route, none of
 them can be exported.
 \end{proof}
+
+\begin{theorem}[Diagonal tail selector terminal budget determinacy]
+\label{thm:diagonal-tail-selector-terminal-budget-determinacy}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Any terminal $\RealUp$
+consumer, and any completion-facing consumer that reads the selected cofinal
+row, factors through the same displayed root budget route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+and then through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\RealUp.
+$$
+No such consumer may replace the terminal budget by a fresh selector,
+quotient stream, host-selected limit, hidden tail row, or ambient
+completeness witness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-tail-selector-root-cofinal-admission}. It
+fixes the accepted packet $G$ as the only root surface available before the
+selected cofinal row is read.
+
+Apply \autoref{thm:diagonal-tail-selector-root-budget-handoff}. The selected
+cofinal row is handed to the terminal route through the displayed L10
+consumer chain, so a Real or completion-facing read has no second budget
+coordinate.
+
+Replay the route with
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay}. The replay uses
+the same root rows and the same named consumers, and
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility} identifies the
+tail-facing threshold with that displayed budget.
+
+Finally apply
+\autoref{thm:diagonal-tail-selector-budget-readback-nonescape}. Since the
+terminal readback exports only $R,n,\mu,k,W,D,T,S,H,C,P,N$ and its displayed
+L10 route, it cannot substitute a fresh selector, quotient stream,
+host-selected limit, hidden tail row, or ambient completeness witness.
+\end{proof}
