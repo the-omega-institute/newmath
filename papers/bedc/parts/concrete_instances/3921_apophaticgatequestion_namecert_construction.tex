@@ -78,6 +78,7 @@ asked about an already displayed $\ApophaticSocketUp$ or $\ApophaticNameUp$
 surface, not about a hidden outside-supply witness, host predicate, or detached
 gate answer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticGateQuestionUp.ApophaticGateQuestionCarrier\_source\_before\_question\_route}
 \begin{proof}
 Project the carrier from \autoref{def:apophatic-gate-question-carrier}. The
 packet order displays $S$ as the visible socket-name source row and $Q$ as the
@@ -134,6 +135,50 @@ records a finite answer to the already displayed gate question.
 Close with visible socket non-escape. Because the carrier has no coordinate for
 a hidden axiom, quotient collapse, unmarked selector, or host gate answer, the
 listed rows exhaust the audit ledger.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root visible source]
+\label{thm:apophatic-gate-question-root-visible-source}
+For an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, every root-facing packet read must consume the visible socket-name row $S$ before it consumes the gate-question row $Q$. The row $S$ is the displayed $\ApophaticSocketUp$ or $\ApophaticNameUp$ source route, and $Q$ is only the question asked about that visible route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-gate-question-carrier}. Its first coordinate is the visible socket-name row $S$, and the gate-question row $Q$ is the next displayed row of the same finite packet.
+
+Apply the local NameCert obligations, source exposure, and visible socket coverage. Theorems~\ref{thm:apophatic-gate-question-namecert-obligations}, \ref{thm:apophatic-gate-question-source-exposure}, and \ref{thm:apophatic-gate-question-visible-socket-coverage} keep every accepted read attached to the visible $\ApophaticSocketUp$ or $\ApophaticNameUp$ route before audit readback begins.
+
+Finally use audit ledger exhaustion. Since all audit-facing rows occur after $S,Q$, a root-facing packet read cannot obtain the gate question before reading the visible source row.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root refusal audit ledger]
+\label{thm:apophatic-gate-question-root-refusal-audit-ledger}
+For an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, the rows
+$$
+R,A,H,C,P,N
+$$
+are the complete refusal and audit ledger after the visible socket-name row $S$ and gate-question row $Q$ have been read. No other refusal channel, hidden outside-supply predicate, detached audit answer, quotient collapse, or host replacement is part of the root-facing ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They display $R$ as the refusal ledger, $A$ as the audit readback, and $H,C,P,N$ as the transport, continuation, provenance, and local naming rows for the same packet.
+
+Use root visible source. Theorem~\ref{thm:apophatic-gate-question-root-visible-source} places $S,Q$ before every refusal or audit read, so the ledger suffix is read only after the visible source route and question are fixed.
+
+Apply audit ledger exhaustion. Theorem~\ref{thm:apophatic-gate-question-audit-ledger-exhaustion} says that $R,A,H,C,P,N$ exhaust the audit-facing rows. The carrier has no coordinate for an additional refusal channel, hidden predicate, detached audit answer, quotient collapse, or host replacement.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root readback route]
+\label{thm:apophatic-gate-question-root-readback-route}
+Every downstream audit consumer of an accepted $\ApophaticGateQuestionUp$ packet receives only the finite route
+$$
+S,Q,R,A,H,C,P,N.
+$$
+The route exposes the visible socket-name row, the gate question, the refusal ledger, the audit readback, componentwise transport, displayed continuation, package provenance, and local name. It exports no hidden outside supply, axiom channel, quotient collapse, proposition-extensionality collapse, or host replacement for the gate answer.
+\end{theorem}
+\begin{proof}
+Read the visible source row first. Theorem~\ref{thm:apophatic-gate-question-root-visible-source} forces every root-facing consumer through $S$ before $Q$.
+
+Then read the refusal and audit suffix. Theorem~\ref{thm:apophatic-gate-question-root-refusal-audit-ledger} identifies $R,A,H,C,P,N$ as the complete suffix after $S,Q$.
+
+Finally apply visible socket coverage and audit ledger exhaustion. Theorems~\ref{thm:apophatic-gate-question-visible-socket-coverage} and \ref{thm:apophatic-gate-question-audit-ledger-exhaustion} keep downstream audit readback inside the displayed packet, so hidden outside supply, axiom channels, quotient collapse, proposition-extensionality collapse, and host replacements are not exported.
 \end{proof}
 
 \begin{theorem}[Apophatic gate question source gate exactness]
@@ -268,6 +313,78 @@ Use boundary row triad and audit readback locality. They force the root route to
 Finally apply visible socket non-escape and refusal ledger transport. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows can replay only the same packet, which rules out hidden source predicates, semantic harmlessness proofs, quotient collapse, unmarked selectors, and host gate answers.
 \end{proof}
 
+\begin{theorem}[Apophatic gate question source-question ledger lock]
+\label{thm:apophatic-gate-question-source-question-ledger-lock}
+For every root consumer of an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, the root ledger is locked in the order $S$ before $Q$, and $Q$ before each of $R,A,H,C,P,N$. Thus every source-question-refusal-readback citation reads the visible socket-name row before the gate question and reads the gate question before refusal, audit readback, transport, continuation, provenance, or local naming can be exported.
+\end{theorem}
+\begin{proof}
+Project the carrier and local \NameCert{} obligations. They display $G$ as the finite packet $S,Q,R,A,H,C,P,N$, with $S$ the source socket-name row and $Q$ the gate-question row.
+
+Use source exposure, socket-name dependency, and the boundary row triad. These force $S$ to be read before $Q$, and force $Q$ to precede the refusal row $R$ on every accepted root route.
+
+Now apply audit readback locality and the root unblock package. The audit row $A$ and the later rows $H,C,P,N$ are consumed only as the same packet's readback, transport, continuation, provenance, and naming coordinates, so none of them can be exported before the source-question lock has been read.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question visible audit route totality]
+\label{thm:apophatic-gate-question-visible-audit-route-totality}
+The visible audit route of an accepted $\ApophaticGateQuestionUp$ packet is exhausted by the finite rows $S,Q,R,A,H,C,P,N$ together with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure. Every downstream audit consumer obtains the source-question-refusal-readback route from these rows and obtains no further audit carrier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the public \NameCert{} package and the root unblock package. They identify the exported root surface with the displayed carrier rows and with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates attached to those rows.
+
+Apply the source-question ledger lock. It fixes the entrance route as $S$ before $Q$ and places the refusal ledger, audit readback, transport, continuation, provenance, and naming rows after the gate question.
+
+Finally use refusal ledger transport and audit readback locality. Transport in $H$, route replay in $C$, provenance in $P$, and local naming in $N$ preserve the same packet, so the visible audit route has no extra carrier beyond $S,Q,R,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question refusal readback exhaustion]
+\label{thm:apophatic-gate-question-refusal-readback-exhaustion}
+Every refusal readback exported by the public $\ApophaticGateQuestionUp$ root package is exhausted by the displayed source-question-refusal-readback route. It cannot export a hidden source predicate, host gate answer, quotient collapse, proposition-extensionality collapse, unmarked selector, or outside-supply witness.
+\end{theorem}
+\begin{proof}
+Read the refusal ledger through source-gate exactness and refusal nonescape coverage. The row $R$ answers only the displayed question $Q$ after the visible source row $S$ has been consumed, and it records the forbidden channels inside the finite packet.
+
+Use visible audit route totality. The readback row $A$ and the rows $H,C,P,N$ are the only audit, transport, continuation, provenance, and naming coordinates available to a root consumer.
+
+Close with the public package theorem and the root unblock package. Since the exported route is exactly the finite BEDC packet and its certificate rows, hidden source predicates, host gate answers, quotient collapse, proposition-extensionality collapse, unmarked selectors, and outside-supply witnesses have no export coordinate.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root visible socket triad]
+\label{thm:apophatic-gate-question-root-visible-socket-triad}
+Every root consumer of the public $\ApophaticGateQuestionUp$ package reads a visible socket triad before any downstream readiness claim: the socket-name row $S$, the gate-question row $Q$, and the refusal-ledger row $R$. The triad is carried as a finite $\BHist$ surface with the same componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row as the package $G=(S,Q,R,A,H,C,P,N)$. It exports no requested outside object, host gate answer, hidden axiom, quotient collapse, unmarked selector, or detached source predicate.
+\end{theorem}
+\begin{proof}
+Start with the root unblock package, \autoref{thm:apophatic-gate-question-root-unblock-package}. A root citation may cite only the displayed route $S,Q,R,A,H,C,P,N$ and the attached $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use source exposure and boundary row triad. These place $S$ before $Q$ and $Q$ before the refusal ledger $R$, so the visible socket, question, and refusal rows form the root triad read before downstream consumers see the audit readback.
+
+Finally apply visible socket non-escape and refusal nonescape coverage. The triad names the visible socket and records the refusal ledger inside the packet, while the excluded outside object, host answer, hidden axiom, quotient collapse, unmarked selector, and detached source predicate have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root source exactness]
+\label{thm:apophatic-gate-question-root-source-exactness}
+For every accepted $\ApophaticGateQuestionUp$ packet, the root source used by downstream consumers is exactly the displayed source-before-question route $S \to Q \to R \to A$. The route is recorded in $\BHist$, transported by $\hsame$, replayed through $\Cont$, packaged by $\Pkg$, and named by $\NameCert$. No hidden source predicate, semantic harmlessness proof, host gate answer, outside-supply witness, quotient collapse, or unmarked selector can replace this source route.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(S,Q,R,A,H,C,P,N)$. The only source row is $S$, the only question row is $Q$, the only refusal ledger is $R$, and the only audit readback is $A$.
+
+Apply source exposure, source-gate exactness, and audit route exactness. Together they force the displayed source to precede the gate question, the refusal ledger to answer that question inside the packet, and the audit row to read back the same finite route.
+
+The root unblock package supplies the remaining $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since all downstream readiness reads pass through those rows, no hidden source predicate, semantic harmlessness proof, host answer, outside witness, quotient collapse, or unmarked selector can replace $S \to Q \to R \to A$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question root naming readiness]
+\label{thm:apophatic-gate-question-root-naming-readiness}
+The public $\ApophaticGateQuestionUp$ root package is naming-ready for downstream audit and refusal consumers exactly when it exposes the visible socket triad of \autoref{thm:apophatic-gate-question-root-visible-socket-triad} and the source exactness route of \autoref{thm:apophatic-gate-question-root-source-exactness}. Its readiness surface is the finite packet $S,Q,R,A,H,C,P,N$ with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it does not supply a requested outside object, a host gate answer, a hidden axiom, a quotient collapse, an unmarked selector, or a detached source predicate.
+\end{theorem}
+\begin{proof}
+First use the visible socket triad. It gives downstream consumers the socket-name row, gate question, and refusal ledger as visible finite rows before any audit readback is consumed.
+
+Next use root source exactness. The source-before-question route is exactly $S \to Q \to R \to A$, so the readback row cannot be detached from the visible socket and refusal ledger.
+
+Finally apply the public NameCert package and the root unblock package. They package $H,C,P,N$ as the componentwise transport, continuation replay, provenance, and local naming rows, which gives downstream audit and refusal consumers enough theorem sites for readiness while preserving the stated non-escape boundary.
+\end{proof}
+
 \begin{theorem}[Apophatic gate question refusal ledger routing]
 \label{thm:apophatic-gate-question-refusal-ledger-routing}
 Every refusal-ledger consumer of an accepted $\ApophaticGateQuestionUp$ packet routes through $R,A,H,C,P,N$ after the displayed $S,Q$ read. The route records the refusal ledger and audit readback through the same finite packet and never obtains a hidden axiom, quotient collapse, proposition-extensionality collapse, unmarked selector, or host gate answer.
@@ -280,19 +397,34 @@ Apply refusal nonescape coverage and audit route exactness. The refusal row cove
 Use refusal ledger transport, audit readback locality, and the public package theorem for the remaining route. The rows $H,C,P,N$ transport, replay, package, and name the same ledger, leaving no coordinate for hidden axioms, quotient collapse, proposition-extensionality collapse, unmarked selectors, or host gate answers.
 \end{proof}
 
+\begin{theorem}[Apophatic gate question mature boundary]
+\label{thm:apophatic-gate-question-mature-boundary}
+For every accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, the visible socket-name row $S$, gate-question row $Q$, refusal ledger $R$, audit-readback row $A$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ exhaust the mature paper-side boundary of the gate-question package.
+
+The mature boundary still does not supply the requested outside object, global audit completeness, bridge checking, a host gate answer, quotient collapse, unmarked selector, or hidden source predicate. It records the complete paper-side package inventory while keeping the verification and bridge-checking axes separate.
+\end{theorem}
+\begin{proof}
+Project the public NameCert package. By \autoref{thm:apophatic-gate-question-public-namecert-package}, the exported surface is exactly the carrier and certificate rows $S,Q,R,A,H,C,P,N$.
+
+Use the root unblock package and refusal ledger routing. These theorems show that root consumers and refusal-ledger consumers read the same finite rows and cannot obtain a hidden source predicate, semantic harmlessness proof, quotient collapse, unmarked selector, or host gate answer.
+
+Finally apply root ledger factorization and root refusal coverage. They bind downstream audit and refusal reads to the visible socket-name, gate-question, refusal, and audit-readback rows, so the paper-side boundary is exhausted without adding the requested outside object, global audit completeness, or bridge checking.
+\end{proof}
+
 \closureat{ApophaticGateQuestionUp}{seedStr}
 \closureat{ApophaticGateQuestionUp}{obligationStr}
 \closureat{ApophaticGateQuestionUp}{scopedStr}
 \closureat{ApophaticGateQuestionUp}{publicStr}
 \closureat{ApophaticGateQuestionUp}{bridgedStr}
+\closureat{ApophaticGateQuestionUp}{matureStr}
 
 \begin{closurestatus}{\ApophaticGateQuestionUp}
   \constructivestory{An $\ApophaticGateQuestionUp$ packet is generated from a visible apophatic socket-name row, a gate-question row, a refusal ledger, an audit-readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:apophatic-gate-question-carrier}, \autoref{thm:apophatic-gate-question-namecert-obligations}, \autoref{thm:apophatic-gate-question-socket-name-dependency}, \autoref{thm:apophatic-gate-question-source-gate-exactness}, \autoref{thm:apophatic-gate-question-refusal-nonescape-coverage}, \autoref{thm:apophatic-gate-question-audit-route-exactness}, \autoref{thm:apophatic-gate-question-public-namecert-package}, \autoref{thm:apophatic-gate-question-root-unblock-package}, and \autoref{thm:apophatic-gate-question-refusal-ledger-routing} bind the public finite socket-name, gate-question, refusal-ledger, audit-readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the exported gate-question package.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:apophatic-gate-question-carrier}, \autoref{thm:apophatic-gate-question-namecert-obligations}, \autoref{thm:apophatic-gate-question-socket-name-dependency}, \autoref{thm:apophatic-gate-question-source-gate-exactness}, \autoref{thm:apophatic-gate-question-refusal-nonescape-coverage}, \autoref{thm:apophatic-gate-question-audit-route-exactness}, \autoref{thm:apophatic-gate-question-public-namecert-package}, \autoref{thm:apophatic-gate-question-root-unblock-package}, \autoref{thm:apophatic-gate-question-refusal-ledger-routing}, and \autoref{thm:apophatic-gate-question-mature-boundary} bind the mature paper-side socket-name, gate-question, refusal-ledger, audit-readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the exported gate-question package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of the requested outside supply, global audit completeness, or every possible gate-question grammar.}
-  \upgradepath{Machine bridge checking remains the next formal step for the exported $\ApophaticGateQuestionUp$ public $\NameCert$ package.}
+  \upgradepath{No further paper-side theory closure remains; Lean verification and bridge checking remain separate formal-axis obligations.}
 \end{closurestatus}

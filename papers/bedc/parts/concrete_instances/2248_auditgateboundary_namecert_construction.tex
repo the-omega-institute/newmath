@@ -348,17 +348,53 @@ The remaining rows stay inside the same accepted packet. The carrier definition 
 Apply \autoref{thm:audit-gate-boundary-nonescape}. It blocks ambient host claims and leaves the verdict as a finite read through $S,D,L,O,H,C,P,G,N$ alone.
 \end{proof}
 
+\begin{theorem}[AuditGateBoundary standard bridge]
+\label{thm:audit-gate-boundary-standard-bridge}
+The accepted $\AuditGateBoundaryUp$ packet forms the standard
+audit-boundary schema: the public source-token row, axiom-purity dependency
+row, paper-Lean drift row, origin/import separation row, replay ledger, GAP
+boundary row, and local $\NameCert$ row are carried by one finite
+$\mathsf{BHist}$ surface and transported through the shared $H,C,P$ support
+rows. The schema exports exactly that audit-boundary verdict surface. It
+exports no repository completeness theorem, theorem-inventory completeness
+claim, host semantic correctness statement, or semantic conservativity result
+for arbitrary imports.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-boundary-carrier}. Its public
+audit faces are the source-token scan, axiom-purity dependency report,
+paper-Lean target audit, and origin/import separation ledger, and its support
+faces are the replay, transport, package, GAP, and local naming rows.
+
+Apply \autoref{thm:audit-gate-boundary-verdict-scope}. Every verdict read is
+therefore a finite read through the displayed audit rows and the shared support
+rows.
+
+Now use \autoref{thm:audit-gate-boundary-kernel-query-scope} and
+\autoref{thm:audit-gate-boundary-forbidden-dependency-scope} for the
+source-token and forbidden-dependency components. Use the replay and
+origin/import rows named in the carrier for the remaining audit faces. These
+are precisely the rows required by the standard audit-boundary schema.
+
+Finally apply \autoref{thm:audit-gate-boundary-nonescape}. The excluded host
+claims have no carrier coordinate, so the bridge is only the finite
+audit-boundary schema and not a repository-completeness or host-correctness
+theorem.
+\end{proof}
+
 \closureat{AuditGateBoundaryUp}{seedStr}
 \closureat{AuditGateBoundaryUp}{obligationStr}
 \closureat{AuditGateBoundaryUp}{scopedStr}
+\closureat{AuditGateBoundaryUp}{publicStr}
+\closureat{AuditGateBoundaryUp}{bridgedStr}
 
 \begin{closurestatus}{\AuditGateBoundaryUp}
   \constructivestory{An $\AuditGateBoundaryUp$ packet is generated from a source-token scan, an axiom-purity dependency report, a paper-Lean target audit, an origin/import separation ledger, finite $\hsame$ transport, visible $\Cont$ routes, package provenance, a GAP boundary row, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped packet binds the carrier, NameCert obligations, source-token refusal, forbidden-dependency scope, marker-resolution non-escape, origin-import replay exactness, replay ledger, verdict scope, and non-escape rows to one finite audit-boundary surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public packet binds the carrier, NameCert obligations, source-token refusal, forbidden-dependency scope, marker-resolution non-escape, origin-import replay exactness, replay ledger, \autoref{thm:audit-gate-boundary-verdict-scope}, \autoref{thm:audit-gate-boundary-standard-bridge}, and the replay and non-escape rows to one finite audit-boundary surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host-kernel completeness, semantic conservativity for arbitrary imports, theorem inventory completeness, or Lean-side verification.}
-  \upgradepath{Public closure requires an exported audit-boundary object surface over the same carrier, NameCert, replay, verdict, and non-escape rows.}
+  \upgradepath{No further paper-side theory-axis work remains; Lean formal verification and bridge checking remain independent formal-axis obligations.}
 \end{closurestatus}
