@@ -58,6 +58,11 @@ ORACLE_WORTHY_RE = re.compile(
 )
 INBOX_RECOVER_EVENTS = {"received", "pre_gate_accept"}
 INBOX_HARD_REJECT_EVENTS = {"pre_gate_reject", "rejected"}
+BLOCKED_LANDING_PATH_RE = re.compile(
+    r"^papers/bedc/parts/(?:conjectures|visions)/",
+    re.IGNORECASE,
+)
+PROSE_TITLE_RE = re.compile(r"[.;:]\s*$|\\(?:label|begin|chapter|section)\b", re.IGNORECASE)
 UNRECOVERABLE_REASON_RE = re.compile(
     r"already_in_paper|duplicate_title|forbidden_axis|out_of_scope|"
     r"below_fit_threshold|below_novelty_threshold|too_weak|"
@@ -216,6 +221,10 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
     reasons = list(input_reasons)
     if title_key in existing_titles:
         reasons.append("duplicate_title_in_board_or_archive")
+    if PROSE_TITLE_RE.search(title):
+        reasons.append("prose_or_structural_title")
+    if any(BLOCKED_LANDING_PATH_RE.search(rel) for rel in inputs):
+        reasons.append("review_lane_input_not_board_landing")
     if _score(enriched, "fit_score") < DEFAULT_FIT_THRESHOLD:
         reasons.append(f"below_fit_threshold:{_score(enriched, 'fit_score')}")
     if _score(enriched, "novelty") < DEFAULT_NOVELTY_THRESHOLD:
