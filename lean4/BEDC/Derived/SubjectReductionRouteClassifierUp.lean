@@ -102,4 +102,31 @@ theorem SubjectReductionRouteClassifierCarrier_namecert_obligations [AskSetup] [
               (And.intro endpointUnary
                 (And.intro betaAppRouteKind endpointRoute))))))
 
+theorem SubjectReductionRouteClassifierCarrier_consumer_nonescape [AskSetup] [PackageSetup]
+    {beta app lambda pi routeKind invocation consumer transport route provenance name
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionRouteClassifierCarrier beta app lambda pi routeKind invocation consumer
+        transport route provenance name bundle pkg →
+      Cont invocation consumer endpoint →
+        PkgSig bundle endpoint pkg →
+          UnaryHistory endpoint ∧ hsame endpoint routeKind ∧ hsame endpoint provenance ∧
+            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro hCarrier endpointRoute endpointPkg
+  obtain ⟨_betaUnary, _appUnary, _lambdaUnary, _piUnary, _routeKindUnary, invocationUnary,
+    consumerUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _betaAppRouteKind, _lambdaPiTransport, invocationConsumerRoute, routeKindReadback,
+    provenanceReadback, _carrierPkg⟩ := hCarrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed invocationUnary consumerUnary endpointRoute
+  have endpointRouteKind : hsame endpoint routeKind :=
+    hsame_trans (cont_deterministic endpointRoute invocationConsumerRoute) routeKindReadback
+  have endpointProvenance : hsame endpoint provenance :=
+    hsame_trans (cont_deterministic endpointRoute invocationConsumerRoute) provenanceReadback
+  exact
+    And.intro endpointUnary
+      (And.intro endpointRouteKind
+        (And.intro endpointProvenance endpointPkg))
+
 end BEDC.Derived.SubjectReductionRouteClassifierUp

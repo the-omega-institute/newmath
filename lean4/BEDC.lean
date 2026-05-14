@@ -155,6 +155,7 @@ import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.TasteGate
+import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
@@ -166,6 +167,7 @@ import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
+import BEDC.Derived.ObserverInterfaceUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
