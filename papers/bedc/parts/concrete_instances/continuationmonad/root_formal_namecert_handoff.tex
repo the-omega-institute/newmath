@@ -46,3 +46,20 @@ composition, quotient Kleisli arrows, ambient category completion, external
 evaluators, or unlisted continuation generators, so the Category hom-carrier
 route is exactly the displayed continuation packet route.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad formal target readback exhaustion]
+\label{thm:continuation-monad-formal-target-readback-exhaustion}
+Every downstream formal target consuming the $\ContinuationMonadUp$ packet through
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+must first read the root formal $\NameCert$ handoff and the $\CategoryUp$ hom-carrier route. Therefore the target receives only the displayed $\BHist$ source histories, $\Cont$ continuation tails, $\hsame$ transports, $\Pkg$ provenance, Category hom-carrier row, $\mathsf{ContinuationMorphism}$ row, and local $\NameCert$ row; it receives no quotient Kleisli arrow, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_formal\_target\_readback\_exhaustion}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It fixes the formal handoff to $A,B,C,f,g,u,H,K,L,N$ and excludes quotient Kleisli arrows, host composition, ambient category completion, external evaluators, and unlisted generators from the local $\NameCert$ route.
+
+Next apply \autoref{thm:category-continuationmonad-hom-carrier-route}. The Category hom-carrier exposure is not an ambient category completion; it is the displayed $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ reading of the same finite continuation packet.
+
+Finally compose with \autoref{thm:continuation-monad-root-source-coverage}, \autoref{thm:continuation-monad-root-formal-route-saturation}, and \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. These root source, route, and ledger boundaries exhaust the readback surface, so every formal target consumes the finite packet and no external monad semantics.
+\end{proof}

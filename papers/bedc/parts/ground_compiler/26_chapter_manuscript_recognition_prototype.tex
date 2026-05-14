@@ -537,3 +537,12 @@ The main conclusions are:
 \item $P_8$ is conservative over the finite kernel;
 \item $P_8$ is a manuscript-reporting layer, not a full self-hosting compiler.
 \end{enumerate}
+
+\begin{theorem}[Sound manuscript covers chapter cannot-claims globally]
+\label{thm:chapter-manuscript-global-cannot-claim-coverage}
+Let $M$ be a sound manuscript-flow recognized by $R_M$, and let $C$ be a chapter-flow in the manuscript chapter sequence $\mathsf{MsChapters}_{R_M}(M,M_1)$. If $e$ is an undischarged cannot-claim entry in the chapter cannot-claim flow $\mathsf{ChapCannotClaims}_{R_C}(C,C_8)$, then $e$ appears in the manuscript global cannot-claim registry $\mathsf{MsCannotClaims}_{R_M}(M,M_6)$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:chapter-manuscript-sound-manuscript-flow}, soundness of $M$ includes the manuscript cannot-claim soundness clause. By \autoref{def:chapter-manuscript-manuscript-soundness-clauses}, that clause requires all undischarged cannot-claim entries to appear in the global registry. Since $C$ is one of the chapter-flows in the manuscript chapter sequence, the undischarged chapter entry $e$ is one of the manuscript's undischarged cannot-claim entries. Applying the cannot-claim soundness clause places $e$ in $\mathsf{MsCannotClaims}_{R_M}(M,M_6)$.
+\end{proof}

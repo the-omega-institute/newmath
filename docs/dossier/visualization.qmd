@@ -8,29 +8,6 @@ format:
     include-in-header:
       text: |
         <link rel="stylesheet" href="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.css">
-        <script>
-        // Load BEDC paper preamble macros, then boot MathJax. Without these,
-        // \CategoryUp / \AbGroupUp / \NameCert / etc. render as red errors.
-        (function () {
-          fetch("data/mathjax_macros.json")
-            .then(function (r) { return r.ok ? r.json() : {}; })
-            .catch(function () { return {}; })
-            .then(function (macros) {
-              window.MathJax = {
-                tex: {
-                  inlineMath: [['$', '$'], ['\\(', '\\)']],
-                  displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                  macros: macros
-                },
-                options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
-              };
-              var s = document.createElement('script');
-              s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js';
-              s.async = true;
-              document.head.appendChild(s);
-            });
-        })();
-        </script>
 ---
 
 ```{=html}
@@ -71,6 +48,106 @@ format:
     #detail { max-height: 480px; overflow-y: auto; }
   }
 
+  /* Mobile (≤ 720px): skip Cytoscape entirely. Rendering ~1k nodes + ~5k
+     edges in cytoscape on a phone is prohibitively slow even after the
+     other optimisations. Instead we show a small SVG overview (dots at
+     the pre-baked x/y) plus a scrollable, grouped node list. Detail
+     opens as a bottom-sheet overlay. */
+  body.dossier-mobile .map-filters,
+  body.dossier-mobile .zoom-controls,
+  body.dossier-mobile #cy { display: none; }
+  body.dossier-mobile .map-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas: "header" "graph" "footer";
+    height: auto;
+    min-height: 0;
+  }
+  body.dossier-mobile #detail { display: none; }
+  body.dossier-mobile #cy-wrap { height: auto; padding-bottom: 1rem; }
+  body.dossier-mobile .map-header { flex-wrap: wrap; padding: 0.6rem 0.9rem; }
+  body.dossier-mobile .map-header h1 { font-size: 1rem; }
+  body.dossier-mobile .map-header .summary { font-size: 0.78rem; flex-basis: 100%; }
+  body.dossier-mobile .region-picker { min-width: 0; flex: 1; }
+
+  #mobile-overview {
+    width: 100%; height: 180px;
+    background: #fbfbfa; border-bottom: 1px solid #eee;
+    display: block;
+  }
+  #mobile-list {
+    padding: 0.6rem 0.8rem 1rem;
+    font-size: 0.92rem;
+  }
+  #mobile-list .ml-section {
+    margin-top: 1rem;
+  }
+  #mobile-list .ml-section:first-child { margin-top: 0.4rem; }
+  #mobile-list .ml-section-title {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #888; margin-bottom: 0.35rem; padding: 0 0.1rem;
+    font-weight: 600;
+  }
+  #mobile-list .ml-row {
+    display: flex; align-items: center; gap: 0.55rem;
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+  }
+  #mobile-list .ml-row:active { background: #f4f7fa; }
+  #mobile-list .ml-dot {
+    flex: 0 0 12px; width: 12px; height: 12px; border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+  #mobile-list .ml-name { flex: 1; line-height: 1.3; overflow-wrap: anywhere; }
+  #mobile-list .ml-name .ml-alt {
+    color: #888; font-size: 0.78rem; display: block; margin-top: 0.05rem;
+  }
+  #mobile-list .ml-meta {
+    color: #777; font-size: 0.72rem; white-space: nowrap;
+    font-family: ui-monospace, monospace;
+  }
+
+  #mobile-detail {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    max-height: 85vh; min-height: 50vh;
+    background: white; z-index: 1100;
+    border-top: 1px solid #ddd;
+    border-top-left-radius: 14px; border-top-right-radius: 14px;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.15);
+    transform: translateY(100%); transition: transform 0.22s ease;
+    display: flex; flex-direction: column;
+  }
+  #mobile-detail.open { transform: translateY(0); }
+  #mobile-detail .md-handle {
+    display: flex; justify-content: center; padding: 0.35rem 0;
+  }
+  #mobile-detail .md-handle::before {
+    content: ""; width: 40px; height: 4px; background: #ccc; border-radius: 2px;
+  }
+  #mobile-detail .md-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.2rem 1rem 0.5rem; border-bottom: 1px solid #eee;
+    font-weight: 600;
+  }
+  #mobile-detail .md-head button {
+    border: none; background: transparent; font-size: 1.5rem;
+    cursor: pointer; color: #666; padding: 0 0.4rem;
+  }
+  #mobile-detail .md-body {
+    padding: 0.8rem 1rem 1.4rem; overflow-y: auto; flex: 1;
+  }
+  #mobile-detail .md-body > .legend { display: none; }
+  #mobile-detail .md-body > .glossary-toggle { display: none; }
+  #mobile-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.32);
+    z-index: 1099; opacity: 0; pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+  #mobile-overlay.open { opacity: 1; pointer-events: auto; }
+  body.dossier-mobile #glossary-pane {
+    width: 100%; max-width: 100%;
+  }
+
   .map-header {
     grid-area: header;
     padding: 0.7rem 1.2rem;
@@ -90,12 +167,47 @@ format:
   .region-picker {
     font-family: inherit; font-size: 0.88rem;
     padding: 0.25rem 0.5rem; border: 1px solid #bbb; border-radius: 3px;
-    background: white; min-width: 220px; cursor: pointer;
+    background: white; width: 240px; max-width: 240px; cursor: pointer;
+    text-overflow: ellipsis;
   }
   .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
 
   #cy-wrap { grid-area: graph; position: relative; height: 100%; background: #fbfbfa; }
   #cy { width: 100%; height: 100%; }
+
+  /* Loading overlay shown while dagre runs on cold load (~1-2s for 980
+     nodes). Hidden by default; the JS adds .visible before deferring
+     cytoscape init to the next frame, so the browser paints the overlay
+     before the long sync block. .visible -> .fading -> display:none lets
+     us cross-fade out once layout is settled. */
+  #cy-loading {
+    position: absolute; inset: 0;
+    display: none;
+    align-items: center; justify-content: center;
+    background: rgba(251, 251, 250, 0.94);
+    z-index: 20;
+    flex-direction: column; gap: 0.7rem;
+    transition: opacity 0.25s ease;
+  }
+  #cy-loading.visible { display: flex; opacity: 1; }
+  #cy-loading.fading { opacity: 0; }
+  #cy-loading .spinner {
+    width: 32px; height: 32px;
+    border: 3px solid #d8dee2;
+    border-top-color: #2c3e50;
+    border-radius: 50%;
+    animation: cy-spin 0.9s linear infinite;
+  }
+  #cy-loading .step {
+    font-size: 0.88rem; color: #2c3e50;
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0.02em;
+  }
+  #cy-loading .substep {
+    font-size: 0.74rem; color: #888;
+    margin-top: 0.1rem;
+  }
+  @keyframes cy-spin { to { transform: rotate(360deg); } }
   .zoom-controls {
     position: absolute;
     top: 12px; left: 12px;
@@ -366,6 +478,13 @@ format:
 
   <div id="cy-wrap">
     <div id="cy"></div>
+    <div id="cy-loading" aria-hidden="true">
+      <div class="spinner"></div>
+      <div class="step" id="cy-loading-step">Loading graph…</div>
+      <div class="substep" id="cy-loading-substep">&nbsp;</div>
+    </div>
+    <svg id="mobile-overview" preserveAspectRatio="xMidYMid meet" hidden></svg>
+    <div id="mobile-list" hidden></div>
     <div class="zoom-controls" id="zoom-controls">
       <button type="button" id="zoom-in" data-i18n-title="zoom_in" title="Zoom in" aria-label="Zoom in">+</button>
       <button type="button" id="zoom-out" data-i18n-title="zoom_out" title="Zoom out" aria-label="Zoom out">&#8722;</button>
@@ -443,9 +562,17 @@ format:
   </div>
 </div>
 
+<div id="mobile-overlay" onclick="closeMobileDetail()"></div>
+<div id="mobile-detail" aria-hidden="true">
+  <div class="md-handle" onclick="closeMobileDetail()"></div>
+  <div class="md-head">
+    <span id="mobile-detail-title">&nbsp;</span>
+    <button type="button" onclick="closeMobileDetail()" aria-label="Close">×</button>
+  </div>
+  <div class="md-body" id="mobile-detail-body"></div>
+</div>
+
 <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
-<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
-<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
 
 <script>
 const I18N = {
@@ -523,6 +650,16 @@ const I18N = {
     zoom_in: "Zoom in",
     zoom_out: "Zoom out",
     zoom_reset: "Fit to view",
+    loading_layout: "Computing layout…",
+    loading_layout_sub: "980 nodes · 4611 edges · first visit only",
+    loading_render: "Rendering…",
+    loading_cached: "Restoring view…",
+    ml_frontline: "Frontline (AI's current target)",
+    ml_public: "Closed (public / bridged / mature)",
+    ml_scoped: "Scoped closure",
+    ml_obligation: "Obligation phase (seed / obligation)",
+    ml_progress: "In progress",
+    ml_scaffold: "Scaffold (paper only)",
   },
   zh: {
     title: "BEDC 项目地图",
@@ -598,12 +735,29 @@ const I18N = {
     zoom_in: "放大",
     zoom_out: "缩小",
     zoom_reset: "适应窗口",
+    loading_layout: "计算布局中…",
+    loading_layout_sub: "980 节点 · 4611 边 · 仅首次访问",
+    loading_render: "渲染中…",
+    loading_cached: "恢复视图…",
+    ml_frontline: "前线 (AI 当前攻坚)",
+    ml_public: "已闭合 (public / bridged / mature)",
+    ml_scoped: "范围闭合 (scoped)",
+    ml_obligation: "义务期 (seed / obligation)",
+    ml_progress: "进行中",
+    ml_scaffold: "脚架 (仅论文)",
   },
 };
 
 let LANG = "en";
 let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
+let DETAILS = null, DETAILS_PROMISE = null;
 let CRIT_SET = new Set();
+// Phones and narrow tablets skip Cytoscape entirely — 1k nodes / 5k edges
+// is unusable on touch. Mobile gets a thumbnail SVG + grouped list. The
+// breakpoint is checked at load time and won't change live; explicit
+// reload after rotating a tablet into landscape is fine.
+const IS_MOBILE = window.matchMedia("(max-width: 720px)").matches;
+if (IS_MOBILE) document.body.classList.add("dossier-mobile");
 
 async function loadData() {
   const [s, g, d] = await Promise.all([
@@ -615,12 +769,65 @@ async function loadData() {
   CRIT_SET = new Set((STATUS.critical_path || []).map(c => c.name));
 }
 
+// dependency_details.json (~1.9 MB) holds the heavy per-node prose
+// (constructive_story / scope_closed / upgrade_path / namecert list)
+// that only appears in the detail pane. We fetch it lazily — first
+// `requestIdleCallback` after first paint, or on-demand when the user
+// taps a node — so it never blocks the graph from showing up.
+function loadDetails() {
+  if (DETAILS) return Promise.resolve(DETAILS);
+  if (!DETAILS_PROMISE) {
+    DETAILS_PROMISE = fetch("data/dependency_details.json")
+      .then(r => r.json())
+      .then(d => { DETAILS = d; return d; })
+      .catch(() => { DETAILS = {}; return DETAILS; });
+  }
+  return DETAILS_PROMISE;
+}
+
 function t(key) { return I18N[LANG][key] || key; }
 
+// MathJax is lazy-loaded the first time we need to typeset (i.e., a detail
+// pane is opened). The full tex-chtml-full bundle is ~800 KB and was
+// previously blocking first paint; tex-chtml (~330 KB) is enough for the
+// inline `$...$` math we emit.
+let MATHJAX_PROMISE = null;
+function ensureMathJax() {
+  if (MATHJAX_PROMISE) return MATHJAX_PROMISE;
+  MATHJAX_PROMISE = fetch("data/mathjax_macros.json")
+    .then(r => r.ok ? r.json() : {})
+    .catch(() => ({}))
+    .then(macros => new Promise(resolve => {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          macros,
+        },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] },
+        startup: { ready: () => { window.MathJax.startup.defaultReady(); resolve(); } },
+      };
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js';
+      s.async = true;
+      document.head.appendChild(s);
+    }));
+  return MATHJAX_PROMISE;
+}
+
 function typesetMath(el) {
-  if (window.MathJax && window.MathJax.typesetPromise) {
-    window.MathJax.typesetPromise(el ? [el] : undefined).catch(() => {});
-  }
+  if (!el) return;
+  // BEDC detail prose uses bare macros (\CategoryUp, \NameCert, ...) as
+  // well as inline $...$ math — both need MathJax. Detecting any backslash
+  // followed by a letter or math delimiter is conservative; it errs on
+  // the side of loading MathJax for content that already needs it.
+  const hasMath = /\\[A-Za-z(\[]|\$[^$]*\$/.test(el.textContent || "");
+  if (!hasMath) return;
+  ensureMathJax().then(() => {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([el]).catch(() => {});
+    }
+  });
 }
 
 function applyStaticI18n() {
@@ -976,24 +1183,12 @@ function applyFilters() {
       node.style("display", show ? "element" : "none");
     });
   });
-  // Re-run dagre on visible elements only so the remaining nodes spread
-  // across the full viewport instead of inheriting the cramped 250-node
-  // layout. Layout is fast; we re-run on every toggle.
+  // Pre-baked preset layout means we never re-run dagre — toggling stubs
+  // or layer chips just hides/shows nodes in place. Fit to whatever's
+  // visible so the user always sees the active subgraph filling the
+  // viewport.
   const visible = CY.elements(":visible");
-  if (visible.length > 0) {
-    visible.layout({
-      name: "dagre",
-      rankDir: "LR",
-      nodeSep: 22,
-      rankSep: 480,
-      edgeSep: 10,
-      ranker: "network-simplex",
-      padding: 16,
-      fit: true,
-      animate: false,
-    }).run();
-    CY.fit(visible, 16);
-  }
+  if (visible.length > 0) CY.fit(visible, 16);
 }
 
 function buildFilterUI() {
@@ -1030,6 +1225,11 @@ function buildFilterUI() {
   });
 }
 
+// All node positions are pre-baked by tools/dagre_layout/layout.mjs at
+// build time (the same dagre LR network-simplex layout the page used
+// to run on every cold load — ~20s of main-thread block for 980 nodes).
+// The browser now uses `layout: preset`, skipping dagre and the heavy
+// client-side crossing-reduction pass entirely.
 function renderCy() {
   const nodes = DEPS.nodes.map(n => {
     const visual = nodeVisual(n);
@@ -1046,6 +1246,7 @@ function renderCy() {
         checked: n.checked || 0, stmt: n.stmt || 0,
         schema_only: !!n.schema_only,
       },
+      position: { x: n.x || 0, y: n.y || 0 },
     };
   });
   const edges = DEPS.edges.map((e, i) => ({
@@ -1104,32 +1305,25 @@ function renderCy() {
         },
       },
       { selector: "edge.highlight", style: { "line-color": "#c0392b", "target-arrow-color": "#c0392b", "width": 3, "arrow-scale": 1.9, "opacity": 1 } },
+      { selector: "edge.highlight-down", style: { "line-color": "#1f6feb", "target-arrow-color": "#1f6feb", "width": 3, "arrow-scale": 1.9, "opacity": 1 } },
       { selector: "edge.faded", style: { "opacity": 0.06 } },
       { selector: "node.faded", style: { "opacity": 0.15 } },
     ],
-    layout: {
-      name: "dagre",
-      // BEDC dependency is a DAG; LR shows primitives (left) → derived
-      // (right). nodeSep tuned tight, rankSep wide so the natural shape
-      // matches the wide viewport (.map-shell extends to full height
-      // via calc(100vh - 30px) so 108 nodes can breathe vertically).
-      rankDir: "LR",
-      nodeSep: 22,
-      rankSep: 480,
-      edgeSep: 10,
-      ranker: "network-simplex",
-      padding: 16,
-      fit: true,
-      animate: false,
-    },
-    // Disable wheel/pinch zoom (per request); pan-drag remains for nudging
-    // so the dropdown's centered jump can be fine-tuned without the user
-    // ever needing to scroll-zoom. The +/-/fit buttons drive zoom
-    // programmatically — bounds keep them sane.
-    userZoomingEnabled: false,
+    layout: { name: "preset", fit: true, padding: 16 },
+    // Wheel/pinch zoom stays disabled (per the original design — the
+    // +/-/fit buttons drive zoom programmatically). All visual flags
+    // are now identical to the original config; the only retained
+    // optimisation is the layout cache that swaps dagre → preset on
+    // warm loads.
+    // Trackpad-friendly: enable wheel/pinch zoom. On Mac trackpads,
+    // pinch fires wheel events with ctrlKey, which cytoscape handles as
+    // a zoom gesture; two-finger scroll without ctrlKey also zooms (the
+    // user explicitly asked for trackpad-zoom support). The +/-/fit
+    // buttons remain as keyboard-friendly alternatives.
+    userZoomingEnabled: true,
     userPanningEnabled: true,
     boxSelectionEnabled: false,
-    wheelSensitivity: 0,
+    wheelSensitivity: 0.6,
     autoungrabify: true,
     minZoom: 0.05,
     maxZoom: 4,
@@ -1137,16 +1331,22 @@ function renderCy() {
   setupZoomControls();
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
+  // Clear logic shared by empty-space taps and edge taps. Edges are
+  // decorative routing lines; tapping one shouldn't select the edge,
+  // but instead should reset the highlight state the same way tapping
+  // empty space does.
+  const clearSelection = () => {
+    document.getElementById("detail-content").innerHTML =
+      `<div class="hint">${t("hint")}</div>`;
+    CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
+    CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
+    CY.nodes().unselect();
+    // Zoom / pan preserved so the user's view isn't snapped back
+    // unexpectedly.
+  };
+  CY.on("tap", "edge", clearSelection);
   CY.on("tap", evt => {
-    if (evt.target === CY) {
-      document.getElementById("detail-content").innerHTML =
-        `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight").removeClass("faded");
-      CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
-      CY.nodes().unselect();
-      // Tapping empty space clears the selection only — keep the current
-      // zoom / pan so the user's view isn't snapped back unexpectedly.
-    }
+    if (evt.target === CY) clearSelection();
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
   // outline below, labels stay legible even when fit-zoomed. The dropdown
@@ -1174,27 +1374,15 @@ function setupZoomControls() {
   });
 }
 
-function showNodeDetail(id) {
+async function showNodeDetail(id) {
   const node = DEPS.nodes.find(n => n.id === id);
   const g = GLOSSARY[id];
   if (!node) return;
+  await loadDetails();
+  const det = (DETAILS && DETAILS[id]) || {};
 
-  CY.elements().removeClass("highlight").removeClass("faded");
-  CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
-  CY.nodes().unselect();
-  const cyNode = CY.getElementById(id);
-  cyNode.select();
-
-  // Highlight the full upstream subtree (clicked node + all transitive
-  // ancestors). Downstream is intentionally not included — tapping a node
-  // asks "what does this depend on?", not "what depends on this?".
-  // BFS upward, recording shortest-path distance from each ancestor to the
-  // clicked node. We use this distance (NOT the gradient x-distance below)
-  // to decide which edges are "on a shortest path" — a node X at depth k
-  // contributes only the edges X→Y where Y is at depth k-1. Long shortcuts
-  // (e.g., kernel→bool when bool is 3 hops away but kernel is 1 hop away)
-  // are NOT on any shortest path and would otherwise visually clutter the
-  // graph with edges that don't help understand the dependency chain.
+  // Upstream BFS works whether cytoscape is mounted or not — needed for
+  // the incoming-deps link list rendered in HTML below.
   const keep = new Set([id]);
   const bfsDist = new Map([[id, 0]]);
   const queueUp = [id];
@@ -1210,70 +1398,100 @@ function showNodeDetail(id) {
     });
   }
 
-  // Distance metric: dagre LR layout puts deep primitives (Kernel, Add, Nat)
-  // at small x and derived nodes at large x, so xClicked - x(n) is the
-  // visually correct "primitive depth" — and avoids BFS shortest-path
-  // anomalies (Kernel is a direct parent of Group, but conceptually the
-  // deepest root, so should be the lightest, not the darkest).
-  // dependency.json is not strictly acyclic, so longest-path relaxation
-  // diverges; x-distance is robust against the cycles.
-  const xClicked = cyNode.position("x");
-  const depthOf = new Map([[id, 0]]);
-  keep.forEach(n => {
-    if (n === id) return;
-    const cyN = CY.getElementById(n);
-    const dx = xClicked - cyN.position("x");
-    depthOf.set(n, Math.max(0, dx));
-  });
-  const maxDepth = depthOf.size > 1 ? Math.max(...depthOf.values()) : 1;
+  // Cytoscape highlight + zoom-to-subgraph — only when the graph is
+  // mounted (i.e., desktop layout). On mobile we render to the bottom
+  // sheet instead and never touch CY.
+  // Downstream BFS — also collect descendants so the outgoing edges
+  // from the selected node can be marked with a distinct colour.
+  const keepDown = new Set([id]);
+  const bfsDistDown = new Map([[id, 0]]);
+  const queueDown = [id];
+  while (queueDown.length) {
+    const cur = queueDown.shift();
+    const cd = bfsDistDown.get(cur);
+    DEPS.edges.forEach(e => {
+      if (e.source === cur && !keepDown.has(e.target)) {
+        keepDown.add(e.target);
+        bfsDistDown.set(e.target, cd + 1);
+        queueDown.push(e.target);
+      }
+    });
+  }
 
-  // Gradient endpoints: near (depth 1) = saturated red + thick, far (maxDepth)
-  // = near-gray + thin + low opacity. The width / opacity range is wide
-  // (5px → 0.6px, 1.0 → 0.12) so distance from the clicked node is obvious
-  // even when 200+ edges fan out from a hub node.
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-  const rgb = (r, g, b) => `rgb(${r|0},${g|0},${b|0})`;
-  const NEAR = { r: 220, g: 20,  b: 0,   width: 5.0, arrow: 7.0, opacity: 1.0  };
-  const FAR  = { r: 218, g: 60,  b: 40,  width: 3.0, arrow: 5.0, opacity: 0.85 };
+  // Cytoscape highlight + center-on-selected — only when the graph is
+  // mounted (i.e., desktop layout). On mobile we render to the bottom
+  // sheet instead and never touch CY.
+  if (CY) {
+    CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
+    CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
+    CY.nodes().unselect();
+    const cyNode = CY.getElementById(id);
+    cyNode.select();
 
-  CY.nodes().forEach(n => { if (!keep.has(n.id())) n.addClass("faded"); });
-  CY.edges().forEach(e => {
-    const s = e.data("source"), t = e.data("target");
-    // Highlight an edge only when it lies on a BFS shortest path from some
-    // ancestor down to the clicked node — i.e., bfsDist(source) is exactly
-    // one more than bfsDist(target). This drops shortcut edges like
-    // kernel→bool that connect two ancestors but don't help reach clicked.
-    const onShortestPath =
-      keep.has(s) && keep.has(t) && bfsDist.get(s) === bfsDist.get(t) + 1;
-    if (onShortestPath) {
-      // edge depth = source's x-distance from clicked; deeper roots = lighter.
-      // dependency.json is not strictly acyclic, so back-edges can give a
-      // negative dx for the clicked node itself; clamp tt into [0, 1].
-      const d = depthOf.get(s) ?? 0;
-      const tt = maxDepth <= 0 ? 0 : clamp(d / maxDepth, 0, 1);
-      const color = rgb(lerp(NEAR.r, FAR.r, tt), lerp(NEAR.g, FAR.g, tt), lerp(NEAR.b, FAR.b, tt));
-      e.style("line-color", color);
-      e.style("target-arrow-color", color);
-      e.style("width", lerp(NEAR.width, FAR.width, tt));
-      e.style("arrow-scale", lerp(NEAR.arrow, FAR.arrow, tt));
-      e.style("opacity", lerp(NEAR.opacity, FAR.opacity, tt));
-    } else {
-      e.addClass("faded");
-    }
-  });
+    const xClicked = cyNode.position("x");
+    const depthOf = new Map([[id, 0]]);
+    keep.forEach(n => {
+      if (n === id) return;
+      const cyN = CY.getElementById(n);
+      const dx = xClicked - cyN.position("x");
+      depthOf.set(n, Math.max(0, dx));
+    });
+    const maxDepth = depthOf.size > 1 ? Math.max(...depthOf.values()) : 1;
 
-  // Zoom into the upstream subgraph (selected node + ancestors).
-  // Tap on background restores the global fit (see the tap-on-CY
-  // handler below).
-  const focusEles = CY.elements().filter(el => {
-    if (el.isNode()) return keep.has(el.id());
-    return keep.has(el.data("source")) && keep.has(el.data("target"));
-  });
-  CY.animate(
-    { fit: { eles: focusEles, padding: 60 } },
-    { duration: 350, easing: "ease-out" }
-  );
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    const rgb = (r, g, b) => `rgb(${r|0},${g|0},${b|0})`;
+    const NEAR = { r: 220, g: 20,  b: 0,   width: 5.0, arrow: 7.0, opacity: 1.0  };
+    const FAR  = { r: 218, g: 60,  b: 40,  width: 3.0, arrow: 5.0, opacity: 0.85 };
+    // Downstream colour palette (blue) — kept structurally parallel to
+    // the upstream NEAR / FAR gradient so the two directions read with
+    // matching intensity at the same depth.
+    const DOWN_NEAR = { r: 31,  g: 111, b: 235, width: 5.0, arrow: 7.0, opacity: 1.0 };
+    const DOWN_FAR  = { r: 90,  g: 150, b: 230, width: 3.0, arrow: 5.0, opacity: 0.85 };
+
+    // Keep set used for fading: any node in the upstream OR downstream
+    // closure stays visible; everything else dims.
+    const allKeep = new Set([...keep, ...keepDown]);
+    CY.nodes().forEach(n => { if (!allKeep.has(n.id())) n.addClass("faded"); });
+    const maxDepthDown = Math.max(1, ...Array.from(bfsDistDown.values()));
+    CY.edges().forEach(e => {
+      const s = e.data("source"), t = e.data("target");
+      const onUpstreamPath =
+        keep.has(s) && keep.has(t) && bfsDist.get(s) === bfsDist.get(t) + 1;
+      const onDownstreamPath =
+        keepDown.has(s) && keepDown.has(t) &&
+        bfsDistDown.get(t) === bfsDistDown.get(s) + 1;
+      if (onUpstreamPath) {
+        const d = depthOf.get(s) ?? 0;
+        const tt = maxDepth <= 0 ? 0 : clamp(d / maxDepth, 0, 1);
+        const color = rgb(lerp(NEAR.r, FAR.r, tt), lerp(NEAR.g, FAR.g, tt), lerp(NEAR.b, FAR.b, tt));
+        e.style("line-color", color);
+        e.style("target-arrow-color", color);
+        e.style("width", lerp(NEAR.width, FAR.width, tt));
+        e.style("arrow-scale", lerp(NEAR.arrow, FAR.arrow, tt));
+        e.style("opacity", lerp(NEAR.opacity, FAR.opacity, tt));
+      } else if (onDownstreamPath) {
+        const dd = bfsDistDown.get(t) ?? 1;
+        const tt = clamp((dd - 1) / Math.max(1, maxDepthDown - 1), 0, 1);
+        const color = rgb(lerp(DOWN_NEAR.r, DOWN_FAR.r, tt), lerp(DOWN_NEAR.g, DOWN_FAR.g, tt), lerp(DOWN_NEAR.b, DOWN_FAR.b, tt));
+        e.style("line-color", color);
+        e.style("target-arrow-color", color);
+        e.style("width", lerp(DOWN_NEAR.width, DOWN_FAR.width, tt));
+        e.style("arrow-scale", lerp(DOWN_NEAR.arrow, DOWN_FAR.arrow, tt));
+        e.style("opacity", lerp(DOWN_NEAR.opacity, DOWN_FAR.opacity, tt));
+      } else {
+        e.addClass("faded");
+      }
+    });
+
+    // Centre the selected node in the viewport without changing the
+    // current zoom level. Earlier this fit the full upstream subgraph,
+    // but the user wants the tapped node anchored at the centre.
+    CY.animate(
+      { center: { eles: cyNode } },
+      { duration: 350, easing: "ease-out" }
+    );
+  }
 
   const incoming = DEPS.edges
     .filter(e => e.target === id)
@@ -1298,8 +1516,8 @@ function showNodeDetail(id) {
   // language is zh and present; otherwise EN. Rendered as a closure-row
   // inside the closure-table below, in the same style as Theory closure /
   // Scope closed; hidden if both empty.
-  const story = (LANG === "zh" ? node.constructive_story_zh : null)
-    || node.constructive_story_en
+  const story = (LANG === "zh" ? det.constructive_story_zh : null)
+    || det.constructive_story_en
     || null;
 
   const stats = [];
@@ -1325,12 +1543,12 @@ function showNodeDetail(id) {
     const rows = [
       ["detail_constructive_story", story, false],
       ["detail_theory_closure", node.closed_theoryclosure, true],
-      ["detail_scope_closed", node.scope_closed, false],
+      ["detail_scope_closed", det.scope_closed, false],
       ["detail_formal_verification", node.closed_formalstatus, true],
-      ["detail_lean_target", node.closure_grounding, true],
-      ["detail_bridge_status", node.closed_bridge_status, true],
-      ["detail_not_claimed", node.not_claimed, false],
-      ["detail_upgrade_path", node.upgrade_path, false],
+      ["detail_lean_target", det.closure_grounding, true],
+      ["detail_bridge_status", det.closed_bridge_status, true],
+      ["detail_not_claimed", det.not_claimed, false],
+      ["detail_upgrade_path", det.upgrade_path, false],
     ].filter(([, value]) => value);
     html += `<div class="closure-table">`;
     for (const [labelKey, value, code] of rows) {
@@ -1349,15 +1567,15 @@ function showNodeDetail(id) {
   //   2. namecert_theorems  — heuristic namecert/Name(_)Certificate
   //                           proofs found by NAMECERT_TARGET_RE.
   //   3. (none)             — closed but no grounding, no namecert: hint.
-  if (node.closure_grounding) {
-    const short = node.closure_grounding.split(".").pop();
+  if (det.closure_grounding) {
+    const short = det.closure_grounding.split(".").pop();
     html += `
       <div class="term-namecerts">
         <div class="term-namecerts-header">${t("detail_grounded_by")}</div>
         <div class="nc-row"><span style="color:#8e44ad;">★</span>&nbsp;<code>${short}</code></div>
       </div>`;
   }
-  const ncList = node.namecert_theorems || [];
+  const ncList = det.namecert_theorems || [];
   if (ncList.length) {
     const items = ncList.map(t => {
       const icon = t.status === "checked"
@@ -1372,7 +1590,7 @@ function showNodeDetail(id) {
         ` / <strong>${ncList.length}</strong>)</div>
         ${items}
       </div>`;
-  } else if (node.closed_theoryclosure && !node.closure_grounding) {
+  } else if (node.closed_theoryclosure && !det.closure_grounding) {
     html += `
       <div class="term-namecerts">
         <div class="term-namecerts-header">${t("detail_namecerts")}</div>
@@ -1382,8 +1600,29 @@ function showNodeDetail(id) {
       </div>`;
   }
 
-  document.getElementById("detail-content").innerHTML = html;
-  typesetMath(document.getElementById("detail-content"));
+  if (IS_MOBILE) {
+    const title = g ? g[LANG].label : id;
+    document.getElementById("mobile-detail-title").textContent = title;
+    const body = document.getElementById("mobile-detail-body");
+    body.innerHTML = html;
+    typesetMath(body);
+    openMobileDetail();
+  } else {
+    const target = document.getElementById("detail-content");
+    target.innerHTML = html;
+    typesetMath(target);
+  }
+}
+
+function openMobileDetail() {
+  document.getElementById("mobile-detail").classList.add("open");
+  document.getElementById("mobile-overlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeMobileDetail() {
+  document.getElementById("mobile-detail").classList.remove("open");
+  document.getElementById("mobile-overlay").classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 function renderCritList() {
@@ -1494,10 +1733,49 @@ function renderSpark() {
   }
 }
 
-function renderAll() {
+function setLoading(stepKey, subKey) {
+  const el = document.getElementById("cy-loading");
+  if (!el) return;
+  if (stepKey === null) {
+    el.classList.add("fading");
+    setTimeout(() => { el.classList.remove("visible", "fading"); }, 260);
+    return;
+  }
+  document.getElementById("cy-loading-step").textContent = t(stepKey);
+  const sub = document.getElementById("cy-loading-substep");
+  sub.textContent = subKey ? t(subKey) : "";
+  el.classList.add("visible");
+  el.classList.remove("fading");
+}
+
+// Yield to the browser so the loading overlay actually paints before
+// we hand the main thread to dagre. setTimeout-after-rAF is the only
+// reliable way: rAF schedules a callback before the next paint, then
+// setTimeout 0 runs after that paint commits.
+function yieldToPaint() {
+  return new Promise(resolve =>
+    requestAnimationFrame(() => setTimeout(resolve, 0))
+  );
+}
+
+async function renderAll() {
   applyStaticI18n();
-  if (!CY) renderCy();
-  else {
+  if (IS_MOBILE) {
+    document.getElementById("cy").setAttribute("hidden", "");
+    document.getElementById("mobile-overview").removeAttribute("hidden");
+    document.getElementById("mobile-list").removeAttribute("hidden");
+    renderMobileOverview();
+    renderMobileList();
+  } else if (!CY) {
+    // Even with preset (no dagre on the client), cytoscape still has to
+    // create ~5k DOM/canvas elements and lay out style — that's a few
+    // hundred ms of sync block on cold load. Defer to the next frame so
+    // the spinner paints before the block.
+    setLoading("loading_render", "loading_layout_sub");
+    await yieldToPaint();
+    renderCy();
+    setLoading(null);
+  } else {
     CY.nodes().forEach(n => {
       const node = DEPS.nodes.find(d => d.id === n.id());
       if (node) n.data("label", nodeLabel(node));
@@ -1505,15 +1783,119 @@ function renderAll() {
     refreshNodeVisuals();
   }
   buildFilterUI();
-  applyFilters();
+  if (!IS_MOBILE) applyFilters();
   renderCritList();
   renderLatestDynamics();
   renderSpark();
   if (CY && CY.nodes(":selected").length) {
     showNodeDetail(CY.nodes(":selected")[0].id());
-  } else {
+  } else if (!IS_MOBILE) {
     document.getElementById("detail-content").innerHTML = `<div class="hint">${t("hint")}</div>`;
   }
+}
+
+function renderMobileOverview() {
+  const svg = document.getElementById("mobile-overview");
+  if (!svg) return;
+  // dependency.json carries baked dagre positions for every node. The
+  // phone SVG strip is wide-and-short, but dagre LR output is tall-and-
+  // thin (x ~23k over 37 levels, y ~95k from packing many nodes per
+  // rank), so we rotate 90° here — primitive→derived runs left-to-
+  // right across the strip, rank-internal nodes spread vertically.
+  const posFor = n => ({ x: n.y || 0, y: n.x || 0 });
+  const nodePositions = DEPS.nodes.map(posFor);
+  const xs = nodePositions.map(p => p.x);
+  const ys = nodePositions.map(p => p.y);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const pad = 12;
+  const w = (xmax - xmin) || 1;
+  const h = (ymax - ymin) || 1;
+  // viewBox + preserveAspectRatio handles fitting; we just need a
+  // sensible aspect ratio. CSS height is fixed at 180px.
+  svg.setAttribute("viewBox", `${xmin - pad} ${ymin - pad} ${w + pad*2} ${h + pad*2}`);
+  const r = Math.max(w, h) * 0.005;
+  let html = "";
+  DEPS.nodes.forEach((n, i) => {
+    const v = nodeVisual(n);
+    const p = nodePositions[i];
+    html += `<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="${v.fill}" stroke="${v.stroke}" stroke-width="${v.borderWidth*0.5}" data-id="${n.id}"/>`;
+  });
+  svg.innerHTML = html;
+  svg.onclick = e => {
+    const t = e.target;
+    if (t && t.tagName === "circle" && t.dataset.id) {
+      showNodeDetail(t.dataset.id);
+    }
+  };
+}
+
+// Mobile section buckets — by status, highest-signal first. We render
+// only the ones with content.
+const MOBILE_SECTIONS = [
+  { key: "ml_frontline", filter: n => CRIT_SET.has(n.id) },
+  { key: "ml_public",    filter: n => n.closed_theoryclosure === "publicClosure" || n.closed_theoryclosure === "bridgedClosure" || n.closed_theoryclosure === "matureClosure" },
+  { key: "ml_scoped",    filter: n => n.closed_theoryclosure === "scopedClosure" },
+  { key: "ml_obligation",filter: n => n.closed_theoryclosure === "seedClosure" || n.closed_theoryclosure === "obligationClosure" },
+  { key: "ml_progress",  filter: n => !n.closed_theoryclosure && nodeHasProgress(n) },
+  { key: "ml_scaffold",  filter: n => !n.closed_theoryclosure && !nodeHasProgress(n) },
+];
+
+// Per-section initial render cap. 980 nodes fully expanded is a 45k px
+// scroll; we keep each section to 25 rows by default and let the user
+// "show all" the long-tail buckets (scaffold, progress) on demand.
+const ML_INITIAL_LIMIT = 25;
+const ML_EXPANDED = new Set();
+
+function renderMobileList() {
+  const el = document.getElementById("mobile-list");
+  if (!el) return;
+  const seen = new Set();
+  let html = "";
+  for (const sec of MOBILE_SECTIONS) {
+    const items = DEPS.nodes.filter(n => !seen.has(n.id) && sec.filter(n));
+    if (!items.length) continue;
+    items.forEach(n => seen.add(n.id));
+    items.sort((a, b) => {
+      const sa = nodeSizeMetric(a), sb = nodeSizeMetric(b);
+      if (sa !== sb) return sb - sa;
+      return nodeLabel(a).localeCompare(nodeLabel(b));
+    });
+    const expanded = ML_EXPANDED.has(sec.key) || items.length <= ML_INITIAL_LIMIT;
+    const shown = expanded ? items : items.slice(0, ML_INITIAL_LIMIT);
+    const hidden = items.length - shown.length;
+    html += `<div class="ml-section">`;
+    html += `<div class="ml-section-title">${t(sec.key)} <span style="color:#bbb;font-weight:400;">(${items.length})</span></div>`;
+    for (const n of shown) {
+      const v = nodeVisual(n);
+      const g = GLOSSARY[n.id];
+      const primary = g ? g[LANG].label : n.id;
+      const otherLang = LANG === "en" ? "zh" : "en";
+      const alt = g && g[otherLang].label && g[otherLang].label !== primary
+        ? `<span class="ml-alt">${g[otherLang].label}</span>` : "";
+      const meta = [];
+      if (n.checked) meta.push(`<span style="color:#1e7c43">✓${n.checked}</span>`);
+      if (n.stmt) meta.push(`<span style="color:#1f5d8a">○${n.stmt}</span>`);
+      const metaHtml = meta.length ? `<span class="ml-meta">${meta.join(" ")}</span>` : "";
+      html += `<div class="ml-row" onclick="showNodeDetail('${n.id}')">
+        <span class="ml-dot" style="background:${v.fill};border-color:${v.stroke};"></span>
+        <span class="ml-name">${primary}${alt}</span>
+        ${metaHtml}
+      </div>`;
+    }
+    if (hidden > 0) {
+      html += `<div class="ml-row ml-more" onclick="expandMobileSection('${sec.key}')" style="justify-content:center;color:#2c3e50;font-weight:500;">
+        ＋ ${hidden} more
+      </div>`;
+    }
+    html += `</div>`;
+  }
+  el.innerHTML = html;
+}
+
+function expandMobileSection(key) {
+  ML_EXPANDED.add(key);
+  renderMobileList();
 }
 
 function setLang(lang) {
@@ -1527,10 +1909,16 @@ function setLang(lang) {
 (async () => {
   try {
     await loadData();
-    renderAll();
+    await renderAll();
     window.addEventListener("resize", renderSpark);
+    // Prefetch the heavy detail JSON once the first paint is done. By the
+    // time the user taps a node, the await in showNodeDetail is usually a
+    // no-op.
+    const idle = window.requestIdleCallback || (cb => setTimeout(cb, 800));
+    idle(() => loadDetails());
   } catch (e) {
-    document.getElementById("cy").innerHTML =
+    const target = document.getElementById("cy") || document.getElementById("mobile-list");
+    if (target) target.innerHTML =
       `<div style="padding:2rem;color:red;">Error loading data: ${e.message}</div>`;
   }
 })();

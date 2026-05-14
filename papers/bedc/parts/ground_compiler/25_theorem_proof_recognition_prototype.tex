@@ -603,3 +603,22 @@ $P_7$ can recognize theorem and proof flows, but without chapter-flow recognitio
 \label{rem:theorem-proof-summary}
 This chapter defines $P_7$, the theorem and proof recognition prototype. It adds statement candidates, generated statement recognizers, recognized statement flows, dependency candidates and flows, proof candidates, generated proof-flow recognizers, recognized proof flows, generated proof checkers, theorem candidates, generated theorem recognizers, recognized theorem flows, eight theorem subflows, proof, certificate, ledger, status, and canonical-site soundness, theorem code, abstract proposition classes, accepted theorem flows, $P_7$ reports, and the $P_7$ audit checklist. It proves that theorem is not input, statement flow is not abstract proposition, unsound dependencies block theorem recognition, proof candidates and proof flows are insufficient without checking, incomplete theorem candidates are not theorem flows, sound theorem flows establish theorem code, theorem code is injective on raw theorem flows, abstract proposition classes are quotients, accepted theorem code does not imply object acceptance or bridge status, $P_7$ adequacy requires generated recognizers and proof checkers, and $P_7$ is conservative over the finite kernel.
 \end{remark}
+
+\begin{theorem}[Accepted theorem export cites an AcceptGate witness]
+\label{thm:theorem-proof-accepted-export-acceptgate-witness}
+Let $T$ be an accepted theorem flow. If the theorem ledger of $T$ records a mature-object export claim for an object-flow name $O$ at strength $s$, then there exist an event flow $S$, an acceptance-gate flow $A$, and a generated acceptance-gate recognizer $R_A$ such that
+$$
+  \mathsf{AcceptGateFlow}_{R_A}(S,A,O,s)
+$$
+and the certificate or ledger subflow of $T$ contains or cites $A$ as the witness for that export claim.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:theorem-proof-accepted-theorem-flow}, accepted-theorem status is not only proof checking. It also requires that any claimed mature-object export has the relevant acceptance-gate flow, that all required certificates are recognized, and that the ledger is complete. Apply this defining condition to the ledger entry asserting export of $O$ at strength $s$. The accepted-theorem witness for $T$ therefore supplies a relevant acceptance-gate flow for that same object name and strength.
+
+By \autoref{def:deriv-accept-recognized-acceptgate-flow}, a relevant acceptance-gate flow is represented by some event flow $S$, subflow $A$, and generated recognizer $R_A$ satisfying
+$$
+  \mathsf{AcceptGateFlow}_{R_A}(S,A,O,s).
+$$
+The same accepted-theorem condition places this gate in the finite evidence carried by $T$: because the export is a theorem-ledger claim and the ledger is complete, the gate cannot be external unstated data; it must occur either as a certificate subflow of $T$ or as a ledger citation retained by $T$. Thus the mature-object export claim projects to a concrete recognized AcceptGate witness for $O$ at $s$.
+\end{proof}

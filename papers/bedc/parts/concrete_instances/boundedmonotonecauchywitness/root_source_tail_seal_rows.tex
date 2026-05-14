@@ -77,3 +77,96 @@ Now use convergence-seal input totality and route determinacy. Theorems \autoref
 
 It remains to exhaust the visible coordinates of the route. The source theorem accounts for the displayed $\BHist$ rows, the tail and seal theorems account for the $\hsame$ and $\Cont$ rows, and the local package and certificate rows provide exactly the $\Pkg$ and $\NameCert$ witnesses attached to $P$ and $N$. Since the carrier contains no coordinate for a selected limit, quotient equality, host real equality, trichotomy, open-cover compactness, or alternate tail selector, none of those objects can serve as a Real-seal route for $W$.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness tail seal row determinacy]
+\label{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose two downstream convergence-seal reads preserve the same source row $S$, the same public $\MonotoneCauchyUp$ tail source, the same $\RegularCauchyTailMeetUp$ window, the same $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and the same structural rows $H,C,P,N$. Then the two reads determine the same visible $\RealUp$ seal row $Q$.
+
+Equivalently, the displayed tail route fixes the downstream seal row: no accepted read preserving those rows may replace $Q$ by a selected limit, quotient equality, host real equality, trichotomy branch, open-cover compactness witness, ambient completeness object, or alternate tail selector.
+\end{theorem}
+\begin{proof}
+First use source-row exhaustion. By \autoref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion}, every source-facing coordinate of $W$ is one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Thus two reads preserving the same source row cannot choose a second source socket from outside the displayed packet.
+
+Next apply the tail-window lock and route determinacy. The tail-window lock forces both reads through the same public $\MonotoneCauchyUp$ source and the same $\RegularCauchyTailMeetUp$ window, while \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy} fixes the sibling route through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+
+Finally use the Real-seal route totality. The terminal $\RealUp$ read is a carrier coordinate of the same accepted packet, and the structural rows $H,C,P,N$ are preserved by hypothesis. The coordinate exhaustion in \autoref{thm:bounded-monotone-cauchy-witness-tail-real-seal-route-totality} leaves $Q$ as the only visible terminal seal row and excludes selected limits, quotient equality, host real equality, trichotomy, open-cover compactness, ambient completeness, and alternate tail selectors.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_tail\_seal\_row\_determinacy}
+
+\begin{theorem}[Bounded monotone Cauchy witness Cauchy-ledger readback exactness]
+\label{thm:bounded-monotone-cauchy-witness-cauchy-ledger-readback-exactness}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Any $\CauchyWitnessLedgerUp$ readback that consumes the bounded monotone witness factors through the same $\MonotoneCauchyUp$, $\RegularCauchyTailMeetUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ route fixed by \autoref{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy}. Such a readback cannot introduce a selected limit, quotient equality, host real equality, choice row, hidden tail oracle, ambient completeness object, or alternate completion route.
+\end{theorem}
+\begin{proof}
+First read the source surface. By \autoref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion}, every source-facing coordinate available to the ledger is one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next lock the tail and seal route. The tail-window theorem forces the read through $\MonotoneCauchyUp$ and $\RegularCauchyTailMeetUp$, while convergence-seal input totality and route determinacy insert $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ in the displayed order.
+
+Finally apply tail seal row determinacy. Once the ledger preserves the same source, tail, seal, transport, route, provenance, and naming rows, the visible $\RealUp$ seal row is fixed as $Q$. Coordinate exhaustion leaves no socket for a selected limit, quotient equality, host real equality, choice row, hidden tail oracle, ambient completeness object, or alternate completion route, so the ledger readback is exact.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness criterion-ledger route totality]
+\label{thm:bounded-monotone-cauchy-witness-criterion-ledger-route-totality}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\CauchyCriterionUp$ consumer or $\CauchyWitnessLedgerUp$ consumer that reads the bounded monotone witness factors through the same route fixed by \autoref{thm:bounded-monotone-cauchy-witness-cauchy-ledger-readback-exactness}: the $\MonotoneCauchyUp$ source, the $\RegularCauchyTailMeetUp$ tail window, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, together with the structural rows $H,C,P,N$.
+
+Consequently the criterion-ledger route for $W$ is total on the displayed packet coordinates. It has no selected limit, quotient stream equality, host real equality, choice row, hidden tail oracle, ambient completeness object, open-cover compactness row, or alternate completion route.
+\end{theorem}
+\begin{proof}
+Start with source-row exhaustion. Theorem~\ref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion} identifies every source-facing read of $W$ with one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so a criterion or ledger consumer has no carrier coordinate outside the displayed packet.
+
+Next lock the tail window. Theorem~\ref{thm:bounded-monotone-cauchy-witness-tail-window-lock} routes every tail-facing read through $\MonotoneCauchyUp$ and $\RegularCauchyTailMeetUp$ before any terminal $\RealUp$ seal row is available.
+
+Now use convergence-seal route determinacy and tail seal row determinacy. Theorems~\ref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy} and~\ref{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy} fix the passage through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, and they fix the visible seal row once $H,C,P,N$ are preserved.
+
+Finally apply the Cauchy-ledger readback exactness theorem. The readback theorem identifies the ledger-facing route with the same displayed route, while the preceding coordinate exhaustion accounts for all rows of $W$. There is therefore no remaining socket for a selected limit, quotient stream equality, host real equality, choice row, hidden tail oracle, ambient completeness object, open-cover compactness row, or alternate completion route.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness selector-free Real route]
+\label{thm:bounded-monotone-cauchy-witness-selector-free-real-route}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\RealUp$-facing route through the bounded monotone witness is exhausted by the displayed source row, the $\MonotoneCauchyUp$ tail source, the $\RegularCauchyTailMeetUp$ tail window, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, and the structural rows $H,C,P,N$. No such route can introduce a selected limit, quotient equality, host real equality, choice row, hidden tail oracle, ambient completeness object, or alternate completion route.
+\end{theorem}
+\begin{proof}
+Start with source-row exhaustion. Theorem~\ref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion} identifies every source-facing read of $W$ with one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so a Real-facing consumer has no second carrier surface outside the displayed packet.
+
+Next apply the tail-window lock. Theorem~\ref{thm:bounded-monotone-cauchy-witness-tail-window-lock} routes each tail-facing read through $\MonotoneCauchyUp$ and $\RegularCauchyTailMeetUp$ before any terminal $\RealUp$ row can be read.
+
+Now use convergence-seal route determinacy. Theorem~\ref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy} fixes the sibling chain through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ in that order.
+
+Then apply tail seal row determinacy. Theorem~\ref{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy} fixes the visible $\RealUp$ seal row once the same source, tail, seal, transport, continuation, provenance, and naming rows are preserved.
+
+Finally use Cauchy-ledger readback exactness. Theorem~\ref{thm:bounded-monotone-cauchy-witness-cauchy-ledger-readback-exactness} identifies the ledger-facing route with the same displayed route, and \autoref{thm:bounded-monotone-cauchy-witness-criterion-ledger-route-totality} accounts for the criterion side. The named source, tail, seal, and structural rows therefore exhaust the Real handoff, leaving no socket for a selected limit, quotient equality, host real equality, choice row, hidden tail oracle, ambient completeness object, or alternate completion route.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness dyadic-radius budget preservation]
+\label{thm:bounded-monotone-cauchy-witness-dyadic-radius-budget-preservation}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\RealUp$-facing route preserving the bounded monotone source $S$ and the regular tail rows $\sigma,\mu,\lambda$ also preserves the dyadic radius budget through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and the final $\RealUp$ seal row $Q$. Such a route cannot replace that budget by a selected limit, host real equality, quotient equality, trichotomy branch, open-cover compactness row, or alternate completion route.
+\end{theorem}
+\begin{proof}
+Start with source-row exhaustion. Theorem~\ref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion} confines every source-facing read to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so preservation of $S$ and the regular tail rows already fixes the carrier surface on which the dyadic budget can be read.
+
+Next apply the tail-window lock. Theorem~\ref{thm:bounded-monotone-cauchy-witness-tail-window-lock} routes the preserved tail data through $\MonotoneCauchyUp$ and $\RegularCauchyTailMeetUp$ before a $\RealUp$-facing read can reach the terminal seal.
+
+Use convergence-seal route determinacy and tail seal row determinacy. Theorems~\ref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy} and~\ref{thm:bounded-monotone-cauchy-witness-tail-seal-row-determinacy} fix the passage through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, and they fix the visible seal row $Q$ once the source, tail, transport, continuation, provenance, and naming rows are preserved.
+
+Finally apply the selector-free Real route. Theorem~\ref{thm:bounded-monotone-cauchy-witness-selector-free-real-route} exhausts every $\RealUp$-facing route by the same displayed source, tail, dyadic, regular-sequence, limit-seal, Real-seal, and structural rows. Coordinate exhaustion therefore leaves no route on which a selected limit, host real equality, quotient equality, trichotomy branch, open-cover compactness row, or alternate completion route could replace the dyadic radius budget.
+\end{proof}

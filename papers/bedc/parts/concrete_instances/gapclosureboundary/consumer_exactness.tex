@@ -1,0 +1,49 @@
+\begin{theorem}[GapClosureBoundary downstream branch determinacy]
+\label{thm:gap-closure-boundary-downstream-branch-determinacy}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ and every hard-problem consumer among $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$, the consumer chooses exactly one of the displayed root branches: the source route
+$$
+G \longrightarrow S
+$$
+or the refusal route
+$$
+G \longrightarrow R.
+$$
+The structural rows $H,C,P,N$ carry the chosen branch and do not create a consumer-specific third route.
+\end{theorem}
+\begin{proof}
+Start with hard-problem consumer factorization and closure-request determinacy, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization} and \autoref{thm:gap-closure-boundary-closure-request-determinacy}. They place every listed consumer inside the packet $G,S,R,H,C,P,N$ and determine whether a root request is source-supported or refusal-routed.
+
+For the source case, apply sibling source totality. A supported consumer first displays the route $G \longrightarrow S$ before $H,C,P,N$ can transport, route, package, or name the read.
+
+For the refusal case, apply refusal route determinacy. When the source route is absent, the same consumer is routed to $R$ over $H,C,P,N$ and cannot choose a hidden closure row, private source row, or hidden $\mathsf{T}$ supply.
+
+Structural row conservation then excludes a third branch. The rows $H,C,P,N$ conserve the selected source/refusal branch rather than adding another consumer route.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal source coverage]
+\label{thm:gap-closure-boundary-refusal-source-coverage}
+The source and refusal branches of an accepted $\GapClosureBoundaryUp$ packet jointly cover all accepted hard-problem reads by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$. A listed read is accepted only through $G \longrightarrow S$ with $H,C,P,N$ or through $G \longrightarrow R$ with $H,C,P,N$; there is no accepted third route outside $G,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First expose the shared boundary carrier by \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. The accepted packet has exactly the request, source, refusal, transport, continuation, provenance, and local naming rows.
+
+Use source-refusal orthogonality to separate the two possible reads. The source branch carries a displayed source row, while the refusal branch carries a refusal ledger rather than concealed closure supply.
+
+Apply downstream branch determinacy. Each listed hard-problem consumer is assigned to one of the two branches already displayed by the packet.
+
+Finally apply structural row conservation and refusal non-escape. They rule out hidden closure, hidden $\mathsf{T}$ supply, private access, causal necessity, direct aspect reduction, and off-packet continuation, so the two branches jointly cover the accepted reads.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer exactness package]
+\label{thm:gap-closure-boundary-consumer-exactness-package}
+The consumer exactness surface of $\GapClosureBoundaryUp$ is the finite package consisting of carrier admission for $B=(G,S,R,H,C,P,N)$, downstream branch determinacy, refusal-source coverage, structural row conservation, and the root-unblock package. This surface is exact for the listed hard-problem consumers: it exports the source branch, the refusal branch, and the rows $H,C,P,N$, but it exports no hidden closure, hidden $\mathsf{T}$ supply, private access route, causal-necessity row, direct aspect-reduction row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Carrier admission is given by \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. These results fix the finite packet $G,S,R,H,C,P,N$ before any listed consumer reads the boundary.
+
+Next use downstream branch determinacy. It assigns each accepted consumer read to the displayed source route or the displayed refusal route over the same structural rows.
+
+Then use refusal-source coverage. The two displayed branches cover all accepted hard-problem reads, so no consumer needs an extra route outside the finite packet.
+
+Finally combine structural row conservation with the root-unblock package of \autoref{thm:gap-closure-boundary-root-unblock-package}. The structural rows carry only the selected branch, and the root package records the same source/refusal surface for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$.
+\end{proof}

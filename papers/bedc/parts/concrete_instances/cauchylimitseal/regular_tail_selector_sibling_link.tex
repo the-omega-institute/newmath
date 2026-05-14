@@ -5,6 +5,7 @@
 \label{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}
 Every accepted $\CauchyLimitSealUp$ seal route whose selector and observation-budget reads use the transport surface of \autoref{thm:cauchy-limit-seal-selector-budget-transport} factors first through the accepted $\RegularCauchyTailSelectorUp$ packet of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}. The route reaches the shared $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, and $\RealObservationBudgetUp$ meet only after the regular tail-selector packet has supplied its selected-tail witness and its finite support rows. Consequently the seal route exports no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_regular\_tail\_selector\_sibling\_link}
 \begin{proof}
 Begin with the regular tail-selector packet. The consumer package of \autoref{thm:regular-cauchy-tail-selector-diagonal-consumer-package} supplies one finite selected-tail witness together with the requested precision, $\StreamNameUp$ window, $\RegSeqRatUp$ regularity row, $\DyadicRatCoreUp$ comparison row, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row.
 
@@ -63,4 +64,20 @@ Next use budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-s
 Now apply the non-escape boundary of \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. It removes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness from the export inventory.
 
 Finally use window support determinacy from \autoref{thm:cauchy-limit-seal-tail-selector-window-support-determinacy}. The selected-tail witness, shared window, dyadic ledger, regular-sequence handoff, Real seal, and observation-budget meet are determined by the single accepted packet, so every compatible public export factors through precisely that route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal regular tail-selector classifier stability]
+\label{thm:cauchy-limit-seal-regular-tail-selector-classifier-stability}
+Let two accepted $\CauchyLimitSealUp$ routes be related by the local classifier of the chapter. If the first route factors through the accepted $\RegularCauchyTailSelectorUp$ packet of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}, then the transported route factors through the transported regular tail-selector packet. The transported factorization preserves the selected-tail witness, the $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, the $\RealObservationBudgetUp$ meet, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate is exported by the classifier transport.
+\end{theorem}
+\begin{proof}
+First apply the sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link} to the source route. It gives the accepted regular tail-selector packet before the selected-tail witness, StreamName window, dyadic ledger, regular-sequence handoff, Real seal, observation-budget meet, transport, continuation, provenance, and naming rows are read.
+
+Next use budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-selector-budget-compatibility}. The selector-facing, budget-facing, and completion-facing reads are one finite route, so the local classifier has a single support packet to transport rather than separate selector and budget witnesses.
+
+Now apply choice-free selector stability from \autoref{thm:cauchy-limit-seal-choice-free-selector-stability}. The classifier transport preserves the admitted selector route, the finite support windows, the dyadic ledger, the displayed $\hsame$ comparisons, and the $\Cont$ replay rows. Thus the transported route lands in the transported regular tail-selector packet with the same selected-tail witness surface.
+
+Use window support determinacy from \autoref{thm:cauchy-limit-seal-tail-selector-window-support-determinacy} to identify the transported packet's public rows. The selected-tail witness, StreamName window, DyadicRatCore ledger, RegSeqRat handoff, Real seal, and RealObservationBudget meet are the rows determined by that one packet, and the displayed $\Pkg$ and $\NameCert$ rows travel with the same classifier route.
+
+Finally invoke the non-escape theorem \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. Since neither the source factorization nor the classifier transport contains quotient stream identity, host real equality, choice-selected limits, hidden family limits, or ambient completeness, the transported public export remains exactly the regular tail-selector factorization described above.
 \end{proof}

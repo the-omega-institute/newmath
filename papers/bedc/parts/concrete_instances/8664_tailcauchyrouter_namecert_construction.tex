@@ -1,0 +1,146 @@
+\chapter{A Concrete Naming Certificate for $\TailCauchyRouterUp$}
+\label{ch:concrete-instances-tailcauchyrouter-namecert}
+\origin{ai}
+
+The $\TailCauchyRouterUp$ packet realizes the tail-selection route used by the Real-completion vision of \autoref{ch:visions-real-completeness}. It sits after the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the regular-Cauchy source surface of \autoref{ch:concrete-instances-regularcauchysequence-namecert}, the limit handoff of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite route certificate for a displayed tail selector, not a quotient stream equality, ambient completeness theorem, hidden choice principle, or host-level real equality.
+
+\begin{definition}[Tail Cauchy router carrier]
+\label{def:tailcauchyrouter-carrier}
+A $\TailCauchyRouterUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,M,W,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the tail selector that names the accepted tail threshold for the requested precision;
+\item $M$ is the shared modulus row used by every source and consumer read in the packet;
+\item $W$ is the finite $\StreamNameUp$ and $\RegSeqRatUp$ window reached at the selected tail;
+\item $R$ is the regular-Cauchy source row whose tail is being routed;
+\item $L$ is the $\CauchyLimitSealUp$ handoff row fed by the selected window and source row;
+\item $E$ is the terminal $\RealUp$ seal endpoint exported to the consumer;
+\item $H$ records componentwise $\hsame$ transport for the selector, modulus, window, source, limit handoff, endpoint, route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from the selected tail and shared modulus to the window, from the window and source row to the limit handoff, and from the handoff to the Real endpoint;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchySequenceUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TailCauchyRouterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a second selector, unbounded window, quotient stream equality, detached Real endpoint, ambient completeness, or a limit handoff not fed by the displayed source row.
+\end{definition}
+
+\begin{theorem}[Tail Cauchy router carrier exposure]
+\label{thm:tailcauchyrouter-carrier-exposure}
+For the carrier of \autoref{def:tailcauchyrouter-carrier}, the local $\NameCert_{\TailCauchyRouterUp}$ surface exposes exactly the finite rows
+$$
+S,M,W,R,L,E,H,C,P,N.
+$$
+Every accepted packet makes the selector, shared modulus, finite StreamName and RegSeqRat window, regular-Cauchy source row, CauchyLimitSeal handoff, Real endpoint, transport, continuation, provenance, and local naming rows available as named coordinates.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The tuple lists the selector, modulus, window, source, handoff, endpoint, transport, continuation, provenance, and local naming rows as finite coordinates.
+
+The exclusion clause of the carrier forbids any second selector, unbounded window, quotient equality, detached endpoint, ambient completeness row, or unrelated handoff coordinate. Thus the listed coordinates are exactly the exposed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Tail selector determinacy]
+\label{thm:tailcauchyrouter-selector-determinacy}
+Inside an accepted $\TailCauchyRouterUp$ packet, the tail selector row $S$ determines the window row $W$ relative to the shared modulus $M$. A consumer cannot replace $S$ by a different selector while keeping the same local NameCert row $N$ and the same displayed route rows $C$.
+\end{theorem}
+\begin{proof}
+Read the continuation row $C$ from the selector side. It records the route from $S$ and $M$ to the finite window $W$, so the window admitted by the certificate is the one reached by the displayed selector and modulus.
+
+If a consumer replaces $S$ while keeping $N$ and $C$, the first continuation edge no longer has the source named by the carrier. The replacement is therefore outside the accepted NameCert packet rather than a second accepted tail route.
+\end{proof}
+
+\begin{theorem}[Tail modulus-window coverage]
+\label{thm:tailcauchyrouter-modulus-window-coverage}
+Every accepted $\TailCauchyRouterUp$ packet covers the selected tail window by the shared modulus row $M$. The finite row $W$ must contain the StreamName observations and RegSeqRat readback needed by the regular-Cauchy source row $R$ at the tail named by $S$.
+\end{theorem}
+\begin{proof}
+Use the carrier exposure theorem to isolate $S,M,W,R$. The packet contains a single shared modulus row and a single finite window row, so all source and consumer reads pass through those displayed coordinates.
+
+The continuation row $C$ binds $S$ and $M$ to $W$, then binds $W$ to the source row $R$. Hence a window lacking the StreamName observations or RegSeqRat readback required at the selected tail is not covered by the certificate.
+\end{proof}
+
+\begin{theorem}[Tail seal non-escape]
+\label{thm:tailcauchyrouter-seal-non-escape}
+The $\CauchyLimitSealUp$ row $L$ of an accepted $\TailCauchyRouterUp$ packet is fed only by the displayed window row $W$ and regular-Cauchy source row $R$. No accepted packet exports a limit handoff detached from the selected tail route.
+\end{theorem}
+\begin{proof}
+Inspect the route row $C$. Its middle segment reaches $L$ from $W$ and $R$, after $W$ has already been selected by $S$ under the shared modulus $M$.
+
+The carrier contains no detached handoff coordinate. Therefore any proposed limit seal not fed by the displayed selected window and source row has no coordinate in the local packet and is outside the certificate.
+\end{proof}
+
+\begin{theorem}[Tail RealUp consumer handoff]
+\label{thm:tailcauchyrouter-realup-consumer-handoff}
+Every consumer route from an accepted $\TailCauchyRouterUp$ packet to a public $\RealUp$ endpoint factors through
+$$
+S,M,W,R,L,E,H,C,P,N.
+$$
+The consumer receives the Real endpoint $E$ only after the selected tail window has fed the displayed $\CauchyLimitSealUp$ row $L$.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure. A consumer can inspect only the displayed selector, modulus, window, source, handoff, endpoint, transport, continuation, provenance, and naming rows.
+
+Follow the displayed continuation route. It first selects and covers the finite tail window, then feeds the CauchyLimitSeal row from that window and the regular-Cauchy source, and only then reaches the Real endpoint.
+
+Since no detached endpoint or ambient completeness coordinate occurs in the carrier, every accepted Real-facing consumer route factors through the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Tail Cauchy router RegSeqRat route totality]
+\label{thm:tail-cauchy-router-regseqrat-route-totality}
+Every $\RegSeqRatUp$ read admitted by an accepted $\TailCauchyRouterUp$ packet reaches the consumer only through
+$$
+S,M,W,R,H,C,P,N.
+$$
+Here $W$ is the finite $\StreamNameUp$ and $\RegSeqRatUp$ window selected by $S$ under the shared modulus $M$. The packet has no unbounded window coordinate and no RegSeqRat route outside the displayed finite window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tailcauchyrouter-carrier}. The RegSeqRat-facing rows available before the limit handoff are the selector $S$, shared modulus $M$, finite window $W$, regular-Cauchy source row $R$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+
+Use \autoref{thm:tailcauchyrouter-carrier-exposure} and \autoref{thm:tailcauchyrouter-selector-determinacy}. They expose the displayed rows and bind $W$ to the selected tail route, so a consumer cannot replace the selected window while keeping the same packet.
+
+Finally apply \autoref{thm:tailcauchyrouter-modulus-window-coverage}. The RegSeqRat readback required by $R$ is covered inside $W$, and the carrier contains no unbounded window coordinate. Hence every admitted RegSeqRat read is total only along the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Tail Cauchy router dyadic budget non-escape]
+\label{thm:tail-cauchy-router-dyadic-budget-nonescape}
+In an accepted $\TailCauchyRouterUp$ packet, every dyadic tolerance and budget read is confined to the shared modulus $M$, selected tail $S$, finite window row $W$, and route provenance $H,C,P,N$. No dyadic budget can be imported from a hidden selector, detached window, quotient stream equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier rows for the budget-facing route. The only dyadic control row is the shared modulus $M$, and it is paired with the selected tail row $S$ before the route reaches the finite window $W$.
+
+Apply \autoref{thm:tailcauchyrouter-selector-determinacy}. The selector cannot be changed while preserving the same continuation row, so a second dyadic schedule would not be a read of the accepted packet.
+
+Then apply \autoref{thm:tailcauchyrouter-modulus-window-coverage}. The budget reaches the StreamName and RegSeqRat observations through $W$, with $H,C,P,N$ recording transport, continuation, provenance, and local naming. The carrier exposure theorem supplies no hidden selector, detached window, quotient equality, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Tail Cauchy router Real seal handoff]
+\label{thm:tail-cauchy-router-real-seal-handoff}
+The Real seal endpoint $E$ of an accepted $\TailCauchyRouterUp$ packet is public only after the selected window $W$ and source row $R$ feed the displayed $\CauchyLimitSealUp$ row $L$. The handoff exports no quotient stream equality, host real equality, hidden choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:tailcauchyrouter-seal-non-escape}. The limit row $L$ is fed only by the displayed finite window $W$ and regular-Cauchy source row $R$, after $W$ has been selected from $S$ under the shared modulus $M$.
+
+Now apply \autoref{thm:tailcauchyrouter-realup-consumer-handoff}. Every Real-facing consumer route factors through the full displayed packet $S,M,W,R,L,E,H,C,P,N$, so the endpoint $E$ is visible only downstream of the selected window and limit handoff.
+
+The carrier exposure theorem supplies no quotient stream equality, host real equality, hidden choice row, or ambient completeness row. Therefore the public seal handoff is exactly the displayed finite route to $E$.
+\end{proof}
+
+\falsifiablePrediction{Any accepted TailCauchyRouterUp packet whose selected tail window does not feed the displayed CauchyLimitSeal row is outside the certificate.}
+
+\independenceWitness{streamname, regseqrat, regularcauchysequence, cauchylimitseal, real: TailCauchyRouterUp is not bijective to any sibling because it carries a route row binding all five surfaces at once; the siblings expose point streams, regular sequence rows, Cauchy input data, limit seals, or RealUp endpoints separately.}
+
+The Lean site \texttt{lean4/BEDC/Derived/TailCauchyRouterUp/TasteGate.lean} must provide \texttt{Nontrivial TailCauchyRouterUp} and \texttt{FieldFaithful TailCauchyRouterUp} instances for the same displayed carrier.
+
+\closureat{TailCauchyRouterUp}{seedStr}
+
+\begin{closurestatus}{\TailCauchyRouterUp}
+  \constructivestory{A $\TailCauchyRouterUp$ packet is generated from a tail selector, shared modulus, finite StreamName and RegSeqRat window, regular-Cauchy source row, CauchyLimitSeal handoff, RealUp endpoint, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tailcauchyrouter-carrier}, \autoref{thm:tailcauchyrouter-carrier-exposure}, \autoref{thm:tailcauchyrouter-selector-determinacy}, \autoref{thm:tailcauchyrouter-modulus-window-coverage}, \autoref{thm:tailcauchyrouter-seal-non-escape}, \autoref{thm:tailcauchyrouter-realup-consumer-handoff}, \autoref{thm:tail-cauchy-router-regseqrat-route-totality}, \autoref{thm:tail-cauchy-router-dyadic-budget-nonescape}, and \autoref{thm:tail-cauchy-router-real-seal-handoff} specify the finite tail-selection route from StreamName and RegSeqRat windows to CauchyLimitSeal and RealUp handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, hidden choice, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector determinacy, modulus-window coverage, seal non-escape, RealUp consumer handoff, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

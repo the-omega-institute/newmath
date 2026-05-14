@@ -98,6 +98,95 @@ Apply the local obligation theorem. It says that package provenance through $P$ 
 Finally combine readback exactness with route stability. The public route already ties $B$ to $T$, $R$, and $S$ through $H$ and $C$, so $P,N$ can only certify that displayed route and cannot supply an extra provenance channel for any excluded host-side or unbounded cellular object.
 \end{proof}
 
+\begin{theorem}[CellularCarrierEncoding obligation closure]\label{thm:cellular-carrier-encoding-obligation-closure}
+For every accepted $\CellularCarrierEncodingUp$ carrier $E=(B,T,R,S,H,C,P,N)$, the carrier exposure of \autoref{def:cellular-carrier-encoding-carrier}, the $\NameCert$ obligation surface of \autoref{thm:cellular-carrier-encoding-namecert-obligations}, cell-row embedding non-escape, readback exactness, route stability, and provenance exhaustion supply the complete paper obligation surface for the finite BHist-to-cell-row carrier. A consumer of the packet may use only the displayed $\BHist$ row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ row, and sibling cellular rows named by the carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its visible data are exactly the rows $B,T,R,S,H,C,P,N$, so every public read begins from the same finite packet and no host-side coordinate is available at the carrier boundary.
+
+Apply the local NameCert obligation theorem to expose the duties attached to those rows. The source row, readback row, embedding coordinate, substrate witness, transports, routes, provenance, and local naming row are all certificate duties of the same packet.
+
+Use the four later row theorems to close the surface. Non-escape forces cellular reads through $R$, readback exactness ties $T$ to $B$ before $R$ is consumed, route stability keeps the replay inside $B,T,R,S,H,C$, and provenance exhaustion keeps $P,N$ from adding any extra channel.
+
+Therefore the listed rows supply the whole paper obligation surface: carrier, NameCert, non-escape, readback, route, and provenance are consumed together, and the packet exposes no further primitive or evaluator.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding primitive scope binding]\label{thm:cellular-carrier-encoding-primitive-scope-binding}
+The $\CellularCarrierEncodingUp$ paper surface binds only the primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CellularAutomatonUp$, and $\CellularTrustSubstrateUp$. In particular, the obligation closure of \autoref{thm:cellular-carrier-encoding-obligation-closure} does not quantify over a host byte carrier, a global cellular evaluator, an orbit quotient, an unstated row coordinate, or any primitive outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The source row is a $\BHist$ row; stability and replay are expressed by $\hsame$ and $\Cont$; provenance and local naming are expressed by $\Pkg$ and $\NameCert$.
+
+The only cellular dependencies named by the packet are the sibling $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ rows recorded in the provenance and substrate witness. No separate carrier coordinate names a byte-level encoding, global evaluator, quotient, or hidden row coordinate.
+
+Apply obligation closure. Since the closed paper surface is exhausted by the displayed rows and the listed row theorems, every primitive used by the chapter is one of the named BEDC objects, and no outside primitive is introduced by the closure claim.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding sibling scope binding]\label{thm:cellular-carrier-encoding-sibling-scope-binding}
+The $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ sibling rows in a $\CellularCarrierEncodingUp$ carrier are consumed as visible dependencies of the finite embedding and provenance route. They are not hidden cellular evaluators, and they do not supply an unbounded substrate read or a second route around the displayed $B \longmapsto T \longmapsto R \longmapsto S$ path.
+\end{theorem}
+\begin{proof}
+The sibling rows enter through $S$ and $P$. The substrate witness $S$ names the cellular surface used to read the embedded row, and $P$ records the provenance of that use beside the local carrier, kernel relations, and naming row.
+
+Route stability fixes how those rows are consumed. The displayed route reaches the sibling surface only after $B$ is encoded as $T$ and placed by $R$, and $H,C$ transport and replay that route without adding another evaluator.
+
+Provenance exhaustion and non-escape rule out the remaining alternatives. The sibling rows certify the visible finite dependency already present in the packet; they do not create a detached cellular computation, an unbounded orbit read, or a bypass around the carrier's displayed path.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding cell-row accountability]
+\label{thm:cellular-carrier-encoding-cell-row-accountability}
+Every accepted $\CellularCarrierEncodingUp$ packet read of the bit encoding and readback row $T$ exposes the cell-row embedding coordinate $R$ before the carrier can be consumed as a cellular row. The route cannot bypass $R$ through a hidden offset, host byte layout, unstated default fill, detached evaluator, or unrecorded row slice.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-carrier-encoding-carrier}. The bit encoding and readback data are stored in $T$, while the only row that places that word inside a cellular row is $R$.
+
+Use readback exactness and non-escape, \autoref{thm:cellular-carrier-encoding-readback-exactness} and \autoref{thm:cellular-carrier-encoding-nonescape}. They force the route from the source trace through $T$ and then through the displayed embedding coordinate before any cellular carrier read is available.
+
+The excluded alternatives are absent carrier coordinates. Since the packet stores no hidden offset, host byte layout, detached evaluator, unrecorded default fill, or second row slice, the accepted read exposes $R$ as its only cell-row accountability witness.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding substrate witness completeness]
+\label{thm:cellular-carrier-encoding-substrate-witness-completeness}
+Every substrate-facing read of an accepted $\CellularCarrierEncodingUp$ packet factors through the displayed $\CellularTrustSubstrateUp$ sibling row and the existing $\CellularAutomatonUp$ dependency named by $S$ and $P$. No extra substrate carrier, global cellular evaluator, unbounded orbit, or detached trust path is available outside that displayed sibling route.
+\end{theorem}
+\begin{proof}
+Read the substrate coordinates from the carrier. The row $S$ names the cellular substrate witness, and the provenance row $P$ records the $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ dependencies used by that witness.
+
+Apply sibling scope binding. It states that the cellular siblings are consumed as visible dependencies of the finite embedding and provenance route, with no hidden evaluator or unbounded substrate read.
+
+Finally combine route stability with provenance exhaustion. The $\hsame$ and $\Cont$ rows preserve the same $B,T,R,S$ path, and $P,N$ name only that path. Thus a substrate-facing consumer has no route to any extra substrate carrier beyond the displayed sibling rows.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding TasteGate readiness surface]
+\label{thm:cellular-carrier-encoding-tastegate-readiness-surface}
+For every accepted $\CellularCarrierEncodingUp$ packet $E=(B,T,R,S,H,C,P,N)$, the carrier definition, falsifiable prediction, independence witness, local \NameCert{} obligations, non-escape theorem, readback exactness, route stability, provenance exhaustion, primitive scope binding, sibling scope binding, cell-row accountability, and substrate witness completeness are exactly the paper rows that a later Lean $\mathsf{Nontrivial}\ \mathsf{CellularCarrierEncodingUp}$ and $\mathsf{FieldFaithful}\ \mathsf{CellularCarrierEncodingUp}$ instance must consume. The readiness surface is only the displayed route through $B,T,R,S,H,C,P,N$ and contains no host byte string, hidden row offset, detached evaluator, unbounded orbit, quotient encoding coordinate, or unrecorded substrate witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-carrier-encoding-carrier}. It displays the source $\BHist$ row, bit encoding and readback row, cell-row embedding coordinate, cellular substrate witness, transports, continuations, provenance, and local naming row.
+
+Use the falsifiable prediction, independence witness, local \NameCert{} obligations, and non-escape theorem. These identify the admissible consumer route and rule out carrier coordinates for host byte strings, hidden evaluator state, quotient encodings, and unrecorded substrate witnesses.
+
+Readback exactness and route stability then bind the route $B \longmapsto T \longmapsto R \longmapsto S$. The encoding row $T$ is read back from $B$, the embedding coordinate $R$ is exposed before any cellular row is consumed, and $H,C$ preserve the same displayed route.
+
+Finally combine provenance exhaustion, primitive scope binding, sibling scope binding, cell-row accountability, and substrate witness completeness. They attach the route to the visible $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ sibling rows through $S$ and $P$, while excluding hidden row offsets, detached evaluators, unbounded orbits, quotient encoding coordinates, and unrecorded substrate witnesses. This is precisely the paper-side surface that the Lean TasteGate instances must inhabit.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding status obligation closure]
+\label{thm:cellular-carrier-encoding-status-obligation-closure}
+For every accepted $\CellularCarrierEncodingUp$ packet $E=(B,T,R,S,H,C,P,N)$, the carrier exposure, local \NameCert{} obligations, non-escape boundary, readback exactness, route stability, provenance exhaustion, primitive scope binding, sibling scope binding, cell-row accountability, substrate witness completeness, and TasteGate readiness surface form the finite obligation surface for the AI-origin packet. Any later Lean TasteGate-facing consumer must use the same displayed rows
+$$
+B,T,R,S,H,C,P,N
+$$
+rather than a host byte string, hidden row offset, detached cellular evaluator, unbounded orbit, quotient encoding coordinate, or unrecorded substrate witness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local naming surface. The carrier of \autoref{def:cellular-carrier-encoding-carrier} exposes exactly $B,T,R,S,H,C,P,N$, while \autoref{thm:cellular-carrier-encoding-namecert-obligations} and \autoref{thm:cellular-carrier-encoding-nonescape} bind the admitted rows and exclude host byte strings, detached evaluators, quotient encodings, and hidden substrate witnesses.
+
+Next read the finite route. Readback exactness, route stability, provenance exhaustion, and primitive scope binding force the consumer path through $B$, then $T$, then $R$, with $H,C,P,N$ preserving and naming that same path. The sibling scope binding, cell-row accountability, and substrate witness completeness theorems attach the route to the displayed $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ rows without adding a second evaluator.
+
+Finally use the TasteGate readiness surface. \autoref{thm:cellular-carrier-encoding-tastegate-readiness-surface} identifies exactly these rows as the paper surface for later $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances, and the falsifiable prediction records the concrete row whose failure would invalidate the packet's consumer-facing status. Thus the obligation closure is the displayed finite surface, not any host representation outside it.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
@@ -110,5 +199,5 @@ The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} an
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, hidden offset exclusion beyond the displayed packet, or bridge checking.}
-  \upgradepath{Obligation closure requires carrier admission, bit-readback exactness, cell-row embedding accountability, substrate witnessing, route stability, provenance, non-escape, and Lean TasteGate instances for the same finite packet.}
+  \upgradepath{Obligation closure requires binding the displayed accountability and substrate witness obligations to the BHist, hsame, Cont, CellularAutomatonUp, and CellularTrustSubstrateUp source rows, plus Lean TasteGate instances for the same finite packet.}
 \end{closurestatus}

@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CompilerTraceFaithfulnessUp$}
+\label{ch:concrete-instances-compilertracefaithfulness-namecert}
+\origin{ai}
+
+The $\CompilerTraceFaithfulnessUp$ surface turns the compiler-correctness reading of \autoref{ch:visions-compilation-as-namecert-morphism} into an atomic finite packet. It consumes the morphism rows of \autoref{ch:concrete-instances-namecertmorphism-namecert}, the compiler graph rows of \autoref{ch:concrete-instances-certificatecompiler-namecert}, and the kernel morphism boundary of \autoref{ch:concrete-instances-kernelmorphism-namecert}, but it adds a displayed source-to-target replay route for trace faithfulness. The packet does not assert host compiler semantics, program equivalence, a decompiler inverse, or ambient semantic preservation outside the displayed certificate rows.
+
+\falsifiablePrediction{Every accepted compiler trace faithfulness packet preserves source hsame as target hsame through a displayed finite graph replay route; a packet missing the replay route is rejected.}
+
+\independenceWitness{namecertmorphism, certificatecompiler, kernelmorphism, haltingtraceclassifier: none is bijective because CompilerTraceFaithfulnessUp carries both compiler graph replay and source-target hsame preservation, while the siblings lack one of those rows.}
+
+\begin{definition}[CompilerTraceFaithfulness carrier]
+\label{def:compiler-trace-faithfulness-carrier}
+A $\CompilerTraceFaithfulnessUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,K,M,G,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row whose carrier and classifier provide the accepted source histories;
+\item $T$ is the target $\NameCert$ row whose carrier and classifier receive target histories;
+\item $K$ is the accepted $\CertificateCompilerUp$ packet reading the finite compiler graph from $S$ to $T$;
+\item $M$ is the accepted $\KernelMorphismUp$ row exposing the same source, target, graph, carrier-admission, and classifier-lift surface;
+\item $G$ is the finite compiler graph row shared by $K$ and $M$;
+\item $R$ is the displayed replay route assigning each accepted source trace window a finite graph path in $G$;
+\item $L$ is the classifier and $\hsame$ lift row stating that source classifier agreement and source $\hsame$ are transported to target classifier agreement and target $\hsame$ along the replay route;
+\item $H$ records componentwise $\hsame$ transport for the source, target, compiler packet, kernel morphism packet, graph, replay route, lift row, continuation row, package row, and local naming row;
+\item $C$ records the displayed $\Cont$ replay by which consumers read source windows, graph edges, target windows, and transported classifier rows;
+\item $P$ names the dependency surface $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\NameCertMorphismUp$, $\CertificateCompilerUp$, and $\KernelMorphismUp$;
+\item $N$ is the local $\NameCert_{\CompilerTraceFaithfulnessUp}$ row.
+\end{enumerate}
+The local classifier compares two accepted packets only through the displayed source and target certificate rows, the shared compiler graph, the replay route, the classifier and $\hsame$ lift row, transport, continuation replay, package provenance, and local naming.
+\end{definition}
+
+\begin{definition}[CompilerTraceFaithfulness classifier]
+\label{def:compiler-trace-faithfulness-classifier}
+The classifier of a $\CompilerTraceFaithfulnessUp$ packet accepts a source-target trace comparison exactly when it reads a source trace window from $S$, follows the displayed replay route $R$ through graph edges of $G$, lands in the target row $T$ through the carrier rows already exposed by $K$ and $M$, and then transports classifier membership and $\hsame$ through $L,H,C$.
+
+Thus trace faithfulness is not a judgment about arbitrary source and target behaviors. It is a finite relation on displayed replay paths whose endpoints are already certified by the source and target $\NameCert$ rows.
+\end{definition}
+
+\begin{theorem}[CompilerTraceFaithfulness NameCert obligations]
+\label{thm:compiler-trace-faithfulness-namecert-obligations}
+For the carrier and classifier of \autoref{def:compiler-trace-faithfulness-carrier} and \autoref{def:compiler-trace-faithfulness-classifier}, the local $\NameCert_{\CompilerTraceFaithfulnessUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier exposure: the accepted object is the finite packet $F=(S,T,K,M,G,R,L,H,C,P,N)$;
+\item compiler graph admission: every replayed edge is a displayed edge of $G$ whose endpoints are admitted by the compiler packet $K$ and the kernel morphism packet $M$;
+\item replay totality: every accepted source trace window consumed by the classifier has a finite route in $R$ ending in the displayed target row;
+\item classifier and $\hsame$ preservation: source classifier membership and source $\hsame$ are transported to the target classifier and target $\hsame$ only through $L,H,C$;
+\item non-escape: no host compiler semantics, quotient program equality, decompiler inverse, selected behavior, or target object outside $S,T,K,M,G,R,L,H,C,P,N$ is exported.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite tuple. The rows $S,T,K,M,G,R,L,H,C,P,N$ are the only coordinates available to the local classifier and to downstream consumers.
+
+Compiler graph admission is inherited from the two sibling routes. The $\CertificateCompilerUp$ packet of \autoref{ch:concrete-instances-certificatecompiler-namecert} supplies finite graph edges and endpoint landing, while the $\KernelMorphismUp$ packet of \autoref{ch:concrete-instances-kernelmorphism-namecert} exposes the same edge and classifier-lift surface as a kernel morphism boundary.
+
+Replay totality is the additional row $R$. A source trace window is accepted only when $R$ displays a finite path through $G$ and reaches the target row already certified by $T$.
+
+Finally the preservation and non-escape obligations are read from $L,H,C,P,N$. The lift row records classifier and $\hsame$ transport, the continuation and package rows replay and name the same route, and the absence of any other coordinate rules out host compiler semantics, quotient equality, inverse data, selected behaviors, and undisplayed target objects.
+\end{proof}
+
+\begin{theorem}[CompilerTraceFaithfulness finite replay boundary]
+\label{thm:compiler-trace-faithfulness-finite-replay-boundary}
+Every accepted $\CompilerTraceFaithfulnessUp$ packet preserves source $\hsame$ as target $\hsame$ only through the displayed finite graph replay route
+$$
+S \to G \to R \to T
+$$
+inside $F=(S,T,K,M,G,R,L,H,C,P,N)$. The consumer must first read the source certificate, the accepted compiler packet, the kernel morphism row, the graph row, the replay route, and the classifier and $\hsame$ lift row before it may export target agreement. A packet without the replay route $R$ is not accepted as compiler trace faithfulness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and classifier definitions. They place the source row, target row, compiler packet, kernel morphism row, graph row, replay route, and lift row inside one finite packet.
+
+Use the NameCert obligations. Graph admission forces every replay edge through $G,K,M$, while replay totality forces every accepted source trace window through $R$ before a target row can be read.
+
+The preservation row $L$ then transports source classifier membership and source $\hsame$ to the target side, with $H$ and $C$ preserving the same route componentwise. Package provenance and local naming close the packet without adding another source of agreement.
+
+If $R$ is absent, the replay-totality obligation has no coordinate to read. The packet may still resemble a compiler graph or kernel morphism packet, but it cannot certify trace faithfulness because the source-to-target route has not been displayed.
+\end{proof}
+
+\begin{theorem}[CompilerTraceFaithfulness downstream target]
+\label{thm:compiler-trace-faithfulness-downstream-target}
+The Lean-facing downstream surface for $\CompilerTraceFaithfulnessUp$ is the packet family to be recorded under $\mathsf{Derived/CompilerTraceFaithfulnessUp/TasteGate.lean}$ with explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances. The target checks that the finite replay route $R$, the classifier and $\hsame$ lift row $L$, and the support rows $H,C,P,N$ are all present before a compiler trace faithfulness packet is admitted.
+\end{theorem}
+\begin{proof}
+The carrier and obligations already name the data that the downstream gate must inspect. A nontrivial instance requires an accepted packet with a displayed replay route, and a field-faithful instance requires each visible row of $F$ to remain recoverable from the admitted packet.
+
+The finite replay boundary supplies the consumer condition. Admission can be tested by projecting $R,L,H,C,P,N$ from the packet and checking that the target-side agreement is read only after the source route has passed through the displayed compiler graph.
+
+No extra semantic object is part of this target. The file path names the later Lean surface, while the paper packet fixes the row inventory that such a gate must preserve.
+\end{proof}

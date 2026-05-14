@@ -258,6 +258,38 @@ Coordinate exhaustion gives the conclusion. Since none of the three packets expo
 \end{proof}
 \leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_common\_refinement\_seal}
 
+\begin{theorem}[Real diagonal mesh-budget terminal budget refinement]
+\label{thm:real-diagonal-mesh-budget-terminal-budget-refinement}
+Let an accepted $\RealDiagonalMeshBudgetUp$ packet have selected mesh windows and dyadic ledger rows that agree with a $\CauchySharedTailModulusUp$ route and a $\DiagonalLimitCompatibilityUp$ route as displayed rows. Then every terminal $\RealUp$ or $\CompletionUp$ seal consumer for those routes is forced through the same finite budget-refinement packet: the selected mesh windows, regular readbacks, dyadic ledger, diagonal aggregation row, shared-tail threshold, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The terminal consumer cannot introduce a selected limit, quotient stream, host real equality, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the local mesh-budget route. \autoref{thm:real-diagonal-mesh-budget-scoped-route} confines every accepted consumer route to the displayed precision request, finite budget, selected windows, readbacks, dyadic ledger, aggregation, Real seal, transport, continuation, provenance, and local naming rows.
+
+Use consumer-scope exhaustion next. By \autoref{thm:real-diagonal-mesh-budget-consumer-scope-exhaustion}, those rows exhaust the mesh-budget surface, so a terminal seal consumer has no mesh-side coordinate beyond the finite packet.
+
+Now attach the downstream budget and common-refinement surfaces. \autoref{thm:real-diagonal-mesh-budget-observation-budget-handoff} places the finite observation-budget handoff before the Real seal, and \autoref{thm:real-diagonal-mesh-budget-common-refinement-seal} pulls the mesh-budget, shared-tail, and diagonal-limit routes back to one finite refinement surface.
+
+Finally synchronize the two adjacent routes. \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization} keeps the shared-tail threshold attached to the same windows and readbacks, while \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization} fixes the diagonal seal source before any seal-facing read is consumed.
+
+The terminal consumer therefore reaches only the finite budget-refinement packet named in the statement. Since the cited routes export no selected limit, quotient stream, host real equality, or ambient completeness coordinate, none can be introduced at the terminal $\RealUp$ or $\CompletionUp$ seal.
+\end{proof}
+
+\begin{theorem}[Real diagonal mesh-budget terminal route readback]
+\label{thm:real-diagonal-mesh-budget-terminal-route-readback}
+Let an accepted $\RealDiagonalMeshBudgetUp$ packet have selected mesh windows and dyadic ledger rows that agree, as displayed routes, with a $\CauchySharedTailModulusUp$ route and a $\DiagonalLimitCompatibilityUp$ route. Then a terminal $\RealUp$ or $\CompletionUp$ seal read for this triple is admitted if and only if it factors through the finite budget-refinement packet consisting of the selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledger, diagonal aggregation row, shared-tail threshold, $\RealObservationBudgetUp$ handoff, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Equivalently, the terminal $\RealUp$ and $\CompletionUp$ consumer surface is exactly the finite route displayed by the mesh-budget packet together with the shared-tail and diagonal-limit routes. It contains no additional selected limit, quotient stream, host real equality, ambient completeness, or choice coordinate.
+\end{theorem}
+\begin{proof}
+For the forward implication, apply \autoref{thm:real-diagonal-mesh-budget-terminal-budget-refinement}. Any terminal $\RealUp$ or $\CompletionUp$ seal consumer is forced through the selected mesh windows, regular readbacks, dyadic ledger, diagonal aggregation, shared-tail threshold, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then apply \autoref{thm:real-diagonal-mesh-budget-observation-budget-handoff} to insert the $\RealObservationBudgetUp$ handoff in the displayed order before the Real seal.
+
+For the readback implication, begin with a route that factors through the stated finite packet. Use \autoref{thm:real-diagonal-mesh-budget-seal-route-exactness} to read the $\RealUp$ seal only from the selected windows, regular readbacks, dyadic ledger, diagonal aggregation, transport, continuation, package, and naming rows. Use \autoref{thm:real-diagonal-mesh-budget-common-refinement-seal} to identify the same finite packet as the common refinement of the mesh-budget, shared-tail, and diagonal-limit routes.
+
+The adjacent route synchronizations keep this readback terminal. By \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}, the shared-tail threshold is attached to the same windows and readbacks. By \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}, the diagonal-limit source reaches the seal only through the displayed diagonal aggregation, dyadic ledger, window, readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+It remains to exclude hidden coordinates. Apply \autoref{thm:real-diagonal-mesh-budget-consumer-scope-exhaustion}: the accepted carrier has no consumer row beyond the precision request, mesh budget, selected windows, regular readbacks, dyadic ledger, aggregation, observation handoff, Real seal, transports, continuations, provenance, and local naming row. Thus a route through the finite packet is an admitted terminal read, and the missing selected-limit, quotient-stream, host-equality, ambient-completeness, and choice coordinates cannot be supplied by the terminal $\RealUp$ or $\CompletionUp$ seal.
+\end{proof}
+
 \closureat{RealDiagonalMeshBudgetUp}{seedStr}
 \closureat{RealDiagonalMeshBudgetUp}{obligationStr}
 \closureat{RealDiagonalMeshBudgetUp}{scopedStr}[BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage]

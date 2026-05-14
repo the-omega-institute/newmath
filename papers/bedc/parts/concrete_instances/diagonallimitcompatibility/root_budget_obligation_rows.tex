@@ -54,6 +54,7 @@ Finally apply the ledger and consumer boundaries. The ledger row \autoref{thm:di
 \label{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness}
 Let $R_0$ and $R_1$ be $\RealUp$- or $\CompletionUp$-facing consumers of an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose both consumers preserve the displayed diagonal source, dyadic ledger, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. Then $R_0$ and $R_1$ determine the same root-budget terminal route through those rows. There is no second seal, quotient stream, host real equality, selected limit, or ambient completeness coordinate through which either consumer can factor a distinct terminal read.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootBudget\_terminal\_route\_uniqueness}
 \begin{proof}
 First read the root-budget carrier. By \autoref{thm:diagonal-limit-compatibility-root-budget-carrier-row}, both consumers see only the displayed finite packet surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
 
@@ -74,4 +75,40 @@ First apply triad exactness. By \autoref{thm:diagonal-limit-compatibility-root-b
 Next use terminal-route uniqueness. \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness} says that two consumers preserving this same displayed packet inventory determine the same terminal route, so a consumer has no second terminal read through a quotient stream, selected limit, host real equality, choice datum, or ambient completeness coordinate.
 
 The carrier row, classifier row, and ledger row therefore exhaust the visible factorization surface. Any $\RealUp$ or $\CompletionUp$ consumer of the accepted root-budget packet factors through exactly those displayed rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility finite observation-budget factorization]
+\label{thm:diagonal-limit-compatibility-finite-observation-budget-factorization}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ root-budget packet. Suppose a $\RealUp$ or $\CompletionUp$ consumer of $K$ also consumes an accepted $\FiniteObservationBudgetSelectorUp$ packet and an accepted $\CauchySealBudgetSynchronizerUp$ packet on the displayed route. Then the consumer factors through the same finite packet rows: the diagonal source, dyadic ledger $D$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $Q$, $\RealUp$ seal $L$, the finite observation-budget selector rows, the synchronizer request, seal, and budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. The factorization exports no quotient stream, selected host limit, host real equality, countable-choice row, hidden observation budget, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-limit-compatibility-root-budget-real-completion-factorization}. It places the $\RealUp$ or $\CompletionUp$ consumer on the root-budget route through the displayed diagonal source, dyadic ledger, stream window, regular readback, Real seal, componentwise transports, continuations, provenance, and local name.
+
+Next insert the finite observation-budget selector. The route theorem \autoref{thm:diagonal-limit-compatibility-budget-selector-route} says that the selector handoff is mediated only by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, and \autoref{thm:finite-observation-budget-selector-nonescape} excludes quotient streams, host real equality, countable-choice data, hidden limit selectors, and ambient completeness from the selector packet.
+
+Now insert the seal-budget synchronizer. By \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}, the accepted $\CauchySealBudgetSynchronizerUp$ request, seal, budget, selector, compatibility, transport, route, provenance, and local naming rows are read before $Q$ and $L$ are available to the consumer.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape} and root-budget terminal route uniqueness from \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness}. The synchronizer and selector are inserted on the same finite packet route, and terminal uniqueness leaves no second route through a quotient stream, selected host limit, host real equality, countable-choice row, hidden observation budget, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility finite observation-budget refusal exactness]
+\label{thm:diagonal-limit-compatibility-finite-observation-budget-refusal-exactness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ root-budget packet. Any $\RealUp$ or $\CompletionUp$ consumer of $K$ that requests quotient stream identity, a selected host limit, host real equality, a countable-choice row, a hidden observation budget, an independent seal-budget route, or ambient completeness is routed to the visible refusal boundary unless that request first factors through the finite observation-budget selector rows and the $\CauchySealBudgetSynchronizerUp$ rows named in \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-factorization}. Thus the only admitted completion-facing route through $K$ is the displayed finite route through $D$, $W$, $Q$, $L$, the selector packet, the synchronizer request, seal, and budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite factorization theorem. \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-factorization} names the admitted route for any $\RealUp$ or $\CompletionUp$ consumer that has already consumed the accepted $\FiniteObservationBudgetSelectorUp$ packet and the accepted $\CauchySealBudgetSynchronizerUp$ packet on the displayed route.
+
+The selector route gives the first boundary. By \autoref{thm:diagonal-limit-compatibility-budget-selector-route}, the selector handoff reads only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. The selector non-escape theorem \autoref{thm:finite-observation-budget-selector-nonescape} refuses quotient streams, host real equality, countable-choice data, hidden selectors, and ambient completeness outside that finite selector surface.
+
+The synchronizer gives the seal-budget boundary. \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff} places the synchronizer request, seal, and budget rows on the same displayed route before the regular readback $Q$ and Real seal $L$ are available to the consumer. Hence an independent seal-budget route has no separate entry point.
+
+Finally apply root-budget terminal route uniqueness from \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness}. Once the selector and synchronizer rows are not part of the request, the remaining requested coordinates would have to form a second terminal route through quotient identity, a selected host limit, host real equality, choice, hidden observation budget, independent seal budget, or ambient completeness. Terminal uniqueness excludes that second route, so the request is routed to the visible refusal boundary.
 \end{proof}
