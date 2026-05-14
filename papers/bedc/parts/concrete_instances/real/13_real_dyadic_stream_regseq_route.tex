@@ -61,3 +61,56 @@ Then apply \autoref{thm:real-cauchy-window-transducer-seal-route}. The Cauchy wi
 
 These two routes cite sibling chapter surfaces rather than the local Real chapter as their source. The dependency is therefore horizontal in the L10 lattice and cannot be replaced by a Real self-reference, selected host limit, ambient completion object, or direct seal bypass.
 \end{proof}
+
+\begin{theorem}[Real terminal four-face open-phase exit]
+\label{thm:real-terminal-four-face-open-phase-exit}
+Every current Phase Real and Completion terminal $\RealUp$ seal read is
+accepted exactly when its visible rows factor through the ordered four-face
+route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+displayed by the Real L10 dependency lattice. The visible coordinates of the
+exit read are only the displayed $\BHist$ packet, the displayed $\hsame$
+transports, the displayed $\Cont$ routes, the displayed $\Pkg$ provenance
+rows, and the displayed $\NameCert$ rows on those four faces.
+
+Thus no terminal exit read is accepted by quotient stream equality, countable
+choice, host limits, metric completeness, ambient completion, host real
+equality, or any direct edge to the $\RealUp$ seal outside the displayed
+four-face route.
+\end{theorem}
+\begin{proof}
+Suppose first that a current Phase Real or Completion terminal $\RealUp$ seal
+read is accepted. Apply \autoref{thm:real-dyadic-stream-regseq-route}. It
+places the accepted seal read on the ordered dyadic, StreamName, RegSeqRat,
+and Real route and restricts transport to the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next apply
+\autoref{thm:real-streamname-regseqrat-sibling-nonorphan-route}. The route is
+therefore sourced by the sibling DyadicRatCore, StreamName, RegSeqRat, and
+Cauchy-window-transducer surfaces before the local Real seal is public. This
+rules out a local self-reference or a host-completion shortcut as the source
+of acceptance.
+
+Now read the same terminal packet through the Real L10 dependency lattice,
+using \autoref{def:real-l10-dependency-lattice} and
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The lattice
+gives exactly the four displayed faces, and interface totality says that
+current Phase Real and Completion reads have no fifth visible coordinate.
+
+Conversely, suppose that the visible rows of a terminal read factor through
+that ordered four-face route with only the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates. The route theorem supplies the
+accepted Real seal handoff, and the sibling nonorphan route supplies the
+horizontal source through the dyadic, stream, regular-rational, and
+transducer surfaces. The Real L10 interface totality theorem then repacks
+that handoff as the current Phase Real and Completion terminal surface.
+
+The exclusion clause follows from the same three inputs. None of the route,
+sibling, or L10 lattice rows exports quotient stream equality, countable
+choice, host limits, metric completeness, ambient completion, host real
+equality, or a direct seal bypass, so none of those data can certify a
+terminal exit read.
+\end{proof}
