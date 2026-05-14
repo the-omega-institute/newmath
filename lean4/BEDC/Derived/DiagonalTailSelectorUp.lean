@@ -392,6 +392,37 @@ theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
     ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, budgetUnary,
       sealUnary, nMuK, kWD, budgetRoute, sealRoute, pPkg, sealPkg⟩
 
+theorem DiagonalTailSelectorCarrier_real_seal_budget_nonescape [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name publicRow consumer downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorPublicBudgetSource r n mu k w d t s h c p name publicRow
+        bundle pkg →
+      Cont w d t →
+      Cont t s consumer →
+      Cont publicRow consumer downstreamRead →
+      PkgSig bundle consumer pkg →
+      PkgSig bundle downstreamRead pkg →
+        UnaryHistory publicRow ∧ UnaryHistory consumer ∧ UnaryHistory downstreamRead ∧
+          Cont w d t ∧ Cont t s consumer ∧ Cont publicRow consumer downstreamRead ∧
+            PkgSig bundle publicRow pkg ∧ PkgSig bundle consumer pkg ∧
+              PkgSig bundle downstreamRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro source wdRoute consumerRoute downstreamRoute consumerPkg downstreamPkg
+  obtain ⟨carrier, publicRoute, publicPkg⟩ := source
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed pUnary nameUnary publicRoute
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wdRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary consumerRoute
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed publicUnary consumerUnary downstreamRoute
+  exact
+    ⟨publicUnary, consumerUnary, downstreamUnary, wdRoute, consumerRoute,
+      downstreamRoute, publicPkg, consumerPkg, downstreamPkg⟩
+
 theorem DiagonalTailSelectorPublicBudgetSource_real_seal_budget_nonescape
     [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name publicRow sealRead consumer hostTail : BHist}

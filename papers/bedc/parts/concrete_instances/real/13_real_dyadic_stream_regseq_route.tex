@@ -37,3 +37,15 @@ on the single ordered finite route and has no coordinate for quotient real
 equality, host limits, countable choice, ambient completeness, host
 completion, or a direct seal bypass.
 \end{proof}
+
+\begin{theorem}[Real Cauchy window transducer seal route]
+\label{thm:real-cauchy-window-transducer-seal-route}
+Any $\RealUp$ seal read exported by an accepted $\CauchyWindowTransducerUp$ packet factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $\RealUp$. The transducer rows $S,D,W,R,E,L,H,C,P,N$ provide only finite route replay, and they provide no direct seal bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. It places the relevant Real-facing read on the ordered route from DyadicRatCore observations through StreamName finite windows and RegSeqRat regular readback to the Real seal.
+
+Use \autoref{thm:cauchy-window-transducer-regseq-handoff}. In an accepted Cauchy window transducer packet, the seal row $E$ is public only after the RegSeqRat readback row $R$ has been displayed.
+
+Finally apply \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The remaining rows $S,D,W,L,H,C,P,N$ replay the finite route and bind transport, provenance, and local naming. They do not add a quotient Real equality, host limit, countable-choice row, ambient completeness row, or direct edge to the seal.
+\end{proof}
