@@ -1,0 +1,57 @@
+\begin{theorem}[DiagonalLimitCompatibility root selector budget lock]
+\label{thm:diagonal-limit-compatibility-root-selector-budget-lock}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every accepted root-selector packet routes the displayed source budget through the selector row, the seal-synchronizer handoff, the $\BHist$ inventory, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance row, and the local $\NameCert$ row before any diagonal-limit read reaches $D,W,Q,L$. No selector read can bypass that route by a host limit, quotient stream, host real equality, chosen completion point, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:diagonal-limit-compatibility-carrier}. The carrier exposes the diagonal source, triangle and selector-facing budget rows, dyadic ledger, stream window, regular readback, Real seal, transport rows, continuation routes, package provenance, and local name as one finite $\BHist$ surface.
+
+Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. It identifies the selector-budget source with the displayed diagonal route, window row, dyadic ledger, regular readback, Real seal, and structural rows $H,C,P,N$.
+
+Next use \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-handoff}. The synchronizer is read downstream of the same selector-budget prefix, so the root selector cannot obtain an independent seal source before the diagonal-limit read.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-budget-package} and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. They place the diagonal-limit consumer on the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ package and remove every route through host limits, quotient streams, host equality, chosen completion points, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility seal budget route exhaustion]
+\label{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every $\RealUp$ or $\CompletionUp$ seal consumer that reads the selector-budget route factors through the same public route
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+The consumer receives the source budget, selector handoff, seal synchronizer, dyadic ledger, stream window, regular readback, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it cannot export quotient streams, selected limits, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. It fixes the selector-budget route before a diagonal-limit or seal-facing consumer can inspect the readback rows.
+
+Use \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every completion-facing or Real-facing consumer that uses the selector-budget route is exhausted by $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. The inserted synchronizer and tail-schedule route remain part of the same finite compatibility surface, so no second seal route is available.
+
+The exclusion clause follows from \autoref{thm:diagonal-limit-compatibility-root-route-consumer-exactness} and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. The public consumer surface contains only the listed packet rows and has no coordinate for quotient streams, selected limits, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility completion consumer package]
+\label{thm:diagonal-limit-compatibility-completion-consumer-package}
+The root-selector budget lock, the seal-budget route exhaustion row, the root-route budget package, and the seal-source synchronization rows assemble the public completion-facing package for any accepted $\DiagonalLimitCompatibilityUp$ packet:
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+This package exposes the displayed source budget, selector handoff, seal synchronizer, diagonal ledger, window, readback, Real seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it exposes no quotient stream, selected limit, host equality, independent completion object, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock} with \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}. The first theorem fixes the upstream selector route, and the second theorem exhausts the downstream $\RealUp$ and $\CompletionUp$ seal consumers by the same finite package.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It supplies the public route through the budget source, mesh budget, triangle bound, stream window, readback, seal route, Real seal, transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization} and \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. These rows attach the seal source and the synchronizer to the same route before any completion-facing read can consume the seal.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. Since every cited row is a displayed coordinate of the same accepted packet, the assembled package has no route through quotient streams, selected limits, host equality, independent completion data, or ambient completeness.
+\end{proof}
