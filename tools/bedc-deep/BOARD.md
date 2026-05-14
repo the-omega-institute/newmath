@@ -62,51 +62,6 @@ This is a BEDC-native finite certificate export theorem in an existing concrete_
 
 ---
 
-
-### B-742 - MetaCICCriticalPath NameCert obligation surface
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | MetaCICCriticalPath NameCert obligation surface |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-| Landing kind | existing_chapter_obligation |
-
-Problem:
-Under the MetaCICCriticalPath setup, if K=(S,N,O,U,D,H,C,P,L) is an accepted MetaCICCriticalPath carrier, then its local NameCert obligation surface consists exactly of S,N,O,U,D,H,C,P,L and exports no closed subject-reduction theorem or full closed-consistency theorem.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/4237_metaciccriticalpath_namecert_construction.tex`
-
-
-Pre-TasteGate admission:
-- `tastegate_mode`: existing_chapter
-- `elimination_plan`: cut_rank 1: project the nine-row critical-path packet, use the consistency-handoff theorem for the S,N,H,C,P,L route, use the obstruction-boundary theorem for O,U,D,H, and close by row exhaustion of the carrier without introducing a subject-reduction or full-consistency coordinate.
-- `ripeness_risk`: low, the landing file is short, non-hub, and already contains the carrier plus the two component theorems needed for the obligation surface.
-
-Logic packet discipline:
-- `axiom_budget`: B0_finite_witness
-- `strength_level`: B0_finite_witness
-- `budget_reason`: The claim only enumerates and bounds a finite NameCert packet surface; it does not construct normalization, confluence, consistency, or a quotient over terms.
-- `witness_extractor`: critical_path_packet_row_projection
-- `existence_mode`: constructive_witness
-- `cut_rank`: 1
-- `elimination_plan`: cut_rank 1: project the nine-row critical-path packet, use the consistency-handoff theorem for the S,N,H,C,P,L route, use the obstruction-boundary theorem for O,U,D,H, and close by row exhaustion of the carrier without introducing a subject-reduction or full-consistency coordinate.
-- `equality_kind`: propositionally_equal
-- `interpretation_kind`: conservative_extension
-- `resource_trace`: Closed-strong-normalization route S, normal-form consistency row N, subject-reduction obstruction row O, substitution-confluence-decidability handoff U, discharge socket D, transport row H, continuation row C, provenance row P, and local naming row L.
-- `dependency_trace`: Uses def:metacic-critical-path-packet, thm:metacic-critical-path-consistency-handoff, and thm:metacic-critical-path-obstruction-boundary.
-- `oracle_mode`: proof_search
-Rationale:
-This belongs as an existing-chapter obligation theorem for the MetaCICCriticalPath concrete packet. The paper already has the carrier, the consistency handoff, and the obstruction boundary, but it lacks the single NameCert obligation theorem that states the exact local surface and the non-escape conditions together. It is distinct from the completed MetaCIC discharge-obligation BOARD items, which target specific proof-obligation names rather than this critical-path packet surface.
-
----
-
 ### B-743 - Polynomial normalized addition commutativity
 
 | field | value |
@@ -149,7 +104,6 @@ Rationale:
 This is a small but real normalized-polynomial algebra gap: the paper already has raw-add commutativity and defines PolyAdd as trimmed raw addition, while the existing BOARD index contains polynomial multiplication, raw addition associativity, and distributivity targets but no normalized PolyAdd commutativity target. It is concrete, local to the polynomial add/trim files, and should close by applying raw commutativity to trimmed representatives and folding back PolySame.
 
 ---
-
 
 ### B-744 - Polynomial normalized addition zero identity
 
@@ -194,7 +148,6 @@ This fills a distinct normalized-addition identity row, not just another spellin
 
 ---
 
-
 ### B-745 - Module LinearMap zero-map kernel is whole source
 
 | field | value |
@@ -238,7 +191,6 @@ This is a concrete exactness theorem for an existing predicate carrier, not a pa
 
 ---
 
-
 ### B-746 - Module identity LinearMap image is whole target
 
 | field | value |
@@ -281,4 +233,3 @@ Rationale:
 This is a concrete image-coverage row for an existing LinearMap predicate, and it is not covered by the current BOARD titles or the paper's image submodule closure theorem. It gives the expected exactness boundary for the identity map using only the existing image predicate and identity certificate.
 
 ---
-
