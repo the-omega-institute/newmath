@@ -1,0 +1,46 @@
+\begin{theorem}[Real tail-agreement seal budget-source window service]
+\label{thm:real-tail-agreement-seal-budget-source-window-service}
+Every paired tail-window service exposed by an accepted $\RealTailAgreementSealUp$ packet reads the $\RegularCauchyTailBudgetUp$ row and the $\ObservationBudgetLimiterUp$ row before the paired finite-window row $W$ is public. The local packet may then expose
+$$
+R,S,W,D,A,H,C,P,N,
+$$
+but it cannot serve $W$ from an uncapped observation request, an unregistered tail source, a selected limit, or a host convergence witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Q=(R,S,W,D,A,H,C,P,N)$ and use the local $\NameCert_{\RealTailAgreementSealUp}$ obligations. They make the source rows, paired window row, dyadic readback row, agreement row, transport rows, continuation rows, package row, and local name the complete service surface.
+
+Apply budget-window coherence. The finite tail request behind the paired service is the $\RegularCauchyTailBudgetUp$ row, and the observation row serving that request is capped by the $\ObservationBudgetLimiterUp$ route before the local $W$ row is available.
+
+Finally use window-meet coverage and the non-escape theorems. The public service reads the finite StreamName meet and then the local route $W \to D \to A$, while quotient stream equality, selected limits, uncapped observations, and host convergence have no coordinate in the packet.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal shared-threshold budget exactness]
+\label{thm:real-tail-agreement-seal-shared-threshold-budget-exactness}
+For an accepted $\RealTailAgreementSealUp$ packet, the shared $\RegularCauchyTailMeetUp$ threshold together with the $\RegularCauchyTailBudgetUp$ budget source determines the finite window route before any dyadic readback row $D$ or agreement row $A$ is public. Thus the only public agreement route is the budgeted shared-threshold route
+$$
+\RegularCauchyTailBudgetUp \longmapsto \RegularCauchyTailMeetUp \longmapsto W \longmapsto D \longmapsto A.
+$$
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert rows. The local seal has exactly one paired window row $W$, one dyadic readback row $D$, and one agreement row $A$, transported and served only through the displayed histories and continuations.
+
+Use budget-window coherence to place the consumer on the budget source. Then apply the tail-meet factorization: the shared threshold is read before any completion-facing sibling route can consume the local agreement surface.
+
+The window-meet coverage theorem identifies the finite StreamName route feeding $W$, and the window-route exact companion forces the subsequent read through $D$ and then $A$. Non-escape excludes quotient streams, selected tails, host limits, and hidden completion selectors, so the shared threshold and budget source jointly determine the finite route before $D$ and $A$ are exposed.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Real-completion budgeted route]
+\label{thm:real-tail-agreement-seal-real-completion-budgeted-route}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet factors through the budget source, shared threshold, finite windows, dyadic readback, and agreement row before the seal is public. Concretely, the consumer route is confined to
+$$
+\RegularCauchyTailBudgetUp,\ \ObservationBudgetLimiterUp,\ \RegularCauchyTailMeetUp,\ W,\ D,\ A,\ R,S,H,C,P,N,
+$$
+and cannot import quotient stream equality, host real equality, selected limits, ambient completeness, or a second agreement row.
+\end{theorem}
+\begin{proof}
+Start with the RealUp consumer threshold factorization and the Completion consumer ledger. Together they place both Real and Completion consumers on the displayed carrier rows before any public seal read.
+
+Next use the budget-source window service and shared-threshold budget exactness. The consumer first receives the budgeted observation route, then the shared TailMeet threshold, then the finite StreamName windows, dyadic readback row, and agreement row.
+
+It remains to close the public boundary. Apply window-meet coverage, the completion route non-escape theorem, and the Real--Completion boundary theorem. These results keep the route inside the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so no external quotient, host limit, selected tail, ambient completeness proof, or second agreement coordinate can be read before the seal is public.
+\end{proof}
