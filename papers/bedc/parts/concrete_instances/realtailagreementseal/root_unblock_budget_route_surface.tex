@@ -1,0 +1,87 @@
+\begin{theorem}[Real tail-agreement seal limiter-budget factorization]
+\label{thm:real-tail-agreement-seal-limiter-budget-factorization}
+Every paired tail-agreement read of an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ factors first through the finite limiter rows of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert} and the regular tail-budget rows of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}. Only after those two budget services expose the shared threshold may the local route read the displayed $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ readback of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the agreement edge $W \to D \to A$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:real-tail-agreement-seal-carrier}. Its only agreement channel is the displayed row $A$, and that row is attached to the paired window row $W$ and dyadic readback row $D$.
+
+Apply \autoref{thm:real-tail-agreement-seal-shared-tail-budget-extraction}. It sends every Real- or Completion-facing agreement read through the shared finite tail request and the sibling budget route before $W$ and $D$ are consumed.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-completion-handoff-totality}. The Completion endpoint reads only the route already exposed by the limiter and tail-budget services, so the local packet contributes the finite handoff $W \to D \to A$ and no unbounded observation request.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal regular-source transport]
+\label{thm:real-tail-agreement-seal-regular-source-transport}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ and $Q'=(R',S',W',D',A',H',C',P',N')$ be accepted $\RealTailAgreementSealUp$ packets. If the componentwise $\hsame$ rows in $H,H'$ identify the two $\RegSeqRatUp$ source rows through \autoref{ch:concrete-instances-regseqrat-namecert}, the displayed $\StreamNameUp$ window rows through \autoref{ch:concrete-instances-streamname-namecert}, and the $\DyadicRatCoreUp$ readback rows through \autoref{ch:concrete-instances-dyadicratcore-namecert}, then the two regular sources are transported together to the same displayed paired-window agreement row.
+\end{theorem}
+\begin{proof}
+Project the two carriers from \autoref{def:real-tail-agreement-seal-carrier}. The source rows $R,S$ and $R',S'$ are not ambient streams; they are the displayed regular-rational source entries consumed by the window and readback rows.
+
+Use \autoref{thm:real-tail-agreement-seal-shared-tail-budget-extraction} to put both packets on the same finite tail-budget surface. The componentwise $\hsame$ rows then carry the two $\RegSeqRatUp$ sources through the same $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback rows.
+
+Apply \autoref{thm:real-tail-agreement-seal-window-agreement-determinacy}. Once the source transport, shared budget, windows, readbacks, local transports, and naming rows agree, the public agreement row is determined; no separate quotient-stream equality or Completion equality row is available.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Real handoff exhaustion]
+\label{thm:real-tail-agreement-seal-real-handoff-exhaustion}
+Every $\RealUp$-facing consumer of an accepted $\RealTailAgreementSealUp$ packet receives only the finite route
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+The route is reached after the limiter-budget factorization and regular-source transport rows above, and it is the only handoff made available to the Real and Completion sibling surfaces of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-completion-namecert}. It exports no quotient stream equality, selected limit, host convergence predicate, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:real-tail-agreement-seal-carrier}. It lists exactly the regular source rows, paired window, dyadic readback, agreement row, transports, routes, provenance, and local naming row that a Real-facing consumer can inspect.
+
+Apply \autoref{thm:real-tail-agreement-seal-limiter-budget-factorization}. This puts the agreement read behind the observation limiter and regular tail-budget services before the local route $W \to D \to A$ is available.
+
+Next apply \autoref{thm:real-tail-agreement-seal-regular-source-transport}. The source rows are preserved through the displayed StreamName window and DyadicRatCore readback rows, so the Real-facing consumer cannot replace them by a quotient stream or selected tail.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-completion-handoff-totality}. The same finite packet is the boundary seen by Completion-facing consumers, and the Real-facing handoff has no extra carrier coordinate for a selected limit or host convergence predicate.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal shared-threshold window admission]
+\label{thm:real-tail-agreement-seal-shared-threshold-window-admission}
+For every accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, the paired $\StreamNameUp$ windows carried by $W$ are admitted only after the $\ObservationBudgetLimiterUp$ limiter rows and the $\RegularCauchyTailBudgetUp$ threshold rows have been displayed. Thus any public read of $A$ first exposes the finite observation budget, then the regular tail-budget threshold, and only then the paired window service used by $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-tail-agreement-seal-carrier}. The only window service available to the packet is the displayed row $W$, and it is attached to the paired source rows $R,S$ before the readback row $D$ and agreement row $A$ are visible.
+
+Use the NameCert obligations of \autoref{thm:real-tail-agreement-seal-namecert-obligations}. Carrier admission, tail-window coverage, and dyadic readback exactness force the public route to encounter $W$ before $D$ and $A$.
+
+Apply the limiter-budget factorization theorem above and the shared-tail budget extraction row. Together they put that same $W$ behind the observation limiter and regular tail-budget threshold rows, so no accepted packet admits its paired windows through an unbudgeted tail request.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal dyadic readback route totality]
+\label{thm:real-tail-agreement-seal-dyadic-readback-route-totality}
+Every dyadic readback route of an accepted $\RealTailAgreementSealUp$ packet is total only through the displayed chain
+$$
+W \to D \to A.
+$$
+The chain reads the paired $\StreamNameUp$ windows, then the $\DyadicRatCoreUp$ readbacks, then the $\RegSeqRatUp$ agreement row consumed by $\RealUp$; no route from the accepted packet reaches $A$ by skipping $W$ or $D$.
+\end{theorem}
+\begin{proof}
+Begin with the shared-threshold window admission theorem. It places every accepted paired window read behind the limiter and regular tail-budget rows before the local route reaches $W$.
+
+Next apply the regular-source transport theorem above. The two $\RegSeqRatUp$ source rows are transported through the displayed $\StreamNameUp$ windows and $\DyadicRatCoreUp$ readback rows, so the source data seen by the agreement row remain on the same finite route.
+
+Finally use dyadic readback exactness and window-agreement determinacy. These rows make $D$ the readback surface determined by $W$, and make $A$ the agreement row determined by that readback surface; hence the public dyadic readback route is total exactly along $W \to D \to A$.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Real completion consumer exhaustion]
+\label{thm:real-tail-agreement-seal-real-completion-consumer-exhaustion}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet is exhausted by the finite route
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+This route is read together with the sibling budget, tail-meet, tail-fusion, $\CauchyLimitSealUp$, and $\RealUp$ packets; it supplies no quotient stream equality, selected limit, host convergence predicate, open completion selector, or additional consumer row outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start from the Real handoff exhaustion theorem above. It states that a Real-facing consumer can inspect only the displayed rows $R,S,W,D,A,H,C,P,N$ after the limiter-budget and regular-source transport routes have been exposed.
+
+Use the shared-threshold window admission and dyadic readback route totality theorems. They identify the budgeted entrance into $W$ and the complete readback path $W \to D \to A$ used by both Real- and Completion-facing consumers.
+
+Now compose the sibling routes already present in the chapter. The shared-tail budget extraction supplies the budget row, the regular-tail meet and fusion chapters supply the finite tail surfaces, and the Completion handoff totality theorem routes the consumer through the Cauchy-limit and Real sibling packets.
+
+The remaining carrier rows $H,C,P,N$ provide componentwise transport, continuation, provenance, and local naming. Since these are the only structural rows in the accepted carrier, the consumer surface has no place to store a quotient stream equality, selected limit, host convergence predicate, or extra completion selector.
+\end{proof}
