@@ -436,6 +436,40 @@ theorem DiagonalLimitCompatibilityRootRouteBudgetPackage [AskSetup] [PackageSetu
       diagonalDyadicRoot, dyadicWindowsReadback, readbackRealSealRoute, provenancePkg,
       rootRoutePkg⟩
 
+theorem DiagonalLimitCompatibility_root_budget_coherence [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetRoot sealBudget publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont diagonal dyadic budgetRoot →
+        Cont budgetRoot sealRow sealBudget →
+          Cont sealBudget realSeal publicRead →
+            PkgSig bundle publicRead pkg →
+              UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory budgetRoot ∧
+                UnaryHistory sealRow ∧ UnaryHistory sealBudget ∧ UnaryHistory realSeal ∧
+                  UnaryHistory publicRead ∧ Cont diagonal dyadic budgetRoot ∧
+                    Cont budgetRoot sealRow sealBudget ∧
+                      Cont sealBudget realSeal publicRead ∧ Cont route cert transport ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory
+  intro carrier diagonalDyadicBudgetRoot budgetRootSealBudget sealBudgetRealSealPublicRead
+    publicReadPkg
+  obtain ⟨diagonalUnary, _triangleUnary, sealRowUnary, dyadicUnary, _windowsUnary,
+    _readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    routeCertTransport, provenancePkg⟩ := carrier
+  have budgetRootUnary : UnaryHistory budgetRoot :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicBudgetRoot
+  have sealBudgetUnary : UnaryHistory sealBudget :=
+    unary_cont_closed budgetRootUnary sealRowUnary budgetRootSealBudget
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealBudgetUnary realSealUnary sealBudgetRealSealPublicRead
+  exact
+    ⟨diagonalUnary, dyadicUnary, budgetRootUnary, sealRowUnary, sealBudgetUnary,
+      realSealUnary, publicReadUnary, diagonalDyadicBudgetRoot, budgetRootSealBudget,
+      sealBudgetRealSealPublicRead, routeCertTransport, provenancePkg, publicReadPkg⟩
+
 theorem DiagonalLimitCompatibilityBudgetSelectorCarrier [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       selector selectedWindow selectedRead selectedSeal : BHist}

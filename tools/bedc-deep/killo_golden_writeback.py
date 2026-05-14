@@ -67,6 +67,7 @@ class WritebackResult:
     appended: bool
     compile_ok: bool
     rejection_reasons: list
+    rejection_codes: list = None  # type: ignore
     error: str = ""
     # On verdict=="compile_failed", carries a compact extract of pdflatex's
     # real error lines (Undefined control seq / Missing / Extra etc.) so
@@ -471,6 +472,7 @@ def writeback(
                 "BEDC-native content. "
                 + "; ".join(external_provenance[:5])
             ],
+            rejection_codes=["external_provenance_leak"],
             logic_audit=logic_audit,
         )
 
@@ -542,7 +544,9 @@ def writeback(
         verdict = str(parsed.get("verdict", "")).lower()
         rejection_reasons = parsed.get("rejection_reasons") or []
         if verdict != "accept":
-            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons), logic_audit=logic_audit)
+            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons),
+                                   rejection_codes=["killo_review_reject"],
+                                   logic_audit=logic_audit)
         # Use claude's content (might have additional cleanup) if present.
         content = str(parsed.get("content") or norm.content)
         tex_rel = str(parsed.get("tex_file") or suggested_target_tex)
@@ -560,16 +564,22 @@ def writeback(
     if target is None:
         return WritebackResult(False, "reject", tex_rel, False, False,
                                 ["resolved tex_file is not a concrete body file"],
+                                rejection_codes=["bad_target_file"],
                                 logic_audit=logic_audit)
 
     if not content.strip():
-        return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"], logic_audit=logic_audit)
+        return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"],
+                                rejection_codes=["empty_content"],
+                                logic_audit=logic_audit)
 
     from locks import file_lock
     with file_lock("paper_writes"):
         appended, original = _append_to_tex(target, content)
         if not appended:
-            return WritebackResult(False, "reject", tex_rel, False, False, [f"append would exceed {MAX_FILE_LINES} lines"], logic_audit=logic_audit)
+            return WritebackResult(False, "reject", tex_rel, False, False,
+                                    [f"append would exceed {MAX_FILE_LINES} lines"],
+                                    rejection_codes=["line_cap"],
+                                    logic_audit=logic_audit)
 
         compile_ok, compile_log = _make_paper()
         if not compile_ok:
@@ -584,6 +594,7 @@ def writeback(
                 True, "compile_failed",
                 str(target.relative_to(REPO_ROOT)),
                 False, False, [],
+                rejection_codes=["compile_failed"],
                 compile_errors=errors,
                 logic_audit=logic_audit,
             )
@@ -606,7 +617,10 @@ def writeback(
             "error": f"closure_candidate failed: {exc}",
         }
 
-    return WritebackResult(True, "accept", tex_result, True, True, [], closure_candidate=closure_review, logic_audit=logic_audit)
+    return WritebackResult(True, "accept", tex_result, True, True, [],
+                           rejection_codes=[],
+                           closure_candidate=closure_review,
+                           logic_audit=logic_audit)
 
 
 def _extract_compile_errors(compile_log: str) -> list[str]:
@@ -692,6 +706,7 @@ def main() -> int:
         "appended": result.appended,
         "compile_ok": result.compile_ok,
         "rejection_reasons": result.rejection_reasons,
+        "rejection_codes": result.rejection_codes or [],
         "error": result.error,
         "closure_candidate": result.closure_candidate or {},
         "logic_audit": result.logic_audit or {},
