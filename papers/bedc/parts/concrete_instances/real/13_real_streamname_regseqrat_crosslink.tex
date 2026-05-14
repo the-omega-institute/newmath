@@ -108,3 +108,19 @@ quotient-real equality, selected host limit, ambient completeness row, or
 direct Real seal edge around StreamName or RegSeqRat has no coordinate from
 which to determine the terminal consumer.
 \end{proof}
+
+\begin{theorem}[Real StreamName RegSeqRat common-refinement consumer lock]
+\label{thm:real-streamname-regseqrat-common-refinement-consumer-lock}
+Every terminal $\RealUp$ seal-facing consumer whose source is a common-refinement $\StreamNameUp$ window and whose regularity witness is $\RegSeqRatUp$ factors through the common-refinement terminal packet, then the $\RegSeqRatUp$ readback, then the $\DyadicRatCoreUp$ observation row, and finally the local $\mathsf{RealUnaryStreamClassifier}$ row. The route exports no quotient-real equality, host sequence equality, selected host limit, ambient $\RealUp$ completeness, independent $\RealUp$ carrier row, or metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-streamname-regseqrat-pointwise-seal-composition}. It sends any accepted Real seal-facing read with a StreamName source and RegSeqRat readback through the finite StreamName window, the regular-rational handoff, and the local Real classifier-facing row.
+
+Next apply \autoref{thm:realup-streamname-regseqrat-dyadic-window-exhaustion}. The dyadic observation row is the only classifier input left after the StreamName and RegSeqRat surfaces have been read.
+
+Use \autoref{thm:real-streamname-regseqrat-terminal-seal-exhaustion} to lock this route at the terminal seal boundary. The local $\NameCert_{\RealUp}$ row can be read only after the source, regularity, dyadic, and classifier coordinates have been consumed.
+
+Now apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The common-refinement terminal packet supplies the StreamName window accepted by the terminal Real seal read. Then \autoref{thm:streamname-real-regseq-terminal-common-window-lock} keeps the RegSeqRat readback on that same common window, and \autoref{thm:streamname-real-regseqrat-seal-common-refinement} identifies the resulting seal route with the common-refinement handoff.
+
+The assembled route therefore reaches the Real classifier only through the common-refinement packet, the RegSeqRat readback, and the DyadicRatCore observation row. None of the cited packets contains a coordinate for quotient-real equality, host sequence equality, selected host limits, ambient Real completeness, independent Real carrier rows, or metric-completeness data, so no terminal consumer can read one from this handoff.
+\end{proof}
