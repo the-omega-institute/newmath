@@ -213,6 +213,7 @@ import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditPacketUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditSealUp.TasteGate
 import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
+import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
