@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\ApophaticFarEndSocketUp$}
+\label{ch:concrete-instances-apophaticfarendsocket-namecert}
+\origin{ai}
+
+The $\ApophaticFarEndSocketUp$ packet realizes the far-end socket reading of \autoref{ch:visions-apophatic-fixed-point-and-inscription} as finite NameCert data. It consumes the socket family row of \autoref{ch:concrete-instances-apophaticsocket-namecert}, the named boundary row of \autoref{ch:concrete-instances-apophaticname-namecert}, the supply-ledger row of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the local inscription row of \autoref{ch:concrete-instances-inscriptionpoint-namecert}, and the observer-history identity discipline of \autoref{ch:concrete-instances-observerhistidentity-namecert}. Its distinguishing role is the paired boundary: the unique far-end row is never internalized, and the local inscription row is still displayed before any observer-facing read is accepted.
+
+\begin{definition}[Apophatic far-end socket carrier]
+\label{def:apophatic-far-end-socket-carrier}
+An $\ApophaticFarEndSocketUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,A,T,G,I,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\ApophaticSocketUp$ row collecting the forward-binding socket family;
+\item $A$ is the $\ApophaticNameUp$ row naming the boundary position without supplying a kernel object;
+\item $T$ is the far-end boundary row recording that every displayed forward socket terminates at the same apophatic position;
+\item $G$ is the $\mathsf{GAP}$ ledger row that marks non-internalization of the far end;
+\item $I$ is the $\InscriptionPointUp$ row recording the local inscription of the far-end boundary on the observer chain;
+\item $O$ is the $\ObserverHistIdentityUp$ row keeping observer identity on the displayed $\BHist$ side;
+\item $L$ is the $\SupplySocketLedgerUp$ row binding socket kind, supply shape, audit gate, and provenance;
+\item $H$ records componentwise $\hsame$ transports for $S,A,T,G,I,O,L,C,P,N$;
+\item $C$ records displayed $\Cont$ routes through the socket row, far-end boundary row, local inscription row, observer-history row, supply ledger, provenance, and local naming row;
+\item $P$ records $\Pkg$ provenance over $\ApophaticSocketUp$, $\ApophaticNameUp$, $\SupplySocketLedgerUp$, $\InscriptionPointUp$, $\ObserverHistIdentityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ApophaticFarEndSocketUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for $\mathsf{T}$ as a kernel object, a state, a record, a $\mathsf{Hist}$ constructor, a subject parameter, a global frame, or an unmarked supply witness.
+\end{definition}
+
+\begin{theorem}[Apophatic far-end socket NameCert obligations]
+\label{thm:apophatic-far-end-socket-namecert-obligations}
+For the carrier of \autoref{def:apophatic-far-end-socket-carrier}, the local $\NameCert_{\ApophaticFarEndSocketUp}$ surface consists exactly of carrier admission for
+$$
+F=(S,A,T,G,I,O,L,H,C,P,N),
+$$
+forward-socket exposure through $S$, apophatic naming through $A$, non-internalized far-end boundary exposure through $T$ and $G$, local inscription exposure through $I$, observer-history identity through $O$, supply-ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $S,A,T,G,I,O,L,H,C,P,N$ are exactly the forward-socket, apophatic-name, far-end boundary, gap ledger, local-inscription, observer-history, supply-ledger, transport, route, provenance, and local naming rows.
+
+Read the sibling packets in order. The socket and name rows come from \autoref{ch:concrete-instances-apophaticsocket-namecert} and \autoref{ch:concrete-instances-apophaticname-namecert}; the supply-ledger row comes from \autoref{ch:concrete-instances-supplysocketledger-namecert}; and the observer-facing rows come from \autoref{ch:concrete-instances-inscriptionpoint-namecert} and \autoref{ch:concrete-instances-observerhistidentity-namecert}.
+
+The rows $T$ and $G$ keep the far end as a boundary name rather than a generated object, while $I$ records the local inscription where the same boundary is read on a displayed chain. Since the carrier has no further coordinate, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Apophatic far-end socket non-escape]
+\label{thm:apophatic-far-end-socket-nonescape}
+An accepted $\ApophaticFarEndSocketUp$ carrier exports only the displayed rows $S,A,T,G,I,O,L,H,C,P,N$. It exports no kernel object named $\mathsf{T}$, no state, no record, no $\mathsf{Hist}$ constructor, no subject parameter behind the trace, no global frame, no unmarked supply witness, and no object-level equality between a self-center and the far-end boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:apophatic-far-end-socket-namecert-obligations}. Every accepted read factors through the finite row inventory $S,A,T,G,I,O,L,H,C,P,N$.
+
+The far-end boundary is recorded only by the paired rows $T$ and $G$. They name the common apophatic far side and record non-internalization; neither row is a kernel value, generated state, record, or $\BHist$ constructor for the far end itself.
+
+The observer-facing read is recorded only by $I$ and $O$. The inscription row is local to the displayed chain, and the observer-history row keeps identity on the $\BHist$ surface. Hence no subject parameter, global frame, hidden supply witness, or object-level equality with $\mathsf{T}$ can be exported.
+\end{proof}
+
+\begin{theorem}[Apophatic far-end socket TasteGate readiness]
+\label{thm:apophatic-far-end-socket-tastegate-readiness}
+The $\ApophaticFarEndSocketUp$ carrier is TasteGate-ready precisely because its non-internalized far-end rows $T,G$ and its local inscription rows $I,O$ are both constructor fields of the same finite packet. A Lean carrier for this chapter must therefore expose a nontrivial witness pair and a field-faithful projection over $S,A,T,G,I,O,L,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The carrier of \autoref{def:apophatic-far-end-socket-carrier} lists the far-end boundary and local inscription rows as ordinary displayed fields rather than as ambient assumptions. A TasteGate encoding can therefore flatten the packet to its finite $\BHist$ field list and read it back by the same constructor.
+
+Nontriviality is witnessed by changing one displayed row while leaving the remaining rows fixed. Field faithfulness is witnessed by constructor-field projection: if two packets agree on $S,A,T,G,I,O,L,H,C,P,N$, then the packets are equal.
+
+The non-escape theorem supplies the semantic boundary for this encoding. Removing $T$ or $G$ loses the non-internalized far-end boundary, while removing $I$ or $O$ loses the local inscription and observer-history discipline. The same finite packet is therefore the correct carrier for the paper-side NameCert surface and the Lean-side TasteGate.
+\end{proof}
+
+\falsifiablePrediction{Removing either the far-end boundary row or the local inscription row makes \autoref{thm:apophatic-far-end-socket-nonescape} false: the former permits a hidden internalizer for $\mathsf{T}$, while the latter permits a detached observer-facing read with no local inscription site.}
+
+\independenceWitness{apophaticsocket, apophaticname, supplysocketledger, inscriptionpoint, observerhistidentity: none is bijective with $\ApophaticFarEndSocketUp$ because this carrier alone pairs the non-internalized far-end rows $T,G$ with the local inscription and observer-history rows $I,O$ while retaining the socket, name, ledger, transport, route, provenance, and local NameCert rows.}
+
+The Lean-side TasteGate surface provides $\mathrm{Nontrivial}\ \ApophaticFarEndSocketUp$ and $\mathrm{FieldFaithful}\ \ApophaticFarEndSocketUp$ instances for the same displayed carrier.
+
+\closureat{ApophaticFarEndSocketUp}{seedStr}
+
+\begin{closurestatus}{\ApophaticFarEndSocketUp}
+  \constructivestory{An $\ApophaticFarEndSocketUp$ packet is generated from a forward-socket row, apophatic-name row, far-end boundary row, gap ledger, local inscription row, observer-history identity row, supply-socket ledger row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apophatic-far-end-socket-carrier}, \autoref{thm:apophatic-far-end-socket-namecert-obligations}, \autoref{thm:apophatic-far-end-socket-nonescape}, and \autoref{thm:apophatic-far-end-socket-tastegate-readiness} bind the far-end socket packet as a finite NameCert surface over the displayed boundary and local inscription rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not internalize $\mathsf{T}$, add a subject parameter, supply a global frame, close a consciousness theorem, or provide a public standard bridge.}
+  \upgradepath{Audit closure requires axiom-purity and bridge checking for the same far-end socket TasteGate carrier.}
+\end{closurestatus}

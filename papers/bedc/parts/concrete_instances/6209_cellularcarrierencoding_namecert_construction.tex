@@ -27,6 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares carriers only by the displayed source $\BHist$ row, bit encoding and readback row, embedding coordinate, substrate witness, transports, continuation routes, package provenance, and local naming row. It has no coordinate for a host byte string, an unstated row offset, an unbounded cellular orbit, a detached substrate evaluator, or a quotient of encodings.
 \end{definition}
+\leanchecked{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CellularCarrierEncoding NameCert obligations]
 \label{thm:cellular-carrier-encoding-namecert-obligations}
@@ -187,15 +188,70 @@ Next read the finite route. Readback exactness, route stability, provenance exha
 Finally use the TasteGate readiness surface. \autoref{thm:cellular-carrier-encoding-tastegate-readiness-surface} identifies exactly these rows as the paper surface for later $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances, and the falsifiable prediction records the concrete row whose failure would invalidate the packet's consumer-facing status. Thus the obligation closure is the displayed finite surface, not any host representation outside it.
 \end{proof}
 
+\begin{theorem}[CellularCarrierEncoding two-witness separation]
+\label{thm:cellular-carrier-encoding-two-witness-separation}
+Let $E_0=(B,T,R_0,S,H,C,P,N)$ and $E_1=(B,T,R_1,S,H,C,P,N)$ be two accepted $\CellularCarrierEncodingUp$ packets whose displayed cell-row embedding coordinates $R_0$ and $R_1$ differ while the source, bit-readback, substrate, transport, continuation, provenance, and naming rows agree. Then $E_0$ and $E_1$ are the canonical witness pair for a later $\mathsf{Nontrivial}\ \CellularCarrierEncodingUp$ instance: the classifier distinguishes them by the $R$ coordinate, and no host byte string, orbit quotient, or hidden substrate evaluator can identify them after acceptance.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers by \autoref{def:cellular-carrier-encoding-carrier}. The two packets share $B,T,S,H,C,P,N$ and differ only in the displayed embedding coordinate.
+
+Use cell-row embedding non-escape and cell-row accountability, \autoref{thm:cellular-carrier-encoding-nonescape} and \autoref{thm:cellular-carrier-encoding-cell-row-accountability}. They force every cellular read through the displayed $R$ row before the packet can be consumed as a cellular carrier.
+
+Readback exactness keeps $T$ tied to the common source row $B$, while route stability keeps $H$ and $C$ from creating a second path around $R$. Thus the classifier's comparison of $R_0$ and $R_1$ is a comparison of carrier data, not a comparison of detached host bytes or orbit representatives.
+
+Finally apply provenance exhaustion and substrate witness completeness. The shared $P,N$ and $S$ rows record only the displayed finite route, so they cannot collapse the two embedding coordinates by a hidden evaluator or unbounded orbit read. The pair $E_0,E_1$ is therefore the paper-side nontriviality witness.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding field projection faithfulness]
+\label{thm:cellular-carrier-encoding-field-projection-faithfulness}
+For accepted $\CellularCarrierEncodingUp$ packets $E$ and $E'$, equality of the ordered field projection
+$$
+(B,T,R,S,H,C,P,N)
+$$
+for $E$ and $E'$ forces equality of the packets. Conversely, a mismatch in any one displayed field is visible to the classifier as a mismatch of the accepted carrier surface.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets using the carrier definition. A $\CellularCarrierEncodingUp$ packet has no fields beyond the ordered rows $B,T,R,S,H,C,P,N$, so equality of the whole projection identifies every constructor row of the packet.
+
+For visibility of mismatches, inspect the same projection one row at a time. A mismatch in $B$ changes the source trace, a mismatch in $T$ changes bit encoding or readback, a mismatch in $R$ changes cell placement, and a mismatch in $S$ changes the displayed substrate witness.
+
+The structural fields are visible for the same reason. Route stability preserves the $H,C$ rows as componentwise transport and replay data, while provenance exhaustion preserves $P,N$ as the package and local naming rows of the same finite carrier.
+
+Therefore the classifier cannot hide a field mismatch inside host bytes, quotient representatives, or detached cellular evaluation. Equality of the ordered projection is equality of accepted packets, and inequality in a displayed field remains classifier-visible.
+\end{proof}
+
+\begin{theorem}[CellularCarrierEncoding formal target boundary]
+\label{thm:cellular-carrier-encoding-formal-target-boundary}
+The paper surface of $\CellularCarrierEncodingUp$ exposes the exact obligations needed by later formal instances. The witness pair of \autoref{thm:cellular-carrier-encoding-two-witness-separation} supplies the displayed paper witnesses for a later
+$$
+\mathsf{Nontrivial}\ \CellularCarrierEncodingUp
+$$
+instance. The ordered projection of \autoref{thm:cellular-carrier-encoding-field-projection-faithfulness} supplies the field-faithful projection consumed by a later
+$$
+\mathsf{FieldFaithful}\ \CellularCarrierEncodingUp
+$$
+instance.
+
+Both obligations are read through the existing checked TasteGate alignment surface and through the carrier rows $B,T,R,S,H,C,P,N$. No host byte string, hidden row offset, detached cellular evaluator, orbit quotient, or unrecorded substrate witness is part of the target surface.
+\end{theorem}
+\begin{proof}
+Apply the checked TasteGate alignment surface named at the chapter opening. It fixes the single-carrier alignment for the displayed $\CellularCarrierEncodingUp$ packet and keeps the paper route on the carrier rows already named by the chapter.
+
+For nontriviality, use \autoref{thm:cellular-carrier-encoding-two-witness-separation}. Its two accepted packets agree on $B,T,S,H,C,P,N$ and differ in the displayed $R$ coordinate, so they give the paper witness pair required by the later $\mathsf{Nontrivial}$ instance.
+
+For field faithfulness, use \autoref{thm:cellular-carrier-encoding-field-projection-faithfulness}. Equality of the ordered projection $B,T,R,S,H,C,P,N$ is equality of accepted packets, and any mismatch in one displayed field remains classifier-visible. Thus the same projection is the ordered-field surface consumed by the later $\mathsf{FieldFaithful}$ instance.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
 
 \begin{closurestatus}{\CellularCarrierEncodingUp}
   \constructivestory{A $\CellularCarrierEncodingUp$ packet is generated from a source $\BHist$ row, bit encoding and readback row, cell-row embedding coordinate, cellular substrate witness row, componentwise transports, displayed continuations, provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, and \autoref{thm:cellular-carrier-encoding-nonescape} bind the finite carrier, NameCert obligations, non-escape theorem, falsifiable prediction, and independence witness while routing cellular dynamics through \autoref{ch:concrete-instances-cellularautomaton-namecert} and substrate witnessing through \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, \autoref{thm:cellular-carrier-encoding-obligation-closure}, \autoref{thm:cellular-carrier-encoding-tastegate-obligation-packet}, and \leanchecked{BEDC.Derived.CellularCarrierEncodingUp.taste\_gate} bind the finite carrier, obligation rows, TasteGate-facing packet, and sibling cellular route.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, hidden offset exclusion beyond the displayed packet, or bridge checking.}

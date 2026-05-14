@@ -223,6 +223,9 @@ instance supplyKindRouterChapterTasteGate : ChapterTasteGate SupplyKindRouterUp 
     intro x y hxy heq
     exact hxy (SupplyKindRouterTasteGate_single_carrier_alignment_injective heq)
 
+def taste_gate : ChapterTasteGate SupplyKindRouterUp :=
+  supplyKindRouterChapterTasteGate
+
 theorem SupplyKindRouterTasteGate_single_carrier_alignment :
     (forall h : BHist, supplyKindRouterDecodeBHist (supplyKindRouterEncodeBHist h) = h) /\
       (forall x : SupplyKindRouterUp,
