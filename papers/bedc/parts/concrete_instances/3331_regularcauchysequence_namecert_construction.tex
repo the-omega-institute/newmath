@@ -213,6 +213,24 @@ Now attach the consumer side. \autoref{thm:real-observation-budget-regseq-real-c
 Finally close the non-escape boundary. \autoref{lem:regular-cauchy-sequence-non-escape} and \autoref{thm:real-observation-budget-nonescape} leave no coordinate for quotient streams, host real equality, selected limits, countable choice, hidden schedules, or ambient completeness, so no consumer can bypass the finite route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence shared-tail threshold extraction]
+\label{thm:regular-cauchy-sequence-shared-tail-threshold-extraction}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. If a downstream $\CauchySharedTailModulusUp$ or $\RealTailAgreementSealUp$ route consumes the selected-window and seal rows of $S$, then that consumer must first expose the same finite $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ ledger row $D$, $\RegSeqRatUp$ readback row $R$, and $\RealUp$ seal row $E$ already displayed by $S$. The shared-tail threshold is therefore extracted from displayed rows of the RegularCauchySequence packet and its sibling consumer routes, not from quotient streams, selected limits, choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with selected-window coverage. By \autoref{thm:regular-cauchy-sequence-selected-window-coverage}, every selected read of $S$ is already routed through the family row $F$, modulus row $\mu$, finite windows $W$, dyadic ledger $D$, regular readback $R$, and the structural rows $H,C,P,N$.
+
+Next use the diagonal-window coverage handoff. \autoref{thm:regular-cauchy-sequence-diagonal-window-coverage-handoff} identifies $G$ as the consumer row that receives exactly those selected windows, dyadic ledger rows, and regular readbacks before any Real-facing handoff is considered.
+
+Now apply the budget-window synchronization theorem, \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}. It synchronizes the selected-window route with the Real observation budget, so a seal-facing consumer cannot replace $W,D,R$ by a hidden schedule or a separate threshold source.
+
+Finally attach the sibling shared-tail surfaces. The $\CauchySharedTailModulusUp$ and $\RealTailAgreementSealUp$ routes consume only displayed finite threshold, window, readback, and seal rows, and \autoref{thm:regular-cauchy-sequence-realseal-handoff} places $E$ after those rows. Together with \autoref{lem:regular-cauchy-sequence-non-escape}, this rules out quotient streams, selected limits, choice, and ambient completeness as sources for the shared threshold.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence diagonal tail selector factorization]
 \label{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}
 Let
