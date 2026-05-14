@@ -616,6 +616,7 @@ import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
+import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
@@ -778,6 +779,7 @@ import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DiagonalModulusUp
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
+import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
