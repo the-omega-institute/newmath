@@ -62,6 +62,24 @@ Use the causal-route handoff in \autoref{thm:observer-locality-transport-namecer
 Finally route through $H,Q,C,P,N$ and check the no-global-frame ledger $L$. The consumer remains inside the finite packet and cannot read a global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed.
 \end{proof}
 
+\begin{theorem}[Observer-locality transport rate pullback]
+\label{thm:observer-locality-transport-rate-pullback}
+Every rate-facing consumer of an accepted $\ObserverLocalityTransportUp$ packet factors through the same finite tuple
+$$
+O,D,R,L,H,Q,C,P,N.
+$$
+In particular, the consumer must read the $\ObserverLocalityCellUp$ row $O$, the $\CrossHistCausalUp$ route family $D$, the $\MaxCausalRateUp$ row $R$, and the $\CrossHistCausalRateUp$ consumer surface through one transport packet. The packet exports no global frame, synchronized clock, metric tensor, Lorentz geometry, host real-valued speed, or detached rate row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:observer-locality-transport-carrier}. The tuple $O,D,R,L,H,Q,C,P,N$ lists the locality cell, causal family, maximum-rate row, no-global-frame ledger, structural rows, provenance, and local naming row available to a rate-facing consumer.
+
+Apply \autoref{thm:observer-locality-transport-namecert-obligations}. The NameCert surface places locality-cell exactness before causal-route handoff, and it requires every maximum-rate read to pass through the displayed causal family.
+
+Now use \autoref{thm:observer-locality-transport-boundary}. It keeps the public consumer inside the same tuple and routes any cross-Hist causal-rate read through the locality cell, causal routes, maximum-rate row, and transport rows.
+
+The non-escape clause follows from the ledger $L$ and carrier inventory. Since no listed coordinate is a global frame, synchronized clock, metric tensor, Lorentz geometry, host real-valued speed, or detached rate row, the accepted transport packet cannot export one.
+\end{proof}
+
 \begin{theorem}[Observer-locality transport TasteGate obligation]
 \label{thm:observer-locality-transport-tastegate-obligation}
 The later Lean \texttt{TasteGate.lean} development for $\ObserverLocalityTransportUp$ must include explicit $\mathsf{Nontrivial}\ \ObserverLocalityTransportUp$ and $\mathsf{FieldFaithful}\ \ObserverLocalityTransportUp$ instances. These instances must preserve the locality-cell row, causal-route family, maximum-rate row, no-global-frame ledger, $\hsame$ transport, $\psame$ stability, $\Cont$ routes, package provenance, and local naming row.

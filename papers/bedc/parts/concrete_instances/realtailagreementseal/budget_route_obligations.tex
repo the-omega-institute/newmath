@@ -90,6 +90,24 @@ Apply the Real-completion budgeted route and the budget-threshold readback exhau
 Carrier projection now leaves exactly the displayed packet coordinates, and non-escape removes every route not represented by those coordinates. Hence quotient stream equality, selected limits, uncapped observation requests, host convergence witnesses, and any second agreement coordinate are outside the terminal consumer surface.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal budget route uniqueness]
+\label{thm:real-tail-agreement-seal-budget-route-uniqueness}
+Every accepted $\RealTailAgreementSealUp$ terminal consumer exposing the public agreement row has the unique public route
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to W \to D \to A \to R,S,H,C,P,N.
+$$
+Any displayed consumer route that omits or reorders the observation cap, the tail budget, the shared $\RegularCauchyTailMeetUp$ threshold, the finite $\StreamNameUp$ window $W$, the dyadic readback row $D$, or the agreement row $A$ is outside the carrier. Thus the agreement seal has no alternate public route through quotient streams, selected limits, uncapped observations, host convergence, or a second agreement row.
+\end{theorem}
+\begin{proof}
+The budget-source window service fixes the first public read. A consumer exposing the agreement row must first pass through the $\ObservationBudgetLimiterUp$ cap and the $\RegularCauchyTailBudgetUp$ source before the finite window $W$ is available.
+
+Shared-threshold budget exactness then fixes the next boundary. The $\RegularCauchyTailMeetUp$ threshold is the only public threshold feeding the displayed finite window, and budgeted TailMeet exhaustion forces the route through $W$, then $D$, then $A$.
+
+The Real-completion budgeted route identifies the remaining public rows as $R,S,H,C,P,N$. Terminal consumer route exhaustion shows that both $\RealUp$ and $\CompletionUp$ consumers read the same displayed carrier route after $A$.
+
+Therefore any route that omits or reorders one of the named rows cannot be a route through the accepted carrier. The non-escape clauses exclude quotient stream equality, selected limits, uncapped observations, host convergence witnesses, and any second agreement row.
+\end{proof}
+
 \begin{theorem}[Real tail-agreement seal root budget-source totality]
 \label{thm:real-tail-agreement-seal-root-budget-source-totality}
 Every root-facing $\RealTailAgreementSealUp$ consumer that exposes the public agreement row must first read $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, the finite $\StreamNameUp$ window $W$, the dyadic readback row $D$, and the agreement row $A$, before any $\RealUp$ or $\CompletionUp$ seal row is public. Thus the root budget-source route is total for agreement-facing consumers and has no quotient stream equality, selected limit, uncapped observation, host convergence witness, or second agreement coordinate.
