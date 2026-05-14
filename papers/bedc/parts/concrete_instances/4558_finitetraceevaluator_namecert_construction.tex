@@ -147,6 +147,83 @@ consumer route factors through the displayed finite route, so the listed rows
 form the whole obligation surface for the bounded evaluator packet.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator evaluation determinacy]
+\label{thm:finite-trace-evaluator-evaluation-determinacy}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, an accepted result row is exposed only through the
+displayed bounded trace rows $T,R,V,H,C,P,N$, where $R$ is the result row read
+at $A$. The packet has no second result channel, host evaluator coordinate,
+truth predicate, or unbounded execution stream from which a consumer could read
+an accepted result.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. The only
+input-to-result route available to a consumer begins at $I$, proceeds through
+the finite trace row $T$, and reaches the accepted-result classifier row $A$.
+Reading $A$ exposes the result row $R$ as part of that same displayed route.
+
+Apply \autoref{thm:finite-trace-evaluator-namecert-obligations}. Its finite
+trace-step exposure and accepted-result classifier clauses say that accepted
+results are classified only after the corresponding bounded trace rows have
+been displayed.
+
+Finally use \autoref{thm:finite-trace-evaluator-object-level-boundary}. The
+remaining rows $V,H,C,P,N$ keep validation, transport, continuation,
+provenance, and local naming on the same finite path, so no hidden evaluator or
+ambient truth predicate can determine an additional result.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator boundary exhaustion]
+\label{thm:finite-trace-evaluator-boundary-exhaustion}
+Every runtime-validation read of an accepted $\FiniteTraceEvaluatorUp$ packet
+remains a boundary read through $V,H,C,P,N$. No row exported by the packet is a
+self-validating runtime coordinate, and no accepted result row can be promoted
+to a host validator for the same evaluator.
+\end{theorem}
+\begin{proof}
+Start with the validation-boundary coordinate in
+\autoref{def:finite-trace-evaluator-carrier}. The carrier lists $V$ as the
+place where host validation is recorded as outside the packet, not as a
+runtime-coordinate constructor.
+
+Apply the runtime-validation non-escape clause of
+\autoref{thm:finite-trace-evaluator-namecert-obligations}. It keeps host
+validation outside $I,T,A,H,C,P,N$ and prevents any packet row from serving as
+its own validator.
+
+Replay \autoref{thm:finite-trace-evaluator-object-level-boundary}. Every
+consumer route passes from $A$ to $V$ and then through $H,C,P,N$, so runtime
+evidence remains boundary evidence throughout the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime nonimport]
+\label{thm:finite-trace-evaluator-runtime-nonimport}
+The object-level runtime evidence read by an accepted
+$\FiniteTraceEvaluatorUp$ packet is routed through
+\autoref{ch:concrete-instances-runtimecandidateboundary-namecert},
+\autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, and
+\autoref{ch:concrete-instances-finite-trace-gap-socket-namecert}. The packet
+does not import those rows as a host validator for its own evaluator; it only
+records their finite boundary, diagonal trace, and finite-window socket as
+displayed object-level dependencies.
+\end{theorem}
+\begin{proof}
+Project the provenance and local naming rows $P,N$ of the carrier. Their
+listed dependencies include the runtime-candidate boundary, the diagonal
+finite-trace packet, and the finite-trace GAP socket as object-level sources
+for the finite evaluator trace.
+
+Apply \autoref{thm:finite-trace-evaluator-namecert-obligations}. Carrier
+admission and ledger exhaustion restrict the dependency read to the displayed
+rows $I,T,A,V,H,C,P,N$, while runtime-validation non-escape keeps a host
+validator outside the packet.
+
+Finally replay \autoref{thm:finite-trace-evaluator-object-level-boundary}. The
+consumer may inspect the bounded trace and accepted-result classifier through
+those dependency routes, but the route never exports total halting, host
+validation, truth for $\mathrm{CIC}^{*}$ sentences, or an unbounded evaluator.
+\end{proof}
+
 \closureat{FiniteTraceEvaluatorUp}{seedStr}
 
 \begin{closurestatus}{\FiniteTraceEvaluatorUp}

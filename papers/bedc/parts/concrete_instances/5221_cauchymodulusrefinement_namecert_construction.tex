@@ -641,6 +641,52 @@ Next apply Real-seal factorization and window-tolerance exactness, \autoref{thm:
 The completion boundary is therefore reached only after the displayed meet, extraction, selector, window, tolerance, readback, and seal rows have been read. Since the packet has no quotient stream, selected host limit, host real equality, hidden selector, side channel completion object, second meet row, or ambient completeness coordinate, the stated handoff exhausts the Real-completeness consumer surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement root window-selector totality]
+\label{thm:cauchy-modulus-refinement-root-window-selector-totality}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every downstream read of a selected finite window or dyadic tolerance row factors through the root route
+$$
+M_0,M_1,U,V,T
+$$
+before it reaches $W$ or $Q$. Thus the selector-budget row $T$ is the total root selector for the displayed $\StreamNameUp$ and $\DyadicRatCoreUp$ window surface used by downstream $\RegSeqRatUp$ and $\RealUp$ consumers.
+\end{theorem}
+\begin{proof}
+First read the root-unblock package of \autoref{thm:cauchy-modulus-refinement-root-unblock-package}. It permits downstream Real-completion consumers to cite the refinement packet only through the displayed finite route.
+
+Next apply selector-budget totality from \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}. This makes $T$ the admitted selector from the extraction witness $V$ to the selected finite-window and dyadic-tolerance surface.
+
+Finally use common-window selector extraction from \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}. It identifies every downstream selected-window read with the same $W,Q$ route through $T$, so no consumer can choose a separate selector after reading $M_0,M_1,U,V$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root readback stability]
+\label{thm:cauchy-modulus-refinement-root-readback-stability}
+For an accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the selected-window and tolerance readbacks $W,Q$ are stable under the componentwise $\hsame$ row $H$ and the displayed route row $C$. Any readback consumed by $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ must use the displayed rows $W,Q,H,C,P,N$, with no hidden selector, quotient stream, selected host limit, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Begin with classifier transport from \autoref{thm:cauchy-modulus-refinement-classifier-transport}. It says componentwise $\hsame$ and the displayed $\Cont$ route carry accepted refinement packets without adding a new coordinate.
+
+Use window-readback exhaustion from \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}. The selected-window and tolerance readbacks are precisely the displayed $W,Q$ rows attached to the packet.
+
+Now combine that exhaustion with root window-selector totality. Since every selected-window read reaches $W,Q$ only through $M_0,M_1,U,V,T$, transport along $H$ and $C$ preserves the same root readback route.
+
+The non-escape boundary of \autoref{thm:cauchy-modulus-refinement-nonescape} rules out hidden selector, quotient stream, selected host limit, host real equality, side channel completion object, second meet row, and ambient completeness coordinates. Therefore the displayed sibling rows exhaust the readback surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root Real seal exhaustion]
+\label{thm:cauchy-modulus-refinement-root-real-seal-exhaustion}
+Every Real-completion consumer of an accepted $\CauchyModulusRefinementUp$ packet reaches the Real seal row $E$ only through the displayed root route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+In particular, the consumer cannot bypass the selector, selected-window readback, componentwise transport, route, package, or local naming rows by appealing to a quotient stream, selected host limit, hidden selector, side channel completion object, second meet row, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the Real-completeness handoff of \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}. It places the meet, extraction, selector, finite-window, tolerance, readback, and seal rows before any completion-facing use.
+
+Apply the diagonal-consumer boundary from \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. This forces Real-completion and diagonal-completion consumers to factor through the displayed sibling dependency lattice and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally combine root readback stability with non-escape, \autoref{thm:cauchy-modulus-refinement-root-readback-stability} and \autoref{thm:cauchy-modulus-refinement-nonescape}. The $W,Q$ readbacks and the seal row $E$ stay on the same displayed route under $H$ and $C$, and no forbidden completion coordinate remains available. Hence $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ exhaust the root Real-seal surface.
+\end{proof}
+
 \closureat{CauchyModulusRefinementUp}{seedStr}
 \closureat{CauchyModulusRefinementUp}{obligationStr}
 
