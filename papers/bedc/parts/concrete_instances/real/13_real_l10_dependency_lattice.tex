@@ -144,3 +144,47 @@ over the four named faces, so quotient stream equality, selected limits, host
 real equality, ambient completeness, and outside seal data have no terminal
 coordinate to consume.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal comparison exhaustion]
+\label{thm:real-l10-terminal-comparison-exhaustion}
+Let $X$ and $Y$ be accepted terminal $\RealUp$ L10 reads. Every
+completion-facing comparison between $X$ and $Y$ factors through the same
+four faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+displayed in \autoref{def:real-l10-dependency-lattice}. The comparison may
+use only the common $\BHist$ packet, the displayed $\hsame$ transports, the
+displayed $\Cont$ routes, the displayed $\Pkg$ provenance, and the local
+$\NameCert$ coordinates of those faces.
+
+No completion-facing comparison of $X$ and $Y$ has a coordinate for quotient
+stream equality, selected limits, host real equality, ambient completeness,
+arithmetic or order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Apply the terminal face order theorem,
+\autoref{thm:real-l10-terminal-face-order}, to both accepted reads. It places
+the dyadic observation face, the finite StreamName window face, the RegSeqRat
+classifier face, and the Real seal face in the same terminal order for $X$
+and $Y$.
+
+Next apply the four-face route lock,
+\autoref{thm:real-l10-four-face-route-lock}. A completion-facing comparison
+cannot leave the displayed route once the two terminal reads have been
+accepted on that route; its transport and readback data remain confined to
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+The shared finite surface is supplied by
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. It identifies
+the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real
+seal boundary as one pullback surface for the two terminal reads.
+
+Finally use the observation triangle
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. The
+dyadic, stream, and regular-rational observations meet on the same finite
+triangle before the Real seal is consumed. Since the cited routes export no
+quotient stream equality, selected limit, host real equality, ambient
+completeness, arithmetic or order package, or metric-completeness coordinate,
+the comparison is exhausted by the four displayed faces.
+\end{proof}

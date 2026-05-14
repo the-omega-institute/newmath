@@ -406,6 +406,64 @@ Finally seal the Real-facing edge. The BHist source scope supplies the permitted
 
 The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, and $\RegularCauchyLimitTransportUp$. The packet is composite because it consumes their rows as coordinates rather than presenting an atomic independent carrier. A later Lean TasteGate module should still provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the packet fields, since the finite carrier separates the comparison, meet, witness, budget, window, ledger, seal, transport, route, provenance, and local certificate coordinates.
 
+\begin{theorem}[Cauchy modulus refinement budget-selector source lock]
+\label{thm:cauchy-modulus-refinement-budget-selector-source-lock}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+every accepted refinement route reads the source schedules, shared meet row, extraction witness, and selector budget
+$$
+M_0,M_1,U,V,T
+$$
+before it reads the selected window ledger $W$, tolerance-readback ledger $Q$, or Real seal row $E$. Thus the budget selector is source-locked to the displayed $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, and $\RegularCauchySelectorBudgetUp$ rows before any downstream $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can be served.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. The displayed tuple places $M_0,M_1,U,V,T$ before the window, tolerance, readback, and seal rows, and no second source, second meet, hidden selector, or host-completeness coordinate appears in the packet.
+
+Apply source-meet exactness from \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}. It forces the witness row $V$ to be read only through $M_0,M_1,U$, so a selected-window route cannot choose its source after the fact.
+
+Next apply selector-budget totality from \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}. The selector budget row $T$ is the sole route from $V$ into the selected finite-window and tolerance surface.
+
+Finally use window-tolerance exactness from \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. It identifies $T,W,Q$ as the exact selected-window and dyadic-tolerance route, so every later read of $W,Q,E$ is already locked to $M_0,M_1,U,V,T$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement diagonal-consumer boundary]
+\label{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}
+Any $\RealUp$ consumer or diagonal-completion consumer of an accepted $\CauchyModulusRefinementUp$ packet factors through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows of
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+No such consumer may read a quotient stream, selected limit, host real equality, hidden selector, second meet row, side channel completion object, or ambient completeness coordinate outside that displayed route.
+\end{theorem}
+\begin{proof}
+Start with the completion boundary of \autoref{thm:cauchy-modulus-refinement-completion-boundary}. It already requires every Real or completion-facing consumer to factor through the displayed packet and the sibling dependency lattice before reading the seal.
+
+Use the BHist source scope and continuation route scope, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope} and \autoref{thm:cauchy-modulus-refinement-cont-route-scope}. These theorems identify the primitive rows as the finite $\BHist$ packet, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, $\NameCert$, and the ordered consumer route from the source schedules to $E$.
+
+Then apply the budget-selector source lock. It places $M_0,M_1,U,V,T$ before the selected-window and tolerance rows, so a diagonal consumer reaches $W,Q,E$ only through the same source-locked route.
+
+Finally apply non-escape from \autoref{thm:cauchy-modulus-refinement-nonescape}. Since all forbidden quotient, selected-limit, host-equality, hidden-selector, second-meet, and ambient-completeness rows are absent from the carrier, the displayed rows exhaust the diagonal-consumer boundary.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root-unblock package]
+\label{thm:cauchy-modulus-refinement-root-unblock-package}
+The root-unblock obligation package for downstream Real-completion consumers of $\CauchyModulusRefinementUp$ is exactly the conjunction of the local $\NameCert$ scope, the budget-selector source lock, and the diagonal-consumer boundary. An accepted downstream route may cite $\CauchyModulusRefinementUp$ only through the rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+and the sibling $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces displayed by those rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cauchy-modulus-refinement-namecert-scope}. It binds the local naming certificate to carrier admission, classifier transport, source-meet exactness, selector-budget and window-tolerance exactness, and Real-seal non-escape.
+
+Next use \autoref{thm:cauchy-modulus-refinement-budget-selector-source-lock}. This supplies the source-lock portion of the package by placing $M_0,M_1,U,V,T$ before $W,Q,E$.
+
+Finally use \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. It supplies the downstream Real and diagonal-completion boundary, excluding quotient streams, selected limits, host real equality, hidden selectors, side channel completion objects, second meet rows, and ambient completeness.
+
+The three clauses use the same displayed carrier and the same sibling rows. Therefore they assemble one root-unblock package rather than three independent routes, and every downstream consumer must cite that package through the displayed finite packet.
+\end{proof}
+
 \closureat{CauchyModulusRefinementUp}{seedStr}
 \closureat{CauchyModulusRefinementUp}{obligationStr}
 
