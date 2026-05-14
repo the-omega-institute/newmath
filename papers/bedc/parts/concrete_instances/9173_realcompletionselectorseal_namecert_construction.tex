@@ -141,4 +141,24 @@ Now apply \autoref{thm:real-completion-selector-seal-nonescape}. Non-escape forc
 Finally use \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. The sibling $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ references are exactly the route positions $W,R,L,E$, so the terminal consumer exhausts the displayed handoff rather than opening another completion surface.
 \end{proof}
 
+\begin{theorem}[Real completion selector-seal terminality]
+\label{thm:real-completion-selector-seal-terminality}
+Any two accepted terminal Real and Completion handoff consumers that expose the same ordered rows
+$$
+B,W,R,L,E,H,C,P,N
+$$
+factor through a unique $\RealCompletionSelectorSealUp$ selector-seal route. Every accepted terminal handoff is exhausted by that route: the selector-budget row $B$, the selected $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\CauchyLimitSealUp$ handoff $L$, the terminal $\RealUp$ endpoint $E$, and the structural rows $H,C,P,N$ are the whole finite NameCert surface available to the consumer.
+
+The terminal route supplies no hidden selector, quotient stream equality, host real equality, detached limit object, second completion route, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First identify the ordered route. Apply \autoref{thm:real-completion-selector-seal-l10-handoff-scope}: every accepted packet reaches the Real and Completion handoff through the sibling $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ positions $W,R,L,E$ after the selector-budget row $B$.
+
+Next enforce the entry and readback constraints. By \autoref{thm:real-completion-selector-seal-selector-budget-totality}, no selected window, readback, limit seal, terminal endpoint, or structural row is readable before $B$. By \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, once $B$ and $W$ are displayed, the regular-rational readback is exactly the row $R$.
+
+Now compare two terminal consumers exposing the same rows. Use \autoref{thm:real-completion-selector-seal-route-determinacy}; equality of the displayed rows $B,W,R,L,E,H,C,P,N$ forces the same finite Real and Completion handoff route, so the selector-seal route through them is unique.
+
+Finally apply \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. It says every terminal handoff consumer has no residual access beyond the displayed route and excludes hidden selectors, external equality coordinates, detached limits, second completion routes, and ambient completeness. Hence every accepted terminal handoff is exhausted by the unique selector-seal route.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp} in \texttt{lean4/BEDC/Derived/RealCompletionSelectorSealUp/TasteGate.lean}.
