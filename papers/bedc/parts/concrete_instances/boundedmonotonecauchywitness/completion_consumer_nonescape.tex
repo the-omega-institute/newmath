@@ -50,3 +50,23 @@ The trap and seal then fix the order of consumption. Apply \autoref{thm:bounded-
 
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} and \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}. The first rules out a second tail service, and the second rules out escape through limit selection, equality principles, completeness, compactness, or choice-like selection. Thus every completion-facing consumer must pass through the scheduled envelope and the finite apartness-budget rows before the seal row is consumed.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness envelope uniqueness]
+\label{thm:bounded-monotone-cauchy-witness-envelope-uniqueness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. If two completion-facing consumer routes for $W$ are admitted before the $\RealUp$ seal row is read, then both routes consume the same scheduled tail envelope rows
+$$
+S,F,\sigma,\mu,\lambda,I,H,C,P,N
+$$
+and only then read the seal row $Q$.
+
+Any claimed difference between the two pre-seal envelopes is not a second completion route for $W$. It is routed to the refusal boundary for selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selectors.
+\end{theorem}
+\begin{proof}
+First identify the exported envelope. By \autoref{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export}, the only public pre-seal service is the displayed tuple $S,F,\sigma,\mu,\lambda,I,H,C,P,N$.
+
+Next apply completion non-escape. \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape} forces every completion-facing consumer of $W$ through that public envelope, the finite-read route, the regular handoff, the located trap, and the seal row.
+
+The apartness and budget rows are fixed before the seal by \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-apartness-budget}. Thus two admitted routes cannot differ on $\sigma,\mu,\lambda,I$ while remaining completion-facing routes for the same accepted packet.
+
+It remains to rule out a second finite envelope with the same visible role. The finite-observation lock \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock} keeps Real-facing finite reads on the displayed rows of $W$, and \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} rules out a hidden tail service. Therefore any disagreement is outside the finite envelope and is handled by the existing refusal boundary for the listed non-envelope principles.
+\end{proof}
