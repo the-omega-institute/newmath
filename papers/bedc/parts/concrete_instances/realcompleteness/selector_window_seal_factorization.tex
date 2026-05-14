@@ -157,3 +157,21 @@ Now seal the consumer boundary. The seal consumer exhaustion theorem leaves no d
 
 Thus $H,C,P,N$ can only transport, replay, authenticate, and name the same ordered route. They do not supply another selected observation or another seal endpoint.
 \end{proof}
+
+\begin{theorem}[Real completeness selector-window terminal export]
+\label{thm:real-completeness-selector-window-terminal-export}
+Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. Once the ordered route
+$$
+\mu,\Delta,D,W,Q,S,H,C,P,N
+$$
+is displayed, every terminal completion-facing export of $R$ factors through the same selector-window-seal packet. The export cannot introduce quotient streams, host-selected limits, countable choice, host equality, hidden completion coordinates, or ambient completeness beyond the rows already displayed by the selector-window-seal factorization.
+\end{theorem}
+\begin{proof}
+Start with selector route coverage. Theorem~\ref{thm:real-completeness-selector-route-coverage} routes selected observations through the displayed $\RealCompletenessUp$ rows before a $\RealUp$ or $\CauchyLimitSealUp$ reader can consume the seal endpoint.
+
+Next use the modulus-selector factorization. Theorem~\ref{thm:real-completeness-modulus-selector-factorization} forces the front of the terminal route through $\mu$ and $\Delta$, then through the dyadic, stream-window, regular-sequence, and real-seal rows $D,W,Q,S$.
+
+Now exhaust the seal-facing consumer. Theorem~\ref{thm:real-completeness-seal-consumer-exhaustion} leaves no downstream route outside the selector-presented rows, and \autoref{thm:real-completeness-selector-window-seal-factorization} identifies the ordered packet used by the terminal reader.
+
+Finally apply \autoref{thm:real-completeness-nonescape-boundary}. It excludes quotient streams, host-selected limits, countable-choice selectors, host equality, hidden completion coordinates, and ambient completeness, so the terminal export is exactly the displayed selector-window-seal packet.
+\end{proof}
