@@ -43,6 +43,54 @@ Terminal exposure is then read through $Q$, and typed normal-form readback is re
 The non-escape clauses follow from the carrier inventory. Since the packet has no coordinate for host conversion, quotient behaviour, an evaluator graph, global confluence, or an external normalizer, no local certificate projection can export one.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm source normalization obligation]
+\label{thm:continuation-trace-normal-form-source-normalization-obligation}
+For every displayed packet
+$$
+Z=(S,T,R,Q,V,H,C,P,N)
+$$
+accepted by $\ContinuationTraceNormalFormUp$, the source-to-trace normalization obligation is exactly the replay from $S$ through the finite $\ContinuationTraceUp$ row $T$, the displayed $\BHist$ and $\BMark$ data inside that row, the continuation routes in $C$, and the local $\NameCert$ row $N$. It contains no host conversion relation, quotient normalization datum, evaluator graph, global confluence theorem, or external normalizer.
+\end{theorem}
+\begin{proof}
+Project $Z$ by \autoref{def:continuation-trace-normal-form-carrier}. The source row $S$, trace row $T$, route row $C$, and local name $N$ are the only source-to-trace replay coordinates in the accepted carrier.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. It certifies trace replay through the $\ContinuationTraceUp$ ledger and the displayed continuation routes before any terminal-read or typed-normal row is consumed.
+
+The excluded host conversion, quotient normalization, evaluator graph, global confluence, and external normalizer objects have no coordinate in $Z$. Hence the source normalization obligation is precisely the displayed $\BHist$, $\BMark$, $\Cont$, and $\NameCert$ route.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm dependency readback obligation]
+\label{thm:continuation-trace-normal-form-dependency-readback-obligation}
+For every displayed packet
+$$
+Z=(S,T,R,Q,V,H,C,P,N)
+$$
+accepted by $\ContinuationTraceNormalFormUp$, dependency readback passes through $\ContinuationTraceUp$, $\ContinuationBigStepUp$, and $\TypedReductionNormalFormUp$ in that order. The rows $T,R,Q,V,H,C,P,N$ expose the trace ledger, terminal row, terminal-read witness, typed normal-form row, componentwise transport, displayed route, provenance, and local name without adding host conversion, quotient normalization, evaluator graphs, global confluence, or external normalizers.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. It places the trace dependency in $T$, the terminal dependency in $R,Q$, and the typed normal-form dependency in $V$, all inside the same finite packet.
+
+Use \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The local certificate reads trace replay, terminal-read exposure, and typed normal-form readback through the displayed rows and records their transports, routes, package row, and local name in $H,C,P,N$.
+
+Since the packet contains no off-route evaluator, quotient normalizer, host conversion relation, global confluence theorem, or external normalizer, dependency readback cannot leave the $\ContinuationTraceUp$, $\ContinuationBigStepUp$, and $\TypedReductionNormalFormUp$ route.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm typed replay obligation]
+\label{thm:continuation-trace-normal-form-typed-replay-obligation}
+For every displayed packet
+$$
+Z=(S,T,R,Q,V,H,C,P,N)
+$$
+accepted by $\ContinuationTraceNormalFormUp$, typed replay reaches the normal-form row $V$ only after the source row $S$, trace ledger $T$, terminal row $R$, terminal-read witness $Q$, transport row $H$, continuation route row $C$, package row $P$, and local name $N$ have been consumed. No host conversion, quotient normalization, evaluator graph, global confluence theorem, or external normalizer can replace that ordered replay.
+\end{theorem}
+\begin{proof}
+Read $V$ from \autoref{def:continuation-trace-normal-form-carrier}. It is not an isolated classifier row; it is attached to the source, trace, terminal, terminal-read, transport, route, provenance, and naming rows of the same accepted packet.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The typed normal-form row is certified only after trace replay and terminal-read exposure have passed through the displayed $\Cont$ routes and the componentwise transport row.
+
+The carrier has no coordinate for host conversion, quotient normalization, evaluator graphs, global confluence, or external normalizers. Thus typed replay reaches $V$ only through $S,T,R,Q,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[ContinuationTraceNormalForm non-escape]
 \label{thm:continuation-trace-normal-form-non-escape}
 Every accepted $\ContinuationTraceNormalFormUp$ packet exposes terminal trace normalization only through the displayed rows
