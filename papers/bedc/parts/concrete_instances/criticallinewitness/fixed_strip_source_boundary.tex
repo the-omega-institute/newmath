@@ -1,0 +1,28 @@
+\begin{definition}[Critical-line witness fixed strip source]
+\label{def:critical-line-witness-fixed-strip-source}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the fixed critical-strip source packet is the displayed finite route over the supplied $\CritStripUp$ row $S$, the depth row $M$ from $\NatUp$, the rational comparison ledger $Q$ from $\RatUp$, the real-part row $R$ from $\RealUp$, the supplied $\ZetaZerosUp$ row $Z$, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. It contains exactly the rows $Z,S,M,R,Q,H,C,P,N$ and no analytic-continuation theorem, host complex-zero classifier, quotient representative, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Critical-line witness fixed-strip modulus refusal]
+\label{thm:critical-line-witness-fixed-strip-modulus-refusal}
+Every zero-strip modulus request served by the fixed critical-strip source packet of \autoref{def:critical-line-witness-fixed-strip-source} may read only the displayed strip row $S$, supplied zero row $Z$, depth-lock row $M$, rational comparison row $Q$, refusal rows $R,H,C,P,N$, and the local source route connecting them. It cannot replace that route by zero search, a hidden depth oracle, host equality, quotient representatives, analytic continuation, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the fixed source packet. Its definition exposes only $Z,S,M,R,Q,H,C,P,N$, so the modulus request begins from the supplied zero, the supplied strip, and the displayed depth and comparison rows.
+
+Use the zero-strip depth lock and root modulus ledger scope, \autoref{thm:critical-line-witness-zero-strip-depth-lock} and \autoref{thm:critical-line-witness-root-modulus-ledger-scope}. They keep the request attached to $Z,S,M,R,Q,H,C,P,N$ and make the comparison ledger the complete root-facing route.
+
+Finally apply the root zero-strip exclusion. It removes zero search, hidden depth oracles, host equality, quotient representatives, analytic continuation, and ambient completeness from the request surface, so the fixed strip source supplies only the displayed refusal rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH consumer nonescape]
+\label{thm:critical-line-witness-rh-consumer-nonescape}
+Every RH-facing consumer of the fixed critical-strip source packet receives only the finite witness boundary $Z,S,M,R,Q,H,C,P,N$. The consumer may cite the supplied $\ZetaZerosUp$ zero, $\CritStripUp$ strip, $\NatUp$ depth row, $\RatUp$ comparison ledger, $\RealUp$ real-part row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but it cannot infer a full $\mathsf{RH}$ proof, analytic continuation theorem, host complex-zero classifier, quotient representative, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the fixed strip source packet. It presents a local witness boundary over the supplied zero and strip rows, not a public theorem about all zeros.
+
+Next apply the fixed-strip modulus refusal theorem. The modulus request and comparison ledger stay inside $Z,S,M,R,Q,H,C,P,N$, with no route to analytic continuation, quotient representatives, host equality, or ambient completeness.
+
+Finally use the root RH-boundary refusal and RH-boundary downstream lock, \autoref{thm:critical-line-witness-root-rh-boundary-refusal} and \autoref{thm:critical-line-witness-rh-boundary-downstream-lock}. These rows identify the RH-facing export as a finite refusal boundary, so no full $\mathsf{RH}$ proof or host complex-zero classifier can be extracted from the fixed strip packet.
+\end{proof}
