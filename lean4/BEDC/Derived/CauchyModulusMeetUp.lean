@@ -320,4 +320,25 @@ theorem CauchyModulusMeetPacket_root_unblock_export [AskSetup] [PackageSetup]
       sharedUnary, realRouteUnary, handoffUnary, hCMu, sharedRow, realRouteRow,
       handoffRow, pPkg, sharedPkg⟩
 
+theorem CauchyModulusMeetPacket_tail_threshold_compatibility [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n tailRead tailRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg →
+      Cont mu p tailRead →
+        Cont tailRead n tailRoute →
+          UnaryHistory mu ∧ UnaryHistory p ∧ UnaryHistory n ∧ UnaryHistory tailRead ∧
+            UnaryHistory tailRoute ∧ Cont h c mu ∧ Cont mu p tailRead ∧
+              Cont tailRead n tailRoute ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet tailReadRow tailRouteRow
+  obtain ⟨_s0Unary, _s1Unary, _mu0Unary, _mu1Unary, muUnary, _hUnary, _cUnary,
+    pUnary, nUnary, _s0Mu0H, _s1Mu1C, hCMu, _samePN, pPkg⟩ := packet
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed muUnary pUnary tailReadRow
+  have tailRouteUnary : UnaryHistory tailRoute :=
+    unary_cont_closed tailReadUnary nUnary tailRouteRow
+  exact
+    ⟨muUnary, pUnary, nUnary, tailReadUnary, tailRouteUnary, hCMu, tailReadRow,
+      tailRouteRow, pPkg⟩
+
 end BEDC.Derived.CauchyModulusMeetUp

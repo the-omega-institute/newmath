@@ -48,6 +48,82 @@ Refinement-source exactness follows from the order of the displayed coordinates 
 Finally, the shared-window and Real-seal clauses use $T,W,Q,E$. Every Real-facing read reaches $E$ only through the selector-budget row, the shared finite-window ledger, and the tolerance-readback ledger, so quotient streams, selected limits, host real equality, and ambient completeness remain outside the packet.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement carrier admission row]
+\label{thm:cauchy-modulus-refinement-carrier-admission}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+carrier admission is exactly the finite $\BHist$ admission of the displayed rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ together with their local $\NameCert$ row $N$. The admitted carrier cites the sibling $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces only through the coordinates displayed in \autoref{def:cauchy-modulus-refinement-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. Its coordinate list is a finite $\BHist$ packet, and the final coordinate $N$ is the local $\NameCert_{\CauchyModulusRefinementUp}$ row naming that same packet.
+
+The bundled obligation theorem supplies the carrier-admission clause for exactly this tuple. It admits the two source schedules, the shared meet row $U$, the extraction witness $V$, the selector budget $T$, the finite window ledger $W$, the tolerance-readback ledger $Q$, the Real seal $E$, and the transport, route, package, and name rows.
+
+The non-escape clause removes every unlisted carrier source. Hence carrier admission for $R$ is projection from the displayed packet and not an admission of a quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared meet dependency row]
+\label{thm:cauchy-modulus-refinement-shared-meet-dependency}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the refinement witness row $V$ depends on the shared $\CauchyModulusMeetUp$ row $U$ by the displayed $\Cont$ route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V.
+$$
+Thus any read of $V$ in the local $\NameCert$ surface also reads the two source schedules and the shared meet row before it reaches the $\CauchyModulusExtractionUp$ witness.
+\end{theorem}
+\begin{proof}
+Read the source portion of the packet. The coordinates place $M_0$ and $M_1$ before $U$, and the continuation row $C$ records the routes from both source schedules to $U$ and from $U$ to $V$.
+
+The bundled refinement-source exactness clause states that $V$ is read only from the two displayed source schedules through $U$. This is the same dependency row used by the sibling $\CauchyModulusMeetUp$ and $\CauchyModulusExtractionUp$ surfaces.
+
+Apply non-escape to the source side. Since no second meet row, external modulus ordering, hidden selector, or host equality coordinate belongs to the carrier, the shared meet row $U$ is the only admitted dependency route into $V$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector budget dependency row]
+\label{thm:cauchy-modulus-refinement-selector-budget-dependency}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, each selected-window read and each tolerance-readback read depends on the selector budget row $T$ through
+$$
+V \longrightarrow T \longrightarrow W \longrightarrow Q.
+$$
+The row $T$ is therefore the displayed $\RegularCauchySelectorBudgetUp$ handoff into the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows used by the refinement.
+\end{theorem}
+\begin{proof}
+Project the window side of the carrier. The only selected-window coordinates are $T$ for the selector budget, $W$ for the finite $\StreamNameUp$ ledger, and $Q$ for the $\DyadicRatCoreUp$ tolerance rows together with the $\RegSeqRatUp$ readback ledger.
+
+The bundled shared-window tolerance exactness clause forces each selected-window read through $T,W,Q$. The route row $C$ places these rows after the extraction witness $V$ and before the seal row $E$.
+
+Use the readback non-escape content already stated for the packet. Because there is no hidden selector, second window ledger, quotient stream, selected limit, or ambient completeness coordinate, every selected-window and tolerance-readback read depends on the displayed selector budget row.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal route row]
+\label{thm:cauchy-modulus-refinement-real-seal-route}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is reached only along the displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+Consequently a completion-facing consumer may use $E$ only after the shared meet, extraction witness, selector budget, finite window ledger, dyadic tolerance rows, and regular readbacks have been displayed.
+\end{theorem}
+\begin{proof}
+First combine the source and selector routes. The shared meet dependency row places $U$ before $V$, and the selector budget dependency row places $T,W,Q$ after $V$.
+
+The bundled $\RealUp$ seal non-escape clause then places $E$ after the shared meet, refinement witness, selector budget, selected windows, tolerance rows, regular readbacks, transports, routes, provenance, and local name.
+
+Thus the Real seal is not an independent Real-facing object. It is the final row of the displayed $\Cont$ chain from the source schedules through $Q$, stabilized by the componentwise $\hsame$ row $H$ and recorded by the package row $P$ and local name $N$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement NameScope package row]
+\label{thm:cauchy-modulus-refinement-namescope-package}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusRefinementUp}$ namescope package consists exactly of the carrier-admission row, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route row $C$, the provenance row $P$, and the local naming row $N$ over the same sibling surfaces. It exports no name for a row outside $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the naming coordinates of the carrier. The rows $H,C,P,N$ are displayed alongside the source, meet, extraction, selector, window, tolerance, readback, and seal rows, so the local namescope is attached to the same finite packet as carrier admission.
+
+Use classifier stability from the bundled obligation theorem. The componentwise $\hsame$ transports and $\Cont$ routes replay accepted reads of the same rows rather than creating a separate classifier or hidden carrier.
+
+Finally combine the shared meet, selector budget, and Real seal route rows. They show that every named downstream consumer reaches $E$ through the sibling $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces displayed in $R$. Non-escape then excludes every unlisted namescope target.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement non-escape]
 \label{thm:cauchy-modulus-refinement-nonescape}
 An accepted $\CauchyModulusRefinementUp$ packet exposes only the finite route
@@ -462,6 +538,18 @@ Next use \autoref{thm:cauchy-modulus-refinement-budget-selector-source-lock}. Th
 Finally use \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. It supplies the downstream Real and diagonal-completion boundary, excluding quotient streams, selected limits, host real equality, hidden selectors, side channel completion objects, second meet rows, and ambient completeness.
 
 The three clauses use the same displayed carrier and the same sibling rows. Therefore they assemble one root-unblock package rather than three independent routes, and every downstream consumer must cite that package through the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement common-window selector extraction]
+\label{thm:cauchy-modulus-refinement-common-window-selector-extraction}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet whose source schedules $M_0,M_1$, shared meet $U$, refinement witness $V$, and selector-budget row $T$ are the displayed rows of the carrier. Every $\RealUp$-facing or diagonal-completion consumer that reaches the selected-window rows must extract the same finite-window and tolerance route $W,Q$ through $T$. No hidden selector, quotient stream, selected limit, host real equality, second meet row, or ambient completeness coordinate may supply a competing selected-window route.
+\end{theorem}
+\begin{proof}
+First lock the common source. Apply common source lock and shared threshold transport, \autoref{thm:cauchy-modulus-refinement-common-source-lock} and \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, to force every accepted read of $U$ and $V$ through the same $M_0,M_1$ schedules.
+
+Next extract the selected-window route. Selector-budget totality, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, makes $T$ the sole admitted route from $V$ to the selected finite-window surface, and window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, identifies that surface with the displayed $W,Q$ rows.
+
+Finally pass to downstream consumers. The diagonal-consumer boundary, \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}, says that Real-facing and diagonal-completion reads factor through the displayed sibling rows and cannot import quotient streams, selected limits, host real equality, hidden selectors, second meet rows, side channel completion objects, or ambient completeness. Hence the consumer can extract $W,Q$ only by the common route through $T$.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement Real-completeness handoff]
