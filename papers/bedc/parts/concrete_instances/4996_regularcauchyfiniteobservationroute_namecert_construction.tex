@@ -76,6 +76,34 @@ The stationary diagonal sibling fixes the diagonal-window shape, and the CauchyP
 Finally apply the Real seal handoff and non-escape theorems. Together they show that the vision-facing route reaches the $\RealUp$ seal through the finite observation budget and excludes quotient streams, hidden limit selection, and host real equality.
 \end{proof}
 
+\begin{theorem}[Regular-Cauchy finite observation route budget-selector pullback]
+\label{thm:regular-cauchy-finite-observation-route-budget-selector-pullback}
+Let
+$$
+Z=(Q,W,D,R,B,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyFiniteObservationRouteUp$ packet, and let
+$$
+F=(B_0,S_0,W_0,D_0,R_0,E_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. If the displayed $\hsame$ transports identify $W$ with $W_0$, $D$ with $D_0$, $R$ with $R_0$, and the route seal $S$ with $E_0$, then every $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through both finite routes
+$$
+Q \to W \to D \to R \to B \to S
+$$
+and
+$$
+B_0 \to S_0 \to W_0 \to D_0 \to R_0 \to E_0 .
+$$
+The common consumer exports no quotient stream, hidden limit selector, host real equality, countable choice, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start on the regular-Cauchy route. By \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, every $\RealUp$ seal read of $Z$ passes through the displayed finite path $Q \to W \to D \to R \to B \to S$.
+
+Move to the selector route. Apply \autoref{thm:finite-observation-budget-selector-budget-route-determinacy} to the packet $F$, obtaining the finite path $B_0 \to S_0 \to W_0 \to D_0 \to R_0 \to E_0$. The assumed componentwise $\hsame$ transports identify the shared window, dyadic ledger, $\RegSeqRatUp$ handoff, and seal endpoint.
+
+Finally apply \autoref{thm:finite-observation-budget-selector-public-export} together with the non-escape theorem of this chapter. These two boundaries remove quotient streams, hidden limit selectors, host real equality, countable choice, and ambient completeness data, so the shared $\RealUp$ or $\CauchyLimitSealUp$ consumer can read only the two displayed finite routes and their visible transport, continuation, provenance, and naming rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted route factors through the displayed finite observation budget before any RealUp seal read; a seal read bypassing the budget refutes this chapter.}
 \independenceWitness{real-observation-budget, finiteobservationbudgetselector, stationarypartitiondiagonal, cauchyproduct, streamname: none is bijective because this carrier simultaneously records the route from regular-Cauchy finite windows to the observation budget and RealUp seal, while each sibling lacks at least one of the route, budget, diagonal, product, or stream-only rows.}
 
@@ -84,7 +112,7 @@ Finally apply the Real seal handoff and non-escape theorems. Together they show 
 \begin{closurestatus}{\RegularCauchyFiniteObservationRouteUp}
   \constructivestory{A $\RegularCauchyFiniteObservationRouteUp$ packet is generated from a finite regular-Cauchy request, selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ handoff, $\RealObservationBudgetUp$ budget row, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-finite-observation-route-carrier}, \autoref{thm:regular-cauchy-finite-observation-route-obligations}, \autoref{thm:regular-cauchy-finite-observation-route-nonescape}, \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, and \autoref{thm:regular-cauchy-finite-observation-route-vision-concretization} define the route carrier, obligation surface, non-escape boundary, Real seal handoff, and vision-facing concretization.}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-observation-route-carrier}, \autoref{thm:regular-cauchy-finite-observation-route-obligations}, \autoref{thm:regular-cauchy-finite-observation-route-nonescape}, \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, \autoref{thm:regular-cauchy-finite-observation-route-vision-concretization}, and \autoref{thm:regular-cauchy-finite-observation-route-budget-selector-pullback} define the route carrier, obligation surface, non-escape boundary, Real seal handoff, vision-facing concretization, and budget-selector pullback.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
