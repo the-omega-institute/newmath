@@ -151,6 +151,24 @@ Apply \autoref{thm:observer-locality-transport-rate-pullback} for rate-facing co
 The TasteGate marker already checked in this chapter is then read as a single-carrier alignment condition. Nontriviality separates the transport packet from its sibling rows, and field faithfulness preserves all coordinates $O,D,R,L,H,Q,C,P,N$ during promotion.
 \end{proof}
 
+\begin{theorem}[Observer-locality transport public export]
+\label{thm:observer-locality-transport-public-export}
+For every accepted $\ObserverLocalityTransportUp$ carrier
+$$
+T=(O,D,R,L,H,Q,C,P,N),
+$$
+the public export surface of $T$ is exactly the finite route $O,D,R,L,H,Q,C,P,N$. The row $O$ is exported as the $\ObserverLocalityCellUp$ source, $D$ as the finite $\CrossHistCausalUp$ route family, $R$ as the $\MaxCausalRateUp$ rate row, $L$ as the no-global-frame ledger, $H$ as componentwise $\hsame$ transport, $Q$ as probe stability, $C$ as continuation replay, $P$ as package provenance, and $N$ as the local $\NameCert_{\ObserverLocalityTransportUp}$ row. The provenance path runs through $\ObserverLocalityCellUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\CrossHistCausalRateUp$, and the checked single-carrier TasteGate marker \texttt{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment}; no public export coordinate lies outside that route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:observer-locality-transport-obligation-carrier-admission}. It identifies the accepted carrier with precisely the displayed packet $O,D,R,L,H,Q,C,P,N$ and supplies the local $\NameCert$ row for that packet.
+
+Apply \autoref{thm:observer-locality-transport-obligation-causal-route-handoff}. The export reads the locality cell through $O$, the route family through $D$, and the maximum-rate or cross-Hist causal-rate surface only after that handoff.
+
+Apply \autoref{thm:observer-locality-transport-route-composition-determinacy}. Once the public consumer has read the same $O$ and $D$ before $R$, the displayed transport through $H,Q,C,P,N$ is determined, so the export cannot splice in a detached route or detached rate row.
+
+Finally apply \autoref{thm:observer-locality-transport-obligation-nonglobal-frame-exhaustion}. The ledger $L$ exhausts requests for global-frame or host-geometry data, while the checked TasteGate single-carrier marker attaches promotion to the same finite packet.
+\end{proof}
+
 \falsifiablePrediction{If the transport packet is atomic, a consumer cannot replace the displayed locality-cell row by a MaxCausalRate row without passing through CrossHistCausal transport.}
 
 \independenceWitness{Nearest siblings: observerlocalitycell, crosshistcausal, maxcausalrate, crosshistcausalrate. The transport packet is not bijective to any of them because it carries a route-level transport row between sibling surfaces, while those siblings carry cell, causal, bound, or rate rows without this route witness.}
@@ -158,14 +176,16 @@ The TasteGate marker already checked in this chapter is then read as a single-ca
 \closureat{ObserverLocalityTransportUp}{seedStr}
 \closureat{ObserverLocalityTransportUp}{obligationStr}[BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment]
 \closureat{ObserverLocalityTransportUp}{scopedStr}[BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment]
+\closureat{ObserverLocalityTransportUp}{publicStr}[BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ObserverLocalityTransportUp}
   \constructivestory{An $\ObserverLocalityTransportUp$ packet is generated from an observer-locality cell, finite cross-Hist causal route rows, a maximum-rate row, a no-global-frame ledger, componentwise $\hsame$ transport, $\psame$ stability, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observer-locality-transport-carrier}, \autoref{thm:observer-locality-transport-namecert-obligations}, \autoref{thm:observer-locality-transport-boundary}, \autoref{thm:observer-locality-transport-tastegate-obligation}, \leanchecked{BEDC.Derived.ObserverLocalityTransportUp.taste\_gate}, and the checked single-carrier marker \texttt{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment} bind the finite carrier rows $O,D,R,L,H,Q,C,P,N$ with the kernel rows $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:observer-locality-transport-carrier}, \autoref{thm:observer-locality-transport-namecert-obligations}, \autoref{thm:observer-locality-transport-boundary}, \autoref{thm:observer-locality-transport-tastegate-obligation}, \autoref{thm:observer-locality-transport-public-export}, \leanchecked{BEDC.Derived.ObserverLocalityTransportUp.taste\_gate}, and the checked single-carrier marker \texttt{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment} bind the public finite route $O,D,R,L,H,Q,C,P,N$ with the kernel rows $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ObserverLocalityTransportUp.ObserverLocalityTransportTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not derive Lorentz geometry, metric tensors, synchronized clocks, global frames, host real-valued speed, Lean verification, or bridge checking for $\ObserverLocalityTransportUp$.}
-  \upgradepath{Public closure next requires a public transport export theorem over the same finite route.}
+  \notclaimed{This chapter does not derive Lorentz geometry, metric tensors, synchronized clocks, global frames, host real-valued speed, Lean verification of the public export theorem, or bridge checking for $\ObserverLocalityTransportUp$.}
+  \upgradepath{Bridged closure next requires a bridge theorem over the same finite route.}
 \end{closurestatus}
