@@ -247,6 +247,45 @@ exactly the displayed finite route and none of the excluded quotient,
 choice, host-equality, completeness, or hidden-oracle data.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector public budget threshold order]
+\label{thm:diagonal-tail-selector-public-budget-threshold-order}
+For every accepted $\DiagonalTailSelectorUp$ public budget source of
+\autoref{def:diagonal-tail-selector-public-budget-source}, any downstream
+$\CauchyLimitSealUp$ or $\RealUp$ consumer reads the source rows
+$$
+n,\mu,k,W,D
+$$
+before the transported tail row $T$, before the seal row $S$, and before the
+finite observation-budget selector route of
+\autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert} is
+consumed. Thus the public budget surface inherits the checked
+window-threshold order of the carrier before it exports a seal-facing or
+finite-observation route.
+\end{theorem}
+\begin{proof}
+Start with the carrier-level window-threshold order of
+\autoref{thm:diagonal-tail-selector-window-threshold-order}. It places the
+precision row $n$, modulus row $\mu$, selected cofinal index $k$, finite
+window row $W$, and dyadic readback row $D$ before any read of the
+tail-regularity row $T$ or the seal row $S$.
+
+Next apply the public budget export of
+\autoref{thm:diagonal-tail-selector-public-budget-export}. The exported
+source is exactly the finite route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+Since the export preserves the displayed carrier order, the public consumer
+cannot read $T$ or $S$ before $n,\mu,k,W,D$.
+
+Finally use the non-escape boundary of
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}. Every
+$\CauchyLimitSealUp$ or $\RealUp$ consumer remains inside the same public
+budget source, and the finite observation-budget selector handoff must be a
+read of that already ordered source rather than a route that bypasses the
+window-threshold rows.
+\end{proof}
+
 \begin{theorem}[Diagonal tail selector finite observation-budget handoff]
 \label{thm:diagonal-tail-selector-finite-observation-budget-selector-link}
 Every accepted $\DiagonalTailSelectorUp$ public budget source of
