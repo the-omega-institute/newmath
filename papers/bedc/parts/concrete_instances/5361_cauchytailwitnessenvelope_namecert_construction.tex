@@ -130,6 +130,26 @@ Follow the route order. The selector handoff places $S$ before $F,Q,A,R$, finite
 Finally apply non-escape. Quotient stream equality, host equality, a host-selected limit, a choice selector, and ambient completeness are not coordinates of $E$, so no hidden row remains outside the displayed obligation surface.
 \end{proof}
 
+\begin{theorem}[CauchyTailWitnessEnvelope scoped route binding]
+\label{thm:cauchy-tail-witness-envelope-scoped-route-binding}
+Every accepted $\CauchyTailWitnessEnvelopeUp$ packet
+$$
+E=(S,F,Q,A,R,H,C,P,N)
+$$
+exposes the selected $\StreamNameUp$ window $S$, the $\FiniteWindowEnvelopeUp$ row $F$, the $\CauchyTailComparisonUp$ row $Q$, the $\RealTailAgreementSealUp$ row $A$, the $\RealUp$ readback row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ as one finite L10 witness-envelope route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The route exposes no quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start from the local NameCert obligations. They identify the displayed coordinates $S,F,Q,A,R,H,C,P,N$ as the entire accepted packet surface, and the TasteGate marker for $\CauchyTailWitnessEnvelopeUp$ aligns this single carrier with its named field-faithful carrier route.
+
+Use the selector handoff to place the route on the selected window. The row $S$ is consumed by the finite-window envelope $F$, and $F$ supplies the endpoint ledger that the tail-comparison row $Q$ reads.
+
+Apply finite-window exactness and tail-comparison exactness. These results make the selected window, endpoint envelope, and Cauchy tail-comparison ledger the same finite route before the RealTailAgreementSeal row is available.
+
+Finally use the Real-tail seal boundary and non-escape theorem. The seal row $A$, RealUp readback row $R$, transports $H$, continuations $C$, provenance $P$, and naming row $N$ remain inside the same finite packet, while quotient stream equality, host real equality, selected host limits, countable choice, and ambient completeness have no carrier coordinate.
+\end{proof}
+
 \closureat{CauchyTailWitnessEnvelopeUp}{seedStr}
 \closureat{CauchyTailWitnessEnvelopeUp}{obligationStr}
 
@@ -142,5 +162,5 @@ Finally apply non-escape. Quotient stream equality, host equality, a host-select
   \origin{ai}
   \leanchecked{BEDC.Derived.CauchyTailWitnessEnvelopeUp.taste\_gate}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected host limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires binding StreamNameUp, FiniteWindowEnvelopeUp, CauchyTailComparisonUp, RealTailAgreementSealUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows into a single downstream consumer theorem.}
+  \upgradepath{The next paper step is scoped closure over the same StreamNameUp, FiniteWindowEnvelopeUp, CauchyTailComparisonUp, RealTailAgreementSealUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert route.}
 \end{closurestatus}
