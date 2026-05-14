@@ -178,6 +178,9 @@ instance observerCoordinateFrameChapterTasteGate :
     intro x y hxy heq
     exact hxy (observerCoordinateFrameToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ObserverCoordinateFrameUp :=
+  observerCoordinateFrameChapterTasteGate
+
 theorem ObserverCoordinateFrameUp_taste_gate_boundary :
     (∀ h : BHist,
       observerCoordinateFrameDecodeBHist (observerCoordinateFrameEncodeBHist h) = h) ∧
