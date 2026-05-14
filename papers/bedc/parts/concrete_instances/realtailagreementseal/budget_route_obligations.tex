@@ -217,6 +217,20 @@ The local agreement surface is then fixed by downstream route no-branching, \aut
 Finally use the CauchyLimitSeal finite-window lattice route, \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. The finite window is a lattice meet rather than a hidden selected limit, so the completed route has no coordinate for quotient stream equality, host equality, ambient completeness, or a second agreement row to separate the consumers.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal budget route factorization]
+\label{thm:real-tail-agreement-seal-budget-route-factorization}
+Every accepted terminal agreement read of a $\RealTailAgreementSealUp$ packet factors through the canonical budget route, the synchronizer route, and the regular-tailmeet budget lock before it exports the terminal agreement row to a $\RealUp$ or $\CompletionUp$ consumer. Thus the exported terminal agreement has the single displayed route through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchySealBudgetSynchronizerUp$, the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ readback row $D$, the agreement row $A$, and the local seal rows $R,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply budget route uniqueness from \autoref{thm:real-tail-agreement-seal-budget-route-uniqueness}. Any accepted terminal agreement read must use the displayed observation cap, regular Cauchy tail budget, shared TailMeet threshold, finite window, dyadic readback, agreement row, and local seal rows.
+
+Next use the canonical-form theorem \autoref{thm:real-tail-agreement-seal-budget-route-canonical-form}. It identifies the public read of $A$ with that ordered route before the terminal seal rows can be exported.
+
+Insert the synchronizer by \autoref{thm:real-tail-agreement-seal-budget-synchronizer-route-determinacy}. The terminal route preserves the same $\CauchySealBudgetSynchronizerUp$ row before the finite window, readback row, and agreement row are consumed.
+
+Finally apply downstream route no-branching from \autoref{thm:real-tail-agreement-seal-downstream-route-no-branching} and the regular TailMeet budget lock of \autoref{thm:real-tail-agreement-seal-regular-tailmeet-budget-lock}. The terminal agreement row is therefore exported only after the displayed budget route, synchronizer route, and regular-tailmeet lock have all been traversed, with no quotient stream, selected limit, host equality, ambient completeness coordinate, or second agreement row available.
+\end{proof}
+
 \begin{theorem}[Real tail-agreement seal root budget-source canonicality]
 \label{thm:real-tail-agreement-seal-root-budget-source-canonicality}
 Every displayed $\RealTailAgreementSealUp$ packet exposing a terminal agreement row determines a unique root budget-source row. The canonical source is the initial $\BHist$ segment through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchySealBudgetSynchronizerUp$, $W$, $D$, and $A$ whose $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are consumed by the terminal route
