@@ -1495,6 +1495,7 @@ def render_logic_audit_warnings() -> str:
     audited = 0
     warned = 0
     stale_warning_artifacts = 0
+    failed_stale_warning_artifacts = 0
     failed_audited = 0
     failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
@@ -1522,6 +1523,11 @@ def render_logic_audit_warnings() -> str:
             if warnings:
                 warned += 1
         else:
+            current_warnings = _current_logic_audit_warnings(target)
+            if current_warnings is not None:
+                if warnings and current_warnings != warnings:
+                    failed_stale_warning_artifacts += 1
+                warnings = current_warnings
             failed_audited += 1
             if warnings:
                 failed_warned += 1
@@ -1546,6 +1552,11 @@ def render_logic_audit_warnings() -> str:
         lines.append(
             f"  failed/blocked audited={failed_audited} warned={failed_warned} "
             "(not paper body)"
+        )
+    if failed_stale_warning_artifacts:
+        lines.append(
+            "  failed/blocked stale warning artifacts ignored="
+            f"{failed_stale_warning_artifacts}"
         )
     for code, n in sorted(failed_counts.items(), key=lambda kv: -kv[1])[:5]:
         lines.append(
