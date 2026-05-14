@@ -50,4 +50,27 @@ theorem AttentionLedgerPacket_non_escape [AskSetup] [PackageSetup]
     ⟨omittedUnary, exactnessUnary, consumerUnary, omittedExactnessConsumer, nameCertPkg,
       consumerPkg⟩
 
+theorem AttentionLedgerPacket_public_route_export [AskSetup] [PackageSetup]
+    {source filter selected omitted publicRow stream transport exactness routes provenance
+      nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AttentionLedgerPacket source filter selected omitted publicRow stream transport exactness
+        routes provenance nameCert bundle pkg →
+      Cont stream nameCert consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory selected ∧ UnaryHistory omitted ∧ UnaryHistory publicRow ∧
+            UnaryHistory stream ∧ UnaryHistory consumer ∧ Cont stream nameCert consumer ∧
+              PkgSig bundle nameCert pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro packet streamNameCertConsumer consumerPkg
+  obtain ⟨_sourceUnary, _filterUnary, selectedUnary, omittedUnary, publicUnary, streamUnary,
+    _transportUnary, _exactnessUnary, _routesUnary, _provenanceUnary, nameCertUnary,
+    _sourceFilterSelected, _selectedOmittedExactness, _publicStreamRoutes,
+    _routesTransportProvenance, nameCertPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed streamUnary nameCertUnary streamNameCertConsumer
+  exact
+    ⟨selectedUnary, omittedUnary, publicUnary, streamUnary, consumerUnary,
+      streamNameCertConsumer, nameCertPkg, consumerPkg⟩
+
 end BEDC.Derived.AttentionLedgerUp
