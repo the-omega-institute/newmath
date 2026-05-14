@@ -258,3 +258,23 @@ package. Thus the synchronizer readback orders $I,W,M,Q,T,E,H,C,P,N$ without
 introducing quotient streams, selected limits, host equality, countable choice,
 or ambient completeness.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root synchronizer tail-meet lock]
+\label{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet consumed both by a $\CauchySealBudgetSynchronizerUp$ packet and by a $\RegularCauchyTailMeetUp$ sibling. Every synchronizer readback of the root threshold route must pass through the same $I,W,M,Q,T,E,H,C,P,N$ rows and through the sibling shared-tail packet before any completion-facing consumer can read the seal.
+
+Consequently the synchronizer is not a second tail source. It locks root threshold readback to the shared-tail meet, the finite budget package, and the seal-eligible route already displayed by $U$.
+\end{theorem}
+\begin{proof}
+Start with threshold schedule determinacy and tolerance ledger exactness. By \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy}, every threshold request reaches the displayed schedule row $M$ through $I,W$; by \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}, the downstream tolerance rows are exactly $Q,T$.
+
+Next apply the shared-tail meet. \autoref{thm:uniform-cauchy-criterion-root-shared-tail-meet} identifies the tail surface consumed by the $\RegularCauchyTailMeetUp$ sibling with the same root schedule and tolerance ledger, so the sibling read cannot supply an alternate tail packet.
+
+Now use the root budget package and budget seal eligibility. \autoref{thm:uniform-cauchy-criterion-root-budget-package} packages $I,W,M,Q,T,H,C,P,N$ as the finite synchronizer-facing surface, and \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility} places the seal row $E$ after that package.
+
+Finally invoke \autoref{thm:uniform-cauchy-criterion-root-threshold-synchronizer-readback}. The synchronizer readback is therefore the same ordered route $I,W,M,Q,T,E,H,C,P,N$ with the shared-tail sibling already fixed before any completion-facing consumer reads it. Quotient streams, selected limits, host equality, countable choice, and ambient completeness remain outside the packet.
+\end{proof}
