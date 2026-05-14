@@ -28,6 +28,10 @@ SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
 DISCOVERY_LOG_DIR = STATE_DIR / "discovery_logs"
+BOARD_SPAWN_LATEST = STATE_DIR / "board_spawn_latest.json"
+RESEARCH_CANDIDATES_LATEST = STATE_DIR / "research_candidates_latest.md"
+RESEARCH_BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
+PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
@@ -452,6 +456,41 @@ def _classify_board_judge_error(error: str) -> str:
     return ""
 
 
+def _board_judge_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for shared BOARD judge outages."""
+    if "board_judge_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: shared BOARD judge/fallback is unavailable; "
+            "do not bypass board_spawn, and do not refresh BEDC oracle tabs for this."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_cli_missing" in error_kind:
+        lines.append(
+            f"{prefix}action: install or expose the Claude CLI used by board_spawn."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -781,6 +820,35 @@ def render_board_refill() -> str:
     return "\n".join(lines)
 
 
+def render_board_spawn() -> str:
+    if not BOARD_SPAWN_LATEST.exists():
+        return "  (no shared board_spawn status recorded)"
+    try:
+        data = json.loads(BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return "  (unreadable shared board_spawn status)"
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines = [
+        (
+            f"  latest: {age} ago ok={data.get('ok')} "
+            f"input=codex:{data.get('codex_input')} oracle:{data.get('oracle_input')} "
+            f"alive=codex:{data.get('codex_alive')} oracle:{data.get('oracle_alive')}"
+        ),
+        (
+            f"  outcome: accepted={data.get('accepted_count')} "
+            f"rejected={data.get('rejected_count')} cheap_drops={data.get('cheap_drop_count')} "
+            f"appended={len(appended)}"
+        ),
+    ]
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  error_kind: {error_kind}")
+    lines.extend(_board_judge_action_lines(error_kind))
+    return "\n".join(lines)
+
+
 def render_loning_assimilation() -> str:
     if not LONING_ASSIMILATION_JOURNAL.exists():
         return "  (no loning assimilation state)"
@@ -899,6 +967,135 @@ def render_discovery_lane() -> str:
             "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
             "it is not a BEDC oracle tab-refresh signal."
         )
+    return "\n".join(lines)
+
+
+def _read_research_latest_counts() -> dict[str, int]:
+    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_recommended": 0}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return counts
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return counts
+    for line in lines:
+        match = re.match(r"-\s+([a-z_]+):\s+(\d+)\s*$", line.strip())
+        if not match:
+            continue
+        key, value = match.groups()
+        if key in counts:
+            counts[key] = int(value)
+    return counts
+
+
+def render_research_candidate_lane() -> str:
+    counts = _read_research_latest_counts()
+    lines = [
+        (
+            f"  latest packets={counts['packets']} ready={counts['ready']} "
+            f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
+        )
+    ]
+    if not RESEARCH_BOARD_SPAWN_LATEST.exists():
+        lines.append("  append status: no research board_spawn attempt recorded")
+        return "\n".join(lines)
+    try:
+        data = json.loads(RESEARCH_BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        lines.append("  append status: unreadable research board_spawn status")
+        return "\n".join(lines)
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines.append(
+        (
+            f"  last append: {age} ago ok={data.get('ok')} ready={data.get('ready_count')} "
+            f"accepted={data.get('accepted')} rejected={data.get('rejected')} "
+            f"appended={len(appended)}"
+        )
+    )
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  last append error_kind: {error_kind}")
+    lines.extend(_board_judge_action_lines(error_kind))
+    return "\n".join(lines)
+
+
+def _latest_jsonl_record(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            return rec
+    return None
+
+
+def _parse_pi_ts(value: object) -> datetime | None:
+    """PI cycle records historically used local naive timestamps."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z") or re.search(r"[+-]\d\d:\d\d$", text):
+        return _parse_iso(text)
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    local_tz = datetime.now().astimezone().tzinfo
+    return ts.replace(tzinfo=local_tz).astimezone(timezone.utc)
+
+
+def render_pi_agent() -> str:
+    rec = _latest_jsonl_record(PI_RECENT_CYCLES)
+    if not rec:
+        return "  (no PI agent cycles recorded)"
+    ts = _parse_pi_ts(rec.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    summary = rec.get("snapshot_summary") if isinstance(rec.get("snapshot_summary"), dict) else {}
+    rates = summary.get("completion_rates") if isinstance(summary.get("completion_rates"), dict) else {}
+    track = summary.get("codex_track_summary") if isinstance(summary.get("codex_track_summary"), dict) else {}
+    lines = [
+        (
+            f"  latest: {age} ago ok={rec.get('ok')} health={rec.get('plan_health')} "
+            f"source={rec.get('review_source')}"
+        ),
+        (
+            f"  actions: planned={rec.get('plan_action_count')} applied={rec.get('applied_count')} "
+            f"inbox={rec.get('inbox_count')} deepen_emitted={rec.get('deepen_emitted')}"
+        ),
+    ]
+    if rates:
+        rate_text = ", ".join(f"{k}={v}" for k, v in rates.items())
+        lines.append(f"  completion rates: {rate_text}")
+    if track:
+        parts = []
+        for key in ("v2_total", "codex_close", "oracle_path", "codex_close_rate"):
+            if key in track:
+                parts.append(f"{key}={track.get(key)}")
+        if parts:
+            lines.append("  codex track: " + ", ".join(parts))
+    concerns = [str(c) for c in (rec.get("escalated_concerns") or []) if str(c).strip()]
+    if concerns:
+        lines.append("  escalated concerns: " + " | ".join(c[:90] for c in concerns[:3]))
+    gauntlet = rec.get("gauntlet_results") if isinstance(rec.get("gauntlet_results"), list) else []
+    failed = [g for g in gauntlet if isinstance(g, dict) and not g.get("pass_all")]
+    if failed:
+        for item in failed[:3]:
+            action = item.get("action") if isinstance(item.get("action"), dict) else {}
+            name = str(action.get("action") or "?")
+            summary_text = str(item.get("summary") or "").replace("\n", " ")
+            lines.append(f"  blocked: {name} — {summary_text[:140]}")
     return "\n".join(lines)
 
 
@@ -1215,8 +1412,14 @@ def main() -> int:
     print(render_candidate_inbox())
     print(_section("Board Refill"))
     print(render_board_refill())
+    print(_section("Board Spawn"))
+    print(render_board_spawn())
     print(_section("Discovery Lane"))
     print(render_discovery_lane())
+    print(_section("Research Candidate Lane"))
+    print(render_research_candidate_lane())
+    print(_section("PI Agent"))
+    print(render_pi_agent())
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
