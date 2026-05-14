@@ -393,6 +393,19 @@ def _field_text(candidate: dict, key: str) -> str:
     return str(value or "").strip()
 
 
+def _is_conjecture_fallback(candidate: dict) -> bool:
+    """Conjecture fallback is a review lane, not an executable BOARD lane."""
+    tastegate_mode = _field_text(candidate, "tastegate_mode").lower()
+    if tastegate_mode == "conjecture_fallback":
+        return True
+    value = _field_text(candidate, "conjecture_fallback").lower()
+    if not value:
+        return False
+    if value in {"false", "no", "none", "n/a", "na", "0"}:
+        return False
+    return True
+
+
 def _pre_tastegate_rejection(candidate: dict) -> str:
     """Hard admission gate for candidates trying to create a new chapter."""
     landing_kind = str(candidate.get("landing_kind") or "").strip()
@@ -417,13 +430,14 @@ def _pre_tastegate_rejection(candidate: dict) -> str:
     }:
         return f"new_chapter_invalid_tastegate_mode:{tastegate_mode[:40]}"
 
-    conjecture_fallback = _field_text(candidate, "conjecture_fallback").lower()
-    if conjecture_fallback in {"true", "yes", "required", "recommended"}:
+    if _is_conjecture_fallback(candidate):
         return "new_chapter_should_route_to_conjecture_fallback"
     return ""
 
 
 def _post_judge_landing_rejection(candidate: dict) -> str:
+    if _is_conjecture_fallback(candidate):
+        return "conjecture_fallback_not_board_lane"
     title = str(candidate.get("title") or "")
     claim = str(candidate.get("claim") or candidate.get("concrete_claim") or "")
     rationale = str(candidate.get("rationale") or "")
