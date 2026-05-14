@@ -258,4 +258,34 @@ theorem ObserverDirectionTasteGate_single_carrier_alignment :
         · exact ⟨observerDirectionNontrivial⟩
         · exact ⟨observerDirectionFieldFaithful⟩
 
+namespace TasteGate
+
+theorem ObserverDirectionTasteGate_single_carrier_alignment :
+    (∀ h : BHist, observerDirectionDecodeBHist (observerDirectionEncodeBHist h) = h) ∧
+      (∀ x : ObserverDirectionUp,
+        observerDirectionFromEventFlow (observerDirectionToEventFlow x) = some x) ∧
+        (∀ x y : ObserverDirectionUp,
+          observerDirectionToEventFlow x = observerDirectionToEventFlow y → x = y) ∧
+          Nonempty (ChapterTasteGate ObserverDirectionUp) ∧
+            Nonempty (FieldFaithful ObserverDirectionUp) ∧
+              Nonempty (Nontrivial ObserverDirectionUp) ∧
+                observerDirectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact observerDirectionDecode_encode_bhist
+  · constructor
+    · exact observerDirection_round_trip
+    · constructor
+      · intro x y heq
+        exact observerDirectionToEventFlow_injective heq
+      · constructor
+        · exact ⟨observerDirectionChapterTasteGate⟩
+        · constructor
+          · exact ⟨observerDirectionFieldFaithful⟩
+          · constructor
+            · exact ⟨observerDirectionNontrivial⟩
+            · rfl
+
+end TasteGate
+
 end BEDC.Derived.ObserverDirectionUp
