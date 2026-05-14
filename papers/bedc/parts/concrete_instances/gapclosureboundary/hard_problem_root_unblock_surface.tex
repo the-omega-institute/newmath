@@ -1,0 +1,37 @@
+\begin{theorem}[GapClosureBoundary hard-problem root route stability]
+\label{thm:gap-closure-boundary-hard-problem-root-route-stability}
+For every accepted $\GapClosureBoundaryUp$ root packet $B=(G,S,R,H,C,P,N)$, the downstream hard-problem consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ read the same root route surface. A supported read uses the displayed source route $G \longrightarrow S$ with $H,C,P,N$, an unsupported closure request uses the displayed refusal route $G \longrightarrow R$ with $H,C,P,N$, and no consumer receives a host closure row or hidden supply row outside the packet.
+\end{theorem}
+\begin{proof}
+Begin with the hub root inventory and root readiness theorems, \autoref{def:gap-closure-boundary-hub-root-inventory} and \autoref{thm:gap-closure-boundary-hub-root-readiness}. They bind the root packet to $G,S,R,H,C,P,N$ and name the five downstream consumers as readers of that same surface.
+
+For supported reads, apply source-route totality and root source exposure, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-source-refusal-triad}. These keep the source branch at $G \longrightarrow S$ over the displayed structural rows.
+
+For unsupported reads, apply refusal-route exactness and root ledger routing, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-consumer-ledger-factorization}. These send the request to $R$ through the same packet rather than to a host closure.
+
+The root-unblock package and root package consumer cut, \autoref{thm:gap-closure-boundary-root-unblock-package} and \autoref{thm:gap-closure-boundary-root-package-consumer-cut}, then make the route stable for all five consumers without adding any off-packet supply row.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer refusal totality]
+\label{thm:gap-closure-boundary-consumer-refusal-totality}
+Every unsupported hard-problem consumer request handled by an accepted $\GapClosureBoundaryUp$ root packet is refused through the displayed ledger row $R$ of $B=(G,S,R,H,C,P,N)$. The refusal covers the five downstream consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ uniformly, and it exports no private access row, direct aspect-reduction row, causal-necessity row, or hidden $\mathsf{T}$ supply.
+\end{theorem}
+\begin{proof}
+First use refusal-route exactness and refusal ledger totality, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-ledger-totality}. They identify $R$ as the endpoint for unsupported closure requests.
+
+Next apply hard-problem consumer factorization and consumer ledger exhaustion, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization} and \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. These theorems place all five downstream consumers on the same source/refusal ledger.
+
+Finally use root visible refusal audit and root NameCert replay, \autoref{thm:gap-closure-boundary-root-visible-refusal-audit} and \autoref{thm:gap-closure-boundary-root-namecert-replay}. The replay preserves only $G,S,R,H,C,P,N$, so unsupported consumers receive the visible refusal row and none of the excluded hidden rows.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary five-sibling unblock surface]
+\label{thm:gap-closure-boundary-five-sibling-unblock-surface}
+The root packet $B=(G,S,R,H,C,P,N)$ supplies one common unblock surface for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$. Each sibling consumes the displayed request row, the source-or-refusal branch, the componentwise transport rows, the continuation replay rows, provenance, and local naming; none receives a separate host closure theorem, hidden source, consumer-specific continuation, or off-packet bridge row.
+\end{theorem}
+\begin{proof}
+Start from the hub unblock surface theorem \autoref{thm:gap-closure-boundary-hub-unblock-surface}. It already identifies the common source/refusal split used by the downstream root package.
+
+Use hard-problem route exhaustion and root route stability, \autoref{thm:gap-closure-boundary-hard-problem-route-exhaustion} and \autoref{thm:gap-closure-boundary-hard-problem-root-route-stability}. Together they bind every listed sibling read to $G,S,R,H,C,P,N$ and divide the reads between the source branch and refusal branch.
+
+The consumer refusal totality theorem \autoref{thm:gap-closure-boundary-consumer-refusal-totality} handles the unsupported branch uniformly. The consumer-exactness package then rules out a sibling-specific route outside the displayed packet, so the five consumers share one root unblock surface.
+\end{proof}
