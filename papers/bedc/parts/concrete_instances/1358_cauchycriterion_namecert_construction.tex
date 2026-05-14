@@ -342,6 +342,39 @@ the same, every completion-facing readback route sees the same consumer-visible
 tail bound and hence the same seal route through $H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion RegSeqRat Real route lock]
+\label{thm:cauchycriterion-regseqrat-real-route-lock}
+Every accepted $\CauchyCriterionUp$ public $\RealUp$-seal consumer factors
+through the Cauchy tail-bound row, the $\RegSeqRatUp$ handoff row, the
+$\StreamNameUp$ finite-window row, the dyadic tolerance ledger, and the
+$\RealUp$ seal row of the displayed packet. No such consumer may pass through
+host real equality, a selected external limit, a quotient stream, or an ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchycriterion-tail-bound-real-seal}. It places the
+tail-bound read inside the displayed modulus, dyadic tolerance, tail ledger,
+regular rational source, and real seal rows of the accepted packet.
+
+Next use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The
+$\RegSeqRatUp$ handoff exhausts the regular rational source rows available to
+the CauchyCriterion consumer, so the route cannot replace them by quotient
+stream data or a selected external limit.
+
+The finite-window input is supplied by
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, and the real
+endpoint is kept inside the packet by
+\autoref{thm:cauchycriterion-real-seal-scope}. Thus the consumer route reaches
+$\RealUp$ through the same finite window, source row, dyadic ledger, and seal
+row.
+
+Finally apply \autoref{thm:cauchycriterion-tail-budget-seal-determinacy}. Any
+route with the same modulus row, dyadic tolerance row, finite tail ledger, and
+$\RegSeqRatUp$ handoff exposes the same $\RealUp$ seal route through
+$H,C,P,N$, so alternate routes using host equality, external limits, quotient
+streams, or ambient completeness coordinates are ruled out.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion completion-facing readback normal form]
 \label{thm:cauchycriterion-completion-facing-readback-normal-form}
 Every completion-facing consumer route for an accepted $\CauchyCriterionUp$
