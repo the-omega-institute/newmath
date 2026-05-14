@@ -110,6 +110,29 @@ theorem DiagonalLimitCompatibilityBudgetSourceLock [AskSetup] [PackageSetup]
     ⟨diagonalUnary, dyadicUnary, windowsUnary, sourceUnary, meshUnary, lockedUnary,
       diagonalDyadicSource, sourceWindowsMesh, meshTriangleLocked, provenancePkg, lockedPkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_root_budget_source [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      budgetSource : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic budgetSource ->
+        PkgSig bundle budgetSource pkg ->
+          UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory budgetSource ∧
+            Cont diagonal dyadic budgetSource ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle budgetSource pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier diagonalDyadicSource budgetSourcePkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, dyadicUnary, _windowsUnary,
+    _readbackUnary, _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have budgetSourceUnary : UnaryHistory budgetSource :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicSource
+  exact
+    ⟨diagonalUnary, dyadicUnary, budgetSourceUnary, diagonalDyadicSource, provenancePkg,
+      budgetSourcePkg⟩
+
 theorem DiagonalLimitCompatibilitySealBudgetRoute [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       budgetPrefix sealBudget : BHist}
