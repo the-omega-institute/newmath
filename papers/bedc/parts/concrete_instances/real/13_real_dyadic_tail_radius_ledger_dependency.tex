@@ -1,0 +1,49 @@
+\begin{theorem}[Real dyadic tail-radius ledger dependency]
+\label{thm:real-dyadic-tail-radius-ledger-dependency}
+Every accepted $\RealUp$ seal-facing consumer that uses the dyadic tail-radius
+route first factors through
+\autoref{ch:concrete-instances-dyadic-tail-radius-ledger-namecert} before the
+local $\RealUp$ seal row is consumed. When the same consumer is
+completion-facing and reads a witness ledger, it also factors through
+\autoref{ch:concrete-instances-cauchy-witness-ledger-namecert} before the
+completion-facing $\RealUp$ seal row is consumed.
+
+Equivalently, the admitted finite route is confined to the displayed chain
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp
+\to \DyadicTailRadiusLedgerUp \to \CauchyWitnessLedgerUp \to \RealUp
+$$
+with the $\CauchyWitnessLedgerUp$ row present only for completion-facing
+witness reads. The route exports no quotient stream equality, host real
+equality, selected external limit, countable choice, or ambient completeness
+principle.
+\end{theorem}
+\begin{proof}
+Begin with the Real dyadic StreamName RegSeqRat route of
+\autoref{thm:real-dyadic-stream-regseq-route}. It places every accepted
+open-phase seal read whose source is presented through dyadic observations,
+finite StreamName windows, and regular-rational readback on the ordered route
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
+
+Next apply the DyadicTailRadiusLedger finite route package from
+\autoref{thm:dyadic-tail-radius-ledger-scoped-route-package}. Its carrier
+inserts the finite precision request, tail-window ledger, StreamName windows,
+dyadic readback, RegSeqRat handoff, and Real seal row into one ledger route.
+Thus a seal-facing consumer using the dyadic tail-radius route cannot reach
+the Real seal before that ledger has been consumed.
+
+For completion-facing witness reads, apply the CauchyWitnessLedger budget
+factorization and Real completion handoff,
+\autoref{thm:cauchy-witness-ledger-budget-factorization} and
+\autoref{thm:cauchy-witness-ledger-real-completion-handoff}. These force the
+consumer through the finite witness ledger before the completion-seal
+classifier and the Real-facing completion read are available.
+
+Finally combine the non-escape boundaries of the three routes:
+\autoref{thm:real-dyadic-stream-regseq-route},
+\autoref{thm:dyadic-tail-radius-ledger-nonescape}, and
+\autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. Since none
+of the composed carriers has a coordinate for quotient stream equality, host
+real equality, selected external limits, countable choice, or ambient
+completeness, the composed Real dependency route exports none of them.
+\end{proof}

@@ -30,6 +30,7 @@ STATE_DIR = SCRIPT_DIR / "state"
 RESEARCH_JSONL = STATE_DIR / "research_candidates.jsonl"
 RESEARCH_LATEST = STATE_DIR / "research_candidates_latest.md"
 ORACLE_ESCALATIONS = STATE_DIR / "research_oracle_escalations.jsonl"
+BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
 
 DEFAULT_LIMIT = 20
 INBOX_TAIL = 800
@@ -107,8 +108,8 @@ def _safe_inputs(inputs: list[str], files: dict[str, dict[str, Any]]) -> tuple[l
         if not rel.startswith("papers/bedc/parts/"):
             reasons.append(f"non_paper_local_input:{rel}")
             continue
-        if rel.startswith("papers/bedc/parts/visions/"):
-            reasons.append(f"vision_inspiration_only:{rel}")
+        if BLOCKED_LANDING_PATH_RE.search(rel):
+            reasons.append(f"inspiration_only_not_board_landing:{rel}")
             continue
         path = REPO_ROOT / rel
         if not path.exists():
@@ -235,6 +236,9 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
     oracle_recommended = bool(ORACLE_WORTHY_RE.search(text)) and not reasons
     if oracle_recommended:
         enriched["oracle_mode"] = "proof_search"
+    _set_missing(enriched, "difficulty", _difficulty(enriched))
+    _set_missing(enriched, "quality_score", _quality_score(enriched, reasons))
+    _set_missing(enriched, "selection_rank", "")
     return {
         "ts": now_iso(),
         "source": source,
@@ -243,6 +247,32 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         "oracle_recommended": oracle_recommended,
         "candidate": enriched,
     }
+
+
+def _quality_score(candidate: dict[str, Any], reasons: list[str]) -> dict[str, int]:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    safe_landing = bool(candidate.get("local_inputs")) and not reasons
+    text = _text(candidate).lower()
+    return {
+        "verifiability": 3 if safe_landing else 0,
+        "locality": 2 if safe_landing else 0,
+        "downstream_use": 2 if fit >= 8 else 1 if fit >= DEFAULT_FIT_THRESHOLD else 0,
+        "line_cap_safety": 2 if safe_landing else 0,
+        "nontriviality": 2 if novelty >= 8 else 1 if novelty >= DEFAULT_NOVELTY_THRESHOLD else 0,
+        "cross_chapter_unification": 2 if len(_as_list(candidate.get("local_inputs"))) >= 3 else 1 if "sibling" in text else 0,
+    }
+
+
+def _difficulty(candidate: dict[str, Any]) -> str:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    text = _text(candidate)
+    if novelty >= 8 and (ORACLE_WORTHY_RE.search(text) or BRIDGE_RE.search(text)):
+        return "high"
+    if fit >= 8 and novelty >= 7:
+        return "medium"
+    return "low"
 
 
 def collect_candidates(limit: int) -> list[dict[str, Any]]:
@@ -307,6 +337,9 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
                 "dependency_trace",
                 "rate_modulus_surface",
                 "oracle_mode",
+                "difficulty",
+                "quality_score",
+                "selection_rank",
             )
         }
         candidate["source"] = "research_lane:candidate_inbox"
@@ -412,6 +445,25 @@ def append_ready(packets: list[dict[str, Any]]) -> object:
     return board_spawn.spawn_from_candidates(codex_candidates=ready, oracle_candidates=[])
 
 
+def write_board_spawn_status(result: object, *, ready_count: int) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    error = str(getattr(result, "error", "") or "")
+    record = {
+        "ts": now_iso(),
+        "ok": bool(getattr(result, "ok", False)),
+        "ready_count": ready_count,
+        "accepted": len(getattr(result, "accepted", []) or []),
+        "rejected": len(getattr(result, "rejected", []) or []),
+        "appended_ids": getattr(result, "appended_ids", []) or [],
+        "error_kind": str(getattr(result, "error_kind", "") or ""),
+        "error": " ".join(error.split())[:500],
+    }
+    BOARD_SPAWN_LATEST.write_text(
+        json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC codex research candidate lane")
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
@@ -436,7 +488,9 @@ def main() -> int:
             f"oracle_recommended={oracle} latest={RESEARCH_LATEST.relative_to(REPO_ROOT)}"
         )
     if args.append:
+        ready_count = sum(1 for p in packets if p.get("status") == "ready")
         result = append_ready(packets)
+        write_board_spawn_status(result, ready_count=ready_count)
         error_kind = str(getattr(result, "error_kind", "") or "")
         error = str(getattr(result, "error", "") or "")
         error_summary = " ".join(error.split())[:300]
