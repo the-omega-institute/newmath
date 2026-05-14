@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\HashDigestFiberBoundaryUp$}
+\label{ch:concrete-instances-hash-digest-fiber-boundary-namecert}
+\origin{ai}
+
+The $\HashDigestFiberBoundaryUp$ packet realizes the digest/fiber boundary isolated in \autoref{ch:visions-hash-like-apophatic-fixed-point} as a finite NameCert surface. It sits beside the hash-apophatic seal of \autoref{ch:concrete-instances-hashapophaticseal-namecert}, the digest-fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, and the hash-like fiber boundary of \autoref{ch:concrete-instances-hashlikefiberboundary-namecert}. Its role is narrower than those siblings: it names the boundary at which visible digest sameness, source-fiber membership, GAP provenance, and refusal of source equality must be read together.
+
+\begin{definition}[HashDigestFiberBoundary carrier]
+\label{def:hash-digest-fiber-boundary-carrier}
+A $\HashDigestFiberBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,E,F,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest row read through the $\HashUp$ surface;
+\item $E$ is the digest-sameness row, recording classifier-level sameness of visible digest tokens;
+\item $F$ is the fiber-membership row, recording the source-side membership behind $D$ without identifying members of the fiber;
+\item $G$ is the $\mathsf{GAP}$ provenance row for the same fiber boundary;
+\item $R$ is the refusal row blocking any consumer from turning $E$ into source equality or selected preimage recovery;
+\item $H$ records componentwise $\hsame$ transports for $D,E,F,G,R,C,P,N$;
+\item $C$ records displayed $\Cont$ routes for digest, digest-sameness, fiber, GAP, refusal, transport, provenance, and local naming reads;
+\item $P$ is the $\Pkg$ provenance over $\HashUp$, $\DigestFiberLedgerUp$, $\HashLikeFiberBoundaryUp$, $\HashApophaticSealUp$, $\ApophaticFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HashDigestFiberBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for source equality obtained from digest sameness, no hidden preimage selector, no quotient collapse of the fiber, no global digest, and no unledgered source read.
+\end{definition}
+
+\begin{theorem}[HashDigestFiberBoundary NameCert obligations]
+\label{thm:hash-digest-fiber-boundary-namecert-obligations}
+For the carrier of \autoref{def:hash-digest-fiber-boundary-carrier}, the local $\NameCert_{\HashDigestFiberBoundaryUp}$ surface consists exactly of carrier admission for
+$$
+B=(D,E,F,G,R,H,C,P,N),
+$$
+visible digest exposure through $D$, digest-sameness exposure through $E$, fiber membership through $F$, GAP provenance through $G$, source-equality refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every accepted consumer of the packet must preserve the boundary order: digest sameness is read before source equality is even meaningful, and source equality remains unavailable unless a separate exactness certificate is displayed outside the $\HashDigestFiberBoundaryUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier in \autoref{def:hash-digest-fiber-boundary-carrier}. The rows $D,E,F,G,R$ are the complete digest/fiber boundary content, while $H,C,P,N$ transport, replay, package, and name the same finite packet.
+
+Read the sibling sources through their local roles. The $\HashUp$ surface supplies the visible digest, $\DigestFiberLedgerUp$ supplies the fiber and GAP rows, $\HashLikeFiberBoundaryUp$ supplies the consumer boundary discipline, $\HashApophaticSealUp$ supplies the digest/fiber/far-end seal pattern, and $\ApophaticFixedPointUp$ supplies the refusal of internalized far-end objects.
+
+The NameCert surface is exhausted by these rows. Since the carrier has no coordinate for source equality from digest sameness, selected preimage recovery, quotient collapse, global digest, or unledgered source read, an accepted consumer cannot obtain any of those readings from the packet.
+\end{proof}
+
+\begin{theorem}[HashDigestFiberBoundary nonescape]
+\label{thm:hash-digest-fiber-boundary-nonescape}
+Every accepted $\HashDigestFiberBoundaryUp$ consumer that reads digest sameness through $E$ must also keep the visible digest row $D$, fiber row $F$, GAP provenance row $G$, refusal row $R$, componentwise transport $H$, continuation routes $C$, package provenance $P$, and local naming row $N$. Removing the fiber and GAP provenance rows while keeping digest sameness collapses the packet's ability to distinguish digest equality from source equality.
+
+Consequently the packet exports no source-equality reflection, selected preimage, quotient fiber, global universe digest, hidden source payload, or unledgered source read.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $B=(D,E,F,G,R,H,C,P,N)$. The digest-sameness row $E$ is only a classifier-facing comparison of visible digest rows, while $F$ and $G$ record the source-side fiber membership and provenance that keep the boundary auditable.
+
+Apply the NameCert obligations of \autoref{thm:hash-digest-fiber-boundary-namecert-obligations}. They force any accepted read of $E$ to remain packaged with the digest, fiber, GAP, refusal, transport, continuation, provenance, and local naming rows.
+
+If $F$ and $G$ are removed while $E$ remains, the remaining carrier does not record which source-side fiber is being compared. The packet therefore has no displayed way to separate digest equality from source equality. Since source-equality reflection, selected preimage recovery, quotient collapse, global digest, hidden source payload, and unledgered source reads have no carrier coordinate, none can escape the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Removing the fiber and GAP provenance rows while keeping digest sameness collapses the chapter's ability to distinguish digest equality from source equality.}
+
+\independenceWitness{Nearest siblings: hashapophaticseal, digestfiberledger, hashlikefiberboundary, hash, and apophaticfixedpoint. No bijection exists because each sibling omits at least one row among explicit digest-sameness exposure, fiber membership, GAP provenance, source-equality refusal, and local NameCert packaging for the digest/fiber boundary.}
+
+The Lean boundary \texttt{lean4/BEDC/Derived/HashDigestFiberBoundaryUp/TasteGate.lean} must provide \texttt{Nontrivial HashDigestFiberBoundaryUp} and \texttt{FieldFaithful HashDigestFiberBoundaryUp} instances for the displayed digest, digest-sameness, fiber, GAP, refusal, transport, continuation, provenance, and naming carrier.
