@@ -2,6 +2,7 @@
 \label{thm:continuation-monad-root-public-consumer-totality}
 Every public $\ContinuationMonadUp$ consumer of an accepted packet $Z=(A,B,C,f,g,u,H,K,L,N)$ must pass through the $\CategoryUp$ hom row, the $\GeneratorClosureUp$ source row, the unit row, the bind row, the Kleisli composite row, the componentwise $\hsame$ transport, the $\Cont$ replay, the $\Pkg$ provenance, and the local $\NameCert$ row before it receives the public continuation-monad surface. It exports no host evaluator, quotient Kleisli category, ambient category completion, unlisted continuation generator, or monad law outside those displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_consumer\_totality}
 \begin{proof}
 Begin with the root public obligation triad \autoref{thm:continuation-monad-root-public-obligation-triad}. It fixes the public source histories, continuation tails, and NameCert rows of $Z$ before any downstream consumer reads the monad-facing surface.
 
@@ -20,6 +21,7 @@ Z=(A,B,C,f,g,u,H,K,L,N)
 $$
 before reading the unit, bind, or Kleisli composite rows. Changing either source lock invalidates the public $\ContinuationMonadUp$ consumer route and cannot be repaired by host function composition, quotient Kleisli arrows, or an ambient category completion.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_source\_lock}
 \begin{proof}
 Begin with root public consumer totality. It places every public consumer of $Z$ behind the Category hom row, GeneratorClosure source row, unit row, bind row, Kleisli row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
 
