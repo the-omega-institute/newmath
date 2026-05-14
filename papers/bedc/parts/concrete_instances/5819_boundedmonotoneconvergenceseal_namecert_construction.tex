@@ -106,6 +106,38 @@ The sibling surfaces certify the same ordering: \autoref{ch:concrete-instances-b
 Finally apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. It identifies $L$ as compatibility only and $R$ as the Real convergence handoff after the displayed route. Since the carrier contains no coordinate for selected limits, quotient stream equality, host real equality, ambient completeness, or metric-completeness rows, the handoff is exact at the listed Real seal boundary.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal limit-seal compatibility]
+\label{thm:bounded-monotone-convergence-seal-limit-seal-compatibility}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
+$$
+the row $L$ is only the $\CauchyLimitSealUp$ compatibility boundary reached after $W,M,K,F,\sigma,D$. It cannot itself expose a selected limit, quotient stream equality, host real equality, ambient completeness theorem, or a $\RealUp$ seal read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-monotone-convergence-seal-carrier}. The displayed route reaches $L$ only after the bounded witness row, the public monotone and Cauchy rows, the regular-rational row, the stream-window row, and the dyadic ledger row.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-criterion-route}. It identifies every tolerance-facing read of $L$ as a read of the CauchyLimitSeal compatibility boundary after $W,M,K,F,\sigma,D$.
+
+The sibling $\CauchyLimitSealUp$ surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert} is therefore used only as the boundary surface, while the $\RealUp$ surface of \autoref{ch:concrete-instances-real-namecert} is read only at the terminal row $R$. The carrier has no coordinate for selected limits, quotient stream equality, host real equality, ambient completeness, or an early Real seal read, so coordinate exhaustion gives the stated nonescape.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal Real boundary nonescape]
+\label{thm:bounded-monotone-convergence-seal-real-boundary-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\BoundedMonotoneConvergenceSealUp$ packet reaches $R$ only through the displayed route
+$$
+W \to (M,K) \to (F,\sigma,D,L) \to R.
+$$
+It cannot recover an ambient completeness theorem, metric-completeness row, trichotomy row, open-cover compactness row, or detached tail oracle from that Real boundary.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. It forces every Real-facing or completion-facing consumer to pass through the bounded witness row $W$ before the public rows and finite route are available.
+
+Next apply \autoref{thm:bounded-monotone-convergence-seal-criterion-route} and \autoref{thm:bounded-monotone-convergence-seal-real-handoff}. These theorems place the public monotone and Cauchy rows $M,K$ before $F,\sigma,D,L$ and place the Real handoff row $R$ only after the same route.
+
+Finally use \autoref{thm:bounded-monotone-convergence-seal-terminal-budget-exhaustion}. The excluded ambient completeness theorem, metric-completeness row, trichotomy row, open-cover compactness row, and detached tail oracle have no coordinate in $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$, so the displayed Real boundary cannot export them.
+\end{proof}
+
 \begin{theorem}[Bounded monotone convergence seal obligation package]
 \label{thm:bounded-monotone-convergence-seal-obligation-package}
 The obligation surface of an accepted $\BoundedMonotoneConvergenceSealUp$ packet is the ordered package
