@@ -188,4 +188,36 @@ theorem DiagonalLimitCompatibility_seal_consumer_factorization [AskSetup] [Packa
       endpointUnary, diagonalTriangleSeal, dyadicWindowsReadback, readbackEndpoint,
       provenancePkg, endpointPkg⟩
 
+theorem DiagonalLimitCompatibility_window_route_lock [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector locked endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal windows selector ->
+        Cont selector readback locked ->
+          Cont locked realSeal endpoint ->
+            PkgSig bundle endpoint pkg ->
+              UnaryHistory diagonal ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+                UnaryHistory selector ∧ UnaryHistory locked ∧ UnaryHistory endpoint ∧
+                  Cont diagonal windows selector ∧ Cont selector readback locked ∧
+                    Cont locked realSeal endpoint ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalWindowsSelector selectorReadbackLocked lockedRealSealEndpoint endpointPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindowsSelector
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed selectorUnary readbackUnary selectorReadbackLocked
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed lockedUnary realSealUnary lockedRealSealEndpoint
+  exact
+    ⟨diagonalUnary, windowsUnary, readbackUnary, selectorUnary, lockedUnary,
+      endpointUnary, diagonalWindowsSelector, selectorReadbackLocked,
+      lockedRealSealEndpoint, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
