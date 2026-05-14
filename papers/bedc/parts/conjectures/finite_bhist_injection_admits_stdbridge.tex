@@ -156,6 +156,18 @@ The concrete landing surface is supplied by the two packet chapters. The FiniteR
 Composing these rows gives the announced landing surface: recognizer acceptance and generated-recognizer mediation must pass the certificate gate before the finite tuple-image and readback rows can be consumed by $\FiniteReflectionTupleUp$. The result therefore narrows the remaining recognizer-to-carrier boundary to these concrete packet surfaces, without producing a carrier map and without producing a $\StdBridge$ theorem.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection recognizer landing refinement]
+\label{thm:finite-bhist-injection-recognizer-landing-refinement}
+The recognizer route for \autoref{conj:finite-bhist-injection-admits-stdbridge} may be tested only after the $\GroundCompilerRecognizerFlowUp$ recognizer-flow acceptance row lands in the $\FiniteReflectionTupleUp$ image and readback rows, componentwise $\hsame$ and $\NameCert$ transport, the $\ChapterTasteGate$ row, and the non-escape boundary. Absence of any one of these rows is outside the weakened route; once all are present, any remaining failure must be a recognizer-to-carrier obstruction rather than a missing landing-surface row.
+\end{theorem}
+\begin{proof}
+Start with the recognizer-to-tuple landing surface. By \autoref{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}, accepted recognizer-flow evidence must pass through the generated-recognizer and certificate-gate rows before it can be read as finite tuple image and readback data.
+
+Next use the fixed tuple route and its obligation surface. \autoref{thm:finite-bhist-injection-fixed-tuple-route} and \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface} require the tuple image, readback, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ rows before the fixed finite route is compared.
+
+Finally apply the recognizer counter-boundary. \autoref{thm:finite-bhist-injection-recognizer-counter-boundary} separates missing recognizer, extraction, readback, transport, or taste-gate rows from a genuine recognizer-to-carrier obstruction. Therefore the strengthened test reaches the weakened route only after the full landing surface is displayed, and any later failure is located at the recognizer-to-carrier boundary.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection weakened status closure]
 \label{thm:finite-bhist-injection-weakened-status-closure}
 The currently weakened finite $\BHist$ injection conjecture is closed exactly for the fixed finite tuple route. Once the tuple carrier, image row, readback row, componentwise $\NameCert$ transports, and $\ChapterTasteGate$ row are displayed, the fixed-route $\StdBridge$ obligation surface is complete. The recognizer-to-carrier strengthening remains outside this closure.
