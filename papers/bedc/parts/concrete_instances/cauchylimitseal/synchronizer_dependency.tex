@@ -55,3 +55,17 @@ Finally use the tail-budget nonescape theorem \autoref{thm:cauchy-limit-seal-syn
 
 These coordinates are the entire displayed synchronizer route. Since quotient streams, hidden family limits, selected host limits, host real equality, unbounded schedules, ambient completeness principles, and direct $\RealUp$ bypasses are absent from that coordinate list, none of them can be read by the synchronizer consumer.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal synchronizer route factorization]
+\label{thm:cauchy-limit-seal-synchronizer-route-factorization}
+Any synchronizer-facing $\CauchyLimitSealUp$ read factors through the $\StreamNameUp$ finite-window surface, the $\RegularCauchyNameUp$ and $\RegSeqRatUp$ handoff surfaces, the $\RealObservationBudgetUp$ rows, the $\CauchySealBudgetSynchronizerUp$ rows of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the local $\CauchyLimitSealUp$ rows before the $\RealUp$ seal is consumed. The factorization has no quotient stream equality, selected host limit, hidden family limit, host real equality, unbounded schedule, ambient completeness row, or direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+Start with the pullback theorem \autoref{thm:cauchy-limit-seal-streamname-synchronizer-pullback}. It places the synchronizer-facing read on the finite StreamName window, the displayed RegularCauchyName route, and the local CauchyLimitSeal rows before the synchronizer budget rows of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert} are read.
+
+Next use observation-budget route exactness from \autoref{thm:cauchy-limit-seal-synchronizer-observation-budget-route-exactness}. This identifies the RealObservationBudget leg with the RegSeqRat handoff, the observation-budget rows, the synchronizer rows, and the same local seal rows.
+
+The tail-budget nonescape theorem \autoref{thm:cauchy-limit-seal-synchronizer-tail-budget-nonescape} then rules out quotient streams, selected host limits, hidden family limits, unbounded schedules, and ambient completeness coordinates along the shared-tail route.
+
+Finally apply finite-window nonescape \autoref{thm:cauchy-limit-seal-synchronizer-finite-window-nonescape}. It exhausts the remaining $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates before any $\RealUp$ seal read, so the displayed factorization is the only synchronizer-facing route.
+\end{proof}
