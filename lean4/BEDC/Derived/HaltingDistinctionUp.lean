@@ -51,4 +51,28 @@ theorem HaltingDistinctionDiagonalBoundary [AskSetup] [PackageSetup]
     ⟨diagonalReadUnary, classifierReadUnary, endpointUnary, diagonalHaltRead,
       classifierRouteRead, readEndpoint, provenancePkg, endpointPkg⟩
 
+theorem HaltingDistinctionTraceReadability [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert traceRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg →
+      Cont trace route traceRead →
+        Cont traceRead classifier endpoint →
+          PkgSig bundle endpoint pkg →
+            UnaryHistory traceRead ∧ UnaryHistory endpoint ∧ Cont trace route traceRead ∧
+              Cont traceRead classifier endpoint ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier traceRouteRead readClassifierEndpoint endpointPkg
+  obtain ⟨_questionUnary, traceUnary, _diagonalUnary, _haltUnary, classifierUnary,
+    routeUnary, _provenanceUnary, _certUnary, _questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary traceRouteRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceReadUnary classifierUnary readClassifierEndpoint
+  exact
+    ⟨traceReadUnary, endpointUnary, traceRouteRead, readClassifierEndpoint, provenancePkg,
+      endpointPkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp
