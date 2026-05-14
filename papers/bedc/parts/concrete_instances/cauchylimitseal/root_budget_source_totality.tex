@@ -30,6 +30,18 @@ Then apply tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}.
 The $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package} and the exactness theorem \autoref{thm:real-observation-budget-consumer-exactness} identify the regular and real-facing budget consumers with that same packet. Hence the budget route reads precisely the scheduled window ledger already exposed by $L$.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal budget window source refusal]
+\label{thm:cauchy-limit-seal-budget-window-source-refusal}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, any route that presents a budget dyadic window not identified with the scheduled seal-side $\StreamNameUp$ window of \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness} is not a public $\RealObservationBudgetUp$-facing read of the accepted $\CauchyLimitSealUp$ packet.
+\end{theorem}
+\begin{proof}
+Apply source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. It confines every accepted budget-facing read to the displayed seal rows and the displayed budget rows, with no hidden completion coordinate or independent source row.
+
+Next apply dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The budget dyadic ledger is the scheduled seal-side $\StreamNameUp$ window ledger transported through the displayed $\hsame$ and $\Cont$ rows.
+
+Therefore a route that presents a different budget window has no source coordinate among the displayed seal and budget rows. It is not a public $\RealObservationBudgetUp$-facing read of the accepted $\CauchyLimitSealUp$ packet.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal budget selector coherence]
 \label{thm:cauchy-limit-seal-budget-selector-coherence}
 In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, let an accepted selector route be admitted through the same $\CauchyLimitSealUp$ packet as an accepted $\RealObservationBudgetUp$ read over the same precision request and finite $\StreamNameUp$ window. Then the selector read and the observation-budget read meet on one displayed route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Their selector leg and budget leg agree on the dyadic-window ledger identified by \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, and the route exports no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
