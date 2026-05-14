@@ -60,6 +60,7 @@ The rows $H,C,P,N$ then expose transport, continuation replay, package provenanc
 \label{thm:binder-context-substitution-seal-non-escape}
 Every accepted $\BinderContextSubstitutionSealUp$ packet exports the substitution payload $v$ only as an attempted route through $s=\texttt{substitute}(d,v,t)$ together with the boundary witness $b$. If $b$ carries \texttt{ClosedAt} $d$ $t$, then the exposed result row is $s=t$, and no consumer can read the packet as a payload insertion, an open-variable escape, a binder capture, or a depth borrowed from outside the displayed boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_non\_escape\_boundary}
 \begin{proof}
 Read the substitution row from the carrier. The only route from $v$ to the accepted output is the displayed replay $s=\texttt{substitute}(d,v,t)$.
 
