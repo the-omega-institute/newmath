@@ -102,12 +102,32 @@ The certified negation is obtained by replaying $F$ from $U$ to $\bot$, with $H$
 The unavailable reads are ruled out componentwise. Host truth, excluded-middle branching, witness selection, and all-certificate classification have no coordinate in the packet, and the exclusion ledger $E$ records that they are not consumer interfaces.
 \end{proof}
 
+\begin{theorem}[RefuterTrace finite witnessed boundary]
+\label{thm:refuter-trace-finite-witnessed-boundary}
+For an accepted $\RefuterTraceUp$ carrier $R=(A,U,F,E,H,C,P,N)$, any downstream consumer that reads the trace as a finite witnessed refutation or as a bounded-search refutation must first pass through the displayed rows
+$$
+A,U,F,E,H,C,P,N.
+$$
+Only after that local passage may the consumer enter \autoref{ch:concrete-instances-finitewitnessedrefutation-namecert} or \autoref{ch:concrete-instances-boundedsearchrefutation-namecert}, and then only as finite consumer packaging for the already displayed trace.
+
+The passage does not provide witness selection by contradiction, double-negation elimination without a decision row, excluded-middle branching, host truth, or a classifier over all naming certificates.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refuter-trace-carrier}. Its certificate-visible coordinates are exactly $A,U,F,E,H,C,P,N$, so any consumer route begins with those rows rather than with an ambient contradiction principle.
+
+Apply the obligation surface of \autoref{thm:refuter-trace-namecert-obligations}. The trace is readable only as the finite route $F$ from the local assumption token $U$ for $A$ to $\bot$, while the rows $E,H,C,P,N$ record exclusions, transports, continuation routes, provenance, and local naming.
+
+Apply the consumer boundary of \autoref{thm:refuter-trace-consumer-boundary}. A downstream reader may consume the certified negation produced by the trace, but it cannot obtain host truth, a global excluded-middle oracle, a witness selector, or an all-certificate classifier from the packet.
+
+The sibling chapters are therefore read only after the local packet has been exhausted. \autoref{ch:concrete-instances-finitewitnessedrefutation-namecert} supplies finite witnessed-refutation packaging, and \autoref{ch:concrete-instances-boundedsearchrefutation-namecert} supplies bounded-search packaging; neither chapter is an extra logical principle for the RefuterTrace carrier.
+\end{proof}
+
 \closureat{RefuterTraceUp}{seedStr}
 
 \begin{closurestatus}{\RefuterTraceUp}
   \constructivestory{A $\RefuterTraceUp$ packet is generated from a proposition row, a local assumption token, a finite refuter trace to $\bot$, a forbidden-branch exclusion ledger, componentwise transports, displayed continuation routes, package provenance, and a local naming ledger.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:refuter-trace-carrier}, \autoref{thm:refuter-trace-namecert-obligations}, \autoref{thm:refuter-trace-permitted-refutation-soundness}, \autoref{thm:refuter-trace-forbidden-branch-exclusion}, and \autoref{thm:refuter-trace-consumer-boundary} bind the finite carrier, obligation surface, permitted refutation route, forbidden-branch exclusion, and consumer boundary.}
+  \scopeclosed{\autoref{def:refuter-trace-carrier}, \autoref{thm:refuter-trace-namecert-obligations}, \autoref{thm:refuter-trace-permitted-refutation-soundness}, \autoref{thm:refuter-trace-forbidden-branch-exclusion}, \autoref{thm:refuter-trace-consumer-boundary}, and \autoref{thm:refuter-trace-finite-witnessed-boundary} bind the finite carrier, obligation surface, permitted refutation route, forbidden-branch exclusion, consumer boundary, and finite consumer route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
