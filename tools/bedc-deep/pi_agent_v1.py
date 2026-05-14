@@ -1311,6 +1311,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         rationale = str(plan.get("rationale", ""))
         escalated = bump_concerns(plan.get("concerns") or [])
         autonomous_actions = list(plan.get("autonomous_actions") or [])
+        recent_pi_cycles = snapshot.get("recent_pi_cycles") or []
         shallow = snapshot.get("shallow_completed_candidate") or {}
         has_deepen = any(
             (a.get("action") or "").strip() == "request_deepen_target"
@@ -1330,6 +1331,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         if (
             shallow
             and not has_deepen
+            and not autonomous_actions
             and recent_deepen_rejections < 3
             and not _snapshot_has_active_refill(snapshot)
         ):
@@ -1338,6 +1340,10 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
                 "args": {
                     "target_id": shallow.get("target_id"),
                     "reason": shallow.get("reason", "shallow completed target"),
+                    "title": shallow.get("title"),
+                    "slug": shallow.get("slug"),
+                    "audit_score": shallow.get("audit_score"),
+                    "rounds_total": shallow.get("rounds_total"),
                 },
                 "intent": "Re-queue a completed target whose accepted deliverable looks shallow.",
                 "expected_effect": "The next attempt runs with deepen_request metadata and an obligation-traversal directive.",
