@@ -167,6 +167,82 @@ The excluded data are not available as public coordinates, so they cannot
 provide a second route.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family real seal tail coprovenance]
+\label{thm:uniform-cauchy-criterion-finite-family-real-seal-tail-coprovenance}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The $\RegSeqRatUp$-visible
+tail row and the $\RealUp$-visible seal handoff are coprovenant over the same
+route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Neither side can be repacked with a different $\StreamNameUp$ family,
+detached tail row, selected limit, quotient stream, host real equality, or
+ambient completeness route.
+\end{theorem}
+\begin{proof}
+First read the finite-family seal obligation package. By
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package},
+the packet exposes exactly the rows $I,W,M,Q,T,E,H,C,P,N$ to tail-facing and
+seal-facing consumers.
+
+Next apply the finite-family RegSeqRat--Real handoff.
+\autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff}
+puts the $\RegSeqRatUp$ tail read and the $\RealUp$ seal read on the same path
+from $I$ to $E$.
+
+The nonescape ledger removes alternate completion data.
+\autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger}
+excludes selected limits, quotient streams, host real equality, ambient
+completeness witnesses, and detached tail oracles from the public surface.
+
+Finally use the shared seal-route determinacy theorem.
+\autoref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy}
+prevents a second $\StreamNameUp$ family or completion route from carrying
+either side. Thus the tail row and seal handoff have the same route provenance.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion RegSeqRat--Real window budget compatibility]
+\label{thm:uniform-cauchy-criterion-regseq-real-window-budget-compatibility}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any finite-window budget
+refinement preserving $I,W,M,Q,T,E,H,C,P,N$ preserves the $\RegSeqRatUp$ tail
+read and the $\RealUp$ seal read simultaneously along
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+A refinement that changes one of these reads without the other is not an
+accepted refinement of the packet $U$.
+\end{theorem}
+\begin{proof}
+Start with prefix and window stability.
+\autoref{thm:uniform-cauchy-criterion-window-stability} keeps the finite read
+on the displayed window family $W$, and
+\autoref{thm:uniform-cauchy-criterion-finite-family-route-lock} fixes the only
+handoff route from $I$ through $E$ for consumers preserving the packet rows.
+
+Next compare refinements by the finite-family seal overlap determinacy theorem.
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy}
+says that refinements preserving $I,W,M,Q,T,E,H,C,P,N$ determine the same
+tail row and the same seal handoff.
+
+It remains to exclude hidden completion pullback. Apply
+\autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape}.
+No selected limit, quotient stream, host real equality, detached tail oracle, or
+ambient completeness witness is available as a separate budget coordinate.
+
+Therefore a finite-window budget refinement that preserves the accepted packet
+preserves both visible reads at once. Changing only the tail read or only the
+seal read would introduce a route outside $I,W,M,Q,T,E,H,C,P,N$, so it is not an
+accepted refinement of $U$.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family refinement handoff]
 \label{thm:uniform-cauchy-criterion-finite-family-refinement-handoff}
 Let
