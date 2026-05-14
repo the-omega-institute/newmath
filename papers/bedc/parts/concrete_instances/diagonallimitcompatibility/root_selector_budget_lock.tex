@@ -18,6 +18,24 @@ Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-budget-packag
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorBudgetLock}
 
+\begin{theorem}[DiagonalLimitCompatibility root selector finite-window refinement]
+\label{thm:diagonal-limit-compatibility-root-selector-window-refinement}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every root-selector read of $K$ that reaches a $\RealUp$ or $\CompletionUp$ seal refines through the same finite L10 route: the selector-budget source, the $\CauchySealBudgetSynchronizerUp$ handoff, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealUp$ seal $L$, the $\CauchyLimitSealUp$ boundary, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The refined route has no host limit, quotient stream, selected limit, host real equality, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. It fixes every root-selector read on the displayed selector-budget source and structural rows before the read may inspect $D,W,Q,L$.
+
+Insert the seal handoff using \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. The synchronizer is downstream of the same selector prefix, so the read cannot swap to a second source while moving toward a $\RealUp$ or $\CompletionUp$ seal.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-tail-schedule-readback}. The stream window $W$, regular-rational readback $Q$, dyadic ledger $D$, and Real seal $L$ remain on the finite route that the tail schedule exposes to the seal-facing consumer.
+
+Finally combine \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion} with \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. These results place the $\CauchyLimitSealUp$ boundary and every $\RealUp$ or $\CompletionUp$ consumer inside the same package rows $R,T,S,D,W,Q,L,H,C,P,N$, excluding host limits, quotient streams, selected limits, host equality, countable-choice rows, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility seal budget route exhaustion]
 \label{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}
 Let

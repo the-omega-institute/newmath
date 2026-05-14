@@ -244,6 +244,47 @@ theorem FiniteNetMinimumFoldPacket_uniform_modulus_handoff [AskSetup] [PackageSe
     ⟨accumulatorUnary, lowerUnary, handoffUnary, accumulatorLowerHandoff,
       accumulatorLowerTransport, handoffSame, handoffPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_compactmetric_probe_consumption
+    [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow compactInput folded
+      lowerExport uniformOutput : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius compactInput →
+        Cont compactInput accumulator folded →
+          Cont folded lower lowerExport →
+            hsame uniformOutput accumulator →
+              PkgSig bundle provenance pkg →
+                PkgSig bundle lowerExport pkg →
+                  UnaryHistory compactInput ∧ UnaryHistory folded ∧
+                    UnaryHistory lowerExport ∧ UnaryHistory uniformOutput ∧
+                      Cont bundleRow radius compactInput ∧
+                        Cont compactInput accumulator folded ∧
+                          Cont folded lower lowerExport ∧
+                            Cont accumulator lower transport ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle lowerExport pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg hsame
+  intro packet bundleRadiusCompact compactAccumulatorFolded foldedLowerExport
+    outputSame provenancePkg lowerExportPkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have compactInputUnary : UnaryHistory compactInput :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusCompact
+  have foldedUnary : UnaryHistory folded :=
+    unary_cont_closed compactInputUnary accumulatorUnary compactAccumulatorFolded
+  have lowerExportUnary : UnaryHistory lowerExport :=
+    unary_cont_closed foldedUnary lowerUnary foldedLowerExport
+  have uniformOutputUnary : UnaryHistory uniformOutput :=
+    unary_transport_symm accumulatorUnary outputSame
+  exact
+    ⟨compactInputUnary, foldedUnary, lowerExportUnary, uniformOutputUnary,
+      bundleRadiusCompact, compactAccumulatorFolded, foldedLowerExport,
+      accumulatorLowerTransport, provenancePkg, lowerExportPkg⟩
+
 theorem FiniteNetMinimumFoldPacket_selector_stability [AskSetup] [PackageSetup]
     {bundleRow radius accumulator lower transport route provenance nameRow selector selected
       exported : BHist}
