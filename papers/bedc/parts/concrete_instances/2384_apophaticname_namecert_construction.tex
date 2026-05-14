@@ -530,6 +530,48 @@ Apply supply-request consumer factorization, \autoref{thm:apophatic-name-supply-
 Now use \autoref{thm:apophatic-name-downstream-named-externality-refusal}. Downstream citation still receives only the displayed refusal packet, so the requested supply row cannot import an object, axiom, quotient representative, hidden theorem, or host datum.
 \end{proof}
 
+\begin{theorem}[ApophaticName socket refusal totality]
+\label{thm:apophatic-name-socket-refusal-totality}
+Every socket-facing consumer read of an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$ must pass through the displayed refusal ledger, classifier-stability row, supply-request gate, and nonimport row before it can cite the packet. The resulting citation is a finite refusal packet over $S,R,G,L,H,C,P,N$, not a supplied object, host datum, quotient representative, hidden theorem, or assumed proposition.
+\end{theorem}
+\begin{proof}
+Begin with the refusal ledger, \autoref{thm:apophatic-name-refusal-ledger}. It identifies the visible socket, request, refusal-gate, ledger, transport, continuation, provenance, and naming rows as the consumer surface.
+
+Use classifier stability from \autoref{thm:apophatic-name-classifier-stability}. Componentwise $\hsame$ transport preserves that same refusal classifier and does not create another socket-facing coordinate.
+
+Now apply the socket-request gate factorization and supply-request nonimport rows, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-supply-request-nonimport}. They force a socket-facing read through $G,L,H,C,P,N$ before the packet can be cited downstream.
+
+The packet has no coordinate for supplied content, host data, quotient representatives, hidden theorems, or assumed propositions. Hence every socket-facing citation is total only as the displayed refusal packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName contextual class non-escape]
+\label{thm:apophatic-name-contextual-class-nonescape}
+The refusal surface of an accepted $\ApophaticNameUp$ packet never supplies a contextual-class object, host selector, or imported ontology outside the displayed rows $S,R,G,L,H,C,P,N$. Any attempted contextual-class read is stopped by the refusal ledger, classifier stability, non-escape certificate, and supply-request nonimport boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:apophatic-name-carrier}. The only rows present are the socket, requested supply shape, refusal gate, refusal ledger, transport, continuation, provenance, and local naming row.
+
+Apply the refusal ledger and classifier stability theorems, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-classifier-stability}. They keep every transported consumer read on the same refusal rows.
+
+Use the non-escape certificate, \autoref{thm:apophatic-name-non-escape-certificate}. It rules out conversion of the named externality into a generated object, assumed proposition, quotient class, concealed theorem, or host-side datum.
+
+Finally cite supply-request nonimport, \autoref{thm:apophatic-name-supply-request-nonimport}. Since the request row remains a requested supply-shape coordinate behind the refusal gate, no contextual-class object, host selector, or imported ontology can be supplied by the packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName boundary descent ledger]
+\label{thm:apophatic-name-boundary-descent-ledger}
+Downstream descent through the apophatic boundary of an accepted $\ApophaticNameUp$ packet is ledger-bounded by the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. A consumer may descend only by replaying $S,R,G,L$ through $H,C,P,N$, and it cannot add a supplied external object, host selector, imported ontology, quotient representative, hidden theorem, or assumed proposition.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and the refusal ledger, \autoref{def:apophatic-name-carrier} and \autoref{thm:apophatic-name-refusal-ledger}. They place the boundary in finite $\BHist$ rows and identify $L$ as the ledger for the permitted socket and request reads.
+
+Use classifier stability, \autoref{thm:apophatic-name-classifier-stability}. The descent rows are transported only componentwise along $H$, so the classifier remains attached to the displayed refusal packet.
+
+Apply the non-escape certificate together with supply-request nonimport, \autoref{thm:apophatic-name-non-escape-certificate} and \autoref{thm:apophatic-name-supply-request-nonimport}. These results keep the requested supply shape behind the gate and rule out every conversion to supplied or host-side content.
+
+Thus any downstream descent is exactly a replay through $\Cont$, packaging through $\Pkg$, and citation by the local $\NameCert$ row. The descent is ledger-bounded by $S,R,G,L,H,C,P,N$ and has no other boundary object to export.
+\end{proof}
+
 \closureat{ApophaticNameUp}{scopedStr}
 \closureat{ApophaticNameUp}{publicStr}
 
