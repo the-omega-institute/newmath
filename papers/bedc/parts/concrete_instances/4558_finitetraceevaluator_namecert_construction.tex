@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier accepts exactly packets whose visible coordinates are $I,T,A,V,H,C,P,N$. The carrier has no coordinate for a host evaluator, a total truth predicate, an unbounded execution stream, or the judgment that the bounded evaluator validates itself.
 \end{definition}
+\leanchecked{BEDC.Derived.FiniteTraceEvaluatorUp.FiniteTraceEvaluatorTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FiniteTraceEvaluator NameCert obligations]
 \label{thm:finite-trace-evaluator-namecert-obligations}
@@ -518,6 +519,104 @@ The accepted result ledger is already exhausted by the finite trace,
 classifier, validation boundary, provenance, and name, so the refusal package
 cannot be repackaged as a self-validator.
 \end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator nontrivial carrier pair]
+\label{thm:finite-trace-evaluator-nontrivial-carrier-pair}
+The $\FiniteTraceEvaluatorUp$ carrier has at least two distinguishable packet
+shapes. One admitted shape exposes an input-only finite trace packet with rows
+$I,T,H,C,P,N$ and no accepted-result row. A second admitted shape exposes the
+same finite input and trace surface together with a displayed accepted-result
+row $A$ and validation-boundary row $V$. The local classifier can therefore
+distinguish an input-only trace packet from a packet whose finite trace carries
+an accepted-result row.
+\end{theorem}
+\begin{proof}
+Start from the carrier row of \autoref{def:finite-trace-evaluator-carrier}.
+The row $I$ supplies the coded input, $T$ supplies the finite trace-window
+coordinate, and $H,C,P,N$ record transport, continuation, provenance, and the
+local name.
+
+For the input-only shape, read only $I,T,H,C,P,N$. This is still a finite trace
+packet because \autoref{thm:finite-trace-evaluator-bounded-trace-coverage}
+places trace evidence inside $T$ and does not require an accepted result to be
+displayed by every finite trace read.
+
+For the accepted-result shape, add the rows $A,V$. By
+\autoref{thm:finite-trace-evaluator-result-classifier-exactness}, the row $A$
+is an accepted-result classifier only after the finite trace has been read from
+$I,T$, and by \autoref{thm:finite-trace-evaluator-validation-refusal-package}
+the row $V$ records the validation boundary rather than a host validator.
+
+The two shapes are not interchangeable as public rows. Removing $A,V$ loses
+the accepted-result and validation-boundary route, while adding them creates a
+displayed result row that the input-only packet does not expose. Hence the
+carrier is not a one-shape packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator field-faithful rows]
+\label{thm:finite-trace-evaluator-field-faithful-rows}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+equality of the rows $I,T,A,V,H,C,P,N$ fixes the public evaluator read. Changing
+any one of $I,T,A,V$ changes the corresponding public route: the input route,
+the finite trace-window route, the accepted-result classifier route, or the
+validation-boundary route.
+\end{theorem}
+\begin{proof}
+First fix all eight displayed rows. The carrier definition and
+\autoref{thm:finite-trace-evaluator-namecert-obligations} leave no additional
+public coordinate beyond the coded input, finite trace, accepted-result
+classifier, validation boundary, transport, continuation, provenance, and
+local name.
+
+Next identify the four route-sensitive fields. Changing $I$ changes the coded
+input route before any finite trace can be read. Changing $T$ changes the
+finite trace-window route controlled by
+\autoref{thm:finite-trace-evaluator-bounded-trace-coverage}.
+
+Changing $A$ changes the accepted-result classifier route of
+\autoref{thm:finite-trace-evaluator-result-classifier-exactness}. Changing
+$V$ changes the validation-boundary route of
+\autoref{thm:finite-trace-evaluator-validation-row-nonescape}.
+
+The remaining rows $H,C,P,N$ transport and name those displayed routes. Thus
+row equality fixes the public evaluator read, and a change in any of
+$I,T,A,V$ is visible as a change in the corresponding route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator TasteGate readiness]
+\label{thm:finite-trace-evaluator-tastegate-readiness}
+The later $\mathrm{TasteGate}$ formalization for $\FiniteTraceEvaluatorUp$ has
+two explicit obligations. It must exhibit a nontrivial carrier witness,
+formalizing the separation in
+\autoref{thm:finite-trace-evaluator-nontrivial-carrier-pair}, and it must
+exhibit a field-faithful public read, formalizing the route sensitivity in
+\autoref{thm:finite-trace-evaluator-field-faithful-rows}. These obligations
+are stated over the same rows $I,T,A,V,H,C,P,N$ and the same $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surfaces used by the chapter.
+\end{theorem}
+\begin{proof}
+The nontrivial obligation is supplied at the paper level by the two displayed
+packet shapes. The input-only packet lacks $A,V$, while the accepted-result
+packet carries $A,V$ as visible rows; the classifier can test that difference
+without importing a host evaluator.
+
+The field-faithful obligation is supplied at the paper level by the public
+route analysis. Equality of $I,T,A,V,H,C,P,N$ fixes the exposed evaluator read,
+and changing one of $I,T,A,V$ changes its named route before transport or
+provenance can hide it.
+
+The later Lean file may encode these as
+$\mathrm{Nontrivial}\ \FiniteTraceEvaluatorUp$ and
+$\mathrm{FieldFaithful}\ \FiniteTraceEvaluatorUp$ obligations. No new carrier
+row is needed for that encoding; the rows are already the displayed packet
+surface of this chapter.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteTraceEvaluatorUp$ packet whose public read treats the input-only trace shape and the accepted-result shape as the same packet fails the carrier separation witnessed by the displayed $A,V$ rows.}
+\independenceWitness{runtimecandidateboundary, haltingdistinctiontrace, finite-trace-gap-socket, reflection-runtime-checkpoint: none is bijective to $\FiniteTraceEvaluatorUp$ because those siblings expose runtime candidate, halting distinction, gap socket, or reflection checkpoint rows, while this carrier binds coded input, finite trace, accepted-result classifier, validation boundary, transport, continuation, provenance, and local naming in one evaluator packet.}
 
 \closureat{FiniteTraceEvaluatorUp}{seedStr}
 
