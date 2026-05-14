@@ -119,6 +119,20 @@ Use the obligation package to close the route. By \autoref{thm:observer-interfac
 
 The proposed Lean follow-up site is \texttt{lean4/BEDC/Derived/ObserverInterfaceUp/TasteGate.lean}. Its obligation surface includes $\mathsf{Nontrivial}\ \ObserverInterfaceUp$ and $\mathsf{FieldFaithful}\ \ObserverInterfaceUp$ instances whose witnesses distinguish the observer-history source, filter row, attention ledger, selected ledger, omitted ledger, licensed-observation row, StreamName handoff, no-subject row, transports, routes, provenance, and local name.
 
+\begin{theorem}[ObserverInterface public export]
+\label{thm:observer-interface-public-export}
+Every public consumer of an accepted $\ObserverInterfaceUp$ packet factors through the displayed observer-history identity, observer-filter row, attention-ledger row, selected-row ledger, omitted-row boundary, licensed-observation row, $\StreamNameUp$ handoff, componentwise transport, displayed continuation, package provenance, and local $\NameCert$ rows of \autoref{def:observer-interface-carrier}. In particular, the public interface exports selected observations only through the exact selected-row route and exports omitted observations only as boundary rows; no consumer receives a hidden observer state, an unledgered observation, or a StreamName-facing row outside this finite surface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:observer-interface-carrier}. The observer-history identity, filter, attention ledger, selected ledger, omitted boundary, licensed observation, StreamName handoff, transports, continuations, provenance, and local naming rows are all displayed coordinates of the same finite packet.
+
+Apply the NameCert obligations of \autoref{thm:observer-interface-namecert-obligations} and the obligation package of \autoref{thm:observer-interface-obligation-closure-package}. These bind carrier admission, filter selection, attention-ledger exposure, selected-row ledgering, omitted-row boundary, licensed observation, no-subject exactness, componentwise transport, displayed continuation, package provenance, and local naming as the whole accepted obligation surface.
+
+The selected-row side is exact by \autoref{thm:observer-interface-selected-row-exactness}, and the omitted-row side is bounded by \autoref{thm:observer-interface-omitted-row-boundary}. Hence selected rows are the only rows that can feed public observation, while omitted rows remain named boundary data.
+
+Finally use \autoref{thm:observer-interface-streamname-handoff-totality} together with the filter-history handoff and non-escape theorems. Every StreamName-facing read passes through the licensed selected rows and their handoff route, and no hidden observer state, unledgered omitted row, or unlicensed observation supplies an additional public export branch.
+\end{proof}
+
 \closureat{ObserverInterfaceUp}{seedStr}
 \closureat{ObserverInterfaceUp}{obligationStr}
 \closureat{ObserverInterfaceUp}{scopedStr}[BEDC.Derived.ObserverInterfaceUp.taste\_gate]
@@ -126,11 +140,11 @@ The proposed Lean follow-up site is \texttt{lean4/BEDC/Derived/ObserverInterface
 \begin{closurestatus}{\ObserverInterfaceUp}
   \constructivestory{An $\ObserverInterfaceUp$ packet is generated from observer-history identity, observer-filter selection, attention-ledger accounting, selected rows, omitted-row boundary rows, licensed observation, StreamName handoff, no-subject exactness, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observer-interface-carrier}, \autoref{thm:observer-interface-namecert-obligations}, \autoref{thm:observer-interface-filter-history-handoff}, \autoref{thm:observer-interface-nonescape}, \autoref{thm:observer-interface-obligation-closure-package}, \autoref{thm:observer-interface-selected-row-exactness}, \autoref{thm:observer-interface-omitted-row-boundary}, and \autoref{thm:observer-interface-streamname-handoff-totality} specify the finite observer-interface packet, its obligation package, selected-row exactness, omitted-row boundary, and StreamName handoff totality.}
+  \scopeclosed{\autoref{def:observer-interface-carrier}, \autoref{thm:observer-interface-namecert-obligations}, \autoref{thm:observer-interface-filter-history-handoff}, \autoref{thm:observer-interface-nonescape}, \autoref{thm:observer-interface-obligation-closure-package}, \autoref{thm:observer-interface-selected-row-exactness}, \autoref{thm:observer-interface-omitted-row-boundary}, \autoref{thm:observer-interface-streamname-handoff-totality}, and \autoref{thm:observer-interface-public-export} specify the finite observer-interface packet, its obligation package, selected-row exactness, omitted-row boundary, StreamName handoff totality, and public export boundary.}
   \leanchecked{BEDC.Derived.ObserverInterfaceUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove observer-history completeness, StreamName quotient identity, hidden observer-state existence, Lean verification, or bridge checking for $\ObserverInterfaceUp$.}
-  \upgradepath{The next paper-side obligation is a public export theorem for the displayed observer-interface carrier and its StreamName handoff boundary.}
+  \upgradepath{Public closure requires a bridge-facing certificate for the displayed observer-interface carrier and its StreamName handoff boundary.}
 \end{closurestatus}
