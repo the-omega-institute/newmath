@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\DigestFiberLedgerUp$}
+\label{ch:concrete-instances-digestfiberledger-namecert}
+\origin{ai}
+
+The $\DigestFiberLedgerUp$ surface realizes the hash-like apophatic fixed-point discipline of \autoref{ch:visions-hash-like-apophatic-fixed-point} as a finite NameCert packet. It sits beside the hash certificate of \autoref{ch:concrete-instances-hash-namecert}, the apophatic naming certificate of \autoref{ch:concrete-instances-apophaticname-namecert}, and the supply socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}. The packet keeps digest visibility, hidden fiber membership, GAP provenance, apophatic refusal, and consumer non-escape in one displayed carrier, so digest equality cannot silently become source equality.
+
+\begin{definition}[DigestFiberLedger carrier]
+\label{def:digest-fiber-ledger-carrier}
+A $\DigestFiberLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+D=(V,F,G,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the visible digest row, read through the local $\HashUp$ certificate surface;
+\item $F$ is the fiber-membership row recording which source histories are carried behind the visible digest without identifying them with the digest;
+\item $G$ is the $\mathsf{GAP}$ provenance row that makes the fiber membership auditable;
+\item $A$ is the apophatic refusal row that blocks treating the far end of the fiber as a kernel object, source payload, or global digest;
+\item $H$ records componentwise $\hsame$ transports for the digest, fiber, GAP, refusal, continuation, provenance, and local certificate rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read $V$, $F$, $G$, and $A$ without obtaining source equality or an internal $\mathsf{T}$ object;
+\item $P$ is the $\Pkg$ provenance over $\HashUp$, $\ApophaticNameUp$, $\SupplySocketLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DigestFiberLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for source equality derived from digest equality, no hidden preimage selector, no global universe digest, and no internal object representing the apophatic far end.
+\end{definition}
+
+\begin{theorem}[DigestFiberLedger NameCert obligations]
+\label{thm:digest-fiber-ledger-namecert-obligations}
+For the carrier of \autoref{def:digest-fiber-ledger-carrier}, the local $\NameCert_{\DigestFiberLedgerUp}$ surface consists exactly of carrier admission for
+$$
+D=(V,F,G,A,H,C,P,N),
+$$
+visible digest exposure through $V$, fiber-membership exposure through $F$, GAP provenance through $G$, apophatic refusal through $A$, componentwise $\hsame$ transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and non-escape for any consumer that tries to identify digest equality with source equality without the fiber and GAP rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:digest-fiber-ledger-carrier}. Its displayed coordinates are precisely the visible digest, fiber-membership, GAP provenance, apophatic refusal, transport, continuation, provenance, and local naming rows.
+
+Read the three nearest sources through their displayed roles. The $\HashUp$ certificate supplies the digest-facing row, $\ApophaticNameUp$ supplies the refusal discipline for the far end of the fiber, and $\SupplySocketLedgerUp$ supplies the socket ledger that keeps the missing source from becoming an internal theorem.
+
+The NameCert obligations are therefore exhausted by the rows of $D$. Since the carrier has no coordinate for source equality from digest equality, no hidden preimage selector, and no object-level far end, any accepted consumer must retain $F$, $G$, $A$, $H$, $C$, $P$, and $N$ when it cites the visible digest.
+\end{proof}
+
+\begin{theorem}[DigestFiberLedger non-escape]
+\label{thm:digest-fiber-ledger-nonescape}
+Every accepted $\DigestFiberLedgerUp$ consumer of a visible digest row factors through the displayed fiber-membership row $F$, GAP provenance row $G$, apophatic refusal row $A$, componentwise transport row $H$, continuation routes $C$, package provenance $P$, and local naming row $N$. No consumer can use equality of visible digest rows as equality of source histories unless an additional exactness certificate is displayed outside the $\DigestFiberLedgerUp$ packet.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $D=(V,F,G,A,H,C,P,N)$. The visible row $V$ is only the digest-facing surface, while $F$ and $G$ record the fiber and its provenance.
+
+Apply the NameCert obligations of \autoref{thm:digest-fiber-ledger-namecert-obligations}. A consumer route may cite the digest only through the same carrier that displays fiber membership, GAP provenance, apophatic refusal, componentwise transport, continuation replay, package provenance, and local naming.
+
+The absence claim follows from the carrier inventory. No coordinate in $D$ turns digest equality into source equality, selects a preimage, exposes a global universe digest, or internalizes the apophatic far end; any such use requires a separate displayed exactness certificate.
+\end{proof}
+
+\falsifiablePrediction{A consumer that identifies digest equality with source equality without the GAP fiber row refutes the DigestFiberLedgerUp packet.}
+
+\independenceWitness{Nearest siblings: hash, apophaticname, supplysocketledger, apophaticgatequestion, inscriptiongapledger. The carrier is not bijective to any sibling because it simultaneously stores digest visibility, fiber membership, GAP provenance, and apophatic non-internalization rows, while each sibling omits at least one of those obligations.}
+
+The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived/DigestFiberLedgerUp/TasteGate.lean}. It must provide \texttt{Nontrivial DigestFiberLedgerUp} and \texttt{FieldFaithful DigestFiberLedgerUp} instances for the same displayed carrier.
