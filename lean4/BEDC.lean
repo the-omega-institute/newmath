@@ -77,6 +77,7 @@ import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
+import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -789,6 +790,7 @@ import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp

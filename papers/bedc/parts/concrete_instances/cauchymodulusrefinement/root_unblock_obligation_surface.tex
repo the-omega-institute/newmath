@@ -1,0 +1,39 @@
+\begin{theorem}[Cauchy modulus refinement root source binding]
+\label{thm:cauchy-modulus-refinement-root-source-binding}
+Every root consumer of an accepted $\CauchyModulusRefinementUp$ packet first reads the source rows $M_0,M_1$, the shared meet row $U$, and the extraction row $V$ through the carrier route of \autoref{def:cauchy-modulus-refinement-carrier}. The root consumer has no admissible access to a downstream selector, seal, or structural row before that shared meet and extraction route is displayed.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. Its packet orders the two source schedules, the shared meet, and the extraction witness as the visible front of the root route.
+
+Apply \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency}. The theorem binds any extraction read of $V$ to the single displayed meet $U$ after $M_0,M_1$; hence a root consumer cannot substitute a second meet or a hidden source.
+
+Finally use \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed packet route, every such consumer inherits this first read of $M_0,M_1,U,V$ before any later row is available.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root selector readback]
+\label{thm:cauchy-modulus-refinement-root-selector-readback}
+For every accepted $\CauchyModulusRefinementUp$ packet, selected-window and tolerance readback consume $T,W,Q$ only after the source-meet-extraction row $M_0,M_1,U,V$ has been displayed. Thus any root consumer that asks for the selected-window ledger or the tolerance-readback ledger reaches those rows through the same selector-budget route $T$.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cauchy-modulus-refinement-carrier}. The selected-window ledger $W$ and tolerance-readback ledger $Q$ are carrier rows following $M_0,M_1,U,V,T$.
+
+Apply \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency} to fix the source side. The extraction row $V$ is already bound to the shared meet route before any selector-budget read is meaningful.
+
+Now apply \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. It identifies $T$ as the selector-budget row consumed by the selected-window and tolerance-readback rows, so $W,Q$ are read only after the extraction row and through $T$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root Real seal non-escape]
+\label{thm:cauchy-modulus-refinement-root-real-seal-nonescape}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ packet reaches the seal row $E$ only after the displayed route
+$$
+M_0,M_1,U,V,T,W,Q,H,C,P,N.
+$$
+No quotient stream, selected limit, host real equality, hidden selector, second meet, or ambient completeness row is exported as an alternate route to the Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. The packet contains the source, meet, extraction, selector-budget, selected-window, tolerance-readback, Real seal, transport, continuation, package, and local naming rows as finite displayed coordinates.
+
+Apply \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency} and \autoref{thm:cauchy-modulus-refinement-real-seal-route}. Together they order the selector readback $T,W,Q$ before the Real seal $E$, with the structural rows $H,C,P,N$ stabilizing the same route.
+
+Finally apply \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Every Real or Completion consumer is exhausted by the displayed route, so the excluded quotient stream, selected limit, host real equality, hidden selector, second meet, and ambient completeness rows have no exported entry point.
+\end{proof}
