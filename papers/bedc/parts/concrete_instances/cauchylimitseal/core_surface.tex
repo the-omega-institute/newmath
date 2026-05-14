@@ -110,6 +110,28 @@ For a completion-facing consumer, use the finite-window factorization \autoref{t
 The reverse containment is just projection from \autoref{def:cauchy-limit-seal-public-route-packet}. Each packet row is one of the displayed carrier rows named by the two boundary theorems, and \autoref{thm:cauchy-limit-seal-non-escape} rules out any additional public row outside that list.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal tail-agreement public route factorization]
+\label{thm:cauchy-limit-seal-tail-agreement-public-route-factorization}
+Every public $\RealUp$ read or completion-facing read of an accepted $\CauchyLimitSealUp$ packet that consumes a paired tail-agreement comparison factors first through the $\RealTailAgreementSealUp$ finite route
+$$
+R,S,W,D,A,H,C,P,N
+$$
+and then through the $\CauchyLimitSealUp$ public route packet
+$$
+X,S,D,G,E,T,P,N.
+$$
+The combined route uses only $\StreamNameUp$ finite windows, $\RegSeqRatUp$ source rows, $\DyadicRatCoreUp$ readbacks, $\RealCauchyCompletionUp$ diagonal rows, $\RealUp$ seal rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. It exports no quotient stream, selected host limit, host real equality, ambient completeness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+For the paired agreement side, use the Real--Completion handoff of \autoref{thm:real-tail-agreement-seal-real-completion-handoff}. The paired comparison enters through the displayed finite route $R,S,W,D,A,H,C,P,N$ before any downstream real or completion consumer can read it.
+
+Apply window-agreement determinacy from \autoref{thm:real-tail-agreement-seal-window-agreement-determinacy} and completion-handoff totality from \autoref{thm:real-tail-agreement-seal-completion-handoff-totality}. These two rows make the agreement route exact for the finite windows and completion-facing handoff, so no second tail, quotient stream, host real equality, or choice-selected comparison is available.
+
+Now pass the resulting consumer read to the accepted $\CauchyLimitSealUp$ packet. By \autoref{def:cauchy-limit-seal-public-route-packet} and the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}, the read factors through the carrier route $X,S,D,G,E,T,P,N$.
+
+Finally combine the non-escape boundaries of the two chapters. The tail-agreement route contributes only its finite comparison surface, and the CauchyLimitSeal route contributes only the displayed source, schedule, dyadic, diagonal, seal, transport, package, and naming rows. Hence the composite route cannot export quotient streams, selected host limits, host real equality, ambient completeness, or a choice-selected tail.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal RegularCauchyName consumer link]
 \label{thm:cauchy-limit-seal-regular-name-consumer-link}
 Let a $\RegularCauchyNameUp$ packet expose its regular schedule, dyadic
