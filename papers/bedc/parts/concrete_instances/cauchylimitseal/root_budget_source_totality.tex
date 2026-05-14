@@ -139,6 +139,22 @@ Use selector approximation determinacy from \autoref{thm:cauchy-limit-seal-budge
 Finally apply root completion consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. Since the completion-facing consumer has already been forced through the seal rows, budget rows, dyadic-window ledger, and finite-approximation rows, it has no coordinate for an independent window, quotient stream, selected limit, host real equality, hidden family limit, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal budget source uniqueness]
+\label{thm:cauchy-limit-seal-budget-source-uniqueness}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, suppose two accepted $\RealObservationBudgetUp$-facing reads are routed through the same accepted $\CauchyLimitSealUp$ packet. If the two reads agree on the displayed seal rows $X,S,D,G,E,T,P,N$, the displayed budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$, the precision request, the finite $\StreamNameUp$ window, and the dyadic-window ledger identified by \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, then they are the same public source route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No second source coordinate, independent window, quotient stream, selected limit, host real equality, hidden family limit, or ambient completeness coordinate is available.
+\end{theorem}
+\begin{proof}
+First apply source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. It confines both accepted budget-facing reads to the displayed seal rows and displayed budget rows of the same accepted packet.
+
+Next use dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The budget ledger of each read is the scheduled finite $\StreamNameUp$ ledger already exposed by the seal packet, so the two reads cannot choose different dyadic-window ledgers once those displayed rows agree.
+
+Now use selector coherence and finite-approximation routing. The coherence row of \autoref{thm:cauchy-limit-seal-budget-selector-coherence} fixes the selector and budget legs on one displayed route, and \autoref{thm:cauchy-limit-seal-budget-approximation-route} places the finite approximation on the same packet.
+
+Apply finite-approximation window exhaustion from \autoref{thm:cauchy-limit-seal-budget-finite-approximation-window-exhaustion}. Every completion-facing read is exhausted by the displayed seal rows, budget rows, dyadic-window ledger, and finite-approximation packet rows.
+
+Finally apply root completion consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. Since no second source coordinate, independent window, quotient stream, selected limit, host real equality, hidden family limit, or ambient completeness coordinate is exported, the two reads name the same public source route over the displayed BEDC rows.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal tail schedule budget cofinality]
 \label{thm:cauchy-limit-seal-tail-schedule-budget-cofinality}
 In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, suppose the accepted $\CauchyLimitSealUp$ packet also consumes an accepted $\TailCofinalityScheduleUp$ packet for the same unary precision request and the same finite $\StreamNameUp$ window. Then the selector route, the $\RealObservationBudgetUp$ route, the $\FiniteCauchyApproximationUp$ route, and the tail schedule determine one cofinal displayed packet over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The cofinal packet exports no quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, or ambient completeness coordinate.
