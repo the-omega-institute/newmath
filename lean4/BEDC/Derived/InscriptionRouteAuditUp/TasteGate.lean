@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.InscriptionRouteAuditUp
+namespace BEDC.Derived.InscriptionRouteAuditUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,7 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive InscriptionRouteAuditUp : Type where
   | mk :
-      (source gap route accepted downstream transport cont provenance name : BHist) →
+      (source gap route accepted downstream transport continuations provenance name : BHist) →
       InscriptionRouteAuditUp
   deriving DecidableEq
 
@@ -21,7 +21,7 @@ def inscriptionRouteAuditEncodeBHist : BHist → RawEvent
   | BHist.e0 h => BMark.b0 :: inscriptionRouteAuditEncodeBHist h
   | BHist.e1 h => BMark.b1 :: inscriptionRouteAuditEncodeBHist h
 
-private def inscriptionRouteAuditDecodeBHist : RawEvent → BHist
+def inscriptionRouteAuditDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (inscriptionRouteAuditDecodeBHist tail)
@@ -40,38 +40,10 @@ private theorem inscriptionRouteAuditDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem inscriptionRouteAudit_mk_congr
-    {source source' gap gap' route route' accepted accepted' downstream downstream'
-      transport transport' cont cont' provenance provenance' name name' : BHist}
-    (hSource : source' = source)
-    (hGap : gap' = gap)
-    (hRoute : route' = route)
-    (hAccepted : accepted' = accepted)
-    (hDownstream : downstream' = downstream)
-    (hTransport : transport' = transport)
-    (hCont : cont' = cont)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    InscriptionRouteAuditUp.mk source' gap' route' accepted' downstream' transport' cont'
-        provenance' name' =
-      InscriptionRouteAuditUp.mk source gap route accepted downstream transport cont
-        provenance name := by
+def inscriptionRouteAuditToEventFlow : InscriptionRouteAuditUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  cases hSource
-  cases hGap
-  cases hRoute
-  cases hAccepted
-  cases hDownstream
-  cases hTransport
-  cases hCont
-  cases hProvenance
-  cases hName
-  rfl
-
-private def inscriptionRouteAuditToEventFlow : InscriptionRouteAuditUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | InscriptionRouteAuditUp.mk source gap route accepted downstream transport cont provenance
-      name =>
+  | InscriptionRouteAuditUp.mk source gap route accepted downstream transport continuations
+      provenance name =>
       [[BMark.b0],
         inscriptionRouteAuditEncodeBHist source,
         [BMark.b1, BMark.b0],
@@ -85,7 +57,7 @@ private def inscriptionRouteAuditToEventFlow : InscriptionRouteAuditUp → Event
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         inscriptionRouteAuditEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        inscriptionRouteAuditEncodeBHist cont,
+        inscriptionRouteAuditEncodeBHist continuations,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         inscriptionRouteAuditEncodeBHist provenance,
@@ -93,7 +65,7 @@ private def inscriptionRouteAuditToEventFlow : InscriptionRouteAuditUp → Event
           BMark.b1, BMark.b0],
         inscriptionRouteAuditEncodeBHist name]
 
-private def inscriptionRouteAuditFromEventFlow : EventFlow → Option InscriptionRouteAuditUp
+def inscriptionRouteAuditFromEventFlow : EventFlow → Option InscriptionRouteAuditUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -135,7 +107,7 @@ private def inscriptionRouteAuditFromEventFlow : EventFlow → Option Inscriptio
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | cont :: rest13 =>
+                                                      | continuations :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -152,15 +124,24 @@ private def inscriptionRouteAuditFromEventFlow : EventFlow → Option Inscriptio
                                                                           | [] =>
                                                                               some
                                                                                 (InscriptionRouteAuditUp.mk
-                                                                                  (inscriptionRouteAuditDecodeBHist source)
-                                                                                  (inscriptionRouteAuditDecodeBHist gap)
-                                                                                  (inscriptionRouteAuditDecodeBHist route)
-                                                                                  (inscriptionRouteAuditDecodeBHist accepted)
-                                                                                  (inscriptionRouteAuditDecodeBHist downstream)
-                                                                                  (inscriptionRouteAuditDecodeBHist transport)
-                                                                                  (inscriptionRouteAuditDecodeBHist cont)
-                                                                                  (inscriptionRouteAuditDecodeBHist provenance)
-                                                                                  (inscriptionRouteAuditDecodeBHist name))
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    source)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    gap)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    route)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    accepted)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    downstream)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    transport)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    continuations)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    provenance)
+                                                                                  (inscriptionRouteAuditDecodeBHist
+                                                                                    name))
                                                                           | _ :: _ => none
 
 private theorem inscriptionRouteAudit_round_trip :
@@ -169,7 +150,7 @@ private theorem inscriptionRouteAudit_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source gap route accepted downstream transport cont provenance name =>
+  | mk source gap route accepted downstream transport continuations provenance name =>
       change
         some
           (InscriptionRouteAuditUp.mk
@@ -179,26 +160,25 @@ private theorem inscriptionRouteAudit_round_trip :
             (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist accepted))
             (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist downstream))
             (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist transport))
-            (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist cont))
+            (inscriptionRouteAuditDecodeBHist
+              (inscriptionRouteAuditEncodeBHist continuations))
             (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist provenance))
             (inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist name))) =
           some
-            (InscriptionRouteAuditUp.mk source gap route accepted downstream transport cont
-              provenance name)
-      exact
-        congrArg some
-          (inscriptionRouteAudit_mk_congr
-            (inscriptionRouteAuditDecode_encode_bhist source)
-            (inscriptionRouteAuditDecode_encode_bhist gap)
-            (inscriptionRouteAuditDecode_encode_bhist route)
-            (inscriptionRouteAuditDecode_encode_bhist accepted)
-            (inscriptionRouteAuditDecode_encode_bhist downstream)
-            (inscriptionRouteAuditDecode_encode_bhist transport)
-            (inscriptionRouteAuditDecode_encode_bhist cont)
-            (inscriptionRouteAuditDecode_encode_bhist provenance)
-            (inscriptionRouteAuditDecode_encode_bhist name))
+            (InscriptionRouteAuditUp.mk source gap route accepted downstream transport
+              continuations provenance name)
+      rw [inscriptionRouteAuditDecode_encode_bhist source,
+        inscriptionRouteAuditDecode_encode_bhist gap,
+        inscriptionRouteAuditDecode_encode_bhist route,
+        inscriptionRouteAuditDecode_encode_bhist accepted,
+        inscriptionRouteAuditDecode_encode_bhist downstream,
+        inscriptionRouteAuditDecode_encode_bhist transport,
+        inscriptionRouteAuditDecode_encode_bhist continuations,
+        inscriptionRouteAuditDecode_encode_bhist provenance,
+        inscriptionRouteAuditDecode_encode_bhist name]
 
-private theorem inscriptionRouteAuditToEventFlow_injective {x y : InscriptionRouteAuditUp} :
+theorem inscriptionRouteAuditToEventFlow_injective
+    {x y : InscriptionRouteAuditUp} :
     inscriptionRouteAuditToEventFlow x = inscriptionRouteAuditToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -210,11 +190,11 @@ private theorem inscriptionRouteAuditToEventFlow_injective {x y : InscriptionRou
     (Eq.trans (inscriptionRouteAudit_round_trip x).symm
       (Eq.trans hread (inscriptionRouteAudit_round_trip y)))
 
-private def inscriptionRouteAuditFields : InscriptionRouteAuditUp → List BHist
+def inscriptionRouteAuditFields : InscriptionRouteAuditUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | InscriptionRouteAuditUp.mk source gap route accepted downstream transport cont provenance
-      name =>
-      [source, gap, route, accepted, downstream, transport, cont, provenance, name]
+  | InscriptionRouteAuditUp.mk source gap route accepted downstream transport continuations
+      provenance name =>
+      [source, gap, route, accepted, downstream, transport, continuations, provenance, name]
 
 private theorem inscriptionRouteAudit_field_faithful :
     ∀ x y : InscriptionRouteAuditUp,
@@ -222,9 +202,11 @@ private theorem inscriptionRouteAudit_field_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y h
   cases x with
-  | mk source₁ gap₁ route₁ accepted₁ downstream₁ transport₁ cont₁ provenance₁ name₁ =>
+  | mk source₁ gap₁ route₁ accepted₁ downstream₁ transport₁ continuations₁ provenance₁
+      name₁ =>
       cases y with
-      | mk source₂ gap₂ route₂ accepted₂ downstream₂ transport₂ cont₂ provenance₂ name₂ =>
+      | mk source₂ gap₂ route₂ accepted₂ downstream₂ transport₂ continuations₂ provenance₂
+          name₂ =>
           cases h
           rfl
 
@@ -264,32 +246,36 @@ def taste_gate : ChapterTasteGate InscriptionRouteAuditUp :=
   inscriptionRouteAuditChapterTasteGate
 
 theorem InscriptionRouteAuditTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate InscriptionRouteAuditUp) ∧
+    (∀ h : BHist,
+      inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist h) = h) ∧
+      (∀ x : InscriptionRouteAuditUp,
+        inscriptionRouteAuditFromEventFlow (inscriptionRouteAuditToEventFlow x) = some x) ∧
+      (∀ x y : InscriptionRouteAuditUp,
+        inscriptionRouteAuditToEventFlow x = inscriptionRouteAuditToEventFlow y → x = y) ∧
+      inscriptionRouteAuditToEventFlow
+          (InscriptionRouteAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [[BMark.b0], [], [BMark.b1, BMark.b0], [], [BMark.b1, BMark.b1, BMark.b0],
+          [], [BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          [],
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          []] ∧
+      Nonempty (ChapterTasteGate InscriptionRouteAuditUp) ∧
       Nonempty (FieldFaithful InscriptionRouteAuditUp) ∧
-        Nonempty (Nontrivial InscriptionRouteAuditUp) ∧
-          (∀ h : BHist,
-            inscriptionRouteAuditDecodeBHist (inscriptionRouteAuditEncodeBHist h) = h) ∧
-            (∀ x : InscriptionRouteAuditUp,
-              inscriptionRouteAuditFromEventFlow (inscriptionRouteAuditToEventFlow x) =
-                some x) ∧
-              (∀ x y : InscriptionRouteAuditUp,
-                inscriptionRouteAuditToEventFlow x = inscriptionRouteAuditToEventFlow y →
-                  x = y) ∧
-                inscriptionRouteAuditEncodeBHist BHist.Empty = ([] : List BMark) := by
+      Nonempty (Nontrivial InscriptionRouteAuditUp) ∧
+      inscriptionRouteAuditEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  constructor
-  · exact ⟨inscriptionRouteAuditChapterTasteGate⟩
-  · constructor
-    · exact ⟨inscriptionRouteAuditFieldFaithful⟩
-    · constructor
-      · exact ⟨inscriptionRouteAuditNontrivial⟩
-      · constructor
-        · exact inscriptionRouteAuditDecode_encode_bhist
-        · constructor
-          · exact inscriptionRouteAudit_round_trip
-          · constructor
-            · intro x y heq
-              exact inscriptionRouteAuditToEventFlow_injective heq
-            · rfl
+  exact
+    ⟨inscriptionRouteAuditDecode_encode_bhist, inscriptionRouteAudit_round_trip,
+      fun x y heq => inscriptionRouteAuditToEventFlow_injective heq, rfl,
+      ⟨inscriptionRouteAuditChapterTasteGate⟩, ⟨inscriptionRouteAuditFieldFaithful⟩,
+      ⟨inscriptionRouteAuditNontrivial⟩, rfl⟩
 
-end BEDC.Derived.InscriptionRouteAuditUp
+end BEDC.Derived.InscriptionRouteAuditUp.TasteGate
