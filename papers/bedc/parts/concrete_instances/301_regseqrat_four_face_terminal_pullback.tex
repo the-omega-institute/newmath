@@ -82,3 +82,47 @@ finite RegSeqRat evidence, with no quotient stream equality, selected host
 limit, metric-completion point, $\RealUp$ completeness datum, or standard
 bridge.
 \end{proof}
+
+\begin{theorem}[RegSeqRat terminal four-face correspondence]
+\label{thm:regseqrat-terminal-four-face-correspondence}
+Two accepted terminal reads from $\RegSeqRatUp$ packets classify together
+exactly when their visible four-face inventories agree. The four faces are the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledgers; the $\StreamNameUp$
+scheduled-window rows; the $\RegSeqRatUp$ regularity, classifier, and
+provenance rows; and the terminal $\RealUp$ seal row.
+
+The agreement is transported only by the displayed $\BHist$ rows, $\hsame$
+comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$
+rows. The correspondence exports no quotient stream equality, host sequence
+equality, selected limit, host real equality, metric-completion point,
+completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:regseqrat-four-face-terminal-pullback}. Any accepted terminal
+read from a $\RegSeqRatUp$ packet already factors through one finite surface
+with the DyadicRatCore ledger face, StreamName schedule face, RegSeqRat
+regularity and classifier face, and terminal $\RealUp$ seal face.
+
+Next use
+\autoref{thm:regseqrat-four-face-terminal-route-uniqueness}. Once two accepted
+terminal reads classify together on that finite surface, their classifier
+route is forced to be the displayed route through the same $\BHist$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Thus the only visible
+inventory on which the shared classification can be read is the four-face
+inventory named in the statement.
+
+For the reverse direction, suppose the two terminal reads expose agreeing
+four-face inventories with the displayed transport rows. Apply
+\autoref{thm:regseqrat-four-face-terminal-pullback} to repack the two
+inventories as one finite pullback surface.
+
+Finally use \autoref{thm:regseqrat-real-seal-route-exclusion-package} and
+\autoref{thm:regseqrat-real-seal-schedule-confluence}. The exclusion package
+removes quotient streams, selected limits, host equality, metric-completion
+points, completeness rows, and standard bridge rows from the terminal route;
+schedule confluence leaves a single terminal replay to the $\RealUp$ seal row.
+The remaining route is exactly the displayed $\BHist$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ route, so the two terminal reads classify
+together.
+\end{proof}

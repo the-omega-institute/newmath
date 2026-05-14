@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\TermStratumChoiceClosureUp$}
+\label{ch:concrete-instances-term-stratum-choice-closure-namecert}
+\origin{ai}
+
+The $\TermStratumChoiceClosureUp$ interface turns the term-level branch of \autoref{def:term-stratum-choice-closure} and \autoref{thm:choice-term-stratum-meta-closure} into a finite naming packet. It separates the accepted witness-map rows that BEDC may consume from the refused choice-oracle rows that would otherwise close the term stratum without displayed witnesses. The packet sits beside \autoref{ch:concrete-instances-unwitnessedexistenceclosure-namecert}, \autoref{ch:concrete-instances-effective-replacement-ledger-namecert}, \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}, and \autoref{ch:concrete-instances-propexttransportboundary-namecert}: those siblings aggregate the three strata, replacement ledgers, quotient refusal, and proposition transport, while this chapter isolates the term-stratum witness-map route.
+
+\begin{definition}[TermStratumChoiceClosure carrier]
+\label{def:term-stratum-choice-closure-carrier}
+A $\TermStratumChoiceClosureUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,F,W,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the index-family row for the positive term existentials named in \autoref{def:term-stratum-choice-closure};
+\item $F$ is the fiber-membership row recording the visible target fiber for each accepted index;
+\item $W$ is the witness-map row, recording for each displayed index the constructor-level term and membership evidence actually supplied to the packet;
+\item $M$ is the map-coherence row saying that consumer reads of $W$ respect the displayed index and fiber rows rather than an ambient selector;
+\item $R$ is the oracle-refusal row, recording that no global $\mathsf{Classical.choice}$ function, hidden selector body, or unindexed host function is admitted;
+\item $H$ stores componentwise $\hsame$ transport for the index, fiber, witness-map, coherence, refusal, route, provenance, and naming rows;
+\item $C$ stores the finite $\Cont$ routes by which a downstream consumer reads a witness only after reading its displayed index and fiber membership;
+\item $P$ records $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, \autoref{ch:visions-three-axioms-one-closure}, and the sibling packets \autoref{ch:concrete-instances-unwitnessedexistenceclosure-namecert}, \autoref{ch:concrete-instances-effective-replacement-ledger-namecert}, \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}, and \autoref{ch:concrete-instances-propexttransportboundary-namecert};
+\item $N$ is the local $\NameCert_{\TermStratumChoiceClosureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice oracle that manufactures witnesses from positive existentials without the displayed witness-map row $W$.
+\end{definition}
+
+\begin{theorem}[TermStratumChoiceClosure NameCert obligations]
+\label{thm:term-stratum-choice-closure-namecert-obligations}
+For an accepted carrier $T=(I,F,W,M,R,H,C,P,N)$, the local $\NameCert_{\TermStratumChoiceClosureUp}$ surface consists exactly of carrier admission for the finite packet, index-family exposure for $I$, fiber-membership exposure for $F$, witness-map exactness for $W$ and $M$, componentwise $\hsame$ and $\Cont$ stability through $H$ and $C$, provenance through $P$, and oracle refusal through $R$. Every consumer-visible term read factors through these rows before it can use a witness.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The rows $I,F,W,M,R,H,C,P,N$ are all displayed, so carrier admission and provenance are ordinary row reads.
+
+Witness-map exactness is the joint reading of $W$ and $M$. The witness row supplies a term only at a displayed index, and the coherence row ties that term to the displayed fiber membership in $F$.
+
+Transport and route stability are supplied by $H$ and $C$. They move and replay the same finite rows componentwise, so a consumer cannot replace the witness-map route by a host selector.
+
+Finally read the refusal row $R$. It records the rejected oracle surfaces and leaves no coordinate for $\mathsf{Classical.choice}$, a hidden selector body, or an unindexed host function. Thus the listed rows exhaust the local naming obligations.
+\end{proof}
+
+\begin{theorem}[TermStratumChoiceClosure nontriviality]
+\label{thm:term-stratum-choice-closure-nontriviality}
+The $\TermStratumChoiceClosureUp$ packet is nontrivial: there are accepted packets whose witness-map row $W$ is present and accepted packets whose oracle-refusal row $R$ blocks the same consumer request after $W$ is absent. These packets are distinguished by the local $\NameCert$ surface because one exposes an indexed constructor-level witness route and the other exposes only the refused oracle row.
+\end{theorem}
+\begin{proof}
+Use a singleton index-family row for $I$ and a displayed fiber row $F$. In the positive packet, let $W$ store the visible constructor-level witness and its membership evidence, and let $M$ record that the only consumer read is the singleton indexed route.
+
+For the contrasting packet, keep the same index and fiber rows but remove the witness-map route from the accepted surface. The only remaining answer to the consumer request is the refusal row $R$.
+
+The two packets differ at the row inspected by the consumer: one projects $W$ through $C$, while the other projects $R$. Since the local name row records that distinction, the carrier does not collapse to a single vacuous packet.
+\end{proof}
+
+\begin{theorem}[TermStratumChoiceClosure field faithfulness]
+\label{thm:term-stratum-choice-closure-field-faithfulness}
+If two accepted $\TermStratumChoiceClosureUp$ carriers
+$$
+T=(I,F,W,M,R,H,C,P,N)
+\qquad\text{and}\qquad
+T'=(I',F',W',M',R',H',C',P',N')
+$$
+are identified by the packet classifier, then each displayed field is preserved componentwise: index rows compare with index rows, fiber rows with fiber rows, witness-map rows with witness-map rows, map-coherence rows with map-coherence rows, oracle-refusal rows with oracle-refusal rows, and the transport, route, provenance, and naming rows with their corresponding rows.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of the accepted packet as componentwise comparison over the displayed carrier coordinates. The index and fiber coordinates are compared first, so a witness in $W$ cannot be transported to a different index or fiber without the matching $\hsame$ evidence.
+
+Next compare $W,M,R$. The witness-map route is preserved as a witness-map route, the coherence row remains a coherence row, and the oracle refusal remains a refusal row. No classifier clause converts a refused oracle into a witness map.
+
+The remaining rows $H,C,P,N$ are administrative coordinates for transport, route replay, provenance, and local naming. Componentwise preservation of these rows gives field faithfulness for the whole packet.
+\end{proof}
+
+\falsifiablePrediction{Any accepted packet whose witness-map row is removed has no route from indexed positive existentials to a consumer-visible term without invoking the refused oracle row.}
+
+\independenceWitness{unwitnessedexistenceclosure, effectivereplacementledger, quotientsoundnessboundary, propexttransportboundary: none is bijective because this packet isolates the term-stratum witness-map route, while the siblings aggregate strata, replacement ledgers, quotient transport, or proposition transport.}
+
+The Lean \texttt{TasteGate.lean} surface must provide \texttt{Nontrivial TermStratumChoiceClosureUp} and \texttt{FieldFaithful TermStratumChoiceClosureUp} instances for the same displayed carrier rows $I,F,W,M,R,H,C,P,N$.
