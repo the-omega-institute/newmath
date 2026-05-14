@@ -69,6 +69,18 @@ The dyadic row $D$ is then a read of that window, not a read of an unbounded str
 The support rows $H,P,N$ preserve, package, and name that finite route. Therefore downstream consumers reach $R$ and $S$ only after the displayed source, budget, modulus, window, and dyadic rows have been consumed.
 \end{proof}
 
+\begin{theorem}[CauchyInverseBudget StreamName window dependency]
+\label{thm:cauchy-inverse-budget-streamname-window-dependency}
+Every accepted $\CauchyInverseBudgetUp$ reciprocal-window route consumes the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert} before the dyadic row $D$, the regular readback row $R$, or the $\RealUp$ seal row $S$ can be read. The reciprocal budget therefore depends on $\StreamNameUp$ as a sibling certificate, not on an unbounded stream or on a host reciprocal operation.
+\end{theorem}
+\begin{proof}
+Carrier admission displays $W$ as the finite $\StreamNameUp$ window selected from the regular-Cauchy source $X$ by the modulus row $M$. This is the same finite window coordinate named in \autoref{def:cauchy-inverse-budget-carrier}, so the reciprocal packet has no second stream surface from which a consumer could read.
+
+Finite-window coverage then routes every endpoint, radius, and reciprocal arithmetic read in $D$ through that selected $W$. Since $R$ is produced from the dyadic row and $S$ seals the resulting readback, neither downstream row can be consumed before the finite StreamName window has been consumed.
+
+Thus the dependency is horizontal: the reciprocal budget imports the finite window discipline already certified by \autoref{ch:concrete-instances-streamname-namecert}. It does not appeal to an unbounded stream, a quotient representative, or a host-level reciprocal operation.
+\end{proof}
+
 \begin{theorem}[CauchyInverseBudget reciprocal readback route]
 \label{thm:cauchy-inverse-budget-reciprocal-readback-route}
 The $\RegSeqRatUp$ reciprocal readback row $R$ of an accepted $\CauchyInverseBudgetUp$ carrier factors through the apartness budget $A$, finite modulus $M$, selected window $W$, and dyadic reciprocal row $D$. The readback exports no total inverse operation and no quotient-stream equality.
@@ -95,10 +107,10 @@ The carrier contains no coordinate for a field structure, quotient real equality
 
 \begin{theorem}[CauchyInverseBudget NameCert obligations]
 \label{thm:cauchy-inverse-budget-namecert-obligations}
-The local $\NameCert_{\CauchyInverseBudgetUp}$ surface consists of carrier admission, apartness budget exposure, finite-window coverage, reciprocal readback routing, $\RealUp$ seal non-escape, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and the local naming row for the same finite packet $B=(X,A,M,W,D,R,S,H,C,P,N)$.
+The local $\NameCert_{\CauchyInverseBudgetUp}$ surface consists of carrier admission, apartness budget exposure, finite-window coverage, $\StreamNameUp$ window dependency, reciprocal readback routing, $\RealUp$ seal non-escape, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and the local naming row for the same finite packet $B=(X,A,M,W,D,R,S,H,C,P,N)$.
 \end{theorem}
 \begin{proof}
-Carrier admission is \autoref{thm:cauchy-inverse-budget-carrier-admission}. Apartness budget exposure is \autoref{thm:cauchy-inverse-budget-apartness-exposure}, and finite-window coverage is \autoref{thm:cauchy-inverse-budget-window-coverage}.
+Carrier admission is \autoref{thm:cauchy-inverse-budget-carrier-admission}. Apartness budget exposure is \autoref{thm:cauchy-inverse-budget-apartness-exposure}, finite-window coverage is \autoref{thm:cauchy-inverse-budget-window-coverage}, and the sibling window dependency is \autoref{thm:cauchy-inverse-budget-streamname-window-dependency}.
 
 The analytic-facing route is supplied by \autoref{thm:cauchy-inverse-budget-reciprocal-readback-route} and \autoref{thm:cauchy-inverse-budget-real-seal-nonescape}. Together they keep the $\RegSeqRatUp$ and $\RealUp$ consumers inside $X,A,M,W,D,R,S$.
 
@@ -110,7 +122,7 @@ The structural rows $H,C,P,N$ preserve, route, package, and name the same packet
 \begin{closurestatus}{\CauchyInverseBudgetUp}
   \constructivestory{A $\CauchyInverseBudgetUp$ packet is generated from a $\RegSeqRatUp$ source, a nonzero-apartness budget, a finite modulus row, a selected $\StreamNameUp$ window, a $\DyadicRatCoreUp$ reciprocal readback, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-inverse-budget-carrier}, \autoref{thm:cauchy-inverse-budget-carrier-admission}, \autoref{thm:cauchy-inverse-budget-apartness-exposure}, \autoref{thm:cauchy-inverse-budget-window-coverage}, \autoref{thm:cauchy-inverse-budget-reciprocal-readback-route}, and \autoref{thm:cauchy-inverse-budget-real-seal-nonescape} bind the reciprocal-window budget as a finite NameCert packet.}
+  \scopeclosed{\autoref{def:cauchy-inverse-budget-carrier}, \autoref{thm:cauchy-inverse-budget-carrier-admission}, \autoref{thm:cauchy-inverse-budget-apartness-exposure}, \autoref{thm:cauchy-inverse-budget-window-coverage}, \autoref{thm:cauchy-inverse-budget-streamname-window-dependency}, \autoref{thm:cauchy-inverse-budget-reciprocal-readback-route}, and \autoref{thm:cauchy-inverse-budget-real-seal-nonescape} bind the reciprocal-window budget as a finite NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
