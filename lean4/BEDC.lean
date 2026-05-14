@@ -61,6 +61,8 @@ import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
+import BEDC.Derived.ExternalSupplyBoundaryUp
+import BEDC.Derived.ExternalSupplyBoundaryUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.TasteGate
@@ -389,6 +391,7 @@ import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
 import BEDC.Derived.InterHistRateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
+import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
