@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\LocalStencilObservationUp$}
+\label{ch:concrete-instances-local-stencil-observation-namecert}
+\origin{ai}
+
+The $\LocalStencilObservationUp$ packet realizes the cellular substrate reading of \autoref{ch:visions-cellular-automaton-substrate-reading} at the smallest finite observation surface: a displayed neighbourhood stencil, a displayed local rule row, and the observed finite row window to which a pattern classifier may point. It sits beside the whole automaton packet of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the local transition packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, and the finite pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}. Unlike those siblings, it certifies only one local observation packet, not a complete orbit, not a general update rule interface, and not a catalog of all accepted pattern tags.
+
+\falsifiablePrediction{If a purported $\LocalStencilObservationUp$ consumer classifies a cellular pattern without exposing a finite neighbourhood stencil, the selected local rule row, and the observed row window, then the consumer has left the certificate.}
+
+\independenceWitness{cellularautomaton, cellularlocalupdaterule, cellularpatterncatalog: none is bijective to $\LocalStencilObservationUp$ because this packet carries the joint neighbourhood, local-rule, observed-row, classifier, transport, route, package, and NameCert rows for one finite stencil observation; the automaton sibling carries an orbit ledger, the local-update sibling carries a next-cell output surface, and the pattern-catalog sibling carries a finite catalog table.}
+
+\begin{definition}[Local stencil observation carrier]
+\label{def:local-stencil-observation-carrier}
+A $\LocalStencilObservationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(W,R,V,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite neighbourhood-stencil row, including the bounded cell positions inspected by the classifier;
+\item $R$ is the local-rule row whose displayed entry is permitted to read the stencil row;
+\item $V$ is the observed finite row-window produced or inspected at the named cellular time slice;
+\item $T$ is the finite classifier row assigning an admitted local pattern tag, such as ether, glider fragment, collision fragment, boundary fragment, or refused observation;
+\item $H$ records componentwise $\hsame$ transport for the stencil, local-rule, observed-window, classifier, route, package, and local naming rows;
+\item $C$ records the displayed $\Cont$ route from $W$ and $R$ to the observed row window $V$, then from $V$ to the classifier row $T$;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-cellular-automaton-substrate-reading}, \autoref{ch:concrete-instances-cellularautomaton-namecert}, \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LocalStencilObservationUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only by $W,R,V,T,H,C,P,N$. It has no coordinate for an unbounded cellular orbit, a host-side pattern recognizer, an unstated Rule 110 convention, a hidden catalog row, or a detached universality oracle.
+\end{definition}
+
+\begin{theorem}[LocalStencilObservation NameCert obligations]
+\label{thm:local-stencil-observation-namecert-obligations}
+For the carrier of \autoref{def:local-stencil-observation-carrier}, the local $\NameCert_{\LocalStencilObservationUp}$ surface consists exactly of carrier admission for
+$$
+O=(W,R,V,T,H,C,P,N),
+$$
+neighbourhood exposure through $W$, local-rule accountability through $R$, observed-row exposure through $V$, pattern-classifier exposure through $T$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. Every cellular pattern classification exported by this packet must read a finite stencil before it reads the finite observed row and classifier tag.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:local-stencil-observation-carrier}. The finite packet displays $W,R,V,T,H,C,P,N$ as its complete observation surface.
+
+The cellular content is read in the order named by the carrier. The neighbourhood row $W$ supplies the bounded stencil, the local-rule row $R$ supplies the displayed rule entry, and the observed-row window $V$ is the only row window available to the classifier.
+
+The classifier row $T$ can therefore tag only the displayed observation. The transport, route, provenance, and local name rows $H,C,P,N$ preserve and replay that same finite packet; they do not add an orbit ledger, hidden catalog, or host pattern recognizer.
+\end{proof}
+
+\begin{theorem}[LocalStencilObservation carrier totality]
+\label{thm:local-stencil-observation-carrier-totality}
+Every accepted $\LocalStencilObservationUp$ read is exhausted by the finite rows $W,R,V,T,H,C,P,N$. A consumer may use the whole-automaton packet of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the local update packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, or the finite pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert} only as provenance named in $P$; none of those siblings supplies an additional coordinate inside the local stencil packet.
+\end{theorem}
+\begin{proof}
+Start with carrier projection. The accepted packet has exactly the finite stencil row, local-rule row, observed-window row, classifier row, transport row, route row, provenance row, and local naming row.
+
+The sibling references enter through $P$. They explain where the cellular reading, local update discipline, and finite pattern vocabulary are sourced, but they are not extra fields of $O$.
+
+Apply \autoref{thm:local-stencil-observation-namecert-obligations}. Since each accepted classification must pass through the displayed rows and the carrier lists no further coordinate, those rows are total for the local observation surface.
+\end{proof}
+
+\begin{theorem}[LocalStencilObservation finite non-escape]
+\label{thm:local-stencil-observation-nonescape}
+No accepted $\LocalStencilObservationUp$ packet exports an unbounded orbit, a host cellular evaluator, a hidden pattern catalog, a global Rule 110 classifier, or a detached universality oracle. Every exported observation factors through the finite route
+$$
+W,R,V,T,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Inspect the rows of \autoref{def:local-stencil-observation-carrier}. The only cellular data are the neighbourhood stencil $W$, the local-rule row $R$, the observed finite row window $V$, and the classifier row $T$.
+
+The structural rows $H,C,P,N$ only transport, replay, package, and locally name those displayed data. They do not introduce an all-time orbit, a host evaluator, an unstated catalog, or a universality witness.
+
+Thus any read of one of the excluded objects would require a coordinate absent from $O=(W,R,V,T,H,C,P,N)$. Such a read is outside the accepted local stencil observation certificate.
+\end{proof}
+
+\begin{theorem}[LocalStencilObservation sibling independence]
+\label{thm:local-stencil-observation-sibling-independence}
+The $\LocalStencilObservationUp$ carrier is not bijective to the sibling packets $\CellularAutomatonUp$, $\CellularLocalUpdateRuleUp$, or $\CellularPatternCatalogUp$. It retains the joint local observation surface $W,R,V,T,H,C,P,N$, while those siblings respectively retain a finite orbit ledger, a next-cell update surface, or a catalog lookup table not present as an internal coordinate of this packet.
+\end{theorem}
+\begin{proof}
+Compare the carrier rows. The $\LocalStencilObservationUp$ packet has the observed row-window coordinate $V$ tied to a single finite stencil $W$ and a selected rule row $R$.
+
+The whole automaton sibling records an orbit ledger, the local update sibling records a visible successor-cell surface, and the pattern-catalog sibling records a closed finite catalog row. Those rows are not interchangeable with the single observed-window row $V$ and the local classifier row $T$.
+
+Conversely, this packet does not carry the sibling-specific orbit, next-cell, or catalog coordinates except as provenance through $P$. Hence no bijection preserves the displayed NameCert obligation surface in both directions.
+\end{proof}
+
+The future Lean TasteGate file \texttt{lean4/BEDC/Derived/LocalStencilObservationUp/TasteGate.lean} provides \texttt{Nontrivial LocalStencilObservationUp} and \texttt{FieldFaithful LocalStencilObservationUp} instances for the displayed carrier.
+
+\closureat{LocalStencilObservationUp}{seedStr}
+
+\begin{closurestatus}{\LocalStencilObservationUp}
+  \constructivestory{A $\LocalStencilObservationUp$ packet is generated from a finite neighbourhood stencil, selected local-rule row, observed row window, local classifier row, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:local-stencil-observation-carrier}, \autoref{thm:local-stencil-observation-namecert-obligations}, \autoref{thm:local-stencil-observation-carrier-totality}, \autoref{thm:local-stencil-observation-nonescape}, and \autoref{thm:local-stencil-observation-sibling-independence} bind the finite local stencil observation packet and its sibling boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global cellular orbits, Rule 110 universality, host evaluator correctness, complete pattern-catalog coverage, or a public standard bridge.}
+  \upgradepath{Lean follow-up will bind the finite observation carrier under \texttt{BEDC.Derived.LocalStencilObservationUp}.}
+\end{closurestatus}

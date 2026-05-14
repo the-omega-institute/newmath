@@ -70,3 +70,21 @@ Finally use \autoref{thm:real-tail-agreement-seal-root-budget-completion-consume
 
 Combining these three local results gives exactness of the route: any consumer admitted by the selector budget and then reading the shared threshold must traverse the displayed chain above, and every row in that chain is one of the finite L10 carrier or named sibling rows already exposed by the accepted packet.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal root selector tail-fusion lock]
+\label{thm:real-tail-agreement-seal-root-budget-selector-tail-fusion-lock}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet admitted by the root budget-selector route. Every downstream $\RegularCauchyTailFusionUp$, $\CauchyLimitSealUp$, or $\RealUp$ consumer of that admitted packet factors through the same finite chain
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \RegularCauchySelectorBudgetUp \to \StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to A.
+$$
+No such consumer may replace this route by a quotient stream, selected limit, host convergence row, choice-selected tail, or second agreement surface.
+\end{theorem}
+\begin{proof}
+Apply the root budget-selector admission theorem. It places the accepted read behind the limiter, tail-budget, and selector-budget rows before the local agreement edge $W \to D \to A$ is public.
+
+Use the shared-threshold factorization and selector shared-threshold exactness. They identify the shared-threshold request with the same finite chain through the tail-meet, selector-budget, window, dyadic readback, regular-rational readback, and local agreement rows.
+
+Now apply completion-consumer exhaustion. The only downstream routes available to completion-facing consumers are the named $\RegularCauchyTailFusionUp$, $\CauchyLimitSealUp$, and $\RealUp$ routes over the same carrier rows $R,S,W,D,A,H,C,P,N$.
+
+The Cauchy-limit seal root handoff and the $\RealUp$ consumer rows are therefore only downstream names for consumption of this finite route. They contribute no quotient stream, selected limit, host convergence row, choice-selected tail, or second agreement surface, so tail-fusion and limit-seal consumers remain locked to the selector route.
+\end{proof}
