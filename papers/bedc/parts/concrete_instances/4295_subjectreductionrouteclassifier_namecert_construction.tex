@@ -120,6 +120,41 @@ Use \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-corresponde
 Thus the primitive scope is exactly the finite BEDC surface named in the statement.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteClassifier scoped consumer exactness]
+\label{thm:subject-reduction-route-classifier-scoped-consumer-exactness}
+Every compiler or audit consumer of an accepted
+$\SubjectReductionRouteClassifierUp$ packet reads exactly the displayed route
+rows
+$$
+B,A,L,P,K,I,U,H,C,Q,N
+$$
+over $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$,
+$\SubjectReductionUp$, $\SubjectReductionDischargeSocketUp$, and
+$\TypePreservingCompilerUp$. The classifier may route the four discharge rows
+as bundle data or as setup-field data, but it cannot treat itself as a proof of
+those four discharge rows.
+\end{theorem}
+\begin{proof}
+Begin with the local NameCert obligations and primitive scope. The obligation
+surface displays the carrier, route-kind row, invocation row, consumer handoff,
+transport, continuation, provenance, and local naming rows, while
+\autoref{thm:subject-reduction-route-classifier-primitive-scope} identifies
+these rows as the primitive packet surface.
+
+Next use the bundle-typeclass correspondence
+\autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}.
+It says that the two accepted route kinds are presentations of the same
+payload $B,A,L,P$, not new discharge proofs.
+
+Finally apply consumer non-escape and public export,
+\autoref{thm:subject-reduction-route-classifier-consumer-nonescape} and
+\autoref{thm:subject-reduction-route-classifier-public-export}. These theorems
+force every compiler or audit read to remain on the displayed public packet.
+Thus scoped consumers receive exactly the listed route rows and no proof of
+subject reduction, preservation, lookup, or substitution beyond the rows
+already supplied by the discharge socket.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteClassifier socket scope]
 \label{thm:subject-reduction-route-classifier-socket-scope}
 The four discharge rows $B,A,L,P$ in an accepted $\SubjectReductionRouteClassifierUp$ packet are consumed from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. This classifier records how those rows are invoked and handed to consumers; it does not prove beta-substitution preservation, application-argument stability, lambda-domain subject reduction, or Pi-domain subject reduction.
