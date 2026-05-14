@@ -173,6 +173,48 @@ Apply \autoref{thm:halting-obstruction-namecert-obligations}. The content availa
 Finally combine \autoref{thm:halting-obstruction-diagonal-nonescape} with \autoref{thm:halting-obstruction-distinction-boundary}. The repackaged public surface remains the same finite obstruction ledger and therefore cannot expose a global classifier, unbounded search, host oracle, quotient equality, or second diagonal route.
 \end{proof}
 
+\begin{theorem}[Halting obstruction distinction trace handoff]
+\label{thm:halting-obstruction-distinction-trace-handoff}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, every handoff to $\HaltingDistinctionUp$ carries only the finite distinction-trace rows displayed by $T$ together with the self-reference, transport, route, package, and local naming rows $R,H,C,P,N$. The handoff exposes no global halting classifier, no unbounded continuation search, and no off-packet equality of names.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:halting-obstruction-carrier}. The only trace coordinate available to the packet is the finite row $T$, and its movement is recorded through $H$ and $C$.
+
+Apply \autoref{thm:halting-obstruction-namecert-obligations}. The local $\NameCert_{\HaltingObstructionUp}$ row certifies carrier admission, trace exactness, self-reference readability, diagonal policy locality, and package/name closure for the same tuple $S,I,T,R,D,H,C,P,N$.
+
+Use \autoref{thm:halting-obstruction-distinction-boundary} and \autoref{thm:halting-obstruction-public-read-boundary}. The distinction consumer reads the displayed finite obstruction ledger, while the public boundary excludes a total classifier, host oracle, unbounded search, quotient equality, or alternate diagonal route.
+
+Finally apply \autoref{thm:halting-obstruction-local-namecert-repackaging}. The package and local naming rows repackage the same trace and distinction rows, so the downstream handoff is exhausted by $T,R,H,C,P,N$ inside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Halting obstruction diagonal policy refusal]
+\label{thm:halting-obstruction-diagonal-policy-refusal}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, any diagonal-policy read that bypasses one of the displayed rows $T,R,D,H,C,P,N$ is refused by the public packet. The diagonal policy row $D$ is readable only as the local obstruction ledger for the displayed trace and self-reference route.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:halting-obstruction-carrier}. The row $D$ is stored beside the finite trace row $T$, self-reference row $R$, transport row $H$, displayed route row $C$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:halting-obstruction-namecert-obligations}. The local naming surface binds $D$ to trace exactness, self-reference readability, diagonal policy locality, and package/name closure for the same tuple.
+
+Use \autoref{thm:halting-obstruction-diagonal-nonescape} and \autoref{thm:halting-obstruction-public-read-boundary}. A public diagonal read cannot be replaced by a global classifier, host divergence oracle, quotient equality, unbounded search, or a second route outside $T,R,D,H,C,P,N$.
+
+Finally invoke \autoref{thm:halting-obstruction-local-namecert-repackaging}. Since $P$ and $N$ add no alternate classifier or diagonal route, a bypassing diagonal-policy read is not a read of the accepted obstruction packet.
+\end{proof}
+
+\begin{theorem}[Halting obstruction public consumer ledger exhaustion]
+\label{thm:halting-obstruction-public-consumer-ledger-exhaustion}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, every downstream public consumer is exhausted by the displayed finite ledger $S,I,T,R,D,H,C,P,N$. The consumer may read certificate-source, input-history, trace, self-reference, diagonal policy, transport, route, package, and local naming rows, but no additional halting, divergence, evaluator, equality, or classifier row.
+\end{theorem}
+\begin{proof}
+Read the packet from \autoref{def:halting-obstruction-carrier}. Its carrier inventory is the finite ledger $S,I,T,R,D,H,C,P,N$.
+
+Apply \autoref{thm:halting-obstruction-namecert-obligations}. The obligations attach the carrier, trace, self-reference, diagonal policy, package, and local name to that ledger and do not introduce a separate consumer coordinate.
+
+Use \autoref{thm:halting-obstruction-distinction-boundary}, \autoref{thm:halting-obstruction-diagonal-nonescape}, and \autoref{thm:halting-obstruction-public-read-boundary}. These rows force downstream reads through the displayed distinction and diagonal boundary while excluding global halting classifiers, host oracles, unbounded search, quotient equality, and alternate routes.
+
+Finally apply \autoref{thm:halting-obstruction-local-namecert-repackaging}. Repackaging through $P$ and $N$ preserves exactly the same finite ledger, so every public consumer is exhausted by $S,I,T,R,D,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[Halting obstruction root carrier admission]
 \label{thm:halting-obstruction-root-carrier-admission}
 Every accepted $\HaltingObstructionUp$ packet exposes exactly
