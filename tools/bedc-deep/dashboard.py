@@ -334,6 +334,18 @@ def _refill_prompt_note(rec: dict) -> str:
     return f" prompt={size}b"
 
 
+def _next_refill_prompt_note() -> str:
+    try:
+        import oracle_board_refill
+
+        size = len(oracle_board_refill.build_refill_prompt().encode("utf-8"))
+    except Exception as exc:
+        return f"  next prompt estimate: unavailable ({type(exc).__name__})"
+    if size >= 1024:
+        return f"  next prompt estimate: {size / 1024:.0f}k"
+    return f"  next prompt estimate: {size}b"
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -464,7 +476,7 @@ def render_board_refill() -> str:
                 pass
 
     if not records:
-        return "  (no board refill artifacts)"
+        return "\n".join(["  (no board refill artifacts)", _next_refill_prompt_note()])
 
     ordered = sorted(
         _coalesce_split_refill_records(records),
@@ -491,6 +503,8 @@ def render_board_refill() -> str:
             f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
             f"{status}{prompt_note}{wait_note}{merged_note}"
         )
+
+    lines.append(_next_refill_prompt_note())
 
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
