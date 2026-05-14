@@ -215,6 +215,41 @@ completeness, arithmetic or order packages, and metric-completeness rows remain
 outside the consumer-visible source.
 \end{proof}
 
+\begin{theorem}[Real RegSeqRat StreamName seal handoff composition]
+\label{thm:real-regseqrat-streamname-seal-handoff-composition}
+An accepted finite $\RealUp$ seal read is equivalent, as displayed BEDC data,
+to the composed L10 open-phase route whose rows are the $\StreamNameUp$
+finite-window classifier rows, the $\DyadicRatCoreUp$ endpoint, radius, and
+distance rows, the $\RegSeqRatUp$ classifier and regularity rows, and the
+$\RealUp$ seal/readback ledger. The equivalence is transported only by the
+displayed $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+No quotient stream, host equality, selected limit, ambient completeness,
+arithmetic or order package, metric-completeness row, or hidden seal coordinate
+is part of the composed route.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-open-phase-seal-exactness}. It identifies the
+accepted seal read with one finite $\BHist$ packet whose four faces are the
+dyadic observation face, the stream-name finite-window face, the RegSeqRat
+regularity face, and the Real seal/readback face.
+
+Next apply \autoref{thm:realup-open-phase-four-face-consumer-totality}. This
+shows that every downstream consumer reads only those four faces through the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Use \autoref{thm:realup-seal-source-factorization-boundary} to identify the
+consumer-visible source with the same finite seal surface. Then use
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence} to
+replace the RegSeqRat-facing seal source by the StreamName, DyadicRatCore,
+RegSeqRat, and RealUp source-seal route.
+
+The cited theorems expose exactly the rows listed in the statement. Since their
+exclusion clauses remove quotient streams, host equality, selected limits,
+ambient completeness, arithmetic and order packages, metric-completeness data,
+and hidden seal coordinates, the composition has no further row.
+\end{proof}
+
 \begin{theorem}[RealUp open-phase four-face pullback]
 \label{thm:realup-open-phase-four-face-pullback}
 Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs. They classify

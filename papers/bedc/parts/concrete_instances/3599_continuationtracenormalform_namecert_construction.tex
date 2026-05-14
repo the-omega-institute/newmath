@@ -237,6 +237,42 @@ Use \autoref{thm:continuation-trace-normal-form-terminal-typed-boundary-exhausti
 Finally apply \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. It packages the same finite surface for downstream halting and normal-form chapters, with no coordinate for the excluded host, quotient, evaluator, confluence, normalizer, or off-route terminal-reader objects.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm root terminal-source order]
+\label{thm:continuation-trace-normal-form-root-terminal-source-order}
+Every root consumer of an accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$ must read the source row $S$, the $\ContinuationTraceUp$ ledger $T$, the terminal row $R$, the $\ContinuationBigStepUp$ terminal-read row $Q$, and the $\TypedReductionNormalFormUp$ boundary row $V$ in that source, trace, terminal, terminal-read, typed-boundary order before any normal-form consumer surface is exposed. The rows $H,C,P,N$ then carry the componentwise transport, displayed route, provenance, and local name for the same ordered read.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations. They expose the finite tuple $S,T,R,Q,V,H,C,P,N$ and attach each public read to carrier admission, trace replay, terminal-read exposure, typed normal-form readback, transport, route, provenance, and naming.
+
+Use terminal scope and terminal readback lock. The terminal row is not public before the trace ledger and terminal-read witness have been consumed through the displayed route, and the lock places $R$ behind $T,Q,H,C,P,N$.
+
+Finally apply typed boundary nonescape and the standard bridge surface. The normal-form boundary $V$ is read only after the terminal route has been fixed, and the bridge exposes no host conversion, quotient normalization, evaluator graph, global confluence, external normalizer, or off-route terminal reader.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm root typed-boundary route]
+\label{thm:continuation-trace-normal-form-root-typed-boundary-route}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the typed-boundary row $V$ is reachable only through the displayed $\ContinuationTraceUp$ row $T$, the displayed $\ContinuationBigStepUp$ terminal-read rows $R,Q$, and the displayed $\TypedReductionNormalFormUp$ row $V$, with transport, route, provenance, and naming supplied by $H,C,P,N$. No consumer can reach $V$ through host conversion, quotient normalization, evaluator correctness, global confluence, or an external normalizer.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only trace row is $T$, the only terminal-read rows are $R,Q$, and the only typed normal-form row is $V$.
+
+Apply trace ledger exhaustion. It prevents a second trace source from entering before the terminal-read rows are consumed.
+
+Apply terminal readback lock and typed boundary nonescape. The lock routes terminal readback through $T,Q,H,C,P,N$, and nonescape keeps the typed boundary inside the displayed trace, terminal, transport, route, package, and local naming rows.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm root downstream unblock ledger]
+\label{thm:continuation-trace-normal-form-root-downstream-unblock-ledger}
+The root terminal-source order, the root typed-boundary route, trace ledger exhaustion, and terminal readback lock assemble the downstream unblock ledger for halting and normal-form chapters. The ledger surface is exactly $S,T,R,Q,V,H,C,P,N$ with its displayed $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it exports no host conversion, quotient normalization, evaluator graph, global confluence theorem, external normalizer, or off-route terminal reader.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-trace-normal-form-root-terminal-source-order} to order the root read. A downstream consumer first sees the source, trace, terminal, terminal-read, and typed-boundary rows before it can consume the normal-form surface.
+
+Use \autoref{thm:continuation-trace-normal-form-root-typed-boundary-route} to identify the only route into the typed boundary. The route passes through $\ContinuationTraceUp$, $\ContinuationBigStepUp$, and $\TypedReductionNormalFormUp$ as displayed rows of the same packet.
+
+Finally combine \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion} with \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. The trace row is exhausted by $T$, the terminal row is locked behind $T,Q,H,C,P,N$, and the excluded host, quotient, evaluator, confluence, normalizer, and off-route terminal-reader objects have no coordinate in the ledger.
+\end{proof}
+
 \begin{theorem}[ContinuationTraceNormalForm source-endpoint partition]
 \label{thm:continuation-trace-normal-form-source-endpoint-partition}
 Every accepted $\ContinuationTraceNormalFormUp$ packet partitions its public rows into source trace, terminal-read, typed-normal boundary, transport, route, provenance, and local $\NameCert$ data before any consumer reads the endpoint. For $Z=(S,T,R,Q,V,H,C,P,N)$, the source trace is $S,T$, the terminal-read surface is $R,Q$, the typed-normal boundary is $V$, the transport surface is $H$, the route surface is $C$, the provenance row is $P$, and the local naming row is $N$.
@@ -367,7 +403,7 @@ Finally apply \autoref{thm:continuation-trace-normal-form-standard-bridge-surfac
 \begin{closurestatus}{\ContinuationTraceNormalFormUp}
   \constructivestory{A $\ContinuationTraceNormalFormUp$ packet is generated from a source history row, a finite $\ContinuationTraceUp$ ledger, a terminal row, a $\ContinuationBigStepUp$ terminal-read witness, a $\TypedReductionNormalFormUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, \autoref{thm:continuation-trace-normal-form-terminal-scope}, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}, \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}, \autoref{thm:continuation-trace-normal-form-replay-prefix-determinacy}, \autoref{thm:continuation-trace-normal-form-terminal-typed-boundary-exhaustion}, and \autoref{thm:continuation-trace-normal-form-root-unblock-package} bind carrier admission, trace replay, terminal-read exposure, typed normal-form readback, non-escape, trace-ledger exhaustion, terminal readback lock, typed-boundary nonescape, the standard bridge surface, replay-prefix determinacy, terminal typed-boundary exhaustion, and the root package to the displayed $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, \autoref{thm:continuation-trace-normal-form-terminal-scope}, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}, \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}, \autoref{thm:continuation-trace-normal-form-replay-prefix-determinacy}, \autoref{thm:continuation-trace-normal-form-terminal-typed-boundary-exhaustion}, \autoref{thm:continuation-trace-normal-form-root-unblock-package}, \autoref{thm:continuation-trace-normal-form-root-terminal-source-order}, \autoref{thm:continuation-trace-normal-form-root-typed-boundary-route}, and \autoref{thm:continuation-trace-normal-form-root-downstream-unblock-ledger} bind carrier admission, trace replay, terminal-read exposure, typed normal-form readback, non-escape, trace-ledger exhaustion, terminal readback lock, typed-boundary nonescape, the standard bridge surface, replay-prefix determinacy, terminal typed-boundary exhaustion, the root package, terminal-source order, typed-boundary route, and downstream unblock ledger to the displayed $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

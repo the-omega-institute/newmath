@@ -141,6 +141,46 @@ or ambient completeness datum, so none of those objects escapes through the
 uniform pullback route.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat Real route transitivity]
+\label{thm:streamname-regseqrat-real-route-transitivity}
+Every accepted $\StreamNameUp$ finite-window packet whose visible StreamName
+row, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ readback row, and
+$\RealUp$ seal row agree with the dyadic pullback route and with the uniform
+finite-window seal route has a single composite $\RealUp$ seal consumer route.
+That route has only the displayed $\BHist$ observations, componentwise
+$\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and
+local $\NameCert$ rows attached to those four sibling surfaces.
+
+The composite route exports no quotient stream, no host real equality, no
+selected limit, no trichotomy row, and no ambient completeness datum. Thus a
+downstream $\RealUp$ seal consumer may cite one finite route from StreamName
+windows through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ rows into the $\RealUp$
+seal, rather than separately choosing among the local handoff surfaces.
+\end{theorem}
+\begin{proof}
+First identify the finite four-row surface. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. It places the
+accepted StreamName packet, the dyadic observation ledger, the RegSeqRat
+readback row, and the Real seal row on one pullback surface whose coordinates
+are exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Next compare the uniform seal with that surface. By
+\autoref{thm:streamname-uniform-pullback-nonescape}, the uniform
+finite-window seal feeds the same StreamName, DyadicRatCore, RegSeqRat, and
+Real rows instead of producing a parallel consumer route. Hence the dyadic
+pullback and the uniform seal name the same finite carrier path for the
+downstream $\RealUp$ seal read.
+
+Finally exhaust the consumer coordinates. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}.
+A downstream consumer can project only the four displayed sibling rows and
+their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. Since
+those rows contain no quotient stream, host real equality, selected limit,
+trichotomy row, or ambient completeness datum, no external coordinate can
+escape through the composite seal route.
+\end{proof}
+
 \begin{theorem}[StreamName Real observation-budget factorization]
 \label{thm:streamname-real-observation-budget-factorization}
 Every accepted $\StreamNameUp$ finite-window packet consumed by a
@@ -304,4 +344,51 @@ the same finite pullback packet. Hence a Real seal pullback read routed
 through StreamName, RegSeqRat, and Real cannot select another source: it
 delivers precisely that finite packet to downstream seal consumers and no
 hidden completion witness beyond it.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp lattice budget cover]
+\label{thm:streamname-regseqrat-realup-lattice-budget-cover}
+Every accepted $\StreamNameUp$ finite-window packet used as a Phase Real and
+Completion budget cover factors through exactly four sibling rows: the
+StreamName finite-window row, the $\DyadicRatCoreUp$ observation ledger, the
+$\RegSeqRatUp$ readback and classifier surface, and the $\RealUp$ seal row.
+The cover exposes only the displayed $\BHist$ observations, componentwise
+$\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and
+local $\NameCert$ coordinates attached to those four rows.
+
+Consequently the budget cover supplies a finite route from StreamName windows
+through dyadic observation and regular-rational readback into the Real seal.
+It exports no quotient stream, no host real equality, no selected limit, no
+ambient completeness coordinate, no metric-completion row, and no standard
+bridge row.
+\end{theorem}
+\begin{proof}
+First isolate the four-row pullback. By
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}, every accepted
+finite-window packet consumed by $\RegSeqRatUp$ and $\RealUp$ is read through
+the StreamName finite-window row, the $\DyadicRatCoreUp$ observation ledger,
+the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row, with only the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next exhaust the consumer projections. The theorem
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}
+says that any downstream consumer citing that dyadic pullback can project only
+those four rows and their listed coordinates. Thus a budget cover cannot add a
+second carrier surface while remaining a consumer of the accepted
+finite-window packet.
+
+Now attach the Phase Real budget route. By
+\autoref{thm:streamname-real-observation-budget-factorization}, every
+$\RealObservationBudgetUp$ precision request using the accepted packet factors
+through the same route from $\StreamNameUp$ to $\DyadicRatCoreUp$ to
+$\RegSeqRatUp$ to $\RealUp$. The request supplies no quotient stream, host
+equality, hidden limit selection, or ambient completeness coordinate.
+
+Finally pass to the Completion exit boundary. Apply
+\autoref{thm:streamname-real-regseq-seal-pullback-exhaustion}: the Real seal
+pullback read routed through StreamName, RegSeqRat, and Real delivers exactly
+the same finite packet to downstream seal consumers. Since the preceding
+factorization already lists all available $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ coordinates, there is no remaining coordinate from which a
+metric-completion row or standard bridge row could be recovered.
 \end{proof}
