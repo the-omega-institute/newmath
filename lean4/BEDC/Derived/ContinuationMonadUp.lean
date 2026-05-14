@@ -52,6 +52,29 @@ theorem ContinuationMonadCarrier_route_closure {A B C f g u H K L N : BHist} :
     unary_cont_closed unaryK unaryU routeL
   exact ⟨unaryB, unaryC, unaryK, unaryL, sameEndpoint⟩
 
+theorem ContinuationMonadCarrier_kleisli_associativity_surface
+    {A B C f g u H K L N read : BHist} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      Cont L N read ->
+        UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory L ∧
+          UnaryHistory read ∧ hsame N L ∧ Cont L N read := by
+  intro carrier routeRead
+  have closure :
+      UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory L ∧ hsame N L :=
+    ContinuationMonadCarrier_route_closure carrier
+  have unaryL : UnaryHistory L :=
+    closure.right.right.right.left
+  have sameEndpoint : hsame N L :=
+    closure.right.right.right.right
+  have unaryN : UnaryHistory N := by
+    cases sameEndpoint
+    exact unaryL
+  have unaryRead : UnaryHistory read :=
+    unary_cont_closed unaryL unaryN routeRead
+  exact
+    ⟨closure.left, closure.right.left, closure.right.right.left, unaryL, unaryRead,
+      sameEndpoint, routeRead⟩
+
 theorem ContinuationMonadCarrier_root_kleisli_associativity_surface
     [AskSetup] [PackageSetup]
     {A B C f g u H K L N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
