@@ -77,6 +77,42 @@ Use the filter-history handoff of \autoref{thm:observer-interface-filter-history
 Finally apply non-escape, \autoref{thm:observer-interface-nonescape}. Because the packet has no hidden observer state, quotient observer identity, host equality of histories, unledgered omitted row, unlicensed observation, or subject parameter, the falsifiable prediction and independence witness read exactly this finite obligation surface.
 \end{proof}
 
+\begin{theorem}[ObserverInterface selected-row exactness]
+\label{thm:observer-interface-selected-row-exactness}
+For an accepted $\ObserverInterfaceUp$ packet $I=(H,F,A,S,O,U,W,Q,R,L,C,P,N)$, the selected-row ledger $S$ is exactly the public observation side selected by $F$ and exposed through $A$ and $U$. Every $\StreamNameUp$-facing read through $W$ must pass through $S,U,Q,R,L,C,P,N$, and no omitted row in $O$ can be reclassified as selected data.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:observer-interface-carrier}. The selected ledger $S$ is a displayed coordinate, and the licensed observation row $U$ is the public read served from the selected side.
+
+Use \autoref{thm:observer-interface-namecert-obligations} to bind $S$ to the local NameCert surface. The same certificate surface records $F$ as the filter row, $A$ as the attention-ledger exposure, and $L$ as the interface ledger for accepted reads.
+
+Now apply \autoref{thm:observer-interface-filter-history-handoff}. It routes every StreamName-facing read through $S,U,W,Q,R,L,C,P,N$ and keeps $O$ as boundary data. Non-escape then prevents an omitted row, hidden observer state, or unlicensed observation from supplying selected data.
+\end{proof}
+
+\begin{theorem}[ObserverInterface omitted-row boundary]
+\label{thm:observer-interface-omitted-row-boundary}
+For an accepted $\ObserverInterfaceUp$ packet $I=(H,F,A,S,O,U,W,Q,R,L,C,P,N)$, every row recorded in the omitted ledger $O$ remains a boundary certificate witnessed by the same filter row $F$ and attention row $A$. Such a row may be named by the local certificate and carried by $R,L,C,P,N$, but it has no route to the licensed-observation row $U$ or to the $\StreamNameUp$ handoff row $W$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation list of \autoref{thm:observer-interface-namecert-obligations}. It exposes $O$ as the omitted-row boundary and keeps it in the same finite packet as the filter, attention, selected, licensed-observation, handoff, transport, ledger, route, provenance, and naming rows.
+
+The filter-history handoff of \autoref{thm:observer-interface-filter-history-handoff} separates the roles of $S$ and $O$. The selected ledger feeds $W$ through $U$, while the omitted ledger remains visible only as a boundary certificate.
+
+Finally use \autoref{thm:observer-interface-obligation-closure-package} and \autoref{thm:observer-interface-nonescape}. The obligation package records selected rows as the only StreamName-facing data, and non-escape rules out unledgered deletion, hidden observer state, and unlicensed observation. Hence omitted rows stay named but cannot become public handoff data.
+\end{proof}
+
+\begin{theorem}[ObserverInterface StreamName handoff totality]
+\label{thm:observer-interface-streamname-handoff-totality}
+For an accepted $\ObserverInterfaceUp$ packet $I=(H,F,A,S,O,U,W,Q,R,L,C,P,N)$, every licensed public observation exported by the interface has a displayed $\StreamNameUp$ handoff row in $W$. The handoff is total for the selected ledger $S$ and licensed-observation row $U$, and it is empty for omitted rows except for their boundary naming through $O,R,L,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the handoff coordinate from the carrier. The row $W$ is generated only from the selected observation ledger $S$ and the licensed-observation row $U$, so any public observation exported by the interface has a displayed handoff row.
+
+Apply \autoref{thm:observer-interface-filter-history-handoff}. It states that every StreamName-facing read exported by an accepted packet factors through $S,U,W,Q,R,L,C,P,N$, while omitted rows remain boundary certificates.
+
+Use the obligation package to close the route. By \autoref{thm:observer-interface-obligation-closure-package}, carrier admission, filter selection, attention-ledger exposure, selected-row ledgering, omitted-row boundary, licensed observation, handoff, no-subject exactness, transport, continuation, provenance, and naming are the whole obligation surface. Thus the handoff is total over licensed selected rows and has no public branch for omitted rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted ObserverInterfaceUp packet routes StreamName-facing reads through selected observer-filter rows and cannot export an unledgered omitted row.}
 
 \independenceWitness{observerfilter, observerhistoryidentity, attentionledger, streamname: the interface packet has all four row families simultaneously, while each sibling lacks at least one of filter partition, no-subject history identity, attention ledger, or countable handoff rows.}
