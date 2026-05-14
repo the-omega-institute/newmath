@@ -73,3 +73,19 @@ Next transport the displayed rows. By \autoref{thm:bounded-monotone-cauchy-witne
 
 It remains to rule out a second place where the consumer could read. Use \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion} to exhaust all completion-facing routes by the same witness package, and then apply \autoref{thm:bounded-monotone-cauchy-witness-finite-seal-route-determinacy} to identify the finite seal-read surfaces. The excluded completion objects are not coordinates of that route, so they cannot separate the two downstream reads.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness seal-route minimality]
+\label{thm:bounded-monotone-cauchy-witness-seal-route-minimality}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. A $\BoundedMonotoneConvergenceSealUp$ consumer route is an accepted seal-input route from $W$ only when it carries the displayed source row, monotone window row, Cauchy criterion row, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\CauchyLimitSealUp$ compatibility row, $\RealUp$ seal, transport rows, continuation rows, provenance row, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row.
+
+Consequently any proper subroute that omits one of those rows is not an accepted seal-input route for the downstream convergence seal. This minimality claim is only about the finite witness-to-seal input route; it does not assert Real completeness, a selected limit, quotient real equality, trichotomy, open-cover compactness, or any choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First take the accepted read inventory from \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}. It lists the bounded source, public monotone and Cauchy rows, stream schedule, dyadic ledger, regular-rational handoff, compatibility boundary, Real seal, transports, continuations, provenance, and naming row as the complete input package read by the convergence-seal consumer.
+
+Next use componentwise preservation. \autoref{thm:bounded-monotone-cauchy-witness-seal-input-transport} says that accepted transport may replace a displayed row only by its matching transported row, so a route missing one coordinate cannot be repaired by a detached replacement.
+
+Now rule out escape routes. By \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion}, every completion-facing route consumable by $\BoundedMonotoneConvergenceSealUp$ is exhausted by the same finite witness package. There is no second path from which an omitted source, window, criterion, schedule, ledger, handoff, compatibility, seal, transport, continuation, provenance, or naming row could be supplied.
+
+Finally apply read determinacy from \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-read-determinacy}. Accepted reads of the displayed route are equal at the downstream finite seal surface, so removing a displayed row leaves no accepted read of that surface. The excluded completion principles are not coordinates of the route and therefore play no role in the minimality statement.
+\end{proof}
