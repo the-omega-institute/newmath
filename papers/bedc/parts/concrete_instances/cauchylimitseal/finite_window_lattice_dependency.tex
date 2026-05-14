@@ -44,3 +44,17 @@ Now use StreamName lattice-meet exhaustion, \autoref{thm:streamname-finite-windo
 
 Finally apply the RegSeqRat seal-route exclusion package of \autoref{thm:regseqrat-real-seal-route-exclusion-package}. It rules out selected host limits, hidden tail witnesses, and ambient completeness data from the regular-source seal route. The only remaining route through the shared meet is the displayed $X,D,G,E$ route, which gives determinacy of the middle finite-window handoff.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal common-window transport]
+\label{thm:cauchy-limit-seal-common-window-transport}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Suppose two seal-facing consumer routes first meet the same $\StreamNameUp$ finite-window lattice surface before either route is consumed by a $\RegSeqRatUp$ or $\RealUp$ endpoint. Transporting either route to this common finite window preserves the displayed $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, and the $\RealUp$ seal row $E$. The transported route exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, and it exports no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First use the middle-window meet determinacy of \autoref{thm:cauchy-limit-seal-middle-window-meet-determinacy}. Once both seal-facing routes are pulled back to the shared $\StreamNameUp$ finite-window lattice meet, the readable handoff is already fixed by the displayed rows $X,D,G,E$ rather than by a second window or a quotient-level stream coordinate.
+
+Next apply the RegSeqRat finite-window transport obligation of \autoref{thm:regseqrat-finite-window-transport-obligation}. It identifies the transport task at the regular-source boundary as the preservation of the visible finite-window data over the same $\StreamNameUp$ surface.
+
+Then apply the RegSeqRat finite-window transport closure of \autoref{thm:regseqrat-finite-window-transport-closure}. This closes the transport inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, so no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness coordinate is introduced by the move to the common window.
+
+Finally use the CauchyLimitSeal RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The $\RealUp$ endpoint therefore consumes the same displayed boundary rows $X,D,G,E$ after transport, and the common finite window is reused for either seal-facing route.
+\end{proof}

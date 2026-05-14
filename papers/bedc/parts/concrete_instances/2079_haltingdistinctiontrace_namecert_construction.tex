@@ -68,16 +68,45 @@ Use \autoref{thm:halting-distinction-trace-diagonal-readback}. The only diagonal
 Finally apply the non-export clause of \autoref{thm:halting-distinction-diagonal-obstruction-package}. Since the obstruction package itself exports no total halting predicate, global truth predicate, divergence detector, or host-level evaluator, the provenance and naming rows cannot export those objects either.
 \end{proof}
 
+\begin{theorem}[HaltingDistinctionTrace scoped consumer factorization]
+\label{thm:halting-distinction-trace-scoped-consumer-factorization}
+For an accepted $\HaltingDistinctionTraceUp$ carrier $R=(A,T,D,E,H,C,P,N)$, every consumer read of the trace packet factors through the displayed rows
+$$
+A \to T \to D \to E \to H \to C \to P \to N.
+$$
+The broader $\HaltingDistinctionUp$ certificate-history and diagonal obstruction context of \autoref{ch:concrete-instances-haltingdistinction-namecert} is consumed only through the admitted input row $A$, the distinction classifier row $D$, and the diagonal self-application row $E$; it does not add a total halting predicate, truth predicate, divergence detector, or host evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:halting-distinction-trace-carrier}. The rows $A,T,D,E,H,C,P,N$ are the complete finite packet visible to a consumer.
+
+Use diagonal readback and provenance non-escape. They place every diagonal self-query behind the finite trace row $T$, the distinction row $D$, and the continuation route $C$, and they keep provenance and local naming inside the displayed packet.
+
+Now insert the surrounding $\HaltingDistinctionUp$ context through \autoref{ch:concrete-instances-haltingdistinction-namecert}. That context supplies the certificate-history and distinction surface read by $A,D,E$, but the trace packet exposes it only through those displayed rows. Hence every consumer read factors through $A,T,D,E,H,C,P,N$ and cannot import global halting content.
+\end{proof}
+
+\begin{theorem}[HaltingDistinctionTrace scoped transport non-escape]
+\label{thm:halting-distinction-trace-scoped-transport-nonescape}
+Let $R=(A,T,D,E,H,C,P,N)$ and $R'=(A',T',D',E',H',C',P',N')$ be accepted $\HaltingDistinctionTraceUp$ carriers. If the componentwise $\hsame$ rows in $H$ and $H'$ identify the admitted input, finite trace, distinction classifier, diagonal self-application, replay, provenance, and local naming rows, then transport preserves the route from trace to distinction to diagonal self-query. The transported packet still exports no total halting predicate, truth predicate, divergence detector, or host evaluation row.
+\end{theorem}
+\begin{proof}
+Read the componentwise transport rows. Their scope is exactly the displayed coordinates $A,T,D,E,C,P,N$ of the two accepted trace packets, with no coordinate for an external evaluator or global classifier.
+
+Apply scoped consumer factorization to both packets. Each consumer route first reads the admitted input and finite trace, then the distinction classifier and diagonal self-application, and finally the transport, replay, provenance, and local naming rows.
+
+The $\hsame$ rows preserve those coordinates component by component. Therefore the transported read has the same trace, distinction, and diagonal route as the original packet. Since neither packet contains total halting, truth, divergence, or host-evaluation coordinates, transport cannot export them.
+\end{proof}
+
 \closureat{HaltingDistinctionTraceUp}{seedStr}
 \closureat{HaltingDistinctionTraceUp}{obligationStr}
+\closureat{HaltingDistinctionTraceUp}{scopedStr}
 
 \begin{closurestatus}{\HaltingDistinctionTraceUp}
   \constructivestory{A $\HaltingDistinctionTraceUp$ packet is generated from an admitted certificate-history input row, a finite continuation trace row, a distinction classifier row, a diagonal self-application row, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:halting-distinction-trace-carrier}, \autoref{thm:halting-distinction-diagonal-obstruction-package}, \autoref{thm:halting-distinction-trace-diagonal-readback}, and \autoref{thm:halting-distinction-trace-provenance-nonescape} bind the finite trace carrier, diagonal readback route, and provenance non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:halting-distinction-trace-carrier}, \autoref{thm:halting-distinction-diagonal-obstruction-package}, \autoref{thm:halting-distinction-trace-diagonal-readback}, \autoref{thm:halting-distinction-trace-provenance-nonescape}, \autoref{thm:halting-distinction-trace-scoped-consumer-factorization}, and \autoref{thm:halting-distinction-trace-scoped-transport-nonescape} bind the finite trace carrier, diagonal readback route, scoped consumer factorization, componentwise transport, and provenance non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a total halting predicate, a global truth predicate, divergence detection, host evaluation, or a checked Lean certificate.}
-  \upgradepath{Scoped closure requires checked carrier admission, trace readability, distinction transport, diagonal boundary exactness, and consumer non-escape for the displayed trace packet.}
+  \upgradepath{Public closure requires a public consumer surface and checked Lean targets for the displayed trace packet.}
 \end{closurestatus}

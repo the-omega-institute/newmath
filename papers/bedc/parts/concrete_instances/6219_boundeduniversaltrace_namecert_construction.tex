@@ -148,6 +148,42 @@ not an implicit evaluator or host scheduler; it is exactly the unary
 $\BHist$ schedule consumed by finite $\Cont$ replay.
 \end{proof}
 
+\begin{theorem}[BoundedUniversalTrace obligation surface lock]
+\label{thm:bounded-universal-trace-obligation-surface-lock}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, a total-host read is available only after the packet exposes exactly the fuel, substrate, source, finite trace, readback, transport, route, provenance, and local naming rows $F,M,S,T,R,H,C,P,N$. No public read may replace this surface by an unbounded evaluator or by a partial host trace.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-universal-trace-carrier}. It displays exactly the nine rows $F,M,S,T,R,H,C,P,N$.
+
+Use \autoref{thm:bounded-universal-trace-namecert-obligations}. The local certificate admits carrier exposure, componentwise transport, bounded readback, non-escape, and public export only over those displayed rows.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback} and \autoref{thm:bounded-universal-trace-non-escape}. They force the terminal row through $F$ and $T$ while refusing unbounded halting, host evaluator equality, quotient behaviour, selected nontermination evidence, and semantic completion.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace fuel row public boundary]
+\label{thm:bounded-universal-trace-fuel-row-public-boundary}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, the row $F$ is the only public bound for trace replay. The packet projects no unbounded halting predicate, no all-fuel convergence claim, and no host evaluator that can substitute for the displayed fuel row.
+\end{theorem}
+\begin{proof}
+Begin with the root fuel schedule of \autoref{thm:bounded-universal-trace-root-fuel-schedule}. It identifies $F$ as the unary $\BHist$ schedule consumed by finite $\Cont$ replay through $T$ and $R$.
+
+Use \autoref{thm:bounded-universal-trace-step-index-readback}. A read of $R$ is public only through the fuel row and finite trace ledger, so the bound cannot be replaced by a host run.
+
+Finally apply \autoref{thm:bounded-universal-trace-non-escape}. Unbounded halting and host evaluator equality require coordinates absent from \autoref{def:bounded-universal-trace-carrier}, leaving $F$ as the sole public trace bound.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace substrate trace readback]
+\label{thm:bounded-universal-trace-substrate-trace-readback}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, substrate reads must pass through the substrate row $M$ and the finite $\ContinuationTraceUp$ row $T$ before the readback row $R$ is readable. The read is a finite carrier projection through $H,C,P,N$, not a direct host evaluation of the substrate.
+\end{theorem}
+\begin{proof}
+Project $M$ and $T$ from \autoref{def:bounded-universal-trace-carrier}. The substrate row names the $\TuringMachineUp$ or $\CellularAutomatonUp$ surface, and the trace row records the finite continuation ledger below the fuel bound.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback}. The terminal row $R$ is selected only when $T$ displays the bounded route from $S$ over $M$.
+
+Use \autoref{thm:bounded-universal-trace-non-escape}. Since the carrier lacks a host evaluator and lacks an unbounded transition closure, substrate readback can only replay $M$ and $T$ through the displayed transport, route, provenance, and local naming rows.
+\end{proof}
+
 \begin{theorem}[BoundedUniversalTrace cellular replay scope]
 \label{thm:bounded-universal-trace-cellular-replay-scope}
 When the substrate row $M$ of an accepted $\BoundedUniversalTraceUp$ carrier
