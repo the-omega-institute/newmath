@@ -112,6 +112,22 @@ The bundled $\RealUp$ seal non-escape clause then places $E$ after the shared me
 Thus the Real seal is not an independent Real-facing object. It is the final row of the displayed $\Cont$ chain from the source schedules through $Q$, stabilized by the componentwise $\hsame$ row $H$ and recorded by the package row $P$ and local name $N$.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement Real seal scope package]
+\label{thm:cauchy-modulus-refinement-real-seal-scope-package}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, any $\RealUp$ or completion-facing consumer of the refinement seal must pass through the two source schedules $M_0,M_1$, the shared $\CauchyModulusMeetUp$ row $U$, the extraction witness $V$, the $\RegularCauchySelectorBudgetUp$ row $T$, the finite $\StreamNameUp$ window ledger $W$, the $\DyadicRatCoreUp/\RegSeqRatUp$ readback ledger $Q$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$. The package exports no quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier row in \autoref{def:cauchy-modulus-refinement-carrier}. The accepted packet has exactly the displayed coordinates $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, with $H,C,P,N$ recording componentwise transport, displayed route data, provenance, and the local name over the same finite carrier.
+
+Apply Theorem~\ref{thm:cauchy-modulus-refinement-shared-meet-dependency}. The shared meet row $U$ is the only meet dependency between the two source schedules and the extraction witness $V$.
+
+Apply Theorem~\ref{thm:cauchy-modulus-refinement-selector-budget-dependency}. The selected-window and tolerance-readback side then passes through $T,W,Q$, so the selector budget, finite window ledger, dyadic tolerance rows, and regular readbacks are all explicit rows of the same route.
+
+Apply Theorem~\ref{thm:cauchy-modulus-refinement-real-seal-route}. The seal row $E$ is reachable only after the route through $M_0,M_1,U,V,T,W,Q$ has been displayed and stabilized by the structural rows.
+
+Finally use Theorem~\ref{thm:cauchy-modulus-refinement-nonescape}. Since the carrier has no coordinate for a quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness datum, a $\RealUp$ or completion-facing consumer of the refinement seal receives only the public scope package listed above.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement NameScope package row]
 \label{thm:cauchy-modulus-refinement-namescope-package}
 For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusRefinementUp}$ namescope package consists exactly of the carrier-admission row, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route row $C$, the provenance row $P$, and the local naming row $N$ over the same sibling surfaces. It exports no name for a row outside $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
@@ -206,6 +222,61 @@ Project the packet $R$. The only transport data in the carrier are the component
 The first two routes place the source schedules $M_0,M_1$ before the shared meet row $U$. The next five routes carry the same read through $V,T,W,Q,E$, so a transported classifier cannot switch to a different witness, budget, window ledger, tolerance ledger, or seal row.
 
 The final packet route authenticates the whole displayed tuple with $P$ and $N$. Since the carrier has no hidden classifier coordinate, componentwise $\hsame$ transport and the displayed $\Cont$ route list exhaust the classifier transport surface.
+\end{proof}
+
+\begin{definition}[Cauchy modulus refinement pullback spine]
+\label{def:cauchy-modulus-refinement-pullback-spine}
+The pullback spine of an accepted $\CauchyModulusRefinementUp$ packet is the finite $\BHist$ tuple
+$$
+(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+read as a single displayed route from the two source Cauchy-modulus schedules to the Real-facing seal. The row $U$ is pulled back from the $\CauchyModulusMeetUp$ surface over $M_0,M_1$; the row $V$ is pulled back from the $\CauchyModulusExtractionUp$ witness over that meet; the row $T$ is pulled back from the $\RegularCauchySelectorBudgetUp$ selector budget over $V$; the row $W$ is the finite $\StreamNameUp$ window surface opened by $T$; the row $Q$ is the joint $\DyadicRatCoreUp$ tolerance and $\RegSeqRatUp$ readback ledger over $W$; and $E$ is the $\RealUp$ seal read only after $Q$. The structural rows $H,C,P,N$ store the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row for precisely this route.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus refinement pullback spine admission]
+\label{thm:cauchy-modulus-refinement-pullback-spine-admission}
+An accepted $\CauchyModulusRefinementUp$ packet is admitted exactly through the pullback spine of \autoref{def:cauchy-modulus-refinement-pullback-spine}. Equivalently, carrier admission for
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+is the same finite $\BHist$ admission obtained by reading the $\CauchyModulusMeetUp$ row $U$, $\CauchyModulusExtractionUp$ row $V$, $\RegularCauchySelectorBudgetUp$ row $T$, $\StreamNameUp$ finite windows $W$, $\DyadicRatCoreUp$ and $\RegSeqRatUp$ ledger $Q$, $\RealUp$ seal $E$, and structural rows $H,C,P,N$ in the displayed order.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. Its visible coordinates are exactly the rows listed in the pullback spine, and the NameCert obligations of \autoref{thm:cauchy-modulus-refinement-namecert-obligations} attach the local naming row to that same finite packet.
+
+Read the source side through the shared meet dependency. The source-meet budget chain and source-meet exactness force the witness row $V$ to enter only after $M_0,M_1,U$, so the meet row is not an external parameter of the accepted packet.
+
+Read the downstream side through classifier transport. The classifier-transport theorem keeps every accepted read on the componentwise $\hsame$ and displayed $\Cont$ routes, while window readback exhaustion and Real seal factorization identify the only later rows as $T,W,Q,E$.
+
+The reverse direction is repacking. A tuple admitted through the displayed meet, extraction, selector-budget, window, tolerance-readback, seal, transport, route, provenance, and naming rows supplies every coordinate required by the carrier and no coordinate outside it. Thus accepted packets and pullback-spine admissions coincide.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared-budget pullback]
+\label{thm:cauchy-modulus-refinement-shared-budget-pullback}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the meet row $U$ and selector-budget row $T$ jointly determine every selected-window read in $W$ and every tolerance-readback row in $Q$. No selected window may be read from $T$ without the same shared meet row $U$, and no $\DyadicRatCoreUp$ or $\RegSeqRatUp$ readback may be read from $Q$ without the window budget determined by $U$ through $V,T$.
+\end{theorem}
+\begin{proof}
+First fix the shared source. Source-meet exactness identifies $U$ as the only meet row over the two schedules $M_0,M_1$, and the source-meet budget chain places the refinement witness $V$ after that meet.
+
+Next fix the selector budget. Selector budget totality makes $T$ the only route from $V$ to the selected finite-window surface, and window readback exhaustion makes $W,Q$ the only rows from which selected StreamName, dyadic tolerance, and regular-rational readback data can be consumed.
+
+Finally use the classifier-transport and Real-seal route theorems. They keep the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to the route, so a selected-window consumer cannot detach $T$ from $U$ or replace $Q$ by a tolerance ledger outside the displayed pullback spine.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal pullback non-escape]
+\label{thm:cauchy-modulus-refinement-real-seal-pullback-nonescape}
+A $\RealUp$-facing consumer of an accepted $\CauchyModulusRefinementUp$ packet cannot bypass any of the rows
+$$
+U,\ V,\ T,\ W,\ Q.
+$$
+Every such consumer reaches the seal row $E$ only after the shared meet, extraction witness, selector budget, finite StreamName windows, and dyadic and rational readback ledger have been read through the pullback spine, and it receives no quotient stream, selected host limit, hidden selector, second meet row, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin at the seal. Real seal refusal rejects any attempted seal read that omits the shared meet route or the selector-budget route, and Real seal factorization places $E$ after $U,V,T,W,Q$.
+
+Now bind the consumer path. Classifier transport supplies the componentwise $\hsame$ and displayed $\Cont$ route, while the shared-budget pullback theorem fixes the selected-window and readback rows as the ones determined by $U,V,T$.
+
+It remains to exclude side routes. The Real seal consumer exhaustion, completion boundary, and non-escape theorems remove quotient streams, selected limits, hidden selectors, second meet rows, host real equality, and ambient completeness from the carrier surface. Hence a Real-facing consumer can reach $E$ only through the displayed pullback spine.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement source-meet exactness]
