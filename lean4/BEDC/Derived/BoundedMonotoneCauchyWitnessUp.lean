@@ -172,6 +172,37 @@ theorem BoundedMonotoneCauchyWitnessCarrier_completion_consumer_nonescape [AskSe
       completionRoute, sourceScheduleRegular, regularWitnessTrap, trapSealRoute, provenancePkg,
       completionPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_tail_envelope_public_export
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      envelopeRead budgetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg ->
+      Cont source schedule envelopeRead ->
+        Cont envelopeRead ledger budgetRead ->
+          PkgSig bundle budgetRead pkg ->
+            UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+              UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                UnaryHistory sealRow ∧ UnaryHistory envelopeRead ∧ UnaryHistory budgetRead ∧
+                  Cont source schedule envelopeRead ∧ Cont envelopeRead ledger budgetRead ∧
+                    Cont source schedule regular ∧ Cont regular witness trap ∧
+                      Cont trap sealRow route ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle budgetRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier envelopeRoute budgetRoute budgetPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, _provenanceUnary, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have envelopeUnary : UnaryHistory envelopeRead :=
+    unary_cont_closed sourceUnary scheduleUnary envelopeRoute
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed envelopeUnary ledgerUnary budgetRoute
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      envelopeUnary, budgetUnary, envelopeRoute, budgetRoute, sourceScheduleRegular,
+      regularWitnessTrap, trapSealRoute, provenancePkg, budgetPkg⟩
+
 theorem BoundedMonotoneCauchyWitnessCarrier_root_extraction [AskSetup] [PackageSetup]
     {source regular schedule witness ledger trap sealRow transport route provenance localCert
       rootRead : BHist}
