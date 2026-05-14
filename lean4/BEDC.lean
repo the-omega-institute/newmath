@@ -56,6 +56,7 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.ApophaticGateQuestionUp
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
@@ -235,6 +236,7 @@ import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
+import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
 import BEDC.Derived.CellularSubstrateUp.TasteGate
 import BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
@@ -322,6 +324,7 @@ import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
+import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootNameCert
 import BEDC.Derived.ContinuationBigStepUp
@@ -537,6 +540,7 @@ import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.InscriptionTraceClassifierUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.TasteGate
+import BEDC.Derived.InscriptionRouteAuditUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
@@ -620,6 +624,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
+import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowSeal
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
@@ -910,7 +915,6 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSynchronizerCompl
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleReadbackLock
 import BEDC.Derived.StoneDualityUp
-import BEDC.Derived.InscriptionRouteAuditUp.TasteGate
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KalmanFilterUp
