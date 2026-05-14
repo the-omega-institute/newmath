@@ -59,6 +59,46 @@ The carrier has at least two distinguishable checkpoint packets, obtained by var
 Field faithfulness is the componentwise reading of $K=(I,S,T,V,H,C,P,N)$. If two packets have the same displayed field list, then each of their eight $\BHist$ coordinates agrees, and constructor equality identifies the packets. The Lean TasteGate surface records these two facts as the required instances.
 \end{proof}
 
+\begin{theorem}[ReflectionRuntimeCheckpoint validation route]
+\label{thm:reflection-runtime-checkpoint-validation-route}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier
+$$
+K=(I,S,T,V,H,C,P,N),
+$$
+every validation-facing consumer first reads the runtime-candidate row $I$, checkpoint-state row $S$, and trace-evidence row $T$, and then must pass through the validation-boundary row $V$ before making a validation-facing read. No route through $I,S,T,H,C,P,N$ alone exports host validation, total truth, or an unbounded runtime judgment.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The rows $I,S,T$ expose only the candidate input, displayed checkpoint state, and bounded trace evidence.
+
+Apply the non-escape clause of \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. It names $V$ as the sole validation-boundary row and states that the remaining rows cannot export host validation or total truth.
+
+Finally use the TasteGate carrier alignment of \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}. Field faithfulness keeps $V$ as a separate coordinate, so a consumer cannot identify the validation boundary with $I$, $S$, $T$, or any transport, route, provenance, or naming row.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint trace-state factorization]
+\label{thm:reflection-runtime-checkpoint-trace-state-factorization}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the checkpoint-state row $S$ and trace-evidence row $T$ are readable only after factoring through the runtime-candidate boundary, the finite trace evaluator, the finite trace gap socket, and the reflection-limit boundary cited in the package row $P$. Only after that finite factorization is the validation-boundary row $V$ readable.
+\end{theorem}
+\begin{proof}
+Start from the provenance row in \autoref{def:reflection-runtime-checkpoint-carrier}. The row $P$ cites the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, and reflection-limit boundary as the displayed sources for the checkpoint packet.
+
+The NameCert obligations of \autoref{thm:reflection-runtime-checkpoint-namecert-obligations} force input exposure through $I$ and checkpoint-state and trace exactness through $S$ and $T$. Thus the state and trace rows are not independent host data; they are finite projections of the cited runtime and trace surfaces.
+
+The validation-boundary row is then reached through $V$. Since the carrier has no host-valid runtime coordinate and no total truth coordinate, the factorization stops at the displayed validation boundary rather than at an external validation act.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint root-unblock package]
+\label{thm:reflection-runtime-checkpoint-root-unblock-package}
+The carrier of \autoref{def:reflection-runtime-checkpoint-carrier}, the NameCert obligations of \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}, the validation route of \autoref{thm:reflection-runtime-checkpoint-validation-route}, the trace-state factorization of \autoref{thm:reflection-runtime-checkpoint-trace-state-factorization}, and the TasteGate carrier-alignment row of \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation} form the finite root-unblock package for downstream runtime-checkpoint consumers. Any such consumer receives exactly the displayed rows $I,S,T,V,H,C,P,N$ and their finite routes, with no host validation, total truth, unbounded evaluator, or detached runtime judgment.
+\end{theorem}
+\begin{proof}
+The carrier supplies the rows $I,S,T,V,H,C,P,N$. The NameCert obligations identify the admissible reads of those rows and exclude every unlisted runtime or truth coordinate.
+
+The validation route then forces every validation-facing read through $V$, while the trace-state factorization forces $S$ and $T$ through the cited runtime-candidate, finite trace evaluator, finite trace gap socket, and reflection-limit boundaries.
+
+The TasteGate obligation contributes the single-carrier alignment: nontriviality supplies distinguishable checkpoint packets, and field faithfulness preserves every displayed coordinate. These ingredients give downstream consumers a finite checkpoint package and no additional root-facing validation surface.
+\end{proof}
+
 \falsifiablePrediction{A checkpoint consumer that omits the validation-boundary row cannot export a host-valid runtime judgment or total truth row.}
 
 \independenceWitness{RuntimeCandidateBoundary, FiniteTraceEvaluator, FiniteTraceGapSocket, ReflectionLimitBoundary: the checkpoint carrier has a displayed checkpoint state and validation-boundary pair not bijective to candidate-only, evaluator-only, gap-socket, or pure boundary packets.}
