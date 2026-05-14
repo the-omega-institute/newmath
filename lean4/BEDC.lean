@@ -365,6 +365,7 @@ import BEDC.Derived.ContinuationMonadUp.RootNameCert
 import BEDC.Derived.ContinuationMonadUp.RootBindUnitBoundary
 import BEDC.Derived.ContinuationMonadUp.BindContUnitCoherence
 import BEDC.Derived.ContinuationMonadUp.RootPublicExport
+import BEDC.Derived.ContinuationMonadUp.RootPublicConsumerTotality
 import BEDC.Derived.ContinuationMonadUp.BridgePackage
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
