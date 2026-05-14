@@ -4,6 +4,8 @@
 
 The $\KernelAcceptanceTraceUp$ surface records kernel acceptance as a finite trace packet: a submitted candidate, the type and classifier under which it is checked, the accepted stamp, the environment row, the displayed axiom ledger, transport, continuation, provenance, and local naming row. It is an audit witness for what the kernel admitted and which dependency rows the admission exposes, not a proof of kernel correctness.
 
+The candidate row and accepted stamp are read as an inscription-event record surface in the sense of \autoref{ch:concrete-instances-inscriptionevent-namecert}: the submitted candidate, checked type, classifier, stamp, and environment give the event record that the trace consumes. The axiom ledger remains $\KernelAcceptanceTraceUp$'s own displayed row, so dependency exposure is still governed by the trace packet rather than by the inscription-event chapter.
+
 \begin{definition}[KernelAcceptanceTrace carrier]
 \label{def:kernel-acceptance-trace-carrier}
 A $\KernelAcceptanceTraceUp$ carrier is a finite $\BHist$ packet
