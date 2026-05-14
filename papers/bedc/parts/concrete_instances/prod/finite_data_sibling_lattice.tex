@@ -1,0 +1,11 @@
+\begin{theorem}[Prod finite-data sibling lattice]
+\label{thm:prod-finite-data-sibling-lattice}
+Every $\ProdUp$ pair-envelope read consumes the finite-data sibling lattice before it exports the ordered pair certificate. The lattice consists of the $\BoolUp$ tag discipline of \autoref{ch:concrete-instances-bool-namecert}, the $\SumUp$ branch partition of \autoref{ch:concrete-instances-sum-namecert}, and the transport surfaces supplied by \autoref{ch:concrete-instances-list-namecert} and \autoref{ch:concrete-instances-option-namecert}. A public product consumer may then read the ordered pair only through the displayed product history carrier, componentwise classifier, displayed-pair ledger, source $\NameCert$ rows, $\hsame$ transport, $\Cont$ continuation, and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Start with the product public finite-data exit package, \autoref{thm:prod-public-finite-data-exit-package}. It lists the rows available to the product consumer: the componentwise semantic certificate, displayed-pair ledger endpoints, descent to the product history envelope, source certificates, $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+The sibling lattice fixes how those rows are read as finite data. The BoolUp tag discipline supplies the local tag behavior; the SumUp branch partition supplies the disjoint branch read; and the ListUp and OptionUp transport surfaces supply finite repetition and possible absence without adding host tuple equality.
+
+Apply consumer universality, \autoref{thm:prod-finite-data-public-exit-consumer-universality}. Any public product read invariant under the package rows factors through that finite-data exit package, so the ordered pair certificate is exported only after the sibling lattice has supplied its tag, branch, list, and option inputs.
+\end{proof}
