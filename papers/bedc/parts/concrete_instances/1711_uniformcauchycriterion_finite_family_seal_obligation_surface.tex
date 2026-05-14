@@ -141,3 +141,25 @@ Next apply the finite-family RegSeqRat--Real handoff and the nonescape ledger. T
 
 Finally use \autoref{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}. It binds the exact root-threshold dependency package, so overlap refinement preserves the same route and the finite-family package is stable as the root seal package.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-family root seal pullback non-escape]
+\label{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape}
+Any completion-facing consumer of the finite-family root seal package for an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+must factor through the displayed rows $I,W,M,Q,T,E,H,C,P,N$ and through the root-threshold dependency inventory. Therefore overlap refinement cannot introduce a selected limit, quotient stream, host real equality, detached tail oracle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the finite-family root seal package of \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-package}. It identifies the public root seal route as
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+together with $H,C,P,N$.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}. It fixes the dependency inventory at threshold schedule determinacy, tolerance ledger exactness, seal non-escape, and shared-tail meet compatibility. Hence a completion-facing consumer reaches the seal only through the same displayed rows and the same root-threshold dependencies.
+
+The finite-family RegSeqRat--Real handoff of \autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff} keeps the tail side and the seal side on the shared route from $I$ through $E$. The nonescape ledger of \autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} removes selected limits, quotient streams, host real equality, ambient completeness, and detached tail oracles from the consumer surface.
+
+It remains to check overlap refinement. The root seal package already states that overlap refinement preserves the same finite index ledger, shared window family, threshold schedule, tolerance row, tail ledger, and seal handoff. Since the nonescape ledger removes every completion-facing coordinate outside those rows, refinement has no place to introduce the excluded objects.
+\end{proof}
