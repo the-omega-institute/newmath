@@ -721,11 +721,19 @@ def _read_recent_cycles(n: int = 10) -> list[dict]:
     except OSError:
         return []
     out = []
-    for line in lines[-n:]:
+    for line in reversed(lines):
         try:
-            out.append(json.loads(line))
+            rec = json.loads(line)
         except json.JSONDecodeError:
             continue
+        if not isinstance(rec, dict):
+            continue
+        if rec.get("review_source") == "test":
+            continue
+        out.append(rec)
+        if len(out) >= n:
+            break
+    out.reverse()
     return out
 
 
