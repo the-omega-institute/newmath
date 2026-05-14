@@ -560,6 +560,42 @@ Next apply psame-only descent, \autoref{thm:quotient-soundness-boundary-psame-on
 Finally use public bridge non-escape, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. Since every consumer read stays inside $E,A,T,V,H,C,P,N$, neither $V$ nor $T$ can be reinterpreted as a quotient-side eliminator, recovery map, recursion principle, or $\mathsf{Quot.sound}$ witness.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary representative request frontier]
+\label{thm:quotient-soundness-boundary-representative-request-frontier}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any request for a representative, representative selector, erased derivation, or host quotient witness is exhausted by the source row $E$, representative-request row $A$, and refusal-verdict row $V$ before the positive transport row $T$ is readable. The request therefore reaches a visible refusal frontier before any downstream $\psame$ transport is exposed.
+\end{theorem}
+\begin{proof}
+Start with erased derivation refusal, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}. It routes recovery demands to $A,V$ before the positive transport row is available.
+
+Apply refusal locality and verdict-transport separation, \autoref{thm:quotient-soundness-boundary-refusal-locality} and \autoref{thm:quotient-soundness-boundary-verdict-transport-separation}. These rows prevent a representative request from being reread as transport and prevent $T$ from reconstructing a denied witness.
+
+Finally use consumer non-escape, \autoref{thm:quotient-soundness-boundary-consumer-nonescape}. The public consumer remains inside $E,A,T,V,H,C,P,N$, so the representative-side request is exhausted at $E,A,V$ before transport can be used.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame consumer closure]
+\label{thm:quotient-soundness-boundary-psame-consumer-closure}
+After the representative frontier refuses the representative-side request, every surviving downstream consumer closes through $E,T,H,C,P,N$ by classifier-respecting $\psame$ transport. The surviving route has no representative selector, quotient equality eliminator, erased derivation recovery map, host quotient recursion, or $\mathsf{Quot.sound}$ coordinate.
+\end{theorem}
+\begin{proof}
+First apply the representative request frontier above. It leaves the positive route available only after $E,A,V$ have already recorded the refusal boundary.
+
+Use psame-only descent, \autoref{thm:quotient-soundness-boundary-psame-only-descent}. The surviving route factors through $E,T,H,C,P,N$ as classifier-respecting $\psame$ transport.
+
+Then apply the public bridge non-escape theorem, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. The bridge has no coordinate for the excluded quotient primitives, so the psame-only consumer route is closed by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary Quot.sound refusal exactness]
+\label{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}
+In an accepted $\QuotientSoundnessBoundaryUp$ packet, a request for $\mathsf{Quot.sound}$ is refused exactly at the visible boundary rows $E,A,V$ and cannot be served by the positive transport row $T$ or by the consumer rows $H,C,P,N$. Conversely, the admitted positive route through $E,T,H,C,P,N$ is precisely the $\psame$-only route that remains after that refusal.
+\end{theorem}
+\begin{proof}
+For the refusal direction, apply the representative request frontier above. A $\mathsf{Quot.sound}$ demand is a representative-side quotient primitive request, so it is routed to $E,A,V$ before $T$ is readable.
+
+Apply kernel non-escape and public bridge non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape} and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. Neither the kernel-facing route nor the bridge exposes a $\mathsf{Quot.sound}$ coordinate.
+
+For the surviving route, use psame consumer closure above. Once the refusal is recorded, every admitted consumer is exactly the classifier-respecting $\psame$ route through $E,T,H,C,P,N$, so the refusal boundary and the positive route are exact complements inside the finite packet.
+\end{proof}
+
 \closureat{QuotientSoundnessBoundaryUp}{seedStr}
 \closureat{QuotientSoundnessBoundaryUp}{obligationStr}
 \closureat{QuotientSoundnessBoundaryUp}{scopedStr}
