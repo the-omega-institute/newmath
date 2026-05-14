@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\NonAxiomBoundaryFormUp$}
+\label{ch:concrete-instances-nonaxiomboundaryform-namecert}
+\origin{ai-composite}
+
+The $\NonAxiomBoundaryFormUp$ packet realizes the seven boundary forms of \autoref{ch:visions-external-supply-without-axioms} as a finite classifier over existing BEDC surfaces. It consumes the name-to-gate discipline of \autoref{ch:concrete-instances-externalitygate-namecert}, the apophatic socket boundary of \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the supply ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}. The packet classifies visible boundary forms; it does not turn the classified dependency into an internal theorem.
+
+\begin{definition}[Non-axiom boundary form carrier]
+\label{def:non-axiom-boundary-form-carrier}
+A $\NonAxiomBoundaryFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,K,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary site where unsupported supply, compression residue, or interface input would otherwise be consumed as substrate truth;
+\item $K$ is exactly one of the seven non-axiom boundary-form rows: inductive, def, setup-field, NameCert row, GAP ledger, bridge slot, or apophatic socket;
+\item $S$ is the source-surface row attached to $K$: a closed generator for inductive rows, a definitional source for def rows, a caller-provided setup field, a public $\NameCert$ surface, a $\mathsf{GAP}$ ledger, a separated bridge slot, or an $\ApophaticSocketUp$ boundary;
+\item $G$ is the gate row read through $\ExternalityGateUp$, $\ApophaticSocketUp$, or $\SupplySocketLedgerUp$ when the classified form is a visible external-supply boundary;
+\item $H$ records componentwise $\hsame$ transport for the boundary site, kind row, source surface, gate row, route row, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ routes by which consumers read $B,K,S,G$ before using the classifier result;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-external-supply-without-axioms}, \autoref{ch:concrete-instances-externalitygate-namecert}, \autoref{ch:concrete-instances-apophaticsocket-namecert}, \autoref{ch:concrete-instances-supplysocketledger-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\NonAxiomBoundaryFormUp}$ row.
+\end{enumerate}
+The carrier exports no coordinate for an axiom declaration, hidden selector, quotient representative, proposition-extensionality collapse, unledgered bridge, or supplied external content.
+\end{definition}
+\leandef{BEDC.Derived.NonAxiomBoundaryFormUp.NonAxiomBoundaryFormUp}
+
+\begin{theorem}[Non-axiom boundary form NameCert obligations]
+\label{thm:non-axiom-boundary-form-namecert-obligations}
+For every accepted $\NonAxiomBoundaryFormUp$ carrier
+$$
+F=(B,K,S,G,H,C,P,N),
+$$
+the local $\NameCert_{\NonAxiomBoundaryFormUp}$ surface consists exactly of carrier admission for the displayed tuple, boundary-site exposure through $B$, seven-kind classifier exposure through $K$, source-surface exactness through $S$, gate locality through $G$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:non-axiom-boundary-form-carrier}. Its public rows are exactly $B,K,S,G,H,C,P,N$, so every NameCert obligation must be read from one of those coordinates.
+
+The classifier obligation is the row $K$. It ranges only over the seven forms named in \autoref{def:external-supply-non-axiom-boundary-form}, while $S$ records the corresponding source surface and $G$ records the visible gate when the form is a socket, ledger, or externality-facing route.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, cite, and name the same finite classifier packet. They do not add an eighth form or a supplied object behind the boundary.
+\end{proof}
+
+\begin{theorem}[Non-axiom boundary form non-internalization]
+\label{thm:non-axiom-boundary-form-non-internalization}
+Every consumer of an accepted $\NonAxiomBoundaryFormUp$ packet must read the boundary site $B$, the classifier row $K$, and the source-surface row $S$ before treating the dependency as admitted at a public interface. Changing $K$ to an axiom row, deleting $S$, or bypassing the gate row $G$ invalidates the public non-axiom route and supplies no internal BEDC theorem.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations above. They force the public route through $B,K,S,G,H,C,P,N$ before any consumer receives the classifier result.
+
+Use the external-supply discipline of \autoref{ch:visions-external-supply-without-axioms}. Each permitted boundary form keeps a source channel visible: constructor closure, definitional source, setup input, certificate row, GAP ledger, bridge separation, or apophatic socket.
+
+Now compare the forbidden alternatives. An axiom row has no displayed source surface, deleting $S$ removes the form-specific source channel, and bypassing $G$ removes the gate for externality-facing forms. None of these routes is an accepted $\NonAxiomBoundaryFormUp$ packet.
+
+Therefore the packet classifies boundary visibility without internalizing the requested supply. A consumer may cite the finite classifier and its source surface, but it receives no constructor, theorem, witness, quotient equality, or host principle not already displayed in the packet.
+\end{proof}
+
+The origin tag $\mathsf{ai\mbox{-}composite}$ records that this packet is a composite classifier over existing boundary-form surfaces. It therefore uses the carrier, obligation, and non-internalization rows above rather than atomic falsifiable-prediction or independence-witness rows.
+
+\closureat{NonAxiomBoundaryFormUp}{seedStr}
+
+\begin{closurestatus}{\NonAxiomBoundaryFormUp}
+  \constructivestory{A $\NonAxiomBoundaryFormUp$ packet is generated from one boundary site, one of seven non-axiom boundary-form rows, the corresponding source-surface row, an externality-facing gate row when applicable, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:non-axiom-boundary-form-carrier}, \autoref{thm:non-axiom-boundary-form-namecert-obligations}, and \autoref{thm:non-axiom-boundary-form-non-internalization} bind the seven-form classifier, source-surface exactness, gate locality, provenance, and non-internalization boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, complete discharge of any external supply, or an internal theorem corresponding to any classified socket.}
+  \upgradepath{Obligation closure requires checked carrier alignment, seven-kind classifier exactness, source-surface stability, gate locality, and non-internalization for the displayed finite packet.}
+\end{closurestatus}
