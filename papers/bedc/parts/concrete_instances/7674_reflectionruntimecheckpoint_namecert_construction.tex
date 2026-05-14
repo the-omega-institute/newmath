@@ -110,6 +110,46 @@ The input-state exposure forces reads through $I$ and $S$ before trace or valida
 The validation non-escape route forces every validation-facing read through $V$. The TasteGate obligation contributes the single-carrier alignment: nontriviality supplies distinguishable checkpoint packets, and field faithfulness preserves every displayed coordinate. These ingredients give downstream consumers a finite checkpoint package and no additional root-facing validation surface.
 \end{proof}
 
+\begin{theorem}[ReflectionRuntimeCheckpoint state-trace coupling]
+\label{thm:reflection-runtime-checkpoint-state-trace-coupling}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the checkpoint state row $S$ and trace-evidence row $T$ are consumed together before a validation-facing read reaches $V$. A consumer may not read $S$ as a detached runtime state or read $T$ as a detached validation act.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The rows $S$ and $T$ are adjacent checkpoint coordinates of the same finite packet, following the admitted runtime-candidate input row $I$ and preceding the validation-boundary row $V$.
+
+Apply \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. Its checkpoint-state and trace exactness clause binds every displayed state read to the trace-evidence row, while its validation-boundary clause keeps host validation behind $V$.
+
+Finally use \autoref{thm:reflection-runtime-checkpoint-input-state-exposure} and \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}. The first forces the input and state rows before trace or validation rows, and the second keeps $T$ as bounded evidence rather than an unbounded evaluator or detached validation act.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint audit provenance exhaustion]
+\label{thm:reflection-runtime-checkpoint-audit-provenance-exhaustion}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the provenance row $P$ exhausts the runtime-candidate boundary, finite-trace evaluator, finite-trace gap socket, and reflection-limit boundary sibling route. The checkpoint packet has no additional provenance row for a host-valid runtime judgment, total truth predicate, or unbounded evaluator.
+\end{theorem}
+\begin{proof}
+Read the provenance coordinate in \autoref{def:reflection-runtime-checkpoint-carrier}. It cites exactly the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, reflection-limit boundary, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}. The trace row $T$ is routed through those same sibling surfaces and then back through $H,C,P,N$, so the audit path is the displayed finite route rather than an external evaluator.
+
+Use \autoref{thm:reflection-runtime-checkpoint-root-unblock-package} to close the package. Since downstream consumers receive exactly $I,S,T,V,H,C,P,N$, no second provenance coordinate remains outside $P$ for host validation, total truth, or an unbounded runtime evaluator.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint host-validation nonescape]
+\label{thm:reflection-runtime-checkpoint-host-validation-nonescape}
+No accepted $\ReflectionRuntimeCheckpointUp$ packet exports a host-valid runtime judgment, total truth predicate, or unbounded evaluator outside the displayed rows
+$$
+I,S,T,V,H,C,P,N.
+$$
+Every validation-facing consumer must pass through $V$, with $S,T,H,C,P,N$ serving only as checkpoint state, bounded trace evidence, transport, route, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. It explicitly lists $I,S,T,V,H,C,P,N$ and states that no detached host-validation coordinate, total truth row, or unbounded evaluator is present.
+
+Apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route}. Any validation-facing read must pass through $V$, and no route through $I,S,T,H,C,P,N$ alone exports host validation or total truth.
+
+The state-trace coupling of \autoref{thm:reflection-runtime-checkpoint-state-trace-coupling} and audit provenance exhaustion of \autoref{thm:reflection-runtime-checkpoint-audit-provenance-exhaustion} account for the remaining rows. Thus all checkpoint information is consumed through the finite packet, with no host-validation escape outside the displayed surface.
+\end{proof}
+
 \falsifiablePrediction{A checkpoint consumer that omits the validation-boundary row cannot export a host-valid runtime judgment or total truth row.}
 
 \independenceWitness{RuntimeCandidateBoundary, FiniteTraceEvaluator, FiniteTraceGapSocket, ReflectionLimitBoundary: the checkpoint carrier has a displayed checkpoint state and validation-boundary pair not bijective to candidate-only, evaluator-only, gap-socket, or pure boundary packets.}
