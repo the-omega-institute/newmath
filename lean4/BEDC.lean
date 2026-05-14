@@ -235,6 +235,7 @@ import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
+import BEDC.Derived.CellularSubstrateUp.TasteGate
 import BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
@@ -421,6 +422,7 @@ import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AxisNatReplacementRefusalUp.TasteGate
 import BEDC.Derived.AxisBoundaryLimitRefusalUp.TasteGate
+import BEDC.Derived.AxiomRefusalLedgerUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.FiniteTailFiberScheduleUp.TasteGate
 import BEDC.Derived.ContourIntegralOperationUp
@@ -570,6 +572,7 @@ import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
+import BEDC.Derived.MaxRateReadGateUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -1784,6 +1787,7 @@ import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
