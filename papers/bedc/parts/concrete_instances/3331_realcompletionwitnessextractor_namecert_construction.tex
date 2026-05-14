@@ -139,6 +139,69 @@ only transport, replay, package, and name the displayed coordinates, no
 consumer can escape the finite witness packet.
 \end{proof}
 
+\begin{theorem}[Real completion witness-extractor selected-window admission]
+\label{thm:real-completion-witness-extractor-selected-window-admission}
+For every accepted $\RealCompletionWitnessExtractorUp$ packet, the first
+consumer-visible admission route exposes $D,W,M$ as the finite selected-window
+route. The dyadic tolerance ledger $D$, the selected $\StreamNameUp$ windows
+$W$, and the modulus schedule $M$ are fixed before any regular-rational
+readback $Q$, RealUp seal $L$, or completion-facing handoff $S$ can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-witness-extractor-carrier}.
+The rows $D,W,M$ are listed before the readback, seal, and handoff rows, and
+they form the finite schedule on which the later reads are indexed.
+
+Apply the local NameCert obligations. They bind carrier admission, selected
+window exposure, and modulus exposure to the same displayed packet. Thus a
+consumer cannot read $Q,L,S$ without first passing through the selected-window
+route determined by $D,W,M$.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor regular readback route]
+\label{thm:real-completion-witness-extractor-regular-readback-route}
+Every $\RegSeqRatUp$ readback row $Q$ in an accepted
+$\RealCompletionWitnessExtractorUp$ packet factors through the same
+$D,W,M,H,C,P,N$ route. The readback may inspect the regular-rational witness
+attached to the selected windows, but it cannot choose a second window family,
+a second modulus schedule, or a second provenance and local naming route.
+\end{theorem}
+\begin{proof}
+Start with the diagonal handoff theorem. It attaches $Q$ to the selected
+window and modulus coordinates already fixed by $D,W,M$.
+
+Next use componentwise transport, displayed continuation replay, package
+provenance, and the local naming row. These are the rows $H,C,P,N$, so every
+readback route for $Q$ remains inside the same transported and named packet.
+
+The carrier contains no second copy of $W$ or $M$ and no alternate provenance
+or naming coordinate. Therefore the $\RegSeqRatUp$ readback cannot select a
+different window family or modulus schedule.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor seal handoff totality]
+\label{thm:real-completion-witness-extractor-seal-handoff-totality}
+Every RealUp read through $L$ and every completion-facing read through $S$ in
+an accepted $\RealCompletionWitnessExtractorUp$ packet passes through the same
+$D,W,M,Q,H,C,P,N$ route before the seal or handoff is consumed. These reads
+export no quotient stream equality, host limit, choice datum, or ambient
+completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the packet in carrier order. The selected tolerance, window, modulus, and
+regular-rational rows $D,W,M,Q$ are fixed before the RealUp seal and the
+completion-facing handoff are available to a consumer.
+
+Transport and replay then keep $L$ and $S$ attached to the same packet through
+$H$ and $C$, while $P$ and $N$ record the package provenance and local name.
+Thus every seal or handoff read is routed through $D,W,M,Q,H,C,P,N$.
+
+The forbidden outputs would require additional coordinates not present in the
+carrier. Since the packet has no quotient equality row, no host-limit row, no
+choice row, and no ambient-completeness row, the seal and handoff are total
+only for the displayed finite route.
+\end{proof}
+
 \closureat{RealCompletionWitnessExtractorUp}{seedStr}
 
 \begin{closurestatus}{\RealCompletionWitnessExtractorUp}
