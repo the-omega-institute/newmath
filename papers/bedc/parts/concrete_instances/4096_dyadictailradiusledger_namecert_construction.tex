@@ -180,6 +180,20 @@ The RegSeqRat and Real handoff theorem then extends the same displayed route thr
 Finally apply the non-escape theorem. Since hidden thresholds, quotient streams, selected limits, host real equalities, and ambient completeness data are not coordinates of $L$ and are not produced by its displayed continuations, they cannot be exported through this boundary.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-radius ledger CauchyCriterion handoff]
+\label{thm:dyadic-tail-radius-ledger-cauchycriterion-handoff}
+Let $L=(E,T,W,D,R,S,H,C,P,N)$ be an accepted $\DyadicTailRadiusLedgerUp$ carrier. Any $\CauchyCriterionUp$ carrier whose tail row uses the same precision request, $\StreamNameUp$ windows, dyadic readback, and $\RegSeqRatUp$ handoff must read
+$$
+E \longmapsto T \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+before its $M,Q,T,W,E$ criterion route can expose a $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}, and \autoref{thm:dyadic-tail-radius-ledger-route-replay}. These force the precision request, tail window, StreamName windows, dyadic readback, regular-rational handoff, and Real seal onto the displayed finite route.
+
+Then use \autoref{thm:cauchycriterion-tail-bound-real-seal}. A CauchyCriterion carrier sharing those rows can expose its Real seal only after the same finite tail-budget route has been consumed, so the dyadic ledger is the upstream handoff for the criterion route.
+\end{proof}
+
 \begin{theorem}[Dyadic tail-radius ledger scoped route package]
 \label{thm:dyadic-tail-radius-ledger-scoped-route-package}
 For an accepted $\DyadicTailRadiusLedgerUp$ carrier
