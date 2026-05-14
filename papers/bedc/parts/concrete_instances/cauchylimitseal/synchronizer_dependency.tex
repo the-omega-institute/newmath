@@ -125,3 +125,23 @@ Now use the RealCompletionSealClassifier handoff theorem. It sends the already f
 
 Finally apply observer-budget handoff. The observer-budget theorem states that the public Real completion read appears only after the $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, local $\CauchyLimitSealUp$, and $\RealUp$ seal rows have all been traversed. Since quotient stream equality, selected host limits, host real equality, unbounded schedules, countable choice, and ambient completeness are absent from that traversed route, none can be supplied to the completion-facing output.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal witness-ledger synchronizer handoff]
+\label{thm:cauchy-limit-seal-witness-ledger-synchronizer-handoff}
+Every synchronizer-facing $\CauchyLimitSealUp$ read consumed by a $\CauchyWitnessLedgerUp$ packet factors through the finite $\StreamNameUp$ window surface, the $\RegSeqRatUp$ handoff, the $\RealObservationBudgetUp$ rows, the $\CauchySealBudgetSynchronizerUp$ route, and the local $\CauchyLimitSealUp$ seal rows before the witness ledger can expose any completion-facing output. Once the ledger receives the synchronized seal read, the completion-facing route is exactly the displayed witness-ledger path
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with structural rows $H,C,P,N$ from \autoref{thm:cauchy-witness-ledger-budget-factorization}.
+
+The handoff exports no quotient stream equality, selected host limit, host real equality, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply synchronizer route factorization, \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization}. It places the consumed $\CauchyLimitSealUp$ read on the finite $\StreamNameUp$ window, the $\RegularCauchyNameUp$ and $\RegSeqRatUp$ handoff rows, the observation-budget rows, the $\CauchySealBudgetSynchronizerUp$ route, and the local seal rows before any Real-facing seal output is public.
+
+Next apply observer-real seal factorization, \autoref{thm:cauchy-limit-seal-synchronizer-observer-real-seal-factorization}. The Real completion consumer therefore receives the synchronized seal only after the finite route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ has already been traversed.
+
+Finally apply the witness-ledger budget factorization theorem, \autoref{thm:cauchy-witness-ledger-budget-factorization}. The $\CauchyWitnessLedgerUp$ consumer can expose a completion-facing row only by reading $Q$, then $B$, then $S$, then $K$, with $H,C,P,N$ replaying and naming the same finite packet.
+
+The excluded coordinates are absent from both sides of the composition. The synchronizer side has no quotient stream equality, selected host limit, host real equality, countable-choice row, or ambient completeness coordinate, and the witness-ledger route adds only the displayed $Q,B,S,K,H,C,P,N$ rows. Thus the composed handoff has no external route through which any excluded coordinate can become public.
+\end{proof}
