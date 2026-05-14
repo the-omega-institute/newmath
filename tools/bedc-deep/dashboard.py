@@ -410,7 +410,9 @@ def _classify_board_judge_error(error: str) -> str:
         return ""
 
     claude_kind = "claude_unavailable"
-    if "not logged in" in low:
+    if "organization does not have access to claude" in low:
+        claude_kind = "claude_access_denied"
+    elif "not logged in" in low or "please login again" in low:
         claude_kind = "claude_not_logged_in"
     elif "claude cli not found" in low:
         claude_kind = "claude_cli_missing"
@@ -515,6 +517,8 @@ def _infer_refill_status(rec: dict) -> str:
 
 def _refill_status_bucket(status: str) -> str:
     if status.startswith("local_gap_fallback_judge_unavailable"):
+        if "claude_access_denied" in status:
+            return "judge_unavailable:claude_access_denied"
         if "claude_not_logged_in" in status:
             return "judge_unavailable:claude_not_logged_in"
         return "judge_unavailable"
@@ -686,6 +690,11 @@ def render_board_refill() -> str:
         if "claude_not_logged_in" in latest_status:
             lines.append(
                 "  action: restore Claude CLI auth for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "claude_access_denied" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI organization access for the BOARD judge; "
                 "refreshing BEDC oracle tabs will not fix this outage."
             )
         if "codex_sandbox_init_failed" in latest_status:
