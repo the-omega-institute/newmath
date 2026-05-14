@@ -244,6 +244,49 @@ coordinate, $Q$ is the exact regular-rational readback for the displayed
 compatibility route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility route ledger totality]
+\label{thm:diagonal-limit-compatibility-route-ledger-totality}
+Every completion-facing consumer accepted by a $\DiagonalLimitCompatibilityUp$
+packet factors through one displayed route ledger
+$$
+(R,T,D,W,Q,L,H,C,P,N).
+$$
+Here $T$ is the triangle row, $D$ is the $\DyadicRatCoreUp$ ledger, $W$ is
+the $\StreamNameUp$ window row, $Q$ is the $\RegSeqRatUp$ readback, and $L$
+is the $\RealUp$ seal. The rows $H,C,P,N$ only transport, continue, package,
+and locally name that ledger. They do not add quotient streams,
+host-selected limits, host real equality, choice data, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Begin with source-route exactness,
+\autoref{thm:diagonal-limit-compatibility-source-route-exactness}. It places
+the consumer route on the displayed diagonal source row $R$ and its triangle,
+dyadic, window, readback, seal, transport, continuation, provenance, and
+NameCert rows.
+
+Use regular readback exactness,
+\autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. This
+binds $Q$ to the same $T,D,W$ rows, so the readback cannot be selected from a
+separate dyadic ledger or a second stream window.
+
+Next apply seal readback exactness,
+\autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}. The
+$\RealUp$ seal row $L$ reads the same regular-rational data and does not
+introduce an independent host real witness.
+
+The route lock is supplied by
+\autoref{thm:diagonal-limit-compatibility-window-route-lock}. It keeps the
+window row $W$ attached to the triangle and dyadic route rather than to a
+consumer-chosen stream family.
+
+Finally use Real seal non-escape,
+\autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}. Since the
+packet has no coordinates for quotient streams, host-selected limits, host
+real equality, choice data, or ambient completeness, the displayed ledger is
+total for accepted completion-facing consumers.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility uniform-window Real seal pullback]
 \label{thm:diagonal-limit-compatibility-uniform-window-real-seal-pullback}
 Let
