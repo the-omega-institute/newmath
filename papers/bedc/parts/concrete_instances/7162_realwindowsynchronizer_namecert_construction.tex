@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealWindowSynchronizerUp$}
+\label{ch:concrete-instances-real-window-synchronizer-namecert}
+\origin{ai}
+
+The $\RealWindowSynchronizerUp$ packet realizes the Real and Completion route of \autoref{ch:visions-real-completeness} as one finite naming certificate. It consumes the StreamName window surface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat tail surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the regular Cauchy tail budget of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, and the Real seal surface of \autoref{ch:concrete-instances-real-namecert}. The synchronizer is not a new completion principle; it is the finite packet that keeps the window, tail, budget, limit-seal, and RealUp rows aligned before any completion-facing consumer reads the route.
+
+\begin{definition}[Real window synchronizer carrier]
+\label{def:real-window-synchronizer-carrier}
+A $\RealWindowSynchronizerUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(W,R,T,L,S,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ window service row whose finite windows are visible to downstream consumers;
+\item $R$ is the $\RegSeqRatUp$ tail row that reads the same window service as a regular rational sequence surface;
+\item $T$ is the shared tail threshold and $\RegularCauchyTailBudgetUp$ service row through which the window read and the regular tail read are synchronized;
+\item $L$ is the $\CauchyLimitSealUp$ row consuming the synchronized tail route as a sealed Cauchy-limit handoff;
+\item $S$ is the $\RealUp$ seal row exposed only after $W,R,T,L$ have been replayed through the displayed routes;
+\item $H$ records componentwise $\hsame$ transports for the window, tail, threshold, limit-seal, Real seal, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that inspect the StreamName window, pull the RegSeqRat tail to the shared threshold, pass through the CauchyLimitSeal row, and expose the RealUp seal;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailBudgetUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealWindowSynchronizerUp}$ row naming exactly this synchronizer packet.
+\end{enumerate}
+The carrier has no coordinate for a quotient stream, selected host real, ambient completeness theorem, independent seal route, or second window service not transported through $H$.
+\end{definition}
+
+\begin{theorem}[Real window synchronizer NameCert obligations]
+\label{thm:real-window-synchronizer-namecert-obligations}
+For every accepted $\RealWindowSynchronizerUp$ carrier $Z=(W,R,T,L,S,H,C,P,N)$, the local $\NameCert_{\RealWindowSynchronizerUp}$ surface consists exactly of carrier admission, StreamName window admission through $W$, RegSeqRat tail admission through $R$, shared-threshold admission through $T$, CauchyLimitSeal route admission through $L$, RealUp seal admission through $S$, componentwise $\hsame$ transport through $H$, displayed route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-window-synchronizer-carrier}. Each coordinate is displayed in the finite $\BHist$ packet, so the local naming row can inspect only $W,R,T,L,S,H,C,P,N$.
+
+The obligation rows are then read in route order. The StreamName window and RegSeqRat tail rows are tied by the shared threshold $T$; the CauchyLimitSeal row consumes that synchronized tail route; and the RealUp seal row is exposed only after the same replay path has passed through $H,C,P,N$.
+
+No extra obligation can appear, because the carrier has no quotient, selected host real, independent seal, or second window-service coordinate. Thus the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real window synchronizer budget pullback]
+\label{thm:real-window-synchronizer-budget-pullback}
+Every $\RealUp$ or completion-facing read exported by an accepted $\RealWindowSynchronizerUp$ packet factors through the same shared threshold row $T$ used by the $\StreamNameUp$ window $W$ and the $\RegSeqRatUp$ tail row $R$. Transporting the window, tail, or threshold rows through $H$ transports the CauchyLimitSeal and RealUp seal reads through the same displayed $\Cont$ routes $C$ and does not create a second budget ledger.
+\end{theorem}
+\begin{proof}
+Project the packet $Z=(W,R,T,L,S,H,C,P,N)$. The only threshold coordinate is $T$, and both the window route and the tail route are displayed as consumers of that row.
+
+Compose the displayed routes in $C$: first read $W$, then replay $R$ at the shared threshold, then pass through $L$ before exposing $S$. Componentwise transport by $H$ changes representatives of these rows but preserves the same ordered route.
+
+Since no separate budget coordinate is present, a completion-facing read cannot bypass the pullback. It receives the RealUp seal only as the end of the synchronized StreamName, RegSeqRat, CauchyLimitSeal, and local NameCert route.
+\end{proof}
+
+\begin{theorem}[Real window synchronizer non-escape]
+\label{thm:real-window-synchronizer-nonescape}
+An accepted $\RealWindowSynchronizerUp$ carrier exports no route to a Real or completion consumer except the finite synchronized packet $(W,R,T,L,S,H,C,P,N)$. In particular, it cannot export a StreamName window without the RegSeqRat tail threshold, a RegSeqRat tail without the shared StreamName window, a CauchyLimitSeal read detached from the RealUp seal, or a RealUp seal detached from the displayed limit-seal route.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The exported window, tail, threshold, limit seal, Real seal, transports, continuations, provenance, and naming rows are all fields of the same finite packet.
+
+If a consumer removes $W$, the tail row no longer has the displayed StreamName window it claims to read. If it removes $R$ or $T$, the Real-facing route has no regular tail threshold. If it removes $L$, the completion-facing handoff is absent; if it removes $S$, no RealUp seal can be read.
+
+Thus every admitted route is the displayed synchronized route, and every escape route asks for a coordinate not present in the carrier.
+\end{proof}
+
+\falsifiablePrediction{Removing the shared window row permits a RealUp seal read whose StreamName and RegSeqRat windows no longer agree; removing the seal row prevents any completion-facing consumer from reading the synchronizer as a RealUp route.}
+
+\independenceWitness{Nearest siblings: streamname, regseqrat, cauchylimitseal, regular-cauchy-tail-budget, and real. The synchronizer is not bijective to any one sibling because it carries all five surfaces simultaneously: a StreamName finite window, a RegSeqRat tail threshold, a CauchyLimitSeal row, a RegularCauchyTailBudget service row, and a RealUp seal row; dropping any one row changes the admitted consumer route.}
+
+The Lean file \texttt{Derived/RealWindowSynchronizerUp/TasteGate.lean} will include $\mathsf{Nontrivial}\ \RealWindowSynchronizerUp$ with an explicit $\mathsf{witness\_pair}$ and $\mathsf{FieldFaithful}\ \RealWindowSynchronizerUp$ by constructor-field injection for the displayed coordinates $W,R,T,L,S,H,C,P,N$.
+
+\closureat{RealWindowSynchronizerUp}{seedStr}
+
+\begin{closurestatus}{\RealWindowSynchronizerUp}
+  \constructivestory{A $\RealWindowSynchronizerUp$ packet is generated from a StreamName window service row, RegSeqRat tail row, shared threshold row, CauchyLimitSeal row, RealUp seal row, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-window-synchronizer-carrier}, \autoref{thm:real-window-synchronizer-namecert-obligations}, \autoref{thm:real-window-synchronizer-budget-pullback}, and \autoref{thm:real-window-synchronizer-nonescape} bind the finite synchronizer carrier, local obligation surface, shared-budget pullback, and non-escape boundary for the Real and Completion window-to-seal route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, ambient metric completion, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window pullback, CauchyLimitSeal route compatibility, RealUp seal exposure, non-escape, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
