@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RealSelectorComparisonUp$}
+\label{ch:concrete-instances-real-selector-comparison-namecert}
+\origin{ai}
+
+The $\RealSelectorComparisonUp$ packet realizes the Real and Completion target of \autoref{ch:visions-real-completeness} as a finite comparison between two diagonal selector rows before either route reaches the $\RealUp$ seal. It consumes the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the limit-seal surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the tail-agreement seal of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, the modulus refinement row of \autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is not a host equality of completed reals; it is the displayed row package that forces two selector routes to share the same finite tail, readback, agreement, and seal evidence.
+
+\begin{definition}[Real selector comparison carrier]
+\label{def:real-selector-comparison-carrier}
+A $\RealSelectorComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D_0,D_1,T,W,R,L,A,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $D_0$ and $D_1$ are the two diagonal selector rows whose finite histories are being compared;
+\item $T$ is the shared tail row, including the common threshold and window request used by both selector routes;
+\item $W$ is the shared $\mathsf{StreamName}^{\uparrow}$ window row that both selectors read before any regular-rational handoff;
+\item $R$ is the $\mathsf{RegSeqRat}^{\uparrow}$ readback row, recording that both selector routes decode the same regular rational tail at $T$;
+\item $L$ is the $\mathsf{CauchyLimitSeal}^{\uparrow}$ row reached after the shared regular-rational readback;
+\item $A$ is the $\RealTailAgreementSealUp$ row witnessing that the two tails agree on the displayed cofinal window;
+\item $H$ records componentwise $\hsame$ transports for $D_0,D_1,T,W,R,L,A$ and the final $\RealUp$ seal row;
+\item $C$ records the displayed $\Cont$ routes that replay the two diagonal selector rows through the same tail, window, readback, limit-seal, tail-agreement, and $\RealUp$ seal path;
+\item $P$ is the $\Pkg$ provenance over the diagonal selectors, $\mathsf{StreamName}^{\uparrow}$, $\mathsf{RegSeqRat}^{\uparrow}$, $\mathsf{CauchyLimitSeal}^{\uparrow}$, $\RealTailAgreementSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows;
+\item $N$ is the local $\NameCert_{\RealSelectorComparisonUp}$ row naming exactly this two-selector comparison packet.
+\end{enumerate}
+The carrier has no coordinate for a selected host limit, quotient-stream equality, independent second tail window, ambient completeness theorem, or Real seal route detached from $T,W,R,L,A,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Real selector comparison NameCert obligations]
+\label{thm:real-selector-comparison-namecert-obligations}
+For every accepted $\RealSelectorComparisonUp$ carrier
+$$
+S=(D_0,D_1,T,W,R,L,A,H,C,P,N),
+$$
+the local $\NameCert_{\RealSelectorComparisonUp}$ surface consists exactly of carrier admission for the displayed packet, two diagonal selector admissions through $D_0$ and $D_1$, shared tail and window admission through $T$ and $W$, regular-rational readback through $R$, Cauchy-limit seal admission through $L$, tail-agreement seal admission through $A$, componentwise $\hsame$ transport through $H$, displayed route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-selector-comparison-carrier}. The only selector data available to the local certificate are the two diagonal rows $D_0,D_1$ and the shared tail/window/readback route $T,W,R$.
+
+The seal obligations are then read in route order. The Cauchy-limit row $L$ consumes the regular-rational readback, and the tail-agreement row $A$ certifies that the two selector tails agree on the same cofinal window before the $\RealUp$ seal can be exposed.
+
+Componentwise transports in $H$ and displayed continuations in $C$ replay the same finite rows for both selector routes, while $P$ and $N$ record provenance and local naming. Since the carrier has no detached host limit, quotient equality, second tail window, independent completion theorem, or alternate Real seal coordinate, no further NameCert obligation can be read from the packet.
+\end{proof}
+
+\begin{theorem}[Real selector comparison diagonal readback]
+\label{thm:real-selector-comparison-diagonal-readback}
+For an accepted $\RealSelectorComparisonUp$ carrier $S=(D_0,D_1,T,W,R,L,A,H,C,P,N)$, both diagonal selector routes read the same $\mathsf{StreamName}^{\uparrow}$ window row $W$ and the same $\mathsf{RegSeqRat}^{\uparrow}$ readback row $R$ at the shared tail row $T$. Any $\RealUp$ seal obtained from either route therefore factors through the common finite path
+$$
+D_i,T,W,R,L,A,H,C,P,N
+$$
+for $i=0,1$.
+\end{theorem}
+\begin{proof}
+Start with the two selector rows $D_0$ and $D_1$. The carrier gives only one tail row $T$, one finite window row $W$, and one regular-rational readback row $R$ for both selectors.
+
+Follow the displayed continuations in $C$. Each selector route first reaches $T$, then reads $W$, then decodes $R$, and only then reaches the limit and agreement rows $L$ and $A$.
+
+The transports in $H$ preserve those coordinates componentwise. Thus either selector route reaches a $\RealUp$ seal through the same finite path, with no available coordinate for a second readback or a separately selected limit.
+\end{proof}
+
+\begin{theorem}[Real selector comparison seal non-escape]
+\label{thm:real-selector-comparison-seal-nonescape}
+An accepted $\RealSelectorComparisonUp$ carrier exports no completion-facing route except the displayed two-selector packet $S=(D_0,D_1,T,W,R,L,A,H,C,P,N)$. In particular, it cannot expose incompatible $\RealUp$ seals for $D_0$ and $D_1$ while preserving the shared tail/window row, the $\mathsf{RegSeqRat}^{\uparrow}$ readback, the $\mathsf{CauchyLimitSeal}^{\uparrow}$ route, and the $\RealTailAgreementSealUp$ row.
+\end{theorem}
+\begin{proof}
+Assume a completion-facing consumer reads a seal from the accepted packet. The consumer can inspect only $D_0,D_1,T,W,R,L,A,H,C,P,N$, because those are the complete displayed coordinates of the carrier.
+
+If the consumer follows the $D_0$ route, \autoref{thm:real-selector-comparison-diagonal-readback} forces it through $T,W,R,L,A$ before the seal read. The same theorem forces the $D_1$ route through the identical tail, window, readback, limit-seal, and agreement rows.
+
+Therefore incompatible seal outputs would require an extra selector tail, a second regular readback, a detached Cauchy-limit seal, or a Real seal row outside the packet. None of those coordinates exists, so the seal route cannot escape the displayed comparison surface.
+\end{proof}
+
+\falsifiablePrediction{Deleting the shared tail/window row permits two selector routes to reach incompatible RealUp seals, because the packet no longer forces their StreamName windows and RegSeqRat readbacks through one finite tail threshold.}
+
+\independenceWitness{Nearest siblings: cauchylimitseal, realtailagreementseal, cauchymodulusrefinement, streamname, and regseqrat. None is bijective to $\RealSelectorComparisonUp$ because this packet carries two diagonal selector rows plus one shared tail/window/readback route, one CauchyLimitSeal row, one RealTailAgreementSeal row, and one RealUp seal route in a single NameCert surface.}
+
+The Lean file \texttt{Derived/RealSelectorComparisonUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \RealSelectorComparisonUp$ and $\mathsf{FieldFaithful}\ \RealSelectorComparisonUp$ instances, with field injection for $D_0,D_1,T,W,R,L,A,H,C,P,N$.
+
+\closureat{RealSelectorComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RealSelectorComparisonUp}
+  \constructivestory{A $\RealSelectorComparisonUp$ packet is generated from two diagonal selector rows, one shared tail/window row, one regular-rational readback row, CauchyLimitSeal and RealTailAgreementSeal rows, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-selector-comparison-carrier}, \autoref{thm:real-selector-comparison-namecert-obligations}, \autoref{thm:real-selector-comparison-diagonal-readback}, and \autoref{thm:real-selector-comparison-seal-nonescape} bind the finite two-selector comparison carrier, obligation surface, shared readback route, and seal non-escape boundary for the Real and Completion handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, host equality of completed reals, quotient-stream equality, selected limits, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared tail/window readback, CauchyLimitSeal route compatibility, RealTailAgreementSeal compatibility, seal non-escape, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
