@@ -11,8 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive FuelIndexedSubstrateBridgeUp : Type where
   | mk
-      (fuel substrateState totalEvaluator finiteWindow readback refusal transport route
-        provenance nameCert : BHist) :
+      (fuel substrate evaluator window readback refusal transport route provenance name : BHist) :
       FuelIndexedSubstrateBridgeUp
   deriving DecidableEq
 
@@ -42,19 +41,49 @@ private theorem fuelIndexedSubstrateBridgeDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem fuelIndexedSubstrateBridge_mk_congr
+    {fuel fuel' substrate substrate' evaluator evaluator' window window' readback readback'
+      refusal refusal' transport transport' route route' provenance provenance' name name' : BHist}
+    (hFuel : fuel' = fuel)
+    (hSubstrate : substrate' = substrate)
+    (hEvaluator : evaluator' = evaluator)
+    (hWindow : window' = window)
+    (hReadback : readback' = readback)
+    (hRefusal : refusal' = refusal)
+    (hTransport : transport' = transport)
+    (hRoute : route' = route)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    FuelIndexedSubstrateBridgeUp.mk fuel' substrate' evaluator' window' readback' refusal'
+        transport' route' provenance' name' =
+      FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback refusal transport
+        route provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hFuel
+  cases hSubstrate
+  cases hEvaluator
+  cases hWindow
+  cases hReadback
+  cases hRefusal
+  cases hTransport
+  cases hRoute
+  cases hProvenance
+  cases hName
+  rfl
+
 def fuelIndexedSubstrateBridgeToEventFlow :
     FuelIndexedSubstrateBridgeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FuelIndexedSubstrateBridgeUp.mk fuel substrateState totalEvaluator finiteWindow readback
-      refusal transport route provenance nameCert =>
+  | FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback refusal transport
+      route provenance name =>
       [[BMark.b0],
         fuelIndexedSubstrateBridgeEncodeBHist fuel,
         [BMark.b1, BMark.b0],
-        fuelIndexedSubstrateBridgeEncodeBHist substrateState,
+        fuelIndexedSubstrateBridgeEncodeBHist substrate,
         [BMark.b1, BMark.b1, BMark.b0],
-        fuelIndexedSubstrateBridgeEncodeBHist totalEvaluator,
+        fuelIndexedSubstrateBridgeEncodeBHist evaluator,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fuelIndexedSubstrateBridgeEncodeBHist finiteWindow,
+        fuelIndexedSubstrateBridgeEncodeBHist window,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         fuelIndexedSubstrateBridgeEncodeBHist readback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -69,7 +98,7 @@ def fuelIndexedSubstrateBridgeToEventFlow :
         fuelIndexedSubstrateBridgeEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        fuelIndexedSubstrateBridgeEncodeBHist nameCert]
+        fuelIndexedSubstrateBridgeEncodeBHist name]
 
 def fuelIndexedSubstrateBridgeFromEventFlow :
     EventFlow → Option FuelIndexedSubstrateBridgeUp
@@ -84,19 +113,19 @@ def fuelIndexedSubstrateBridgeFromEventFlow :
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | substrateState :: rest3 =>
+              | substrate :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | totalEvaluator :: rest5 =>
+                      | evaluator :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | finiteWindow :: rest7 =>
+                              | window :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
@@ -123,35 +152,43 @@ def fuelIndexedSubstrateBridgeFromEventFlow :
                                                               | route :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
+                                                                  | _tag8 ::
+                                                                      rest16 =>
+                                                                      match
+                                                                        rest16
+                                                                      with
+                                                                      | [] =>
+                                                                          none
                                                                       | provenance ::
                                                                           rest17 =>
-                                                                          match rest17
-                                                                            with
-                                                                          | [] => none
+                                                                          match
+                                                                            rest17
+                                                                          with
+                                                                          | [] =>
+                                                                              none
                                                                           | _tag9 ::
                                                                               rest18 =>
-                                                                              match rest18
-                                                                                with
+                                                                              match
+                                                                                rest18
+                                                                              with
                                                                               | [] =>
                                                                                   none
-                                                                              | nameCert ::
+                                                                              | name ::
                                                                                   rest19 =>
-                                                                                  match rest19
-                                                                                    with
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
                                                                                   | [] =>
                                                                                       some
                                                                                         (FuelIndexedSubstrateBridgeUp.mk
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
                                                                                             fuel)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
-                                                                                            substrateState)
+                                                                                            substrate)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
-                                                                                            totalEvaluator)
+                                                                                            evaluator)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
-                                                                                            finiteWindow)
+                                                                                            window)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
                                                                                             readback)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
@@ -163,8 +200,9 @@ def fuelIndexedSubstrateBridgeFromEventFlow :
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
                                                                                             provenance)
                                                                                           (fuelIndexedSubstrateBridgeDecodeBHist
-                                                                                            nameCert))
-                                                                                  | _ :: _ =>
+                                                                                            name))
+                                                                                  | _ ::
+                                                                                      _ =>
                                                                                       none
 
 private theorem fuelIndexedSubstrateBridge_round_trip :
@@ -174,19 +212,18 @@ private theorem fuelIndexedSubstrateBridge_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk fuel substrateState totalEvaluator finiteWindow readback refusal transport route
-      provenance nameCert =>
+  | mk fuel substrate evaluator window readback refusal transport route provenance name =>
       change
         some
           (FuelIndexedSubstrateBridgeUp.mk
             (fuelIndexedSubstrateBridgeDecodeBHist
               (fuelIndexedSubstrateBridgeEncodeBHist fuel))
             (fuelIndexedSubstrateBridgeDecodeBHist
-              (fuelIndexedSubstrateBridgeEncodeBHist substrateState))
+              (fuelIndexedSubstrateBridgeEncodeBHist substrate))
             (fuelIndexedSubstrateBridgeDecodeBHist
-              (fuelIndexedSubstrateBridgeEncodeBHist totalEvaluator))
+              (fuelIndexedSubstrateBridgeEncodeBHist evaluator))
             (fuelIndexedSubstrateBridgeDecodeBHist
-              (fuelIndexedSubstrateBridgeEncodeBHist finiteWindow))
+              (fuelIndexedSubstrateBridgeEncodeBHist window))
             (fuelIndexedSubstrateBridgeDecodeBHist
               (fuelIndexedSubstrateBridgeEncodeBHist readback))
             (fuelIndexedSubstrateBridgeDecodeBHist
@@ -198,20 +235,23 @@ private theorem fuelIndexedSubstrateBridge_round_trip :
             (fuelIndexedSubstrateBridgeDecodeBHist
               (fuelIndexedSubstrateBridgeEncodeBHist provenance))
             (fuelIndexedSubstrateBridgeDecodeBHist
-              (fuelIndexedSubstrateBridgeEncodeBHist nameCert))) =
+              (fuelIndexedSubstrateBridgeEncodeBHist name))) =
           some
-            (FuelIndexedSubstrateBridgeUp.mk fuel substrateState totalEvaluator finiteWindow
-              readback refusal transport route provenance nameCert)
-      rw [fuelIndexedSubstrateBridgeDecode_encode_bhist fuel,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist substrateState,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist totalEvaluator,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist finiteWindow,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist readback,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist refusal,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist transport,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist route,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist provenance,
-        fuelIndexedSubstrateBridgeDecode_encode_bhist nameCert]
+            (FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback
+              refusal transport route provenance name)
+      exact
+        congrArg some
+          (fuelIndexedSubstrateBridge_mk_congr
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist fuel)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist substrate)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist evaluator)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist window)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist readback)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist refusal)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist transport)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist route)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist provenance)
+            (fuelIndexedSubstrateBridgeDecode_encode_bhist name))
 
 private theorem fuelIndexedSubstrateBridgeToEventFlow_injective
     {x y : FuelIndexedSubstrateBridgeUp} :
@@ -219,36 +259,122 @@ private theorem fuelIndexedSubstrateBridgeToEventFlow_injective
       fuelIndexedSubstrateBridgeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      fuelIndexedSubstrateBridgeFromEventFlow
-          (fuelIndexedSubstrateBridgeToEventFlow x) =
-        fuelIndexedSubstrateBridgeFromEventFlow
-          (fuelIndexedSubstrateBridgeToEventFlow y) :=
-    congrArg fuelIndexedSubstrateBridgeFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (fuelIndexedSubstrateBridge_round_trip x).symm
-      (Eq.trans hread (fuelIndexedSubstrateBridge_round_trip y)))
-
-private def fuelIndexedSubstrateBridgeFields :
-    FuelIndexedSubstrateBridgeUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | FuelIndexedSubstrateBridgeUp.mk fuel substrateState totalEvaluator finiteWindow readback
-      refusal transport route provenance nameCert =>
-      [fuel, substrateState, totalEvaluator, finiteWindow, readback, refusal, transport, route,
-        provenance, nameCert]
-
-private theorem fuelIndexedSubstrateBridge_field_faithful :
-    ∀ x y : FuelIndexedSubstrateBridgeUp,
-      fuelIndexedSubstrateBridgeFields x = fuelIndexedSubstrateBridgeFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
   cases x with
-  | mk fuel substrateState totalEvaluator finiteWindow readback refusal transport route
-      provenance nameCert =>
+  | mk fuel₁ substrate₁ evaluator₁ window₁ readback₁ refusal₁ transport₁ route₁
+      provenance₁ name₁ =>
       cases y with
-      | mk fuel' substrateState' totalEvaluator' finiteWindow' readback' refusal' transport'
-          route' provenance' nameCert' =>
-          cases hfields
+      | mk fuel₂ substrate₂ evaluator₂ window₂ readback₂ refusal₂ transport₂ route₂
+          provenance₂ name₂ =>
+          injection heq with _ htail1
+          injection htail1 with hfuel htail2
+          injection htail2 with _ htail3
+          injection htail3 with hsubstrate htail4
+          injection htail4 with _ htail5
+          injection htail5 with hevaluator htail6
+          injection htail6 with _ htail7
+          injection htail7 with hwindow htail8
+          injection htail8 with _ htail9
+          injection htail9 with hreadback htail10
+          injection htail10 with _ htail11
+          injection htail11 with hrefusal htail12
+          injection htail12 with _ htail13
+          injection htail13 with htransport htail14
+          injection htail14 with _ htail15
+          injection htail15 with hroute htail16
+          injection htail16 with _ htail17
+          injection htail17 with hprovenance htail18
+          injection htail18 with _ htail19
+          injection htail19 with hname _
+          have hfuelDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist fuel₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist fuel₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hfuel
+          have hsubstrateDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist substrate₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist substrate₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hsubstrate
+          have hevaluatorDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist evaluator₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist evaluator₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hevaluator
+          have hwindowDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist window₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist window₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hwindow
+          have hreadbackDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist readback₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist readback₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hreadback
+          have hrefusalDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist refusal₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist refusal₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hrefusal
+          have htransportDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist transport₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist transport₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist htransport
+          have hrouteDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist route₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist route₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hroute
+          have hprovenanceDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist provenance₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist provenance₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hprovenance
+          have hnameDecoded :
+              fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist name₁) =
+                fuelIndexedSubstrateBridgeDecodeBHist
+                  (fuelIndexedSubstrateBridgeEncodeBHist name₂) :=
+            congrArg fuelIndexedSubstrateBridgeDecodeBHist hname
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist fuel₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist fuel₂] at hfuelDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist substrate₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist substrate₂] at hsubstrateDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist evaluator₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist evaluator₂] at hevaluatorDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist window₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist window₂] at hwindowDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist readback₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist readback₂] at hreadbackDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist refusal₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist refusal₂] at hrefusalDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist transport₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist transport₂] at htransportDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist route₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist route₂] at hrouteDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist provenance₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist provenance₂] at hprovenanceDecoded
+          rw [fuelIndexedSubstrateBridgeDecode_encode_bhist name₁,
+            fuelIndexedSubstrateBridgeDecode_encode_bhist name₂] at hnameDecoded
+          cases hfuelDecoded
+          cases hsubstrateDecoded
+          cases hevaluatorDecoded
+          cases hwindowDecoded
+          cases hreadbackDecoded
+          cases hrefusalDecoded
+          cases htransportDecoded
+          cases hrouteDecoded
+          cases hprovenanceDecoded
+          cases hnameDecoded
           rfl
 
 instance fuelIndexedSubstrateBridgeBHistCarrier :
@@ -257,7 +383,7 @@ instance fuelIndexedSubstrateBridgeBHistCarrier :
   toEventFlow := fuelIndexedSubstrateBridgeToEventFlow
   fromEventFlow := fuelIndexedSubstrateBridgeFromEventFlow
 
-instance fuelIndexedSubstrateBridgeChapterTasteGate :
+instance taste_gate :
     ChapterTasteGate FuelIndexedSubstrateBridgeUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -270,12 +396,6 @@ instance fuelIndexedSubstrateBridgeChapterTasteGate :
     intro x y hxy heq
     exact hxy (fuelIndexedSubstrateBridgeToEventFlow_injective heq)
 
-instance fuelIndexedSubstrateBridgeFieldFaithful :
-    FieldFaithful FuelIndexedSubstrateBridgeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := fuelIndexedSubstrateBridgeFields
-  field_faithful := fuelIndexedSubstrateBridge_field_faithful
-
 instance fuelIndexedSubstrateBridgeNontrivial :
     Nontrivial FuelIndexedSubstrateBridgeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -283,14 +403,50 @@ instance fuelIndexedSubstrateBridgeNontrivial :
     ⟨FuelIndexedSubstrateBridgeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       FuelIndexedSubstrateBridgeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate FuelIndexedSubstrateBridgeUp :=
+instance fuelIndexedSubstrateBridgeFieldFaithful :
+    FieldFaithful FuelIndexedSubstrateBridgeUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fuelIndexedSubstrateBridgeChapterTasteGate
+  fields := fun x =>
+    match x with
+    | FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback refusal
+        transport route provenance name =>
+        [fuel, substrate, evaluator, window, readback, refusal, transport, route,
+          provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk fuel₁ substrate₁ evaluator₁ window₁ readback₁ refusal₁ transport₁ route₁
+        provenance₁ name₁ =>
+        cases y with
+        | mk fuel₂ substrate₂ evaluator₂ window₂ readback₂ refusal₂ transport₂ route₂
+            provenance₂ name₂ =>
+            injection h with hfuel t1
+            injection t1 with hsubstrate t2
+            injection t2 with hevaluator t3
+            injection t3 with hwindow t4
+            injection t4 with hreadback t5
+            injection t5 with hrefusal t6
+            injection t6 with htransport t7
+            injection t7 with hroute t8
+            injection t8 with hprovenance t9
+            injection t9 with hname _
+            cases hfuel
+            cases hsubstrate
+            cases hevaluator
+            cases hwindow
+            cases hreadback
+            cases hrefusal
+            cases htransport
+            cases hroute
+            cases hprovenance
+            cases hname
+            rfl
 
 theorem FuelIndexedSubstrateBridgeTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -304,8 +460,13 @@ theorem FuelIndexedSubstrateBridgeTasteGate_single_carrier_alignment :
             fuelIndexedSubstrateBridgeToEventFlow y → x = y) ∧
           fuelIndexedSubstrateBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨fuelIndexedSubstrateBridgeDecode_encode_bhist, fuelIndexedSubstrateBridge_round_trip,
-      (fun _ _ heq => fuelIndexedSubstrateBridgeToEventFlow_injective heq), rfl⟩
+  constructor
+  · exact fuelIndexedSubstrateBridgeDecode_encode_bhist
+  · constructor
+    · exact fuelIndexedSubstrateBridge_round_trip
+    · constructor
+      · intro x y heq
+        exact fuelIndexedSubstrateBridgeToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.FuelIndexedSubstrateBridgeUp
