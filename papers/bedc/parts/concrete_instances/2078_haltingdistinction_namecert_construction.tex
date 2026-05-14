@@ -382,6 +382,54 @@ For the obstruction side, apply \autoref{thm:halting-distinction-obstruction-sib
 Combining these routes gives the stated downstream sibling boundary. The non-escape clauses of \autoref{thm:halting-distinction-nonescape} exclude total halting predicates, external evaluators, divergence oracles, and global truth classifiers from the joint package.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction root obstruction handoff lock]
+\label{thm:halting-distinction-root-obstruction-handoff-lock}
+Every downstream obstruction consumer of an accepted $\HaltingDistinctionUp$ packet reads only the finite packet
+$$
+Q,T,Z,H,C,P,N.
+$$
+The obstruction route may inspect the certificate-history pair, finite trace row, diagonal row, componentwise transports, displayed route, provenance, and local ledger, but it cannot import a total halting coordinate, host evaluator, divergence oracle, or global truth classifier.
+\end{theorem}
+\begin{proof}
+Start with the root carrier surface of \autoref{thm:halting-distinction-root-carrier-surface}. It fixes $Q,T,Z,H,C,P,N$ as the complete displayed packet.
+
+Apply \autoref{thm:halting-distinction-trace-readability} and \autoref{thm:halting-distinction-diagonal-boundary}. These locate the trace and diagonal reads inside $T$ and $Z$, with the displayed route row $C$ and transport row $H$ supplying the only admissible access path.
+
+Finally compose \autoref{thm:halting-distinction-root-ledger-nonescape} with \autoref{thm:halting-distinction-obstruction-sibling-joint-package}. The obstruction consumer is one of the joint sibling routes, so it receives the same finite ledger and no external halting data.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root trace-normal-form lock]
+\label{thm:halting-distinction-root-trace-normalform-lock}
+Every trace-normal-form consumer downstream of $\HaltingDistinctionUp$ reads only the finite packet
+$$
+Q,T,Z,H,C,P,N.
+$$
+Its normal-form trace read is the displayed continuation segment with route and provenance data already present in that packet; no ambient evaluator, total halting predicate, hidden classifier, or divergence oracle is added at the handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted packet using \autoref{thm:halting-distinction-root-carrier-surface}. The only rows available to the consumer are $Q,T,Z,H,C,P,N$.
+
+Use \autoref{thm:halting-distinction-trace-readability} to force the trace-normal-form read through $T$ and $C$. Use \autoref{thm:halting-distinction-diagonal-boundary} to keep the diagonal row $Z$ inside the same routed ledger rather than turning it into evaluator data.
+
+The handoff is then the trace-normal-form component of \autoref{thm:halting-distinction-obstruction-sibling-joint-package}. Together with \autoref{thm:halting-distinction-root-ledger-nonescape}, this prevents the consumer from reading any row outside the finite packet.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction root inscription-event lock]
+\label{thm:halting-distinction-root-inscription-event-lock}
+Every inscription-event consumer downstream of $\HaltingDistinctionUp$ reads only the finite packet
+$$
+Q,T,Z,H,C,P,N.
+$$
+The event may use the diagonal self-reference row and its displayed route, but the lock keeps that read inside the carrier, trace readability, diagonal boundary, root ledger non-escape, and joint sibling package surface.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through \autoref{thm:halting-distinction-root-carrier-surface}. The packet exposes $Q,T,Z,H,C,P,N$ and no evaluator coordinate.
+
+Apply \autoref{thm:halting-distinction-diagonal-boundary}. The inscription event reaches $Z$ only along the displayed route $C$, with $Q$ and $H$ supplying the certificate-history row and componentwise transports.
+
+Now use \autoref{thm:halting-distinction-trace-readability} to keep the surrounding trace data finite, and apply \autoref{thm:halting-distinction-root-ledger-nonescape} together with \autoref{thm:halting-distinction-obstruction-sibling-joint-package}. The inscription-event route is therefore locked to the same finite packet and cannot export total halting or host-truth data.
+\end{proof}
+
 \closureat{HaltingDistinctionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}

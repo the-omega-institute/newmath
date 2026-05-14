@@ -81,8 +81,12 @@ REFILL_RECENT_COMPLETED_LIMIT = 12
 MICRO_REFILL_BOARD_CONTEXT_MAX_CHARS = 4500
 MICRO_REFILL_PAPER_SUMMARY_MAX_CHARS = 5000
 MICRO_REFILL_RECENT_COMPLETED_LIMIT = 6
+ULTRA_REFILL_BOARD_CONTEXT_MAX_CHARS = 2200
+ULTRA_REFILL_PAPER_SUMMARY_MAX_CHARS = 3000
+ULTRA_REFILL_RECENT_COMPLETED_LIMIT = 3
 MICRO_REFILL_FAILURE_THRESHOLD = 3
 MICRO_REFILL_FAILURE_WINDOW = 5
+ULTRA_REFILL_MICRO_FAILURE_THRESHOLD = 1
 MICRO_REFILL_FAILURE_ERRORS = {
     "oracle_transport_empty_response",
     "oracle_transport_error_response",
@@ -97,6 +101,16 @@ returning parseable candidates.  For this run, propose exactly 2-3 candidates,
 not 5-10.  Prefer high-confidence existing-chapter lemma/obligation targets
 with short local_inputs and complete logic packet metadata.  Do not compensate
 by widening theory scope or inventing a new chapter.
+""".strip()
+ULTRA_REFILL_INSTRUCTION = """
+## Ultra-small refill override
+
+Recent micro-refill attempts also failed at the browser/transport layer before
+returning parseable candidates.  For this run, propose exactly 1 candidate.
+Choose the safest existing-chapter lemma or obligation with complete logic
+packet metadata, short local_inputs, and no new-chapter claim.  If no such
+candidate is visible, return an empty candidates list rather than widening
+scope.
 """.strip()
 
 
@@ -272,6 +286,7 @@ def _write_failure_summary(
     error: str,
     response_len: int = 0,
     micro_refill: bool = False,
+    ultra_refill: bool = False,
 ) -> None:
     summary = {
         "ok": False,
@@ -282,6 +297,8 @@ def _write_failure_summary(
         "error": error,
         "response_len": response_len,
         "micro_refill": micro_refill,
+        "ultra_refill": ultra_refill,
+        "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
         "ts": ts,
     }
     (LOG_DIR / f"refill_{ts}.summary.json").write_text(
@@ -290,21 +307,22 @@ def _write_failure_summary(
     )
 
 
-def _board_content(*, micro_refill: bool = False) -> str:
+def _board_content(*, micro_refill: bool = False, ultra_refill: bool = False) -> str:
     # Refill is a candidate-generation lane. Full title dedup, paper coverage,
     # and schema checks run deterministically after response parsing, so the
     # oracle prompt only needs enough context to avoid obvious repeats.
+    if ultra_refill:
+        max_chars = ULTRA_REFILL_BOARD_CONTEXT_MAX_CHARS
+        recent_completed_limit = ULTRA_REFILL_RECENT_COMPLETED_LIMIT
+    elif micro_refill:
+        max_chars = MICRO_REFILL_BOARD_CONTEXT_MAX_CHARS
+        recent_completed_limit = MICRO_REFILL_RECENT_COMPLETED_LIMIT
+    else:
+        max_chars = REFILL_BOARD_CONTEXT_MAX_CHARS
+        recent_completed_limit = REFILL_RECENT_COMPLETED_LIMIT
     return board_context.build_board_prompt_context(
-        max_chars=(
-            MICRO_REFILL_BOARD_CONTEXT_MAX_CHARS
-            if micro_refill
-            else REFILL_BOARD_CONTEXT_MAX_CHARS
-        ),
-        recent_completed_limit=(
-            MICRO_REFILL_RECENT_COMPLETED_LIMIT
-            if micro_refill
-            else REFILL_RECENT_COMPLETED_LIMIT
-        ),
+        max_chars=max_chars,
+        recent_completed_limit=recent_completed_limit,
     )
 
 
@@ -347,8 +365,50 @@ def recent_transport_failure_count(
     return count
 
 
+def recent_micro_transport_failure_count(
+    *,
+    limit: int = MICRO_REFILL_FAILURE_WINDOW,
+) -> int:
+    if not LOG_DIR.exists():
+        return 0
+    summaries = sorted(
+        LOG_DIR.glob("refill_*.summary.json"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    count = 0
+    inspected = 0
+    for path in summaries:
+        if inspected >= limit:
+            break
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        error = str(data.get("error") or "").strip()
+        if error == "dry_run_prompt_only":
+            continue
+        inspected += 1
+        if data.get("ok"):
+            break
+        if error not in MICRO_REFILL_FAILURE_ERRORS:
+            break
+        if data.get("micro_refill") or data.get("ultra_refill"):
+            count += 1
+            continue
+        break
+    return count
+
+
 def should_use_micro_refill() -> bool:
     return recent_transport_failure_count() >= MICRO_REFILL_FAILURE_THRESHOLD
+
+
+def should_use_ultra_refill() -> bool:
+    return (
+        should_use_micro_refill()
+        and recent_micro_transport_failure_count() >= ULTRA_REFILL_MICRO_FAILURE_THRESHOLD
+    )
 
 
 def _extract_json_object(text: str) -> Optional[dict]:
@@ -398,17 +458,25 @@ def _extract_json_object(text: str) -> Optional[dict]:
 # ---------------------------------------------------------------------------
 
 
-def build_refill_prompt(*, micro_refill: bool = False) -> str:
+def build_refill_prompt(
+    *,
+    micro_refill: bool = False,
+    ultra_refill: bool = False,
+) -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
-    if micro_refill:
+    if ultra_refill:
+        template = template.replace("提议 5-10 个", "提议 1 个", 1)
+    elif micro_refill:
         template = template.replace("提议 5-10 个", "提议 2-3 个", 1)
-    board = _board_content(micro_refill=micro_refill)
+    board = _board_content(micro_refill=micro_refill, ultra_refill=ultra_refill)
+    if ultra_refill:
+        paper_summary_max_chars = ULTRA_REFILL_PAPER_SUMMARY_MAX_CHARS
+    elif micro_refill:
+        paper_summary_max_chars = MICRO_REFILL_PAPER_SUMMARY_MAX_CHARS
+    else:
+        paper_summary_max_chars = REFILL_PAPER_SUMMARY_MAX_CHARS
     paper_coverage = paper_index.render_prompt_summary(
-        max_chars=(
-            MICRO_REFILL_PAPER_SUMMARY_MAX_CHARS
-            if micro_refill
-            else REFILL_PAPER_SUMMARY_MAX_CHARS
-        ),
+        max_chars=paper_summary_max_chars,
     )
     discipline = render_prompt_block(
         context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
@@ -423,7 +491,9 @@ def build_refill_prompt(*, micro_refill: bool = False) -> str:
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
     ) + "\n\n" + discipline + "\n\n" + loning_block + "\n"
-    if micro_refill:
+    if ultra_refill:
+        prompt += "\n\n" + ULTRA_REFILL_INSTRUCTION + "\n"
+    elif micro_refill:
         prompt += "\n\n" + MICRO_REFILL_INSTRUCTION + "\n"
     return prompt
 
@@ -563,8 +633,12 @@ def main() -> int:
                         help="Only build + print prompt, don't submit.")
     parser.add_argument("--micro-refill", action="store_true",
                         help="Use a smaller prompt and request 2-3 candidates.")
+    parser.add_argument("--ultra-refill", action="store_true",
+                        help="Use the smallest prompt and request exactly 1 candidate.")
     parser.add_argument("--no-auto-micro-refill", action="store_true",
                         help="Disable automatic micro-refill after repeated transport failures.")
+    parser.add_argument("--no-auto-ultra-refill", action="store_true",
+                        help="Disable automatic ultra-refill after a failed micro-refill.")
     parser.add_argument("--allow-queue-without-tabs", action="store_true",
                         help="Submit even when no active BEDC browser tab is polling.")
     parser.add_argument("--allow-duplicate-refill", action="store_true",
@@ -611,18 +685,35 @@ def main() -> int:
             return 1
 
     failure_count = recent_transport_failure_count()
-    micro_refill = args.micro_refill or (
+    micro_failure_count = recent_micro_transport_failure_count()
+    ultra_refill = args.ultra_refill or (
+        not args.no_auto_ultra_refill
+        and not args.no_auto_micro_refill
+        and micro_failure_count >= ULTRA_REFILL_MICRO_FAILURE_THRESHOLD
+        and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
+    )
+    micro_refill = ultra_refill or args.micro_refill or (
         not args.no_auto_micro_refill
         and failure_count >= MICRO_REFILL_FAILURE_THRESHOLD
     )
-    if micro_refill:
+    if ultra_refill:
+        print(
+            "[board_refill] ultra-refill mode enabled "
+            f"(recent_transport_failures={failure_count}, "
+            f"recent_micro_failures={micro_failure_count})",
+            flush=True,
+        )
+    elif micro_refill:
         print(
             "[board_refill] micro-refill mode enabled "
             f"(recent_transport_failures={failure_count})",
             flush=True,
         )
 
-    prompt = build_refill_prompt(micro_refill=micro_refill)
+    prompt = build_refill_prompt(
+        micro_refill=micro_refill,
+        ultra_refill=ultra_refill,
+    )
     (LOG_DIR / f"refill_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
     print(f"[board_refill] prompt built ({len(prompt)} chars)", flush=True)
 
@@ -631,6 +722,7 @@ def main() -> int:
             ts,
             error="dry_run_prompt_only",
             micro_refill=micro_refill,
+            ultra_refill=ultra_refill,
         )
         print(prompt[:2000])
         print(f"... [{len(prompt)} chars total]")
@@ -657,6 +749,7 @@ def main() -> int:
                 ts,
                 error=f"submit_exception:{type(exc).__name__}",
                 micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
             )
             return 1
         if "error" in submit_resp:
@@ -665,6 +758,7 @@ def main() -> int:
                 ts,
                 error=f"submit_failed:{submit_resp['error']}",
                 micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
             )
             return 1
         task_id = submit_resp.get("task_id", "")
@@ -678,6 +772,7 @@ def main() -> int:
                 ts,
                 error="stopped_before_response",
                 micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
             )
             return 1
         if not response:
@@ -687,6 +782,7 @@ def main() -> int:
                 ts,
                 error="timeout_waiting_for_response",
                 micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
             )
             return 1
         failure_kind = _response_failure_kind(response)
@@ -710,6 +806,7 @@ def main() -> int:
             error=failure_kind,
             response_len=len(response),
             micro_refill=micro_refill,
+            ultra_refill=ultra_refill,
         )
         return 1
 
@@ -750,6 +847,8 @@ def main() -> int:
         "appended_ids": spawn_result.appended_ids,
         "error": spawn_result.error,
         "micro_refill": micro_refill,
+        "ultra_refill": ultra_refill,
+        "refill_mode": "ultra" if ultra_refill else "micro" if micro_refill else "normal",
         "ts": ts,
     }
     (LOG_DIR / f"refill_{ts}.summary.json").write_text(

@@ -323,6 +323,44 @@ classifier, unbounded search, host divergence oracle, quotient equality, or
 second diagonal route.
 \end{proof}
 
+\begin{theorem}[Halting obstruction root consumer package]
+\label{thm:halting-obstruction-root-consumer-unblock-package}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. Every root downstream consumer receives only the finite trace row $T$, self-reference row $R$, diagonal-policy row $D$, componentwise transport row $H$, displayed route row $C$, package row $P$, and local $\NameCert$ row $N$ carried by $O$. The handoff supplies no global halting classifier, no unbounded continuation search, and no off-packet equality of names.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:halting-obstruction-root-carrier-admission}. It admits the accepted packet as the fixed tuple $S,I,T,R,D,H,C,P,N$ and gives no root coordinate beyond those rows.
+
+Use \autoref{thm:halting-obstruction-root-transport-scope}. Any public trace or self-reference read is transported through $H$ and replayed through $C$, so the downstream consumer cannot bypass the displayed finite route.
+
+Finally apply \autoref{thm:halting-obstruction-root-ledger-exactness}. The rows $P$ and $N$ package exactly the ledger already exposed by $S,I,T,R,D,H,C$, excluding a classifier, search surface, host oracle, quotient equality, or second diagonal route.
+\end{proof}
+
+\begin{theorem}[Halting obstruction diagonal consumer handoff]
+\label{thm:halting-obstruction-diagonal-consumer-handoff}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. Any $\HaltingDiagonalUp$ consumer that reads the obstruction from $O$ receives the displayed self-reference row $R$, the diagonal-policy row $D$, the finite trace row $T$, and their transport, route, package, and local NameCert rows $H,C,P,N$. The handoff is a local diagonal ledger for the displayed self-application route, not a decision surface for arbitrary histories.
+\end{theorem}
+\begin{proof}
+Read the fixed tuple through \autoref{thm:halting-obstruction-root-carrier-admission}. The diagonal-facing rows are already part of the accepted packet: $T$ records the finite trace, $R$ records self-reference, and $D$ records the diagonal policy.
+
+Apply \autoref{thm:halting-obstruction-root-transport-scope}. It forces each self-reference and trace read through $H$ and $C$, so the diagonal consumer receives the displayed route rather than an ambient self-application operator.
+
+Use \autoref{thm:halting-obstruction-root-ledger-exactness} to package the same rows through $P$ and $N$. Then \autoref{thm:halting-obstruction-distinction-boundary} identifies the consumer-facing object as the finite distinction and diagonal boundary, not a global halting classifier.
+\end{proof}
+
+\begin{theorem}[Halting obstruction public downstream exactness]
+\label{thm:halting-obstruction-public-downstream-exactness}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. Every downstream $\HaltingDistinctionUp$ or $\HaltingDiagonalUp$ public read is exhausted by the finite trace, self-reference, diagonal-policy, transport, route, package, and local NameCert rows displayed in $O$. No downstream read obtains an additional trace row, diagonal policy row, package row, or local naming row outside $T,R,D,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:halting-obstruction-root-carrier-admission}. It fixes the public obstruction surface as the single tuple $S,I,T,R,D,H,C,P,N$.
+
+Next use \autoref{thm:halting-obstruction-root-transport-scope}. Public trace and self-reference movement is limited to the componentwise $\hsame$ ledger $H$ and displayed $\Cont$ routes $C$.
+
+Apply \autoref{thm:halting-obstruction-root-ledger-exactness}. The package and local naming rows expose only the finite obstruction ledger already present in $S,I,T,R,D,H,C$.
+
+Finally invoke \autoref{thm:halting-obstruction-distinction-boundary}. The HaltingDistinction and HaltingDiagonal consumers receive the same finite boundary rows before any obstruction ledger is read, so the public downstream surface is exact and contains no additional classifier or off-packet row.
+\end{proof}
+
 \closureat{HaltingObstructionUp}{publicStr}
 
 \begin{closurestatus}{\HaltingObstructionUp}
