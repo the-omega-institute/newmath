@@ -206,6 +206,24 @@ Apply codomain readback from \autoref{thm:beta-substitution-preservation-codomai
 Finally use the original non-escape theorem \autoref{thm:betasubstitutionpreservation-nonescape} and the subject-reduction handoff \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. The handoff reads the same finite packet, while non-escape prevents substituted rows from becoming host substitution semantics, semantic equality, unrestricted conversion, or closed subject reduction.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation sibling boundary lattice]
+\label{thm:betasubstitutionpreservation-sibling-boundary-lattice}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+the concrete sibling boundaries of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert}, \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, and \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} are consumed only through the finite rows $B,A,V,C_0,R,C_1,L,H,K,P,N$. The closed substitution and binder-context surfaces are read through $C_0,R,C_1$ and $P$, the typed endpoint surface is read through $R,C_1,L,H,K$, and the subject-reduction discharge surface is read only through the handoff row in $K$ and the provenance row $P$.
+\end{theorem}
+\begin{proof}
+Project the provenance row $P$ from the carrier of \autoref{def:betasubstitutionpreservation-carrier}. That row names the closed-term substitution boundary, binder-context substitution seal, typed reduction normal form, and subject-reduction endpoint as sibling surfaces, but it names them only inside the same finite packet $Q$.
+
+Use redex closure from \autoref{thm:betasubstitutionpreservation-redex-closure}. The substituted body row $R$ and substituted codomain row $C_1$ are reached through $B,A,V,C_0,L,H,K,P,N$, so the closed-substitution and binder-context sibling reads cannot bypass the displayed beta-redex route.
+
+Apply codomain readback from \autoref{thm:beta-substitution-preservation-codomain-readback} and substitution non-escape from \autoref{thm:beta-substitution-preservation-substitution-nonescape}. These fix the $C_0,R,C_1$ lattice as packet data and prevent the sibling route from exporting host substitution semantics, semantic term equality, unrestricted conversion, or host codomain computation.
+
+Finally use the subject-reduction handoff \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. The discharge consumer receives the beta row through $K$ and $P$ as a finite handoff, while the other discharge rows remain outside this carrier. Thus the sibling route is substantive, but it exports no closed subject reduction.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
