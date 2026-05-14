@@ -120,6 +120,28 @@ The shared seal-route determinacy theorem now compares the two refinements. Sinc
 Finally apply root seal pullback non-escape. \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape} removes selected limits, quotient streams, host real equality, detached tail oracles, and ambient completeness witnesses from the completion-facing surface. Thus the two overlap refinements determine the same tail row and seal handoff, with no second public route.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family refinement handoff]
+\label{thm:uniform-cauchy-criterion-finite-family-refinement-handoff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any root-threshold use of $U$ and any finite-family overlap refinement preserving the displayed rows $I,W,M,Q,T,E,H,C,P,N$ determine the same route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The handoff contains no selected limit, quotient stream, host real equality, detached tail oracle, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First apply the finite-family seal overlap determinacy theorem, \autoref{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy}. A refinement preserving the displayed rows cannot split the tail row or the seal handoff.
+
+Next use \autoref{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}. It fixes every root-threshold use at the threshold schedule, tolerance ledger, seal non-escape row, and shared-tail meet compatibility, all inside the same packet $U$.
+
+Now compose with \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-package}. The root seal package is exactly the route from $I$ through $E$ together with $H,C,P,N$.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape}. It removes selected limits, quotient streams, host real equality, detached tail oracles, and ambient completeness data from the completion-facing boundary, so the refinement and the root-threshold use have the same handoff route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion root-threshold dependency inventory]
 \label{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}
 Let
