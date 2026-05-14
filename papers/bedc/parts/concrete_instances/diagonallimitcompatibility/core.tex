@@ -193,6 +193,43 @@ completion, host limit, quotient stream, equality row, or choice datum supplies
 another route to $L$.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit shared-tail budget factorization]
+\label{thm:diagonal-limit-compatibility-shared-tail-budget-factorization}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted
+$\DiagonalLimitCompatibilityUp$ packet. Let $F$ be a compatible
+$\RegularCauchyTailFusionUp$ packet whose finite windows, dyadic ledger, regular
+readback, and $\RealUp$ seal rows agree with $W,D,Q,L$ under the displayed
+$\hsame$ transports. Then every completion-facing route from $K$ to the
+$\RealTailAgreementSealUp$ paired seal factors through the fusion
+shared-threshold row before the $\CauchyLimitSealUp$ route reads $Q$ and $L$.
+The factorization exports no quotient stream, host limit, hidden tail oracle,
+choice datum, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the diagonal packet $K$. The displayed rows expose exactly the source
+$R$, triangle row $T$, seal route $S$, dyadic ledger $D$, window family $W$,
+regular readback $Q$, Real seal row $L$, transports $H$, continuations $C$,
+provenance $P$, and local name $N$.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-dependency-triad}. It
+orders the budget-facing rows $D,W,Q,L$ before a downstream consumer can read
+the Real seal, so the compatible fusion packet must meet the same finite window
+and ledger surface through the displayed $\hsame$ transports.
+
+Now use the fusion handoff rows
+\autoref{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion} and
+\autoref{thm:regular-cauchy-tail-fusion-window-monotone-handoff}. They force
+the paired finite-window and dyadic-budget reads through the shared-threshold
+row before any seal-facing read can reach the diagonal readback.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape} and route
+the paired agreement consumer through
+\autoref{ch:concrete-instances-realtailagreementseal-namecert} only after that
+shared-threshold row has been displayed. The non-escape boundary excludes every
+quotient stream, host limit, hidden tail oracle, choice datum, and ambient
+completeness route outside the two finite packets.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit consumer threshold]
 \label{thm:diagonal-limit-compatibility-consumer-threshold}
 A downstream completion-facing consumer of an accepted

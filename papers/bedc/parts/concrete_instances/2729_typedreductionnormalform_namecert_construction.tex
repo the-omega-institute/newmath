@@ -100,19 +100,32 @@ The subject-reduction seal then repacks the transported source membership, typed
 \end{proof}
 \leanchecked{BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_transport\_stability}
 
+\begin{theorem}[TypedReductionNormalForm terminal readback bridge]
+\label{thm:typed-reduction-normal-form-terminal-readback-bridge}
+The checked transport-stable $\TypedReductionNormalFormUp$ packet bridges the public terminal normal-form boundary to the standard readback surface only through the displayed rows $T,J,E,R,F,H,C,P,N$. The bridge reads source membership, the finite typed-reduction route, target membership, terminal normal-form boundary, componentwise transports, continuation replay, provenance, and the local $\NameCert$ row. It excludes host conversion, semantic equality of terms, erased derivation semantics, normalization oracles, and any host normalization procedure outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the transport-stable packet of \autoref{thm:typed-reduction-normal-form-transport-stability}. It preserves the same finite surface $Q=(T,J,E,R,F,H,C,P,N)$ under componentwise transports and continuation reads.
+
+The terminal readback surface is reached by reading $F$ after the route $R$ and membership row $E$ have been replayed through $C$ and transported through $H$. The judgment ledger $J$, provenance row $P$, and local naming row $N$ keep that read inside the displayed packet.
+
+Because the carrier has no coordinate for host conversion, semantic equality, erased derivation semantics, global normalization, or a normalization oracle, the bridge cannot use any of those routes. It is therefore exactly the public terminal boundary read through $T,J,E,R,F,H,C,P,N$.
+\end{proof}
+
 \closureat{TypedReductionNormalFormUp}{seedStr}
 \closureat{TypedReductionNormalFormUp}{obligationStr}
 \closureat{TypedReductionNormalFormUp}{scopedStr}[BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_transport\_stability]
 \closureat{TypedReductionNormalFormUp}{publicStr}[BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_transport\_stability]
+\closureat{TypedReductionNormalFormUp}{bridgedStr}[BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_transport\_stability]
 
 \begin{closurestatus}{\TypedReductionNormalFormUp}
   \constructivestory{A $\TypedReductionNormalFormUp$ packet is generated from a term-window row, a finite typing-judgment ledger, source and target membership rows, a displayed typed-reduction route, a terminal normal-form boundary, componentwise transports, continuation reads, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:typed-reduction-normal-form-packet}, \autoref{thm:typed-reduction-normal-form-namecert-obligations}, \autoref{thm:typed-reduction-normal-form-subject-reduction-seal}, \autoref{thm:typed-reduction-normal-form-route-exactness}, \autoref{thm:typed-reduction-normal-form-terminal-boundary-nonescape}, and \autoref{thm:typed-reduction-normal-form-transport-stability} bind the $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ scope for the typed route, source membership, target membership, and terminal normal-form boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:typed-reduction-normal-form-packet}, \autoref{thm:typed-reduction-normal-form-namecert-obligations}, \autoref{thm:typed-reduction-normal-form-subject-reduction-seal}, \autoref{thm:typed-reduction-normal-form-route-exactness}, \autoref{thm:typed-reduction-normal-form-terminal-boundary-nonescape}, \autoref{thm:typed-reduction-normal-form-transport-stability}, and \autoref{thm:typed-reduction-normal-form-terminal-readback-bridge} bind the $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ scope for the typed route, source membership, target membership, terminal normal-form boundary, and standard readback bridge.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_transport\_stability}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host conversion, semantic equality of terms, global normalization, erased derivation semantics, normalization oracles, or bridge checking.}
-  \upgradepath{The next paper obligation is a bridge surface for the same finite typed-reduction packet, keeping the checked carrier exposure, reduction-route exactness, subject-reduction seal, terminal normal-form boundary, and non-escape rows on the displayed $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ scope.}
+  \upgradepath{Mature closure requires representative downstream consumers of the same finite typed-reduction bridge.}
 \end{closurestatus}
