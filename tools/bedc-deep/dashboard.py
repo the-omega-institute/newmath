@@ -351,6 +351,8 @@ def _infer_refill_status(rec: dict) -> str:
         text = _read_text_prefix(log_path, max_chars=3000)
         if "existing board-refill task is queued or active" in text:
             return "skip_duplicate_refill"
+        if "no dispatch-ready BEDC conversation tabs polling" in text:
+            return "skip_no_dispatch_ready_tab"
         if "no compatible BEDC Project tabs polling" in text:
             return "skip_no_project_tab"
         if "zero-extraction hang" in text:

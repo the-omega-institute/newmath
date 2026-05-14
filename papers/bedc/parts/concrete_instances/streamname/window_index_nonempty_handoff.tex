@@ -166,3 +166,53 @@ for a selected limit, trichotomy, or ambient completeness, and the initial
 observation coordinate remains the certified bundle member plus unary history
 row throughout the downstream seal read.
 \end{proof}
+
+\begin{theorem}[StreamName window-refinement first-observation stability]
+\label{thm:streamname-window-refinement-first-observation-stability}
+Let $\mathcal W$ and $\mathcal W'$ be accepted finite $\StreamNameUp$
+windows. Suppose that $\mathcal W'$ refines $\mathcal W$ by a displayed
+$\mathsf{ProbeBundle}$ inclusion, preserves the same
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, preserves the certified
+$\mathsf{UnaryHistory}(n)$ observation index, and feeds the same
+$\RegSeqRatUp$ readback and $\RealUp$ seal route as $\mathcal W$. Then the
+first observation exposed to the downstream consumer is the same displayed
+bundle member $n$ with the same unary-history row in both windows.
+
+The stable first observation is carried only by the displayed finite-window
+route. Neither window admits an alternate route through host index equality,
+quotient stream equality, selected limits, trichotomy, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-window-index-nonempty-handoff} to both accepted
+windows. Each downstream RegSeqRat or Real consumer must receive a first
+visible observation through a finite $\mathsf{ProbeBundle}$ member, its
+$\mathsf{InBundle}(n,\mathcal P)$ row, and the certified
+$\mathsf{UnaryHistory}(n)$ index.
+
+The refinement hypotheses identify those visible rows. The displayed
+$\mathsf{ProbeBundle}$ inclusion carries the same member $n$, and the
+preserved membership and unary-history rows keep the first observation at the
+same finite coordinate before any readback or seal row is consumed.
+
+Now use \autoref{thm:streamname-window-index-route-determinacy}. Once the
+index, membership row, unary-history row, and finite meet coordinates agree,
+the downstream route is forced to be the same StreamName window route for the
+RegSeqRat readback and the Real seal.
+
+Next apply
+\autoref{thm:streamname-window-index-sibling-route-certificate}. The common
+route factors through the displayed StreamName row, the RegSeqRat readback
+surface, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal, so the
+refined window cannot expose a different first observation to the same
+consumer.
+
+Finally apply
+\autoref{thm:streamname-real-regseq-observation-pullback-lock}. The Real seal
+pulls back along the same four displayed rows and keeps the initial bundle
+member plus unary-history row fixed. The exclusion clauses in the determinacy,
+sibling-route, and pullback-lock results leave no coordinate for host index
+equality, quotient stream equality, selected limits, trichotomy, or ambient
+completeness to serve as a second route.
+\end{proof}
