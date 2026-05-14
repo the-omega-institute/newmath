@@ -152,3 +152,19 @@ Now consume the schedule. The real-seal readback and scoped binding rows of $\Ta
 
 Finally apply \autoref{thm:cauchy-limit-seal-budget-finite-approximation-window-exhaustion}. The selector, budget, finite-approximation, and schedule faces have all been forced through the same displayed packet, so no quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, or ambient completeness coordinate remains available.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal budget selector totality]
+\label{thm:cauchy-limit-seal-budget-selector-totality}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, suppose an accepted selector route, an accepted $\RealObservationBudgetUp$ route, an accepted $\FiniteCauchyApproximationUp$ packet, and an accepted $\TailCofinalityScheduleUp$ packet read the same unary precision request and the same finite $\StreamNameUp$ window through one accepted $\CauchyLimitSealUp$ packet. Then the four legs determine one displayed L10 packet over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every completion-facing read is exhausted by that displayed packet, and no quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, or ambient completeness coordinate is exported.
+\end{theorem}
+\begin{proof}
+First bind the selector and observation-budget legs by \autoref{thm:cauchy-limit-seal-budget-selector-coherence}. They read one precision request, one finite $\StreamNameUp$ window, and one dyadic ledger through the accepted $\CauchyLimitSealUp$ packet.
+
+Next attach the finite-approximation leg using \autoref{thm:cauchy-limit-seal-budget-approximation-route}. The finite packet is placed on the same $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use selector approximation determinacy from \autoref{thm:cauchy-limit-seal-budget-selector-approximation-determinacy}. Once the selector, budget, and finite-approximation legs share the request and window, their dyadic ledger and finite packet cannot split into separate public routes.
+
+Now consume the schedule by \autoref{thm:cauchy-limit-seal-tail-schedule-budget-cofinality}. The accepted $\TailCofinalityScheduleUp$ packet refines the same finite window and does not supply a second tail oracle or a second completion-facing source.
+
+Finally apply root completion consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. Since every leg has already been forced through the displayed L10 packet, a completion-facing consumer has no remaining coordinate for quotient stream identity, selected limit, host real equality, hidden family limit, hidden tail oracle, or ambient completeness.
+\end{proof}

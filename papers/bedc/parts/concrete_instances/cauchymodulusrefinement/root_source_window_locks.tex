@@ -1,0 +1,43 @@
+\begin{theorem}[Cauchy modulus refinement source-window lock]
+\label{thm:cauchy-modulus-refinement-source-window-lock}
+For every accepted $\CauchyModulusRefinementUp$ root read of
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the consumer-visible source rows $M_0,M_1$, the shared meet row $U$, and the extraction row $V$ must be exposed before any selected-window row is read. Thus no root read can reach $T,W,Q,E,H,C,P,N$ as a selected-window route until the displayed source-meet-extraction front $M_0,M_1,U,V$ has been presented.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:cauchy-modulus-refinement-carrier}. Its accepted packet presents the two source schedules, the shared meet, and the extraction witness as the finite front of the root route.
+
+Apply \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency}. The extraction row $V$ is bound to the displayed meet $U$ after $M_0,M_1$, so a downstream selected-window read cannot supply a hidden source or a second meet.
+
+Finally apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. Every accepted root consumer is already required to read $M_0,M_1,U,V$ through the carrier route before any later selector, seal, or structural row is available. Hence the selected-window surface is locked behind the displayed source window.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector-stability lock]
+\label{thm:cauchy-modulus-refinement-selector-stability-lock}
+For every accepted $\CauchyModulusRefinementUp$ root read, the selector route $V \to T \to W \to Q$ is preserved by the displayed $\hsame$ and $\Cont$ rows. The selected-window and tolerance-readback ledgers cannot be replaced by a hidden selector, a second window ledger, or a detached continuation route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. It identifies $T$ as the selector-budget row consumed by the selected-window ledger $W$ and the tolerance-readback ledger $Q$.
+
+Use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The readback theorem places $T,W,Q$ after the source-meet-extraction route, so the selector is reached from $V$ and not from an independent ledger.
+
+The displayed $\hsame$ row $H$ transports the same packet route, and the displayed $\Cont$ row $C$ continues that route without changing the selected-window ledger. Therefore the route $V \to T \to W \to Q$ remains the only exported selector path.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real-seal root handoff]
+\label{thm:cauchy-modulus-refinement-real-seal-root-handoff}
+Every $\RealUp$ or Completion handoff from an accepted $\CauchyModulusRefinementUp$ root read factors through
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The handoff exports no quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness coordinate as an alternate Real-seal route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-modulus-refinement-real-seal-route}. The Real seal $E$ is reached from the displayed source, meet, extraction, selector-budget, selected-window, and tolerance-readback rows.
+
+Next apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. It rules out an alternate route through quotient streams, selected limits, host real equality, hidden selectors, second meet rows, or ambient completeness coordinates at the root boundary.
+
+Finally use \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Every Real or Completion consumer is exhausted by the displayed route, so the handoff factors through $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and exports no additional Real-seal coordinate.
+\end{proof}
