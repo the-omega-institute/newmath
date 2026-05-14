@@ -275,7 +275,8 @@ theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
           cauchyLimitWitnessLedgerToEventFlow x =
             cauchyLimitWitnessLedgerToEventFlow y → x = y) ∧
           cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-            cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+            cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+              cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
   constructor
   · exact cauchyLimitWitnessLedgerDecode_encode_bhist
   · constructor
@@ -285,6 +286,8 @@ theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
         exact cauchyLimitWitnessLedgerToEventFlow_injective heq
       · constructor
         · rfl
-        · rfl
+        · constructor
+          · rfl
+          · rfl
 
 end BEDC.Derived.CauchyLimitWitnessLedgerUp

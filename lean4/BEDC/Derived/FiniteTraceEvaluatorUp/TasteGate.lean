@@ -184,6 +184,17 @@ instance finiteTraceEvaluatorFieldFaithful : FieldFaithful FiniteTraceEvaluatorU
   fields := finiteTraceEvaluatorFields
   field_faithful := finiteTraceEvaluator_fields_faithful
 
+instance finiteTraceEvaluatorNontrivial : Nontrivial FiniteTraceEvaluatorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FiniteTraceEvaluatorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FiniteTraceEvaluatorUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate FiniteTraceEvaluatorUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
