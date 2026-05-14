@@ -182,6 +182,28 @@ For the reverse direction, assume the displayed selector-budget source, synchron
 Finally invoke \autoref{thm:diagonal-limit-compatibility-root-selector-route-determinacy}. The repacked route forces the two accepted reads to present the same completion-facing package to every terminal consumer, so the root selector-budget classifier agrees exactly on the displayed rows.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitCompatibility shared selector classifier determinacy]
+\label{thm:diagonal-limit-compatibility-shared-selector-classifier-determinacy}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose the displayed classifier identifies their selector-budget source, $\CauchySealBudgetSynchronizerUp$ handoff, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, and structural $H,C,P,N$ rows. Then every $\RealUp$ or $\CompletionUp$ consumer receives the same finite completion-facing package from the two reads. No quotient stream, selected host limit, host real equality, independent seal, countable-choice row, or ambient completeness coordinate can distinguish them.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock} and \autoref{thm:diagonal-limit-compatibility-root-selector-route-determinacy}. The budget lock places both reads on the same selector-budget prefix, and route determinacy carries the shared source, handoff, window, readback, ledger, seal, and structural rows to the terminal consumer boundary.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. The shared finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row pull both reads back to one completion-facing surface.
+
+Apply \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}. Every $\RealUp$ or $\CompletionUp$ consumer is exhausted by the finite package $R,T,S,D,W,Q,L,H,C,P,N$, so no consumer can obtain a second row outside the displayed classifier.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. Its carrier inventory and non-escape clause show that quotient streams, selected host limits, host real equality, independent seals, countable-choice rows, and ambient completeness coordinates are absent from the exported package, so they cannot separate $K$ from $K'$ at the public consumer boundary.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility terminal readback determinacy]
 \label{thm:diagonal-limit-compatibility-terminal-readback-determinacy}
 Let
