@@ -1,0 +1,43 @@
+\begin{theorem}[ContinuationMonad root formal route saturation]
+\label{thm:continuation-monad-root-formal-route-saturation}
+Every downstream formal target consuming $\ContinuationMonadUp$ receives exactly the root rows
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+through the existing root formal target surface, root route formal handoff, and downstream route exhaustion. The route exports displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$ hom-carrier, $\mathsf{ContinuationMorphism}$, and local $\NameCert$ readings only; it exports no quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-target-surface}. It identifies the formal target surface with the finite root rows $A,B,C,f,g,u,H,K,L,N$ and their displayed BEDC readings.
+
+Next apply \autoref{thm:continuation-monad-root-route-formal-handoff}. The handoff keeps downstream formal targets on the same route and refuses host Kleisli composition, quotient morphism equality, ambient category completion, and unlisted continuation-generator rules.
+
+Finally apply \autoref{thm:continuation-monad-downstream-route-exhaustion}. Since every downstream route is already exhausted by the same root package, the formal route is saturated by exactly those rows and no external evaluator or hidden continuation coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root ledger saturation boundary]
+\label{thm:continuation-monad-root-ledger-saturation-boundary}
+The root ledger boundary for any downstream formal target consuming $\ContinuationMonadUp$ is exactly the finite package
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The boundary is supplied by the existing root ledger formal boundary together with downstream route exhaustion, and it admits no additional ledger entry for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or continuation generators outside the packet.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:continuation-monad-root-ledger-formal-boundary}. It states that the ledger available to root formal targets is the finite package $A,B,C,f,g,u,H,K,L,N$ with source, tail, unit, transport, route, provenance, generator-refusal, Category hom, and local naming rows.
+
+Then use \autoref{thm:continuation-monad-downstream-route-exhaustion}. Every downstream unit, bind, generator-boundary, or Category hom read is already routed through that same package.
+
+It remains to exclude extra ledger entries. The root ledger boundary records no coordinate for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or unlisted continuation generators, so saturation is exactly the displayed package.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal handoff saturation]
+\label{thm:continuation-monad-root-formal-handoff-saturation}
+The root formal handoff for $\ContinuationMonadUp$ is saturated by the composition of \autoref{thm:continuation-monad-root-formal-target-surface}, \autoref{thm:continuation-monad-root-route-formal-handoff}, \autoref{thm:continuation-monad-root-ledger-formal-boundary}, and \autoref{thm:continuation-monad-downstream-route-exhaustion}. Consequently every downstream formal target receives exactly $A,B,C,f,g,u,H,K,L,N$ and receives no quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+First compose the formal target surface with the route handoff. The target surface lists the rows available to downstream formal targets, while the handoff states that the target may consume them only along the displayed continuation route.
+
+Next compose the ledger boundary with downstream route exhaustion. The ledger boundary records the finite accounting rows, and route exhaustion shows that unit, bind, generator-refusal, and Category hom consumers cannot leave that accounting surface.
+
+Combining the two compositions saturates the handoff. Every formal consumer receives the same $A,B,C,f,g,u,H,K,L,N$ packet, and the refused host, quotient, ambient, evaluator, and unlisted-generator objects have no exported coordinate.
+\end{proof}
