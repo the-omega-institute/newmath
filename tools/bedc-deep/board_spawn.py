@@ -510,6 +510,46 @@ def _logic_packet_rejection(candidate: dict) -> str:
     return "logic_packet_gate:" + ";".join(result.reasons)
 
 
+def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
+    keys: list[tuple[str, str]] = []
+    for field_name in ("candidate_id", "title"):
+        value = str(candidate.get(field_name) or "").strip().lower()
+        if value:
+            keys.append((field_name, value))
+    return keys
+
+
+def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
+    """Preserve original candidate packet fields on judge rejections.
+
+    The judge often returns a compact rejected_candidates item containing only
+    title/source/reason. Rejection telemetry is much more useful if the original
+    claim, inputs, and logic-packet fields remain visible in candidate_inbox.
+    """
+    if not rejected or not originals:
+        return rejected
+    by_key: dict[tuple[str, str], dict] = {}
+    for candidate in originals:
+        if not isinstance(candidate, dict):
+            continue
+        for key in _rejection_match_keys(candidate):
+            by_key.setdefault(key, candidate)
+    hydrated: list[dict] = []
+    for item in rejected:
+        if not isinstance(item, dict):
+            continue
+        original = None
+        for key in _rejection_match_keys(item):
+            original = by_key.get(key)
+            if original:
+                break
+        if original:
+            hydrated.append({**original, **item})
+        else:
+            hydrated.append(item)
+    return hydrated
+
+
 def _atomic_append_to_board(blocks: list[str]) -> None:
     if not blocks:
         return
@@ -574,6 +614,7 @@ def spawn_from_candidates(
         codex_candidates=codex_alive,
         oracle_candidates=oracle_alive,
     )
+    rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
     if err:
         return BoardSpawnResult(
             ok=False,
