@@ -168,4 +168,26 @@ theorem CauchyModulusRefinement_root_readback_stability [AskSetup] [PackageSetup
       exact And.intro (unary_transport qUnary (hsame_symm source.right)) pPkg
   }
 
+theorem CauchyModulusRefinement_selector_budget_regseqrat_real_seal_determinacy
+    [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n w' q' e' h' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      hsame w w' ->
+        hsame e e' ->
+          Cont t w' q' ->
+            Cont q' e' h' ->
+              hsame q q' ∧ hsame h h' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier sameWindow sameSeal transportedWindow transportedSeal
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, _tUnary, _wUnary, _qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, _m0m1u, _uvt, carrierWindow,
+      carrierSeal, _pPkg, _hn⟩
+  have sameQ : hsame q q' :=
+    cont_respects_hsame (hsame_refl t) sameWindow carrierWindow transportedWindow
+  have sameH : hsame h h' :=
+    cont_respects_hsame sameQ sameSeal carrierSeal transportedSeal
+  exact ⟨sameQ, sameH⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp

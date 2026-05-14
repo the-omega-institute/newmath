@@ -377,3 +377,23 @@ Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \aut
 
 Finally use \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}. The RegSeqRat-facing side also has no route outside the same finite package, so a second seal handoff would require a second visible row not present in $U$. Hence every seal read is the displayed route through $E$.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion late-boundary formal target packet]
+\label{thm:uniform-cauchy-criterion-late-boundary-formal-target-packet}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ late-boundary packet. Suppose the empty-family tail ledger, paired-family union ledger, family-tail intersection, overlap-refinement determinacy, and seal-route uniqueness rows of $U$ are displayed. Then these rows assemble one finite consumer surface over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\TailBudgetCoherenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Equivalently, every late-boundary consumer reads the same displayed package $I,W,M,Q,T,E,H,C,P,N$ before it reaches a family-tail, overlap, or Real-seal conclusion. The packet exports no second family ledger, detached tail budget, alternate overlap route, selected limit, quotient stream family, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the family endpoints. Apply \autoref{thm:uniform-cauchy-criterion-empty-family-tail-ledger} for the empty-family boundary and \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger} for paired family reads. Both rows remain inside the displayed index, window, modulus, dyadic tail, and tail-budget ledger $I,W,M,Q,T$.
+
+Next read the common tail surface. Apply \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}. Nonempty subfamilies meet the same displayed tail ledger, so the empty, paired, and intersected reads share one finite family-tail package.
+
+Now attach the boundary route. Use \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} to make overlapping refinements read the same $T$ row and seal route, and use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness} to identify the Real-facing handoff as the displayed route through $E$.
+
+The remaining rows $H,C,P,N$ are exactly the transport, continuation, package, and local naming coordinates of the same packet. Since the preceding rows already exhaust the family-tail, overlap, and seal boundaries, there is no carrier coordinate from which an additional consumer surface can be exported.
+\end{proof}
