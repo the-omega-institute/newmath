@@ -154,6 +154,33 @@ theorem RegularCauchyLimitClassifierCarrier_public_export [AskSetup] [PackageSet
       readbackLedgerSeal, provenanceSealCert, certRoutesPublicRead, sameCert, certPkg,
       publicReadPkg⟩
 
+theorem RegularCauchyLimitClassifierCarrier_observation_budget_factorization [AskSetup]
+    [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
+      publicRead budgetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      Cont cert routes publicRead ->
+        PkgSig bundle publicRead pkg ->
+          hsame publicRead budgetRead ->
+            UnaryHistory budgetRead ∧ Cont cert routes publicRead ∧
+              hsame publicRead budgetRead ∧ hsame cert (append provenance sealRow) ∧
+                PkgSig bundle cert pkg ∧ PkgSig bundle publicRead pkg := by
+  intro carrier certRoutesPublicRead publicReadPkg samePublicBudget
+  have exported :=
+    RegularCauchyLimitClassifierCarrier_public_export carrier certRoutesPublicRead publicReadPkg
+  obtain
+    ⟨_inputUnary, _modulusUnary, _diagonalUnary, _windowsUnary, _readbackUnary, _ledgerUnary,
+      _sealUnary, _certUnary, publicReadUnary, _inputModulusDiagonal,
+      _diagonalWindowsReadback, _readbackLedgerSeal, _provenanceSealCert,
+      certRoutesPublicRead', sameCert, certPkg, publicReadPkg'⟩ := exported
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_transport publicReadUnary samePublicBudget
+  exact
+    ⟨budgetReadUnary, certRoutesPublicRead', samePublicBudget, sameCert, certPkg,
+      publicReadPkg'⟩
+
 theorem RegularCauchyLimitClassifierCarrier_bridge_source_packet [AskSetup] [PackageSetup]
     {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
       cert : BHist}
