@@ -242,15 +242,96 @@ and the non-escape boundary excludes the classifier, search, host-oracle,
 quotient, and alternate-route exports.
 \end{proof}
 
+\begin{theorem}[Halting obstruction fixed-tuple image and readback]
+\label{thm:halting-obstruction-stdbridge-image-readback}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, the
+same displayed tuple supplies the image row and readback row required by the
+fixed finite $\BHist$ tuple route of
+\autoref{thm:finite-bhist-injection-fixed-tuple-route}. The image is the
+finite obstruction ledger exposed by $S,I,T,R,D,H,C,P,N$, and the readback is
+the projection back to the same carrier rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:halting-obstruction-root-carrier-admission}. It admits
+exactly the certificate source, input history, trace, self-reference,
+diagonal-policy, transport, continuation, package, and local naming rows.
+
+Apply \autoref{thm:halting-obstruction-namecert-obligations}. The local
+NameCert obligations keep the same rows visible when the packet is read as an
+accepted obstruction surface.
+
+Use \autoref{thm:halting-obstruction-root-transport-scope} and
+\autoref{thm:halting-obstruction-root-ledger-exactness}. Transport and package
+readback both remain inside $H,C,P,N$, so the fixed-tuple route of
+\autoref{thm:finite-bhist-injection-fixed-tuple-route} has no additional image
+or readback coordinate to supply.
+\end{proof}
+
+\begin{theorem}[Halting obstruction component transport rows]
+\label{thm:halting-obstruction-stdbridge-component-transport}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, every
+local NameCert row transports componentwise through the displayed transport,
+route, package, and naming rows $H,C,P,N$. In particular, carrier admission,
+trace coverage, self-reference readability, diagonal-policy locality, and
+public package reads are transported as rows of the same finite tuple.
+\end{theorem}
+\begin{proof}
+Read carrier admission from
+\autoref{thm:halting-obstruction-root-carrier-admission} and the local
+NameCert clauses from \autoref{thm:halting-obstruction-namecert-obligations}.
+They place every obligation on the coordinates of the single tuple
+$S,I,T,R,D,H,C,P,N$.
+
+Use \autoref{thm:halting-obstruction-root-transport-scope}. It restricts
+self-reference and positive trace movement to the componentwise $\hsame$
+ledger $H$ and displayed $\Cont$ routes $C$.
+
+Finally apply \autoref{thm:halting-obstruction-root-ledger-exactness} and
+\autoref{thm:finite-bhist-injection-fixed-tuple-route}. The package and naming
+rows $P,N$ identify the transported finite ledger with the same fixed tuple,
+rather than with a host classifier or alternate diagonal route.
+\end{proof}
+
+\begin{theorem}[Halting obstruction bridge request boundary]
+\label{thm:halting-obstruction-stdbridge-tastegate-boundary}
+A $\StdBridge$ request for $\HaltingObstructionUp$ is licensed only after four
+finite surfaces have been displayed for the same tuple $S,I,T,R,D,H,C,P,N$:
+the tuple rows, the image and readback rows of
+\autoref{thm:halting-obstruction-stdbridge-image-readback}, the componentwise
+NameCert transport rows of
+\autoref{thm:halting-obstruction-stdbridge-component-transport}, and the
+finite obstruction non-escape boundary.
+\end{theorem}
+\begin{proof}
+The tuple rows are supplied by
+\autoref{thm:halting-obstruction-root-carrier-admission} and the local
+NameCert obligations of \autoref{thm:halting-obstruction-namecert-obligations}.
+Thus a bridge request starts with the displayed obstruction packet, not with a
+fresh carrier.
+
+The image and readback rows are exactly
+\autoref{thm:halting-obstruction-stdbridge-image-readback}. Componentwise
+transport is exactly
+\autoref{thm:halting-obstruction-stdbridge-component-transport}.
+
+Use \autoref{thm:halting-obstruction-root-transport-scope},
+\autoref{thm:halting-obstruction-root-ledger-exactness}, and
+\autoref{thm:halting-obstruction-diagonal-nonescape}. Together with
+\autoref{thm:finite-bhist-injection-fixed-tuple-route}, they leave the
+TasteGate boundary with a fixed finite packet and exclude a global halting
+classifier, unbounded search, host divergence oracle, quotient equality, or
+second diagonal route.
+\end{proof}
+
 \closureat{HaltingObstructionUp}{publicStr}
 
 \begin{closurestatus}{\HaltingObstructionUp}
   \constructivestory{A $\HaltingObstructionUp$ packet is generated from finite certificate rows, input-history rows, trace rows, self-reference rows, diagonal-policy rows, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:halting-obstruction-carrier}, \autoref{thm:halting-obstruction-root-carrier-admission}, \autoref{thm:halting-obstruction-trace-coverage}, \autoref{thm:halting-obstruction-self-reference-route-determinacy}, \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}, \autoref{thm:halting-obstruction-public-read-boundary}, and \autoref{thm:halting-obstruction-root-ledger-exactness} bind carrier admission, trace exactness, self-reference readability, diagonal policy locality, package route, public read boundary, and local NameCert rows as the public obstruction boundary.}
+  \scopeclosed{\autoref{def:halting-obstruction-carrier}, \autoref{thm:halting-obstruction-root-carrier-admission}, \autoref{thm:halting-obstruction-trace-coverage}, \autoref{thm:halting-obstruction-self-reference-route-determinacy}, \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}, \autoref{thm:halting-obstruction-public-read-boundary}, \autoref{thm:halting-obstruction-root-ledger-exactness}, \autoref{thm:halting-obstruction-stdbridge-image-readback}, \autoref{thm:halting-obstruction-stdbridge-component-transport}, and \autoref{thm:halting-obstruction-stdbridge-tastegate-boundary} bind carrier admission, trace exactness, self-reference readability, diagonal policy locality, package route, public read boundary, local NameCert rows, fixed-tuple image/readback rows, componentwise transport rows, and the bridge request boundary as the public obstruction surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a global halting classifier, unbounded continuation search, host divergence oracle, quotient equality, Lean verification, or bridge checking.}
-  \upgradepath{Bridged closure requires an explicit bridge theorem for the same finite carrier, trace, self-reference, diagonal-policy, package, public read, and local NameCert boundary.}
+  \upgradepath{Bridge checking requires a verified $\StdBridge$ theorem over the displayed tuple rows, image/readback rows, componentwise transport rows, finite obstruction non-escape boundary, and TasteGate alignment.}
 \end{closurestatus}
