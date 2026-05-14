@@ -1,0 +1,54 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.HaltingDistinctionUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def HaltingDistinctionCarrier [AskSetup] [PackageSetup]
+    (question trace diagonal halt classifier route provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧ UnaryHistory halt ∧
+    UnaryHistory classifier ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+      UnaryHistory cert ∧ Cont question trace diagonal ∧ Cont diagonal halt classifier ∧
+        Cont classifier route cert ∧ PkgSig bundle provenance pkg
+
+theorem HaltingDistinctionDiagonalBoundary [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert diagonalRead classifierRead
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont diagonal halt diagonalRead ->
+        Cont classifier route classifierRead ->
+          Cont diagonalRead classifierRead endpoint ->
+            PkgSig bundle endpoint pkg ->
+              UnaryHistory diagonalRead ∧ UnaryHistory classifierRead ∧ UnaryHistory endpoint ∧
+                Cont diagonal halt diagonalRead ∧ Cont classifier route classifierRead ∧
+                  Cont diagonalRead classifierRead endpoint ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalHaltRead classifierRouteRead readEndpoint endpointPkg
+  obtain ⟨_questionUnary, _traceUnary, diagonalUnary, haltUnary, classifierUnary,
+    routeUnary, _provenanceUnary, _certUnary, _questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed diagonalUnary haltUnary diagonalHaltRead
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed classifierUnary routeUnary classifierRouteRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed diagonalReadUnary classifierReadUnary readEndpoint
+  exact
+    ⟨diagonalReadUnary, classifierReadUnary, endpointUnary, diagonalHaltRead,
+      classifierRouteRead, readEndpoint, provenancePkg, endpointPkg⟩
+
+end BEDC.Derived.HaltingDistinctionUp

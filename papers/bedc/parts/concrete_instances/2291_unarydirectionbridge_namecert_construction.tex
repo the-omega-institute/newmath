@@ -425,6 +425,22 @@ Finally apply scoped NameCert transport. Componentwise transport preserves the s
 \end{proof}
 \leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_standard\_boundary\_consumer\_factorization}
 
+\begin{theorem}[UnaryDirectionBridge public axis readback]
+\label{thm:unary-direction-bridge-public-axis-readback}
+Every public consumer of an accepted $\UnaryDirectionBridgeUp$ packet
+$$
+U=(N,A,B,K,S,L,H,C,P,M)
+$$
+reads the $\NatUp$ source carrier, the $\AxisNatUp$ source carrier, the $\AddUp$ surface, and the $\AxisAddUp$ surface through the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route. The axis row cannot be replaced by the ordinary unary row, and the ordinary unary row cannot be replaced by the axis row.
+\end{theorem}
+\begin{proof}
+Begin with the source obligation inventory of \autoref{thm:unary-direction-bridge-source-obligation-inventory}. It lists the unary source row $N$, the zero-spine source row $A$, the additive surfaces read through $S$, and the support rows $H,C,P,M$ as one finite packet.
+
+Next apply kernel-axis composition from \autoref{thm:unary-direction-bridge-kernel-axis-composition}. The kernel-distinctness ledger $K$ must be read before the standard-boundary row $S$, so the ordinary unary and axis rows remain separate while they enter one public route.
+
+Finally use the standard-boundary consumer factorization of \autoref{thm:unary-direction-bridge-standard-boundary-consumer-factorization}. It routes every $\AddUp/\AxisAddUp$ consumer through $N,A,B,K,S,L,H,C,P,M$ and excludes carrier equivalence, host natural-number equality, and quotient identification of histories. Hence the public readback composes the Nat/Add and AxisNat/AxisAdd surfaces without substituting one source row for the other.
+\end{proof}
+
 \begin{theorem}[UnaryDirectionBridge AxisZeckendorf ledger gate]
 \label{thm:unary-direction-bridge-axiszeckendorf-ledger-gate}
 Any $\AxisZeckendorfCannotClaimUp$ consumer of an accepted $\UnaryDirectionBridgeUp$ packet must read the kernel-distinctness ledger $K$ and the additive route through $N,A,B,S,L,H,C,P,M$ before it can see the bridge as a downstream obstruction. In particular, the consumer cannot bypass the ledger by identifying the $\NatUp$ unary source classifier with the $\AxisNatUp$ zero-spine source classifier.
