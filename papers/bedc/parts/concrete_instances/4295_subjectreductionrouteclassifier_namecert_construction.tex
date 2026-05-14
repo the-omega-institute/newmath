@@ -184,6 +184,18 @@ Now use \autoref{thm:subject-reduction-route-classifier-primitive-scope} and \au
 The type-preserving compiler read is therefore an invocation-style handoff only. No carrier coordinate remains from which compiler correctness, erased semantics, host conversion, or an additional subject-reduction discharge could be projected.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteClassifier audit handoff]
+\label{thm:subject-reduction-route-classifier-audit-handoff}
+Every audit or compiler consumer reading an accepted $\SubjectReductionRouteClassifierUp$ packet receives only the classified invocation handoff over the same four socket rows $B,A,L,P$. The handoff may use the $\mathsf{bundle}$ presentation or the $\mathsf{typeclass}$ presentation, but it cannot be read as a proof of subject reduction, preservation, lookup, substitution, erased semantics, or host conversion.
+\end{theorem}
+\begin{proof}
+Begin with the bundle-typeclass correspondence theorem, \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}. It identifies the two accepted presentations as invocation styles for the same four socket rows $B,A,L,P$.
+
+Apply consumer non-escape and public export, \autoref{thm:subject-reduction-route-classifier-consumer-nonescape} and \autoref{thm:subject-reduction-route-classifier-public-export}. These confine every downstream read to $B,A,L,P,K,I,U,H,C,Q,N$ and prevent any public consumer from projecting a closed proof or host semantic row.
+
+Finally use socket scope and type-preserving scope, \autoref{thm:subject-reduction-route-classifier-socket-scope} and \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}. They identify $B,A,L,P$ as socket-supplied discharge rows and restrict compiler-facing use to the classified handoff, so audit and compiler consumers receive no proof of subject reduction, preservation, lookup, substitution, erased semantics, or host conversion.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteClassifier route-kind coverage]
 \label{thm:subject-reduction-route-classifier-route-kind-coverage}
 In every accepted $\SubjectReductionRouteClassifierUp$ packet, each route-kind row $K$ consumed by the classifier is exactly one of $\mathsf{bundle}$ or $\mathsf{typeclass}$. A downstream route read cannot consume a third route kind, because the carrier has no coordinate, invocation row, continuation route, or package provenance row for any classifier value outside those two cases.

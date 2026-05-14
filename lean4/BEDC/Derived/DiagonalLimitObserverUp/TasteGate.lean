@@ -10,21 +10,28 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DiagonalLimitObserverUp : Type where
-  | mk : (D W Q T S R H C P N : BHist) → DiagonalLimitObserverUp
+  | mk :
+      (diagonal window readback tolerance sealRow realSeal transport route provenance
+        name : BHist) →
+      DiagonalLimitObserverUp
   deriving DecidableEq
 
 def diagonalLimitObserverEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: diagonalLimitObserverEncodeBHist h
   | BHist.e1 h => BMark.b1 :: diagonalLimitObserverEncodeBHist h
 
 def diagonalLimitObserverDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (diagonalLimitObserverDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (diagonalLimitObserverDecodeBHist tail)
 
-private theorem diagonalLimitObserverDecode_encode_bhist :
-    ∀ h : BHist, diagonalLimitObserverDecodeBHist (diagonalLimitObserverEncodeBHist h) = h := by
+private theorem diagonalLimitObserver_decode_encode_bhist :
+    ∀ h : BHist,
+      diagonalLimitObserverDecodeBHist
+        (diagonalLimitObserverEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,103 +42,199 @@ private theorem diagonalLimitObserverDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem diagonalLimitObserver_mk_congr
-    {D D' W W' Q Q' T T' S S' R R' H H' C C' P P' N N' : BHist}
-    (hD : D' = D) (hW : W' = W) (hQ : Q' = Q) (hT : T' = T) (hS : S' = S)
-    (hR : R' = R) (hH : H' = H) (hC : C' = C) (hP : P' = P) (hN : N' = N) :
-    DiagonalLimitObserverUp.mk D' W' Q' T' S' R' H' C' P' N' =
-      DiagonalLimitObserverUp.mk D W Q T S R H C P N := by
+def diagonalLimitObserverToEventFlow :
+    DiagonalLimitObserverUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  cases hD
-  cases hW
-  cases hQ
-  cases hT
-  cases hS
-  cases hR
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
-def diagonalLimitObserverToEventFlow : DiagonalLimitObserverUp → EventFlow
-  | DiagonalLimitObserverUp.mk D W Q T S R H C P N =>
+  | DiagonalLimitObserverUp.mk diagonal window readback tolerance sealRow realSeal transport route
+      provenance name =>
       [[BMark.b0],
-        diagonalLimitObserverEncodeBHist D,
+        diagonalLimitObserverEncodeBHist diagonal,
         [BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist W,
+        diagonalLimitObserverEncodeBHist window,
         [BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist Q,
+        diagonalLimitObserverEncodeBHist readback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist T,
+        diagonalLimitObserverEncodeBHist tolerance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist S,
+        diagonalLimitObserverEncodeBHist sealRow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist R,
+        diagonalLimitObserverEncodeBHist realSeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist H,
+        diagonalLimitObserverEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        diagonalLimitObserverEncodeBHist C,
+        diagonalLimitObserverEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist P,
+        diagonalLimitObserverEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        diagonalLimitObserverEncodeBHist N]
+        diagonalLimitObserverEncodeBHist name]
 
-def diagonalLimitObserverFromEventFlow : EventFlow → Option DiagonalLimitObserverUp
-  | _tagD :: D :: _tagW :: W :: _tagQ :: Q :: _tagT :: T :: _tagS :: S ::
-      _tagR :: R :: _tagH :: H :: _tagC :: C :: _tagP :: P :: _tagN :: N :: [] =>
-      some
-        (DiagonalLimitObserverUp.mk
-          (diagonalLimitObserverDecodeBHist D)
-          (diagonalLimitObserverDecodeBHist W)
-          (diagonalLimitObserverDecodeBHist Q)
-          (diagonalLimitObserverDecodeBHist T)
-          (diagonalLimitObserverDecodeBHist S)
-          (diagonalLimitObserverDecodeBHist R)
-          (diagonalLimitObserverDecodeBHist H)
-          (diagonalLimitObserverDecodeBHist C)
-          (diagonalLimitObserverDecodeBHist P)
-          (diagonalLimitObserverDecodeBHist N))
-  | _ => none
+def diagonalLimitObserverFromEventFlow :
+    EventFlow → Option DiagonalLimitObserverUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | diagonal :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | window :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | readback :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | tolerance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | sealRow :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | realSeal :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | route :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | provenance ::
+                                                                          rest17 =>
+                                                                          match
+                                                                            rest17
+                                                                          with
+                                                                          | [] =>
+                                                                              none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match
+                                                                                rest18
+                                                                              with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | name ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (DiagonalLimitObserverUp.mk
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            diagonal)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            window)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            readback)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            tolerance)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            sealRow)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            realSeal)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            transport)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            route)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            provenance)
+                                                                                          (diagonalLimitObserverDecodeBHist
+                                                                                            name))
+                                                                                  | _ ::
+                                                                                      _ =>
+                                                                                      none
 
 private theorem diagonalLimitObserver_round_trip :
     ∀ x : DiagonalLimitObserverUp,
-      diagonalLimitObserverFromEventFlow (diagonalLimitObserverToEventFlow x) = some x := by
+      diagonalLimitObserverFromEventFlow
+        (diagonalLimitObserverToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk D W Q T S R H C P N =>
-      exact
-        congrArg some
-          (diagonalLimitObserver_mk_congr
-            (diagonalLimitObserverDecode_encode_bhist D)
-            (diagonalLimitObserverDecode_encode_bhist W)
-            (diagonalLimitObserverDecode_encode_bhist Q)
-            (diagonalLimitObserverDecode_encode_bhist T)
-            (diagonalLimitObserverDecode_encode_bhist S)
-            (diagonalLimitObserverDecode_encode_bhist R)
-            (diagonalLimitObserverDecode_encode_bhist H)
-            (diagonalLimitObserverDecode_encode_bhist C)
-            (diagonalLimitObserverDecode_encode_bhist P)
-            (diagonalLimitObserverDecode_encode_bhist N))
+  | mk diagonal window readback tolerance sealRow realSeal transport route provenance name =>
+      change
+        some
+          (DiagonalLimitObserverUp.mk
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist diagonal))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist window))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist readback))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist tolerance))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist sealRow))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist realSeal))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist transport))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist route))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist provenance))
+            (diagonalLimitObserverDecodeBHist
+              (diagonalLimitObserverEncodeBHist name))) =
+          some
+            (DiagonalLimitObserverUp.mk diagonal window readback tolerance sealRow realSeal
+              transport route provenance name)
+      rw [diagonalLimitObserver_decode_encode_bhist diagonal,
+        diagonalLimitObserver_decode_encode_bhist window,
+        diagonalLimitObserver_decode_encode_bhist readback,
+        diagonalLimitObserver_decode_encode_bhist tolerance,
+        diagonalLimitObserver_decode_encode_bhist sealRow,
+        diagonalLimitObserver_decode_encode_bhist realSeal,
+        diagonalLimitObserver_decode_encode_bhist transport,
+        diagonalLimitObserver_decode_encode_bhist route,
+        diagonalLimitObserver_decode_encode_bhist provenance,
+        diagonalLimitObserver_decode_encode_bhist name]
 
 private theorem diagonalLimitObserverToEventFlow_injective
-    (x y : DiagonalLimitObserverUp) :
-    diagonalLimitObserverToEventFlow x = diagonalLimitObserverToEventFlow y → x = y := by
+    {x y : DiagonalLimitObserverUp} :
+    diagonalLimitObserverToEventFlow x =
+      diagonalLimitObserverToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      diagonalLimitObserverFromEventFlow (diagonalLimitObserverToEventFlow x) =
-        diagonalLimitObserverFromEventFlow (diagonalLimitObserverToEventFlow y) :=
+      diagonalLimitObserverFromEventFlow
+          (diagonalLimitObserverToEventFlow x) =
+        diagonalLimitObserverFromEventFlow
+          (diagonalLimitObserverToEventFlow y) :=
     congrArg diagonalLimitObserverFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (diagonalLimitObserver_round_trip x).symm
       (Eq.trans hread (diagonalLimitObserver_round_trip y)))
 
-instance diagonalLimitObserverBHistCarrier : BHistCarrier DiagonalLimitObserverUp where
+instance diagonalLimitObserverBHistCarrier :
+    BHistCarrier DiagonalLimitObserverUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := diagonalLimitObserverToEventFlow
   fromEventFlow := diagonalLimitObserverFromEventFlow
@@ -141,91 +244,68 @@ instance diagonalLimitObserverChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change diagonalLimitObserverFromEventFlow (diagonalLimitObserverToEventFlow x) = some x
+    change
+      diagonalLimitObserverFromEventFlow
+        (diagonalLimitObserverToEventFlow x) = some x
     exact diagonalLimitObserver_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (diagonalLimitObserverToEventFlow_injective x y heq)
-
-def taste_gate : ChapterTasteGate DiagonalLimitObserverUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact diagonalLimitObserverChapterTasteGate
-
-def diagonalLimitObserverFields : DiagonalLimitObserverUp → List BHist
-  | DiagonalLimitObserverUp.mk D W Q T S R H C P N => [D, W, Q, T, S, R, H, C, P, N]
-
-private theorem diagonalLimitObserver_field_faithful_concrete :
-    ∀ x y : DiagonalLimitObserverUp, diagonalLimitObserverFields x = diagonalLimitObserverFields y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk D W Q T S R H C P N =>
-      cases y with
-      | mk D' W' Q' T' S' R' H' C' P' N' =>
-          change [D, W, Q, T, S, R, H, C, P, N] = [D', W', Q', T', S', R', H', C', P', N'] at hfields
-          injection hfields with hD hTail0
-          injection hTail0 with hW hTail1
-          injection hTail1 with hQ hTail2
-          injection hTail2 with hT hTail3
-          injection hTail3 with hS hTail4
-          injection hTail4 with hR hTail5
-          injection hTail5 with hH hTail6
-          injection hTail6 with hC hTail7
-          injection hTail7 with hP hTail8
-          injection hTail8 with hN _hNil
-          cases hD
-          cases hW
-          cases hQ
-          cases hT
-          cases hS
-          cases hR
-          cases hH
-          cases hC
-          cases hP
-          cases hN
-          rfl
+    exact hxy (diagonalLimitObserverToEventFlow_injective heq)
 
 instance diagonalLimitObserverFieldFaithful :
     FieldFaithful DiagonalLimitObserverUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := diagonalLimitObserverFields
-  field_faithful := diagonalLimitObserver_field_faithful_concrete
+  fields := fun x =>
+    match x with
+    | DiagonalLimitObserverUp.mk diagonal window readback tolerance sealRow realSeal transport
+        route provenance name =>
+        [diagonal, window, readback, tolerance, sealRow, realSeal, transport, route,
+          provenance, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk diagonal window readback tolerance sealRow realSeal transport route provenance name =>
+        cases y with
+        | mk diagonal' window' readback' tolerance' sealRow' realSeal' transport' route'
+            provenance' name' =>
+            cases hfields
+            rfl
 
-instance diagonalLimitObserverNontrivial : Nontrivial DiagonalLimitObserverUp where
-  -- BEDC touchpoint anchor: BHist BMark
+instance diagonalLimitObserverNontrivial :
+    Nontrivial DiagonalLimitObserverUp where
   witness_pair :=
+    -- BEDC touchpoint anchor: BHist BMark
     ⟨DiagonalLimitObserverUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      DiagonalLimitObserverUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DiagonalLimitObserverUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-private theorem diagonalLimitObserver_nontrivial_concrete :
-    ∃ x y : DiagonalLimitObserverUp, x ≠ y :=
-  ⟨DiagonalLimitObserverUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-    DiagonalLimitObserverUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-    by
-      intro h
-      cases h⟩
+def taste_gate : ChapterTasteGate DiagonalLimitObserverUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  inferInstance
 
 theorem DiagonalLimitObserverTasteGate_single_carrier_alignment :
-    (∀ h : BHist, diagonalLimitObserverDecodeBHist (diagonalLimitObserverEncodeBHist h) = h) ∧
-      diagonalLimitObserverEncodeBHist BHist.Empty = ([] : List BMark) ∧
+    (∀ h : BHist,
+      diagonalLimitObserverDecodeBHist
+        (diagonalLimitObserverEncodeBHist h) = h) ∧
+      (∀ x : DiagonalLimitObserverUp,
+        diagonalLimitObserverFromEventFlow
+          (diagonalLimitObserverToEventFlow x) = some x) ∧
         (∀ x y : DiagonalLimitObserverUp,
-          diagonalLimitObserverFields x = diagonalLimitObserverFields y → x = y) ∧
-          (∃ x y : DiagonalLimitObserverUp, x ≠ y) := by
+          diagonalLimitObserverToEventFlow x =
+            diagonalLimitObserverToEventFlow y → x = y) ∧
+          diagonalLimitObserverEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact diagonalLimitObserverDecode_encode_bhist
+  · exact diagonalLimitObserver_decode_encode_bhist
   · constructor
-    · rfl
+    · exact diagonalLimitObserver_round_trip
     · constructor
-      · exact diagonalLimitObserver_field_faithful_concrete
-      · exact diagonalLimitObserver_nontrivial_concrete
+      · intro x y heq
+        exact diagonalLimitObserverToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.DiagonalLimitObserverUp
