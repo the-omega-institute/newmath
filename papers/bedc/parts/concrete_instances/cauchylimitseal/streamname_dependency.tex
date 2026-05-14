@@ -5,7 +5,10 @@ $$
 L=(X,S,D,G,E,T,P,N),
 $$
 the read must pass through the scheduled window row $S$, its displayed $\RegSeqRatUp$ source row in $X$, the matching $\DyadicRatCoreUp$ ledger in $D$, and the transport route in $T$ before any downstream consumer reads the $\RealUp$ seal row $E$. The route excludes quotient streams, host limits, selected external limits, and ambient completeness data.
+
+The downstream $\RegularCauchyNameUp$ consumer of \autoref{ch:concrete-instances-regularcauchyname-namecert} reads the same scheduled $\StreamNameUp$ row, so $\CauchyLimitSealUp$, $\StreamNameUp$, and $\RegularCauchyNameUp$ share the finite window before the $\RealUp$ seal row is read.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_streamname\_dependency}
 \begin{proof}
 Start with the carrier of \autoref{def:cauchy-limit-seal-carrier}. The schedule row $S$ is the only row that lists finite windows, and the seal row $E$ has no independent consumer channel.
 
@@ -13,3 +16,31 @@ Apply window factorization from \autoref{thm:cauchy-limit-seal-window-factorizat
 
 Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since quotient streams, host limits, selected external limits, and ambient completeness do not occur as carrier coordinates, the finite $\StreamNameUp$ window surface is the required dependency child for every sealed-limit read.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal StreamName and RegularCauchyName lattice]
+\label{thm:cauchy-limit-seal-streamname-regular-name-lattice}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every sealed-limit consumer that is also read by $\RegularCauchyNameUp$ factors through the same scheduled $\StreamNameUp$ row $S$ before reaching the $\RegSeqRatUp$ row $X$, $\DyadicRatCoreUp$ ledger $D$, diagonal row $G$, and $\RealUp$ seal $E$. The packet exports no second window schedule, quotient stream equality, selected host limit, or ambient completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_streamname\_regular\_name\_lattice}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It already places every sealed-limit read on the scheduled $\StreamNameUp$ window before the seal row is consumed.
+
+Apply window factorization from \autoref{thm:cauchy-limit-seal-window-factorization}. The route from $S$ proceeds through the displayed $\RegSeqRatUp$ row $X$, the dyadic ledger $D$, the diagonal row $G$, and only then the $\RealUp$ seal row $E$.
+
+Next use the scheduled-window pullback of \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}. This identifies the scheduled window as the common dependency surface for the seal route and for the $\RegularCauchyNameUp$ consumer of \autoref{ch:concrete-instances-regularcauchyname-namecert}.
+
+Since the carrier has no second schedule coordinate and no quotient, selected-limit, or ambient-completeness row, the shared lattice closes at the same finite window and cannot be rerouted through an external equality or host limit.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal StreamName Real terminal handoff]
+\label{thm:cauchy-limit-seal-streamname-real-terminal-handoff}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every $\RealUp$-facing sealed-limit consumer factors through the same scheduled $\StreamNameUp$ row $S$, then the displayed $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger $D$, the diagonal row $G$, and only then the $\RealUp$ seal row $E$. The route exposes no second schedule, quotient stream equality, selected host limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It places each sealed-limit read on the finite $\StreamNameUp$ window before any downstream consumer can read the seal row.
+
+Apply the StreamName and RegularCauchyName lattice theorem \autoref{thm:cauchy-limit-seal-streamname-regular-name-lattice}. The shared row is the scheduled $S$ row, and its displayed route proceeds through $X$, $D$, and $G$ before reaching $E$.
+
+Finally combine window factorization \autoref{thm:cauchy-limit-seal-window-factorization}, scheduled-window pullback \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}, and non-escape \autoref{thm:cauchy-limit-seal-non-escape}. These local facts rule out a second schedule, quotient equality, selected host limit, host real equality, and ambient completeness as carrier exits, so the only $\RealUp$-facing terminal route is the displayed handoff through $S$, $X$, $D$, $G$, and $E$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_streamname\_real\_terminal\_handoff}

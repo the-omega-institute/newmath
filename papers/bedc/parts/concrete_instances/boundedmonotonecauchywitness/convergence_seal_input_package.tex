@@ -1,0 +1,92 @@
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal input package]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every downstream convergence-seal input exported by $W$ factors through the displayed rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+before it is read by the $\BoundedMonotoneConvergenceSealUp$ consumer of \autoref{ch:concrete-instances-bounded-monotone-convergence-seal-namecert}.
+
+The factorization presents the bounded source through the public $\MonotoneCauchyUp$ row, the explicit witness through the public $\CauchyCriterionUp$ row, the window schedule through $\StreamNameUp$, the dyadic tolerance and upper-bound ledger through $\DyadicRatCoreUp$, the regular rational handoff through $\RegSeqRatUp$, the compatibility boundary through $\CauchyLimitSealUp$, and the sealed real-facing row through $\RealUp$. It exports no selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector.
+\end{theorem}
+\begin{proof}
+Begin with the local dependency package. By \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}, every public read of $W$ is already confined to the displayed bounded-source, regular-rational, stream, Cauchy-witness, dyadic, located-trap, Real-seal, transport, continuation, provenance, and naming rows.
+
+Next pass through the public tail envelope. \autoref{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export} identifies $S,F,\sigma,\mu,\lambda,I,H,C,P,N$ as the pre-seal service and places $Q$ after that service as the $\RealUp$ seal row. The Real-completion export of \autoref{thm:bounded-monotone-cauchy-witness-real-completion-export} keeps the same rows visible to Real-facing consumers.
+
+Finally compare with the downstream seal chapter. Its carrier reads a bounded witness, public monotone tail-window row, public Cauchy criterion row, regular-rational handoff, stream schedule, dyadic ledger, limit-seal compatibility boundary, and Real seal. The local package above supplies exactly those inputs from $W$, so the convergence-seal consumer has no route around the accepted witness packet.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_input\_package}
+
+\begin{theorem}[Bounded monotone Cauchy witness seal-input transport]
+\label{thm:bounded-monotone-cauchy-witness-seal-input-transport}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ and $W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')$ be accepted $\BoundedMonotoneCauchyWitnessUp$ carriers. If the component rows are related by the displayed $\hsame$ transports in $H,H'$ and the continuation routes in $C,C'$ preserve the same $\Cont$ reads, then the convergence-seal input package of \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package} is preserved componentwise.
+
+Thus transport may replace a row only by its corresponding transported row $S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N'$. It cannot create a detached convergence-seal input, a second compatibility boundary, a selected limiting representative, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or a choice-like tail selector.
+\end{theorem}
+\begin{proof}
+Start from classifier transport. The local transport theorem for $W$ moves only the displayed carrier coordinates and keeps the source, witness, trap, Real-seal, continuation, provenance, and naming sockets componentwise aligned.
+
+Apply the convergence-seal input package to both carriers. For $W$, every exported seal input is read through $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$; for $W'$, every exported seal input is read through $S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N'$.
+
+Use the assumed $\hsame$ and $\Cont$ preservation to compare matching coordinates. Since the package has no coordinate outside the displayed rows, componentwise transport preserves the whole package and has no source from which an extra seal input or excluded completion principle could be produced.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion-route exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion}
+For every accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, any completion-facing route that can be consumed by $\BoundedMonotoneConvergenceSealUp$ is exhausted by the witness package of \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}. In particular, the route cannot bypass $W$ to selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selectors.
+
+The only available route to the public convergence handoff is the finite chain from the bounded source and witness rows through the public $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows recorded by the downstream seal chapter.
+\end{theorem}
+\begin{proof}
+First use completion-consumer non-escape. \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape} says that every completion-facing consumer factors through the public envelope, finite-read route, regular-sequence handoff, located trap, and $\RealUp$ seal of the accepted witness packet.
+
+Then apply the convergence-seal input package. It identifies the portion of that route read by \autoref{ch:concrete-instances-bounded-monotone-convergence-seal-namecert}: the bounded source, public monotone tail-window certificate, public Cauchy criterion packet, stream and dyadic ledgers, regular handoff, compatibility boundary, and Real seal are all supplied from $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Finally use the Real-completion export and public tail-envelope export. Together they leave no public row outside the accepted witness package. A route asking for a selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector therefore asks for data absent from the completion-facing surface.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness finite seal-route determinacy]
+\label{thm:bounded-monotone-cauchy-witness-finite-seal-route-determinacy}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ and $W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')$ be accepted $\BoundedMonotoneCauchyWitnessUp$ carriers. Suppose the displayed source, witness, monotonicity, modulus, localization, interval, seal, transport, continuation, provenance, and naming rows agree componentwise through the $\hsame$ data in $H,H'$, and suppose the displayed $\Cont$ routes in $C,C'$ preserve the same reads of those rows. Then every $\BoundedMonotoneConvergenceSealUp$ consumer obtains the same finite seal-read surface from $W$ and $W'$.
+
+The determined surface is exactly the finite route through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ recorded by the displayed rows. It does not compare selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selectors.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package} to both carriers. It confines every downstream convergence-seal read to the displayed rows of the accepted packet and identifies the public route through the monotone, Cauchy, stream, dyadic, regular-rational, limit-seal, and Real rows.
+
+Next use \autoref{thm:bounded-monotone-cauchy-witness-seal-input-transport}. The assumed componentwise $\hsame$ data and the matching displayed $\Cont$ routes transport each row of $W$ to the corresponding row of $W'$ without adding a detached convergence-seal input or a second compatibility boundary.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion}. Since every completion-facing route consumable by $\BoundedMonotoneConvergenceSealUp$ is exhausted by the same finite chain, there is no remaining coordinate on which the two accepted packets can differ at the seal-read surface.
+
+The excluded objects are outside the route just used. A selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector would require data absent from both displayed packets, so none can distinguish the two downstream reads.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal read determinacy]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-read-determinacy}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ and $W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')$ be accepted $\BoundedMonotoneCauchyWitnessUp$ carriers. Suppose the displayed bounded source, monotone window, Cauchy criterion, stream schedule, dyadic ledger, regular-rational handoff, $\CauchyLimitSealUp$ compatibility, $\RealUp$ seal, transports, continuations, provenance, and names agree componentwise through the $\hsame$ data in $H,H'$ and the matching $\Cont$ reads in $C,C'$. Then every $\BoundedMonotoneConvergenceSealUp$ consumer receives the same downstream finite seal-read surface from $W$ and $W'$.
+
+Equivalently, the read is determined by the finite witness-to-seal route through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. No selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector can refine or distinguish that read.
+\end{theorem}
+\begin{proof}
+First confine the consumer route. Apply \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package} to both accepted carriers. The theorem says that any downstream seal input exported from either carrier is already read through the displayed witness rows and then through the public monotone, Cauchy, stream, dyadic, regular-rational, limit-seal, and Real rows.
+
+Next transport the displayed rows. By \autoref{thm:bounded-monotone-cauchy-witness-seal-input-transport}, the assumed $\hsame$ comparisons and matching $\Cont$ reads preserve the rows of the package componentwise. Thus the two carriers present the same bounded source, window, criterion, schedule, ledger, handoff, compatibility boundary, Real seal, provenance, and naming surface to the downstream consumer.
+
+It remains to rule out a second place where the consumer could read. Use \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion} to exhaust all completion-facing routes by the same witness package, and then apply \autoref{thm:bounded-monotone-cauchy-witness-finite-seal-route-determinacy} to identify the finite seal-read surfaces. The excluded completion objects are not coordinates of that route, so they cannot separate the two downstream reads.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness seal-route minimality]
+\label{thm:bounded-monotone-cauchy-witness-seal-route-minimality}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. A $\BoundedMonotoneConvergenceSealUp$ consumer route is an accepted seal-input route from $W$ only when it carries the displayed source row, monotone window row, Cauchy criterion row, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\CauchyLimitSealUp$ compatibility row, $\RealUp$ seal, transport rows, continuation rows, provenance row, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row.
+
+Consequently any proper subroute that omits one of those rows is not an accepted seal-input route for the downstream convergence seal. This minimality claim is only about the finite witness-to-seal input route; it does not assert Real completeness, a selected limit, quotient real equality, trichotomy, open-cover compactness, or any choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First take the accepted read inventory from \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}. It lists the bounded source, public monotone and Cauchy rows, stream schedule, dyadic ledger, regular-rational handoff, compatibility boundary, Real seal, transports, continuations, provenance, and naming row as the complete input package read by the convergence-seal consumer.
+
+Next use componentwise preservation. \autoref{thm:bounded-monotone-cauchy-witness-seal-input-transport} says that accepted transport may replace a displayed row only by its matching transported row, so a route missing one coordinate cannot be repaired by a detached replacement.
+
+Now rule out escape routes. By \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion}, every completion-facing route consumable by $\BoundedMonotoneConvergenceSealUp$ is exhausted by the same finite witness package. There is no second path from which an omitted source, window, criterion, schedule, ledger, handoff, compatibility, seal, transport, continuation, provenance, or naming row could be supplied.
+
+Finally apply read determinacy from \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-read-determinacy}. Accepted reads of the displayed route are equal at the downstream finite seal surface, so removing a displayed row leaves no accepted read of that surface. The excluded completion principles are not coordinates of the route and therefore play no role in the minimality statement.
+\end{proof}

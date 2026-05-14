@@ -1,0 +1,63 @@
+\begin{theorem}[Real dyadic StreamName RegSeqRat route]
+\label{thm:real-dyadic-stream-regseq-route}
+Every accepted $\RealUp$ open-phase seal read whose source is presented to an
+L10 consumer as a $\DyadicRatCoreUp$ observation ledger, a $\StreamNameUp$
+finite-window row, a $\RegSeqRatUp$ regular readback row, and the local
+$\RealUp$ seal factors through one ordered finite route:
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The route is transported only by the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows of those four surfaces.
+
+No accepted read on this route exports quotient real equality, host limits,
+countable choice, ambient completeness, an independent host completion
+surface, or a direct local seal edge bypassing the dyadic, stream, and
+regular-rational rows.
+\end{theorem}
+\begin{proof}
+Begin with the L10 interface totality theorem
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. It already
+places every accepted Phase Real or Completion interface read on exactly the
+four visible faces of the Real L10 dependency lattice: DyadicRatCore
+observations, StreamName finite-window rows, RegSeqRat regular-rational rows,
+and the local Real seal.
+
+Next apply the source lattice theorem
+\autoref{thm:real-streamname-regseqrat-source-lattice}. It identifies the
+StreamName, RegSeqRat, and DyadicRatCore handoff as one source lattice before
+the Real seal is public, with only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ coordinates available for transport and packaging.
+
+Finally use terminal budget stability,
+\autoref{thm:real-streamname-regseqrat-terminal-budget-stability}. Changing
+the finite observation budget changes only which displayed finite rows are
+queried, not the carrier of the route. Thus the open-phase seal read remains
+on the single ordered finite route and has no coordinate for quotient real
+equality, host limits, countable choice, ambient completeness, host
+completion, or a direct seal bypass.
+\end{proof}
+
+\begin{theorem}[Real Cauchy window transducer seal route]
+\label{thm:real-cauchy-window-transducer-seal-route}
+Any $\RealUp$ seal read exported by an accepted $\CauchyWindowTransducerUp$ packet factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $\RealUp$. The transducer rows $S,D,W,R,E,L,H,C,P,N$ provide only finite route replay, and they provide no direct seal bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. It places the relevant Real-facing read on the ordered route from DyadicRatCore observations through StreamName finite windows and RegSeqRat regular readback to the Real seal.
+
+Use \autoref{thm:cauchy-window-transducer-regseq-handoff}. In an accepted Cauchy window transducer packet, the seal row $E$ is public only after the RegSeqRat readback row $R$ has been displayed.
+
+Finally apply \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The remaining rows $S,D,W,L,H,C,P,N$ replay the finite route and bind transport, provenance, and local naming. They do not add a quotient Real equality, host limit, countable-choice row, ambient completeness row, or direct edge to the seal.
+\end{proof}
+
+\begin{theorem}[Real StreamName RegSeqRat sibling nonorphan route]
+\label{thm:real-streamname-regseqrat-sibling-nonorphan-route}
+The Real seal route consumes the sibling chapter surfaces \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-cauchy-window-transducer-namecert} before the local $\RealUp$ seal is public. Thus the local Real route is a horizontal L10 dependency through dyadic observations, finite stream windows, regular-rational readback, and the Cauchy window transducer, not a self-reference and not a host-completion shortcut.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. It places the Real-facing route on the ordered dyadic, StreamName, RegSeqRat, and Real seal surfaces, with only displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates available for transport.
+
+Then apply \autoref{thm:real-cauchy-window-transducer-seal-route}. The Cauchy window transducer seal read factors through the same dyadic, stream, and regular-rational route before the local Real seal is exposed.
+
+These two routes cite sibling chapter surfaces rather than the local Real chapter as their source. The dependency is therefore horizontal in the L10 lattice and cannot be replaced by a Real self-reference, selected host limit, ambient completion object, or direct seal bypass.
+\end{proof}

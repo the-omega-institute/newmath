@@ -1,0 +1,83 @@
+\begin{theorem}[ContinuationMonad root formal route saturation]
+\label{thm:continuation-monad-root-formal-route-saturation}
+Every downstream formal target consuming $\ContinuationMonadUp$ receives exactly the root rows
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+through the existing root formal target surface, root route formal handoff, and downstream route exhaustion. The route exports displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$ hom-carrier, $\mathsf{ContinuationMorphism}$, and local $\NameCert$ readings only; it exports no quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-target-surface}. It identifies the formal target surface with the finite root rows $A,B,C,f,g,u,H,K,L,N$ and their displayed BEDC readings.
+
+Next apply \autoref{thm:continuation-monad-root-route-formal-handoff}. The handoff keeps downstream formal targets on the same route and refuses host Kleisli composition, quotient morphism equality, ambient category completion, and unlisted continuation-generator rules.
+
+Finally apply \autoref{thm:continuation-monad-downstream-route-exhaustion}. Since every downstream route is already exhausted by the same root package, the formal route is saturated by exactly those rows and no external evaluator or hidden continuation coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root ledger saturation boundary]
+\label{thm:continuation-monad-root-ledger-saturation-boundary}
+The root ledger boundary for any downstream formal target consuming $\ContinuationMonadUp$ is exactly the finite package
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The boundary is supplied by the existing root ledger formal boundary together with downstream route exhaustion, and it admits no additional ledger entry for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or continuation generators outside the packet.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:continuation-monad-root-ledger-formal-boundary}. It states that the ledger available to root formal targets is the finite package $A,B,C,f,g,u,H,K,L,N$ with source, tail, unit, transport, route, provenance, generator-refusal, Category hom, and local naming rows.
+
+Then use \autoref{thm:continuation-monad-downstream-route-exhaustion}. Every downstream unit, bind, generator-boundary, or Category hom read is already routed through that same package.
+
+It remains to exclude extra ledger entries. The root ledger boundary records no coordinate for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or unlisted continuation generators, so saturation is exactly the displayed package.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal handoff saturation]
+\label{thm:continuation-monad-root-formal-handoff-saturation}
+The root formal handoff for $\ContinuationMonadUp$ is saturated by the composition of \autoref{thm:continuation-monad-root-formal-target-surface}, \autoref{thm:continuation-monad-root-route-formal-handoff}, \autoref{thm:continuation-monad-root-ledger-formal-boundary}, and \autoref{thm:continuation-monad-downstream-route-exhaustion}. Consequently every downstream formal target receives exactly $A,B,C,f,g,u,H,K,L,N$ and receives no quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+First compose the formal target surface with the route handoff. The target surface lists the rows available to downstream formal targets, while the handoff states that the target may consume them only along the displayed continuation route.
+
+Next compose the ledger boundary with downstream route exhaustion. The ledger boundary records the finite accounting rows, and route exhaustion shows that unit, bind, generator-refusal, and Category hom consumers cannot leave that accounting surface.
+
+Combining the two compositions saturates the handoff. Every formal consumer receives the same $A,B,C,f,g,u,H,K,L,N$ packet, and the refused host, quotient, ambient, evaluator, and unlisted-generator objects have no exported coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal audit factorization]
+\label{thm:continuation-monad-root-formal-audit-factorization}
+Every downstream formal read of $\ContinuationMonadUp$ factors through the displayed audit rows
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+together with $\BHist$, $\Cont$, $\hsame$, $\Pkg$, the $\CategoryUp$ hom-carrier, and the local $\NameCert$ surface. The factorization is the same for unit, bind, generator-refusal, Category hom, and naming consumers, and it uses no route outside the displayed root packet.
+\end{theorem}
+\begin{proof}
+Start with root formal route saturation. It identifies the downstream formal route with $A,B,C,f,g,u,H,K,L,N$ and the displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$ hom-carrier, $\mathsf{ContinuationMorphism}$, and local $\NameCert$ readings.
+
+Apply the root ledger saturation boundary. It records the same finite rows as the audit ledger for source, tail, unit, transport, route, provenance, generator-refusal, Category hom, and local naming.
+
+Finally use root formal handoff saturation together with the sibling formal NameCert handoff of \autoref{thm:continuation-monad-root-formal-namecert-handoff}. The handoff keeps downstream formal targets on the same displayed packet, so every formal read factors through the audit rows and their named BEDC carriers.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal route budget exhaustion]
+\label{thm:continuation-monad-root-formal-route-budget-exhaustion}
+The root formal route budget exported by $\ContinuationMonadUp$ is exhausted by $A,B,C,f,g,u,H,K,L,N$, $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$, and the local $\NameCert$ surface. It exports no quotient Kleisli arrows, no host-function composition, no ambient category completion, no external evaluator, and no unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Use root formal route saturation to fix the exported formal surface. The saturation theorem already lists the accepted rows and the allowed BEDC readings for downstream formal targets.
+
+Use the root ledger saturation boundary to read the budget as finite accounting. Since the ledger has entries only for the displayed root rows, there is no remaining coordinate that could encode quotient Kleisli arrows, host-function composition, ambient completion, external evaluation, or another generator.
+
+The sibling formal NameCert handoff confirms the same refusal at the local naming surface. Root formal handoff saturation then transfers the refusal to downstream formal consumers, exhausting the route budget.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root formal NameCert consumer lock]
+\label{thm:continuation-monad-root-formal-namecert-consumer-lock}
+The downstream formal consumers of $\ContinuationMonadUp$ are locked to the audit factorization of \autoref{thm:continuation-monad-root-formal-audit-factorization} and the route-budget exhaustion of \autoref{thm:continuation-monad-root-formal-route-budget-exhaustion}. Together with root formal handoff saturation and the root formal NameCert handoff, this lock permits only reads through $A,B,C,f,g,u,H,K,L,N$, $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$, and local $\NameCert$, and refuses all quotient, host-composition, ambient-completion, evaluator, and unlisted-generator reads.
+\end{theorem}
+\begin{proof}
+First apply the audit factorization theorem. It routes every downstream formal read through the finite audit rows and their displayed BEDC carriers.
+
+Next apply route-budget exhaustion. It removes the quotient Kleisli, host-composition, ambient-completion, evaluator, and unlisted-generator alternatives from the exported route budget.
+
+Finally combine root formal handoff saturation with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. The handoff and local NameCert route read the same finite packet, so a downstream formal consumer has no accepted route outside the audit factorization and no leftover route budget for the refused objects.
+\end{proof}

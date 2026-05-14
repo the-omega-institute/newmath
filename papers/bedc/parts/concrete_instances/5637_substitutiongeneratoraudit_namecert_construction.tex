@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\SubstitutionGeneratorAuditUp$}
+\label{ch:concrete-instances-substitutiongeneratoraudit-namecert}
+\origin{ai}
+
+The $\SubstitutionGeneratorAuditUp$ packet realizes the generator-closure route isolated by the MetaCIC substitution audit map of \autoref{ch:metacic-substitution-audit-map}. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert} and the substitution audit window route of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}: those chapters expose the closed substitution rows and their windowed handoff route, while this packet records the generator replay surface that keeps closed shift, closed substitution, closed composition, and subject-reduction boundary reads inside a finite NameCert carrier.
+
+\begin{definition}[Substitution generator-audit carrier]
+\label{def:substitution-generator-audit-carrier}
+A $\SubstitutionGeneratorAuditUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,C,R,S,K,W,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC $\mathsf{Term}$ row whose substitution generators are audited;
+\item $C$ is the $\mathsf{ClosedAt}$ boundary row attached to $T$;
+\item $R$ is the closed shift row, recording the admitted $\mathsf{shift}$ generator route under $C$;
+\item $S$ is the closed substitution row, recording the admitted $\mathsf{substitute}$ generator route under $C$;
+\item $K$ is the closed-composition row for the available closed substitution compositions;
+\item $W$ is the generator-route replay and obstruction ledger row, recording the finite order in which $R,S,K$ and the subject-reduction handoff boundary may be inspected;
+\item $H$ records componentwise $\hsame$ transports for term, boundary, generator, composition, replay, provenance, route, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes by which consumers replay the generator audit without leaving the packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-substitution-audit-map}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubstitutionGeneratorAuditUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose rows display the closed boundary, closed shift, closed substitution, closed composition, generator-route replay, transport, continuation, provenance, and local naming data above. It exports no unrestricted substitution calculus, no beta-substitution preservation theorem, no closed subject-reduction theorem, no quotient equality, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Substitution generator-audit NameCert obligations]
+\label{thm:substitution-generator-audit-namecert-obligations}
+For the carrier of \autoref{def:substitution-generator-audit-carrier}, the local $\NameCert_{\SubstitutionGeneratorAuditUp}$ surface consists exactly of carrier admission for
+$$
+G=(T,C,R,S,K,W,H,Q,P,N),
+$$
+with the following finite obligations:
+\begin{enumerate}
+\item carrier admission for $G=(T,C,R,S,K,W,H,Q,P,N)$;
+\item closed-boundary exposure through $T,C$;
+\item closed shift exposure through $R$;
+\item closed substitution exposure through $S$;
+\item closed-composition exposure through $K$;
+\item generator-route replay and obstruction-ledger exposure through $W$;
+\item componentwise transport through $H$;
+\item displayed continuation through $Q$;
+\item package provenance through $P$;
+\item local naming through $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:substitution-generator-audit-carrier}. The rows $T,C,R,S,K,W,H,Q,P,N$ are the complete finite packet.
+
+Read $T,C$ first. They expose the MetaCIC term and the closed boundary at which the generator actions are admitted, matching the closed slice recorded in \autoref{ch:metacic-substitution-audit-map}.
+
+Read $R,S,K,W$ next. The shift, substitution, and composition rows record the checked closed generator fragments, while $W$ fixes the replay route and obstruction ledger through which a consumer may inspect them before any subject-reduction handoff boundary is named.
+
+Finally inspect $H,Q,P,N$. These rows transport, replay, package, and name the same finite packet. Since no additional coordinate is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Substitution generator-audit route lock]
+\label{thm:substitution-generator-audit-route-lock}
+For every accepted $\SubstitutionGeneratorAuditUp$ packet
+$$
+G=(T,C,R,S,K,W,H,Q,P,N),
+$$
+any consumer route that reaches the subject-reduction handoff boundary first passes through the closed boundary $C$, the closed shift row $R$, the closed substitution row $S$, the closed-composition row $K$, and the generator-route replay row $W$. The route may export those finite syntax-side audit rows, but it cannot export unrestricted substitution, beta-substitution preservation, dependent typing preservation, closed subject reduction, quotient equality, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only generator rows are $R,S,K$, and the only replay row that orders them for downstream use is $W$.
+
+Use \autoref{thm:substitution-generator-audit-namecert-obligations}. It forces any accepted read to expose $T,C$ before the movement rows and to pass through $W$ before the administrative rows $H,Q,P,N$ can replay the packet.
+
+The sibling route of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert} records the same closed-window handoff discipline, while \autoref{ch:concrete-instances-substitutionauditmap-namecert} records the wider audit map. The present carrier keeps the generator replay as a finite packet between those two surfaces.
+
+The excluded endpoints have no row in $G$. Therefore a route that claims unrestricted substitution, beta preservation, dependent typing preservation, closed subject reduction, quotient equality, or host semantic equality leaves the accepted generator-audit carrier.
+\end{proof}
+
+\begin{theorem}[Substitution generator-audit TasteGate obligation]
+\label{thm:substitution-generator-audit-tastegate-obligation}
+The $\origin{ai}$ chapter for $\SubstitutionGeneratorAuditUp$ is admissible to the TasteGate route only when the Lean follow-up for namespace $\mathsf{BEDC.Derived.SubstitutionGeneratorAuditUp}$ supplies both a $\mathsf{Nontrivial}\ \SubstitutionGeneratorAuditUp$ instance and a $\mathsf{FieldFaithful}\ \SubstitutionGeneratorAuditUp$ instance for the same finite carrier
+$$
+G=(T,C,R,S,K,W,H,Q,P,N).
+$$
+Those instances must preserve the displayed closed-boundary, generator, replay, transport, continuation, provenance, and local naming rows, and they may not replace the obstruction ledger by a hidden subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations. They identify exactly which fields are available to a TasteGate consumer: the closed boundary, closed generator rows, replay row, transports, continuations, provenance, and local name.
+
+Nontriviality requires a genuine accepted witness for this carrier rather than an empty one-row shell. Field faithfulness requires each displayed coordinate to be recoverable from the carrier projections used by the TasteGate route.
+
+The route lock supplies the obstruction side. Since subject reduction and unrestricted substitution are not fields of $G$, a TasteGate witness that obtains them without the generator-closure row and obstruction ledger would not be faithful to this carrier.
+\end{proof}
+
+\falsifiablePrediction{A SubstitutionGeneratorAuditUp packet admits no subject-reduction handoff unless the generator-closure row and obstruction ledger are both present.}
+\independenceWitness{substitutionauditmap, closedsubstitutionboundary, closedsubstitutionseal, substitutionauditwindowroute, subjectreductiondischarge: the generator-audit carrier is not equivalent to any sibling because it carries a dedicated generator-route replay row $W$ tying closed shift, closed substitution, closed composition, and handoff refusal into one finite packet.}
+
+\closureat{SubstitutionGeneratorAuditUp}{seedStr}
+
+\begin{closurestatus}{\SubstitutionGeneratorAuditUp}
+  \constructivestory{A $\SubstitutionGeneratorAuditUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, a generator-route replay row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substitution-generator-audit-carrier}, \autoref{thm:substitution-generator-audit-namecert-obligations}, \autoref{thm:substitution-generator-audit-route-lock}, and \autoref{thm:substitution-generator-audit-tastegate-obligation} bind the finite generator-audit packet, its replay lock, and its TasteGate instance obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, dependent typing preservation, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, generator-route replay, obstruction-ledger non-escape, and TasteGate nontriviality and field faithfulness for the same finite packet.}
+\end{closurestatus}

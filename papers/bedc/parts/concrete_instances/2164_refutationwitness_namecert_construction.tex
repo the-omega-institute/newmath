@@ -4,6 +4,8 @@
 
 The $\RefutationWitnessUp$ surface is the concrete NameCert landing for constructive reasoning by contradiction. It records an assumption row, a finite continuation route from that assumption to bottom, the produced bottom row, and the local transport and provenance rows needed to replay the route. The packet certifies refutation only as displayed assumption-to-bottom evidence; it does not export a certificate-indexed truth branch, a host-level contradiction principle, or a witness selected from an unwitnessed negation.
 
+The packet consumes the finite trace route of \autoref{ch:concrete-instances-refutertrace-namecert} and the stable negative boundary of \autoref{ch:concrete-instances-stable-negation-boundary-namecert} before its assumption-to-bottom route is accepted. This dependency is limited to displayed assumption rows, route replay, bottom-row accountability, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ rows.
+
 \begin{definition}[RefutationWitness carrier]
 \label{def:refutation-witness-carrier}
 A $\RefutationWitnessUp$ carrier is a finite $\BHist$ packet
@@ -52,6 +54,22 @@ Start with an accepted packet $R=(A,a,\rho,b,H,C,P,N)$. The available projection
 A certificate-indexed truth branch would require a row assigning, for each naming certificate in a carrier of certificates, either a positive witness or a refutation. No such carrier-wide predicate row appears in $R$, and no coordinate ranges over all naming certificates.
 
 The packet therefore supports only the local refutation read: assume the displayed witness row $a$, replay the finite route $\rho$, and obtain the displayed bottom row $b$. That read blocks any extraction of excluded middle, undecided double-negation elimination, or existential witness selection from the $\RefutationWitnessUp$ surface.
+\end{proof}
+
+\begin{theorem}[RefutationWitness ground-refutation route link]
+\label{thm:refutation-witness-ground-refutation-route-link}
+Every accepted $\GroundRefutationUp$ or $\RefutationBoundaryUp$ consumer that uses an assumption-to-bottom row consumes the local $\RefutationWitnessUp$ route shape through \autoref{ch:concrete-instances-groundrefutation-namecert} and \autoref{ch:concrete-instances-refutationboundary-namecert} only after the displayed rows
+$$
+A,a,\rho,b,H,C,P,N
+$$
+are present. The route is a finite replay from the assumed witness row $a$ to the bottom row $b$, not a host-level truth branch or a selected witness extracted from an undecided negation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refutation-witness-carrier}. The local route shape has exactly the proposition row, assumed witness row, finite refutation route, bottom row, transport ledger, continuation ledger, provenance row, and naming row.
+
+Use \autoref{thm:refutation-witness-namecert-obligations}. Its route replay and bottom-row accountability clauses force any consumer to carry the displayed assumption-to-bottom route $\rho$ before it may consume the bottom row $b$ in a ground-refutation or boundary-refutation packet.
+
+Finally apply \autoref{thm:refutation-witness-truth-branch-blocker}. Since the local packet exports no certificate-indexed truth branch, excluded middle, double-negation eliminator, or witness selector, the GroundRefutation and RefutationBoundary consumers can only cite the finite route through the two named sibling chapters.
 \end{proof}
 
 \closureat{RefutationWitnessUp}{seedStr}

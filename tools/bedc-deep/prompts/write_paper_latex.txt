@@ -223,6 +223,23 @@ CRITICAL constraints (will cause auto-rejection downstream if violated):
   `2.` text lists.
 - Stay in English. The paper body has zero Chinese.
 
+**Insertion target discipline:**
+- Before naming `Insertion target: ...`, inspect the candidate target file.
+  It must exist under `papers/bedc/parts/` and must be a concrete body file,
+  not `main.tex` and not a wrapper whose only job is to `\input` other files.
+- Never choose a file under `papers/bedc/parts/visions/` or
+  `papers/bedc/parts/conjectures/` as the insertion target. Those files are
+  inspiration/review surfaces only; theorem-shaped content must land in an
+  existing concrete body file.
+- Estimate the line count after appending your block. If it would exceed
+  800 total lines, choose a smaller existing concrete body file that matches
+  the same topic. Do not choose a nearly-full file just because it is the
+  most familiar chapter.
+- Do not invent new `.tex` files. If no existing concrete body file can
+  accept the result without crossing 800 lines, do not emit an appendable
+  theorem block; return a brief obstruction note explaining that the target
+  needs a routing/capacity decision before writeback.
+
 After the fenced LaTeX block, write a separate paragraph:
 "Insertion target: papers/bedc/parts/<theme>/<file>.tex"
 naming the concrete body file you believe this content fits. Do not invent

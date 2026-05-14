@@ -4,6 +4,8 @@
 
 The $\TranscendentalInductionSocketUp$ interface names the finite BEDC surface at which an attempted universal-induction read is exposed as a GAP rather than accepted as a substrate rule. It records the source history, the finite trace already observed, the attempted induction schema, the GAP boundary row, the inscription handoff row, displayed transport, package provenance, and the local naming certificate. The packet is a concrete NameCert carrier for induction-as-boundary; it does not internalize mathematical induction, create a universal quantifier over an infinite domain, or add an axiom to the substrate.
 
+The socket is consumed by \autoref{ch:concrete-instances-inscriptionpoint-namecert}: the GAP boundary row and inscription handoff row of $\TranscendentalInductionSocketUp$ are the finite source through which $\InscriptionPointUp$ records forward commitment without turning it into a substrate derivation rule.
+
 \begin{definition}[TranscendentalInductionSocket carrier]
 \label{def:transcendental-induction-socket-carrier}
 A $\TranscendentalInductionSocketUp$ carrier is a finite $\BHist$ packet
@@ -37,6 +39,7 @@ The local $\NameCert_{\TranscendentalInductionSocketUp}$ surface has five finite
 \item ledger policy: $\Pkg$ and $\NameCert$ expose only the listed $\BHist$, $\hsame$, $\Cont$, GAP, and handoff rows.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.TranscendentalInductionSocketUp.TranscendentalInductionSocketPacket\_namecert\_obligations}
 \begin{proof}
 Carrier exposure is projection from the tuple of \autoref{def:transcendental-induction-socket-carrier}. The source history, trace, induction-shape request, GAP row, handoff row, transport rows, continuation routes, provenance, and local certificate row are all displayed coordinates.
 
@@ -51,6 +54,7 @@ Finally, the package and local certificate rows list no substrate-internal induc
 \label{thm:transcendental-induction-socket-gap-boundary}
 Every consumer read of the attempted universal-induction target in an accepted $\TranscendentalInductionSocketUp$ carrier factors through the finite trace $T$, the induction-shape request $S$, and the GAP row $G$. If the consumer asks for the universal target as a substrate theorem, the only exported row is $G$ together with its displayed $\Cont$ route.
 \end{theorem}
+\leanchecked{BEDC.Derived.TranscendentalInductionSocketUp.TranscendentalInductionSocketPacket\_gap\_boundary}
 \begin{proof}
 Project the accepted carrier as $I=(h,T,S,G,A,H,C,P,N)$. The induction-shape request is visible only as the coordinate $S$, and its already observed premises are read only through $T$ and $h$.
 
@@ -83,15 +87,54 @@ The GAP boundary theorem shows that the universal target is exported as $G$ rath
 Therefore the packet has no coordinate from which an induction axiom could be projected. Every public read remains inside the finite socket surface, and the substrate boundary stays 0-axiom.
 \end{proof}
 
+\begin{theorem}[TranscendentalInductionSocket public export]
+\label{thm:transcendental-induction-socket-public-export}
+Every public consumer of an accepted $\TranscendentalInductionSocketUp$ socket receives only the finite tuple
+$$
+I=(h,T,S,G,A,H,C,P,N).
+$$
+The attempted universal induction target is exported as the GAP row $G$, and the observer commitment is exported only as the inscription handoff row $A$. The packet exports no substrate-internal induction axiom, no dependent recursor over all predicates, no completed infinite trace, and no public row that converts finite observation into a universal theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:transcendental-induction-socket-carrier}. The public surface is the displayed tuple $I=(h,T,S,G,A,H,C,P,N)$, with source history, finite trace, induction-shape request, boundary row, handoff row, transport, route, provenance, and local naming all visible as packet coordinates.
+
+Apply \autoref{thm:transcendental-induction-socket-namecert-obligations}. The local certificate admits only carrier exposure, trace exactness, GAP boundary, inscription handoff, and ledger policy for those coordinates.
+
+Use \autoref{thm:transcendental-induction-socket-gap-boundary}. It sends the requested universal target to $G$ whenever the finite trace does not discharge it inside the substrate.
+
+Finally apply \autoref{thm:transcendental-induction-socket-inscription-handoff} and \autoref{thm:transcendental-induction-socket-no-internal-axiom}. The handoff row $A$ records observer commitment without becoming a derivation rule, and no remaining coordinate can supply an induction axiom, completed infinite trace, or universal theorem.
+\end{proof}
+
+\begin{theorem}[TranscendentalInductionSocket bridge-facing certificate]
+\label{thm:transcendental-induction-socket-bridge-facing-certificate}
+For every accepted $\TranscendentalInductionSocketUp$ packet
+$$
+I=(h,T,S,G,A,H,C,P,N),
+$$
+the bridge-facing public certificate is exactly the conjunction of carrier exposure, $\NameCert$ obligations, GAP boundary, inscription handoff, no-internal-axiom, public export, and the checked TasteGate single-carrier alignment recorded at \autoref{def:transcendental-induction-socket-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier exposure is supplied by \autoref{def:transcendental-induction-socket-carrier}, which fixes the finite tuple $I=(h,T,S,G,A,H,C,P,N)$ as the whole accepted socket surface.
+
+The certificate obligations are the five finite rows of \autoref{thm:transcendental-induction-socket-namecert-obligations}. They bind the carrier exposure, trace exactness, GAP boundary, inscription handoff, and ledger policy without adding any substrate rule.
+
+The GAP side is fixed by \autoref{thm:transcendental-induction-socket-gap-boundary}, and the observer-side handoff is fixed by \autoref{thm:transcendental-induction-socket-inscription-handoff}. These two theorems make the requested universal target leave the substrate only as $G$ and make the forward commitment visible only as $A$.
+
+Apply \autoref{thm:transcendental-induction-socket-no-internal-axiom} and \autoref{thm:transcendental-induction-socket-public-export}. The public package exports only the finite socket packet, and the TasteGate single-carrier alignment already attached to the carrier site records that this export stays on the single displayed carrier. Thus the bridge-facing certificate is a public certificate for the finite socket and not a substrate induction rule.
+\end{proof}
+
 \closureat{TranscendentalInductionSocketUp}{seedStr}
+\closureat{TranscendentalInductionSocketUp}{obligationStr}[BEDC.Derived.TranscendentalInductionSocketUp.TranscendentalInductionSocketTasteGate\_single\_carrier\_alignment]
+\closureat{TranscendentalInductionSocketUp}{scopedStr}[BEDC.Derived.TranscendentalInductionSocketUp.TranscendentalInductionSocketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\TranscendentalInductionSocketUp}
   \constructivestory{A $\TranscendentalInductionSocketUp$ packet is generated from a source $\Hist$ row, a finite verification trace, an induction-shape request, a GAP boundary row, an inscription handoff row, componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:transcendental-induction-socket-carrier}, \autoref{thm:transcendental-induction-socket-namecert-obligations}, \autoref{thm:transcendental-induction-socket-gap-boundary}, \autoref{thm:transcendental-induction-socket-inscription-handoff}, and \autoref{thm:transcendental-induction-socket-no-internal-axiom} bind the finite carrier, GAP boundary, inscription handoff, and no-internal-axiom surface.}
+  \leanchecked{BEDC.Derived.TranscendentalInductionSocketUp.taste\_gate}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:transcendental-induction-socket-carrier}, \autoref{thm:transcendental-induction-socket-namecert-obligations}, \autoref{thm:transcendental-induction-socket-gap-boundary}, \autoref{thm:transcendental-induction-socket-inscription-handoff}, \autoref{thm:transcendental-induction-socket-no-internal-axiom}, and \autoref{thm:transcendental-induction-socket-public-export} bind the carrier, NameCert obligations, GAP boundary, inscription handoff, no-internal-axiom theorem, and public export as the obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, a substrate-internal induction axiom, a completed infinite trace, a dependent recursor over all predicates, or a universal theorem produced from finite observation alone.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for trace exactness, GAP boundary routing, inscription handoff, and no-internal-axiom nonescape over the same finite packet.}
+  \upgradepath{Public closure requires a bridge-facing certificate for the same finite socket packet.}
 \end{closurestatus}

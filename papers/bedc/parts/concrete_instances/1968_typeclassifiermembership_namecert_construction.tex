@@ -4,6 +4,10 @@
 
 The $\TypeClassifierMembershipUp$ surface realizes type checking as a finite classifier-membership packet over displayed BEDC histories. It records a term row, a judgment ledger, an $\Ext$ membership row, a $\Cont$ reduction row, and local naming provenance, so type membership and subject-reduction reads remain inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
 
+The packet consumes the finite classifier row of \autoref{ch:concrete-instances-classifiertyping-namecert} and the visible reduction boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}; $\TypeClassifierMembershipUp$ combines those sibling rows into the local $T,J,E,R,H,C,P,N$ membership packet rather than introducing a new host type checker.
+
+Before the local membership packet reads $\ClassifierTypingUp$, its accepted and refused $\Ext$ membership rows are constrained by the finite accepted/refused boundary of \autoref{ch:concrete-instances-classifierboundary-namecert}; that boundary separates membership and refusal rows from host type checking, hidden proof search, semantic equality, and quotient histories.
+
 \begin{definition}[TypeClassifierMembership carrier]
 \label{def:type-classifier-membership-carrier}
 A $\TypeClassifierMembershipUp$ carrier is a finite $\BHist$ packet
@@ -145,7 +149,8 @@ Finally apply \autoref{thm:type-classifier-membership-non-escape}. Hidden conver
   \constructivestory{A $\TypeClassifierMembershipUp$ packet is generated from a displayed term row, finite judgment ledger, $\Ext$ membership row, typed $\Cont$ reduction row, componentwise $\hsame$ transports, continuation routes, dependency package, and local $\NameCert$ provenance row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:type-classifier-membership-carrier}, \autoref{def:type-classifier-membership-classifier}, \autoref{thm:type-classifier-membership-namecert-obligations}, \autoref{thm:type-classifier-membership-subject-reduction-boundary}, \autoref{thm:type-classifier-membership-non-escape}, \autoref{thm:type-classifier-membership-ext-membership-stability}, \autoref{thm:type-classifier-membership-reduction-target-coverage}, \autoref{thm:type-classifier-membership-obligation-closure-package}, and \autoref{thm:type-classifier-membership-visible-target-determinacy} bind the finite rows $T,J,E,R,H,C,P,N$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$, the subject-reduction boundary, and the public packet export.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_obligation\_closure\_package}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host type semantics, semantic equality of terms, global normalization, Lean verification, or bridge checking.}

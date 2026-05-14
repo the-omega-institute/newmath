@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\TrivialZeroClassifierUp$}
+\label{ch:concrete-instances-trivial-zero-classifier-namecert}
+\origin{ai}
+
+The $\TrivialZeroClassifierUp$ packet realizes the trivial-zero side of the RH witness catalogue as its own finite carrier. It names the negative-even-integer source route before that route is consumed by the non-trivial-zero boundary of \autoref{ch:concrete-instances-nontrivial-zero-classifier-namecert}. The packet reads only the arithmetic source rows of $\IntUp$, $\RatUp$, and $\RealUp$, the $\ZetaZerosUp$ zero row supplied by \autoref{ch:concrete-instances-zeta-zeros-namecert}, the zeta-continuation socket of \autoref{ch:concrete-instances-zeta-continuation-socket-namecert}, rational comparison data, componentwise transports, displayed routes, provenance, and the local naming row.
+
+\falsifiablePrediction{Every accepted TrivialZeroClassifierUp read of a negative-even zero factors through IntUp, RatUp, RealUp, ZetaZerosUp, and the local rational comparison ledger before any RH-facing consumer sees it.}
+
+\independenceWitness{zetazeros, zetacontinuationsocket, nontrivialzeroclassifier, criticallinewitness: none is bijective to $\TrivialZeroClassifierUp$ because this packet binds the negative-even integer source, arithmetic embeddings, zeta-zero row, real-part row, rational comparison ledger, and local NameCert row as one trivial-zero classifier, while each sibling omits at least one of those displayed coordinates or consumes the row only after another classifier has already named it.}
+
+\begin{definition}[Trivial-zero-classifier carrier]
+\label{def:trivial-zero-classifier-carrier}
+A $\TrivialZeroClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,Q,R,Z,E,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the negative-even $\IntUp$ source row, displaying a signed integer of the form $-2n$ with the nonempty unary witness for $n$;
+\item $Q$ is the $\RatUp$ embedding row for the same signed source;
+\item $R$ is the $\RealUp$ real-part row obtained from the rational embedding;
+\item $Z$ is the $\ZetaZerosUp$ zero row for the corresponding complex history with empty imaginary part;
+\item $E$ is the $\ZetaContinuationSocketUp$ functional-equation route row that exposes the sine-zero source of the trivial zero;
+\item $A$ is the local rational comparison ledger recording the negative-even side and separating it from the critical-strip interval side;
+\item $H$ records componentwise $\hsame$ transports for $I,Q,R,Z,E,A$ and for the package and local naming coordinates;
+\item $C$ records the displayed $\Cont$ routes from the integer source to the rational and real rows, from the continuation socket to the zero row, and from the comparison ledger to RH-facing consumers;
+\item $P$ is the $\Pkg$ provenance over $\IntUp$, $\RatUp$, $\RealUp$, $\ZetaZerosUp$, $\ZetaContinuationSocketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TrivialZeroClassifierUp}$ row.
+\end{enumerate}
+The carrier classifies a supplied zero as trivial only through the displayed negative-even route $I,Q,R,Z,E,A,H,C,P,N$. It supplies no critical-strip zero row, no non-trivial-zero row, and no proof of $\mathsf{RH}$.
+\end{definition}
+
+\begin{theorem}[TrivialZeroClassifier NameCert obligations]
+\label{thm:trivial-zero-classifier-namecert-obligations}
+The local $\NameCert_{\TrivialZeroClassifierUp}$ surface for \autoref{def:trivial-zero-classifier-carrier} consists exactly of six finite obligations:
+\begin{enumerate}
+\item carrier admission for $T=(I,Q,R,Z,E,A,H,C,P,N)$;
+\item negative-even source binding from $I$ through $Q$ and $R$;
+\item zeta-zero handoff from the continuation socket row $E$ to the zero row $Z$;
+\item rational comparison exposure through $A$ before any RH-facing classifier consumes the row;
+\item componentwise stability under the displayed transports in $H$ and replay through the routes in $C$;
+\item non-escape from critical-strip classification, analytic zero search, host complex equality, quotient zero-set equality, representative selection, and an RH conclusion.
+\end{enumerate}
+The Lean taste gate for this surface is required to expose \texttt{Nontrivial TrivialZeroClassifierUp} and \texttt{FieldFaithful TrivialZeroClassifierUp} instances in \texttt{TasteGate.lean}.
+\end{theorem}
+\leanchecked{BEDC.Derived.TrivialZeroClassifierUp.TrivialZeroClassifierTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:trivial-zero-classifier-carrier}. The packet displays the negative-even integer source, the arithmetic embeddings, the real-part row, the zeta-zero row, the continuation socket row, the rational comparison ledger, transports, routes, provenance, and local name.
+
+The negative-even source binding is read from $I,Q,R$. These rows are the only coordinates that move the signed source into the rational and real ledgers, so the classifier cannot replace them by a host integer or real equality.
+
+The zeta-zero handoff is read through $E$ and $Z$. The continuation socket row supplies the functional-equation route, while $Z$ names the zero row consumed by the RH catalogue.
+
+The comparison and stability rows are read through $A,H,C$. They are the only displayed routes by which the negative-even side can be exposed to an RH-facing consumer.
+
+Finally, $P$ and $N$ package the surface. Since no carrier coordinate names a critical-strip proof, analytic zero search, host complex equality, quotient zero-set equality, representative selector, or RH proof, the six obligations exhaust the local NameCert boundary.
+\end{proof}
+
+\begin{theorem}[TrivialZeroClassifier negative-even route]
+\label{thm:trivial-zero-classifier-negative-even-route}
+For an accepted $\TrivialZeroClassifierUp$ carrier $T=(I,Q,R,Z,E,A,H,C,P,N)$, every accepted read of a negative-even zero factors through the displayed route
+$$
+I,Q,R,E,Z,A,H,C,P,N.
+$$
+The read reaches $\ZetaZerosUp$ only after the $\IntUp$, $\RatUp$, $\RealUp$, continuation-socket, and rational-comparison rows have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $I,Q,R,E,Z,A,H,C,P,N$. The first three rows display the arithmetic embedding of the negative-even source, while $E$ and $Z$ display the zeta-continuation and zeta-zero coordinates for that same source.
+
+Use the rational comparison ledger $A$ after the zero row is present. This ledger records that the source lies on the negative-even side and is the only comparison coordinate exported by the packet.
+
+The transport, route, provenance, and naming rows then stabilize the same displayed read. Thus an accepted negative-even-zero read reaches the zero row only along the stated finite route.
+\end{proof}
+
+\begin{theorem}[TrivialZeroClassifier non-trivial separation]
+\label{thm:trivial-zero-classifier-nontrivial-separation}
+For an accepted $\TrivialZeroClassifierUp$ carrier $T=(I,Q,R,Z,E,A,H,C,P,N)$, no consumer can read a critical-strip non-trivial-zero classification from $T$ alone. A downstream $\NontrivialZeroClassifierUp$ consumer may consume $T$ as its trivial-zero ledger, but the critical-strip side must still be supplied by a separate $\ZetaZerosUp$ and $\CritStripUp$ route as in \autoref{ch:concrete-instances-nontrivial-zero-classifier-namecert}.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The packet has rows for the negative-even arithmetic source, zeta continuation, zeta zero, rational comparison, transport, route, provenance, and local name, but it has no $\CritStripUp$ coordinate.
+
+Apply the negative-even route theorem. It shows that every exported zero read is already tied to the displayed negative-even side before an RH-facing consumer sees it.
+
+The non-trivial-zero classifier therefore receives this packet only as the trivial-zero ledger. Any critical-strip zero row consumed by that downstream classifier must be supplied by its own displayed $Z,S,W$ route, not by $\TrivialZeroClassifierUp$.
+\end{proof}
+
+\closureat{TrivialZeroClassifierUp}{seedStr}
+
+\begin{closurestatus}{\TrivialZeroClassifierUp}
+  \constructivestory{A $\TrivialZeroClassifierUp$ packet is generated from a negative-even $\IntUp$ source row, $\RatUp$ and $\RealUp$ embedding rows, a $\ZetaZerosUp$ zero row, a $\ZetaContinuationSocketUp$ functional-equation route row, rational comparison data, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:trivial-zero-classifier-carrier}, \autoref{thm:trivial-zero-classifier-namecert-obligations}, \autoref{thm:trivial-zero-classifier-negative-even-route}, and \autoref{thm:trivial-zero-classifier-nontrivial-separation} bind the finite trivial-zero classifier boundary consumed by RH-facing classifier packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RH, non-trivial-zero classification, critical-strip witness construction, analytic zero search, host complex equality, quotient zero-set equality, selected representatives, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, negative-even source binding, zeta-zero handoff, rational comparison exposure, classifier stability, and consumer non-escape for the same finite packet.}
+\end{closurestatus}

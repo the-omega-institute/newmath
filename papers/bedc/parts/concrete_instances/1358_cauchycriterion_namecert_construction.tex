@@ -78,6 +78,20 @@ The regular-sequence handoff is the projection to $W$ after the finite tail ledg
 The seal row is supplied by \autoref{thm:cauchycriterion-tail-bound-real-seal}. It is reached only through the displayed criterion route, so the certificate exports no quotient, host-real, selected-limit, or completeness datum.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion RealObservationBudget tail-budget lock]
+\label{thm:cauchy-criterion-tail-budget-real-observation-lock}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Let an accepted $\RealObservationBudgetUp$ read use the same precision request, the same finite $\RegSeqRatUp$ source window, and the same $\DyadicRatCoreUp$ tolerance row as the readback of $K$. Then the observation-budget read factors through the finite CauchyCriterion route $M,Q,T,W,E,H,C,P,N$ before any Real-facing seal is public.
+
+Consequently every such budget read sees the displayed modulus threshold, dyadic tolerance, finite tail ledger, regular rational handoff, real seal, transport, continuation, package, and local naming rows. It receives no quotient stream, host real equality, selected limit, hidden family limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the CauchyCriterion seal route. By \autoref{thm:cauchycriterion-tail-bound-real-seal}, any Real-facing seal exposed by $K$ is reached only after the precision request has passed through the modulus row $M$, dyadic tolerance row $Q$, finite tail ledger $T$, regular rational source row $W$, and seal row $E$.
+
+Next read the local naming surface. \autoref{thm:cauchycriterion-namecert-obligation-sketch} records tail-budget exactness, the $\RegSeqRatUp$ handoff, and seal non-escape as rows of the same local $\NameCert$, so the shared precision request, source window, and tolerance row cannot be detached from $H,C,P,N$.
+
+Finally compose with the observation-budget consumer exactness row of \autoref{thm:real-observation-budget-consumer-exactness}. Since that consumer reads only its displayed precision, window, dyadic, regular handoff, seal, transport, route, provenance, and naming rows, the shared rows force the budget read to pass through the same $M,Q,T,W,E,H,C,P,N$ route before the seal is public. The non-escape clauses on both packets exclude quotient streams, host real equality, selected limits, hidden family limits, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion modulus threshold stability]
 \label{thm:cauchycriterion-modulus-threshold-stability}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ and $K'=(W',M',T',Q',E',H',C',P',N')$ be accepted $\CauchyCriterionUp$ carriers. Suppose the classifier relates them by the componentwise $\hsame$ rows and displayed $\Cont$ routes for the source window, modulus schedule, tail ledger, dyadic tolerance, regular-sequence handoff, seal row, package provenance, and local $\NameCert$ provenance. Then every precision request read from either carrier has the same displayed threshold coordinate selected by the transported modulus row and the same dyadic tolerance coordinate selected by the transported $Q$ row. In particular, componentwise transport of the $W,M,T,Q,E,H,C,P,N$ packet preserves the threshold chosen by $M$ and the dyadic tolerance row read by $Q$.
@@ -119,6 +133,55 @@ Begin with the $\RegSeqRatUp$ source window $W$ in the carrier of \autoref{def:c
 Next the read passes through $Q$ and $T$. The dyadic row supplies the tolerance, and \autoref{thm:cauchycriterion-dyadic-tail-ledger-exactness} says that the ledger accepts comparisons only through this displayed threshold and tolerance.
 
 Finally the seal coordinate $E$ is reached by the factorization of \autoref{thm:cauchycriterion-tail-bound-real-seal}. The obligation sketch records this as the regular rational handoff and $\RealUp$ seal non-escape rows, so repacking the route exhausts every exported consumer read without adding quotient streams, selected limits, host real equality, uniqueness of limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion budgeted shared-tail seal compatibility]
+\label{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier whose finite regular rational source window is also presented through the $\StreamNameUp$ shared-tail budget route of \autoref{thm:streamname-real-regseq-shared-tail-budget-route}. Then every $\RealUp$-facing seal read exported from $K$ factors through one common finite route consisting of the Cauchy modulus schedule $M$, the dyadic tolerance row $Q$, the tail ledger $T$, the $\RegSeqRatUp$ source row $W$, the finite $\StreamNameUp$ window rows, the $\DyadicTailRadiusLedgerUp$ tail-budget coverage row of \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, the $\RegularCauchyTailMeetUp$ public shared-threshold certificate of \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}, and the seal row $E$.
+
+The common route exports no quotient stream, selected limit, host real equality, countable-choice tail selector, independent tail oracle, metric completeness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. It places each consumer route from the regular rational source to the seal inside the displayed $W,M,Q,T,E$ packet and excludes quotient streams, selected limits, host real equality, uniqueness of limits, and ambient completeness.
+
+Next apply \autoref{thm:cauchycriterion-tail-bound-real-seal}. The seal row $E$ is therefore reached only after the modulus schedule, dyadic tolerance row, finite tail ledger, and regular rational handoff have all been read from the same accepted $\CauchyCriterionUp$ carrier.
+
+Now use \autoref{thm:streamname-real-regseq-shared-tail-budget-route} on the finite StreamName presentation of $W$. This identifies the same public readback and seal service with the finite $\StreamNameUp$ window rows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, the dyadic tail-radius ledger, the shared threshold, the $\RegSeqRatUp$ readback, and the $\RealUp$ finite-window ledger boundary.
+
+Finally cite \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} and \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The first fixes the admitted tail-radius read inside the finite precision, tail-window, StreamName-window, and dyadic readback rows; the second fixes the public shared-threshold row used by both the regular rational readback and the seal-facing route. Repacking these identifications gives the single finite route named in the statement, and none of the cited carriers contains a quotient stream, selected limit, host real equality, countable-choice selector, independent tail oracle, metric completeness theorem, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion tail-budget coherence consumption]
+\label{thm:cauchy-criterion-tail-budget-coherence-consumption}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier whose shared-tail seal route is presented as in \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. If a $\TailBudgetCoherenceUp$ packet consumes this carrier at the Real-completion handoff, then the consumer must read the handoff as one finite boundary through the displayed CauchyCriterion rows $M,Q,T,W,E$, the finite $\StreamNameUp$ window rows, the $\DyadicTailRadiusLedgerUp$ coverage row, the $\RegularCauchyTailMeetUp$ shared-threshold row, and the displayed $\TailBudgetCoherenceUp$ rows
+$$
+M_B,O_B,S_B,W_B,D_B,R_B,A_B,L_B,H_B,C_B,P_B,N_B.
+$$
+
+The consumption route exports no quotient stream, selected limit, host real equality, countable-choice selector, detached tail oracle, metric-completeness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. It binds every seal-facing read from $K$ to the finite route through the Cauchy modulus schedule, dyadic tolerance row, tail ledger, regular rational source row, StreamName windows, dyadic tail-radius coverage row, shared threshold row, and seal row $E$.
+
+Next apply the primitive scope and sibling-scope lock of \autoref{thm:tail-budget-coherence-primitive-scope} and \autoref{thm:tail-budget-coherence-sibling-scope-lock}. These theorems say that a $\TailBudgetCoherenceUp$ consumer has no carrier rows beyond the named TailMeet, observation-budget, selector-budget, agreement-seal, limit-seal, StreamName, regular readback, dyadic-tolerance, transport, continuation, provenance, and local NameCert coordinates.
+
+Finally use the route-scope and seal boundary results \autoref{thm:tail-budget-coherence-real-route-scope} and \autoref{thm:tail-budget-coherence-seal-nonescape}. They force the Real-completion consumer to pass through the TailBudgetCoherence rows only after the finite threshold, budget, window, tolerance, and readback surface has been displayed. Combining this with the CauchyCriterion shared-tail seal route gives one finite boundary, and none of the cited packets supplies quotient streams, selected limits, host real equality, countable-choice selectors, detached tail oracles, metric completeness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion uniform-family quotient-refusal factorization]
+\label{thm:cauchycriterion-uniform-family-quotient-refusal-factorization}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier whose shared-tail route is presented through the budgeted seal theorem of \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. Any finite-family or uniform-family consumer that asks for quotient-name equality, a selected limit, host real equality, hidden tail data, or ambient completeness must first consume the displayed CauchyCriterion rows $M,Q,T,W,E$, the finite $\StreamNameUp$ window rows, the $\DyadicTailRadiusLedgerUp$ coverage row, the $\RegularCauchyTailMeetUp$ shared-threshold row, the displayed $\TailBudgetCoherenceUp$ rows, and then the $\QuotientStreamRefusalUp$ refusal row of \autoref{thm:quotient-stream-refusal-regular-tail-factorization}.
+
+Consequently the accepted carrier exports no quotient stream, selected limit, host equality, tail oracle, metric-completeness row, or ambient $\RealUp$ completeness principle to such a family consumer.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. This places every seal-facing read from $K$ on the finite shared-tail route through $M,Q,T,W,E$, the StreamName window rows, the dyadic tail-radius coverage row, and the regular shared-threshold row.
+
+Next apply \autoref{thm:cauchy-criterion-tail-budget-coherence-consumption}. A Real-completion family consumer can therefore attach to the route only after the TailBudgetCoherence rows have been displayed as threshold, budget, window, tolerance, readback, transport, continuation, package, and local naming data.
+
+Now route the family request through \autoref{thm:quotient-stream-refusal-regular-tail-factorization}. A regular-tail read that reaches Real-completion must pass through the displayed StreamName, RegSeqRat, CauchyLimitSeal, RealUp seal, and refusal-ledger rows before any quotient-style request is interpreted.
+
+Finally use \autoref{thm:quotient-stream-refusal-offroute-nonescape}. Requests for quotient streams, selected limits, host real equality, hidden tail data, metric-completeness rows, or ambient $\RealUp$ completeness are off the displayed route and are sent to the refusal ledger rather than exported as witnesses.
 \end{proof}
 
 \begin{definition}[CauchyCriterion classifier]
@@ -242,6 +305,7 @@ M' \longmapsto Q' \longmapsto T' \longmapsto W' \longmapsto E',
 $$
 with the two routes compared only by the shared tail-budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local \NameCert{} rows. The comparison exports no selected limit, uniqueness-of-limit claim, host metric estimate, quotient stream equality, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_shared\_tail\_budget\_seal\_comparison}
 \begin{proof}
 First apply the classifier stability scope of \autoref{thm:cauchycriterion-classifier-stability-scope}. The comparison of $K$ and $K'$ is already confined to the displayed carrier rows, the componentwise $\hsame$ rows, the $\Cont$ routes, provenance, and local certificates.
 
@@ -323,6 +387,7 @@ they expose the same $\RealUp$ seal route through $H,C,P,N$. The seal route
 cannot be changed by quotient stream equality, a selected limit, host real
 equality, uniqueness of limits, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_tail\_budget\_seal\_determinacy}
 \begin{proof}
 Start with the shared tail-budget seal comparison of
 \autoref{thm:cauchycriterion-shared-tail-budget-seal-comparison}. The seal
@@ -338,6 +403,39 @@ Finally apply
 modulus row, dyadic tolerance row, tail ledger, and $\RegSeqRatUp$ handoff are
 the same, every completion-facing readback route sees the same consumer-visible
 tail bound and hence the same seal route through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion RegSeqRat Real route lock]
+\label{thm:cauchycriterion-regseqrat-real-route-lock}
+Every accepted $\CauchyCriterionUp$ public $\RealUp$-seal consumer factors
+through the Cauchy tail-bound row, the $\RegSeqRatUp$ handoff row, the
+$\StreamNameUp$ finite-window row, the dyadic tolerance ledger, and the
+$\RealUp$ seal row of the displayed packet. No such consumer may pass through
+host real equality, a selected external limit, a quotient stream, or an ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchycriterion-tail-bound-real-seal}. It places the
+tail-bound read inside the displayed modulus, dyadic tolerance, tail ledger,
+regular rational source, and real seal rows of the accepted packet.
+
+Next use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The
+$\RegSeqRatUp$ handoff exhausts the regular rational source rows available to
+the CauchyCriterion consumer, so the route cannot replace them by quotient
+stream data or a selected external limit.
+
+The finite-window input is supplied by
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, and the real
+endpoint is kept inside the packet by
+\autoref{thm:cauchycriterion-real-seal-scope}. Thus the consumer route reaches
+$\RealUp$ through the same finite window, source row, dyadic ledger, and seal
+row.
+
+Finally apply \autoref{thm:cauchycriterion-tail-budget-seal-determinacy}. Any
+route with the same modulus row, dyadic tolerance row, finite tail ledger, and
+$\RegSeqRatUp$ handoff exposes the same $\RealUp$ seal route through
+$H,C,P,N$, so alternate routes using host equality, external limits, quotient
+streams, or ambient completeness coordinates are ruled out.
 \end{proof}
 
 \begin{theorem}[CauchyCriterion completion-facing readback normal form]
@@ -375,6 +473,202 @@ Thus the consumer route has the stated normal form and has no coordinate from
 which to read selected limits, quotient stream equality, host real equality,
 uniqueness of limits, ambient completeness, or an unrecorded completion
 object.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion RegSeqRat StreamName RealUp handoff]
+\label{thm:cauchycriterion-regseqrat-streamname-realup-handoff}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+carrier. Suppose the $W$ row is read from a finite public
+$\StreamNameUp$ observation window and is accepted by the $\RegSeqRatUp$
+handoff. Then every $\RealUp$ seal read of $K$ factors through exactly the
+route
+$$
+\StreamNameUp\text{ finite window}
+\to
+\RegSeqRatUp\text{ source row}
+\to
+\CauchyModulusUp,\DyadicTailBoundUp,\DyadicRatCoreUp\text{ budget rows}
+\to
+\RealUp\text{ seal}.
+$$
+No quotient stream, selected host limit, host real equality, or ambient
+completeness row can enter this route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. Its displayed rows expose the regular
+rational handoff $W$, modulus row $M$, tail ledger $T$, dyadic tolerance
+row $Q$, real seal row $E$, and the transport, continuation, provenance,
+and local naming rows $H,C,P,N$.
+
+Apply \autoref{thm:cauchycriterion-tail-bound-real-seal}. The tail-bound
+budget is read through the modulus, dyadic tolerance, tail ledger, and
+real seal rows already present in $K$.
+
+Use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The
+$\RegSeqRatUp$ handoff exhausts the finite source rows available from the
+displayed observation window, so the source cannot be replaced by a
+quotient stream or by a selected host limit.
+
+Finally apply
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. The
+completion-facing route normalizes to the same displayed rows. Together
+with the sibling inputs named in the chapter introduction for
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, this
+binds every seal read to the stated finite handoff route and excludes host
+real equality and ambient completeness rows.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion diagonal-budget readback compatibility]
+\label{thm:cauchycriterion-diagonal-budget-readback-compatibility}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+carrier, and let
+$B=(\epsilon,M_B,W_B,D_B,K_B,S_B,H_B,C_B,P_B,N_B)$ be an accepted
+$\CauchyDiagonalBudgetUp$ packet through which the $W,Q,E$ rows of $K$ are
+read by a completion-facing consumer. Then every such readback first
+normalizes to the CauchyCriterion route
+$$
+M \to Q \to T \to W \to E
+$$
+with $H,C,P,N$, and then to the diagonal-budget route
+$$
+\epsilon \to M_B \to W_B \to D_B \to K_B \to S_B
+$$
+with $H_B,C_B,P_B,N_B$. No quotient stream, selected limit, host real
+equality, uniqueness-of-limit theorem, trichotomy row, or ambient
+completeness coordinate may enter either side of the readback.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. It
+normalizes every completion-facing read of $K$ to
+$M \to Q \to T \to W \to E$ with the displayed transport, continuation,
+provenance, and naming rows.
+
+Next use
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. The
+$W$ row is read through the finite $\StreamNameUp$ and $\RegSeqRatUp$
+handoff, while $Q$ supplies the dyadic budget row and $E$ supplies the
+$\RealUp$ seal.
+
+Now pass to the diagonal-budget selector. The route factorization theorem
+\autoref{thm:cauchy-diagonal-budget-route-factorization} identifies every
+completion-facing read through $B$ with the finite route from $\epsilon$
+through $M_B,W_B,D_B,K_B$ to $S_B$.
+
+Finally apply
+\autoref{thm:cauchy-diagonal-budget-regseq-real-route-lock} and
+\autoref{thm:cauchy-diagonal-budget-shared-tail-modulus-seal-factorization}.
+These keep the RegSeqRat-to-Real handoff and the shared-tail modulus seal on
+the displayed diagonal-budget route.
+
+The non-escape scope theorem
+\autoref{thm:cauchy-diagonal-budget-nonescape-scope} then rules out
+quotient streams, selected limits, host real equality, uniqueness-of-limit
+inputs, trichotomy rows, and ambient completeness coordinates.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion RealTailAgreementSeal route correspondence]
+\label{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+packet. Every accepted completion-facing consumer of $K$ whose $\RealUp$
+seal is mediated by an accepted $\RealTailAgreementSealUp$ packet factors
+through the same finite route
+$$
+\ObservationBudgetLimiterUp,\ \RegularCauchyTailBudgetUp,\
+\RegularCauchyTailMeetUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\
+\RegSeqRatUp,\ \RealUp,\ \CompletionUp.
+$$
+Conversely, every terminal $\RealTailAgreementSealUp$ route supplies the
+CauchyCriterion tail-budget, $\RegSeqRatUp$, and $\RealUp$ seal rows needed
+by \autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. The
+correspondence exports no selected limit, quotient-stream equality,
+uncapped observation, host real equality, ambient completeness principle, or
+second agreement coordinate.
+\end{theorem}
+\begin{proof}
+Start from the CauchyCriterion handoff theorem
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. It fixes
+the $\StreamNameUp$ source window, the $\RegSeqRatUp$ source row, the dyadic
+budget rows, and the $\RealUp$ seal as the only displayed handoff route for
+the accepted packet.
+
+The tail-budget seal determinacy theorem
+\autoref{thm:cauchycriterion-tail-budget-seal-determinacy} and the
+completion-facing readback normal form
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form} then
+force every completion-facing consumer to read the same budget, regular
+rational, and real-seal rows before any $\CompletionUp$ surface is exposed.
+
+For the mediated case, apply
+\autoref{thm:real-tail-agreement-seal-terminal-consumer-route-exhaustion}
+and \autoref{thm:real-tail-agreement-seal-budget-route-uniqueness}. These
+identify the terminal $\RealTailAgreementSealUp$ consumer route as the
+finite path through the observation cap, regular Cauchy tail budget,
+shared tail meet, finite stream window, dyadic readback, agreement row, and
+the displayed $\RealUp$ and $\CompletionUp$ seal rows.
+
+Projecting this terminal route back to the CauchyCriterion rows gives the
+forward factorization. Reading it in the other direction supplies exactly
+the tail-budget, $\RegSeqRatUp$, and $\RealUp$ seal rows required by the
+handoff theorem, while the non-escape clauses on both packets exclude every
+host, quotient, uncapped, completeness, or second-agreement route.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion and finite-family UniformCauchyCriterion route agreement]
+\label{thm:cauchycriterion-uniformcriterion-finite-family-reduction}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Let
+$U$ be an accepted $\UniformCauchyCriterionUp$ packet whose finite-family
+ledger is either singleton or a fixed finite family with the same displayed
+shared window row $W$, shared modulus row $M$, dyadic tolerance row $Q$, tail
+ledger $T$, and real seal row $E$. Assume that both packets consume the same
+$\StreamNameUp$ source route, the same $\RegSeqRatUp$ tail route, and the same
+$\RealUp$ seal route as displayed by
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. Then the
+$\UniformCauchyCriterionUp$ family route restricts to the same finite
+$\CauchyCriterionUp$ route
+$$
+M\to Q\to T\to W\to E.
+$$
+Equivalently, the singleton or fixed finite family packet exposes no additional
+route beyond the CauchyCriterion modulus, tolerance, tail, window, and seal
+rows. The correspondence uses
+\autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence},
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}, and
+\autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}, and exports
+no quotient stream, selected limit, host real equality, ambient completeness
+principle, or independently chosen family limit.
+\end{theorem}
+\begin{proof}
+Project the CauchyCriterion packet first. By
+\autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence},
+the accepted $K$ packet exposes the finite seal route through its displayed
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows, and this route is exactly
+the CauchyCriterion handoff through $M,Q,T,W,E$.
+
+Now project the uniform packet along its singleton or fixed finite family
+ledger. The hypotheses identify the shared window row with $W$, the shared
+modulus row with $M$, the dyadic tolerance row with $Q$, the tail ledger with
+$T$, and the seal row with $E$ componentwise.
+
+Apply \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It says
+that every accepted family tail comparison in $U$ is read through the displayed
+uniform tail ledger after the shared window, shared modulus, and dyadic
+tolerance rows have already been fixed.
+
+Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}. The
+$\RegSeqRatUp$ consumer therefore sees the same finite tail evidence as the
+ledger route, so the family-side readback cannot insert a second stream source,
+a second modulus schedule, or an unrecorded tolerance row.
+
+The cited $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ construction chapters
+fix the source, tail, and seal carriers used by both packets. After the
+componentwise identifications above, the uniform route and the single
+CauchyCriterion route expose the same finite path $M\to Q\to T\to W\to E$.
+The non-export clauses on the two packets then exclude quotient streams,
+selected limits, host real equality, ambient completeness, and any additional
+family-limit object.
 \end{proof}
 
 \begin{theorem}[CauchyCriterion mature downstream examples]

@@ -43,6 +43,7 @@ import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
 import board_archive
 import candidate_inbox
+import logic_packet_gate
 from locks import file_lock
 
 
@@ -53,6 +54,8 @@ WRITE_LATEX_PROMPT_PATH = SCRIPT_DIR / "prompts" / "write_paper_latex.txt"
 DEFAULT_SAFETY_NET_TURNS = 3
 DEFAULT_WALL_CLOCK_HOURS = 12
 DEFAULT_LOW_PROGRESS_THRESHOLD = 1
+CLIENT_ZERO_EXTRACTION_HANG_SECONDS = 900
+CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
 
 def http_post(url: str, data: dict, timeout: int = 30) -> dict:
@@ -74,21 +77,73 @@ def server_status(server_url: str) -> dict:
     return http_get(f"{server_url}/status", timeout=5)
 
 
+def _safe_int(value, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _infer_zero_extraction_hang(status: dict) -> dict:
+    """Backfill zero-extraction hang diagnosis for older oracle servers."""
+    if status.get("zero_extraction_hang_agents"):
+        return status
+    pending = status.get("agents") or {}
+    recent = status.get("recent_agents") or {}
+    hung: list[str] = []
+    for aid in pending:
+        rec = recent.get(aid) or {}
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        elapsed = _safe_int(metrics.get("elapsed_seconds"))
+        extracted = _safe_int(metrics.get("extracted_chars"))
+        page_chars = _safe_int(metrics.get("page_chars"))
+        if (
+            elapsed >= CLIENT_ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            hung.append(str(aid))
+    if not hung:
+        return status
+    out = dict(status)
+    out["zero_extraction_hang_agents"] = hung
+    out.setdefault("zero_extraction_hang_seconds", CLIENT_ZERO_EXTRACTION_HANG_SECONDS)
+    out.setdefault("zero_extraction_min_page_chars", CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS)
+    if out.get("diagnosis") == "agent_busy":
+        out["diagnosis"] = "agent_busy_zero_extraction_hang"
+    return out
+
+
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
+    dispatch_ready = status.get("dispatch_ready_poll_agents") or []
     zero_hang = status.get("zero_extraction_hang_agents") or []
     zero_part = f" zero_extract={','.join(map(str, zero_hang))}" if zero_hang else ""
     return (
         f"diagnosis={status.get('diagnosis', 'unknown')} "
         f"queue={status.get('queue_length', '?')} "
         f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
-        f"recent_agents={len(recent)}{zero_part} completed={status.get('completed', '?')}"
+        f"recent_agents={len(recent)} dispatch_ready={len(dispatch_ready)}"
+        f"{zero_part} completed={status.get('completed', '?')}"
     )
+
+
+def zero_extraction_url_tails(status: dict) -> list[str]:
+    tails: list[str] = []
+    for agent_id in status.get("zero_extraction_hang_agents") or []:
+        rec = (status.get("recent_agents") or {}).get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
 
 
 def print_status_hint(server_url: str) -> dict:
     try:
-        status = server_status(server_url)
+        status = _infer_zero_extraction_hang(server_status(server_url))
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise SystemExit(
             f"oracle server is not reachable at {server_url}; "
@@ -108,13 +163,28 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "queue_waiting_for_project_agent":
         print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
         print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "queue_waiting_for_dispatch_ready_agent":
+        project_agents = ", ".join(map(str, status.get("project_active_poll_agents") or []))
+        print(
+            "[status] active BEDC tab(s) are polling inside the Project but none are on a /c/... conversation page.",
+            flush=True,
+        )
+        if project_agents:
+            print(f"[status] project-active tab(s): {project_agents}", flush=True)
+        print(
+            "[status] do not open a third tab by default; put one existing BEDC tab on a conversation page or let the userscript navigate there.",
+            flush=True,
+        )
     elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
         agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
         seconds = status.get("zero_extraction_hang_seconds", "?")
+        url_tails = zero_extraction_url_tails(status)
         print(
-            f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
+            f"[status] {agents or 'an agent'} has an active task but extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
+        if url_tails:
+            print(f"[status] affected URL tail(s): {', '.join(url_tails)}", flush=True)
         print("[status] refresh only the affected ChatGPT tab, then let the queued/pending task resume.", flush=True)
     return status
 
@@ -256,6 +326,49 @@ def write_text(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
+def _extract_latex_body(raw_text: str) -> str:
+    fenced = re.search(r"```(?:latex)?\s*(.*?)```", raw_text or "", re.DOTALL)
+    if fenced:
+        return fenced.group(1)
+    first = re.search(r"\\begin\{(?:theorem|lemma|proposition|corollary|definition)\}", raw_text or "")
+    if first:
+        return raw_text[first.start():]
+    return raw_text or ""
+
+
+def _preflight_stage2_target(raw_text: str, suggested: str) -> tuple[bool, list[str], list[str]]:
+    """Deterministic Stage 2 target-file preflight before invoking writeback."""
+    if not suggested:
+        return (
+            False,
+            ["missing insertion target; expected `Insertion target: papers/bedc/parts/...tex`"],
+            ["bad_target_file"],
+        )
+    target = killo_golden_writeback._resolve_target_tex(suggested)
+    if target is None:
+        return (
+            False,
+            ["resolved tex_file is not a concrete body file"],
+            ["bad_target_file"],
+        )
+    content = _extract_latex_body(raw_text).strip()
+    if not content:
+        return (False, ["empty content"], ["empty_content"])
+    original = target.read_text(encoding="utf-8")
+    block = "\n\n" + content.rstrip() + "\n"
+    if "\\endinput" in original:
+        new_text = original.replace("\\endinput", block + "\\endinput", 1)
+    else:
+        new_text = original.rstrip() + block
+    if new_text.count("\n") + 1 > killo_golden_writeback.MAX_FILE_LINES:
+        return (
+            False,
+            [f"append would exceed {killo_golden_writeback.MAX_FILE_LINES} lines"],
+            ["line_cap"],
+        )
+    return (True, [], [])
+
+
 # ---------------------------------------------------------------------------
 # Verdict detection (response-side regex)
 # ---------------------------------------------------------------------------
@@ -306,6 +419,21 @@ def save_cursor(target: BedcTarget, cursor: dict) -> None:
 
 DEFAULT_CANDIDATE_FIT_THRESHOLD = 7
 DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
+LOGIC_PACKET_FIELDS = (
+    "axiom_budget",
+    "strength_level",
+    "budget_reason",
+    "witness_extractor",
+    "existence_mode",
+    "cut_rank",
+    "elimination_plan",
+    "equality_kind",
+    "interpretation_kind",
+    "resource_trace",
+    "dependency_trace",
+    "rate_modulus_surface",
+    "oracle_mode",
+)
 
 
 def existing_target_ids() -> list[str]:
@@ -321,15 +449,23 @@ def next_target_id() -> str:
 
 def render_candidate_entry(target_id: str, candidate: dict) -> str:
     title = candidate.get("title", "(untitled)")
-    claim = candidate.get("concrete_claim", "")
+    claim = candidate.get("claim") or candidate.get("concrete_claim") or ""
     inputs = candidate.get("local_inputs") or []
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
-    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    landing_kind = str(candidate.get("landing_kind") or "existing_chapter_lemma").strip()
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
+    logic_lines = []
+    for key in LOGIC_PACKET_FIELDS:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            logic_lines.append(f"- `{key}`: {value}")
+    logic_block = ""
+    if logic_lines:
+        logic_block = "\nLogic packet discipline:\n" + "\n".join(logic_lines) + "\n"
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -346,8 +482,16 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
         f"{worthiness_block}"
+        f"{logic_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
+
+
+def _logic_packet_rejection(candidate: dict) -> str:
+    result = logic_packet_gate.validate_logic_packet(candidate)
+    if result.ok:
+        return ""
+    return "logic_packet_gate:" + ";".join(result.reasons)
 
 
 def append_candidates_to_board(
@@ -381,6 +525,10 @@ def append_candidates_to_board(
                 continue
             if fit < fit_threshold or nov < novelty_threshold:
                 late_rejections.append({**cand, "reason": f"below_threshold fit={fit} nov={nov}"})
+                continue
+            logic_rejection = _logic_packet_rejection(cand)
+            if logic_rejection:
+                late_rejections.append({**cand, "reason": logic_rejection})
                 continue
             title = cand.get("title", "").strip()
             if not title:
@@ -515,7 +663,25 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         or bool(turns)
         or raw_latex_path.exists()
     )
-    codex_close_path = bool(codex_summary.get("close_path", False))
+    codex_close_value = codex_summary.get("close_path", False)
+    codex_close_path = bool(codex_close_value)
+    if (
+        codex_close_path
+        and not raw_latex_path.exists()
+        and isinstance(codex_close_value, str)
+        and "\\begin{" in codex_close_value
+    ):
+        insertion_hint = (
+            f"Insertion target: {codex_summary.get('tex_file')}\n\n"
+            if codex_summary.get("tex_file")
+            else ""
+        )
+        write_text(raw_latex_path, insertion_hint + codex_close_value.rstrip() + "\n")
+        print(
+            f"[v2 resume] {target.target_id} materialized {raw_latex_path.name} "
+            "from cursor codex_track.close_path; continuing to Stage 2",
+            flush=True,
+        )
     # Resume case: cursor was written under v1 Stage 0 (key: "stage0") with
     # accept verdict OR raw_oracle_latex.md exists from prior closed run.
     # Treat that content as a closed track — do NOT re-engage oracle.
@@ -894,36 +1060,58 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
     if verdict == "done" and raw_latex_path.exists():
         max_attempts = int(getattr(args, "stage2_max_attempts", 3))
         for attempt in range(1, max_attempts + 1):
-            suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
-            result = killo_golden_writeback.writeback(
-                target_id=target.target_id,
-                target_title=target.title,
-                transcript_dir=out_dir,
-                raw_latex_path=raw_latex_path,
-                suggested_target_tex=suggested,
-            )
-            attempt_record = {
-                "attempt": attempt,
-                "ok": result.ok,
-                "verdict": result.verdict,
-                "tex_file": result.tex_file,
-                "appended": result.appended,
-                "compile_ok": result.compile_ok,
-                "rejection_reasons": list(result.rejection_reasons),
-                "compile_errors": list(getattr(result, "compile_errors", None) or []),
-                "error": result.error,
-                "closure_candidate": getattr(result, "closure_candidate", None) or {},
-            }
+            raw_text = raw_latex_path.read_text(encoding="utf-8")
+            suggested = _extract_insertion_target(raw_text)
+            preflight_ok, preflight_reasons, preflight_codes = _preflight_stage2_target(raw_text, suggested)
+            result = None
+            if preflight_ok:
+                result = killo_golden_writeback.writeback(
+                    target_id=target.target_id,
+                    target_title=target.title,
+                    transcript_dir=out_dir,
+                    raw_latex_path=raw_latex_path,
+                    suggested_target_tex=suggested,
+                )
+                attempt_record = {
+                    "attempt": attempt,
+                    "ok": result.ok,
+                    "verdict": result.verdict,
+                    "tex_file": result.tex_file,
+                    "appended": result.appended,
+                    "compile_ok": result.compile_ok,
+                    "rejection_reasons": list(result.rejection_reasons),
+                    "rejection_codes": list(getattr(result, "rejection_codes", None) or []),
+                    "compile_errors": list(getattr(result, "compile_errors", None) or []),
+                    "error": result.error,
+                    "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                    "logic_audit": getattr(result, "logic_audit", None) or {},
+                }
+            else:
+                attempt_record = {
+                    "attempt": attempt,
+                    "ok": False,
+                    "verdict": "reject",
+                    "tex_file": suggested,
+                    "appended": False,
+                    "compile_ok": False,
+                    "rejection_reasons": preflight_reasons,
+                    "rejection_codes": preflight_codes,
+                    "compile_errors": [],
+                    "error": "",
+                    "closure_candidate": {},
+                    "logic_audit": {},
+                    "stage2_preflight": True,
+                }
             stage2_attempts.append(attempt_record)
-            if result.appended and result.compile_ok:
+            if result is not None and result.appended and result.compile_ok:
                 print(
                     f"[v2 stage2 attempt {attempt}] appended to {result.tex_file} and `make` succeeded",
                     flush=True,
                 )
                 break
             print(
-                f"[v2 stage2 attempt {attempt}] verdict={result.verdict} "
-                f"appended={result.appended} compile_ok={result.compile_ok}",
+                f"[v2 stage2 attempt {attempt}] verdict={attempt_record['verdict']} "
+                f"appended={attempt_record['appended']} compile_ok={attempt_record['compile_ok']}",
                 flush=True,
             )
             if attempt >= max_attempts:
@@ -934,12 +1122,22 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             # - verdict=="compile_failed": pdflatex broke; feed compile_errors as reasons
             # - other: nothing useful for codex; break
             corrective_reasons: list[str] = []
-            if result.verdict == "reject" and result.rejection_reasons:
-                corrective_reasons = list(result.rejection_reasons)
-            elif result.verdict == "compile_failed":
-                ce = list(getattr(result, "compile_errors", None) or [])
+            rejection_codes = list(attempt_record.get("rejection_codes") or [])
+            rejection_reasons = list(attempt_record.get("rejection_reasons") or [])
+            verdict_for_corrective = str(attempt_record.get("verdict") or "")
+            if verdict_for_corrective == "reject" and rejection_reasons:
+                corrective_reasons = list(rejection_reasons)
+                if rejection_codes:
+                    corrective_reasons = [
+                        "Stage 2 rejection code(s): " + ", ".join(rejection_codes),
+                        *corrective_reasons,
+                    ]
+            elif verdict_for_corrective == "compile_failed":
+                ce = list(attempt_record.get("compile_errors") or [])
                 if ce:
                     corrective_reasons = [
+                        "Stage 2 rejection code(s): "
+                        + ", ".join(rejection_codes or ["compile_failed"]),
                         "Stage 2 paper compile failed; pdflatex emitted these errors:",
                         *ce,
                         "Please fix the LaTeX so it compiles. Common patterns: "
@@ -949,13 +1147,17 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                         "`$$ ... $$` display math not on its own line; undefined "
                         "control sequence (likely a typo or mashed token).",
                     ]
+            elif verdict_for_corrective == "reject" and rejection_codes:
+                corrective_reasons = [
+                    "Stage 2 rejection code(s): " + ", ".join(rejection_codes)
+                ]
             if not corrective_reasons:
                 break
 
             # ---- v2 corrective: codex first, oracle fallback ----
             print(
                 f"[v2 stage2 attempt {attempt}] running codex corrective track "
-                f"(verdict={result.verdict}, {len(corrective_reasons)} reasons)",
+                f"(verdict={verdict_for_corrective}, {len(corrective_reasons)} reasons)",
                 flush=True,
             )
             cc = codex_track.run_codex_corrective_track(
@@ -989,7 +1191,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 args=args,
                 target=target,
                 conversation_id=conversation_id,
-                rejection_reasons=result.rejection_reasons,
+                rejection_reasons=corrective_reasons,
                 out_dir=out_dir,
                 attempt=attempt,
             )
@@ -1021,8 +1223,10 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "appended": last.get("appended", False),
                 "compile_ok": last.get("compile_ok", False),
                 "rejection_reasons": last.get("rejection_reasons", []),
+                "rejection_codes": last.get("rejection_codes", []),
                 "error": last.get("error", ""),
                 "closure_candidate": last.get("closure_candidate", {}),
+                "logic_audit": last.get("logic_audit", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))

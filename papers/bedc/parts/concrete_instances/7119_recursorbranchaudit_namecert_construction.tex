@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RecursorBranchAuditUp$}
+\label{ch:concrete-instances-recursor-branch-audit-namecert}
+\origin{ai}
+
+The $\RecursorBranchAuditUp$ surface realizes the branch-completeness portion of \autoref{ch:recursor-as-authorized-generator} as a finite NameCert packet. It refines the recursor authorization rows of \autoref{ch:concrete-instances-recursorauthorization-namecert}, the host-kernel audit boundary of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, and the legal recursor-call packet of \autoref{ch:concrete-instances-recursorgenerator-namecert} by exposing the constructor-indexed branch matrix, motive boundary, structural descent ledger, and generator non-escape row as separate audit coordinates.
+
+\begin{definition}[RecursorBranchAudit carrier]
+\label{def:recursor-branch-audit-carrier}
+A $\RecursorBranchAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,S,R,M,B,D,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted inductive-name row, including the local parameters and constructor namespace admitted by the host kernel;
+\item $S$ is the closed constructor-signature row, listing every constructor and its visible argument spine;
+\item $R$ is the emitted recursor row, naming the eliminator generated from $S$ and the accepted recursor-call boundary;
+\item $M$ is the motive-boundary row, recording the target family, scrutinee dependency, and branch-local output requirements;
+\item $B$ is the per-constructor branch matrix, with one branch row for each constructor in $S$ and with branch inputs aligned to the displayed constructor spine;
+\item $D$ is the structural descent ledger, recording recursive hypotheses and descent positions exposed by each constructor branch;
+\item $O$ is the generated-output row, naming the term, proof object, or definition produced by the audited recursor call;
+\item $H$ records componentwise $\hsame$ transport for $I,S,R,M,B,D,O$, continuation routes, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the inductive name, constructor signature, recursor, motive boundary, branch matrix, descent ledger, output row, and local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, accepted inductive signatures, emitted recursors, motive rows, constructor-indexed branch matrices, structural descent ledgers, output names, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RecursorBranchAuditUp}$ row.
+\end{enumerate}
+The carrier contains no branch-index row outside $S$, no branch omission route, no motive read outside $M$, no recursive call outside $D$, and no generated output outside $O$ and the local naming row.
+\end{definition}
+\leanchecked{BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RecursorBranchAudit NameCert obligations]
+\label{thm:recursor-branch-audit-namecert-obligations}
+For every accepted $\RecursorBranchAuditUp$ carrier $A=(I,S,R,M,B,D,O,H,C,P,N)$, the local $\NameCert_{\RecursorBranchAuditUp}$ surface consists exactly of the accepted inductive name, closed constructor signature, emitted recursor, motive boundary, constructor-indexed branch matrix, structural descent ledger, generated output, componentwise transports, continuation routes, package provenance, and local naming row displayed in \autoref{def:recursor-branch-audit-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:recursor-branch-audit-carrier}. Its displayed rows are precisely $I,S,R,M,B,D,O,H,C,P,N$.
+
+The obligation surface reads the signature and recursor data through $I,S,R$, the motive and branch obligations through $M,B$, and the recursive-call boundary through $D$. The output is public only through $O$ and the local naming row $N$.
+
+The remaining rows $H,C,P$ transport, route, and package the same finite data. Since no further coordinate is present, the NameCert obligations are exactly the displayed recursor-branch audit packet.
+\end{proof}
+
+\begin{theorem}[RecursorBranchAudit branch coverage]
+\label{thm:recursor-branch-audit-branch-coverage}
+For an accepted $\RecursorBranchAuditUp$ packet, the branch matrix $B$ has exactly one branch row for each constructor named by the closed signature row $S$. A consumer cannot obtain a recursor packet with fewer branch rows than constructors, an extra branch not indexed by $S$, or a branch whose input spine is detached from the displayed constructor row.
+\end{theorem}
+\begin{proof}
+Read the closed constructor-signature row $S$. It is the finite index of branch obligations for the emitted recursor row $R$.
+
+Read the branch matrix $B$ through the same recursor boundary. Each row of $B$ is indexed by one constructor row of $S$ and carries the branch inputs aligned to that constructor's visible spine.
+
+Transport and continuation access through $H$ and $C$ preserve the same indexing. Because the carrier has no coordinate for a second branch index, branch coverage is exactly the finite matrix displayed by $S$ and $B$.
+\end{proof}
+
+\begin{theorem}[RecursorBranchAudit motive boundary]
+\label{thm:recursor-branch-audit-motive-boundary}
+Every branch-output read in an accepted $\RecursorBranchAuditUp$ packet factors through the motive-boundary row $M$ and the constructor-indexed branch matrix $B$. The packet exposes no route by which a branch can select a target family, output type, or scrutinee dependency not recorded in $M$.
+\end{theorem}
+\begin{proof}
+Project the motive row $M$ and branch matrix $B$. The motive row records the target family and branch-local output requirements, while the matrix stores the branch rows that must meet those requirements.
+
+Use the continuation routes $C$ to read a branch output. The route reaches the branch row through $B$ and the corresponding output requirement through $M$ before it reaches the generated-output row $O$.
+
+Componentwise transport through $H$ preserves the same motive and branch rows. Since the carrier has no additional motive coordinate, no branch can export a target family or scrutinee dependency outside $M$.
+\end{proof}
+
+\begin{theorem}[RecursorBranchAudit generator non-escape]
+\label{thm:recursor-branch-audit-nonescape}
+Every generated output of an accepted $\RecursorBranchAuditUp$ packet factors through the emitted recursor row $R$, motive-boundary row $M$, branch matrix $B$, structural descent ledger $D$, and output row $O$. The packet exports no hidden generator, no omitted branch, no non-structural recursive call, and no output route outside its local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligation surface of \autoref{thm:recursor-branch-audit-namecert-obligations}. It places every public output downstream of the displayed signature, recursor, motive, branch, descent, and output rows.
+
+Apply branch coverage from \autoref{thm:recursor-branch-audit-branch-coverage} and the motive boundary from \autoref{thm:recursor-branch-audit-motive-boundary}. These results force each generated branch to be indexed by $S$ and typed through $M$.
+
+The structural descent ledger $D$ is the only recursive-call coordinate. After $H,C,P,N$ transport, route, package, and name the same rows, no hidden generator, omitted branch, non-structural recursion channel, or output escape remains available.
+\end{proof}
+
+The later Lean realization must create \texttt{lean4/BEDC/Derived/RecursorBranchAuditUp/TasteGate.lean} with explicit \texttt{Nontrivial RecursorBranchAuditUp} and \texttt{FieldFaithful RecursorBranchAuditUp} instances, including the future target \texttt{BEDC.Derived.RecursorBranchAuditUp.taste\_gate}.
+
+\falsifiablePrediction{Deleting the branch-index row permits a recursor packet with fewer branch rows than constructors, invalidating branch coverage for the displayed signature.}
+
+\independenceWitness{Nearest siblings: recursorauthorization, authorizedgeneratorrecursor, recursorgenerator, generatorclosure, and auditgateboundary; none is bijective because RecursorBranchAuditUp has a per-constructor branch matrix and motive-boundary row that the broader authorization and audit packets do not expose as separate fields.}
+
+\closureat{RecursorBranchAuditUp}{seedStr}
+
+\begin{closurestatus}{\RecursorBranchAuditUp}
+  \constructivestory{A $\RecursorBranchAuditUp$ packet is generated from an accepted inductive name, closed constructor signature, emitted recursor, motive boundary, constructor-indexed branch matrix, structural descent ledger, generated output, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:recursor-branch-audit-carrier}, \autoref{thm:recursor-branch-audit-namecert-obligations}, \autoref{thm:recursor-branch-audit-branch-coverage}, \autoref{thm:recursor-branch-audit-motive-boundary}, and \autoref{thm:recursor-branch-audit-nonescape} bind the finite branch-audit carrier, NameCert obligations, constructor-indexed branch coverage, motive boundary, and generator non-escape.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, public bridge checking, kernel completeness, general termination theory, semantic conservativity, or any recursor output outside the displayed branch-audit packet.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for branch coverage, motive-boundary exactness, structural-descent locality, output non-escape, and TasteGate field faithfulness.}
+\end{closurestatus}

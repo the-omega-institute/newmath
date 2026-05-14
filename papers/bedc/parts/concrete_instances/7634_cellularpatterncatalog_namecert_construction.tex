@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\CellularPatternCatalogUp$}
+\label{ch:concrete-instances-cellularpatterncatalog-namecert}
+\origin{ai}
+
+The $\CellularPatternCatalogUp$ packet realizes the finite glider, ether, and phase-row classifier described in \autoref{def:cellular-automaton-pattern-classifier} and \autoref{ex:cellular-automaton-glider-catalog}. It sits beside the cellular substrate classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, the local update rule of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, the halting trace classifier of \autoref{ch:concrete-instances-haltingtraceclassifier-namecert}, the halting finite boundary of \autoref{ch:concrete-instances-halting-finite-boundary-namecert}, and the cellular verb realignment packet of \autoref{ch:concrete-instances-cellular-verb-realignment-namecert}. The certificate records a finite pattern catalog, not an unbounded orbit semantics or a host-side judgment that every future row has been classified.
+
+\falsifiablePrediction{If a packet lacks either a finite phase-tag row or a finite local-window row, then it cannot satisfy the $\CellularPatternCatalogUp$ NameCert obligations.}
+
+\independenceWitness{cellularsubstrateclassifier, cellularlocalupdaterule, haltingtraceclassifier, haltingfiniteboundary, cellularverbrealignment: the catalog carrier is not bijective to any sibling because it carries the joint rule id, local window, finite phase/glider/ether tag, catalog row, transport, route, provenance, and local NameCert surface. The substrate classifier lacks the explicit catalog row, the local update rule lacks the tag classifier, the halting trace classifier and halting finite boundary lack the cellular phase catalog, and cellular verb realignment lacks the finite local-window catalog obligation.}
+
+\begin{definition}[Cellular pattern catalog carrier]
+\label{def:cellular-pattern-catalog-carrier}
+A $\CellularPatternCatalogUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,W,T,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the rule-identity row, naming the finite local cellular rule whose rows are being classified;
+\item $W$ is the finite local-window row, displaying the bounded cell neighbourhood read by the catalog;
+\item $T$ is the finite phase, glider, and ether tag row, whose labels are drawn from the catalog's closed tag table;
+\item $G$ is the catalog row, listing the finite phase strings, glider names, ether row, and local matching discipline used by the classifier;
+\item $H$ records componentwise $\hsame$ transport for the rule id, window, tag, catalog, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from rule id to local window, from local window to catalog row, from catalog row to tag row, and from those rows back through provenance and local naming;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, \autoref{ch:visions-cellular-automaton-substrate-reading}, and the sibling cellular and halting packets listed above;
+\item $N$ is the local $\NameCert_{\CellularPatternCatalogUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through $R,W,T,G,H,C,P,N$. It has no coordinate for an infinite orbit classifier, host visual recognition, a global completeness theorem for all rows, or an unlisted pattern tag.
+\end{definition}
+
+\begin{theorem}[CellularPatternCatalog NameCert obligations]
+\label{thm:cellular-pattern-catalog-namecert-obligations}
+For the carrier of \autoref{def:cellular-pattern-catalog-carrier}, the local $\NameCert_{\CellularPatternCatalogUp}$ surface consists exactly of carrier admission for $K=(R,W,T,G,H,C,P,N)$, rule-id exposure, finite local-window exposure, finite phase/glider/ether tag exposure, catalog-row lookup, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and local naming. Every accepted tag must be read through the route
+$$
+R \longmapsto W \longmapsto G \longmapsto T,
+$$
+with $H,C,P,N$ attached as transport, route, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-pattern-catalog-carrier}. The displayed tuple gives exactly the rule id, local window, tag row, catalog row, transport, route, provenance, and local naming coordinates.
+
+The cellular source of the classifier is \autoref{ch:visions-cellular-automaton-substrate-reading}. Its glider and ether examples become finite catalog rows here: a consumer first reads the rule row $R$, then the local window $W$, then the catalog row $G$, and only then the finite tag row $T$.
+
+The sibling chapters bind the surrounding lattice. The substrate classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert} supplies the cellular classifier surface, \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert} supplies local update discipline, \autoref{ch:concrete-instances-haltingtraceclassifier-namecert} and \autoref{ch:concrete-instances-halting-finite-boundary-namecert} keep trace and boundary reads finite, and \autoref{ch:concrete-instances-cellular-verb-realignment-namecert} aligns the cellular vocabulary with the NameCert route.
+
+Finally, $H,C,P,N$ preserve and name the same finite catalog. Since no row of $K$ is an infinite orbit classifier, a host visual recognizer, a global completeness theorem, or an unlisted tag, the NameCert obligations are exhausted by the displayed route.
+\end{proof}
+
+\closureat{CellularPatternCatalogUp}{seedStr}
+
+\begin{closurestatus}{\CellularPatternCatalogUp}
+  \constructivestory{A $\CellularPatternCatalogUp$ packet is generated from a finite cellular rule id, local window, phase/glider/ether tag row, catalog row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-pattern-catalog-carrier} and \autoref{thm:cellular-pattern-catalog-namecert-obligations} bind the finite rule, window, tag, catalog, transport, route, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a complete orbit classifier, host visual recognition, global classification of all future rows, or a public standard bridge.}
+  \upgradepath{Lean follow-up will include Nontrivial and FieldFaithful instances in \texttt{lean4/BEDC/Derived/CellularPatternCatalogUp/TasteGate.lean}.}
+\end{closurestatus}
+
+\begin{lemma}[CellularPatternCatalog tag lookup determinacy]
+\label{lem:cellular-pattern-catalog-tag-lookup-determinacy}
+Let
+$$
+K=(R,W,T,G,H,C,P,N)
+$$
+and
+$$
+K'=(R',W',T',G',H',C',P',N')
+$$
+be accepted $\CellularPatternCatalogUp$ carriers in the sense of \autoref{def:cellular-pattern-catalog-carrier}. Suppose that the two packets agree on the rule-identity row, finite local-window row, catalog row, componentwise transport row, continuation route row, provenance row, and local naming row:
+$$
+R=R',\quad W=W',\quad G=G',\quad H=H',\quad C=C',\quad P=P',\quad N=N'.
+$$
+Then the exposed finite phase, glider, and ether tag rows $T$ and $T'$ classify together under the local $\NameCert_{\CellularPatternCatalogUp}$ classifier.
+\end{lemma}
+\begin{proof}
+By \autoref{thm:cellular-pattern-catalog-namecert-obligations}, every accepted tag read in a $\CellularPatternCatalogUp$ packet is consumed through the displayed route
+$$
+R \longmapsto W \longmapsto G \longmapsto T,
+$$
+with $H,C,P,N$ attached as the transport, route replay, provenance, and local naming rows. Thus $T$ is not an independent tag judgment: it is the tag row exposed by the finite catalog lookup whose visible inputs are the rule row $R$, the local window row $W$, and the catalog row $G$.
+
+The same statement holds for $K'$ through the route
+$$
+R' \longmapsto W' \longmapsto G' \longmapsto T'.
+$$
+The hypotheses identify the lookup inputs $R,W,G$ with $R',W',G'$ and also identify the rows $H,C,P,N$ with $H',C',P',N'$. Therefore both accepted packets replay the same finite catalog row against the same finite local window under the same local naming and provenance surface.
+
+The catalog row $G$ is finite by \autoref{def:cellular-pattern-catalog-carrier}, and its tag labels are drawn from the closed tag table described in \autoref{def:cellular-automaton-pattern-classifier} and instantiated by the glider and ether catalog of \autoref{ex:cellular-automaton-glider-catalog}. On a fixed finite rule row and fixed finite local window, reading the same displayed catalog row exposes a single local tag-classification row. A failure of $T$ and $T'$ to classify together would therefore require either a different rule identity, a different local window, a different catalog row, a different replay or transport row, or an extra host-side tag coordinate outside the carrier.
+
+No such coordinate is present in \autoref{def:cellular-pattern-catalog-carrier}, and the agreed rows exhaust the lookup route of \autoref{thm:cellular-pattern-catalog-namecert-obligations}. Hence the two exposed finite phase, glider, and ether tag rows classify together.
+\end{proof}

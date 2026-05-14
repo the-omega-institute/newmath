@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\KernelInductiveAcceptanceUp$}
+\label{ch:concrete-instances-kernelinductiveacceptance-namecert}
+\origin{ai}
+
+The $\KernelInductiveAcceptanceUp$ packet realizes the inductive-declaration branch of \autoref{ch:visions-kernel-acceptance-as-audit-witness} as finite NameCert data. It sits beside the accepted-declaration packet of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the generic acceptance trace of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, the generator closure classifier of \autoref{ch:concrete-instances-generatorclosure-namecert}, the type-classifier membership surface of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the subject-reduction boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}. Those siblings expose acceptance, trace, closure, membership, and preservation rows; this packet isolates the constructor-signature plus emitted-eliminator ledger required for accepted inductive declarations.
+
+\begin{definition}[KernelInductiveAcceptance carrier]
+\label{def:kernel-inductive-acceptance-carrier}
+A $\KernelInductiveAcceptanceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,S,E,P,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the inductive declaration candidate row, including the carrier name, parameters, indices, universe data, and constructor-name inventory;
+\item $S$ is the constructor-signature ledger, recording the finite domain and target signature of every constructor accepted for $D$;
+\item $E$ is the emitted-eliminator ledger, recording the recursor, induction principle, and computation rows generated from the accepted signature;
+\item $P$ is the positivity-refusal row, recording that a candidate whose constructor signature violates the local positivity discipline is refused rather than entered into the environment;
+\item $R$ is the recursion-discipline row, recording that eliminator and recursor consumers may read only the emitted rows in $E$;
+\item $H$ records componentwise $\hsame$ transports for $D,S,E,P,R,Q,N$;
+\item $C$ records the displayed $\Cont$ routes from the declaration candidate to constructor signatures, from constructor signatures to emitted eliminators, from failed signatures to positivity refusal, and from emitted eliminators to downstream consumers;
+\item $Q$ is the $\Pkg$ provenance over \autoref{ch:visions-kernel-acceptance-as-audit-witness}, \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, \autoref{ch:concrete-instances-generatorclosure-namecert}, \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, \autoref{ch:concrete-instances-subjectreduction-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\KernelInductiveAcceptanceUp}$ row.
+\end{enumerate}
+The carrier contains no theorem-proof row, no generic theorem trace, no generator-closure theorem, no type-membership theorem, and no subject-reduction target row beyond the emitted eliminator ledger displayed in $E$.
+\end{definition}
+\leandef{BEDC.Derived.KernelInductiveAcceptanceUp.KernelInductiveAcceptanceUp}
+
+\begin{theorem}[KernelInductiveAcceptance NameCert obligations]
+\label{thm:kernel-inductive-acceptance-namecert-obligations}
+For the carrier of \autoref{def:kernel-inductive-acceptance-carrier}, the local $\NameCert_{\KernelInductiveAcceptanceUp}$ surface has five rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $I=(D,S,E,P,R,H,C,Q,N)$;
+\item constructor-signature exactness, requiring every accepted constructor read to be one of the displayed entries of $S$;
+\item emitted-eliminator ledger exactness, requiring every recursor, induction-principle, and computation read to pass through $E$ after $S$ is visible;
+\item positivity-refusal stability, requiring a failed positivity check to land in $P$ rather than in an environment-entry row;
+\item environment-entry non-escape, requiring downstream acceptance, trace, generator, type-classifier, and subject-reduction consumers to read only $D,S,E,P,R,H,C,Q,N$ and not a hidden kernel-correctness theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The declaration candidate, constructor-signature ledger, emitted-eliminator ledger, positivity refusal, recursion discipline, transport, route, provenance, and local name are all coordinates of the same finite $\BHist$ object.
+
+Constructor-signature exactness and emitted-eliminator exactness are the two accepted rows. The accepted constructor inventory is read from $S$, and each eliminator or recursor consumer must first expose $S$ before reading the generated ledger $E$.
+
+The refusal and environment clauses separate accepted and rejected packets. A failed positivity read lands in $P$ and never reaches the environment-entry route, while an accepted read may enter the environment only through the displayed $D,S,E,R,H,C,Q,N$ rows.
+
+The sibling chapters then consume only the finite rows they name. KernelAcceptanceWitness and KernelAcceptanceTrace can read the environment entry, GeneratorClosure can read the accepted generator boundary, TypeClassifierMembership can read emitted type-classifier data, and SubjectReduction can read recursor-facing preservation boundaries; none of those reads adds an unrecorded proof of kernel correctness.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance nontrivial boundary]
+\label{thm:kernel-inductive-acceptance-nontrivial-boundary}
+The $\KernelInductiveAcceptanceUp$ packet has a nontrivial boundary for TasteGate: an accepted packet displays at least one accepted environment-entry route through $D,S,E,R,H,C,Q,N$, while a candidate whose constructor signature lacks the required positivity row lands in $P$ and is not accepted. Phase C must realize this as a Nontrivial $\KernelInductiveAcceptanceUp$ instance in $\mathsf{BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate}$.
+\end{theorem}
+\begin{proof}
+Use the carrier to separate accepted and refused rows. Accepted packets expose constructor signatures and emitted eliminators through $S$ and $E$, while refused packets expose the positivity boundary $P$.
+
+The NameCert obligation surface makes the separation observable. Environment-entry non-escape permits an accepted route only after the displayed constructor-signature and eliminator ledgers are present, and positivity-refusal stability prevents a failed candidate from taking that route.
+
+Thus the TasteGate boundary is not empty: it has an accepted side and a refused side, both represented by finite rows of the same carrier.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance field-faithful boundary]
+\label{thm:kernel-inductive-acceptance-field-faithful-boundary}
+The $\KernelInductiveAcceptanceUp$ packet is field-faithful for TasteGate: any accepted read that preserves $D,S,E,P,R,H,C,Q,N$ componentwise preserves the inductive-declaration acceptance row, and any read that drops either the constructor-signature ledger $S$ or the emitted-eliminator ledger $E$ is not a faithful read of this carrier. Phase C must realize this as a FieldFaithful $\KernelInductiveAcceptanceUp$ instance in $\mathsf{BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate}$.
+\end{theorem}
+\begin{proof}
+Start with two accepted reads matched componentwise by the displayed $\hsame$ row. The declaration candidate, signature ledger, eliminator ledger, refusal boundary, recursion discipline, routes, provenance, and local name are therefore transported together.
+
+Apply constructor-signature exactness and emitted-eliminator exactness from the NameCert surface. These two rows are the fields that distinguish inductive acceptance from a generic accepted declaration or trace.
+
+If either row is absent, the carrier no longer exposes the paired signature-plus-eliminator surface. The read may belong to a sibling acceptance packet, but it is not faithful to $\KernelInductiveAcceptanceUp$.
+\end{proof}
+
+\falsifiablePrediction{If the carrier is atomic, every accepted row exposes a constructor signature and emitted eliminator ledger; a packet lacking either row is rejected by the local classifier.}
+
+\independenceWitness{kernelacceptancewitness, kernelacceptancetrace, generatorclosure, typeclassifiermembership, subjectreduction: none is bijective because those siblings lack the paired constructor-signature plus emitted-eliminator ledger row, while this carrier lacks their theorem-proof, generic trace, generator-closure, or subject-reduction target rows.}
+
+\closureat{KernelInductiveAcceptanceUp}{seedStr}

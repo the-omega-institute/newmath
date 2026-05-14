@@ -1,0 +1,36 @@
+\begin{theorem}[ContinuationMonad triad unit route package]
+\label{thm:continuation-monad-triad-unit-route-package}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the triad rows $A,B,C$, the continuation tails $f,g$, the unit tail $u$, and the rows $H,K,L,N$ are the complete unit-and-bind route package. The unit route is the displayed $u$ row, the bind route is the displayed read through $f,g,K,L$, and the local readback has no coordinate for host function composition, quotient Kleisli arrows, or a general category primitive.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It exposes exactly the three histories, the two continuation tails, the unit tail, the transport row, the route row, the ledger row, and the local naming row.
+
+Apply the unit laws of \autoref{thm:continuation-monad-unit-laws} and the associativity theorem of \autoref{thm:continuation-monad-associativity}. The unit route and bind read are therefore ledger routes over $u,f,g,K,L$, transported componentwise by $H$.
+
+Use classifier stability and ledger exactness from \autoref{thm:continuation-monad-classifier-stability} and \autoref{thm:continuation-monad-namecert-ledger-exactness}. These facts exhaust the consumer-visible route by the displayed packet, so no host function, quotient Kleisli arrow, or external category primitive remains available.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad generator hom route exhaustion]
+\label{thm:continuation-monad-generator-hom-route-exhaustion}
+Every generator-facing or $\mathsf{CategoryHomCarrier}$-facing read of an accepted $\ContinuationMonadUp$ packet is exhausted by the displayed continuation tails $f,g,u$, the generator-boundary surface, and the $\CategoryUp$ hom-carrier surface. The read factors through $A,B,C,H,K,L,N$ and cannot introduce an unlisted continuation rule, independent hom carrier, ambient hom set, host function, or quotient Kleisli arrow.
+\end{theorem}
+\begin{proof}
+First read the generator boundary through \autoref{thm:continuation-monad-generator-boundary-refusal}. It refuses every unit row, bind row, continuation rule, or route generator not displayed in the packet.
+
+Next read the category-facing surface through \autoref{thm:continuation-monad-category-hom-row-exposure}. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ entries are exposed only as reads of the displayed tails over $A,B,C,H,K,L,N$.
+
+Finally combine ledger exactness from \autoref{thm:continuation-monad-namecert-ledger-exactness} with the Kleisli boundary of \autoref{thm:continuation-monad-kleisli-composition-boundary}. The generator and hom-carrier readings are therefore exhausted by the continuation rows already present in the packet, with no unlisted rule or external hom object left to read.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root downstream readback package]
+\label{thm:continuation-monad-root-downstream-readback-package}
+The rows displayed in \autoref{thm:continuation-monad-triad-unit-route-package} and \autoref{thm:continuation-monad-generator-hom-route-exhaustion} form the downstream root-unblock surface for $\ContinuationMonadUp$. A downstream consumer receives precisely $A,B,C,f,g,u,H,K,L,N$, the generator-boundary refusal of unlisted continuation rules, and the $\CategoryUp$ hom-carrier reading of the displayed tails.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_downstream\_readback\_package}
+\begin{proof}
+Use the triad unit route package to expose the local source. The downstream surface begins with $A,B,C,f,g,u,H,K,L,N$ and reads unit and bind only through the displayed continuation routes.
+
+Use the generator hom route exhaustion to expose the two external faces. The generator boundary refuses unlisted rules, while the CategoryUp surface reads the hom-carrier and continuation-morphism rows from the same displayed tails.
+
+Together these rows are exactly the carrier, unit, associativity, classifier stability, ledger exactness, generator boundary, category hom exposure, and local NameCert data cited in the core chapter. Since each downstream face is already accounted for by those rows, the readback package exports no host function composition, quotient Kleisli category, ambient hom set, or additional continuation generator.
+\end{proof}

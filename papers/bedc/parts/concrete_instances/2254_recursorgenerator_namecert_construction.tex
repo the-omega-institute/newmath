@@ -4,6 +4,8 @@
 
 The $\RecursorGeneratorUp$ surface packages the authorized use of inductive recursors as finite NameCert data. It records an accepted inductive signature, legal calls to the generated eliminator, branch packages, audit rows, MetaCIC closed-term substitution routes, componentwise transports, continuation access, provenance, and the local naming row. The packet is not an ambient reflection principle, an unchecked code generator, or an escape from the displayed inductive boundary.
 
+The packet consumes the authorized eliminator surface of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} and the generator-boundary closure of \autoref{ch:concrete-instances-generatorclosure-namecert}. AuthorizedGeneratorRecursor supplies the legal recursor-call and branch-package rows, while GeneratorClosure supplies the refusal of unlisted generator routes.
+
 \begin{definition}[RecursorGenerator carrier]
 \label{def:recursor-generator-carrier}
 A $\RecursorGeneratorUp$ carrier is a finite $\BHist$ packet
@@ -76,15 +78,65 @@ Use $H$ and $C$ to move and read the generated output. Componentwise transport p
 Package provenance is then supplied by $P$ and the local naming row $N$. The consumer receives a finite certificate over the displayed dependencies, not a host reflection theorem or a global normalization result.
 \end{proof}
 
+\begin{theorem}[RecursorGenerator authorized output factorization]
+\label{thm:recursor-generator-authorized-output-factorization}
+Every public generated output of an accepted $\RecursorGeneratorUp$ packet factors through the displayed rows
+$$
+(I,E,B,A,M,H,C,P,N).
+$$
+The factorization reads the legal eliminator call, the constructor-indexed branch package, the audit row, and the MetaCIC closed-term handoff before any output is exposed. Hence no public output can bypass the branch coverage supplied by the $\AuthorizedGeneratorRecursorUp$ surface in \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:recursor-generator-carrier}. It exposes exactly the rows $I,E,B,A,M,H,C,P,N$, so a public generated output has no coordinate outside this tuple.
+
+Apply the authorization surface of \autoref{thm:recursor-generator-authorization-obligations}. The signature row $I$ licenses the legal eliminator call $E$, and the branch row $B$ supplies exactly the constructor-indexed branches required by that call.
+
+Use the audit and handoff rows next. By \autoref{thm:recursor-generator-audit-non-escape}, the output must pass through $A,I,E,B$ before becoming public; by \autoref{thm:recursor-generator-closed-term-handoff}, the exported generated term is delivered through $M$ with the displayed transport, continuation, package, and local naming provenance.
+
+The sibling $\AuthorizedGeneratorRecursorUp$ reference supplies the public branch-coverage boundary consumed by this chapter. Since the carrier has no extra branch or generator coordinate, the displayed factorization is exhaustive.
+\end{proof}
+
+\begin{theorem}[RecursorGenerator branch and descent exhaustion]
+\label{thm:recursor-generator-branch-descent-exhaustion}
+For an accepted $\RecursorGeneratorUp$ packet, every branch read and every descent read used by a generated recursor output is exhausted by the displayed constructor-indexed branch package $B$ together with the MetaCIC closed-term substitution row $M$. The packet cannot expose an unlisted constructor case, a hidden recursive call, or a descent route outside the authorized recursor surface consumed from \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}.
+\end{theorem}
+\begin{proof}
+Project the branch package from the carrier of \autoref{def:recursor-generator-carrier}. The row $B$ lists one branch package for each constructor of $I$, including branch inputs, recursive hypotheses, output row, and branch-local $\Pkg$ provenance.
+
+Apply \autoref{thm:recursor-generator-authorization-obligations}. Branch coverage is one of the finite local obligations, and transport locality prevents $\hsame$ or $\Cont$ access from adding another generator.
+
+The descent read is then tied to the closed-term handoff. By \autoref{thm:recursor-generator-closed-term-handoff}, every downstream generated output is exported through $M$, so each branch output is read only as a MetaCIC closed-term substitution route accepted by the displayed classifier.
+
+Finally use \autoref{thm:recursor-generator-audit-non-escape}. Since unlisted branches, hidden recursive calls, and unaudited dependency channels have no public coordinate, the constructor-indexed branch package and the closed-term substitution row exhaust the visible branch and descent surface.
+\end{proof}
+
+\begin{theorem}[RecursorGenerator downstream scope package]
+\label{thm:recursor-generator-downstream-scope-package}
+Every downstream self-compilation, $\TasteGate$, or generated-certificate consumer of an accepted $\RecursorGeneratorUp$ packet receives only the finite $\RecursorGeneratorUp$ scope package
+$$
+(I,E,B,A,M,H,C,P,N).
+$$
+Such a consumer may inspect the authorized signature, eliminator call, branch package, audit row, closed-term handoff, transport, continuation, provenance, and local certificate rows, but it receives no host reflection principle, no unchecked generator, and no certificate outside this finite scope.
+\end{theorem}
+\begin{proof}
+Read the consumer interface from the carrier of \autoref{def:recursor-generator-carrier}. The continuation row $C$ exposes precisely the signature, eliminator call, branch package, audit row, closed-term handoff, provenance, and local certificate routes.
+
+The authorized output factorization of \autoref{thm:recursor-generator-authorized-output-factorization} forces every public generated output through the same rows. The branch and descent exhaustion of \autoref{thm:recursor-generator-branch-descent-exhaustion} prevents the consumer from replacing $B$ or $M$ with an external recursor route.
+
+Apply \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:recursor-generator-audit-non-escape}, and \autoref{thm:recursor-generator-closed-term-handoff}. Together they bind signature authorization, audit confinement, and MetaCIC closed-term delivery inside the displayed packet.
+
+Therefore a self-compilation row, a $\TasteGate$ row, or a generated-certificate row receives the finite $\RecursorGeneratorUp$ scope package and nothing beyond it.
+\end{proof}
+
 \closureat{RecursorGeneratorUp}{seedStr}
 
 \begin{closurestatus}{\RecursorGeneratorUp}
   \constructivestory{A $\RecursorGeneratorUp$ packet is generated from an accepted inductive signature, a legal recursor call, constructor-indexed branch packages, audit rows, MetaCIC closed-term substitution, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:recursor-generator-carrier}, \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:recursor-generator-audit-non-escape}, and \autoref{thm:recursor-generator-closed-term-handoff} bind recursor generation as a finite authorization packet for accepted inductive signatures, legal eliminator calls, audit non-escape, and closed-term handoff.}
+  \scopeclosed{\autoref{def:recursor-generator-carrier}, \autoref{thm:recursor-generator-authorization-obligations}, \autoref{thm:recursor-generator-audit-non-escape}, \autoref{thm:recursor-generator-closed-term-handoff}, \autoref{thm:recursor-generator-authorized-output-factorization}, \autoref{thm:recursor-generator-branch-descent-exhaustion}, and \autoref{thm:recursor-generator-downstream-scope-package} bind recursor generation as a finite authorization packet for accepted inductive signatures, legal eliminator calls, audit non-escape, closed-term handoff, authorized output factorization, branch and descent exhaustion, and downstream scope packaging.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, host reflection, global normalization, semantic completeness, non-positive eliminators, or unchecked generator execution.}
-  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for authorization obligations, audit non-escape, and closed-term handoff.}
+  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for authorization obligations, audit non-escape, closed-term handoff, authorized output factorization, branch and descent exhaustion, and downstream scope packaging.}
 \end{closurestatus}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FuelBoundedPartialTraceUp$}
+\label{ch:concrete-instances-fuelboundedpartialtrace-namecert}
+\origin{ai}
+
+The $\FuelBoundedPartialTraceUp$ packet is the finite NameCert realization of the total-host versus universal-substrate boundary of \autoref{ch:visions-strong-normalization-vs-turing-completeness}. It takes the step-indexed computation reading of \texttt{r110\_run\_n\_steps}, exposes the fuel row as public data, and records only the bounded trace cells that a total host can inspect. The packet sits beside $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, $\ZNormalUp$, $\TypedReductionNormalFormUp$, and $\MetaCICNormalizationBudgetUp$; it is not a halting claim, a partial evaluator, a quotient trace, or an ambient universality surface.
+
+\falsifiablePrediction{A trace read without the displayed fuel row is not accepted by $\FuelBoundedPartialTraceUp$.}
+
+\independenceWitness{boundeduniversaltrace, cellularautomaton, znormal, typedreductionnormalform, metacicnormalizationbudget: none is bijective to $\FuelBoundedPartialTraceUp$ because the packet binds a fuel row, substrate row, finite prefix trace, readback row, and total-host refusal row in one carrier, while each sibling omits at least one of those coordinates or uses a different classifier surface.}
+
+$\FuelBoundedPartialTraceUp$ consumes \autoref{ch:concrete-instances-bounded-universal-trace-namecert} as the larger total-host bounded-trace surface and \autoref{ch:concrete-instances-continuationtrace-namecert} as the finite prefix ledger. Its own contribution is the partial-trace fuel and refusal specialization over those sibling surfaces, not a standalone substrate.
+
+\begin{definition}[FuelBoundedPartialTrace carrier]
+\label{def:fuel-bounded-partial-trace-carrier}
+A $\FuelBoundedPartialTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,S,I,R,O,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the fuel row naming the finite step budget used by the host read;
+\item $S$ is the substrate row, such as the $\CellularAutomatonUp$ Rule~110 local-rule surface or another displayed universal-substrate row;
+\item $I$ is the initial-data row for the bounded run;
+\item $R$ is the finite trace-prefix row containing only states admitted below the budget $F$;
+\item $O$ is the readback row selected from the displayed prefix $R$;
+\item $B$ is the total-host refusal row stating that reads outside the displayed budget are absent rather than negative halting facts;
+\item $H$ records componentwise $\hsame$ transports for $F,S,I,R,O,B,P,N$;
+\item $C$ records displayed $\Cont$ routes through the step-indexed trace prefix, readback row, and refusal boundary;
+\item $P$ is the $\Pkg$ provenance over $\FuelBoundedPartialTraceUp$, \autoref{ch:visions-strong-normalization-vs-turing-completeness}, $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, $\ZNormalUp$, $\TypedReductionNormalFormUp$, $\MetaCICNormalizationBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FuelBoundedPartialTraceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows $F,S,I,R,O,B,H,C,P,N$. It has no coordinate for an unbounded halting predicate, a partial host evaluator, a choice of infinite nontermination evidence, quotient equality of traces, or a universal-substrate semantic completion.
+\end{definition}
+
+\begin{theorem}[FuelBoundedPartialTrace NameCert obligations]
+\label{thm:fuel-bounded-partial-trace-namecert-obligations}
+For the carrier of \autoref{def:fuel-bounded-partial-trace-carrier}, the local $\NameCert_{\FuelBoundedPartialTraceUp}$ surface consists exactly of carrier admission for $T=(F,S,I,R,O,B,H,C,P,N)$, fuel-indexed trace exposure through $F,S,I,R$, readback accountability through $O$, total-host refusal through $B$, componentwise transport through $H$, route replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fuel-bounded-partial-trace-carrier}. The fuel, substrate, initial-data, trace-prefix, readback, refusal, transport, route, provenance, and naming rows are the only public coordinates.
+
+The trace side is read through $F,S,I,R$. A consumer may inspect a finite prefix produced below the displayed budget, but the packet contains no coordinate for an unbounded run or a host-level partial evaluator.
+
+The readback and refusal side is read through $O$ and $B$. The selected row $O$ must come from the displayed prefix $R$, while $B$ records that an out-of-budget read is absent at this certificate surface rather than represented as a halting or nonhalting fact.
+
+Finally $H,C,P,N$ bind the NameCert surface. Since the excluded semantic objects have no coordinate in the packet, the listed rows exhaust the obligations.
+\end{proof}
+
+\begin{theorem}[FuelBoundedPartialTrace total-host refusal]
+\label{thm:fuel-bounded-partial-trace-total-host-refusal}
+An accepted $\FuelBoundedPartialTraceUp$ packet admits a public trace read only when the read factors through the displayed fuel row $F$ and finite trace prefix $R$. A consumer that omits $F$, replaces $R$ by an unbounded substrate run, or asks for a row beyond the displayed budget reaches the refusal row $B$ and obtains no halting predicate, no partial evaluator result, no quotient trace equality, and no ambient universality claim.
+\end{theorem}
+\begin{proof}
+Begin with the carrier coordinates. The only computation-facing rows are the budget $F$, substrate $S$, initial data $I$, trace prefix $R$, readback row $O$, and refusal row $B$.
+
+If a read is in budget, the route row $C$ sends it through $F$ and the displayed prefix $R$ before reaching $O$. This is a finite step-indexed read of the kind described in \autoref{def:strong-normalization-step-indexed-encoding}.
+
+If the read omits the budget or asks outside the displayed prefix, the packet has no terminal coordinate to expose. The refusal row $B$ is therefore the only public boundary, and it refuses by absence of a displayed finite row rather than by importing halting, partiality, quotient equality, or universal-substrate semantics.
+\end{proof}
+
+The Lean follow-up for $\mathsf{BEDC.Derived.FuelBoundedPartialTraceUp}$ will provide $\mathsf{Nontrivial}\ \FuelBoundedPartialTraceUp$ and $\mathsf{FieldFaithful}\ \FuelBoundedPartialTraceUp$ instances for the displayed carrier. Those instances must preserve the fuel row, substrate row, initial-data row, trace-prefix row, readback row, refusal row, componentwise transports, replay routes, package provenance, and local naming row.
+
+\closureat{FuelBoundedPartialTraceUp}{seedStr}
+
+\begin{closurestatus}{\FuelBoundedPartialTraceUp}
+  \constructivestory{A $\FuelBoundedPartialTraceUp$ packet is generated from a fuel row, substrate row, initial-data row, finite trace-prefix row, readback row, total-host refusal row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fuel-bounded-partial-trace-carrier}, \autoref{thm:fuel-bounded-partial-trace-namecert-obligations}, and \autoref{thm:fuel-bounded-partial-trace-total-host-refusal} specify the finite fuel-bounded trace packet for total-host reads of universal-substrate computations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, partial evaluator semantics, quotient trace equality, selected nontermination evidence, or universal-substrate semantic completion.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-indexed trace exposure, readback accountability, total-host refusal, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

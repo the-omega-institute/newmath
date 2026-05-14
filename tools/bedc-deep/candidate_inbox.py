@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 import hashlib
+import argparse
 import json
 import re
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +23,10 @@ FORBIDDEN_AXIS_RE = re.compile(
     r"closurestatus|theoryclosure|formalstatus|leantarget|leanchecked|"
     r"leanvariant|leansorry|leanstmt|leandef|marker-only|verification-axis|"
     r"chapter retirement",
+    re.IGNORECASE,
+)
+NEGATED_FORBIDDEN_AXIS_RE = re.compile(
+    r"\b(?:not|no|without|avoid(?:s|ing)?|exclud(?:e|es|ed|ing)|rather than|instead of)\b",
     re.IGNORECASE,
 )
 STRUCTURAL_TITLE_RE = re.compile(
@@ -46,6 +51,10 @@ LITERAL_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 STANDARD_LABEL_PREFIXES = ("sec", "subsec", "fact", "obs", "rmk", "thm", "lem", "prop", "cor", "def", "eq")
 LINE_CAP = 800
 FALLBACK_LINE_READ_BYTES = 100 * 1024
+INSPIRATION_ONLY_PATH_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 
 
 @dataclass
@@ -73,6 +82,32 @@ def _claim(candidate: dict[str, Any]) -> str:
         or candidate.get("problem")
         or ""
     ).strip()
+
+
+def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
+    """Reject marker-axis targets without punishing negated evidence notes."""
+    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
+        return True
+    for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):
+        if not FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        if NEGATED_FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        return True
+    return False
+
+
+def _is_conjecture_fallback(candidate: dict[str, Any]) -> bool:
+    """Conjecture fallback is a review lane, not an executable BOARD lane."""
+    tastegate_mode = str(candidate.get("tastegate_mode") or "").strip().lower()
+    if tastegate_mode == "conjecture_fallback":
+        return True
+    value = str(candidate.get("conjecture_fallback") or "").strip().lower()
+    if not value:
+        return False
+    if value in {"false", "no", "none", "n/a", "na", "0"}:
+        return False
+    return True
 
 
 def _candidate_id(candidate: dict[str, Any], source: str) -> str:
@@ -123,6 +158,9 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
         "dependency_trace": candidate.get("dependency_trace"),
         "rate_modulus_surface": candidate.get("rate_modulus_surface"),
         "oracle_mode": candidate.get("oracle_mode"),
+        "difficulty": candidate.get("difficulty"),
+        "quality_score": candidate.get("quality_score"),
+        "selection_rank": candidate.get("selection_rank"),
         **extra,
     }
     with file_lock("candidate_inbox"):
@@ -293,7 +331,9 @@ def _rejection_reason(
         return "missing_claim"
     if len(claim) < 30:
         return "claim_too_short"
-    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim, rationale])):
+    if _is_conjecture_fallback(candidate):
+        return "conjecture_fallback_not_board_lane"
+    if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
@@ -329,6 +369,8 @@ def _rejection_reason(
             return f"non_paper_local_input:{rel}"
         if not rel.startswith("papers/bedc/parts/"):
             return f"non_paper_local_input:{rel}"
+        if INSPIRATION_ONLY_PATH_RE.search(rel):
+            return f"inspiration_only_not_board_landing:{rel}"
         if not _path_exists(rel):
             return f"missing_local_input:{rel}"
         info = file_lookup.get(rel)
@@ -416,24 +458,197 @@ def record_rejections(candidates: list[dict[str, Any]], *, mode: str) -> None:
         _record("rejected", candidate, source, reason=reason, mode=mode)
 
 
-def stats(limit: int = 5000) -> dict[str, Any]:
+def _parse_record_ts(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if ts.tzinfo is None:
+        return ts.replace(tzinfo=timezone.utc)
+    return ts.astimezone(timezone.utc)
+
+
+def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     if not INBOX_PATH.exists():
-        return {"events": 0, "by_event": {}}
+        return {
+            "events": 0,
+            "sampled": 0,
+            "windowed": 0,
+            "latest_event_ts": None,
+            "latest_event_age_seconds": None,
+            "latest_event": None,
+            "latest_by_source": {},
+            "latest_by_source_sampled": {},
+            "by_event": {},
+        }
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
-    tail = lines[-limit:]
+    tail = lines[-limit:] if limit > 0 else lines
+    window_start: datetime | None = None
+    if since_hours > 0:
+        window_start = datetime.now(timezone.utc) - timedelta(hours=since_hours)
     by_event: dict[str, int] = {}
+    by_rejection_reason: dict[str, int] = {}
+    by_logic_packet_reason: dict[str, int] = {}
+    by_current_logic_packet_reason: dict[str, int] = {}
+    by_rejection_source: dict[str, int] = {}
+    by_source_reason: dict[str, dict[str, int]] = {}
+    seen_rejection_keys: set[tuple[str, str]] = set()
+    stale_logic_packet_rejections = 0
+    by_current_forbidden_axis_reason: dict[str, int] = {}
+    stale_forbidden_axis_rejections = 0
+    windowed = 0
+    latest_ts: datetime | None = None
+    latest_event: dict[str, Any] | None = None
+    latest_by_source: dict[str, tuple[datetime, dict[str, Any]]] = {}
+    latest_by_source_sampled: dict[str, tuple[datetime, dict[str, Any]]] = {}
     for line in tail:
         try:
             rec = json.loads(line)
         except json.JSONDecodeError:
             continue
+        ts = _parse_record_ts(rec.get("ts"))
+        if ts is not None and (latest_ts is None or ts > latest_ts):
+            latest_ts = ts
+            latest_event = {
+                "event": rec.get("event"),
+                "source": rec.get("source"),
+                "title": rec.get("title"),
+            }
+        source_key = str(rec.get("source") or "unknown").strip() or "unknown"
+        if ts is not None:
+            current = latest_by_source_sampled.get(source_key)
+            if current is None or ts > current[0]:
+                latest_by_source_sampled[source_key] = (
+                    ts,
+                    {
+                        "event": rec.get("event"),
+                        "title": rec.get("title"),
+                    },
+                )
+        if window_start is not None:
+            if ts is None or ts < window_start:
+                continue
+        windowed += 1
+        if ts is not None:
+            current = latest_by_source.get(source_key)
+            if current is None or ts > current[0]:
+                latest_by_source[source_key] = (
+                    ts,
+                    {
+                        "event": rec.get("event"),
+                        "title": rec.get("title"),
+                    },
+                )
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
-    return {"events": len(lines), "sampled": len(tail), "by_event": dict(sorted(by_event.items()))}
+        if event not in {"pre_gate_reject", "rejected"}:
+            continue
+        reason = str(rec.get("reason") or "").strip()
+        if not reason:
+            reason = "unspecified"
+        candidate_id = str(rec.get("candidate_id") or "").strip()
+        rejection_key = (candidate_id, reason) if candidate_id else (str(id(rec)), reason)
+        if rejection_key in seen_rejection_keys:
+            continue
+        seen_rejection_keys.add(rejection_key)
+        source = str(rec.get("source") or "unknown").strip() or "unknown"
+        by_rejection_reason[reason] = by_rejection_reason.get(reason, 0) + 1
+        by_rejection_source[source] = by_rejection_source.get(source, 0) + 1
+        source_counts = by_source_reason.setdefault(source, {})
+        source_counts[reason] = source_counts.get(reason, 0) + 1
+        if reason.startswith("logic_packet_gate:"):
+            payload = reason.split(":", 1)[1]
+            for part in payload.split(";"):
+                key = part.split(":", 1)[0].strip()
+                if key:
+                    by_logic_packet_reason[key] = by_logic_packet_reason.get(key, 0) + 1
+            try:
+                import logic_packet_gate
+
+                replay = logic_packet_gate.validate_logic_packet(rec)
+            except Exception:
+                replay = None
+            if replay is not None and replay.ok:
+                stale_logic_packet_rejections += 1
+            elif replay is not None:
+                for part in replay.reasons:
+                    key = part.split(":", 1)[0].strip()
+                    if key:
+                        by_current_logic_packet_reason[key] = (
+                            by_current_logic_packet_reason.get(key, 0) + 1
+                        )
+        elif reason == "forbidden_axis_or_marker_candidate":
+            if _has_forbidden_axis_marker(
+                str(rec.get("title") or ""),
+                str(rec.get("claim") or ""),
+                str(rec.get("rationale") or ""),
+            ):
+                by_current_forbidden_axis_reason[reason] = (
+                    by_current_forbidden_axis_reason.get(reason, 0) + 1
+                )
+            else:
+                stale_forbidden_axis_rejections += 1
+
+    def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
+        return [
+            {"reason": key, "count": count}
+            for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+        ]
+
+    def _latest_source_payload(
+        latest: dict[str, tuple[datetime, dict[str, Any]]],
+    ) -> dict[str, dict[str, Any]]:
+        return {
+            source: {
+                "ts": ts.isoformat(timespec="seconds"),
+                "age_seconds": int((datetime.now(timezone.utc) - ts).total_seconds()),
+                **event,
+            }
+            for source, (ts, event) in sorted(latest.items())
+        }
+
+    return {
+        "events": len(lines),
+        "sampled": len(tail),
+        "windowed": windowed,
+        "since_hours": since_hours,
+        "window_start": window_start.isoformat(timespec="seconds") if window_start else None,
+        "latest_event_ts": latest_ts.isoformat(timespec="seconds") if latest_ts else None,
+        "latest_event_age_seconds": (
+            int((datetime.now(timezone.utc) - latest_ts).total_seconds())
+            if latest_ts else None
+        ),
+        "latest_event": latest_event,
+        "latest_by_source": _latest_source_payload(latest_by_source),
+        "latest_by_source_sampled": _latest_source_payload(latest_by_source_sampled),
+        "by_event": dict(sorted(by_event.items())),
+        "rejection_reasons": _top(by_rejection_reason),
+        "rejection_sources": _top(by_rejection_source),
+        "rejection_reasons_by_source": {
+            source: _top(counts, n=10)
+            for source, counts in sorted(by_source_reason.items())
+        },
+        "logic_packet_gate_reasons": _top(by_logic_packet_reason),
+        "current_logic_packet_gate_reasons": _top(by_current_logic_packet_reason),
+        "stale_logic_packet_gate_rejections": stale_logic_packet_rejections,
+        "current_forbidden_axis_reasons": _top(by_current_forbidden_axis_reason),
+        "stale_forbidden_axis_rejections": stale_forbidden_axis_rejections,
+    }
 
 
 def main() -> int:
-    print(json.dumps(stats(), ensure_ascii=False, indent=2))
+    parser = argparse.ArgumentParser(description="Summarize the BEDC candidate inbox")
+    parser.add_argument("--limit", type=int, default=5000, help="Maximum recent JSONL records to scan; <=0 scans all")
+    parser.add_argument("--since-hours", type=float, default=0.0, help="Only count records newer than this many hours")
+    args = parser.parse_args()
+    if args.since_hours < 0:
+        parser.error("--since-hours must be non-negative")
+    print(json.dumps(stats(limit=args.limit, since_hours=args.since_hours), ensure_ascii=False, indent=2))
     return 0
 
 

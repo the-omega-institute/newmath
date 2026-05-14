@@ -1,0 +1,52 @@
+\begin{theorem}[Bounded monotone Cauchy witness tail envelope public export]
+\label{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let
+$$
+E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)
+$$
+be its scheduled tail envelope. The envelope $E$ exports the single public pre-seal service for completion-facing consumers: source reads pass through $S$, regular rational reads pass through $F$, window requests pass through $\sigma$, tolerance answers pass through $\mu$, dyadic and upper-bound budget reads pass through $\lambda$, trap reads pass through $I$, and the transport, continuation, provenance, and naming routes pass through $H,C,P,N$.
+
+Thus every public tail-envelope read is already a read through $S,F,\sigma,\mu,\lambda,I,H,C,P,N$ before the $\RealUp$ seal row $Q$ is consumed. The export contains no selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector.
+\end{theorem}
+\begin{proof}
+Start with the scheduled windows. By \autoref{thm:bounded-monotone-cauchy-witness-window-coverage}, the source, regular-sequence, Cauchy witness, dyadic ledger, and trap-facing reads all pass through $S,F,\sigma,\mu,\lambda,I$ on the same displayed window schedule.
+
+Next use the finite-read route. By \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock}, Real-facing finite observations are locked to the displayed rows of $W$, so the public pre-seal route cannot replace $S,F,\sigma,\mu,\lambda,I$ by an unrecorded completion object.
+
+The exactness and handoff theorems identify the public boundary. Apply \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} to keep the located trap exact for the same envelope $E$, and apply \autoref{thm:bounded-monotone-cauchy-witness-seal-handoff} to locate the later $\RealUp$ seal after the displayed pre-seal service.
+
+Finally, \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} rules out any second tail service. Since the accepted packet exposes no coordinate beyond the listed rows, the envelope exports exactly the public service $S,F,\sigma,\mu,\lambda,I,H,C,P,N$ before $Q$ is read.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion consumer non-escape]
+\label{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let $E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)$ be its scheduled tail envelope. Every completion-facing consumer of the bounded monotone Cauchy witness factors through the public envelope $E$, the $\RealObservationBudgetUp$ finite-read route, the $\RegSeqRatUp$ handoff, the $\LocatedIntervalUp$ trap, and the $\RealUp$ seal.
+
+Consequently the consumer has no escape route to a selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector. Its entire public dependency surface is the finite package $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_completion\_consumer\_nonescape}
+\begin{proof}
+First build the envelope route. The public export theorem above identifies $E$ as the only pre-seal service, and \autoref{thm:bounded-monotone-cauchy-witness-window-coverage} keeps every inspected source and tail window on that service.
+
+Next attach finite observation. By \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock}, every Real-facing finite read is routed through the displayed finite rows of $W$. The regular rational handoff is the $F$ coordinate of that same packet, and the window ledger is the shared $\sigma,\mu,\lambda$ route.
+
+The trap and seal then close the route. Apply \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} to keep $I$ exact for the scheduled envelope, and apply \autoref{thm:bounded-monotone-cauchy-witness-seal-handoff} to pass from the trap side to the $\RealUp$ seal row $Q$ without introducing a second completion-facing input.
+
+It remains to exclude escapes. \autoref{thm:bounded-monotone-cauchy-witness-root-unblock} gives the root consumer exactly the finite package $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, while \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} rules out a hidden tail service. Therefore any completion-facing consumer factors through the displayed envelope, finite-read route, regular-sequence handoff, located trap, and seal, and no selected limit, equality principle, completeness principle, compactness row, or choice-like selector is exposed.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion consumer apartness budget]
+\label{thm:bounded-monotone-cauchy-witness-completion-consumer-apartness-budget}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let $E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)$ be its scheduled tail envelope. Every completion-facing consumer of $W$ must consume the scheduled tail envelope $E$ together with the finite apartness and budget rows $\sigma,\mu,\lambda,I$ before it consumes the $\RealUp$ seal row $Q$.
+
+Consequently the route cannot be read as a selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector. The only public pre-seal completion data are the scheduled envelope and the finite apartness-budget rows already displayed by $W$.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem. \autoref{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export} identifies $E$ as the exported pre-seal service and lists $\sigma,\mu,\lambda,I$ among the rows read before the seal.
+
+Next use the finite-observation lock. By \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock}, every Real-facing finite read remains on the displayed rows of $W$, so no consumer can replace the apartness and budget schedule by an unrecorded completion object.
+
+The trap and seal then fix the order of consumption. Apply \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} to keep $I$ on the same located trap surface, and apply \autoref{thm:bounded-monotone-cauchy-witness-seal-handoff} to place the $\RealUp$ seal row $Q$ after that finite surface.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} and \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}. The first rules out a second tail service, and the second rules out escape through limit selection, equality principles, completeness, compactness, or choice-like selection. Thus every completion-facing consumer must pass through the scheduled envelope and the finite apartness-budget rows before the seal row is consumed.
+\end{proof}

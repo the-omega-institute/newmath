@@ -276,3 +276,82 @@ Lean and paper audit maps place it.
 \concretizedIn{ch:concrete-instances-metacicopenproblemledger-namecert}{MetaCIC open problems are realized as a finite NameCert ledger for remaining subject-reduction, confluence, normalization, substitution, decidability, typed-example, and blocker rows.}
 \concretizedIn{ch:concrete-instances-dependentcodomaininversionboundary-namecert}{The dependent-codomain barrier is realized as a finite NameCert packet for codomain readback, discharge handoff, and obstruction-boundary rows.}
 \concretizedIn{ch:concrete-instances-metacicnormalizationfrontier-namecert}{The normalization frontier is realized as a finite NameCert packet separating candidate evidence, finished-normal evidence, closed-normal use, and subject-reduction obstruction rows.}
+\concretizedIn{ch:concrete-instances-metacic-redex-frontier-namecert}{The MetaCIC beta-redex frontier is realized as a finite NameCert packet for discharge-row coverage, beta-boundary routing, and obstruction non-escape.}
+
+\begin{proposition}[Lambda-domain setup row is mandatory]\label{prop:metacic-lam-domain-setup-row-mandatory}
+Consider a MetaCIC subject-reduction discharge route at either public interface of \autoref{ch:sr-discharge-routes}: the explicit bundle route $\SubjectReductionDischargeBundle$ or the typeclass route $\SubjectReductionSetup$. If that route is used to make the parameterised subject-reduction theorem available for the represented reduction relation, then its finite discharge packet contains a distinct row $LD$ satisfying $\mathrm{LamDomainSubjectReduction}$. This row is the lambda-domain congruence obligation of \autoref{def:metacic-lam-domain-subject-reduction}; it cannot be supplied by the beta-substitution row, the application-argument row, the Pi-domain row, transport, continuation replay, package provenance, or local naming.
+\end{proposition}
+\begin{proof}
+The four-obligation audit of \autoref{sec:metacic-subject-reduction-four-obligations} separates the reduction shapes consumed by the parameterised subject-reduction theorem. The lambda-domain shape is named by \autoref{def:metacic-lam-domain-subject-reduction}: if $\lambda d.\,b$ has type $A$ in $\Gamma$ and $d$ steps to $d'$, the target lambda $\lambda d'.\,b$ must still have type $A$ in the same context. This is a binder-annotation preservation requirement, not a beta-redex substitution requirement and not an application-codomain stability requirement.
+
+Read the explicit bundle route from \autoref{subsec:sr-discharge-routes-bundle-definition}. The bundle has four discharge fields, and one of them is the lambda-domain field. Therefore any use of the bundle route carries the lambda-domain row as a named component of the finite packet.
+
+Read the typeclass route from \autoref{subsec:sr-discharge-routes-typeclass-definition} and its conversion in \autoref{subsec:sr-discharge-routes-conversion-to-bundle}. A $\SubjectReductionSetup$ instance has the same four fields, including the lambda-domain field, and $\mathsf{SubjectReductionSetup.toBundle}$ copies those fields into the bundle shape. Thus the setup route does not remove the lambda-domain obligation; it exposes the same row through instance fields and then through the bundle projection.
+
+The finite ledger form gives the same conclusion at the BEDC packet surface. In \autoref{def:subject-reduction-discharge-ledger-carrier} an accepted $\SubjectReductionDischargeLedgerUp$ carrier is displayed as
+$$
+L=(B,A,LD,PD,R,H,C,P,N),
+$$
+where $LD$ is the lambda-domain subject-reduction row and $R$ is the route that consumes exactly $B,A,LD,PD$. The handoff theorem \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} confines subject-reduction consumption to those four obligation rows through $R$, and the non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} confines downstream reads to the displayed packet. Hence $H,C,P,N$ can transport, replay, authenticate, and name the route, but none of them can create or replace the missing lambda-domain preservation row.
+
+Consequently, whenever the MetaCIC subject-reduction discharge interface is used, $\mathrm{LamDomainSubjectReduction}$ is a required finite setup obligation row. Supplying the other rows without $LD$ leaves the discharge interface incomplete for the lambda-domain congruence case.
+\end{proof}
+
+\begin{proposition}[Application-argument stability is a required discharge row]
+\label{prop:metacic-appargtypestable-discharge-row-required}
+Let a MetaCIC subject-reduction consumer use the discharge interface through either a $\SubjectReductionDischargeBundle$ or a $\SubjectReductionSetup$ instance as described in \autoref{ch:sr-discharge-routes}. Suppose the consumer reads a finite discharge socket
+$$
+O=(B,A,L,P,H,C,Q,N)
+$$
+as in \autoref{def:subject-reduction-discharge-socket-carrier}. If the consumed reduction branch is application-argument congruence, then the required discharge input is exactly the row $A$ matching $\mathrm{AppArgTypeStable}$ of \autoref{def:metacic-app-arg-type-stable}. It cannot be replaced by the beta row $B$, the lambda-domain row $L$, the Pi-domain row $P$, the independent-codomain application theorem, or the closed-obstruction row recorded in $Q$.
+\end{proposition}
+\begin{proof}
+Read the four-obligation interface of \autoref{sec:metacic-subject-reduction-four-obligations}. The application-argument congruence branch is governed there by $\mathrm{AppArgTypeStable}$, while $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{LamDomainSubjectReduction}$, and $\mathrm{PiDomainSubjectReduction}$ govern the beta, lambda-domain, and Pi-domain branches. Thus the branch classifier already separates the application-argument input from the other three discharge rows.
+
+Now read the socket carrier. In
+$$
+O=(B,A,L,P,H,C,Q,N),
+$$
+row $A$ is the application-argument stability row, and the remaining rows have distinct roles: $B$ is beta substitution preservation, $L$ is lambda-domain preservation, $P$ is Pi-domain preservation, $H$ transports displayed rows, $C$ replays displayed routes, $Q$ records provenance together with the parameterised subject-reduction row and the closed-obstruction boundary, and $N$ names the local certificate. Therefore a socket read for the application-argument branch has only one matching discharge coordinate, namely $A$.
+
+The bundle and setup routes do not change that payload. By \autoref{ch:sr-discharge-routes}, a $\SubjectReductionDischargeBundle$ is the four-field packet for the same four hypotheses, and a $\SubjectReductionSetup$ is converted to that same bundle shape before the subject-reduction theorem is consumed. Hence the typeclass route can make the row available implicitly, but it cannot remove the row or identify it with one of the other three fields.
+
+Finally separate the positive narrow case from the full discharge interface. The independent-codomain application theorem applies only where the codomain readback is already stable because the codomain is independent of the argument. The present proposition concerns the subject-reduction discharge interface used for the application-argument congruence branch in general, including the dependent-codomain boundary identified in \autoref{sec:metacic-subject-reduction-dependent-codomain-frontier}. At that boundary, the codomain can observe the reducing argument, so the interface must carry the explicit $\mathrm{AppArgTypeStable}$ row. The obstruction row in $Q$ records the absence of a closed theorem and is not one of the four discharge inputs. Thus $A$ is an explicit finite setup obligation whenever the interface is consumed for the application-argument branch.
+\end{proof}
+
+\begin{proposition}[Beta-substitution preservation is a mandatory discharge row]
+\label{prop:metacic-beta-substitution-preservation-mandatory-discharge-row}
+Any use of the MetaCIC subject-reduction discharge interface must expose $\mathrm{BetaSubstitutionPreservation}$ as a finite setup obligation. More precisely, a subject-reduction call that follows either the explicit $\SubjectReductionDischargeBundle$ route or the $\SubjectReductionSetup$ route has a distinguished beta row whose content is exactly the obligation of \autoref{def:metacic-beta-substitution-preservation}. That row is not supplied by $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, $\mathrm{PiDomainSubjectReduction}$, the dependent-codomain obstruction theorem, or the closed-normal consistency assembly.
+\end{proposition}
+\begin{proof}
+Read the four-obligation interface from \autoref{sec:metacic-subject-reduction-four-obligations}. The first field is $\mathrm{BetaSubstitutionPreservation}$, and \autoref{def:metacic-beta-substitution-preservation} identifies its content: body typing under the shifted-domain context and argument typing at the unshifted domain must yield typing of the substituted body at the substituted codomain. This is the beta-redex preservation case, not an application-argument stability case and not a binder-domain congruence case.
+
+Now read the two public discharge routes. In the bundle route of \autoref{sec:sr-discharge-routes-bundle-route}, $\SubjectReductionDischargeBundle$ is the four-field packet consumed by the subject-reduction wrapper. Since the beta field is one of those four fields, constructing the packet requires a beta-substitution preservation row before the wrapper can be invoked. In the setup route of \autoref{sec:sr-discharge-routes-typeclass-route}, $\SubjectReductionSetup$ publishes the same four fields as an implementation protocol; the conversion described in \autoref{subsec:sr-discharge-routes-conversion-to-bundle} turns that setup instance into the same bundle shape. Therefore the setup route also requires the beta row, because the conversion cannot manufacture a field that is absent from the setup interface.
+
+The remaining three rows have disjoint jobs. $\mathrm{AppArgTypeStable}$ stabilizes codomain readback when reduction enters an application argument, while $\mathrm{LamDomainSubjectReduction}$ and $\mathrm{PiDomainSubjectReduction}$ preserve displayed binder annotations when reduction enters lambda and Pi domains. None of those statements contains the beta-redex premise-conclusion shape from \autoref{def:metacic-beta-substitution-preservation}. They therefore cannot fill the beta field of the bundle or setup packet.
+
+Finally, the obstruction material in \autoref{ch:metacic-subject-reduction-obstruction} has the opposite polarity: it blocks replacing the four-input interface by a blanket closed subject-reduction theorem for the present substrate. It does not discharge any field. Hence a consumer that uses the MetaCIC subject-reduction discharge interface must carry $\mathrm{BetaSubstitutionPreservation}$ explicitly as the finite beta setup row, and the interface remains unavailable as a closed subject-reduction theorem until that row is supplied together with the other three discharge rows.
+\end{proof}
+
+\begin{proposition}[Pi-domain setup row is mandatory]\label{prop:metacic-pi-domain-setup-row-mandatory}
+Consider a MetaCIC subject-reduction discharge route at either public interface of \autoref{ch:sr-discharge-routes}: the explicit bundle route $\SubjectReductionDischargeBundle$ or the typeclass route $\SubjectReductionSetup$. If that route is used to make the parameterised subject-reduction theorem available for the represented reduction relation, then its finite discharge packet contains a distinct Pi-domain row satisfying $\mathrm{PiDomainSubjectReduction}$. This row is the Pi-domain congruence obligation of \autoref{def:metacic-pi-domain-subject-reduction}; it cannot be supplied by the beta-substitution row, the application-argument row, the lambda-domain row, transport, continuation replay, package provenance, or local naming.
+\end{proposition}
+\begin{proof}
+Read the four-obligation audit of \autoref{sec:metacic-subject-reduction-four-obligations}. The Pi-domain branch is named by \autoref{def:metacic-pi-domain-subject-reduction}: if $\Pi d.\,c$ has type $A$ in $\Gamma$ and the displayed domain $d$ steps to $d'$, the target Pi term $\Pi d'.\,c$ must still have type $A$ in the same context. This is the Pi-binder domain preservation case. It is not the beta-redex substitution case, not the application-argument codomain-readback case, and not the lambda-domain binder-annotation case.
+
+The two public routes preserve that separation. In the explicit route of \autoref{subsec:sr-discharge-routes-bundle-definition}, $\SubjectReductionDischargeBundle$ is the four-field packet for the four subject-reduction hypotheses, including the Pi-domain field. In the typeclass route of \autoref{subsec:sr-discharge-routes-typeclass-definition}, $\SubjectReductionSetup$ publishes the same four fields, and the conversion of \autoref{subsec:sr-discharge-routes-conversion-to-bundle} projects those fields into the bundle shape. Thus the setup route may change how the field is obtained by a consumer, but it does not remove the Pi-domain coordinate or identify it with any other coordinate.
+
+The socket and ledger surfaces display the same finite row. In \autoref{def:subject-reduction-discharge-socket-carrier} an accepted socket is
+$$
+O=(B,A,L,P,H,C,Q,N),
+$$
+where $P$ is the Pi-domain subject-reduction row. The four-row exactness theorem \autoref{thm:subject-reduction-discharge-socket-four-row-ledger-exactness} says that the subject-reduction ledger consumes exactly $B,A,L,P$ and may not replace one of those four rows, add a fifth discharge row, or treat the obstruction boundary as discharge evidence. Hence a socket consumer for the Pi-domain branch has only one matching discharge coordinate, namely $P$.
+
+The ledger notation records the same coordinate as $PD$. By \autoref{def:subject-reduction-discharge-ledger-carrier} an accepted ledger is
+$$
+L=(B,A,LD,PD,R,H,C,P,N),
+$$
+where $PD$ matches $\mathrm{PiDomainSubjectReduction}$ and $R$ consumes exactly $B,A,LD,PD$. The handoff theorem \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} confines subject-reduction consumption to those four obligation rows through $R$, and the non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} confines downstream reads to the displayed packet. Therefore $H,C,P,N$ can transport, replay, authenticate, and name the finite route, but none of them can create or replace the missing Pi-domain preservation row.
+
+Consequently, whenever the MetaCIC subject-reduction discharge interface is consumed for the Pi-domain congruence branch, $\mathrm{PiDomainSubjectReduction}$ is a required finite setup obligation row. Supplying the beta, application-argument, and lambda-domain rows without the Pi-domain row leaves the discharge interface incomplete for that branch.
+\end{proof}

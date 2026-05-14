@@ -11,8 +11,10 @@ Modes:
   paper_review — paper-only referee audit over `papers/bedc/parts/`; kept
             candidates route through board_spawn before entering BOARD.
 
-Discovery modes are invoked manually or by supervisor low-water refill, so the user can
-inspect candidates before they enter the queue.
+Discovery modes are invoked manually or by supervisor low-water refill. When
+`--append` is used, kept candidates route through board_spawn so candidate_inbox,
+landing-kind checks, pre-TasteGate admission, and logic_packet_gate apply before
+anything enters BOARD.md.
 
 Pattern matches the rest of bedc-deep: codex generates, claude gates.
 """
@@ -32,6 +34,7 @@ import codex_orchestrator
 import killo_golden_writeback
 import board_spawn
 import board_context
+import loning_assimilator
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -39,7 +42,6 @@ from oracle_client import (
     DEFAULT_CANDIDATE_NOVELTY_THRESHOLD,
     STATE_DIR,
     TARGETS_DIR,
-    append_candidates_to_board,
 )
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -52,6 +54,10 @@ REVIEW_TIMEOUT = 1800
 CURATOR_TIMEOUT = 2400
 COMPLETED_SUMMARY_LIMIT = 8000
 BOARD_INCLUDE_LIMIT = 16000
+INSPIRATION_ONLY_PATH_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 
 
 def _now_iso() -> str:
@@ -67,7 +73,7 @@ def _git(args: list[str]) -> subprocess.CompletedProcess[str]:
     )
 
 
-# Upstream integration branch we sync into bedc-claim-packet-pipeline.
+# Optional upstream integration branch for manual sync into bedc-claim-packet-pipeline.
 # Kept in sync with dev_sync_resolver.UPSTREAM_BRANCH; switched from `dev`
 # to `codex-auto-dev` because codex_formalize merges land there first
 # and `dev` lags by hours-to-days.
@@ -89,6 +95,19 @@ def sync_dev_if_clean() -> bool:
     behind = _git(["rev-list", "--count", f"HEAD..{UPSTREAM_REF}"])
     n = behind.stdout.strip() or "0"
     if n == "0":
+        return False
+    changed = _git(["diff", "--name-only", f"HEAD..{UPSTREAM_REF}"])
+    changed_paths = [line.strip() for line in changed.stdout.splitlines() if line.strip()]
+    forbidden = [
+        path for path in changed_paths
+        if path.startswith("lean4/") or path in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"}
+    ]
+    if forbidden:
+        print(
+            "[discovery] sync_dev refused: upstream touches protected paths "
+            f"({', '.join(forbidden[:5])})",
+            flush=True,
+        )
         return False
     print(f"[discovery] sync_dev pulling {n} commits from {UPSTREAM_REF}", flush=True)
     with file_lock("paper_writes"):
@@ -144,6 +163,12 @@ def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tup
     rejected is the calibration list claude considered and dropped.
     """
     template = template_path.read_text(encoding="utf-8")
+    try:
+        loning_block = loning_assimilator.latest_prompt_block()
+    except Exception:
+        loning_block = ""
+    if loning_block:
+        template = template.rstrip() + "\n\n" + loning_block + "\n"
     safe_kwargs = {k: _safe(v) if isinstance(v, str) else v for k, v in format_kwargs.items()}
     prompt = template.format(**safe_kwargs)
     ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
@@ -246,9 +271,35 @@ def _for_board_spawn(candidate: dict, *, mode: str) -> dict:
     paper-review discoveries are not appended by a weaker side path.
     """
     inputs = candidate.get("local_inputs") or []
+    paper_inputs = [
+        str(path).strip()
+        for path in inputs
+        if (
+            str(path).strip().startswith("papers/bedc/parts/")
+            and not INSPIRATION_ONLY_PATH_RE.search(str(path).strip())
+        )
+    ]
+    evidence_inputs = [
+        str(path).strip()
+        for path in inputs
+        if (
+            str(path).strip()
+            and (
+                not str(path).strip().startswith("papers/bedc/parts/")
+                or INSPIRATION_ONLY_PATH_RE.search(str(path).strip())
+            )
+        )
+    ]
     out = dict(candidate)
     out["claim"] = candidate.get("claim") or candidate.get("concrete_claim") or ""
-    out["chapter"] = candidate.get("chapter") or _chapter_from_inputs(inputs)
+    out["local_inputs"] = paper_inputs
+    if evidence_inputs:
+        evidence_note = "Non-landing evidence paths (not BOARD local_inputs): " + ", ".join(evidence_inputs)
+        rationale = str(out.get("rationale") or "").strip()
+        out["rationale"] = f"{rationale}\n\n{evidence_note}" if rationale else evidence_note
+        trace = str(out.get("resource_trace") or "").strip()
+        out["resource_trace"] = f"{trace}; {evidence_note}" if trace else evidence_note
+    out["chapter"] = candidate.get("chapter") or _chapter_from_inputs(paper_inputs)
     out["source"] = mode
     return out
 
@@ -283,13 +334,12 @@ def _run_two_stage(
     args: argparse.Namespace,
     mode: str,
     claude_template: str,
-    *,
-    append_via_board_spawn: bool = False,
     **claude_kwargs,
 ) -> int:
     """Adversarial two-stage discovery: claude generates with evidence, codex
     cross-checks independently, intersection lands on BOARD."""
-    if not args.no_dev_sync:
+    dev_sync_enabled = bool(getattr(args, "dev_sync", False)) and not bool(args.no_dev_sync)
+    if dev_sync_enabled:
         try:
             sync_dev_if_clean()
         except Exception as exc:
@@ -342,27 +392,20 @@ def _run_two_stage(
 
     appended: list[str] = []
     if args.append and kept:
-        if append_via_board_spawn:
-            spawn_candidates = [_for_board_spawn(c, mode=mode) for c in kept]
-            spawn_result = board_spawn.spawn_from_candidates(
-                codex_candidates=spawn_candidates,
-                oracle_candidates=[],
-                fit_threshold=args.candidate_fit_threshold,
-                novelty_threshold=args.candidate_novelty_threshold,
-            )
-            final_state["board_spawn"] = {
-                "ok": spawn_result.ok,
-                "error": spawn_result.error,
-                "accepted": spawn_result.accepted,
-                "rejected": spawn_result.rejected,
-            }
-            appended = spawn_result.appended_ids if spawn_result.ok else []
-        else:
-            appended = append_candidates_to_board(
-                kept,
-                fit_threshold=args.candidate_fit_threshold,
-                novelty_threshold=args.candidate_novelty_threshold,
-            )
+        spawn_candidates = [_for_board_spawn(c, mode=mode) for c in kept]
+        spawn_result = board_spawn.spawn_from_candidates(
+            codex_candidates=spawn_candidates,
+            oracle_candidates=[],
+            fit_threshold=args.candidate_fit_threshold,
+            novelty_threshold=args.candidate_novelty_threshold,
+        )
+        final_state["board_spawn"] = {
+            "ok": spawn_result.ok,
+            "error": spawn_result.error,
+            "accepted": spawn_result.accepted,
+            "rejected": spawn_result.rejected,
+        }
+        appended = spawn_result.appended_ids if spawn_result.ok else []
         final_state["appended_ids"] = appended
         print(f"[{mode}] appended {len(appended)} to BOARD.md: {appended}", flush=True)
 
@@ -416,7 +459,6 @@ def cmd_paper_review(args: argparse.Namespace) -> int:
         args,
         "paper_review",
         "paper_review_probe.txt",
-        append_via_board_spawn=True,
         board_content=_board_text(),
     )
 
@@ -429,28 +471,32 @@ def main() -> int:
     p_probe.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_probe.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_probe.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_probe.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_probe.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_probe.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_probe.set_defaults(func=cmd_probe)
 
     p_cur = sub.add_parser("curator", help="Codex meta-review of completed targets + BOARD progress")
     p_cur.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_cur.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_cur.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_cur.set_defaults(func=cmd_curator)
 
     p_cur2 = sub.add_parser("curriculum", help="Curriculum gap scan: classical textbook theorems missing from started chapters")
     p_cur2.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_cur2.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_cur2.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_cur2.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_cur2.set_defaults(func=cmd_curriculum)
 
     p_pr = sub.add_parser("paper_review", help="Editorial-referee audit: senior-review-grade revision targets (gaps, missing companions, generalisations)")
     p_pr.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_pr.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_pr.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
-    p_pr.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_pr.add_argument("--dev-sync", action="store_true", help="Opt in to merging upstream integration branch before scan")
+    p_pr.add_argument("--no-dev-sync", action="store_true", help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set")
     p_pr.set_defaults(func=cmd_paper_review)
 
     args = parser.parse_args()

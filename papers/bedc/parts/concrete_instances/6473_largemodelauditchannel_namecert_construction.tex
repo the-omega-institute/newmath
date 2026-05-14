@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelAuditChannelUp$}
+\label{ch:concrete-instances-largemodelauditchannel-namecert}
+\origin{ai}
+
+The $\LargeModelAuditChannelUp$ packet realizes the verified-output-channel side of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It consumes the inscription carrier of \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}, the public audit membrane of \autoref{ch:concrete-instances-auditmembrane-namecert}, and the prompt-output trace of \autoref{ch:concrete-instances-prompt-response-trace-namecert}. Its distinguishing role is the consumer-facing audit channel: prompt, output, checker, refusal, route, provenance, and local NameCert rows are carried together before any model emission is accepted as audited output.
+
+\begin{definition}[LargeModelAuditChannel carrier]
+\label{def:large-model-audit-channel-carrier}
+A $\LargeModelAuditChannelUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,Q,O,C,R,U,V,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\LargeModelInscriptionPointUp$ row naming the finite inference substrate, corpus-supply channel, output-record surface, and no-internal-ratification boundary;
+\item $Q$ is the prompt row, containing the finite request text, input provenance, and admitted context window;
+\item $O$ is the output row, containing the emitted token sequence as public inscription data;
+\item $C$ is the checker row, naming the finite evaluation harness, proof checker, policy checker, or replay procedure used to inspect $O$;
+\item $R$ is the refusal row, recording rejected claims, unverifiable universal closures, policy refusals, or unsupported checker outcomes;
+\item $U$ is the audit-membrane row through which a public consumer reads prompt, output, checker, and refusal data without direct model-state access;
+\item $V$ is the route row recording the displayed continuation from prompt through output, checker, refusal, membrane, provenance, and local name;
+\item $H$ records componentwise $\hsame$ transport for the model, prompt, output, checker, refusal, membrane, route, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ replay accepted by the channel;
+\item $P$ is the $\Pkg$ provenance over $\LargeModelInscriptionPointUp$, $\PromptResponseTraceUp$, \autoref{ch:concrete-instances-auditmembrane-namecert}, \autoref{ch:concrete-instances-observer-interface-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelAuditChannelUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden model intention, corpus-wide truth, host semantic understanding, unchecked output acceptance, or a private evaluator outside the displayed checker row.
+\end{definition}
+\leanchecked{BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[LargeModelAuditChannel classifier]
+\label{def:large-model-audit-channel-classifier}
+Two accepted $\LargeModelAuditChannelUp$ carriers classify together exactly when their model rows, prompt rows, output rows, checker rows, refusal rows, membrane rows, route rows, transport rows, replay rows, provenance rows, and local naming rows compare by the displayed $\hsame$ entries. Thus the classifier is finite and componentwise:
+$$
+\begin{gathered}
+M\sim_{\hsame}M',\quad Q\sim_{\hsame}Q',\quad O\sim_{\hsame}O',\quad C\sim_{\hsame}C',\\
+R\sim_{\hsame}R',\quad U\sim_{\hsame}U',\quad V\sim_{\hsame}V',\quad H\sim_{\hsame}H',\\
+K\sim_{\hsame}K',\quad P\sim_{\hsame}P',\quad N\sim_{\hsame}N'.
+\end{gathered}
+$$
+No clause compares unrecorded checker state, hidden evaluation policy, model-side semantic truth, or an unchecked continuation outside $V$ and $K$.
+\end{definition}
+
+\begin{theorem}[LargeModelAuditChannel NameCert obligations]
+\label{thm:large-model-audit-channel-namecert-obligations}
+For the carrier of \autoref{def:large-model-audit-channel-carrier}, the local $\NameCert_{\LargeModelAuditChannelUp}$ surface consists exactly of carrier admission for $A=(M,Q,O,C,R,U,V,H,K,P,N)$, prompt exposure through $Q$, output exposure through $O$, checker exposure through $C$, refusal exposure through $R$, audit-membrane handoff through $U$, route replay through $V$ and $K$, componentwise stability through $H$, provenance through $P$, and local naming through $N$. A consumer obtains audited output only after these rows are jointly displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:large-model-audit-channel-carrier}. The rows $M,Q,O,C,R,U,V,H,K,P,N$ are the whole public packet, so prompt, output, checker, refusal, route, provenance, and local naming are all visible before the channel is consumed.
+
+The checker row $C$ and refusal row $R$ provide the audit boundary. They separate an inspected output from a bare model emission by recording which finite harness was applied and which claims were refused or left unsupported.
+
+The membrane and route rows make the read public. The $U,V,K$ rows force the consumer-facing path to pass through the audit membrane and displayed replay rather than through hidden model state or a private evaluator.
+
+The remaining $H,P,N$ rows supply transport, provenance, and local naming. Since no carrier coordinate stores hidden intention, corpus-wide truth, host semantic understanding, or unchecked output acceptance, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[LargeModelAuditChannel audited-output boundary]
+\label{thm:large-model-audit-channel-audited-output-boundary}
+If the checker row $C$ is absent from an accepted prompt-output packet, the packet cannot distinguish audited output from an unaudited model emission. With $C$ present, every audited-output read factors through the displayed prompt row $Q$, output row $O$, checker row $C$, refusal row $R$, audit membrane $U$, route rows $V,K$, provenance row $P$, and local name $N$.
+\end{theorem}
+\begin{proof}
+The carrier records output in $O$, but $O$ alone is only an emitted inscription row. It becomes an audited output only when the route also displays the checker row $C$ and the refusal row $R$.
+
+Apply \autoref{thm:large-model-audit-channel-namecert-obligations}. Any accepted public read reaches $N$ only after the channel exposes prompt, output, checker, refusal, membrane, replay, transport, provenance, and local naming rows.
+
+If $C$ is removed, the remaining packet still contains a prompt and an output but no displayed evaluation harness or proof-checking surface. The consumer then has no finite coordinate by which to separate inspected output from unaudited emission.
+\end{proof}
+
+\falsifiablePrediction{If the checker row is absent, the packet cannot distinguish audited output from an unaudited model emission.}
+
+\independenceWitness{largemodelinscriptionpoint, inscriptionevent, inscription-acceptance-budget, auditmembrane, observerinterface: none is bijective because the audit-channel packet carries prompt, output, checker, refusal, route, provenance, and local NameCert rows together.}
+
+The future Lean TasteGate namespace $\mathsf{BEDC.Derived.LargeModelAuditChannelUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \LargeModelAuditChannelUp$ and $\mathsf{FieldFaithful}\ \LargeModelAuditChannelUp$ instances for this finite carrier.
+
+\closureat{LargeModelAuditChannelUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelAuditChannelUp}
+  \constructivestory{A $\LargeModelAuditChannelUp$ packet is generated from a large-model inscription row, prompt row, output row, checker row, refusal row, audit membrane, displayed route, componentwise transport, replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-audit-channel-carrier}, \autoref{def:large-model-audit-channel-classifier}, \autoref{thm:large-model-audit-channel-namecert-obligations}, and \autoref{thm:large-model-audit-channel-audited-output-boundary} specify the finite consumer-facing audit-channel packet for large-model output records.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, host semantic understanding, private evaluator correctness, global proof checking, Lean verification, or bridge checking for $\LargeModelAuditChannelUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, checker exposure, refusal exactness, membrane handoff, route replay, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}

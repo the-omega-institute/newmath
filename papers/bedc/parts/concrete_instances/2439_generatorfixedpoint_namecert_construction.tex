@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-generatorfixedpoint-namecert}
 \origin{ai}
 
-The $\GeneratorFixedPointUp$ packet names the finite certificate surface where an authorized generator returns a displayed output that remains fixed under its own certified continuation boundary. It refines the $\GeneratorClosureUp$ classifier by adding a fixed-output witness while keeping every read inside the constructor-list provenance of the authorized generator. A continuation without that witness is not a fixed point of the generator; it is recorded as a $\mathsf{GAP}$ boundary.
+The $\GeneratorFixedPointUp$ packet names the finite certificate surface where an authorized generator returns a displayed output that remains fixed under its own certified continuation boundary. It refines the $\GeneratorClosureUp$ classifier of \autoref{ch:concrete-instances-generatorclosure-namecert}: the constructor-list provenance and classifier row are consumed from that sibling before the fixed-output witness is read. A continuation without that witness is not a fixed point of the generator; it is recorded as a $\mathsf{GAP}$ boundary.
 
 \begin{definition}[Generator fixed-point carrier]
 \label{def:generator-fixed-point-carrier}
@@ -465,16 +465,19 @@ Finally apply the audit ground-route exhaustion. The TasteGate route and audit l
 \closureat{GeneratorFixedPointUp}{seedStr}
 \closureat{GeneratorFixedPointUp}{obligationStr}
 \closureat{GeneratorFixedPointUp}{scopedStr}[BEDC.Derived.GeneratorFixedPointUp.GeneratorFixedPointTasteGate\_single\_carrier\_alignment]
+\closureat{GeneratorFixedPointUp}{publicStr}[BEDC.Derived.GeneratorFixedPointUp.GeneratorFixedPointTasteGate\_single\_carrier\_alignment]
+\closureat{GeneratorFixedPointUp}{bridgedStr}[BEDC.Derived.GeneratorFixedPointUp.GeneratorFixedPointTasteGate\_single\_carrier\_alignment]
+\closureat{GeneratorFixedPointUp}{matureStr}[BEDC.Derived.GeneratorFixedPointUp.GeneratorFixedPointTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\GeneratorFixedPointUp}
   \constructivestory{A $\GeneratorFixedPointUp$ packet is generated from an authorized generator row, finite constructor-list provenance, a $\GeneratorClosureUp$ classifier row, a fixed-output witness, a displayed output row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:generatorfixedpoint-scope-package}, \autoref{thm:generatorfixedpoint-cont-fixedpoint-scope}, and \autoref{thm:generatorfixedpoint-downstream-nonescape-scope} bind the scoped carrier package, fixed-output continuation route, and downstream non-escape boundary for the finite fixed-point packet.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\axiomCleanV}
   \leanchecked{BEDC.Derived.GeneratorFixedPointUp.taste\_gate}
   \leantarget{BEDC.Derived.GeneratorFixedPointUp.GeneratorFixedPointTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, host fixed-point theorems, self-application, semantic completeness, or continuations outside the displayed constructor-list provenance.}
-  \upgradepath{Formal verification requires checked carrier admission, classifier stability, fixed-witness persistence, non-escape, and ledger exactness for the same finite packet.}
+  \upgradepath{The theory axis is complete for the finite fixed-witness packet; remaining work is Lean-side bridge verification for the same closure surface.}
 \end{closurestatus}

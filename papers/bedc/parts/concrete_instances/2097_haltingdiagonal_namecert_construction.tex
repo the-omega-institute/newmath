@@ -88,10 +88,21 @@ Apply \autoref{thm:halting-diagonal-non-decision-boundary}. That theorem identif
 Thus the ledger is a boundary ledger. It records the finite obstruction and prevents the diagonal policy from being read as a global halting decision.
 \end{proof}
 
+\begin{theorem}[HaltingDiagonal to HaltingObstruction sibling route]\label{thm:halting-diagonal-halting-obstruction-sibling-route}
+Every $\HaltingDiagonalUp$ diagonal read that is consumed as a $\HaltingObstructionUp$ ledger must pass through the finite rows $P,h,E,F,D,H,C,K,N$ before entering the obstruction packet of \autoref{ch:concrete-instances-haltingobstruction-namecert}. The route therefore treats the diagonal packet as a sibling fixed-point source for the obstruction ledger, not as a global halting classifier.
+\end{theorem}
+\begin{proof}
+Start with the fixed-point package of \autoref{thm:halting-diagonal-fixed-point-package}. It identifies the rows $P,h,E,F,D,H,C,K,N$ as the displayed diagonal source, including the self-reference row $E$, fixed continuation row $F$, and diagonal policy row $D$.
+
+Next apply the ledger-boundary obligation of \autoref{thm:halting-diagonal-ledger-boundary-obligation}. That boundary prevents $K$ and $D$ from being read as a total halting classifier; they remain finite ledger rows for the displayed packet.
+
+The sibling chapter \autoref{ch:concrete-instances-haltingobstruction-namecert} consumes exactly this kind of finite obstruction packet. Hence any obstruction-facing read factors through the diagonal rows first and only then enters the HaltingObstruction ledger surface.
+\end{proof}
+
 \begin{theorem}[HaltingDiagonal scoped certificate]\label{thm:halting-diagonal-scoped-certificate}
 The source packet, fixed-point package, non-decision boundary, and NameCert obligations assemble one scoped $\HaltingDiagonalUp$ certificate over program certificate rows, input histories, $\Ext$ self-reference rows, fixed $\Cont$ rows, diagonal-divergence policy rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The certificate excludes global halting decidability, universal-machine semantics, oracle access, and infinite searches through program space.
 \end{theorem}
-\leanvariant{BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Start with the packet definition of \autoref{def:halting-diagonal-packet}. It fixes the finite carrier coordinates and the listed dependency surface.
 
@@ -101,13 +112,18 @@ The non-decision boundary of \autoref{thm:halting-diagonal-non-decision-boundary
 \end{proof}
 
 \closureat{HaltingDiagonalUp}{seedStr}
+\closureat{HaltingDiagonalUp}{obligationStr}
+\closureat{HaltingDiagonalUp}{scopedStr}[BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment]
+\closureat{HaltingDiagonalUp}{publicStr}[BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment]
+\closureat{HaltingDiagonalUp}{bridgedStr}[BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\HaltingDiagonalUp}
   \constructivestory{A $\HaltingDiagonalUp$ packet is generated from a program certificate row, an input history, an $\Ext$ self-reference row, a fixed $\Cont$ row, a diagonal-divergence policy row, componentwise $\hsame$ transports, displayed continuation routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:halting-diagonal-packet}, \autoref{thm:halting-diagonal-fixed-point-package}, \autoref{thm:halting-diagonal-non-decision-boundary}, \autoref{thm:halting-diagonal-namecert-obligations}, and \autoref{thm:halting-diagonal-scoped-certificate} bind the finite fixed-point obstruction boundary over NameCert, Cont, Ext, hsame, Pkg, and local diagonal ledgers.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:halting-diagonal-packet}, \autoref{thm:halting-diagonal-fixed-point-package}, \autoref{thm:halting-diagonal-non-decision-boundary}, \autoref{thm:halting-diagonal-namecert-obligations}, \autoref{thm:halting-diagonal-scoped-certificate}, and the finite obstruction bridge route of \autoref{thm:halting-diagonal-halting-obstruction-sibling-route} bind the fixed-point obstruction boundary over NameCert, Cont, Ext, hsame, Pkg, and local diagonal ledgers.}
+  \leantarget{BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment}
+  \formalstatus{\auditCleanV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close global halting decidability, universal-machine semantics, oracle access, total classification of all program-history pairs, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, fixed-point exactness, ledger provenance, and non-decision boundary rows for the named packet.}
+  \upgradepath{The next paper-axis step is mature downstream examples and consumer completeness for the same finite fixed-point obstruction, while verification and bridge checking remain independent.}
 \end{closurestatus}

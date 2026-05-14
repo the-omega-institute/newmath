@@ -1,0 +1,79 @@
+\begin{theorem}[ContinuationMonad root unit-bind coverage]
+\label{thm:continuation-monad-root-unit-bind-coverage}
+For every accepted $\ContinuationMonadUp$ packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+every root consumer reads the unit row and bind rows only through the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $K$, ledger row $L$, and local $\NameCert$ row $N$. No unit or bind reading is available as a host function, quotient Kleisli arrow, ambient monad evaluator, or continuation rule outside this finite packet.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It identifies the accepted packet with exactly the displayed rows $A,B,C,f,g,u,H,K,L,N$.
+
+Use the root Kleisli source totality of \autoref{thm:continuation-monad-root-kleisli-source-totality}. That source exposes the histories and continuation tails before any root consumer can read unit or bind data.
+
+Finally apply the root bind-unit boundary of \autoref{thm:continuation-monad-root-bind-unit-boundary}. It forces public unit and bind reads through $u,f,g,H,K,L,N$ over the same histories $A,B,C$, leaving no coordinate for a host or quotient-level operation.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root Kleisli associativity scope]
+\label{thm:continuation-monad-root-kleisli-associativity-scope}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, Kleisli associativity at the root is scoped exactly by the displayed $\Cont$ rows in $K$, the componentwise $\hsame$ transports in $H$, the ledger row $L$, and the $\mathsf{CategoryHomCarrier}$ readings attached to $f,g,u$ over $A,B,C$. The associativity surface is therefore a finite BEDC route reading of $Z$, not a host composition law or quotient Kleisli equality.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-associativity}. The associativity row is recorded in $L$, transported by $H$, and read through the displayed $\Cont$ row $K$.
+
+Attach the category face through \autoref{thm:continuation-monad-category-hom-row-exposure}. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings are only readings of the displayed tails $f,g,u$ over the same histories and structural rows.
+
+Now combine \autoref{thm:continuation-monad-root-kleisli-associativity-surface} with the unit-bind coverage theorem above. The root associativity surface has exactly the displayed scope and cannot be enlarged into host function composition or quotient Kleisli equality.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root downstream generator package]
+\label{thm:continuation-monad-root-downstream-generator-package}
+The downstream $\CategoryUp$ and generator-boundary consumers of an accepted $\ContinuationMonadUp$ packet receive exactly the finite package $A,B,C,f,g,u,H,K,L,N$ together with the displayed $\mathsf{CategoryHomCarrier}$ readings, generator-boundary refusal, $\Cont$ routes, $\hsame$ transports, ledger, provenance, and local naming rows. They receive no host function composition, quotient Kleisli arrow, ambient category completion, external evaluator, or unlisted continuation rule.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:continuation-monad-root-downstream-surface-exactness}. It identifies the downstream root surface with the category row, generator refusal row, carrier rows, classifier stability, ledger exactness, package provenance, and local $\NameCert$ row over $A,B,C,f,g,u,H,K,L,N$.
+
+Next use \autoref{thm:continuation-monad-root-generator-bind-coverage}. The generator-facing consumer must pass through the same source, bind schedule, unit row, transport row, route row, provenance, and local name before any category or Kleisli surface is exported.
+
+Finally apply \autoref{thm:continuation-monad-root-consumer-nonescape}. Since every root consumer is routed through the finite generator-category route and displayed bind readback, the downstream package exports none of the listed host, quotient, completion, evaluator, or unlisted-rule objects.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad unit-bind terminal route]
+\label{thm:continuation-monad-unit-bind-terminal-route}
+For every accepted $\ContinuationMonadUp$ packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+every terminal unit-bind read routes through the histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $K$, ledger row $L$, local $\NameCert$ row $N$, and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings. The terminal route is a finite BEDC packet route, not host function composition or quotient Kleisli equality.
+\end{theorem}
+\begin{proof}
+Start with the root unit-bind coverage of \autoref{thm:continuation-monad-root-unit-bind-coverage}. It identifies every root unit or bind read with the displayed rows $A,B,C,f,g,u,H,K,L,N$.
+
+Next apply the root Kleisli associativity scope of \autoref{thm:continuation-monad-root-kleisli-associativity-scope}. That theorem attaches the $\mathsf{CategoryHomCarrier}$ and Kleisli readings to the same displayed continuation rows rather than to host composition.
+
+Finally use the downstream generator package of \autoref{thm:continuation-monad-root-downstream-generator-package}. The terminal consumer receives exactly that finite package, so the unit-bind route remains the displayed packet route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad unit-bind completion nonescape]
+\label{thm:continuation-monad-unit-bind-completion-nonescape}
+No accepted $\ContinuationMonadUp$ consumer can replace the unit-bind terminal route of \autoref{thm:continuation-monad-unit-bind-terminal-route} by host function composition, quotient Kleisli equality, ambient monad completion, or an evaluator outside the packet. Any such replacement would require a coordinate not present among $A,B,C,f,g,u,H,K,L,N$ or among the displayed $\mathsf{CategoryHomCarrier}$ and Kleisli rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-monad-root-consumer-nonescape}. It excludes host function composition, quotient Kleisli arrows, ambient category completion, external evaluators, and unlisted continuation rules from every root consumer route.
+
+Then apply \autoref{thm:continuation-monad-unit-bind-terminal-route}. The terminal unit-bind read has already been identified with the displayed histories, continuation tails, unit row, transport row, route row, ledger, local name, and category/Kleisli readings.
+
+Since none of the excluded objects appears in those rows, no accepted consumer can replace the terminal route by an external completion or evaluator.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad unit-bind Kleisli consumer handoff]
+\label{thm:continuation-monad-unit-bind-kleisli-consumer-handoff}
+Every $\CategoryUp$ or generator-closure consumer of an accepted $\ContinuationMonadUp$ packet receives only the terminal unit-bind route displayed in \autoref{thm:continuation-monad-unit-bind-terminal-route} and the local $\NameCert$ row. The consumer may replay the $\mathsf{CategoryHomCarrier}$ and Kleisli readings attached to $A,B,C,f,g,u,H,K,L,N$, but it receives no host composition law, quotient Kleisli equality, ambient monad completion, or external evaluator.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-root-downstream-generator-package}. It identifies the downstream $\CategoryUp$ and generator-boundary package with the finite route $A,B,C,f,g,u,H,K,L,N$ plus the displayed category, generator, transport, ledger, provenance, and local naming rows.
+
+Use \autoref{thm:continuation-monad-unit-bind-terminal-route} to specialize that package to terminal unit-bind reads. The same rows supply the unit tail, bind tails, $\mathsf{CategoryHomCarrier}$ readings, and Kleisli route.
+
+Finally apply \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. The handoff therefore exports only the finite packet route and refuses host composition, quotient Kleisli equality, ambient completion, and external evaluators.
+\end{proof}

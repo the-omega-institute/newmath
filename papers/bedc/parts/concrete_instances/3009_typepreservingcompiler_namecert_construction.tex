@@ -85,17 +85,18 @@ For compiler consumption, apply the morphism reading. It repacks the same finite
 \closureat{TypePreservingCompilerUp}{seedStr}
 \closureat{TypePreservingCompilerUp}{obligationStr}
 \closureat{TypePreservingCompilerUp}{scopedStr}[BEDC.Derived.TypePreservingCompilerUp.TypePreservingCompilerCarrier\_namecert\_obligations]
+\closureat{TypePreservingCompilerUp}{publicStr}[BEDC.Derived.TypePreservingCompilerUp.TypePreservingCompilerCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\TypePreservingCompilerUp}
   \constructivestory{A $\TypePreservingCompilerUp$ packet is generated from source and target type-classifier membership rows, a compiler graph row, classifier-preservation and subject-reduction ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:type-preserving-compiler-carrier}, \autoref{thm:type-preserving-compiler-namecert-obligations}, \autoref{thm:type-preserving-compiler-subject-reduction-handoff}, \autoref{thm:type-preserving-compiler-morphism-correctness}, \autoref{thm:type-preserving-compiler-ledger-boundary}, \autoref{thm:type-preserving-compiler-sequential-composition}, and \autoref{thm:type-preserving-compiler-subject-reduction-socket-consumption} bind the finite classifier-preserving compiler obligation surface.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.TypePreservingCompilerUp.TypePreservingCompilerCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host compiler semantics, quotient equality of terms, erased typing derivations, semantic target interpretation, or bridge checking.}
-  \upgradepath{Formal verification requires checked carrier admission, graph lifting, target $\Ext$ preservation, source and target subject reduction, morphism reading, and ledger non-escape for the same finite compiler packet.}
+  \upgradepath{The next paper-grade obligation is a bridge from the public finite compiler packet to the standard type-preserving compiler schema.}
 \end{closurestatus}
 
 \begin{theorem}[TypePreservingCompiler sequential composition]
@@ -142,4 +143,18 @@ The graph and classifier-preservation part is controlled by \autoref{thm:type-pr
 The ledger boundary theorem \autoref{thm:type-preserving-compiler-ledger-boundary} and sequential-composition theorem \autoref{thm:type-preserving-compiler-sequential-composition} account for the same rows under downstream consumption and composition. They expose source and target type-classifier membership, graph lifting, target $\Ext$ preservation, subject-reduction handoff, transport, routing, provenance, and local naming, but no additional compiler coordinate.
 
 When a $\SubjectReductionDischargeSocketUp$ row is available, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption} permits the compiler chapter to read it as the finite obligation socket feeding the $R$ coordinate. That socket does not supply a host compiler semantics, an erased derivation semantics, quotient equality, a semantic target interpreter, or an unrecorded compiler function, so the accepted compiler packet consumes subject-reduction data only through its displayed rows.
+\end{proof}
+
+\begin{theorem}[TypePreservingCompiler route-classifier sibling dependency]
+\label{thm:type-preserving-compiler-route-classifier-sibling-dependency}
+Let $K=(S,T,G,E,R,H,C,P,N)$ be an accepted $\TypePreservingCompilerUp$ carrier. When a $\SubjectReductionRouteClassifierUp$ packet from \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert} is present, the compiler row $R$ consumes its route-kind ledger before packaging the subject-reduction handoff. The resulting compiler packet exports no host compiler semantics, erased derivation semantics, quotient equality, semantic target interpreter, or unrecorded invocation path.
+\end{theorem}
+\begin{proof}
+Project the accepted compiler carrier by \autoref{def:type-preserving-compiler-carrier}. The row $R$ is the only subject-reduction coordinate, and the rows $H,C,P,N$ are the only displayed transport, route, provenance, and local naming support for its consumption.
+
+Apply \autoref{thm:type-preserving-compiler-subject-reduction-socket-consumption}. It forces every subject-reduction read used by the compiler to enter through $R,E,H,C,P,N$ and excludes host compiler semantics, erased derivation semantics, quotient equality, semantic target interpretation, and unrecorded compiler functions.
+
+Use the sibling packet of \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}. By \autoref{thm:subject-reduction-route-classifier-public-export} and \autoref{thm:subject-reduction-route-classifier-route-kind-coverage}, the route-kind ledger is exactly the finite classifier surface that distinguishes the displayed invocation route before any compiler consumer reads it.
+
+Finally apply \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}. A $\TypePreservingCompilerUp$ consumer may read the classifier only as an invocation-style handoff for the shared discharge rows, so the compiler packages the subject-reduction handoff after that route-kind ledger and exports no unrecorded invocation path.
 \end{proof}

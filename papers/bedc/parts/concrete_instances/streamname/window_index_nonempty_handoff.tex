@@ -1,0 +1,218 @@
+\section{StreamName finite-window nonempty-index handoff}
+\label{sec:streamname-window-index-nonempty-handoff}
+
+\begin{theorem}[StreamName finite-window nonempty-index handoff]
+\label{thm:streamname-window-index-nonempty-handoff}
+Let $\mathcal W$ be a finite $\StreamNameUp$ package consumed by a
+$\RegSeqRat$ certificate or by a finite-window $\RealUp$ consumer. Before any
+regularity row, dyadic ledger row, or $\RealUp$ seal row is readable, the
+handoff from $\mathcal W$ must expose at least one displayed observation row
+through a finite $\mathsf{ProbeBundle}$, an
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, and a certified
+$\mathsf{UnaryHistory}(n)$ index. This exported index is only a finite
+observation witness for the displayed window.
+
+The handoff exports no host index equality, quotient stream equality,
+selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the public finite-window handoff. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, a downstream
+$\RegSeqRat$ or finite-window $\RealUp$ consumer can receive only the selected
+rational-history classifier rows, the finite $\mathsf{ProbeBundle}$ ledger,
+the $\mathsf{InBundle}$ membership rows, and the certified
+$\mathsf{UnaryHistory}$ observation rows from the StreamName side.
+
+Next place that source row inside the finite meet packet of
+\autoref{def:streamname-finite-window-lattice-meet}. The meet packet lists the
+common classifier row, probe bundle, membership family, unary observation
+family, dyadic ledger surface, componentwise transports, continuation routes,
+package provenance, and local names. Hence any downstream dyadic or seal read
+already has a visible finite observation coordinate before it can be consumed.
+
+Now apply the exhaustion theorem
+\autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. It says that
+every $\RegSeqRat$ or finite-window $\RealUp$ consumer of the meet reads only
+the displayed finite observation surface and its ledger rows. Therefore the
+first consumer-visible index is a certified member of the probe bundle, not a
+host index equality or a quotient-stream coordinate.
+
+Finally use the sibling dependency theorem
+\autoref{thm:streamname-regseqrat-real-lattice-dependency}. The route from
+StreamName through $\RegSeqRatUp$ into $\RealUp$ is the same visible
+finite-window route, so regularity, dyadic ledger, and Real seal rows are
+downstream consumers of the already displayed observation witness. The
+exclusion clauses in the cited handoff, meet, exhaustion, and dependency
+results rule out quotient stream equality, selected limits, and ambient
+completeness as exported StreamName data.
+\end{proof}
+
+\begin{theorem}[StreamName window-index route determinacy]
+\label{thm:streamname-window-index-route-determinacy}
+Let $\mathcal W$ and $\mathcal W'$ be accepted finite $\StreamNameUp$ packets
+consumed by $\RegSeqRatUp$ and $\RealUp$ rows. If both packets expose the same
+finite $\mathsf{ProbeBundle}$ member $n$, the same certified
+$\mathsf{UnaryHistory}(n)$ row, and the same finite-window meet coordinates,
+then every downstream $\RegSeqRatUp$ and $\RealUp$ seal consumer reads the
+same finite route through the StreamName window, the RegSeqRat readback, the
+dyadic ledger, and the Real seal.
+
+No quotient stream equality, host index equality, selected limit, or ambient
+completeness theorem can provide an alternate route for either packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-window-index-nonempty-handoff} to both packets.
+The common visible index is a certified member of the finite
+$\mathsf{ProbeBundle}$ and is already paired with the displayed
+$\mathsf{UnaryHistory}(n)$ row before any RegSeqRat or Real consumer reads the
+packet.
+
+Place both packets in the finite meet packet of
+\autoref{def:streamname-finite-window-lattice-meet}. The hypothesis that the
+meet coordinates agree identifies the common classifier row, probe-bundle
+membership row, unary observation row, dyadic ledger surface, componentwise
+transport, continuation, provenance, and local name.
+
+Use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion} together
+with \autoref{thm:streamname-regseqrat-real-lattice-dependency}. These results
+force the RegSeqRat readback and Real seal to be downstream reads of the same
+finite meet surface, so the consumer route is determined by the displayed
+coordinates.
+
+Coordinate exhaustion closes the claim. The agreed meet surface has no
+coordinate for quotient stream equality, host index equality, selected
+limits, or ambient completeness, so none of those objects can act as a second
+route to the downstream seal.
+\end{proof}
+
+\begin{theorem}[StreamName window-index sibling route certificate]
+\label{thm:streamname-window-index-sibling-route-certificate}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ packet whose nonempty
+index handoff is consumed by a $\RegSeqRatUp$ readback or by a finite-window
+$\RealUp$ seal. Then the consumer route factors through the same finite
+sibling route: the $\mathsf{ProbeBundle}$ row, the
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, and the
+$\mathsf{UnaryHistory}(n)$ index row first exposed by the StreamName window;
+the RegSeqRat readback surface of
+\autoref{ch:concrete-instances-regseqrat-namecert}; the $\DyadicRatCoreUp$
+ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}; and the
+$\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+
+This certificate exports no host index equality, quotient stream equality,
+selected limit, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-window-index-nonempty-handoff}. The
+accepted finite packet must expose a displayed observation row through the
+finite $\mathsf{ProbeBundle}$, its $\mathsf{InBundle}$ membership witness, and
+the certified $\mathsf{UnaryHistory}$ index before any RegSeqRat or Real
+consumer can read it.
+
+Use \autoref{thm:streamname-window-index-route-determinacy} to make that row
+the unique finite route for the downstream read. Once the displayed index,
+unary history, and meet coordinates are fixed, the readback and seal consumers
+cannot select a second path through host index equality or quotient stream
+equality.
+
+Now apply \autoref{thm:streamname-regseqrat-real-lattice-dependency}. The
+RegSeqRat surface named by \autoref{ch:concrete-instances-regseqrat-namecert}
+is a downstream consumer of the StreamName finite-window row, and the Real
+seal named by \autoref{ch:concrete-instances-real-namecert} is reached only
+through that displayed readback route.
+
+Finally use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}.
+The pullback inserts the $\DyadicRatCoreUp$ ledger of
+\autoref{ch:concrete-instances-dyadicratcore-namecert} between the RegSeqRat
+readback and the Real seal without adding any coordinate for a selected limit,
+trichotomy, or ambient completeness. Hence every accepted consumer route
+factors through the same four sibling surfaces and through the same nonempty
+window-index row.
+\end{proof}
+
+\begin{theorem}[StreamName Real RegSeq observation pullback lock]
+\label{thm:streamname-real-regseq-observation-pullback-lock}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ window consumed first
+by a $\RegSeqRatUp$ readback and then by a $\RealUp$ seal. The first
+observation exposed to that route is only the certified
+$\mathsf{ProbeBundle}$ member together with its
+$\mathsf{UnaryHistory}$ row, and every downstream seal read factors through
+the same four-row pullback: the StreamName finite-window row, the RegSeqRat
+readback row, the $\DyadicRatCoreUp$ ledger row, and the $\RealUp$ seal row.
+
+The lock exports no host index equality, quotient stream equality, selected
+limit, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-window-index-nonempty-handoff}. It forces
+the first visible observation to be a finite $\mathsf{ProbeBundle}$ member
+paired with its certified $\mathsf{UnaryHistory}$ row before a RegSeqRat or
+Real consumer can read the packet.
+
+Use \autoref{thm:streamname-window-index-route-determinacy} to keep that
+observation on one finite route. Once the displayed window coordinate,
+membership row, unary history row, and meet coordinates are fixed, no host
+index equality or quotient stream equality can supply a second downstream
+path.
+
+Now apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} and
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}.
+These results identify the downstream surface as the four displayed rows:
+StreamName finite window, RegSeqRat readback, DyadicRatCore ledger, and Real
+seal.
+
+Coordinate exhaustion gives the lock. The four-row pullback has no coordinate
+for a selected limit, trichotomy, or ambient completeness, and the initial
+observation coordinate remains the certified bundle member plus unary history
+row throughout the downstream seal read.
+\end{proof}
+
+\begin{theorem}[StreamName window-refinement first-observation stability]
+\label{thm:streamname-window-refinement-first-observation-stability}
+Let $\mathcal W$ and $\mathcal W'$ be accepted finite $\StreamNameUp$
+windows. Suppose that $\mathcal W'$ refines $\mathcal W$ by a displayed
+$\mathsf{ProbeBundle}$ inclusion, preserves the same
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, preserves the certified
+$\mathsf{UnaryHistory}(n)$ observation index, and feeds the same
+$\RegSeqRatUp$ readback and $\RealUp$ seal route as $\mathcal W$. Then the
+first observation exposed to the downstream consumer is the same displayed
+bundle member $n$ with the same unary-history row in both windows.
+
+The stable first observation is carried only by the displayed finite-window
+route. Neither window admits an alternate route through host index equality,
+quotient stream equality, selected limits, trichotomy, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-window-index-nonempty-handoff} to both accepted
+windows. Each downstream RegSeqRat or Real consumer must receive a first
+visible observation through a finite $\mathsf{ProbeBundle}$ member, its
+$\mathsf{InBundle}(n,\mathcal P)$ row, and the certified
+$\mathsf{UnaryHistory}(n)$ index.
+
+The refinement hypotheses identify those visible rows. The displayed
+$\mathsf{ProbeBundle}$ inclusion carries the same member $n$, and the
+preserved membership and unary-history rows keep the first observation at the
+same finite coordinate before any readback or seal row is consumed.
+
+Now use \autoref{thm:streamname-window-index-route-determinacy}. Once the
+index, membership row, unary-history row, and finite meet coordinates agree,
+the downstream route is forced to be the same StreamName window route for the
+RegSeqRat readback and the Real seal.
+
+Next apply
+\autoref{thm:streamname-window-index-sibling-route-certificate}. The common
+route factors through the displayed StreamName row, the RegSeqRat readback
+surface, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal, so the
+refined window cannot expose a different first observation to the same
+consumer.
+
+Finally apply
+\autoref{thm:streamname-real-regseq-observation-pullback-lock}. The Real seal
+pulls back along the same four displayed rows and keeps the initial bundle
+member plus unary-history row fixed. The exclusion clauses in the determinacy,
+sibling-route, and pullback-lock results leave no coordinate for host index
+equality, quotient stream equality, selected limits, trichotomy, or ambient
+completeness to serve as a second route.
+\end{proof}

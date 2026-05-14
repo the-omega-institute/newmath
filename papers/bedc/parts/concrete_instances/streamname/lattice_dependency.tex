@@ -5,6 +5,22 @@ The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyName
 
 This edge is the L10 scheduled finite-window handoff from $\StreamNameUp$ into the $\RegularCauchyNameUp$, $\RegSeqRatUp$, and $\RealUp$ chain. The handoff is recorded before the $\RegSeqRatUp$ and $\RealUp$ seal rows, so the later consumer can cite the StreamName window surface without importing quotient stream equality, host sequence equality, selected limits, or ambient completeness.
 
+\begin{theorem}[StreamName RatUp to RegSeqRat lattice source]
+\label{thm:streamname-rat-regseqrat-lattice-source}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by an accepted $\RegSeqRatUp$ row and then by an accepted $\RealUp$ seal row. Then every gateway read of $W$ first exposes its point observations as $\RatUp$ carrier and classifier rows: the carrier rows are the pointwise $\mathsf{RatHistoryCarrier}$ witnesses of \autoref{def:rat-stream-name-carrier}, and the classifier rows are the pointwise $\mathsf{RatHistoryClassifier}$ witnesses of \autoref{def:rat-stream-name-classifier}. The $\RegSeqRatUp$ consumer may read those same point rows only through the $\RatUp$, $\RegSeqRatUp$, and $\RealUp$ certificate surfaces of \autoref{ch:concrete-instances-rat-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Consequently the downstream lattice edge is sourced by RatUp point rows before any regular-sequence or real-seal row is exposed. The edge exports no quotient stream equality, host sequence equality, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted StreamName carrier first. Definitions \autoref{def:rat-stream-name-carrier} and \autoref{def:rat-stream-name-classifier} say exactly that a StreamName window reads certified unary observations pointwise as $\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ rows. Those are the RatUp carrier and classifier rows named by \autoref{ch:concrete-instances-rat-namecert}.
+
+Next apply the pointwise handoff theorems in this StreamName chapter. The package theorem \autoref{thm:streamname-regseqrat-pointwise-handoff} sends the finite window to $\RegSeqRatUp$ only through the StreamName carrier rows, the finite-window classifier row, certified unary observations, membership rows, and pointwise $\hsame$ comparisons. The exhaustion theorem \autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} identifies those rows with the same pointwise RatUp observations before any regularity or seal-facing datum is read.
+
+Now pass through the displayed downstream certificates. The $\RegSeqRatUp$ row is therefore a consumer of the same point rows through \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal row reads the resulting handoff through \autoref{ch:concrete-instances-real-namecert}. The carrier source remains the RatUp point surface; neither consumer introduces a second source for the finite window.
+
+Finally apply the L10 gateway factorization of \autoref{thm:streamname-l10-gateway-factorization}. Its route sends the already exposed StreamName point rows through the $\RegSeqRatUp$ regular source row, dyadic ledger, finite tail witness, finite approximation row, and $\RealUp$ seal row. Its boundary clause excludes quotient stream equality, host sequence equality, selected limits, host real equality, and ambient completeness from the gateway source.
+\end{proof}
+
 \begin{theorem}[StreamName L10 gateway factorization]
 \label{thm:streamname-l10-gateway-factorization}
 Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by accepted $\RegSeqRatUp$, $\RegularCauchyNameUp$, $\FiniteTailDiagonalSealUp$, $\FiniteCauchyApproximationUp$, and $\RealUp$ rows. Then every accepted L10 read of $W$ factors through one finite displayed route:
@@ -68,4 +84,60 @@ Next use \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}. The ac
 Finally use \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}. The accepted $\FiniteCauchyApproximationUp$ packet reads the same source and window together with the dyadic observation ledger and finite error row. Its handoff therefore meets the finite-tail route on the displayed $\hsame$ and $\Cont$ rows.
 
 Coordinate exhaustion gives the exclusion clause. None of the three accepted consumers contains a coordinate for quotient stream equality, a selected limit, host real equality, or ambient completeness, so the fused route cannot export any of those endpoints.
+\end{proof}
+
+\begin{theorem}[StreamName dyadic RegSeqRat Real pullback exactness]
+\label{thm:streamname-dyadic-regseq-real-pullback-exactness}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by accepted $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Then the pullback source of the accepted read is the same whether the consumer reads through the StreamName point rows, the $\DyadicRatCoreUp$ observation ledger, the $\RegSeqRatUp$ regular source row, or the $\RealUp$ seal row.
+
+Equivalently, the four visible routes agree through the displayed $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The common pullback exports no quotient stream equality, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First identify the source rows. Apply \autoref{thm:streamname-rat-regseqrat-lattice-source} to read the accepted StreamName finite window as pointwise carrier and classifier rows before the regular-sequence or real-seal consumer is exposed.
+
+Next factor the L10 route. By \autoref{thm:streamname-l10-gateway-factorization}, every accepted L10 read passes through the StreamName window rows, unary observations, bundle ledger, $\RegSeqRatUp$ regular source row, dyadic observation ledger, finite tail witness, finite approximation row, and $\RealUp$ seal row.
+
+Now fuse the finite windows. Apply \autoref{thm:streamname-finite-window-diagonal-fusion} to identify the shared route into the $\RealUp$ seal through the displayed $\hsame$ transports and $\Cont$ routes.
+
+Project the four sibling rows. The StreamName point rows, dyadic observation ledger, RegSeqRat regular source row, and RealUp seal row all read the same displayed window, transport, route, provenance, and local naming coordinates. Coordinate exhaustion then gives the pullback exactness claim and excludes quotient stream equality, selected limits, host real equality, and ambient completeness from the common source.
+\end{proof}
+
+\begin{theorem}[StreamName budgeted L10 pullback exactness]
+\label{thm:streamname-budgeted-l10-pullback-exactness}
+Let $W$ be an accepted finite $\StreamNameUp$ packet consumed through accepted $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\ObservationBudgetLimiterUp$, and $\RegularCauchyTailBudgetUp$ rows. Then every consumer-visible route out of $W$ factors through one displayed finite packet consisting only of $\BHist$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ rows, certified unary observations, dyadic ledger rows, regular-source rows, real-seal rows, budget-limiter request, cap, and window rows, tail-budget service rows, displayed $\hsame$ transports, displayed $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The common packet is the pullback source for the StreamName point route, the $\DyadicRatCoreUp$ observation route, the $\RegSeqRatUp$ regular route, the $\RealUp$ seal route, the $\ObservationBudgetLimiterUp$ service route, and the $\RegularCauchyTailBudgetUp$ tail-service route. It exports no quotient stream equality, host sequence equality, selected limit, countable-choice selector, host real equality, ambient completeness principle, or alternate seal source.
+\end{theorem}
+\begin{proof}
+Start with the unbudgeted L10 pullback. Theorem~\ref{thm:streamname-dyadic-regseq-real-pullback-exactness} identifies one common source for the StreamName point rows, the dyadic ledger, the regular source row, and the real-seal row through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Next attach the finite budget route. Theorem~\ref{thm:streamname-budget-handoff-sibling-chapter-route} sends every accepted StreamName budget handoff through the sibling $\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$ chapter surfaces before the $\RegSeqRatUp$ readback and $\RealUp$ seal rows are consumed.
+
+Now use the budget chapters to fix the visible service rows. Theorem~\ref{thm:observation-budget-limiter-cauchy-tail-budget-factorization} contributes the request, cap, and window service triad, and Theorem~\ref{thm:regular-cauchy-tail-budget-observation-gate} orders the regular source, tail threshold, observation limiter, finite StreamName window, dyadic ledger, readback, and seal as one finite service route.
+
+The displayed rows therefore form a single pullback packet for all six routes named in the statement. Coordinate exhaustion gives the boundary clause: none of the participating packets has a coordinate for quotient stream equality, host sequence equality, selected limits, countable-choice selection, host real equality, ambient completeness, or a second seal source, so none can be exported by the composed route.
+\end{proof}
+
+\begin{theorem}[StreamName L10 four-step source lattice]
+\label{thm:streamname-l10-four-step-source-lattice}
+Every accepted Phase Real and Completion consumer of a finite $\StreamNameUp$ packet factors through exactly the ordered source faces
+$$
+\DyadicRatCoreUp
+\longrightarrow
+\StreamNameUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\RealUp.
+$$
+The factorization uses only the displayed $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows supplied by the four packet surfaces of \autoref{ch:concrete-instances-dyadicratcore-namecert}, this $\StreamNameUp$ chapter, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It exports no quotient stream equality, host sequence equality, selected limit, countable-choice selector, host real equality, ambient completeness, arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First read the unbudgeted four-face pullback. Theorem~\ref{thm:streamname-dyadic-regseq-real-pullback-exactness} identifies the common source of the StreamName point route, the $\DyadicRatCoreUp$ observation ledger, the $\RegSeqRatUp$ regular source row, and the $\RealUp$ seal row through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Next impose the accepted L10 consumer boundary. Theorem~\ref{thm:streamname-budgeted-l10-pullback-exactness} says that the budgeted Phase Real route and the Completion-facing tail route still read the same finite packet before any seal-facing row is consumed. These added service rows do not introduce a second source for the StreamName packet.
+
+The named source faces are then fixed by the local certificates. The $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ NameCert chapters provide the only displayed rows available at the dyadic ledger, regular-source, and real-seal faces, and the current $\StreamNameUp$ chapter provides the finite-window face between them.
+
+Coordinate exhaustion gives both exact ordering and the exclusion clause. The participating packets contain no coordinate for quotient stream equality, host sequence equality, selected limits, countable-choice selection, host real equality, ambient completeness, arithmetic packages, order packages, or metric-completeness rows; hence every accepted Phase Real and Completion consumer factors through exactly the four listed faces and exports none of those objects.
 \end{proof}

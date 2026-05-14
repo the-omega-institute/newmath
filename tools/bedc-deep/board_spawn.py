@@ -37,10 +37,12 @@ import board_context
 import candidate_inbox
 import paper_index
 import logic_packet_gate
+import loning_assimilator
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_spawn_logs"
+LATEST_STATUS_PATH = SCRIPT_DIR / "state" / "board_spawn_latest.json"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_JUDGE_TIMEOUT = 600
@@ -82,6 +84,7 @@ LOGIC_PACKET_FIELDS = (
     "witness_extractor",
     "existence_mode",
     "cut_rank",
+    "elimination_plan",
     "equality_kind",
     "interpretation_kind",
     "resource_trace",
@@ -263,6 +266,81 @@ class BoardSpawnResult:
     rejected: list[dict] = field(default_factory=list)
     appended_ids: list[str] = field(default_factory=list)
     error: str = ""
+    error_kind: str = ""
+
+
+def classify_judge_error(error: str) -> str:
+    """Return a stable outage kind for BOARD judge failures."""
+    low = (error or "").lower()
+    if not low:
+        return ""
+
+    claude_kind = "claude_unavailable"
+    if "organization does not have access to claude" in low:
+        claude_kind = "claude_access_denied"
+    elif "not logged in" in low or "please login again" in low:
+        claude_kind = "claude_not_logged_in"
+    elif "claude cli not found" in low:
+        claude_kind = "claude_cli_missing"
+    elif "claude disabled" in low:
+        claude_kind = "claude_disabled"
+    elif "claude judge rc=-9" in low or "timed out" in low:
+        claude_kind = "claude_timeout"
+    elif "claude judge output was not json" in low:
+        claude_kind = "claude_non_json"
+
+    codex_kind = ""
+    if "codex fallback" in low:
+        codex_kind = "codex_fallback_failed"
+        if "failed to initialize in-process app-server client" in low:
+            codex_kind = "codex_sandbox_init_failed"
+        elif "operation not permitted" in low:
+            codex_kind = "codex_operation_not_permitted"
+        elif "output was not json" in low:
+            codex_kind = "codex_non_json"
+
+    if "claude judge" in low or "claude returned" in low or "claude " in low:
+        if codex_kind:
+            return f"board_judge_unavailable:{claude_kind}+{codex_kind}"
+        return f"board_judge_unavailable:{claude_kind}"
+    if codex_kind:
+        return f"board_judge_unavailable:{codex_kind}"
+    return "board_judge_failed"
+
+
+def _now_iso() -> str:
+    return datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def _write_latest_status(
+    *,
+    result: BoardSpawnResult,
+    codex_input: int,
+    oracle_input: int,
+    codex_alive: int,
+    oracle_alive: int,
+    cheap_drop_count: int,
+) -> None:
+    LATEST_STATUS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    error = " ".join(str(result.error or "").split())[:500]
+    record = {
+        "ts": _now_iso(),
+        "ok": result.ok,
+        "codex_input": codex_input,
+        "oracle_input": oracle_input,
+        "codex_alive": codex_alive,
+        "oracle_alive": oracle_alive,
+        "cheap_drop_count": cheap_drop_count,
+        "accepted_count": len(result.accepted),
+        "rejected_count": len(result.rejected),
+        "appended_ids": result.appended_ids,
+        "error_kind": result.error_kind,
+        "error": error,
+    }
+    LATEST_STATUS_PATH.write_text(
+        json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def _judge_candidates(
@@ -277,6 +355,12 @@ def _judge_candidates(
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
     paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
+    try:
+        loning_block = loning_assimilator.latest_prompt_block()
+    except Exception:
+        loning_block = ""
+    if loning_block:
+        template = template.rstrip() + "\n\n" + loning_block + "\n"
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
@@ -336,7 +420,7 @@ def _render_entry(target_id: str, candidate: dict) -> str:
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
     source = candidate.get("source", "judge")
-    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    landing_kind = str(candidate.get("landing_kind") or "existing_chapter_lemma").strip()
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     rationale = candidate.get("rationale", "")
     inputs = candidate.get("local_inputs") or []
@@ -392,6 +476,19 @@ def _field_text(candidate: dict, key: str) -> str:
     return str(value or "").strip()
 
 
+def _is_conjecture_fallback(candidate: dict) -> bool:
+    """Conjecture fallback is a review lane, not an executable BOARD lane."""
+    tastegate_mode = _field_text(candidate, "tastegate_mode").lower()
+    if tastegate_mode == "conjecture_fallback":
+        return True
+    value = _field_text(candidate, "conjecture_fallback").lower()
+    if not value:
+        return False
+    if value in {"false", "no", "none", "n/a", "na", "0"}:
+        return False
+    return True
+
+
 def _pre_tastegate_rejection(candidate: dict) -> str:
     """Hard admission gate for candidates trying to create a new chapter."""
     landing_kind = str(candidate.get("landing_kind") or "").strip()
@@ -416,13 +513,14 @@ def _pre_tastegate_rejection(candidate: dict) -> str:
     }:
         return f"new_chapter_invalid_tastegate_mode:{tastegate_mode[:40]}"
 
-    conjecture_fallback = _field_text(candidate, "conjecture_fallback").lower()
-    if conjecture_fallback in {"true", "yes", "required", "recommended"}:
+    if _is_conjecture_fallback(candidate):
         return "new_chapter_should_route_to_conjecture_fallback"
     return ""
 
 
 def _post_judge_landing_rejection(candidate: dict) -> str:
+    if _is_conjecture_fallback(candidate):
+        return "conjecture_fallback_not_board_lane"
     title = str(candidate.get("title") or "")
     claim = str(candidate.get("claim") or candidate.get("concrete_claim") or "")
     rationale = str(candidate.get("rationale") or "")
@@ -455,6 +553,46 @@ def _logic_packet_rejection(candidate: dict) -> str:
     return "logic_packet_gate:" + ";".join(result.reasons)
 
 
+def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
+    keys: list[tuple[str, str]] = []
+    for field_name in ("candidate_id", "title"):
+        value = str(candidate.get(field_name) or "").strip().lower()
+        if value:
+            keys.append((field_name, value))
+    return keys
+
+
+def _hydrate_judge_rejections(rejected: list[dict], originals: list[dict]) -> list[dict]:
+    """Preserve original candidate packet fields on judge rejections.
+
+    The judge often returns a compact rejected_candidates item containing only
+    title/source/reason. Rejection telemetry is much more useful if the original
+    claim, inputs, and logic-packet fields remain visible in candidate_inbox.
+    """
+    if not rejected or not originals:
+        return rejected
+    by_key: dict[tuple[str, str], dict] = {}
+    for candidate in originals:
+        if not isinstance(candidate, dict):
+            continue
+        for key in _rejection_match_keys(candidate):
+            by_key.setdefault(key, candidate)
+    hydrated: list[dict] = []
+    for item in rejected:
+        if not isinstance(item, dict):
+            continue
+        original = None
+        for key in _rejection_match_keys(item):
+            original = by_key.get(key)
+            if original:
+                break
+        if original:
+            hydrated.append({**original, **item})
+        else:
+            hydrated.append(item)
+    return hydrated
+
+
 def _atomic_append_to_board(blocks: list[str]) -> None:
     if not blocks:
         return
@@ -481,6 +619,8 @@ def spawn_from_candidates(
 
     Returns BoardSpawnResult with accepted/rejected/appended_ids.
     """
+    codex_input = len(codex_candidates)
+    oracle_input = len(oracle_candidates)
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
 
@@ -508,7 +648,16 @@ def spawn_from_candidates(
             f"candidates dedup'd against existing BOARD titles",
             flush=True,
         )
-        return BoardSpawnResult(ok=True, rejected=cheap_drops)
+        result = BoardSpawnResult(ok=True, rejected=cheap_drops)
+        _write_latest_status(
+            result=result,
+            codex_input=codex_input,
+            oracle_input=oracle_input,
+            codex_alive=0,
+            oracle_alive=0,
+            cheap_drop_count=len(cheap_drops),
+        )
+        return result
 
     # Step 2: claude judge (with codex+oracle source signals + paper coverage).
     print(
@@ -519,8 +668,23 @@ def spawn_from_candidates(
         codex_candidates=codex_alive,
         oracle_candidates=oracle_alive,
     )
+    rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
     if err:
-        return BoardSpawnResult(ok=False, error=err, rejected=cheap_drops + rejected)
+        result = BoardSpawnResult(
+            ok=False,
+            error=err,
+            error_kind=classify_judge_error(err),
+            rejected=cheap_drops + rejected,
+        )
+        _write_latest_status(
+            result=result,
+            codex_input=codex_input,
+            oracle_input=oracle_input,
+            codex_alive=len(codex_alive),
+            oracle_alive=len(oracle_alive),
+            cheap_drop_count=len(cheap_drops),
+        )
+        return result
 
     # Step 3: enforce thresholds (judge may have already, double-check defensively).
     final_accepted: list[dict] = []
@@ -565,12 +729,21 @@ def spawn_from_candidates(
     )
     all_rejected = cheap_drops + rejected + threshold_drops
     candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
-    return BoardSpawnResult(
+    result = BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
         rejected=all_rejected,
         appended_ids=appended_ids,
     )
+    _write_latest_status(
+        result=result,
+        codex_input=codex_input,
+        oracle_input=oracle_input,
+        codex_alive=len(codex_alive),
+        oracle_alive=len(oracle_alive),
+        cheap_drop_count=len(cheap_drops),
+    )
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -671,6 +844,7 @@ def main() -> int:
         "accepted_count": len(result.accepted),
         "rejected_count": len(result.rejected),
         "error": result.error,
+        "error_kind": result.error_kind,
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok else 1
 

@@ -35,3 +35,50 @@ history-sameness to \(\emp\), transitivity through \(\emp\) gives the displayed
 fold readback.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_reverse\_carrier\_readback}
+
+\begin{corollary}[Singleton additive fold double-reverse readback]
+\label{cor:matrix-singleton-add-fold-double-reverse-readback}
+If $xs$ is carried by $\mathsf{MatrixSingletonAddFoldSpineCarrier}$, then the
+singleton additive fold over the double-reversed spine is carried, and the
+singleton matrix classifier relates it to the original singleton additive fold:
+$$
+\mathsf{MatrixSingletonCarrier}
+  (\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(\mathsf{reverse}(xs))))
+\land
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(\mathsf{reverse}(xs))),
+   \mathsf{MatrixSingletonAddFold}(xs)).
+$$
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:matrix-singleton-add-fold-reverse-carrier-readback} to
+$xs$. This gives the carrier of
+$\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs))$ and the comparison
+$$
+\mathsf{MatrixSingletonAddFold}(xs)\hsame
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs)).
+$$
+By \autoref{thm:matrix-singleton-add-fold-carrier-iff}, that carried reversed
+fold reads back to a carried reversed spine. Apply
+\autoref{thm:matrix-singleton-add-fold-reverse-carrier-readback} again, now to
+$\mathsf{reverse}(xs)$. This gives the carrier of
+$\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(\mathsf{reverse}(xs)))$ and
+$$
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(xs))\hsame
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(\mathsf{reverse}(xs))).
+$$
+Symmetry and transitivity of $\hsame$ compose the two displayed comparisons in
+the reverse direction, yielding
+$$
+\mathsf{MatrixSingletonAddFold}(\mathsf{reverse}(\mathsf{reverse}(xs)))\hsame
+\mathsf{MatrixSingletonAddFold}(xs).
+$$
+The original spine carrier gives the carrier of
+$\mathsf{MatrixSingletonAddFold}(xs)$ by
+\autoref{thm:matrix-singleton-add-fold-carrier-iff}, while the second reverse
+readback already supplies the carrier of the double-reversed fold. These two
+carrier rows together with the displayed $\hsame$ comparison are exactly the
+singleton matrix classifier witness. Finite reverse involutivity confirms that
+the double-reversed spine has the same finite order as the input spine, so the
+readback uses no additional carrier or permutation datum.
+\end{proof}

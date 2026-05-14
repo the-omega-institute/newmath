@@ -4,6 +4,8 @@
 
 The $\InscriptionEventUp$ surface turns an inscription into finite NameCert data. It records the accepted public transition by which prior record state is carried into a named statement, a route witness, a check row, a downstream consumer, and a $\mathsf{GAP}$ ledger. The packet is not private intention, raw byte change, hidden agency, or an unconstrained host event.
 
+The inscription packet consumes the kernel-acceptance trace of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, the TasteGate admission surface of \autoref{ch:concrete-instances-tastegateadmission-namecert}, and the audit membrane of \autoref{ch:concrete-instances-auditmembrane-namecert} before its route, check, and $\mathsf{GAP}$ ledger rows become public certificate data.
+
 \begin{definition}[InscriptionEvent carrier]
 \label{def:inscription-event-namecert-carrier}
 An $\InscriptionEventUp$ carrier is a finite $\BHist$ packet
@@ -118,15 +120,17 @@ The classifier locality clause in \autoref{thm:inscription-event-namecert-obliga
 
 \closureat{InscriptionEventUp}{obligationStr}[BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment]
 \closureat{InscriptionEventUp}{scopedStr}[BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment]
+\closureat{InscriptionEventUp}{publicStr}[BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment]
+\closureat{InscriptionEventUp}{matureStr}[BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\InscriptionEventUp}
   \constructivestory{An $\InscriptionEventUp$ packet is generated from prior record state, a named statement or record, a route witness, an accepted check row, an intended consumer, a public GAP ledger, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:inscription-event-namecert-carrier}, \autoref{thm:inscription-event-namecert-obligations}, \autoref{thm:inscription-event-carrier-stability}, \autoref{thm:inscription-event-nonescape-boundary}, and \autoref{thm:inscription-event-downstream-handoff} bind inscription events as finite public NameCert packets.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:inscription-event-namecert-carrier}, \autoref{thm:inscription-event-namecert-obligations}, \autoref{thm:inscription-event-carrier-stability}, \autoref{thm:inscription-event-nonescape-boundary}, \autoref{thm:inscription-event-downstream-handoff}, \autoref{thm:inscription-event-obligation-route-ledger}, \autoref{thm:inscription-event-obligation-consumer-ledger}, and \autoref{thm:inscription-event-obligation-public-package} bind inscription events as finite public NameCert packets with the downstream consumer package.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, hidden agency, private intention, raw byte-change identity, host process trace semantics, or completed record ontology.}
-  \upgradepath{Public export requires exposing the accepted inscription-event packet as a reusable public object with stable downstream consumer interfaces.}
+  \upgradepath{The paper-side theory closure is complete for the displayed finite inscription-event package; machine bridge checking remains a separate verification-axis obligation.}
 \end{closurestatus}

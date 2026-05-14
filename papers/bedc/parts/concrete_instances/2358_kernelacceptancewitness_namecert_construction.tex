@@ -84,15 +84,34 @@ Finally apply ledger purity from \autoref{thm:kernel-acceptance-witness-ledger-p
 
 \closureat{KernelAcceptanceWitnessUp}{seedStr}
 \closureat{KernelAcceptanceWitnessUp}{obligationStr}
+\closureat{KernelAcceptanceWitnessUp}{scopedStr}
 
 \begin{closurestatus}{\KernelAcceptanceWitnessUp}
   \constructivestory{A $\KernelAcceptanceWitnessUp$ packet is generated from a candidate declaration row, an accepted declaration row, an environment ledger row, an axiom-query row, refusal-boundary evidence, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, and \autoref{thm:kernel-acceptance-witness-ledger-purity} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, and refusal boundaries.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-witness-ledger-purity}, and \autoref{thm:kernel-acceptance-witness-refusal-separation} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, and refusal boundaries.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean implementation, host-kernel completeness, semantic conservativity of all accepted declarations, bridge checking, or acceptance for candidates on the refusal side.}
-  \upgradepath{Scoped closure requires checked carrier matching, environment replay, dependency-query visibility, refusal separation, and ledger non-escape over the same finite packet.}
+  \upgradepath{The next paper-axis step is a public export package for the same finite acceptance-witness packet.}
 \end{closurestatus}
+
+\begin{theorem}[KernelAcceptanceWitness public export package]
+\label{thm:kernel-acceptance-witness-public-export-package}
+For every accepted $\KernelAcceptanceWitnessUp$ packet
+$$
+K=(G,A,E,Q,R,H,C,P,N)
+$$
+satisfying the local NameCert obligations of \autoref{thm:kernel-acceptance-witness-namecert-obligations}, the public BEDC acceptance-witness export consists exactly of the generated-candidate row $G$, accepted-declaration row $A$, environment-ledger row $E$, axiom-query row $Q$, refusal-boundary row $R$, componentwise transport row $H$, displayed continuation routes $C$, package provenance row $P$, and local naming row $N$. The row $R$ is exported only as refusal-boundary evidence: no failed candidate, unresolved name, forbidden dependency report, failed replay row, or absent accepted declaration recorded on the refusal side can be exported through $A$, $E$, or $Q$ as accepted BEDC content.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-acceptance-witness-carrier}. Its displayed packet has exactly the nine coordinates $G,A,E,Q,R,H,C,P,N$. The first four content rows expose the generated candidate, accepted declaration, environment replay, and dependency query; the row $R$ exposes the refusal boundary; and the rows $H,C,P,N$ provide componentwise transport, displayed routes, provenance, and local naming for that same finite packet.
+
+Apply the NameCert obligations of \autoref{thm:kernel-acceptance-witness-namecert-obligations}. Candidate-to-acceptance matching places accepted content in $A$ only for the candidate named by $G$. Environment replay places the accepted declaration at the boundary recorded by $E$. Purity-query visibility makes $Q$ the dependency ledger attached to $A$. Refusal separation keeps failed candidates, unresolved names, rejected recursion, forbidden axioms, and dependency reports on the $R$ side rather than in the accepted-declaration row.
+
+Now use ledger purity from \autoref{thm:kernel-acceptance-witness-ledger-purity}. Every purity-facing route factors through $A,E,Q$ for accepted content and through $R$ for candidates that do not cross the acceptance gate. Thus a route that tries to read a forbidden dependency report, unresolved declaration name, or unaccepted candidate as BEDC-internal accepted content has no exported coordinate through which to do so.
+
+Finally apply refusal separation from \autoref{thm:kernel-acceptance-witness-refusal-separation}. Rows recorded in $R$ because of unresolved names, forbidden dependency reports, failed kernel replay, or absent accepted declarations cannot be exported through $A$, $E$, or $Q$ as accepted content. The structural rows $H,C,P,N$ preserve, route, source, and name the displayed packet; by the exactness obligation they add no second acceptance channel. Therefore the public export is precisely the nine-row packet $G,A,E,Q,R,H,C,P,N$, with $R$ visible only as boundary evidence and never as accepted BEDC content.
+\end{proof}

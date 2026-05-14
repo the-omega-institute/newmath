@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateBudgetUp$}
+\label{ch:concrete-instances-cauchy-rate-budget-namecert}
+\origin{ai}
+
+The $\CauchyRateBudgetUp$ packet realizes the finite convergence-rate control surface required by the Real completeness route of \autoref{ch:visions-real-completeness}. It sits between the finite $\StreamNameUp$ window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the observation-budget seal route of \autoref{ch:concrete-instances-real-observation-budget-namecert}. The packet records a displayed convergence-rate row as finite BEDC data; it is not a quotient of streams, a selected real value, a host metric convergence proof, or an ambient completeness principle.
+
+\begin{definition}[Cauchy rate-budget carrier]
+\label{def:cauchy-rate-budget-carrier}
+A $\CauchyRateBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $R$ is the convergence-rate row, naming the finite schedule that sends each displayed tolerance request to a bounded tail window;
+\item $W$ is the $\StreamNameUp$ finite-window row read under that schedule;
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the selected windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the visible radius and comparison rows;
+\item $E$ is the $\RealUp$ seal row reached only after $R,W,Q,D$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the rate, window, readback, tolerance, and seal rows;
+\item $C$ records the finite $\Cont$ routes for rate display, window read, readback, dyadic tolerance, seal handoff, package provenance, and local naming;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyRateBudgetUp}$ row.
+\end{enumerate}
+The carrier contains no hidden modulus selector, quotient stream equality, selected limit, host real equality, or ambient completeness row.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy rate-budget NameCert obligations]
+\label{thm:cauchy-rate-budget-namecert-obligations}
+The local $\NameCert_{\CauchyRateBudgetUp}$ surface for \autoref{def:cauchy-rate-budget-carrier} consists exactly of carrier admission for $B$, convergence-rate display through $R$, $\StreamNameUp$ finite-window coverage through $W$, $\RegSeqRatUp$ readback through $Q$, $\DyadicRatCoreUp$ tolerance-ledger exactness through $D$, $\RealUp$ seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $B=(R,W,Q,D,E,H,C,P,N)$. Each obligation row named in the statement is one coordinate of the same finite $\BHist$ packet.
+
+The rate, window, readback, tolerance, and seal clauses are read in order. The rate row supplies the finite schedule, the window row applies it to $\StreamNameUp$, the readback row exposes the $\RegSeqRatUp$ observation, and the dyadic row records the visible tolerance before the Real seal is available.
+
+The transport and route clauses use the stored $H$ and $C$ rows componentwise. Package provenance and local naming then repack the same finite surface through $P,N$, leaving no coordinate for quotient streams, selected limits, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy rate-budget rate non-escape]
+\label{thm:cauchy-rate-budget-rate-nonescape}
+Every $\RealUp$ or observation-budget seal consumer of an accepted $\CauchyRateBudgetUp$ packet must read the convergence-rate row $R$ before reaching the seal row $E$. The rate cannot be replaced by an unbounded modulus, a hidden tail selector, quotient stream equality, host metric convergence, or a selected external limit.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-rate-budget-namecert-obligations}. It places convergence-rate display before the finite-window, readback, tolerance, and seal rows in the local NameCert surface.
+
+Project the carrier. The only route from the packet to the Real seal is the displayed chain $R,W,Q,D,E$ authenticated by $H,C,P,N$.
+
+The excluded objects are absent from the carrier. Since no coordinate stores an unbounded modulus, hidden tail selector, quotient stream equality, host convergence proof, or selected limit, no consumer can substitute one for the displayed rate row.
+\end{proof}
+
+\begin{theorem}[Cauchy rate-budget StreamName--RegSeq handoff]
+\label{thm:cauchy-rate-budget-streamname-regseq-handoff}
+For an accepted $\CauchyRateBudgetUp$ packet $B=(R,W,Q,D,E,H,C,P,N)$, the $\StreamNameUp$ window row $W$ and the $\RegSeqRatUp$ readback row $Q$ form a single finite handoff controlled by the rate row $R$. Any consumer that reads $Q$ must first read $R$ and $W$, and any later $\DyadicRatCoreUp$ or $\RealUp$ read must preserve that same handoff through $D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read $R,W,Q$ from the carrier. The rate row selects the finite window schedule, and the window row is the only public source from which the readback row is obtained.
+
+Apply the NameCert obligation surface. It lists the $\StreamNameUp$ window coverage before the $\RegSeqRatUp$ readback and the dyadic tolerance ledger after it, so the readback cannot be detached from the selected window.
+
+Finally use componentwise transport and route replay. The $H,C,P,N$ rows preserve the same handoff when a downstream dyadic or Real consumer reads the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy rate-budget TasteGate boundary]
+\label{thm:cauchy-rate-budget-tastegate-boundary}
+The TasteGate boundary for $\CauchyRateBudgetUp$ is the non-vacuous field separation among the rate row $R$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RealUp$ seal row $E$. Any faithful single-carrier witness must preserve the order
+$$
+R \to W \to Q \to D \to E
+$$
+rather than collapsing the packet to one undifferentiated Real-completion row.
+\end{theorem}
+\begin{proof}
+The carrier separates the five public Real-completion rows. Each has a distinct consumer role: rate display, finite window, regular-rational readback, dyadic tolerance, and Real seal.
+
+Use rate non-escape and the StreamName--RegSeq handoff. They force the seal-facing route to expose the rate before the window, the window before readback, and the readback before dyadic tolerance.
+
+Therefore a faithful TasteGate witness for this carrier must preserve the displayed row order. Collapsing the rows would destroy either the rate non-escape property or the StreamName--RegSeq handoff.
+\end{proof}
+
+\falsifiablePrediction{A Real-completion seal consumer that consumes a CauchyRateBudgetUp packet cannot read a RealUp seal unless the displayed rate row, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance ledger have all been displayed.}
+
+\independenceWitness{Compare observationbudgetlimiter, regularcauchytailbudget, finiteprefixlimitbudget, cauchydiagonalbudget, and budgetedrealsealroute: CauchyRateBudgetUp has a first-class convergence-rate row tied to a single finite-window schedule, while those siblings respectively cap requests, tail thresholds, prefix depth, diagonal budget, or a composite seal route; no bijection preserves both the rate coordinate and the seal-readback order.}
+
+\closureat{CauchyRateBudgetUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateBudgetUp}
+  \constructivestory{A $\CauchyRateBudgetUp$ packet is generated from a displayed convergence-rate row, a finite $\StreamNameUp$ window row, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal row, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-budget-carrier}, \autoref{thm:cauchy-rate-budget-namecert-obligations}, \autoref{thm:cauchy-rate-budget-rate-nonescape}, \autoref{thm:cauchy-rate-budget-streamname-regseq-handoff}, and \autoref{thm:cauchy-rate-budget-tastegate-boundary} record the finite convergence-rate, StreamName window, RegSeqRat readback, dyadic tolerance, Real seal, and TasteGate boundary for Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Real completeness, construct an ambient modulus, identify quotient streams, select a host real limit, close Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rate non-escape, StreamName--RegSeq handoff, dyadic tolerance exactness, Real seal routing, and TasteGate field faithfulness for the same finite packet.}
+\end{closurestatus}

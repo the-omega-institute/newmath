@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-apophaticsocket-namecert}
 \origin{human}
 
-The $\ApophaticSocketUp$ packet realizes apophatic naming as a finite certificate surface. It names the socket kind, the requested external supply shape, the audit gate that keeps the request visible, the site row where the request is made, the transport and replay rows that preserve the boundary, the package provenance, and the local \NameCert{} row. The packet does not make the requested supply internally available.
+The $\ApophaticSocketUp$ packet realizes apophatic naming as a finite certificate surface. It names the socket kind, the requested external supply shape, the audit gate that keeps the request visible, the site row where the request is made, the transport and replay rows that preserve the boundary, the package provenance, and the local \NameCert{} row. This socket specializes the boundary-name surface of \autoref{ch:concrete-instances-apophaticname-namecert}: ApophaticName supplies the negative naming row, while ApophaticSocket adds the requested-supply shape, audit gate, site row, and noninternalization ledger. The packet does not make the requested supply internally available.
 
 \begin{definition}[ApophaticSocket ledger carrier]
 \label{def:apophatic-socket-ledger-carrier}
@@ -104,6 +104,7 @@ K,S_0,G,A,L,Q,P,N.
 $$
 In particular, the socket kind is read through $K$, the requested supply shape through $S_0$, the gate through $G$, the invocation site through $A$, transport and replay through $L,Q$, provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_gated\_supply\_route\_exhaustion}
 \begin{proof}
 Let a visible supply use be given. By the gate correspondence theorem, visibility means that the use has the displayed audit-gate row $G$ attached to the socket kind and requested supply shape.
 
@@ -173,14 +174,16 @@ Finally use the scoped supply ledger of \autoref{thm:apophatic-socket-scoped-sup
 \end{proof}
 
 \closureat{ApophaticSocketUp}{obligationStr}
+\closureat{ApophaticSocketUp}{scopedStr}[BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_gated\_supply\_route\_exhaustion]
+\closureat{ApophaticSocketUp}{publicStr}[BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_gated\_supply\_route\_exhaustion]
 
 \begin{closurestatus}{\ApophaticSocketUp}
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}, \autoref{thm:apophatic-socket-kernel-scope-obligation-package}, and \autoref{thm:apophatic-socket-positive-supply-refusal-scope} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, ledger noninternalization, scoped kernel surface, and positive supply refusal scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, a positive description of the external source, hidden witnesses for requested supply, or global closure for every apophatic name.}
-  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for NameCert obligations, gate correspondence, noninternalization, and consumer factoring.}
+  \upgradepath{The bridge package for the same scoped socket ledger is the next paper-axis step, with the verification axis remaining independent until the displayed carrier and socket theorems are checked.}
 \end{closurestatus}

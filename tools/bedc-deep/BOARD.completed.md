@@ -18293,3 +18293,1670 @@ Rationale:
 This belongs as a local existing-chapter lemma for the CauchyFilter finite-filterbase surface. The paper currently records the finite carrier, directed refinement obligation, Cauchy modulus obligation, and NameCert surface, but not closure under a displayed finite subfilterbase satisfying the needed refinement and modulus side conditions. It is close to other finite restriction BOARD patterns, so novelty is only threshold-level, but it is not a duplicate of an existing CauchyNet or finite-window target and it has a safe, short landing file.
 
 ---
+
+### B-727 - ContextFreeGrammar derivation prefix carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ContextFreeGrammar derivation prefix carrier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \ContextFreeGrammarUp packet has a finite derivation ledger split into a displayed prefix and suffix, then the prefix ledger repacks as an accepted derivation segment over the same start row, production ledger, transport rows, continuation routes, and package provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: A displayed split of a finite derivation ledger supplies the witness; the proof is finite prefix projection and repacking over already visible production and continuation rows.
+- `witness_extractor`: cfg_derivation_prefix_subledger
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Eliminate the split cut by projecting the prefix entries from d, keeping production witnesses from P and route entries from c, then applying production stability to each retained step.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes Sigma,N,S,P,w,d,y,h,c,p,n but retains only S, P, the prefix of d, the corresponding hsame transports, Cont routes, Pkg provenance, and local NameCert row; no parse tree, pumping theorem, Chomsky normal form, or recognizer completeness is used.
+- `dependency_trace`: The carrier records the finite production ledger P and finite derivation ledger d at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:27-39; derivation concatenation is already available at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:75-98; terminal-yield windows are handled only when a final terminal readback row is present at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:124-160.
+- `oracle_mode`: witness_synthesis
+Rationale:
+
+
+---
+
+### B-725 - DoCalculus intervention prefix locality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DoCalculus intervention prefix locality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \DoCalculusUp packet restricts its finite intervention ledger to a displayed prefix whose observed-variable, adjustment, independence, distribution, and expectation rows are retained, then every intervention-facing read for that prefix factors through the retained rows and cannot read a later intervention row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The target is a finite prefix projection of an already displayed intervention ledger; all rows are inherited from the packet, so the weakest adequate resource is a finite witness for the retained prefix and its retained route entries.
+- `witness_extractor`: intervention_prefix_subledger
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Eliminate the cut through the full intervention packet by projecting the prefix rows from I,V,A,M,R,H,C,P,N, then reusing the existing non-escape argument on the restricted route family.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the finite intervention ledger I, observed-variable row V, adjustment ledger A, distribution rows M, independence certificates R, expectation row J, export row E, hsame rows H, Cont routes C, package row P, and local naming row N; no causal graph or counterfactual selector is introduced.
+- `dependency_trace`: The DoCalculus carrier defines I as a finite intervention ledger with displayed intervention order at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:35-37, and the intervention non-escape theorem says every intervention-facing consumer factors through I,V,A,M,R,H,C,P,N at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:136-145.
+- `oracle_mode`: witness_synthesis
+Rationale:
+
+
+---
+
+### B-726 - EnrichedCat two-step composition reassociation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EnrichedCat two-step composition reassociation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \EnrichedCatUp packet contains three composable hom-object rows and both displayed two-step composition routes, then the consumed \MonoidalCatUp associator row classifies the two composite endpoint rows through the same public packet surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The associator and both composition routes are supplied as finite packet rows; the proof only follows displayed hom-object, tensor-composition, hsame, Cont, and Pkg rows.
+- `witness_extractor`: enriched_two_step_associator_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Cut through the consumed MonoidalCatUp boundary: project the two composition routes, apply the displayed associator transport row, and repack the resulting endpoint comparison into the EnrichedCat public packet.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes C_obj, M_tensor, H_hom, H_comp, T_hsame, P_Pkg, and R_Cont; the only coherence resource is the associator row already exposed by the consumed MonoidalCatUp dependency.
+- `dependency_trace`: The packet stores hom-object, identity, composition, hsame, Pkg, and finite Cont rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:9-33; the tensor-composition scope theorem says compositions read adjacent hom-object rows and the tensor-composition boundary at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:61-68; the monoidal boundary isolates associator and unit-transport rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:161-181.
+- `oracle_mode`: proof_search
+Rationale:
+
+
+---
+
+### B-728 - Module LinearMap pointwise zero additive identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise zero additive identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If f has LinearMapCert_R(M,N;f) and z is a pointwise-zero certified LinearMap from M to N, then the pointwise sums x |-> f(x)+_N z(x) and x |-> z(x)+_N f(x) are certified LinearMaps and are pointwise classified with f.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof only projects existing finite certificate rows for pointwise sum, pointwise zero, target additive unit, and pointwise classifier packaging; no search, choice, quotient, or limit resource is needed.
+- `witness_extractor`: pointwise_sum_and_zero_linear_map_witnesses
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes LinearMapCert_R(M,N;f), the pointwise-zero rows for z, two applications of the pointwise-sum certificate, target additive unit rows in the ModuleUp-to-AbGroupUp reduct, and pointwise classifier packaging.
+- `dependency_trace`: Uses def:module-linearmap-certificate-package at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:98, thm:module-linearmap-pointwise-sum-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:343, thm:module-zero-linearmap-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex:150, and def:linearmap-classifier-specification from papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex:15.
+- `oracle_mode`: forbid
+Rationale:
+This belongs in the LinearMap body, preferably near the pointwise Hom_R(M,N) laws in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex. The theorem is the textbook additive-identity law for the abelian group of module homomorphisms, standard in any introductory algebra text covering modules, e.g. Dummit-Foote or Hungerford. Evidence for closeability is strong: the paper already has pointwise sum closure at module_linearmap_certificates.tex:343, zero linear-map certification at module_linearmap_kernel_image_and_zero.tex:150, pointwise sum commutativity at module_linearmap_kernel_image_and_zero.tex:100, and associativity at module_linearmap_kernel_image_and_zero.tex:184. A focused grep for pointwise sum identity, additive identity, and zero pointwise sum found only generic zero-row mentions and no theorem label for the identity law, so the target is open and should close by two applications of existing certificates plus the target module additive-unit row.
+
+---
+
+### B-730 - RegularCauchyMesh finite submesh restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RegularCauchyMesh finite submesh restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted RegularCauchyMeshUp packet restricts its finite mesh-index row to a displayed submesh while retaining the corresponding StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, DyadicMesh compatibility row, RealUp handoff, transport, continuation, provenance, and local NameCert rows, then the restricted packet is again an accepted RegularCauchyMeshUp carrier and every retained consumer read factors through the restricted rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
+- `ripeness_risk`: low, the source chapter is seed-level and the theorem is a direct finite-row restriction companion to the carrier definition
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite witness because the submesh is a displayed finite row projection and no choice, compactness, quotient, or limit construction is needed.
+- `witness_extractor`: submesh_row_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes the finite request row, mesh-index row, StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance ledger, DyadicMesh compatibility row, RealUp handoff row, componentwise hsame transports, Cont routes, Pkg provenance, and local NameCert rows restricted to the displayed submesh.
+- `dependency_trace`: Uses def:regular-cauchy-mesh-carrier, def:regular-cauchy-mesh-classifier, thm:regular-cauchy-mesh-namecert-obligation-sketch, and the chapter upgrade path asking for finite mesh coverage in papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex.
+- `rate_modulus_surface`: The restricted packet preserves the same displayed DyadicRatCore tolerance ledger and StreamName window row for retained mesh cells; no new rate, tail modulus, limit, or completeness principle is introduced.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-row locality theorem for an existing RegularCauchyMeshUp chapter. It is not a marker, closurestatus update, or verification-axis item, and it is not already present as a theorem label. The target fills a visible obligation-level gap: the chapter currently gives the carrier, classifier, and five-row NameCert sketch, while the natural downstream use of a finite mesh packet requires restriction to displayed submeshes without exporting any additional analytic structure.
+
+---
+
+### B-731 - HankelVandermonde spectral-shadow bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | HankelVandermonde spectral-shadow bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted HankelVandermondeUp packet shares its displayed atom, weight, moment-index, determinant ledger, pairwise-difference, and Vandermonde-square rows with an accepted CollisionKernelSpectrumUp packet through the FoldMomentKernelUp moment surface, then every spectral-shadow consumer read factors through the HankelVandermonde finite determinant ledger and no host matrix or analytic spectrum row is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1796_hankelvandermonde_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1732_collisionkernelspectrum_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1289_foldmomentkernel_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `ripeness_risk`: medium, the intended bridge is stated in prose but the proof must align three existing packet surfaces without turning into a restated non-escape theorem
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: All visible resources are finite ledgers: determinant-expansion rows, pairwise-difference rows, Vandermonde-square rows, moment-index rows, collision-kernel rows, and spectral-shadow rows.
+- `witness_extractor`: hankel_vandermonde_spectral_shadow_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 2
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes HankelVandermonde rows A,W,M,D,Delta,Q,H,C,P,N; FoldMomentKernel finite moment-index and finite-window rows; and CollisionKernelSpectrum rows G,F,V,I,K,S,H,T,P,N.
+- `dependency_trace`: Uses thm:hankel-vandermonde-namecert-obligations, thm:fold-moment-kernel-standard-bridge-surface, thm:fold-moment-kernel-finite-window-restriction-carrier, thm:collision-kernel-spectrum-finite-window-spectral-shadow, thm:collision-kernel-spectrum-ledger-non-escape, and thm:collision-kernel-spectrum-moment-index-projection.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is not a new object or survey item; it is a bridge lemma between three already-existing finite certificate chapters. It is close to existing non-escape and spectral-shadow projection theorems, so novelty is only threshold-level, but the proposed statement adds a specific HankelVandermonde-to-CollisionKernelSpectrum consumer route that is currently only described in prose. Kept as an existing-chapter lemma, not a new chapter.
+
+---
+
+### B-729 - Module LinearMap pointwise inverse additive cancellation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise inverse additive cancellation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If f has LinearMapCert_R(M,N;f), h(x):=-_N f(x) is its pointwise inverse, and z is a pointwise-zero LinearMap, then the pointwise sums f+h and h+f are certified LinearMaps classified with z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof is a finite pointwise certificate composition using the already-proved pointwise inverse certificate, pointwise sum certificate, zero map certificate, additive inverse laws, and classifier transitivity.
+- `witness_extractor`: pointwise_inverse_sum_zero_witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the input LinearMap certificate, constructs h with the existing pointwise inverse certificate, constructs f+h and h+f with the pointwise-sum certificate, compares each value to 0_N by target additive inverse laws, then invokes the zero-map classifier package.
+- `dependency_trace`: Uses thm:module-linearmap-pointwise-inverse-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:485, thm:module-linearmap-pointwise-sum-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:343, thm:module-zero-linearmap-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex:150, and thm:module-zero-linearmap-classifier-uniqueness at papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex:1.
+- `oracle_mode`: forbid
+Rationale:
+This is the missing inverse law for the textbook abelian group structure on Hom_R(M,N). The chapter already proves closure under pointwise inverse at module_linearmap_certificates.tex:485 and closure under pointwise addition at module_linearmap_certificates.tex:343, but the law that f plus its pointwise inverse is classified with the zero linear map is not stated as a theorem or labelled corollary; grep for pointwise inverse zero, sum inverse zero, and additive inverse pointwise found only the closure theorem and supporting inverse rows. It should close in one or two Codex rounds because all required ingredients already exist, including zero-map certification and uniqueness in module_linearmap_kernel_image_and_zero.tex:150 and zero_linearmap_classifier_uniqueness.tex:1.
+
+---
+
+### B-732 - AuditMapFrontierIndex neighbor restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AuditMapFrontierIndex neighbor restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted AuditMapFrontierIndexUp packet restricts its neighbouring-map row to a displayed finite subfamily while retaining the local audit row, positive rows, conditional route row, obstruction row, frontier row, synthesis-consumer row, transports, continuations, provenance, and local NameCert rows for that subfamily, then the restricted packet is an accepted frontier index and no unlisted neighbouring map can supply a frontier entry.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4518_auditmapfrontierindex_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Project the neighbouring-map row to the displayed finite subfamily and restrict the positive, conditional-route, obstruction, frontier, synthesis-consumer, transport, continuation, provenance, and local NameCert rows to the retained entries.
+- `ripeness_risk`: low, the source chapter is a finite frontier-index carrier and the proposed theorem is a direct finite-subfamily locality statement
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite witness because the theorem only projects a displayed neighbouring-map row and repacks retained finite certificate coordinates.
+- `witness_extractor`: frontier_neighbor_subfamily_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the neighbouring-map row to the displayed finite subfamily and restrict the positive, conditional-route, obstruction, frontier, synthesis-consumer, transport, continuation, provenance, and local NameCert rows to the retained entries.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes T,A,E,P,R,O,F,S,H,C,K,N with E restricted to a displayed finite neighbouring-map subfamily and all frontier, obstruction, route, consumer, transport, continuation, provenance, and NameCert rows retained only for that subfamily.
+- `dependency_trace`: Uses def:audit-map-frontier-index-carrier and thm:audit-map-frontier-index-namecert-obligations in papers/bedc/parts/concrete_instances/4518_auditmapfrontierindex_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-subfamily restriction theorem inside an existing audit-map frontier chapter. It is not already covered by the carrier or the five NameCert obligations: those bind the frontier index and synthesis handoff, but do not explicitly state locality under displayed neighbouring-map restriction or the corresponding no-unlisted-neighbour non-escape result. The file is a short non-hub landing, so it is safe as an existing-chapter lemma.
+
+---
+
+### B-733 - RegularCauchyTailSchedule seal-facing route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RegularCauchyTailSchedule seal-facing route determinacy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted RegularCauchyTailScheduleUp packets share the precision request, RegSeqRat source, StreamName window schedule, DyadicRatCore ledger, cofinal index, tail witness, sibling consumer rows, transport, continuation, provenance, and naming rows, then their RealUp seal-facing handoff rows are hsame.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The schedule is a displayed finite packet; the handoff comparison is a finite route-readback argument through named rows Q,R,W,D,K,T,M,F,H,C,P,N.
+- `witness_extractor`: regular_cauchy_tail_schedule_handoff_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Cut through the cofinal-index/tail-witness pair K,T: align the shared precision, window, dyadic, and sibling consumer rows, then use C and H to compare the two E handoff endpoints.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes Q,R,W,D,K,T,M,F,E,H,C,P,N from the carrier; the sibling TailMeet and TailFusion rows are read only as displayed consumer rows, with no quotient stream equality, selected limit, or ambient completeness principle.
+- `dependency_trace`: Builds on papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 for the carrier and papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:32 for the local obligation rows.
+- `rate_modulus_surface`: Finite precision request Q, finite window schedule W, DyadicRatCore tolerance ledger D, and cofinal index K form the complete modulus surface.
+- `oracle_mode`: proof_search
+Rationale:
+The carrier at papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 is a finite BHist packet S=(Q,R,W,D,K,T,M,F,E,H,C,P,N); lines 15-23 describe the precision request, window schedule, dyadic ledger, cofinal index, tail witness, sibling consumer rows, and seal-facing handoff. The existing theorem at lines 32-42 gives NameCert obligation rows but does not state a two-packet handoff determinacy result. Focused grep for RegularCauchyTailSchedule and schedule/tail determinacy returned only this file's carrier and obligation labels plus neighboring general tail-meet or diagonal-tail theorems, so this packet-specific claim remains open and is not merely a parameter transport echo.
+
+---
+
+### B-734 - InducedRep restriction-induction classifier equivalence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InducedRep restriction-induction classifier equivalence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If the consumed SubgroupUp and RepresentationRingUp classifiers, endpoint hsame rows, Frobenius hsame rows, provenance hsame row, and continuation-ledger comparisons are equivalence-stable, then the InducedRepUp restriction-induction classifier is reflexive, symmetric, and transitive on accepted carrier packets.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex`
+- `papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The classifier is a finite componentwise tuple; equivalence closure is obtained by projecting and repacking finitely many hsame and Cont comparison rows.
+- `witness_extractor`: inducedrep_componentwise_classifier_tuple
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: No bridge cut is needed; prove reflexivity, symmetry, and transitivity by componentwise projection over S,R,i,r,F,eta,epsilon,rho,lambda and repack the classifier tuple.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the finite carrier packet S,R,i,r,F,eta,epsilon,rho,lambda and the classifier tuple rows for source certificates, endpoints, Frobenius rows, provenance, and Cont ledger comparison.
+- `dependency_trace`: Builds on the carrier definition in papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:4, the restriction-induction classifier definition at papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:59, and the stability obligation packet in papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex:31.
+- `oracle_mode`: proof_search
+Rationale:
+The restriction-induction classifier is defined concretely at papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:59 as seven componentwise transport fields, and the stability obligation packet at papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex:31 repacks those fields. The existing classifier-stability theorem at lines 60-70 transports carrier components, but a focused grep for inducedrep/restriction-induction classifier reflexive, symmetric, transitive, or equivalence returned 0 hits in the inducedrep chapter. This is a genuine certificate-level gap: the NameCert surface relies on classifier equivalence, yet the paper has stability and boundary theorems without a standalone classifier-equivalence package.
+
+---
+
+### B-735 - OptionalStopping post-stop tail erasure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | OptionalStopping post-stop tail erasure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted OptionalStoppingUp finite carrier has a first displayed stopping branch before the visible bound and a truncation keeps exactly the rows through that branch while deleting later filtration-window rows, then the truncated packet is accepted and its stopped-value row is classifier-equal to the original stopped value.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only projects and repacks a finite carrier tuple already containing the bound, stopped-value row, filtration-window ledger, integrability row, transports, continuation routes, package provenance, and local NameCert row; no limiting, countable, or compactness resource is needed.
+- `witness_extractor`: first_stopping_branch_truncation
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the first displayed stopping branch from the original finite carrier, rebuild the truncated carrier from the retained coordinates, and eliminate the stopped-value cut with the bounded stopped-value readback theorem.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the OptionalStopping finite carrier O=(Omega,X,T,b,V,F,I,H,C,P,N), the stopping-time decision rows T, the bounded index b, the stopped value V, filtration ledger F, integrability row I, componentwise hsame transports H, continuation routes C, package provenance P, and local NameCert row N.
+- `dependency_trace`: Uses def:optional-stopping-carrier, thm:optional-stopping-namecert-obligations, thm:optional-stopping-bounded-stopped-value-readback, and thm:optional-stopping-finite-expectation-window from papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex.
+- `oracle_mode`: candidate_generation
+Rationale:
+OptionalStopping is a clear under-covered stochastic subarea: the file gives the finite carrier at papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex:9, says the stopped value is read from the first displayed stopping branch before the bound at :19-:22, proves only bounded stopped-value readback at :56-:65 and finite expectation-window/no-escape boundaries at :69-:91, while rg over BOARD/state found no completed OptionalStopping target beyond paper_index entries. The missing theorem is not a new optional-stopping theorem; it is the canonical finite ledger erasure property forced by the existing carrier.
+
+---
+
+### B-736 - Topology subspace pullback image-factorization
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Topology subspace pullback image-factorization |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a classifier-respecting BHist map f:Y->X lands in a displayed subspace S and i is an ambient open index, then pulling back the subspace-open row S and OpenAt(i,-) along f is equivalent to the ordinary pullback of the ambient open row i along f.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex`
+- `papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The image-in-subspace witness is supplied pointwise and the proof only rewrites the two displayed membership predicates; it does not construct opens, choose subsets, or use arbitrary-union existence.
+- `witness_extractor`: subspace_pullback_image_factor
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Use the image-in-subspace row S(f(y)) to remove the subspace conjunct from SubOpenAt(i,f(y)), then refold the BHist pullback-open predicate for the ambient open row; classifier transport is inherited from the pullback and subspace transport rows.
+- `equality_kind`: equivalent
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the BHist pullback-open row, the classifier-respecting map row f, the subspace carrier predicate S, same_S projection to same_X, and the ambient indexed-open membership predicate OpenAt(i,-).
+- `dependency_trace`: Uses def:topology-bhist-pullback-open-row and thm:topology-pullback-open-row-classifier-transport from papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex, plus def:topology-bhist-subspace-open-surface and thm:topology-subspace-open-carrier-transport from papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex.
+- `oracle_mode`: candidate_generation
+Rationale:
+Topology has generic indexed-union and metric-ball BOARD coverage, but the split child files expose two adjacent surfaces without their connecting image-factorization row: pullback rows are defined and closed under finite meet/arbitrary union in papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex:1-:77, while subspace opens are defined as S(h) and OpenAt(i,h) in papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex:1-:17 and closed under finite intersection at :38-:55. The missing claim is a concrete bridge between these two existing child-body files, not a new abstract topology schema.
+
+---
+
+### B-737 - Monodromy constant-loop returned-row identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Monodromy constant-loop returned-row identity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted MonodromyUp packet has an identity loop row at base b and an empty finite continuation ledger, then its returned fibre or stalk row is classified with the input local-system or fibre row by the packet's finite transport classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/414_monodromy_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The identity loop and empty ledger are finite displayed rows inside the MonodromyUp packet; the result is a rowwise classifier readback and does not require analytic continuation, a fundamental-group representation, or any countable construction.
+- `witness_extractor`: constant-loop-returned-row-readback
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Restrict the finite continuation ledger to the empty identity route, project the returned-row provenance theorem, and compare the input and returned rows by the componentwise hsame clause of the finite transport classifier.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the displayed loop row, base endpoint row, local-system or fibre row, returned row, empty finite continuation ledger, componentwise hsame transports, and Pkg provenance over HolonomyUp, RiemannHilbertUp, SheafUp, ConnectionUp, and CurvatureUp.
+- `dependency_trace`: The MonodromyUp carrier lists loop endpoints, the local-system or fibre source, returned row, finite continuation ledger, hsame transports, and provenance at papers/bedc/parts/concrete_instances/414_monodromy_namecert_construction.tex:9-25; the loop-continuation and returned-row provenance theorems are at lines 37-62, and the public readback export is at lines 95-128.
+- `oracle_mode`: proof_search
+Rationale:
+Monodromy is present as a public finite transport packet, but the current paper stops at global provenance and public-readback exactness. The carrier explicitly names loop subdivision, transport concatenation, endpoint readback, and returned-row comparison at papers/bedc/parts/concrete_instances/414_monodromy_namecert_construction.tex:21, while the existing theorems at lines 37-62 only say returned rows come from the displayed ledger. The scan found no BOARD.completed Monodromy target and no constant-loop or identity-loop theorem in the chapter. The identity-loop case is the smallest canonical algebraic sanity check for the transport surface and stays entirely inside the finite BHist ledger.
+
+---
+
+### B-738 - MetaCIC betasubstitutionpreservation discharge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCIC betasubstitutionpreservation discharge obligation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If the MetaCIC subject-reduction discharge interface is used, then the BetaSubstitutionPreservation row is an explicit finite setup obligation required by the interface.
+
+Local inputs:
+- `papers/bedc/parts/visions/metacic_open_problems.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: medium, the obligation is clear but should be stated only as a setup requirement, not as an unconditional subject-reduction theorem
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The visible packet is a finite named setup row for one beta-redex preservation case, with no limit, compactness, choice, or countable construction surface.
+- `existence_mode`: none
+- `cut_rank`: 0
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the displayed subject-reduction discharge interface and the finite BetaSubstitutionPreservation obligation row.
+- `dependency_trace`: MetaCIC subject-reduction discharge interface; beta-redex substitution preservation obstruction; finite setup-obligation packaging.
+- `oracle_mode`: failure_diagnosis
+Rationale:
+This is a BEDC-native proof-obligation target rather than a broad MetaCIC development: it records that the beta substitution case cannot be silently recovered from the parameterised subject-reduction theorem and must be exposed as a finite interface row. It is distinct from existing BOARD entries and lands as a small obligation block in proof_obligations, with a bounded resource surface.
+
+---
+
+### B-739 - MetaCIC appargtypestable discharge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCIC appargtypestable discharge obligation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If the MetaCIC subject-reduction discharge interface is used, then the AppArgTypeStable row is an explicit finite setup obligation required by the interface.
+
+Local inputs:
+- `papers/bedc/parts/visions/metacic_open_problems.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: medium, the independent-codomain case is narrow but the dependent-codomain obstruction must not be overstated as solved
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The visible packet is a finite named congruence-stability setup row for one application-argument case.
+- `existence_mode`: none
+- `cut_rank`: 0
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the displayed subject-reduction discharge interface and the finite AppArgTypeStable obligation row.
+- `dependency_trace`: MetaCIC subject-reduction discharge interface; application-argument congruence case; dependent-codomain readback stability obstruction.
+- `oracle_mode`: failure_diagnosis
+Rationale:
+The target isolates a concrete finite proof obligation at the application-argument congruence boundary. It is not a marker or closure-status change and does not duplicate an existing BOARD theorem; it records a specific obstruction that must be present in the setup surface before subject reduction can be discharged.
+
+---
+
+### B-740 - MetaCIC lamdomainsubjectreduction discharge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCIC lamdomainsubjectreduction discharge obligation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If the MetaCIC subject-reduction discharge interface is used, then the LamDomainSubjectReduction row is an explicit finite setup obligation required by the interface.
+
+Local inputs:
+- `papers/bedc/parts/visions/metacic_open_problems.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: medium, the obligation is sharply stated but depends on keeping binder-domain preservation separate from nearby Pi-domain obligations
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The visible packet is a finite named setup row for one lambda-domain subject-reduction boundary case.
+- `existence_mode`: none
+- `cut_rank`: 0
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the displayed subject-reduction discharge interface and the finite LamDomainSubjectReduction obligation row.
+- `dependency_trace`: MetaCIC subject-reduction discharge interface; lambda-domain congruence case; binder-annotation preservation obstruction.
+- `oracle_mode`: failure_diagnosis
+Rationale:
+This candidate gives a small BEDC proof-obligation target for a concrete binder-domain preservation row. It is neither a general MetaCIC survey item nor a verification-axis marker; the downstream work should state the row as a required finite interface obligation and avoid claiming unconditional subject reduction.
+
+---
+
+### B-742 - MetaCICCriticalPath NameCert obligation surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCICCriticalPath NameCert obligation surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+Under the MetaCICCriticalPath setup, if K=(S,N,O,U,D,H,C,P,L) is an accepted MetaCICCriticalPath carrier, then its local NameCert obligation surface consists exactly of S,N,O,U,D,H,C,P,L and exports no closed subject-reduction theorem or full closed-consistency theorem.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4237_metaciccriticalpath_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: project the nine-row critical-path packet, use the consistency-handoff theorem for the S,N,H,C,P,L route, use the obstruction-boundary theorem for O,U,D,H, and close by row exhaustion of the carrier without introducing a subject-reduction or full-consistency coordinate.
+- `ripeness_risk`: low, the landing file is short, non-hub, and already contains the carrier plus the two component theorems needed for the obligation surface.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only enumerates and bounds a finite NameCert packet surface; it does not construct normalization, confluence, consistency, or a quotient over terms.
+- `witness_extractor`: critical_path_packet_row_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: project the nine-row critical-path packet, use the consistency-handoff theorem for the S,N,H,C,P,L route, use the obstruction-boundary theorem for O,U,D,H, and close by row exhaustion of the carrier without introducing a subject-reduction or full-consistency coordinate.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Closed-strong-normalization route S, normal-form consistency row N, subject-reduction obstruction row O, substitution-confluence-decidability handoff U, discharge socket D, transport row H, continuation row C, provenance row P, and local naming row L.
+- `dependency_trace`: Uses def:metacic-critical-path-packet, thm:metacic-critical-path-consistency-handoff, and thm:metacic-critical-path-obstruction-boundary.
+- `oracle_mode`: proof_search
+Rationale:
+This belongs as an existing-chapter obligation theorem for the MetaCICCriticalPath concrete packet. The paper already has the carrier, the consistency handoff, and the obstruction boundary, but it lacks the single NameCert obligation theorem that states the exact local surface and the non-escape conditions together. It is distinct from the completed MetaCIC discharge-obligation BOARD items, which target specific proof-obligation names rather than this critical-path packet surface.
+
+---
+
+### B-741 - KernelAcceptanceWitness public export package
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KernelAcceptanceWitness public export package |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+Under the KernelAcceptanceWitness NameCert setup, if K=(G,A,E,Q,R,H,C,P,N) is an accepted KernelAcceptanceWitness packet satisfying candidate-to-acceptance matching, environment replay, purity-query visibility, and refusal separation, then the public BEDC acceptance-witness export consists exactly of G,A,E,Q,R,H,C,P,N and exports no refused or unresolved row as accepted content.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2358_kernelacceptancewitness_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: project the nine-row KernelAcceptanceWitness carrier, use the local NameCert obligations to identify the accepted, environment, query, refusal, transport, route, provenance, and naming rows, then compose ledger purity with refusal separation to eliminate any route that exports R-side evidence as accepted content.
+- `ripeness_risk`: low, the source chapter is short, non-hub, and explicitly names this public export package as the next paper-axis step.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim is a finite packet projection and boundary-separation theorem over displayed certificate rows, with no semantic kernel-completeness or infinite construction requirement.
+- `witness_extractor`: acceptance_witness_packet_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: project the nine-row KernelAcceptanceWitness carrier, use the local NameCert obligations to identify the accepted, environment, query, refusal, transport, route, provenance, and naming rows, then compose ledger purity with refusal separation to eliminate any route that exports R-side evidence as accepted content.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Generated-candidate row G, accepted-declaration row A, environment-ledger row E, axiom-query row Q, refusal-boundary row R, transport row H, continuation row C, provenance row P, and local naming row N.
+- `dependency_trace`: Uses def:kernel-acceptance-witness-carrier, thm:kernel-acceptance-witness-namecert-obligations, thm:kernel-acceptance-witness-ledger-purity, and thm:kernel-acceptance-witness-refusal-separation.
+- `oracle_mode`: proof_search
+Rationale:
+This is a BEDC-native finite certificate export theorem in an existing concrete_instances chapter. It is not a Lean marker, closurestatus edit, or general discussion item; it would add a theorem-level public export row that packages existing acceptance, environment, query, and refusal boundaries into the chapter's named next paper-axis step. It is close to existing ledger-purity and refusal-separation results, so novelty is moderate rather than high, but it is not already labeled in the paper and does not duplicate an existing BOARD title.
+
+---
+
+### B-743 - Polynomial normalized addition commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial normalized addition commutativity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a scalar ring supplies additive commutativity together with the polynomial raw-add and trim data, then every pair of finite coefficient spines p and q satisfies PolySame_R(PolyAdd_R(p,q), PolyAdd_R(q,p)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, raw-add commutativity and PolyAdd are already present and the landing files are below the line cap
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem only repackages finite coefficient-spine raw-add commutativity through trim normalization and uses no search, limit, quotient, or choice principle.
+- `witness_extractor`: finite-spine structural swap plus trim-normalization witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the existing raw-add structural swap, scalar additive commutativity row, PolyAdd definition, PolySame classifier, and trim idempotence/zero-tail normalization rows.
+- `dependency_trace`: Uses def:polynomial-raw-add-comparison-data, def:polynomial-stability-certificate, thm:polynomial-raw-add-commutativity-from-scalar-additive-commutativity, and the PolyAdd definition in papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a small but real normalized-polynomial algebra gap: the paper already has raw-add commutativity and defines PolyAdd as trimmed raw addition, while the existing BOARD index contains polynomial multiplication, raw addition associativity, and distributivity targets but no normalized PolyAdd commutativity target. It is concrete, local to the polynomial add/trim files, and should close by applying raw commutativity to trimmed representatives and folding back PolySame.
+
+---
+
+### B-745 - Module LinearMap zero-map kernel is whole source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module LinearMap zero-map kernel is whole source |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If z:M->N is pointwise classified with 0_N under ModuleUp(R,M) and ModuleUp(R,N), then every carried source endpoint x lies in Ker_z, and every Ker_z witness projects to carriedness of x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the kernel predicate and zero-map certificate are already present in nearby linear-map files
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem unfolds a predicate-defined zero fiber and packages pointwise-zero rows; no quotient, extensionality, or non-finite construction is needed.
+- `witness_extractor`: source carried endpoint paired with the pointwise zero comparison z(x)~0_N
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: equivalent
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the kernel predicate, source carried endpoint, pointwise-zero LinearMap rows, target zero classifier, and kernel witness projection.
+- `dependency_trace`: Uses def:module-linearmap-kernel-predicate in papers/bedc/parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action.tex and thm:module-zero-linearmap-certificate plus related zero-map rows in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a concrete exactness theorem for an existing predicate carrier, not a parameter echo: it identifies the zero map's kernel with the whole carried source. Existing BOARD entries cover LinearMap additive identity and inverse cancellation, and the paper has kernel submodule closure and the injectivity-kernel criterion, but not the zero-map kernel exactness row.
+
+---
+
+### B-746 - Module identity LinearMap image is whole target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module identity LinearMap image is whole target |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If id_M carries the Module LinearMap identity certificate, then every carried endpoint y:M satisfies Im_id(y), and every Im_id(y) witness projects to carriedness of y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the identity LinearMap certificate and image predicate are already in the local linearmap surface
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof chooses y as its own finite image witness and unfolds the image predicate, so a finite constructive witness is sufficient.
+- `witness_extractor`: identity-image witness x:=y with id_M(y)~y
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: equivalent
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the identity LinearMap certificate, source and target carriedness rows for the same module, image predicate witness, and module classifier reflexivity.
+- `dependency_trace`: Uses thm:module-linearmap-identity-certificate and def:module-linearmap-image-predicate in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex, together with image closure material in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a concrete image-coverage row for an existing LinearMap predicate, and it is not covered by the current BOARD titles or the paper's image submodule closure theorem. It gives the expected exactness boundary for the identity map using only the existing image predicate and identity certificate.
+
+---
+
+### B-744 - Polynomial normalized addition zero identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial normalized addition zero identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a scalar ring supplies additive zero laws together with the polynomial raw-add and trim data, then every finite coefficient spine p satisfies PolySame_R(PolyAdd_R(p,nil),p) and PolySame_R(PolyAdd_R(nil,p),p).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_algebra.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the needed zero-tail trim stability and PolyAdd definition already exist
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof is finite recursion over coefficient spines plus trim stability, so the weakest visible resource is a finite constructive witness.
+- `witness_extractor`: finite-spine raw-add zero classifier plus trim witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes raw-add recursion, nil zero-remainder, scalar additive left-zero and right-zero rows, trim idempotence, and the normalized PolySame classifier.
+- `dependency_trace`: Uses def:polynomial-raw-add-comparison-data, def:classified-zero-remainder-spine, def:polynomial-stability-certificate, lem:polynomial-raw-add-zero-tail-trim-stability, prop:polynomial-raw-add-right-zero-tail-invariance, and PolyAdd in papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim_eval.tex.
+- `oracle_mode`: forbid
+Rationale:
+This fills a distinct normalized-addition identity row, not just another spelling of the existing raw zero-tail invariance. The paper has multiplication zero and raw-add trim-stability material, but no close label for PolyAdd zero identity; the theorem is standard, local, and useful before any larger polynomial-ring package.
+
+---
+
+### B-747 - StreamName finite-window meet symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | StreamName finite-window meet symmetry |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a StreamName finite-window lattice meet packet is accepted for ordered windows (W_L,W_R), then swapping W_L with W_R and exchanging the local name rows N_L,N_R yields an accepted meet packet for (W_R,W_L) over the same common observation surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/streamname/finite_window_lattice_meet.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: project the common rows Q,B,I,U,D,H,C,P unchanged and eliminate the only left/right cut by exchanging the two local StreamName NameCert rows N_L and N_R.
+- `ripeness_risk`: low, the landing file is a 97-line non-hub local StreamName chapter and the proposed proof is finite repacking of displayed packet rows.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The statement only swaps the displayed finite meet-packet rows and local naming coordinates; it does not require limits, quotient equality, compactness, countable construction, or choice-like principles.
+- `witness_extractor`: swap_streamname_meet_names
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: project the common rows Q,B,I,U,D,H,C,P unchanged and eliminate the only left/right cut by exchanging the two local StreamName NameCert rows N_L and N_R.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: The proof consumes the finite StreamName meet packet coordinates Q,B,I,U,D,H,C,P,N_L,N_R, keeping the common classifier, probe bundle, membership rows, unary-history rows, dyadic ledger, transports, continuation routes, and package provenance fixed while swapping the two local name rows.
+- `dependency_trace`: Uses the StreamName finite-window lattice meet packet definition and the StreamName finite-window lattice meet exhaustion theorem in papers/bedc/parts/concrete_instances/streamname/finite_window_lattice_meet.tex; no ambient StreamName quotient equality, host equality, selected limit, or completeness dependency is needed.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is a concrete existing-chapter lemma on a displayed finite packet surface. It is not a marker, closurestatus item, or abstract parameter echo: it asserts a specific left/right symmetry of the StreamName finite-window lattice meet carrier by repacking visible rows. Existing BOARD entries include many StreamName and finite-window consumer facts, but no finite-window lattice meet symmetry target. The paper currently has the meet packet definition and an exhaustion theorem, and searched labels show only definition/exhaustion coverage for this local surface, not the swapped-window lemma. The file is short and safe for landing, and the resource packet remains B0 finite witness.
+
+---
+
+### B-748 - MetaCIC pidomainsubjectreduction discharge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCIC pidomainsubjectreduction discharge obligation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If a MetaCIC subject-reduction consumer uses either the explicit discharge bundle route or the setup route for the Pi-domain congruence branch, then the finite discharge packet must contain a distinct row satisfying PiDomainSubjectReduction, and that row cannot be supplied by the beta, application-argument, lambda-domain, transport, route-replay, provenance, or naming coordinates.
+
+Local inputs:
+- `papers/bedc/parts/visions/metacic_open_problems.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: prove by direct projection from the four-row SubjectReductionDischargeBundle or SubjectReductionSetup-to-bundle surface and the existing finite discharge socket/ledger rows, with no intermediate bridge or transported theorem.
+- `ripeness_risk`: low, because the paper already contains the three sibling mandatory-row propositions and the Pi-domain row is named in the same four-obligation interface.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only requires reading a finite four-field discharge packet and separating one displayed row from the other displayed rows.
+- `witness_extractor`: projection of the Pi-domain coordinate from the finite discharge bundle, setup-converted bundle, socket, or ledger carrier.
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: prove by direct projection from the four-row SubjectReductionDischargeBundle or SubjectReductionSetup-to-bundle surface and the existing finite discharge socket/ledger rows, with no intermediate bridge or transported theorem.
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: finite discharge rows B,A,L,P plus route/support rows from the subject-reduction discharge interface.
+- `dependency_trace`: def:metacic-pi-domain-subject-reduction; sec:metacic-subject-reduction-four-obligations; SubjectReductionDischargeBundle; SubjectReductionSetup; def:subject-reduction-discharge-ledger-carrier; subject-reduction discharge socket/ledger four-row exposure.
+- `oracle_mode`: rewrite_to_packet
+Rationale:
+This is the missing fourth sibling of the already completed beta-substitution, application-argument, and lambda-domain mandatory discharge-row targets. It is concrete, BEDC-native, and lands as an existing-chapter obligation rather than a new chapter. It is not merely a verification marker or closurestatus item: the downstream work is a proposition/obligation block showing that the Pi-domain row remains an explicit finite setup input whenever the subject-reduction discharge interface is consumed.
+
+---
+
+### B-749 - FieldExt downstream dependency lattice exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FieldExt downstream dependency lattice exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+If a downstream Galois, NumField, separability, algebraic-closure, or tower consumer consumes a FieldExtUp packet, then every accepted read factors through the displayed base FieldUp row, ambient FieldUp row, VecSpaceUp-over-base row, embedding row, and local FieldExtUp naming ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/fieldext/sibling_dependency_lattice.tex`
+- `papers/bedc/parts/concrete_instances/fieldext/intro_singleton_embedding.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: prove by direct projection from the displayed FieldExtUp dependency lattice and repacking of the two FieldUp endpoint rows, the VecSpaceUp-over-base row, the embedding row, and the local ledger, with no intermediate ambient tower object.
+- `ripeness_risk`: low, the cited landing files are short child files and the sibling dependency lattice already states the exact finite row surface in prose.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The target only consumes a fixed finite packet of displayed rows and forbids an extra ambient tower coordinate, so no schedule, modulus, cover, countable construction, quotient, or choice-like principle is visible.
+- `witness_extractor`: Projection of the five displayed lattice components: base FieldUp endpoint, ambient FieldUp endpoint, VecSpaceUp-over-base row, embedding row, and local FieldExtUp naming ledger.
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: prove by direct projection from the displayed FieldExtUp dependency lattice and repacking of the two FieldUp endpoint rows, the VecSpaceUp-over-base row, the embedding row, and the local ledger, with no intermediate ambient tower object.
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: A finite consumer packet over two FieldUp endpoints, one VecSpaceUp-over-base row, one embedding row, and the local FieldExtUp naming ledger.
+- `dependency_trace`: sec:fieldext-sibling-dependency-lattice; def:fieldext-singleton-empty-history-instance; def:fieldext-singleton-obligation-scope; thm:fieldext-singleton-certificate-obligation-package; thm:fieldext-ratup-reflexive-certificate-row-exhaustion.
+- `oracle_mode`: rewrite_to_packet
+Rationale:
+This is a concrete existing-chapter ledger row rather than a new object: the FieldExt chapter already exposes singleton and RatUp-reflexive FieldExt packages, and the sibling dependency lattice explicitly says downstream Galois, number-field, separability, algebraic-closure, and tower consumers must read through the displayed horizontal lattice instead of an ambient tower object. Existing theorem labels cover endpoint exactness, tower composition, source-pattern locks, and certificate row exhaustion, but no theorem-like paper label closes the downstream non-escape lattice itself. The target is therefore narrow, BEDC-native, finite, and distinct enough to merit a BOARD slot.
+
+---
+
+### B-750 - CookFrontierWitness replay-audit route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CookFrontierWitness replay-audit route determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted CookFrontierWitnessUp packets share the frontier-coordinate row, three compile-stage rows, halted-target row, replay-audit row, obstruction boundary, componentwise transport, continuation route, provenance, and local naming rows, then any frontier-coordinate read exposed by either packet is hsame under that same finite replay route.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/6347_cookfrontierwitness_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: project F,M,Y,R,T,A,O,H,C,P,N from both accepted packets, use A as the replay-audit cut through R,Y,M back to T, then apply componentwise hsame transport to identify the exposed frontier-coordinate read.
+- `ripeness_risk`: low, the source file is short and already states the finite carrier and obligation surface needed for a local lemma.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem only compares displayed finite BHist rows and a recorded replay-audit route, with no halting oracle, host compiler equality, unbounded trace, or universality principle.
+- `witness_extractor`: cook_replay_audit_route_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: project F,M,Y,R,T,A,O,H,C,P,N from both accepted packets, use A as the replay-audit cut through R,Y,M back to T, then apply componentwise hsame transport to identify the exposed frontier-coordinate read.
+- `equality_kind`: bisimilar
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the CookFrontierWitnessUp packet rows F,M,Y,R,T,A,O,H,C,P,N: frontier coordinate, three compile-stage rows, halted target, replay audit, obstruction boundary, hsame transports, Cont continuation, Pkg provenance, and local NameCert row.
+- `dependency_trace`: Uses the CookFrontierWitnessUp carrier and local NameCert obligation surface in papers/bedc/parts/concrete_instances/6347_cookfrontierwitness_namecert_construction.tex; adjacent anchors are Cook frontier coordinate, cellular automaton NameCert, and halting diagonal NameCert as already cited by that packet.
+- `oracle_mode`: candidate_generation
+Rationale:
+The candidate is a concrete two-packet determinacy lemma for an existing finite BEDC packet. The paper currently exposes the CookFrontierWitnessUp carrier and obligations, including the replay-audit row, but it does not already contain a theorem that duplicate accepted packets with the same displayed route expose the same frontier-coordinate read. It is not a marker, closurestatus item, or abstract parameter echo; it is a local route-determinacy closure target with safe landing-file size.
+
+---
+
+### B-751 - Module zero LinearMap image is the zero fiber
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (both) |
+| Object | Module zero LinearMap image is the zero fiber |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+Under certified modules over a shared scalar certificate and a pointwise-zero LinearMap certificate z:M\to N, Im_z(y) implies y\sim_N0_N, and any carried y with y\sim_N0_N lies in Im_z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct image-witness projection and repacking with cut_rank 0: invert Im_z(y) to a carried source witness x and compose z(x)\sim_N y with the pointwise-zero row; conversely choose the carried source zero endpoint and compose the zero-map row with y\sim_N0_N.
+- `ripeness_risk`: low, all required image and zero-map certificate ingredients already land in the LinearMap module files
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof consumes only one finite image witness or the distinguished source-zero witness plus classifier symmetry and transitivity, with no search, rate, cover, or choice surface.
+- `witness_extractor`: zero_map_image_witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct image-witness projection and repacking with cut_rank 0: invert Im_z(y) to a carried source witness x and compose z(x)\sim_N y with the pointwise-zero row; conversely choose the carried source zero endpoint and compose the zero-map row with y\sim_N0_N.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: For Im_z(y), consume the displayed source witness x with carried evidence and comparison z(x)\sim_N y; for the converse, consume the carried source zero endpoint 0_M and the target comparison y\sim_N0_N.
+- `dependency_trace`: Uses def:module-linearmap-image-predicate, thm:module-linearmap-image-submodule-closure for the existing image surface, thm:module-zero-linearmap-certificate for pointwise zero-map certification, and target NameCert equivalence symmetry/transitivity rows.
+- `oracle_mode`: forbid
+Rationale:
+This is a concrete first-course module fact that fits exactly beside the existing LinearMap kernel/image surface. Existing BOARD already covers the zero-map kernel and identity-map image, but not the dual zero-map image exactness. It is not a marker, closurestatus, or Lean-axis task, and it is not merely a parameter echo: it gives a concrete inversion-and-coverage characterization of the image predicate for the zero LinearMap. The local files are below the line cap and include a natural child-file landing, so the downstream theorem can be added without risky hub edits.
+
+---
+
+### B-752 - BetaStepBoundary obstruction trigger enumeration exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BetaStepBoundary obstruction trigger enumeration exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a consumer reads a subject-reduction obstruction trigger from an accepted BetaStepBoundaryUp packet, then that trigger is one of the four displayed obstruction rows: beta substitution, application-argument stability, lambda-domain preservation, or Pi-domain preservation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4153_betastepboundary_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the claim is a finite carrier-row inventory and does not attempt to discharge any MetaCIC preservation theorem.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is finite case analysis over the displayed obstruction-trigger coordinate of the packet.
+- `witness_extractor`: beta_step_boundary_obstruction_slot_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: R beta-step rule surface; C beta-conversion surface; O four subject-reduction obstruction-trigger slots; H,K,P,N finite transport, continuation, provenance, and naming rows.
+- `dependency_trace`: Uses the BetaStepBoundaryUp carrier rows and its existing NameCert obligation surface in papers/bedc/parts/concrete_instances/4153_betastepboundary_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-inventory lemma inside an existing concrete_instances chapter. It is not a duplicate of the completed MetaCIC preservation-obligation discharge targets, because it only classifies which obstruction-trigger row was read from the BetaStepBoundary packet and does not prove any preservation theorem. The landing is small, BEDC-native, and directly refines an existing obligation surface.
+
+---
+
+### B-753 - FiniteTailFiberSchedule seal-route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteTailFiberSchedule seal-route determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted FiniteTailFiberScheduleUp packets have the same displayed tail index, fiber, schedule, dyadic ledger, RegSeqRat readback, transport, continuation, provenance, and local name rows, then their RealUp seal rows classify together along the same finite route.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/5791_finitetailfiberschedule_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Use cut_rank 1: project both packets to the shared T,F,S,D,R,H,C,P,N rows, replay the schedule-to-fiber and readback exactness through the shared finite route, and eliminate a distinct seal route by the packet's non-escape inventory.
+- `ripeness_risk`: medium, route-determinacy patterns exist nearby, but this object has its own finite tail-fiber and RealUp seal handoff surface.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof only consumes finite displayed schedule, fiber, ledger, readback, and continuation rows, with no quotient real or choice-based tail selector.
+- `witness_extractor`: finite_tail_fiber_schedule_seal_route_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Use cut_rank 1: project both packets to the shared T,F,S,D,R,H,C,P,N rows, replay the schedule-to-fiber and readback exactness through the shared finite route, and eliminate a distinct seal route by the packet's non-escape inventory.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: T selected tail index; F finite fiber; S finite schedule; D dyadic radius ledger; R RegSeqRat readback; E RealUp seal row; H,C,P,N route and naming rows.
+- `dependency_trace`: Uses the FiniteTailFiberScheduleUp carrier definition and the schedule-to-fiber plus dyadic/readback exactness obligations in papers/bedc/parts/concrete_instances/5791_finitetailfiberschedule_namecert_construction.tex.
+- `rate_modulus_surface`: Finite tail index T, finite fiber F, dyadic radius ledger D, and RegSeqRat readback R; no ambient completeness or countable tail-selection principle.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is close to existing route-determinacy idioms, but it is not a title-level duplicate of RegularCauchyTailSchedule or CofinalRegularLimitBudget entries because the packet surface here binds a finite tail fiber, dyadic ledger, RegSeqRat readback, and RealUp seal row. It deserves a BOARD slot as a concrete determinacy companion only if kept as an existing-chapter lemma, not inflated into a new chapter.
+
+---
+
+### B-754 - CellularPatternCatalog tag lookup determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CellularPatternCatalog tag lookup determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted CellularPatternCatalogUp packets agree on the rule identity, local window, catalog row, transport, continuation, provenance, and local naming rows, then their finite phase, glider, and ether tag rows classify together.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/7634_cellularpatterncatalog_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the claim is a bounded finite-catalog lookup and explicitly avoids global orbit recognition.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is bounded lookup in the displayed finite catalog row over a finite local window.
+- `witness_extractor`: cellular_catalog_finite_tag_lookup
+- `existence_mode`: bounded_search
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: R rule identity; W finite local window; G finite catalog row; T finite phase, glider, and ether tag rows; H,C,P,N finite transport and replay rows.
+- `dependency_trace`: Uses the CellularPatternCatalogUp carrier and its existing obligation route R -> W -> G -> T in papers/bedc/parts/concrete_instances/7634_cellularpatterncatalog_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a clean BEDC finite-lookup determinacy theorem: same rule, same finite window, and same catalog row determine the same exposed tag classification. It is distinct from existing finite-phase or alias-collision entries because it concerns catalog lookup exactness for a specific packet rather than obstruction from sampling collisions or a global cellular classifier.
+
+---
+
+### B-757 - Ideal preimage is monotone under inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Ideal preimage is monotone under inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If $I\preceq_R J$ as target $\IdealUp$ predicates and $f$ is a carried ring map, then $\mathsf{Preim}^{\mathrm{ideal}}_{f,I}\preceq_S\mathsf{Preim}^{\mathrm{ideal}}_{f,J}$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/05_finite_meet_and_preimage_surface.tex`
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut rank 0: unfold preimage membership, project the target-side $I(f(x))$ witness, apply the given ideal-inclusion implication to obtain $J(f(x))$, and repack the same source-carried row as preimage membership.
+- `ripeness_risk`: low, the preimage and inclusion predicates are already present and the proof is a direct witness transformation.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem is one finite membership projection followed by a single existing inclusion implication.
+- `witness_extractor`: ring_map_preimage_membership_projector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Cut rank 0: unfold preimage membership, project the target-side $I(f(x))$ witness, apply the given ideal-inclusion implication to obtain $J(f(x))$, and repack the same source-carried row as preimage membership.
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: A preimage witness for $x$ exposes source carriedness and target membership $I(f(x))$; the target inclusion sends this to $J(f(x))$ while source carriedness is reused unchanged.
+- `dependency_trace`: Uses def:ring-map-ideal-preimage-predicate and thm:ring-map-ideal-preimage-ideal-closure in papers/bedc/parts/concrete_instances/ideal/05_finite_meet_and_preimage_surface.tex, and def:ideal-inclusion-predicate in papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a standard and useful lattice compatibility fact for ring-map ideal preimages, distinct from the existing preimage closure and quotient-kernel export statements. It has a safe existing landing file, consumes only visible preimage and inclusion rows, and gives the ideal chapter a named monotonicity lemma parallel to the already-present sum monotonicity theorem.
+
+---
+
+### B-755 - TwinSubstrateAuditHandshake route-classifier trichotomy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | TwinSubstrateAuditHandshake route-classifier trichotomy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted TwinSubstrateAuditHandshakeUp packet exposes a public audit read, then its route classifier places the read in exactly one of the displayed MetaCIC-facing, GroundCompiler-facing, or paired-handshake routes, with no conversion between the two substrate rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4773_twin_substrate_audit_handshake_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Use cut_rank 0: directly project the packet's finite route-classifier row and its two substrate audit rows, then case-split on the three displayed route constructors without introducing any intermediate interpretation cut.
+- `ripeness_risk`: medium, the trichotomy must stay at classifier-row exactness and not become a broad substrate-translation theorem.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The route kinds form a finite displayed classifier row, and the non-conversion boundary is part of the packet inventory rather than a semantic compiler-trust assumption.
+- `witness_extractor`: twin_substrate_handshake_route_classifier_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Use cut_rank 0: directly project the packet's finite route-classifier row and its two substrate audit rows, then case-split on the three displayed route constructors without introducing any intermediate interpretation cut.
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: M MetaCIC audit row; G GroundCompiler audit row; B handshake boundary; R finite route classifier; H,C,P,N finite transport, replay, provenance, and naming rows.
+- `dependency_trace`: Uses the TwinSubstrateAuditHandshakeUp carrier and its existing separation theorem in papers/bedc/parts/concrete_instances/4773_twin_substrate_audit_handshake_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is a BEDC-native finite classifier exactness theorem for an existing packet: it sharpens the substrate non-conversion surface into a trichotomy over the displayed audit routes. It is not a general comparison between proof systems or compiler substrates, and it should land only as an existing-chapter lemma tied to the route classifier row.
+
+---
+
+### B-756 - Principal generated ideal is least over its generator
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Principal generated ideal is least over its generator |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If $I$ is a carried $\IdealUp$ predicate over $R$ and the carried generator $a$ lies in $I$, then every endpoint in $\langle a\rangle_R$ lies in $I$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/04_principal_and_kernel_surface.tex`
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut rank 0: consume the finite signed two-sided monomial spine defining $\langle a\rangle_R$ directly, apply IdealUp two-sided absorption to the generator membership for each monomial, use additive inverse and finite additive closure for signed folds, and repack the endpoint membership in $I$ without an intermediate quotient or bridge construction.
+- `ripeness_risk`: medium, the claim is standard and well anchored but needs a finite-spine induction rather than a pure projection.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof uses only a finite spine witness, IdealUp closure rows, and finite additive repacking.
+- `witness_extractor`: principal_generated_finite_spine_induction
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Cut rank 0: consume the finite signed two-sided monomial spine defining $\langle a\rangle_R$ directly, apply IdealUp two-sided absorption to the generator membership for each monomial, use additive inverse and finite additive closure for signed folds, and repack the endpoint membership in $I$ without an intermediate quotient or bridge construction.
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Each signed two-sided monomial row $l_i\cdot_R a\cdot_R r_i$ is sent into $I$ by the assumed membership $I(a)$ and two-sided absorption; signed rows use additive inverse closure; the finite fold uses zero membership and additive closure; classifier transport handles the final displayed endpoint.
+- `dependency_trace`: Uses def:ideal-principal-generated-predicate, thm:ideal-principal-generated-subtractive-closure, thm:ideal-principal-generated-absorption-closure, and thm:ideal-principal-generated-full-ideal-closure in papers/bedc/parts/concrete_instances/ideal/04_principal_and_kernel_surface.tex, plus def:ideal-inclusion-predicate in papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex.
+- `oracle_mode`: forbid
+Rationale:
+The paper already has the principal generated predicate and proves it is an IdealUp predicate, but it does not state the universal least property that makes the construction useful in the ideal lattice. This is more than a notation echo: it consumes the finite signed monomial ledger and produces a concrete inclusion into any ideal containing the generator, giving the principal-ideal surface its standard elimination theorem.
+
+---
+
+### B-758 - POSet chain envelope concatenation closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | POSet chain envelope concatenation closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two POSet chain comparison envelopes share a boundary endpoint and their finite Cont ledgers are composable, then concatenating the displayed forward and reverse finite chains yields a chain comparison envelope for the outer endpoints whose quotient classifier row is generated by the composed bidirectional comparison pair.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/poset/quotient_opposite_surface.tex`
+- `papers/bedc/parts/concrete_instances/poset/finite_chain_surface.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: eliminate the shared middle endpoint by composing the two displayed finite forward chains and the two displayed finite reverse chains, then apply finite-chain carrier closure and quotient-opposite stability to repack the outer bidirectional comparison pair without choosing quotient representatives.
+- `ripeness_risk`: low, the cited POSet envelope and finite-chain rows are local and the landing files are far below the line cap.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof only concatenates displayed finite comparison ledgers and composes already present Cont rows, so no search, compactness, quotient choice, or classical selection is visible.
+- `witness_extractor`: poset_chain_envelope_concatenator
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: eliminate the shared middle endpoint by composing the two displayed finite forward chains and the two displayed finite reverse chains, then apply finite-chain carrier closure and quotient-opposite stability to repack the outer bidirectional comparison pair without choosing quotient representatives.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Outer endpoints h and m with shared middle endpoint k; two finite chain comparison envelopes; displayed forward chains h to k and k to m; displayed reverse chains k to h and m to k; carrier witnesses for all chain endpoints; finite Cont ledgers for adjacent comparisons, composite comparisons, and the bidirectional quotient-classifier pair.
+- `dependency_trace`: Uses def:poset-chain-comparison-envelope and thm:poset-chain-envelope-opposite-stability in papers/bedc/parts/concrete_instances/poset/quotient_opposite_surface.tex, plus thm:poset-finite-chain-carrier-closure and thm:poset-finite-chain-antisymmetry-collapse in papers/bedc/parts/concrete_instances/poset/finite_chain_surface.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete closure theorem for an existing POSet packet surface rather than a generic order-theory extension. The paper already defines chain comparison envelopes and proves opposite stability, while finite-chain carrier closure supplies the local composition machinery; the missing theorem is the natural concatenation law for two envelopes with a shared boundary endpoint. It is not covered by the existing BOARD titles and no close paper label for chain-envelope concatenation was found. The target is bounded, constructive, and can land as a local existing-chapter lemma using the two cited POSet files.
+
+---
+
+### B-759 - FiniteTraceEvaluator prefix trace restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteTraceEvaluator prefix trace restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted FiniteTraceEvaluator packet exposes an accepted result through a finite trace row and a displayed prefix subtrace ending at an intermediate accepted-result row is present, then that prefix subtrace is an accepted bounded evaluator route over the same validation boundary and exports no host validator or unbounded trace.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/finitetraceevaluator/body.tex`
+- `papers/bedc/parts/concrete_instances/finitetraceevaluator/root_closure.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 1: factor the accepted-result route through the displayed prefix inclusion into the finite trace row T, keep the validation boundary and transport/provenance/name rows fixed, and reapply bounded trace coverage plus host-validation refusal to the restricted route.
+- `ripeness_risk`: medium, body.tex is near the line cap and the target must land in a new small sibling rather than being appended to the 739-line body file.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The only new object is a displayed finite prefix of an existing finite trace row together with projections of already present packet rows, so the weakest visible resource level is finite witness manipulation.
+- `witness_extractor`: finite_trace_prefix_projector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank 1: factor the accepted-result route through the displayed prefix inclusion into the finite trace row T, keep the validation boundary and transport/provenance/name rows fixed, and reapply bounded trace coverage plus host-validation refusal to the restricted route.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Accepted packet E=(I,T,A,V,H,C,P,N); displayed prefix subtrace T0 of T; intermediate accepted-result row A0; unchanged validation boundary V; unchanged transport, continuation, provenance, and local name rows; refusal of host validation and unbounded trace rows.
+- `dependency_trace`: Uses def:finite-trace-evaluator-carrier, thm:finite-trace-evaluator-bounded-trace-coverage, thm:finite-trace-evaluator-trace-result-route, thm:finite-trace-evaluator-result-classifier-exactness, thm:finite-trace-evaluator-trace-window-accountability, and thm:finite-trace-evaluator-root-trace-result-totality in the FiniteTraceEvaluator concrete-instance files.
+- `oracle_mode`: proof_search
+Rationale:
+The existing FiniteTraceEvaluator surface proves bounded trace coverage, trace-result routing, result classifier exactness, trace-window accountability, and root trace-result totality, but those statements do not state prefix-subtrace restriction. The candidate is a concrete finite-ledger restriction theorem with useful downstream shape: it preserves the same validation boundary while preventing the prefix route from importing host validation or an unbounded evaluator. It is distinct from the existing trace-window accountability theorem because it constructs a restricted accepted route from an explicitly displayed prefix subtrace, rather than merely locating accepted results inside the finite trace window. The line-cap risk is real, so the BOARD target should direct work to a new sibling file under the existing FiniteTraceEvaluator chapter.
+
+---
+
+### B-761 - PdeUp finite relation subrow projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | PdeUp finite relation subrow projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a PdeUp carried source row has a finite PDE relation row and a displayed subrow selects relation entries whose derivative endpoints, order tags, and type tags all occur in the original relation, then the selected subrow is again a carried PdeUp relation row over the same manifold, derivative, boundary-data, package, and probe sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/172_pde_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct projection/repacking through the displayed finite relation-entry selector; cut_rank 0 because the proof only reuses the existing manifold, derivative, boundary, package, and probe rows.
+- `ripeness_risk`: medium, the theorem is local and finite but needs precise wording so it is not confused with the existing relation-transport classifier obligation.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite selector over displayed PDE relation entries and their already named endpoint, order, type, boundary, package, and probe rows.
+- `witness_extractor`: pde_relation_subrow_selector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct projection/repacking through the displayed finite relation-entry selector; cut_rank 0 because the proof only reuses the existing manifold, derivative, boundary, package, and probe rows.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: finite PDE relation row, selected derivative endpoint entries, order tags, type tags, same ManifoldUp carrier row, same DerivativeUp endpoint rows, same boundary-data classifier row, same Pkg provenance, and same ProbeBundle read rows
+- `dependency_trace`: Uses def:pde-carried-source-row for the carried source packet, thm:pde-relation-classifier-obligation for endpoint/order/type relation shape, thm:pde-boundary-data-obligation for boundary-row compatibility, and thm:pde-public-interface-export for the public exported rows.
+- `rate_modulus_surface`: finite PDE relation row whose entries name derivative endpoints together with order and type tags, plus the ProbeBundle read rows and boundary-data classifier carried by the same source row
+- `oracle_mode`: proof_search
+Rationale:
+This target fills a concrete gap in the PdeUp surface. The chapter already defines a carried source row with finite PDE relation entries over named derivative endpoints and proves transport and public-interface export theorems, but those theorems treat the relation row as a whole packet. A finite subrow projection lemma is distinct from relation transport: it states that selecting displayed relation entries and preserving their endpoint/order/type data yields a smaller carried relation row over the same sources. The claim is finite, local, and useful for downstream PDE examples that consume only part of a displayed equation packet.
+
+---
+
+### B-760 - Fourier finite observation subpacket restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Fourier finite observation subpacket restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a FourierUp finite-observation package carries coefficient observations, transform samples, inner-product probes, and integral witnesses, and a displayed finite subpacket selects some of those observations with their attached ledger entries, then the selected subpacket is again a FourierUp finite-observation package over the same SOneUp, RealUp, InnerProductUp, and IntegralUp sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/102_fourier_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `ripeness_risk`: low, the landing file is short and the claim is a finite selector over already exposed Fourier observation rows.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a displayed finite selector over already certified observation and ledger rows, with no convergence, inversion, or Plancherel content.
+- `witness_extractor`: fourier_observation_subpacket_selector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: finite coefficient observations, transform samples, inner-product probes, integral witnesses, ProbeBundle/SigRel rows, attached truncation windows, orthogonality probes, integration witnesses, convergence-modulus ledger entries, and same source-package provenance
+- `dependency_trace`: Uses thm:fourier-carrier-obligation for the finite observation carrier surface, thm:fourier-ledger-obligation for attached truncation/window/orthogonality/integration/modulus rows, and thm:fourier-exactness-obligation for finite-package coverage, soundness, and completeness.
+- `rate_modulus_surface`: finite coefficient and transform observation package with coefficient windows, truncation-bound ledger entries, orthogonality probes, integration witness rows, and convergence-modulus ledger entries recorded beside the selected observations
+- `oracle_mode`: proof_search
+Rationale:
+This deserves a target slot because FourierUp currently exposes a finite-observation carrier, classifier, ledger, exactness row, and standard bridge, but it does not isolate the closure property needed when a downstream consumer keeps only a displayed finite subpacket of observations. The claim stays fully BEDC-native: it copies visible ProbeBundle/SigRel rows and their attached ledgers, preserves the same SOneUp, RealUp, InnerProductUp, and IntegralUp provenance, and explicitly avoids analytic Fourier theorems. It is not a duplicate of the existing standard bridge because the bridge exports the whole finite interface, while this target gives the local restriction lemma for subpacket consumers.
+
+---
+
+### B-763 - Matrix singleton additive fold double-reverse readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (both) |
+| Object | Matrix singleton additive fold double-reverse readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a singleton additive fold spine is carried under the MatrixUp singleton fold surface, then the fold over its double reversal is carried and classifier-equal to the original singleton additive fold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `ripeness_risk`: low, because the landing file is short and the proof only composes existing finite reverse readback facts.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only uses finite singleton fold data, finite reverse preservation, reverse involutivity, and transitivity of classifier equality, so no search, choice, quotient, cover, limit, or modulus resource is visible.
+- `witness_extractor`: matrix_singleton_add_fold_double_reverse_readback
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: A carried finite singleton additive fold spine; the existing reverse-carrier readback for the spine and for its reverse; the finite reverse-involutive endpoint normalization; and history-sameness transitivity for the displayed classifier comparison.
+- `dependency_trace`: Uses the MatrixUp singleton additive fold reverse-empty append readback and reverse-carrier readback in papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex; no ambient chapter dependencies beyond the existing MatrixUp finite fold carrier and classifier surface are needed.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is a concrete existing-chapter lemma with a precise implication form, a safe landing file, and visible proof resources already present in the MatrixUp reverse readback surface. It is not a new chapter, not a marker or verification-status task, and not abstract parameter echo: it records a specific finite double-reversal closure/readback fact for the singleton additive fold object. Novelty is only moderate because it is a close corollary of the single-reverse theorem, but the supplied paper and BOARD evidence indicates no existing double-reverse label or target, so it clears the threshold as a small local strengthening.
+
+---
+
+### B-762 - KKT finite slackness optimality extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KKT finite slackness optimality extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted KKTUp packet exposes primal feasibility, dual feasibility, stationarity, and a complementary-slackness ledger whose primal-dual rows instantiate the LPDualityUp finite ordered-field surface, then the packet exports the LPDuality weak-duality slackness optimality packet for those displayed primal and dual rows, without adding solver semantics.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lpduality/dual_faces_and_objective_fibers.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank=1: project the KKT finite carrier rows into the LPDuality primal-feasibility, dual-feasibility, and complementary-slackness rows; invoke the existing LPDuality slackness optimality packet; repackage the exported optimality certificate back through the KKT finite consumer boundary with no solver-existence or host-minimization cut.
+- `ripeness_risk`: low, because all resources are finite rows already named in KKT and LPDuality surfaces
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible level is finite witness extraction: the proof only consumes displayed feasibility and complementary-slackness rows plus the finite weak-duality packet, with no compactness, limit, choice, or optimization-existence principle.
+- `witness_extractor`: KKT_primal_dual_slackness_row_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank=1: project the KKT finite carrier rows into the LPDuality primal-feasibility, dual-feasibility, and complementary-slackness rows; invoke the existing LPDuality slackness optimality packet; repackage the exported optimality certificate back through the KKT finite consumer boundary with no solver-existence or host-minimization cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: finite KKT carrier rows -> displayed LP primal row -> displayed LP dual row -> complementary-slackness product ledger -> LPDuality objective-equality and weak-duality optimality packet -> KKT finite consumer export
+- `dependency_trace`: KKT carrier and classifier surface in papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex; LPDuality finite ordered-field surface in papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex; slackness optimality packet in papers/bedc/parts/concrete_instances/lpduality/dual_faces_and_objective_fibers.tex
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete existing-chapter consequence rather than a new object: KKT already advertises finite optimality data and carries the feasibility and complementary-slackness rows, while LPDuality already contains the finite slackness-to-optimality packet. The missing theorem is the conservative export step from the KKT packet to the LPDuality optimality certificate. It is distinct from the existing KKT finite-packet standard bridge because the target is not just a carrier/standard-surface bridge; it consumes the complementary-slackness ledger to extract a specific weak-duality optimality packet. The target is finite, auditable, and useful as a downstream consumer-facing closure row.
+
+---

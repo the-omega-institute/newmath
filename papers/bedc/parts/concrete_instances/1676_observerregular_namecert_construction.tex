@@ -6,6 +6,12 @@ The $\ObserverRegularUp$ chapter is a BEDC-native finite certificate surface. It
 
 The dependency anchors are concrete sibling rows, not background names: \autoref{ch:concrete-instances-streamname-namecert} supplies the finite windows, \autoref{ch:concrete-instances-regseqrat-namecert} supplies the regular-rational readback, \autoref{ch:concrete-instances-cauchymodulus-namecert} supplies the modulus schedule, \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies the dyadic tolerance ledger, \autoref{ch:concrete-instances-real-namecert} supplies the $\RealUp$ seal consumers, and \autoref{ch:concrete-instances-completion-namecert} supplies the $\CompletionUp$ readback boundary. An $\ObserverRegularUp$ carrier consumes those sibling rows by resolving a finite prefix state before any $\RealUp$ or $\CompletionUp$ consumer can read a window or readback.
 
+\falsifiablePrediction{Removing the resolving-state row prevents any $\RealUp$ or $\CompletionUp$ consumer from distinguishing prefix observation from arbitrary $\StreamNameUp$ readback in the finite ledger.}
+
+\independenceWitness{Nearest siblings: streamname, regseqrat, cauchymodulus, real, completion. The ObserverRegular packet is not bijective with those siblings because it adds a resolving-state prefix row and schedule lock that none of them expose.}
+
+The proposed Lean follow-up contract for $\mathsf{lean4/BEDC/Derived/ObserverRegularUp/TasteGate.lean}$ must provide $\mathsf{Nontrivial}\ \ObserverRegularUp$ and $\mathsf{FieldFaithful}\ \ObserverRegularUp$ instances for the displayed observer packet.
+
 \begin{definition}[ObserverRegular prefix carrier]
 \label{def:observerregular-prefix-carrier}
 An $\ObserverRegularUp$ carrier is a finite $\BHist$ packet
@@ -32,12 +38,31 @@ The classifier compares accepted packets by first transporting them to a common 
 \label{thm:observerregular-resolving-window-soundness}
 For every accepted $\ObserverRegularUp$ carrier $O=(A,R,S,W,L,H,C,P,N)$, each accepted observer state in $R$ determines a displayed finite $\StreamNameUp$ window in $W$ and a finite $\RegSeqRatUp$ readback in $L$. The readback is reached only through the finite prefix row $A$, the resolving-state row $R$, the displayed window row $W$, the stored $\hsame$ transports, and the displayed $\Cont$ routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverRegularUp.ObserverRegularCarrier\_resolving\_window\_soundness}
 \begin{proof}
 Project the carrier of \autoref{def:observerregular-prefix-carrier}. An accepted observer state is not a host-level predicate; it is one of the finite rows recorded in $R$ together with the displayed prefix evidence from $A$.
 
 Use the continuation routes in $C$ to inspect that resolving row. The inspection selects a window entry in $W$, and the same displayed route selects the matching regular-rational readback entry in $L$.
 
 The transport row $H$ supplies the componentwise equality witnesses needed when the same state is read after prefix transport. Since the only exposed coordinates are $A$, $R$, $W$, $L$, $H$, and $C$, the soundness claim remains inside the finite prefix-observer packet.
+\end{proof}
+
+\begin{theorem}[ObserverRegular prefix-resolution totality]
+\label{thm:observerregular-prefix-resolution-totality}
+For every accepted prefix row in an $\ObserverRegularUp$ carrier
+$$
+O=(A,R,S,W,L,H,C,P,N),
+$$
+exactly one of the finite observer routes is consumer-readable. Either the prefix row in $A$ exposes no accepted resolving state, in which case no downstream $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ window or readback row is readable from that prefix; or it exposes one of the displayed resolving-state rows in $R$, after which the only consumer route is through $W,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the prefix carrier of \autoref{def:observerregular-prefix-carrier}. The prefix row $A$ is the sole entry point for a consumer request, and the resolving-state row $R$ is the sole coordinate that can authorize a downstream window or readback.
+
+In the positive case, the accepted prefix exposes one of the displayed resolving-state rows in $R$. Apply resolving-window soundness to that row; it produces the finite $\StreamNameUp$ window in $W$ and the matching $\RegSeqRatUp$ readback in $L$, and the remaining consumer route passes through $H,C,P,N$.
+
+In the negative case, the accepted prefix exposes no resolving-state row. Coordinate exhaustion then leaves no row from which a downstream window, readback, $\RealUp$ seal request, or $\CompletionUp$ readback can be obtained, because $W$ and $L$ are reached only through $R$ and the displayed continuation route.
+
+Thus every accepted prefix is total as a finite case analysis: either it has no consumer-readable downstream route, or it has exactly the resolving-state route through $W,L,H,C,P,N$.
 \end{proof}
 
 \begin{theorem}[ObserverRegular NameCert obligations]
@@ -161,6 +186,24 @@ Resolving-window soundness supplies the first route: the consumer reaches a $\St
 Use the StreamName handoff and schedule lock for the consumer boundary. These force every $\RealUp$ or $\CompletionUp$ read to use the same schedule row $S$, window row $W$, readback ledger $L$, transports $H$, continuations $C$, provenance $P$, and local name $N$.
 
 Finally apply schedule coherence. Since coherent consumer reads are compared through the displayed rows and the TasteGate carrier marker, no quotient stream, host sequence equality, selected limit, ambient completeness principle, or choice-selected completion witness can be supplied by the bridge-ready surface.
+\end{proof}
+
+\begin{theorem}[ObserverRegular formal-target boundary]
+\label{thm:observerregular-formal-target-boundary}
+The Lean-facing formal target for $\ObserverRegularUp$ is exactly the finite packet
+$$
+O=(A,R,S,W,L,H,C,P,N),
+$$
+the resolving-window soundness row of \autoref{thm:observerregular-resolving-window-soundness}, prefix-resolution totality from \autoref{thm:observerregular-prefix-resolution-totality}, finite-ledger non-escape from \autoref{thm:observerregular-finite-ledger-non-escape}, the schedule lock for $\RealUp$ and $\CompletionUp$ consumers from \autoref{thm:observerregular-schedule-lock-real-completion}, schedule coherence from \autoref{thm:observerregular-schedule-coherence}, and the bridged consumer surface of \autoref{thm:observerregular-bridged-consumer-surface}. The target excludes quotient streams, host sequence equality, selected limits, ambient completeness, completion bridges, and any proof not routed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CompletionUp$.
+\end{theorem}
+\begin{proof}
+The target begins with the carrier of \autoref{def:observerregular-prefix-carrier}. Its finite rows are the only data admitted to the proof surface: prefix and resolving-state data, schedule data, stream windows, regular-rational readbacks, transports, continuations, provenance, and the local name.
+
+The soundness and totality clauses are the first route constraints. They force every accepted prefix either to stop before a consumer-readable row or to pass through the displayed resolving state before reaching a stream window and readback.
+
+The non-escape, schedule-lock, and schedule-coherence clauses then define the consumer boundary. They keep every $\RealUp$ and $\CompletionUp$ read inside the displayed observer ledger and compare schedules only through the stored $\hsame$ and $\Cont$ rows.
+
+The final exclusion is coordinate exhaustion. Since the target contains no quotient stream coordinate, host sequence equality coordinate, selected-limit coordinate, ambient-completeness coordinate, or completion-bridge coordinate, any proof using such data is outside the stated Lean-facing boundary.
 \end{proof}
 
 \closureat{ObserverRegularUp}{obligationStr}

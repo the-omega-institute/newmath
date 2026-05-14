@@ -269,6 +269,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N
 $$
 of a $\CauchyModulusMeetUp$ packet supply the shared tail-threshold route consumed by $\RegularCauchyTailMeetUp$. The route reads the two source stream rows, the two source modulus rows, the shared meet row, the componentwise transport, continuation routes, package provenance, and local naming row, and it has no independent tail oracle outside the public packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_tail\_threshold\_compatibility}
 \begin{proof}
 Start with the carrier of \autoref{def:cauchy-modulus-meet-carrier}. It gives the two stream-name rows, the two source modulus rows, the meet modulus row, the transport row, the continuation row, the provenance row, and the local $\NameCert$ row.
 
@@ -623,6 +624,24 @@ exclude a second tolerance, host real equality, quotient stream, selected
 limit, or ambient completeness route.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet Real seal shared-threshold determinacy]
+\label{thm:cauchy-modulus-meet-real-seal-shared-threshold-determinacy}
+Any $\RealUp$ or $\RegSeqRatUp$ consumer that uses the $\RegularCauchyComparisonUp$ window route and the $\CauchyModulusMeetUp$ shared meet row must read the same threshold packet
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The consumer may pass through the comparison window rows $W,D,\tau$, but those rows are determined by the displayed shared meet packet. It cannot introduce a second tolerance surface, quotient stream equality, selected limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First lock the shared packet. \autoref{thm:cauchy-modulus-meet-binary-meet-projection-lock} fixes the two source rows, the two source modulus rows, the shared meet row, and the transport, continuation, provenance, and naming rows.
+
+Next read the consumer side. \autoref{thm:cauchy-modulus-meet-joint-consumer-exactness} keeps $\RealUp$ and $\RegSeqRatUp$ consumers on that same finite route, while \autoref{thm:cauchy-modulus-meet-root-unblock-export} exposes it as the shared-bound packet consumed downstream.
+
+Now attach the comparison route. \autoref{thm:cauchy-modulus-meet-regular-comparison-window-handoff} forces the $\RegularCauchyComparisonUp$ window and dyadic tolerance rows to be read from the displayed meet row $\mu$ and its source projections.
+
+The exclusions follow from the same route determinations. Since the cited packet, export, and handoff theorems expose no second tolerance surface, quotient stream equality, selected limit, host real equality, or ambient completeness witness, the Real-seal and regular-rational consumers read one deterministic threshold packet.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 \closureat{CauchyModulusMeetUp}{scopedStr}
@@ -634,9 +653,10 @@ limit, or ambient completeness route.
   \constructivestory{A $\CauchyModulusMeetUp$ packet is generated from two $\StreamNameUp$ rows, their $\RegSeqRatUp$ rational readbacks, two source $\CauchyModulusUp$ rows, one shared $\CauchyModulusUp$ meet row with a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-consumer-factorization}, \autoref{thm:cauchymodulusmeet-obligation-surface}, \autoref{thm:cauchy-modulus-meet-public-export}, \autoref{thm:cauchy-modulus-meet-public-export-surface}, \autoref{thm:cauchy-modulus-meet-export-consumer-lock}, \autoref{thm:cauchy-modulus-meet-export-non-escape}, \autoref{thm:cauchy-modulus-meet-common-window-coherence}, \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback}, \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency}, \autoref{thm:cauchy-modulus-meet-standard-bridge-certificate}, \autoref{thm:cauchy-modulus-meet-mature-shared-bound-readback}, \autoref{thm:cauchy-modulus-meet-mature-downstream-handoff}, and \autoref{thm:cauchy-modulus-meet-mature-nonescape} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, diagonal-window consumer surface, public export certificate, standard bridge surface, mature shared-bound readback, mature downstream handoff, and mature non-escape package over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_root\_unblock\_export}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, or bridge-checking oracle content.}
-  \upgradepath{Verification next requires checked bridge registration for the public shared-modulus export packet and the mature downstream handoff package.}
+  \upgradepath{Formal audit next requires axiom-purity confirmation for the public shared-modulus export packet and mature downstream handoff package.}
 \end{closurestatus}

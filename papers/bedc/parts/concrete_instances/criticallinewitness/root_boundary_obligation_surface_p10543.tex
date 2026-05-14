@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness boundary obligation surface]
+\label{thm:critical-line-witness-boundary-obligation-surface}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The root boundary exposed by $W$ is exactly the finite obligation surface consisting of the supplied source row $S$, supplied zero row $Z$, zero-strip and modulus row $M$, rational comparison row $Q$, real-part row $R$, componentwise $\BHist$ and $\hsame$ transport row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. Every boundary read of $W$ factors through the root obligation rows of \autoref{thm:critical-line-witness-modulus-comparison-route-totality}, \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}, and \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}, and no read exports an $\mathsf{RH}$ proof, a zero-location theorem, analytic continuation, quotient equality, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed rows. The source row $S$, zero row $Z$, modulus row $M$, comparison row $Q$, real-part row $R$, and structural rows $H,C,P,N$ are coordinates of the same finite carrier, so the boundary read begins from the $\BHist$ packet rather than from an analytic host object.
+
+Apply \autoref{thm:critical-line-witness-modulus-comparison-route-totality} for the $M,R,Q,H,C,P,N$ side and \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock} for the $Z,S,H,C,P,N$ side. These two rows bind source and modulus access before any downstream read reaches the packet.
+
+Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It removes every requested $\mathsf{RH}$ proof, zero-location theorem, analytic-continuation certificate, quotient equality, host equality, and ambient-completeness coordinate not displayed in $W$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness source-modulus readback]
+\label{thm:critical-line-witness-source-modulus-readback}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. A readback that asks for both the supplied source row and the zero-strip/modulus row must expose $S$ and $M$ through the same finite route
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The route uses $\BHist$ carrier data, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row; it cannot replace the source row by zero search, replace the modulus row by a host analytic estimate, or infer $\mathsf{RH}$ from the coexistence of $S$ and $M$.
+\end{theorem}
+\begin{proof}
+Read the source side first. The supplied zero-strip transport lock of \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock} keeps $Z$ and $S$ attached to the componentwise transport row $H$ and to the displayed $C,P,N$ rows.
+
+Read the modulus side next. The modulus comparison route totality of \autoref{thm:critical-line-witness-modulus-comparison-route-totality} forces every modulus comparison through $M,R,Q,H,C,P,N$ and leaves no coordinate for a host analytic estimate.
+
+The two reads share $H,C,P,N$, so the readback is one finite packet read over $Z,S,M,R,Q,H,C,P,N$. The refusal ledger of \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} keeps the joint read from becoming an $\mathsf{RH}$ proof or a zero-location theorem.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH-refusal ledger route]
+\label{thm:critical-line-witness-rh-refusal-ledger}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every $\mathsf{RH}$-facing request made to $W$ is routed to the refusal ledger over the same rows $Z,S,M,R,Q,H,C,P,N$. The ledger may report the supplied zero row, the critical-strip source row, the zero-strip/modulus row, the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure, and the rational comparison boundary; it reports no $\mathsf{RH}$ theorem, no zero-location theorem, no global zero classifier, no quotient representative, no host equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the complete refusal ledger of \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It already states that downstream $\mathsf{RH}$-facing reads can cite only the displayed rows of the packet and the visible structural data.
+
+Use \autoref{thm:critical-line-witness-root-source-triad} to identify the source side of that ledger, and use \autoref{thm:critical-line-witness-root-comparison-ledger} to identify the rational comparison side. Together they account for $Z,S,Q$ and for the $M,R,H,C,P,N$ support rows needed by readback.
+
+Since the carrier has no coordinate for an $\mathsf{RH}$ theorem, zero-location theorem, global classifier, quotient representative, host equality, or ambient completeness principle, the ledger route is exhausted by the displayed packet.
+\end{proof}

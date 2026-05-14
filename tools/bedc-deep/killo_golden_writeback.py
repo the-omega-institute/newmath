@@ -38,6 +38,11 @@ CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_TIMEOUT = 1800
 COMPILE_TIMEOUT = 600
 MAX_FILE_LINES = 800
+LOGIC_AUDIT_VERSION = "stage2-logic-audit-v1"
+INSPIRATION_ONLY_TARGET_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 EXTERNAL_PROVENANCE_PATTERNS = [
     re.compile(r"Inspired by Omega Project"),
     re.compile(r"\b[Aa]utomath\b"),
@@ -66,12 +71,14 @@ class WritebackResult:
     appended: bool
     compile_ok: bool
     rejection_reasons: list
+    rejection_codes: list = None  # type: ignore
     error: str = ""
     # On verdict=="compile_failed", carries a compact extract of pdflatex's
     # real error lines (Undefined control seq / Missing / Extra etc.) so
     # the runtime can feed them as rejection_reasons to codex corrective.
     compile_errors: list = None  # type: ignore
     closure_candidate: dict = None  # type: ignore
+    logic_audit: dict = None  # type: ignore
 
 
 def _now_tag() -> str:
@@ -257,8 +264,90 @@ def _detect_external_provenance(content: str) -> list[str]:
     return violations
 
 
+def _logic_surface_audit(content: str) -> dict:
+    """Return warnings-only post-write logic-discipline surface signals.
+
+    This is deliberately not an accept/reject gate.  Stage 2 already has
+    hygiene, provenance, and compile gates; this audit only records likely
+    surfaces where the 12 BEDC/NewMath discipline rules deserve later review.
+    """
+    text = content or ""
+    low = text.lower()
+    warnings: list[dict[str, str]] = []
+
+    def add(code: str, detail: str) -> None:
+        warnings.append({"code": code, "detail": detail})
+
+    theorem_envs = re.findall(
+        r"\\begin\{(theorem|lemma|proposition|corollary)\}",
+        text,
+    )
+    proof_count = len(re.findall(r"\\begin\{proof\}", text))
+    label_count = len(re.findall(r"\\label\{[^}]+\}", text))
+
+    if theorem_envs and proof_count == 0:
+        add(
+            "theorem_surface_without_proof_env",
+            "theorem-shaped content has no proof environment; confirm it is an intentional statement-only landing",
+        )
+
+    if re.search(r"\\exists\b|\bthere exists\b|\bexistence\b", low):
+        if not re.search(r"\b(witness|take|choose|chosen|let|given by|defined by|construct|constructed|set)\b", low):
+            add(
+                "existence_surface_without_witness_cue",
+                "existence language appears without an obvious witness/extractor cue",
+            )
+
+    if re.search(r"\b(bridge|transport|continuation|embedding|projection|interpretation|mirror)\b|\\[hmp]same\b", low):
+        if not re.search(
+            r"\b(eliminat|cut|factor|intermediate|compose|composition|reduce|through)\b"
+            r"|\b(project|projection|projecting|unfold|unfolding|unfolded|repack|repacking)\b"
+            r"|\\autoref\{[^}]*transport[^}]*\}"
+            r"|finite observation|common observation|consumer-facing|displayed coordinates|displayed classifier",
+            low,
+        ):
+            add(
+                "bridge_surface_without_elimination_cue",
+                "bridge/transport surface appears without an obvious elimination, cut, or factorization cue",
+            )
+
+    if re.search(r"\b(limit|completion|compactness|continuity|cauchy|convergen)\b", low):
+        if not re.search(
+            r"\b(rate|modulus|bound|bounded|tail|finite cover|finite subcover|covering|cofinal)\b"
+            r"|finite[- ]window|finite observation|finite submesh|finite mesh|finite request|displayed finite"
+            r"|non[- ]escape|cannot recover|without adding any analytic object|excluded (?:limit|completion)"
+            r"|outside (?:the )?(?:meet )?packet|no ambient completeness|ambient .*completeness theorem",
+            low,
+        ):
+            add(
+                "completion_surface_without_rate_modulus_cue",
+                "limit/completion/compactness surface appears without an obvious rate, modulus, bound, or finite-cover cue",
+            )
+
+    if re.search(r"\b(previous|earlier|above|ambient|context)\b", low) and "\\autoref{" not in text:
+        add(
+            "dependency_surface_without_reference_cue",
+            "dependency prose appears without an explicit local autoref cue",
+        )
+
+    return {
+        "version": LOGIC_AUDIT_VERSION,
+        "warning_count": len(warnings),
+        "warnings": warnings[:12],
+        "surface": {
+            "theorem_env_count": len(theorem_envs),
+            "proof_env_count": proof_count,
+            "label_count": label_count,
+            "line_count": len(text.splitlines()),
+        },
+    }
+
+
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
     if not suggested:
+        return None
+    rel = suggested.strip().replace("\\", "/")
+    if INSPIRATION_ONLY_TARGET_RE.search(rel):
         return None
     candidate = (REPO_ROOT / suggested).resolve()
     try:
@@ -306,7 +395,49 @@ def _make_paper() -> tuple[bool, str]:
             timeout=COMPILE_TIMEOUT,
         )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
+    if proc.returncode != 0:
+        out = out.rstrip() + "\n\n" + _paper_compile_log_excerpt()
     return (proc.returncode == 0, out)
+
+
+def _paper_compile_log_excerpt() -> str:
+    """Return a compact diagnostic excerpt from papers/bedc/main.log."""
+    log_path = PAPER_DIR / "main.log"
+    if not log_path.exists():
+        return "## main.log diagnostic excerpt\n(no papers/bedc/main.log found)"
+    text = log_path.read_text(encoding="utf-8", errors="replace")
+    lines = text.splitlines()
+    hits: list[int] = []
+    patterns = (
+        "Undefined control sequence",
+        "LaTeX Error",
+        "Emergency stop",
+        "Fatal error",
+        "Runaway argument",
+        "File ended while scanning",
+    )
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("!") or any(p in line for p in patterns):
+            if any(font in line for font in ("OML/lmm", "OT1/lmr", "OMS/lmsy", "OMX/lmex")):
+                continue
+            hits.append(i)
+    if not hits:
+        tail = lines[-80:]
+        return "## main.log diagnostic excerpt\n(no focused TeX error lines found; tail follows)\n" + "\n".join(tail)
+
+    chunks: list[str] = ["## main.log diagnostic excerpt"]
+    seen: set[int] = set()
+    for hit in hits[:8]:
+        start = max(0, hit - 2)
+        end = min(len(lines), hit + 6)
+        for idx in range(start, end):
+            if idx in seen:
+                continue
+            seen.add(idx)
+            chunks.append(lines[idx])
+        chunks.append("---")
+    return "\n".join(chunks).rstrip("-\n")
 
 
 def writeback(
@@ -388,6 +519,7 @@ def writeback(
             + (f" (and {len(dangling_refs) - 8} more)" if len(dangling_refs) > 8 else "")
         )
     external_provenance = _detect_external_provenance(norm.content)
+    logic_audit = _logic_surface_audit(norm.content)
     if external_provenance:
         return WritebackResult(
             False,
@@ -401,6 +533,8 @@ def writeback(
                 "BEDC-native content. "
                 + "; ".join(external_provenance[:5])
             ],
+            rejection_codes=["external_provenance_leak"],
+            logic_audit=logic_audit,
         )
 
     # ── Step 4: claude review when blocking issues remain ──
@@ -448,7 +582,8 @@ def writeback(
                                         error=(
                                             f"claude exec rc={rc}: {stdout[:400]}; "
                                             f"codex fallback: {fallback_error[:400]}"
-                                        ))
+                                        ),
+                                        logic_audit=logic_audit)
             stdout = fallback_stdout
         else:
             parsed = _extract_json_object(stdout)
@@ -464,15 +599,19 @@ def writeback(
             )
             if not fallback_ok:
                 return WritebackResult(False, "error", "", False, False, [],
-                                        error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
+                                        error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}",
+                                        logic_audit=logic_audit)
             stdout = fallback_stdout
         verdict = str(parsed.get("verdict", "")).lower()
         rejection_reasons = parsed.get("rejection_reasons") or []
         if verdict != "accept":
-            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons))
+            return WritebackResult(True, "reject", "", False, False, list(rejection_reasons),
+                                   rejection_codes=["killo_review_reject"],
+                                   logic_audit=logic_audit)
         # Use claude's content (might have additional cleanup) if present.
         content = str(parsed.get("content") or norm.content)
         tex_rel = str(parsed.get("tex_file") or suggested_target_tex)
+        logic_audit = _logic_surface_audit(content)
     else:
         # Fast path: normalize handled everything, go straight to append+make.
         # The suggested_target_tex from upstream (codex track or oracle) is
@@ -485,16 +624,23 @@ def writeback(
     target = _resolve_target_tex(tex_rel)
     if target is None:
         return WritebackResult(False, "reject", tex_rel, False, False,
-                                ["resolved tex_file is not a concrete body file"])
+                                ["resolved tex_file is not a concrete body file"],
+                                rejection_codes=["bad_target_file"],
+                                logic_audit=logic_audit)
 
     if not content.strip():
-        return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"])
+        return WritebackResult(False, "reject", tex_rel, False, False, ["empty content"],
+                                rejection_codes=["empty_content"],
+                                logic_audit=logic_audit)
 
     from locks import file_lock
     with file_lock("paper_writes"):
         appended, original = _append_to_tex(target, content)
         if not appended:
-            return WritebackResult(False, "reject", tex_rel, False, False, [f"append would exceed {MAX_FILE_LINES} lines"])
+            return WritebackResult(False, "reject", tex_rel, False, False,
+                                    [f"append would exceed {MAX_FILE_LINES} lines"],
+                                    rejection_codes=["line_cap"],
+                                    logic_audit=logic_audit)
 
         compile_ok, compile_log = _make_paper()
         if not compile_ok:
@@ -509,7 +655,9 @@ def writeback(
                 True, "compile_failed",
                 str(target.relative_to(REPO_ROOT)),
                 False, False, [],
+                rejection_codes=["compile_failed"],
                 compile_errors=errors,
+                logic_audit=logic_audit,
             )
 
     tex_result = str(target.relative_to(REPO_ROOT))
@@ -530,11 +678,14 @@ def writeback(
             "error": f"closure_candidate failed: {exc}",
         }
 
-    return WritebackResult(True, "accept", tex_result, True, True, [], closure_candidate=closure_review)
+    return WritebackResult(True, "accept", tex_result, True, True, [],
+                           rejection_codes=[],
+                           closure_candidate=closure_review,
+                           logic_audit=logic_audit)
 
 
 def _extract_compile_errors(compile_log: str) -> list[str]:
-    """Pluck real pdflatex errors out of the noisy compile log.
+    """Pluck real pdflatex/precheck errors out of the noisy compile log.
 
     Returns a deduplicated list of error lines + their line context (`l.NNN`
     line) suitable to feed back to codex as rejection_reasons. Filters out
@@ -545,6 +696,27 @@ def _extract_compile_errors(compile_log: str) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
     lines = compile_log.splitlines()
+
+    def add(msg: str) -> None:
+        msg = msg.strip()[:400]
+        if msg and msg not in seen:
+            seen.add(msg)
+            out.append(msg)
+
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("DUPLICATE \\leanchecked / \\leantarget"):
+            ctx = []
+            for j in range(i + 1, min(i + 5, len(lines))):
+                cl = lines[j].strip()
+                if cl:
+                    ctx.append(cl)
+            add(stripped + (" | " + " ; ".join(ctx) if ctx else ""))
+        elif stripped.startswith("Fix: keep one canonical site with \\leanchecked / \\leantarget"):
+            add(stripped)
+        if len(out) >= 8:
+            return out
+
     skip_prefixes = (
         "Overfull \\hbox", "Underfull \\hbox", "Overfull \\vbox", "Underfull \\vbox",
         "LaTeX Font Warning",
@@ -564,12 +736,9 @@ def _extract_compile_errors(compile_log: str) -> list[str]:
             cl = lines[j].strip()
             if cl.startswith("l.") or "Undefined" in cl or "Missing" in cl:
                 ctx.append(cl[:200])
-        msg = (stripped + " | " + " ; ".join(ctx))[:400]
-        if msg not in seen:
-            seen.add(msg)
-            out.append(msg)
-            if len(out) >= 8:  # cap; codex doesn't need 50 errors
-                break
+        add(stripped + " | " + " ; ".join(ctx))
+        if len(out) >= 8:  # cap; codex doesn't need 50 errors
+            break
     return out
 
 
@@ -598,8 +767,11 @@ def main() -> int:
         "appended": result.appended,
         "compile_ok": result.compile_ok,
         "rejection_reasons": result.rejection_reasons,
+        "rejection_codes": result.rejection_codes or [],
         "error": result.error,
+        "compile_errors": result.compile_errors or [],
         "closure_candidate": result.closure_candidate or {},
+        "logic_audit": result.logic_audit or {},
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok and result.verdict == "accept" else 1
 

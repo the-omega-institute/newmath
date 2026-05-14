@@ -4,6 +4,8 @@
 
 The $\ContinuationBigStepUp$ packet realizes terminal-read computation as a finite continuation certificate. It reads a big-step result only from the terminal row of a displayed small-step trace, the $\Cont$ replay route, componentwise $\hsame$ transport, package provenance, and local naming. The packet adds no host evaluator, semantic evaluation relation, quotient behaviour class, or hidden totality principle.
 
+This packet is a downstream consumer of the small-step trace carrier in \autoref{ch:concrete-instances-continuationtrace-namecert}. The trace ledger $T$ is read as $\ContinuationTraceUp$ before $C$ replays it to the terminal row $R$ and the terminal-read witness $Q$.
+
 \begin{definition}[ContinuationBigStep carrier]
 \label{def:continuation-big-step-carrier}
 A $\ContinuationBigStepUp$ carrier is a finite $\BHist$ packet
@@ -54,6 +56,7 @@ S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q.
 $$
 The trace coordinate $T$ is read as a $\ContinuationTraceUp$ small-step packet, $C$ replays its listed $\Cont$ rows, $R$ is the terminal row reached by that replay, and $Q$ is the terminal-read witness attached to $R$. Conversely, a consumer that reads $Q$ from $R$ after replaying $T$ through $C$ reads exactly the big-step packet surface carried by $B$, with transport and provenance supplied by $H,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepPacket\_small\_step\_factorization}
 \begin{proof}
 Begin with the trace ledger $T$. By the $\ContinuationTraceUp$ small-step readback surface, each row of $T$ is a finite source, mark, tail, and target read, and no step is imported from an external evaluator.
 
@@ -62,6 +65,24 @@ Replay the listed rows through $C$. The continuation replay composes the display
 Read the terminal witness $Q$ from $R$. This gives the terminal-read surface of the packet, and $P,N$ bind it to the package provenance and local naming row.
 
 For the reverse direction, suppose a consumer starts with the displayed replay of $T$ through $C$ and then reads $Q$ at $R$. The carrier has exactly the coordinates required to repack that route as $B$, so the consumer obtains the same finite terminal-read packet and no host-wide big-step semantics.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal route exhaustion]
+\label{thm:continuation-big-step-terminal-route-exhaustion}
+Every accepted $\ContinuationBigStepUp$ consumer route factors through the displayed finite route
+$$
+S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q.
+$$
+Once the source row $S$, trace ledger $T$, replay route $C$, and terminal row $R$ have been fixed, the only terminal-read data available to the consumer is the witness $Q$ transported by the componentwise $\hsame$ rows. The carrier provides no direct $S \to Q$ shortcut, no host big-step semantic relation, no quotient behaviour class, and no hidden termination row.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:continuation-big-step-carrier}. An accepted packet has exactly the displayed rows $S,T,R,Q,H,C,P,N$, with $T$ serving as the finite $\ContinuationTraceUp$ ledger, $C$ serving as the replay route, and $Q$ serving as the read from the terminal row $R$.
+
+Apply \autoref{thm:continuation-big-step-small-step-factorization}. It routes every terminal computation read from $S$ through $T$, then through $C$, then through $R$, and only then to $Q$.
+
+Use \autoref{thm:continuation-big-step-terminal-read-determinacy} for the endpoint read. After $S,T,C,R$ are fixed, the terminal witness can move only by the componentwise $\hsame$ transport already displayed in the packet.
+
+Finally combine \autoref{thm:continuation-big-step-nonescape} with \autoref{thm:continuation-big-step-consumer-exactness}. These results exclude a direct source-to-witness edge, a host evaluator, a quotient behaviour classifier, and any hidden termination row outside the finite route.
 \end{proof}
 
 \begin{theorem}[ContinuationBigStep terminal-read determinacy]
@@ -531,15 +552,122 @@ Terminal-read determinacy and consumer exactness then account for $R,Q,H,C,P,N$.
 The non-escape theorem closes the ledger. Since every displayed route has already been assigned to one of $S,T,R,Q,H,C,P,N$, no host evaluator, hidden termination row, quotient behaviour, or direct source-to-result shortcut remains available.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep source trace lock]
+\label{thm:continuation-bigstep-source-trace-lock}
+For every accepted $\ContinuationBigStepUp$ packet
+$$
+B=(S,T,R,Q,H,C,P,N),
+$$
+the source row $S$ and finite trace ledger $T$ determine the admissible replay route seen by any terminal-read consumer. The route passes through the displayed $\BHist$ trace rows, componentwise $\hsame$ transports $H$, replay $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\ContinuationBigStepUp}$ row $N$ before the terminal row $R$ and witness $Q$ can be consumed.
+
+No accepted consumer may replace the trace ledger by a host evaluator, add an undisplayed terminal route, or read a terminal witness outside the displayed $S,T,R,Q,H,C,P,N$ inventory.
+\end{theorem}
+\begin{proof}
+Project the accepted packet with \autoref{def:continuation-big-step-carrier}. This exposes the source row, trace ledger, terminal row, terminal-read witness, transport rows, replay route, provenance row, and local name as the complete $\BHist$-level inventory.
+
+Apply the small-step factorization theorem. It routes every computation read from $S$ through the finite trace ledger $T$ and the displayed replay row $C$ before the terminal row $R$ and witness $Q$ are read.
+
+Use terminal-read determinacy to fix the endpoint of this route. Since the terminal read is determined by the displayed replay, the consumer cannot choose a separate terminal row or witness once $S$ and $T$ have been fixed.
+
+Finally apply consumer exactness, ledger totality, and non-escape. These results place $H,C,P,N$ on the same displayed route and rule out host evaluators, hidden terminal rows, quotient behaviour, and direct source-to-result shortcuts.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal source exhaustion]
+\label{thm:continuation-bigstep-terminal-source-exhaustion}
+For every accepted $\ContinuationBigStepUp$ packet $B=(S,T,R,Q,H,C,P,N)$, the terminal row $R$ and terminal-read witness $Q$ are exhausted by the same finite trace that starts at $S$ and is recorded in $T$. A terminal consumer may read $R$ and $Q$ only after the displayed $\BHist$ trace, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row have been displayed.
+
+Thus $R$ and $Q$ cannot be replaced by a host evaluator result, hidden termination principle, quotient behaviour class, or direct source-to-terminal shortcut.
+\end{theorem}
+\begin{proof}
+Start with the source and trace rows. Carrier admission and the local NameCert obligations bind $S$ and $T$ to the same finite big-step packet as $R,Q,H,C,P,N$.
+
+Use the small-step factorization to replay the finite trace. The replay reaches the terminal row through $T$ and $C$, so the terminal row is a displayed endpoint of the trace rather than a host-level evaluation result.
+
+Apply terminal-read determinacy to the witness. Once the displayed replay reaches $R$, the witness $Q$ is determined by that terminal-read route and has no separate source.
+
+The non-escape and ledger-totality theorems close the exhaustion claim. Since all consumer rows have already been accounted for by $S,T,R,Q,H,C,P,N$, no host evaluator, hidden termination principle, quotient behaviour class, or direct shortcut remains.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep ledger factorization]
+\label{thm:continuation-bigstep-ledger-factorization}
+Every consumer of the local $\NameCert_{\ContinuationBigStepUp}$ row factors through the finite ledger
+$$
+S,T,R,Q,H,C,P,N.
+$$
+More explicitly, the consumer first reads the source row and trace ledger, then the small-step replay through the displayed $\Cont$ row, then the terminal row and witness, and finally the transport, provenance, and local naming rows that certify the route. This factorization is exactly the route supplied by the small-step factorization, terminal-read determinacy, consumer exactness, and ledger-totality theorems.
+
+No accepted local-name consumer receives a host big-step evaluator, hidden terminal source, quotient behaviour class, or undisplayed replay route.
+\end{theorem}
+\begin{proof}
+Read the local naming row through the carrier. The row $N$ certifies the displayed packet $S,T,R,Q,H,C,P,N$ and does not introduce an additional computational coordinate.
+
+Apply the small-step factorization. It supplies the operational route from $S$ through $T$ and $C$ before $R$ and $Q$ are available.
+
+Next use terminal-read determinacy and consumer exactness. These theorems force every terminal consumer, including one entering through the local name, to use the same ordered trace, replay, terminal, transport, provenance, and naming rows.
+
+Finally invoke ledger totality and non-escape. Every displayed consumer route has now been assigned to $S,T,R,Q,H,C,P,N$, so the local NameCert row cannot certify a host big-step evaluator, hidden terminal source, quotient behaviour class, or undisplayed replay route.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep root-unblock finite surface]
+\label{thm:continuation-bigstep-root-unblock-finite-surface}
+For every accepted $\ContinuationBigStepUp$ packet $B=(S,T,R,Q,H,C,P,N)$, the downstream terminal-read surface is exactly the finite root-unblock inventory consisting of the $\BHist$ carrier rows, the componentwise $\hsame$ rows in $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\ContinuationBigStepUp}$ row $N$. Every downstream consumer of the terminal read must obtain its data from this displayed inventory, with $T$ as the finite small-step ledger, $R$ as the reached terminal row, and $Q$ as the terminal-read witness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:continuation-big-step-carrier}. The projection exposes only $S,T,R,Q,H,C,P,N$, with $T$ a finite trace ledger, $H$ the componentwise $\hsame$ transport table, $C$ the displayed continuation replay, $P$ the package provenance, and $N$ the local naming row.
+
+Apply \autoref{thm:continuation-big-step-small-step-factorization}. It routes the computation read from the source row through the trace ledger and replay route before the terminal row and witness are consumed.
+
+Use \autoref{thm:continuation-big-step-consumer-exactness} and \autoref{thm:continuation-big-step-nonescape}. These results prevent a terminal-read consumer from bypassing the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows or importing a host evaluator.
+
+Finally invoke \autoref{thm:continuation-big-step-ledger-totality}. Since the totality ledger exhausts every consumer route by $S,T,R,Q,H,C,P,N$, the root-unblock surface is precisely the finite inventory displayed above.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep root trace-route lock]
+\label{thm:continuation-bigstep-root-trace-route-lock}
+Let $B=(S,T,R,Q,H,C,P,N)$ be an accepted $\ContinuationBigStepUp$ packet. Any downstream read of the terminal witness $Q$ is locked to the finite route
+$$
+S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q.
+$$
+No consumer may read $Q$ directly from $S$, replace $T$ by a host evaluator, or bypass the replay row $C$ and terminal row $R$.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission from \autoref{def:continuation-big-step-carrier}. The terminal witness $Q$ is a displayed coordinate of the same finite packet as the source row $S$, trace ledger $T$, replay row $C$, and terminal row $R$.
+
+\autoref{thm:continuation-big-step-small-step-factorization} gives the route from $S$ through $T$ and $C$ to $R$ and then to $Q$. Thus the terminal witness is read after the replayed trace, not as an independent source-to-witness edge.
+
+Consumer exactness from \autoref{thm:continuation-big-step-consumer-exactness} fixes this order for downstream reads. The non-escape boundary of \autoref{thm:continuation-big-step-nonescape} excludes host evaluator shortcuts, hidden termination rows, and quotient behaviour classes.
+
+The ledger-totality theorem \autoref{thm:continuation-big-step-ledger-totality} then rules out any remaining route. Every row available to a consumer has already appeared in the displayed chain or in the transport, provenance, and naming rows that authenticate that chain.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep root terminal ledger exactness]
+\label{thm:continuation-bigstep-root-terminal-ledger-exactness}
+For every accepted $\ContinuationBigStepUp$ packet $B=(S,T,R,Q,H,C,P,N)$, the terminal ledger is exhausted by the displayed trace, replay, terminal, transport, provenance, and naming rows. Concretely, trace data are read from $T$, replay data from $C$, terminal data from $R,Q$, componentwise transport from $H$, package provenance from $P$, and local naming from $N$; no additional root row contributes terminal-read authority.
+\end{theorem}
+\begin{proof}
+Read the carrier definition first. It separates the ledger into the trace row $T$, the replay row $C$, the terminal rows $R,Q$, transport $H$, provenance $P$, and local naming $N$, all over the source row $S$.
+
+The small-step factorization theorem assigns the operational route to $T,C,R,Q$. The consumer-exactness theorem assigns downstream terminal reads to the same ordered route.
+
+The non-escape theorem removes every undisplayed source of terminal-read authority. In particular, a host evaluator, hidden termination principle, quotient behaviour class, or direct shortcut is not a coordinate of the packet.
+
+By \autoref{thm:continuation-big-step-ledger-totality}, all consumer routes are already exhausted by $S,T,R,Q,H,C,P,N$. Therefore the terminal ledger is exact: the displayed trace, replay, terminal, transport, provenance, and naming rows are all of it.
+\end{proof}
+
 \closureat{ContinuationBigStepUp}{seedStr}
+\closureat{ContinuationBigStepUp}{obligationStr}[BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepCarrier\_namecert\_obligations]
+\closureat{ContinuationBigStepUp}{scopedStr}[BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepPacket\_small\_step\_factorization]
+\closureat{ContinuationBigStepUp}{publicStr}[BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepPacket\_small\_step\_factorization]
+\closureat{ContinuationBigStepUp}{bridgedStr}[BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepPacket\_small\_step\_factorization]
 
 \begin{closurestatus}{\ContinuationBigStepUp}
   \constructivestory{A $\ContinuationBigStepUp$ packet is generated from a source row, a finite small-step trace ledger, the terminal row reached by replay, a terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, \autoref{thm:continuation-big-step-consumer-exactness}, \autoref{thm:continuation-bigstep-subject-reduction-socket-handoff}, \autoref{thm:continuation-bigstep-preservation-boundary-nonescape}, \autoref{thm:continuation-bigstep-terminal-ledger-package}, \autoref{thm:continuation-bigstep-trace-ledger-threshold}, \autoref{thm:continuation-bigstep-terminal-consumer-package}, \autoref{thm:continuation-bigstep-replay-route-stability}, \autoref{thm:continuation-bigstep-terminal-read-coverage}, \autoref{thm:continuation-bigstep-namecert-consumer-interface}, and \autoref{thm:continuation-bigstep-nonescape-scope-package} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, subject-reduction socket handoff, terminal ledger package, trace-ledger threshold, terminal consumer package, replay-route stability, terminal-read coverage, NameCert consumer interface, and non-escape scope package for the finite big-step packet.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, \autoref{thm:continuation-big-step-consumer-exactness}, \autoref{thm:continuation-bigstep-subject-reduction-socket-handoff}, \autoref{thm:continuation-bigstep-preservation-boundary-nonescape}, \autoref{thm:continuation-bigstep-terminal-ledger-package}, \autoref{thm:continuation-bigstep-trace-ledger-threshold}, \autoref{thm:continuation-bigstep-terminal-consumer-package}, \autoref{thm:continuation-bigstep-replay-route-stability}, \autoref{thm:continuation-bigstep-terminal-read-coverage}, \autoref{thm:continuation-bigstep-namecert-consumer-interface}, and \autoref{thm:continuation-bigstep-nonescape-scope-package} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, subject-reduction socket handoff, terminal ledger package, trace-ledger threshold, terminal consumer package, replay-route stability, terminal-read coverage, NameCert consumer interface, and non-escape scope package as the exported public-object boundary for the finite big-step packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ContinuationBigStepUp.ContinuationBigStepPacket\_small\_step\_factorization}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host evaluator semantics, quotient behaviour, hidden termination, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, trace factorization, terminal readback, non-escape, and consumer exactness for the same finite packet.}
+  \upgradepath{The finite small-step factorization, terminal-route exhaustion, consumer exactness, trace-row admission, terminal-row readback, and downstream continuation-trace dependency give the mature paper-side treatment; bridge checking remains a separate verification-axis obligation.}
 \end{closurestatus}

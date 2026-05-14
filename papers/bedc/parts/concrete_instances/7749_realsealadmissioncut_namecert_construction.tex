@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealSealAdmissionCutUp$}
+\label{ch:concrete-instances-real-seal-admission-cut-namecert}
+\origin{ai}
+
+The $\RealSealAdmissionCutUp$ packet records the finite boundary at which a Real-completion route becomes admissible. It sits after the observation-budget limiter of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, the finite window carrier of \autoref{ch:concrete-instances-streamname-namecert}, and the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and before any $\RealUp$ seal or $\CauchyLimitSealUp$ handoff is consumed. The packet is an admission cut: it records the ordered entry boundary for a finite route, not a host completeness principle, quotient stream, selected limit, or independent real equality.
+
+\begin{definition}[Real seal admission-cut carrier]
+\label{def:real-seal-admission-cut-carrier}
+A $\RealSealAdmissionCutUp$ carrier is a finite $\BHist$ packet
+$$
+A=(E,B,W,Q,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite seal-request row whose requested observation is being admitted;
+\item $B$ is the $\ObservationBudgetLimiterUp$ row that caps the request before any window read is served;
+\item $W$ is the $\StreamNameUp$ finite-window row admitted under that budget;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained only from the displayed window;
+\item $S$ is the $\RealUp$ seal row that may be consumed only after $E,B,W,Q$ have been displayed;
+\item $L$ is the $\CauchyLimitSealUp$ handoff row that reads the same admitted route;
+\item $H$ records componentwise $\hsame$ transport for the request, budget, window, readback, seal, limit handoff, route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ route from request to budget admission, from budget admission to window, from window to readback, from readback to Real seal, and from the Real seal to the Cauchy-limit handoff;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ObservationBudgetLimiterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealSealAdmissionCutUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an unbounded observation schedule, a window served outside $B$, a $\RegSeqRatUp$ readback outside $W$, a $\RealUp$ seal outside $Q$, a selected host limit, a quotient stream equality, or an ambient completeness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.RealSealAdmissionCutUp.RealSealAdmissionCutTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real seal admission-cut NameCert obligations]
+\label{thm:real-seal-admission-cut-namecert-obligations}
+For the carrier of \autoref{def:real-seal-admission-cut-carrier}, the local $\NameCert_{\RealSealAdmissionCutUp}$ surface consists exactly of carrier admission for
+$$
+A=(E,B,W,Q,S,L,H,C,P,N),
+$$
+budget-limited request admission, StreamName window locality, RegSeqRat readback locality, Real seal ordering, CauchyLimitSeal handoff ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape of any seal route that bypasses $B$ or $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-seal-admission-cut-carrier}. The finite packet exposes the request, budget, window, readback, seal, handoff, transport, route, provenance, and local naming rows.
+
+Budget-limited request admission uses the sibling limiter row. The request $E$ is admitted only through $B$, and the StreamName window $W$ is served only under that admitted budget.
+
+Readback and seal ordering then follow the displayed route. The $\RegSeqRatUp$ row $Q$ reads the finite window $W$, the $\RealUp$ seal $S$ reads $Q$, and the $\CauchyLimitSealUp$ row $L$ consumes the same admitted seal route.
+
+The transport, continuation, provenance, and naming rows preserve that order. Since the carrier has no coordinate for a bypassing schedule, host limit, quotient stream equality, independent seal, or ambient completeness theorem, the local NameCert surface is exhausted by the displayed admission cut.
+\end{proof}
+
+\begin{theorem}[Real seal admission-cut route non-escape]
+\label{thm:real-seal-admission-cut-route-nonescape}
+Every $\RealUp$ seal read or $\CauchyLimitSealUp$ handoff accepted through a $\RealSealAdmissionCutUp$ packet factors through the ordered finite boundary
+$$
+E \to B \to W \to Q \to S \to L .
+$$
+A route that bypasses either the observation-budget limiter $B$ or the StreamName window $W$ is not admitted by the packet and cannot be consumed as the displayed Real-completion handoff.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:real-seal-admission-cut-namecert-obligations}. They force every admitted read to expose the request, limiter, window, readback, seal, and limit-handoff rows in the displayed order.
+
+Use $H$ and $C$ to transport and replay the same finite route. Componentwise $\hsame$ transport cannot replace the budget row or the window row, and the displayed continuation route has no branch from $E$ directly to $Q$, $S$, or $L$.
+
+It remains to exclude downstream escape. The carrier inventory has no row for an unbounded observation schedule, a selected host limit, quotient stream equality, independent real equality, or ambient completeness. Therefore any downstream $\RealUp$ or $\CauchyLimitSealUp$ consumer receives only the admitted boundary $E,B,W,Q,S,L,H,C,P,N$.
+\end{proof}
+
+\falsifiablePrediction{A RealUp seal read that bypasses either the observation-budget limiter or StreamName window is not admitted by RealSealAdmissionCutUp.}
+
+\independenceWitness{finiterealroutecommitment, observationbudgetlimiter, streamname, regseqrat, cauchylimitseal: the admission cut is not bijective to any sibling because it records the ordered boundary at which the route becomes admissible, while the siblings record a commitment, a limiter, a window carrier, a readback, or a limit handoff separately.}
+
+The Lean \texttt{TasteGate.lean} boundary for this packet must provide \texttt{Nontrivial RealSealAdmissionCutUp} and \texttt{FieldFaithful RealSealAdmissionCutUp} instances for the same displayed carrier.
+
+\closureat{RealSealAdmissionCutUp}{seedStr}
+
+\begin{closurestatus}{\RealSealAdmissionCutUp}
+  \constructivestory{A $\RealSealAdmissionCutUp$ packet is generated from a finite seal request, an observation-budget limiter, a StreamName window, a RegSeqRat readback, a RealUp seal, a CauchyLimitSeal handoff, componentwise transports, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-seal-admission-cut-carrier}, \autoref{thm:real-seal-admission-cut-namecert-obligations}, and \autoref{thm:real-seal-admission-cut-route-nonescape} bind the finite admission-cut carrier, ordered budget-window-readback boundary, RealUp seal ordering, CauchyLimitSeal handoff, and non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, host real equality, quotient stream equality, selected limits, ambient completeness, unbounded observation, independent RealUp seal exposure, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget limiter locality, StreamName window locality, RegSeqRat readback ordering, RealUp seal ordering, CauchyLimitSeal handoff ordering, nontriviality, and field faithfulness for the same finite packet.}
+\end{closurestatus}

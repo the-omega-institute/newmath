@@ -1,0 +1,59 @@
+\begin{theorem}[Critical-line witness zero-strip depth lock]
+\label{thm:critical-line-witness-zero-strip-depth-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every zero-strip read that reaches the supplied $\ZetaZerosUp$ row $Z$ and $\CritStripUp$ row $S$ locks the subsequent modulus-depth request to the displayed row $M$ under the same $\BHist$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. The read has no route to a hidden depth oracle, host equality, quotient representative, zero search, analytic continuation, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the supplied zero-strip route of \autoref{thm:critical-line-witness-supplied-zero-strip-route}. It exposes $Z,S,H,C,P,N$ as the finite entry route for root-facing zero-strip reads.
+
+Next apply the root modulus ledger of \autoref{thm:critical-line-witness-root-modulus-ledger}. The depth request is recorded through $M,R,Q,H,C,P,N$, so the zero-strip entry and the depth row share the same transport, continuation, provenance, and local naming surface.
+
+Finally use the root non-escape package \autoref{thm:critical-line-witness-root-nonescape-package}. Since the package exports no hidden depth oracle, host equality, quotient representative, zero search, analytic continuation, or ambient completeness, the zero-strip read locks the modulus depth row to the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness comparison-window totality]
+\label{thm:critical-line-witness-comparison-window-totality}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every comparison-window read is exhausted by the finite route
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The route exposes the supplied zero row, critical-strip row, modulus-depth row, real-part row, rational comparison ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, and it exposes no additional comparison source.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:critical-line-witness-root-source-triad}. It displays the supplied zero row, critical-strip row, and rational comparison ledger as one finite $\BHist$ source triad carried by $H,C,P,N$.
+
+Then use \autoref{thm:critical-line-witness-modulus-comparison-route-totality} and \autoref{thm:critical-line-witness-root-comparison-ledger}. These rows force comparison requests through $M,R,Q,H,C,P,N$ and rule out global zero classifiers, host equality, quotient representatives, analytic-continuation certificates, and ambient completeness.
+
+The zero-strip depth lock supplies the remaining boundary between $Z,S$ and $M$. Therefore every comparison-window read is exactly the displayed finite route and has no second window or external comparison source.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH-boundary downstream lock]
+\label{thm:critical-line-witness-rh-boundary-downstream-lock}
+Every RH-facing downstream consumer of an accepted $\CriticalLineWitnessUp$ packet receives only the refusal boundary over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+It may cite the supplied zero-strip rows, modulus-depth row, real-part row, rational comparison ledger, $\BHist$ evidence, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, but it receives no proof of $\mathsf{RH}$, no global zero classification, no zero search, no host equality, no quotient representative, no analytic-continuation certificate, and no ambient completeness row.
+\end{theorem}
+\begin{proof}
+First apply the comparison-window totality theorem. It exhausts the finite route available to a downstream comparison read and leaves no external comparison window.
+
+Next use \autoref{thm:critical-line-witness-rh-nonescape-package} and \autoref{thm:critical-line-witness-root-refusal-route}. These theorems identify the root-facing export as a finite witness boundary rather than a proof surface for $\mathsf{RH}$.
+
+Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The refusal ledger removes global zero classification, zero search, host equality, quotient representatives, analytic continuation, and ambient completeness from downstream access, so RH-facing consumers receive only the displayed refusal boundary.
+\end{proof}
+
+\begin{theorem}[Critical-line witness depth-comparison scope]
+\label{thm:critical-line-witness-depth-comparison-scope}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every comparison-window route that uses the modulus-depth row $M$ and rational comparison ledger $Q$ remains inside
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+Changing the depth request, the zero-strip row, or the comparison ledger leaves the local $\CriticalLineWitnessUp$ packet rather than projecting a new RH-facing source from the same certificate.
+\end{theorem}
+\begin{proof}
+Begin with the zero-strip depth lock. By \autoref{thm:critical-line-witness-zero-strip-depth-lock}, a zero-strip read that reaches $Z$ and $S$ locks the later modulus-depth request to the displayed row $M$ under the same $H,C,P,N$ surface.
+
+Next apply \autoref{thm:critical-line-witness-comparison-window-totality}. It exhausts comparison-window reads by the finite route $Z,S,M,R,Q,H,C,P,N$, so the rational comparison ledger $Q$ is not interchangeable with an external comparison source.
+
+Finally use \autoref{thm:critical-line-witness-rh-boundary-downstream-lock}. RH-facing consumers receive only the refusal boundary over these rows. Replacing the depth request, zero-strip row, or comparison ledger therefore leaves the local packet and cannot create a new RH-facing source.
+\end{proof}

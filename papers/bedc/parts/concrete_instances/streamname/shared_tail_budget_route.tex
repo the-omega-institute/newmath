@@ -1,0 +1,98 @@
+\section{StreamName Real-RegSeq shared-tail budget route}
+\label{sec:streamname-real-regseq-shared-tail-budget-route}
+
+\begin{theorem}[StreamName Real-RegSeq shared-tail budget route]
+\label{thm:streamname-real-regseq-shared-tail-budget-route}
+Let $W_0$ and $W_1$ be accepted finite $\StreamNameUp$ windows consumed by a
+$\RegSeqRatUp$ readback route, by a finite-window $\RealUp$ seal route, or by a
+shared-tail route that serves both consumers. Suppose the two reads pass
+through the same $\DyadicTailRadiusLedgerUp$ coverage row of
+\autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} and the same
+$\RegularCauchyTailMeetUp$ shared-threshold row of
+\autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}.
+Then every public seal or readback consumer of the two windows factors through
+exactly the finite StreamName window rows, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, the dyadic tail-radius ledger,
+the shared threshold, the $\RegSeqRatUp$ readback, and the $\RealUp$
+finite-window ledger boundary.
+
+The route exports no quotient stream, host real equality, selected limit,
+independent tail oracle, countable-choice selector, or completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the local finite-window budget handoff. By
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff}, every
+regularity row, dyadic tolerance row, and $\RealUp$ seal row consumed from a
+finite $\StreamNameUp$ window is downstream of $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, the observation-budget surface,
+and the tail-budget rows.
+
+Use the sibling StreamName route
+\autoref{thm:streamname-budget-handoff-sibling-chapter-route} to keep this
+handoff inside the same finite observation-budget and tail-budget chain. The
+accepted windows $W_0$ and $W_1$ therefore present public data only through
+their displayed finite window rows and their attached transport, continuation,
+package, and naming rows.
+
+Now read the common dyadic ledger. Apply
+\autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} to place each
+admitted tail-radius read inside the finite precision, tail-window,
+StreamName-window, and dyadic readback rows. Then apply
+\autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff} to route the
+$\RegSeqRatUp$ readback and the $\RealUp$ seal boundary after that same ledger
+row.
+
+Finally attach the shared threshold. The public shared-threshold certificate
+\autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}
+exposes the paired source, window, modulus, dyadic threshold, comparison,
+transport, continuation, provenance, and local naming rows, while
+\autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}
+fixes the displayed threshold ledger for duplicate transported reads of the
+same source-window-modulus route.
+
+The carrier inventory is now exhausted. A consumer can project only the finite
+StreamName windows, $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, the dyadic tail-radius ledger, the shared threshold,
+the $\RegSeqRatUp$ readback, and the $\RealUp$ finite-window ledger boundary,
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows. None of the cited carriers contains a quotient stream, host
+real equality witness, selected limit, independent tail oracle,
+countable-choice selector, or completeness principle, so none can escape
+through the public route.
+\end{proof}
+
+\begin{theorem}[StreamName shared-tail window pullback exactness]
+\label{thm:streamname-shared-tail-window-pullback-exactness}
+Let $W_0$ and $W_1$ be accepted finite $\StreamNameUp$ windows, and let
+$$
+S=(M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N)
+$$
+be an accepted $\CauchySharedTailModulusUp$ packet whose displayed windows are
+the same $W_0$ and $W_1$. Every $\RealUp$ seal read or $\RegSeqRatUp$ readback
+pullback from these windows factors through the shared threshold $\tau$, the
+dyadic ledger $D$, the paired windows $W_0,W_1$, the paired readbacks
+$Q_0,Q_1$, and the seal route $E,H,C,P,N$ displayed by $S$.
+
+Replacing one side by a private threshold, quotient stream, selected limit,
+host real equality, or independent inverse-budget route is not a read of the
+packet $S$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-regseq-shared-tail-budget-route}. It places
+the two finite windows on the common StreamName budget path through the dyadic
+tail-radius ledger, the shared threshold, the $\RegSeqRatUp$ readback boundary,
+and the $\RealUp$ finite-window seal boundary.
+
+Now read the $\CauchySharedTailModulusUp$ packet through
+\autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}. It identifies any
+seal-facing consumer with the rows
+$M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N$. The paired-window service of
+\autoref{thm:cauchy-shared-tail-modulus-paired-window-readback-service} keeps
+the two windows attached to the same threshold and dyadic ledger.
+
+Finally compare reciprocal-window consumers only through the
+\autoref{thm:cauchy-inverse-budget-streamname-window-dependency}. That
+comparison supplies no private threshold, quotient stream, selected limit, host
+real equality, or independent inverse-budget route, so every displayed pullback
+remains the read of the single packet $S$.
+\end{proof}

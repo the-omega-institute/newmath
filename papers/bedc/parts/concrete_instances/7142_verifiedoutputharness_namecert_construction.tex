@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\VerifiedOutputHarnessUp$}
+\label{ch:concrete-instances-verifiedoutputharness-namecert}
+\origin{ai}
+
+The $\VerifiedOutputHarnessUp$ packet realizes the checked-output acceptance side of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It consumes the large-model inscription carrier of \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}, the prompt-output trace of \autoref{ch:concrete-instances-prompt-response-trace-namecert}, the model-trace surface of \autoref{ch:concrete-instances-modeltrace-namecert}, and the consumer-facing audit channel of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}. Its distinguishing role is the checker-facing acceptance harness: a model output is accepted only when prompt, model-trace, checker, audit-refusal, route, provenance, and local NameCert rows are displayed together.
+
+\begin{definition}[VerifiedOutputHarness carrier]
+\label{def:verified-output-harness-carrier}
+A $\VerifiedOutputHarnessUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,T,M,Q,O,C,A,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LargeModelInscriptionPointUp$ row naming the finite inference substrate, corpus-supply channel, output-record surface, and no-internal-ratification boundary;
+\item $T$ is the $\PromptResponseTraceUp$ row recording the finite prompt, response, source-channel, observer-interface, and obstruction-boundary route;
+\item $M$ is the $\ModelTraceUp$ row recording the inference-state orbit, output trace, corpus-supply row, refusal row, observer-interface handoff, and accepted readback;
+\item $Q$ is the prompt row used by the checker-facing harness;
+\item $O$ is the output row presented for acceptance;
+\item $C$ is the checker row naming the finite proof checker, policy checker, replay harness, typed evaluator, or external certificate procedure applied to $O$;
+\item $A$ is the audit-refusal row recording rejected, unsupported, out-of-scope, or unverifiable claims before acceptance is exposed;
+\item $R$ is the accepted route row through which prompt, model trace, checker result, refusal boundary, provenance, and local name are read;
+\item $H$ records componentwise $\hsame$ transport for the inscription, prompt trace, model trace, prompt, output, checker, refusal, route, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ replay accepted by the harness;
+\item $P$ is the $\Pkg$ provenance over $\LargeModelInscriptionPointUp$, $\PromptResponseTraceUp$, $\ModelTraceUp$, $\LargeModelAuditChannelUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\VerifiedOutputHarnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unchecked output acceptance, hidden evaluator state, model-side proof of semantic truth, corpus-wide truth, private policy override, or host-selected universal closure.
+\end{definition}
+\leanchecked{BEDC.Derived.VerifiedOutputHarnessUp.VerifiedOutputHarnessTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[VerifiedOutputHarness classifier]
+\label{def:verified-output-harness-classifier}
+Two accepted $\VerifiedOutputHarnessUp$ carriers classify together exactly when their large-model inscription rows, prompt-response trace rows, model-trace rows, prompt rows, output rows, checker rows, audit-refusal rows, route rows, transport rows, replay rows, provenance rows, and local naming rows compare by the displayed $\hsame$ entries. Thus the classifier is finite and componentwise:
+$$
+\begin{gathered}
+I\sim_{\hsame}I',\quad T\sim_{\hsame}T',\quad M\sim_{\hsame}M',\quad Q\sim_{\hsame}Q',\\
+O\sim_{\hsame}O',\quad C\sim_{\hsame}C',\quad A\sim_{\hsame}A',\quad R\sim_{\hsame}R',\\
+H\sim_{\hsame}H',\quad K\sim_{\hsame}K',\quad P\sim_{\hsame}P',\quad N\sim_{\hsame}N'.
+\end{gathered}
+$$
+No clause compares unrecorded checker state, hidden evaluation policy, corpus-wide truth, model-side semantic understanding, or a private acceptance route outside $R$ and $K$.
+\end{definition}
+
+\begin{theorem}[VerifiedOutputHarness NameCert obligations]
+\label{thm:verified-output-harness-namecert-obligations}
+For the carrier of \autoref{def:verified-output-harness-carrier}, the local $\NameCert_{\VerifiedOutputHarnessUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $V=(I,T,M,Q,O,C,A,R,H,K,P,N)$ with inscription, prompt-trace, model-trace, prompt, output, checker, refusal, route, transport, replay, provenance, and local name all displayed;
+\item classifier stability for the same rows under componentwise $\hsame$ as in \autoref{def:verified-output-harness-classifier};
+\item checker-facing acceptance exactness, requiring the output row $O$ to be read only after the checker row $C$ and audit-refusal row $A$ have been displayed;
+\item provenance and route exactness, requiring every accepted-output read to pass through the prompt-response trace $T$, model trace $M$, audit-channel sibling $\LargeModelAuditChannelUp$, route row $R$, replay row $K$, and package row $P$ before the local name $N$;
+\item non-escape for unchecked acceptance, hidden evaluator state, private policy override, model-side semantic proof, corpus-wide truth, and host-selected universal closure.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:verified-output-harness-carrier}. The packet displays inscription, prompt-trace, model-trace, prompt, output, checker, refusal, route, transport, replay, provenance, and local naming rows before an accepted-output consumer can read the local name.
+
+Classifier stability is componentwise. The classifier of \autoref{def:verified-output-harness-classifier} compares exactly those displayed rows by $\hsame$, so a transported harness cannot keep an output while dropping its checker, refusal, route, or provenance rows.
+
+Checker-facing acceptance exactness follows from the route order. The output row $O$ is an emitted inscription until the checker row $C$ and audit-refusal row $A$ are displayed; only then does $R,K,P,N$ expose it as accepted by the harness.
+
+Provenance and route exactness use the sibling packets named above. The prompt-response trace supplies the prompt-output route, the model trace supplies inference-state and readback rows, and the audit channel supplies the public checker/refusal discipline. The local harness packages those rows rather than replacing them with a hidden evaluator.
+
+Non-escape is immediate from the carrier inventory. There is no coordinate for unchecked acceptance, private policy override, corpus-wide truth, model-side semantic proof, or host-selected universal closure, so the NameCert surface cannot export one.
+\end{proof}
+
+\begin{theorem}[VerifiedOutputHarness public audit chain]
+\label{thm:verified-output-harness-audit-chain}
+Every accepted $\VerifiedOutputHarnessUp$ output read factors through the finite chain
+$$
+I,T,M,Q,O,C,A,R,H,K,P,N.
+$$
+In particular, the accepted output is read through the large-model inscription row, the prompt-response trace, the model trace, the displayed prompt and output, the checker row, the audit-refusal row, the accepted route, componentwise transport, continuation replay, package provenance, and local $\NameCert_{\VerifiedOutputHarnessUp}$ row. It is not read as a bare model emission, hidden checker result, private policy override, or internally certified semantic theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $V=(I,T,M,Q,O,C,A,R,H,K,P,N)$. The carrier lists $Q$ and $O$ only as prompt and output rows; by themselves they do not supply checked acceptance.
+
+Use \autoref{thm:verified-output-harness-namecert-obligations}. The third obligation forces the checker row $C$ and audit-refusal row $A$ to be displayed before $O$ is accepted by the harness, while the fourth obligation routes the read through $T,M,R,K,P,N$.
+
+The sibling chapters provide the source of those rows. The large-model inscription packet supplies the carried-output boundary, the prompt-response trace supplies the finite prompt-output route, the model-trace packet supplies inference-state and readback discipline, and the large-model audit channel supplies the checker/refusal audit surface.
+
+Finally inspect the non-escape obligation. Since the carrier has no hidden evaluator, private policy override, unchecked acceptance row, or model-side semantic-proof coordinate, every public accepted-output read is exactly the finite audit chain displayed in the theorem.
+\end{proof}
+
+\falsifiablePrediction{If a model output is accepted without a displayed checker row and audit-refusal row, it is not a VerifiedOutputHarnessUp packet.}
+
+\independenceWitness{largemodelinscriptionpoint, promptresponsetrace, modeltrace, largemodelauditchannel, observerinterface: the harness is not bijective to these siblings because it binds checker-facing acceptance and refusal rows that the inscription, prompt, model-trace, audit-channel, and observer-interface packets do not all carry together.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \VerifiedOutputHarnessUp$ and $\mathsf{FieldFaithful}\ \VerifiedOutputHarnessUp$ instances in $\mathsf{TasteGate.lean}$ for the same finite carrier.
+
+\closureat{VerifiedOutputHarnessUp}{seedStr}
+
+\begin{closurestatus}{\VerifiedOutputHarnessUp}
+  \constructivestory{A $\VerifiedOutputHarnessUp$ packet is generated from large-model inscription, prompt-response trace, model trace, prompt, output, checker, audit-refusal, accepted route, componentwise transport, continuation replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:verified-output-harness-carrier}, \autoref{def:verified-output-harness-classifier}, \autoref{thm:verified-output-harness-namecert-obligations}, and \autoref{thm:verified-output-harness-audit-chain} specify the finite checker-facing accepted-output harness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, host semantic understanding, global checker correctness, private policy authority, Lean verification, or bridge checking for $\VerifiedOutputHarnessUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, checker-facing acceptance exactness, audit-refusal exactness, route provenance, nontriviality, and field faithfulness for the same harness.}
+\end{closurestatus}

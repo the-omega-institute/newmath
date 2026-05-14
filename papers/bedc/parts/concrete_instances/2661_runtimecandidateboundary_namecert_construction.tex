@@ -2,7 +2,9 @@
 \label{ch:concrete-instances-runtimecandidateboundary-namecert}
 \origin{ai}
 
-The $\RuntimeCandidateBoundaryUp$ interface realizes the runtime-candidate boundary of \autoref{def:reflection-runtime-candidate} as a finite NameCert packet. It records object-level rows for coded $\mathrm{CIC}^{*}$ expressions, proof objects, states, transitions, accepted-result classification, stability transports, consumer routes, package provenance, and local naming, while leaving validation by the host checker outside the packet.
+The $\RuntimeCandidateBoundaryUp$ interface realizes the runtime-candidate boundary of \autoref{def:reflection-runtime-candidate} as a finite NameCert packet. It records object-level rows for coded $\mathrm{CIC}^{*}$ expressions, proof objects, states, transitions, accepted-result classification, stability transports, consumer routes, package provenance, and local naming, while leaving validation by the host checker outside the packet. The bounded finite-trace evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} consumes this boundary by reading the object-level source, transition, accepted-result, transport, route, provenance, and local naming rows while keeping host validation external.
+
+The packet is the object-level candidate boundary consumed by \autoref{ch:concrete-instances-finitetraceevaluator-namecert} and sits below the runtime-request and refusal packet of \autoref{ch:concrete-instances-runtime-reflection-boundary-namecert}. The substantive dependency is the row split: $\RuntimeCandidateBoundaryUp$ supplies the source, transition, accepted-result, transport, route, provenance, and local-name rows $R=(S,T,A,H,C,P,N)$; $\RuntimeReflectionBoundaryUp$ adds request, refusal, and report rows above that candidate surface; and $\FiniteTraceEvaluatorUp$ consumes the candidate boundary as its bounded evaluator provenance.
 
 \begin{definition}[Runtime-candidate boundary carrier]
 \label{def:runtime-candidate-boundary-carrier}
@@ -22,6 +24,7 @@ with the following visible rows:
 \end{enumerate}
 The local classifier relates two packets exactly when their displayed source, transition, accepted-result, transport, route, provenance, and naming rows compare through the rows $H$ and $C$. The carrier has no coordinate for the host judgment that the candidate is a valid BEDC checker.
 \end{definition}
+\leanchecked{BEDC.Derived.RuntimeCandidateBoundaryUp.RuntimeCandidateBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Runtime-candidate validation non-entry]
 \label{thm:runtime-candidate-boundary-nonvalidation}
@@ -58,3 +61,15 @@ Validation non-escape is the boundary clause. By \autoref{thm:runtime-candidate-
 \end{proof}
 
 \closureat{RuntimeCandidateBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RuntimeCandidateBoundaryUp}
+  \constructivestory{A $\RuntimeCandidateBoundaryUp$ packet is generated from displayed source, transition, accepted-result, componentwise transport, visible route, package provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:runtime-candidate-boundary-carrier}, \autoref{thm:runtime-candidate-boundary-nonvalidation}, and \autoref{thm:runtime-candidate-boundary-namecert-obligations} bind the displayed runtime-candidate packet rows, validation boundary, and local certificate surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RuntimeCandidateBoundaryUp.RuntimeCandidateBoundaryTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host validation, an internal truth predicate, a self-validating runtime, or bridge checking.}
+  \upgradepath{Obligation closure requires runtime-result ledger exactness, validation non-escape, and reflection-boundary handoff rows to be collected as the public obligation surface.}
+\end{closurestatus}

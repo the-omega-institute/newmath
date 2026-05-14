@@ -1,0 +1,13 @@
+\begin{theorem}[Top-level StreamName Real-completion dependency]
+\label{thm:streamname-top-level-real-completion-dependency}
+Every top-level $\StreamNameUp$ certificate read used by the Real-and-completion route factors through the finite-window $\StreamNameUp$ rows, the regular-source rows consumed by \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic observation ledger read by \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. The route exports no quotient stream equality, selected host limit, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the top-level $\StreamNameUp$ certificate to its finite-window rows. These are the only rows available before the Real-and-completion route reads any regular-source or dyadic observation data.
+
+Send the finite-window rows first through the RegSeqRat dependency in \autoref{ch:concrete-instances-regseqrat-namecert}. The regular-source read is therefore a finite certificate handoff, not a selected limiting operation or a countable-choice selector.
+
+Next route the same source surface through the DyadicRatCore observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. Dyadic observations are read as displayed ledger rows, so they do not identify streams by quotient equality or by a host-level representative.
+
+Finally close the route at the $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. The seal receives only the finite-window, regular-source, and dyadic ledger rows already displayed, and it imports no ambient completeness principle or selected host limit.
+\end{proof}

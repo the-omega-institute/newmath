@@ -4,6 +4,8 @@
 
 The $\FinitePhaseSamplingUp$ packet is a BEDC-native finite certificate surface. It records only finite phase rows, finite coefficient reads, and explicit aliasing ledgers, so Real and Completion consumers may cite coefficient recovery without importing Haar measure, root-of-unity analysis, quotient streams, or host complex Fourier theory.
 
+It is a downstream consumer of the $\RegSeqRatUp$ finite-window readback in \autoref{ch:concrete-instances-regseqrat-namecert} and the $\RealUp$ seal surface in \autoref{ch:concrete-instances-real-namecert}. Its coefficient row is useful only through that Real-and-completion route, and it does not introduce an independent analytic carrier.
+
 \begin{definition}[Finite phase sampling carrier]
 \label{def:finite-phase-sampling-carrier}
 A $\FinitePhaseSamplingUp$ carrier is a finite $\BHist$ packet
@@ -70,6 +72,18 @@ Start with an accepted read of $E$. By the handoff exactness obligation in \auto
 The $\RealUp$ seal then reads that $\RegSeqRatUp$ source through the same stored transports $H$ and continuations $C$. The package row $P$ and local certificate row $N$ identify the finite observation source but do not add a further analytic object.
 
 Therefore every consumer of $E$ factors through the finite rows $G,K,M,A,H,C,P,N$. The carrier has no coordinate from which a selected limit, quotient equality, Haar integral, or host complex coefficient could be exported.
+\end{proof}
+
+\begin{theorem}[Finite phase sampling RegSeqRat Real lattice]
+\label{thm:finite-phase-sampling-regseqrat-real-lattice}
+Let $S=(G,K,M,A,E,H,C,P,N)$ be an accepted $\FinitePhaseSamplingUp$ carrier. If a Real or Completion consumer reads the handoff row $E$, then that read first factors through the regular-rational source surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The coefficient observations are read as dyadic ledger rows from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and only after those finite rows have been exposed does the route reach the real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project the handoff row $E$ from the accepted carrier. The handoff exactness obligation of \autoref{thm:finite-phase-sampling-namecert-obligations} says that $E$ reads only the coefficient samples in $M$ and the aliasing ledger $A$.
+
+By \autoref{thm:finite-phase-sampling-real-handoff}, every Real or Completion consumer of $E$ is routed through exactly the displayed rows $G,K,M,A,H,C,P,N$ before it reaches the downstream seal. Thus the regular-rational source surface is the first consumer-facing source, and the coefficient observations are visible only as the finite dyadic ledger rows attached to that surface.
+
+The real-name seal is therefore reached only after the RegSeqRat route and its dyadic coefficient ledger have been read. Since the carrier exports no selected real limit, quotient-stream equality, Haar integration datum, or host complex coefficient, no consumer can bypass this lattice through an analytic object outside the packet.
 \end{proof}
 
 \begin{theorem}[Finite phase sampling ledger non-escape]

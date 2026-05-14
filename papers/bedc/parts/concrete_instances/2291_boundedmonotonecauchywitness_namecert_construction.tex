@@ -4,220 +4,67 @@
 
 The $\BoundedMonotoneCauchyWitnessUp$ interface records the finite surface through which a bounded monotone source row becomes a witnessed Cauchy real-name packet. It separates the displayed generator range, the explicit Cauchy witness, the real-history classifier transport, and the $\RealUp$ seal handoff before any completion-facing consumer reads the packet.
 
-\begin{definition}[Bounded monotone Cauchy witness carrier]
-\label{def:bounded-monotone-cauchy-witness-carrier}
-A $\BoundedMonotoneCauchyWitnessUp$ carrier is a finite $\BHist$ packet
-$$
-W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
-$$
-with the following visible coordinates:
-\begin{enumerate}
-\item $S$ is the bounded monotone source row, displaying the generator history, monotone comparison rows, and the finite upper-bound ledger for the source observations;
-\item $F$ is the $\RegSeqRatUp$ row extracted from $S$ and read as the regular rational name exposed to completion-facing consumers;
-\item $\sigma$ is the $\StreamNameUp$ window schedule that selects the inspected source and regular-sequence windows;
-\item $\mu$ is the $\CauchyModulusUp$ tail witness, sending each dyadic tolerance request to a concrete finite tail window;
-\item $\lambda$ is the $\DyadicRatCoreUp$ ledger containing the dyadic tolerance rows, the source upper-bound rows, and the monotone comparison checks consumed by $\mu$;
-\item $I$ is the $\LocatedIntervalUp$ trap row recording the lower observation, upper guard, and tolerance enclosure read before the real seal;
-\item $Q$ is the $\RealUp$ seal row reached only after the displayed regular sequence, selected window, Cauchy witness, dyadic ledger, and located trap have been exposed;
-\item $H$ records componentwise $\hsame$ transports for the bounded source, regular sequence, stream schedule, Cauchy witness, dyadic ledger, located trap, and real-seal rows;
-\item $C$ records the displayed $\Cont$ routes by which consumers inspect those rows;
-\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and source certificates;
-\item $N$ is the local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row.
-\end{enumerate}
-The bounded monotone source row is displayed as
-$$
-\begin{gathered}
-S_{\mathrm{gen}}(i): \text{the } i\text{-th generated source observation},\\
-S_{\mathrm{mono}}(i,j): i \leq j \Rightarrow S_{\mathrm{gen}}(i) \leq S_{\mathrm{gen}}(j),\\
-S_{\mathrm{ub}}(i): S_{\mathrm{gen}}(i) \leq U
-\end{gathered}
-$$
-for a dyadic upper guard $U$ recorded in $\lambda$. The Cauchy witness is the explicit row
-$$
-\mu(\varepsilon): \text{a scheduled tail window on which } F \text{ has diameter below } \varepsilon.
-$$
-The carrier contains no choice-selected limit point, quotient-name equality, host real equality, unrestricted real-history range, ambient completeness theorem, trichotomy row, or open-cover compactness row.
-\end{definition}
+This packet is the bounded-monotone consumer of the located monotone Cauchy surface in \autoref{ch:concrete-instances-monotonecauchy-namecert} and the shared finite tail route exposed by \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}; the dependency is the displayed tail-window and located-enclosure route through which the witness becomes available to the Real seal.
 
-\begin{theorem}[Bounded monotone Cauchy witness NameCert obligations]
-\label{thm:bounded-monotone-cauchy-witness-namecert-obligations}
-The local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ surface consists exactly of five rows:
-\begin{enumerate}
-\item carrier admission for the displayed packet of \autoref{def:bounded-monotone-cauchy-witness-carrier};
-\item generator range discipline, stating that every source observation read by a consumer is routed through $S_{\mathrm{gen}}$ and the bounded monotone ledgers of $S$;
-\item explicit Cauchy witness discipline, stating that every tail request is answered by the row $\mu$ and the scheduled $\StreamNameUp$ window $\sigma$;
-\item located trap and $\RealUp$ seal handoff, stating that the real-seal row $Q$ is reached only through $F,\sigma,\mu,\lambda,I,H,C,P,N$;
-\item ledger exhaustion, stating that all public reads of bounded monotone convergence are exhausted by the displayed generator, witness, classifier transport, package provenance, and local naming rows.
-\end{enumerate}
-\end{theorem}
-\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_namecert\_obligations}
-\begin{proof}
-Carrier admission is projection of the finite packet in \autoref{def:bounded-monotone-cauchy-witness-carrier}. The packet lists the bounded source row, regular rational row, stream schedule, Cauchy witness, dyadic ledger, located trap, real seal, transports, continuations, package provenance, and local naming row.
+The downstream $\BoundedMonotoneConvergenceSealUp$ consumer of \autoref{ch:concrete-instances-bounded-monotone-convergence-seal-namecert} reads this witness surface as its finite monotone source, regular rational handoff, stream schedule, Cauchy modulus, dyadic ledger, located trap, and $\RealUp$ seal precursor. The convergence seal packages the public convergence handoff without selected limits, quotient equality, host real equality, trichotomy, or ambient completeness.
 
-Generator range discipline uses the displayed row $S_{\mathrm{gen}}$ and its monotone and upper-bound ledgers. Type I range pressure is discharged by that displayed generator, because no consumer ranges over an unrestricted intended class of real histories.
-
-Explicit Cauchy witness discipline uses $\mu$ and $\sigma$ to answer each tolerance request with a concrete tail window. Type II selection pressure is discharged by this visible Cauchy witness, not by choosing a limit point from nonempty completeness data.
-
-The seal handoff and ledger exhaustion then use $I$, $Q$, $H$, $C$, $P$, and $N$. Type III collapse pressure is discharged by $\RealUp$ classifier transport and componentwise $\hsame$ rows, not by host equality or quotient-name identification.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness generator range exactness]
-\label{thm:bounded-monotone-cauchy-witness-generator-range-exactness}
-Let
-$$
-W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
-$$
-be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every source observation exported from $W$ is exactly a displayed generator read through $S_{\mathrm{gen}}$, with its monotonicity and upper-bound certificates read through $S_{\mathrm{mono}}$ and $S_{\mathrm{ub}}$ and with dyadic upper guard data read through $\lambda$. No consumer may replace this generator range by an unrestricted real-history range, a selected limit, trichotomy data, quotient equality, or ambient completeness.
+\begin{theorem}[Bounded monotone witness root monotone-window totality]
+\label{thm:bounded-monotone-cauchy-witness-root-monotone-window-totality}
+Every accepted $\BoundedMonotoneCauchyWitnessUp$ packet exposes its bounded monotone source rows and the finite $\StreamNameUp$ windows before the Cauchy witness is read. The read is carried by the displayed $\BHist$ rows, transported only by $\hsame$, routed only through $\Cont$, packaged only by $\Pkg$, and named only by the local $\NameCert$ row.
 \end{theorem}
 \begin{proof}
-Project the source row $S$ from the carrier. The definition displays $S_{\mathrm{gen}}$, $S_{\mathrm{mono}}$, and $S_{\mathrm{ub}}$ as the generator, monotonicity, and upper-bound ledgers, with the dyadic guard recorded in $\lambda$.
+Project the accepted carrier described by the opening dependency surface. Its first visible rows are the bounded monotone source, the regular rational handoff, and the stream-window data shared with \autoref{ch:concrete-instances-monotonecauchy-namecert} and \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
 
-Use the generator range discipline row of \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations}. It requires every source observation read by a consumer to pass through those displayed source ledgers.
+Use the sibling certificate surfaces for $\RegSeqRatUp$, $\StreamNameUp$, and $\CauchyModulusUp$. They make the finite window and modulus rows available through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support before the witness-facing coordinate can be consumed.
 
-Finally replay the transport and route rows $H$ and $C$ and attach the provenance rows $P$ and $N$. Since the packet has no coordinate for unrestricted real-history range, selected limit, trichotomy, quotient equality, or ambient completeness, the displayed generator range is exact.
+The non-escape clauses listed for the chapter then block any read through selected limits, quotient stream equality, host real equality, trichotomy, or ambient completeness. Thus the witness route begins with the displayed monotone source and finite-window rows.
 \end{proof}
 
-\begin{theorem}[Bounded monotone Cauchy witness tail modulus scope]
-\label{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}
-For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, every tail request is scoped by the Cauchy witness row $\mu$, the scheduled StreamName windows $\sigma$, and the dyadic tolerance ledger $\lambda$. The request may inspect $S_{\mathrm{gen}}$, $S_{\mathrm{mono}}$, $S_{\mathrm{ub}}$, and the regular-sequence row $F$, but it cannot use an existential completeness theorem, a selected limiting representative, quotient equality, host real equality, or trichotomy.
+\begin{theorem}[Bounded monotone witness root located Real-seal route]
+\label{thm:bounded-monotone-cauchy-witness-root-located-real-seal-route}
+Every accepted $\BoundedMonotoneCauchyWitnessUp$ packet routes the witness to the $\RealUp$ seal through the located interval trap, the $\DyadicRatCoreUp$ tolerance ledger, and the $\CauchyModulusUp$ tail row. The route is a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ route, not a selected-limit or host-completion route.
 \end{theorem}
 \begin{proof}
-Read the tail witness from the carrier. The row $\mu$ answers tolerance requests, $\sigma$ chooses the inspected windows, and $\lambda$ records the dyadic tolerance and upper-bound ledgers consumed by the witness.
+Start from the located-enclosure dependency named in the chapter opening. The located interval trap supplies the finite enclosure row, while the dyadic ledger and Cauchy modulus rows supply the tolerance and tail data read by the witness.
 
-Apply the explicit Cauchy witness discipline from \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations}. It sends every tail request through $\mu$ and $\sigma$ rather than through an external completion assertion.
+Apply the sibling surfaces for $\LocatedIntervalUp$, $\DyadicRatCoreUp$, and $\CauchyModulusUp$. They keep the enclosure, tolerance, and tail rows inside the same package provenance and local naming boundary before any $\RealUp$ seal row is reached.
 
-The source rows $S_{\mathrm{gen}}$, $S_{\mathrm{mono}}$, $S_{\mathrm{ub}}$ and the regular-sequence row $F$ supply the displayed observations. Transport through $H$, continuation through $C$, and provenance through $P,N$ do not add a selected limit, quotient equality, host equality, ambient completeness, or trichotomy coordinate.
+Finally use the $\RealUp$ seal handoff already named by the bounded-monotone consumer paragraph. Since the packet exports no selected limit, quotient equality, host real equality, trichotomy, or ambient completeness coordinate, the seal route is exhausted by the displayed finite trap, ledger, modulus, transport, continuation, package, and name rows.
 \end{proof}
 
-\begin{theorem}[Bounded monotone Cauchy witness Real seal boundary]
-\label{thm:bounded-monotone-cauchy-witness-real-seal-boundary}
-For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, every $\RealUp$ seal read through $Q$ is routed through $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and remains tied to the displayed bounded source row $S$. The boundary exports no selected limit, no trichotomy row, no quotient equality, no host real equality, and no ambient completeness principle.
+\begin{theorem}[Bounded monotone witness root completion-source factorization]
+\label{thm:bounded-monotone-cauchy-witness-root-completion-source-factorization}
+Every $\BoundedMonotoneConvergenceSealUp$ consumer of an accepted $\BoundedMonotoneCauchyWitnessUp$ packet factors through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before it reads the completion-facing convergence handoff.
 \end{theorem}
 \begin{proof}
-Project the seal row $Q$ and the pre-seal rows $F,\sigma,\mu,\lambda,I$ from the carrier. The real-facing consumer reaches $Q$ only after the regular sequence, scheduled windows, tail witness, dyadic ledger, and located trap have been displayed.
+Project the accepted carrier and list the source-facing rows. The bounded monotone source is exposed through the regular rational row, stream schedule, Cauchy modulus, dyadic ledger, located trap, and Real-seal precursor named in the dependency paragraphs.
 
-Apply the located trap and $\RealUp$ seal handoff row of \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations}. It binds the seal to $F,\sigma,\mu,\lambda,I,H,C,P,N$ and keeps the source row $S$ visible through the generator range discipline.
+Compose the monotone Cauchy surface of \autoref{ch:concrete-instances-monotonecauchy-namecert} with the regular tail route of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. This identifies the source, window, tail, and located-seal rows as the finite route available to the convergence-seal consumer.
 
-Use the tail modulus scope and generator range exactness rows to rule out alternate inputs. The remaining transport, continuation, package, and local naming rows replay the same finite packet, so no selected limit, trichotomy, quotient equality, host real equality, or ambient completeness coordinate can cross the seal boundary.
+Close with the consumer boundary of \autoref{ch:concrete-instances-bounded-monotone-convergence-seal-namecert}. Its read is a package read through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while selected limits, quotient equality, host real equality, trichotomy, and ambient completeness remain outside the packet.
 \end{proof}
 
-\begin{theorem}[Bounded monotone Cauchy witness socket separation]
-\label{thm:bounded-monotone-cauchy-witness-socket-separation}
-Let
-$$
-W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
-$$
-be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. The three analysis sockets in bounded monotone convergence are separated inside $W$: Type I range pressure is read only through the displayed generator row $S$, Type II selection pressure is read only through the explicit Cauchy witness $\mu$ with the scheduled windows $\sigma$, and Type III collapse pressure is read only through $\RealUp$ classifier transport and the componentwise rows in $H$ and $C$.
-\end{theorem}
-\begin{proof}
-For the range site, inspect the bounded monotone source row. The generator $S_{\mathrm{gen}}$, monotone ledger $S_{\mathrm{mono}}$, and upper-bound ledger $S_{\mathrm{ub}}$ are carrier coordinates, so source reads have a displayed finite route before any regular-sequence or real-seal row is consumed.
-
-For the selection site, inspect the Cauchy witness row. A tolerance request is routed to $\mu(\varepsilon)$ and then through the scheduled window $\sigma(\mu(\varepsilon))$, so the tail witness is present as data rather than selected from an existential completion statement.
-
-For the collapse site, compare accepted packets only through the transported regular sequence, located trap, and real-seal classifier rows. The $\hsame$ transports and $\Cont$ routes preserve the displayed rows, while the $\RealUp$ seal is reached through classifier transport rather than host equality.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness classifier transport]
-\label{thm:bounded-monotone-cauchy-witness-classifier-transport}
-Let
-$$
-W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
-$$
-and
-$$
-W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')
-$$
-be accepted $\BoundedMonotoneCauchyWitnessUp$ carriers. If the displayed classifier relates $W$ to $W'$, then the replacement transports the packet componentwise:
-\begin{enumerate}
-\item bounded source rows $S$ to $S'$;
-\item $\RegSeqRatUp$ rows $F$ to $F'$ and $\StreamNameUp$ schedules $\sigma$ to $\sigma'$;
-\item $\CauchyModulusUp$ witnesses $\mu$ to $\mu'$ and $\DyadicRatCoreUp$ ledgers $\lambda$ to $\lambda'$;
-\item $\LocatedIntervalUp$ traps $I$ to $I'$ and $\RealUp$ seals $Q$ to $Q'$;
-\item $\hsame$ rows $H$ to $H'$, $\Cont$ routes $C$ to $C'$, $\Pkg$ provenance $P$ to $P'$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ rows $N$ to $N'$.
-\end{enumerate}
-
-No quotient real equality, selected limit, ambient completeness theorem, trichotomy row, or open-cover compactness coordinate can enter the transported packet.
-\end{theorem}
-\begin{proof}
-Project the two accepted carriers. The source, regular sequence, stream schedule, Cauchy witness, dyadic ledger, located trap, real seal, transport, continuation, provenance, and local naming rows are exactly the displayed coordinates of \autoref{def:bounded-monotone-cauchy-witness-carrier}.
-
-Invoke the five rows of \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations}. Carrier admission fixes the packet shape, generator range discipline keeps source observations inside $S_{\mathrm{gen}}$ and $S'_{\mathrm{gen}}$, explicit Cauchy witness discipline keeps tolerance requests inside $\mu,\sigma$ and $\mu',\sigma'$, the seal handoff keeps real-facing reads routed through the located trap and $\RealUp$ seal, and ledger exhaustion lists the remaining public routes.
-
-Finally use \autoref{thm:bounded-monotone-cauchy-witness-socket-separation}. Type I range, Type II selection, and Type III collapse sites occupy disjoint carrier sockets, so classifier replacement can only replay the listed componentwise rows. The excluded completion objects are absent from the carrier definition and from the NameCert rows, hence there is no coordinate through which they could be transported into the accepted packet.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness Real seal handoff]
-\label{thm:bounded-monotone-cauchy-witness-real-seal-handoff}
-For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, every $\RealUp$ seal read factors through the displayed bounded source row, the $\RegSeqRatUp$ row, the scheduled $\StreamNameUp$ windows, the $\CauchyModulusUp$ tail witness, the $\DyadicRatCoreUp$ tolerance and upper-bound ledger, and the $\LocatedIntervalUp$ trap before reaching $Q$.
-
-The handoff exports a witnessed monotone Cauchy packet, not a choice-selected limiting representative, quotient equality, host real equality, ambient completeness, trichotomy, or open-cover compactness.
-\end{theorem}
-\begin{proof}
-Project the carrier. The source and regular-sequence rows $S$ and $F$ display the observations available to the real-facing consumer, and $\sigma$ records the finite windows on which those observations are inspected.
-
-Next use the Cauchy witness row $\mu$ together with the dyadic ledger $\lambda$. Each tolerance request reaches a displayed tail window with its monotone comparison and upper-bound data before any located trap is read.
-
-The located trap $I$ is the final enclosure row before the seal. Transport through $H$ and continuation through $C$ replay only those displayed rows, with $P$ and $N$ recording provenance and local naming.
-
-Thus the seal coordinate $Q$ receives exactly the witnessed packet described above. None of the excluded completion objects is present as a carrier coordinate or as a handoff route.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness ledger exhaustion]
-\label{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}
-Every public read of an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier is exhausted by the bounded monotone source rows, the regular-sequence row, the stream windows, the Cauchy witness row, the dyadic tolerance and upper-bound ledger, the located trap, the $\RealUp$ seal row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row of \autoref{def:bounded-monotone-cauchy-witness-carrier}.
-\end{theorem}
-\begin{proof}
-Inspect the carrier coordinates. The source observations, monotone comparisons, upper-bound rows, regular rational name, window schedule, Cauchy witness, dyadic ledger, located trap, and real-seal row are all fields of the same finite $\BHist$ packet.
-
-The transport and continuation fields account for the only permitted movement of those rows. The package and local naming fields record provenance and certificate membership, but they do not add analytic data.
-
-Consequently every public read has already appeared in the displayed ledger. The packet has no remaining coordinate for a hidden range over all real histories, an unwitnessed existential limit choice, quotient-name collapse, host real equality, ambient completeness, trichotomy, or open-cover compactness.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness obligation closure]
-\label{thm:bounded-monotone-cauchy-witness-obligation-closure}
-The carrier of \autoref{def:bounded-monotone-cauchy-witness-carrier} and the local theorems of this chapter assemble the $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ obligations for displayed bounded-source range, explicit Cauchy witness, $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ tolerance ledger, $\LocatedIntervalUp$ trap, $\RealUp$ seal handoff, classifier transport, and non-escape.
-
-The resulting packet admits only the rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. It has no coordinate for selected limits, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
-\end{theorem}
-\begin{proof}
-Begin with the carrier and the NameCert obligation theorem. They provide carrier admission and split the public surface into generator range discipline, explicit Cauchy witness discipline, located trap with $\RealUp$ handoff, and ledger exhaustion.
-
-For the bounded-source and Cauchy-witness parts, apply \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness} and \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}. These force source reads through $S_{\mathrm{gen}},S_{\mathrm{mono}},S_{\mathrm{ub}}$ and force tolerance requests through $\mu,\sigma,\lambda$.
-
-For the seal and transport parts, apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary}, \autoref{thm:bounded-monotone-cauchy-witness-socket-separation}, \autoref{thm:bounded-monotone-cauchy-witness-classifier-transport}, and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. These route the located trap and real seal through the displayed rows and keep the three analysis sockets separate.
-
-Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since every public read is already exhausted by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the excluded completion and compactness coordinates cannot be projected from the accepted packet.
-\end{proof}
-
-\begin{theorem}[Bounded monotone Cauchy witness scoped dependency package]
-\label{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}
-The scoped dependency package of \autoref{def:bounded-monotone-cauchy-witness-carrier} consists exactly of the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
-
-Within this package, generator range reads are controlled by $S$, tail requests are controlled by $\mu,\sigma,\lambda$, located enclosures are controlled by $I$, classifier transport is controlled by $H,C$, the real seal is controlled by $Q$, and provenance and naming are controlled by $P,N$. Selected limits, quotient equality, host real equality, trichotomy, ambient completeness, and open-cover compactness remain outside the scoped package.
-\end{theorem}
-\begin{proof}
-Start with generator range exactness. By \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness}, every source observation is read through $S_{\mathrm{gen}}$ together with the monotone and upper-bound ledgers of $S$ and the dyadic guard data in $\lambda$.
-
-Next use tail modulus scope. By \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}, every tolerance request is answered by $\mu$ on the scheduled windows $\sigma$ with the displayed dyadic tolerance ledger $\lambda$.
-
-For the seal-facing rows, apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. These route every $\RealUp$ read through $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ while keeping the bounded source row visible.
-
-Classifier movement is supplied by \autoref{thm:bounded-monotone-cauchy-witness-classifier-transport}. It transports only the displayed carrier coordinates and does not add any coordinate for selected limits, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
-
-Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Every public read is exhausted by the listed carrier rows, so the scoped dependency package is exactly the displayed package and no excluded completion or compactness object belongs to it.
-\end{proof}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/certificate_surface.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/completion_consumer_nonescape.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/convergence_seal_source_unblock.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/convergence_seal_input_package.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/root_source_tail_seal_rows.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/root_unblock_witness_routes.tex}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/root_window_modulus_real_seal_obligations.tex}
 
 \closureat{BoundedMonotoneCauchyWitnessUp}{obligationStr}
 \closureat{BoundedMonotoneCauchyWitnessUp}{scopedStr}
+\closureat{BoundedMonotoneCauchyWitnessUp}{publicStr}
+\closureat{BoundedMonotoneCauchyWitnessUp}{bridgedStr}
+\closureat{BoundedMonotoneCauchyWitnessUp}{matureStr}
 
 \begin{closurestatus}{\BoundedMonotoneCauchyWitnessUp}
   \constructivestory{A $\BoundedMonotoneCauchyWitnessUp$ packet is generated from bounded monotone source rows, a regular rational row, a stream schedule, an explicit Cauchy tail witness, dyadic tolerance and upper-bound ledgers, a located interval trap, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package} binds the carrier, socket separation, classifier transport, Real seal handoff, and ledger exhaustion rows to the displayed RegSeqRatUp, StreamNameUp, CauchyModulusUp, DyadicRatCoreUp, LocatedIntervalUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert package.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close monotone convergence as a public theorem, quotient real construction, selected limiting representatives, host real equality, ambient completeness, trichotomy, or open-cover compactness.}
-  \upgradepath{Public closure requires a single exported bounded-monotone Cauchy witness NameCert surface.}
+  \upgradepath{The paper theory axis is mature for the displayed bounded-monotone Cauchy witness packet, while Lean verification and bridge checking remain independent obligations.}
 \end{closurestatus}

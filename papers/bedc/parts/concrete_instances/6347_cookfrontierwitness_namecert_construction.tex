@@ -1,0 +1,84 @@
+\chapter{Cook Frontier Witness Name Certificate Construction}
+\label{ch:concrete-instances-cook-frontier-witness-namecert}
+\origin{ai}
+
+The $\CookFrontierWitnessUp$ packet realizes the compile-frontier engineering path of \autoref{ch:visions-cook-compile-frontier-engineering-path} as a finite NameCert witness surface. It sits beside the substrate-facing cellular packet of \autoref{ch:concrete-instances-cellularautomaton-namecert} and the halting-facing diagonal packet of \autoref{ch:concrete-instances-haltingdiagonal-namecert}. Its role is not to prove Cook universality again, decide a halting problem, or identify compiler stages by host equality; it records the finite stage, target, replay, obstruction, transport, continuation, package, and naming rows a consumer may inspect.
+
+\falsifiablePrediction{Removing the replay-audit row permits a frontier coordinate to be reported without a finite route back through the TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 stages.}
+
+\independenceWitness{cellularautomaton, compiler-optimization-endomorphism, haltingdiagonal, continuationautomaton, universalclosedsubstrate: no listed sibling is bijective to $\CookFrontierWitnessUp$. The cellularautomaton packet carries a substrate rule surface without the three-stage Cook compile route; compiler-optimization-endomorphism carries before/after compiler traces without a halted target and replay audit; haltingdiagonal carries diagonal obstruction data without the Cook stage ledger; continuationautomaton carries replay dynamics without the frontier coordinate and target rows; universalclosedsubstrate carries a universal closed substrate packet without the staged Cook witness route.}
+
+\begin{definition}[Cook frontier witness carrier]
+\label{def:cook-frontier-witness-carrier}
+A $\CookFrontierWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(F,M,Y,R,T,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the frontier-coordinate row, recording the accepted production count, tape-symbol count, Rule~110 step budget, and the reported coordinate relative to the halted-TM target of \autoref{def:cook-frontier-engineering-coordinate};
+\item $M$ is the TM-to-tag compile-stage row, naming the finite Turing-machine input, tag-system output, and stage-local audit route;
+\item $Y$ is the tag-to-cyclic compile-stage row, naming the finite tag-system input, cyclic-tag output, and stage-local audit route;
+\item $R$ is the cyclic-to-Rule-110 compile-stage row, naming the finite cyclic-tag input, Rule~110 initial row, evaluator budget, and decode route;
+\item $T$ is the halted-target row, recording the halted-machine target coordinate and the expected halt-state readback;
+\item $A$ is the replay-audit row, replaying the round trip from the Rule~110 trace back through $R$, $Y$, and $M$ to the target read in $T$;
+\item $O$ is the obstruction-ledger row, recording memory scaling, encoding constants, verification cost, and any displayed failure boundary for the accepted coordinate;
+\item $H$ records componentwise $\hsame$ transports for $F,M,Y,R,T,A,O,P,N$;
+\item $C$ records displayed $\Cont$ routes for each compile stage, the replay audit, the obstruction read, and the local naming row;
+\item $P$ is the $\Pkg$ provenance over $\CookFrontierWitnessUp$, \autoref{ch:visions-cook-compile-frontier-engineering-path}, \autoref{ch:concrete-instances-cellularautomaton-namecert}, \autoref{ch:concrete-instances-haltingdiagonal-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CookFrontierWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a total halting decision, a semantic oracle, a host equality between compiler stages, an unbounded substrate trace, or an unstaged Cook universality proof.
+\end{definition}
+
+\begin{theorem}[Cook frontier witness obligation surface]
+\label{thm:cook-frontier-witness-obligation-surface}
+For the carrier of \autoref{def:cook-frontier-witness-carrier}, the local $\NameCert_{\CookFrontierWitnessUp}$ surface consists exactly of these finite rows:
+\begin{enumerate}
+\item frontier-coordinate exposure through $F$;
+\item three compile-stage exposures through the TM-to-tag row $M$, the tag-to-cyclic row $Y$, and the cyclic-to-Rule-110 row $R$;
+\item halted-target exposure through $T$;
+\item replay-audit exposure through $A$, requiring the finite route back through $R,Y,M$;
+\item obstruction-ledger exposure through $O$;
+\item componentwise transport through $H$;
+\item continuation replay through $C$;
+\item package provenance through $P$;
+\item local naming through $N$.
+\end{enumerate}
+Thus an accepted $\CookFrontierWitnessUp$ consumer may report a Cook frontier coordinate only through $F,M,Y,R,T,A,O,H,C,P,N$, and not through a bare substrate run, host compiler equality, selected halting conclusion, unstaged replay, or ambient universality theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cook-frontier-witness-carrier}. The displayed packet contains exactly the frontier row, three compile-stage rows, halted-target row, replay-audit row, obstruction ledger, and structural rows $H,C,P,N$.
+
+The compile route is staged. The row $M$ supplies the TM-to-tag read, $Y$ supplies the tag-to-cyclic read, and $R$ supplies the cyclic-to-Rule-110 read. The replay audit $A$ can therefore be checked only by following the finite route back through $R,Y,M$ to the halted target $T$.
+
+The obstruction row $O$ records where the accepted coordinate stops and why a larger coordinate is not claimed by this packet. The transport, continuation, provenance, and naming rows then bind those finite reads into one NameCert surface.
+
+Since no coordinate remains for a total halting decision, host compiler equality, semantic oracle, unbounded trace, or unstaged universality theorem, the listed rows exhaust the public obligation surface.
+\end{proof}
+
+Lean \texttt{BEDC/Derived/CookFrontierWitnessUp/TasteGate.lean} will provide explicit $\mathsf{Nontrivial}\ \CookFrontierWitnessUp$ and $\mathsf{FieldFaithful}\ \CookFrontierWitnessUp$ instances. Those instances must preserve the frontier-coordinate row, the three compile-stage rows, the halted-target row, the replay-audit row, the obstruction ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+\closureat{CookFrontierWitnessUp}{seedStr}
+
+\begin{lemma}[Cook frontier replay-audit route determinacy]
+\label{lem:cook-frontier-witness-replay-audit-route-determinacy}
+Let
+$$
+W=(F,M,Y,R,T,A,O,H,C,P,N)
+\quad\text{and}\quad
+W'=(F,M,Y,R,T,A,O,H,C,P,N)
+$$
+be two accepted $\CookFrontierWitnessUp$ carriers whose displayed rows agree component by component: the frontier-coordinate row $F$, the TM-to-tag row $M$, the tag-to-cyclic row $Y$, the cyclic-to-Rule-110 row $R$, the halted-target row $T$, the replay-audit row $A$, the obstruction boundary row $O$, the componentwise transport row $H$, the continuation row $C$, the provenance row $P$, and the local naming row $N$ are the same rows in both packets. If $u$ is a frontier-coordinate read exposed by $W$ and $u'$ is a frontier-coordinate read exposed by $W'$, then the common replay-audit route through $A$ and the common componentwise transport row $H$ identify the two reads:
+$$
+u \hsame u'.
+$$
+Equivalently, duplicate accepted $\CookFrontierWitnessUp$ packets with the same finite replay route cannot expose two non-$\hsame$ frontier-coordinate reads.
+\end{lemma}
+\begin{proof}
+Project the two accepted carriers by \autoref{def:cook-frontier-witness-carrier}. The first coordinate of each packet is the same frontier-coordinate row $F$, and the replay side of each packet is the same finite route: the row $A$ replays the Rule~110 trace back through $R$, then $Y$, then $M$, and finally to the halted-target row $T$.
+
+By \autoref{thm:cook-frontier-witness-obligation-surface}, an accepted consumer may report a Cook frontier coordinate only through the displayed rows $F,M,Y,R,T,A,O,H,C,P,N$. Thus the read $u$ from $W$ and the read $u'$ from $W'$ both factor through the same frontier-coordinate row $F$ and the same replay-audit row $A$.
+
+The componentwise transport row $H$ records the $\hsame$ transports for $F,M,Y,R,T,A,O,P,N$. Applying its frontier-coordinate component to the two factorizations through the common row $F$ gives the displayed identification of the two frontier-coordinate reads. The continuation row $C$, provenance row $P$, and naming row $N$ are also common, so no second route remains through which either packet could expose a different frontier-coordinate read. Therefore $u\hsame u'$ under the same finite replay route.
+\end{proof}

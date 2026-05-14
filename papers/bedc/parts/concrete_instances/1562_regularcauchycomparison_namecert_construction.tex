@@ -269,6 +269,7 @@ Next bind the numerical comparison layer. Apply \autoref{thm:regular-cauchy-comp
 
 Finally use \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The real-facing route consumes the common-window and tolerance rows before reaching $E,H,C,P,N$, so the handoff is a two-stage finite packet route rather than a direct real-completion read.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_two\_stage\_handoff}
 
 \begin{theorem}[Regular Cauchy comparison seal uniqueness boundary]
 \label{thm:regular-cauchy-comparison-seal-uniqueness-boundary}
@@ -298,6 +299,22 @@ Next compose the numerical rows. By \autoref{thm:regular-cauchy-comparison-toler
 Now factor the real-facing seal. Apply \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization} to both source packets, then use \autoref{thm:regular-cauchy-comparison-seal-uniqueness-boundary} at the shared $Y$ window to identify the visible seal route carried across the middle packet boundary.
 
 Finally repack the shared window rows, tolerance rows, ledgers, seal row, transports, continuations, provenance, and naming rows as $K_{xz}$. The constructed packet is accepted because every coordinate is one of the displayed $W,D,\tau,L,E,H,C,P,N$ rows exposed by the two source packets and their shared transported window.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison intersection-window coverage]
+\label{thm:regular-cauchy-comparison-window-intersection-coverage}
+Let $K$ be an accepted $\RegularCauchyComparisonUp$ packet comparing regular Cauchy names $X$ and $Y$, and let a completion-facing consumer present two displayed schedules $W_0$ and $W_1$ through which it attempts to read the comparison. Then the consumer route must first expose a finite intersection schedule $W_{\cap}$ carrying the shared $\StreamNameUp$ window for $X$ and $Y$.
+
+On that same finite intersection schedule, the route must display the $\DyadicRatCoreUp$ observation row $D$, the rational tolerance row $\tau$, the comparison ledger $L$, the $\RealUp$ seal row $E$, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No completion-facing read may bypass this intersection window by appealing directly to host real equality, quotient representatives, a selected limit, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First force the two displayed schedules to the common finite window. Apply \autoref{thm:regular-cauchy-comparison-common-window-stability}: the accepted comparison packet supplies a shared $\StreamNameUp$ schedule before any dyadic observation can be read, so the two displayed schedules refine through an intersection row $W_{\cap}$.
+
+Next attach the numerical rows to that intersection window. By \autoref{thm:regular-cauchy-comparison-tolerance-row-stability}, the dyadic row $D$ and rational tolerance row $\tau$ are read together with the finite ledger $L$; the consumer cannot detach the tolerance comparison from the displayed window.
+
+Now use \autoref{thm:regular-cauchy-comparison-classifier-window-exactness}. The classifier route reaches the shared window, dyadic observations, tolerance row, comparison ledger, seal row, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as one finite packet.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-completion-consumer-surface}. A completion-facing consumer can cite exactly that packet evidence, so the intersection-window coverage condition is necessary before the consumer reaches the $\RealUp$ seal.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy comparison symmetric window swap]
@@ -485,7 +502,8 @@ The bridge-facing read therefore has no remaining coordinate from which to obtai
   \constructivestory{A $\RegularCauchyComparisonUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, a shared $\StreamNameUp$ schedule, displayed $\DyadicRatCoreUp$ observations, a rational tolerance row, a finite ledger, $\RealUp$ seal provenance, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The mature scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, $\RealUp$ seal handoff, the public export certificate, the standard bridge source, and bridge non-escape over the displayed comparison rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_semantic\_name\_certificate}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}

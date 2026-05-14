@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ProofTermErasureTraceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -205,6 +207,9 @@ instance proofTermErasureTraceChapterTasteGate :
     intro x y hxy heq
     exact hxy (proofTermErasureTraceToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ProofTermErasureTraceUp :=
+  proofTermErasureTraceChapterTasteGate
+
 theorem ProofTermErasureTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, proofTermErasureTraceDecodeBHist
         (proofTermErasureTraceEncodeBHist h) = h) ∧
@@ -225,5 +230,26 @@ theorem ProofTermErasureTraceTasteGate_single_carrier_alignment :
       · intro x y heq
         exact proofTermErasureTraceToEventFlow_injective heq
       · rfl
+
+theorem ProofTermErasureTrace_public_row_ledger_exhaustion :
+    ∀ p e T E R H C P N : BHist,
+      let packet := ProofTermErasureTraceUp.mk p e T E R H C P N
+      Cont p e (append p e) ∧
+        Cont T E (append T E) ∧
+          hsame H H ∧
+            BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow packet) = some packet := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro p e T E R H C P N
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · exact hsame_refl H
+      · change
+          proofTermErasureTraceFromEventFlow
+              (proofTermErasureTraceToEventFlow (ProofTermErasureTraceUp.mk p e T E R H C P N)) =
+            some (ProofTermErasureTraceUp.mk p e T E R H C P N)
+        exact proofTermErasureTraceRoundTrip (ProofTermErasureTraceUp.mk p e T E R H C P N)
 
 end BEDC.Derived.ProofTermErasureTraceUp

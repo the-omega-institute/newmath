@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for $\MonodromyUp$}
 \label{ch:concrete-instances-monodromy-namecert}
 
-The $\MonodromyUp$ interface records the finite certificate surface of carrying a fibre or local-system row around a displayed loop and reading back the resulting transport row. The classical reference point is the regular-singular monodromy and Riemann-Hilbert tradition of Deligne, read here only through finite $\NameCert_{\HolonomyUp}$, $\NameCert_{\RiemannHilbertUp}$, $\NameCert_{\SheafUp}$, $\NameCert_{\ConnectionUp}$, and $\NameCert_{\CurvatureUp}$ rows.
+The $\MonodromyUp$ interface records the finite certificate surface of carrying a fibre or local-system row around a displayed loop and reading back the resulting transport row. The loop transport packet consumes the finite holonomy transport surface of \autoref{ch:concrete-instances-holonomy-namecert} before it packages the returned-row ledger, while the $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$ rows remain provenance sources. The classical reference point is the regular-singular monodromy and Riemann-Hilbert tradition of Deligne, read here only through finite $\NameCert_{\HolonomyUp}$, $\NameCert_{\RiemannHilbertUp}$, $\NameCert_{\SheafUp}$, $\NameCert_{\ConnectionUp}$, and $\NameCert_{\CurvatureUp}$ rows.
 
 \section{Carrier definition}
 \label{sec:monodromy-carrier}
@@ -142,3 +142,21 @@ Riemann-Hilbert equivalence outside the packet.
   \notclaimed{This chapter does not close analytic continuation, a fundamental-group representation theorem, regular-singular classification, Riemann-Hilbert equivalence, or a standard bridge.}
   \upgradepath{The next paper-grade step is a standard bridge boundary for the public monodromy readback packet.}
 \end{closurestatus}
+
+\begin{lemma}[Monodromy constant-loop returned-row identity]
+\label{lem:monodromy-constant-loop-returned-row-identity}
+Let
+$$
+(\gamma,b,\mathcal L,F,\lambda,\tau,\rho)
+$$
+be an accepted $\MonodromyUp$ transport packet. Suppose that $\gamma$ is the displayed constant loop at $b$: its source endpoint row, return endpoint row, and endpoint comparison are the reflexive $b$ row. Suppose also that $\lambda$ is the empty finite continuation ledger. Then the returned fibre or stalk row $F$ is in the same finite $\MonodromyUp$ transport class as the input local-system or fibre row $\mathcal L$. More explicitly, the classifier of \autoref{def:monodromy-finite-transport-classifier} accepts the comparison whose loop, base, ledger, transport, and provenance coordinates are the displayed reflexive rows, and whose returned-row coordinate is the no-step comparison $F\hsame\mathcal L$ read from the identity-route packet.
+\end{lemma}
+\begin{proof}
+Project the accepted packet through \autoref{def:monodromy-bhist-transport-carrier}. The loop row starts at $b$, returns to $b$, and carries the displayed endpoint comparison $b\hsame b$. The ledger row $\lambda$ has no subdivision entry, no transport-concatenation entry, and no nontrivial endpoint-readback entry.
+
+Apply \autoref{thm:monodromy-loop-continuation-obligation}. It binds the returned row $F$ to the same displayed base endpoint, the same input row $\mathcal L$, and the same finite ledger. In the present hypotheses the bound route is the empty identity route, so there is no intermediate loop segment and no later continuation row from which a different returned row could be sourced.
+
+Now use \autoref{thm:monodromy-returned-row-provenance-exactness}. Any classifier-accepted returned row must come from the displayed loop row, base endpoint row, input local-system or fibre row, empty ledger, componentwise $\hsame$ transports, and package provenance already present in the packet. Since the ledger is empty and both endpoints are the same displayed base row, the returned-row provenance has only the no-step readback of $\mathcal L$ at $b$. The componentwise transport row $\tau$ therefore supplies the comparison $F\hsame\mathcal L$ inside the packet, not from an analytic continuation germ or an outside representation row.
+
+Finally repack this comparison into the finite classifier of \autoref{def:monodromy-finite-transport-classifier}. The loop, base, ledger, transport, and provenance coordinates are reflexive copies of the displayed packet rows, while the returned coordinate is the no-step comparison $F\hsame\mathcal L$. Hence $F$ and $\mathcal L$ are classified together by the finite $\MonodromyUp$ transport classifier.
+\end{proof}

@@ -1,0 +1,78 @@
+\begin{theorem}[Real tail-agreement seal root window-budget determinacy]
+\label{thm:real-tail-agreement-seal-root-window-budget-determinacy}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. The displayed finite window row $W$ determines the budgeted dyadic agreement route through $D$ and $A$: every root-facing read that has reached $W$ through the admitted observation limiter, regular tail-budget, and shared-threshold surface can reach the agreement row only along
+$$
+W \to D \to A.
+$$
+There is no second dyadic readback row, no hidden agreement coordinate, and no selected tail outside the displayed packet route.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q$. The only paired window coordinate is $W$, the only dyadic readback coordinate attached to it is $D$, and the only agreement coordinate downstream of that readback is $A$.
+
+Use root budget-selector admission and root budget shared-threshold factorization. They put the root read behind the admitted limiter, tail-budget, selector-budget, and shared-threshold rows before $W$ can be consumed.
+
+Finally apply dyadic readback route totality. Once $W$ is displayed, $D$ is the unique dyadic readback supplied to the local agreement edge, and $A$ is reached only through that readback. Since the remaining rows $H,C,P,N$ provide transport, replay, provenance, and naming, they add no alternate dyadic or agreement route.
+\end{proof}
+\leanchecked{BEDC.Derived.RealTailAgreementSealUp.RealTailAgreementSealCarrier\_root\_window\_budget\_determinacy}
+
+\begin{theorem}[Real tail-agreement seal root criterion handoff]
+\label{thm:real-tail-agreement-seal-root-criterion-handoff}
+Every $\RealUp$ or $\CompletionUp$ criterion handoff consuming an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ factors through the sibling routes $\RegularCauchyTailBudgetUp$, $\ObservationBudgetLimiterUp$, $\RegularCauchyTailMeetUp$, and $\RegularCauchyTailFusionUp$ before it reaches the local route $W \to D \to A$. The handoff is therefore a finite BEDC route through budget, limiter, meet, fusion, paired window, dyadic readback, agreement, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with the root budget shared-threshold factorization. It records the observation limiter, regular tail-budget, and tail-meet route as the root-facing entrance to the local paired-window surface.
+
+Attach the tail-fusion consumer through the same shared threshold. The fusion row consumes the already displayed tail-meet and budget rows, so it cannot introduce a second tail source or a separate threshold for the Real or Completion criterion.
+
+Now use root window-budget determinacy. The local criterion handoff continues through $W$, then $D$, then $A$, with $H,C,P,N$ supplying only componentwise transport, displayed replay, provenance, and naming. Thus the criterion handoff factors through exactly the named sibling routes and the local finite packet rows.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root selector-budget compatibility]
+\label{thm:real-tail-agreement-seal-root-selector-budget-compatibility}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. Every $\FiniteObservationBudgetSelectorUp$ or $\RegularCauchySelectorBudgetUp$ consumer that attempts to issue a selected-budget read or a tail-agreement read from $Q$ must first pass through the finite selector surface of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert} or \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}, the $\ObservationBudgetLimiterUp$ limiter of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, the $\RegularCauchyTailBudgetUp$ budget of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, the shared tail-meet surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the tail-fusion surface of \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, and the criterion handoff of \autoref{thm:real-tail-agreement-seal-root-criterion-handoff}. Only after that route is displayed may the consumer read the local chain
+$$
+W \to D \to A.
+$$
+The compatibility row exports no selected limit, quotient stream equality, host real equality, trichotomy row, independent tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the root criterion handoff. It already places every Real or Completion criterion consumer behind the budget, limiter, tail-meet, and tail-fusion surfaces before the local packet route is available, with the selector-budget sibling supplied by \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert} and the finite selector sibling supplied by \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}.
+
+Now apply root window-budget determinacy. Once the selector consumer has reached the accepted packet, the only exposed agreement route is $W$, then $D$, then $A$; the transport, continuation, provenance, and local naming rows $H,C,P,N$ do not add another selector or agreement coordinate.
+
+Finally use root public consumer non-escape. The public boundary of $Q$ is exhausted by the displayed rows and the named sibling surfaces, so a selected-budget or tail-agreement read cannot be reinterpreted as a selected limit, quotient stream equality, host real equality, trichotomy row, independent tail oracle, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal window-budget selector fusion lock]
+\label{thm:real-tail-agreement-seal-window-budget-selector-fusion-lock}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. Every $\RealUp$ or $\CompletionUp$ consumer that passes through selector-budget admission, shared-threshold reading, and tail-fusion consumption traverses the same finite route
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \RegularCauchySelectorBudgetUp \to \StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to A.
+$$
+The route admits no quotient stream, selected limit, host convergence row, choice-selected tail, hidden completion selector, or second agreement surface between the selector admission and the agreement row $A$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-tail-agreement-seal-root-selector-budget-compatibility}. It places every selected-budget or tail-agreement read behind the finite selector surface, the observation limiter, the tail budget, the shared tail meet, the tail-fusion surface, and the local agreement chain.
+
+Next use \autoref{thm:real-tail-agreement-seal-root-criterion-handoff}. The Real and Completion criterion consumers receive the same sibling handoff before the local route is available, so selector admission, shared-threshold reading, and fusion consumption are not independent entrances.
+
+Now invoke \autoref{thm:real-tail-agreement-seal-root-window-budget-determinacy}. Once the shared route reaches the accepted packet, the only local agreement route is the displayed window, dyadic readback, and agreement chain.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-root-public-consumer-nonescape}. The public consumer boundary is exhausted by the finite sibling surfaces and the displayed packet rows, so none of the excluded rows can be inserted between selector admission and the agreement coordinate.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root public consumer non-escape]
+\label{thm:real-tail-agreement-seal-root-public-consumer-nonescape}
+No public $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$ can bypass the finite route
+$$
+W \to D \to A
+$$
+to obtain selected tails, host convergence, quotient stream equality, or ambient completeness. All such consumers receive only the displayed rows $R,S,W,D,A,H,C,P,N$ and the named budget, limiter, meet, fusion, Cauchy-limit, Real, and Completion sibling surfaces.
+\end{theorem}
+\begin{proof}
+Start from the root criterion handoff. It forces every Real or Completion criterion read through the budget, limiter, meet, and fusion surfaces before the local paired-window route is public.
+
+Use root window-budget determinacy to identify the local route. The packet exposes $A$ only after $W$ and $D$ have been read, so a consumer cannot jump directly to an agreement row or replace the readback by a quotient stream equality.
+
+Finally apply root budget Completion-consumer exhaustion. The listed sibling surfaces and the displayed carrier rows exhaust the public consumer boundary. Since no row stores a selected tail, host convergence predicate, quotient equality, or ambient completeness principle, no public consumer can bypass $W \to D \to A$ to recover one.
+\end{proof}

@@ -1,0 +1,64 @@
+\begin{theorem}[ContinuationMonad root formal NameCert handoff]
+\label{thm:continuation-monad-root-formal-namecert-handoff}
+Every downstream formal target consuming $\ContinuationMonadUp$ receives the local $\NameCert$ row only through the finite packet
+
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+
+The received readings are exactly the displayed $\BHist$ source histories, $\Cont$ unit and bind tails, $\hsame$ transports, $\Pkg$ provenance, $\CategoryUp$ hom-carrier row, $\mathsf{ContinuationMorphism}$ row, and local $\NameCert$ row. No quotient Kleisli arrow, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator is exported.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It forces root consumers to read the source histories $A,B,C$ and continuation tails $f,g,u$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of the packet.
+
+Next use \autoref{thm:continuation-monad-root-formal-route-saturation}. Downstream formal targets receive exactly $A,B,C,f,g,u,H,K,L,N$ through the formal route, together with the displayed Category hom-carrier and $\mathsf{ContinuationMorphism}$ readings.
+
+Finally compose with \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. The ledger boundary is the same finite packet and admits no extra entry for quotient Kleisli arrows, host-function composition, ambient category completion, external evaluators, or unlisted continuation generators. Hence the local $\NameCert$ row reaches downstream formal targets only through the named packet and not through an external monad schema.
+\end{proof}
+
+\begin{theorem}[Category ContinuationMonad hom-carrier route]
+\label{thm:category-continuationmonad-hom-carrier-route}
+Every downstream formal target reading a $\ContinuationMonadUp$ packet through
+$A,B,C,f,g,u,H,K,L,N$ receives its $\CategoryUp$ hom-carrier exposure exactly
+through the displayed $\mathsf{CategoryHomCarrier}$ and
+$\mathsf{ContinuationMorphism}$ rows. The route is the finite continuation
+packet route; it is not host function composition, a quotient Kleisli arrow,
+an ambient category completion, or an external monad evaluator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It
+fixes the downstream formal handoff to the finite packet
+$A,B,C,f,g,u,H,K,L,N$ and already names the Category hom-carrier and
+$\mathsf{ContinuationMorphism}$ readings as packet rows.
+
+Next apply
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}.
+The Category side reads a hom carrier exactly as unary endpoint rows together
+with a continuation morphism whose displayed tail is the morphism history.
+Thus the $\mathsf{CategoryHomCarrier}$ row consumed downstream is the
+continuation-tail row of the same packet.
+
+Finally use \autoref{thm:continuation-monad-root-source-coverage},
+\autoref{thm:continuation-monad-root-formal-route-saturation}, and
+\autoref{thm:continuation-monad-root-ledger-saturation-boundary}. These root
+source and ledger saturation results leave no additional coordinate for host
+composition, quotient Kleisli arrows, ambient category completion, external
+evaluators, or unlisted continuation generators, so the Category hom-carrier
+route is exactly the displayed continuation packet route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad formal target readback exhaustion]
+\label{thm:continuation-monad-formal-target-readback-exhaustion}
+Every downstream formal target consuming the $\ContinuationMonadUp$ packet through
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+must first read the root formal $\NameCert$ handoff and the $\CategoryUp$ hom-carrier route. Therefore the target receives only the displayed $\BHist$ source histories, $\Cont$ continuation tails, $\hsame$ transports, $\Pkg$ provenance, Category hom-carrier row, $\mathsf{ContinuationMorphism}$ row, and local $\NameCert$ row; it receives no quotient Kleisli arrow, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It fixes the formal handoff to $A,B,C,f,g,u,H,K,L,N$ and excludes quotient Kleisli arrows, host composition, ambient category completion, external evaluators, and unlisted generators from the local $\NameCert$ route.
+
+Next apply \autoref{thm:category-continuationmonad-hom-carrier-route}. The Category hom-carrier exposure is not an ambient category completion; it is the displayed $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ reading of the same finite continuation packet.
+
+Finally compose with \autoref{thm:continuation-monad-root-source-coverage}, \autoref{thm:continuation-monad-root-formal-route-saturation}, and \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. These root source, route, and ledger boundaries exhaust the readback surface, so every formal target consumes the finite packet and no external monad semantics.
+\end{proof}

@@ -144,6 +144,26 @@ $$
 the public boundary is exported only as this finite packet boundary. It does not supply completeness, quotient equality, or host real equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule Real handoff dependency]
+\label{thm:regular-cauchy-witness-schedule-real-handoff-dependency}
+Every accepted $\RegularCauchyWitnessScheduleUp$ Real handoff factors through the displayed $\RegSeqRatUp$ family row, the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal row. In coordinates, the handoff route for
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+uses $X$ as the regular-rational family row, $\mu$ and $W$ as the modulus-selected window, $D$ and $R$ as the dyadic diagonal readback ledger, and $T$ as the Real seal handoff. The only transport surface available to this route is the finite $\BHist$ packet together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+Consequently no quotient stream, selected completed limit, host real equality, or ambient completeness witness can serve as an alternate source for the accepted Real handoff.
+\end{theorem}
+\begin{proof}
+Project $S$ through the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. The carrier exposes the family row $X$, modulus row $\mu$, selected finite window $W$, dyadic ledger $D$, diagonal readback $R$, seal row $T$, and the rows $H,C,P,N$ in one finite packet.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations} and \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}. These bind local naming to the displayed rows and force the selected window to be read through $\mu$ and $W$ before the dyadic ledger is inspected.
+
+Next use \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback} and \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}. The diagonal observation reaches $D$ and $R$, then the finite route carries the observation from $\RegSeqRatUp$ and $\StreamNameUp$ through $\DyadicRatCoreUp$ to the $\RealUp$ seal row.
+
+Finally apply \autoref{thm:regular-cauchy-witness-schedule-public-boundary}. Since the public boundary is exactly the finite rows of $S$ transported by $H$, replayed by $C$, packaged by $P$, and named by $N$, the handoff cannot escape to a quotient stream, selected limit, host real equality, or ambient completeness row.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy witness schedule seal-source determinacy]
 \label{thm:regular-cauchy-witness-schedule-seal-source-determinacy}
 For an accepted $\RegularCauchyWitnessScheduleUp$ packet
@@ -190,6 +210,24 @@ Use window coverage to bind the finite source of the route to $X,\mu,W,D$. Diago
 The only tail-facing rows left in the carrier are $H,C,P,N$. These rows preserve and replay the same finite packet; they do not introduce another observation source.
 
 Therefore every tail-facing consumer route is administrative over the displayed finite rows. An unbounded diagonal stream is not a coordinate of the carrier and cannot be recovered from the tail route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule tail-budget factorization]
+\label{thm:regular-cauchy-witness-schedule-tail-budget-factorization}
+Let $S=(X,\mu,W,D,R,T,H,C,P,N)$ be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every tail-budget consumer or $\RealUp$ seal consumer first reads the $\RegSeqRatUp$ family row $X$, the selected modulus row $\mu$, the finite $\StreamNameUp$ window row $W$, and the $\DyadicRatCoreUp$ ledger row $D$. Only after these rows have been fixed can the consumer read the rational observation row $R$ and the $\RealUp$ seal row $T$, transported through $H$, replayed through $C$, packaged by $P$, and named by $N$. The factorization exports no quotient stream, selected limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition for the accepted packet. Its consumer-visible coordinates are exactly $X,\mu,W,D,R,T,H,C,P,N$, so a tail-budget read has no source outside the displayed tuple.
+
+Apply \autoref{thm:regularcauchywitnessschedule-window-coverage}. It fixes the initial finite window surface as $X,\mu,W,D$ before any seal-facing read is available.
+
+Next use \autoref{thm:regularcauchywitnessschedule-tail-route}. Tail-facing consumption can only proceed through the rational observation row $R$, the seal row $T$, and the administrative route $H,C,P,N$ after the finite window has been selected.
+
+The $\RealUp$ dependency is the handoff of \autoref{thm:regularcauchywitnessschedule-real-handoff}; it adds a seal row, not an ambient completeness object. Since the chapter carries the displayed TasteGate marker
+$$
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},
+$$
+the $\origin{ai}$ consumer boundary is aligned with the same carrier route. Thus every tail-budget or seal consumer factors through the explicit modulus, finite window, dyadic ledger, and seal rows, and no quotient stream, selected limit, host real equality, or completeness witness is exported.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy witness schedule Real handoff]
@@ -267,6 +305,26 @@ $$
 They record that the $\origin{ai}$ route is consumed through the finite carrier boundary. The resulting package is therefore an obligation package over the displayed RegSeqRat, StreamName, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows, not a completeness or quotient-equality theorem.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule Real-completion handoff lock]
+\label{thm:regular-cauchy-witness-schedule-real-completion-handoff-lock}
+For an accepted $\RegularCauchyWitnessScheduleUp$ packet
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N),
+$$
+any completion-facing consumer that reads $S$ must first pass through the displayed analytic rows $X,\mu,W,D,R,T$ and then through the certificate rows $H,C,P,N$. The passage uses window-modulus alignment, diagonal readback, finite-route correspondence, the public boundary, seal-source determinacy, and the Real handoff theorem to identify $T$ as the finite $\RealUp$ seal handoff for the same route.
+
+Consequently the handoff lock excludes quotient stream equality, selected completed limits, host real equality, ambient completeness, and choice. None of those objects is a coordinate of the accepted packet, and none is created by the transport, continuation, package, or naming rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible analytic route is exactly $X,\mu,W,D,R,T$, followed by the structural certificate rows $H,C,P,N$.
+
+Apply window-modulus alignment to bind any tolerance-facing read to the modulus row $\mu$ and the finite window $W$. Apply diagonal readback to force the scheduled observation through the dyadic ledger $D$ and the readback row $R$.
+
+Use finite-route correspondence and the public boundary to keep the completion-facing consumer inside the same displayed packet. Seal-source determinacy and the Real handoff theorem then identify the consumer-visible seal as the row $T$ reached by that route.
+
+It remains to check non-escape. The rows $H,C,P,N$ only transport, replay, package, and name the same finite data. Since the carrier has no coordinate for quotient stream equality, selected completed limits, host real equality, ambient completeness, or choice, the completion-facing handoff cannot export any of them.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy witness schedule scope-closed route]
 \label{thm:regular-cauchy-witness-schedule-scope-closed-route}
 For an accepted $\RegularCauchyWitnessScheduleUp$ packet $S=(X,\mu,W,D,R,T,H,C,P,N)$, the scoped route from $\RegSeqRatUp$ and $\StreamNameUp$ data through $\DyadicRatCoreUp$ readback to the $\RealUp$ seal is exactly the finite route witnessed by the carrier, the local $\NameCert$ obligations, window-modulus alignment, diagonal readback, public boundary, shared-window lock, tail-threshold readback, and Real seal readiness.
@@ -341,16 +399,202 @@ $$
 keep the $\origin{ai}$ packet inside this finite carrier boundary. Since both presentations expose the same $W,D,R,T,H,C,P,N$ rows at the consumer surface, and since neither packet supplies quotient streams, selected limits, host equality, or completeness as coordinates, no downstream $\RealUp$ consumer can distinguish the two seal routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule public seal export]
+\label{thm:regular-cauchy-witness-schedule-seal-public-export}
+Every public $\RealUp$ seal export of an accepted $\RegularCauchyWitnessScheduleUp$ packet
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+factors through the displayed finite rows $X,\mu,W,D,R,T,H,C,P,N$. The export reads the $\RegSeqRatUp$ source row $X$, the $\StreamNameUp$ finite window $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealUp$ seal handoff $T$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyWitnessScheduleUp}$ row $N$.
+
+The same route is pinned by the two TasteGate anchors
+$$
+\begin{gathered}
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},\\
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleUp\_taste\_gate\_boundary}
+\end{gathered}
+$$
+and by the downstream tail-meet seal comparison. It exports no quotient stream, selected completed limit, host real equality, ambient completeness principle, or choice operation.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. The carrier exposes only $X,\mu,W,D,R,T,H,C,P,N$, and \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations} identifies these rows as the local NameCert surface.
+
+Use \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment} and \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}. They force any tolerance request and diagonal observation to pass through the finite window, modulus, dyadic ledger, and readback rows before the seal row is available.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, and \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}. These clauses identify the public-facing route as the same finite route from $\RegSeqRatUp$ and $\StreamNameUp$ through $\DyadicRatCoreUp$ to the $\RealUp$ seal handoff.
+
+Finally use \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison} together with the two displayed TasteGate anchors. The single-carrier alignment and boundary theorem keep the $\origin{ai}$ packet inside the shown carrier rows, while the tail-meet comparison shows that downstream seal consumers see only the same finite surface. Since none of the coordinates is a quotient stream, completed limit selector, host real equality, ambient completeness principle, or choice operation, the public seal export has no escape coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule tail-agreement consumer]
+\label{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Any paired-tail consumer that compares the scheduled observation of $S$ with a second regular Cauchy source and then enters the $\RealTailAgreementSealUp$ route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} must first factor through the displayed modulus row $\mu$, the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ readback $D$, the diagonal row $R$, and the $\RealUp$ seal row $T$ of $S$.
+
+After those rows have been consumed, the paired route can add only the second source row and the displayed agreement row required by the $\RealTailAgreementSealUp$ carrier rows of \autoref{def:real-tail-agreement-seal-carrier}. Thus the route reaches the downstream threshold factorization of \autoref{thm:real-tail-agreement-seal-realup-consumer-threshold-factorization} through the public export of \autoref{thm:regular-cauchy-witness-schedule-seal-public-export} and the comparison surface of \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}. It does not introduce quotient streams, host real equality, selected completed limits, ambient completeness, or choice-selected tails.
+\end{theorem}
+\begin{proof}
+Project $S$ to the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. The carrier exposes exactly the rows $X,\mu,W,D,R,T,H,C,P,N$, so the scheduled observation has no coordinate outside the displayed modulus, window, dyadic readback, diagonal, seal, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}. It places every public $\RealUp$ seal read of $S$ on the finite route through $\mu,W,D,R,T$ together with $H,C,P,N$. Then apply \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}; the comparison route seen by a downstream tail consumer is still the same displayed finite surface.
+
+Now pass to the paired seal chapter \autoref{ch:concrete-instances-realtailagreementseal-namecert}. The carrier in \autoref{def:real-tail-agreement-seal-carrier} contributes the missing paired source row and the displayed agreement row, while \autoref{thm:real-tail-agreement-seal-realup-consumer-threshold-factorization} forces the Real or Completion consumer to read those rows through the shared threshold route before any handoff is available.
+
+No step supplies a quotient stream, a host real equality, a selected completed limit, an ambient completeness row, or a choice-selected tail. Therefore the paired tail-agreement route consumes the single scheduled observation only by extending the already displayed witness schedule with the second source and agreement rows of $\RealTailAgreementSealUp$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule shared-window factorization]
+\label{thm:regular-cauchy-witness-schedule-shared-window-factorization}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every completion-facing consumer route, and every paired-tail consumer route, that reaches a $\RealUp$ seal through the witness schedule factors through one shared finite window surface in the following order: first the $\RegSeqRatUp$ source and explicit modulus-window rows $X,\mu,W$, then the $\DyadicRatCoreUp$ ledger $D$, the diagonal readback row $R$, the seal row $T$, and finally the componentwise $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+This factorization is the common surface pinned by \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}, \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}, and \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}. Conversely, any consumer route displaying exactly those rows is the same finite route already exported by the public seal and paired-tail consumer theorems. No quotient stream, selected completed limit, host real equality, ambient completeness row, or choice operation is supplied by the shared-window surface.
+\end{theorem}
+\begin{proof}
+Project $S$ to the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. The projection exposes the finite rows $X,\mu,W,D,R,T,H,C,P,N$ as the only schedule data available to a completion-facing or paired-tail consumer.
+
+Use \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment} to fix the modulus and finite window rows $\mu,W$ over the source row $X$. Then use \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback} to fix the $\DyadicRatCoreUp$ ledger $D$ and diagonal readback row $R$ as the only observation path feeding the seal.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}. It identifies the consumer-visible $\RealUp$ seal handoff with the displayed row $T$ after the finite $X,\mu,W,D,R$ path has been read. The remaining rows $H,C,P,N$ supply only the componentwise transport, continuation, package provenance, and local naming surface attached to that same finite route.
+
+For the downstream direction, apply \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison} and \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}. These theorems show that the sibling tail-meet and paired tail-agreement consumers can extend the displayed surface with their own paired-source data, but cannot distinguish another route for the scheduled observation itself.
+
+Conversely, a consumer route that displays exactly $X,\mu,W,D,R,T,H,C,P,N$ has already chosen the rows forced by window-modulus alignment, diagonal readback, public seal export, tail-meet comparison, and tail-agreement consumption. Since none of those rows is a quotient stream, selected completed limit, host equality, completeness principle, or choice operator, there is no escape coordinate by which the route could differ from the finite public route already exported in this chapter.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule budget pullback exactness]
+\label{thm:regular-cauchy-witness-schedule-budget-pullback-exactness}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Let
+$$
+B=(E,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet whose precision request row $E$, finite window rows $W_B$, dyadic ledger rows $D_B$, regular-source handoff rows $R_B$, and real-seal rows $S_B$ agree componentwise under $\hsame$ with the witness-schedule rows $\mu,W,D,R,T$ after the transports displayed in $H,H_B$ and the routes displayed in $C,C_B$ are replayed.
+
+Then every $\RealObservationBudgetUp$ consumer route from $B$ that reaches the synchronized $\RealUp$ observation pulls back uniquely to the finite witness-schedule route through
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The pullback identifies the two L10 consumer routes with the same finite $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. It creates no quotient stream equality, host real equality, selected completed limit, ambient completeness row, or unbounded diagonal schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted schedule packet $S$ to its carrier rows. The window-modulus alignment theorem fixes the requested precision at $\mu$ and the finite $\StreamNameUp$ window at $W$, while diagonal readback fixes the $\DyadicRatCoreUp$ ledger $D$ and readback row $R$ as the only observation path feeding the seal.
+
+Use the Real handoff, shared-window lock, and shared-window factorization theorems in this chapter. They identify the completion-facing schedule route with the finite route through $X,\mu,W,D,R,T,H,C,P,N$ and leave only transport, continuation, provenance, and local naming rows after the seal handoff $T$ has been reached.
+
+Now project the observation-budget packet $B$. By request totality in \autoref{thm:real-observation-budget-request-totality}, the consumer request reads a finite path from $E$ to $W_B$ and $D_B$. By route determinacy in \autoref{thm:real-observation-budget-route-determinacy}, two budget routes with the same displayed rows determine the same $\RegSeqRatUp$ and $\RealUp$ observation surface up to the componentwise $\hsame$ rows. By non-escape in \autoref{thm:real-observation-budget-nonescape}, the budget route has no hidden channel outside $E,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$.
+
+The assumed componentwise $\hsame$ agreement transports the budget rows $E,W_B,D_B,R_B,S_B$ onto $\mu,W,D,R,T$. Therefore the budget consumer and the witness-schedule consumer read the same finite $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows, and the remaining displayed transport, route, provenance, and naming rows supply the unique pullback into $X,\mu,W,D,R,T,H,C,P,N$.
+
+Finally apply the non-escape clauses on both sides. Since neither packet contains quotient stream equality, host real equality, a selected completed limit, ambient completeness, or an unbounded diagonal schedule as a coordinate, the pullback is exact only at the finite BEDC route and cannot manufacture any stronger analytic object.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule budget selector compatibility]
+\label{thm:regular-cauchy-witness-schedule-budget-selector-compatibility}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every finite precision selector compatible with the $\RealObservationBudgetUp$ route of \autoref{ch:concrete-instances-realobservationbudget-namecert} identifies its request row with $\mu$, its finite window row with $W$, its dyadic ledger row with $D$, and its seal row with $T$, after replaying the componentwise $\hsame$ transports in $H$ and the displayed $\Cont$ routes in $C$.
+
+Thus a selector that reaches the synchronized real observation consumes the same displayed L10 packet
+$$
+X,\mu,W,D,R,T,H,C,P,N
+$$
+as the witness schedule. It has no second precision request, no alternate finite-window source, no hidden dyadic ledger, and no seal row outside the packet displayed by $S$.
+\end{theorem}
+\begin{proof}
+First apply window-modulus alignment to the accepted schedule packet. This pins any finite precision request compatible with the schedule to the modulus row $\mu$ and pins the selected finite $\StreamNameUp$ window to $W$.
+
+Next apply diagonal readback. The observation read from the selected window must use the displayed $\DyadicRatCoreUp$ ledger $D$ and the diagonal row $R$ before it can reach the $\RealUp$ seal row $T$.
+
+Now use budget pullback exactness for the compatible $\RealObservationBudgetUp$ consumer. The budget route agrees componentwise with $\mu,W,D,R,T$ after the transports and continuations in $H$ and $C$ are replayed, so its precision selector is exhausted by those same rows.
+
+The remaining rows $X,H,C,P,N$ supply the source, transport, continuation, provenance, and local naming data attached to the already identified route. Since the budget non-escape clause supplies no additional request, window, dyadic, or seal coordinate, the selector and the witness schedule consume the same finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule tail budget exhaustion]
+\label{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every paired-tail or completion-facing budget consumer that reads the scheduled observation of $S$ before entering the $\RealTailAgreementSealUp$ route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} remains inside the displayed rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The consumer may subsequently add the second source and agreement rows required by the tail-agreement seal, but it cannot add another schedule, tolerance ledger, diagonal readback, real-seal row, or completion principle for the scheduled side.
+\end{theorem}
+\begin{proof}
+Begin with the tail-agreement consumer theorem for $S$. It forces any paired-tail route that uses the scheduled observation to pass through $\mu,W,D,R,T$ together with the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Apply shared-window factorization. Completion-facing and paired-tail consumers share the same finite window surface over $X,\mu,W,D,R,T,H,C,P,N$, so the scheduled side has already spent its request, window, dyadic, diagonal, and seal budget before the downstream route is entered.
+
+Finally use non-escape for the witness schedule and for the budget consumer surface. The only data available before the $\RealTailAgreementSealUp$ carrier is the displayed schedule packet; the seal route can append its paired source and agreement rows only after that finite packet has been consumed.
+
+Therefore every paired-tail or completion-facing budget consumer is exhausted by $X,\mu,W,D,R,T,H,C,P,N$ on the scheduled side, and the later tail-agreement route cannot create a second scheduled observation route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule public export package]
+\label{thm:regular-cauchy-witness-schedule-public-export-package}
+The $\RegularCauchyWitnessScheduleUp$ public export package is assembled by the NameCert obligations, window-modulus alignment, diagonal readback, public boundary, Real seal readiness, shared-window factorization, budget pullback, budget selector compatibility, tail budget exhaustion, and the displayed TasteGate carrier anchor for the packet
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+Every $\RealUp$ or completion-facing consumer of this package reads exactly these finite rows. It reads no quotient stream, selected limit, host real equality, ambient completeness, or choice operation.
+\end{theorem}
+\begin{proof}
+Start from the displayed TasteGate single-carrier marker attached to \autoref{def:regular-cauchy-witness-schedule-carrier}. The carrier and the NameCert obligations fix the packet as $X,\mu,W,D,R,T,H,C,P,N$.
+
+The route to the public observation is then forced by window-modulus alignment, diagonal readback, public boundary, and Real seal readiness. These theorems identify the selected modulus, finite window, dyadic ledger, diagonal row, and Real seal row without adding a quotient stream or a selected completed limit.
+
+For completion-facing consumers, use shared-window factorization, budget pullback exactness, budget selector compatibility, and tail budget exhaustion. These rows show that the shared window, observation budget, precision selector, and paired-tail route all pull back to the same displayed schedule packet.
+
+Thus the public export package is a single finite BEDC surface. The consumer can inspect $X,\mu,W,D,R,T,H,C,P,N$ and nothing stronger: no host real equality, no ambient completeness principle, and no choice operation is present as a carrier coordinate or downstream route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule standard bridge]
+\label{thm:regular-cauchy-witness-schedule-standard-bridge}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. The public BEDC export package of \autoref{thm:regular-cauchy-witness-schedule-public-export-package} is equivalent to the standard finite witness-schedule record whose fields are exactly the $\RegSeqRatUp$ family row $X$, modulus selector $\mu$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, diagonal readback $R$, $\RealUp$ seal $T$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\RegularCauchyWitnessScheduleUp}$ row $N$.
+
+The forward read projects those rows from the public export package. The reverse read rebuilds the finite carrier and the public package from exactly those standard finite rows. Both directions preserve the exclusions of $\RealUp$ completeness, quotient streams, selected limits, host real equality, and choice.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:regular-cauchy-witness-schedule-public-export-package}. Its public export is already exhausted by the displayed packet $X,\mu,W,D,R,T,H,C,P,N$.
+
+Use \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment} to identify $\mu$ with the selected tolerance route and $W$ with the corresponding finite window. Then apply \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback} to route the scheduled observation through $D$ and $R$ before the $\RealUp$ seal row $T$ is read. The displayed TasteGate marker $\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate}$ fixes this as a single carrier surface.
+
+For the reverse direction, start with the standard finite witness-schedule record carrying exactly the same ten rows. The rows $X,\mu,W,D,R,T,H,C,P,N$ rebuild the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}; the local naming row, transports, routes, and provenance then repack it as the public export package of \autoref{thm:regular-cauchy-witness-schedule-public-export-package}.
+
+Since neither construction introduces a field outside those rows, the bridge has no coordinate for $\RealUp$ completeness, quotient streams, selected limits, host real equality, or choice. The BEDC export and the standard finite witness-schedule record therefore read back to one another over exactly the displayed finite carrier.
+\end{proof}
+
 \closureat{RegularCauchyWitnessScheduleUp}{obligationStr}
 \closureat{RegularCauchyWitnessScheduleUp}{scopedStr}
+\closureat{RegularCauchyWitnessScheduleUp}{publicStr}
+\closureat{RegularCauchyWitnessScheduleUp}{bridgedStr}
+\closureat{RegularCauchyWitnessScheduleUp}{matureStr}
 
 \begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
   \constructivestory{A $\RegularCauchyWitnessScheduleUp$ packet is generated from a $\RegSeqRatUp$ family row, explicit modulus row, selected $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ observation ledger, diagonal readback row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}, \autoref{thm:regular-cauchy-witness-schedule-scope-closed-route}, \autoref{thm:regular-cauchy-witness-schedule-scoped-tail-meet-handoff}, and \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison} bind the finite modulus-indexed scoped route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal and the shared RegularCauchyTailMeet consumer surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} The public export is the finite witness schedule boundary over the displayed RegSeqRat, StreamName, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows, as bound by \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regular-cauchy-witness-schedule-seal-public-export}, \autoref{thm:regular-cauchy-witness-schedule-public-export-package}, and \autoref{thm:regular-cauchy-witness-schedule-standard-bridge}.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, Lean verification, or bridge checking.}
-  \upgradepath{The next paper-axis step is public export of the same finite schedule boundary over the displayed RegSeqRat, StreamName, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \upgradepath{No further paper-axis upgrade is pending for the finite witness-schedule surface; verification and bridge checking remain on the independent formal axis.}
 \end{closurestatus}

@@ -55,6 +55,18 @@ The representative side of $T$ is the row $D$, which is anchored in the diagonal
 The structural rows $H,C,P,N$ replay the same finite comparison for downstream consumers. Since no additional representative, seal, quotient, host equality, selected external limit, or ambient completeness row is present, every sealed diagonal-limit read factors through the displayed handoff.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit stability budget-seal factorization]
+\label{thm:diagonal-limit-stability-budget-seal-factorization}
+Every $\DiagonalLimitStabilityUp$ consumer that reads the $\RealCompletenessUp$ handoff factors through the diagonal budget row $D$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $R$, $\RealUp$ seal row $S$, $\BHist$ history rows, componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DiagonalLimitStabilityUp}$ row $N$. The consumer receives no host limit, ambient completeness coordinate, external representative equality, or detached Real seal outside this packet.
+\end{theorem}
+\begin{proof}
+Start from the Real-completeness handoff theorem, \autoref{thm:diagonal-limit-stability-real-completeness-handoff}. It forces every sealed diagonal-limit read to enter through $D$ or $S$ and then replay through the same finite window and structural rows.
+
+Use the root-route budget package from the sibling diagonal-limit compatibility chapter, \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. It supplies the finite budget route that feeds the diagonal representative side before the Real seal is read.
+
+The local NameCert obligations in \autoref{thm:diagonal-limit-stability-namecert-obligations} keep the readback row $R$, window row $W$, transports $H$, continuation $C$, provenance $P$, and naming row $N$ attached to the same carrier. Hence the Real-completion handoff factors from finite budget to seal without exporting a host limit or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Representative-seal window comparison]
 \label{thm:diagonal-limit-stability-representative-seal-comparison}
 For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the displayed diagonal representative row $D$ and the displayed $\RealUp$ seal row $S$ are compared only through the common finite window row $W$. Neither $D$ nor $S$ can be consumed as an independent Real-completeness input outside the same packet.
@@ -97,6 +109,64 @@ Next use \autoref{thm:diagonal-limit-stability-real-completeness-handoff}. It fo
 The selector and seal routes are therefore exact at the displayed boundary. Selector exactness is the fact that $D$ is the only diagonal representative row available to the carrier; seal exactness is the fact that $S$ is the only $\RealUp$ seal row available to the carrier. Window coverage is the common row $W$, which is read before downstream consumers receive the sealed route.
 
 Finally inspect the chapter-level side conditions. The falsifiable prediction excludes consumers that bypass both displayed route rows, the independence witness separates the packet from its sibling carriers, the TasteGate marker records single-carrier alignment, and the excluded coordinates rule out quotient streams, host real equality, choice-selected limit representatives, trichotomy, and ambient completeness. These clauses are precisely the obligation package needed before an obligation-closure reading of the same finite packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability selector-seal scope]
+\label{thm:diagonal-limit-stability-selector-seal-scope}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the row $D$ is read only through $\DiagonalTailSelectorUp$, and the row $S$ is read only through $\CauchyLimitSealUp$, before any $\RealCompletenessUp$ consumer reads the stability comparison. The comparison therefore has no route that bypasses the selector-seal pair.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:diagonal-limit-stability-carrier} and \autoref{thm:diagonal-limit-stability-real-completeness-handoff}. They expose $D$ as the diagonal representative route and $S$ as the seal route before any Real-completeness read.
+
+Use \autoref{thm:diagonal-limit-stability-representative-seal-comparison} and \autoref{thm:diagonal-limit-stability-window-coverage}. The common window $W$ is the only comparison boundary for the two sides, and every Real-completeness consumer reaches it after choosing $D$ or $S$.
+
+The transport replay and obligation package rows then keep the selector and seal reads inside the same finite packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability primitive route exhaustion]
+\label{thm:diagonal-limit-stability-primitive-route-exhaustion}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the rows $W,H,C,P,N$ exhaust the primitive $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data of the selector-seal route. They do not introduce quotient-stream equality, host real equality, a selected limit representative, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-limit-stability-namecert-obligations}. It lists the finite source, representative, selector, seal, window, transport, continuation, provenance, and local naming rows as the local obligation surface.
+
+Then use \autoref{thm:diagonal-limit-stability-transport-replay}. The $H$ and $C$ rows replay the same carrier by componentwise $\hsame$ transport and displayed continuations, while $P$ and $N$ remain provenance and local naming rows.
+
+Together with the carrier, handoff, window coverage, and obligation package, these rows leave no primitive coordinate outside $W,H,C,P,N$ for the selector-seal route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability NameCert scope closure]
+\label{thm:diagonal-limit-stability-namecert-scope-closure}
+The selector-seal scope row and primitive route exhaustion row, combined with the obligation package of \autoref{thm:diagonal-limit-stability-obligation-package}, close the local $\NameCert_{\DiagonalLimitStabilityUp}$ scope for the displayed packet $T=(R,D,L,S,W,H,C,P,N)$. The closed scope is exactly the route through $\RegSeqRatUp$, $\DiagonalTailSelectorUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ named in the carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diagonal-limit-stability-selector-seal-scope}. It fixes the consumer-visible order of the selector row $D$, seal row $S$, and Real-completeness comparison.
+
+Use \autoref{thm:diagonal-limit-stability-primitive-route-exhaustion}. It fixes the primitive route rows $W,H,C,P,N$ as the complete $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Now apply \autoref{thm:diagonal-limit-stability-obligation-package}. Since the carrier, handoff, representative-seal comparison, window coverage, and transport replay have already been packaged for the same finite tuple, the local NameCert scope closes exactly over the displayed selector-seal packet and over nothing else.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability tail-refinement invariance]
+\label{thm:diagonal-limit-stability-tail-refinement-invariance}
+Let
+$$
+T=(R,D,L,S,W,H,C,P,N)
+$$
+and
+$$
+T'=(R,D',L',S,W',H',C',P',N')
+$$
+be accepted $\DiagonalLimitStabilityUp$ packets with the same $\RegSeqRatUp$ source row $R$ and the same $\RealUp$ seal row $S$. Suppose $W'$ is a displayed $\StreamNameUp$ tail refinement of $W$, $D'$ is the transported $\DiagonalTailSelectorUp$ row for the refined window, and the row $S$ is read in both packets through the same $\CauchyLimitSealUp$ boundary and the same $\RealUp$ seal boundary. Then every $\RealCompletenessUp$ consumer that reads the sealed diagonal-limit route through $T'$ receives the same sealed $\RealUp$ route as the corresponding read through $T$, now replayed through $W',H',C',P',N'$. The refinement introduces no quotient stream, host real equality, choice-selected representative, trichotomy, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First compare the two packets at the seal side. By \autoref{thm:diagonal-limit-stability-real-completeness-handoff}, a Real-completeness consumer must enter the accepted packet through the displayed diagonal representative row or the displayed $\CauchyLimitSealUp$ row, and in either case must continue through the packet window and structural rows.
+
+Next identify the representative and seal comparison boundary. The representative-seal comparison of \autoref{thm:diagonal-limit-stability-representative-seal-comparison} says that the representative side and the seal side are compared only through the common finite window. Since $W'$ is a displayed tail refinement of $W$ and $D'$ is the transported selector row for that refined window, the refined packet changes the inspection window but not the sealed $\RealUp$ boundary.
+
+Now use the coverage and replay rows. By \autoref{thm:diagonal-limit-stability-window-coverage}, every consumer read factors through the window and structural rows after choosing the representative side or the seal side. By \autoref{thm:diagonal-limit-stability-transport-replay}, the transports and continuations replay the same carrier coordinates, so the refined rows $H',C',P',N'$ serve the same local route over the refined window $W'$.
+
+Finally apply \autoref{thm:diagonal-limit-stability-namecert-scope-closure}. The closed local scope contains exactly the displayed route through $\RegSeqRatUp$, $\DiagonalTailSelectorUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Therefore the tail-refined packet preserves the sealed RealUp route for every RealCompletenessUp consumer and supplies no additional primitive or analytic coordinate.
 \end{proof}
 
 \closureat{DiagonalLimitStabilityUp}{seedStr}

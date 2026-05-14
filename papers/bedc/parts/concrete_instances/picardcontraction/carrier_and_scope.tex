@@ -21,6 +21,9 @@ source for the contraction-map and modulus ledger rows. The Picard carrier
 therefore exports a finite route between those sibling chapters and the
 $\OdeUp$ or $\NewtonIterationUp$ consumers that read only the displayed
 endpoint and seal rows.
+\autoref{ch:concrete-instances-banachfixedpoint-namecert} is the sibling
+carrier whose contraction-map, complete-metric, and fixed-point rows are
+structurally consumed by this Picard packet.
 
 \begin{definition}[PicardContraction BHist carrier]
 \label{def:picardcontraction-bhist-carrier}
@@ -281,6 +284,7 @@ B,T,L,I,M,E,H,C,G,N.
 $$
 The factorization uses the finite iterate closure, Banach source readback, Banach ODE boundary, contraction-step package, fixed-point ledger boundary, modulus-window transport, and Lipschitz ledger window exactness. No consumer receives a completed Picard orbit, host fixed point, external Lipschitz oracle, ambient completeness theorem, or selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_modulus\_consumer\_exhaustion}
 \begin{proof}
 First assemble the finite source and step surface. The finite iterate closure keeps iterate concatenation inside $I$, while \autoref{thm:picardcontraction-banach-source-readback} and \autoref{thm:picardcontraction-contraction-step-package} route source and step reads through $B,T,I,H,C,G,N$.
 
@@ -394,6 +398,22 @@ Begin with \autoref{thm:picardcontraction-downstream-modulus-exposure}. It gives
 Next use \autoref{thm:picardcontraction-real-regseqrat-consumer-handoff}. The $\RegSeqRatUp$ readback and the $\RealUp$ seal read the same finite modulus-window packet rather than a completed orbit or a host fixed-point theorem.
 
 Finally apply \autoref{thm:picardcontraction-finite-consumer-exhaustion}. Its consumer list includes both $\RegSeqRatUp$ and $\RealUp$, so the seal package is exhausted by the carrier rows and cannot pass through any omitted completion, fixed-point, limit-selection, or ambient-completeness object.
+\end{proof}
+
+\begin{theorem}[PicardContraction finite-tail diagonal seal handoff]
+\label{thm:picardcontraction-finite-tail-diagonal-seal-handoff}
+Every accepted $\PicardContractionUp$ packet whose contraction route is consumed by a finite-tail diagonal seal factors through the modulus-window rows of \autoref{thm:picardcontraction-modulus-window-row-scope}, the $\RegSeqRatUp$ and $\RealUp$ seal package of \autoref{thm:picardcontraction-regseqrat-real-seal-package}, and the $\FiniteTailDiagonalSealUp$ finite-tail witness surface of \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert} before any completion-facing read. The route is the finite packet
+$$
+B,T,L,I,M,E,H,C,G,N
+$$
+together with the downstream seal scope of \autoref{thm:picardcontraction-downstream-seal-scope}. It exports no selected limit, host fixed-point equality, quotient Cauchy name, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the modulus-window row scope. It keeps the modulus row $M$ and endpoint seal row $E$ inside the displayed $\PicardContractionUp$ carrier under classifier transport and modulus-window transport.
+
+Next apply the $\RegSeqRatUp$ and $\RealUp$ seal package. The regular-sequence and real-facing reads are already exhausted by the same finite carrier rows, so the finite-tail consumer cannot replace them by a completed orbit or a host fixed-point equality.
+
+Finally use the downstream seal scope and the sibling route \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}. The finite-tail diagonal seal supplies the selected finite-tail witness between the regular-sequence read and the real-facing seal, and the Picard packet supplies only $B,T,L,I,M,E,H,C,G,N$. Since neither route contains a quotient Cauchy name, selected limit, ambient completeness row, or host fixed-point equality, no completion-facing read can obtain one from the handoff.
 \end{proof}
 
 \begin{theorem}[PicardContraction root consumer triad exhaustion]

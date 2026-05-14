@@ -154,6 +154,7 @@ The $\RealUp$ seal boundary of \autoref{thm:regularcauchyname-realup-seal-bounda
 \label{thm:regularcauchyname-real-seal-factorization}
 For every accepted source packet $G=(S,Q,\rho,L,E,P,N)$, the $\RealUp$ seal row $E$ factors through the displayed dyadic-radius row, the $\StreamNameUp$ handoff, and the $\RegSeqRatUp$ readback before it can be consumed as a $\NameCert_{\RegularCauchyNameUp}$ row. The factorization is componentwise over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyNameUp.RegularCauchyNameCarrier\_real\_seal\_factorization}
 \begin{proof}
 Read the seal coordinate from the source packet. It is recorded after the stream schedule, dyadic observations, radius bounds, and finite regularity ledger, so it is not an independent real carrier.
 
@@ -227,6 +228,7 @@ The classifier row is supplied by the same package theorem and by \autoref{thm:r
 \label{thm:regularcauchyname-finite-window-readback-exactness}
 Every consumer precision read of an accepted $\RegularCauchyNameUp$ packet factors through the scheduled $\StreamNameUp$ window, the transported $\DyadicRatCoreUp$ observation attached to that window, the displayed dyadic-radius row, the pointwise $\RegSeqRatUp$ classifier, and the finite ledger row. The readback exposes no host sequence coordinate and no quotient stream coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyNameUp.RegularCauchyNameCarrier\_finite\_window\_readback\_exactness}
 \begin{proof}
 Begin with the consumer request. By \autoref{thm:regularcauchyname-streamname-handoff}, the request first lands in a scheduled finite $\StreamNameUp$ window and then reads the transported $\DyadicRatCoreUp$ observation through the pointwise $\RegSeqRatUp$ classifier.
 
@@ -678,53 +680,25 @@ Next attach the completion consumer. The public $\RealUp$ seal factorization for
 Finally apply the non-escape boundary of \autoref{thm:regularcauchyname-root-dependency-manifest-non-escape}. Since the manifest and the completion-monad seal factorization share the same finite provenance surface and neither exposes a quotient stream, selected limit, host real equality, independent real carrier, or ambient completeness coordinate, the admitted rational source and the completion consumer determine one finite $\BHist$ consumer surface.
 \end{proof}
 
-\begin{theorem}[RegularCauchyName scheduled observation source totality]
-\label{thm:regularcauchyname-scheduled-observation-source-totality}
-For every accepted $\RegularCauchyNameUp$ packet, each unary schedule row admitted by the packet supplies a certified $\RationalStreamUp/\StreamNameUp$ observation row together with the displayed package provenance route. The supplied row is read through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ coordinates, and every scheduled source read reaches one of these certified rows before it can be consumed by $\RegSeqRatUp$ or $\RealUp$.
+\begin{theorem}[RegularCauchyName Real-completion selector seal compatibility]
+\label{thm:regularcauchyname-real-completion-selector-seal-compatibility}
+Let $G$ be an accepted $\RegularCauchyNameUp$ packet whose visible source is admitted from $\RationalStreamUp$. Any selector-facing $\RealCompletenessUp$ or $\CauchyCompletionMonadUp$ consumer that reads the displayed finite window of $G$, its dyadic radius row, its $\RegSeqRatUp$ readback, and its $\RealUp$ seal factors through two displayed routes: the root dependency manifest of \autoref{def:regularcauchyname-root-dependency-manifest}, and the ordered selector route
+$$
+\mu,\Delta,D,W,Q,S
+$$
+of \autoref{thm:real-completeness-selector-window-seal-factorization}. Consequently the selector-presented seal and the $\RegularCauchyNameUp$ finite-window seal expose the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. They expose no quotient stream, selected host limit, host equality, choice row, or ambient completeness theorem.
 \end{theorem}
 \begin{proof}
-Induct over the finite schedule rows displayed by the accepted packet. The empty schedule has no requested observation, so the totality claim is the empty projection of the same $\BHist$ packet.
+First read the $\RegularCauchyNameUp$ side. The root dependency manifest exhaustion theorem \autoref{thm:regularcauchyname-root-dependency-manifest-exhaustion} places every downstream source, finite-window, readback, $\RealUp$ seal, and completion-consumer read of $G$ inside the finite manifest of \autoref{def:regularcauchyname-root-dependency-manifest}.
 
-For a retained row, the RationalStream source admission theorem supplies the $\RationalStreamUp$ source row, while the normalized window readback definition records the corresponding $\StreamNameUp$ finite window and dyadic observation route. The displayed $\hsame$ and $\Cont$ rows transport this observation without introducing a second source.
+Next attach the completion-facing seal. The RationalStream completion seal triangle \autoref{thm:regularcauchyname-rationalstream-completion-seal-triangle} identifies the admitted rational source, normalized window, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\CauchyCompletionMonadUp$ consumer route with one finite $\BHist$ consumer surface.
 
-The package provenance route is then the stored $\Pkg$ coordinate, with the local $\NameCert_{\RegularCauchyNameUp}$ row certifying that the observation belongs to the accepted packet. Repeating this projection along the finite schedule exhausts every scheduled source read.
+Now compare the selector presentation. The selector-window-seal factorization theorem \autoref{thm:real-completeness-selector-window-seal-factorization} orders every selector-facing $\RealCompletenessUp$ read as $\mu,\Delta,D,W,Q,S$, with transport, route replay, package provenance, and local naming carried by the same finite seal surface.
+
+Finally apply the non-escape theorem \autoref{thm:regularcauchyname-root-dependency-manifest-non-escape}. Since both routes read only the displayed finite rows and the provenance coordinates $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, neither presentation can export a quotient stream, selected host limit, host equality, choice row, or ambient completeness theorem.
 \end{proof}
 
-\begin{theorem}[RegularCauchyName radius ledger monotone readback]
-\label{thm:regularcauchyname-radius-ledger-monotone-readback}
-In an accepted $\RegularCauchyNameUp$ packet, the dyadic-radius ledger is monotone under certified unary index extension: extending a schedule row along the displayed $\hsame$ and $\Cont$ route can only read a radius row already compatible with the earlier request and the later certified request. Every such readback remains inside the $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface carried by the normalized finite-window packet.
-\end{theorem}
-\begin{proof}
-Begin with the two certified unary index rows. The normalized window readback definition reads both through the same $\StreamNameUp$ window surface, dyadic observation row, radius row, finite ledger, and package provenance.
-
-Use the radius obligations already carried by the packet. The earlier radius request is preserved by classifier transport, and the later request extends it through the displayed continuation route, so the ledger read is monotone inside the stored finite radius table.
-
-Finally apply window normalization coverage. It forces every consumer precision read to pass through the normalized window before the $\RegSeqRatUp$ classifier or $\RealUp$ seal is reached, so the readback remains inside the $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface.
-\end{proof}
-
-\begin{theorem}[RegularCauchyName RegSeqRat Real seal root unblock]
-\label{thm:regularcauchyname-regseqrat-real-seal-root-unblock}
-The scheduled observation source rows of \autoref{thm:regularcauchyname-scheduled-observation-source-totality} and the monotone radius ledger of \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} assemble a finite root-unblock package for every accepted $\RegularCauchyNameUp$ packet. This package is consumable by the $\RegSeqRatUp$ seal route and the $\RealUp$ handoff, and it uses the displayed $\StreamNameUp$ handoff, semantic $\NameCert_{\RegularCauchyNameUp}$ certificate, $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ rows rather than quotient streams or host equality.
-\end{theorem}
-\begin{proof}
-First assemble the source half of the package. Scheduled source totality supplies each unary row with its certified $\RationalStreamUp/\StreamNameUp$ observation and provenance route.
-
-Next assemble the radius half. Radius-ledger monotone readback keeps each certified index extension inside the dyadic tolerance surface and the pointwise $\RegSeqRatUp$ classifier ledger.
-
-Finally attach the seal handoffs. The StreamName handoff, normalized readback seal stability, and root-unblock normalization package carry the assembled rows to the $\RegSeqRatUp$ and $\RealUp$ consumers. The semantic naming certificate is already part of the packet, so no quotient stream, host equality, selected limit, or ambient completeness coordinate is needed.
-\end{proof}
-
-\begin{theorem}[RegularCauchyName tail-window consumer factorization]
-\label{thm:regularcauchyname-tail-window-consumer-factorization}
-Every tail-window consumer of an accepted $\RegularCauchyNameUp$ packet factors through the scheduled observation row, the monotone dyadic-radius ledger, the normalized finite-window readback, and the $\RegSeqRatUp/\RealUp$ seal route. The factorization reads only the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ coordinates. It cannot inspect quotient streams, selected limits, host sequence equality, independent real equality, or ambient completeness.
-\end{theorem}
-\begin{proof}
-First bind the tail-window request to its scheduled source. The scheduled observation source totality theorem \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation row and package provenance before any $\RegSeqRatUp$ or $\RealUp$ consumer can read the packet.
-
-Next route the tolerance information. The radius-ledger monotone readback theorem \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps certified index extensions inside the displayed $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface, while window normalization coverage \autoref{thm:regularcauchyname-window-normalization-coverage} forces each precision read through the normalized finite-window packet.
-
-Finally attach the terminal seal route. The RegSeqRat Real seal root unblock theorem \autoref{thm:regularcauchyname-regseqrat-real-seal-root-unblock} carries the scheduled source and radius ledger to the $\RegSeqRatUp$ and $\RealUp$ consumers. The closure boundary records no quotient stream, selected limit, host sequence equality, independent real equality, or ambient completeness row, so the tail-window consumer has no escape from the displayed factorization.
-\end{proof}
+\input{parts/concrete_instances/regularcauchyname/tail_window_budget_coherence}
 
 \closureat{RegularCauchyNameUp}{seedStr}
 \closureat{RegularCauchyNameUp}{obligationStr}

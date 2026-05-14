@@ -266,7 +266,11 @@ def codex_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = ""
     )
 
     if rc != 0:
-        return CodexResult(False, {}, stdout, rc, error=f"codex exec rc={rc}")
+        failure_excerpt = _truncate((stderr or stdout or "").strip(), 300)
+        error = f"codex exec rc={rc}"
+        if failure_excerpt:
+            error += f": {failure_excerpt}"
+        return CodexResult(False, {}, stdout, rc, error=error)
 
     raw = ""
     if output_file.exists() and output_file.stat().st_size > 0:

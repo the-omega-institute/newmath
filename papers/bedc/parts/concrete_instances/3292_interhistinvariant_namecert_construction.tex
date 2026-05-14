@@ -182,6 +182,50 @@ The unary part of the handoff is then exactly \autoref{thm:interhist-invariant-u
 Use \autoref{thm:interhist-invariant-rate-consumer-readback-exhaustion} to finish the boundary. Since the row inventory is exhausted before the rate boundary is read, no hidden speed, clock, metric, host equality, quotient, or global frame can enter the handoff.
 \end{proof}
 
+\begin{theorem}[InterHistInvariant finite source scope]
+\label{thm:interhist-invariant-finite-source-scope}
+For every accepted $\InterHistInvariantUp$ carrier
+$$
+I=(A,B,R,V,S,H,C,P,N),
+$$
+the history rows $A,B$, relation or causal row $R$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$ are scoped to the finite source surface of $\FiniteMultiHistPacketUp$. The packet may project the two history slots and the relation row through that finite source, but it has no coordinate for a global frame, synchronized clock, metric geometry, host equality, quotient of histories, or observer-independent ambient object.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:interhist-invariant-carrier}. The only history inputs are the displayed rows $A$ and $B$, and the only finite relation slot is $R$.
+
+Apply \autoref{thm:interhist-invariant-finite-multihist-projection-lock}. It already binds the relation-row case to the $\FiniteMultiHistPacketUp$ source and prevents an ambient relation or second relation row from entering the packet.
+
+Now use \autoref{thm:interhist-invariant-two-history-route-exactness}. The transport, continuation, provenance, and naming rows $H,C,P,N$ are the only replay boundary for the two-history content. Since the carrier has no further coordinate, the finite source scope is exactly the displayed $\BHist$ route.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant causal rate scope]
+\label{thm:interhist-invariant-causal-rate-scope}
+For every accepted $\InterHistInvariantUp$ carrier $I=(A,B,R,V,S,H,C,P,N)$, causal-row use is scoped to $\CrossHistCausalUp$ and the downstream unary rate boundary is scoped to $\MaxCausalRateUp$. A consumer may read $R$ as the displayed causal row and may then read $V,S,H,C,P,N$ as the finite invariant handoff to the maximum-rate surface, but it cannot read a global causal order, synchronized clock, metric time coordinate, host real speed, host equality, or quotient construction.
+\end{theorem}
+\begin{proof}
+Begin with the causal-row boundary of \autoref{thm:interhist-invariant-causal-row-choice-boundary}. It identifies $R$ as the only causal slot and confines it to the displayed $\CrossHistCausalUp$ row.
+
+The rate-facing side is \autoref{thm:interhist-invariant-rate-handoff-exactness}. It routes any $\MaxCausalRateUp$ read through $V,S,H,C,P,N$ after the two-history relation row has been displayed.
+
+Combine these two boundaries with \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. The consumer sees a finite causal invariant packet before the rate boundary, so there is no route to a global order, clock, metric geometry, host speed, host equality, or quotient.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant consumer kernel scope]
+\label{thm:interhist-invariant-consumer-kernel-scope}
+Every consumer of an accepted $\InterHistInvariantUp$ packet factors through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the checked TasteGate carrier surface for the displayed tuple
+$$
+I=(A,B,R,V,S,H,C,P,N).
+$$
+The consumer receives the two history slots, relation or causal row, unary invariant row, observer-symmetry row, transport row, continuation row, package provenance, and local name row, and receives no global frame, synchronized clock, metric geometry, host equality, quotient construction, or off-packet causal data.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:interhist-invariant-consumer-row-exactness}. It states that every consumer read of $A,B,R,V,S,H,C,P,N$ is routed through the finite packet rows supplied by $\FiniteMultiHistPacketUp$ or through the displayed causal row supplied by $\CrossHistCausalUp$.
+
+Next apply \autoref{thm:interhist-invariant-finite-source-scope} and \autoref{thm:interhist-invariant-causal-rate-scope}. These two scope the finite-source and causal-rate cases without adding a global frame, synchronized clock, metric geometry, host equality, quotient, or off-packet causal source.
+
+Finally align the packet with the checked TasteGate carrier surface named in \autoref{thm:interhist-invariant-tastegate-field-contract}. The TasteGate row preserves the same displayed fields, while $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provide the kernel route by which consumers read them.
+\end{proof}
+
 \begin{theorem}[InterHistInvariant TasteGate field contract]
 \label{thm:interhist-invariant-tastegate-field-contract}
 The checked TasteGate anchor for $\InterHistInvariantUp$ is the single-carrier alignment
@@ -221,14 +265,17 @@ These pieces exhaust the visible carrier coordinates. Since no additional coordi
 
 \closureat{InterHistInvariantUp}{seedStr}
 \closureat{InterHistInvariantUp}{obligationStr}
+\closureat{InterHistInvariantUp}{scopedStr}
+\closureat{InterHistInvariantUp}{publicStr}
 
 \begin{closurestatus}{\InterHistInvariantUp}
   \constructivestory{An $\InterHistInvariantUp$ packet is generated from two history rows, a finite relation or causal-witness row, a unary invariant readback row, an observer-symmetry row, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope identifies the finite carrier, local NameCert obligations, componentwise transport, observer-symmetry row, consumer row exactness, maximum-rate handoff exactness, and TasteGate field-faithfulness commitment for inter-history invariant packets, with TasteGate instance \leanchecked{BEDC.Derived.InterHistInvariantUp.taste\_gate}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:interhist-invariant-finite-source-scope}, \autoref{thm:interhist-invariant-causal-rate-scope}, and \autoref{thm:interhist-invariant-consumer-kernel-scope} bind the finite source rows, causal-rate rows, consumer exactness, and TasteGate carrier surface for inter-history invariant packets, with TasteGate instance \leanchecked{BEDC.Derived.InterHistInvariantUp.taste\_gate}.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.InterHistInvariantUp.InterHistInvariantTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close nontrivial multi-history physics, global frames, synchronized clocks, metric geometry, host real equality, quotient constructions, or a checked Lean theorem for the packet.}
-  \upgradepath{Scoped closure requires checked carrier admission, stability, observer symmetry, consumer exactness, maximum-rate handoff, and TasteGate wiring for the same finite invariant packet.}
+  \notclaimed{This chapter does not close global frames, synchronized clocks, metric geometry, host real equality, quotient constructions, or standard bridge checking beyond the checked TasteGate carrier alignment.}
+  \upgradepath{The next paper-axis step is a bridge package over the public InterHistInvariant consumer surface.}
 \end{closurestatus}

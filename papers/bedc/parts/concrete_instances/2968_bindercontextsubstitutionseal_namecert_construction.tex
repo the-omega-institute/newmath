@@ -4,6 +4,24 @@
 
 The $\BinderContextSubstitutionSealUp$ interface packages the closed-boundary substitution site used by the MetaCIC self-compilation account. It records a term, a binder depth, a substitution payload, the attempted substitution result, and the boundary certificate proving that the payload has no visible target inside the classified term.
 
+\begin{theorem}[BinderContextSubstitutionSeal closed-term boundary dependency]
+\label{thm:binder-context-substitution-seal-closed-term-boundary-dependency}
+Every accepted $\BinderContextSubstitutionSealUp$ packet reads its \texttt{ClosedAt} boundary and inertness row as a refinement of the sibling $\ClosedTermSubstitutionBoundaryUp$ surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} before exporting the binder-depth payload route to compiler or evaluator consumers.
+\end{theorem}
+\begin{proof}
+Project the packet rows as
+$$
+S=(t,d,v,s,b,H,C,P,N).
+$$
+The row $b$ is the displayed closed-boundary witness: it carries \texttt{ClosedAt} $d$ $t$ together with the inertness equality read by the substitution seal.
+
+The sibling surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} supplies exactly the closed-term boundary that makes a substitution read inert at a displayed depth. The seal adds the payload row $v$, the binder-depth row $d$, replay through $s=\texttt{substitute}(d,v,t)$, and local transport and provenance rows, but it does not replace that closed-term boundary with an independent open-substitution semantics.
+
+Apply \autoref{thm:binder-context-substitution-seal-non-escape} and \autoref{thm:binder-context-substitution-seal-compiler-handoff}. They show that consumers receive the payload route only through the equality certified by $b$ and only through the finite packet rows exported by the handoff.
+
+Hence the closed-term substitution boundary is a real dependency of the binder-context seal. The seal refines that sibling boundary by adding depth, payload, replay, transport, and naming rows while preserving the same closed-boundary source for compiler and evaluator reads.
+\end{proof}
+
 \begin{definition}[BinderContextSubstitutionSeal carrier]
 \label{def:binder-context-substitution-seal-carrier}
 A $\BinderContextSubstitutionSealUp$ carrier is a finite $\BHist$ packet
@@ -42,6 +60,7 @@ The rows $H,C,P,N$ then expose transport, continuation replay, package provenanc
 \label{thm:binder-context-substitution-seal-non-escape}
 Every accepted $\BinderContextSubstitutionSealUp$ packet exports the substitution payload $v$ only as an attempted route through $s=\texttt{substitute}(d,v,t)$ together with the boundary witness $b$. If $b$ carries \texttt{ClosedAt} $d$ $t$, then the exposed result row is $s=t$, and no consumer can read the packet as a payload insertion, an open-variable escape, a binder capture, or a depth borrowed from outside the displayed boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_non\_escape\_boundary}
 \begin{proof}
 Read the substitution row from the carrier. The only route from $v$ to the accepted output is the displayed replay $s=\texttt{substitute}(d,v,t)$.
 
@@ -128,13 +147,52 @@ Then apply route determinacy. The consumer route is fixed by the same rows and h
 Finally use the non-escape boundary of \autoref{thm:binder-context-substitution-seal-non-escape}. Since the payload is blocked at the displayed closed boundary, the consumer cannot recover open-term semantics, subject reduction, global evaluator correctness, or an unrecorded binder context.
 \end{proof}
 
+\begin{theorem}[BinderContextSubstitutionSeal scope triad]
+\label{thm:binder-context-substitution-seal-scope-triad}
+Every accepted $\BinderContextSubstitutionSealUp$ packet is scoped by exactly
+three primitive faces: the syntactic face consisting of the displayed
+\texttt{Term}, \texttt{ClosedAt}, and \texttt{substitute} rows; the replay
+face consisting of the displayed $\BHist$, $\hsame$, and $\Cont$ rows; and the
+provenance face consisting of the displayed $\Pkg$ and local $\NameCert$ rows.
+The packet exports no fourth primitive face for open-term semantics, global
+evaluator correctness, subject reduction, or a hidden binder context.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:binder-context-substitution-seal-carrier}.
+Its coordinates are exactly
+$$
+S=(t,d,v,s,b,H,C,P,N).
+$$
+The rows $t,d,v,s,b$ supply the syntactic \texttt{Term}, \texttt{ClosedAt}, and
+\texttt{substitute} face; the rows $H,C$ supply replay through $\BHist$,
+$\hsame$, and $\Cont$; and the rows $P,N$ supply $\Pkg$ provenance and the
+local $\NameCert$ face.
+
+Apply \autoref{thm:binder-context-substitution-seal-obligation-rows}. It
+separates the same carrier admission, readback, replay, inertness, transport,
+continuation, provenance, and naming rows into the obligation ledger.
+
+Next apply \autoref{thm:binder-context-substitution-seal-route-determinacy}.
+Every compiler or evaluator handoff is determined by those same rows, so no
+consumer-specific substitution channel or hidden binder context can be added
+after the packet is accepted.
+
+Finally use
+\autoref{thm:binder-context-substitution-seal-obligation-consumer}. It allows
+downstream consumers to read only the displayed syntactic, replay, and
+provenance rows, and explicitly excludes open-term semantics, global evaluator
+correctness, subject reduction, and unrecorded binder context. The three
+faces therefore exhaust the scoped primitive surface.
+\end{proof}
+
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
 \closureat{BinderContextSubstitutionSealUp}{obligationStr}
+\closureat{BinderContextSubstitutionSealUp}{scopedStr}
 
 \begin{closurestatus}{\BinderContextSubstitutionSealUp}
   \constructivestory{A $\BinderContextSubstitutionSealUp$ packet is generated from a \texttt{Term} row, a binder-depth row, a substitution payload, a replayed \texttt{substitute} result, a \texttt{ClosedAt} inertness witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:binder-context-substitution-seal-carrier}, \autoref{thm:binder-context-substitution-seal-namecert-obligations}, \autoref{thm:binder-context-substitution-seal-obligation-rows}, \autoref{thm:binder-context-substitution-seal-closed-boundary-exactness}, \autoref{thm:binder-context-substitution-seal-route-determinacy}, and \autoref{thm:binder-context-substitution-seal-obligation-consumer} bind the obligation rows over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, inertness, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:binder-context-substitution-seal-carrier}, \autoref{thm:binder-context-substitution-seal-namecert-obligations}, \autoref{thm:binder-context-substitution-seal-obligation-rows}, \autoref{thm:binder-context-substitution-seal-closed-boundary-exactness}, \autoref{thm:binder-context-substitution-seal-route-determinacy}, \autoref{thm:binder-context-substitution-seal-obligation-consumer}, and \autoref{thm:binder-context-substitution-seal-scope-triad} bind the scoped primitive surface over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, inertness, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

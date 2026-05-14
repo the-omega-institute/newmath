@@ -1,0 +1,57 @@
+\begin{theorem}[CauchyProduct budget route package]
+\label{thm:cauchy-product-budget-route-package}
+Let $Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)$ be an accepted $\CauchyProductUp$ packet. Suppose its product is read together with an accepted $\FiniteCauchyApproximationUp$ finite-approximation packet and an accepted $\RealObservationBudgetUp$ observation-budget packet over the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ rows. Then these packets assemble one finite product budget route
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+with the finite approximation rows and the observation-budget rows
+$$
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B
+$$
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ evidence. The assembled route is the one consumed by $\RealUp$ and completion-facing Cauchy readers; it is not a loose union of separate budget lemmas.
+\end{theorem}
+\begin{proof}
+Begin with the CauchyProduct side. The obligation closure of \autoref{thm:cauchy-product-obligation-closure}, the window-budget composition surface of \autoref{thm:cauchy-product-window-budget-composition-surface}, and the root product readiness package of \autoref{thm:cauchy-product-root-product-readiness-package} bind the paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, product row, classifier row, Real seal row, transport rows, continuation rows, package provenance, ledger row, and local certificate row into one finite packet.
+
+Attach the root-unblock and triangle rows next. The source-window unblock certificate of \autoref{thm:cauchy-product-root-unblock-certificate}, the observation-budget triangle of \autoref{thm:cauchy-product-observation-budget-triangle}, and the RealAlgOrder Completion handoff of \autoref{thm:cauchy-product-realalgorder-completion-handoff} identify the same product route as the route read by downstream Real and completion-facing consumers.
+
+Now add the finite approximation and observation-budget chapters. The accepted $\FiniteCauchyApproximationUp$ packet is read through \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}, and the accepted $\RealObservationBudgetUp$ packet is read through \autoref{ch:concrete-instances-real-observation-budget-namecert}. These chapters supply the finite approximation, precision, finite-window, dyadic-readback, regular-sequence, real-seal, transport, continuation, provenance, and local naming rows that match the product route.
+
+The joined package is therefore a single route over the displayed kernel objects. Since every cited surface is finite and row-exhaustive, the assembled package exports only the listed product, finite-approximation, observation-budget, transport, continuation, provenance, and certificate rows.
+\end{proof}
+
+\begin{theorem}[CauchyProduct componentwise window admission]
+\label{thm:cauchy-product-componentwise-window-admission}
+For an accepted $\CauchyProductUp$ packet $Z$, the left and right product windows are admitted componentwise through the displayed $\StreamNameUp$ rows $W_X,W_Y$ and the displayed $\RegSeqRatUp$ route to $E$ before any product seal is read. The admission proceeds through the finite window rows, dyadic rows, product row, product-radius ledger, $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductUp}$ row, with the observation-budget rows attached only after the componentwise source windows have been exposed.
+\end{theorem}
+\begin{proof}
+First read the source windows. The paired-window source admission of \autoref{thm:cauchy-product-paired-window-source-admission}, the StreamName handoff of \autoref{thm:cauchy-product-streamname-handoff}, and the root source window totality of \autoref{thm:cauchy-product-root-source-window-totality} expose $W_X,W_Y$ componentwise before the dyadic observations and product row are visible.
+
+Next route the componentwise windows into the classifier. The budget product lock of \autoref{thm:cauchy-product-root-budget-product-lock}, the root RegSeqRat classifier lock of \autoref{thm:cauchy-product-root-regseqrat-classifier-lock}, and the budget RegSeq classifier lock of \autoref{thm:cauchy-product-budget-regseq-classifier-lock} send the displayed window, dyadic, product, and ledger rows to $E$ as a finite $\RegSeqRatUp$ route.
+
+Finally attach the real-facing boundary. The Real seal root consumer boundary of \autoref{thm:cauchy-product-real-seal-root-consumer-boundary} and the finite-window real-seal factorization of \autoref{thm:cauchy-product-finite-window-real-seal-factorization} place every seal read after the componentwise window route. Thus the product seal can read only after the left and right windows have already entered through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ rows.
+\end{proof}
+
+\begin{theorem}[CauchyProduct Real handoff non-escape]
+\label{thm:cauchy-product-real-handoff-nonescape}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of the product budget route assembled in \autoref{thm:cauchy-product-budget-route-package} receives only the displayed product rows, finite-approximation rows, observation-budget rows, transport rows, continuation rows, provenance rows, and local $\NameCert$ rows. The handoff supplies no quotient stream, selected real value, host metric, host multiplication primitive, trichotomy row, independent real carrier, ambient completeness principle, or external Cauchy-limit principle.
+\end{theorem}
+\begin{proof}
+Start from the product non-escape rows. The window product nonescape of \autoref{thm:cauchy-product-window-product-nonescape}, the RegSeq seal non-escape of \autoref{thm:cauchy-product-regseq-seal-nonescape}, and the root completion non-escape of \autoref{thm:cauchy-product-root-completion-nonescape} rule out quotient streams, selected limits, host multiplication, independent real carriers, and ambient completeness inside the accepted $\CauchyProductUp$ packet.
+
+Read the budget and real-facing handoff through the route package. The finite product-budget exhaustion of \autoref{thm:cauchy-product-finite-product-budget-exhaustion}, the budget-triangle Real seal exhaustion of \autoref{thm:cauchy-product-budget-triangle-real-seal-exhaustion}, and the finite-window real-seal factorization of \autoref{thm:cauchy-product-finite-window-real-seal-factorization} list every product and observation-budget row visible to the consumer.
+
+Finally compose with the completion-facing sibling surfaces. The finite approximation chapter \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert} and the CauchyLimitSeal chapter \autoref{ch:concrete-instances-cauchylimitseal-namecert} consume the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Because neither side contributes a quotient stream, selected real value, host metric, ambient completeness principle, or external Cauchy-limit principle, the Real and seal handoff remains inside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct public budget route export]
+\label{thm:cauchy-product-public-budget-route-export}
+Every public $\RealUp$, $\CauchyLimitSealUp$, or completion-facing read of an accepted $\CauchyProductUp$ budget route factors through the assembled $\CauchyProductUp$ rows, the $\FiniteCauchyApproximationUp$ packet, the $\RealObservationBudgetUp$ packet, and the $\CauchyLimitSealUp$ boundary named by \autoref{thm:cauchy-product-budget-route-package}, \autoref{thm:cauchy-product-componentwise-window-admission}, and \autoref{thm:cauchy-product-real-handoff-nonescape}. The public export supplies the finite product route and its admitted componentwise windows, but it exports no quotient stream, selected real value, host multiplication primitive, trichotomy row, or independent completeness principle.
+\end{theorem}
+\begin{proof}
+Use the budget route package first. \autoref{thm:cauchy-product-budget-route-package} assembles the product rows with the finite-approximation and observation-budget packets over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ evidence.
+
+Next expose the componentwise admission surface. \autoref{thm:cauchy-product-componentwise-window-admission} forces the $\StreamNameUp$ rows and the $\RegSeqRatUp$ entry into the route before any product seal is read, so a public reader receives the product boundary through those displayed windows.
+
+Finally apply the handoff non-escape row. \autoref{thm:cauchy-product-real-handoff-nonescape} states that the $\RealUp$ and $\CauchyLimitSealUp$ consumers of the assembled route receive only the listed product, finite-approximation, observation-budget, transport, continuation, provenance, and certificate rows. The same exclusions rule out quotient streams, selected real values, host multiplication primitives, trichotomy rows, and independent completeness principles from the public export.
+\end{proof}

@@ -40,15 +40,108 @@ No remaining coordinate stores a BEDC-internal truth predicate or a total classi
 \end{proof}
 \leanchecked{BEDC.Derived.TruthTotalReflectionUp.TruthTotalReflectionTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Truth-total reflection attempt-row stability]
+\label{thm:truth-total-reflection-attempt-row-stability}
+For every accepted $\TruthTotalReflectionUp$ packet
+$$
+T=(S,A,D,H,C,P,N),
+$$
+componentwise $\hsame$ transport through $H$ preserves the sentence-code row $S$, the extension-attempt row $A$, and the diagonal row $D$ as rows of the same finite boundary certificate. The transport may replay the displayed $\Cont$ routes in $C$, but it does not add a coordinate for a BEDC-internal truth predicate, a total truth classifier, or host validation of BEDC.
+\end{theorem}
+\begin{proof}
+Project the packet to its displayed rows. The transport row $H$ is part of the carrier inventory and is specified only for the sentence-code, extension-attempt, diagonal, route, provenance, and naming coordinates.
+
+Transporting $S,A,D$ therefore keeps the same finite row classes and merely changes their presented history representatives. The continuation row $C$ can replay reads of those transported rows, but it has no source for a classifier outside the packet.
+
+Since the carrier definition contains no coordinate for internal truth, total classification, or host validation, componentwise transport cannot create one. The stabilized surface remains the finite attempted-reflection boundary.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection diagonal obstruction exactness]
+\label{thm:truth-total-reflection-diagonal-obstruction-exactness}
+Every read of the diagonal row $D$ in an accepted $\TruthTotalReflectionUp$ packet factors through the displayed route
+$$
+S,A,H,C,P,N.
+$$
+The obstruction is exact for the finite attempted reflection row $A$: it blocks only the displayed attempt to classify the sentence codes in $S$, and it does not assert a global theorem about all possible BEDC truth predicates or all host interpretations.
+\end{theorem}
+\begin{proof}
+Read $D$ from the carrier only after the sentence-code row $S$ and the extension-attempt row $A$ have been fixed. The diagonal row is the obstruction attached to that displayed attempt.
+
+The rows $H$ and $C$ give the only transport and consumer routes by which the diagonal row can be moved or inspected. The provenance and naming rows $P,N$ record the package in which that read occurs.
+
+Thus a consumer reaches $D$ through the route $S,A,H,C,P,N$. Because no other classifier row is present, the obstruction applies exactly to the finite attempt recorded by $A$ and carries no broader host-level or total-truth conclusion.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection consumer surface exhaustion]
+\label{thm:truth-total-reflection-consumer-surface-exhaustion}
+Every consumer of an accepted $\TruthTotalReflectionUp$ packet factors through
+$$
+S,A,D,H,C,P,N.
+$$
+Such a consumer may inspect the sentence-code row, the attempted extension-classifier row, the diagonal obstruction row, componentwise transport, displayed continuation reads, provenance, and local naming. It cannot export BEDC-internal truth, total truth classification, host validation, or any classifier not recorded in $A$.
+\end{theorem}
+\begin{proof}
+The carrier inventory lists exactly the rows $S,A,D,H,C,P,N$. Any accepted consumer read must therefore begin by projecting one of those coordinates and then using the displayed transport and continuation data.
+
+The boundary theorem identifies $A$ as the only attempted classifier row and $D$ as the corresponding diagonal obstruction row. The stability theorem keeps these rows fixed under $\hsame$ transport, and the exactness theorem confines diagonal reads to the displayed attempt.
+
+No remaining coordinate stores internal truth, total classification, host validation, or another classifier. Hence the consumer surface is exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection carrier primitive scope]
+\label{thm:truth-total-reflection-carrier-primitive-scope}
+Carrier admission for an accepted $\TruthTotalReflectionUp$ packet is exactly the finite packet
+$$
+S,A,D,H,C,P,N
+$$
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The rows expose the finite $\mathrm{CIC}^{*}$ sentence-code row $S$, the displayed extension-attempt row $A$, the diagonal obstruction row $D$, componentwise transport $H$, continuation reads $C$, provenance $P$, and the local naming row $N$. No additional carrier coordinate may supply internal truth, total truth classification, host validation, or a second reflection predicate.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:truth-total-reflection-namecert-carrier}. The definition lists exactly $S,A,D,H,C,P,N$ and identifies their primitive BEDC roles over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Apply the boundary and consumer-exhaustion rows. \autoref{thm:truth-total-reflection-namecert-boundary} confines the packet to finite boundary evidence, while \autoref{thm:truth-total-reflection-consumer-surface-exhaustion} states that every consumer read factors through the same displayed tuple.
+
+Since no listed coordinate stores internal truth, total classification, host validation, or another reflection predicate, carrier admission is exhausted by the primitive finite packet.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection classifier transport scope]
+\label{thm:truth-total-reflection-classifier-transport-scope}
+Classifier transport for $\TruthTotalReflectionUp$ can move only sentence-code rows, extension-attempt rows, and diagonal obstruction rows through the displayed $H$ and $C$ rows of the accepted packet. It may replay the finite reads of $S,A,D$ through componentwise $\hsame$ transport and displayed $\Cont$ routes, but it cannot transport a truth predicate, a total truth classifier, host validation of BEDC, or any classifier not recorded in $A$.
+\end{theorem}
+\begin{proof}
+Start with the local classifier clause in \autoref{def:truth-total-reflection-namecert-carrier}. It compares packets componentwise through the displayed transport and continuation rows, and the only classifier-attempt coordinate it can inspect is $A$.
+
+Use \autoref{thm:truth-total-reflection-attempt-row-stability}. Transport through $H$ preserves the sentence-code row, extension-attempt row, and diagonal row as rows of the same finite boundary certificate, while $C$ only replays their displayed reads.
+
+The diagonal exactness and consumer-exhaustion rows then block escape from this scope. \autoref{thm:truth-total-reflection-diagonal-obstruction-exactness} ties every diagonal read to the displayed attempt, and \autoref{thm:truth-total-reflection-consumer-surface-exhaustion} excludes internal truth, total classification, host validation, and classifiers absent from $A$.
+\end{proof}
+
+\begin{theorem}[Truth-total reflection obligation unblock package]
+\label{thm:truth-total-reflection-obligation-unblock-package}
+The $\TruthTotalReflectionUp$ obligation package consists exactly of the boundary certificate, attempt-row stability, diagonal obstruction exactness, and consumer-surface exhaustion rows for the packet
+$$
+S,A,D,H,C,P,N.
+$$
+Together with the primitive carrier and classifier-transport scopes, these rows unblock the finite truth-total reflection obligation while excluding internal truth, total truth classification, host validation, and any classifier not recorded in $A$.
+\end{theorem}
+\begin{proof}
+Assemble the previously displayed rows. \autoref{thm:truth-total-reflection-namecert-boundary} supplies the finite boundary certificate, \autoref{thm:truth-total-reflection-attempt-row-stability} supplies stability of $S,A,D$ under $H$, \autoref{thm:truth-total-reflection-diagonal-obstruction-exactness} supplies the exact diagonal route, and \autoref{thm:truth-total-reflection-consumer-surface-exhaustion} exhausts consumer reads.
+
+Attach the primitive rows from this section. \autoref{thm:truth-total-reflection-carrier-primitive-scope} fixes carrier admission as $S,A,D,H,C,P,N$, and \autoref{thm:truth-total-reflection-classifier-transport-scope} fixes classifier movement through the displayed $H$ and $C$ rows.
+
+The assembled package therefore closes the scoped obligation surface for the finite attempted-reflection packet. Because every row is read through the displayed carrier and no row stores internal truth, total classification, host validation, or a classifier outside $A$, the package has no escape route to those excluded objects.
+\end{proof}
+
 \closureat{TruthTotalReflectionUp}{seedStr}
+\closureat{TruthTotalReflectionUp}{obligationStr}
 
 \begin{closurestatus}{\TruthTotalReflectionUp}
   \constructivestory{A $\TruthTotalReflectionUp$ packet is generated from finite $\mathrm{CIC}^{*}$ sentence-code rows, extension-attempt rows, diagonal obstruction rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:truth-total-reflection-namecert-carrier} and \autoref{thm:truth-total-reflection-namecert-boundary} bind the finite boundary certificate for truth-total reflection attempts over $\mathrm{CIC}^{*}$ sentence codes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:truth-total-reflection-namecert-carrier}, \autoref{thm:truth-total-reflection-namecert-boundary}, \autoref{thm:truth-total-reflection-attempt-row-stability}, \autoref{thm:truth-total-reflection-diagonal-obstruction-exactness}, \autoref{thm:truth-total-reflection-consumer-surface-exhaustion}, \leandef{BEDC.Derived.TruthTotalReflectionUp.taste\_gate}, and the displayed TasteGate single-carrier alignment marker bind the finite boundary certificate for truth-total reflection attempts over $\mathrm{CIC}^{*}$ sentence codes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close an internal BEDC truth predicate, a truth-total classifier, a host-runtime validator, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, componentwise classifier transport, diagonal obstruction exactness, and consumer-surface exhaustion for the same finite boundary packet.}
+  \upgradepath{Scoped closure requires primitive grounding for carrier admission, componentwise classifier transport, diagonal obstruction exactness, and consumer-surface exhaustion for the same finite boundary packet.}
 \end{closurestatus}

@@ -6,7 +6,8 @@ that purposely explore under-represented territory.
 Use Read and Grep on the repo to do an actual investigation, not just
 reasoning from memory. Take time.
 
-Repo root: papers/bedc/parts/ (paper) and lean4/BEDC/ (formalization, read-only).
+Repo root: papers/bedc/parts/ (paper). Do not read, grep, cite, or use
+`lean4/BEDC/`; this lane is paper-native and must not depend on Lean evidence.
 
 Sources to read:
 - `papers/bedc/parts/` — current paper state.
@@ -39,6 +40,8 @@ Hard constraints (same as theory_probe — these will be cross-checked):
 - Within an existing BEDC chapter directory.
 - Not duplicating existing BOARD entries / `\label` / Lean markers.
 - Not marker-only, `closurestatus`, or Lean verification-axis work.
+- No Lean evidence: do not read `lean4/BEDC/`, do not cite Lean declarations,
+  and do not use Lean markers as proof that a paper theorem is open or closed.
 - Not abstract carrier/classifier parameter transport, source-equivalence
   sequels, or field-by-field repackaging.
 - Not a direct append to a hub file or a file already near the 800-line cap;
@@ -46,6 +49,14 @@ Hard constraints (same as theory_probe — these will be cross-checked):
 - Within BEDC scope (no external math, no general categorical generalization
   for its own sake, no cross-paper imports).
 - Each `local_inputs` path must exist in the repo.
+- Build a private candidate pool before emitting. Consider at least 5
+  distinct candidates when that many plausible gaps exist; if fewer exist,
+  record why in `selection_notes`. Prefer the hardest feasible candidates,
+  not the first easy local theorem found.
+- Separate evidence from landing. `papers/bedc/parts/visions/` and
+  `papers/bedc/parts/conjectures/` may be read as inspiration/review surfaces,
+  but they are not executable `local_inputs` and must not be proposed as
+  writeback landings.
 
 Output strict JSON only on stdout, no prose, no markdown fences:
 
@@ -57,6 +68,29 @@ Output strict JSON only on stdout, no prose, no markdown fences:
       "local_inputs": ["papers/bedc/parts/...", ...],
       "fit_score": <0-10>,
       "novelty": <0-10>,
+      "axiom_budget": "<B0_finite_witness | B1_primitive_recursive_schedule | B2_rate_or_modulus | B3_finite_cover_or_compactness | B4_countable_construction | B5_impredicative_or_choice_like>",
+      "strength_level": "<same vocabulary as axiom_budget>",
+      "budget_reason": "<why this is the weakest adequate BEDC resource surface>",
+      "existence_mode": "<constructive_witness | bounded_search | compactness_extracted | classical_noncomputable | none>",
+      "witness_extractor": "<empty only when existence_mode is none or classical_noncomputable; otherwise name the finite witness/schedule extractor>",
+      "cut_rank": "<0 | 1 | 2 | noneliminable | unknown>",
+      "elimination_plan": "<required for bridge/transport/composition claims; otherwise empty>",
+      "equality_kind": "<definitional_equal | propositionally_equal | isomorphic | equivalent | bisimilar | substrate_mirror | heuristically_corresponding | none>",
+      "interpretation_kind": "<definitional_extension | conservative_extension | interpretation | faithful_embedding | quotient_projection | substrate_mirror | heuristic_translation | none>",
+      "resource_trace": "<dependency/resource trace, especially for obligations or ledger rows>",
+      "dependency_trace": "<specific paper dependencies consumed by the candidate>",
+      "rate_modulus_surface": "<required for limit/completion/compactness/continuity/Cauchy claims, and also for closure/transitive/phase/null-completion claims whose proof consumes a finite-window, tail, tolerance, schedule, or bounded ledger surface; otherwise empty>",
+      "oracle_mode": "<candidate_generation | proof_search | witness_synthesis | failure_diagnosis | rewrite_to_packet | continuation_refill | forbid>",
+      "difficulty": "<low | medium | high>",
+      "quality_score": {{
+        "verifiability": <0-3>,
+        "locality": <0-2>,
+        "downstream_use": <0-2>,
+        "line_cap_safety": <0-2>,
+        "nontriviality": <0-2>,
+        "cross_chapter_unification": <0-2>
+      }},
+      "selection_rank": <1 for best feasible candidate, then 2, ...>,
       "rationale": "<paragraph: which subarea / structural gap is under-represented, with file:line evidence>"
     }}
   ],
@@ -65,8 +99,26 @@ Output strict JSON only on stdout, no prose, no markdown fences:
       "concept": "<concept I considered>",
       "reason": "<why it's already covered, with file:line>"
     }}
-  ]
+  ],
+  "selection_notes": "<how many candidates were considered, why the selected ranks are the hardest feasible ones, and why any harder candidate was rejected>"
 }}
+
+Every kept candidate must include the Logic packet fields above. Use `none`
+only when the field is genuinely not triggered by the claim. Do not use
+`B5_impredicative_or_choice_like` unless the target is explicitly a boundary,
+obstruction, failure, or nonconstructive theorem.
+
+For any candidate whose title or claim contains `completion`, `complete`,
+`compact`, `continuity`, `Cauchy`, `limit`, `converge`, `closure`,
+`transitive`, `phase`, or `null-completion`, either fill
+`rate_modulus_surface` with the exact finite/rate/modulus/tail/window/schedule
+surface consumed by the proof, or reject the candidate. Do not emit an empty
+`rate_modulus_surface` for these candidates and rely on the board gate to fix it.
+
+Reject any candidate whose total quality score is below 9, whose
+`verifiability` is 0, whose `downstream_use` is 0, or whose `line_cap_safety`
+is 0. `local_inputs` must contain concrete body files only, excluding
+`parts/visions/` and `parts/conjectures/`.
 
 Aim for 3-8 strong candidates favoring breadth over depth. Empty `candidates`
 is fine if everything that should be opened is already on BOARD or already

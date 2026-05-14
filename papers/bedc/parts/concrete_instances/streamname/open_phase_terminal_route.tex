@@ -1,0 +1,50 @@
+\section{StreamName Open-Phase Terminal Route}
+\label{sec:streamname-open-phase-terminal-route}
+
+\begin{theorem}[StreamName open-phase terminal route]
+\label{thm:streamname-open-phase-terminal-route}
+Every Phase Real and Completion finite-window $\StreamNameUp$ consumer whose route reaches the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} and then the $\RealUp$ seal surface of \autoref{ch:concrete-instances-real-namecert} factors through one terminal finite packet. The packet consists of the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RealUp$ seal row, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The boundary is a finite BEDC handoff route. It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. It places the StreamName finite-window consumer on the common-refinement packet carrying the visible window, observation rows, transports, routes, provenance, and local names.
+
+Next apply \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. The route from the StreamName window into the $\RegSeqRatUp$ readback and the finite $\RealUp$ seal is locked to a single terminal consumer surface.
+
+Now use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert} occupy one finite pullback rather than independent carrier routes.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The seal-facing consumer is determined by that pullback, so the Phase Real and Completion boundary reads only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates already present in the terminal packet.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase terminal non-escape]
+\label{thm:streamname-open-phase-terminal-nonescape}
+Every Phase Real and Completion consumer satisfying the terminal finite packet route of \autoref{thm:streamname-open-phase-terminal-route} receives only the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It receives no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:streamname-open-phase-terminal-route}. It identifies the consumer route with the terminal finite packet and names the StreamName window, readback, ledger, seal row, observations, transports, displayed routes, provenance, and local naming rows that the packet exposes.
+
+Next apply \autoref{thm:streamname-common-refinement-terminal-real-seal} and \autoref{thm:streamname-real-regseq-terminal-common-window-lock}. These results place the Phase Real and Completion read on the common-refinement terminal surface and lock the $\RegSeqRatUp$ readback and $\RealUp$ seal access to the same finite window.
+
+Use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row form one finite pullback, so a consumer read has no independent carrier route outside that packet.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Pullback seal determinacy exhausts the seal-facing read by the displayed packet coordinates, excluding quotient streams, host sequence equality, selected limits, ambient completeness rows, metric-completeness data, and standard bridge rows.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase four-face lock]
+\label{thm:streamname-open-phase-four-face-lock}
+Every open-phase terminal consumer for the Phase Real and Completion boundary factors through exactly the ordered four-face route
+$$
+\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}.
+$$
+The only transport available along this route is the displayed $\BHist$ observation data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The route exports no quotient stream, no host sequence equality, no selected limit, no ambient completeness row, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:streamname-open-phase-terminal-route}. It places every Phase Real and Completion consumer on the terminal finite packet and names the StreamName window, readback, ledger, seal row, observations, transports, routes, provenance, and local naming rows.
+
+Next apply \autoref{thm:streamname-open-phase-terminal-nonescape}. This excludes any consumer coordinate outside the terminal packet, including quotient streams, host sequence equality, selected limits, ambient completeness rows, metric-completeness data, and bridge rows.
+
+Use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The StreamName window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal occupy one finite pullback, so they are consumed as one ordered route rather than four independent faces.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The seal-facing read is determined by that pullback, and the only remaining support rows are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+\end{proof}

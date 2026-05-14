@@ -56,6 +56,7 @@ The local $\NameCert_{\GeneratorClosureUp}$ surface for \autoref{def:generator-c
 \item $\mathsf{GAP}$ ledger non-escape stating that rows without the required constructor-list witness are recorded as boundary attempts and are not exported as generator-internal continuations.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection of the tuple in \autoref{def:generator-closure-namecert-carrier}. The generator row, constructor list, authorized ledger, classifier row, continuation witnesses, transports, routes, provenance, and local naming row are all visible coordinates of one finite $\BHist$ packet.
 
@@ -191,6 +192,8 @@ Therefore the ledger exported to downstream bridge consumers is exactly the chap
 \begin{theorem}[GeneratorClosure fixed-point consumer obligation]
 \label{thm:generatorclosure-fixedpoint-consumer-obligation}
 Every $\GeneratorFixedPointUp$ consumer of a $\GeneratorClosureUp$ packet must read the fixed witness through the $\GeneratorClosureUp$ constructor-list provenance and classifier surface. Concretely, the fixed witness is admissible only when its read factors through $G,L,A,Q,W,H,C,P,N$ and the constructor-list row $L$ supplies the witness required by the classifier row $Q$.
+
+This fixed-witness consumer surface is the sibling handoff to \autoref{ch:concrete-instances-generatorfixedpoint-namecert}; the $\GeneratorClosureUp$ constructor-list provenance and classifier rows are the specific dependency consumed by that chapter.
 \end{theorem}
 \begin{proof}
 The carrier obligation \autoref{thm:generatorclosure-carrier-obligation} fixes the generator-closure packet available to the consumer. Hence the consumer cannot obtain a fixed witness from a row outside $G,L,A,Q,W,H,C,P,N$.
@@ -266,15 +269,15 @@ It remains only to name the factors. The classifier obligation \autoref{thm:gene
 \end{proof}
 
 \begin{theorem}[GeneratorClosure constructor provenance determinacy]
-\label{thm:generatorclosure-constructor-provenance-determinacy}
-Let two accepted generated-row reads of the public $\GeneratorClosureUp$ packet expose the same displayed surface $G,L,A,Q,W,H,C,P,N$. If the corresponding carrier rows, classifier rows, continuation ledgers, package rows, and local $\NameCert_{\GeneratorClosureUp}$ rows are componentwise related by $\hsame$, then the two reads determine the same constructor-list provenance row. In particular, the accepted generated row has a unique displayed $L$-provenance inside the public generator-closure surface.
+\label{thm:generator-closure-constructor-provenance-determinacy}
+For an accepted $\GeneratorClosureUp$ packet, the constructor-list provenance row $L$ determines the admitted generator endpoint and the generated rows recorded in $A$ and $W$. Hence two accepted reads with the same displayed $L$ cannot disagree about the authorized constructor provenance while remaining inside the carrier; any unwitnessed route is recorded at the displayed $\mathsf{GAP}$ boundary.
 \end{theorem}
 \begin{proof}
-Begin with the carrier obligation in \autoref{thm:generatorclosure-carrier-obligation}. It places both reads in the same finite $\BHist$ packet, so their only available constructor-list provenance row is the displayed row $L$.
+Project the carrier by \autoref{thm:generatorclosure-carrier-obligation}. The packet exposes the generator row $G$, constructor-list provenance row $L$, authorized generated-row ledger $A$, continuation-witness ledger $W$, classifier row $Q$, transport row $H$, continuation routes $C$, package provenance $P$, and local certificate row $N$.
 
-Apply the classifier and ledger obligations of \autoref{thm:generatorclosure-classifier-obligation} and \autoref{thm:generatorclosure-ledger-obligation}. The componentwise $\hsame$ hypotheses transport the accepted generated-row classification through the same $Q$ row and keep the accepted ledgers $A$ and $W$ aligned.
+Apply the classifier obligation \autoref{thm:generatorclosure-classifier-obligation} and authorized-row exhaustion \autoref{thm:generator-closure-authorized-row-exhaustion}. Once $L$ is fixed, the accepted generator endpoint and generated rows are read through the same displayed $A$ and $W$ ledgers.
 
-Finally use fixed-point consumer obligation \autoref{thm:generatorclosure-fixedpoint-consumer-obligation} and authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization}. These force every accepted consumer read through $G,L,A,Q,W,H,C,P,N$, so no second constructor-list provenance row can be selected without leaving the displayed surface.
+Finally apply the ledger obligation \autoref{thm:generatorclosure-ledger-obligation}. A route that lacks the displayed constructor-list witness is not an alternate accepted provenance read; it is forced into the $\mathsf{GAP}$ boundary. Therefore equal displayed $L$ rows cannot support two different authorized constructor provenances inside the accepted packet.
 \end{proof}
 \leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_constructor\_provenance\_determinacy}
 
@@ -312,7 +315,7 @@ Apply authorized consumer factorization \autoref{thm:generatorclosure-authorized
 
 Bridge schema consumers use the same public surface. Their bridge-facing read must pass through the accepted generated-row ledger $A$, the classifier row $Q$, the continuation route ledger $C$, package provenance $P$, and the local naming row $N$, so they are not a separate carrier family.
 
-For constructor-provenance consumers, use \autoref{thm:generatorclosure-constructor-provenance-determinacy}. Once the displayed carrier, classifier, continuation, package, and naming rows agree componentwise, the constructor-list provenance row is fixed by $L$.
+For constructor-provenance consumers, use \autoref{thm:generator-closure-constructor-provenance-determinacy}. Once $L$ is fixed, the admitted generator endpoint and the generated rows recorded in $A$ and $W$ are fixed inside the accepted packet.
 
 For $\mathsf{GAP}$-boundary consumers, use \autoref{thm:generatorclosure-gap-boundary-absorbs-unwitnessed-route}. A route lacking the constructor-list witness is absorbed by the displayed boundary and cannot later become an accepted generated-row read or accepted continuation-witness read.
 

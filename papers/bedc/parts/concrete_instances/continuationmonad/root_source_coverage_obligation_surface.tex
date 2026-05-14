@@ -1,0 +1,50 @@
+\begin{theorem}[ContinuationMonad root source coverage]
+\label{thm:continuation-monad-root-source-coverage}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every root consumer must read the displayed source histories $A,B,C$ and the displayed continuation tails $f,g,u$ before any unit or bind law can be consumed. The source coverage is exactly the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of $Z$; it does not pass through host functions, quotient Kleisli arrows, ambient hom sets, or unlisted generators.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-route-source-exposure}. It identifies the source of a root read with $A,B,C,f,g,u,H,K,L,N$ and leaves no coordinate for an external source object.
+
+Next use \autoref{thm:continuation-monad-root-continuation-rule-coverage}. Unit and bind reads are covered only after the displayed histories, tails, route row, transport row, ledger row, and local name have been read.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separation}. This excludes host functions, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted continuation generators from the root source route, so coverage is exactly the displayed packet.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root generator consumer lock]
+\label{thm:continuation-monad-root-generator-consumer-lock}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every generator-facing root consumer is locked to the generator closure surface of \autoref{ch:concrete-instances-generatorclosure-namecert} and to the existing generator-boundary refusal of $Z$. A consumer may read only the displayed source histories, continuation tails, transport rows, route rows, ledger rows, package rows, and local name rows; it may not introduce host functions, quotient Kleisli arrows, ambient hom sets, or continuation generators not listed in the packet.
+\end{theorem}
+\begin{proof}
+Read the generator side through \autoref{thm:continuation-monad-generator-category-triad}. It routes the generator face of $Z$ through \autoref{ch:concrete-instances-generatorclosure-namecert} and the same $A,B,C,f,g,u,H,K,L,N$ packet.
+
+Then apply \autoref{thm:continuation-monad-generator-boundary-refusal}. The refusal row blocks every unit, bind, continuation rule, or route generator that is not already displayed in the accepted packet.
+
+Combine this with \autoref{thm:continuation-monad-downstream-unblock-route-package}. Downstream consumers receive the generator-boundary refusal as part of the finite route package, so no host function, quotient Kleisli arrow, ambient hom set, or unlisted generator can be added at the consumer boundary.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root category generator obligation surface]
+\label{thm:continuation-monad-root-category-generator-obligation-surface}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the root category-generator obligation surface is the shared finite package read through \autoref{ch:concrete-instances-category-namecert}, \autoref{thm:continuation-monad-generator-category-triad}, \autoref{thm:continuation-monad-root-bind-schedule-exhaustion}, and \autoref{thm:continuation-monad-downstream-unblock-route-package}. The surface consists only of the displayed $\BHist$ source rows, $\Cont$ unit and bind tails, componentwise $\hsame$ transports, $\Pkg$ provenance, $\NameCert$ rows, generator-boundary refusal, and $\CategoryUp$ hom-carrier readings.
+\end{theorem}
+\leanvariant{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_associativity\_surface}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-generator-category-triad}. It binds the $\CategoryUp$ hom-carrier surface of \autoref{ch:concrete-instances-category-namecert} and the generator-boundary surface to the same accepted packet $Z$.
+
+Next use \autoref{thm:continuation-monad-root-bind-schedule-exhaustion}. The root unit and bind schedules are exhausted by $u,f,g,H,K,L,N$, so category and generator consumers cannot replace the schedule by host composition or quotient Kleisli arrows.
+
+Finally apply \autoref{thm:continuation-monad-downstream-unblock-route-package}. It packages the triad and schedule exhaustion for downstream use, with no coordinate for ambient hom sets, external category completion, host functions, or unlisted generators.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root NameCert ledger exactness]
+\label{thm:continuation-monad-root-namecert-ledger-exactness}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every root consumer receives exactly the source histories $A,B,C$, continuation tails $f,g,u$, unit and bind rows, generator-boundary refusal, $\CategoryUp$ hom-carrier readings, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows assembled by \autoref{thm:continuation-monad-root-source-coverage}, \autoref{thm:continuation-monad-root-generator-consumer-lock}, and \autoref{thm:continuation-monad-root-category-generator-obligation-surface}. The same root consumer receives no host function, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It fixes the root source route to the displayed histories $A,B,C$, tails $f,g,u$, and the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of $Z$.
+
+Next apply \autoref{thm:continuation-monad-root-generator-consumer-lock}. It adds the generator-boundary refusal to the same accepted packet and blocks host functions, quotient Kleisli arrows, ambient hom sets, and unlisted continuation generators at every generator-facing root consumer.
+
+Then apply \autoref{thm:continuation-monad-root-category-generator-obligation-surface}. It contributes the $\CategoryUp$ hom-carrier readings and confirms that the unit and bind schedules are read through the displayed continuation rows rather than through an external category or quotient Kleisli object.
+
+The carrier coordinates are exhausted by $A,B,C,f,g,u,H,K,L,N$ together with the named source, continuation, generator, category, transport, route, provenance, and local naming readings supplied by these three theorems. No remaining coordinate can export a host function, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator, so the root NameCert ledger is exact.
+\end{proof}

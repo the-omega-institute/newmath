@@ -26,6 +26,8 @@ with the following displayed rows:
 \end{enumerate}
 The carrier classifies completion-seal equivalence only through these displayed rows. It does not identify real names by quotient streams, host equality, selected external limits, countable choice, or an ambient completeness theorem.
 \end{definition}
+\leandef{BEDC.Derived.RealCompletionSealClassifierUp.RealCompletionSealClassifierUp}
+\leanchecked{BEDC.Derived.RealCompletionSealClassifierUp.RealCompletionSealClassifierTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Real completion-seal classifier NameCert obligations]
 \label{thm:real-completion-seal-classifier-obligations}
@@ -67,18 +69,194 @@ Apply the NameCert obligation surface. It requires displayed seal equivalence th
 The componentwise transports in $H$ preserve those rows and do not create a second completion channel. Since the carrier contains no quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness theorem, a read that bypasses both the seal rows and the budget or synchronizer rows has no remaining coordinate from which to export a classifier.
 \end{proof}
 
+\begin{theorem}[Real completion-seal classifier stability]
+\label{thm:real-completion-seal-classifier-stability}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. Componentwise $\hsame$ transport along the rows recorded in $H$ preserves the classifier read on the agreement seal, limit seal, synchronizer, budget, regular handoff, stream-window, dyadic ledger, displayed routes, provenance, and local naming coordinates of $K$. In particular, a transported accepted read still classifies completion-seal equivalence only through those displayed coordinates.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its tuple $K$. The transport row $H$ is a coordinate of the same carrier, so its componentwise $\hsame$ data is read only against the displayed rows $A,L,S,B,R,W,D,C,P,N$.
+
+Use the obligation surface of \autoref{thm:real-completion-seal-classifier-obligations}. Its stability row is exactly the requirement that the classifier surface remains the same classifier after those componentwise transports.
+
+Finally use the non-escape boundary of \autoref{thm:real-completion-seal-classifier-nonescape}. Since no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness theorem is present in $K$, the transported read has no second completion channel.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier seal equivalence]
+\label{thm:real-completion-seal-classifier-seal-equivalence}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. Before any $\RealUp$ consumer receives a seal classifier, completion-seal equivalence is read only through the $\RealTailAgreementSealUp$ row $A$ and the $\CauchyLimitSealUp$ row $L$, together with the displayed route row $C$ that exposes those two rows to the consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier to $K$. The only agreement-facing coordinate is $A$, and the only completion-limit-facing coordinate is $L$.
+
+Invoke the NameCert obligations of \autoref{thm:real-completion-seal-classifier-obligations}. The displayed seal-equivalence row requires the classifier to pass through $A$ and $L$ before the route data in $C$ can authenticate a $\RealUp$ consumer read.
+
+The non-escape theorem then rules out every bypass. A read that does not use $A$ and $L$ has no displayed seal row left in the carrier from which to export a completion-seal classifier.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier budget exactness]
+\label{thm:real-completion-seal-classifier-budget-exactness}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. The synchronizer and budget rows $S,B,W,R,D$ are exact prerequisites for the seal read: the classifier must pass through the synchronizer, finite budget, finite stream window, regular rational handoff, and dyadic tolerance ledger before any completion-seal classifier is exported. This prerequisite surface excludes quotient streams, host real equality, selected external limits, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted read to the carrier tuple. The synchronizer, budget, stream-window, regular handoff, and dyadic rows are precisely $S,B,W,R,D$.
+
+Apply the obligation surface. Its budget and synchronizer exactness row says that these five coordinates are prerequisites for the seal read before the routes, provenance, and local naming rows can authenticate an exported classifier.
+
+Apply the non-escape boundary. If a read bypasses the displayed budget or synchronizer surface, then the carrier has no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness theorem that could replace it.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier tail-radius handoff]
+\label{thm:real-completion-seal-classifier-tail-radius-handoff}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. Any accepted seal read whose budget row opens a tail-radius request must factor through the $\DyadicTailRadiusLedgerUp$ tail-budget coverage of \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage} and then through the $\RegSeqRatUp$--$\RealUp$ handoff of \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff} before any $\RealUp$ consumer receives the classifier. The route is the displayed carrier route through $S,B,W,R,D,H,C,P,N$; it exports no quotient stream, host equality, selected external limit, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted read to the carrier tuple $K$. The rows $S,B,W,R,D$ are the only synchronizer, budget, finite window, regular rational handoff, and dyadic tolerance rows available before $H,C,P,N$ authenticate a consumer-facing classifier.
+
+Use budget exactness from \autoref{thm:real-completion-seal-classifier-budget-exactness}. Once the budget row opens a tail-radius request, the read is already constrained to the displayed route through $S,B,W,R,D$ and cannot reach the exported classifier directly.
+
+Now use the sibling ledger. The tail-budget coverage theorem, \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, places the tail-radius request inside the finite precision, tail-window, StreamName-window, and dyadic readback rows, and \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff} carries that same route through the $\RegSeqRatUp$ and $\RealUp$ handoff rows.
+
+Finally repack the resulting route through $H,C,P,N$. Since neither $K$ nor the dyadic tail-radius ledger contains quotient streams, host equality, selected external limits, countable-choice rows, or ambient completeness theorems, the classifier received by the $\RealUp$ consumer is the ledger-mediated classifier.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier window factorization]
+\label{thm:real-completion-seal-classifier-window-factorization}
+Every exported $\RealCompletionSealClassifierUp$ classifier window factors through the synchronizer row $S$, budget row $B$, finite stream-window row $W$, regular rational handoff row $R$, and dyadic tolerance row $D$ before the exported completion-seal read $E$ is available to a $\RealUp$ consumer. The factorization is read inside the same carrier $K=(A,L,S,B,R,W,D,H,C,P,N)$ and is authenticated only by the displayed route, provenance, and local naming rows $C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $K$. The NameCert obligations of \autoref{thm:real-completion-seal-classifier-obligations} expose $S,B,W,R,D$ as the budget and synchronizer exactness rows for the classifier window.
+
+Use budget exactness from \autoref{thm:real-completion-seal-classifier-budget-exactness}. It forces the exported read to pass through the synchronizer, finite budget, stream window, regular handoff, and dyadic tolerance ledger before $C,P,N$ can authenticate the consumer-facing read.
+
+Finally apply non-escape from \autoref{thm:real-completion-seal-classifier-nonescape}. Since no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness theorem is present, there is no second path from the window to $E$.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier threshold uniqueness]
+\label{thm:real-completion-seal-classifier-threshold-uniqueness}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. Any exported completion-seal threshold read over the displayed rows factors through the same synchronizer row $S$, budget row $B$, StreamName window row $W$, RegSeqRat handoff row $R$, and DyadicRatCore tolerance row $D$ used by the exported classifier window. The route rows $C,P,N$ authenticate that displayed route but cannot introduce a second threshold service for the same seal read.
+\end{theorem}
+\begin{proof}
+Project the accepted read to the carrier tuple $K$. The only threshold-facing support rows available before route authentication are the synchronizer, finite budget, StreamName window, RegSeqRat handoff, and DyadicRatCore tolerance rows $S,B,W,R,D$.
+
+Apply the budget exactness theorem, \autoref{thm:real-completion-seal-classifier-budget-exactness}. It makes those five rows exact prerequisites for the seal read, so a threshold read exported by the packet has to cross the same budget surface as the classifier window.
+
+Apply the window factorization theorem, \autoref{thm:real-completion-seal-classifier-window-factorization}. The exported threshold read is therefore already on the displayed route through $S,B,W,R,D$ before $C,P,N$ can present it to a $\RealUp$ or completion-seal consumer.
+
+Finally use the non-escape boundary of \autoref{thm:real-completion-seal-classifier-nonescape}. Since the carrier contains no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness theorem, the route rows $C,P,N$ have no external source from which to manufacture another threshold service for the same displayed seal read.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier tail-agreement stability]
+\label{thm:real-completion-seal-classifier-tail-agreement-stability}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ and $K'=(A',L',S',B',R',W',D',H',C',P',N')$ be accepted $\RealCompletionSealClassifierUp$ carriers related by the displayed componentwise $\hsame$ transports. Transport preserves the joint seal-equivalence read through $A,L$ and its transported counterpart through $A',L'$ as presented to consumers by $H,C,P,N$ and $H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+Start with componentwise stability, \autoref{thm:real-completion-seal-classifier-stability}. The transport rows record exactly the agreement, limit-seal, synchronizer, budget, window, handoff, dyadic, route, provenance, and local naming coordinates.
+
+Apply seal equivalence from \autoref{thm:real-completion-seal-classifier-seal-equivalence}. The classifier reads completion-seal equivalence only through $A,L$ before the $\RealUp$ consumer sees the exported seal classifier.
+
+The transported read is therefore the same joint $A,L$ seal-equivalence read through the transported support rows. Non-escape from \autoref{thm:real-completion-seal-classifier-nonescape} rules out any quotient-stream or host-equality comparison appearing during transport.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier RealUp non-escape]
+\label{thm:real-completion-seal-classifier-realup-nonescape}
+A $\RealUp$ consumer of an accepted $\RealCompletionSealClassifierUp$ packet cannot read the completion-seal classifier from quotient streams, host equality, selected external limits, countable choice, or ambient completeness. The consumer receives only the displayed seal rows $A,L$, synchronizer and budget rows $S,B,W,R,D$, componentwise transport row $H$, route row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the consumer read to the accepted carrier $K=(A,L,S,B,R,W,D,H,C,P,N)$. The obligation theorem, \autoref{thm:real-completion-seal-classifier-obligations}, lists all rows available to the local $\NameCert$ surface.
+
+Use \autoref{thm:real-completion-seal-classifier-window-factorization} for the exported classifier window and \autoref{thm:real-completion-seal-classifier-tail-agreement-stability} for the transported seal-equivalence read. Together they place the consumer-facing classifier behind the displayed rows $A,L,S,B,W,R,D,H,C,P,N$.
+
+Finally apply \autoref{thm:real-completion-seal-classifier-nonescape}. The carrier contains no quotient-stream coordinate, host equality, selected external limit, countable-choice row, or ambient completeness theorem, so a $\RealUp$ consumer has no route to such data.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier public scope]
+\label{thm:real-completion-seal-classifier-public-scope}
+Every accepted $\RealCompletionSealClassifierUp$ packet exposes one public classifier scope over the finite carrier rows
+$$
+A,L,S,B,R,W,D,H,C,P,N
+$$
+of \autoref{def:real-completion-seal-classifier-carrier}. Any $\RealUp$ or completion-seal consumer must factor through the seal-equivalence theorem, budget exactness, tail-radius handoff, window factorization, tail-agreement stability, and the $\RealUp$ non-escape theorem. No quotient stream, host equality, selected external limit, countable choice, or ambient completeness row is exported.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier tuple of \autoref{def:real-completion-seal-classifier-carrier}. This fixes the only available public rows as $A,L,S,B,R,W,D,H,C,P,N$.
+
+Use the NameCert obligations of \autoref{thm:real-completion-seal-classifier-obligations}. They make seal equivalence through $A,L$, budget and synchronizer exactness through $S,B,W,R,D$, and route authentication through $C,P,N$ the whole classifier interface.
+
+Compose \autoref{thm:real-completion-seal-classifier-tail-radius-handoff}, \autoref{thm:real-completion-seal-classifier-window-factorization}, and \autoref{thm:real-completion-seal-classifier-tail-agreement-stability}. The exported classifier window and the transported agreement read therefore remain on the same finite route through $A,L,S,B,R,W,D,H,C,P,N$.
+
+Finally apply \autoref{thm:real-completion-seal-classifier-realup-nonescape}. It excludes quotient streams, host real equality, selected external limits, countable choice, and ambient completeness from the consumer surface, so the public scope is exactly the displayed finite classifier route.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier public export]
+\label{thm:real-completion-seal-classifier-public-export}
+Every public $\RealCompletionSealClassifierUp$ export to a $\RealUp$ consumer or to a completion-seal consumer factors through the finite route
+$$
+A,L,S,B,W,R,D,H,C,P,N.
+$$
+The exported boundary is exactly the displayed seal-equivalence, budget-exactness, window-factorization, tail-agreement-stability, $\RealUp$ non-escape, and public-scope surface of the accepted carrier. It exports no quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted public packet to the carrier of \autoref{def:real-completion-seal-classifier-carrier}. This fixes the public export route as $A,L,S,B,W,R,D,H,C,P,N$, with the same displayed route, provenance, and local naming surface.
+
+Use seal equivalence from \autoref{thm:real-completion-seal-classifier-seal-equivalence} and budget exactness from \autoref{thm:real-completion-seal-classifier-budget-exactness}. These two rows force any exported classifier to read the agreement seal, completion-limit seal, synchronizer, finite budget, StreamName window, regular handoff, and dyadic tolerance ledger before the consumer sees the classifier.
+
+Then use the tail-radius handoff of \autoref{thm:real-completion-seal-classifier-tail-radius-handoff}. A budget row that opens a tail-radius request must pass through the shared $\DyadicTailRadiusLedgerUp$ coverage and $\RegSeqRatUp$--$\RealUp$ handoff route before the exported classifier reaches the consumer.
+
+Next apply the window factorization of \autoref{thm:real-completion-seal-classifier-window-factorization} and the tail-agreement stability of \autoref{thm:real-completion-seal-classifier-tail-agreement-stability}. They keep the exported window and transported agreement read on the same finite route through $A,L,S,B,W,R,D,H,C,P,N$.
+
+Finally invoke $\RealUp$ non-escape from \autoref{thm:real-completion-seal-classifier-realup-nonescape} and public scope from \autoref{thm:real-completion-seal-classifier-public-scope}. Since quotient streams, host real equality, selected external limits, countable choice, and ambient completeness are absent from the carrier and from the public scope, no downstream export can recover them.
+\end{proof}
+
+\begin{theorem}[Real completion-seal classifier completeness boundary]
+\label{thm:real-completion-seal-classifier-completeness-boundary}
+Every public $\RealCompletionSealClassifierUp$ export to a $\RealUp$ or completion-seal consumer is exactly the finite route
+$$
+A,L,S,B,W,R,D,H,C,P,N.
+$$
+Consequently the export supplies a classifier boundary for a displayed seal read, and cannot be used as a theorem of $\RealUp$ completeness, selected limits, quotient-stream equality, countable choice, or ambient Cauchy convergence.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem, \autoref{thm:real-completion-seal-classifier-public-export}. It states that every downstream $\RealUp$ or completion-seal export factors through the displayed finite route $A,L,S,B,W,R,D,H,C,P,N$.
+
+Apply the $\RealUp$ non-escape theorem, \autoref{thm:real-completion-seal-classifier-realup-nonescape}. The exported consumer surface has no coordinate for quotient streams, host equality, selected external limits, countable choice, or ambient completeness.
+
+Use budget exactness from \autoref{thm:real-completion-seal-classifier-budget-exactness}. The synchronizer, finite budget, StreamName window, regular handoff, and dyadic tolerance ledger remain part of the same displayed route, so the read is a bounded classifier read rather than an ambient convergence principle.
+
+Finally use public scope, \autoref{thm:real-completion-seal-classifier-public-scope}. That theorem exhausts the public consumer interface by the finite rows already displayed, so no consumer can reinterpret the exported classifier boundary as a $\RealUp$ completeness theorem, a selected-limit theorem, quotient-stream equality, countable choice, or ambient Cauchy convergence.
+\end{proof}
+
 \falsifiablePrediction{If a Real completion-seal classifier read bypasses both a displayed seal row and a displayed budget/synchronizer row, the classifier packet is refuted.}
 
 \independenceWitness{realtailagreementseal, cauchylimitseal, cauchysealbudgetsynchronizer, real, regseqrat: no sibling is bijective because the classifier packet has a joint completion-seal classifier row tying agreement, seal, synchronizer, and Real handoff rows; each sibling lacks at least one of these coordinates.}
 
 \closureat{RealCompletionSealClassifierUp}{seedStr}
+\closureat{RealCompletionSealClassifierUp}{obligationStr}[BEDC.Derived.RealCompletionSealClassifierUp.RealCompletionSealClassifierTasteGate\_single\_carrier\_alignment]
+\closureat{RealCompletionSealClassifierUp}{scopedStr}
+\closureat{RealCompletionSealClassifierUp}{publicStr}
+\closureat{RealCompletionSealClassifierUp}{bridgedStr}
+\closureat{RealCompletionSealClassifierUp}{matureStr}[BEDC.Derived.RealCompletionSealClassifierUp.RealCompletionSealClassifierTasteGate\_single\_carrier\_alignment]
+
+\begin{theorem}[Real completion-seal classifier public bridge schema]
+\label{thm:real-completion-seal-classifier-public-bridge-schema}
+Let $K=(A,L,S,B,R,W,D,H,C,P,N)$ be an accepted $\RealCompletionSealClassifierUp$ carrier. The carrier rows $A,L,S,B,R,W,D,H,C,P,N$, the local $\NameCert_{\RealCompletionSealClassifierUp}$ obligations, non-escape, componentwise stability, seal-equivalence, budget-exactness, window factorization, and threshold uniqueness assemble the public bridge schema from $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\CauchySealBudgetSynchronizerUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ to the exported $\RealCompletionSealClassifierUp$ read. The exported bridge surface has no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier of \autoref{def:real-completion-seal-classifier-carrier}. This exposes exactly the rows $A,L,S,B,R,W,D,H,C,P,N$: tail agreement, Cauchy-limit seal, seal-budget synchronizer, finite budget, regular rational handoff, StreamName window, DyadicRatCore tolerance ledger, componentwise transport, displayed route, provenance, and local naming.
+
+Use the local theorem chain. The obligation theorem \autoref{thm:real-completion-seal-classifier-obligations} supplies the $\NameCert$ rows; non-escape and stability are \autoref{thm:real-completion-seal-classifier-nonescape} and \autoref{thm:real-completion-seal-classifier-stability}; seal equivalence, budget exactness, window factorization, and threshold uniqueness are \autoref{thm:real-completion-seal-classifier-seal-equivalence}, \autoref{thm:real-completion-seal-classifier-budget-exactness}, \autoref{thm:real-completion-seal-classifier-window-factorization}, and \autoref{thm:real-completion-seal-classifier-threshold-uniqueness}.
+
+The sibling sources are then read row by row. The rows $A$ and $L$ provide the $\RealTailAgreementSealUp$ and $\CauchyLimitSealUp$ seal inputs, $S$ and $B$ provide the $\CauchySealBudgetSynchronizerUp$ budget input, $R,W,D$ provide the $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ finite-window route, and $H,C,P,N$ authenticate the route to the $\RealUp$ consumer.
+
+Finally apply the public export and completeness-boundary theorems, \autoref{thm:real-completion-seal-classifier-public-export} and \autoref{thm:real-completion-seal-classifier-completeness-boundary}. They show that the exported bridge is the same finite classifier read and that no quotient stream, host equality, selected external limit, countable-choice row, or ambient completeness coordinate is present in the exported surface.
+\end{proof}
 
 \begin{closurestatus}{\RealCompletionSealClassifierUp}
   \constructivestory{A $\RealCompletionSealClassifierUp$ packet is generated from tail-agreement seal rows, Cauchy-limit seal rows, Cauchy seal-budget synchronizer rows, finite budget rows, regular rational handoff rows, StreamName windows, DyadicRatCore ledgers, componentwise transports, displayed routes, provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-completion-seal-classifier-carrier}, \autoref{thm:real-completion-seal-classifier-obligations}, and \autoref{thm:real-completion-seal-classifier-nonescape} bind the carrier, five-row NameCert surface, and non-escape boundary for the finite completion-seal classifier packet.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-completion-seal-classifier-carrier}, \autoref{thm:real-completion-seal-classifier-obligations}, \autoref{thm:real-completion-seal-classifier-nonescape}, \autoref{thm:real-completion-seal-classifier-stability}, \autoref{thm:real-completion-seal-classifier-seal-equivalence}, \autoref{thm:real-completion-seal-classifier-budget-exactness}, \autoref{thm:real-completion-seal-classifier-tail-radius-handoff}, \autoref{thm:real-completion-seal-classifier-window-factorization}, \autoref{thm:real-completion-seal-classifier-threshold-uniqueness}, \autoref{thm:real-completion-seal-classifier-tail-agreement-stability}, \autoref{thm:real-completion-seal-classifier-realup-nonescape}, \autoref{thm:real-completion-seal-classifier-public-scope}, \autoref{thm:real-completion-seal-classifier-public-export}, \autoref{thm:real-completion-seal-classifier-completeness-boundary}, and \autoref{thm:real-completion-seal-classifier-public-bridge-schema} bind the carrier, NameCert obligation surface, non-escape boundary, componentwise stability, seal-equivalence read, budget exactness, tail-radius handoff, window factorization, threshold uniqueness, tail-agreement stability, RealUp non-escape, public classifier scope, public consumer export, completeness boundary, and bridge surface for the finite completion-seal classifier packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealCompletionSealClassifierUp.RealCompletionSealClassifierTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected external limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, classifier stability, seal equivalence, budget and synchronizer exactness, provenance, and local naming for the same finite carrier.}
+  \upgradepath{The paper theory axis is mature for the finite completion-seal classifier surface; Lean verification and bridge checking remain independent obligations.}
 \end{closurestatus}

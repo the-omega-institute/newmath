@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ClosedSubstrateQuadrantUp$}
+\label{ch:concrete-instances-closed-substrate-quadrant-namecert}
+\origin{ai}
+
+The $\ClosedSubstrateQuadrantUp$ packet realizes the two-axis closure-universality map of \autoref{ch:visions-closure-universality-quadrant} as a finite substrate-quadrant $\NameCert$ carrier. It sits beside the Rule 110 substrate certificate of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the cellular substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, and the bounded trace surface of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}. Its public datum is the closed-substrate quadrant tag together with the displayed universality and closure rows; it does not identify those axes with a sibling substrate, trace, or trust row.
+
+\falsifiablePrediction{A substrate-quadrant consumer that changes either the displayed universality row or closure row without changing the quadrant tag is outside the certificate.}
+
+\independenceWitness{cellularautomaton, cellularsubstrate, cellulartrustsubstrate, boundeduniversaltrace: none is bijective because the quadrant packet carries two axis rows and a quadrant tag, while the siblings carry substrate, trust, or trace rows without the full two-axis classifier.}
+
+\begin{definition}[Closed substrate quadrant carrier]
+\label{def:closed-substrate-quadrant-carrier}
+A $\ClosedSubstrateQuadrantUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,U,K,G,W,H,C,P,N)
+$$
+whose rows have the following meanings:
+\begin{enumerate}
+\item $S$ names the substrate being classified, such as a cellular automaton substrate, a cellular substrate carrier, an oracle-facing substrate, or a host-side closed fragment;
+\item $U$ is the displayed universality row $\mathsf{Univ}(S)$, including the finite witness or refusal ledger used by the consumer;
+\item $K$ is the displayed closure row $\mathsf{Closed}(S)$, including the finite observation-channel witness or refusal ledger;
+\item $G$ is the substrate-quadrant tag for the ordered pair $(U,K)$, with cells universal-and-closed, universal-and-open, subuniversal-and-closed, and subuniversal-and-open;
+\item $W$ is the provenance witness tying $S,U,K,G$ to the concrete substrate-map read of \autoref{ch:visions-closure-universality-quadrant};
+\item $H$ records componentwise $\hsame$ transports for the substrate, axis, quadrant, witness, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes that replay the two axis reads and the quadrant-tag read;
+\item $P$ is the $\Pkg$ provenance over $\ClosedSubstrateQuadrantUp$, the cited vision map, the sibling substrate certificates, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedSubstrateQuadrantUp}$ row.
+\end{enumerate}
+The local classifier compares packets only through these nine rows. It has no coordinate for deriving universality from closure, deriving closure from universality, replacing the quadrant tag by a sibling substrate carrier, or importing an ambient semantic judgement about the substrate.
+\end{definition}
+
+\begin{theorem}[Closed substrate quadrant NameCert obligations]
+\label{thm:closed-substrate-quadrant-namecert-obligations}
+For the carrier of \autoref{def:closed-substrate-quadrant-carrier}, the local $\NameCert_{\ClosedSubstrateQuadrantUp}$ surface consists exactly of six finite obligation families:
+\begin{enumerate}
+\item carrier exposure for $Q=(S,U,K,G,W,H,C,P,N)$;
+\item universality-axis accountability through the displayed pair $S,U$;
+\item closure-axis accountability through the displayed pair $S,K$ and witness row $W$;
+\item quadrant-tag accountability through $G$ as a read of the ordered pair $(U,K)$;
+\item stability and replay through componentwise $\hsame$ rows $H$ and $\Cont$ routes $C$;
+\item non-escape through $P,N$, excluding axis collapse, hidden host semantics, quotient substrate equality, oracle import into closed rows, and replacement by a sibling substrate or trace certificate.
+\end{enumerate}
+Thus an accepted $\ClosedSubstrateQuadrantUp$ packet is a finite NameCert packet for the full two-axis classifier, not a renaming of any one substrate, trust, or trace surface.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:closed-substrate-quadrant-carrier}. The packet displays one substrate row, two axis rows, one quadrant tag, one witness row, transports, replay routes, package provenance, and a local naming row.
+
+The axis obligations are separate. The universality row $U$ records the computational-power classifier for $S$, while the closure row $K$ records the observation-channel classifier for $S$ and $W$. The continuation rows can replay both reads, but they do not identify them.
+
+The quadrant obligation is the finite ordered-pair read. The tag $G$ is accepted only as a classifier for $(U,K)$, so changing either row without changing the tag exits the displayed certificate surface.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same rows. Since no listed coordinate supplies host semantic equality, quotient substrate equality, axis derivability, or a sibling-only carrier replacement, the six obligation families exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed substrate quadrant independence certificate]
+\label{thm:closed-substrate-quadrant-independence-certificate}
+In an accepted $\ClosedSubstrateQuadrantUp$ packet, the quadrant tag $G$ is independent of each single axis row taken alone. The substrate row $S$ with only $U$ does not determine closure, $S$ with only $K$ does not determine universality, and the sibling cellularautomaton, cellularsubstrate, cellulartrustsubstrate, and boundeduniversaltrace certificates do not determine the full packet unless they also display both axis rows and the same quadrant tag.
+\end{theorem}
+\begin{proof}
+Project the packet to $S,U,K,G,W$. The rows $U$ and $K$ are separate coordinates, and the carrier contains no map from either coordinate to the other.
+
+The quadrant tag is a read of the ordered pair. A consumer that holds only $S,U$ lacks the closure witness row; a consumer that holds only $S,K$ lacks the universality witness row; and a consumer that holds only a sibling substrate, trust, or trace packet lacks the full pair $(U,K)$ together with $G$.
+
+The witness row $W$ records which displayed substrate-map case is being read, but it is not a bijection to any one sibling. Therefore the accepted packet certifies exactly the finite two-axis classifier and keeps the four substrate quadrants distinct at the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed substrate quadrant consumer boundary]
+\label{thm:closed-substrate-quadrant-consumer-boundary}
+Every public read exported by an accepted $\ClosedSubstrateQuadrantUp$ packet factors through
+$$
+S,U,K,G,W,H,C,P,N .
+$$
+The read may consume the displayed substrate quadrant, but it exports no proof of Rule 110 universality, no oracle computation, no host closure theorem, no quotient substrate equality, no ambient semantic equality, and no derivation between $\mathsf{Univ}(S)$ and $\mathsf{Closed}(S)$.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The public packet has exactly the substrate row, universality row, closure row, quadrant tag, witness row, transport rows, continuation routes, package provenance, and local name.
+
+Apply the obligation theorem to route every NameCert read through the displayed axis rows and quadrant tag. Apply the independence certificate to block replacement by any single axis read or sibling substrate certificate.
+
+The excluded objects all require rows not present in $Q$. A Rule 110 proof, oracle computation, host closure theorem, quotient equality, ambient semantic equality, or axis derivation must be supplied by another certificate; none is exported by the closed substrate quadrant packet.
+\end{proof}
+
+The Lean touchpoint for this carrier is \texttt{BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate}; it supplies $\mathsf{Nontrivial}\ \ClosedSubstrateQuadrantUp$ and $\mathsf{FieldFaithful}\ \ClosedSubstrateQuadrantUp$ instances for the same nine displayed rows.
+
+\closureat{ClosedSubstrateQuadrantUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSubstrateQuadrantUp}
+  \constructivestory{A $\ClosedSubstrateQuadrantUp$ packet is generated from a substrate row, universality-axis row, closure-axis row, quadrant tag, provenance witness, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-substrate-quadrant-carrier}, \autoref{thm:closed-substrate-quadrant-namecert-obligations}, \autoref{thm:closed-substrate-quadrant-independence-certificate}, and \autoref{thm:closed-substrate-quadrant-consumer-boundary} specify the finite two-axis closed-substrate quadrant certificate surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ClosedSubstrateQuadrantUp.ClosedSubstrateQuadrantTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove bridge checking, Rule 110 universality, oracle computation, host closure, quotient substrate equality, ambient semantic equality, or derivability between the axes.}
+  \upgradepath{Theorem-checked closure requires canonical Lean theorems for the obligation surface, axis independence, and consumer boundary over the same carrier.}
+\end{closurestatus}

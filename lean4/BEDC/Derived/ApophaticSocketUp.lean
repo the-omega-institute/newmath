@@ -305,4 +305,81 @@ theorem ApophaticSocketCarrier_consumer_surface [AskSetup] [PackageSetup]
     }
   exact ⟨cert, socketKindUnary, supplyShapeUnary, auditGateUnary, siteUnary, consumerPkg⟩
 
+theorem ApophaticSocketCarrier_gated_supply_route_exhaustion [AskSetup] [PackageSetup]
+    {socketKind supplyShape auditGate site transport replay provenance nameCert visibleUse : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay provenance
+        nameCert bundle pkg ->
+      Cont supplyShape replay visibleUse ->
+        PkgSig bundle visibleUse pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+                provenance nameCert bundle pkg ∧ hsame row visibleUse)
+            (fun row : BHist => hsame row visibleUse ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle visibleUse pkg ∧ hsame row visibleUse ∧
+                Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay)
+            hsame ∧ Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+              Cont supplyShape replay visibleUse := by
+  intro carrier supplyReplay visibleUsePkg
+  have carrierWitness := carrier
+  obtain ⟨_socketKindUnary, supplyShapeUnary, _auditGateUnary, _siteUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _nameCertUnary, _nameCertAuditGate,
+    kindSupplyGate, gateSiteReplay, _replayProvenanceNameCert, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have visibleUseUnary : UnaryHistory visibleUse :=
+    unary_cont_closed supplyShapeUnary replayUnary supplyReplay
+  have sourceVisible :
+      (fun row : BHist =>
+        ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+          provenance nameCert bundle pkg ∧ hsame row visibleUse) visibleUse := by
+    exact And.intro carrierWitness (hsame_refl visibleUse)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg ∧ hsame row visibleUse)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro visibleUse sourceVisible
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowVisible : hsame row visibleUse := sourceRow.right
+        have sameOtherVisible : hsame other visibleUse :=
+          hsame_trans (hsame_symm same) sameRowVisible
+        exact And.intro sourceRow.left sameOtherVisible
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg ∧ hsame row visibleUse)
+        (fun row : BHist => hsame row visibleUse ∧ UnaryHistory row)
+        (fun row : BHist =>
+          PkgSig bundle visibleUse pkg ∧ hsame row visibleUse ∧
+            Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport visibleUseUnary (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact ⟨visibleUsePkg, sourceRow.right, kindSupplyGate, gateSiteReplay⟩
+    }
+  exact ⟨cert, kindSupplyGate, gateSiteReplay, supplyReplay⟩
+
 end BEDC.Derived.ApophaticSocketUp

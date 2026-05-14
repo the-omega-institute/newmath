@@ -1,0 +1,50 @@
+\section{CauchyLimitSeal root L10 sibling route}
+\label{sec:cauchy-limit-seal-root-l10-sibling-route}
+
+\begin{theorem}[CauchyLimitSeal root L10 sibling route]
+\label{thm:cauchy-limit-seal-root-l10-sibling-route}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted route from $L$ to a $\RealUp$ or completion-facing seal consumes, in order, the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the seal boundary of \autoref{ch:concrete-instances-real-namecert}. The route exports no quotient stream, selected host limit, host real equality, hidden tail oracle, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places every Real or completion consumer route over the StreamName finite-window surface before the displayed regular source row, dyadic ledger, completion diagonal, and Real seal row are consumed.
+
+Apply the RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The pulled-back route reads the same $\RegSeqRatUp$ source row $X$, the same $\DyadicRatCoreUp$ ledger $D$, and the same $\RealUp$ seal row $E$ while carrying only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Finally use the common-window transport of \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport to the shared finite window preserves the displayed $X,D,G,E$ route and adds no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness coordinate. Hence the root route is exactly the sibling route through StreamName, RegSeqRat, DyadicRatCore, and RealUp.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal L10 sibling route totality]
+\label{thm:cauchy-limit-seal-l10-sibling-route-totality}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every $\RealUp$ or completion-facing consumer route for $L$ passes through the $\StreamNameUp$ finite-window surface, the $\RegSeqRatUp$ regular readback, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RealUp$ seal row before any local $\NameCert_{\CauchyLimitSealUp}$ read is public. A route missing any one of these four sibling surfaces is outside the accepted L10 sibling route.
+\end{theorem}
+\begin{proof}
+Start with the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places the consumer over the StreamName window before the displayed source and seal rows are read.
+
+Apply the RegSeqRat pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The consumer must use the regular readback row $X$ and the same dyadic ledger $D$ when it reaches the Real-facing seal row $E$.
+
+Finally use the root sibling route theorem \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. It identifies the complete route through StreamName, RegSeqRat, DyadicRatCore, and RealUp, so omitting one sibling surface leaves no accepted L10 route to the local NameCert row.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal stream-RegSeq seal factorization]
+\label{thm:cauchy-limit-seal-stream-regseq-seal-factorization}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every L10 consumer route factors through the displayed $X,D,G,E$ rows together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance carried by $T,P,N$. The factorized route is the same StreamName finite-window, RegSeqRat regular-source, DyadicRatCore ledger, and RealUp seal route used in \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}.
+\end{theorem}
+\begin{proof}
+Use route totality from \autoref{thm:cauchy-limit-seal-l10-sibling-route-totality} to place the consumer on the StreamName, RegSeqRat, DyadicRatCore, and RealUp sibling surface.
+
+The RegSeqRat pullback then identifies the regular source with $X$ and the dyadic ledger with $D$. The finite-window lattice dependency identifies the completion diagonal and Real-facing seal with the displayed $G,E$ rows.
+
+The common-window transport of \autoref{thm:cauchy-limit-seal-common-window-transport} carries this factorization through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Thus the route is a factorization through the displayed carrier rows rather than a fresh analytic route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal no unbudgeted limit]
+\label{thm:cauchy-limit-seal-no-unbudgeted-limit}
+An accepted $\CauchyLimitSealUp$ L10 sibling route exports no quotient stream, selected limit, hidden tail oracle, host real equality, or ambient completeness coordinate. Every limit-facing read is budgeted by the finite-window lattice, the RegSeqRat pullback, and the common-window transport before it reaches the displayed RealUp seal row.
+\end{theorem}
+\begin{proof}
+Apply the factorization theorem \autoref{thm:cauchy-limit-seal-stream-regseq-seal-factorization}. It reduces every L10 consumer route to the displayed $X,D,G,E,T,P,N$ rows and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The finite-window lattice supplies the StreamName budget, the RegSeqRat pullback supplies the regular-source budget, and common-window transport keeps both budgets on the same finite route. These three dependencies account for every limit-facing read before the RealUp seal is public.
+
+Since quotient streams, selected limits, hidden tail oracles, host real equality, and ambient completeness are not coordinates of the factorized route, none can be exported by an accepted L10 sibling route.
+\end{proof}

@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for $\KKTUp$}
 \label{ch:concrete-instances-kkt-namecert}
 
-The $\KKTUp$ interface records the finite certificate surface of Karush--Kuhn--Tucker optimality data for a displayed constrained convex program. Its standard optimization source is Boyd and Vandenberghe, \emph{Convex Optimization} (2004). The BEDC dependencies are $\NameCert_{\ConvexSetUp}$ for the feasible-region row, $\NameCert_{\LPDualityUp}$ for primal-dual comparison rows, $\NameCert_{\MatrixUp}$ and $\NameCert_{\VecSpaceUp}$ for stationarity and residual rows, and $\NameCert_{\RealUp}$ for scalar slack and objective rows.
+The $\KKTUp$ interface records the finite certificate surface of Karush--Kuhn--Tucker optimality data for a displayed constrained convex program. Its standard optimization source is Boyd and Vandenberghe, \emph{Convex Optimization} (2004). The BEDC dependencies are $\NameCert_{\ConvexSetUp}$ for the feasible-region row, $\NameCert_{\LPDualityUp}$ for primal-dual comparison rows, $\NameCert_{\MatrixUp}$ and $\NameCert_{\VecSpaceUp}$ for stationarity and residual rows, and $\NameCert_{\RealUp}$ for scalar slack and objective rows. It consumes the feasible-region carrier of \autoref{ch:concrete-instances-convexset-namecert} and the primal-dual comparison ledger of \autoref{ch:concrete-instances-lpduality-namecert} before packaging stationarity, feasibility, and complementary-slackness rows.
 
 \section{Carrier definition}
 \label{sec:kkt-carrier}
@@ -203,4 +203,52 @@ The forward standard read is now forced: it forgets no row and adds no row, but 
 For the reverse read, start from the public export just obtained. \autoref{thm:kkt-public-finite-packet-export} says that the export contains only the listed finite rows of \autoref{def:kkt-bhist-carrier}. Reinsert those rows into the table positions of \autoref{def:kkt-standard-finite-packet-presentation}. The stationarity and feasibility entries are stable under the componentwise comparisons by \autoref{thm:kkt-stationarity-feasibility-hsame-transport}, and the slackness entry is fixed at the ledger boundary by \autoref{thm:kkt-complementarity-ledger-exactness}. Hence the returned table is the same displayed finite KKT presentation, with equality understood through the $\hsame$ rows already carried by $S$.
 
 The two composites therefore preserve every visible row of the presentation: primal, multiplier, residual, stationarity, feasibility, complementary slackness, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the named dependency rows. Finally, \autoref{thm:kkt-downstream-consumer-boundary} rules out every downstream read not present in that finite carrier. Since there is no carrier coordinate for Slater data, differentiability, solver evidence, analytic duality, nonlinear optimization, host minimization, or host real-valued optimizer semantics, the bridge is conservative at exactly the finite packet boundary.
+\end{proof}
+
+\begin{theorem}[KKTUp finite slackness optimality extraction]
+\label{thm:kkt-finite-slackness-optimality-extraction}
+Let $K$ be an accepted $\KKTUp$ packet. Suppose the displayed primal variable row, dual multiplier row, feasibility rows, and complementary-slackness ledger of $K$ instantiate a finite $\LPDualityUp$ ordered-field row as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Write the displayed primal and dual witnesses as $x:J\to F$ and $y:I\to F$. Suppose the projected feasibility rows give
+$$
+\mathsf{PrFeas}_{A,b}(x)\land\mathsf{DuFeas}_{A,b,c}(y),
+$$
+and suppose the projected slackness ledger gives the two finite product families
+$$
+\forall j\in J.\; c_j\cdot_Fx_j\sim_F\beta_j(y)\cdot_Fx_j,
+\qquad
+\forall i\in I.\; y_i\cdot_F\alpha_i(x)\sim_Fy_i\cdot_Fb_i.
+$$
+Then the $\KKTUp$ packet exports the $\LPDualityUp$ weak-duality slackness optimality packet for the displayed rows. In particular,
+$$
+\mathsf{PrObj}_{A,c}(x)\sim_F\mathsf{DuObj}_{b}(y),
+$$
+$$
+\forall x'.\;\mathsf{PrFeas}_{A,b}(x')
+\Longrightarrow
+\mathsf{PrObj}_{A,c}(x')\preceq_F\mathsf{PrObj}_{A,c}(x),
+$$
+and
+$$
+\forall y'.\;\mathsf{DuFeas}_{A,b,c}(y')
+\Longrightarrow
+\mathsf{DuObj}_{b}(y)\preceq_F\mathsf{DuObj}_{b}(y').
+$$
+With $\tau:=\mathsf{PrObj}_{A,c}(x)$, every further feasible optimal primal witness and feasible optimal dual witness whose objective endpoints are classifier-equal to $\tau$ also enters the common objective-fiber sandwich supplied by \autoref{thm:lpduality-weak-duality-slackness-optimality-packet}. The extraction uses only the finite carrier rows of $K$ and adds no Slater condition, differentiability oracle, analytic strong-duality theorem, nonlinear optimizer, host minimization predicate, or solver certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $K$ through \autoref{def:kkt-bhist-carrier}. By \autoref{thm:kkt-primal-dual-row-obligations}, the primal row, dual multiplier row, residual row, stationarity row, feasibility rows, comparison rows, continuation rows, package rows, and naming provenance are all visible finite rows. By hypothesis, the primal row and dual multiplier row are read through the same finite $\LPDualityUp$ ordered-field surface of \autoref{def:lpduality-finite-ordered-field-feasibility-row}; hence they determine the displayed witnesses $x:J\to F$ and $y:I\to F$ together with the projected feasibility statement
+$$
+\mathsf{PrFeas}_{A,b}(x)\land\mathsf{DuFeas}_{A,b,c}(y).
+$$
+
+Apply \autoref{thm:kkt-complementarity-ledger-exactness} to the slackness coordinate of $K$. The ledger is exhausted by the displayed residual, multiplier, scalar slack, $\hsame$, $\Cont$, and $\Pkg$ rows. Under the stated $\LPDualityUp$ instantiation, those displayed ledger rows are precisely the two product-family equalities
+$$
+\forall j\in J.\; c_j\cdot_Fx_j\sim_F\beta_j(y)\cdot_Fx_j,
+\qquad
+\forall i\in I.\; y_i\cdot_F\alpha_i(x)\sim_Fy_i\cdot_Fb_i.
+$$
+The stationarity row remains part of the accepted $\KKTUp$ provenance, but the present extraction does not use it to introduce any analytic optimality semantics.
+
+The hypotheses are exactly the inputs of \autoref{thm:lpduality-weak-duality-slackness-optimality-packet}. Applying that theorem to the projected $\LPDualityUp$ row gives the scalar objective equality, the primal optimality clause for $x$, the dual optimality clause for $y$, and the common objective-fiber sandwich at $\tau:=\mathsf{PrObj}_{A,c}(x)$ for any further feasible optimal witnesses whose objective endpoints lie in that scalar fiber.
+
+It remains only to identify the consumer boundary. By \autoref{thm:kkt-public-finite-packet-export}, the public $\KKTUp$ export consists exactly of the finite primal, multiplier, residual, stationarity, feasibility, complementary-slackness, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and their dependency reads through $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$. By \autoref{thm:kkt-downstream-consumer-boundary}, a downstream consumer cannot read any solver certificate, host minimization predicate, Slater witness, differentiability oracle, or full nonlinear optimization semantics from that packet. Therefore the optimality packet just obtained is a conservative finite-row export through the displayed $\LPDualityUp$ slackness theorem and no stronger optimization principle is introduced.
 \end{proof}

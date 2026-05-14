@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CookCompileFrontierWitnessUp$}
+\label{ch:concrete-instances-cookcompilefrontierwitness-namecert}
+\origin{ai}
+
+The $\CookCompileFrontierWitnessUp$ surface realizes the engineering coordinate of \autoref{ch:visions-cook-compile-frontier-engineering-path} as a finite NameCert packet. It sits beside the cellular row certificate of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the closed cellular trust packet of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the executable certificate edge of \autoref{ch:concrete-instances-certificatecompiler-namecert}, the kernel-morphism graph surface of \autoref{ch:concrete-instances-kernelmorphism-namecert}, and the bounded trace packet of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}. Those siblings certify local orbit, trust, compiler, morphism, and trace rows; this packet certifies the finite three-stage compile frontier together with the audit row that witnesses the coordinate.
+
+\falsifiablePrediction{A claimed frontier witness whose round-trip audit row omits one of the three compile stages is outside the certificate.}
+
+\independenceWitness{cellularautomaton, cellulartrustsubstrate, certificatecompiler, kernelmorphism, boundeduniversaltrace: none is bijective to $\CookCompileFrontierWitnessUp$ because the witness carries a stage-coordinate row and a round-trip audit row whose obligations bind all three compile stages at once. CellularAutomaton and CellularTrustSubstrate expose cellular rows, CertificateCompiler and KernelMorphism expose certificate and graph edges, and BoundedUniversalTrace exposes bounded trace replay; none alone binds the Cook frontier coordinate to the three-stage audit surface.}
+
+\begin{definition}[Cook compile-frontier witness carrier]
+\label{def:cook-compile-frontier-witness-carrier}
+A $\CookCompileFrontierWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,Q,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the compile-stage ledger with exactly the TM-to-tag, tag-to-cyclic, and cyclic-to-Rule~110 stage rows, in that order;
+\item $Q$ is the frontier-coordinate row recording the displayed source size, production count, tape-symbol count, and Rule~110 step budget read from the engineering coordinate;
+\item $A$ is the round-trip audit row, exposing the source endpoint, the three stage outputs, the Rule~110 observation window, and the decoded endpoint;
+\item $O$ is the obstruction row naming only finite memory-scale, encoding-constant, and verification-cost boundaries attached to the displayed coordinate;
+\item $H$ records componentwise $\hsame$ transports for $S,Q,A,O,P,N$;
+\item $C$ records displayed $\Cont$ routes through the three compile stages, the audit row, and the coordinate classifier;
+\item $P$ is the $\Pkg$ provenance over $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\CertificateCompilerUp$, $\KernelMorphismUp$, $\BoundedUniversalTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CookCompileFrontierWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden compiler, an omitted stage, a host evaluator, an unbounded Rule~110 orbit, quotient equality of traces, or a detached universality oracle.
+\end{definition}
+
+\begin{theorem}[Cook compile-frontier witness obligation surface]
+\label{thm:cook-compile-frontier-witness-obligation-surface}
+For the carrier of \autoref{def:cook-compile-frontier-witness-carrier}, the local $\NameCert_{\CookCompileFrontierWitnessUp}$ surface consists exactly of carrier exposure for $W=(S,Q,A,O,H,C,P,N)$, compile-stage exposure through $S$, coordinate accountability through $Q$, round-trip audit replay through $A$, finite obstruction locality through $O$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. No consumer can cite a Cook compile-frontier witness without exposing the three compile stages and the audit row that binds the coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cook-compile-frontier-witness-carrier}. The only stage-facing data are the three ordered rows in $S$, and the only coordinate-facing data are $Q$ and the audit row $A$.
+
+The audit obligation is finite. The row $A$ records the source endpoint, each stage output, the Rule~110 observation window, and the decoded endpoint, so a claimed witness cannot replace an exposed stage by an external compiler or evaluator.
+
+The remaining obligations are the transport, route, provenance, and name rows. The rows $H,C,P,N$ preserve and replay only the displayed packet over the named sibling certificates, so no hidden stage, unbounded orbit, quotient trace, or detached oracle remains available to a public consumer.
+\end{proof}
+
+\begin{theorem}[Cook compile-frontier stage-boundary non-escape]
+\label{thm:cook-compile-frontier-stage-boundary-nonescape}
+Every accepted $\CookCompileFrontierWitnessUp$ read that claims a frontier coordinate must factor through the ordered stage boundary
+$$
+\mathsf{TM}\text{-}\mathsf{to}\text{-}\mathsf{tag},\quad
+\mathsf{tag}\text{-}\mathsf{to}\text{-}\mathsf{cyclic},\quad
+\mathsf{cyclic}\text{-}\mathsf{to}\text{-}\mathsf{Rule110}
+$$
+inside $S$, then through the round-trip audit row $A$, and then through $H,C,P,N$. It cannot omit a stage, reorder the stage boundary, import a host compiler, appeal to an unbounded orbit, or identify two traces by quotient equality.
+\end{theorem}
+\begin{proof}
+Use the carrier exposure of \autoref{def:cook-compile-frontier-witness-carrier}. The stage ledger $S$ is ordered and finite, with exactly the three compile-stage rows named in the statement.
+
+Apply the obligation surface of \autoref{thm:cook-compile-frontier-witness-obligation-surface}. A frontier-coordinate read reaches the local $\NameCert$ row only after the coordinate row and the round-trip audit row have been displayed, so the route cannot bypass an intermediate compiler stage.
+
+Finally inspect the excluded coordinates. The packet contains no hidden compiler, unbounded orbit, host evaluator, or quotient trace equality; its public route is the displayed finite path through $S,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cook compile-frontier coordinate classifier stability]
+\label{thm:cook-compile-frontier-coordinate-classifier-stability}
+If two accepted $\CookCompileFrontierWitnessUp$ carriers are compared by the local classifier, then their exposed frontier-coordinate rows are stable only when the same stage ledger, audit row, obstruction row, componentwise $\hsame$ transports, continuation routes, provenance row, and local naming row are preserved. In particular, classifier agreement cannot be obtained by changing the compile-stage order, by dropping the audit row, or by replacing the displayed coordinate with a host-side scale claim.
+\end{theorem}
+\begin{proof}
+Read classifier comparison through the carrier rows of \autoref{def:cook-compile-frontier-witness-carrier}. The coordinate row $Q$ is not detached data; it is read together with the stage ledger $S$, audit row $A$, and obstruction row $O$.
+
+The obligation surface of \autoref{thm:cook-compile-frontier-witness-obligation-surface} forces transport and route preservation through $H$ and $C$. Thus any accepted comparison must preserve the displayed stage order and the audit replay that justifies the coordinate.
+
+Package and naming rows close the comparison. Since $P$ names the sibling certificates and $N$ names the local packet, a host-side scale claim or altered stage boundary cannot be classified as the same frontier witness.
+\end{proof}
+
+The Lean file \texttt{Derived/CookCompileFrontierWitnessUp/TasteGate.lean} must supply $\mathsf{Nontrivial}\ \CookCompileFrontierWitnessUp$ and $\mathsf{FieldFaithful}\ \CookCompileFrontierWitnessUp$ instances for the displayed carrier.
+
+\closureat{CookCompileFrontierWitnessUp}{seedStr}
+
+\begin{closurestatus}{\CookCompileFrontierWitnessUp}
+  \constructivestory{A $\CookCompileFrontierWitnessUp$ packet is generated from an ordered three-stage compile ledger, frontier-coordinate row, round-trip audit row, finite obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cook-compile-frontier-witness-carrier}, \autoref{thm:cook-compile-frontier-witness-obligation-surface}, \autoref{thm:cook-compile-frontier-stage-boundary-nonescape}, and \autoref{thm:cook-compile-frontier-coordinate-classifier-stability} bind the carrier and obligation surface for the finite compile-frontier witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, hidden compiler correctness, unbounded Rule 110 orbit claims, quotient trace equality, or detached universality oracles.}
+  \upgradepath{Obligation closure requires the displayed stage, coordinate, audit, obstruction, transport, route, provenance, NameCert, Nontrivial, and FieldFaithful rows for the same carrier.}
+\end{closurestatus}

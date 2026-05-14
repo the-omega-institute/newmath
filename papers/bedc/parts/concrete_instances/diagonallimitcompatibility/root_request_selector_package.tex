@@ -1,0 +1,61 @@
+\begin{theorem}[Diagonal-limit compatibility root-request coverage]
+\label{thm:diagonal-limit-compatibility-root-request-coverage}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every root request served by $K$ reads the RealCompleteness packet row, the regular-Cauchy triangle-bound row, the $\DyadicRatCoreUp$ ledger row, the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal row through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route. No root request receives a hidden completeness witness, host real equality, quotient stream, selected limit, or second dyadic ledger outside those rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:diagonal-limit-compatibility-carrier}. The packet coordinates display the diagonal source, transport row, selector row, dyadic ledger, StreamName window, RegSeqRat readback, Real seal, componentwise transport, continuation route, package provenance, and local name.
+
+Apply \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. The local certificate surface forces any accepted root request to read carrier admission, route replay, provenance, and local naming through the same rows.
+
+Now use \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These isolate the RealCompleteness packet, triangle-bound row, dyadic ledger, StreamName window, RegSeqRat readback, and Real seal as one displayed route before the root request reaches a consumer.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}. Since the carrier contains no hidden completeness witness, host equality, quotient stream, selected limit, or alternate ledger coordinate, none can be exported by the root request.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootRequestCoverage}
+
+\begin{theorem}[Diagonal-limit compatibility root-selector lock]
+\label{thm:diagonal-limit-compatibility-root-selector-lock}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, a selector read on the root-request route cannot choose a second StreamName window or dyadic ledger outside the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ path. The selector is locked to the route that reads $D$, then $W$, then $Q$, then $L$, with $H,C,P,N$ providing only transport, replay, provenance, and naming for that route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:diagonal-limit-compatibility-carrier}. There is one dyadic ledger coordinate $D$ and one StreamName window coordinate $W$ available to the selector row.
+
+Use \autoref{thm:diagonal-limit-compatibility-root-request-coverage} to place every root request on the same RealCompleteness, triangle-bound, dyadic, window, readback, and seal route. The selector therefore reads the displayed $D,W,Q,L$ sequence before any downstream completion-facing consumer sees the packet.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion} and \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}. These theorems exhaust selector-budget reads by the listed carrier coordinates and rule out an unlisted budget source or hidden selector input.
+
+The transport and provenance rows $H,C,P,N$ do not introduce another window or ledger; they only replay and name the displayed route. Thus the root selector is locked to the finite path already present in the carrier.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root-seal package]
+\label{thm:diagonal-limit-compatibility-root-seal-package}
+The root-request rows of an accepted $\DiagonalLimitCompatibilityUp$ packet repack as the downstream $\CauchyLimitSealUp/\RealUp$ consumer package
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+The package exposes the RealCompleteness packet, triangle-bound row, dyadic ledger, StreamName window, RegSeqRat readback, Real seal, and the displayed route/name rows, and it exposes no separate completeness principle, quotient stream, host real equality, selected limit, or hidden selector route.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:diagonal-limit-compatibility-root-request-coverage} with \autoref{thm:diagonal-limit-compatibility-root-selector-lock}. They fix the root-request route and prevent a second selector window or dyadic ledger from entering the package.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. The same displayed rows already form the route-budget package consumed by downstream completion and seal surfaces.
+
+Use \autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock} and \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. The RegSeqRat readback and Real seal are consumed only through $D,W,Q,L,H,C,P,N$, so a $\CauchyLimitSealUp/\RealUp$ consumer receives the repacked finite route rather than a second source.
+
+The exclusion clause follows by coordinate exhaustion from the carrier and the cited non-escape theorems. Nothing in $R,T,S,D,W,Q,L,H,C,P,N$ can project a separate completeness principle, quotient stream, host real equality, selected limit, or hidden selector route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root request-selector exhaustion]
+\label{thm:diagonal-limit-compatibility-root-request-selector-exhaustion}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, every $\RealUp$- or completion-facing consumer of the root-request row must pass through the root-request coverage row, the selector lock row, and the root-seal package row before reading any seal-budget endpoint or selected-tail endpoint. The route exports only displayed $\BHist$ request rows, selector-budget rows, $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and $\NameCert$ rows, and it exports no selected real, quotient stream equality, host limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-root-request-coverage}. It exposes the root request through the RealCompleteness packet, triangle-bound row, dyadic ledger, StreamName window, RegSeqRat readback, Real seal, and displayed structural rows.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-selector-lock}. The selector is forced to use the same displayed $D,W,Q,L$ path, so no second window, dyadic ledger, selected-tail source, or hidden selector input can be inserted before a consumer reads the route.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-seal-package}. The seal-facing package repacks exactly the exposed request and selector rows for downstream $\CauchyLimitSealUp/\RealUp$ use.
+
+The exclusion clause is coordinate exhaustion. The accepted packet contains request rows, selector-budget rows, transports, continuation replays, provenance, and local naming rows, but it contains no selected real, quotient stream equality, host limit, or ambient completeness principle to export.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootRequestSelectorExhaustion}

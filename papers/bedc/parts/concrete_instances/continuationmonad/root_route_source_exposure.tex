@@ -1,0 +1,37 @@
+\begin{theorem}[ContinuationMonad root route source exposure]
+\label{thm:continuation-monad-root-route-source-exposure}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the root route exposes its source only through the displayed histories $A,B,C$, the continuation tails $f,g$, the unit tail $u$, the transport row $H$, the route row $K$, the ledger row $L$, and the local name row $N$. Any downstream root consumer reads the source through these history, tail, and unit rows before it can read the generator-boundary or $\CategoryUp$ hom surfaces.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_route\_source\_exposure}
+\begin{proof}
+Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It displays exactly $A,B,C,f,g,u,H,K,L,N$ as the accepted source packet and leaves no coordinate for an external source object.
+
+Apply the root route packages already present in \autoref{thm:continuation-monad-downstream-unblock-route-package} and \autoref{thm:continuation-monad-root-downstream-readback-package}. They route downstream reads through the same packet before the consumer reaches the generator-boundary refusal or the $\CategoryUp$ hom-carrier surface.
+
+Finally use \autoref{thm:continuation-monad-category-hom-row-exposure} and \autoref{thm:continuation-monad-generator-boundary-refusal}. These theorems read category and generator data from the exposed rows rather than from an independent host source, so the root route source is precisely the displayed history, tail, unit, transport, route, ledger, and local-name surface.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root continuation rule coverage]
+\label{thm:continuation-monad-root-continuation-rule-coverage}
+Let $Z=(A,B,C,f,g,u,H,K,L,N)$ be an accepted $\ContinuationMonadUp$ packet. Every root unit read and every root bind read of $Z$ is covered by the rows $K,H,L,N$ together with the displayed tails $u,f,g$ and histories $A,B,C$. The unit laws, associativity read, route provenance, componentwise transport, ledger accounting, and local naming all remain inside this finite row package.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_continuation\_rule\_coverage}
+\begin{proof}
+Use \autoref{thm:continuation-monad-unit-laws} for unit reads and \autoref{thm:continuation-monad-associativity} for bind reads. Both theorems state their laws as ledger reads over the displayed unit and continuation tails.
+
+Next apply \autoref{thm:continuation-monad-triad-unit-route-package} and \autoref{thm:continuation-monad-root-bind-schedule-exhaustion}. They identify the route row $K$, transport row $H$, ledger row $L$, and local name row $N$ as the finite coverage data for the public unit and bind schedules.
+
+The root downstream packages then provide the handoff to consumers. Since \autoref{thm:continuation-monad-root-downstream-readback-package} and \autoref{thm:continuation-monad-downstream-unblock-route-package} expose no rule outside $A,B,C,f,g,u,H,K,L,N$, every unit or bind read is covered by the named rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root downstream consumer separation]
+\label{thm:continuation-monad-root-downstream-consumer-separation}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, downstream root consumers are separated from host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted continuation generators. Their only available reads are the displayed source rows, unit and bind route rows, the generator-boundary refusal, and the $\CategoryUp$ hom-carrier exposure of the same packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-generator-boundary-refusal}. It refuses every unit row, bind row, continuation rule, or route generator not displayed in the accepted packet.
+
+Read the category side through \autoref{thm:continuation-monad-category-hom-row-exposure}. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows are exposed only as readings of $f,g,u$ over $A,B,C,H,K,L,N$.
+
+Finally combine the two root-unblock child packages, \autoref{thm:continuation-monad-downstream-unblock-route-package} and \autoref{thm:continuation-monad-root-downstream-readback-package}. They identify the downstream surface with the finite root route package, so host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators have no consumer-visible coordinate.
+\end{proof}

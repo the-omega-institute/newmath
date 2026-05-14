@@ -4,6 +4,8 @@
 
 The $\InductionClosureLedgerUp$ surface realizes generator-internal induction as a finite naming certificate. It records the authorized generator rows, the generator-closure classifier rows, the $\Gap$ residue left at every attempted free-floating induction claim, and the transport, continuation, provenance, and naming rows that make the ledger auditable.
 
+The ledger consumes the authorized-generator row from \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} and the generator-closure classifier row from \autoref{ch:concrete-instances-generatorclosure-namecert} before the $\Gap$ residue row is exported. Requests that fail to stay inside those displayed generator closures are recorded as $\Gap$ residue rather than as free-standing induction authority.
+
 \begin{definition}[InductionClosureLedger carrier]
 \label{def:induction-closure-ledger-carrier}
 An $\InductionClosureLedgerUp$ carrier is a finite $\BHist$ packet
@@ -62,6 +64,22 @@ Inspect the classifier row $K$. If the request is not accepted by the displayed 
 Transport of residue through $T$ preserves the residue as residue. Replay through $C$ can expose the refusal and package it through $P$, while $N$ names the same boundary.
 
 No conversion row is present in the carrier. Therefore a recorded $\Gap$ residue cannot escape into an internal induction theorem or a free-floating closure principle.
+\end{proof}
+
+\begin{theorem}[InductionClosureLedger transcendental-input sibling link]
+\label{thm:induction-closure-ledger-transcendental-input-sibling-link}
+Every free-floating induction request rejected into the residue row $R$ of an accepted $\InductionClosureLedgerUp$ packet is classified as a supply-socket kind by the taxonomy surface of \autoref{ch:concrete-instances-transcendentalsupplytaxonomy-namecert} before it can be cited downstream. The sibling classifier records why the residue remains outside substrate closure rather than becoming a free-standing induction authority.
+\end{theorem}
+\begin{proof}
+Project the ledger carrier $L=(G,K,R,T,C,P,N)$ from \autoref{def:induction-closure-ledger-carrier}. The generator row $G$ and classifier row $K$ decide whether the requested induction step stays inside an authorized generator closure.
+
+Apply generator authority from \autoref{thm:induction-closure-ledger-generator-authority}. Any accepted induction route must be licensed by the displayed generator and closure classifier rows.
+
+For a rejected request, apply GAP non-escape from \autoref{thm:induction-closure-ledger-gap-nonescape}. The request is retained only as residue in $R$ and cannot be converted into an internal induction theorem.
+
+Now cite the sibling taxonomy carrier and boundary exhaustion of \autoref{ch:concrete-instances-transcendentalsupplytaxonomy-namecert}. The free-floating induction socket is one of the displayed supply-socket kinds, and the taxonomy surface records the requested supply shape, $\Gap$ tag, audit gate, site row, transport, continuation, provenance, and local name before any downstream citation.
+
+Thus the ledger residue is downstream-readable only after the sibling classifier has recorded why the induction request remains outside substrate closure.
 \end{proof}
 
 \begin{theorem}[InductionClosureLedger NameCert export]

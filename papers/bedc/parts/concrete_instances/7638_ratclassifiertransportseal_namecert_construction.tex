@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RatClassifierTransportSealUp$}
+\label{ch:concrete-instances-rat-classifier-transport-seal-namecert}
+\origin{ai}
+
+The $\RatClassifierTransportSealUp$ packet realizes the transported stationary rational diagonal row of \autoref{ch:visions-real-completeness} as one finite NameCert handoff. It consumes the RatUp source classifier of \autoref{ch:concrete-instances-rat-namecert}, the constant StreamName classifier surface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat finite-window seal of \autoref{ch:concrete-instances-regseqrat-namecert}, the DyadicRatCore observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the RealUp classifier handoff of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[RatClassifierTransportSeal carrier]
+\label{def:rat-classifier-transport-seal-carrier}
+A $\RatClassifierTransportSealUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,W,D,A,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the RatUp source-classifier row carrying the accepted stationary rational comparison;
+\item $S$ is the constant $\StreamNameUp$ classifier row induced by the same rational comparison;
+\item $W$ is the $\RegSeqRatUp$ finite-window seal row consuming the constant stream windows;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger for the same finite windows;
+\item $A$ is the $\RealUp$ classifier handoff row reached only after $Q,S,W,D$ are replayed;
+\item $H$ records componentwise $\hsame$ transports for $Q,S,W,D,A$, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes from the RatUp row through the StreamName, RegSeqRat, DyadicRatCore, and RealUp readings;
+\item $P$ is the $\Pkg$ provenance over RatUp, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RatClassifierTransportSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an independent RealUp equality, quotient stream, selected limit, host rational equality, or ambient completeness principle.
+\end{definition}
+\leandef{BEDC.Derived.RatClassifierTransportSealUp.RatClassifierTransportSealUp}
+
+\begin{theorem}[RatClassifierTransportSeal NameCert obligations]
+\label{thm:rat-classifier-transport-seal-namecert-obligations}
+For every accepted $\RatClassifierTransportSealUp$ carrier $R=(Q,S,W,D,A,H,C,P,N)$, the local $\NameCert_{\RatClassifierTransportSealUp}$ surface consists exactly of carrier admission, RatUp source-classifier exposure through $Q$, constant StreamName classifier exposure through $S$, RegSeqRat finite-window seal exposure through $W$, DyadicRatCore ledger exposure through $D$, RealUp classifier handoff through $A$, componentwise $\hsame$ transport through $H$, displayed route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:rat-classifier-transport-seal-carrier}. Each obligation row is one coordinate of $R$, so the local NameCert read can inspect only $Q,S,W,D,A,H,C,P,N$.
+
+Read the rows in transport order. The RatUp classifier $Q$ induces the constant StreamName row $S$, the RegSeqRat seal $W$ consumes the displayed finite windows, the DyadicRatCore ledger $D$ records the observed dyadic readings, and the RealUp handoff $A$ is exposed only after those rows have been replayed through $H,C,P,N$.
+
+No further obligation can appear because the carrier contains no independent equality, quotient, selected limit, host rational, or ambient completeness coordinate. Thus the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RatClassifierTransportSeal window exhaustion]
+\label{thm:rat-classifier-transport-seal-window-exhaustion}
+Every public finite-window read of an accepted $\RatClassifierTransportSealUp$ packet factors through the RatUp seed classifier row $Q$ before any $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ classifier row is read. Once $Q$ is fixed, the public route is exhausted by $S,W,D,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the route row $C$ and the componentwise transport row $H$. They display a single ordered path from the rational classifier through constant StreamName windows, RegSeqRat finite-window sealing, DyadicRatCore ledger reads, and the RealUp handoff.
+
+If a consumer attempts to read $S$, $W$, $D$, or $A$ first, it asks for a coordinate whose route is defined only as a replay from $Q$. The package provenance $P$ and the local naming row $N$ record that dependency for the same accepted packet.
+
+Therefore every public window read begins at $Q$ and is exhausted by the remaining displayed rows. The packet exports no route to a separate stream, dyadic ledger, real classifier, or completion principle outside $R$.
+\end{proof}
+
+\falsifiablePrediction{Every public finite-window read of an accepted RatClassifierTransportSealUp packet factors through the RatUp seed classifier before any StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, or RealUp classifier row is read.}
+
+\independenceWitness{rat, streamname, regseqrat, dyadicratcore, real: RatUp lacks finite-window and Real seal rows; StreamNameUp lacks the rational seed classifier; RegSeqRatUp lacks the RatUp source row; DyadicRatCoreUp lacks the Real classifier handoff; RealUp lacks the four-reading transport ledger, so no bijection preserves the full carrier.}
+
+The Lean file \texttt{Derived/RatClassifierTransportSealUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \RatClassifierTransportSealUp$ and $\mathsf{FieldFaithful}\ \RatClassifierTransportSealUp$ instances for the displayed carrier $Q,S,W,D,A,H,C,P,N$.
+
+\closureat{RatClassifierTransportSealUp}{seedStr}
+
+\begin{closurestatus}{\RatClassifierTransportSealUp}
+  \constructivestory{A $\RatClassifierTransportSealUp$ packet is generated from a RatUp source classifier, constant StreamName classifier, RegSeqRat finite-window seal, DyadicRatCore observation ledger, RealUp classifier handoff, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rat-classifier-transport-seal-carrier}, \autoref{thm:rat-classifier-transport-seal-namecert-obligations}, and \autoref{thm:rat-classifier-transport-seal-window-exhaustion} bind the finite transported stationary rational classifier seal across RatUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, host rational equality, ambient metric completion, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, RatUp source factorization, finite-window seal exhaustion, RealUp handoff non-escape, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

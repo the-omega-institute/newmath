@@ -282,16 +282,18 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
         raw = output_file.read_text(encoding="utf-8", errors="replace")
     if not raw:
         raw = stdout
+    if not raw and rc != 0:
+        raw = stderr
     return (rc == 0, raw, rc)
 
 
-def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
+def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str, str]:
     ok, stdout, rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
     if ok:
         parsed = _extract_json_object(stdout)
         if parsed:
             parsed.setdefault("_review_source", "claude")
-            return (True, parsed, "claude", stdout)
+            return (True, parsed, "claude", stdout, "")
         claude_error = "claude output was not JSON"
     else:
         claude_error = f"claude unavailable rc={rc}: {stdout[:500]}"
@@ -310,13 +312,56 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
         log_tag="pi_v1_review_codex_fallback",
     )
     if not ok:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed = _extract_json_object(raw)
     if not parsed:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed.setdefault("_review_source", "codex_fallback")
     parsed.setdefault("_fallback_reason", claude_error[:500])
-    return (True, parsed, "codex_fallback", raw)
+    return (True, parsed, "codex_fallback", raw, "")
+
+
+def _planner_error_kind(raw: str, *, rc: int, claude_error: str = "") -> str:
+    text = " ".join(str(raw or "").split()).lower()
+    claude_text = str(claude_error or "").lower()
+    claude_kind = ""
+    if "not logged in" in claude_text or "please run /login" in claude_text:
+        claude_kind = "claude_not_logged_in"
+    elif "claude output was not json" in claude_text:
+        claude_kind = "claude_non_json"
+    elif "claude unavailable" in claude_text:
+        claude_kind = "claude_unavailable"
+
+    codex_kind = ""
+    if "failed to initialize in-process app-server client" in text:
+        codex_kind = "codex_sandbox_init_failed"
+    elif "operation not permitted" in text:
+        codex_kind = "codex_operation_not_permitted"
+    elif "timed out" in text:
+        codex_kind = "codex_timeout"
+    if claude_kind or codex_kind:
+        return "planner_unavailable:" + "+".join(
+            part for part in (claude_kind, codex_kind) if part
+        )
+    if rc != 0:
+        if not text:
+            return f"planner_fallback_empty_rc:{rc}"
+        return f"planner_fallback_failed_rc:{rc}"
+    if not text:
+        return "planner_fallback_empty_output"
+    return "planner_fallback_non_json_output"
 
 
 # ---------------------------------------------------------------------------
@@ -510,11 +555,14 @@ def _shallow_completed_candidate() -> dict:
         audit_score = max(audit_scores) if audit_scores else 0
         if audit_score > 8:
             continue
+        target_id = str(data.get("target_id") or "").strip()
+        if not target_id or _find_target_by_id(target_id) is None:
+            continue
         text = _deliverable_text(slug, data)
         if not text.strip() or _has_obligation_traversal_evidence(text):
             continue
         candidates.append((state_file.stat().st_mtime, {
-            "target_id": data.get("target_id"),
+            "target_id": target_id,
             "title": data.get("title"),
             "slug": slug,
             "reason": (
@@ -528,6 +576,149 @@ def _shallow_completed_candidate() -> dict:
         return {}
     candidates.sort(key=lambda item: item[0], reverse=True)
     return candidates[0][1]
+
+
+def _recent_deepen_rejections(
+    recent_cycles: list[dict],
+    target_id: object,
+    *,
+    threshold: int = 3,
+) -> int:
+    """Count recent gauntlet rejections for the shallow-completed heuristic."""
+    tid = str(target_id or "").strip()
+    if not tid:
+        return 0
+    count = 0
+    for cycle in reversed(recent_cycles):
+        if not isinstance(cycle, dict):
+            continue
+        for rec in cycle.get("gauntlet_results") or []:
+            if not isinstance(rec, dict):
+                continue
+            action = rec.get("action") if isinstance(rec.get("action"), dict) else {}
+            if (action.get("action") or "").strip() != "request_deepen_target":
+                continue
+            if action.get("source") != "pi_agent_v1_shallow_completed_heuristic":
+                continue
+            args = action.get("args") if isinstance(action.get("args"), dict) else {}
+            if str(args.get("target_id") or "").strip() != tid:
+                continue
+            if rec.get("pass_all"):
+                return 0
+            count += 1
+            if count >= threshold:
+                return count
+    return count
+
+
+def _recent_shallow_deepen_rejections(
+    recent_cycles: list[dict],
+    *,
+    threshold: int = 4,
+) -> int:
+    """Count recent rejections from the shallow-completed deepen heuristic.
+
+    The target-specific guard above stops repeated retries of the same BOARD
+    item. This guard stops the heuristic from rotating through multiple targets
+    when the gauntlet has recently judged the whole signal too weak.
+    """
+    count = 0
+    for cycle in reversed(recent_cycles):
+        if not isinstance(cycle, dict):
+            continue
+        for rec in cycle.get("gauntlet_results") or []:
+            if not isinstance(rec, dict):
+                continue
+            action = rec.get("action") if isinstance(rec.get("action"), dict) else {}
+            if (action.get("action") or "").strip() != "request_deepen_target":
+                continue
+            if action.get("source") != "pi_agent_v1_shallow_completed_heuristic":
+                continue
+            if rec.get("pass_all"):
+                return 0
+            count += 1
+            if count >= threshold:
+                return count
+    return count
+
+
+def _is_shallow_deepen_action(action: dict) -> bool:
+    return (
+        isinstance(action, dict)
+        and (action.get("action") or "").strip() == "request_deepen_target"
+        and action.get("source") == "pi_agent_v1_shallow_completed_heuristic"
+    )
+
+
+def _board_is_dry(snapshot: dict) -> bool:
+    try:
+        return int(snapshot.get("board_unfinished") or 0) == 0
+    except (TypeError, ValueError):
+        return False
+
+
+def _should_suppress_deepen_action(action: dict, snapshot: dict) -> tuple[bool, str]:
+    if not isinstance(action, dict):
+        return (False, "")
+    if (action.get("action") or "").strip() != "request_deepen_target":
+        return (False, "")
+    if _board_is_dry(snapshot):
+        return (
+            True,
+            "BOARD is dry; completed-target deepen is not a refill path. "
+            "Prefer fresh supply, held-ready candidates, or discovery/refill wait-state.",
+        )
+    if _is_shallow_deepen_action(action):
+        return (
+            True,
+            "shallow-completed findings are advisory audit signals; "
+            "routing to human inbox instead of gauntlet",
+        )
+    return (False, "")
+
+
+def _snapshot_has_active_refill(snapshot: dict) -> bool:
+    server = snapshot.get("server") or {}
+    for task in (server.get("agents") or {}).values():
+        task_id = str((task or {}).get("task_id") or "")
+        if task_id.startswith("bedc_board_refill_"):
+            return True
+    for task in server.get("queued_tasks") or []:
+        task_id = str((task or {}).get("task_id") or "")
+        tag = str((task or {}).get("tag") or "")
+        if task_id.startswith("bedc_board_refill_") or tag == "bedc-deep-board-refill":
+            return True
+    if _recent_refill_artifacts_pending():
+        return True
+    return False
+
+
+def _recent_refill_artifacts_pending(max_age_seconds: int = 7200) -> bool:
+    """Best-effort refill-in-flight detector when localhost status is sandboxed."""
+    now = time.time()
+    board_logs = SCRIPT_DIR / "state" / "board_refill_logs"
+    supervisor_logs = SCRIPT_DIR / "state" / "supervisor_logs"
+    start_paths = list(board_logs.glob("refill_*.prompt.txt"))
+    start_paths.extend(supervisor_logs.glob("refill_*.log"))
+    finish_paths = list(board_logs.glob("refill_*.response.md"))
+    finish_paths.extend(board_logs.glob("refill_*.summary.json"))
+    latest_start = 0.0
+    for path in start_paths:
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            continue
+        if now - mtime <= max_age_seconds:
+            latest_start = max(latest_start, mtime)
+    if not latest_start:
+        return False
+    latest_finish = 0.0
+    for path in finish_paths:
+        try:
+            latest_finish = max(latest_finish, path.stat().st_mtime)
+        except OSError:
+            continue
+    return latest_finish + 10.0 < latest_start
 
 
 def _completion_rates() -> dict:
@@ -602,12 +793,137 @@ def _read_recent_cycles(n: int = 10) -> list[dict]:
     except OSError:
         return []
     out = []
-    for line in lines[-n:]:
+    for line in reversed(lines):
         try:
-            out.append(json.loads(line))
+            rec = json.loads(line)
         except json.JSONDecodeError:
             continue
+        if not isinstance(rec, dict):
+            continue
+        if rec.get("review_source") == "test":
+            continue
+        out.append(rec)
+        if len(out) >= n:
+            break
+    out.reverse()
     return out
+
+
+def _find_target_location_by_id(tid: str) -> tuple[object | None, str]:
+    from board_archive import COMPLETED_BOARD_PATH, parse_board_file
+    from dispatch_bedc_target import BOARD_PATH
+
+    for path, location in ((BOARD_PATH, "active"), (COMPLETED_BOARD_PATH, "completed")):
+        targets = parse_board_file(path)
+        target = targets.get(tid)
+        if target is not None:
+            return (target, location)
+    return (None, "")
+
+
+def _target_context_for_action(action: dict) -> dict:
+    """Return compact, direct evidence for target-scoped PI actions.
+
+    The full PI snapshot can be very large. Action judges previously saw a
+    truncated state table and could incorrectly reject valid higher-numbered
+    targets as "not visible". This compact context makes the target lookup
+    explicit without weakening the gauntlet.
+    """
+    name = (action.get("action") or "").strip()
+    args = action.get("args") if isinstance(action.get("args"), dict) else {}
+    if name not in {"cancel_target", "reset_target", "request_deepen_target"}:
+        return {}
+    tid = str(args.get("target_id") or "").strip()
+    if not tid:
+        return {"target_id": "", "found": False}
+    target, location = _find_target_location_by_id(tid)
+    if target is None:
+        return {"target_id": tid, "found": False}
+    slug = getattr(target, "slug", "")
+    final_state_path = SCRIPT_DIR / "state" / f"{slug}.json"
+    state: dict = {}
+    if final_state_path.exists():
+        try:
+            state = json.loads(final_state_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            state = {}
+    stage2 = state.get("stage2") if isinstance(state.get("stage2"), dict) else {}
+    codex_track = state.get("codex_track") if isinstance(state.get("codex_track"), dict) else {}
+    rounds = codex_track.get("rounds_summary") if isinstance(codex_track.get("rounds_summary"), list) else []
+    audit_scores = [
+        int(item.get("audit_score") or 0)
+        for item in rounds
+        if isinstance(item, dict)
+    ]
+    return {
+        "target_id": tid,
+        "found": True,
+        "board_location": location,
+        "title": getattr(target, "title", ""),
+        "slug": slug,
+        "final_state_exists": final_state_path.exists(),
+        "stage1_verdict": state.get("stage1_verdict"),
+        "failure_kind": state.get("failure_kind"),
+        "pipeline_version": state.get("pipeline_version"),
+        "turns_count": len(state.get("turns") or []),
+        "stage2_appended": stage2.get("appended"),
+        "stage2_compile_ok": stage2.get("compile_ok"),
+        "codex_rounds_total": codex_track.get("rounds_total"),
+        "max_audit_score": max(audit_scores) if audit_scores else None,
+        "cursor_meta": _cursor_meta(slug),
+    }
+
+
+def _compact_snapshot_for_action(snapshot: dict, action: dict) -> dict:
+    recent_cycles: list[dict] = []
+    for cycle in (snapshot.get("recent_pi_cycles") or [])[-4:]:
+        if not isinstance(cycle, dict):
+            continue
+        recent_cycles.append({
+            "ts": cycle.get("ts"),
+            "plan_health": cycle.get("plan_health"),
+            "applied_count": cycle.get("applied_count"),
+            "inbox_count": cycle.get("inbox_count"),
+            "deepen_emitted": cycle.get("deepen_emitted"),
+            "gauntlet_results": [
+                {
+                    "action": (item.get("action") or {}).get("action")
+                    if isinstance(item.get("action"), dict) else None,
+                    "target_id": ((item.get("action") or {}).get("args") or {}).get("target_id")
+                    if isinstance(item.get("action"), dict) and isinstance((item.get("action") or {}).get("args"), dict) else None,
+                    "source": (item.get("action") or {}).get("source")
+                    if isinstance(item.get("action"), dict) else None,
+                    "pass_all": item.get("pass_all"),
+                    "summary": item.get("summary"),
+                }
+                for item in (cycle.get("gauntlet_results") or [])
+                if isinstance(item, dict)
+            ],
+        })
+    server = snapshot.get("server") if isinstance(snapshot.get("server"), dict) else {}
+    return {
+        "ts": snapshot.get("ts"),
+        "current_branch": snapshot.get("current_branch"),
+        "board_unfinished": snapshot.get("board_unfinished"),
+        "server": {
+            "diagnosis": server.get("diagnosis"),
+            "queue_length": server.get("queue_length"),
+            "agents_busy": server.get("agents_busy"),
+            "max_agents": server.get("max_agents"),
+            "active_recent_agents": server.get("active_recent_agents"),
+            "dispatch_ready_poll_agents": server.get("dispatch_ready_poll_agents"),
+            "stale_busy_agents": server.get("stale_busy_agents"),
+            "mismatched_busy_agents": server.get("mismatched_busy_agents"),
+            "zero_extraction_hang_agents": server.get("zero_extraction_hang_agents"),
+        },
+        "completion_rates": snapshot.get("completion_rates"),
+        "codex_track_summary": snapshot.get("codex_track_summary"),
+        "shallow_completed_candidate": snapshot.get("shallow_completed_candidate"),
+        "target_context": _target_context_for_action(action),
+        "stage2_reject_clusters": snapshot.get("stage2_reject_clusters"),
+        "stage2_reject_persistence": snapshot.get("stage2_reject_persistence"),
+        "recent_pi_cycles": recent_cycles,
+    }
 
 
 def _append_recent_cycle(record: dict) -> None:
@@ -721,7 +1037,11 @@ class GauntletResult:
 
 def _run_codex_evaluator(*, action: dict, snapshot: dict, pi_rationale: str) -> dict:
     template = PI_CODEX_EVAL_PROMPT_PATH.read_text(encoding="utf-8")
-    snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)[:20000]
+    snapshot_blob = json.dumps(
+        _compact_snapshot_for_action(snapshot, action),
+        ensure_ascii=False,
+        indent=2,
+    )
     prompt = template.format(
         snapshot=_safe(snapshot_blob),
         action=_safe(json.dumps(action, ensure_ascii=False, indent=2)),
@@ -739,7 +1059,11 @@ def _run_codex_evaluator(*, action: dict, snapshot: dict, pi_rationale: str) -> 
 def _run_claude_judge(*, action: dict, snapshot: dict, pi_rationale: str,
                      codex_verdict: dict, redline_verdict: dict) -> dict:
     template = PI_CLAUDE_JUDGE_PROMPT_PATH.read_text(encoding="utf-8")
-    snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)[:20000]
+    snapshot_blob = json.dumps(
+        _compact_snapshot_for_action(snapshot, action),
+        ensure_ascii=False,
+        indent=2,
+    )
     prompt = template.format(
         snapshot=_safe(snapshot_blob),
         action=_safe(json.dumps(action, ensure_ascii=False, indent=2)),
@@ -1219,7 +1543,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     template = PI_V1_PROMPT_PATH.read_text(encoding="utf-8")
     snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)
     prompt = template.format(snapshot=_safe(snapshot_blob[:30000]))
-    ok, plan, review_source, stdout = _run_pi_planner(prompt)
+    ok, plan, review_source, stdout, error_kind = _run_pi_planner(prompt)
 
     applied: list[dict] = []
     inbox: list[str] = []
@@ -1231,28 +1555,74 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         rationale = str(plan.get("rationale", ""))
         escalated = bump_concerns(plan.get("concerns") or [])
         autonomous_actions = list(plan.get("autonomous_actions") or [])
+        recent_pi_cycles = snapshot.get("recent_pi_cycles") or []
         shallow = snapshot.get("shallow_completed_candidate") or {}
         has_deepen = any(
             (a.get("action") or "").strip() == "request_deepen_target"
             for a in autonomous_actions
             if isinstance(a, dict)
         )
-        if shallow and not has_deepen:
-            autonomous_actions.append({
-                "action": "request_deepen_target",
-                "args": {
-                    "target_id": shallow.get("target_id"),
-                    "reason": shallow.get("reason", "shallow completed target"),
-                },
-                "intent": "Re-queue a completed target whose accepted deliverable looks shallow.",
-                "expected_effect": "The next attempt runs with deepen_request metadata and an obligation-traversal directive.",
-                "risk_level": "operational",
-                "source": "pi_agent_v1_shallow_completed_heuristic",
-            })
+        recent_deepen_rejections = _recent_deepen_rejections(
+            recent_pi_cycles,
+            shallow.get("target_id") if isinstance(shallow, dict) else "",
+        )
+        recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
+            recent_pi_cycles,
+        )
+        suppressed = []
+        suppressed_reasons: list[str] = []
+        for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                suppressed.append(action)
+                if suppress_reason and suppress_reason not in suppressed_reasons:
+                    suppressed_reasons.append(suppress_reason)
+        if suppressed:
+            autonomous_actions = [
+                a for a in autonomous_actions
+                if a not in suppressed
+            ]
+            if not suppressed_reasons:
+                suppressed_reasons.append("request_deepen_target is not safe for autonomous execution")
+            for reason in suppressed_reasons:
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    + reason
+                )
+        if shallow and not _snapshot_has_active_refill(snapshot):
+            if recent_shallow_deepen_rejections >= 4:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    "the heuristic was rejected by the gauntlet "
+                    f"{recent_shallow_deepen_rejections} recent cycles; "
+                    "do not use completed-target deepen as BOARD refill."
+                )
+            elif recent_deepen_rejections >= 3:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    f"{shallow.get('target_id')} was rejected by the gauntlet "
+                    f"{recent_deepen_rejections} recent cycles."
+                )
+            else:
+                inbox.append(
+                    "**other** — Shallow-completion audit signal held for human review: "
+                    f"{shallow.get('target_id')} {shallow.get('title')!r} "
+                    f"({shallow.get('reason')})."
+                )
         plan["autonomous_actions"] = autonomous_actions
 
         deepen_seen = False
         for action in autonomous_actions:
+            should_suppress, suppress_reason = _should_suppress_deepen_action(action, snapshot)
+            if should_suppress:
+                inbox.append(
+                    "**blocked autonomous action** (request_deepen_target) — "
+                    + (
+                        suppress_reason
+                        or "request_deepen_target is not safe for autonomous execution"
+                    )
+                )
+                continue
             if (action.get("action") or "").strip() == "request_deepen_target":
                 if deepen_seen:
                     inbox.append("**blocked autonomous action** (request_deepen_target) — one deepen action already emitted this cycle")
@@ -1303,6 +1673,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "ts": _now_iso(),
         "ok": ok,
         "review_source": review_source,
+        "error_kind": error_kind,
         "snapshot_summary": {
             "branch": snapshot.get("current_branch"),
             "completion_rates": snapshot.get("completion_rates"),

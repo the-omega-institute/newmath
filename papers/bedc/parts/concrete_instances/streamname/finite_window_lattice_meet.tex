@@ -40,6 +40,11 @@ that the left and right accepted packages expose this same meet surface.
 The packet is only this finite observation surface. It has no coordinate for
 quotient stream equality, host index equality, selected limits, host real
 equality, or ambient completeness.
+
+This meet packet is the $\StreamNameUp$-side sibling surface consumed by
+\autoref{ch:concrete-instances-regseqrat-namecert} and
+\autoref{ch:concrete-instances-real-namecert}, with its dyadic ledger row
+routed through \autoref{ch:concrete-instances-dyadicratcore-namecert}.
 \end{definition}
 
 \begin{theorem}[StreamName finite-window lattice meet exhaustion]
@@ -89,4 +94,63 @@ consumer rows, while keeping regularity, sealing, limits, quotient rows, host
 index equality, host real equality, and ambient completeness outside the meet
 packet. The displayed coordinates of $\mathcal M$ therefore exhaust every
 consumer read.
+\end{proof}
+
+\begin{lemma}[StreamName finite-window lattice meet symmetry]
+\label{lem:streamname-finite-window-lattice-meet-symmetry}
+Let $\mathcal W_L$ and $\mathcal W_R$ be accepted finite-window
+$\StreamNameUp$ packages over displayed source maps $s,t:\BHist\to
+\BHist$. Suppose that
+$$
+\mathcal M=(Q,B,I,U,D,H,C,P,N_L,N_R)
+$$
+is an accepted StreamName finite-window lattice meet packet for
+$(\mathcal W_L,\mathcal W_R)$. Then
+$$
+\mathcal M^{\mathrm{op}}=(Q,B,I,U,D,H,C,P,N_R,N_L)
+$$
+is an accepted StreamName finite-window lattice meet packet for
+$(\mathcal W_R,\mathcal W_L)$ over the same common observation surface.
+The rows $Q,B,I,U,D,H,C,P$ are unchanged, and the only exchanged
+coordinates are the two local $\NameCert_{\StreamNameUp}$ rows.
+
+Consequently every $\RegSeqRat$ consumer or finite-window $\RealUp$ consumer
+of $\mathcal M^{\mathrm{op}}$ reads exactly the same selected rational
+classifier row, probe-bundle row, membership rows, unary-history rows, dyadic
+ledger row, componentwise transport row, continuation route row, and package
+provenance row as it reads from $\mathcal M$, with the left and right local
+naming rows interchanged. The symmetric packet exports no quotient stream
+equality, host index equality, selected limit, host real equality, ambient
+completeness, or consumer-visible row outside the finite meet surface.
+\end{lemma}
+\begin{proof}
+Unpack the meet packet using
+\autoref{def:streamname-finite-window-lattice-meet}. The coordinate $Q$ is
+read on the shared $\mathsf{ProbeBundle}$, $B$ is the same displayed bundle
+row together with its two restrictions, and $I,U,D,H,C,P$ are common rows over
+that same finite surface. None of these rows carries an additional coordinate
+that distinguishes the ordered pair $(\mathcal W_L,\mathcal W_R)$ from the
+ordered pair $(\mathcal W_R,\mathcal W_L)$ after the same two restrictions
+are read in the opposite order.
+
+The only ordered coordinates in the displayed packet are the local naming
+rows. In $\mathcal M$, the row $N_L$ proves that the left accepted package
+$\mathcal W_L$ exposes the meet surface, and $N_R$ proves that the right
+accepted package $\mathcal W_R$ exposes the same meet surface. For the ordered
+pair $(\mathcal W_R,\mathcal W_L)$, the first local naming row must name
+$\mathcal W_R$ and the second must name $\mathcal W_L$. These are precisely
+$N_R$ and $N_L$. Thus the tuple
+$(Q,B,I,U,D,H,C,P,N_R,N_L)$ satisfies the same packet clauses for the swapped
+ordered pair.
+
+It remains to identify what a downstream consumer can read. By
+\autoref{thm:streamname-finite-window-lattice-meet-exhaustion}, every
+$\RegSeqRat$ consumer and every finite-window $\RealUp$ consumer is confined
+to the displayed classifier, bundle, membership, unary-history, dyadic,
+transport, continuation, provenance, and local naming coordinates of the meet
+packet. The construction of $\mathcal M^{\mathrm{op}}$ leaves the common
+coordinates $Q,B,I,U,D,H,C,P$ fixed and merely exchanges the two already
+displayed naming rows. Hence the swapped packet has the same consumer-facing
+finite observation surface, with no route to any excluded quotient, host,
+limit, real-equality, completeness, or hidden consumer row.
 \end{proof}

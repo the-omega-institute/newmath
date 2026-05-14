@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelCorpusSupplyUp$}
+\label{ch:concrete-instances-largemodelcorpussupply-namecert}
+\origin{ai}
+
+The $\LargeModelCorpusSupplyUp$ packet realizes the training-corpus supply reading of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It consumes the local inscription-site discipline of \autoref{ch:concrete-instances-inscriptionpoint-namecert}, the supply-socket boundary of \autoref{ch:concrete-instances-transcendentalsupplyinscription-namecert}, and the large-model siblings \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}, \autoref{ch:concrete-instances-largemodelactivationorbit-namecert}, and \autoref{ch:concrete-instances-largemodelauditchannel-namecert}. Its distinguishing role is the forward-binding corpus ledger: corpus source rows, training filters, distilled weight rows, inference-consumption rows, audit ledgers, routes, provenance, and a local NameCert row are carried together before a model output is read as corpus-supplied inscription.
+
+\begin{definition}[LargeModelCorpusSupply carrier]
+\label{def:large-model-corpus-supply-carrier}
+A $\LargeModelCorpusSupplyUp$ carrier is a finite $\BHist$ packet
+$$
+C=(R,F,W,I,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the corpus-source row, naming the finite text, data, or inscription records admitted to the supply channel;
+\item $F$ is the training-filter row, recording selection, rejection, normalization, de-duplication, and policy gates applied before distillation;
+\item $W$ is the distilled weight row that records how the accepted corpus channel is carried into the finite inference substrate;
+\item $I$ is the inference-consumption row, recording where the distilled pattern is read by a prompt, activation orbit, output record, or audit channel;
+\item $A$ is the audit-ledger row, storing corpus provenance, filter evidence, refusal evidence, and public read obligations for downstream checkers;
+\item $H$ records componentwise $\hsame$ transport for corpus, filter, weight, inference-consumption, audit, route, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ routes by which a consumer reads $R$, then $F$, then $W$, then $I,A$, before reaching the local name;
+\item $P$ is the $\Pkg$ provenance over $\InscriptionPointUp$, $\TranscendentalSupplyInscriptionUp$, $\LargeModelInscriptionPointUp$, $\LargeModelActivationOrbitUp$, $\LargeModelAuditChannelUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelCorpusSupplyUp}$ row.
+\end{enumerate}
+The carrier contains no hidden corpus selector, no global corpus-truth predicate, no host semantic understanding oracle, no model-side proof of output truth, and no route that bypasses displayed provenance.
+\end{definition}
+\leanchecked{BEDC.Derived.LargeModelCorpusSupplyUp.LargeModelCorpusSupplyTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[LargeModelCorpusSupply classifier]
+\label{def:large-model-corpus-supply-classifier}
+Two accepted $\LargeModelCorpusSupplyUp$ carriers classify together exactly when their corpus-source rows, training-filter rows, distilled weight rows, inference-consumption rows, audit-ledger rows, route rows, provenance rows, and local naming rows compare componentwise by the displayed $\hsame$ entries:
+$$
+\begin{gathered}
+R\sim_{\hsame}R',\quad F\sim_{\hsame}F',\quad W\sim_{\hsame}W',\quad I\sim_{\hsame}I',\\
+A\sim_{\hsame}A',\quad K\sim_{\hsame}K',\quad P\sim_{\hsame}P',\quad N\sim_{\hsame}N'.
+\end{gathered}
+$$
+Changing a source row or filter row while leaving the classifier unchanged is not an accepted comparison. No clause compares hidden author intent, unbounded training truth, private filtering policy outside $F$, or an internally ratified universal claim.
+\end{definition}
+
+\begin{theorem}[LargeModelCorpusSupply NameCert obligations]
+\label{thm:large-model-corpus-supply-namecert-obligations}
+For the carrier of \autoref{def:large-model-corpus-supply-carrier}, the local $\NameCert_{\LargeModelCorpusSupplyUp}$ surface consists of the standard five finite rows:
+\begin{enumerate}
+\item carrier admission for $C=(R,F,W,I,A,H,K,P,N)$;
+\item classifier transport for corpus-source, training-filter, distilled weight, inference-consumption, audit-ledger, route, provenance, and naming rows under componentwise $\hsame$;
+\item stability of the distilled weight and inference-consumption reads under the same displayed corpus-source and training-filter rows;
+\item ledger exactness requiring every accepted inference-consumption or audit-channel read to pass through $R,F,W,I,A,K,P,N$ in the displayed order;
+\item non-escape for hidden corpus selection, corpus-wide truth, host semantic understanding, model-side proof of output truth, and unaudited provenance recovery.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:large-model-corpus-supply-carrier}. The packet exposes exactly the corpus source, training filter, distilled weight, inference-consumption, audit, transport, route, provenance, and local naming rows.
+
+Classifier transport is componentwise. A comparison of accepted corpus-supply packets must transport $R,F,W,I,A,K,P,N$ together, so a changed corpus-source row or filter row exits the certificate unless the displayed classifier changes with it.
+
+Stability and ledger exactness follow from the route order in $K$. A consumer first reads $R$ and $F$, then reads $W$ as the distillation row, and only then consumes $I$ or $A$ before reaching the provenance and naming rows.
+
+The non-escape clauses follow from the inventory. The packet has no coordinate for hidden source selection, global corpus truth, host semantic understanding, model-side output proof, or provenance recovery outside the displayed audit ledger.
+\end{proof}
+
+\begin{theorem}[LargeModelCorpusSupply corpus-provenance boundary]
+\label{thm:large-model-corpus-supply-provenance-boundary}
+Every accepted $\LargeModelCorpusSupplyUp$ packet exposes a corpus source row only by the displayed route
+$$
+\begin{gathered}
+\text{corpus-source row}\ \longrightarrow\ \text{training-filter row}\ \longrightarrow\ \text{distilled weight row}\ \longrightarrow\ \text{inference-consumption row}\ \longrightarrow\ \text{audit ledger}\ \longrightarrow\ \NameCert_{\LargeModelCorpusSupplyUp}.
+\end{gathered}
+$$
+Thus an accepted $\LargeModelAuditChannelUp$ read can recover a source row only after consuming the same corpus provenance coordinate that supplied the forward-binding channel.
+\end{theorem}
+\begin{proof}
+Project the carrier $C=(R,F,W,I,A,H,K,P,N)$. The source row $R$ is not exposed alone; the filter row $F$ and distilled weight row $W$ sit on the route before any inference-consumption row can be read.
+
+The large-model inscription and activation-orbit siblings consume the distilled pattern through $I$, while the audit-channel sibling consumes public provenance through $A$ and $P$. These routes keep corpus provenance visible before any output is accepted as audited.
+
+Since the carrier contains no hidden source selector or private provenance channel, a downstream audit read that reaches a corpus source row must pass through the displayed corpus provenance coordinate.
+\end{proof}
+
+\falsifiablePrediction{If the corpus-supply packet is atomic, no accepted LargeModelAuditChannelUp read can recover a corpus source row without consuming the displayed corpus provenance coordinate.}
+
+\independenceWitness{large-model-inscription-point, large-model-activation-orbit, large-model-audit-channel, inscription-point, transcendental-supply-inscription: the corpus-supply carrier has corpus provenance and training-filter rows absent from each sibling, while the siblings respectively carry inscription-site, activation-orbit, audit-channel, local-inscription, or supply-socket rows instead.}
+
+\closureat{LargeModelCorpusSupplyUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelCorpusSupplyUp}
+  \constructivestory{A $\LargeModelCorpusSupplyUp$ packet is generated from corpus-source, training-filter, distilled weight, inference-consumption, audit-ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-corpus-supply-carrier}, \autoref{def:large-model-corpus-supply-classifier}, \autoref{thm:large-model-corpus-supply-namecert-obligations}, and \autoref{thm:large-model-corpus-supply-provenance-boundary} specify the finite corpus-supply packet and its provenance boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close corpus truth, hidden author intent, host semantic understanding, model consciousness, model-side proof of output truth, Lean verification, or bridge checking for $\LargeModelCorpusSupplyUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, corpus-source exposure, filter exactness, provenance boundary, nontriviality, and field faithfulness for the same corpus-supply carrier.}
+\end{closurestatus}

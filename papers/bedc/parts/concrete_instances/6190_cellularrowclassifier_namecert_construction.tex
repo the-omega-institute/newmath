@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CellularRowClassifierUp$}
+\label{ch:concrete-instances-cellularrowclassifier-namecert}
+\origin{ai}
+
+The $\CellularRowClassifierUp$ packet realizes the finite local row-window classifier surface implicit in \autoref{ch:visions-cellular-automaton-substrate-reading}. It is adjacent to the transition-row carrier of \autoref{ch:concrete-instances-continuationautomaton-namecert}, the diagonal trace boundary of \autoref{ch:concrete-instances-haltingdistinction-namecert}, and the obstruction-ledger consumer of \autoref{ch:concrete-instances-haltingobstruction-namecert}. Its distinguishing datum is the displayed local neighbourhood window through which a row tag is read; the packet therefore certifies finite cellular pattern recognition without importing a host orbit classifier.
+
+\falsifiablePrediction{If a CellularRowClassifier packet is atomic, every accepted row-tag read factors through the displayed local window and no consumer can recover a host orbit classifier outside that window.}
+
+\independenceWitness{ContinuationAutomatonUp supplies transition rows but not local neighbourhood tags; HaltingDistinctionUp supplies diagonal trace rows but not cellular pattern tags; HaltingObstructionUp supplies obstruction ledgers but not row-window classifiers; ApophaticNameUp supplies boundary requests but not transition-local tag determinacy.}
+
+\begin{definition}[CellularRowClassifier carrier]
+\label{def:cellular-rowclassifier-carrier}
+A $\CellularRowClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,J,T,A,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the finite cellular rule row whose local neighbourhood relation is being inspected.
+\item $J$ is the displayed row-window row, naming the finite centre cell, its neighbourhood, and the bounded row segment from which a tag may be read.
+\item $T$ is the finite tag row assigning local tags such as ether, glider phase, collision fragment, boundary refusal, or unclassified window to the displayed windows in $J$.
+\item $A$ is the acceptance ledger recording which row-tag reads are admitted and which candidate reads are refused for lacking the displayed neighbourhood.
+\item $H$ records componentwise $\hsame$ transports for $R,J,T,A,P,N$.
+\item $C$ records displayed $\Cont$ routes through the rule row, local window row, tag row, acceptance ledger, provenance row, and local name row.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, cellular row-window reads, the sibling packets cited above, and local $\NameCert$ evidence.
+\item $N$ is the local $\NameCert_{\CellularRowClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unbounded cellular orbit, a host evaluator over all rows, quotient stream equality, a global glider catalog, or a detached Rule 110 oracle.
+\end{definition}
+
+\begin{theorem}[CellularRowClassifier NameCert obligations]
+\label{thm:cellular-rowclassifier-namecert-obligations}
+For the carrier of \autoref{def:cellular-rowclassifier-carrier}, the local $\NameCert_{\CellularRowClassifierUp}$ surface consists exactly of carrier admission for $W=(R,J,T,A,H,C,P,N)$, rule-row accountability through $R$, local window exposure through $J$, tag-read accountability through $T$, acceptance and refusal replay through $A$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. A consumer may use the packet as finite cellular pattern evidence only through those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-rowclassifier-carrier}. The rule row, local window row, tag row, acceptance ledger, transports, routes, provenance, and local naming row are the only visible coordinates.
+
+Rule-row and window accountability come from $R$ and $J$. A row-tag read is admitted only when the displayed window supplies the neighbourhood data named by the carrier, so the consumer cannot replace the local row by an unrecorded orbit segment.
+
+Tag-read and refusal replay are read from $T$ and $A$. The ledger records both admitted local tags and refusals caused by missing neighbourhood data, which keeps the classifier inside the finite row-window surface.
+
+Finally use $H,C,P,N$. These rows transport, replay, record, and name the same displayed packet. Since no coordinate names an unbounded orbit, a host evaluator, quotient stream equality, a global catalog, or a detached oracle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CellularRowClassifier local window determinacy]
+\label{thm:cellular-rowclassifier-local-window-determinacy}
+Every accepted row-tag read exported by a $\CellularRowClassifierUp$ packet factors through the finite route
+$$
+R \longmapsto J \longmapsto T \longmapsto A \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+Thus the read is determined by the displayed local neighbourhood window and its ledger entry. The packet exports no host orbit classifier, no unbounded cellular history, no global halting classifier, no quotient stream equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted row-tag read. Carrier projection gives $R,J,T,A,H,C,P,N$ as the only rows through which the read can pass.
+
+Apply \autoref{thm:cellular-rowclassifier-namecert-obligations}. The tag row $T$ can be read only against the local window $J$, and the acceptance ledger $A$ records whether that window supplies the required neighbourhood data.
+
+The remaining route is bookkeeping inside the packet. The $\hsame$ transports and $\Cont$ routes preserve the displayed rows, while $P$ and $N$ record package provenance and local naming for the same finite read.
+
+Coordinate exhaustion gives determinacy. Since no coordinate names a host orbit classifier, unbounded cellular history, global halting classifier, quotient stream equality, or ambient completeness principle, the accepted tag is determined exactly by the displayed local window.
+\end{proof}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularRowClassifierUp.TasteGate}$ provides $\mathsf{Nontrivial}\ \CellularRowClassifierUp$ and $\mathsf{FieldFaithful}\ \CellularRowClassifierUp$ instances for the displayed carrier.
+
+\closureat{CellularRowClassifierUp}{seedStr}
+\closureat{CellularRowClassifierUp}{obligationStr}[BEDC.Derived.CellularRowClassifierUp.CellularRowClassifierTasteGate\_single\_carrier\_alignment]
+\closureat{CellularRowClassifierUp}{scopedStr}[BEDC.Derived.CellularRowClassifierUp.CellularRowClassifierTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\CellularRowClassifierUp}
+  \constructivestory{A $\CellularRowClassifierUp$ packet is generated from a finite cellular rule row, local row-window row, tag row, acceptance ledger, componentwise hsame transports, displayed continuation routes, package provenance, and local NameCert row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cellular-rowclassifier-carrier}, \autoref{thm:cellular-rowclassifier-namecert-obligations}, \autoref{thm:cellular-rowclassifier-local-window-determinacy}, and \leanchecked{BEDC.Derived.CellularRowClassifierUp.taste\_gate} specify the finite row-window classifier surface and checked TasteGate instance.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.CellularRowClassifierUp.CellularRowClassifierTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Rule 110 universality, global cellular orbit classification, total halting classification, quotient stream equality, host evaluator correctness, or bridge checking.}
+  \upgradepath{Public closure next requires an exported public row-window classifier theorem over $R,J,T,A,H,C,P,N$.}
+\end{closurestatus}

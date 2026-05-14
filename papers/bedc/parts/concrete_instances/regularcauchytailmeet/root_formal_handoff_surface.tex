@@ -118,6 +118,49 @@ Use shared-threshold cofinality and ledger exactness next. Any threshold read th
 Finally apply real-seal route totality. It routes admitted seal-facing reads through the same tail-meet window before any real-seal observation is read, so the source-window-modulus factorization is the common route for shared-threshold consumers.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet formal target envelope]
+\label{thm:regular-cauchy-tail-meet-formal-target-envelope}
+Every accepted $\RegularCauchyTailMeetUp$ packet whose source-window-modulus route is read by a $\FiniteObservationBudgetSelectorUp$ or $\CauchyLimitSealUp$ consumer factors through the same paired $\RegSeqRatUp$ sources, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ threshold ledger, comparison row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ row before any $\RealUp$ seal is exposed. The downstream budget-selector and limit-seal reads therefore consume one finite handoff, not a hidden completion route and not a quotient-stream route.
+\end{theorem}
+\begin{proof}
+Begin with root carrier admission, root classifier stability, and root ledger exactness. These rows identify the accepted packet as the displayed two-source, two-window, one-threshold surface and keep transported comparisons inside the same finite ledger.
+
+Use real-seal route totality and the source-window-modulus route. They place every seal-facing read behind the paired sources, paired windows, source modulus rows, dyadic threshold, comparison, transports, continuations, provenance, and local name before the $\RealUp$ seal can be read.
+
+Now read the consumer rows in the $\FiniteObservationBudgetSelectorUp$ and $\CauchyLimitSealUp$ surfaces. The selector consumes finite window and dyadic-budget rows before its seal handoff, while the limit seal consumes the same shared threshold route before exposing a completion-facing seal.
+
+The two downstream routes therefore meet at the same finite handoff. Since neither consumer receives an additional quotient stream, host-limit equality, selected representative, or ambient completeness coordinate, the formal target envelope is exactly the displayed $\RegularCauchyTailMeetUp$ route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet formal handoff Lean target]
+\label{thm:regular-cauchy-tail-meet-formal-handoff-lean-target}
+The root carrier admission, root classifier stability, root ledger exactness, source-window-modulus route, real-seal route totality, and formal target envelope jointly determine the exact finite handoff for a later Lean target over $\RegularCauchyTailMeetUp$. That handoff consists of paired $\RegSeqRatUp$ sources, paired $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ threshold row, the comparison row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$.
+
+The target contains no quotient stream, host limit, selected subsequence, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with root carrier admission, root classifier stability, and root ledger exactness. These rows fix the two source rows, two window rows, threshold ledger, comparison row, transports, continuations, provenance, and local name as one finite carrier surface.
+
+Next apply the source-window-modulus route. It identifies how the paired sources and windows reach the displayed dyadic threshold row before a shared-threshold read can proceed.
+
+Use real-seal route totality and the formal target envelope for the downstream boundary. They require seal-facing consumers and formal consumers to read the same finite handoff before any $\RealUp$ seal is exposed.
+
+Thus a later Lean target has an exact object to encode: the paired sources, paired windows, threshold, comparison, transports, routes, provenance, and local name. The excluded quotient, host-limit, subsequence, and completeness data have no coordinate in that object.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetFormalHandoffLeanTarget}
+
+\begin{theorem}[RegularCauchyTailMeet window-budget exhaustion]
+\label{thm:regular-cauchy-tail-meet-window-budget-exhaustion}
+Every budget-selector or $\CauchyLimitSealUp$ consumer of an accepted $\RegularCauchyTailMeetUp$ packet exhausts its read through the two $\RegSeqRatUp$ source rows, two $\StreamNameUp$ windows, the two source modulus rows, the shared $\DyadicRatCoreUp$ threshold, comparison row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The consumer receives no further budget window, hidden Cauchy tail, quotient stream equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the source-window-modulus route, \autoref{thm:regular-cauchy-tail-meet-source-window-modulus-route}. It sends every shared-threshold read through the paired regular Cauchy source rows, paired stream windows, and source modulus rows before the dyadic threshold ledger can be read.
+
+Next apply root ledger exactness and real-seal route totality, \autoref{thm:regular-cauchy-tail-meet-root-ledger-exactness} and \autoref{thm:regular-cauchy-tail-meet-real-seal-route-totality}. These keep the shared threshold, comparison row, transports, continuations, provenance, and local name on the same finite root surface for every admitted seal-facing read.
+
+Finally use the formal target envelope and handoff target, \autoref{thm:regular-cauchy-tail-meet-formal-target-envelope} and \autoref{thm:regular-cauchy-tail-meet-formal-handoff-lean-target}. The budget-selector and $\CauchyLimitSealUp$ routes therefore consume exactly the displayed window-budget handoff, and the packet has no remaining coordinate for a second budget window, hidden tail, quotient stream equality, selected limit, or ambient completeness datum.
+\end{proof}
+
 \begin{theorem}[RegularCauchyTailMeet shared-threshold route determinacy]
 \label{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}
 Two shared-threshold reads of an accepted $\RegularCauchyTailMeetUp$ packet that use the same transported $\RegularCauchyNameUp$ source rows, the same transported $\StreamNameUp$ window rows, and the same transported source modulus rows reach the same displayed dyadic threshold ledger. The determinacy is internal to the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
@@ -254,6 +297,7 @@ Use window-source exhaustion and shared-threshold non-escape. These results excl
 \label{thm:regular-cauchy-tail-meet-root-formal-handoff-surface}
 The root consumer package, root seal-budget totality, and root tail-comparison admission assemble the formal handoff surface for downstream $\RealUp$ and $\UniformCauchyCriterionUp$ consumers. The handoff binds the shared-threshold route to $\RealUp$ seal budgets, admits the tail comparison through $Q$, records $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ provenance, and preserves the local $\NameCert$ rows of the accepted $\RegularCauchyTailMeetUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_root\_formal\_handoff\_surface}
 \begin{proof}
 First collect the root consumer package. It assembles selector, seal, public shared-threshold, and bridge-facing consumers around one finite shared-threshold route.
 
@@ -262,4 +306,21 @@ Next add root seal-budget totality. This makes the $\RealUp$ seal-budget side to
 Then add root tail-comparison admission. The comparison side is admitted only through the same $Q$ row and the same transported source, window, modulus, threshold, route, provenance, and local certificate data.
 
 Finally use root consumer export boundary and root threshold provenance. They identify the exported handoff with the finite packet and record its $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\NameCert$ provenance, while excluding quotient streams, selected limits, host equality, trichotomy, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet selector-budget route lock]
+\label{thm:regular-cauchy-tail-meet-selector-budget-route-lock}
+Any $\RegularCauchySelectorBudgetUp$ read consumed by the root-facing $\RegularCauchyTailMeetUp$ formal handoff of \autoref{thm:regular-cauchy-tail-meet-root-formal-handoff-surface} must pass through the same paired $\RegSeqRatUp$ sources, paired $\StreamNameUp$ windows, source modulus rows, shared $\DyadicRatCoreUp$ threshold ledger, comparison row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row displayed by the accepted TailMeet packet before it reaches any $\RealUp$ seal.
+
+The selector-budget sibling of \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert} contributes only finite-window and $\RegSeqRatUp$ readback along that route. It supplies no second selector, quotient stream, host limit, selected subsequence, or ambient completeness coordinate beyond the root seal-budget and tail-comparison surfaces of \autoref{thm:regular-cauchy-tail-meet-root-seal-budget-totality} and \autoref{thm:regular-cauchy-tail-meet-root-tail-comparison-admission}.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_selector\_budget\_route\_lock}
+\begin{proof}
+Begin with the root formal handoff surface. By \autoref{thm:regular-cauchy-tail-meet-root-formal-handoff-surface}, the downstream handoff is already the finite packet whose source, window, modulus, threshold, comparison, transport, route, provenance, and local certificate rows are displayed by the accepted $\RegularCauchyTailMeetUp$ carrier.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-root-seal-budget-totality}. Any $\RealUp$ seal-budget read behind that handoff is total only on the displayed TailMeet route, so a selector-budget read consumed by the seal side cannot bypass the paired sources, windows, modulus rows, threshold ledger, $Q$ row, transports, continuations, provenance, or local name.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-root-tail-comparison-admission}. The comparison side is admitted through the same transported rows, and the admission excludes an independent tail oracle, selected subsequence, quotient stream equality, and ambient completeness premise.
+
+Finally read the sibling route through \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}. That chapter supplies the finite-window and $\RegSeqRatUp$ readback needed by the selector-budget consumer, and the preceding TailMeet rows lock that contribution to the root packet before any $\RealUp$ seal receives it.
 \end{proof}

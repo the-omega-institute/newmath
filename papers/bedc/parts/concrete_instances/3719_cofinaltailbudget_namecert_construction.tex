@@ -35,7 +35,6 @@ The local $\NameCert_{\CofinalTailBudgetUp}$ surface for \autoref{def:cofinal-ta
 \item ledger exactness stating that every public read factors through $M,T,R,S,H,C,P,N$ and no unrecorded cofinal selector or completeness principle is exported.
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Carrier admission is projection from the displayed packet. The tuple lists the modulus budget, selected tail windows, RegSeqRat handoff, RealUp seal, transports, routes, provenance, and local naming row.
 
@@ -84,16 +83,72 @@ Apply the seal handoff row for omissions of $R$. A consumer cannot reach $S$ bef
 The package provenance $P$ records the remaining attempt as outside the local naming surface. Hence the route cannot export $S$ or appear as a cofinal shared-tail certificate.
 \end{proof}
 
+\begin{theorem}[Cofinal tail budget stability]
+\label{thm:cofinal-tail-budget-budget-stability}
+Let $B=(M,T,R,S,H,C,P,N)$ be an accepted $\CofinalTailBudgetUp$ packet. Componentwise $\hsame$ transport recorded by $H$, and read through the displayed continuation routes $C$, preserves the same finite budget packet $M,T,R,S,P,N$. In particular, the shared-tail threshold named by $M$, the selected windows in $T$, the $\RegSeqRat$ handoff $R$, the $\RealUp$ seal row $S$, the package provenance $P$, and the local naming row $N$ remain attached to one another after transport.
+\end{theorem}
+\begin{proof}
+Project the carrier to the transport row $H$. Its role in the packet is componentwise: it relates the displayed budget, window, handoff, seal, provenance, and naming coordinates without adding a second budget source.
+
+Read the transported data through $C$. Each public route still lands in the same coordinates $M,T,R,S,P,N$, so the threshold in $M$ cannot detach from the finite window list $T$ or from the handoff and seal rows $R,S$.
+
+The package row $P$ records this as provenance for the same local packet, and $N$ names that packet. Hence $\hsame$ transport preserves the displayed shared-tail budget packet rather than producing a new tail selector or a quotient witness.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget ledger exactness]
+\label{thm:cofinal-tail-budget-ledger-exactness}
+For an accepted $\CofinalTailBudgetUp$ packet $B=(M,T,R,S,H,C,P,N)$, every public read factors through the rows $M,T,R,S,H,C,P,N$. The exported ledger therefore excludes hidden cofinal selectors, quotient equality witnesses, ambient completeness rows, and any public read not routed through the displayed finite budget packet.
+\end{theorem}
+\begin{proof}
+Start with a public read of the packet. The carrier definition exposes only the eight displayed rows, and the continuation row $C$ gives the public routes by which those rows are read.
+
+If the read asks for budget, selected-window, handoff, seal, transport, provenance, or naming data, it is a projection through the corresponding coordinate. These projections are exactly the ledger entries named by $M,T,R,S,H,C,P,N$.
+
+If the read asks for a hidden cofinal selector, a quotient equality witness, or an ambient completeness row, no displayed coordinate supplies it. The ledger therefore rejects that request as outside the local $\CofinalTailBudgetUp$ surface.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget obligation closure]
+\label{thm:cofinal-tail-budget-obligation-closure}
+The accepted $\CofinalTailBudgetUp$ packet closes its local obligation surface: carrier admission, budget stability, window coverage, $\RealUp$ seal handoff, ledger exactness, and non-escape are all witnessed by the same finite packet $B=(M,T,R,S,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:cofinal-tail-budget-carrier}, and the NameCert surface of \autoref{thm:cofinal-tail-budget-namecert-obligations} lists the five obligation rows that must be read from it.
+
+Budget stability is supplied by \autoref{thm:cofinal-tail-budget-budget-stability}. Window coverage is supplied by \autoref{thm:cofinal-tail-budget-window-coverage}, and the $\RealUp$ handoff is supplied by \autoref{thm:cofinal-tail-budget-real-seal-handoff}.
+
+Ledger exactness is supplied by \autoref{thm:cofinal-tail-budget-ledger-exactness}. Non-escape is supplied by \autoref{thm:cofinal-tail-budget-nonescape}. These clauses all mention the same rows $M,T,R,S,H,C,P,N$, so the obligation surface is assembled without adding a hidden selector, quotient equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget primitive-scope binding]
+\label{thm:cofinal-tail-budget-primitive-scope-binding}
+For every accepted $\CofinalTailBudgetUp$ packet $B=(M,T,R,S,H,C,P,N)$, the budget row, selected tail windows, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row are bound entirely through the displayed BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RegSeqRatUp$, and $\RealUp$, together with the cited cofinal-subsequence sibling surface of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}. The binding exports no hidden cofinal selector, quotient equality witness, ambient completeness row, or nonlocal naming route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The packet exposes only the displayed rows $M,T,R,S,H,C,P,N$, and \autoref{thm:cofinal-tail-budget-namecert-obligations} assigns the local naming obligations to those rows.
+
+The budget and window clauses are fixed by \autoref{thm:cofinal-tail-budget-budget-stability} and \autoref{thm:cofinal-tail-budget-window-coverage}. They keep the finite budget row, selected tail windows, and componentwise transports inside the same $\BHist$ packet.
+
+The Real-facing route is fixed by \autoref{thm:cofinal-tail-budget-real-seal-handoff}. It sends selected windows through the $\RegSeqRatUp$ handoff before the $\RealUp$ seal is read, so the seal cannot detach from the displayed tail-budget packet.
+
+Ledger exactness and non-escape are supplied by \autoref{thm:cofinal-tail-budget-ledger-exactness} and \autoref{thm:cofinal-tail-budget-nonescape}. Together with the existing TasteGate marker, these clauses say that every accepted read remains a projection of the same carrier surface and every nonlisted selector, quotient witness, completeness row, or nonlocal naming route is outside the chapter scope.
+\end{proof}
+
 \closureat{CofinalTailBudgetUp}{seedStr}
+\closureat{CofinalTailBudgetUp}{obligationStr}[BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalTailBudgetUp}{scopedStr}[BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalTailBudgetUp}{publicStr}[BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalTailBudgetUp}{bridgedStr}[BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{CofinalTailBudgetUp}{matureStr}[BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CofinalTailBudgetUp}
   \constructivestory{A $\CofinalTailBudgetUp$ packet is generated from a finite modulus-budget row, cofinal tail-window row, RegSeqRat handoff row, RealUp seal row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cofinal-tail-budget-carrier}, \autoref{thm:cofinal-tail-budget-namecert-obligations}, \autoref{thm:cofinal-tail-budget-window-coverage}, \autoref{thm:cofinal-tail-budget-real-seal-handoff}, and \autoref{thm:cofinal-tail-budget-nonescape} bind finite shared-tail threshold packets for the Real and Completion diagonal-limit handoff.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is the finite shared-tail budget packet of \autoref{def:cofinal-tail-budget-carrier} together with its downstream $\RealUp$ and $\RegSeqRatUp$ completion-facing consumers in \autoref{thm:cofinal-tail-budget-real-seal-handoff}, \autoref{thm:cofinal-tail-budget-ledger-exactness}, \autoref{thm:cofinal-tail-budget-nonescape}, \autoref{thm:cofinal-tail-budget-obligation-closure}, and \autoref{thm:cofinal-tail-budget-primitive-scope-binding}.}
   \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.CofinalTailBudgetUp.taste\_gate}
   \leantarget{BEDC.Derived.CofinalTailBudgetUp.CofinalTailBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean implementation, bridge checking, Real completeness, infinite tail selection, quotient-level real equality, or a public RealUp object surface.}
-  \upgradepath{Obligation closure requires checked carrier admission, budget stability, window exactness, RealUp seal handoff, and non-escape for the same finite packet.}
+  \upgradepath{No further paper-axis strengthening is claimed here; bridge checking remains a separate Lean-side target.}
 \end{closurestatus}

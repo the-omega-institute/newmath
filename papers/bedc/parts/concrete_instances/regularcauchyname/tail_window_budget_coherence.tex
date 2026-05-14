@@ -1,0 +1,99 @@
+\begin{theorem}[RegularCauchyName scheduled observation source totality]
+\label{thm:regularcauchyname-scheduled-observation-source-totality}
+For every accepted $\RegularCauchyNameUp$ packet, each unary schedule row admitted by the packet supplies a certified $\RationalStreamUp/\StreamNameUp$ observation row together with the displayed package provenance route. The supplied row is read through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ coordinates, and every scheduled source read reaches one of these certified rows before it can be consumed by $\RegSeqRatUp$ or $\RealUp$.
+\end{theorem}
+\begin{proof}
+Induct over the finite schedule rows displayed by the accepted packet. The empty schedule has no requested observation, so the totality claim is the empty projection of the same $\BHist$ packet.
+
+For a retained row, the RationalStream source admission theorem supplies the $\RationalStreamUp$ source row, while the normalized window readback definition records the corresponding $\StreamNameUp$ finite window and dyadic observation route. The displayed $\hsame$ and $\Cont$ rows transport this observation without introducing a second source.
+
+The package provenance route is then the stored $\Pkg$ coordinate, with the local $\NameCert_{\RegularCauchyNameUp}$ row certifying that the observation belongs to the accepted packet. Repeating this projection along the finite schedule exhausts every scheduled source read.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName radius ledger monotone readback]
+\label{thm:regularcauchyname-radius-ledger-monotone-readback}
+In an accepted $\RegularCauchyNameUp$ packet, the dyadic-radius ledger is monotone under certified unary index extension: extending a schedule row along the displayed $\hsame$ and $\Cont$ route can only read a radius row already compatible with the earlier request and the later certified request. Every such readback remains inside the $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface carried by the normalized finite-window packet.
+\end{theorem}
+\begin{proof}
+Begin with the two certified unary index rows. The normalized window readback definition reads both through the same $\StreamNameUp$ window surface, dyadic observation row, radius row, finite ledger, and package provenance.
+
+Use the radius obligations already carried by the packet. The earlier radius request is preserved by classifier transport, and the later request extends it through the displayed continuation route, so the ledger read is monotone inside the stored finite radius table.
+
+Finally apply window normalization coverage. It forces every consumer precision read to pass through the normalized window before the $\RegSeqRatUp$ classifier or $\RealUp$ seal is reached, so the readback remains inside the $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName RegSeqRat Real seal root unblock]
+\label{thm:regularcauchyname-regseqrat-real-seal-root-unblock}
+The scheduled observation source rows of \autoref{thm:regularcauchyname-scheduled-observation-source-totality} and the monotone radius ledger of \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} assemble a finite root-unblock package for every accepted $\RegularCauchyNameUp$ packet. This package is consumable by the $\RegSeqRatUp$ seal route and the $\RealUp$ handoff, and it uses the displayed $\StreamNameUp$ handoff, semantic $\NameCert_{\RegularCauchyNameUp}$ certificate, $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ rows rather than quotient streams or host equality.
+\end{theorem}
+\begin{proof}
+First assemble the source half of the package. Scheduled source totality supplies each unary row with its certified $\RationalStreamUp/\StreamNameUp$ observation and provenance route.
+
+Next assemble the radius half. Radius-ledger monotone readback keeps each certified index extension inside the dyadic tolerance surface and the pointwise $\RegSeqRatUp$ classifier ledger.
+
+Finally attach the seal handoffs. The StreamName handoff, normalized readback seal stability, and root-unblock normalization package carry the assembled rows to the $\RegSeqRatUp$ and $\RealUp$ consumers. The semantic naming certificate is already part of the packet, so no quotient stream, host equality, selected limit, or ambient completeness coordinate is needed.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName tail-window consumer factorization]
+\label{thm:regularcauchyname-tail-window-consumer-factorization}
+Every tail-window consumer of an accepted $\RegularCauchyNameUp$ packet factors through the scheduled observation row, the monotone dyadic-radius ledger, the normalized finite-window readback, and the $\RegSeqRatUp/\RealUp$ seal route. The factorization reads only the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ coordinates. It cannot inspect quotient streams, selected limits, host sequence equality, independent real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First bind the tail-window request to its scheduled source. The scheduled observation source totality theorem \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation row and package provenance before any $\RegSeqRatUp$ or $\RealUp$ consumer can read the packet.
+
+Next route the tolerance information. The radius-ledger monotone readback theorem \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps certified index extensions inside the displayed $\DyadicRatCoreUp/\RegSeqRatUp$ tolerance surface, while window normalization coverage \autoref{thm:regularcauchyname-window-normalization-coverage} forces each precision read through the normalized finite-window packet.
+
+Finally attach the terminal seal route. The RegSeqRat Real seal root unblock theorem \autoref{thm:regularcauchyname-regseqrat-real-seal-root-unblock} carries the scheduled source and radius ledger to the $\RegSeqRatUp$ and $\RealUp$ consumers. The closure boundary records no quotient stream, selected limit, host sequence equality, independent real equality, or ambient completeness row, so the tail-window consumer has no escape from the displayed factorization.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName tail-window budget coherence]
+\label{thm:regularcauchyname-tail-window-budget-coherence}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $U$ and $V$ be two accepted tail-window consumer reads of $R$ whose requested precisions share a certified budget row in the dyadic-radius ledger. Then $U$ and $V$ factor through the same finite $\StreamNameUp$ window, the same $\DyadicRatCoreUp$ observation row, the same dyadic-radius ledger row, the same $\RegSeqRatUp$ classifier row, and the same $\RealUp$ seal row. The common factorization is displayed through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance, and it contains no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the source rows. The scheduled observation source totality theorem \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation rows for both $U$ and $V$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance.
+
+Next compare the certified budget row. The radius ledger monotone readback theorem \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps each accepted precision read inside the same dyadic tolerance surface once the two requests share a certified ledger budget. The synchronized precision pullback theorem \autoref{thm:regularcauchyname-synchronized-precision-pullback} refines the two reads to one finite $\StreamNameUp$ window and one $\DyadicRatCoreUp$ observation row.
+
+Finally apply tail-window consumer factorization. By \autoref{thm:regularcauchyname-tail-window-consumer-factorization}, both terminal reads reach the $\RegSeqRatUp$ classifier and the $\RealUp$ seal only through that shared finite window, dyadic observation row, ledger row, and provenance surface. Since the factorization exposes no coordinate for a quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness premise, the common budget row is coherent for both accepted consumers.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName shared budget triple pullback]
+\label{thm:regularcauchyname-shared-budget-triple-pullback}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $U$, $V$, and $W$ be three accepted tail-window consumer reads of $R$ whose requested precisions share one certified budget row in the dyadic-radius ledger. Then $U$, $V$, and $W$ factor through one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one dyadic-radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The common pullback is displayed only through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance, and it exports no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the three scheduled sources. The scheduled observation source totality theorem \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation source for each of $U$, $V$, and $W$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ rows.
+
+Next pull all three precision requests back to the shared budget row. The radius ledger monotone readback theorem \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps each accepted request inside the same dyadic tolerance surface, and the synchronized precision pullback theorem \autoref{thm:regularcauchyname-synchronized-precision-pullback} identifies the finite window route attached to that certified row.
+
+Apply the pairwise budget coherence theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence} first to $U$ and $V$, and then to $U$ and $W$. The first application gives a common finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation row, dyadic-radius ledger row, $\RegSeqRatUp$ classifier row, and $\RealUp$ seal row for $U$ and $V$. The second application gives the same kind of route for $U$ and $W$.
+
+Finally compare the two pairwise routes at the shared budget row. Since both routes contain the $U$ consumer read and the same certified ledger row, they identify the same normalized finite-window readback and therefore the same downstream $\RegSeqRatUp$ classifier and $\RealUp$ seal. Tail-window consumer factorization \autoref{thm:regularcauchyname-tail-window-consumer-factorization} keeps all three terminal reads inside this displayed provenance surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName shared budget finite intersection]
+\label{thm:regularcauchyname-shared-budget-finite-intersection}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $\mathcal{F}$ be a finite nonempty family of accepted tail-window consumer reads of $R$ whose requested precisions share one certified budget row in the dyadic-radius ledger. Then all reads in $\mathcal{F}$ factor through one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one dyadic-radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The common intersection is displayed only through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegularCauchyNameUp}$ provenance, with no quotient stream, selected limit, host sequence equality, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct over the finite family $\mathcal{F}$ after choosing one accepted read as the anchor. The one-read case is the tail-window consumer factorization of \autoref{thm:regularcauchyname-tail-window-consumer-factorization}; the first nontrivial two-read case is exactly the shared budget coherence theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence}.
+
+For the three-read stage, apply the triple pullback theorem \autoref{thm:regularcauchyname-shared-budget-triple-pullback}. It identifies one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row for the anchor and the two additional reads at the displayed shared budget.
+
+For the induction step, assume the retained finite subfamily already factors through one displayed route. Compare that common route with the next accepted read at the same certified budget row. The pair theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence} applies to the anchor read inside the common route and to the next read, so the next read is pulled back to the same finite window, dyadic observation row, ledger row, classifier row, and seal row.
+
+Finally use tail-window consumer factorization again to close the boundary condition. Since every retained route is read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$, the finite intersection has no coordinate for quotient streams, selected limits, host sequence equality, independent real carriers, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName tail-window budget route exhaustion]
+\label{thm:regularcauchyname-tail-window-budget-route-exhaustion}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $\mathcal{F}$ be a finite nonempty family of accepted tail-window consumer reads of $R$ whose requested precisions share one certified dyadic-radius budget row. Then every terminal read in $\mathcal{F}$ is exhausted by the single finite route through the scheduled observation row, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation row, radius ledger row, $\RegSeqRatUp$ classifier row, $\RealUp$ seal row, and the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance. This route exports no quotient stream, selected limit, host sequence equality, independent real carrier, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First bind every consumer read to the scheduled source surface. Scheduled observation source totality \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation row for each accepted read, and tail-window consumer factorization \autoref{thm:regularcauchyname-tail-window-consumer-factorization} forces the read to pass through that row before it can reach the $\RegSeqRatUp$ classifier or $\RealUp$ seal.
+
+Next bind the shared budget. Radius ledger monotone readback \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps every certified precision request inside the same dyadic tolerance surface, while tail-window budget coherence \autoref{thm:regularcauchyname-tail-window-budget-coherence} and shared-budget triple pullback \autoref{thm:regularcauchyname-shared-budget-triple-pullback} identify the pair and triple routes attached to the common ledger row.
+
+Finally apply shared-budget finite intersection \autoref{thm:regularcauchyname-shared-budget-finite-intersection}. It collapses the whole finite nonempty family to one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The carrier inventory of the accepted packet contains only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance beyond that route, so there is no off-route terminal coordinate from which a quotient stream, selected limit, host sequence equality, independent real carrier, countable-choice selector, or ambient completeness witness could be exported.
+\end{proof}
