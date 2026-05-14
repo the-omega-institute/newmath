@@ -88,6 +88,10 @@ PROTECTED_PATTERNS = [
 LOCAL_ONLY_STATE_PATTERNS = [
     re.compile(r"^tools/bedc-deep/BOARD(?:\.completed)?\.md$"),
 ]
+OURS_ON_CONFLICT_PATTERNS = [
+    re.compile(r"^tools/bedc-deep/prompts/codex_track_attempt\.txt$"),
+    re.compile(r"^tools/bedc-deep/prompts/oracle_initial\.txt$"),
+]
 POST_MERGE_PROTECTED_PATTERNS = [
     re.compile(r"^tools/automath_newmath_bridge/review_packets/"),
     re.compile(r"^tools/automath_newmath_bridge/inbox/"),
@@ -127,6 +131,10 @@ def _is_protected(path: str) -> bool:
 
 def _is_local_only_state(path: str) -> bool:
     return any(p.search(path) for p in LOCAL_ONLY_STATE_PATTERNS)
+
+
+def _is_ours_on_conflict(path: str) -> bool:
+    return any(p.search(path) for p in OURS_ON_CONFLICT_PATTERNS)
 
 
 def _is_post_merge_protected(path: str) -> bool:
@@ -223,6 +231,33 @@ def _settle_local_only_state_conflicts(conflicts: list[str]) -> tuple[list[str],
         # If the file exists in the worktree, keep the working file but remove
         # it from the merge index; if it does not exist, this records deletion.
         _git(["rm", "--cached", "--ignore-unmatch", path], capture=False, timeout=10)
+        settled.append(path)
+    return settled, remaining
+
+
+def _settle_ours_on_conflict(conflicts: list[str]) -> tuple[list[str], list[str]]:
+    """Keep locally hardened prompts when auto-dev has an older boundary.
+
+    These files encode the Automath / bridge evidence boundary.  If they
+    conflict during sync and the interactive resolver is unavailable, the
+    conservative merge is to preserve the local hardened prompt while still
+    importing the rest of auto-dev.
+    """
+
+    settled: list[str] = []
+    remaining: list[str] = []
+    for path in conflicts:
+        if not _is_ours_on_conflict(path):
+            remaining.append(path)
+            continue
+        checkout = _git(["checkout", "--ours", "--", path], capture=False, timeout=10)
+        if checkout.returncode != 0:
+            remaining.append(path)
+            continue
+        add = _git(["add", path], capture=False, timeout=10)
+        if add.returncode != 0:
+            remaining.append(path)
+            continue
         settled.append(path)
     return settled, remaining
 
@@ -548,6 +583,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                 error="merge failed without listed conflicts",
             )
         settled_local_only, conflicts = _settle_local_only_state_conflicts(conflicts)
+        settled_ours, conflicts = _settle_ours_on_conflict(conflicts)
+        pre_resolved = settled_local_only + settled_ours
         if not conflicts:
             changed = _changed_files_against(before_head)
             boundary_failure = _post_merge_boundary_failure(before_head)
@@ -557,7 +594,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                     status="aborted_validation",
                     branch=branch,
                     n_dev_commits=n_behind,
-                    conflict_files=settled_local_only,
+                    conflict_files=pre_resolved,
                     validation=ValidationResult(
                         passed=False,
                         failures=[boundary_failure],
@@ -572,15 +609,15 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                     status="aborted_validation",
                     branch=branch,
                     n_dev_commits=n_behind,
-                    conflict_files=settled_local_only,
+                    conflict_files=pre_resolved,
                     validation=validation,
                     error=validation.summary,
                 )
             commit_msg = (
                 f"Auto-merge {UPSTREAM_REF} ({n_behind} commits) — "
-                "local-only BOARD state conflicts settled\n\n"
-                "Local-only state files:\n"
-                + "\n".join(f"  - {p}" for p in settled_local_only)
+                "pre-gated conflicts settled\n\n"
+                "Pre-gated resolved files:\n"
+                + "\n".join(f"  - {p}" for p in pre_resolved)
                 + f"\n\nValidation: {validation.summary}"
             )
             commit_res = _git(["commit", "-m", commit_msg], timeout=30)
@@ -590,7 +627,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                     status="error",
                     branch=branch,
                     n_dev_commits=n_behind,
-                    conflict_files=settled_local_only,
+                    conflict_files=pre_resolved,
                     validation=validation,
                     error=f"git commit failed: {commit_res.stderr[:200]}",
                 )
@@ -608,8 +645,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                 status="auto_resolved",
                 branch=branch,
                 n_dev_commits=n_behind,
-                conflict_files=settled_local_only,
-                resolved_files=settled_local_only,
+                conflict_files=pre_resolved,
+                resolved_files=pre_resolved,
                 validation=validation,
             )
 
@@ -619,7 +656,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             _git(["merge", "--abort"], capture=False, timeout=10)
             return SyncResult(
                 status="aborted_protected", branch=branch, n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
+                conflict_files=pre_resolved + conflicts,
                 error=f"protected files in conflict: {protected}; aborted, route to human_inbox",
             )
 
@@ -639,8 +676,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             _git(["merge", "--abort"], capture=False, timeout=10)
             return SyncResult(
                 status="error", branch=branch, n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
-                resolved_files=settled_local_only + resolved,
+                conflict_files=pre_resolved + conflicts,
+                resolved_files=pre_resolved + resolved,
                 failed_files=failed,
                 error=f"{len(failed)} file(s) could not be resolved; merge aborted",
             )
@@ -653,8 +690,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             return SyncResult(
                 status="aborted_validation", branch=branch,
                 n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
-                resolved_files=settled_local_only + resolved,
+                conflict_files=pre_resolved + conflicts,
+                resolved_files=pre_resolved + resolved,
                 validation=ValidationResult(
                     passed=False,
                     failures=[boundary_failure],
@@ -669,8 +706,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             return SyncResult(
                 status="aborted_validation", branch=branch,
                 n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
-                resolved_files=settled_local_only + resolved,
+                conflict_files=pre_resolved + conflicts,
+                resolved_files=pre_resolved + resolved,
                 validation=validation,
                 error=validation.summary,
             )
@@ -678,12 +715,12 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
         # Commit the merge
         commit_msg = (
             f"Auto-merge {UPSTREAM_REF} ({n_behind} commits) — "
-            f"{len(settled_local_only) + len(resolved)} conflict(s) resolved by dev_sync_resolver\n\n"
+            f"{len(pre_resolved) + len(resolved)} conflict(s) resolved by dev_sync_resolver\n\n"
             f"Resolved files:\n" + "\n".join(f"  - {p}" for p in resolved) +
             (
-                "\nLocal-only state files:\n"
-                + "\n".join(f"  - {p}" for p in settled_local_only)
-                if settled_local_only else ""
+                "\nPre-gated resolved files:\n"
+                + "\n".join(f"  - {p}" for p in pre_resolved)
+                if pre_resolved else ""
             ) +
             f"\n\nValidation: {validation.summary}"
         )
@@ -692,8 +729,8 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             _git(["reset", "--hard", "ORIG_HEAD"], capture=False, timeout=20)
             return SyncResult(
                 status="error", branch=branch, n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
-                resolved_files=settled_local_only + resolved,
+                conflict_files=pre_resolved + conflicts,
+                resolved_files=pre_resolved + resolved,
                 validation=validation,
                 error=f"git commit failed: {commit_res.stderr[:200]}",
             )
@@ -703,16 +740,16 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
         if push_res.returncode != 0:
             return SyncResult(
                 status="error", branch=branch, n_dev_commits=n_behind,
-                conflict_files=settled_local_only + conflicts,
-                resolved_files=settled_local_only + resolved,
+                conflict_files=pre_resolved + conflicts,
+                resolved_files=pre_resolved + resolved,
                 validation=validation,
                 error=f"merge committed locally but push failed rc={push_res.returncode}",
             )
 
         return SyncResult(
             status="auto_resolved", branch=branch, n_dev_commits=n_behind,
-            conflict_files=settled_local_only + conflicts,
-            resolved_files=settled_local_only + resolved,
+            conflict_files=pre_resolved + conflicts,
+            resolved_files=pre_resolved + resolved,
             validation=validation,
         )
 
