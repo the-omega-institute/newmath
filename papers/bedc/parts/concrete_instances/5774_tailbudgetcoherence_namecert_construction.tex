@@ -207,6 +207,26 @@ Next apply window-readback exactness from \autoref{thm:tail-budget-coherence-win
 Finally use no-ambient-completeness scope from \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the accepted route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the finite route written above is the complete public boundary.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence Real-seal window stability]
+\label{thm:tail-budget-coherence-real-seal-window-stability}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+any $\RealUp$ or Completion consumer that reaches the agreement seal $A$ or the limit seal $L$ must preserve the same finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ tolerance ledger $D$, and $\RegSeqRatUp$ readback $R$ fixed under the threshold-budget rows $M,O,S$.
+
+Componentwise $\hsame$ transport may rename these rows, but it may not replace them by a second window, a host limit, a quotient stream equality, or an ambient completeness route.
+\end{theorem}
+\begin{proof}
+First expose the budget spine. By \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, every readback-facing route through $T$ presents $M,O,S$ before the finite window, dyadic tolerance, regular readback, agreement seal, or limit seal is consumed.
+
+Next fix the finite readback rows. Apply \autoref{thm:tail-budget-coherence-window-readback-exactness}; it identifies $W,D,R$ as the exact $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ route under the displayed threshold and budget rows, so a seal consumer cannot substitute a second readback surface.
+
+Now place the seal consumer on the public route. The Real route scope of \autoref{thm:tail-budget-coherence-real-route-scope} and the public export boundary of \autoref{thm:tail-budget-coherence-public-export-boundary} force any $\RealUp$ or Completion read of $A$ or $L$ through $M,O,S,W,D,R,A,L,H,C,P,N$.
+
+Finally use seal non-escape from \autoref{thm:tail-budget-coherence-seal-nonescape}. Since the accepted packet exports neither host limits, quotient stream equality, nor ambient completeness, componentwise $\hsame$ transport can only rename the displayed rows and cannot replace the finite window-readback triple.
+\end{proof}
+
 \begin{theorem}[Tail budget coherence bridge interface]
 \label{thm:tail-budget-coherence-bridge-interface}
 For an accepted $\TailBudgetCoherenceUp$ packet
@@ -243,7 +263,7 @@ The composite-dependency explanation is the replacement for an atomic independen
 \begin{closurestatus}{\TailBudgetCoherenceUp}
   \constructivestory{A $\TailBudgetCoherenceUp$ packet is generated from TailMeet threshold, Real observation-budget, regular Cauchy selector-budget, RealTailAgreementSeal, CauchyLimitSeal, finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, \autoref{thm:tail-budget-coherence-obligation-closure-package}, \autoref{thm:tail-budget-coherence-primitive-scope}, \autoref{thm:tail-budget-coherence-public-export-boundary}, \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-real-route-scope}, \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}, and \autoref{thm:tail-budget-coherence-bridge-interface} give the mature treatment of the public export boundary, bridge interface, sibling-scope lock, Real route scope, and no-ambient-completeness scope for the finite Real-completion tail-budget handoff.}
+  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, \autoref{thm:tail-budget-coherence-obligation-closure-package}, \autoref{thm:tail-budget-coherence-primitive-scope}, \autoref{thm:tail-budget-coherence-public-export-boundary}, \autoref{thm:tail-budget-coherence-real-seal-window-stability}, \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-real-route-scope}, \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}, and \autoref{thm:tail-budget-coherence-bridge-interface} give the mature treatment of the public export boundary, Real-seal window stability, bridge interface, sibling-scope lock, Real route scope, and no-ambient-completeness scope for the finite Real-completion tail-budget handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
