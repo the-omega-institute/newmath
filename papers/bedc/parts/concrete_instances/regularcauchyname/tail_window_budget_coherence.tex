@@ -85,3 +85,15 @@ For the induction step, assume the retained finite subfamily already factors thr
 
 Finally use tail-window consumer factorization again to close the boundary condition. Since every retained route is read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$, the finite intersection has no coordinate for quotient streams, selected limits, host sequence equality, independent real carriers, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[RegularCauchyName tail-window budget route exhaustion]
+\label{thm:regularcauchyname-tail-window-budget-route-exhaustion}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $\mathcal{F}$ be a finite nonempty family of accepted tail-window consumer reads of $R$ whose requested precisions share one certified dyadic-radius budget row. Then every terminal read in $\mathcal{F}$ is exhausted by the single finite route through the scheduled observation row, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation row, radius ledger row, $\RegSeqRatUp$ classifier row, $\RealUp$ seal row, and the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance. This route exports no quotient stream, selected limit, host sequence equality, independent real carrier, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First bind every consumer read to the scheduled source surface. Scheduled observation source totality \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation row for each accepted read, and tail-window consumer factorization \autoref{thm:regularcauchyname-tail-window-consumer-factorization} forces the read to pass through that row before it can reach the $\RegSeqRatUp$ classifier or $\RealUp$ seal.
+
+Next bind the shared budget. Radius ledger monotone readback \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps every certified precision request inside the same dyadic tolerance surface, while tail-window budget coherence \autoref{thm:regularcauchyname-tail-window-budget-coherence} and shared-budget triple pullback \autoref{thm:regularcauchyname-shared-budget-triple-pullback} identify the pair and triple routes attached to the common ledger row.
+
+Finally apply shared-budget finite intersection \autoref{thm:regularcauchyname-shared-budget-finite-intersection}. It collapses the whole finite nonempty family to one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The carrier inventory of the accepted packet contains only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance beyond that route, so there is no off-route terminal coordinate from which a quotient stream, selected limit, host sequence equality, independent real carrier, countable-choice selector, or ambient completeness witness could be exported.
+\end{proof}
