@@ -50,3 +50,17 @@ Next use budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-s
 
 Finally apply the non-escape theorem \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. Since no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate is available, the three reads cannot diverge outside the displayed finite support. Their selected-tail witness, window, ledger, handoff, seal, and meet are therefore determined by the same packet.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal regular tail-selector public export]
+\label{thm:cauchy-limit-seal-regular-tail-selector-public-export}
+Every compatible public $\CauchyLimitSealUp$ export to a Real-facing completion consumer factors through one accepted $\RegularCauchyTailSelectorUp$ packet, then through the shared $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, and $\RealObservationBudgetUp$ meet. The exported boundary is exactly this finite selector-support route and does not include quotient stream identity, host real equality, choice-selected limits, hidden family limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply the sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}. It places the public seal route through the accepted regular tail-selector packet before any Real-facing completion consumer can read the StreamName, DyadicRatCore, RegSeqRat, Real, or observation-budget rows.
+
+Next use budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-selector-budget-compatibility}. The selector-facing, budget-facing, and completion-facing reads are the same finite route over the accepted packet and the tail-budget meet, so the public export cannot choose a second support surface.
+
+Now apply the non-escape boundary of \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. It removes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness from the export inventory.
+
+Finally use window support determinacy from \autoref{thm:cauchy-limit-seal-tail-selector-window-support-determinacy}. The selected-tail witness, shared window, dyadic ledger, regular-sequence handoff, Real seal, and observation-budget meet are determined by the single accepted packet, so every compatible public export factors through precisely that route.
+\end{proof}
