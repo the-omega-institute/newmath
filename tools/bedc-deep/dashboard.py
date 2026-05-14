@@ -453,12 +453,16 @@ def _infer_refill_status(rec: dict) -> str:
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
             error = str(summary.get("error") or "").strip()
+            reject_suffix = _format_refill_reject_suffix(summary)
             error_kind = (
                 str(summary.get("error_kind") or "").strip()
                 or _classify_board_judge_error(error)
             )
             if summary.get("ok"):
-                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+                return (
+                    f"local_gap_fallback accepted={accepted} proposed={proposed}"
+                    f"{reject_suffix}"
+                )
             if error_kind.startswith("board_judge_unavailable"):
                 return (
                     "local_gap_fallback_judge_unavailable "
@@ -472,6 +476,7 @@ def _infer_refill_status(rec: dict) -> str:
             return (
                 "local_gap_fallback_failed "
                 f"accepted={accepted} proposed={proposed}"
+                f"{reject_suffix}"
                 + (f" error={error[:80]}" if error else "")
             )
         if summary.get("ok"):
@@ -513,6 +518,29 @@ def _infer_refill_status(rec: dict) -> str:
     if rec.get("prompt"):
         return "prompt_only"
     return "unknown"
+
+
+def _format_refill_reject_suffix(summary: dict) -> str:
+    reasons = summary.get("reject_reasons")
+    examples = summary.get("reject_examples")
+    if not isinstance(reasons, dict) or not reasons:
+        return ""
+    reason_items: list[tuple[str, int]] = []
+    for key, value in reasons.items():
+        try:
+            count = int(value)
+        except (TypeError, ValueError):
+            continue
+        reason_items.append((str(key), count))
+    if not reason_items:
+        return ""
+    top_reason, top_count = sorted(reason_items, key=lambda kv: (-kv[1], kv[0]))[0]
+    suffix = f" top_reject={top_reason}:{top_count}"
+    if isinstance(examples, dict):
+        example = str(examples.get(top_reason) or "").strip()
+        if example:
+            suffix += f" example={example[:60]}"
+    return suffix
 
 
 def _refill_status_bucket(status: str) -> str:
@@ -948,6 +976,7 @@ def render_logic_audit_warnings() -> str:
     failed_examples: dict[str, str] = {}
     audited = 0
     warned = 0
+    stale_warning_artifacts = 0
     failed_audited = 0
     failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
@@ -966,6 +995,11 @@ def render_logic_audit_warnings() -> str:
         warnings = audit.get("warnings") or []
         target = f.parent.name
         if landed:
+            current_warnings = _current_logic_audit_warnings(target)
+            if current_warnings is not None:
+                if warnings and current_warnings != warnings:
+                    stale_warning_artifacts += 1
+                warnings = current_warnings
             audited += 1
             if warnings:
                 warned += 1
@@ -986,6 +1020,8 @@ def render_logic_audit_warnings() -> str:
     lines = [f"  accepted audited={audited} warned={warned}"]
     if not counts:
         lines.append("  accepted warnings: none")
+    if stale_warning_artifacts:
+        lines.append(f"  accepted stale warning artifacts ignored={stale_warning_artifacts}")
     for code, n in sorted(counts.items(), key=lambda kv: -kv[1])[:8]:
         lines.append(f"  {code:<48} {n:>3}  example={examples.get(code, '?')}")
     if failed_audited:
@@ -999,6 +1035,26 @@ def render_logic_audit_warnings() -> str:
             f"example={failed_examples.get(code, '?')}"
         )
     return "\n".join(lines)
+
+
+def _current_logic_audit_warnings(target_slug: str) -> list[dict[str, str]] | None:
+    raw_path = TARGETS_DIR / target_slug / "raw_oracle_latex.md"
+    if not raw_path.exists():
+        return None
+    try:
+        import killo_golden_writeback
+        raw_text = raw_path.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return None
+    fenced = re.search(r"```(?:latex)?\s*(.*?)```", raw_text, re.DOTALL)
+    if fenced:
+        content = fenced.group(1)
+    else:
+        first = re.search(r"\\begin\{(?:theorem|lemma|proposition|corollary|definition)\}", raw_text)
+        content = raw_text[first.start():] if first else raw_text
+    audit = killo_golden_writeback._logic_surface_audit(content)
+    warnings = audit.get("warnings") or []
+    return [warning for warning in warnings if isinstance(warning, dict)]
 
 
 def render_recent_commits(n: int = 5) -> str:
