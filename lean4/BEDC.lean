@@ -58,6 +58,7 @@ import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApophaticGateQuestionUp
 import BEDC.Derived.ApophaticNameUp
+import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
