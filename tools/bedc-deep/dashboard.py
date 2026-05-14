@@ -413,7 +413,19 @@ def _infer_refill_status(rec: dict) -> str:
         if summary.get("fallback") == "local_gap_scanner":
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
-            return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            error = str(summary.get("error") or "").strip()
+            if summary.get("ok"):
+                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if "claude judge" in error.lower() or "codex fallback" in error.lower():
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed}"
+                )
+            return (
+                "local_gap_fallback_failed "
+                f"accepted={accepted} proposed={proposed}"
+                + (f" error={error[:80]}" if error else "")
+            )
         if summary.get("ok"):
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
@@ -590,6 +602,12 @@ def render_board_refill() -> str:
                 "  note: latest refill has no response/summary yet; use this to distinguish "
                 "transport stalls from logic-gate rejection."
             )
+    latest_status = _infer_refill_status(latest)
+    if latest_status.startswith("local_gap_fallback_judge_unavailable"):
+        lines.append(
+            "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
+            "do not bypass the final maker/checker gate."
+        )
     return "\n".join(lines)
 
 
