@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailConsensusUp$}
+\label{ch:concrete-instances-cauchy-tail-consensus-namecert}
+\origin{ai}
+
+The $\CauchyTailConsensusUp$ packet realizes the shared-tail consensus direction of \autoref{ch:visions-real-completeness}. It ties the shared threshold route of \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert} to the paired agreement route of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, then exposes a single $\CauchyLimitSealUp$ and $\RealUp$ handoff for downstream completion consumers.
+
+\begin{definition}[Cauchy tail consensus carrier]
+\label{def:cauchy-tail-consensus-carrier}
+A $\CauchyTailConsensusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,A,L,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\CauchySharedTailModulusUp$ row that supplies one shared finite threshold and readback route;
+\item $A$ is the accepted $\RealTailAgreementSealUp$ row that compares the paired tails after the same threshold route has been displayed;
+\item $L$ is the $\CauchyLimitSealUp$ handoff row exposed only after $S$ and $A$ agree on the route;
+\item $W$ records the $\StreamNameUp$ finite-window rows used by both $S$ and $A$;
+\item $R$ records the $\RegSeqRatUp$ readbacks consumed by the agreement and limit-seal rows;
+\item $E$ is the terminal $\RealUp$ seal row for Real-completion consumers;
+\item $H$ records componentwise $\hsame$ transport for all displayed rows;
+\item $C$ records the $\Cont$ replay from shared threshold to agreement, from agreement to limit seal, and from limit seal to Real seal;
+\item $P$ is the $\Pkg$ provenance over $\CauchySharedTailModulusUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyTailConsensusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected host limits, independent tail thresholds, unshared readback routes, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail consensus NameCert obligations]
+\label{thm:cauchy-tail-consensus-namecert-obligations}
+The local $\NameCert_{\CauchyTailConsensusUp}$ surface for \autoref{def:cauchy-tail-consensus-carrier} consists exactly of carrier admission, shared-tail admission through $S$, tail-agreement admission through $A$, common $\StreamNameUp$ window service through $W$, common $\RegSeqRatUp$ readback through $R$, $\CauchyLimitSealUp$ handoff through $L$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, route replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $S,A,L,W,R,E,H,C,P,N$ are the complete accepted inventory, so each shared-tail, agreement, window, readback, limit-seal, Real-seal, transport, route, provenance, and naming obligation is visible.
+
+Read the two sibling routes. The shared-tail side uses \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}, while the agreement side uses \autoref{ch:concrete-instances-realtailagreementseal-namecert}. Both are forced to consume the same displayed $W,R$ route before $L$ and $E$ are available.
+
+Since the carrier stores no quotient stream, selected limit, independent threshold, unshared readback, host equality, or ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy tail consensus shared route determinacy]
+\label{thm:cauchy-tail-consensus-shared-route-determinacy}
+Every accepted $\CauchyTailConsensusUp$ packet exposes a $\RealUp$ seal only when the shared-tail row $S$ and the tail-agreement row $A$ use the same finite threshold, window, and readback route through $W,R,H,C,P,N$. A packet whose $S$ and $A$ rows disagree on that route has no accepted Real seal row $E$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. The $\CauchyLimitSealUp$ handoff $L$ and terminal seal $E$ occur after both $S$ and $A$ have consumed the displayed $W,R$ route.
+
+Apply the sibling boundaries. The shared-tail modulus chapter supplies one shared finite threshold, and the Real tail-agreement seal chapter accepts the paired agreement only through its displayed window and readback rows.
+
+If those routes disagree, there is no common continuation from $A$ to $L$ in the carrier. Thus the terminal seal row cannot be exposed; if they agree, the displayed $H,C,P,N$ rows replay the single accepted consensus route.
+\end{proof}
+
+\begin{theorem}[Cauchy tail consensus Real-completion handoff]
+\label{thm:cauchy-tail-consensus-real-completion-handoff}
+Every Real-completion consumer of an accepted $\CauchyTailConsensusUp$ packet reads only the finite route
+$$
+S,A,W,R,L,E,H,C,P,N.
+$$
+The route first consumes the shared-tail modulus, then the tail-agreement seal, then the Cauchy limit seal, and finally the Real seal; it exports no quotient stream, selected host limit, independent threshold, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use shared route determinacy. It makes $W,R$ the common route for the shared-tail row and the tail-agreement row before any seal is visible.
+
+Next read the Cauchy-limit handoff. The row $L$ is reached only after the consensus route has passed through both $S$ and $A$.
+
+Finally project the terminal seal row $E$ and the structural rows $H,C,P,N$. They transport, replay, package, and name the same finite route, so the consumer has no coordinate from which to import any excluded completion resource.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CauchyTailConsensusUp$ packet exposes no Real seal unless both shared-tail and tail-agreement rows use the same finite threshold and readback route.}
+
+\independenceWitness{cauchysharedtailmodulus, realtailagreementseal, cauchylimitseal, streamname, regseqrat: none is bijective to $\CauchyTailConsensusUp$ because this carrier stores the shared-tail row, agreement row, limit-seal handoff, common window/readback route, Real seal, and structural certificate rows together.}
+
+The Lean \texttt{TasteGate.lean} boundary for this carrier must include \texttt{Nontrivial CauchyTailConsensusUp} and \texttt{FieldFaithful CauchyTailConsensusUp} instances, so the consensus object is represented by an inhabited and field-faithful packet rather than by a vacuous route.
+
+\closureat{CauchyTailConsensusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailConsensusUp}
+  \constructivestory{A $\CauchyTailConsensusUp$ packet is generated from shared-tail modulus, Real tail-agreement seal, CauchyLimitSeal, StreamName window, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-consensus-carrier}, \autoref{thm:cauchy-tail-consensus-namecert-obligations}, \autoref{thm:cauchy-tail-consensus-shared-route-determinacy}, and \autoref{thm:cauchy-tail-consensus-real-completion-handoff} bind the finite shared-tail consensus carrier and its Real-completion consumer route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected host limits, host real equality, independent tail thresholds, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-tail admission, tail-agreement admission, common window and readback route determinacy, CauchyLimitSeal handoff, RealUp seal handoff, and non-escape for the same packet.}
+\end{closurestatus}
