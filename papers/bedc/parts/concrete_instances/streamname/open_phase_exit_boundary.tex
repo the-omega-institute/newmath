@@ -17,6 +17,22 @@ Now invoke \autoref{thm:streamname-dyadicratcore-window-anchor}. It anchors ever
 Finally apply \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. The open-phase lattice exhausts the public consumer coordinates by the finite route and its displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. Therefore the exit boundary is exactly that finite BEDC packet, and no quotient stream, host sequence equality, selected limit, ambient completeness, metric-completeness datum, or standard bridge row is exported.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window exit determinacy]
+\label{thm:streamname-open-phase-finite-window-exit-determinacy}
+Let two Phase Real and Completion consumers read accepted $\StreamNameUp$ exit packets. If they expose the same StreamName finite window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, then they determine the same finite BEDC exit boundary. Conversely, every accepted exit boundary in this open phase is read through exactly those four faces and their displayed support rows.
+
+The determined boundary carries no quotient stream, host sequence equality, selected limit, ambient $\RealUp$ completeness row, metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-open-phase-exit-boundary}. It identifies the boundary of every Phase Real and Completion consumer as the finite StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For determinacy, use \autoref{thm:streamname-open-phase-terminal-seal-exactness} and \autoref{thm:streamname-open-phase-terminal-readback-determinacy}. The seal exactness pins the Real-facing coordinate to the same four-face packet, and readback determinacy says that equality of those displayed rows forces equality of the terminal finite packet.
+
+Now apply \autoref{thm:streamname-dyadicratcore-window-anchor}. The StreamName window read is anchored through the DyadicRatCore observation and tolerance ledger before RegSeqRat or Real consumers can inspect it.
+
+Finally use \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. The lattice gives the converse direction: any accepted open-phase exit boundary is read through the StreamName, RegSeqRat, DyadicRatCore, and Real faces with the displayed support rows only. Since the cited boundaries expose no quotient stream, host sequence equality, selected limit, ambient completeness, metric-completeness datum, or standard bridge row, the finite BEDC packet is the whole exit boundary.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion exit certificate]
 \label{thm:streamname-real-completion-exit-certificate}
 Every Phase Real and Completion exit read from the current $\StreamNameUp$ open phase factors through the four finite sibling faces: the StreamName finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal. The certificate exposes only the displayed rows
@@ -35,4 +51,24 @@ Next apply \autoref{thm:streamname-open-phase-terminal-seal-exactness}. The term
 Then use \autoref{thm:streamname-dyadicratcore-window-anchor}. The tolerance ledger is pinned to the StreamName finite window before the RegSeqRat and Real consumers can read it.
 
 Finally apply \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. The dependency lattice puts the RegSeqRat readback and RealUp seal on the same finite route, so the certificate is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet. Since the component theorems expose no quotient stream, host sequence equality, selected limit, RealUp completeness row, or standard bridge, the packaged exit certificate exports none.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase four-face terminality]
+\label{thm:streamname-open-phase-four-face-terminality}
+Let two Phase Real and Completion exit reads expose the same $\StreamNameUp$ finite window, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\RegSeqRatUp$ readback, the same $\RealUp$ seal, and the same displayed rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the two reads determine the same terminal finite BEDC route through those four faces. Conversely, any terminal route available to the current open phase is read through exactly the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed support rows named above.
+
+The terminal route contains no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-open-phase-exit-boundary}. It identifies every Phase Real and Completion exit boundary with the finite StreamName, RegSeqRat, DyadicRatCore, and Real faces together with their displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next use \autoref{thm:streamname-real-completion-exit-certificate}. The certificate repacks the same four faces as the public exit read, so two reads with matching windows, ledgers, readbacks, seals, and displayed support rows have no remaining coordinate on which their terminal finite routes can differ.
+
+Now apply \autoref{thm:streamname-dyadicratcore-window-anchor}. The DyadicRatCore tolerance ledger is anchored to the StreamName finite window before either RegSeqRat readback or RealUp seal can be consumed, which prevents a second tolerance route from entering the terminal packet.
+
+Finally invoke \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. The lattice supplies the converse direction by exhausting the open-phase route through the four required faces. Since the cited routes export no quotient stream, host sequence equality, selected limit, ambient completeness, metric-completeness datum, or standard bridge row, terminality belongs to that finite BEDC route alone.
 \end{proof}

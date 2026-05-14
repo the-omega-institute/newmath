@@ -1,0 +1,77 @@
+\begin{theorem}[FiniteTraceEvaluator root checkpoint totality]
+\label{thm:finitetraceevaluator-root-checkpoint-totality}
+Every $\ReflectionRuntimeCheckpointUp$-facing read of an accepted
+$\FiniteTraceEvaluatorUp$ packet factors through the displayed finite rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+Thus a root checkpoint consumer reads coded input, finite trace steps,
+accepted-result classification, validation boundary, componentwise transport,
+displayed continuation, provenance, and local naming as one finite evaluator
+package.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its
+visible coordinates are exactly $I,T,A,V,H,C,P,N$, and the local NameCert
+obligations expose those rows as the available evaluator surface.
+
+Apply \autoref{thm:finite-trace-evaluator-root-boundary-package}. A
+root-facing checkpoint consumer receives the finite boundary package built
+from the trace-result route and the validation boundary, with provenance and
+local naming attached to the same packet.
+
+Finally use \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. The
+checkpoint source is locked to $I \to T \to A$ for accepted results and to
+$V,H,C,P,N$ for validation-facing reads, so every root checkpoint read factors
+through the listed rows.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root validation refusal]
+\label{thm:finitetraceevaluator-root-validation-refusal}
+Every $\ReflectionRuntimeCheckpointUp$-facing request for host validation,
+total truth for $\mathrm{CIC}^{*}$ sentences, total halting, or unbounded
+evaluation stops at the displayed validation-boundary, transport,
+continuation, provenance, and local naming rows $V,H,C,P,N$ of the accepted
+$\FiniteTraceEvaluatorUp$ packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-root-validation-boundary}. It
+sends root-level validation reads to $V,H,C,P,N$ and refuses host validation,
+total truth, total halting, and unbounded evaluation as packet coordinates.
+
+Use \autoref{thm:finite-trace-evaluator-validation-nonescape-totality}. The
+accepted-result route remains separate from the validation boundary, and the
+validation-facing route cannot certify a host judgment or total classifier.
+
+Apply \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The
+runtime checkpoint handoff exposes only the source-locked evaluator rows, so
+the listed requests terminate at the refusal surface rather than becoming new
+root evidence.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root consumer readiness]
+\label{thm:finitetraceevaluator-root-consumer-readiness}
+The root checkpoint totality row of
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality} and the validation
+refusal row of \autoref{thm:finitetraceevaluator-root-validation-refusal}
+provide the exact finite root package consumed by downstream
+reflection-runtime chapters. The package is the displayed evaluator route
+$I,T,A,V,H,C,P,N$ and no host validation, total truth, total halting, or
+unbounded evaluation is added by the consumer boundary.
+\end{theorem}
+\begin{proof}
+First combine the two rows just stated. The totality theorem supplies the
+checkpoint-facing route through all displayed evaluator coordinates, while the
+refusal theorem fixes where validation-facing requests stop.
+
+Next attach the existing root package theorem,
+\autoref{thm:finite-trace-evaluator-root-boundary-package}. It already
+identifies the finite root-facing package consumed by checkpoint readers and
+excludes host validation, total truth, self-validation, total halting, and
+unbounded evaluation.
+
+Finally use \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}.
+Downstream reflection-runtime chapters receive the same handoff package
+$I,T,A,V,H,C,P,N$, so the consumer boundary is ready without adding any row
+outside the finite evaluator packet.
+\end{proof}

@@ -671,6 +671,20 @@ selected limits, host real equality, ambient completeness, and any additional
 family-limit object.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion completion uniform-family factorization]
+\label{thm:cauchycriterion-completion-uniform-family-factorization}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let $U$ be an accepted singleton or fixed finite-family $\UniformCauchyCriterionUp$ packet with the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. If the two packets identify the shared window, shared modulus, dyadic tolerance, tail ledger, and real-seal rows as in \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}, then they expose the same completion-facing route before any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer can read the seal.
+
+The factorized route is the finite path through $M,Q,T,W,E$ together with the shared stream-name source, regular-rational readback, dyadic ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected limit, host real equality, ambient completeness principle, unrecorded completion object, or independently chosen family limit.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}. It identifies the singleton or fixed finite-family uniform route with the same CauchyCriterion path $M\to Q\to T\to W\to E$ once the stream-name, regular-rational, dyadic, and real-seal rows agree.
+
+Next apply \autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. The completion-facing consumer can read only the displayed CauchyCriterion rows, so the seal is reached through the same window, modulus, tolerance, tail, and real row.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-downstream-real-consumer-export}. It transports the downstream $\RealUp$ consumer on the uniform packet through the same finite family ledger. Combining these consumer clauses gives one route for $\CompletionUp$ and $\RealCauchyCompletionUp$, with the quotient, selected-limit, host-equality, completeness, unrecorded-completion, and second-family-limit exits absent.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion mature downstream examples]
 \label{thm:cauchycriterion-mature-downstream-examples}
 The public certificate, real-completion consumer bridge, modulus-tail consumer

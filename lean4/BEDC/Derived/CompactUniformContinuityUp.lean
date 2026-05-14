@@ -379,6 +379,38 @@ theorem CompactUniformContinuityPacket_root_metric_route [AskSetup] [PackageSetu
       sourceReadPkg,
       targetReadPkg⟩
 
+theorem CompactUniformContinuityPacket_fold_witness_stability [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow radiusRead stablePrecision : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont radiusRows fold radiusRead ->
+        hsame stablePrecision radiusRead ->
+          PkgSig bundle radiusRead pkg ->
+            UnaryHistory radiusRows ∧ UnaryHistory fold ∧ UnaryHistory radiusRead ∧
+              UnaryHistory stablePrecision ∧ Cont modulusRows radiusRows fold ∧
+                Cont radiusRows fold radiusRead ∧ hsame stablePrecision radiusRead ∧
+                  PkgSig bundle precision pkg ∧ PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame ProbeBundle Pkg
+  intro packet radiusRowsFoldRadiusRead stablePrecisionSame radiusReadPkg
+  obtain ⟨_sourceUnary, _targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, _transportUnary, _nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, _foldTransportRoute, _routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusRowsUnary foldUnary radiusRowsFoldRadiusRead
+  have stablePrecisionUnary : UnaryHistory stablePrecision :=
+    unary_transport_symm radiusReadUnary stablePrecisionSame
+  exact
+    ⟨radiusRowsUnary, foldUnary, radiusReadUnary, stablePrecisionUnary,
+      modulusRowsRadiusRowsFold, radiusRowsFoldRadiusRead, stablePrecisionSame, precisionPkg,
+      radiusReadPkg⟩
+
 theorem CompactUniformContinuityPacket_finite_row_audit_boundary [AskSetup] [PackageSetup]
     {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
       route nameRow metricRead realRead sourceRead targetRead : BHist}
