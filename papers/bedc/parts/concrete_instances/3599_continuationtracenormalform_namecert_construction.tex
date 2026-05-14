@@ -189,6 +189,44 @@ Use \autoref{thm:continuation-trace-normal-form-terminal-typed-boundary-exhausti
 Finally apply \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. It packages the same finite surface for downstream halting and normal-form chapters, with no coordinate for the excluded host, quotient, evaluator, confluence, normalizer, or off-route terminal-reader objects.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm source-endpoint partition]
+\label{thm:continuation-trace-normal-form-source-endpoint-partition}
+Every accepted $\ContinuationTraceNormalFormUp$ packet partitions its public rows into source trace, terminal-read, typed-normal boundary, transport, route, provenance, and local $\NameCert$ data before any consumer reads the endpoint. For $Z=(S,T,R,Q,V,H,C,P,N)$, the source trace is $S,T$, the terminal-read surface is $R,Q$, the typed-normal boundary is $V$, the transport surface is $H$, the route surface is $C$, the provenance row is $P$, and the local naming row is $N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and \autoref{thm:continuation-trace-normal-form-namecert-obligations}. They expose exactly the rows $S,T,R,Q,V,H,C,P,N$ and bind each row to carrier admission, trace replay, terminal-read exposure, typed normal-form readback, transport, route, provenance, and local naming.
+
+Use \autoref{thm:continuation-trace-normal-form-terminal-scope}. It orders endpoint access after the trace ledger, terminal-read row, and typed normal-form row have been consumed through the displayed route.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion} and \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The trace and typed-boundary reads cannot be replaced by host conversion, quotient normalization, evaluator graphs, global confluence, or external normalizers, so the displayed partition is the entire endpoint surface.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm terminal-result determinacy]
+\label{thm:continuation-trace-normal-form-terminal-result-determinacy}
+Two public terminal reads through the same displayed $T,Q,H,C,P,N$ rows of accepted $\ContinuationTraceNormalFormUp$ packets have the same BEDC result row under $\hsame$ transport and $\Cont$ replay. No host evaluator, quotient normalizer, global confluence proof, or off-route terminal reader can separate the two reads.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. It locks each terminal row behind the trace ledger, terminal-read row, transport, route, provenance, and local naming rows.
+
+Apply \autoref{thm:continuation-trace-normal-form-terminal-route-determinacy}. Agreement on the displayed trace, typed boundary, componentwise transport, route, provenance, and local naming rows determines the same normal-form consumer surface.
+
+Use \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. Since trace reads are exhausted by the displayed ledger and replayed only through $C$, no second terminal result can be read through an external trace source.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient normalization, evaluator graph, global confluence, and external normalizer have no row from which to distinguish the BEDC result.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm typed-boundary ledger nonescape]
+\label{thm:continuation-trace-normal-form-typed-boundary-ledger-nonescape}
+Every typed-normal boundary read in an accepted $\ContinuationTraceNormalFormUp$ packet factors through the displayed source trace, terminal-read, typed boundary, transport, route, provenance, and local naming ledger $S,T,R,Q,V,H,C,P,N$. The boundary cannot import host conversion, quotient normalization, global confluence, evaluator graphs, or an external normalizer.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:continuation-trace-normal-form-carrier}. The typed-normal boundary is the row $V$ in the same finite carrier as the source, trace, terminal, terminal-read, transport, route, provenance, and local name.
+
+Apply \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. It reads $V$ only through the displayed trace, terminal, transport, route, package, and local naming rows.
+
+Combine \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-terminal-scope}, and \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. These rows certify the carrier surface, order terminal access, and exhaust trace reads before the typed boundary reaches a consumer.
+\end{proof}
+
 \begin{theorem}[ContinuationTraceNormalForm route ledger totality]
 \label{thm:continuation-trace-normal-form-route-ledger-totality}
 For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the route ledger is total over the displayed source, trace, terminal, terminal-read, typed-boundary, transport, route, provenance, and naming rows. Every public normal-form consumer must read $S$, then the $\ContinuationTraceUp$ ledger $T$, then the terminal row $R$, then the $\ContinuationBigStepUp$ terminal-read row $Q$, then the $\TypedReductionNormalFormUp$ row $V$, with componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local $\NameCert_{\ContinuationTraceNormalFormUp}$ naming through $N$.

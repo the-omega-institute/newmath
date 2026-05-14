@@ -227,6 +227,84 @@ Use \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handof
 Finally apply \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The checked TasteGate alignment row is read only as the existing single-carrier handoff, so the scoped packet remains the displayed finite tuple and does not export an unlisted branch, non-structural recursion channel, unaudited output, or hidden proof-producing generator.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor signature route totality]
+\label{thm:authorized-generator-recursor-signature-route-totality}
+Every public read of an accepted $\AuthorizedGeneratorRecursorUp$ packet is
+total only as a route through the accepted signature $I$, eliminator $E$,
+motive $M$, branch package $B$, descent row $D$, output name $O$, audit row
+$A$, componentwise transports $H$, displayed routes $C$, provenance row $P$,
+$\mathsf{GAP}$ row $G$, and local name $N$. No downstream recursor consumer can
+detach the public output from the accepted signature route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-namecert-surface}. They bind the
+constructor signature, eliminator, motive, branch package, output name,
+transport, route, provenance, boundary, and local naming rows to one finite
+packet.
+
+Next apply \autoref{thm:authorized-generator-recursor-structural-descent-locality}.
+Every recursive read stays on the displayed signature, eliminator, motive,
+branch package, and descent row.
+
+Finally use \autoref{thm:authorized-generator-recursor-output-name-stability}
+and \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}. The
+output name cannot be transported apart from the signature, descent, audit, and
+boundary rows, and the packet has no coordinate for a hidden generator.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output audit ledger]
+\label{thm:authorized-generator-recursor-output-audit-ledger}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the output name $O$ is
+public only together with the audit row $A$, transports $H$, routes $C$,
+provenance $P$, boundary $G$, and local name $N$ over the same
+$I,E,M,B,D$ recursor route. The ledger refuses any public output whose
+dependency or audit provenance escapes the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-audit-boundary}. It
+places the public output behind the accepted signature, emitted eliminator,
+checked motive, complete branch package, structural-descent row, and audit row.
+
+Apply \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}
+and \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}.
+These attach build checking, source-axiom refusal, dependency refusal,
+operational provenance, transports, routes, package provenance, boundary, and
+local naming before $O$ is public.
+
+Use \autoref{thm:authorized-generator-recursor-output-name-stability}. It keeps
+$O$ tied to the same $I,E,M,B,D,A,H,C,P,G,N$ rows, so the audit ledger cannot
+be bypassed by an unaudited output route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor public consumer boundary]
+\label{thm:authorized-generator-recursor-public-consumer-boundary}
+Every downstream consumer of an accepted $\AuthorizedGeneratorRecursorUp$
+packet reads the public boundary through $I,E,M,B,D,O,A,H,C,P,G,N$. The boundary
+contains branch coverage, structural descent, audit provenance, operational
+membrane handoff, output-name stability, and hidden-generator refusal, and it
+contains no unlisted branch, detached output name, non-structural recursion
+channel, external axiom, or proof-producing generator outside $G$.
+\end{theorem}
+\begin{proof}
+First combine
+\autoref{thm:authorized-generator-recursor-signature-route-totality} and
+\autoref{thm:authorized-generator-recursor-output-audit-ledger}. The public
+consumer receives the accepted signature route and the audit ledger as one
+packet.
+
+Next apply \autoref{thm:authorized-generator-recursor-branch-descent-totality}
+with \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}.
+These rows exhaust recursive branch reads and attach the operational membrane
+audit surface before the output is exposed.
+
+Finally use \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}
+and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The
+checked carrier alignment is only the handoff for the same finite packet, so no
+unlisted branch, detached output, external axiom, or hidden proof generator can
+cross the public boundary.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]

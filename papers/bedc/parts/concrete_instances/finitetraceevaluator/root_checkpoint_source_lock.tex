@@ -1,0 +1,82 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint source lock]
+\label{thm:finite-trace-evaluator-checkpoint-source-lock}
+Every root-facing checkpoint consumer of an accepted $\FiniteTraceEvaluatorUp$
+packet locks its accepted-result source to the displayed finite route
+$$
+I \to T \to A
+$$
+and its validation-facing boundary to $V,H,C,P,N$. The consumer may read the
+root checkpoint package, but it cannot replace the coded input, finite trace,
+accepted-result classifier, or validation boundary by host validation, total
+truth, total halting, unbounded execution, or a second source ledger.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations,
+\autoref{def:finite-trace-evaluator-carrier} and
+\autoref{thm:finite-trace-evaluator-namecert-obligations}. They display exactly
+the rows $I,T,A,V,H,C,P,N$ and make trace-step exposure, accepted-result
+classification, validation non-escape, transport, continuation, provenance, and
+local naming part of one packet.
+
+Apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage} and
+\autoref{thm:finite-trace-evaluator-root-trace-result-totality}. These force
+every accepted-result read through $I \to T \to A$ before a root-facing
+checkpoint consumer can continue.
+
+Finally use \autoref{thm:finite-trace-evaluator-root-validation-boundary} and
+\autoref{thm:finite-trace-evaluator-root-boundary-package}. The validation read
+stays on $V,H,C,P,N$, so no host validator, total truth predicate, total
+halting classifier, unbounded evaluator, or second source ledger is available.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator validation nonescape totality]
+\label{thm:finite-trace-evaluator-validation-nonescape-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every validation-facing root
+read is total only through the displayed boundary row $V$ together with
+$H,C,P,N$. The accepted-result route $I \to T \to A$ remains separate from the
+validation boundary, and neither route can certify host validation, total truth
+for $\mathrm{CIC}^{*}$ sentences, self-validation, total halting, or unbounded
+evaluation.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-trace-evaluator-validation-row-nonescape}. It
+identifies $V$ as a boundary row and refuses host validation, total truth,
+self-validation, and unbounded execution as packet coordinates.
+
+Next use \autoref{thm:finite-trace-evaluator-result-validation-separation}.
+The accepted-result route through $I,T,A$ and the validation-facing route
+through $V$ remain distinct rows of the same evaluator packet.
+
+Attach the root boundary with
+\autoref{thm:finite-trace-evaluator-root-validation-boundary} and
+\autoref{thm:finite-trace-evaluator-root-boundary-package}. The surrounding
+transport, continuation, provenance, and local naming rows are exactly
+$H,C,P,N$, so validation cannot escape to a host judgment or total classifier.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime boundary handoff]
+\label{thm:finite-trace-evaluator-runtime-boundary-handoff}
+Every $\ReflectionRuntimeCheckpointUp$ handoff from an accepted
+$\FiniteTraceEvaluatorUp$ packet factors through the finite trace evaluator
+carrier, bounded trace coverage, validation non-escape, result-validation
+separation, root trace-result totality, root validation boundary, and root
+boundary package. The handoff exposes only the source-locked evaluator rows
+$I,T,A,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the checkpoint consumer route from
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route} and
+\autoref{thm:finite-trace-evaluator-runtime-checkpoint-boundary}. The runtime
+checkpoint receives the same evaluator rows and no extra validation or
+unbounded-execution coordinate.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. It locks the
+accepted-result source to $I \to T \to A$ and the validation-facing surface to
+$V,H,C,P,N$.
+
+Finally apply
+\autoref{thm:finite-trace-evaluator-validation-nonescape-totality}. The handoff
+therefore stays inside the displayed evaluator carrier and refuses host
+validation, total truth, total halting, self-validation, and unbounded
+evaluation.
+\end{proof}
