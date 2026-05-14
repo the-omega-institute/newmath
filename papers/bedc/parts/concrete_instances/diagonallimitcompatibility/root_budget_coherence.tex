@@ -196,3 +196,60 @@ coordinate exhaustion. They leave no host real equality, quotient stream,
 choice datum, selected limit, or ambient completeness input outside the
 displayed packet route.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root budget consumer chain]
+\label{thm:diagonal-limit-compatibility-root-budget-consumer-chain}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet reaches the public read only through
+the ordered chain
+$$
+\text{root-budget coherence}
+\to
+\text{selector-budget exhaustion}
+\to
+\text{Real-seal readback lock}
+\to
+\text{finite-window handoff}
+\to
+\text{public boundary}
+$$
+on the displayed route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Thus the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and
+$\CompletionUp$-facing reads consume one ordered BEDC route rather than a
+host limit, quotient stream, choice datum, host real equality, or ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It fixes the
+root-budget read on the same $D,W,Q,L,H,C,P,N$ surface carried by the accepted
+packet.
+
+Next apply
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}. It
+places the selector budget behind $R,T,S,D,W,Q,L$ and rules out a second
+diagonal source, alternate window route, alternate dyadic ledger, selected
+host limit, quotient stream, choice datum, or ambient completeness input
+between the root-budget read and the selector read.
+
+Then apply
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. The
+seal read reaches $L$ only after $S,D,W,Q$ have been fixed on the displayed
+compatibility route, so no host real equality can enter between the selector
+budget and the $\RealUp$ read.
+
+Now use
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary}. It
+packages the root-budget route, selector-budget route, and Real-seal lock as
+one finite handoff on $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-public-boundary}. The
+public boundary is downstream of those four links on the same route, so every
+$\RealUp$ or $\CompletionUp$ consumer reaches the public read without inserting
+a host limit, quotient stream, choice datum, host real equality, or ambient
+completeness coordinate between any two links of the chain.
+\end{proof}
