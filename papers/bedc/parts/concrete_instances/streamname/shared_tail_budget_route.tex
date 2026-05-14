@@ -60,3 +60,39 @@ real equality witness, selected limit, independent tail oracle,
 countable-choice selector, or completeness principle, so none can escape
 through the public route.
 \end{proof}
+
+\begin{theorem}[StreamName shared-tail window pullback exactness]
+\label{thm:streamname-shared-tail-window-pullback-exactness}
+Let $W_0$ and $W_1$ be accepted finite $\StreamNameUp$ windows, and let
+$$
+S=(M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N)
+$$
+be an accepted $\CauchySharedTailModulusUp$ packet whose displayed windows are
+the same $W_0$ and $W_1$. Every $\RealUp$ seal read or $\RegSeqRatUp$ readback
+pullback from these windows factors through the shared threshold $\tau$, the
+dyadic ledger $D$, the paired windows $W_0,W_1$, the paired readbacks
+$Q_0,Q_1$, and the seal route $E,H,C,P,N$ displayed by $S$.
+
+Replacing one side by a private threshold, quotient stream, selected limit,
+host real equality, or independent inverse-budget route is not a read of the
+packet $S$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-regseq-shared-tail-budget-route}. It places
+the two finite windows on the common StreamName budget path through the dyadic
+tail-radius ledger, the shared threshold, the $\RegSeqRatUp$ readback boundary,
+and the $\RealUp$ finite-window seal boundary.
+
+Now read the $\CauchySharedTailModulusUp$ packet through
+\autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}. It identifies any
+seal-facing consumer with the rows
+$M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N$. The paired-window service of
+\autoref{thm:cauchy-shared-tail-modulus-paired-window-readback-service} keeps
+the two windows attached to the same threshold and dyadic ledger.
+
+Finally compare reciprocal-window consumers only through the
+\autoref{thm:cauchy-inverse-budget-streamname-window-dependency}. That
+comparison supplies no private threshold, quotient stream, selected limit, host
+real equality, or independent inverse-budget route, so every displayed pullback
+remains the read of the single packet $S$.
+\end{proof}
