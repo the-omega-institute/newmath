@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -90,5 +92,62 @@ theorem DyadicTailRadiusLedgerCarrier_window_route_scope [AskSetup] [PackageSetu
         localNameUnary', precisionTailWindow', streamWindowsDyadicReadback',
         routesRegSeqHandoff', realSealLocalName', pkgSig'⟩,
       sameStreamWindows, sameRoutes, sameRealSeal, sameProvenance⟩
+
+theorem DyadicTailRadiusLedgerCarrier_tail_budget_coverage [AskSetup] [PackageSetup]
+    {precision tailWindow streamWindows dyadicReadback regSeqHandoff realSeal transport routes
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailRadiusLedgerCarrier precision tailWindow streamWindows dyadicReadback
+        regSeqHandoff realSeal transport routes provenance localName bundle pkg →
+      UnaryHistory precision ∧ UnaryHistory tailWindow ∧ UnaryHistory streamWindows ∧
+        UnaryHistory dyadicReadback ∧ Cont precision tailWindow streamWindows ∧
+          Cont streamWindows dyadicReadback routes ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row dyadicReadback ∧ UnaryHistory row)
+              (fun row : BHist => hsame row dyadicReadback)
+              (fun row : BHist => hsame row dyadicReadback ∧ PkgSig bundle provenance pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier
+  obtain ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+    _regSeqHandoffUnary, _realSealUnary, _routesUnary, _provenanceUnary, _localNameUnary,
+    precisionTailWindow, streamWindowsDyadicReadback, _routesRegSeqHandoff,
+    _realSealLocalName, pkgSig⟩ := carrier
+  have sourceDyadicReadback :
+      (fun row : BHist => hsame row dyadicReadback ∧ UnaryHistory row) dyadicReadback := by
+    exact And.intro (hsame_refl dyadicReadback) dyadicReadbackUnary
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row dyadicReadback ∧ UnaryHistory row)
+        (fun row : BHist => hsame row dyadicReadback)
+        (fun row : BHist => hsame row dyadicReadback ∧ PkgSig bundle provenance pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro dyadicReadback sourceDyadicReadback
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left pkgSig
+    }
+  exact
+    ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+      precisionTailWindow, streamWindowsDyadicReadback, cert⟩
 
 end BEDC.Derived.DyadicTailRadiusLedgerUp
