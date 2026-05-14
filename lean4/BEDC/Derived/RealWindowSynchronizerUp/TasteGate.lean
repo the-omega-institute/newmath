@@ -230,6 +230,17 @@ instance realWindowSynchronizerFieldFaithful : FieldFaithful RealWindowSynchroni
             cases h
             rfl
 
+instance realWindowSynchronizerNontrivial : Nontrivial RealWindowSynchronizerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealWindowSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealWindowSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist h) = h) ∧
