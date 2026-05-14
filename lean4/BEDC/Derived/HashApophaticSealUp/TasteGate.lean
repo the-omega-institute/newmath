@@ -37,6 +37,34 @@ private theorem hashApophaticSeal_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem hashApophaticSeal_mk_congr
+    {digest fiber gap farEnd refusal transport continuation provenance name
+      digest' fiber' gap' farEnd' refusal' transport' continuation' provenance'
+      name' : BHist}
+    (hDigest : digest' = digest)
+    (hFiber : fiber' = fiber)
+    (hGap : gap' = gap)
+    (hFarEnd : farEnd' = farEnd)
+    (hRefusal : refusal' = refusal)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    HashApophaticSealUp.mk digest' fiber' gap' farEnd' refusal' transport'
+        continuation' provenance' name' =
+      HashApophaticSealUp.mk digest fiber gap farEnd refusal transport continuation
+        provenance name := by
+  cases hDigest
+  cases hFiber
+  cases hGap
+  cases hFarEnd
+  cases hRefusal
+  cases hTransport
+  cases hContinuation
+  cases hProvenance
+  cases hName
+  rfl
+
 def hashApophaticSealToEventFlow : HashApophaticSealUp → EventFlow
   | HashApophaticSealUp.mk digest fiber gap farEnd refusal transport continuation
       provenance name =>
@@ -158,18 +186,21 @@ private theorem hashApophaticSeal_round_trip :
               (hashApophaticSealEncodeBHist continuation))
             (hashApophaticSealDecodeBHist (hashApophaticSealEncodeBHist provenance))
             (hashApophaticSealDecodeBHist (hashApophaticSealEncodeBHist name))) =
-          some
+        some
             (HashApophaticSealUp.mk digest fiber gap farEnd refusal transport
               continuation provenance name)
-      rw [hashApophaticSeal_decode_encode_bhist digest,
-        hashApophaticSeal_decode_encode_bhist fiber,
-        hashApophaticSeal_decode_encode_bhist gap,
-        hashApophaticSeal_decode_encode_bhist farEnd,
-        hashApophaticSeal_decode_encode_bhist refusal,
-        hashApophaticSeal_decode_encode_bhist transport,
-        hashApophaticSeal_decode_encode_bhist continuation,
-        hashApophaticSeal_decode_encode_bhist provenance,
-        hashApophaticSeal_decode_encode_bhist name]
+      exact
+        congrArg some
+          (hashApophaticSeal_mk_congr
+            (hashApophaticSeal_decode_encode_bhist digest)
+            (hashApophaticSeal_decode_encode_bhist fiber)
+            (hashApophaticSeal_decode_encode_bhist gap)
+            (hashApophaticSeal_decode_encode_bhist farEnd)
+            (hashApophaticSeal_decode_encode_bhist refusal)
+            (hashApophaticSeal_decode_encode_bhist transport)
+            (hashApophaticSeal_decode_encode_bhist continuation)
+            (hashApophaticSeal_decode_encode_bhist provenance)
+            (hashApophaticSeal_decode_encode_bhist name))
 
 theorem hashApophaticSealToEventFlow_injective
     {x y : HashApophaticSealUp} :
