@@ -90,3 +90,23 @@ Use \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The common-r
 
 Finally apply \autoref{thm:streamname-open-phase-four-face-lock}. The Phase Real and Completion handoff is exactly the displayed four-face route, and the non-escape clauses already attached to that route exclude quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase RegSeqRat budget source lock]
+\label{thm:streamname-open-phase-regseqrat-budget-source-lock}
+Every Phase Real and Completion consumer whose $\RegSeqRatUp$ readback is obtained through the StreamName finite-window budget must consume the same nonempty StreamName window-index source before it reads any downstream row. Its ordered public route is
+$$
+\StreamNameUp\text{ nonempty window index}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ finite seal}.
+$$
+The $\RegSeqRatUp$ readback is therefore locked as a consumer of the same nonempty source that supports the finite-window budget, and the Real-facing seal row is reached only after the DyadicRatCore ledger has been read from that packet.
+
+The route exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, and no metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-open-phase-window-index-nonempty}. It supplies the nonempty StreamName window-index source that every Phase Real and Completion consumer must meet before any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row is read.
+
+Apply \autoref{thm:streamname-open-phase-finite-window-budget}. The budget route places the $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and finite $\RealUp$ seal on the same common-refinement packet whose source is that nonempty window index.
+
+Use \autoref{thm:streamname-open-phase-tail-budget-stability}. Certified successor and tail reindexing keep the RegSeqRat readback on the original finite budget packet, so the readback cannot acquire a separate source.
+
+Finally invoke \autoref{thm:streamname-open-phase-real-seal-route}. The Real handoff is the displayed four-face route through StreamName, RegSeqRat, DyadicRatCore, and the finite Real seal, and its non-escape clauses exclude quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data.
+\end{proof}
