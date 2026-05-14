@@ -53,6 +53,10 @@ REVIEW_TIMEOUT = 1800
 CURATOR_TIMEOUT = 2400
 COMPLETED_SUMMARY_LIMIT = 8000
 BOARD_INCLUDE_LIMIT = 16000
+INSPIRATION_ONLY_PATH_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 
 
 def _now_iso() -> str:
@@ -250,12 +254,21 @@ def _for_board_spawn(candidate: dict, *, mode: str) -> dict:
     paper_inputs = [
         str(path).strip()
         for path in inputs
-        if str(path).strip().startswith("papers/bedc/parts/")
+        if (
+            str(path).strip().startswith("papers/bedc/parts/")
+            and not INSPIRATION_ONLY_PATH_RE.search(str(path).strip())
+        )
     ]
     evidence_inputs = [
         str(path).strip()
         for path in inputs
-        if str(path).strip() and not str(path).strip().startswith("papers/bedc/parts/")
+        if (
+            str(path).strip()
+            and (
+                not str(path).strip().startswith("papers/bedc/parts/")
+                or INSPIRATION_ONLY_PATH_RE.search(str(path).strip())
+            )
+        )
     ]
     out = dict(candidate)
     out["claim"] = candidate.get("claim") or candidate.get("concrete_claim") or ""

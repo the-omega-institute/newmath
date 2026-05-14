@@ -108,8 +108,8 @@ def _safe_inputs(inputs: list[str], files: dict[str, dict[str, Any]]) -> tuple[l
         if not rel.startswith("papers/bedc/parts/"):
             reasons.append(f"non_paper_local_input:{rel}")
             continue
-        if rel.startswith("papers/bedc/parts/visions/"):
-            reasons.append(f"vision_inspiration_only:{rel}")
+        if BLOCKED_LANDING_PATH_RE.search(rel):
+            reasons.append(f"inspiration_only_not_board_landing:{rel}")
             continue
         path = REPO_ROOT / rel
         if not path.exists():
