@@ -1,0 +1,129 @@
+\chapter{A Concrete Naming Certificate for $\RestrictedSurfaceBudgetUp$}
+\label{ch:concrete-instances-restrictedsurfacebudget-namecert}
+\origin{ai}
+
+The $\RestrictedSurfaceBudgetUp$ packet isolates the Mode-B row of
+\autoref{ch:bedc-axiom-dependency-map} as reusable finite NameCert data. It
+sits beside $\AxiomDependencyTupleUp$ in
+\autoref{ch:concrete-instances-axiom-dependency-tuple-namecert},
+$\AxiomDependencyMapUp$ in
+\autoref{ch:concrete-instances-axiomdependencymap-namecert},
+$\AuditMapFamilyUp$ in
+\autoref{ch:concrete-instances-audit-map-family-namecert}, and
+$\ForbiddenAxiomAncestryUp$ in
+\autoref{ch:concrete-instances-forbidden-axiom-ancestry-namecert}. Those
+siblings package full dependency tuples, map families, and refusal verdicts;
+this chapter packages the restricted surface itself as the consumer-stable
+budget row that keeps a restricted proof from escaping as an unconditional
+BEDC theorem.
+
+\begin{definition}[Restricted-surface budget carrier]
+\label{def:restricted-surface-budget-carrier}
+A $\RestrictedSurfaceBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(\Phi,R,W,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Phi$ is the claim row naming the classical-looking assertion whose
+Mode-B surface is being recorded;
+\item $R$ is the restricted-surface row, listing the syntactic, closedness,
+classifier, or displayed-domain condition under which the internal proof is
+valid;
+\item $W$ is the restricted witness row, carrying the internal proof term only
+as a witness under $R$;
+\item $S$ is the required-supply row, recording that no extra BEDC supply is
+used on $R$ while the unrestricted claim still retains its stated boundary;
+\item $E$ is the non-export row, forbidding a consumer from reading $W$ as an
+unconditional proof of $\Phi$;
+\item $H$ records componentwise $\hsame$ transport for the claim, restricted
+surface, witness, required-supply, non-export, replay, provenance, and local
+naming rows;
+\item $C$ records the displayed $\Cont$ replay routes by which a consumer
+reads $\Phi$, verifies $R$, replays $W$ under $R$, reads $S$, and checks $E$;
+\item $P$ is the $\Pkg$ provenance over the dependency-map vision,
+$\AxiomDependencyTupleUp$, $\AxiomDependencyMapUp$, $\AuditMapFamilyUp$,
+$\ForbiddenAxiomAncestryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RestrictedSurfaceBudgetUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose witness is budgeted by the
+displayed restricted surface and whose public export is bounded by the
+non-export row.
+\end{definition}
+
+\begin{theorem}[Restricted-surface budget NameCert obligations]
+\label{thm:restricted-surface-budget-namecert-obligations}
+For every $\RestrictedSurfaceBudgetUp$ packet
+$$
+B=(\Phi,R,W,S,E,H,C,P,N),
+$$
+the local $\NameCert_{\RestrictedSurfaceBudgetUp}$ surface consists exactly of
+claim exposure, restricted-surface exposure, restricted-witness exposure,
+required-supply exposure, non-export exposure, componentwise $\hsame$
+transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A
+consumer of $N$ may cite the Mode-B witness only together with $R,S,E,H,C,P$
+and cannot cite it as a BEDC-internal proof of the unrestricted claim row
+$\Phi$.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:restricted-surface-budget-carrier}. The
+rows $\Phi,R,W,S,E$ are the complete payload: a claim, the surface on which it
+is discharged, the witness on that surface, the required-supply row, and the
+non-export boundary.
+
+Read $H$ and $C$ next. Transport can move the displayed rows only
+componentwise, and replay must first inspect $R$ before it reads $W$ as a
+witness for the claim.
+
+Finally inspect $P$ and $N$. Provenance cites the sibling dependency-map,
+tuple, family, and forbidden-ancestry chapters, while the local name binds the
+same finite packet. Since no coordinate stores an unrestricted theorem export,
+the certificate obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Restricted-surface budget Mode-B non-escape]
+\label{thm:restricted-surface-budget-modeb-nonescape}
+For every accepted $\RestrictedSurfaceBudgetUp$ packet
+$$
+B=(\Phi,R,W,S,E,H,C,P,N),
+$$
+the restricted witness row $W$ remains a Mode-B witness under the surface row
+$R$. Transport, replay, provenance, and local naming may cite $W$ only through
+the same restricted-surface budget, and no consumer may erase $R$, ignore
+$E$, or re-export $W$ as an unconditional BEDC theorem for $\Phi$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The witness row $W$ is paired with $R$ and
+with the non-export row $E$ in the same finite packet.
+
+Replay then fixes the order of use. A consumer route in $C$ reads the claim
+row, checks the restricted surface, reads the witness under that surface, and
+then reads the required-supply and non-export rows. The replay route contains
+no branch that bypasses $R$ or $E$.
+
+Transport and provenance preserve the same boundary. The row $H$ moves only
+displayed coordinates, $P$ cites the sibling dependency packets as sources,
+and $N$ names the local carrier. Therefore the witness can be cited as Mode-B
+budget data, but not as an unrestricted BEDC theorem.
+\end{proof}
+
+\falsifiablePrediction{If the restricted-surface row is deleted, no consumer may cite the Mode-B witness as a BEDC-internal restricted proof.}
+
+\independenceWitness{axiomdependencymap, axiom-dependency-tuple, auditmapfamily, forbiddenaxiomancestry: the first two package full dependency tuples, the family chapter packages map collections, and forbidden ancestry packages refusal verdicts; none isolates the restricted-surface budget row as a consumer-stable carrier.}
+
+The Lean side must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$
+instances for the same carrier in
+\texttt{lean4/BEDC/Derived/RestrictedSurfaceBudgetUp/TasteGate.lean}.
+
+\closureat{RestrictedSurfaceBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RestrictedSurfaceBudgetUp}
+  \constructivestory{A $\RestrictedSurfaceBudgetUp$ packet is generated from a claim row, restricted-surface row, restricted-witness row, required-supply row, non-export row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:restricted-surface-budget-carrier}, \autoref{thm:restricted-surface-budget-namecert-obligations}, and \autoref{thm:restricted-surface-budget-modeb-nonescape} specify the reusable Mode-B restricted-surface budget, NameCert obligations, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove the unrestricted claim row, enumerate every Mode-B surface, close Lean verification, or bridge the budget to an external schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, restricted-surface exactness, witness replay under the surface, required-supply exactness, non-export, and TasteGate instances for the same packet.}
+\end{closurestatus}
