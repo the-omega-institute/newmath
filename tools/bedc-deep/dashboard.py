@@ -890,8 +890,12 @@ def render_logic_audit_warnings() -> str:
         return "  (no targets dir)"
     counts: dict[str, int] = {}
     examples: dict[str, str] = {}
+    failed_counts: dict[str, int] = {}
+    failed_examples: dict[str, str] = {}
     audited = 0
     warned = 0
+    failed_audited = 0
+    failed_warned = 0
     for f in TARGETS_DIR.glob("*/stage2_result.json"):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
@@ -900,22 +904,46 @@ def render_logic_audit_warnings() -> str:
         audit = d.get("logic_audit") or {}
         if not audit:
             continue
-        audited += 1
+        landed = (
+            d.get("verdict") == "accept"
+            and d.get("appended") is True
+            and d.get("compile_ok") is True
+        )
         warnings = audit.get("warnings") or []
-        if warnings:
-            warned += 1
         target = f.parent.name
+        if landed:
+            audited += 1
+            if warnings:
+                warned += 1
+        else:
+            failed_audited += 1
+            if warnings:
+                failed_warned += 1
         for warning in warnings:
             if not isinstance(warning, dict):
                 continue
             code = str(warning.get("code") or "unknown")
-            counts[code] = counts.get(code, 0) + 1
-            examples.setdefault(code, target)
+            if landed:
+                counts[code] = counts.get(code, 0) + 1
+                examples.setdefault(code, target)
+            else:
+                failed_counts[code] = failed_counts.get(code, 0) + 1
+                failed_examples.setdefault(code, target)
+    lines = [f"  accepted audited={audited} warned={warned}"]
     if not counts:
-        return f"  audited={audited} warned={warned} (no post-write logic warnings)"
-    lines = [f"  audited={audited} warned={warned}"]
+        lines.append("  accepted warnings: none")
     for code, n in sorted(counts.items(), key=lambda kv: -kv[1])[:8]:
         lines.append(f"  {code:<48} {n:>3}  example={examples.get(code, '?')}")
+    if failed_audited:
+        lines.append(
+            f"  failed/blocked audited={failed_audited} warned={failed_warned} "
+            "(not paper body)"
+        )
+    for code, n in sorted(failed_counts.items(), key=lambda kv: -kv[1])[:5]:
+        lines.append(
+            f"  failed/blocked {code:<33} {n:>3}  "
+            f"example={failed_examples.get(code, '?')}"
+        )
     return "\n".join(lines)
 
 
