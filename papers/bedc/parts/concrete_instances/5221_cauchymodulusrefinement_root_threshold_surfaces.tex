@@ -1,0 +1,43 @@
+\begin{theorem}[Cauchy modulus refinement root carrier threshold admission]
+\label{thm:cauchy-modulus-refinement-root-carrier-threshold-admission}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the root carrier admits the rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ only after the shared meet row $U$ and the selector-budget row $T$ are displayed on the same route. In particular, the Real-completion root threshold surface may read $V,W,Q,E,H,C,P,N$ only as descendants of the source schedules $M_0,M_1$, the shared meet $U$, and the selector budget $T$ already shown in \autoref{def:cauchy-modulus-refinement-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. Its finite packet lists the two source schedules, the shared meet, the extraction witness, the selector budget, the selected-window ledger, the tolerance-readback ledger, the Real seal, and the structural rows in one $\BHist$ tuple.
+
+Apply the local NameCert obligations of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}. Carrier admission is attached to the same tuple, while the source exactness and shared-window clauses require $V$ to be read after $M_0,M_1,U$ and require $W,Q$ to be read through $T$.
+
+Use source-meet exactness, selector-budget totality, and window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, and \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. These identify the root threshold route as the displayed chain through $U$ and $T$ before any Real-facing seal read can consume $E$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root classifier transport exactness]
+\label{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, componentwise $\hsame$ transport preserves the same source-meet-selector-window-readback route through $H$ and $C$. A transported classifier read of $R$ is therefore still a read of $M_0,M_1,U,V,T,W,Q,E$ in the displayed order, authenticated by the same package row $P$ and the same local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with classifier transport from \autoref{thm:cauchy-modulus-refinement-classifier-transport}. The row $H$ stores componentwise $\hsame$ transports for the carrier coordinates, and $C$ stores the displayed continuation route between them.
+
+Next bind the source portion. Source-meet exactness, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, keeps the witness $V$ on the route from $M_0,M_1$ through $U$, so transport cannot replace the shared meet by a second source row.
+
+Finally bind the selected-window and Real-facing portion. Selector-budget totality, window-tolerance exactness, and Real seal factorization, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, and \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, keep $T,W,Q,E$ on the same readback chain. The package and local name rows then certify that the transported classifier is still the displayed root route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root ledger non-escape totality]
+\label{thm:cauchy-modulus-refinement-root-ledger-nonescape-totality}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root ledger receives only the displayed rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+It receives no quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness datum outside those carrier rows, and the completion-facing ledger is total exactly because every accepted consumer read is already accounted for by that displayed route.
+\end{theorem}
+\begin{proof}
+Read the carrier and the Real seal factorization theorem, \autoref{def:cauchy-modulus-refinement-carrier} and \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. The seal row $E$ is reached only after the shared meet, extraction witness, selector budget, windows, tolerance rows, and regular readbacks have been displayed.
+
+Apply the Real-consumer coverage theorem, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. It states that every Real or Completion consumer reads only the selector-budget, window, readback, and seal route together with the structural rows.
+
+Finally apply non-escape, \autoref{thm:cauchy-modulus-refinement-nonescape}. Since quotient streams, selected limits, host real equality, hidden selectors, second meet rows, and ambient completeness coordinates are absent from the carrier, the displayed ledger exhausts the root consumer surface.
+\end{proof}

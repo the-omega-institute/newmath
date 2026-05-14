@@ -502,6 +502,26 @@ The seal portion is fixed by \autoref{thm:regular-cauchy-sequence-realseal-hando
 Finally apply \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrier contains no coordinate for quotient streams, choice, hidden tail oracles, ambient completeness, or $\RealUp$ completeness, the consumer route is exhausted by the finite packet $S$ and exports no off-surface completion data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence modulus-refinement consumer lock]
+\label{thm:regular-cauchy-sequence-modulus-refinement-consumer-lock}
+For every accepted $\RegularCauchySequenceUp$ packet
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+whose selected-window and seal rows are consumed by an accepted $\CauchyModulusRefinementUp$ packet, every $\RealUp$ or Completion-facing consumer must pass through the refinement route $M_0,M_1 \to U \to V \to T \to W \to Q \to E$ before reading the $\RealUp$ seal.
+
+The consumer receives no quotient stream, host limit, selected external limit, choice coordinate, hidden selector, alternate meet row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-sequence-mature-consumer-route} and \autoref{thm:regular-cauchy-sequence-public-export}. These results confine the $\RegularCauchySequenceUp$ side to the displayed packet $S$, its selected-window rows, its diagonal coverage row, and its public $\NameCert_{\RegularCauchySequenceUp}$ export.
+
+The refinement order is then forced by \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain} and \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}. The source meet and budget rows reach the selected-window and tolerance readbacks only along the displayed $M_0,M_1,U,V,T,W,Q$ spine.
+
+Next apply \autoref{thm:cauchy-modulus-refinement-real-seal-route}. The $\RealUp$ seal row is reachable only after that spine has been displayed, so a Real or Completion consumer cannot read the seal directly from the regular Cauchy packet.
+
+Finally combine \autoref{thm:cauchy-modulus-refinement-nonescape} with \autoref{lem:regular-cauchy-sequence-non-escape}. The two non-escape boundaries remove quotient streams, host limits, selected external limits, choice coordinates, hidden selectors, alternate meet rows, and ambient completeness theorems from the consumer surface.
+\end{proof}
+
 \closureat{RegularCauchySequenceUp}{seedStr}
 \closureat{RegularCauchySequenceUp}{obligationStr}
 \closureat{RegularCauchySequenceUp}{scopedStr}
@@ -512,7 +532,7 @@ Finally apply \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrie
 \begin{closurestatus}{\RegularCauchySequenceUp}
   \constructivestory{A $\RegularCauchySequenceUp$ packet is generated from a finite regular Cauchy family row, explicit modulus, selected StreamName windows, a DyadicRatCore readback ledger, RegSeqRat readbacks, RealDiagonalWindowCoverage coverage, a RealUp handoff row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}, \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-tail-selector-exhaustion}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}, \autoref{thm:regular-cauchy-sequence-public-export}, and \autoref{thm:regular-cauchy-sequence-mature-consumer-route} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, RealObservationBudget window synchronization, observation-budget-to-seal factorization, tail-selector exhaustion, shared-threshold import, root obligation export, exact scoped dependency surface, Completion-facing handoff boundary, public NameCert export, and mature Real and Completion consumer route for regular Cauchy family data.}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}, \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-tail-selector-exhaustion}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}, \autoref{thm:regular-cauchy-sequence-public-export}, \autoref{thm:regular-cauchy-sequence-mature-consumer-route}, and \autoref{thm:regular-cauchy-sequence-modulus-refinement-consumer-lock} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, RealObservationBudget window synchronization, observation-budget-to-seal factorization, tail-selector exhaustion, shared-threshold import, root obligation export, exact scoped dependency surface, Completion-facing handoff boundary, public NameCert export, mature Real and Completion consumer route, and CauchyModulusRefinement consumer lock for regular Cauchy family data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
