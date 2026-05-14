@@ -740,6 +740,27 @@ Start with \autoref{thm:cauchy-witness-ledger-real-completion-handoff} and \auto
 Finally use \autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. A request outside the displayed route has no carrier coordinate in $\BHist$, no accepted $\hsame$ or $\Cont$ replay, and no $\Pkg$ or $\NameCert$ witness. Thus the read remains finite and cannot escape to an external completion principle.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger root budget row totality]\label{thm:cauchy-witness-ledger-root-budget-row-totality}
+Every accepted root read of $L=(Q,B,S,K,H,C,P,N)$ exposes the diagonal-budget row $Q$ and the observation-budget row $B$ before any completion-seal classifier read is public.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, and \autoref{thm:cauchy-witness-ledger-readback-totality}. The carrier has $Q$ and $B$ as displayed analytic rows, the budget factorization orders them before $S$ and $K$, and readback totality gives no root read outside $Q,B,S,K,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root seal route totality]\label{thm:cauchy-witness-ledger-root-seal-route-totality}
+Every root seal read of an accepted $\CauchyWitnessLedgerUp$ packet passes through the finite route $Q \longmapsto B \longmapsto S \longmapsto K$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-witness-ledger-root-seal-readback} and \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The first theorem places seal readback behind the displayed route, and the second keeps $K$ attached to the same $Q \longmapsto B \longmapsto S$ source.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root NameCert threshold]\label{thm:cauchy-witness-ledger-root-namecert-threshold}
+The root rows $Q,B,S,K$ together with $H,C,P,N$ form the $\NameCert_{\CauchyWitnessLedgerUp}$ threshold surface for the witness ledger.
+\end{theorem}
+\begin{proof}
+Read \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, and \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. These statements supply the displayed obligation rows, order the budget route, and bind the synchronizer-classifier threshold without adding any row outside $Q,B,S,K,H,C,P,N$.
+\end{proof}
+
 \begin{closurestatus}{\CauchyWitnessLedgerUp}
   \constructivestory{A $\CauchyWitnessLedgerUp$ packet is generated from a Cauchy diagonal budget, Real observation budget, Cauchy seal-budget synchronizer, Real completion-seal classifier, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
