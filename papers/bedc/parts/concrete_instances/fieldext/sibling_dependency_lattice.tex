@@ -19,3 +19,88 @@ two $\FieldUp$ endpoints, one $\VecSpaceUp$-over-base row, one embedding row,
 and the local $\FieldExtUp$ naming ledger. No downstream consumer may replace
 this lattice by an ambient tower object whose base field, extension field, or
 vector-space row is not displayed.
+
+\begin{theorem}[FieldExt downstream dependency lattice exactness]
+\label{thm:fieldext-downstream-dependency-lattice-exactness}
+For either concrete $\FieldExtUp$ packet displayed in this chapter, namely the
+singleton packet of
+\autoref{def:fieldext-singleton-empty-history-instance} or the RatUp reflexive
+packet of \autoref{def:fieldext-reflexive-extension-carrier}, the
+$\FieldExtUp$ input part of any accepted downstream Galois, number-field,
+separability, algebraic-closure, or tower read is accepted exactly through the
+following five-coordinate lattice:
+\begin{enumerate}
+  \item the displayed base $\FieldUp$ endpoint row;
+  \item the displayed ambient $\FieldUp$ endpoint row;
+  \item the displayed $\VecSpaceUp$-over-base row for the ambient carrier;
+  \item the displayed embedding row from the base endpoint into the ambient endpoint;
+  \item the local $\FieldExtUp$ naming ledger for the same packet.
+\end{enumerate}
+Equivalently, the consumer-visible $\FieldExtUp$ readback is the finite packet
+obtained by repacking these five rows. A read that replaces any one of them by
+an ambient tower object whose base field, extension field, or
+vector-space-over-base row is not displayed is not an accepted $\FieldExtUp$
+input read.
+\end{theorem}
+\begin{proof}
+Start with the singleton packet. Its carrier definition fixes the base field,
+extension field, vector carrier, identity embedding, scalar action, and ledger
+in \autoref{def:fieldext-singleton-empty-history-instance}. The obligation
+scope in \autoref{def:fieldext-singleton-obligation-scope} names the same
+carrier, classifier, exactness, scalar-action, and ledger fields as the rows
+read by downstream certificate families.
+
+The five projections are explicit. The two field endpoints are the two
+singleton $\FieldUp$ readings supplied by
+\autoref{thm:fieldext-singleton-certificate-projections}. The
+$\VecSpaceUp$-over-base coordinate is
+\autoref{thm:fieldext-singleton-vector-space-over-base}. The embedding
+coordinate is \autoref{thm:fieldext-singleton-embedding-obligations}, and its
+endpoint exactness is \autoref{thm:fieldext-singleton-embedding-exactness}.
+The ledger coordinate is
+\autoref{thm:fieldext-singleton-ledger-provenance}. Finally,
+\autoref{thm:fieldext-singleton-exactness-ledger-coverage} exhausts every
+source, pattern, classifier, stability, exactness, and ledger row of the
+singleton $\FieldExtUp$ package by the identity embedding row, the singleton
+field operation-table row, and the singleton vector-space scalar-action row.
+Thus there is no sixth singleton coordinate through which a downstream read can
+enter the packet.
+
+For the RatUp reflexive packet, the carrier definition
+\autoref{def:fieldext-reflexive-extension-carrier} identifies the base field,
+ambient field, and vector carrier with the same RatUp history carrier and
+identifies the embedding with the identity map. The two endpoint rows are the
+two readings of the concrete $\FieldUp(\RatUp)$ certificate recorded in
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage}. The
+$\VecSpaceUp$-over-base row is
+\autoref{thm:fieldext-reflexive-vector-space-package}; its scalar action is the
+RatUp FieldUp multiplication row. The embedding row is
+\autoref{thm:fieldext-reflexive-embedding-transport}. The naming ledger is
+fixed by \autoref{thm:fieldext-reflexive-ledger-provenance} and exposed through
+the public interface in
+\autoref{thm:fieldext-reflexive-public-namecert-interface}.
+
+The RatUp reflexive exhaustion theorem
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion} says that
+every displayed source, pattern, classifier, stability, exactness,
+scalar-action, and ledger row is covered by exactly the two endpoint FieldUp
+reads, the identity embedding row, and the self-vector-space row. The tower
+case does not add an escape coordinate: by
+\autoref{thm:fieldext-ratup-reflexive-tower-composition} and
+\autoref{thm:fieldext-ratup-reflexive-tower-ledger-coverage}, even a two-step
+reflexive tower keeps the same RatUp FieldUp table, identity embedding, and
+self-vector-space scalar action.
+
+Combining the singleton and RatUp cases gives the stated inversion for every
+concrete $\FieldExtUp$ packet displayed in this chapter. If a downstream read
+is accepted as a $\FieldExtUp$ input, the cited projection and exhaustion rows
+recover the base FieldUp endpoint, ambient FieldUp endpoint,
+VecSpaceUp-over-base row, embedding row, and local naming ledger. Conversely,
+when those five rows are present, the corresponding obligation package is
+assembled by \autoref{thm:fieldext-singleton-certificate-obligation-package} in
+the singleton case and by \autoref{thm:fieldext-reflexive-certificate-obligations}
+in the RatUp reflexive case. Therefore the accepted $\FieldExtUp$ input surface
+is exactly the displayed five-coordinate lattice, and an ambient tower object
+with any undisplayed endpoint or vector-space row has no coordinate in the
+accepted readback packet.
+\end{proof}
