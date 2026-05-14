@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness zero-strip source row]
+\label{thm:critical-line-witness-zero-strip-source-row}
+For every accepted $\CriticalLineWitnessUp$ carrier $W=(Z,S,M,R,Q,H,C,P,N)$, the $\ZetaZerosUp$ row $Z$ and the $\CritStripUp$ row $S$ are exposed before any critical-line read. The read may proceed only after the supplied zero source and fixed strip source have been named as finite $\BHist$ coordinates of the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. Its first displayed source rows are $Z$ and $S$, while $M,R,Q,H,C,P,N$ are the later modulus, comparison, transport, route, provenance, and naming rows.
+
+Use \autoref{thm:critical-line-witness-namecert-obligations}. Carrier admission and local naming attach the zero row and strip row to the same accepted packet before downstream reads are available.
+
+Apply \autoref{thm:critical-line-witness-root-unblock-source-triad}. It identifies the supplied zero source, fixed strip source, and source-facing route as the root entry surface, so no critical-line read can bypass $Z$ or $S$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus readback row]
+\label{thm:critical-line-witness-modulus-readback-row}
+For every accepted $\CriticalLineWitnessUp$ carrier $W=(Z,S,M,R,Q,H,C,P,N)$, every modulus read factors through $M,R,Q,H,C,P,N$. The read uses the on-line modulus row, real-part row, rational comparison ledger, componentwise transport, continuation route, provenance, and local naming; it does not use host equality or a quotient representative.
+\end{theorem}
+\begin{proof}
+Read the modulus coordinate through \autoref{def:critical-line-witness-carrier}. The row $M$ answers only as part of the same finite packet that carries $R,Q,H,C,P,N$.
+
+Apply \autoref{thm:critical-line-witness-namecert-obligations} and \autoref{thm:critical-line-witness-root-unblock-modulus-ledger}. These bind the depth request to the real-part row $R$, rational comparison ledger $Q$, componentwise transport $H$, replay route $C$, provenance $P$, and local name $N$.
+
+The carrier has no field for host equality of complex numbers and no quotient representative selector. Therefore the modulus readback remains the displayed finite row read through $M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness fixed-strip scope exhaustion]
+\label{thm:critical-line-witness-fixed-strip-scope-exhaustion}
+For every accepted $\CriticalLineWitnessUp$ carrier $W=(Z,S,M,R,Q,H,C,P,N)$, the fixed-strip source surface is exhausted by the rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+It exposes supplied zero, critical-strip, modulus, real-part, comparison, transport, route, provenance, and local naming data, and it does not assert $\mathsf{RH}$ or produce new zeros.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:critical-line-witness-carrier}. The accepted packet lists exactly $Z,S,M,R,Q,H,C,P,N$, with no coordinate for an $\mathsf{RH}$ truth value or a zero-producing search.
+
+Use \autoref{thm:critical-line-witness-zero-strip-source-row} for the supplied zero and strip source. Use \autoref{thm:critical-line-witness-modulus-readback-row} for every modulus-facing read.
+
+Finally apply \autoref{thm:critical-line-witness-namecert-obligations}. The local NameCert surface exhausts public reads through the displayed carrier and its non-escape clauses, so the fixed-strip surface remains a finite source boundary rather than an $\mathsf{RH}$ proof or zero generator.
+\end{proof}
