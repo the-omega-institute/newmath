@@ -19249,3 +19249,92 @@ Rationale:
 The candidate is a concrete existing-chapter lemma on a displayed finite packet surface. It is not a marker, closurestatus item, or abstract parameter echo: it asserts a specific left/right symmetry of the StreamName finite-window lattice meet carrier by repacking visible rows. Existing BOARD entries include many StreamName and finite-window consumer facts, but no finite-window lattice meet symmetry target. The paper currently has the meet packet definition and an exhaustion theorem, and searched labels show only definition/exhaustion coverage for this local surface, not the swapped-window lemma. The file is short and safe for landing, and the resource packet remains B0 finite witness.
 
 ---
+
+### B-748 - MetaCIC pidomainsubjectreduction discharge obligation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | MetaCIC pidomainsubjectreduction discharge obligation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If a MetaCIC subject-reduction consumer uses either the explicit discharge bundle route or the setup route for the Pi-domain congruence branch, then the finite discharge packet must contain a distinct row satisfying PiDomainSubjectReduction, and that row cannot be supplied by the beta, application-argument, lambda-domain, transport, route-replay, provenance, or naming coordinates.
+
+Local inputs:
+- `papers/bedc/parts/visions/metacic_open_problems.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: prove by direct projection from the four-row SubjectReductionDischargeBundle or SubjectReductionSetup-to-bundle surface and the existing finite discharge socket/ledger rows, with no intermediate bridge or transported theorem.
+- `ripeness_risk`: low, because the paper already contains the three sibling mandatory-row propositions and the Pi-domain row is named in the same four-obligation interface.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only requires reading a finite four-field discharge packet and separating one displayed row from the other displayed rows.
+- `witness_extractor`: projection of the Pi-domain coordinate from the finite discharge bundle, setup-converted bundle, socket, or ledger carrier.
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: prove by direct projection from the four-row SubjectReductionDischargeBundle or SubjectReductionSetup-to-bundle surface and the existing finite discharge socket/ledger rows, with no intermediate bridge or transported theorem.
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: finite discharge rows B,A,L,P plus route/support rows from the subject-reduction discharge interface.
+- `dependency_trace`: def:metacic-pi-domain-subject-reduction; sec:metacic-subject-reduction-four-obligations; SubjectReductionDischargeBundle; SubjectReductionSetup; def:subject-reduction-discharge-ledger-carrier; subject-reduction discharge socket/ledger four-row exposure.
+- `oracle_mode`: rewrite_to_packet
+Rationale:
+This is the missing fourth sibling of the already completed beta-substitution, application-argument, and lambda-domain mandatory discharge-row targets. It is concrete, BEDC-native, and lands as an existing-chapter obligation rather than a new chapter. It is not merely a verification marker or closurestatus item: the downstream work is a proposition/obligation block showing that the Pi-domain row remains an explicit finite setup input whenever the subject-reduction discharge interface is consumed.
+
+---
+
+### B-749 - FieldExt downstream dependency lattice exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FieldExt downstream dependency lattice exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+If a downstream Galois, NumField, separability, algebraic-closure, or tower consumer consumes a FieldExtUp packet, then every accepted read factors through the displayed base FieldUp row, ambient FieldUp row, VecSpaceUp-over-base row, embedding row, and local FieldExtUp naming ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/fieldext/sibling_dependency_lattice.tex`
+- `papers/bedc/parts/concrete_instances/fieldext/intro_singleton_embedding.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: prove by direct projection from the displayed FieldExtUp dependency lattice and repacking of the two FieldUp endpoint rows, the VecSpaceUp-over-base row, the embedding row, and the local ledger, with no intermediate ambient tower object.
+- `ripeness_risk`: low, the cited landing files are short child files and the sibling dependency lattice already states the exact finite row surface in prose.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The target only consumes a fixed finite packet of displayed rows and forbids an extra ambient tower coordinate, so no schedule, modulus, cover, countable construction, quotient, or choice-like principle is visible.
+- `witness_extractor`: Projection of the five displayed lattice components: base FieldUp endpoint, ambient FieldUp endpoint, VecSpaceUp-over-base row, embedding row, and local FieldExtUp naming ledger.
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: prove by direct projection from the displayed FieldExtUp dependency lattice and repacking of the two FieldUp endpoint rows, the VecSpaceUp-over-base row, the embedding row, and the local ledger, with no intermediate ambient tower object.
+- `equality_kind`: none
+- `interpretation_kind`: none
+- `resource_trace`: A finite consumer packet over two FieldUp endpoints, one VecSpaceUp-over-base row, one embedding row, and the local FieldExtUp naming ledger.
+- `dependency_trace`: sec:fieldext-sibling-dependency-lattice; def:fieldext-singleton-empty-history-instance; def:fieldext-singleton-obligation-scope; thm:fieldext-singleton-certificate-obligation-package; thm:fieldext-ratup-reflexive-certificate-row-exhaustion.
+- `oracle_mode`: rewrite_to_packet
+Rationale:
+This is a concrete existing-chapter ledger row rather than a new object: the FieldExt chapter already exposes singleton and RatUp-reflexive FieldExt packages, and the sibling dependency lattice explicitly says downstream Galois, number-field, separability, algebraic-closure, and tower consumers must read through the displayed horizontal lattice instead of an ambient tower object. Existing theorem labels cover endpoint exactness, tower composition, source-pattern locks, and certificate row exhaustion, but no theorem-like paper label closes the downstream non-escape lattice itself. The target is therefore narrow, BEDC-native, finite, and distinct enough to merit a BOARD slot.
+
+---
