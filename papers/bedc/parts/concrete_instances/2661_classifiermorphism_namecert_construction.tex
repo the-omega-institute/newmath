@@ -63,6 +63,18 @@ Finally route both reads through $H,C,P,N$. These rows record componentwise same
 \end{proof}
 \leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_ext\_sigrel\_preservation}
 
+\begin{theorem}[ClassifierMorphism type-membership dependency]
+\label{thm:classifier-morphism-type-membership-dependency}
+The source packet $A$ and target packet $B$ of an accepted $\ClassifierMorphismUp$ carrier are classifier-membership surfaces in the sense of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. The morphism rows $G,E,S,C,H,P,N$ preserve $\Ext$, $\mathsf{SigRel}$, and $\Cont$ reads between those packets, and the preservation route cannot be read as a host compiler function, semantic type interpretation, quotient equality, or unrecorded source-target relation.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The rows $A$ and $B$ are explicitly the source and target classifier-membership packets, including their carrier, classifier, signature-answer, continuation, and local naming rows.
+
+Use the classifier definition. A comparison can inspect those packets only through the displayed $\Ext$, $\mathsf{SigRel}$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ coordinates, so the graph row $G$ is not a host-level compiler function.
+
+Finally cite the TypeClassifierMembership chapter. It supplies the sibling membership surface for finite type-checking packets, while the Ext and SigRel preservation theorem keeps the route inside $G,E,S,C,H,P,N$.
+\end{proof}
+
 \begin{theorem}[ClassifierMorphism composition closure]
 \label{thm:classifiermorphism-composition-closure}
 Given accepted $\ClassifierMorphismUp$ packets from a classifier-membership packet $A$ to a packet $B$ and from $B$ to a packet $D$, their relational graph composite determines an accepted $\ClassifierMorphismUp$ packet from $A$ to $D$. The composed packet preserves $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ by composing the displayed graph rows, preservation ledgers, continuation routes, dependency packages, and local naming rows of the two input packets.
