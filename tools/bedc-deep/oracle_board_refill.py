@@ -87,6 +87,7 @@ ULTRA_REFILL_RECENT_COMPLETED_LIMIT = 3
 MICRO_REFILL_FAILURE_THRESHOLD = 3
 MICRO_REFILL_FAILURE_WINDOW = 5
 ULTRA_REFILL_MICRO_FAILURE_THRESHOLD = 1
+REFILL_CIRCUIT_BREAKER_ULTRA_FAILURE_THRESHOLD = 1
 MICRO_REFILL_FAILURE_ERRORS = {
     "oracle_transport_empty_response",
     "oracle_transport_error_response",
@@ -400,6 +401,41 @@ def recent_micro_transport_failure_count(
     return count
 
 
+def recent_ultra_transport_failure_count(
+    *,
+    limit: int = MICRO_REFILL_FAILURE_WINDOW,
+) -> int:
+    if not LOG_DIR.exists():
+        return 0
+    summaries = sorted(
+        LOG_DIR.glob("refill_*.summary.json"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    count = 0
+    inspected = 0
+    for path in summaries:
+        if inspected >= limit:
+            break
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        error = str(data.get("error") or "").strip()
+        if error == "dry_run_prompt_only":
+            continue
+        inspected += 1
+        if data.get("ok"):
+            break
+        if error not in MICRO_REFILL_FAILURE_ERRORS:
+            break
+        if data.get("ultra_refill") or data.get("refill_mode") == "ultra":
+            count += 1
+            continue
+        break
+    return count
+
+
 def should_use_micro_refill() -> bool:
     return recent_transport_failure_count() >= MICRO_REFILL_FAILURE_THRESHOLD
 
@@ -408,6 +444,13 @@ def should_use_ultra_refill() -> bool:
     return (
         should_use_micro_refill()
         and recent_micro_transport_failure_count() >= ULTRA_REFILL_MICRO_FAILURE_THRESHOLD
+    )
+
+
+def refill_circuit_breaker_active() -> bool:
+    return (
+        recent_ultra_transport_failure_count()
+        >= REFILL_CIRCUIT_BREAKER_ULTRA_FAILURE_THRESHOLD
     )
 
 
@@ -639,6 +682,8 @@ def main() -> int:
                         help="Disable automatic micro-refill after repeated transport failures.")
     parser.add_argument("--no-auto-ultra-refill", action="store_true",
                         help="Disable automatic ultra-refill after a failed micro-refill.")
+    parser.add_argument("--ignore-refill-circuit-breaker", action="store_true",
+                        help="Submit even after recent ultra-refill transport failures.")
     parser.add_argument("--allow-queue-without-tabs", action="store_true",
                         help="Submit even when no active BEDC browser tab is polling.")
     parser.add_argument("--allow-duplicate-refill", action="store_true",
@@ -683,6 +728,18 @@ def main() -> int:
         except Exception as exc:
             print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
             return 1
+
+    if (
+        not args.dry_run
+        and not args.ignore_refill_circuit_breaker
+        and refill_circuit_breaker_active()
+    ):
+        print(
+            "[board_refill] circuit breaker active after recent ultra-refill "
+            "transport failure; skipping submit.",
+            flush=True,
+        )
+        return 0
 
     failure_count = recent_transport_failure_count()
     micro_failure_count = recent_micro_transport_failure_count()
