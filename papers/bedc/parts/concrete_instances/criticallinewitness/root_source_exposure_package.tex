@@ -1,0 +1,44 @@
+\begin{theorem}[Critical-line witness root source exposure]
+\label{thm:critical-line-witness-root-source-exposure}
+Every accepted $\CriticalLineWitnessUp$ root-facing packet exposes its source rows through finite $\BHist$ data before any downstream consumer reads a zero-strip or modulus boundary. The exposed rows are the $\ZetaZerosUp$ continuation source, the zero-strip row, the rational-height and real-part comparison rows, the modulus-depth row, and the structural rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The exposure route is finite, componentwise stable under $\hsame$, and contains no analytic-continuation oracle outside the displayed continuation rows.
+\end{theorem}
+\begin{proof}
+Begin with the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. It exposes the supplied zero row, strip row, and source-facing comparison data before any downstream boundary is read.
+
+Use the source normalization interface of \autoref{thm:critical-line-witness-source-normalization-interface}. The $\ZetaZerosUp$, $\CritStripUp$, $\NatUp$, $\RatUp$, and $\RealUp$ rows are all opened through the finite packet $Z,S,M,R,Q,H,C,P,N$.
+
+Now apply the modulus ledger interface of \autoref{thm:critical-line-witness-modulus-ledger-interface} together with terminal source exhaustion from \autoref{thm:critical-line-witness-terminal-source-exhaustion}. These rows keep the rational-height and modulus reads downstream of the same displayed zero-strip source route.
+
+Finally use the fixed strip boundary of \autoref{thm:critical-line-witness-fixed-strip-modulus-refusal}. It prevents the exposed strip source from becoming a global analytic-continuation source, so the root exposure remains a finite $\BHist$ package.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root strip refusal]
+\label{thm:critical-line-witness-root-strip-refusal}
+The root-facing $\CriticalLineWitnessUp$ packet refuses to export an $\mathsf{RH}$ predicate, a global zero locator, a zero search procedure, host equality, quotient representatives, analytic-continuation proof content, or ambient completeness. It exports only the finite source, strip, modulus, rational-height, real-part, transport, route, provenance, and naming rows displayed by
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+First apply the RH refusal interface of \autoref{thm:critical-line-witness-rh-refusal-interface}. It identifies the accepted packet surface with the finite rows $Z,S,M,R,Q,H,C,P,N$ and excludes proof content, global zero classification, zero search, quotient representatives, analytic continuation, and completeness.
+
+Next use the root refusal route of \autoref{thm:critical-line-witness-root-refusal-route}. The refusal is not an external side condition; it is read along the same displayed route as the source and modulus rows.
+
+The terminal refusal package of \autoref{thm:critical-line-witness-terminal-refusal-package} and the fixed strip boundary of \autoref{thm:critical-line-witness-fixed-strip-modulus-refusal} then close the remaining consumer-facing exits. A downstream consumer may inspect the finite strip and modulus rows, but it receives no $\mathsf{RH}$ predicate or global zero-locator coordinate.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root consumer package]
+\label{thm:critical-line-witness-root-consumer-package}
+The source exposure row of \autoref{thm:critical-line-witness-root-source-exposure} and the strip-refusal row of \autoref{thm:critical-line-witness-root-strip-refusal} assemble into one downstream $\CriticalLineWitnessUp$ consumer package. Every consumer receives a finite $\BHist$ route over $Z,S,M,R,Q,H,C,P,N$; every refused analytic or global-zero object remains outside that route.
+\end{theorem}
+\begin{proof}
+Use the root source exposure theorem to provide the displayed source, strip, rational-height, real-part, and modulus rows. This gives the consumer a finite entry route through $Z,S,M,R,Q,H,C,P,N$.
+
+Use the root strip refusal theorem for the negative side of the same package. The consumer route carries no $\mathsf{RH}$ predicate, global zero locator, zero search procedure, host equality, quotient representative, analytic-continuation proof content, or ambient completeness row.
+
+Finally compose the root downstream package of \autoref{thm:critical-line-witness-downstream-refusal-package} with the downstream RH-boundary refinement of \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement}. The assembled package is therefore a consumer-facing finite route, not an analytic theorem or global zero classifier.
+\end{proof}
