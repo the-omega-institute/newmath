@@ -30,6 +30,7 @@ STATE_DIR = SCRIPT_DIR / "state"
 RESEARCH_JSONL = STATE_DIR / "research_candidates.jsonl"
 RESEARCH_LATEST = STATE_DIR / "research_candidates_latest.md"
 ORACLE_ESCALATIONS = STATE_DIR / "research_oracle_escalations.jsonl"
+BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
 
 DEFAULT_LIMIT = 20
 INBOX_TAIL = 800
@@ -412,6 +413,25 @@ def append_ready(packets: list[dict[str, Any]]) -> object:
     return board_spawn.spawn_from_candidates(codex_candidates=ready, oracle_candidates=[])
 
 
+def write_board_spawn_status(result: object, *, ready_count: int) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    error = str(getattr(result, "error", "") or "")
+    record = {
+        "ts": now_iso(),
+        "ok": bool(getattr(result, "ok", False)),
+        "ready_count": ready_count,
+        "accepted": len(getattr(result, "accepted", []) or []),
+        "rejected": len(getattr(result, "rejected", []) or []),
+        "appended_ids": getattr(result, "appended_ids", []) or [],
+        "error_kind": str(getattr(result, "error_kind", "") or ""),
+        "error": " ".join(error.split())[:500],
+    }
+    BOARD_SPAWN_LATEST.write_text(
+        json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC codex research candidate lane")
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
@@ -436,7 +456,9 @@ def main() -> int:
             f"oracle_recommended={oracle} latest={RESEARCH_LATEST.relative_to(REPO_ROOT)}"
         )
     if args.append:
+        ready_count = sum(1 for p in packets if p.get("status") == "ready")
         result = append_ready(packets)
+        write_board_spawn_status(result, ready_count=ready_count)
         error_kind = str(getattr(result, "error_kind", "") or "")
         error = str(getattr(result, "error", "") or "")
         error_summary = " ".join(error.split())[:300]
