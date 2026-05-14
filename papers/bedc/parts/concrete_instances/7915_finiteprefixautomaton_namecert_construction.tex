@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixAutomatonUp$}
+\label{ch:concrete-instances-finiteprefixautomaton-namecert}
+\origin{human}
+
+The $\FinitePrefixAutomatonUp$ interface names the standard finite automaton object at the level of bounded prefix runs. It is the finite-run sibling of \autoref{ch:concrete-instances-regularlanguage-namecert}, the bounded continuation surface of \autoref{ch:concrete-instances-continuationautomaton-namecert}, and the grammar-facing comparison boundary of \autoref{ch:concrete-instances-contextfreegrammar-namecert}. It realizes the operational reading of \autoref{ch:visions-computation-as-continuation} without importing an external language quotient, a host transition evaluator, or an infinite trace semantics.
+
+\begin{definition}[FinitePrefixAutomaton carrier]
+\label{def:finiteprefixautomaton-carrier}
+A $\FinitePrefixAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+F=(Q,q_0,A,T,W,R,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the finite state-row ledger;
+\item $q_0$ is the initial state row;
+\item $A$ is the accepting-state subledger of $Q$;
+\item $T$ is the finite transition table whose rows have source state, input mark, target state, and displayed $\Cont$ witness;
+\item $W$ is the finite prefix word ledger, written as a finite list of $\BMark$ input rows;
+\item $R$ is the prefix-run ledger, listing the state row reached after each visible prefix of $W$;
+\item $E$ is the endpoint and acceptance row, recording the final state read and its accepting-state membership result;
+\item $H$ stores componentwise $\hsame$ transports for states, marks, transition rows, prefix positions, endpoint rows, acceptance rows, provenance, and local naming;
+\item $C$ stores the displayed $\Cont$ routes by which consumers replay each prefix transition and inspect the endpoint;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\hsame$, $\Cont$, prefix lists, acceptance rows, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FinitePrefixAutomatonUp}$ row.
+\end{enumerate}
+The carrier exposes one bounded finite-prefix run. It contains no quotient of accepted languages, no host automaton semantics, no unlisted transition rule, and no infinite continuation trace.
+\end{definition}
+
+\begin{definition}[FinitePrefixAutomaton classifier]
+\label{def:finiteprefixautomaton-classifier}
+The $\FinitePrefixAutomatonUp$ classifier accepts a packet $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$ exactly when the prefix ledger $R$ starts at $q_0$, every successive prefix step is witnessed by a displayed row of $T$ and a corresponding $\Cont$ route in $C$, the endpoint row in $E$ is the last row of $R$, and the acceptance bit in $E$ is read from membership in $A$. The classifier reads only the displayed state, mark, transition, run, endpoint, transport, continuation, package, and local naming rows.
+\end{definition}
+
+\begin{theorem}[FinitePrefixAutomaton NameCert obligation surface]
+\label{thm:finiteprefixautomaton-namecert-obligation-surface}
+The local $\NameCert_{\FinitePrefixAutomatonUp}$ surface for the carrier of \autoref{def:finiteprefixautomaton-carrier} consists of seven finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$;
+\item prefix-source binding of the word ledger $W$ and initial state row $q_0$;
+\item transition exactness for every adjacent prefix-run row through the displayed table $T$ and the corresponding $\Cont$ witness;
+\item endpoint exactness, stating that $E$ reads the last row of $R$;
+\item acceptance exactness, stating that the acceptance bit in $E$ is precisely the displayed membership read in $A$;
+\item componentwise stability through $H$ and replay through $C$;
+\item non-escape, stating that every downstream finite-prefix read factors through $Q,q_0,A,T,W,R,E,H,C,P,N$ and cannot consult a host evaluator, language quotient, unlisted transition rule, or infinite trace.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finiteprefixautomaton-carrier}. The packet already displays its state ledger, initial state, accepting ledger, transition table, prefix word, run ledger, endpoint row, transports, continuation routes, provenance, and local name.
+
+The prefix-source, transition, endpoint, and acceptance obligations are read from $W,R,T,E,A$. Each step of $R$ is licensed by a row of $T$ carrying the displayed $\Cont$ witness, and the final read is the endpoint row named in $E$.
+
+Stability and replay are supplied by $H$ and $C$. Since the packet has no coordinate for an external evaluator, quotient language, unlisted transition rule, or infinite trace, the non-escape obligation follows from the carrier boundary.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton prefix-run determinacy]
+\label{thm:finiteprefixautomaton-prefix-run-determinacy}
+For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, the displayed prefix word $W$ and transition table $T$ determine the prefix-run ledger $R$ componentwise inside the packet. If another accepted run ledger $R'$ is admitted over the same $Q,q_0,A,T,W,E,H,C,P,N$, then each prefix position of $R$ is $\hsame$ to the corresponding prefix position of $R'$ through the displayed transport rows in $H$.
+\end{theorem}
+\begin{proof}
+Begin at the empty prefix. Both run ledgers must start at the displayed initial state row $q_0$ by the prefix-source obligation of \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}.
+
+For a nonempty prefix, read the preceding state row and the next input mark from $W$. The transition exactness obligation forces the next state to be the target of the displayed row of $T$ carrying the matching $\Cont$ witness. Thus the two ledgers have the same displayed source, mark, transition row, and target at that position.
+
+Apply the componentwise transport rows in $H$ at each prefix position. They identify the corresponding state rows inside the packet, while $C$ only replays the already displayed transition route. No host transition function or unlisted rule is available, so the determinacy claim stays internal to the finite ledger.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton regular-language sibling bridge]
+\label{thm:finiteprefixautomaton-regularlanguage-sibling-bridge}
+Every accepted $\FinitePrefixAutomatonUp$ packet supplies exactly the bounded finite-run surface consumed by $\RegularLanguageUp$ and $\ContinuationAutomatonUp$ readers: the $\RegularLanguageUp$ side reads the same finite state, prefix word, endpoint, and acceptance rows, while the $\ContinuationAutomatonUp$ side reads the same $\Cont$-labelled transition rows, componentwise $\hsame$ transports, replay routes, package row, and local $\NameCert$ row. The bridge exposes no quotient language, no context-free derivation tree, no host evaluator, and no infinite continuation trace.
+\end{theorem}
+\begin{proof}
+Read the finite automaton side through \autoref{ch:concrete-instances-regularlanguage-namecert}. The accepted prefix word, finite state rows, endpoint row, and acceptance ledger are already displayed by $Q,q_0,A,W,R,E$.
+
+Read the continuation side through \autoref{ch:concrete-instances-continuationautomaton-namecert}. Each transition row in $T$ carries its displayed $\Cont$ witness, while $H,C,P,N$ provide transport, replay, provenance, and local naming.
+
+The context-free sibling \autoref{ch:concrete-instances-contextfreegrammar-namecert} may compare this bounded run with grammar yields only through the exposed finite word and endpoint surface. Since the packet has no coordinate for language quotienting, derivation trees, host evaluation, or infinite traces, the sibling bridge is exactly the finite-prefix route listed above.
+\end{proof}
