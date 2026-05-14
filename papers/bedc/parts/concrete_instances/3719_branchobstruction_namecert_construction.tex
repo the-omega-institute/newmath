@@ -69,6 +69,36 @@ Read the selected obstruction row $B$ separately. By \autoref{thm:branch-obstruc
 The transport and route rows $H$ and $C$ preserve this separation: socket output rows remain socket output rows, while obstruction requests remain ledger rows. The package and local naming rows $P,N$ bind the same separation to the $\BranchObstructionUp$ certificate, so the handoff cannot manufacture another $\HolomorphicUp$ output.
 \end{proof}
 
+\begin{theorem}[BranchObstruction holomorphic operation sibling route]
+\label{thm:branch-obstruction-holomorphic-operation-sibling-route}
+Every accepted $\BranchObstructionUp$ packet reads its socket row as a
+consumer of the holomorphic source and output surface of
+\autoref{ch:concrete-instances-holomorphic-namecert} and the operation row of
+\autoref{ch:concrete-instances-analyticcontinuationoperation-namecert} before
+the selected obstruction ledger $B$ is exported. The packet therefore exposes
+the ledger only after the socket has fixed the $\HolomorphicUp$ source rows,
+the continuation operation row, the output row, the displayed transports,
+routes, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:branch-obstruction-carrier}. Its socket
+coordinate $S$ is an accepted analytic-continuation socket row displaying the
+two $\HolomorphicUp$ source rows, the operation row, the output row, the
+branch-obstruction ledger, transports, routes, provenance, and local naming
+row.
+
+Apply \autoref{thm:branch-obstruction-namecert-obligations}. The socket
+compatibility and ledger exactness clauses require $B$ to be selected from
+that already displayed socket surface, so the sibling holomorphic and
+operation rows are read before the obstruction ledger is exported.
+
+Now use \autoref{thm:branch-obstruction-ledger-nonescape} and
+\autoref{thm:branch-obstruction-holomorphic-handoff-boundary}. The ledger
+remains boundary accounting, while downstream holomorphic consumers receive
+only the source and output surface already displayed by $S$ together with the
+operation row named in the same socket.
+\end{proof}
+
 \begin{theorem}[BranchObstruction monodromy non-export]
 \label{thm:branch-obstruction-monodromy-nonexport}
 An accepted $\BranchObstructionUp$ carrier may record a request for monodromy, branch selection, or quotient-of-germs comparison in the selected ledger row $B$. It does not export such a request as a monodromy theorem, branch selector, quotient equality, global continuation principle, zero-location datum, or holomorphic output beyond the socket row $S$.

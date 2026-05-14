@@ -363,4 +363,39 @@ theorem RegularCauchyTailMeetPacket_root_downstream_seal_route [AskSetup]
       m0m1Row, tauqRow, rootRoute, sealRoute, sealReadRoute, pkgRow, sealPkg,
       sealReadPkg⟩
 
+theorem RegularCauchyTailMeetPacket_selector_budget_route_lock [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n rootRead selectorBudget sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont q n rootRead ->
+        Cont rootRead tau selectorBudget ->
+          Cont selectorBudget l sealRead ->
+            PkgSig bundle selectorBudget pkg ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧
+                  UnaryHistory w1 ∧ UnaryHistory tau ∧ UnaryHistory q ∧
+                    UnaryHistory l ∧ UnaryHistory rootRead ∧
+                      UnaryHistory selectorBudget ∧ UnaryHistory sealRead ∧
+                        Cont r0 w0 h ∧ Cont r1 w1 c ∧ Cont m0 m1 tau ∧
+                          Cont tau q l ∧ Cont q n rootRead ∧
+                            Cont rootRead tau selectorBudget ∧
+                              Cont selectorBudget l sealRead ∧ PkgSig bundle l pkg ∧
+                                PkgSig bundle selectorBudget pkg ∧
+                                  PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet rootRoute selectorRoute sealReadRoute selectorPkg sealReadPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, _m0Unary, _m1Unary, tauUnary,
+    qUnary, _hUnary, _cUnary, lUnary, nUnary, r0w0Row, r1w1Row, m0m1Row,
+    tauqRow, pkgRow⟩ := packet
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed qUnary nUnary rootRoute
+  have selectorUnary : UnaryHistory selectorBudget :=
+    unary_cont_closed rootUnary tauUnary selectorRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectorUnary lUnary sealReadRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, tauUnary, qUnary, lUnary, rootUnary,
+      selectorUnary, sealReadUnary, r0w0Row, r1w1Row, m0m1Row, tauqRow, rootRoute,
+      selectorRoute, sealReadRoute, pkgRow, selectorPkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyTailMeetUp
