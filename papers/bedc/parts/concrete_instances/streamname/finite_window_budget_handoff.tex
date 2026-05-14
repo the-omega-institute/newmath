@@ -118,6 +118,35 @@ countable-choice selectors, host real equality, metric completeness, or ambient
 $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[StreamName budget tail regular seal lock]
+\label{thm:streamname-budget-tail-regular-seal-lock}
+Any finite $\StreamNameUp$ window routed through
+$\ObservationBudgetLimiterUp$ and $\RegularCauchyTailBudgetUp$ reaches
+$\RegSeqRatUp$ regularity and $\RealUp$ finite-seal data only through the
+shared budget cap, tail threshold, finite window, dyadic ledger, readback, and
+seal rows. The locked route exports no quotient streams, selected limits,
+countable-choice selectors, host real equality, metric completeness, or
+ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}.
+It places every regularity row, dyadic tolerance row, and finite Real seal read
+behind the shared observation-budget surface.
+
+Next apply \autoref{thm:streamname-budget-handoff-sibling-chapter-route} and
+\autoref{thm:streamname-regular-seal-sibling-route}. These force the limiter
+cap, tail threshold, finite StreamName window, dyadic ledger, RegSeqRat
+readback, and Real seal rows to remain a single sibling route.
+
+Finally use
+\autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization},
+\autoref{thm:regular-cauchy-tail-budget-observation-gate}, and
+\autoref{thm:streamname-finite-window-regularity-real-seal-nonescape}. Their
+combined non-escape clauses exclude quotient streams, selected limits,
+countable-choice selectors, host real equality, metric completeness, and
+ambient completeness from the locked tail-budget seal read.
+\end{proof}
+
 \begin{theorem}[StreamName ObserverFilter finite-window handoff]
 \label{thm:streamname-observer-filter-finite-window-handoff}
 Every accepted finite $\ObserverFilterUp$ selected-subhistory handoff to
