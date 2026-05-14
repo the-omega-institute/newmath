@@ -1,0 +1,67 @@
+\section{StreamName Real-Completion Gateway Package}
+\label{sec:streamname-real-completion-gateway-package}
+
+\begin{definition}[StreamName Real-completion gateway carrier]
+\label{def:streamname-real-completion-gateway-carrier}
+A $\StreamNameUp$ Real-completion gateway packet is a finite $\BHist$ packet
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row read by the open phase;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-ledger row anchored to the same finite window;
+\item $R$ is the $\RegSeqRatUp$ readback row produced from that anchored window;
+\item $E$ is the $\RealUp$ seal row reachable only after the displayed readback;
+\item $B$ records the displayed $\BHist$ observations on $S,D,R,E$;
+\item $H$ records componentwise $\hsame$ transports for the window, ledger, readback, seal, route, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes from $S$ to $D$, from $S,D$ to $R$, and from $R$ to $E$;
+\item $P$ records $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ records the local $\NameCert_{\StreamNameUp}$ rows for the four faces and their displayed support.
+\end{enumerate}
+The packet is a gateway for the finite Real-completion route. It contains no coordinate for quotient stream equality, host sequence equality, a selected limit, ambient $\RealUp$ completeness, metric-completeness data, or a standard bridge row.
+\end{definition}
+
+\begin{theorem}[StreamName Real-completion gateway obligations]
+\label{thm:streamname-real-completion-gateway-obligations}
+For the carrier of \autoref{def:streamname-real-completion-gateway-carrier}, the local $\NameCert_{\StreamNameUp}$ obligations are exactly carrier admission for
+$$
+G=(S,D,R,E,B,H,C,P,N),
+$$
+StreamName finite-window exposure through $S$, DyadicRatCore tolerance-ledger exposure through $D$, RegSeqRat readback exposure through $R$, RealUp seal exposure through $E$, displayed $\BHist$ observation through $B$, componentwise $\hsame$ transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-open-phase-exit-boundary}. It identifies every Phase Real and Completion consumer with the finite StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, and the displayed observation, transport, route, provenance, and local naming rows.
+
+Next apply \autoref{thm:streamname-real-completion-exit-certificate}. The certificate repacks the same exit boundary as a four-face read and names exactly the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows used by the gateway packet.
+
+Finally use \autoref{thm:streamname-dyadicratcore-window-anchor}. The tolerance ledger is pinned to the StreamName finite window before the RegSeqRat readback or the RealUp seal can be consumed. Therefore the listed rows exhaust the local NameCert obligations for the gateway carrier.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway non-escape]
+\label{thm:streamname-real-completion-gateway-nonescape}
+No accepted $\StreamNameUp$ Real-completion gateway packet exports quotient stream equality, host sequence equality, a selected limit, ambient $\RealUp$ completeness, metric-completeness data, countable-choice selection, or a standard bridge row. Every accepted gateway read factors through
+$$
+S,D,R,E,B,H,C,P,N
+$$
+as displayed in \autoref{def:streamname-real-completion-gateway-carrier}.
+\end{theorem}
+\begin{proof}
+Begin with the gateway obligation theorem. It says that every public read of the packet is one of $S,D,R,E,B,H,C,P,N$ and that the structural rows only transport, replay, package, and name that displayed inventory.
+
+Use \autoref{thm:streamname-open-phase-exit-boundary} and \autoref{thm:streamname-real-completion-exit-certificate}. Both exclude quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, and standard bridge rows from the same four-face boundary.
+
+It remains to exclude a bypass through the dyadic ledger. Apply \autoref{thm:streamname-dyadicratcore-window-anchor}: the ledger is anchored to the StreamName finite window before RegSeqRat or Real consumers can inspect it. Thus the gateway has no second route through which any excluded object can enter.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway terminality]
+\label{thm:streamname-real-completion-gateway-terminality}
+Let two accepted $\StreamNameUp$ Real-completion gateway reads expose the same StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. Then the two reads determine the same finite BEDC route through the Real-completion gateway. Conversely, every terminal route available to the current Real-completion open phase is read through exactly those four faces and support rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-open-phase-four-face-terminality}. It states that agreement on the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and displayed support rows determines the same terminal finite BEDC route.
+
+Next use \autoref{thm:streamname-regseqrat-real-open-phase-dependency-lattice}. The lattice gives the converse direction: every terminal open-phase route is exhausted by the same four faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally compare with \autoref{def:streamname-real-completion-gateway-carrier}. The carrier lists exactly those rows and no additional coordinate. Therefore two gateway reads with the same four faces and support rows determine the same finite BEDC gateway route, and every terminal route in the current Real-completion open phase is read through that packet.
+\end{proof}
