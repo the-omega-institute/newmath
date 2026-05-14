@@ -134,3 +134,21 @@ Apply \autoref{thm:streamname-real-seal-observation-budget-factorization} to pas
 
 Finally route the bounded packet through \autoref{ch:concrete-instances-real-observation-budget-namecert}. Its carrier \autoref{def:real-observation-budget-carrier} and non-escape theorem \autoref{thm:real-observation-budget-nonescape} repack the same finite surface as $E,W,D,R,S,H,C,P,N$, with componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert_{\RealObservationBudgetUp}$ row. Since neither the source handoff nor the observation-budget carrier contains an uncapped schedule, quotient stream, host sequence equality, selected limit, independent real carrier, ambient completeness row, or host real equality row, the routed consumer cannot export any of those objects.
 \end{proof}
+
+\begin{theorem}[StreamName Real terminal factorization]
+\label{thm:streamname-real-terminal-factorization}
+Any finite-window $\StreamNameUp$ packet consumed by $\RegSeqRatUp$, sealed as $\RealUp$, and then read by a Real-facing consumer factors through the terminal source lock of \autoref{def:streamname-regseqrat-realup-terminal-source-lock}. The common terminal packet is exactly the finite $\BHist$ window, accepted $\RegSeqRat$ pointwise row, induced $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+
+The factorization exports no quotient stream, host sequence equality, selected limit, ambient real completeness, independent Real carrier, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First project the finite StreamName rows. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the handoff read exposes only finite classifier observations, bundle and membership rows, unary observations, pointwise $\RegSeqRat$ rows, the $\RealUp$ seal boundary, transport rows, continuation rows, provenance, and local naming rows.
+
+Next identify the public source surface by \autoref{thm:streamname-regseqrat-real-window-factorization}. The finite StreamName window, accepted $\RegSeqRat$ pointwise row, and $\RealUp$ seal boundary determine the same surface for every downstream Real-facing read.
+
+Apply \autoref{thm:streamname-real-handoff-pullback-exactness}. The accepted read is therefore a pullback over exactly the finite window, pointwise row, seal boundary, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Now route the bounded consumer through \autoref{thm:streamname-real-observation-budget-route}. The Real-facing observation request reads the same finite packet through $\RealObservationBudgetUp$, so the request, budget, and window discipline do not introduce an additional source coordinate.
+
+Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-source-lock}. The terminal lock identifies the common source surface with the lock packet of \autoref{def:streamname-regseqrat-realup-terminal-source-lock}: the finite $\BHist$ window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows together with the accepted $\RegSeqRat$ and induced $\RealUp$ seal rows. Since none of the cited routes carries quotient streams, host sequence equality, selected limits, ambient completeness, an independent Real carrier, or metric-completeness data, none is exported by the terminal factorization.
+\end{proof}
