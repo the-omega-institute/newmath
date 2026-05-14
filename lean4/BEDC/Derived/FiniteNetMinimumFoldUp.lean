@@ -317,4 +317,42 @@ theorem FiniteNetMinimumFoldPacket_selector_stability [AskSetup] [PackageSetup]
     ⟨transportUnary, accumulatorUnary, selectorUnary, selectedUnary, exportedUnary,
       transportAccumulatorSelector, selectorLowerSelected, selectedNameExported, exportedPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_order_selector_transport [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow selector selected
+      transported exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg ->
+      Cont transport accumulator selector ->
+        Cont selector lower selected ->
+          hsame transported selected ->
+            Cont transported nameRow exported ->
+              PkgSig bundle exported pkg ->
+                UnaryHistory selector ∧ UnaryHistory selected ∧ UnaryHistory transported ∧
+                  UnaryHistory exported ∧ Cont transport accumulator selector ∧
+                    Cont selector lower selected ∧ hsame transported selected ∧
+                      Cont transported nameRow exported ∧ Cont lower route provenance ∧
+                        PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame ProbeBundle Pkg
+  intro packet transportAccumulatorSelector selectorLowerSelected transportedSame
+    transportedNameExported exportedPkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    bundleRadiusTransport, _transportAccumulatorLower, lowerRouteProvenance,
+    _provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusTransport
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed transportUnary accumulatorUnary transportAccumulatorSelector
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed selectorUnary lowerUnary selectorLowerSelected
+  have transportedUnary : UnaryHistory transported :=
+    unary_transport_symm selectedUnary transportedSame
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed transportedUnary nameRowUnary transportedNameExported
+  exact
+    ⟨selectorUnary, selectedUnary, transportedUnary, exportedUnary,
+      transportAccumulatorSelector, selectorLowerSelected, transportedSame,
+      transportedNameExported, lowerRouteProvenance, exportedPkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp
