@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.QuotientStreamRefusalUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -266,5 +276,36 @@ theorem QuotientStreamRefusalTasteGate_single_carrier_alignment :
       · intro x y heq
         exact quotientStreamRefusalToEventFlow_injective heq
       · rfl
+
+def QuotientStreamRefusalPacket [AskSetup] [PackageSetup]
+    (s r l e f h c p n : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory ProbeBundle
+  UnaryHistory s ∧ UnaryHistory r ∧ UnaryHistory l ∧ UnaryHistory e ∧ UnaryHistory f ∧
+    UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory n ∧
+      Cont s r l ∧ Cont l e h ∧ Cont h f c ∧ Cont c n p ∧ PkgSig bundle p pkg
+
+theorem QuotientStreamRefusalPacket_route_ordering [AskSetup] [PackageSetup]
+    {s r l e f h c p n sealRow refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientStreamRefusalPacket s r l e f h c p n bundle pkg →
+      Cont l e sealRow →
+        Cont sealRow f refusalRead →
+          PkgSig bundle refusalRead pkg →
+            UnaryHistory s ∧ UnaryHistory r ∧ UnaryHistory l ∧ UnaryHistory e ∧
+              UnaryHistory sealRow ∧ UnaryHistory refusalRead ∧ Cont s r l ∧
+                Cont l e sealRow ∧ Cont sealRow f refusalRead ∧
+                  PkgSig bundle p pkg ∧ PkgSig bundle refusalRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory ProbeBundle
+  intro packet sealRoute refusalRoute refusalPkg
+  obtain ⟨sUnary, rUnary, lUnary, eUnary, fUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, sourceRoute, _sealRoute, _refusalRoute, _packageRoute, packagePkg⟩ :=
+    packet
+  have sealUnary : UnaryHistory sealRow := unary_cont_closed lUnary eUnary sealRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed sealUnary fUnary refusalRoute
+  exact
+    ⟨sUnary, rUnary, lUnary, eUnary, sealUnary, refusalUnary, sourceRoute, sealRoute,
+      refusalRoute, packagePkg, refusalPkg⟩
 
 end BEDC.Derived.QuotientStreamRefusalUp
