@@ -378,6 +378,103 @@ limit, countable-choice row, ambient completeness theorem, or alternate
 completion channel from the ledger.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger downstream unblock package]
+\label{thm:cauchy-witness-ledger-downstream-unblock-package}
+Every downstream L10 consumer of an accepted $\CauchyWitnessLedgerUp$ packet
+that reads Real-completion data factors first through the finite ledger rows
+$$
+Q,B,S,K,H,C,P,N.
+$$
+The consumer may read the Real-completion surface only after the
+diagonal-budget row $Q$, observation-budget row $B$, seal-synchronizer row
+$S$, completion-seal classifier row $K$, componentwise transport row $H$,
+route-replay row $C$, package-provenance row $P$, and local NameCert row $N$
+have been exposed on the displayed BEDC route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-witness-ledger-budget-factorization}. It places
+the analytic read through $Q \longmapsto B \longmapsto S \longmapsto K$ before
+any completion-facing row can be consumed.
+
+Next use \autoref{thm:cauchy-witness-ledger-diagonal-observation-route} and
+\autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The first
+identifies the shared diagonal and observation source, and the second keeps
+the synchronizer and classifier attached to that same source.
+
+Now apply \autoref{thm:cauchy-witness-ledger-route-replay-exactness} and
+\autoref{thm:cauchy-witness-ledger-public-export}. Replay supplies the row
+$C$ for the same route, while public export carries exactly the finite
+surface with $H,C,P,N$ to the downstream consumer.
+
+Finally, \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}
+removes every external completion coordinate. Thus the downstream L10 read is
+unblocked only by the displayed ledger packet, not by a hidden analytic
+principle.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger window seal consumer triad]
+\label{thm:cauchy-witness-ledger-window-seal-consumer-triad}
+In every accepted $\CauchyWitnessLedgerUp$ packet, the diagonal-budget row
+$Q$, observation-budget row $B$, and seal-synchronizer row $S$ form the
+consumer triad that binds the $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, and $\RealUp$ surfaces before the completion-seal
+classifier row $K$ is readable. No downstream consumer may detach one of
+these four surfaces from the same $Q \longmapsto B \longmapsto S$ route.
+\end{theorem}
+\begin{proof}
+Read the budget order from
+\autoref{thm:cauchy-witness-ledger-budget-factorization}. The rows $Q$, $B$,
+and $S$ occur before $K$, so the classifier cannot supply the first
+completion-facing surface.
+
+Use \autoref{thm:cauchy-witness-ledger-diagonal-observation-route}. It binds
+the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$
+surfaces seen by $B$ to the same source already fixed by $Q$.
+
+Apply \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The
+synchronizer row $S$ carries that same source into the classifier row $K$,
+which gives the three consumer rows their shared seal-facing boundary.
+
+Finally combine \autoref{thm:cauchy-witness-ledger-route-replay-exactness},
+\autoref{thm:cauchy-witness-ledger-public-export}, and
+\autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. Replay and
+export preserve the triad for downstream use, and forbidden-coordinate
+exclusion rules out any detached stream, rational, dyadic, or Real surface.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger completion classifier readback]
+\label{thm:cauchy-witness-ledger-completion-classifier-readback}
+For every accepted $\CauchyWitnessLedgerUp$ packet, the completion-seal
+classifier row $K$ is readable exactly through the displayed route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K.
+$$
+It is never readable through quotient streams, selected limits, countable
+choice, ambient completeness, or any Real-completion channel outside the
+finite ledger surface with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-witness-ledger-budget-factorization}. It
+displays the only analytic path to $K$ as
+$Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Next use \autoref{thm:cauchy-witness-ledger-diagonal-observation-route} and
+\autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. They keep
+the classifier attached to the same diagonal-budget, observation-budget, and
+seal-synchronizer source.
+
+Apply \autoref{thm:cauchy-witness-ledger-route-replay-exactness} and
+\autoref{thm:cauchy-witness-ledger-public-export}. These theorems make the
+readback public only as the replayed finite route with the structural rows
+$H,C,P,N$.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}.
+Since the forbidden coordinates are absent from the carrier and from the
+exported surface, $K$ has no readback through quotient streams, selected
+limits, countable choice, ambient completeness, or an alternate completion
+channel.
+\end{proof}
+
 \begin{theorem}[Cauchy witness ledger root downstream totality]
 \label{thm:cauchy-witness-ledger-root-downstream-totality}
 Every downstream $\RealUp$ or completion-facing consumer of an accepted
@@ -582,7 +679,7 @@ completion request is refused at the forbidden-coordinate boundary.
 \begin{closurestatus}{\CauchyWitnessLedgerUp}
   \constructivestory{A $\CauchyWitnessLedgerUp$ packet is generated from a Cauchy diagonal budget, Real observation budget, Cauchy seal-budget synchronizer, Real completion-seal classifier, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, \autoref{thm:cauchy-witness-ledger-real-completion-handoff}, \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}, \autoref{thm:cauchy-witness-ledger-componentwise-transport}, \autoref{thm:cauchy-witness-ledger-route-replay-exactness}, \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}, \autoref{thm:cauchy-witness-ledger-public-export}, \autoref{thm:cauchy-witness-ledger-budget-seal-lock}, \autoref{thm:cauchy-witness-ledger-real-consumer-nonescape}, \autoref{thm:cauchy-witness-ledger-root-downstream-totality}, \autoref{thm:cauchy-witness-ledger-root-completion-package}, and \autoref{thm:cauchy-witness-ledger-root-seal-readback} bind the finite witness ledger for the Real completeness route; the mature paper surface covers the carrier, budget factorization, Real-completion handoff, carrier admission, route determinacy, ledger exhaustion, componentwise transport, replay exactness, forbidden-coordinate exclusion, public export, budget-seal lock, Real consumer nonescape, downstream totality, root completion packaging, and seal readback.}
+  \scopeclosed{\autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, \autoref{thm:cauchy-witness-ledger-real-completion-handoff}, \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}, \autoref{thm:cauchy-witness-ledger-componentwise-transport}, \autoref{thm:cauchy-witness-ledger-route-replay-exactness}, \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}, \autoref{thm:cauchy-witness-ledger-public-export}, \autoref{thm:cauchy-witness-ledger-budget-seal-lock}, \autoref{thm:cauchy-witness-ledger-real-consumer-nonescape}, \autoref{thm:cauchy-witness-ledger-downstream-unblock-package}, \autoref{thm:cauchy-witness-ledger-window-seal-consumer-triad}, \autoref{thm:cauchy-witness-ledger-completion-classifier-readback}, \autoref{thm:cauchy-witness-ledger-root-downstream-totality}, \autoref{thm:cauchy-witness-ledger-root-completion-package}, and \autoref{thm:cauchy-witness-ledger-root-seal-readback} bind the finite witness ledger for the Real completeness route; the mature paper surface covers the carrier, budget factorization, Real-completion handoff, carrier admission, route determinacy, ledger exhaustion, componentwise transport, replay exactness, forbidden-coordinate exclusion, public export, budget-seal lock, Real consumer nonescape, downstream unblock packaging, window-seal consumer triad, classifier readback, downstream totality, root completion packaging, and seal readback.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate}
   \bridgestatus{none}
