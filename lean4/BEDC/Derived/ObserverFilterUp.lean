@@ -124,6 +124,71 @@ theorem ObserverFilter_ledger_exactness [AskSetup] [PackageSetup]
       exact And.intro (unary_transport omittedUnary (hsame_symm sourceData.right)) pkgSig
   }
 
+theorem ObserverFilterCarrier_observer_history_factorization [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          ObserverFilterCarrier source selected omitted transport ledger routes provenance
+              localName bundle pkg ∧
+            (hsame row source ∨ hsame row selected ∨ hsame row omitted))
+        (fun _row : BHist =>
+          Cont source selected ledger ∧ Cont ledger omitted routes ∧
+            Cont routes localName provenance ∧ PkgSig bundle provenance pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame PkgSig SemanticNameCert
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, _ledgerUnary, _routesUnary,
+    _provenanceUnary, _localNameUnary, sourceSelected, ledgerOmitted, routesLocalName,
+    pkgSig⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro source
+          (And.intro carrierWitness (Or.inl (hsame_refl source)))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceData
+        constructor
+        · exact sourceData.left
+        · cases sourceData.right with
+          | inl sameSource =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameSource)
+          | inr rest =>
+              cases rest with
+              | inl sameSelected =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameSelected))
+              | inr sameOmitted =>
+                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameOmitted))
+    }
+    pattern_sound := by
+      intro _row _sourceData
+      exact ⟨sourceSelected, ledgerOmitted, routesLocalName, pkgSig⟩
+    ledger_sound := by
+      intro row sourceData
+      cases sourceData.right with
+      | inl sameSource =>
+          exact And.intro (unary_transport sourceUnary (hsame_symm sameSource)) pkgSig
+      | inr rest =>
+          cases rest with
+          | inl sameSelected =>
+              exact And.intro (unary_transport selectedUnary (hsame_symm sameSelected)) pkgSig
+          | inr sameOmitted =>
+              exact And.intro (unary_transport omittedUnary (hsame_symm sameOmitted)) pkgSig
+  }
+
 theorem ObserverFilterCarrier_streamname_handoff [AskSetup] [PackageSetup]
     {source selected omitted transport ledger routes provenance localName streamRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
