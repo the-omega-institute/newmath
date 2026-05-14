@@ -148,6 +148,52 @@ Now use \autoref{thm:subject-reduction-route-classifier-primitive-scope} and \au
 The type-preserving compiler read is therefore an invocation-style handoff only. No carrier coordinate remains from which compiler correctness, erased semantics, host conversion, or an additional subject-reduction discharge could be projected.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteClassifier route-kind coverage]
+\label{thm:subject-reduction-route-classifier-route-kind-coverage}
+In every accepted $\SubjectReductionRouteClassifierUp$ packet, each route-kind row $K$ consumed by the classifier is exactly one of $\mathsf{bundle}$ or $\mathsf{typeclass}$. A downstream route read cannot consume a third route kind, because the carrier has no coordinate, invocation row, continuation route, or package provenance row for any classifier value outside those two cases.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-classifier-carrier}. The row $K$ is displayed with exactly two accepted classifier values, and the row $I$ is displayed as the corresponding invocation evidence for those same values.
+
+For the $\mathsf{bundle}$ case, use \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}. The invocation row reads the four discharge rows $B,A,L,P$ as an explicit bundle.
+
+For the $\mathsf{typeclass}$ case, the same theorem reads $I$ as extraction of those four fields from a setup instance followed by conversion to the bundle shape. The discharge payload remains $B,A,L,P$.
+
+Finally apply \autoref{thm:subject-reduction-route-classifier-primitive-scope}. Since the primitive surface has no hidden route-kind coordinate and no provenance row for another route, no third route can be consumed.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier invocation payload inversion]
+\label{thm:subject-reduction-route-classifier-invocation-payload-inversion}
+Let $I$ be the invocation row of an accepted $\SubjectReductionRouteClassifierUp$ packet. Reading $I$ along the $\mathsf{bundle}$ route reconstructs the displayed discharge rows $B,A,L,P$ by explicit bundle projection, and reading $I$ along the $\mathsf{typeclass}$ route reconstructs the same four rows by setup-field extraction followed by bundle conversion. Thus invocation inversion never changes the discharge payload consumed from the socket chapter.
+\end{theorem}
+\begin{proof}
+Start with the socket scope theorem, \autoref{thm:subject-reduction-route-classifier-socket-scope}. It records that $B,A,L,P$ are already consumed from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} before this classifier routes them.
+
+In the $\mathsf{bundle}$ branch, the invocation row is the explicit construction of the bundle over the displayed rows. Projecting that bundle returns $B,A,L,P$.
+
+In the $\mathsf{typeclass}$ branch, the invocation row first reads the ambient setup fields and then converts them to the same bundle shape. By \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}, those setup fields are exactly $B,A,L,P$.
+
+The inversion therefore reconstructs the same four socket rows in both accepted branches. It cannot produce another discharge row, because \autoref{thm:subject-reduction-route-classifier-route-kind-coverage} rules out any additional route kind.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier consumer route totality]
+\label{thm:subject-reduction-route-classifier-consumer-route-totality}
+Every $\TypePreservingCompilerUp$ or audit consumer handoff of an accepted $\SubjectReductionRouteClassifierUp$ packet factors through
+$$
+B,A,L,P,K,I,U,H,C,Q,N.
+$$
+The consumer receives the four socket discharge rows, the route-kind decision, invocation evidence, the handoff row, componentwise transport, continuation replay, provenance, and local naming data, and it receives no proof of a missing discharge premise.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}. It confines every consumer read to the displayed rows $B,A,L,P,K,I,U,H,C,Q,N$ and excludes closed subject-reduction proofs, host conversion, erased derivation semantics, and routes not named by $K$.
+
+Next use \autoref{thm:subject-reduction-route-classifier-public-export}. The public export is exactly the finite route-classifier packet, so any compiler or audit handoff has to pass through the displayed rows rather than through an external certificate.
+
+The route-kind coverage and invocation payload inversion theorems identify all accepted route reads. Whether the consumer follows the $\mathsf{bundle}$ branch or the $\mathsf{typeclass}$ branch, the invocation row reconstructs the same socket payload $B,A,L,P$.
+
+Finally invoke \autoref{thm:subject-reduction-route-classifier-socket-scope} and \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}. The four discharge rows are consumed from the socket chapter and then handed to the compiler as invocation-style data, so no missing discharge premise becomes available to the consumer.
+\end{proof}
+
 \closureat{SubjectReductionRouteClassifierUp}{seedStr}
 \closureat{SubjectReductionRouteClassifierUp}{obligationStr}
 
