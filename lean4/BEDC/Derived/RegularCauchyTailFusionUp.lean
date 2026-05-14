@@ -43,4 +43,27 @@ theorem RegularCauchyTailFusionCarrier_tail_meet_handoff [AskSetup] [PackageSetu
     unary_cont_closed tailReadUnary diagonalUnary diagonalRoute
   exact ⟨tailReadUnary, diagonalReadUnary, tailRoute, diagonalRoute, sealSame, namePkg⟩
 
+theorem RegularCauchyTailFusionCarrier_window_monotone_handoff [AskSetup] [PackageSetup]
+    {Q X W D T M R L H C P N windowTail locked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFusionCarrier Q X W D T M R L H C P N bundle pkg ->
+      Cont W D windowTail ->
+        Cont windowTail M locked ->
+          UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory windowTail ∧ UnaryHistory M ∧
+            UnaryHistory locked ∧ Cont W D windowTail ∧ Cont windowTail M locked ∧
+              hsame L (append R N) ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier windowTailRoute lockedRoute
+  obtain ⟨_qUnary, _xUnary, windowUnary, dyadicUnary, _tailUnary, meetUnary,
+    _diagonalUnary, _sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _precisionWindow, _windowTail, _tailMeet, _transportRoute, sealSame, namePkg⟩ :=
+    carrier
+  have windowTailUnary : UnaryHistory windowTail :=
+    unary_cont_closed windowUnary dyadicUnary windowTailRoute
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed windowTailUnary meetUnary lockedRoute
+  exact
+    ⟨windowUnary, dyadicUnary, windowTailUnary, meetUnary, lockedUnary, windowTailRoute,
+      lockedRoute, sealSame, namePkg⟩
+
 end BEDC.Derived.RegularCauchyTailFusionUp

@@ -118,13 +118,15 @@ def _infer_zero_extraction_hang(status: dict) -> dict:
 
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
+    dispatch_ready = status.get("dispatch_ready_poll_agents") or []
     zero_hang = status.get("zero_extraction_hang_agents") or []
     zero_part = f" zero_extract={','.join(map(str, zero_hang))}" if zero_hang else ""
     return (
         f"diagnosis={status.get('diagnosis', 'unknown')} "
         f"queue={status.get('queue_length', '?')} "
         f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
-        f"recent_agents={len(recent)}{zero_part} completed={status.get('completed', '?')}"
+        f"recent_agents={len(recent)} dispatch_ready={len(dispatch_ready)}"
+        f"{zero_part} completed={status.get('completed', '?')}"
     )
 
 
@@ -161,6 +163,18 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "queue_waiting_for_project_agent":
         print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
         print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "queue_waiting_for_dispatch_ready_agent":
+        project_agents = ", ".join(map(str, status.get("project_active_poll_agents") or []))
+        print(
+            "[status] active BEDC tab(s) are polling inside the Project but none are on a /c/... conversation page.",
+            flush=True,
+        )
+        if project_agents:
+            print(f"[status] project-active tab(s): {project_agents}", flush=True)
+        print(
+            "[status] do not open a third tab by default; put one existing BEDC tab on a conversation page or let the userscript navigate there.",
+            flush=True,
+        )
     elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
         agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
         seconds = status.get("zero_extraction_hang_seconds", "?")
