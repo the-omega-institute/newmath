@@ -1000,6 +1000,18 @@ def _discovery_run_timeout_seconds(path: Path) -> int:
     return 1800
 
 
+def _completed_discovery_artifact(detail: str) -> Path | None:
+    match = re.search(r"\bfull record:\s+(.+?\.json)\s*$", detail)
+    if not match:
+        return None
+    path = Path(match.group(1))
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    if path.exists():
+        return path
+    return None
+
+
 def _format_pending_discovery_run(mtime: float, path: Path, detail: str) -> str:
     now = datetime.now(timezone.utc)
     age_seconds = (now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds()
@@ -1066,7 +1078,7 @@ def render_discovery_lane() -> str:
     if supervisor_run:
         run_mtime, run_path, detail = supervisor_run
         latest_artifact_mtime = records[0][0]
-        if run_mtime > latest_artifact_mtime:
+        if run_mtime > latest_artifact_mtime and not _completed_discovery_artifact(detail):
             lines.append(_format_pending_discovery_run(run_mtime, run_path, detail))
     return "\n".join(lines)
 
