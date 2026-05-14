@@ -245,15 +245,17 @@ For field faithfulness, use \autoref{thm:cellular-carrier-encoding-field-project
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
+\closureat{CellularCarrierEncodingUp}{obligationStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
+\closureat{CellularCarrierEncodingUp}{scopedStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CellularCarrierEncodingUp}
   \constructivestory{A $\CellularCarrierEncodingUp$ packet is generated from a source $\BHist$ row, bit encoding and readback row, cell-row embedding coordinate, cellular substrate witness row, componentwise transports, displayed continuations, provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, \autoref{thm:cellular-carrier-encoding-obligation-closure}, \autoref{thm:cellular-carrier-encoding-tastegate-obligation-packet}, and \leanchecked{BEDC.Derived.CellularCarrierEncodingUp.taste\_gate} bind the finite carrier, obligation rows, TasteGate-facing packet, and sibling cellular route.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, \autoref{thm:cellular-carrier-encoding-nonescape}, \autoref{thm:cellular-carrier-encoding-readback-exactness}, \autoref{thm:cellular-carrier-encoding-route-stability}, \autoref{thm:cellular-carrier-encoding-provenance-exhaustion}, \autoref{thm:cellular-carrier-encoding-primitive-scope-binding}, \autoref{thm:cellular-carrier-encoding-sibling-scope-binding}, \autoref{thm:cellular-carrier-encoding-obligation-closure}, \autoref{thm:cellular-carrier-encoding-formal-target-boundary}, and \leanchecked{BEDC.Derived.CellularCarrierEncodingUp.taste\_gate} bind the scoped $B,T,R,S,H,C,P,N$ route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CellularAutomatonUp$, and $\CellularTrustSubstrateUp$ together with the checked TasteGate single-carrier alignment.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, hidden offset exclusion beyond the displayed packet, or bridge checking.}
-  \upgradepath{Obligation closure requires binding the displayed accountability and substrate witness obligations to the BHist, hsame, Cont, CellularAutomatonUp, and CellularTrustSubstrateUp source rows, plus Lean TasteGate instances for the same finite packet.}
+  \upgradepath{Scoped closure requires bridge-facing route closure for the same $B,T,R,S,H,C,P,N$ packet, its BHist, hsame, Cont, CellularAutomatonUp, CellularTrustSubstrateUp, Pkg, NameCert rows, and the Lean TasteGate alignment.}
 \end{closurestatus}

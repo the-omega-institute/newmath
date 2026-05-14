@@ -76,6 +76,20 @@ Finally use the CauchyLimitSeal RegSeqRat Real finite-window pullback of \autore
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_common\_window\_transport}
 
+\begin{theorem}[CauchyLimitSeal four-face finite-window lattice exhaustion]
+\label{thm:cauchy-limit-seal-finite-window-four-face-lattice-exhaustion}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted consumer route that reaches a $\RealUp$ or completion endpoint through a $\StreamNameUp$ finite-window meet is exhausted by exactly four displayed faces: the $\StreamNameUp$ finite-window face $S$, the $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RealUp$ seal row $E$. The route carries only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and it exports no quotient stream, host real equality, selected limit, ambient-completeness datum, hidden tail witness, metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places every endpoint-facing seal route over the $\StreamNameUp$ finite-window meet before any regular source, dyadic ledger, completion diagonal, or seal row is read.
+
+Apply the RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. This pulls the endpoint route back through the displayed source row $X$, tolerance ledger $D$, completion diagonal row $G$, and seal row $E$, with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support visible to the consumer.
+
+Next use common-window transport from \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport to the shared finite window preserves the same displayed rows and does not create a second route through quotient stream equality, host real equality, selected limits, hidden tail witnesses, or ambient completeness.
+
+Finally apply the StreamName finite-window lattice meet exhaustion theorem, \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. Once the route has entered the meet, the consumer-visible lattice is already exhausted by the four displayed faces $S,X,D,E$ together with the listed BEDC support rows. The completion diagonal remains an internal transport face for the seal route, while no metric-completeness datum or standard bridge row is exported to the endpoint.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal shared window route]
 \label{thm:cauchy-limit-seal-shared-window-route}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every $\RealUp$ or completion-facing consumer of $L$ factors through the same finite route

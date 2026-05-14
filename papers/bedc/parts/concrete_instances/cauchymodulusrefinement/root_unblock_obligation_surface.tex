@@ -73,6 +73,7 @@ Next apply \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The s
 
 Finally apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The Real or Completion seal row is reached only after the displayed structural route $H,C,P,N$ has stabilized the same packet, and the excluded quotient stream equality, selected limit, host real equality, hidden selector, second meet, and ambient completeness coordinates have no exported entry point.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_root\_consumer\_package}
 
 \begin{theorem}[Cauchy modulus refinement root route completeness]
 \label{thm:cauchy-modulus-refinement-root-route-completeness}
@@ -90,4 +91,18 @@ Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The sel
 Then apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The Real seal row $E$ and the structural rows remain behind the same displayed carrier route, and the excluded quotient stream, selected limit, host real equality, second meet, and ambient completeness coordinates have no exported read.
 
 Finally apply \autoref{thm:cauchy-modulus-refinement-root-consumer-package}. It packages the Real and Completion consumers over the same carrier coordinates. Since the packet has no public coordinate beyond $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ for these reads, carrier coordinate exhaustion gives the claimed complete root route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared selector determinacy]
+\label{thm:cauchy-modulus-refinement-shared-selector-determinacy}
+For every accepted $\CauchyModulusRefinementUp$ packet, suppose two root-facing reads expose the same source rows $M_0,M_1$, shared meet $U$, extraction row $V$, selector-budget row $T$, selected-window row $W$, tolerance-readback row $Q$, Real seal row $E$, and structural rows $H,C,P,N$. Then the two reads are the same accepted selector route up to the displayed $\hsame$ transport and $\Cont$ replay. No hidden selector, second meet, quotient stream, selected limit, host equality, or ambient completeness row can distinguish another accepted root route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. The shared source rows force the same $M_0,M_1,U,V$ spine for both reads, so there is no separate source-meet branch on which a second selector route could start.
+
+Next apply \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The selector-budget, selected-window, and tolerance-readback rows are read back through the same displayed selector surface $T,W,Q$, and the carrier exposes no hidden selector coordinate beyond that surface.
+
+Use \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The Real seal row and structural rows remain inside the same $E,H,C,P,N$ packet under componentwise $\hsame$ transport and displayed $\Cont$ replay, so quotient streams, selected limits, host equalities, second meets, and ambient completeness rows are not root-facing witnesses.
+
+Finally invoke \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. Since every accepted Real or Completion-facing root read is exhausted by $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, two reads with those rows displayed have no remaining public coordinate on which they can differ.
 \end{proof}
