@@ -67,6 +67,24 @@ Read the terminal witness $Q$ from $R$. This gives the terminal-read surface of 
 For the reverse direction, suppose a consumer starts with the displayed replay of $T$ through $C$ and then reads $Q$ at $R$. The carrier has exactly the coordinates required to repack that route as $B$, so the consumer obtains the same finite terminal-read packet and no host-wide big-step semantics.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep terminal route exhaustion]
+\label{thm:continuation-big-step-terminal-route-exhaustion}
+Every accepted $\ContinuationBigStepUp$ consumer route factors through the displayed finite route
+$$
+S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q.
+$$
+Once the source row $S$, trace ledger $T$, replay route $C$, and terminal row $R$ have been fixed, the only terminal-read data available to the consumer is the witness $Q$ transported by the componentwise $\hsame$ rows. The carrier provides no direct $S \to Q$ shortcut, no host big-step semantic relation, no quotient behaviour class, and no hidden termination row.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:continuation-big-step-carrier}. An accepted packet has exactly the displayed rows $S,T,R,Q,H,C,P,N$, with $T$ serving as the finite $\ContinuationTraceUp$ ledger, $C$ serving as the replay route, and $Q$ serving as the read from the terminal row $R$.
+
+Apply \autoref{thm:continuation-big-step-small-step-factorization}. It routes every terminal computation read from $S$ through $T$, then through $C$, then through $R$, and only then to $Q$.
+
+Use \autoref{thm:continuation-big-step-terminal-read-determinacy} for the endpoint read. After $S,T,C,R$ are fixed, the terminal witness can move only by the componentwise $\hsame$ transport already displayed in the packet.
+
+Finally combine \autoref{thm:continuation-big-step-nonescape} with \autoref{thm:continuation-big-step-consumer-exactness}. These results exclude a direct source-to-witness edge, a host evaluator, a quotient behaviour classifier, and any hidden termination row outside the finite route.
+\end{proof}
+
 \begin{theorem}[ContinuationBigStep terminal-read determinacy]
 \label{thm:continuation-big-step-terminal-read-determinacy}
 Let
