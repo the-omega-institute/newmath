@@ -71,3 +71,23 @@ The apartness and budget rows are fixed before the seal by \autoref{thm:bounded-
 
 It remains to rule out a second finite envelope with the same visible role. The finite-observation lock \autoref{thm:bounded-monotone-cauchy-witness-finite-observation-lock} keeps Real-facing finite reads on the displayed rows of $W$, and \autoref{thm:bounded-monotone-cauchy-witness-window-exhaustion} rules out a hidden tail service. Therefore any disagreement is outside the finite envelope and is handled by the existing refusal boundary for the listed non-envelope principles.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion observation route]
+\label{thm:bounded-monotone-cauchy-witness-completion-observation-route}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every completion-facing observation route for $W$ first consumes the rows
+$$
+S,F,\sigma,\mu,\lambda,I,H,C,P,N,
+$$
+then passes through the finite $\RealObservationBudgetUp$ route, the $\RegSeqRatUp$ handoff, the $\LocatedIntervalUp$ trap, and only then reads the $\RealUp$ seal row $Q$.
+
+The route exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector. Thus completion consumers read the finite observation surface before any Real-facing seal is consumed.
+\end{theorem}
+\begin{proof}
+First expose the scheduled envelope. By \autoref{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export}, the public pre-seal rows of $W$ are exactly $S,F,\sigma,\mu,\lambda,I,H,C,P,N$.
+
+Next route the completion consumer through the finite observation surface. Apply \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape} to force the read through the public envelope, the finite observation route, the regular rational handoff, the located trap, and the later seal row.
+
+The apartness and budget rows fix the order of the finite segment. By \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-apartness-budget}, $\sigma,\mu,\lambda,I$ are consumed before the $\RealUp$ seal row $Q$, so the seal cannot precede the finite observation route.
+
+Finally use envelope uniqueness. \autoref{thm:bounded-monotone-cauchy-witness-envelope-uniqueness} rules out a second pre-seal envelope, and the non-escape conclusion excludes selected limits, equality principles, trichotomy, completeness, compactness, and choice-like selectors from the exported route.
+\end{proof}
