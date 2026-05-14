@@ -70,6 +70,18 @@ The tail-budget nonescape theorem \autoref{thm:cauchy-limit-seal-synchronizer-ta
 Finally apply finite-window nonescape \autoref{thm:cauchy-limit-seal-synchronizer-finite-window-nonescape}. It exhausts the remaining $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates before any $\RealUp$ seal read, so the displayed factorization is the only synchronizer-facing route.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal RealCompletionSealClassifier handoff]
+\label{thm:cauchy-limit-seal-real-completion-classifier-handoff}
+Every synchronizer-facing $\CauchyLimitSealUp$ read consumed by an accepted $\RealCompletionSealClassifierUp$ packet factors through the finite $\StreamNameUp$ window surface, the $\RegularCauchyNameUp$ and $\RegSeqRatUp$ handoff surfaces, the $\RealObservationBudgetUp$ rows, the $\CauchySealBudgetSynchronizerUp$ rows, the local $\CauchyLimitSealUp$ rows, and then the $\RealCompletionSealClassifierUp$ public export route of \autoref{thm:real-completion-seal-classifier-public-export}. The handoff exports no quotient stream, selected host limit, host real equality, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply synchronizer route factorization, \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization}. It places the consumed $\CauchyLimitSealUp$ read on the finite $\StreamNameUp$ window, $\RegularCauchyNameUp$ and $\RegSeqRatUp$ handoff rows, $\RealObservationBudgetUp$ rows, $\CauchySealBudgetSynchronizerUp$ rows, and local seal rows before the consumer reaches any $\RealUp$ seal.
+
+Now apply the public export theorem for the classifier, \autoref{thm:real-completion-seal-classifier-public-export}. The accepted $\RealCompletionSealClassifierUp$ packet can consume the synchronizer-facing seal only through its displayed public rows, so the preceding synchronizer route is handed to the classifier as part of the same finite completion-seal export surface.
+
+Finally combine the non-escape boundary already built into \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization} with the classifier non-escape boundary cited by \autoref{thm:real-completion-seal-classifier-public-export}. Neither route contains a quotient stream, selected host limit, host real equality, countable-choice row, or ambient completeness coordinate, and the classifier public export adds no second channel for such data.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal common-window budget synchronizer exhaustion]
 \label{thm:cauchy-limit-seal-common-window-budget-synchronizer-exhaustion}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Any synchronizer-facing seal read of $L$ that consumes both the $\RealObservationBudgetUp$ route and the $\CauchySealBudgetSynchronizerUp$ route first pulls back to the same $\StreamNameUp$ finite-window lattice surface of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It then proceeds through the displayed $\RegSeqRatUp$ source row, dyadic ledger, completion diagonal, synchronizer rows, observation-budget rows, and $\RealUp$ seal row. The common route exports no second finite window, quotient stream equality, selected host limit, hidden family limit, host real equality, unbounded schedule, or ambient completeness coordinate.
