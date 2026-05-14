@@ -266,4 +266,30 @@ theorem RegularCauchyTailMeetFormalHandoffLeanTarget [AskSetup] [PackageSetup]
       lUnary, nUnary, rootUnary, realSealUnary, budgetUnary, r0w0Row, r1w1Row,
       m0m1Row, tauqRow, rootRoute, sealRoute, budgetRoute, pkgRow⟩
 
+theorem RegularCauchyTailMeetPacket_selector_budget_public_route [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n selectorWindow selectorRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont q n selectorWindow ->
+        Cont selectorWindow tau selectorRead ->
+          PkgSig bundle selectorRead pkg ->
+            UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+              UnaryHistory tau ∧ UnaryHistory selectorWindow ∧
+                UnaryHistory selectorRead ∧ Cont r0 w0 h ∧ Cont r1 w1 c ∧
+                  Cont q n selectorWindow ∧ Cont selectorWindow tau selectorRead ∧
+                    PkgSig bundle l pkg ∧ PkgSig bundle selectorRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet selectorWindowRoute selectorReadRoute selectorReadPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, _m0Unary, _m1Unary, tauUnary,
+    qUnary, _hUnary, _cUnary, _lUnary, nUnary, r0w0Row, r1w1Row, _m0m1Row,
+    _tauqRow, pkgRow⟩ := packet
+  have selectorWindowUnary : UnaryHistory selectorWindow :=
+    unary_cont_closed qUnary nUnary selectorWindowRoute
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed selectorWindowUnary tauUnary selectorReadRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, tauUnary, selectorWindowUnary,
+      selectorReadUnary, r0w0Row, r1w1Row, selectorWindowRoute, selectorReadRoute,
+      pkgRow, selectorReadPkg⟩
+
 end BEDC.Derived.RegularCauchyTailMeetUp
