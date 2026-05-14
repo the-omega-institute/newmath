@@ -338,6 +338,8 @@ def _next_refill_prompt_note() -> str:
     try:
         import oracle_board_refill
 
+        if oracle_board_refill.refill_circuit_breaker_active():
+            return "  next prompt estimate: blocked (ultra transport failure)"
         ultra_refill = oracle_board_refill.should_use_ultra_refill()
         micro_refill = ultra_refill or oracle_board_refill.should_use_micro_refill()
         size = len(
