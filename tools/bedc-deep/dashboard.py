@@ -403,6 +403,15 @@ def _next_refill_prompt_note() -> str:
     return f"  next prompt estimate:{mode} {size}b"
 
 
+def _board_active_count() -> int:
+    try:
+        from dispatch_bedc_target import parse_board
+
+        return len(parse_board())
+    except Exception:
+        return -1
+
+
 def _classify_board_judge_error(error: str) -> str:
     """Infer the stable BOARD judge outage kind from legacy summary errors."""
     low = (error or "").lower()
@@ -541,6 +550,19 @@ def _format_refill_reject_suffix(summary: dict) -> str:
         if example:
             suffix += f" example={example[:60]}"
     return suffix
+
+
+def _latest_local_gap_summary(rec: dict) -> dict | None:
+    summary_path = rec.get("summary")
+    if not isinstance(summary_path, Path) or not summary_path.exists():
+        return None
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if summary.get("fallback") != "local_gap_scanner":
+        return None
+    return summary
 
 
 def _refill_status_bucket(status: str) -> str:
@@ -710,6 +732,17 @@ def render_board_refill() -> str:
                 "transport stalls from logic-gate rejection."
             )
     latest_status = _infer_refill_status(latest)
+    latest_local_gap = _latest_local_gap_summary(latest)
+    if (
+        latest_local_gap is not None
+        and _board_active_count() == 0
+        and int(latest_local_gap.get("candidates_proposed") or 0) == 0
+        and int(latest_local_gap.get("accepted") or 0) == 0
+    ):
+        lines.append(
+            "  note: BOARD is dry and deterministic local gap fallback found 0 candidates; "
+            "treat this as supply exhaustion, not a logic-gate or tab-refresh failure."
+        )
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
