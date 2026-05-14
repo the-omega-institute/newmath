@@ -116,6 +116,20 @@ Thus the exported seal has a restricted readback scope: it is a real-facing boun
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_real\_seal\_readback\_scope}
 
+\begin{theorem}[RealCauchyCompletion stream-regseq-tail seal factorization]
+\label{thm:real-cauchy-completion-stream-regseq-tail-seal-factorization}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier. Every $\RealUp$-and-completion consumer read of the exported seal factors through a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, the diagonal packet $D$, and then the $\RealUp$ seal row $E$.
+
+The exported route is exactly the displayed completion chain carried by $C$. It exports no quotient of regular streams, no host real equality, no selected limit, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:real-cauchy-completion-carrier}. The coordinates $X$ and $\mu$ supply the visible regular-family input and the finite precision request that selects the relevant stream window.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff}. The selected request reaches the diagonal packet $D$ only through the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback row, and the $\DyadicRatCoreUp$ observation ledger already recorded in the carrier route.
+
+Finally use \autoref{thm:real-cauchy-completion-non-escape-boundary} and \autoref{thm:real-cauchy-completion-real-seal-readback-scope}. These rows identify $E$ as the only exported $\RealUp$ seal reached by the route, while excluding quotient stream equality, host real equality, choice of a selected limit, and ambient completeness from the consumer surface.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion ProbeBundle window coverage]
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
 Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests. For every request $n$ bundled in $Q$, the consumer read factors through the displayed row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the corresponding $\DyadicRatCoreUp$ observation ledger.
