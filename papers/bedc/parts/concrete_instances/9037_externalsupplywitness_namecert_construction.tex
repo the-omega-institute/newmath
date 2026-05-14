@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\ExternalSupplyWitnessUp$}
+\label{ch:concrete-instances-external-supply-witness-namecert}
+\origin{ai}
+
+The $\ExternalSupplyWitnessUp$ packet realizes the witness-facing part of \autoref{ch:visions-external-supply-without-axioms} as a finite NameCert object. It sits beside the boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the apophatic name surface of \autoref{ch:concrete-instances-apophaticname-namecert}, the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the negative-name boundary of \autoref{ch:concrete-instances-negative-name-boundary-namecert}. Those siblings expose boundary, socket use, named refusal, audit verdict, or negative-name refusal rows; this packet binds the requested-witness, gate-locality, supply-ledger, and local NameCert rows on one auditable route.
+
+\begin{definition}[ExternalSupplyWitness carrier]
+\label{def:external-supply-witness-carrier}
+An $\ExternalSupplyWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,R,G,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the socket-site row naming the exact external supply position;
+\item $R$ is the requested-witness row recording the witness shape requested at $S$;
+\item $G$ is the gate-locality row stating the local audit gate through which $R$ may be read;
+\item $L$ is the supply ledger row preserving the $\mathsf{GAP}$ pressure and socket residue of the request;
+\item $H$ records componentwise $\hsame$ transports for $S,R,G,L$;
+\item $C$ records displayed $\Cont$ routes through the same socket, witness, gate, and ledger rows;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\ApophaticNameUp$, $\AuditGateBoundaryUp$, $\NegativeNameBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ExternalSupplyWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an internal witness before the gate-locality row, no hidden selector, no host quotient, and no theorem asserting that the requested witness is available as substrate truth.
+\end{definition}
+
+\begin{theorem}[ExternalSupplyWitness NameCert obligations]
+\label{thm:external-supply-witness-namecert-obligations}
+For the carrier of \autoref{def:external-supply-witness-carrier}, the local $\NameCert_{\ExternalSupplyWitnessUp}$ surface consists exactly of carrier admission for $W=(S,R,G,L,H,C,P,N)$, socket-site exposure through $S$, requested-witness readback through $R$, gate-locality exposure through $G$, supply-ledger readback through $L$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Equivalently, a consumer may read the socket site, the requested witness shape, the gate through which that request is local, and the ledger that keeps the external supply visible, but it may not read an internal witness outside those rows.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The accepted packet lists $S,R,G,L,H,C,P,N$, so the local certificate cannot introduce a second socket site, requested-witness row, gate-locality row, supply ledger, transport row, replay route, provenance row, or local name.
+
+Read the public rows in order. The socket site $S$ names the external supply position, the requested-witness row $R$ records the shape demanded there, and the gate-locality row $G$ states the local audit gate that must be crossed before the request is usable.
+
+Now read the ledger and structural rows. The supply ledger $L$ preserves the socket residue, while $H,C,P,N$ only transport, replay, package, and name the same finite packet. Therefore the NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyWitness socket factorization]
+\label{thm:external-supply-witness-socket-factorization}
+Every accepted $\ExternalSupplyWitnessUp$ consumer route factors through the socket-site row $S$ before it can cite the requested-witness row $R$, gate-locality row $G$, supply ledger $L$, or structural rows $H,C,P,N$. The packet exports no alternate route that begins with a hidden witness, detached audit gate, unledgered supply coordinate, quotient representative, or host selector.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:external-supply-witness-carrier}. The socket site $S$ is the first displayed row and supplies the name under which the requested witness is audited.
+
+Use the requested-witness and gate-locality rows. The request $R$ is meaningful only as a request at $S$, and the gate row $G$ records the local audit boundary for that same site.
+
+Finally inspect $L,H,C,P,N$. These rows preserve and replay the same socket route; none contains an independent witness, detached audit gate, unledgered supply coordinate, quotient representative, or host selector. Hence every accepted route factors through $S$.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyWitness non-escape]
+\label{thm:external-supply-witness-nonescape}
+Every accepted $\ExternalSupplyWitnessUp$ packet keeps the requested witness external until the gate-locality row is displayed. A downstream consumer may cite $S,R,G,L,H,C,P,N$ as witness-boundary evidence, but it cannot read $R$ as a public internal witness before $G$, nor can it obtain a hidden selector, quotient collapse, proposition-equality token, or theorem that supplies the requested witness.
+\end{theorem}
+\begin{proof}
+Read $S$ and $R$ as boundary rows. They name the socket site and the requested witness shape, but neither row states that the requested witness has been generated by the substrate.
+
+Apply the gate-locality row $G$. It is the displayed locality condition for any consumer read of $R$, so a public witness read before $G$ would bypass the carrier route.
+
+Use the supply ledger $L$ and the structural rows $H,C,P,N$. They preserve the same externalized request and leave no coordinate for hidden selectors, quotient collapse, proposition-equality tokens, or supplied-witness theorems. Thus the requested witness does not escape the gate-local packet.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyWitness gate locality]
+\label{thm:external-supply-witness-gate-locality}
+For every accepted $\ExternalSupplyWitnessUp$ packet $W=(S,R,G,L,H,C,P,N)$, the gate-locality row $G$ is the unique public gate through which $R$ can be consumed. Any consumer of the requested-witness row must preserve the same socket site $S$, supply ledger $L$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The carrier gives a single displayed gate-locality row $G$ between the requested-witness row $R$ and the ledger and structural rows.
+
+Use socket factorization. Since every accepted route begins at $S$, a consumer cannot attach $R$ to a different public gate without leaving the displayed packet.
+
+Now use non-escape. The rows $L,H,C,P,N$ preserve the same route and do not expose an alternate gate, hidden selector, or detached witness. Therefore $G$ is the unique public gate for consuming $R$ inside the packet.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyWitness field-faithful surface]
+\label{thm:external-supply-witness-field-faithful-surface}
+The public $\ExternalSupplyWitnessUp$ surface is field-faithful to the eight rows $S,R,G,L,H,C,P,N$: changing any one of the socket-site, requested-witness, gate-locality, supply-ledger, transport, continuation, provenance, or local NameCert rows changes the exported NameCert surface, while preserving all eight rows preserves the same witness-boundary packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They identify the exported surface with exactly the rows $S,R,G,L,H,C,P,N$.
+
+Changing $S,R,G,$ or $L$ changes the socket site, requested witness, public gate, or supply ledger read by the consumer. By socket factorization and gate locality, those rows determine the witness-boundary route.
+
+Changing $H,C,P,$ or $N$ changes the transport, replay, provenance, or local naming by which the same route is stabilized. Conversely, if all eight rows are preserved, the carrier and every public NameCert obligation are preserved. Hence the surface is field-faithful to the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{A packet whose requested witness row is public before the gate-locality row fails the ExternalSupplyWitnessUp non-escape theorem.}
+
+\independenceWitness{Compare ExternalSupplyBoundary, SupplySocketLedger, ApophaticName, AuditGateBoundary, and NegativeNameBoundary: the witness packet has simultaneous requested-witness, gate-locality, and supply-ledger rows, while those siblings respectively expose boundary, socket use, named refusal, audit verdict, or negative-name refusal rows, so no row-preserving bijection preserves the NameCert surface.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ExternalSupplyWitnessUp$ and $\mathsf{FieldFaithful}\ \ExternalSupplyWitnessUp$ instances over $W=(S,R,G,L,H,C,P,N)$ in $\mathsf{lean4/BEDC/Derived/ExternalSupplyWitnessUp/TasteGate.lean}$ before the chapter can claim a checked taste-gate target.
+
+\closureat{ExternalSupplyWitnessUp}{seedStr}
+\closureat{ExternalSupplyWitnessUp}{obligationStr}
