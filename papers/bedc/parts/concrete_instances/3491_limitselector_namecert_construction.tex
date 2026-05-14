@@ -173,6 +173,24 @@ Apply \autoref{thm:limit-selector-finite-witness-route}, \autoref{thm:limit-sele
 Conclude with \autoref{thm:limit-selector-diagonal-consumer-exhaustion}. Since the exhausted surface has no coordinate for quotient streams, host-selected limits, ambient completeness, or open-cover compactness, none of those objects can be exported by the scoped selector packet.
 \end{proof}
 
+\begin{theorem}[LimitSelector Real StreamName observation lock]
+\label{thm:limit-selector-real-streamname-observation-lock}
+Every diagonal-limit consumer of an accepted $\LimitSelectorUp$ packet reaches the $\RealUp$ seal only through the displayed chain
+$$
+R,\ n,\ \mu,\ k,\ W,\ D,\ \RealObservationBudgetUp,\ S.
+$$
+Here $R$ is the $\RegSeqRat$ input row, $n$ is the unary precision request, $\mu$ is the selector modulus, $k$ is the selected index, $W$ is the finite $\StreamNameUp$ window over the sibling interface of \autoref{ch:concrete-instances-streamname-namecert}, $D$ is the dyadic readback, the shared finite route is the $\RealObservationBudgetUp$ handoff, and $S$ is the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. No diagonal-limit consumer can bypass this chain by reading a host-selected limit, quotient stream equality, countable-choice selector, ambient completeness witness, or unrecorded stream observation.
+\end{theorem}
+\begin{proof}
+Start with the finite witness route of \autoref{thm:limit-selector-finite-witness-route}. It forces the consumer to read the precision request, selector modulus, selected index, finite stream window, dyadic readback, seal row, and structural rows as displayed coordinates of the same packet.
+
+Next apply the observation-budget handoff of \autoref{thm:limit-selector-observation-budget-handoff}. Once the finite $\StreamNameUp$ window from \autoref{ch:concrete-instances-streamname-namecert} and the dyadic readback are fixed, the shared $\RealObservationBudgetUp$ route is the only observation-budget route available before the seal is consumed.
+
+Now use the Real seal non-escape theorem of \autoref{thm:limit-selector-real-seal-nonescape}. It places the $\RealUp$ seal from \autoref{ch:concrete-instances-real-namecert} after $n,\mu,k,W,D$ and the displayed structural rows, and it excludes host-selected limits, quotient streams, countable-choice selectors, and ambient completeness witnesses.
+
+Finally apply diagonal consumer exhaustion from \autoref{thm:limit-selector-diagonal-consumer-exhaustion}. The exhausted carrier has no remaining coordinate outside the listed chain, so every diagonal-limit consumer reaches the Real seal through the RegSeqRat row, unary request, selector modulus, selected index, StreamName window, dyadic readback, observation-budget route, and seal row.
+\end{proof}
+
 \closureat{LimitSelectorUp}{obligationStr}
 \closureat{LimitSelectorUp}{scopedStr}
 \closureat{LimitSelectorUp}{publicStr}
