@@ -87,3 +87,35 @@ Apply the generator-category triad. The $\CategoryUp$ hom-carrier face and the $
 Use category-generator exactness and the downstream unblock route package. They identify the exported downstream surface with the same hom-carrier reading, generator refusal reading, and $H,K,L,N$ route rows. Hence bind-Cont unit coherence is exactly the condition that displayed bind reads pass through those $\Cont$ routes.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_cont\_unit\_coherence}
+
+\begin{theorem}[ContinuationMonad generator category public factorization]
+\label{thm:continuation-monad-generator-category-public-factorization}
+Every public read of an accepted $\ContinuationMonadUp$ packet factors first
+through the displayed packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+then through the $\CategoryUp$ hom-carrier face and the
+$\GeneratorClosureUp$ refusal face. The exported public surface contains no
+quotient Kleisli arrow, host composition operation, detached category
+witness, or generator not listed by $Z$.
+\end{theorem}
+\begin{proof}
+Start with category-generator exactness,
+\autoref{thm:continuation-monad-category-generator-exactness}. It places the
+$\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face on
+the same displayed $A,B,C,f,g,u,H,K,L,N$ rows.
+
+Use bind-Cont unit coherence,
+\autoref{thm:continuation-monad-bind-cont-unit-coherence}. Every displayed
+bind read passes through the $\Cont$ route rows $H,K,L,N$, and the packet
+exports no quotient Kleisli arrow, host function composition, ambient hom
+set, or detached unit law outside those routes.
+
+Finally apply
+\autoref{thm:continuation-monad-downstream-unblock-route-package}. It packages
+the category hom-carrier reading and generator-boundary refusal for every
+downstream consumer. Hence a public read factors through $Z$ and then through
+the two displayed faces, with no detached category witness or unlisted
+generator available to the route.
+\end{proof}
