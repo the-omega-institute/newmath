@@ -1,0 +1,45 @@
+\begin{theorem}[StreamName CauchyWitnessLedger exit route]
+\label{thm:streamname-cauchy-witness-ledger-exit-route}
+Any $\CauchyWitnessLedgerUp$ completion-facing read of the current Phase Real and Completion exit boundary of $\StreamNameUp$ factors through a finite witness-ledger route. The source is the StreamName finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal named by the open-phase exit certificate, together with the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Only after those four faces and their displayed support rows are fixed may the ledger expose the ordered route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with structural rows $H,C,P,N$ in the accepted $\CauchyWitnessLedgerUp$ packet.
+
+The route exports no quotient stream, no selected limit, no host sequence equality, no ambient $\RealUp$ completeness theorem, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-open-phase-exit-boundary}. It identifies every current Phase Real and Completion exit read with the StreamName finite window, the RegSeqRat readback, the DyadicRatCore ledger, the RealUp seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next apply \autoref{thm:streamname-real-completion-exit-certificate}. The certificate repacks the same four faces as a Real-completion exit packet and keeps the tolerance, readback, and seal coordinates on the finite StreamName surface rather than on a quotient stream or selected limit.
+
+Then use \autoref{thm:streamname-open-phase-four-face-terminality}. Once the finite window, tolerance ledger, readback, seal, and support rows are fixed, there is no second terminal route for a completion-facing consumer to choose.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The accepted ledger consumes that finite source through $Q$, then $B$, then $S$, and only then exposes $K$, with $H,C,P,N$ preserving transport, replay, provenance, and local naming. Since both the StreamName exit boundary and the ledger factorization have no coordinate for quotient streams, selected limits, host sequence equality, ambient Real completeness, metric completeness, countable choice, or standard bridges, the displayed finite witness-ledger route is the whole export.
+\end{proof}
+
+\begin{theorem}[StreamName CauchyWitnessLedger exit saturation]
+\label{thm:streamname-cauchy-witness-ledger-exit-saturation}
+Every $\CauchyWitnessLedgerUp$ read of a current Phase Real and Completion $\StreamNameUp$ exit packet is saturated by exactly the four finite faces named by \autoref{thm:streamname-real-completion-exit-certificate} and \autoref{thm:streamname-open-phase-four-face-terminality}: the $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal, with only the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+After those four faces are fixed, the witness ledger has only the ordered route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+from \autoref{thm:cauchy-witness-ledger-budget-factorization}, with structural rows $H,C,P,N$ preserving transport, replay, provenance, and local naming.
+
+The saturated packet exports no quotient stream, no selected limit, no host sequence equality, no ambient $\RealUp$ completeness theorem, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-cauchy-witness-ledger-exit-route}. It places every completion-facing ledger read on the finite StreamName, DyadicRatCore, RegSeqRat, and Real route, and it already excludes quotient streams, selected limits, host sequence equality, ambient completeness, metric-completeness data, countable-choice rows, and standard bridge rows from the route.
+
+Next use \autoref{thm:streamname-real-completion-exit-certificate} and \autoref{thm:streamname-open-phase-four-face-terminality}. The certificate names exactly the four finite faces of the Real-completion exit packet, while terminality says that once those faces and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are fixed, no alternate finite exit boundary remains.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The witness ledger consumes the fixed packet through $Q$, then $B$, then $S$, and then $K$, with $H,C,P,N$ carrying only the structural support for that route. Since neither the four-face boundary nor the factorization supplies any further public coordinate, the ledger saturates the current StreamName exit boundary rather than enlarging it.
+\end{proof}

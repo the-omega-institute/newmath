@@ -157,6 +157,20 @@ Apply sibling scope binding. It states that the cellular siblings are consumed a
 Finally combine route stability with provenance exhaustion. The $\hsame$ and $\Cont$ rows preserve the same $B,T,R,S$ path, and $P,N$ name only that path. Thus a substrate-facing consumer has no route to any extra substrate carrier beyond the displayed sibling rows.
 \end{proof}
 
+\begin{theorem}[CellularCarrierEncoding TasteGate readiness]
+\label{thm:cellular-carrier-encoding-tastegate-readiness}
+For every accepted $\CellularCarrierEncodingUp$ packet $E=(B,T,R,S,H,C,P,N)$, the carrier definition, local \NameCert{} obligations, non-escape theorem, readback exactness, route stability, provenance exhaustion, sibling scope binding, cell-row accountability, and substrate witness completeness provide the paper-side readiness surface for the Lean $\mathsf{Nontrivial}\ \mathsf{CellularCarrierEncodingUp}$ and $\mathsf{FieldFaithful}\ \mathsf{CellularCarrierEncodingUp}$ instances. The ready surface is exactly the displayed route through $B,T,R,S,H,C,P,N$ and contains no host byte string, hidden row offset, detached evaluator, unbounded orbit, or quotient encoding coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-carrier-encoding-carrier}. It displays the source $\BHist$ row, bit encoding and readback row, cell-row embedding coordinate, cellular substrate witness, transports, continuations, provenance, and local naming row.
+
+Use the local \NameCert{} obligations and non-escape theorem. These identify the admissible consumer route and rule out carrier coordinates for host byte strings, hidden evaluator state, quotient encodings, and unrecorded substrate witnesses.
+
+Readback exactness and route stability then bind the route $B \longmapsto T \longmapsto R \longmapsto S$. The encoding row $T$ is read back from $B$, the embedding coordinate $R$ is exposed before any cellular row is consumed, and $H,C$ preserve the same displayed route.
+
+Finally combine provenance exhaustion, sibling scope binding, cell-row accountability, and substrate witness completeness. They attach the route to the visible $\CellularAutomatonUp$ and $\CellularTrustSubstrateUp$ sibling rows through $S$ and $P$, while excluding hidden row offsets, detached evaluators, unbounded orbits, and quotient encoding coordinates. This is precisely the paper-side surface that the Lean TasteGate instances must inhabit.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
