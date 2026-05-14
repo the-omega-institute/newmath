@@ -533,6 +533,37 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_component\_classifier\_ledger\_determinacy}
 
+\begin{theorem}[SOne scoped carrier package]
+\label{thm:sone-scoped-carrier-package}
+An accepted $\SOneUp$ carrier exports exactly the scoped carrier rows consumed by
+$\RealAlgOrderUp$, $\MetricSpaceUp$, and the $\RegSeqRatUp$ and $\RealUp$
+readers: the two $\RealUp$ component rows, the inherited product ledger, the
+unit-equation witness, the public point readback, component-classifier
+determinacy, coordinate transport, and the finite-window consumer boundary.
+The same carrier exports no compactness row, connectedness row, angle row,
+winding row, quotient-circle row, host equality row, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+The public carrier rows are supplied by
+\autoref{thm:sone-history-carrier-public-readback}: the two real-coordinate
+component rows, the product ledger, and the public point ledger are all read
+from the displayed $\BHist$, $\hsame$, and $\Cont$ data.
+
+The ledger exactness rows are the checked local rows. Apply
+\autoref{thm:s1-component-classifier-ledger-determinacy} for the hidden point
+and equation-ledger determinacy, and apply
+\autoref{thm:sone-history-carrier-equation-unit} for the fixed unit-equation
+witness. Apply \autoref{thm:sone-history-carrier-coordinate-pair-deterministic}
+for coordinate transport.
+
+Finally, \autoref{thm:sone-shared-point-component-iff} gives the finite-window
+consumer boundary: any shared-point read factors through the same component
+rows and point ledger. The listed negative rows are absent because none of the
+displayed constructor, classifier, continuation, package, or naming rows carries
+compactness, connectedness, angle, winding, quotient-circle, host equality, or
+metric-completeness data.
+\end{proof}
+
 \begin{theorem}[SOne history carrier coordinate-pair determinacy]
 \label{thm:sone-history-carrier-coordinate-pair-deterministic}
 For histories $x,x',y,y',e,e',p$, two concrete $\SOneUp$ carrier witnesses with
@@ -702,16 +733,17 @@ source-map injectivity row supplied by additive cancellation.
 
 \closureat{SOneUp}{seedStr}
 \closureat{SOneUp}{obligationStr}[BEDC.Derived.S1Up.SOneHistoryCarrier\_root\_obligation\_surface]
+\closureat{SOneUp}{scopedStr}
 
 \begin{closurestatus}{\SOneUp}
   \constructivestory{A $\SOneUp$ carrier row is generated from two $\RealUp$ coordinate carriers, the inherited product-history carrier, a unit-equation ledger, a public point ledger readback, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope binds the real-coordinate carrier, product-history carrier, unit-equation row, point ledger readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exposed by the checked $\SOneUp$ carrier surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped carrier package of \autoref{thm:sone-scoped-carrier-package} binds the real-coordinate carrier rows, product-history carrier, unit-equation row, point-ledger readback, component-classifier determinacy, coordinate transport, finite-window consumer boundary, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exposed by the checked $\SOneUp$ carrier surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.S1Up.SOneHistoryCarrier\_root\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close circle completeness, compactness, a host topological circle, quotient completion, or bridge checking.}
-  \upgradepath{Scoped closure requires collecting the already displayed classifier transport, point-ledger readback, and unit-equation exactness rows into the scoped $\SOneUp$ package.}
+  \upgradepath{Public closure is handled by the public and bridge package; this child file closes only the scoped $\SOneUp$ carrier package.}
 \end{closurestatus}
 
 \input{parts/concrete_instances/s1/finite_rank_host_obstruction}
