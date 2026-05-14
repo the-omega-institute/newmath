@@ -56,23 +56,62 @@ def cauchyLimitWitnessLedgerToEventFlow :
         cauchyLimitWitnessLedgerEncodeBHist N,
         cauchyLimitWitnessLedgerEncodeBHist A]
 
+private def cauchyLimitWitnessLedgerEventAt : Nat → EventFlow → Option RawEvent
+  | 0, w :: _ => some w
+  | Nat.succ n, _ :: rest => cauchyLimitWitnessLedgerEventAt n rest
+  | _, [] => none
+
 def cauchyLimitWitnessLedgerFromEventFlow :
-    EventFlow → Option CauchyLimitWitnessLedgerUp
-  | D :: T :: S :: W :: G :: R :: H :: C :: P :: N :: A :: [] =>
-      some
-        (CauchyLimitWitnessLedgerUp.mk
-          (cauchyLimitWitnessLedgerDecodeBHist D)
-          (cauchyLimitWitnessLedgerDecodeBHist T)
-          (cauchyLimitWitnessLedgerDecodeBHist S)
-          (cauchyLimitWitnessLedgerDecodeBHist W)
-          (cauchyLimitWitnessLedgerDecodeBHist G)
-          (cauchyLimitWitnessLedgerDecodeBHist R)
-          (cauchyLimitWitnessLedgerDecodeBHist H)
-          (cauchyLimitWitnessLedgerDecodeBHist C)
-          (cauchyLimitWitnessLedgerDecodeBHist P)
-          (cauchyLimitWitnessLedgerDecodeBHist N)
-          (cauchyLimitWitnessLedgerDecodeBHist A))
-  | _ => none
+    EventFlow → Option CauchyLimitWitnessLedgerUp := fun xs =>
+  match cauchyLimitWitnessLedgerEventAt 0 xs with
+  | some D =>
+      match cauchyLimitWitnessLedgerEventAt 1 xs with
+      | some T =>
+          match cauchyLimitWitnessLedgerEventAt 2 xs with
+          | some S =>
+              match cauchyLimitWitnessLedgerEventAt 3 xs with
+              | some W =>
+                  match cauchyLimitWitnessLedgerEventAt 4 xs with
+                  | some G =>
+                      match cauchyLimitWitnessLedgerEventAt 5 xs with
+                      | some R =>
+                          match cauchyLimitWitnessLedgerEventAt 6 xs with
+                          | some H =>
+                              match cauchyLimitWitnessLedgerEventAt 7 xs with
+                              | some C =>
+                                  match cauchyLimitWitnessLedgerEventAt 8 xs with
+                                  | some P =>
+                                      match cauchyLimitWitnessLedgerEventAt 9 xs with
+                                      | some N =>
+                                          match cauchyLimitWitnessLedgerEventAt 10 xs with
+                                          | some A =>
+                                              match cauchyLimitWitnessLedgerEventAt 11 xs with
+                                              | none =>
+                                                  some
+                                                    (CauchyLimitWitnessLedgerUp.mk
+                                                      (cauchyLimitWitnessLedgerDecodeBHist D)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist T)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist S)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist W)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist G)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist R)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist H)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist C)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist P)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist N)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist A))
+                                              | some _ => none
+                                          | none => none
+                                      | none => none
+                                  | none => none
+                              | none => none
+                          | none => none
+                      | none => none
+                  | none => none
+              | none => none
+          | none => none
+      | none => none
+  | none => none
 
 private theorem cauchyLimitWitnessLedger_mk_congr
     {D D' T T' S S' W W' G G' R R' H H' C C' P P' N N' A A' : BHist}
