@@ -166,15 +166,55 @@ The transport replacement theorem supplies the positive operation available to d
 The negative-refusal dependency and kernel non-escape theorems complete the ledger. They record the blocked quotient-soundness demand as a negative boundary request and keep every exported consumer inside $E,A,T,V,H,C,P,N$, so the local naming certificate contains exactly the quotient-boundary obligations listed in \autoref{thm:quotient-soundness-boundary-namecert-obligations}.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary bridge schema]
+\label{thm:quotient-soundness-boundary-bridge-schema}
+Every accepted $\QuotientSoundnessBoundaryUp$ carrier presents a bridge from the finite refusal-and-transport packet to the public quotient-refusal schema. The bridge reads the relation rows $E$, requested representative rows $A$, classifier-respecting $\psame$ transport row $T$, refusal verdict $V$, componentwise $\hsame$ transport row $H$, continuation rows $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$, and it imports no $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-soundness-boundary-carrier}. Its public quotient-facing surface is already the finite tuple $E,A,T,V,H,C,P,N$.
+
+Use the NameCert ledger, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, to assemble the refusal row $A,V$ and the transport route $E,T,H,C,P,N$ as one public packet. The fixed classifier theorem keeps comparison reads inside the same rows.
+
+Finally apply non-escape, \autoref{thm:quotient-soundness-boundary-non-escape}. Since the excluded quotient primitives and $\mathsf{Quot.sound}$ have no coordinate in the carrier, the bridge is exactly the displayed refusal-and-transport schema.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame bridge handoff]
+\label{thm:quotient-soundness-boundary-psame-bridge-handoff}
+After the public refusal row $A,V$ has been read, the only bridge handoff available to a quotient-like consumer is the classifier-respecting $\psame$ route $E,T,H,C,P,N$. The handoff supplies named-source transport and does not supply a representative selector, quotient equality eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Start with the refusal-locality theorem, \autoref{thm:quotient-soundness-boundary-refusal-locality}. It places every representative-selection demand in $A,V$ before the positive transport route is consumed.
+
+Then use $\psame$ transport exhaustion, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion}. The surviving operation is exhausted by $E,T,H,C,P,N$, with $T$ carrying classifier-respecting transport on named source rows.
+
+The non-escape theorem removes the quotient-side objects from the handoff. Thus the bridge gives downstream consumers a displayed $\psame$ route and no quotient-soundness primitive.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary public bridge non-escape]
+\label{thm:quotient-soundness-boundary-public-bridge-nonescape}
+The public bridge supplied by $\QuotientSoundnessBoundaryUp$ is non-escaping: every consumer read remains inside $E,A,T,V,H,C,P,N$, and any request for quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery maps, host-level class selectors, unrestricted quotient recursion, or $\mathsf{Quot.sound}$ lies outside the bridge.
+\end{theorem}
+\begin{proof}
+Apply the bridge schema theorem above to identify the public bridge with the refusal-and-transport tuple $E,A,T,V,H,C,P,N$.
+
+Apply the $\psame$ bridge handoff theorem above for the positive route after refusal. It leaves only named-source transport through $E,T,H,C,P,N$.
+
+Finally apply \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The kernel-facing route has no quotient primitive coordinate, so any request for such an object must be supplied by a separate certificate outside this chapter.
+\end{proof}
+
 \closureat{QuotientSoundnessBoundaryUp}{seedStr}
+\closureat{QuotientSoundnessBoundaryUp}{obligationStr}
+\closureat{QuotientSoundnessBoundaryUp}{scopedStr}
+\closureat{QuotientSoundnessBoundaryUp}{publicStr}
+\closureat{QuotientSoundnessBoundaryUp}{bridgedStr}
 
 \begin{closurestatus}{\QuotientSoundnessBoundaryUp}
   \constructivestory{A $\QuotientSoundnessBoundaryUp$ packet is generated from relation rows, requested representative rows, classifier-respecting $\psame$ transport, refusal verdicts, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, and \autoref{thm:quotient-soundness-boundary-kernel-nonescape} display the finite refusal-and-transport boundary for quotient-style requests.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, \autoref{thm:quotient-soundness-boundary-fixed-classifier}, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}, \autoref{thm:quotient-soundness-boundary-namecert-ledger}, \autoref{thm:quotient-soundness-boundary-bridge-schema}, \autoref{thm:quotient-soundness-boundary-psame-bridge-handoff}, and \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape} bind the relation rows, representative-refusal rows, $\psame$ transport row, locality rows, provenance, public bridge, and non-escape boundary.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not construct quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery maps, or any dependency on $\mathsf{Quot.sound}$.}
-  \upgradepath{Obligation closure requires checked carrier admission, requested-representative refusal, classifier-respecting $\psame$ transport, locality, provenance, and non-escape for the same refusal-and-transport packet.}
+  \upgradepath{Lean verification and bridge checking remain the next obligations for the same finite refusal-and-transport packet.}
 \end{closurestatus}

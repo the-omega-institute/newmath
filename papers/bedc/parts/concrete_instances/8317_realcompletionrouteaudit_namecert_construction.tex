@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionRouteAuditUp$}
+\label{ch:concrete-instances-realcompletionrouteaudit-namecert}
+\origin{ai}
+
+The $\RealCompletionRouteAuditUp$ packet realizes the route-audit surface for the Real-completeness diagonal and seal route of \autoref{ch:visions-real-completeness}. It consumes the finite completion handoff of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, the limit-seal row of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the $\StreamNameUp$ window surface, the $\RegSeqRatUp$ readback surface, the $\DyadicRatCoreUp$ tolerance ledger, and the primitive $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The packet is an audit object for the displayed route, not a selected limit, quotient stream equality, host real equality, or ambient completeness principle.
+
+\begin{definition}[Real completion route-audit carrier]
+\label{def:realcompletionrouteaudit-carrier}
+A $\RealCompletionRouteAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,L,S,R,D,H,C,P,N,V)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RealCauchyCompletionUp$ route row naming the finite completion handoff;
+\item $L$ is the $\CauchyLimitSealUp$ row reached from the same completion route;
+\item $S$ is the $\StreamNameUp$ window-service row opened before any route readback;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row exposed through $S$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and precision row consumed by the displayed completion route;
+\item $H$ records componentwise $\hsame$ transports for the completion handoff, limit seal, window, readback, dyadic tolerance, route verdict, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from $S$ to $R$, from $R$ and $D$ to $Q$, and from $Q$ to $L$;
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyCompletionUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealCompletionRouteAuditUp}$ row;
+\item $V$ is the route-audit verdict row stating that the accepted consumer route is exhausted by the displayed finite packet.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, selected limits, hidden tail selection, unbounded observation, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Real completion route-audit NameCert obligations]
+\label{thm:realcompletionrouteaudit-namecert-obligations}
+For the carrier of \autoref{def:realcompletionrouteaudit-carrier}, the local $\NameCert_{\RealCompletionRouteAuditUp}$ surface consists exactly of carrier admission for
+$$
+A=(Q,L,S,R,D,H,C,P,N,V),
+$$
+completion-route admission through $Q$, limit-seal admission through $L$, StreamName window exposure through $S$, RegSeqRat readback through $R$, DyadicRatCore tolerance exposure through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and route-audit non-escape through $V$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:realcompletionrouteaudit-carrier}. The displayed packet exposes the completion handoff, limit seal, window service, readback, dyadic tolerance, transport, continuation, provenance, local name, and route verdict rows.
+
+Read the route in dependency order. The $\StreamNameUp$ row $S$ opens the finite windows, the $\RegSeqRatUp$ row $R$ reads those windows as regular-rational data, and the $\DyadicRatCoreUp$ row $D$ supplies the finite tolerance ledger. The completion row $Q$ may then be consumed, and the limit-seal row $L$ is reached only from that same displayed route.
+
+The rows $H,C,P,N,V$ preserve and audit this route. Since the carrier contains no quotient stream equality, host real equality, selected limit, hidden tail selector, unbounded observation, or ambient completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real completion route-audit consumer boundary]
+\label{thm:realcompletionrouteaudit-consumer-boundary}
+Every completion-facing consumer of an accepted $\RealCompletionRouteAuditUp$ packet factors through the finite route
+$$
+S,R,D,Q,L,H,C,P,N,V.
+$$
+The consumer may inspect the displayed StreamName, RegSeqRat, DyadicRatCore, RealCauchyCompletion, CauchyLimitSeal, transport, continuation, provenance, naming, and audit-verdict rows, and it receives no route to quotient stream equality, host real equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They identify the accepted packet with the ten displayed rows $Q,L,S,R,D,H,C,P,N,V$ and bind the completion-facing route to the same inventory.
+
+The positive route is ordered by the displayed continuations. The window row $S$ precedes the readback row $R$, the dyadic row $D$ supplies the tolerance surface for the completion handoff $Q$, and the limit-seal row $L$ is reached only after that handoff has been consumed.
+
+Finally inspect the route-audit verdict $V$. It records that no consumer route leaves the finite packet for quotient stream equality, host real equality, selected limits, hidden tail selection, unbounded observation, or ambient completeness. Thus every accepted consumer read stays inside the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted RealCompletionRouteAuditUp packet exposes a finite completion route and admits no consumer route to quotient stream equality, host real equality, selected limits, or ambient completeness.}
+
+\independenceWitness{realcauchycompletion, cauchylimitseal, streamname, regseqrat, dyadicratcore: the route-audit carrier is not bijective to any of these siblings because $\RealCauchyCompletionUp$ stores the completion handoff without the full audit verdict, $\CauchyLimitSealUp$ stores the seal without the complete window-readback-tolerance route, $\StreamNameUp$ stores finite windows without the completion and seal rows, $\RegSeqRatUp$ stores regular-rational readback without the route verdict, and $\DyadicRatCoreUp$ stores tolerance rows without the completion handoff. The audit packet carries all five route objects with $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and verdict rows in one finite surface.}
+
+The Lean TasteGate boundary for this packet must provide \texttt{Nontrivial RealCompletionRouteAuditUp} and \texttt{FieldFaithful RealCompletionRouteAuditUp} instances for the displayed carrier in \texttt{TasteGate.lean}.
+
+\closureat{RealCompletionRouteAuditUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionRouteAuditUp}
+  \constructivestory{A $\RealCompletionRouteAuditUp$ packet is generated from a RealCauchyCompletion route row, CauchyLimitSeal row, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, componentwise transports, displayed continuations, package provenance, local NameCert row, and route-audit verdict.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:realcompletionrouteaudit-carrier}, \autoref{thm:realcompletionrouteaudit-namecert-obligations}, and \autoref{thm:realcompletionrouteaudit-consumer-boundary} bind the finite Real-completion route audit over RealCauchyCompletion, CauchyLimitSeal, StreamName, RegSeqRat, DyadicRatCore, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected limits, hidden tail selection, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, route ordering, StreamName and RegSeqRat service rows, DyadicRatCore tolerance exposure, RealCauchyCompletion handoff, CauchyLimitSeal exposure, nontriviality, and field faithfulness for the same finite packet.}
+\end{closurestatus}
