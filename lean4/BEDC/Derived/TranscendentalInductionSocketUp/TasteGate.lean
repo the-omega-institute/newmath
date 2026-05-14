@@ -271,9 +271,78 @@ instance transcendentalInductionSocketChapterTasteGate :
     intro x y hxy heq
     exact hxy (transcendentalInductionSocketToEventFlow_injective heq)
 
+instance transcendentalInductionSocketFieldFaithful :
+    FieldFaithful TranscendentalInductionSocketUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | TranscendentalInductionSocketUp.mk source trace request gap handoff transports routes
+        provenance nameCert =>
+        [source, trace, request, gap, handoff, transports, routes, provenance, nameCert]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk source trace request gap handoff transports routes provenance nameCert =>
+        cases y with
+        | mk source' trace' request' gap' handoff' transports' routes' provenance'
+            nameCert' =>
+            cases hfields
+            rfl
+
 def taste_gate : ChapterTasteGate TranscendentalInductionSocketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   transcendentalInductionSocketChapterTasteGate
+
+theorem TranscendentalInductionSocketPacket_namecert_obligations
+    [AskSetup] [PackageSetup]
+    {source trace request gap handoff transports routes provenance nameCert exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory trace →
+      UnaryHistory request →
+        UnaryHistory handoff →
+          Cont trace request gap →
+            Cont gap handoff exported →
+              hsame nameCert exported →
+                PkgSig bundle exported pkg →
+                  SemanticNameCert
+                    (fun row : BHist => hsame row exported ∧ UnaryHistory row ∧
+                      PkgSig bundle row pkg)
+                    (fun row : BHist => Cont gap handoff row ∧ Cont trace request gap)
+                    (fun row : BHist => PkgSig bundle row pkg ∧ hsame nameCert row)
+                    (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro traceUnary requestUnary handoffUnary traceRequestGap gapHandoffExport nameSame exportPkg
+  have gapUnary : UnaryHistory gap :=
+    unary_cont_closed traceUnary requestUnary traceRequestGap
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed gapUnary handoffUnary gapHandoffExport
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exported ⟨hsame_refl exported, exportedUnary, exportPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨cont_result_hsame_transport gapHandoffExport (hsame_symm sourceRow.left),
+          traceRequestGap⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, hsame_trans nameSame (hsame_symm sourceRow.left)⟩
+  }
 
 theorem TranscendentalInductionSocketTasteGate_single_carrier_alignment :
     (forall h : BHist,
