@@ -41,3 +41,21 @@ Apply \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-packag
 
 The completion-route exhaustion and Real-seal public route exhaustion theorems rule out bypasses. Since selected limits, quotient equality, host equality, trichotomy, ambient completeness, open-cover compactness, and alternate tail selectors are absent from the witness carrier and from the downstream route, the displayed package is total for the convergence-seal input.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal route determinacy]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-route-determinacy}
+For an accepted $\BoundedMonotoneCauchyWitnessUp$ packet
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N),
+$$
+there is exactly one public convergence-seal route determined by its source, tail, and seal rows. The route first reads the $\MonotoneCauchyUp$ source and the $\RegularCauchyTailMeetUp$ tail window, then passes through $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and finally $\RealUp$. A consumer-visible convergence-seal route for $W$ cannot skip any one of those rows, nor can it replace them by selected limits, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or an alternate tail selector.
+\end{theorem}
+\begin{proof}
+Start with source-row exhaustion. By \autoref{thm:bounded-monotone-cauchy-witness-source-row-exhaustion}, every source-facing read of $W$ is one of $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the convergence-seal route has no second source socket.
+
+Next use the tail-window lock. It forces every tail-window read through the public $\MonotoneCauchyUp$ and $\RegularCauchyTailMeetUp$ surfaces before the $\RealUp$ seal row is available.
+
+Now attach convergence-seal input totality. The theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-totality} says that the $\BoundedMonotoneConvergenceSealUp$ consumer receives exactly the displayed witness package. Together with \autoref{thm:bounded-monotone-witness-monotone-cauchy-criterion-bridge} and \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}, this inserts the $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows in the displayed order.
+
+It remains to rule out alternate public routes. The completion-route exhaustion theorem \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion} and ledger exhaustion in \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion} leave no consumer-visible coordinate outside the named rows. Any route omitting one of them therefore fails to be a convergence-seal route exported by the accepted packet $W$.
+\end{proof}
