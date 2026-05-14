@@ -13,7 +13,6 @@ inductive ContextWindowCommitmentUp : Type where
   | mk :
       (scope prompt boundary refusal consumer transport routes provenance nameCert : BHist) →
       ContextWindowCommitmentUp
-  deriving DecidableEq
 
 def contextWindowCommitmentEncodeBHist : BHist → RawEvent
   | BHist.Empty => []
@@ -65,7 +64,6 @@ def contextWindowCommitmentToEventFlow :
 
 def contextWindowCommitmentFromEventFlow :
     EventFlow → Option ContextWindowCommitmentUp
-  -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
@@ -141,7 +139,8 @@ def contextWindowCommitmentFromEventFlow :
                                                                                     provenance)
                                                                                   (contextWindowCommitmentDecodeBHist
                                                                                     nameCert))
-                                                                          | _ :: _ => none
+                                                                          | _ :: _ =>
+                                                                              none
 
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
@@ -153,18 +152,27 @@ private theorem contextWindowCommitment_round_trip :
       change
         some
           (ContextWindowCommitmentUp.mk
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist scope))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist prompt))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist boundary))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist refusal))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist consumer))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist transport))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist routes))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist provenance))
-            (contextWindowCommitmentDecodeBHist (contextWindowCommitmentEncodeBHist nameCert))) =
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist scope))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist prompt))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist boundary))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist refusal))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist consumer))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist transport))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist routes))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist provenance))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist nameCert))) =
           some
-            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
-              provenance nameCert)
+            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport
+              routes provenance nameCert)
       rw [contextWindowCommitmentDecode_encode_bhist scope,
         contextWindowCommitmentDecode_encode_bhist prompt,
         contextWindowCommitmentDecode_encode_bhist boundary,

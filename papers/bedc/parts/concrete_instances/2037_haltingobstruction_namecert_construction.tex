@@ -161,6 +161,87 @@ Apply \autoref{thm:halting-obstruction-namecert-obligations}. The content availa
 Finally combine \autoref{thm:halting-obstruction-diagonal-nonescape} with \autoref{thm:halting-obstruction-distinction-boundary}. The repackaged public surface remains the same finite obstruction ledger and therefore cannot expose a global classifier, unbounded search, host oracle, quotient equality, or second diagonal route.
 \end{proof}
 
+\begin{theorem}[Halting obstruction root carrier admission]
+\label{thm:halting-obstruction-root-carrier-admission}
+Every accepted $\HaltingObstructionUp$ packet exposes exactly
+$$
+O=(S,I,T,R,D,H,C,P,N)
+$$
+as its finite root surface: $S$ is the certificate-source row, $I$ is the
+input-history row, $T$ is the finite positive-trace ledger, $R$ is the
+self-reference route row, $D$ is the diagonal-policy row, $H$ is the
+componentwise $\hsame$ ledger, $C$ is the displayed $\Cont$ route family, $P$
+is the $\Pkg$ provenance row, and $N$ is the local $\NameCert$ row.
+
+No accepted packet exposes any additional $\BHist$, $\Cont$, $\hsame$,
+$\Pkg$, or $\NameCert$ coordinate at the root boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:halting-obstruction-carrier}. The
+displayed tuple supplies exactly the rows $S,I,T,R,D,H,C,P,N$.
+
+Apply \autoref{thm:halting-obstruction-namecert-obligations}. Its carrier,
+trace, self-reference, diagonal-policy, and package/name clauses are all
+obligations over the same tuple, so no second root row is introduced by the
+local naming surface.
+
+Use \autoref{thm:halting-obstruction-local-namecert-repackaging}. Repackaging
+through $P$ and $N$ preserves the same finite obstruction surface rather than
+adding a classifier, search row, host oracle, quotient equality, or alternate
+diagonal route.
+\end{proof}
+
+\begin{theorem}[Halting obstruction root transport scope]
+\label{thm:halting-obstruction-root-transport-scope}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, every
+public self-reference read and every positive trace read is transported only
+through the componentwise $\hsame$ ledger $H$ and replayed only through the
+displayed $\Cont$ routes $C$.
+
+The rows $S,I,T,R,D$ determine what is being read, while $H$ and $C$ determine
+the only visible movement of those reads across the root boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:halting-obstruction-trace-coverage} for trace reads. It
+forces each positive continuation fact to be one of the finite steps stored in
+$T$, transported by $H$, and reached by the route row $C$.
+
+Use \autoref{thm:halting-obstruction-self-reference-route-determinacy} for
+self-reference reads. The row $R$ is readable only after the certificate source
+$S$, input-history row $I$, finite trace row $T$, and displayed transport
+route have been consumed.
+
+Apply \autoref{thm:halting-obstruction-diagonal-nonescape}. Since the packet
+contains no global classifier, unbounded continuation search, host divergence
+oracle, or quotient equality, no public read can bypass $H$ or replay outside
+$C$.
+\end{proof}
+
+\begin{theorem}[Halting obstruction root ledger exactness]
+\label{thm:halting-obstruction-root-ledger-exactness}
+For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, the
+rows $P$ and $N$ package exactly the finite obstruction ledger exposed by
+$S,I,T,R,D,H,C$. They do not export a global halting classifier, unbounded
+search, host oracle, quotient equality, or any second diagonal route.
+\end{theorem}
+\begin{proof}
+Read the finite ledger through
+\autoref{thm:halting-obstruction-root-carrier-admission}. The only rows
+available to the root surface are the certificate source, input history, trace
+ledger, self-reference route, diagonal policy, transport, continuation,
+package, and local naming rows.
+
+Apply \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}. A
+public diagonal read reaches $D$ only through the displayed self-reference and
+trace route, so the diagonal policy remains a local ledger row.
+
+Finally use \autoref{thm:halting-obstruction-local-namecert-repackaging}
+together with \autoref{thm:halting-obstruction-diagonal-nonescape}. The
+package and naming rows repack the finite obstruction ledger already present,
+and the non-escape boundary excludes the classifier, search, host-oracle,
+quotient, and alternate-route exports.
+\end{proof}
+
 \closureat{HaltingObstructionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingObstructionUp}
