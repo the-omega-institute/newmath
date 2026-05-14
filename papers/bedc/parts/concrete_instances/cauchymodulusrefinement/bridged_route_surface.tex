@@ -15,3 +15,21 @@ The root readback stability theorem, \autoref{thm:cauchy-modulus-refinement-root
 
 Finally use the primitive scope and sibling dependency lattice already carried by the chapter. They identify the only admissible bridge coordinates as the primitive $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$ rows and the named $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ siblings. Since non-escape excludes the listed hidden and ambient coordinates, every standard bridge consumer factors through the stated public route.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement bridged-route determinacy]
+\label{thm:cauchy-modulus-refinement-bridged-route-determinacy}
+Let two standard bridge consumers accept the same $\CauchyModulusRefinementUp$ packet and expose the same displayed route rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Then both public bridge reads factor through the same sibling route through $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. The two reads determine the same Real and Completion handoff surface under the componentwise $\hsame$ rows of $H$.
+\end{theorem}
+\begin{proof}
+Apply the bridged-route surface of \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} to each consumer. Because the exposed rows are the same displayed $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, both reads enter the same meet, extraction witness, selector budget, selected window, dyadic tolerance, regular readback, and Real seal route.
+
+Root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}, fixes the selected window and tolerance readbacks under the componentwise $\hsame$ rows. Thus a second consumer cannot replace $W,Q,E$ by another selected stream, dyadic ledger, or readback while still exposing the same route.
+
+Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}, exhausts the Real and Completion-facing reads by the same finite route. The primitive sibling lattice then leaves no hidden selector, quotient stream, second meet row, host limit, or ambient completeness coordinate able to separate the two consumers.
+
+The resulting Real and Completion handoff surfaces are therefore the same public surface up to the displayed $\hsame$ transport in $H$.
+\end{proof}
