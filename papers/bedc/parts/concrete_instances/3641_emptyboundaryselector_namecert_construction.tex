@@ -4,6 +4,8 @@
 
 The $\EmptyBoundarySelectorUp$ interface realizes the empty-boundary witness surface of \autoref{def:efm-empty-boundary}. It packages one enacted mark above a displayed source $\Hist$ row, the resulting $\Ext$ row, the local witness that this mark is the enacted branch, and the naming boundary that keeps the witness local. It is not a global branch selector and not an oracle for histories outside the packet.
 
+The local enacted-boundary witness is consumed by \autoref{ch:concrete-instances-fablebranchwitness-namecert}, \autoref{ch:concrete-instances-empty-fable-ledger-namecert}, and \autoref{ch:concrete-instances-fablemachineclock-namecert}. $\EmptyBoundarySelectorUp$ supplies the one-step branch row, $\FableBranchWitnessUp$ exposes it as a local branch witness, $\EmptyFableLedgerUp$ records it as a finite ledger entry, and $\FableMachineClockUp$ orders that ledger without promoting the row to a global chooser.
+
 \begin{definition}[EmptyBoundarySelector carrier]
 \label{def:empty-boundary-selector-carrier}
 An $\EmptyBoundarySelectorUp$ carrier is a finite $\BHist$ packet
@@ -86,6 +88,22 @@ Project the accepted selector packet first. The available handoff surface is pre
 Next compare this tuple with the one-step Empty-fable consumers. $\FableBranchWitnessUp$ reads the same local branch shape through its $\Hist$, mark, result, $\Ext$, admissibility, transport, continuation, package, and naming rows; $\EmptyFableLedgerUp$ and $\FableMachineClockUp$ consume such rows as finite selector-ledger and local-clock entries.
 
 Apply the non-escape boundary of \autoref{thm:empty-boundary-selector-nonescape-boundary}. The downstream consumer receives a single enacted-boundary witness and cannot promote it to a global chooser, a selector for unrelated histories, or an extra accumulated ledger coordinate.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector fable sibling route]
+\label{thm:empty-boundary-selector-fable-sibling-route}
+The selector handoff of \autoref{thm:empty-boundary-selector-ledger-handoff} is consumed by \autoref{ch:concrete-instances-empty-fable-ledger-namecert} and \autoref{ch:concrete-instances-fablebranchwitness-namecert} through the same displayed rows
+$$
+H,M,R,E,W,T,C,P,N.
+$$
+Thus the downstream fable ledger receives one local enacted-boundary witness and no global chooser, no branch policy for unrelated histories, and no additional selector ledger.
+\end{theorem}
+\begin{proof}
+Begin with the ledger handoff theorem \autoref{thm:empty-boundary-selector-ledger-handoff}. It identifies the complete handoff surface as the source history, enacted mark, result row, extension row, local witness, transport, continuation, provenance, and local naming row.
+
+The EmptyFableLedger and FableBranchWitness sibling chapters read exactly that one-step fable route. Their consumer-facing rows are supplied by the displayed tuple $H,M,R,E,W,T,C,P,N$, so the handoff is a shared sibling route rather than a separate chooser interface.
+
+Apply the non-escape boundary of \autoref{thm:empty-boundary-selector-nonescape-boundary}. Since the selector packet exports only the local enacted-boundary step, the downstream fable ledger cannot promote the handoff into a global chooser, an unrelated-history branch policy, or an extra accumulated ledger coordinate.
 \end{proof}
 
 \closureat{EmptyBoundarySelectorUp}{seedStr}

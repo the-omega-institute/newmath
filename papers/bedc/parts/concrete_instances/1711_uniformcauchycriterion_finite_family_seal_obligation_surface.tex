@@ -204,3 +204,43 @@ The finite-family RegSeqRat--Real handoff of \autoref{thm:uniform-cauchy-criteri
 
 It remains to check overlap refinement. The root seal package already states that overlap refinement preserves the same finite index ledger, shared window family, threshold schedule, tolerance row, tail ledger, and seal handoff. Since the nonescape ledger removes every completion-facing coordinate outside those rows, refinement has no place to introduce the excluded objects.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root tail seal route totality]
+\label{thm:uniform-cauchy-criterion-root-tail-seal-route-totality}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every root-facing route from the finite-family $\UniformCauchyCriterionUp$ surface to either a $\RegSeqRatUp$ tail read or a $\RealUp$ seal read factors through
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+and through the structural rows $H,C,P,N$. No such route may introduce a selected limit, quotient stream, host real equality, detached tail oracle, ambient completeness witness, or second stream family.
+\end{theorem}
+\begin{proof}
+Start with the finite-family root seal package of \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-package}. It identifies the only public root-facing spine from the finite index ledger through the shared window, threshold schedule, tolerance ledger, tail row, and seal row, with $H,C,P,N$ carried as the structural rows.
+
+Next apply the finite-family RegSeqRat--Real handoff, the finite-family nonescape ledger, and shared seal route determinacy. The handoff ties the $\RegSeqRatUp$ tail read and the $\RealUp$ seal read to the same finite spine, while the nonescape and determinacy rows remove any alternate completion-facing route after the shared window and tail rows have been fixed.
+
+Finally use the root-threshold dependency inventory and \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape}. The inventory fixes the dependencies used by the root seal route, and pullback non-escape prevents overlap refinement from adding selected limits, quotient streams, host real equality, detached tail oracles, ambient completeness witnesses, or a second stream family. Thus every root-facing tail or seal read is total over the displayed route and structural rows.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion terminal Real-route certificate]
+\label{thm:uniform-cauchy-criterion-terminal-real-route-certificate}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any Phase Real and Completion consumer that preserves the finite index ledger, shared window, threshold schedule, dyadic tolerance, tail ledger, seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row reaches the terminal Real-facing route only through the ordered finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Such a consumer cannot extract a selected limit, quotient stream, host real equality, ambient completeness witness, detached tail oracle, or second $\StreamNameUp$ family.
+\end{theorem}
+\begin{proof}
+First compose the finite-family seal obligation package with the finite-family RegSeqRat--Real handoff. The package theorem fixes the accepted inventory $I,W,M,Q,T,E,H,C,P,N$, and the handoff routes the Real-facing use through the same finite index ledger, shared window, threshold schedule, tolerance row, tail ledger, and seal handoff.
+
+Next apply the window seal exhaustion and shared seal route determinacy theorems. They leave no alternate seal entry after the shared window and tail rows have been chosen, so a Phase Real or Completion consumer preserving $H,C,P,N$ must stay on the ordered route from $I$ to $E$.
+
+Finally apply the finite-family nonescape ledger and the root seal pullback non-escape theorem. The nonescape ledger removes selected limits, quotient streams, host real equality, ambient completeness witnesses, and detached tail oracles from the consumer surface; the pullback theorem also prevents overlap refinement from adding any completion-facing coordinate outside the displayed rows. A second $\StreamNameUp$ family would be another public route to the same seal, contradicting shared seal route determinacy, so the terminal certificate has exactly the displayed Real-facing route.
+\end{proof}
