@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ApophaticFixedPointFiberUp$}
+\label{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}
+\origin{ai}
+
+The $\ApophaticFixedPointFiberUp$ packet realizes the apophatic fixed-point and local-inscription reading of \autoref{ch:visions-apophatic-fixed-point-and-inscription} as a finite NameCert surface. It consumes visible rows already separated by \autoref{ch:concrete-instances-externalitygate-namecert}, \autoref{ch:concrete-instances-supplysocketledger-namecert}, \autoref{ch:concrete-instances-generatorfixedpoint-namecert}, and \autoref{ch:concrete-instances-hash-namecert}: the gate row refuses hidden supply, the socket ledger names the refused supply kind, the generator fixed-point row controls displayed fixed-output reads, and the hash row supplies digest-facing public readback. The new carrier is the fiber that forces those rows to be read in the apophatic order rather than as a direct digest-to-far-end identification.
+
+\begin{definition}[Apophatic fixed-point fiber carrier]
+\label{def:apophatic-fixed-point-fiber-carrier}
+An $\ApophaticFixedPointFiberUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,S,G,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest and socket readback row, carrying the public digest-facing observation together with the socket handle through which the packet is read;
+\item $S$ is the external-supply socket row supplied by the finite supply-ledger discipline;
+\item $G$ is the $\mathsf{GAP}$ fiber and provenance row, recording that every accepted public read passes through a boundary-fiber witness before it reaches any apophatic far-end name;
+\item $T$ is the apophatic far-end boundary-name row, naming the fixed far end only as boundary data and not as a kernel object;
+\item $I$ is the local inscription row, recording the chain-local site at which the boundary name is read inscription-side;
+\item $H$ records componentwise $\hsame$ transport for $D,S,G,T,I,P,N$ and for the local packet shape;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the digest, socket, GAP fiber, far-end boundary, inscription, provenance, and naming rows in order;
+\item $P$ records $\Pkg$ provenance over $\BHist$, digest rows, externality gates, supply sockets, generator fixed-point witnesses, hash readback, $\mathsf{GAP}$ fibers, local inscriptions, $\hsame$, $\Cont$, and the local naming surface;
+\item $N$ is the local $\NameCert_{\ApophaticFixedPointFiberUp}$ row.
+\end{enumerate}
+The carrier contains no row identifying $D$ directly with $T$, no internal object for $\mathsf{T}$, and no hidden route from a public digest to an apophatic far end.
+\end{definition}
+\leanchecked{BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiberTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Apophatic fixed-point fiber NameCert obligations]
+\label{thm:apophatic-fixed-point-fiber-namecert-obligations}
+For the carrier of \autoref{def:apophatic-fixed-point-fiber-carrier}, the local $\NameCert_{\ApophaticFixedPointFiberUp}$ surface consists exactly of carrier admission for
+$$
+F=(D,S,G,T,I,H,C,P,N),
+$$
+digest-and-socket readback through $D$, external-supply exposure through $S$, GAP-fiber routing through $G$, boundary-name exposure through $T$, local-inscription exposure through $I$, componentwise $\hsame$ transport through $H$, displayed continuation routing through $C$, package provenance through $P$, local naming through $N$, and refusal of any direct digest-to-$T$ route that omits the GAP fiber row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:apophatic-fixed-point-fiber-carrier}. The packet displays the digest, socket, GAP fiber, far-end boundary name, local inscription, transport, route, provenance, and local certificate rows as its complete inventory.
+
+The readback obligations are ordered by the same inventory. A consumer first reads the digest and socket row $D$, then the external-supply socket row $S$, then the GAP fiber row $G$ before the boundary-name row $T$ and the inscription row $I$ become available.
+
+The transport, continuation, provenance, and naming rows preserve that order. Since the carrier has no coordinate for a direct digest-to-$T$ identification, a route that bypasses $G$ has no NameCert row to project and is rejected by the packet.
+\end{proof}
+
+\begin{theorem}[Apophatic fixed-point fiber non-escape]
+\label{thm:apophatic-fixed-point-fiber-nonescape}
+Every accepted $\ApophaticFixedPointFiberUp$ public read reaches the GAP fiber row $G$ before it reaches the apophatic far-end boundary-name row $T$. A read that travels from the digest/socket row $D$ to $T$ without passing through $G$ is outside the local certificate and refutes the packet.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier inventory. The only displayed path from public digest readback to the apophatic far-end boundary is the route family $C$ applied to the rows $D,S,G,T,I$.
+
+Apply the NameCert obligations. They make GAP-fiber routing a certificate row, not a prose convention, so any accepted read of $T$ must preserve the intervening $G$ coordinate and its provenance.
+
+A direct route from $D$ to $T$ would require a carrier coordinate that the tuple does not contain. The local naming row $N$ therefore has no certificate surface for such a route, and the attempted read is rejected rather than exported as an apophatic fixed-point fiber.
+\end{proof}
+
+\begin{theorem}[Apophatic fixed-point fiber sibling independence]
+\label{thm:apophatic-fixed-point-fiber-independence}
+$\ApophaticFixedPointFiberUp$ is not bijective to the nearest sibling packets $\ExternalityGateUp$, $\SupplySocketLedgerUp$, $\GeneratorFixedPointUp$, or $\HashUp$. Each sibling omits at least one row required by the fiber: digest/socket readback, external-supply socket, GAP fiber, apophatic far-end boundary name, or local inscription. Conversely, the fiber does not replace those siblings; it binds their rows into a single ordered NameCert packet with the GAP fiber between the public digest and the apophatic far end.
+\end{theorem}
+\begin{proof}
+Compare the carrier rows. $\ExternalityGateUp$ supplies a gate and refusal surface but lacks the digest/socket readback, generator fixed-point witness, hash digest, and local inscription rows required here.
+
+$\SupplySocketLedgerUp$ supplies the socket ledger but lacks the digest row, GAP-fiber order row, far-end boundary-name row, and local inscription row as one packet. $\GeneratorFixedPointUp$ supplies a fixed-output witness but not the apophatic far-end boundary or inscription rows. $\HashUp$ supplies digest-facing readback but neither the socket ledger nor the GAP fiber and far-end boundary.
+
+Thus no bijection can preserve all carrier coordinates and NameCert obligations. Forgetting any of $D,S,G,T,I$ changes the accepted public-read order, while adding such a row to a sibling changes that sibling's carrier rather than identifying it with the fiber.
+\end{proof}
+
+\falsifiablePrediction{Every public read of an accepted ApophaticFixedPointFiberUp packet reaches the GAP fiber row before the apophatic far-end row; a direct digest-to-T route refutes the packet.}
+
+\independenceWitness{Nearest siblings: externalitygate, supplysocketledger, generatorfixedpoint, and hash. None is bijective because each omits at least one of the digest, socket, GAP fiber, far-end boundary, or local-inscription rows, while the fiber requires all five rows together with componentwise hsame transport, displayed Cont routes, Pkg provenance, and the local NameCert row.}
+
+\closureat{ApophaticFixedPointFiberUp}{seedStr}
+
+\begin{closurestatus}{\ApophaticFixedPointFiberUp}
+  \constructivestory{An $\ApophaticFixedPointFiberUp$ packet is generated from a digest/socket row, external-supply socket row, GAP fiber/provenance row, apophatic far-end boundary-name row, local inscription row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apophatic-fixed-point-fiber-carrier}, \autoref{thm:apophatic-fixed-point-fiber-namecert-obligations}, \autoref{thm:apophatic-fixed-point-fiber-nonescape}, and \autoref{thm:apophatic-fixed-point-fiber-independence} bind the finite carrier, GAP-first read order, direct digest-to-far-end refusal, and nearest-sibling independence surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a public bridge, an object-level value for $\mathsf{T}$, a hidden external supply, or a global observer-substance theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, GAP-first route coverage, direct digest-to-boundary refusal, field faithfulness, nontriviality, and bridge-facing readback for the same finite packet.}
+\end{closurestatus}

@@ -200,6 +200,24 @@ It remains to rule out an unlisted endpoint source. The carrier has no coordinat
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedIntervalUp.LocatedIntervalPacket\_endpoint\_window\_readback\_exhaustion}
 
+\begin{theorem}[LocatedInterval endpoint-cell seal factorization]
+\label{thm:locatedinterval-endpoint-cell-seal-factorization}
+For every displayed $\LocatedIntervalUp$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+every endpoint consumer and every containment consumer factors through the same ordered route: the $\LocatedRealUp$ endpoint rows $L,U$, the $\RationalIntervalUp$ cell ledger $I$, any attached $\DyadicIntervalUp$ refinement row in $D$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readbacks $R$, the $\RealUp$ seal rows $E$, and finally the $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,C,P,N$. No host interval, selected endpoint value, quotient real equality row, or ambient completeness row can bypass this chain.
+\end{theorem}
+\begin{proof}
+Begin with endpoint reads. By \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}, any accepted endpoint consumer is exhausted by $L,U,S,R,E,H,C,P,N$, so the consumer has no endpoint source outside the displayed packet.
+
+Now read the containment side. The rational cell component is forced through $I$ by \autoref{thm:locatedinterval-containment-exactness}, and a dyadic refinement component can be consumed only through a displayed row of $D$ attached to its rational parent by \autoref{thm:locatedinterval-dyadic-refinement-handoff}.
+
+Endpoint and containment transport then share the same finite route. Apply \autoref{thm:located-interval-endpoint-transport} and \autoref{thm:locatedinterval-containment-transport-scope} to keep the endpoint rows, cell ledger, refinements, windows, readbacks, seal rows, and BEDC rows moving componentwise through $H,C,P,N$.
+
+Finally use \autoref{thm:locatedinterval-real-seal-non-escape}. The $\RealUp$ seal boundary admits only the displayed endpoint-window-readback route and contains no coordinate for a host interval, selected endpoint value, quotient real equality row, or ambient completeness principle. Hence every endpoint or containment consumer factors through the ordered rows of $J$.
+\end{proof}
+
 \begin{theorem}[LocatedInterval rational--dyadic cell chain]
 \label{thm:locatedinterval-rational-dyadic-cell-chain}
 For a displayed finite history row

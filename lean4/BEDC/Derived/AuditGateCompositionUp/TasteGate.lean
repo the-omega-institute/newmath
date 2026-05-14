@@ -242,6 +242,36 @@ instance auditGateCompositionChapterTasteGate : ChapterTasteGate AuditGateCompos
     intro x y hxy heq
     exact hxy (auditGateCompositionToEventFlow_injective heq)
 
+instance auditGateCompositionFieldFaithful : FieldFaithful AuditGateCompositionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | AuditGateCompositionUp.mk gateLeft gateRight boundaryLeft boundaryRight refusalLeft
+        refusalRight composedTrace transport replay provenance name =>
+        [gateLeft, gateRight, boundaryLeft, boundaryRight, refusalLeft, refusalRight,
+          composedTrace, transport, replay, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk gateLeft1 gateRight1 boundaryLeft1 boundaryRight1 refusalLeft1 refusalRight1
+        composedTrace1 transport1 replay1 provenance1 name1 =>
+        cases y with
+        | mk gateLeft2 gateRight2 boundaryLeft2 boundaryRight2 refusalLeft2 refusalRight2
+            composedTrace2 transport2 replay2 provenance2 name2 =>
+            cases h
+            rfl
+
+instance auditGateCompositionNontrivial : Nontrivial AuditGateCompositionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨AuditGateCompositionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      AuditGateCompositionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate AuditGateCompositionUp :=
   auditGateCompositionChapterTasteGate
 

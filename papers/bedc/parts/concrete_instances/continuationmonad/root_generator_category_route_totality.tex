@@ -2,6 +2,7 @@
 \label{thm:continuation-monad-generator-category-route-totality}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the public generator-category route is total exactly on the displayed carrier rows $A,B,C,f,g,u,H,K,L,N$. The $\CategoryUp$ hom-carrier surface reads the continuation tails as $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows, the $\GeneratorClosureUp$ refusal surface blocks every unlisted continuation generator, and the $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows supply the only route, transport, provenance, and naming data available to downstream consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_generator\_category\_route\_totality}
 \begin{proof}
 Begin with the root category-generator factorization. By \autoref{thm:continuation-monad-root-category-generator-factorization}, the category face and generator face already share the finite packet $A,B,C,f,g,u,H,K,L,N$.
 
@@ -14,6 +15,7 @@ Finally apply the root generator boundary readback theorem and the generator-bou
 \label{thm:continuation-monad-displayed-bind-readback-exhaustion}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, each displayed bind readback is exhausted by $A,B,C,f,g,u,H,K,L,N$ together with the $\CategoryUp$ hom-carrier surface, the $\GeneratorClosureUp$ refusal surface, and the $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows. The readback does not export host function composition, host monad equality, quotient Kleisli arrows, ambient hom sets, or external evaluator rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_displayed\_bind\_readback\_exhaustion}
 \begin{proof}
 Start from the root bind-unit boundary of \autoref{thm:continuation-monad-root-bind-unit-boundary}. It identifies public bind and unit reads with $u,f,g,H,K,L,N$ over the source histories $A,B,C$.
 
@@ -26,6 +28,7 @@ The exclusion clauses come from the Kleisli composition boundary and the root le
 \label{thm:continuation-monad-root-consumer-nonescape}
 Every root consumer of an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$ reads through the same finite generator-category route, the same displayed bind readback, and the same $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ support rows. No root consumer can escape to host function composition, quotient Kleisli arrows, host monad equality, ambient category completion, an independent $\CategoryUp$ hom carrier, or a generator outside the $\GeneratorClosureUp$ refusal surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_consumer\_nonescape}
 \begin{proof}
 First combine \autoref{thm:continuation-monad-generator-category-route-totality} with \autoref{thm:continuation-monad-displayed-bind-readback-exhaustion}. The first theorem fixes the generator-category route, and the second fixes the bind readback.
 

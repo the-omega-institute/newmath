@@ -167,7 +167,8 @@ format:
   .region-picker {
     font-family: inherit; font-size: 0.88rem;
     padding: 0.25rem 0.5rem; border: 1px solid #bbb; border-radius: 3px;
-    background: white; min-width: 220px; cursor: pointer;
+    background: white; width: 240px; max-width: 240px; cursor: pointer;
+    text-overflow: ellipsis;
   }
   .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
 
@@ -1304,6 +1305,7 @@ function renderCy() {
         },
       },
       { selector: "edge.highlight", style: { "line-color": "#c0392b", "target-arrow-color": "#c0392b", "width": 3, "arrow-scale": 1.9, "opacity": 1 } },
+      { selector: "edge.highlight-down", style: { "line-color": "#1f6feb", "target-arrow-color": "#1f6feb", "width": 3, "arrow-scale": 1.9, "opacity": 1 } },
       { selector: "edge.faded", style: { "opacity": 0.06 } },
       { selector: "node.faded", style: { "opacity": 0.15 } },
     ],
@@ -1313,10 +1315,15 @@ function renderCy() {
     // are now identical to the original config; the only retained
     // optimisation is the layout cache that swaps dagre → preset on
     // warm loads.
-    userZoomingEnabled: false,
+    // Trackpad-friendly: enable wheel/pinch zoom. On Mac trackpads,
+    // pinch fires wheel events with ctrlKey, which cytoscape handles as
+    // a zoom gesture; two-finger scroll without ctrlKey also zooms (the
+    // user explicitly asked for trackpad-zoom support). The +/-/fit
+    // buttons remain as keyboard-friendly alternatives.
+    userZoomingEnabled: true,
     userPanningEnabled: true,
     boxSelectionEnabled: false,
-    wheelSensitivity: 0,
+    wheelSensitivity: 0.6,
     autoungrabify: true,
     minZoom: 0.05,
     maxZoom: 4,
@@ -1324,16 +1331,22 @@ function renderCy() {
   setupZoomControls();
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
+  // Clear logic shared by empty-space taps and edge taps. Edges are
+  // decorative routing lines; tapping one shouldn't select the edge,
+  // but instead should reset the highlight state the same way tapping
+  // empty space does.
+  const clearSelection = () => {
+    document.getElementById("detail-content").innerHTML =
+      `<div class="hint">${t("hint")}</div>`;
+    CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
+    CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
+    CY.nodes().unselect();
+    // Zoom / pan preserved so the user's view isn't snapped back
+    // unexpectedly.
+  };
+  CY.on("tap", "edge", clearSelection);
   CY.on("tap", evt => {
-    if (evt.target === CY) {
-      document.getElementById("detail-content").innerHTML =
-        `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight").removeClass("faded");
-      CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
-      CY.nodes().unselect();
-      // Tapping empty space clears the selection only — keep the current
-      // zoom / pan so the user's view isn't snapped back unexpectedly.
-    }
+    if (evt.target === CY) clearSelection();
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
   // outline below, labels stay legible even when fit-zoomed. The dropdown
@@ -1388,8 +1401,28 @@ async function showNodeDetail(id) {
   // Cytoscape highlight + zoom-to-subgraph — only when the graph is
   // mounted (i.e., desktop layout). On mobile we render to the bottom
   // sheet instead and never touch CY.
+  // Downstream BFS — also collect descendants so the outgoing edges
+  // from the selected node can be marked with a distinct colour.
+  const keepDown = new Set([id]);
+  const bfsDistDown = new Map([[id, 0]]);
+  const queueDown = [id];
+  while (queueDown.length) {
+    const cur = queueDown.shift();
+    const cd = bfsDistDown.get(cur);
+    DEPS.edges.forEach(e => {
+      if (e.source === cur && !keepDown.has(e.target)) {
+        keepDown.add(e.target);
+        bfsDistDown.set(e.target, cd + 1);
+        queueDown.push(e.target);
+      }
+    });
+  }
+
+  // Cytoscape highlight + center-on-selected — only when the graph is
+  // mounted (i.e., desktop layout). On mobile we render to the bottom
+  // sheet instead and never touch CY.
   if (CY) {
-    CY.elements().removeClass("highlight").removeClass("faded");
+    CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
     CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
     CY.nodes().unselect();
     const cyNode = CY.getElementById(id);
@@ -1410,13 +1443,25 @@ async function showNodeDetail(id) {
     const rgb = (r, g, b) => `rgb(${r|0},${g|0},${b|0})`;
     const NEAR = { r: 220, g: 20,  b: 0,   width: 5.0, arrow: 7.0, opacity: 1.0  };
     const FAR  = { r: 218, g: 60,  b: 40,  width: 3.0, arrow: 5.0, opacity: 0.85 };
+    // Downstream colour palette (blue) — kept structurally parallel to
+    // the upstream NEAR / FAR gradient so the two directions read with
+    // matching intensity at the same depth.
+    const DOWN_NEAR = { r: 31,  g: 111, b: 235, width: 5.0, arrow: 7.0, opacity: 1.0 };
+    const DOWN_FAR  = { r: 90,  g: 150, b: 230, width: 3.0, arrow: 5.0, opacity: 0.85 };
 
-    CY.nodes().forEach(n => { if (!keep.has(n.id())) n.addClass("faded"); });
+    // Keep set used for fading: any node in the upstream OR downstream
+    // closure stays visible; everything else dims.
+    const allKeep = new Set([...keep, ...keepDown]);
+    CY.nodes().forEach(n => { if (!allKeep.has(n.id())) n.addClass("faded"); });
+    const maxDepthDown = Math.max(1, ...Array.from(bfsDistDown.values()));
     CY.edges().forEach(e => {
       const s = e.data("source"), t = e.data("target");
-      const onShortestPath =
+      const onUpstreamPath =
         keep.has(s) && keep.has(t) && bfsDist.get(s) === bfsDist.get(t) + 1;
-      if (onShortestPath) {
+      const onDownstreamPath =
+        keepDown.has(s) && keepDown.has(t) &&
+        bfsDistDown.get(t) === bfsDistDown.get(s) + 1;
+      if (onUpstreamPath) {
         const d = depthOf.get(s) ?? 0;
         const tt = maxDepth <= 0 ? 0 : clamp(d / maxDepth, 0, 1);
         const color = rgb(lerp(NEAR.r, FAR.r, tt), lerp(NEAR.g, FAR.g, tt), lerp(NEAR.b, FAR.b, tt));
@@ -1425,17 +1470,25 @@ async function showNodeDetail(id) {
         e.style("width", lerp(NEAR.width, FAR.width, tt));
         e.style("arrow-scale", lerp(NEAR.arrow, FAR.arrow, tt));
         e.style("opacity", lerp(NEAR.opacity, FAR.opacity, tt));
+      } else if (onDownstreamPath) {
+        const dd = bfsDistDown.get(t) ?? 1;
+        const tt = clamp((dd - 1) / Math.max(1, maxDepthDown - 1), 0, 1);
+        const color = rgb(lerp(DOWN_NEAR.r, DOWN_FAR.r, tt), lerp(DOWN_NEAR.g, DOWN_FAR.g, tt), lerp(DOWN_NEAR.b, DOWN_FAR.b, tt));
+        e.style("line-color", color);
+        e.style("target-arrow-color", color);
+        e.style("width", lerp(DOWN_NEAR.width, DOWN_FAR.width, tt));
+        e.style("arrow-scale", lerp(DOWN_NEAR.arrow, DOWN_FAR.arrow, tt));
+        e.style("opacity", lerp(DOWN_NEAR.opacity, DOWN_FAR.opacity, tt));
       } else {
         e.addClass("faded");
       }
     });
 
-    const focusEles = CY.elements().filter(el => {
-      if (el.isNode()) return keep.has(el.id());
-      return keep.has(el.data("source")) && keep.has(el.data("target"));
-    });
+    // Centre the selected node in the viewport without changing the
+    // current zoom level. Earlier this fit the full upstream subgraph,
+    // but the user wants the tapped node anchored at the centre.
     CY.animate(
-      { fit: { eles: focusEles, padding: 60 } },
+      { center: { eles: cyNode } },
       { duration: 350, easing: "ease-out" }
     );
   }
