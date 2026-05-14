@@ -70,6 +70,7 @@ import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
+import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.ApproximationUp
@@ -152,6 +153,7 @@ import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
+import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
@@ -642,6 +644,7 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
+import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.ProofTermErasureClassifierUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubstitutionAuditMapUp.Core
