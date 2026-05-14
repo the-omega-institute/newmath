@@ -90,12 +90,94 @@ private def boundedMonotoneConvergenceSealDecodePacket
 
 def boundedMonotoneConvergenceSealFromEventFlow :
     EventFlow → Option BoundedMonotoneConvergenceSealUp
-  | [_, witness, _, monotone, _, criterion, _, regular, _, stream, _, dyadic, _,
-      limitSeal, _, realSeal, _, transport, _, route, _, provenance, _, name] =>
-      some
-        (boundedMonotoneConvergenceSealDecodePacket witness monotone criterion regular stream dyadic
-          limitSeal realSeal transport route provenance name)
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | witness :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | monotone :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | criterion :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | regular :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | stream :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | dyadic :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | limitSeal :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | realSeal :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | transport :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | route :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | provenance :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] => none
+                                                                                          | _tag11 :: rest22 =>
+                                                                                              match rest22 with
+                                                                                              | [] => none
+                                                                                              | name :: rest23 =>
+                                                                                                  match rest23 with
+                                                                                                  | [] =>
+                                                                                                      some
+                                                                                                        (boundedMonotoneConvergenceSealDecodePacket
+                                                                                                          witness
+                                                                                                          monotone
+                                                                                                          criterion
+                                                                                                          regular
+                                                                                                          stream
+                                                                                                          dyadic
+                                                                                                          limitSeal
+                                                                                                          realSeal
+                                                                                                          transport
+                                                                                                          route
+                                                                                                          provenance
+                                                                                                          name)
+                                                                                                  | _ :: _ => none
 
 private theorem boundedMonotoneConvergenceSeal_round_trip :
     ∀ x : BoundedMonotoneConvergenceSealUp,

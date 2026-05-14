@@ -190,4 +190,23 @@ theorem CauchyModulusRefinement_selector_budget_regseqrat_real_seal_determinacy
     cont_respects_hsame sameQ sameSeal carrierSeal transportedSeal
   exact ⟨sameQ, sameH⟩
 
+theorem CauchyModulusRefinementCarrier_source_window_lock [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n selected : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg →
+      Cont t w selected →
+        UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory u ∧ UnaryHistory v ∧
+          UnaryHistory t ∧ UnaryHistory w ∧ UnaryHistory selected ∧ Cont m0 m1 u ∧
+            Cont u v t ∧ Cont t w selected ∧ PkgSig bundle p pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier selectedWindow
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, _qUnary, _eUnary, _hUnary,
+      _cUnary, _pUnary, _nUnary, m0m1u, uvt, _twq, _qeh, pPkg, hn⟩
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed tUnary wUnary selectedWindow
+  exact
+    ⟨m0Unary, m1Unary, uUnary, vUnary, tUnary, wUnary, selectedUnary, m0m1u, uvt,
+      selectedWindow, pPkg, hn⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp
