@@ -4,6 +4,8 @@
 
 The $\AuthorizedGeneratorRecursorUp$ surface turns the recursor authorization principle of \autoref{ch:recursor-as-authorized-generator} into a finite NameCert packet. The packet records an accepted constructor signature, a legal eliminator name, complete branch data, structural descent evidence, output naming, audit provenance, and the visible boundary at which BEDC relies on the host kernel's acceptance of the recursor call. It does not add a new eliminator, a new induction principle, or a hidden source of proof terms outside the accepted signature.
 
+The audit-provenance row $A$ is the local consumer of the $\OperationalMembraneUp$ audit carrier in \autoref{ch:concrete-instances-operationalmembrane-namecert}. It reads source-axiom refusal, axiom-purity ancestry, and import-separation rows before the recursor output row $O$ becomes public.
+
 \begin{definition}[AuthorizedGeneratorRecursor carrier]
 \label{def:authorized-generator-recursor-carrier}
 An $\AuthorizedGeneratorRecursorUp$ carrier is a finite $\BHist$ packet
@@ -68,15 +70,56 @@ The boundary row $G$ records the host-kernel handoff. It names the reliance on k
 The excluded claims have no coordinate in the carrier. Therefore the packet gives a seed certificate for the displayed recursor-generated output and does not export global kernel completeness, unrestricted termination, general semantic conservativity, or an unaudited dependency surface.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor structural descent locality]
+\label{thm:authorized-generator-recursor-structural-descent-locality}
+Every public recursive read of an accepted $\AuthorizedGeneratorRecursorUp$ packet factors through the displayed constructor signature $I$, emitted eliminator $E$, checked motive $M$, branch package $B$, and structural-descent row $D$. The packet admits no public recursive call whose descent is not recorded in $D$, and it admits no branch read outside the constructor list displayed by $I$ and exhausted by $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+The only recursive generator named by the packet is the emitted eliminator row $E$, and it is paired with the constructor signature $I$, motive row $M$, branch package $B$, and descent row $D$.
+
+Read access through $C$ exposes those rows as the local public interface. By \autoref{thm:authorized-generator-recursor-branch-exhaustion}, the branch package already contains exactly the public branches available for the constructors displayed in $I$.
+
+The boundary row $G$ refuses non-structural recursion and unlisted branches. Since the tuple has no coordinate for a second recursion channel, a non-decreasing recursive call, or an extra branch source, every public recursive read is local to $I,E,M,B,D$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit provenance factorization]
+\label{thm:authorized-generator-recursor-audit-provenance-factorization}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the output row $O$ becomes public only after the audit-provenance row $A$, componentwise transports $H$, continuation routes $C$, package row $P$, boundary row $G$, and local name row $N$ are retained. Thus public output exposure factors through the audit boundary of \autoref{thm:authorized-generator-recursor-audit-boundary} and cannot be read as an unaudited recursor result.
+\end{theorem}
+\begin{proof}
+Project the carrier and retain the rows $O,A,H,C,P,G,N$. The NameCert surface of \autoref{thm:authorized-generator-recursor-namecert-surface} states that $O$ is part of the local certificate only inside the displayed packet.
+
+Apply \autoref{thm:authorized-generator-recursor-audit-boundary}. It binds the public output to the accepted signature, emitted eliminator, checked motive, complete branch package, structural-descent row, and audit-provenance row.
+
+The rows $H,C,P,G,N$ keep the transports, public routes, package provenance, boundary refusal, and local naming certificate attached to that exposure. No coordinate remains from which a consumer can read $O$ apart from $A,H,C,P,G,N$, so the output factors through the displayed audit provenance.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ground-compiler handoff]
+\label{thm:authorized-generator-recursor-ground-compiler-handoff}
+The $\origin{ai}$ TasteGate marker for this chapter is consumed only as the single-carrier alignment witness for the finite $\AuthorizedGeneratorRecursorUp$ packet. It does not replace the paper-side obligations for branch exhaustion, structural-descent locality, audit provenance factorization, or the visible handoff to the host kernel at $G$.
+\end{theorem}
+\begin{proof}
+The checked TasteGate marker attached to \autoref{def:authorized-generator-recursor-carrier} identifies the chapter's finite carrier as the aligned object used by the recursor packet. It does not add a new theorem row to the carrier and does not alter the closure status of any paper-side claim.
+
+Branch exhaustion is supplied by \autoref{thm:authorized-generator-recursor-branch-exhaustion}. Structural-descent locality is supplied by \autoref{thm:authorized-generator-recursor-structural-descent-locality}, and audit exposure is supplied by \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}.
+
+The handoff to the ground compiler is therefore explicit: the TasteGate witness aligns the finite carrier, while the displayed rows $I,E,M,B,D,O,A,H,C,P,G,N$ continue to carry the branch, descent, provenance, and boundary obligations inside the paper.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
+\closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 
 \begin{closurestatus}{\AuthorizedGeneratorRecursorUp}
   \constructivestory{An $\AuthorizedGeneratorRecursorUp$ packet is generated from an accepted constructor signature, an emitted eliminator, a checked motive, complete branch data, structural descent, an output name, audit provenance, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a $\mathsf{GAP}$ boundary row, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:authorized-generator-recursor-carrier}, \autoref{thm:authorized-generator-recursor-branch-exhaustion}, \autoref{thm:authorized-generator-recursor-namecert-surface}, and \autoref{thm:authorized-generator-recursor-audit-boundary} bind authorized recursor output as a finite NameCert packet over accepted signatures, branch coverage, structural descent, and audit provenance.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:authorized-generator-recursor-carrier}, \autoref{thm:authorized-generator-recursor-branch-exhaustion}, \autoref{thm:authorized-generator-recursor-namecert-surface}, \autoref{thm:authorized-generator-recursor-audit-boundary}, \autoref{thm:authorized-generator-recursor-structural-descent-locality}, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} with \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} bind authorized recursor output as a finite NameCert packet over accepted signatures, branch coverage, structural descent, audit provenance, and the TasteGate handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, a public standard bridge, kernel completeness, unrestricted termination, global semantic conservativity, or any proof-producing route outside the displayed recursor packet.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for branch exhaustion, NameCert surface exactness, structural-descent locality, audit provenance, and non-escape for external proof generators.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier and checked theorems for branch exhaustion, NameCert surface exactness, structural-descent locality, audit provenance, and non-escape for external proof generators.}
 \end{closurestatus}

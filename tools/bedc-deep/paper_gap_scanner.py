@@ -9,10 +9,11 @@ Detection sources (deterministic, no LLM):
   "to be established", "to be shown", "未证", "尚未证明"
 - definitions whose chapter file has no theorem label citing the same concept
 
-Each gap becomes a candidate dict matching the schema accepted by
-oracle_client.append_candidates_to_board. With --append, the scanner appends
-qualifying candidates directly to BOARD.md so the next loop pass picks them
-up automatically.
+Each gap becomes a candidate dict matching the shared board_spawn candidate
+shape. With --append, the scanner routes qualifying candidates through
+board_spawn, candidate_inbox, the judge, and logic_packet_gate before any
+BOARD.md append. It is a deterministic source, not a shortcut around intake
+discipline.
 """
 
 from __future__ import annotations
@@ -33,6 +34,8 @@ THEOREM_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary)\}")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 DEFINITION_RE = re.compile(r"\\begin\{definition\}\s*\\label\{([^}]+)\}")
 END_ENV_RE = re.compile(r"\\end\{(conjecture|question|definition)\}")
+CONJECTURE_STATUS_RE = re.compile(r"\\conjectureStatus\{([^}]+)\}")
+METACIC_OBLIGATION_ITEM_RE = re.compile(r"\\item\s+\$\\mathrm\{([^}]+)\}\$\.\s*(.*)")
 
 TODO_COMMENT_RE = re.compile(r"%\s*(?:TODO|FIXME|UNPROVEN|TO\s*VERIFY|TO\s*PROVE)\b[^\n]*", re.IGNORECASE)
 
@@ -63,7 +66,7 @@ NON_TARGET_PREFIXES = (
 class GapHit:
     file_rel: str
     line_no: int
-    kind: str  # "conjecture" | "todo" | "open_prose" | "orphan_definition"
+    kind: str  # "conjecture" | "todo" | "open_prose" | "orphan_definition" | "metacic_obligation"
     snippet: str
     label: str = ""
 
@@ -106,12 +109,33 @@ def _scan_file(path: Path) -> list[GapHit]:
     lines = text.splitlines()
     rel = str(path.relative_to(REPO_ROOT))
     hits: list[GapHit] = []
+    conjecture_status = ""
+    status_match = CONJECTURE_STATUS_RE.search(text)
+    if status_match:
+        conjecture_status = status_match.group(1).strip().lower()
+    skip_conjecture_file_gaps = (
+        rel.startswith("papers/bedc/parts/conjectures/")
+        and conjecture_status
+        and conjecture_status != "open"
+    )
+
+    if rel == "papers/bedc/parts/visions/metacic_open_problems.tex":
+        for idx, line in enumerate(lines):
+            m = METACIC_OBLIGATION_ITEM_RE.search(line)
+            if not m:
+                continue
+            label = "metacic-" + re.sub(r"[^a-z0-9]+", "-", m.group(1).lower()).strip("-")
+            hits.append(GapHit(rel, idx + 1, "metacic_obligation", _snippet(lines, idx), label))
 
     for idx, line in enumerate(lines):
         m = CONJECTURE_RE.search(line)
         if m:
+            if skip_conjecture_file_gaps:
+                continue
             label = _find_label_in_block(lines, idx)
             hits.append(GapHit(rel, idx + 1, m.group(1), _snippet(lines, idx), label))
+            continue
+        if skip_conjecture_file_gaps:
             continue
         if TODO_COMMENT_RE.search(line):
             hits.append(GapHit(rel, idx + 1, "todo", _snippet(lines, idx)))
@@ -143,6 +167,9 @@ def scan_all() -> list[GapHit]:
 
 
 def _title_from_hit(hit: GapHit) -> str:
+    if hit.kind == "metacic_obligation" and hit.label.startswith("metacic-"):
+        tail = hit.label.removeprefix("metacic-").replace("-", " ")
+        return f"MetaCIC {tail} discharge obligation"[:TITLE_MAX_CHARS]
     if hit.label:
         words = hit.label.split(":", 1)
         tail = words[1] if len(words) > 1 else words[0]
@@ -161,11 +188,51 @@ def _first_substantive_line(snippet: str) -> str:
     )
 
 
+def _claim_from_hit(hit: GapHit) -> str:
+    """Extract a human claim line rather than a LaTeX structural marker."""
+    substantive: list[str] = []
+    for raw in hit.snippet.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("%"):
+            continue
+        if line.startswith(("\\label", "\\chapter", "\\section", "\\subsection", "\\subsubsection")):
+            continue
+        if re.match(r"\\(?:begin|end)\{(?:conjecture|question|proof|enumerate|itemize)\}", line):
+            continue
+        if line.startswith("\\item"):
+            line = line.removeprefix("\\item").strip()
+        if line:
+            substantive.append(line)
+        if len(" ".join(substantive)) >= 600:
+            break
+    claim = " ".join(substantive).strip()
+    return claim[:600] if claim else f"see {hit.file_rel}:{hit.line_no}"
+
+
+def _rationale_snippet(snippet: str) -> str:
+    """Keep context useful without feeding structural labels into pre-gate."""
+    kept: list[str] = []
+    for raw in snippet.splitlines():
+        line = raw.rstrip()
+        stripped = line.strip()
+        if stripped.startswith("\\label"):
+            continue
+        if stripped.startswith(("\\leanvariant", "\\concretizedIn")):
+            continue
+        kept.append(line)
+    return "\n".join(kept).strip()
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
     claim = str(candidate.get("concrete_claim") or "").strip()
     first = _first_substantive_line(hit.snippet)
+    if (
+        hit.kind == "open_prose"
+        and hit.file_rel == "papers/bedc/parts/visions/metacic_open_problems.tex"
+    ):
+        return False
     if hit.kind == "open_prose":
         if first.startswith(NON_TARGET_PREFIXES):
             return False
@@ -177,36 +244,64 @@ def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
 
 
 def hit_to_candidate(hit: GapHit) -> dict:
-    """Convert a GapHit to the candidate dict shape append_candidates_to_board expects."""
+    """Convert a GapHit to the shared BOARD candidate dict shape."""
     title = _title_from_hit(hit)
     if hit.kind == "conjecture":
         fit, novelty = 8, 8
+    elif hit.kind == "metacic_obligation":
+        fit, novelty = 8, 7
     elif hit.kind == "open_prose":
         fit, novelty = 7, 7
     elif hit.kind == "orphan_definition":
         fit, novelty = 7, 6
     else:
         fit, novelty = 6, 6
+    label_note = ""
+    if hit.label and hit.kind != "metacic_obligation":
+        label_note = " label=" + hit.label
     rationale = (
         f"Surfaced from paper gap scan: {hit.kind} at "
         f"{hit.file_rel}:{hit.line_no}"
-        f"{' label=' + hit.label if hit.label else ''}.\n\n"
-        f"Snippet:\n{hit.snippet}"
+        f"{label_note}.\n\n"
+        f"Snippet:\n{_rationale_snippet(hit.snippet)}"
     )
     if len(rationale) < MIN_RATIONALE_CHARS:
         rationale = rationale + "\n\n(snippet was short; widen CONTEXT_AFTER if needed)"
+    claim = _claim_from_hit(hit)
+    if hit.kind == "metacic_obligation" and hit.label.startswith("metacic-"):
+        obligation = hit.label.removeprefix("metacic-").replace("-", "")
+        claim = (
+            "If the MetaCIC subject-reduction discharge interface is used, "
+            f"then the {obligation} row must be supplied as an explicit finite "
+            "setup obligation rather than inferred from the parameterised theorem."
+        )
     return {
         "title": title,
-        "concrete_claim": (
-            hit.snippet.split("\n\n", 1)[0][:600]
-            if hit.snippet
-            else f"see {hit.file_rel}:{hit.line_no}"
-        ),
+        "claim": claim,
+        "concrete_claim": claim,
         "local_inputs": [hit.file_rel],
         "fit_score": fit,
         "novelty": novelty,
         "rationale": rationale,
+        "source": "paper_gap_scanner",
     }
+
+
+def append_via_board_spawn(
+    candidates: list[dict],
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> object:
+    """Route deterministic gap candidates through the shared intake gate."""
+    import board_spawn
+
+    return board_spawn.spawn_from_candidates(
+        codex_candidates=candidates,
+        oracle_candidates=[],
+        fit_threshold=fit_threshold,
+        novelty_threshold=novelty_threshold,
+    )
 
 
 def generate_candidates(
@@ -232,7 +327,7 @@ def generate_candidates(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scan papers/bedc/parts for theory gaps")
-    parser.add_argument("--append", action="store_true", help="Append qualifying gaps to BOARD.md as candidate B-XX entries")
+    parser.add_argument("--append", action="store_true", help="Submit qualifying gaps through board_spawn before any BOARD.md append")
     parser.add_argument("--min-fit", type=int, default=7)
     parser.add_argument("--min-novelty", type=int, default=6)
     parser.add_argument("--limit", type=int, default=0, help="Cap number of candidates (0 = no cap)")
@@ -252,9 +347,24 @@ def main() -> int:
         if not candidates:
             print("(no candidates passed thresholds; nothing appended)", file=sys.stderr)
             return 0
-        from oracle_client import append_candidates_to_board
-        accepted = append_candidates_to_board(candidates)
-        print(f"appended {len(accepted)} candidates to BOARD.md: {accepted}", file=sys.stderr)
+        result = append_via_board_spawn(
+            candidates,
+            fit_threshold=args.min_fit,
+            novelty_threshold=args.min_novelty,
+        )
+        appended = getattr(result, "appended_ids", [])
+        accepted = getattr(result, "accepted", [])
+        rejected = getattr(result, "rejected", [])
+        error = getattr(result, "error", "")
+        print(
+            f"board_spawn ok={getattr(result, 'ok', False)} "
+            f"accepted={len(accepted)} rejected={len(rejected)} "
+            f"appended={len(appended)}: {appended}",
+            file=sys.stderr,
+        )
+        if error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 1
         return 0
 
     if not args.json:

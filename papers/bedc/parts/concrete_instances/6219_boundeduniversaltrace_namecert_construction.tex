@@ -121,6 +121,123 @@ Use \autoref{thm:bounded-universal-trace-step-index-readback}. Any terminal read
 Finally apply the non-escape boundary of \autoref{thm:bounded-universal-trace-non-escape}. Hidden steps, unbounded halting, quotient behaviour, and host evaluator equality require coordinates absent from the carrier, so the ledger $T$ exhausts the accepted bounded trace surface.
 \end{proof}
 
+\begin{theorem}[BoundedUniversalTrace root fuel schedule]
+\label{thm:bounded-universal-trace-root-fuel-schedule}
+For every accepted $\BoundedUniversalTraceUp$ carrier
+$U=(F,M,S,T,R,H,C,P,N)$, the root fuel row $F$ is a unary $\BHist$
+schedule consumed only by finite $\Cont$ replay through the trace ledger $T$
+and terminal readback row $R$. A public read below the bound must cite the
+same fuel row, the same ledger row, componentwise $\hsame$ transport, $\Pkg$
+provenance, and the local $\NameCert_{\BoundedUniversalTraceUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through
+\autoref{def:bounded-universal-trace-carrier}. The fuel coordinate is the
+displayed row $F$, and the only replay data attached to it are the finite
+trace ledger $T$, the readback row $R$, and the route coordinate $C$.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback} and
+\autoref{thm:bounded-universal-trace-fuel-determinacy}. They force every
+terminal read to pass through $F$ and $T$, and they determine the readback row
+from the displayed bound, substrate, source, and ledger rows after the listed
+transports and routes are applied.
+
+Finally use \autoref{thm:bounded-universal-trace-ledger-exhaustion}. Since
+the ledger exhausts the steps visible below the bound, the root fuel row is
+not an implicit evaluator or host scheduler; it is exactly the unary
+$\BHist$ schedule consumed by finite $\Cont$ replay.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace cellular replay scope]
+\label{thm:bounded-universal-trace-cellular-replay-scope}
+When the substrate row $M$ of an accepted $\BoundedUniversalTraceUp$ carrier
+names the $\CellularAutomatonUp$ dependency of
+\autoref{ch:concrete-instances-cellularautomaton-namecert}, every cellular
+read is made only through that sibling cellular replay surface, the finite
+ledger $T$, local $\Pkg$ provenance, and the local
+$\NameCert_{\BoundedUniversalTraceUp}$ row. The packet does not expose an
+unbounded cellular orbit, host cellular evaluator, hidden update table, or
+global orbit classifier.
+\end{theorem}
+\begin{proof}
+Read the carrier row named by
+\autoref{def:bounded-universal-trace-carrier}. The substrate coordinate $M$
+may be drawn from the displayed $\CellularAutomatonUp$ interface, but the
+accepted packet stores only this local substrate row together with the finite
+source, ledger, readback, transport, route, provenance, and naming rows.
+
+Use \autoref{thm:bounded-universal-trace-substrate-readback}. It requires
+every substrate read to pass through $M$ and the finite
+$\ContinuationTraceUp$ ledger $T$ before the terminal row $R$ is reached.
+The sibling dependency named by the carrier supplies the cellular replay
+surface, while $P$ records the local provenance of that use.
+
+The non-escape boundary
+\autoref{thm:bounded-universal-trace-non-escape} removes any larger cellular
+semantics. Since the carrier has no coordinate for an unbounded orbit, host
+cellular evaluator, hidden update table, or global orbit classifier, the
+cellular dependency is read only through the displayed finite replay scope.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace TuringMachine non-escape]
+\label{thm:bounded-universal-trace-turing-machine-nonescape}
+When the substrate row $M$ of an accepted $\BoundedUniversalTraceUp$ carrier
+names the $\TuringMachineUp$ dependency of
+\autoref{ch:concrete-instances-turingmachine-namecert}, that dependency
+supplies finite transition evidence only through $M$, $S$, $T$, $R$, $H$,
+$C$, $P$, and $N$. It supplies no unbounded evaluator, no divergence oracle,
+and no total halting classifier.
+\end{theorem}
+\begin{proof}
+Begin with the chapter carrier. In
+\autoref{def:bounded-universal-trace-carrier}, the Turing-machine dependency
+can occur only as the displayed substrate row $M$ of the accepted finite
+packet $U=(F,M,S,T,R,H,C,P,N)$.
+
+Apply \autoref{thm:bounded-universal-trace-substrate-readback} and
+\autoref{thm:bounded-universal-trace-ledger-exhaustion}. The terminal read
+uses the substrate row together with the finite continuation ledger $T$ and
+the fuel row $F$, so every transition fact visible to the consumer is already
+listed in the bounded ledger and replayed by $C$.
+
+Finally use \autoref{thm:bounded-universal-trace-non-escape}. An unbounded
+evaluator, divergence oracle, or total halting classifier would require a
+coordinate outside the displayed carrier. Since no such coordinate exists,
+the $\TuringMachineUp$ row contributes only finite transition evidence inside
+the local package.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace fuel-substrate-ledger separation]
+\label{thm:bounded-universal-trace-fuel-substrate-ledger-separation}
+For every accepted $\BoundedUniversalTraceUp$ carrier
+$U=(F,M,S,T,R,H,C,P,N)$, the fuel row $F$, substrate row $M$, and finite
+continuation ledger $T$ are pairwise distinct public roles. A consumer may
+transport these roles componentwise through $H,C,P,N$, but may not collapse
+fuel into substrate, substrate into ledger, or ledger into the terminal readback
+row $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-universal-trace-carrier}. The row
+$F$ names the finite step bound, $M$ names the displayed Turing-machine or
+cellular substrate, and $T$ names the finite $\ContinuationTraceUp$ ledger.
+They are introduced as separate coordinates of the same packet.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback}. Terminal
+readback must pass through $F$ and $T$, so the fuel row bounds the read and the
+ledger supplies the displayed steps rather than one row replacing the other.
+
+Next use \autoref{thm:bounded-universal-trace-substrate-readback}. Substrate
+information is read through $M$ before the ledger reaches $R$, which prevents
+the substrate role from being identified with either the fuel schedule or the
+ledger rows.
+
+Finally apply \autoref{thm:bounded-universal-trace-ledger-exhaustion}. The
+ledger $T$ exhausts the visible step rows below $F$, while $H,C,P,N$ only
+transport, replay, cite, and name the same finite packet. Hence componentwise
+transport preserves the three public roles without collapsing them into one
+another or into terminal readback.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\BoundedUniversalTraceUp$ must include explicit $\mathsf{Nontrivial}\ \BoundedUniversalTraceUp$ and $\mathsf{FieldFaithful}\ \BoundedUniversalTraceUp$ instances for the displayed carrier. These instances must preserve the fuel row, substrate row, source row, finite continuation ledger, terminal readback row, transport rows, route rows, package provenance, and local naming row.
 
 \closureat{BoundedUniversalTraceUp}{seedStr}

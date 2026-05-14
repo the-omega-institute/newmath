@@ -27,11 +27,14 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through these displayed rows. The carrier contains no quotient stream equality, no selected host limit, no host real equality, and no ambient completeness principle.
 \end{definition}
+\leandef{BEDC.Derived.TailBudgetCoherenceUp.TailBudgetCoherenceUp}
 
 \begin{theorem}[Tail budget coherence NameCert obligations]
 \label{thm:tail-budget-coherence-namecert-obligations}
 For the carrier of \autoref{def:tail-budget-coherence-carrier}, the local $\NameCert_{\TailBudgetCoherenceUp}$ surface consists exactly of carrier admission for $T=(M,O,S,A,L,W,R,D,H,C,P,N)$, TailMeet threshold exposure through $M$, observation-budget exposure through $O$, selector-budget exposure through $S$, agreement-seal exposure through $A$, limit-seal exposure through $L$, finite window service through $W$, regular readback through $R$, dyadic tolerance accounting through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TailBudgetCoherenceUp.TailBudgetCoherenceCarrier\_namecert\_obligations}
+\leanchecked{BEDC.Derived.TailBudgetCoherenceUp.TailBudgetCoherenceTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the displayed packet. Its coordinates are exactly $M,O,S,A,L,W,R,D,H,C,P,N$, so carrier admission and local naming cannot introduce a second tail threshold, budget, readback, agreement seal, or limit seal.
 
@@ -204,20 +207,46 @@ Next apply window-readback exactness from \autoref{thm:tail-budget-coherence-win
 Finally use no-ambient-completeness scope from \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the accepted route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the finite route written above is the complete public boundary.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence bridge interface]
+\label{thm:tail-budget-coherence-bridge-interface}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+the composite sibling route from $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ bridges to the public Real-and-Completion consumer interface exactly through the finite surface
+$$
+M,O,S,W,D,R,A,L,H,C,P,N.
+$$
+The forward direction is the public export boundary of \autoref{thm:tail-budget-coherence-public-export-boundary}. The reverse projection is the sibling-scope lock of \autoref{thm:tail-budget-coherence-sibling-scope-lock} together with the primitive scope of \autoref{thm:tail-budget-coherence-primitive-scope}.
+
+Thus the bridge carries only the displayed threshold, observation-budget, selector-budget, agreement-seal, limit-seal, window, readback, dyadic-tolerance, transport, continuation, provenance, and local naming rows. It carries no quotient stream equality, no host real equality, no selected limit, no countable-choice selector, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:tail-budget-coherence-public-export-boundary}. It identifies the public Real-and-Completion export as the finite route $M,O,S,W,D,R,A,L,H,C,P,N$ through the sibling rows already locked by the accepted packet.
+
+For the reverse projection, start with \autoref{thm:tail-budget-coherence-sibling-scope-lock}. It reads each coordinate of $T$ only through the named sibling packets and through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then apply \autoref{thm:tail-budget-coherence-primitive-scope} to exhaust the primitive surface by those same sibling and kernel rows.
+
+The consumer side is controlled by \autoref{thm:tail-budget-coherence-real-route-scope}. Every Real or Completion consumer factors through $M,O,S,W,D,R,A,L,H,C,P,N$ before reading an agreement seal or a limit seal.
+
+Finally apply \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the two projections describe a bridge only for the finite public surface and not for any stronger analytic equality or completeness object.
+\end{proof}
+
 \falsifiablePrediction{If a completion-facing consumer reads the limit seal without a displayed TailMeet threshold, observation budget, selector budget, finite window ledger, dyadic tolerance ledger, regular readback, and agreement-seal row, that read is not accepted by $\TailBudgetCoherenceUp$.}
 
 The composite-dependency explanation is the replacement for an atomic independence witness. The carrier is deliberately assembled from existing $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows; its content is the coherence of those rows at the Real-completion handoff, not a new primitive analytic object.
 
 \closureat{TailBudgetCoherenceUp}{scopedStr}
 \closureat{TailBudgetCoherenceUp}{publicStr}
+\closureat{TailBudgetCoherenceUp}{bridgedStr}
+\closureat{TailBudgetCoherenceUp}{matureStr}
 
 \begin{closurestatus}{\TailBudgetCoherenceUp}
   \constructivestory{A $\TailBudgetCoherenceUp$ packet is generated from TailMeet threshold, Real observation-budget, regular Cauchy selector-budget, RealTailAgreementSeal, CauchyLimitSeal, finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, \autoref{thm:tail-budget-coherence-obligation-closure-package}, \autoref{thm:tail-budget-coherence-primitive-scope}, \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-real-route-scope}, and \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope} specify the composite finite coherence packet, sibling-scope lock, Real route scope, and non-escape boundary for the Real-completion tail-budget handoff.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, \autoref{thm:tail-budget-coherence-obligation-closure-package}, \autoref{thm:tail-budget-coherence-primitive-scope}, \autoref{thm:tail-budget-coherence-public-export-boundary}, \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-real-route-scope}, \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}, and \autoref{thm:tail-budget-coherence-bridge-interface} give the mature treatment of the public export boundary, bridge interface, sibling-scope lock, Real route scope, and no-ambient-completeness scope for the finite Real-completion tail-budget handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove Real completeness, quotient equality of regular streams, selected-limit existence, host real equality, Lean verification, or bridge checking for $\TailBudgetCoherenceUp$.}
-  \upgradepath{Bridged closure next requires an explicit bridge theorem for the same tail-budget coherence surface.}
+  \upgradepath{The theory axis is mature for the finite Real-completion tail-budget handoff; independent Lean verification or bridge checking remains on the verification axis.}
 \end{closurestatus}

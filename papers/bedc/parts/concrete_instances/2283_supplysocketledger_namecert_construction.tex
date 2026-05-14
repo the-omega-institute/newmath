@@ -75,7 +75,6 @@ L=(G,K,S,A,C,P,N).
 $$
 It exposes the $\mathsf{GAP}$ tag row, supply-kind row, socket site, audit gate, $\Cont$ consumption routes, $\Pkg$ provenance, and local $\NameCert_{\SupplySocketLedgerUp}$ row, and it contains no coordinate carrying the refused supply itself.
 \end{theorem}
-\leanchecked{BEDC.Derived.SupplySocketLedgerUp.SupplySocketLedgerTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the carrier of \autoref{def:supply-socket-ledger-carrier}. Its complete displayed inventory is the seven-tuple $L=(G,K,S,A,C,P,N)$, so the TasteGate-relevant boundary has precisely those coordinates.
 
@@ -182,15 +181,17 @@ audit or provenance rows would replace the displayed refusal by the refused
 supply itself, which is not a coordinate of the accepted packet.
 \end{proof}
 
-\closureat{SupplySocketLedgerUp}{seedStr}
+\closureat{SupplySocketLedgerUp}{scopedStr}
+\closureat{SupplySocketLedgerUp}{publicStr}
 
 \begin{closurestatus}{\SupplySocketLedgerUp}
   \constructivestory{A $\SupplySocketLedgerUp$ packet is generated from one $\mathsf{GAP}$ tag row, one of the seven supply-kind classifiers, one displayed socket site, one audit-gate row, displayed $\Cont$ consumption routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:supply-socket-ledger-carrier}, \autoref{thm:supply-socket-ledger-namecert-obligations}, \autoref{thm:supply-socket-ledger-kind-exhaustion}, \autoref{thm:supply-socket-ledger-audit-nonescape}, \autoref{thm:supply-socket-ledger-tastegate-carrier-boundary}, \autoref{thm:supply-socket-ledger-route-coverage}, and \autoref{thm:supply-socket-ledger-consumer-provenance} bind the finite carrier, seven-kind classifier, audit-gate routing, continuation locality, package provenance, consumer provenance, and explicit non-escape rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:supply-socket-ledger-carrier}, \autoref{thm:supply-socket-ledger-namecert-obligations}, \autoref{thm:supply-socket-ledger-kind-exhaustion}, \autoref{thm:supply-socket-ledger-audit-nonescape}, \autoref{thm:supply-socket-ledger-tastegate-carrier-boundary} with \leanchecked{BEDC.Derived.SupplySocketLedgerUp.taste\_gate}, \autoref{thm:supply-socket-ledger-route-coverage}, and \autoref{thm:supply-socket-ledger-consumer-provenance} bind the finite carrier, seven-kind classifier, audit-gate routing, continuation locality, package provenance, consumer provenance, and explicit non-escape rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SupplySocketLedgerUp.SupplySocketLedgerTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close TasteGate-backed obligation discharge, Lean verification, public export, standard bridge data, or any internal theorem supplying the refused socket contents.}
-  \upgradepath{Obligation closure requires TasteGate-backed proofs that the finite ledger covers each accepted socket kind, transports through the displayed consumption routes, and preserves audit non-escape for every refused supply row.}
+  \notclaimed{This chapter does not close public export, standard bridge data, or any internal theorem supplying the refused socket contents.}
+  \upgradepath{The next paper grade is a bridge-facing certificate for the same seven-kind refusal ledger and supply-socket route surface.}
 \end{closurestatus}

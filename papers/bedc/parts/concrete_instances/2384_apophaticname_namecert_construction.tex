@@ -224,6 +224,97 @@ Use classifier stability from \autoref{thm:apophatic-name-classifier-stability}.
 Finally apply non-escape through \autoref{thm:apophatic-name-non-escape-certificate}. The displayed $\Cont$, $\Pkg$, and $\NameCert$ rows export the refusal surface but do not install an internal witness behind the socket.
 \end{proof}
 
+\begin{theorem}[ApophaticName public boundary package]\label{thm:apophatic-name-public-boundary-package}
+For every accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+the public root-unblock package exposed over $\BHist$ is exactly the socket row $S$, request row $R$, refusal gate $G$, refusal ledger $L$, componentwise $\hsame$ row $H$, continuation route $C$, package provenance $P$, and local $\NameCert_{\ApophaticNameUp}$ row $N$. The package exports no supplied dependency, internal object, assumed proposition, quotient representative, hidden theorem, host object, or closure principle beyond these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:apophatic-name-carrier}. Its accepted packet has exactly the displayed rows $S,R,G,L,H,C,P,N$, with no extra coordinate in which supplied content could be stored.
+
+Use the refusal ledger and source-refusal totality, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-source-refusal-totality}. They send every requested supply read through the gate and ledger before a consumer can ask for internal content.
+
+Apply the non-escape certificate, \autoref{thm:apophatic-name-non-escape-certificate}. It rules out converting the public packet into an axiom, quotient representative, hidden theorem, host-side datum, or closure principle, so the public root-unblock package is exhausted by the eight displayed rows.
+\end{proof}
+
+\begin{theorem}[ApophaticName socket citation scope]\label{thm:apophatic-name-socket-citation-scope}
+Every downstream citation of an $\ApophaticNameUp$ socket must retain the request row $R$, refusal gate $G$, refusal ledger $L$, continuation route $C$, package provenance $P$, and local $\NameCert_{\ApophaticNameUp}$ row $N$ together with the socket row $S$ and transport row $H$. A citation that drops any of these rows is not a citation of the accepted public package.
+\end{theorem}
+\begin{proof}
+Start with the socket carrier and public boundary package, \autoref{def:apophatic-name-carrier} and \autoref{thm:apophatic-name-public-boundary-package}. They identify the cited public object with the finite packet $S,R,G,L,H,C,P,N$.
+
+Apply source-refusal totality from \autoref{thm:apophatic-name-source-refusal-totality}. The source side is not merely a socket name: each accepted request is paired with the refusal gate and ledger that block conversion into supplied content.
+
+Finally use the downstream non-escape and provenance rows, \autoref{thm:apophatic-name-non-escape-certificate} and \autoref{thm:apophatic-name-externality-handoff}. They force socket citations to keep the continuation route, package provenance, and local naming row that make the refusal auditable at the cited site.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal audit package]\label{thm:apophatic-name-refusal-audit-package}
+The audit-facing refusal package of an accepted $\ApophaticNameUp$ packet is exhausted by the finite rows
+$$
+S,R,G,L,H,C,P,N.
+$$
+It cannot be converted by an auditor into an axiom, quotient representative, hidden theorem, host object, supplied dependency, or closure principle.
+\end{theorem}
+\begin{proof}
+Read the audit package through the carrier and refusal ledger, \autoref{def:apophatic-name-carrier} and \autoref{thm:apophatic-name-refusal-ledger}. The ledger records permitted socket and request reads and records the blocked conversions at the same finite packet.
+
+Use the socket citation scope from \autoref{thm:apophatic-name-socket-citation-scope}. Any downstream audit citation still carries the request, gate, ledger, route, provenance, and local naming rows, so the auditor receives the same finite surface.
+
+Apply source-refusal totality and the non-escape certificate, \autoref{thm:apophatic-name-source-refusal-totality} and \autoref{thm:apophatic-name-non-escape-certificate}. These rule out every route from the audit package to an internal witness or host-side closure object, leaving only the displayed refusal rows.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal transport totality]
+\label{thm:apophatic-name-refusal-transport-totality}
+For accepted $\ApophaticNameUp$ packets
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+and
+$$
+A'=(S',R',G',L',H',C',P',N')
+$$
+whose displayed rows are related componentwise by the $\hsame$ transports, refusal transport preserves exactly the socket row, requested supply row, refusal gate, refusal ledger, transport row, continuation route, package provenance, and local naming row. The transported packet cannot create supplied content, an internal witness, an assumed proposition, a quotient representative, a hidden theorem, or a host object.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:apophatic-name-carrier}. The only coordinates available before and after transport are $S,R,G,L,H,C,P,N$ and $S',R',G',L',H',C',P',N'$.
+
+Use the refusal ledger and ledger nonescape rows, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-ledger-nonescape}. They keep every permitted read on the socket, request, gate, and ledger rows, and they bar every conversion into supplied or host-side content.
+
+Apply source-refusal totality from \autoref{thm:apophatic-name-source-refusal-totality}. Since the source-refusal surface is already exhausted by $S,R,G,L,H,C,P,N$, componentwise transport can only rename and replay those same rows through $H,C,P,N$.
+
+The sibling socket and gate references preserve the same boundary shape. \autoref{thm:apophatic-socket-consumer-surface} keeps the socket readable only as socket data, while \autoref{thm:apophatic-gate-question-visible-socket-nonescape} keeps the gate attached to a visible refusal. Hence the transported packet remains exactly a refusal packet and has no coordinate in which supplied content can appear.
+\end{proof}
+
+\begin{theorem}[ApophaticName socket-gate route exhaustion]
+\label{thm:apophatic-name-socket-gate-route-exhaustion}
+Every socket read of an accepted $\ApophaticNameUp$ packet factors through the socket row $S$, requested supply row $R$, refusal gate $G$, refusal ledger $L$, componentwise transport $H$, continuation route $C$, package provenance $P$, and local $\NameCert_{\ApophaticNameUp}$ row $N$. No socket consumer can bypass this route to read the named externality as supplied content, an internal object, a quotient representative, a hidden theorem, a host datum, or a closure principle.
+\end{theorem}
+\begin{proof}
+Begin with the socket carrier and socket refusal rows, \autoref{thm:apophatic-name-socket-carrier} and \autoref{thm:apophatic-name-socket-refusal}. They identify the socket-facing surface as the finite packet $S,R,G,L,H,C,P,N$ rather than an internal witness.
+
+Use gate-source compatibility and the sibling gate boundary. \autoref{thm:apophatic-name-gate-source-compatibility} keeps $S,R,G,L$ as one source surface, and \autoref{thm:apophatic-gate-question-visible-socket-nonescape} prevents the gate from becoming an admitted supply.
+
+Now apply refusal transport totality from \autoref{thm:apophatic-name-refusal-transport-totality}. Any socket read transported downstream remains on the same refusal rows and is replayed only through $H,C,P,N$.
+
+Finally use source-refusal totality and downstream refusal-ledger exhaustion, \autoref{thm:apophatic-name-source-refusal-totality} and \autoref{thm:apophaticname-downstream-refusal-ledger-exhaustion}. These exhaust the requested supply row, refusal ledger, continuation route, provenance, and local naming rows, leaving no socket route outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName downstream boundary consumption]
+\label{thm:apophatic-name-downstream-boundary-consumption}
+Downstream consumers may consume the named externality of an accepted $\ApophaticNameUp$ packet only as the finite refusal packet $S,R,G,L,H,C,P,N$. The boundary is not consumable as an internal witness, quotient representative, hidden theorem, host object, supplied dependency, assumed proposition, or closure principle.
+\end{theorem}
+\begin{proof}
+Start from externality handoff, \autoref{thm:apophatic-name-externality-handoff}. The handoff object is already the finite refusal packet, so downstream citation begins with $S,R,G,L,H,C,P,N$ rather than with supplied content.
+
+Apply boundary citation exhaustion and downstream named-externality refusal, \autoref{thm:apophatic-name-boundary-citation-exhaustion} and \autoref{thm:apophatic-name-downstream-named-externality-refusal}. They state that every downstream citation is exhausted by the public refusal rows.
+
+Use socket-gate route exhaustion from \autoref{thm:apophatic-name-socket-gate-route-exhaustion}. A consumer that enters through the socket still passes through the requested supply row, refusal gate, ledger, transport, continuation, provenance, and local naming row.
+
+The non-escape certificate and refusal transport totality, \autoref{thm:apophatic-name-non-escape-certificate} and \autoref{thm:apophatic-name-refusal-transport-totality}, rule out every attempted replacement by a witness, quotient representative, hidden theorem, host object, supplied dependency, assumed proposition, or closure principle. Therefore the only consumable downstream boundary is the finite refusal packet.
+\end{proof}
+
 \begin{theorem}[ApophaticName classifier-refusal transport]
 \label{thm:apophatic-name-classifier-refusal-transport}
 Let $A=(S,R,G,L,H,C,P,N)$ and $A'=(S',R',G',L',H',C',P',N')$ be accepted $\ApophaticNameUp$ packets whose socket, request, refusal-gate, ledger, continuation, package, and naming rows are related by the displayed componentwise $\hsame$ transports. Then the transported classifier carries the refusal ledger of $A$ to the refusal ledger of $A'$ through the displayed $\Cont$, $\Pkg$, and $\NameCert$ rows, and it cannot turn the named externality into an internal object, assumed proposition, quotient representative, hidden theorem, or host-side datum.
@@ -448,15 +539,180 @@ Use \autoref{thm:apophatic-name-supply-request-consumer-factorization}. A consum
 Finally cite \autoref{thm:apophatic-name-downstream-socket-route-exactness} and \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. Together they identify the downstream route as exactly the displayed ledgered packet and exclude every supplied or host-side object outside the local $\NameCert$ surface.
 \end{proof}
 
+\begin{theorem}[ApophaticName socket-request gate factorization]
+\label{thm:apophatic-name-socket-request-gate-factorization}
+For an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, every public read of the socket row $S$ together with the requested supply-shape row $R$ factors through the refusal gate $G$ and refusal ledger $L$ before it reaches the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The factorization exports a public refusal boundary, not a supplied object, host datum, quotient representative, hidden theorem, assumed proposition, or generated witness.
+\end{theorem}
+\begin{proof}
+Project $A$ through \autoref{def:apophatic-name-carrier}. The socket, request, gate, ledger, transport, continuation, provenance, and local name are one finite packet, so the request row is not available as an independent source of content.
+
+Apply the refusal-ledger and non-escape theorems, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-non-escape-certificate}. They identify the permitted public reads and keep every attempted content read behind the refusal ledger.
+
+Now use socket-refusal and source-refusal totality, \autoref{thm:apophatic-name-socket-refusal} and \autoref{thm:apophatic-name-source-refusal-totality}. These force each socket-request read through $G,L,H,C,P,N$ before a downstream consumer can cite the packet.
+
+The resulting public surface is the displayed refusal boundary. Since no coordinate of $A$ stores a supplied object or host realization, the factorization remains a refusal route through the local $\NameCert$ packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName boundary citation exhaustion]
+\label{thm:apophatic-name-boundary-citation-exhaustion}
+Every downstream citation of the named externality carried by an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$ is exhausted by the public boundary rows
+$$
+S,R,G,L,H,C,P,N.
+$$
+The citation must pass through the refusal ledger, socket-refusal route, externality handoff, source-refusal totality, and downstream refusal-ledger exhaustion; no further boundary remains for supplied external content, host-side data, quotient representatives, hidden theorem content, assumed propositions, or generated witnesses.
+\end{theorem}
+\begin{proof}
+Start with the socket-request gate factorization of \autoref{thm:apophatic-name-socket-request-gate-factorization}. It places public socket and request reads behind the same gate and ledger rows.
+
+Use externality handoff from \autoref{thm:apophatic-name-externality-handoff}. The handoff lets downstream chapters cite the named dependency only as the finite refusal packet $A$.
+
+Apply source-refusal totality and downstream refusal-ledger exhaustion, \autoref{thm:apophatic-name-source-refusal-totality} and \autoref{thm:apophaticname-downstream-refusal-ledger-exhaustion}. Together they exhaust both the source side and the downstream side by $S,R,G,L,H,C,P,N$.
+
+Finally cite non-escape through \autoref{thm:apophatic-name-non-escape-certificate}. The packet has no coordinate for supplied external content or host realization, so the public boundary citation is exhausted by the displayed refusal rows.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal provenance transport]
+\label{thm:apophatic-name-refusal-provenance-transport}
+Let $A=(S,R,G,L,H,C,P,N)$ and $A'=(S',R',G',L',H',C',P',N')$ be accepted $\ApophaticNameUp$ packets related by the displayed componentwise $\hsame$ transports. If a downstream consumer cites $A$ only through its public refusal boundary, then the transported citation of $A'$ is again only through $S',R',G',L',H',C',P',N'$ and carries the same refusal provenance through $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Begin with classifier-refusal transport, \autoref{thm:apophatic-name-classifier-refusal-transport}. It moves the refusal classifier along the displayed socket, request, gate, ledger, route, provenance, and naming rows without creating a supplied coordinate.
+
+Use source-refusal transport from \autoref{thm:apophaticname-source-refusal-transport}. A consumer that reads $A$ only as a source-refusal packet is transported to a consumer that reads $A'$ only through the corresponding displayed rows.
+
+Now apply boundary citation exhaustion, \autoref{thm:apophatic-name-boundary-citation-exhaustion}. The downstream citation is already exhausted by the public refusal rows, so transport cannot add host data, quotient representatives, hidden theorem content, assumed propositions, or generated witnesses.
+
+The provenance rows $C',P',N'$ therefore replay, package, and name the same refusal boundary for $A'$. This is refusal provenance transport, not transport of the refused external object.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal export totality]
+\label{thm:apophatic-name-refusal-export-totality}
+For an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, the complete public export boundary is the refusal packet on $S,R,G,L,H,C,P,N$. Every exported read of the named externality is classified by the socket row, requested supply-shape row, refusal gate, refusal ledger, componentwise transport, continuation route, package provenance, and local $\NameCert$ row, and by no supplied external object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:apophatic-name-carrier}. The socket, requested supply-shape, gate, ledger, transport, continuation, provenance, and naming rows are the only displayed coordinates.
+
+Apply the refusal ledger and classifier transport boundaries, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-classifier-refusal-transport}. They classify exported reads by the same ledgered refusal packet under componentwise transport.
+
+Finally use consumer boundary exhaustion and downstream refusal ledger exhaustion, \autoref{thm:apophatic-name-consumer-boundary-exhaustion} and \autoref{thm:apophaticname-downstream-refusal-ledger-exhaustion}. Together they leave no exported route to a supplied external object outside $S,R,G,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[ApophaticName downstream named-externality refusal]
+\label{thm:apophatic-name-downstream-named-externality-refusal}
+Every downstream consumer that cites the named externality of an accepted $\ApophaticNameUp$ packet receives only the displayed refusal packet $S,R,G,L,H,C,P,N$. The citation may replay the socket, request, gate, ledger, transport, continuation, provenance, and local naming rows, but it cannot convert the named externality into supplied content, a host datum, a quotient representative, a hidden theorem, or an assumed proposition.
+\end{theorem}
+\begin{proof}
+Start from downstream refusal ledger exhaustion, \autoref{thm:apophaticname-downstream-refusal-ledger-exhaustion}. It requires every downstream consumer to exhaust the displayed refusal ledger together with the socket, request, transport, continuation, provenance, and local naming rows.
+
+Use refusal export totality from \autoref{thm:apophatic-name-refusal-export-totality}. The public export surface is already the refusal packet on $S,R,G,L,H,C,P,N$.
+
+Apply boundary citation exhaustion, \autoref{thm:apophatic-name-boundary-citation-exhaustion}. A downstream citation of the named externality is therefore a citation of the displayed refusal packet and has no remaining coordinate for supplied or host-side content.
+\end{proof}
+
+\begin{theorem}[ApophaticName supply request nonimport]
+\label{thm:apophatic-name-supply-request-nonimport}
+The requested supply row $R$ of an accepted $\ApophaticNameUp$ packet cannot import a supplied object, axiom, quotient representative, hidden theorem, or host datum. It is read only as a requested supply-shape coordinate inside the refusal packet $S,R,G,L,H,C,P,N$, behind the refusal gate $G$ and refusal ledger $L$.
+\end{theorem}
+\begin{proof}
+Project the packet $A=(S,R,G,L,H,C,P,N)$. The row $R$ is a coordinate of the finite refusal carrier, not a source of supplied content.
+
+Apply supply-request consumer factorization, \autoref{thm:apophatic-name-supply-request-consumer-factorization}. Any consumer read asking for $R$ factors through $S,R,G,L,H,C,P,N$ and cannot skip the refusal ledger.
+
+Now use \autoref{thm:apophatic-name-downstream-named-externality-refusal}. Downstream citation still receives only the displayed refusal packet, so the requested supply row cannot import an object, axiom, quotient representative, hidden theorem, or host datum.
+\end{proof}
+
+\begin{theorem}[ApophaticName socket refusal totality]
+\label{thm:apophatic-name-socket-refusal-totality}
+Every socket-facing consumer read of an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$ must pass through the displayed refusal ledger, classifier-stability row, supply-request gate, and nonimport row before it can cite the packet. The resulting citation is a finite refusal packet over $S,R,G,L,H,C,P,N$, not a supplied object, host datum, quotient representative, hidden theorem, or assumed proposition.
+\end{theorem}
+\begin{proof}
+Begin with the refusal ledger, \autoref{thm:apophatic-name-refusal-ledger}. It identifies the visible socket, request, refusal-gate, ledger, transport, continuation, provenance, and naming rows as the consumer surface.
+
+Use classifier stability from \autoref{thm:apophatic-name-classifier-stability}. Componentwise $\hsame$ transport preserves that same refusal classifier and does not create another socket-facing coordinate.
+
+Now apply the socket-request gate factorization and supply-request nonimport rows, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-supply-request-nonimport}. They force a socket-facing read through $G,L,H,C,P,N$ before the packet can be cited downstream.
+
+The packet has no coordinate for supplied content, host data, quotient representatives, hidden theorems, or assumed propositions. Hence every socket-facing citation is total only as the displayed refusal packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName contextual class non-escape]
+\label{thm:apophatic-name-contextual-class-nonescape}
+The refusal surface of an accepted $\ApophaticNameUp$ packet never supplies a contextual-class object, host selector, or imported ontology outside the displayed rows $S,R,G,L,H,C,P,N$. Any attempted contextual-class read is stopped by the refusal ledger, classifier stability, non-escape certificate, and supply-request nonimport boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:apophatic-name-carrier}. The only rows present are the socket, requested supply shape, refusal gate, refusal ledger, transport, continuation, provenance, and local naming row.
+
+Apply the refusal ledger and classifier stability theorems, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-classifier-stability}. They keep every transported consumer read on the same refusal rows.
+
+Use the non-escape certificate, \autoref{thm:apophatic-name-non-escape-certificate}. It rules out conversion of the named externality into a generated object, assumed proposition, quotient class, concealed theorem, or host-side datum.
+
+Finally cite supply-request nonimport, \autoref{thm:apophatic-name-supply-request-nonimport}. Since the request row remains a requested supply-shape coordinate behind the refusal gate, no contextual-class object, host selector, or imported ontology can be supplied by the packet.
+\end{proof}
+
+\begin{theorem}[ApophaticName boundary descent ledger]
+\label{thm:apophatic-name-boundary-descent-ledger}
+Downstream descent through the apophatic boundary of an accepted $\ApophaticNameUp$ packet is ledger-bounded by the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. A consumer may descend only by replaying $S,R,G,L$ through $H,C,P,N$, and it cannot add a supplied external object, host selector, imported ontology, quotient representative, hidden theorem, or assumed proposition.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and the refusal ledger, \autoref{def:apophatic-name-carrier} and \autoref{thm:apophatic-name-refusal-ledger}. They place the boundary in finite $\BHist$ rows and identify $L$ as the ledger for the permitted socket and request reads.
+
+Use classifier stability, \autoref{thm:apophatic-name-classifier-stability}. The descent rows are transported only componentwise along $H$, so the classifier remains attached to the displayed refusal packet.
+
+Apply the non-escape certificate together with supply-request nonimport, \autoref{thm:apophatic-name-non-escape-certificate} and \autoref{thm:apophatic-name-supply-request-nonimport}. These results keep the requested supply shape behind the gate and rule out every conversion to supplied or host-side content.
+
+Thus any downstream descent is exactly a replay through $\Cont$, packaging through $\Pkg$, and citation by the local $\NameCert$ row. The descent is ledger-bounded by $S,R,G,L,H,C,P,N$ and has no other boundary object to export.
+\end{proof}
+
+\begin{theorem}[ApophaticName downstream boundary consumer]
+\label{thm:apophatic-name-downstream-boundary-consumer}
+Every downstream consumer read of an accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+factors through the displayed socket, requested supply-shape, refusal gate, ledger, componentwise transport, continuation, provenance, and local naming rows. The consumer receives only that refusal-boundary packet and no supplied object, quotient representative, hidden theorem, host datum, or generated witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-name-carrier}. The only rows presented to a downstream consumer are $S,R,G,L,H,C,P,N$.
+
+Apply the refusal ledger, obligation surface, and non-escape certificate, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-obligation-surface}, and \autoref{thm:apophatic-name-non-escape-certificate}. These rows identify the permitted reads, the local NameCert obligations, and the barred conversions for the same packet.
+
+Finally use the sibling socket and gate surfaces already binding this chapter, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-boundary-citation-exhaustion}. They force the downstream citation to remain a public refusal-boundary citation rather than a supplied object or host-side witness.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal gate separation]
+\label{thm:apophatic-name-refusal-gate-separation}
+The refusal gate $G$ separates socket requests from generated witnesses, quotient representatives, hidden theorems, and host objects for every accepted $\ApophaticNameUp$ packet. A read may name the socket row $S$ and requested supply-shape row $R$ only by passing through $G,L,H,C,P,N$, and it cannot turn the request into substrate content.
+\end{theorem}
+\begin{proof}
+Begin with the refusal ledger of \autoref{thm:apophatic-name-refusal-ledger}. It records each permitted socket and request read together with the barred conversions from request to internal content.
+
+Use the non-escape certificate, \autoref{thm:apophatic-name-non-escape-certificate}. It rules out the attempted repackaging of the named externality as a generated object, assumed proposition, quotient class, hidden theorem, or host-side datum.
+
+The socket-request gate factorization and boundary citation exhaustion, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-boundary-citation-exhaustion}, keep the request behind $G$ through $\Cont$, $\Pkg$, and $\NameCert$. Hence the gate separates the public request from every hidden or host-side realization.
+\end{proof}
+
+\begin{theorem}[ApophaticName NameCert handoff exhaustion]
+\label{thm:apophatic-name-namecert-handoff-exhaustion}
+The local $\NameCert_{\ApophaticNameUp}$ handoff through $N$ exhausts all public refusal-boundary exports of an accepted packet $A=(S,R,G,L,H,C,P,N)$. Any public export is a replay of the refusal ledger through $H,C,P,N$, not an export of supplied content, a quotient representative, a hidden theorem, a generated witness, or a host object.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:apophatic-name-obligation-surface}. Its carrier, classifier-stability, ledger-exactness, continuation, package, and non-escape rows are the local NameCert obligations for the packet.
+
+Apply the refusal ledger and non-escape certificate, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-non-escape-certificate}. They identify the public refusal rows and exclude every conversion to supplied or host-side content.
+
+Finally cite downstream named-externality refusal and boundary descent, \autoref{thm:apophatic-name-downstream-named-externality-refusal} and \autoref{thm:apophatic-name-boundary-descent-ledger}. Together they show that a downstream export is exhausted by replay through $H,C,P,N$, so the local NameCert handoff has no remaining hidden route to export.
+\end{proof}
+
 \closureat{ApophaticNameUp}{scopedStr}
+\closureat{ApophaticNameUp}{publicStr}
 
 \begin{closurestatus}{\ApophaticNameUp}
   \constructivestory{An $\ApophaticNameUp$ packet is generated from a finite socket-name row, a requested supply-shape row, a refusal-gate row, a refusal ledger, componentwise transport, continuation routes, package provenance, and a local naming certificate.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:apophatic-name-carrier}, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-non-escape-certificate}, \autoref{thm:apophatic-name-obligation-surface}, and \autoref{thm:apophatic-name-classifier-stability} bind the finite carrier, refusal ledger, non-escape certificate, classifier transport, and five-row NameCert surface for named externality.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:apophatic-name-carrier}, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-non-escape-certificate}, \autoref{thm:apophatic-name-obligation-surface}, \autoref{thm:apophatic-name-classifier-stability}, \autoref{thm:apophatic-name-socket-request-gate-factorization}, \autoref{thm:apophatic-name-boundary-citation-exhaustion}, and \autoref{thm:apophatic-name-refusal-provenance-transport} bind the finite carrier, refusal ledger, non-escape certificate, classifier transport, five-row NameCert surface, public socket-request gate factorization, boundary citation exhaustion, and refusal provenance transport for named externality.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not supply the external dependency, prove its existence, internalize it as an axiom or quotient, or close a Lean implementation.}
-  \upgradepath{Public closure requires an exported public refusal-boundary statement for downstream consumers of the same finite socket-name packet.}
+  \upgradepath{Bridge closure requires a standard reflection surface for the same finite public refusal-boundary packet.}
 \end{closurestatus}

@@ -176,6 +176,49 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def render_active_board_targets(limit: int = 12) -> str:
+    from dispatch_bedc_target import parse_board
+
+    targets = parse_board()
+    rows: list[dict[str, object]] = []
+    now = datetime.now(timezone.utc)
+    for target in targets.values():
+        done_path = STATE_DIR / f"{target.slug}.json"
+        if done_path.exists():
+            continue
+        marker = STATE_DIR / target.slug / ".in_progress"
+        if marker.exists():
+            status = "in_progress"
+            try:
+                age_seconds: object = now.timestamp() - marker.stat().st_mtime
+            except OSError:
+                age_seconds = None
+        else:
+            status = "pending"
+            age_seconds = None
+        rows.append({
+            "target_id": target.target_id,
+            "status": status,
+            "age": _fmt_age(age_seconds) if age_seconds is not None else "-",
+            "slug": target.slug,
+            "title": target.title[:60],
+        })
+    if not rows:
+        return "  (no active BOARD targets)"
+
+    rows.sort(key=lambda item: (item["status"] != "in_progress", str(item["target_id"])))
+    shown = rows if limit <= 0 else rows[:limit]
+    lines = [f"  {'TARGET':<8} {'STATUS':<12} {'AGE':<8} TITLE"]
+    for item in shown:
+        lines.append(
+            f"  {item['target_id']:<8} {item['status']:<12} {item['age']:<8} "
+            f"{item['title']}  [{item['slug']}]"
+        )
+    if limit > 0 and len(rows) > len(shown):
+        lines.append(f"  ... {len(rows) - len(shown)} more active rows omitted")
+    return "\n".join(lines)
+
+
 def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     by_event = data.get("by_event") or {}
     if not by_event:
@@ -321,6 +364,45 @@ def _refill_wait_seconds(rec: dict) -> int | None:
         return None
 
 
+def _refill_prompt_note(rec: dict) -> str:
+    prompt_path = rec.get("prompt")
+    if not isinstance(prompt_path, Path) or not prompt_path.exists():
+        return ""
+    try:
+        size = prompt_path.stat().st_size
+    except OSError:
+        return ""
+    if size >= 1024:
+        return f" prompt={size / 1024:.0f}k"
+    return f" prompt={size}b"
+
+
+def _next_refill_prompt_note() -> str:
+    try:
+        import oracle_board_refill
+
+        if oracle_board_refill.refill_circuit_breaker_active():
+            limit = getattr(oracle_board_refill, "DEFAULT_LOCAL_GAP_FALLBACK_LIMIT", 3)
+            return (
+                "  next refill path: local gap fallback "
+                f"(oracle ultra transport circuit breaker active; limit={limit})"
+            )
+        ultra_refill = oracle_board_refill.should_use_ultra_refill()
+        micro_refill = ultra_refill or oracle_board_refill.should_use_micro_refill()
+        size = len(
+            oracle_board_refill.build_refill_prompt(
+                micro_refill=micro_refill,
+                ultra_refill=ultra_refill,
+            ).encode("utf-8")
+        )
+    except Exception as exc:
+        return f"  next prompt estimate: unavailable ({type(exc).__name__})"
+    mode = " ultra" if ultra_refill else " micro" if micro_refill else ""
+    if size >= 1024:
+        return f"  next prompt estimate:{mode} {size / 1024:.0f}k"
+    return f"  next prompt estimate:{mode} {size}b"
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -328,6 +410,22 @@ def _infer_refill_status(rec: dict) -> str:
             summary = json.loads(summary_path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             return "summary_unreadable"
+        if summary.get("fallback") == "local_gap_scanner":
+            accepted = summary.get("accepted", 0)
+            proposed = summary.get("candidates_proposed", 0)
+            error = str(summary.get("error") or "").strip()
+            if summary.get("ok"):
+                return f"local_gap_fallback accepted={accepted} proposed={proposed}"
+            if "claude judge" in error.lower() or "codex fallback" in error.lower():
+                return (
+                    "local_gap_fallback_judge_unavailable "
+                    f"accepted={accepted} proposed={proposed}"
+                )
+            return (
+                "local_gap_fallback_failed "
+                f"accepted={accepted} proposed={proposed}"
+                + (f" error={error[:80]}" if error else "")
+            )
         if summary.get("ok"):
             accepted = summary.get("accepted", 0)
             proposed = summary.get("candidates_proposed", 0)
@@ -351,6 +449,8 @@ def _infer_refill_status(rec: dict) -> str:
         text = _read_text_prefix(log_path, max_chars=3000)
         if "existing board-refill task is queued or active" in text:
             return "skip_duplicate_refill"
+        if "no dispatch-ready BEDC conversation tabs polling" in text:
+            return "skip_no_dispatch_ready_tab"
         if "no compatible BEDC Project tabs polling" in text:
             return "skip_no_project_tab"
         if "zero-extraction hang" in text:
@@ -449,7 +549,7 @@ def render_board_refill() -> str:
                 pass
 
     if not records:
-        return "  (no board refill artifacts)"
+        return "\n".join(["  (no board refill artifacts)", _next_refill_prompt_note()])
 
     ordered = sorted(
         _coalesce_split_refill_records(records),
@@ -468,13 +568,16 @@ def render_board_refill() -> str:
         )
         status = _infer_refill_status(rec)
         wait_seconds = _refill_wait_seconds(rec)
+        prompt_note = _refill_prompt_note(rec)
         wait_note = f" wait={_fmt_age(wait_seconds)}" if wait_seconds is not None else ""
         merged = rec.get("merged_stems") or []
         merged_note = f" merged={','.join(merged)}" if merged else ""
         lines.append(
             f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
-            f"{status}{wait_note}{merged_note}"
+            f"{status}{prompt_note}{wait_note}{merged_note}"
         )
+
+    lines.append(_next_refill_prompt_note())
 
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
@@ -499,6 +602,12 @@ def render_board_refill() -> str:
                 "  note: latest refill has no response/summary yet; use this to distinguish "
                 "transport stalls from logic-gate rejection."
             )
+    latest_status = _infer_refill_status(latest)
+    if latest_status.startswith("local_gap_fallback_judge_unavailable"):
+        lines.append(
+            "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
+            "do not bypass the final maker/checker gate."
+        )
     return "\n".join(lines)
 
 
@@ -746,6 +855,8 @@ def main() -> int:
     print(render_server(_safe_get_server()))
     print(_section("BOARD"))
     print(render_board())
+    print(_section("Active BOARD Targets"))
+    print(render_active_board_targets())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
     print(_section("Board Refill"))

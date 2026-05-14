@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\AxiomRequirementLedgerUp$}
+\label{ch:concrete-instances-axiom-requirement-ledger-namecert}
+\origin{ai}
+
+The $\AxiomRequirementLedgerUp$ packet realizes the Required-Axiom-Set coordinate of \autoref{ch:bedc-axiom-dependency-map} as a finite consumer-facing ledger. It sits beside the dependency-map packet of \autoref{ch:concrete-instances-axiomdependencymap-namecert}, the audit boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, the forbidden-host ancestry boundary of \autoref{ch:concrete-instances-forbidden-axiom-ancestry-namecert}, the apophatic refusal surface of \autoref{ch:concrete-instances-apophaticname-namecert}, and the common audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}. Those siblings expose mode rows, audit refusals, forbidden dependency ancestry, named externality refusal, and cross-map reads; this chapter packages the finite row by which a required axiom supply is carried without being confused with a zero-axiom witness.
+
+\begin{definition}[AxiomRequirementLedger carrier]
+\label{def:axiom-requirement-ledger-carrier}
+An $\AxiomRequirementLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(\Phi,M,W,A,R,T,U,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Phi$ is the claim row whose dependency tuple is being read;
+\item $M$ is the Mode A, Mode B, or Mode C row inherited from the dependency-map entry;
+\item $W$ is the witness row, either a zero-axiom proof, a restricted proof, a counterexample, or a named socket;
+\item $A$ is the finite required-axiom-set row displayed for the entry;
+\item $R$ is the refusal ledger that prevents a nonempty $A$ row from being read as substrate-internal proof content;
+\item $T$ is the transport row connecting the required-supply row to audit-map consumers;
+\item $U$ is the route row from the dependency tuple to the audit boundary and forbidden-ancestry checks;
+\item $V$ is the provenance row for apophatic names, audit-map interface reads, and dependency-map siblings;
+\item $H$ records componentwise $\hsame$ transport for the claim, mode, witness, required-supply, refusal, transport, route, provenance, and local name;
+\item $C$ records displayed $\Cont$ routes by which consumers inspect $\Phi,M,W,A,R,T,U,V,H$;
+\item $P$ is the $\Pkg$ provenance over $\AxiomDependencyMapUp$, $\AuditGateBoundaryUp$, $\ForbiddenAxiomAncestryUp$, $\ApophaticNameUp$, $\AuditMapInterfaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxiomRequirementLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate that turns a nonempty required-axiom row into a Mode A proof, imports a refused host axiom as BEDC theorem content, hides a selected witness, or bypasses the displayed audit route.
+\end{definition}
+
+\begin{theorem}[AxiomRequirementLedger NameCert obligations]
+\label{thm:axiom-requirement-ledger-namecert-obligations}
+For the carrier of \autoref{def:axiom-requirement-ledger-carrier}, the local $\NameCert_{\AxiomRequirementLedgerUp}$ surface consists exactly of claim exposure through $\Phi$, mode exposure through $M$, witness exposure through $W$, required-supply exposure through $A$, refusal preservation through $R$, transport through $T,H$, route replay through $U,C$, provenance through $V,P$, and local naming through $N$. A downstream audit-map consumer can read a nonempty required-axiom-set row only as required supply, refusal data, or named socket data, never as an accepted zero-axiom witness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted packet exposes the rows $\Phi,M,W,A,R,T,U,V,H,C,P,N$ and no other supply row.
+
+The dependency-map sibling supplies the tuple order: claim, mode, witness, and required-axiom set are read before the ledger is exported. The audit boundary and forbidden-ancestry siblings then read the same required-supply row through $R,T,U,H,C$ as a finite refusal or ancestry boundary.
+
+The apophatic-name and audit-map-interface siblings supply the public consumer shape. They allow a named socket or refusal row to be cited, routed, and transported, but they do not convert it into a generated BEDC witness.
+
+Thus the local NameCert surface is exactly the displayed ledger. Since no carrier coordinate imports the required axiom or manufactures a Mode A proof, a nonempty $A$ row remains required supply rather than substrate-internal proof content.
+\end{proof}
+
+\begin{theorem}[AxiomRequirementLedger non-escape]
+\label{thm:axiom-requirement-ledger-nonescape}
+Every accepted $\AxiomRequirementLedgerUp$ packet separates required axiom supply from zero-axiom witnesses. If the required-supply row $A$ is nonempty, any consumer that reads the packet must factor through
+$$
+\Phi,M,W,A,R,T,U,V,H,C,P,N.
+$$
+It cannot export the entry as a Mode A witness unless the witness row $W$ is itself a checked zero-axiom proof row and the required-supply row is empty on the displayed route.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The only rows available to a consumer are the displayed finite rows, and the required-supply row $A$ is separate from the witness row $W$.
+
+Use the NameCert obligations of \autoref{thm:axiom-requirement-ledger-namecert-obligations}. They require every consumer read of $A$ to pass through the refusal, transport, route, provenance, and local naming rows $R,T,U,V,H,C,P,N$.
+
+Now compare with the dependency-map mode row. A Mode A read is permitted only where the witness row is a checked zero-axiom proof and the required-supply row is empty on the displayed route. When $A$ is nonempty, the accepted packet records supply still required; it does not export a substrate theorem.
+\end{proof}
+
+\falsifiablePrediction{A consumer that turns a nonempty required-axiom row into a Mode A witness without a checked proof row is not reading an accepted AxiomRequirementLedgerUp packet.}
+
+\independenceWitness{axiomdependencymap, auditgateboundary, forbidden-axiom-ancestry, apophaticname, and auditmapinterface are non-bijective siblings: none alone carries the complete finite combination of claim, mode, witness, required-supply, refusal, transport, route, provenance, and NameCert data exposed by $\AxiomRequirementLedgerUp$.}
+
+The Lean follow-up is \texttt{lean4/BEDC/Derived/AxiomRequirementLedgerUp/TasteGate.lean} with explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed ledger.
+
+\closureat{AxiomRequirementLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AxiomRequirementLedgerUp}
+  \constructivestory{An $\AxiomRequirementLedgerUp$ packet is generated from a claim row, mode row, witness row, required-supply row, refusal ledger, transport row, audit route, provenance row, componentwise transports, displayed consumer routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-requirement-ledger-carrier}, \autoref{thm:axiom-requirement-ledger-namecert-obligations}, \autoref{thm:axiom-requirement-ledger-nonescape}, the falsifiable prediction, and the independence witness bind the finite required-supply ledger surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global theorem dependency completeness, host axiom import, selected witnesses, quotient equality, or any conversion of required supply into BEDC theorem content.}
+  \upgradepath{Obligation closure requires checked carrier admission, required-supply exposure, refusal preservation, route replay, provenance, non-escape, and TasteGate alignment for the same finite ledger.}
+\end{closurestatus}
