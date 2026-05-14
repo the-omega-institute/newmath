@@ -27,6 +27,7 @@ TARGETS_DIR = SCRIPT_DIR / "targets"
 SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
+DISCOVERY_LOG_DIR = STATE_DIR / "discovery_logs"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
@@ -812,6 +813,71 @@ def render_loning_assimilation() -> str:
     return "  (no parseable loning assimilation records)"
 
 
+def _discovery_status(data: dict) -> str:
+    mode = str(data.get("_mode") or "?")
+    if data.get("ok") is False:
+        stage = str(data.get("stage") or "?")
+        error = str(data.get("error") or "").replace("\n", " ")
+        if "not logged in" in error.lower() and "operation not permitted" in error.lower():
+            return (
+                f"{mode} failed stage={stage} "
+                "discovery_judge_unavailable:claude_auth+codex_sandbox"
+            )
+        if "not logged in" in error.lower() or "does not have access to claude" in error.lower():
+            return f"{mode} failed stage={stage} discovery_judge_unavailable:claude_auth"
+        if "operation not permitted" in error.lower():
+            return f"{mode} failed stage={stage} discovery_judge_unavailable:codex_sandbox"
+        return f"{mode} failed stage={stage} error={error[:90]}"
+    kept = data.get("kept") if isinstance(data.get("kept"), list) else []
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    board_spawn = data.get("board_spawn") if isinstance(data.get("board_spawn"), dict) else {}
+    rejected = board_spawn.get("rejected") if isinstance(board_spawn.get("rejected"), list) else []
+    suffix = f"{mode} ok kept={len(kept)} appended={len(appended)}"
+    if rejected:
+        reasons: dict[str, int] = {}
+        for item in rejected:
+            if not isinstance(item, dict):
+                continue
+            reason = str(item.get("reason") or "unspecified")
+            reasons[reason] = reasons.get(reason, 0) + 1
+        if reasons:
+            reason, count = sorted(reasons.items(), key=lambda kv: (-kv[1], kv[0]))[0]
+            suffix += f" top_reject={reason}:{count}"
+    return suffix
+
+
+def render_discovery_lane() -> str:
+    if not DISCOVERY_LOG_DIR.exists():
+        return "  (no discovery artifacts)"
+    records: list[tuple[float, Path, dict]] = []
+    for path in DISCOVERY_LOG_DIR.glob("*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            mtime = path.stat().st_mtime
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        data["_mode"] = path.name.split("_", 1)[0]
+        records.append((mtime, path, data))
+    if not records:
+        return "  (no parseable discovery artifacts)"
+    records.sort(key=lambda item: item[0], reverse=True)
+    now = datetime.now(timezone.utc)
+    lines: list[str] = []
+    for mtime, path, data in records[:6]:
+        age = _fmt_age((now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds())
+        lines.append(f"  {path.stem}: {age} ago   {_discovery_status(data)}")
+    latest = records[0][2]
+    latest_status = _discovery_status(latest)
+    if "discovery_judge_unavailable" in latest_status:
+        lines.append(
+            "  alert: discovery lane cannot currently run its maker/checker path; "
+            "refreshing BEDC oracle tabs will not fix Claude/Codex CLI auth or sandbox failures."
+        )
+    return "\n".join(lines)
+
+
 def _latest_jsonl_ts(path: Path) -> datetime | None:
     if not path.exists():
         return None
@@ -1125,6 +1191,8 @@ def main() -> int:
     print(render_candidate_inbox())
     print(_section("Board Refill"))
     print(render_board_refill())
+    print(_section("Discovery Lane"))
+    print(render_discovery_lane())
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
