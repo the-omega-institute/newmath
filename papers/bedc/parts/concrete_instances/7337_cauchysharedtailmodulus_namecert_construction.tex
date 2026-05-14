@@ -46,6 +46,7 @@ Since the carrier contains no quotient stream, host real equality, selected limi
 \label{thm:cauchy-shared-tail-modulus-tail-synchronization}
 Every accepted $\CauchySharedTailModulusUp$ packet synchronizes the two tail requests through the same row $\tau$. In particular, any $\RegularCauchyTailMeetUp$, $\RegSeqRatUp$, or $\StreamNameUp$ consumer of the packet reads $M_0$ and $M_1$ before $\tau$, reads both windows $W_0,W_1$ only through $\tau$, and reads the two regular outputs $Q_0,Q_1$ only after the shared dyadic ledger $D$ has been displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySharedTailModulusUp.CauchySharedTailModulusCarrier\_tail\_synchronization}
 \begin{proof}
 Start with the carrier definition. The two request rows $M_0,M_1$ and the single threshold row $\tau$ are separate displayed coordinates, but there is no second threshold coordinate.
 
@@ -290,6 +291,46 @@ Replacing $\tau$ by two independent thresholds asks for carrier coordinates that
 
 \independenceWitness{cauchymodulusextraction, dyadictailradiusledger, regularcauchytailmeet, realcompletionsealclassifier: none is bijective because each lacks either the paired request rows, the shared threshold row, or the combined Real seal handoff carried by $\CauchySharedTailModulusUp$.}
 
+\begin{theorem}[Cauchy shared-tail modulus obligation surface triad]
+\label{thm:cauchy-shared-tail-modulus-obligation-surface-triad}
+The public obligation surface for an accepted $\CauchySharedTailModulusUp$ packet is the triad consisting of carrier admission for
+$$
+S=(R_0,R_1,M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N),
+$$
+the shared-threshold route through $M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1$, and the Real-seal ordering row $E$ authenticated by $H,C,P,N$. A completion-facing consumer may read the package only after the paired requests, paired windows, paired readbacks, and the shared dyadic threshold have all been displayed.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:cauchy-shared-tail-modulus-carrier}. It displays the two source rows, two modulus rows, the single shared threshold, the dyadic ledger, the paired window rows, the paired readbacks, the Real seal, transports, routes, provenance, and local name.
+
+The shared-threshold route is forced by tail synchronization, paired-window readback service, and threshold uniqueness. These rows keep both sides on $\tau,D$ and exclude private threshold replacement.
+
+The Real-seal ordering row is then supplied by the Real seal handoff and completion-consumer non-escape theorems. Since $E$ is read only after the paired finite route and since $H,C,P,N$ authenticate that route, the three listed surfaces form the public obligation triad.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus TasteGate scoped admission]
+\label{thm:cauchy-shared-tail-modulus-tastegate-scoped-admission}
+The checked TasteGate row following \autoref{def:cauchy-shared-tail-modulus-carrier} records the AI-origin admissibility surface for $\CauchySharedTailModulusUp$: it aligns the single displayed carrier with the local certificate rows before any Real-completion consumer may treat the shared-tail route as admitted.
+\end{theorem}
+\begin{proof}
+Read the checked marker attached to the carrier definition. Its target is the single-carrier alignment theorem for $\CauchySharedTailModulusUp$, so the admissibility row is attached to the same displayed tuple $S$ rather than to a hidden completion principle.
+
+Use the obligation closure package. That package combines carrier admission, NameCert obligations, threshold synchronization, transport stability, and Real seal handoff on the same finite surface.
+
+Thus the TasteGate row is a scoped admission row for the existing public packet. It does not add a selected limit, quotient equality, host real equality, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Cauchy shared-tail modulus Real seal obligation gate]
+\label{thm:cauchy-shared-tail-modulus-real-seal-obligation-gate}
+No $\RealUp$ seal route exported by $\CauchySharedTailModulusUp$ is public until the shared dyadic threshold $\tau,D$ and the paired readbacks $Q_0,Q_1$ have been displayed. A route that exposes $E$ without the common threshold, both window rows, and both readback rows is outside the accepted shared-tail packet.
+\end{theorem}
+\begin{proof}
+Apply paired-source readback and paired-window readback service. They force the source rows, modulus rows, shared threshold, dyadic ledger, windows, and readbacks to appear on the same finite route before a completion-facing consumer can inspect the seal.
+
+Use dyadic ledger exactness to keep $D$ as the common tolerance witness for both sides. A route omitting $D$ or replacing it by private ledgers leaves the accepted carrier surface.
+
+Finally apply the Real seal handoff and completion-consumer non-escape theorems. They place $E$ downstream of $M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1$ and exclude any public Real seal detached from those rows.
+\end{proof}
+
 The Lean follow-up must create \texttt{lean4/BEDC/Derived/CauchySharedTailModulusUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \CauchySharedTailModulusUp$ and $\mathsf{FieldFaithful}\ \CauchySharedTailModulusUp$ instances for the displayed carrier.
 
 \closureat{CauchySharedTailModulusUp}{seedStr}
@@ -299,7 +340,7 @@ The Lean follow-up must create \texttt{lean4/BEDC/Derived/CauchySharedTailModulu
   \constructivestory{A $\CauchySharedTailModulusUp$ packet is generated from two regular-Cauchy source rows, extracted modulus rows, one shared dyadic threshold, a dyadic tolerance ledger, paired finite windows, paired regular readbacks, a Real seal handoff row, componentwise transports, displayed replay, provenance, and local naming.}
   \leanchecked{BEDC.Derived.CauchySharedTailModulusUp.taste\_gate}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-shared-tail-modulus-carrier}, \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}, \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}, \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}, \autoref{thm:cauchy-shared-tail-modulus-carrier-admission-exactness}, \autoref{thm:cauchy-shared-tail-modulus-paired-window-readback-service}, \autoref{thm:cauchy-shared-tail-modulus-route-replay-provenance}, \autoref{thm:cauchy-shared-tail-modulus-threshold-transport-stability}, \autoref{thm:cauchy-shared-tail-modulus-window-readback-transport}, \autoref{thm:cauchy-shared-tail-modulus-obligation-closure-package}, \autoref{thm:cauchy-shared-tail-modulus-falsifiable-prediction}, the checked TasteGate marker following \autoref{def:cauchy-shared-tail-modulus-carrier}, and the independence witness bind the obligation surface for shared-tail synchronization before Real seal exposure.}
+  \scopeclosed{\autoref{def:cauchy-shared-tail-modulus-carrier}, \autoref{thm:cauchy-shared-tail-modulus-namecert-obligations}, \autoref{thm:cauchy-shared-tail-modulus-tail-synchronization}, \autoref{thm:cauchy-shared-tail-modulus-real-seal-handoff}, \autoref{thm:cauchy-shared-tail-modulus-carrier-admission-exactness}, \autoref{thm:cauchy-shared-tail-modulus-paired-window-readback-service}, \autoref{thm:cauchy-shared-tail-modulus-route-replay-provenance}, \autoref{thm:cauchy-shared-tail-modulus-threshold-transport-stability}, \autoref{thm:cauchy-shared-tail-modulus-window-readback-transport}, \autoref{thm:cauchy-shared-tail-modulus-obligation-closure-package}, \autoref{thm:cauchy-shared-tail-modulus-obligation-surface-triad}, \autoref{thm:cauchy-shared-tail-modulus-tastegate-scoped-admission}, \autoref{thm:cauchy-shared-tail-modulus-real-seal-obligation-gate}, \autoref{thm:cauchy-shared-tail-modulus-falsifiable-prediction}, the checked TasteGate marker following \autoref{def:cauchy-shared-tail-modulus-carrier}, and the independence witness bind the obligation surface for shared-tail synchronization before Real seal exposure.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
