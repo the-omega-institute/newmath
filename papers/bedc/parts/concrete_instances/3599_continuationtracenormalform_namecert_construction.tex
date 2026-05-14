@@ -472,6 +472,42 @@ Use root readback order exhaustion from \autoref{thm:continuation-trace-normal-f
 Finally use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient-normalization, evaluator-graph, global-confluence, and external-normalizer objects are not coordinates of $Z$, so they cannot extend the downstream boundary.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm terminal-consumer cut]
+\label{thm:continuation-trace-normal-form-terminal-consumer-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, any terminal consumer that reads the endpoint row $R$ must pass through the displayed trace row $T$, terminal-read row $Q$, typed-boundary row $V$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$. No host evaluator state, quotient trace representative, global confluence proof, or external normalizer can supply an alternate terminal route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:continuation-trace-normal-form-carrier}. The terminal row $R$ is not a free endpoint; it appears in the finite packet beside $T,Q,V,H,C,P,N$.
+
+Apply terminal scope and terminal readback lock, \autoref{thm:continuation-trace-normal-form-terminal-scope} and \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. These place terminal exposure behind the trace ledger, terminal-read row, transport, continuation route, provenance, and local naming surface.
+
+Finally use consumer readback and downstream boundary, \autoref{thm:continuation-trace-normal-form-consumer-readback-envelope} and \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. The accepted consumer reads $R$ only inside $S,T,R,Q,V,H,C,P,N$, while the excluded host evaluator, quotient, confluence, and external-normalizer coordinates are absent from the packet.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm trace-replay cut]
+\label{thm:continuation-trace-normal-form-trace-replay-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, any replay cut used by a downstream normal-form consumer is exhausted by the displayed $\ContinuationTraceUp$ row $T$ and the displayed $\Cont$ route $C$. The replay cut cannot import a second trace ledger, host evaluator graph, quotient trace equality, global confluence datum, or external normalizer.
+\end{theorem}
+\begin{proof}
+Start with trace ledger exhaustion, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. It says that trace reads exported by the packet are exactly the finite $\ContinuationTraceUp$ ledger rather than a second replay source.
+
+Use prefix splice lock, \autoref{thm:continuation-trace-normal-form-prefix-splice-lock}. The splice available to a downstream normal-form consumer is tied to the displayed $T$ row and the displayed $C$ route.
+
+Finally apply root readback order exhaustion, \autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}. The replay stage precedes terminal and typed-boundary consumption in the displayed packet order, so host evaluator graphs, quotient trace equality, global confluence, and external normalizers have no replay-cut coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm normal-boundary cut]
+\label{thm:continuation-trace-normal-form-normal-boundary-cut}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the normal-boundary consumer cut is exactly the displayed route through $S,T,R,Q,V,H,C,P,N$. A normal-boundary consumer cannot import host conversion, quotient normalization, evaluator graphs, global confluence, or external normalizers as extra boundary data.
+\end{theorem}
+\begin{proof}
+Begin with normal-boundary consumer totality, \autoref{thm:continuation-trace-normal-form-normal-boundary-consumer-totality}. It already exhausts the normal-boundary surface by the displayed packet rows.
+
+Combine the terminal-consumer cut and trace-replay cut. The terminal cut forces reads of $R,Q,V$ through $T,H,C,P,N$, while the replay cut exhausts the trace side by $T$ and $C$.
+
+Finally apply typed-boundary nonescape and downstream normal-form consumer boundary, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape} and \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. Host conversion, quotient normalization, evaluator graphs, global confluence, and external normalizers are not coordinates of $Z$, so the displayed rows are the whole normal-boundary cut.
+\end{proof}
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 \closureat{ContinuationTraceNormalFormUp}{obligationStr}
 \closureat{ContinuationTraceNormalFormUp}{scopedStr}
