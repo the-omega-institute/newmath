@@ -120,6 +120,50 @@ Continuation and package provenance are the rows $C$ and $P$. They expose the sa
 Non-escape is \autoref{thm:apophatic-name-non-escape-certificate}. Together these five rows form the local NameCert surface for an apophatic socket name.
 \end{proof}
 
+\begin{theorem}[ApophaticName root socket exposure]
+\label{thm:apophatic-name-root-socket-exposure}
+Every root consumer of an accepted $\ApophaticNameUp$ packet first sees the finite socket packet
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The consumer receives no root-facing object outside the socket row, requested-supply row, refusal gate, refusal ledger, transport row, continuation row, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:apophatic-name-carrier}. It displays exactly the rows $S,R,G,L,H,C,P,N$ and places them in one finite $\BHist$ packet.
+
+Apply classifier stability from \autoref{thm:apophatic-name-refusal-classifier-stability}. The displayed $\hsame$ transports preserve the socket row, requested supply shape, refusal gate, and ledger as the same consumer-facing packet.
+
+Finally use the obligation surface, \autoref{thm:apophatic-name-obligation-surface}. Its carrier, continuation, package, and local naming obligations are all attached to the same packet, so a root consumer first encounters the finite socket exposure rather than a hidden internal supply.
+\end{proof}
+
+\begin{theorem}[ApophaticName root refusal gate totality]
+\label{thm:apophatic-name-root-refusal-gate-totality}
+For every accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, each attempted conversion from socket request to internal supply is either a displayed permitted ledger read or is routed through the refusal gate. No attempted conversion can bypass $G$ and $L$ to produce a generated object, host datum, quotient representative, hidden theorem, assumed proposition, or closure principle.
+\end{theorem}
+\begin{proof}
+Start with the refusal ledger, \autoref{thm:apophatic-name-refusal-ledger}. It lists the permitted socket and request reads and records the barred conversions governed by $G$ and $L$.
+
+The classifier stability theorem, \autoref{thm:apophatic-name-refusal-classifier-stability}, transports this ledger without changing the displayed request or refusal coordinates. Thus a conversion attempt remains on the same finite socket route under $\hsame$.
+
+Apply ledger nonescape, \autoref{thm:apophatic-name-ledger-nonescape}. Since downstream reads factor through the displayed refusal ledger and the carrier has no coordinate for internal supply, every non-permitted conversion is routed through the refusal gate.
+\end{proof}
+
+\begin{theorem}[ApophaticName root downstream boundary package]
+\label{thm:apophatic-name-root-downstream-boundary-package}
+The root-unblock surface exported by an accepted $\ApophaticNameUp$ packet is exactly the socket carrier, refusal classifier, ledger non-escape boundary, and downstream citation boundary over
+$$
+S,R,G,L,H,C,P,N.
+$$
+Any downstream chapter may cite this package only as the finite socket/refusal surface, not as a generated witness, supplied object, host theorem, quotient representative, or global closure row.
+\end{theorem}
+\begin{proof}
+First assemble the carrier from \autoref{def:apophatic-name-carrier}. It gives the socket, request, gate, ledger, transport, continuation, provenance, and local naming rows as one finite packet.
+
+Next attach the refusal classifier and ledger boundary using \autoref{thm:apophatic-name-refusal-classifier-stability} and \autoref{thm:apophatic-name-refusal-ledger}. These theorems identify the stable request/gate coordinates and the permitted ledger reads.
+
+It remains to package the downstream boundary. Apply ledger nonescape, \autoref{thm:apophatic-name-ledger-nonescape}, and the obligation surface, \autoref{thm:apophatic-name-obligation-surface}. Together they expose the finite NameCert route while excluding generated witnesses, supplied objects, host theorems, quotient representatives, and global closure rows.
+\end{proof}
+
 \begin{theorem}[ApophaticName socket request coherence]
 \label{thm:apophatic-name-socket-request-coherence}
 Every accepted $\ApophaticNameUp$ packet
