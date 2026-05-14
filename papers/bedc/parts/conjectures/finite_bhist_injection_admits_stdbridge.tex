@@ -31,18 +31,21 @@ The exact remaining target is recognizer-to-carrier construction. It must produc
 
 \begin{conjecture}[Finite BHist injection recognizer-to-carrier route]
 \label{conj:finite-bhist-injection-recognizer-to-carrier}
-A regular recognizer-side input reaches the fixed tuple $\StdBridge$ route only through a fixed finite recognizer-window carrier landing in the existing $\FiniteReflectionTupleUp$ surface. The carrier must display exactly the following rows before bridge comparison:
+A regular recognizer-side input reaches the fixed tuple $\StdBridge$ route only after it displays five kernel rows as named carrier data:
 \begin{enumerate}
   \item a recognizer acceptance row;
   \item a finite tuple extraction row;
   \item a $\BHist$ component readback row;
-  \item componentwise $\hsame$ and $\NameCert$ transport row;
+  \item componentwise $\NameCert$ transport row through the displayed component reads;
   \item a $\ChapterTasteGate$ row.
 \end{enumerate}
-The construction must keep these rows inside the existing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support surface, so the recognizer presentation is compared with the fixed tuple route only after it has landed on the finite tuple carrier surface.
+These rows must live inside the existing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support surface before the recognizer presentation is compared with the fixed tuple carrier route.
 \end{conjecture}
 
-\conjectureStatus{weakened}
+\conjectureStatus{open}
+
+\paragraph{Recognizer-to-carrier status.}
+The finite test is the existence of the five carrier rows inside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ kernel surface. It is not a $\StdBridge$ construction and not a recognizer trace comparison by itself.
 
 \begin{theorem}[Finite BHist injection fixed tuple route]
 \label{thm:finite-bhist-injection-fixed-tuple-route}

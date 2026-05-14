@@ -121,6 +121,8 @@ import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CriterionLedgerRouteTotality
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GeneratorRangeExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
@@ -140,6 +142,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealNonescape
+import BEDC.Derived.CauchyModulusRefinementUp.RootConsumerPackage
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
@@ -232,6 +235,7 @@ import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
+import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
@@ -675,6 +679,7 @@ import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowSeal
+import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyRealSealTailCoprovenance
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteWindowRealSealExtraction
 import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.RealCompletionBudgetLock
