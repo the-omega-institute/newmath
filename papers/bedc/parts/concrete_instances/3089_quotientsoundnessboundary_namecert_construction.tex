@@ -178,6 +178,42 @@ Use the fixed classifier theorem. It keeps every accepted comparison inside $E,A
 Finally apply the root request triad and kernel non-escape. The triad exhausts the root request by $E,A,V$, and non-escape excludes hidden representative selectors, erased derivation recovery, host quotient eliminators, and $\mathsf{Quot.sound}$.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary root request accountability]
+\label{thm:quotient-soundness-boundary-root-request-accountability}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, relation rows $E$, representative-request rows $A$, and refusal verdict rows $V$ are accountable before any replacement by the transport row $T$. A downstream quotient-style consumer therefore sees the requested relation evidence, the demanded representative surface, and the refusal verdict before it can use $T,H,C,P,N$ as the surviving audit route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}. It places the visible relation rows $E$ before any representative-demand rows in $A$.
+
+Use the root request triad, \autoref{thm:quotient-soundness-boundary-root-request-triad}. The triad binds the representative demand to $A$ and its refusal to $V$, so the negative verdict is part of the root request surface.
+
+After those rows are visible, the transport replacement theorem supplies $T$ only as the classifier-respecting surviving route. The stability, locality, provenance, and naming rows $H,C,P,N$ audit that route and do not erase $E,A,V$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary transport gate]
+\label{thm:quotient-soundness-boundary-transport-gate}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any quotient-like operation that survives the refused representative request must pass through $T,H,C,P,N$. The operation may still read the relation rows $E$, requested-representative rows $A$, and refusal verdict rows $V$ as its accountable source surface, but its positive movement is gated by the displayed transport, stability, locality, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+First read the accountability surface from \autoref{thm:quotient-soundness-boundary-root-request-accountability}. It keeps $E,A,V$ visible before any surviving positive route is consumed.
+
+Apply the transport replacement theorem. The only admitted positive motion after refusal is the $\psame$ transport row $T$ on named source rows.
+
+Finally use the NameCert obligations and non-escape theorem. They force every use of $T$ to remain packaged with $H,C,P,N$ and exclude any hidden positive path outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream nonimport]
+\label{thm:quotient-soundness-boundary-downstream-nonimport}
+Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$ receives only the audit surface $E,A,T,V,H,C,P,N$. It receives no $\mathsf{Quot.sound}$ dependency, quotient carrier, representative selector, erased derivation recovery map, or host quotient eliminator.
+\end{theorem}
+\begin{proof}
+Use root request accountability to expose $E,A,V$ as the complete negative request surface. These rows record the visible relation evidence, the representative demand, and the refusal verdict before any surviving operation is available.
+
+Next apply the transport gate. It confines every surviving positive operation to $T,H,C,P,N$, with $T$ carrying classifier-respecting $\psame$ transport and the remaining rows carrying stability, locality, provenance, and local naming.
+
+Close with kernel non-escape. Since the carrier has no coordinate for $\mathsf{Quot.sound}$, quotient carriers, representative selectors, erased derivation recovery, or host quotient eliminators, the downstream consumer imports only the displayed audit surface.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary root transport verdict order]
 \label{thm:quotient-soundness-boundary-root-transport-verdict-order}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, the refusal verdict row $V$ must be read before any positive $\psame$ transport row $T$ is used by a quotient-like consumer. The transport row is therefore a replacement after refusal, not evidence that a representative selector or quotient equality eliminator has been admitted.
