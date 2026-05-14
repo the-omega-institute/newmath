@@ -448,6 +448,20 @@ Use \autoref{thm:cauchy-limit-seal-ledger-nonescape-totality} and \autoref{thm:c
 Finally compose \autoref{thm:cauchy-limit-seal-realup-consumer-boundary} with \autoref{thm:cauchy-limit-seal-verification-handoff}. The accepted packet therefore locks every uniform or completion-facing consumer to the stated finite route over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal budget-route pairing determinacy]
+\label{thm:cauchy-limit-seal-budget-route-pairing-determinacy}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ packet, and let $B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)$ be an accepted $\RealObservationBudgetUp$ packet. If $L$ and $B$ share the same finite window, dyadic ledger, regular handoff, seal row, transports, routes, provenance, and local $\NameCert$ rows, then they determine the same $\RealUp$- or completion-facing consumer route. No quotient stream, selected host limit, hidden family limit, unbounded schedule, or ambient completeness coordinate can distinguish the pair.
+\end{theorem}
+\begin{proof}
+Begin with the observation-budget pullback of \autoref{thm:cauchy-limit-seal-observation-budget-pullback}. It sends the accepted budget packet into the public route packet of $L$ over the shared finite window, dyadic ledger, regular handoff, seal row, transports, routes, provenance, and local naming rows.
+
+Apply budgeted tail comparison admission from \autoref{thm:cauchy-limit-seal-budgeted-tail-comparison-admission}. The admitted comparison must use the same budget coordinates, so a tail-facing read cannot separate $L$ from $B$ after those rows agree.
+
+Next attach the $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. It identifies the real or completion consumer surface with the union of the budget and seal rows over the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ boundary.
+
+Finally apply the consumer uniform route lock of \autoref{thm:cauchy-limit-seal-consumer-uniform-route-lock}. The visible route is already exhausted by the displayed family, schedule, dyadic ledger, budget, seal, transport, continuation, provenance, and naming rows, leaving no quotient stream, selected host limit, hidden family limit, unbounded schedule, or ambient completeness coordinate by which the pair could diverge.
+\end{proof}
+
 \input{parts/concrete_instances/1287_cauchylimitseal_consumer_readback.tex}
 
 \closureat{CauchyLimitSealUp}{seedStr}
