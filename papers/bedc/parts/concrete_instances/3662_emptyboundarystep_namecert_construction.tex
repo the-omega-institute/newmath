@@ -65,6 +65,22 @@ The transport row $T$ and continuation row $C$ keep the same data visible to con
 Thus every public read factors through $H,M,R,E,T,C,P,N$ and remains a single local actualisation of the empty boundary above $H$.
 \end{proof}
 
+\begin{theorem}[Empty-boundary step BHist Ext dependency link]
+\label{thm:empty-boundary-step-bhist-ext-dependency-link}
+Let
+$$
+S=(H,M,R,E,T,C,P,N)
+$$
+be an accepted $\EmptyBoundaryStepUp$ carrier. The displayed row $E$ supplies the local $\Ext(H,M,R)$ step consumed by \autoref{ch:concrete-instances-empty-fable-ledger-namecert} and by \autoref{ch:concrete-instances-emptyboundaryselector-namecert}. This dependency is horizontal and local: it exports the source history, enacted mark, result history, extension row, transport, route, provenance, and naming rows, but it still refuses a global selector, a branch policy for unrelated histories, a truth oracle, host trace equality, or an accumulated ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. The rows $H,M,R,E,T,C,P,N$ are exactly the source history, enacted mark, result history, displayed extension fact, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:empty-boundary-step-local-actualisation}. Every public read of the enacted step factors through the displayed $\Ext(H,M,R)$ row and exposes only one local empty-boundary step.
+
+The Empty-fable ledger and Empty-boundary selector chapters consume precisely such local $\BHist$ extension rows when they record a witnessed step or compare selector-step behavior. Since $S$ has no coordinate for a global selector, unrelated branch policy, truth oracle, host trace equality, or accumulated ledger, the dependency link supplies only the local $\Ext$ step.
+\end{proof}
+
 \closureat{EmptyBoundaryStepUp}{seedStr}
 
 \begin{closurestatus}{\EmptyBoundaryStepUp}
