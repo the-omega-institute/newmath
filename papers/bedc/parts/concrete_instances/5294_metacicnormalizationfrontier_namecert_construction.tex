@@ -187,6 +187,95 @@ Use \autoref{thm:metacic-normalization-frontier-namecert-obligations}. The candi
 Finally apply \autoref{thm:metacic-normalization-frontier-nonescape}. A consumer bypassing both $C,K$ and $E,N$ has no carrier coordinate from which to read normalization evidence, so the listed alternatives are total for the accepted frontier packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization frontier candidate-finished boundary totality]
+\label{thm:metacic-normalization-frontier-candidate-finished-boundary-totality}
+Every accepted consumer route for a $\MetaCICNormalizationFrontierUp$ packet
+passes through either the candidate boundary rows $C,K$ or the
+finished-normal boundary rows $E,N$. The displayed carrier
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+has no third positive normalization evidence surface: $H,R,P,L$ only
+transport, replay, package, and locally name one of the two boundary routes.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The carrier lists $C,K,E,N$ as
+the only positive normalization evidence rows, and
+\autoref{thm:metacic-normalization-frontier-namecert-obligations} assigns
+consumer reads to the candidate boundary or the finished-normal boundary.
+
+Use the candidate route and finished route theorems.
+\autoref{thm:metacic-normalization-frontier-candidate-route} routes
+candidate-facing consumers through $C,K,R,P,L$, while
+\autoref{thm:metacic-normalization-frontier-finished-route} routes
+finished-normal consumers through $E,N,R,P,L$.
+
+Finally apply consumer-route totality,
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality}, and
+non-escape, \autoref{thm:metacic-normalization-frontier-nonescape}. A route
+outside both positive boundaries has no carrier coordinate from which to read
+normalization evidence.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction consumer lock]
+\label{thm:metacic-normalization-frontier-obstruction-consumer-lock}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the obstruction
+row $S$ remains visible to consumer routes and cannot be erased by reading
+either the candidate boundary $C,K$ or the finished-normal boundary $E,N$.
+The public route may transport $S$ through $H,R,P,L$, but it cannot replace
+$S$ by blanket strong normalization, full closed consistency, or erased
+subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger,
+\autoref{thm:metacic-normalization-frontier-obstruction-ledger}. It keeps
+$S$ as a separate coordinate in the same finite packet as $C,K,E,N,H,R,P,L$.
+
+Apply candidate and finished route exactness. The candidate route consumes
+$C,K$ and the finished route consumes $E,N$, but neither theorem discharges
+the separate obstruction coordinate.
+
+Use kernel non-escape and consumer-route totality.
+\autoref{thm:metacic-normalization-frontier-kernel-nonescape} excludes a
+hidden global theorem behind the public route, and
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality} leaves
+only the two positive evidence surfaces with $S$ still displayed.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obligation triad]
+\label{thm:metacic-normalization-frontier-obligation-triad}
+The public obligation surface of an accepted
+$\MetaCICNormalizationFrontierUp$ packet is the triad made of carrier
+admission for $F=(C,K,E,N,S,H,R,P,L)$, candidate-or-finished boundary
+totality through $C,K$ or $E,N$, and obstruction separation for $S$, with
+consumer handoff through the displayed rows $H,R,P,L$.
+
+This triad is the chapter's consumer-facing obligation surface. It does not
+claim blanket normalization, closed consistency, or erased subject reduction.
+\end{theorem}
+\begin{proof}
+First use the public obligation package,
+\autoref{thm:metacic-normalization-frontier-public-obligation-package}. It
+supplies carrier admission, candidate evidence, finished-normal evidence,
+closed-normal handoff, and obstruction separation for the displayed packet.
+
+Next apply
+\autoref{thm:metacic-normalization-frontier-candidate-finished-boundary-totality}.
+This packages the positive evidence side into the two available boundary
+routes, $C,K$ and $E,N$.
+
+Then apply
+\autoref{thm:metacic-normalization-frontier-obstruction-consumer-lock}. The
+obstruction row $S$ stays visible alongside those positive routes and is not
+erased by the handoff.
+
+Finally use non-escape,
+\autoref{thm:metacic-normalization-frontier-nonescape}. Since the packet has
+no coordinate for blanket normalization, closed consistency, or erased
+subject reduction, the triad is exactly the public obligation surface for
+downstream consumers.
+\end{proof}
+
 \falsifiablePrediction{If the frontier packet is accepted, any closed-normal consistency consumer route factors through either the candidate-evidence row or the finished-normal row; a route that bypasses both is outside the carrier.}
 \independenceWitness{metacic-open-frontier-ledger, metacicnormalizationaudit, metacicnormalizationauditseal, closednormalroutecertificate: the new packet is not bijective to any sibling because it carries the normalization frontier as an explicit obstruction-preserving coordinate rather than an audit report, a seal, a route certificate, or a mixed open-frontier inventory.}
 
