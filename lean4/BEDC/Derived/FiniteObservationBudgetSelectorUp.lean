@@ -77,4 +77,75 @@ theorem FiniteObservationBudgetSelectorCarrier_namecert_obligations
     ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, routeW, routeR, routeC,
       sameEndpoint, cert⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_schedule_admission
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N →
+      PkgSig bundle W pkg →
+        UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory W ∧ Cont B S W ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row W ∧ UnaryHistory row)
+            (fun row : BHist => hsame row W)
+            (fun row : BHist => hsame row W ∧ PkgSig bundle W pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier pkgSig
+  obtain ⟨unaryB, unaryS, _unaryD, _unaryE, routeW, _routeR, _routeC,
+    _sameEndpoint⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have sourceW : (fun row : BHist => hsame row W ∧ UnaryHistory row) W := by
+    exact And.intro (hsame_refl W) unaryW
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row W ∧ UnaryHistory row)
+        (fun row : BHist => hsame row W)
+        (fun row : BHist => hsame row W ∧ PkgSig bundle W pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro W sourceW
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left pkgSig
+    }
+  exact ⟨unaryB, unaryS, unaryW, routeW, cert⟩
+
+theorem FiniteObservationBudgetSelectorCarrier_budget_route_determinacy
+    [AskSetup] (_ps : PackageSetup)
+    {B S W D R E H C P N W' R' C' : BHist} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont B S W' ->
+        Cont W' D R' ->
+          Cont R' E C' ->
+            hsame W W' ∧ hsame R R' ∧ hsame C C' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier budgetSchedule' windowDyadic' regularSeal'
+  obtain ⟨_unaryB, _unaryS, _unaryD, _unaryE, budgetSchedule, windowDyadic,
+    regularSeal, _sameName⟩ := carrier
+  have sameWindow : hsame W W' :=
+    cont_respects_hsame (hsame_refl B) (hsame_refl S) budgetSchedule budgetSchedule'
+  have sameRegular : hsame R R' :=
+    cont_respects_hsame sameWindow (hsame_refl D) windowDyadic windowDyadic'
+  have sameSeal : hsame C C' :=
+    cont_respects_hsame sameRegular (hsame_refl E) regularSeal regularSeal'
+  exact ⟨sameWindow, sameRegular, sameSeal⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

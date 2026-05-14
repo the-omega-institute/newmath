@@ -147,6 +147,54 @@ theorem CauchyDiagonalBudget_route_factorization [AskSetup] [PackageSetup]
       exact ⟨unary_transport endpointUnary (hsame_symm source.right), endpointPkg⟩
   }
 
+theorem CauchyDiagonalBudgetCarrier_real_completeness_handoff [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name sealEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      Cont k s sealEndpoint →
+        PkgSig bundle sealEndpoint pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ∧
+                hsame row sealEndpoint)
+            (fun _row : BHist => Cont epsilon m w ∧ Cont w d k ∧ Cont k s sealEndpoint)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealEndpoint pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert
+  intro carrier sealRoute sealPkg
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+      nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg⟩
+  have sealUnary : UnaryHistory sealEndpoint :=
+    unary_cont_closed kUnary sUnary sealRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealEndpoint (And.intro
+          ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+            nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg⟩
+          (hsame_refl sealEndpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨epsilonMW, wDK, sealRoute⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport sealUnary (hsame_symm source.right), sealPkg⟩
+  }
+
 theorem CauchyDiagonalBudgetCarrier_transported_selector_naturality [AskSetup] [PackageSetup]
     {epsilon m w d k s h c p name epsilon' m' w' d' k' s' h' c' p' name' route route'
       sealRow sealRow' : BHist}
@@ -180,5 +228,49 @@ theorem CauchyDiagonalBudgetCarrier_transported_selector_naturality [AskSetup] [
   have transportedSealUnary : UnaryHistory sealRow' :=
     unary_cont_closed kUnary' sUnary' transportedSeal
   exact ⟨routeSame, sealSame, transportedRouteUnary, transportedSealUnary⟩
+
+theorem CauchyDiagonalBudget_mesh_comparison_exactness [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ∧
+            hsame row k)
+        (fun _row : BHist => Cont epsilon m w ∧ Cont w d k ∧ PkgSig bundle p pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle p pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+      nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg⟩
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro k (And.intro
+          ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+            nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg⟩
+          (hsame_refl k))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨epsilonMW, wDK, pPkg⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport kUnary (hsame_symm source.right), pPkg⟩
+  }
 
 end BEDC.Derived.CauchyDiagonalBudgetUp

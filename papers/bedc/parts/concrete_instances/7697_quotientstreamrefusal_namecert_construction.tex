@@ -266,6 +266,22 @@ Terminal exhaustion is \autoref{thm:quotient-stream-refusal-terminal-route-exhau
 Obligation closure is \autoref{thm:quotient-stream-refusal-obligation-closure}. The TasteGate marker route is \autoref{thm:quotient-stream-refusal-tastegate-marker-route}. These results assemble the refusal ledger, structural support rows, nontriviality commitment, and field-faithfulness commitment around the same displayed route, so the public bridge boundary is exactly the StreamName, RegSeqRat, CauchyLimitSeal, and RealUp route and nothing outside it.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal Real-completion consumer exhaustion]
+\label{thm:quotient-stream-refusal-real-completion-consumer-exhaustion}
+Every accepted Real-completion consumer using a $\QuotientStreamRefusalUp$ packet exhausts its public read through the displayed route
+$$
+S \longmapsto R \longmapsto L \longmapsto E
+$$
+together with the refusal row $F$. After composition with the sibling surfaces $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, the consumer cannot cite quotient-stream equality, selected limits, host real equality, hidden family limits, hidden tail oracles, or ambient completeness outside that route-and-refusal packet.
+\end{theorem}
+\begin{proof}
+The NameCert surface theorem fixes the public coordinates of the packet as the route rows $S,R,L,E$, the refusal ledger $F$, and the structural support rows $H,C,P,N$. The non-escape route theorem then sends every off-route Real-completion request to $F$.
+
+Ledger exactness identifies what $F$ records: quotient-stream equality, selected limits, host real equality, hidden family limits, hidden tail oracles, and ambient completeness are refused rather than exported. Route ordering forces the accepted consumer to read $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ in the displayed order.
+
+Finally, the public bridge boundary composes those sibling surfaces over the same carrier packet. Since the bridge exports only $S \longmapsto R \longmapsto L \longmapsto E$ and records all excluded requests at $F$, the route-and-refusal packet exhausts the consumer's public Real-completion read.
+\end{proof}
+
 \falsifiablePrediction{Any accepted Real-completion consumer that asks for quotient-stream equality is refused unless it first factors through the displayed StreamName, RegSeqRat, CauchyLimitSeal, and RealUp seal rows.}
 
 \independenceWitness{streamname, regseqrat, cauchylimitseal, realwindowsynchronizer, real: no sibling is bijective because none carries the refusal row together with all four route surfaces and the non-escape ledger.}
@@ -283,9 +299,10 @@ The Lean file \texttt{Derived/QuotientStreamRefusalUp/TasteGate.lean} will provi
   \constructivestory{A $\QuotientStreamRefusalUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, CauchyLimitSeal route row, RealUp seal row, quotient-refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming; the TasteGate row is recorded at BEDC.Derived.QuotientStreamRefusalUp.taste\_gate.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, \autoref{thm:quotient-stream-refusal-tastegate-marker-route}, and \autoref{thm:quotient-stream-refusal-public-bridge-boundary} display the finite refusal scope, public refusal route, and Real-completion bridge over StreamNameUp, RegSeqRatUp, CauchyLimitSealUp, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.QuotientStreamRefusalUp.QuotientStreamRefusalTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not construct quotient streams, select limits, prove host real equality, close ambient completeness, or provide a checked Lean certificate.}
-  \upgradepath{The theory axis is complete; the remaining work is Lean-side formalization toward BEDC.Derived.QuotientStreamRefusalUp.taste\_gate.}
+  \notclaimed{This chapter does not claim axiom-purity, bridge checking, quotient streams, selected limits, host real equality, or ambient completeness.}
+  \upgradepath{The next formal-axis step is auditCleanV for the existing single-carrier theorem.}
 \end{closurestatus}

@@ -452,6 +452,23 @@ with the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 Finally read the TasteGate target as a boundary condition, not as an extra analytic channel. \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps the checked target attached to the displayed packet and does not add quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. The L10 handoff is therefore exactly the finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Real observation budget finite-window seal lock]
+\label{thm:real-observation-budget-finite-window-seal-lock}
+Let $B=(E,W,D,R,S,H,C,P,N)$ be an accepted $\RealObservationBudgetUp$ packet. Every $\RealUp$ seal read admitted through $S$ first passes through the finite $\StreamNameUp$ windows $W$ selected by $E$, then through the $\DyadicRatCoreUp$ readback and radius rows $D$, and then through the $\RegSeqRatUp$ handoff row $R$. The rows $H,C,P,N$ preserve the same packet while transport, continuation replay, provenance, and local naming are consumed. Thus the seal boundary is a reusable finite-window consumer boundary for $\RegSeqRatUp$ and $\RealUp$, with no channel for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Begin with the displayed packet. By \autoref{def:real-observation-budget-carrier}, the only rows of an accepted $\RealObservationBudgetUp$ carrier are $E,W,D,R,S,H,C,P,N$.
+
+Build the finite observation spine. \autoref{thm:real-observation-budget-window-coverage} places every admitted dyadic readback and radius row behind the finite $\StreamNameUp$ windows selected by $E$, and \autoref{thm:real-observation-budget-regseq-handoff} places the $\RegSeqRatUp$ handoff at $R$ after those rows.
+
+Lock the completion-facing end of the route. \autoref{thm:real-observation-budget-real-seal-boundary} makes $S$ the $\RealUp$ seal boundary reached from that handoff, while \autoref{thm:real-observation-budget-l10-gate-handoff-exactness} identifies the whole L10 route as
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+
+The remaining rows do not create another analytic read. They preserve the same packet as componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. Hence every seal read through $S$ is locked to the finite-window route, and the excluded quotient, host equality, completeness, limit-selection, and unbounded-schedule channels have no coordinate in $B$.
+\end{proof}
+
 \begin{theorem}[Real observation budget diagonal selector source lock]
 \label{thm:real-observation-budget-diagonal-selector-source-lock}
 Let $B=(E,W,D,R,S,H,C,P,N)$ be an accepted $\RealObservationBudgetUp$ packet. Suppose a completion-facing consumer is synchronized with an accepted $\CauchyDiagonalBudgetUp$ route. Then the consumer can read the diagonal selector only through the displayed rows $E,W,D,R,S,H,C,P,N$ together with the $\CauchyDiagonalBudgetUp$ precision row, mesh row, and comparison row. The packet provides no read channel for a host-selected limit, quotient stream, ambient completeness witness, or hidden selector input.
