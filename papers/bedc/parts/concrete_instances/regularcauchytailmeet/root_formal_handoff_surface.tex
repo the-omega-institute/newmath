@@ -324,3 +324,19 @@ Apply \autoref{thm:regular-cauchy-tail-meet-root-tail-comparison-admission}. The
 
 Finally read the sibling route through \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}. That chapter supplies the finite-window and $\RegSeqRatUp$ readback needed by the selector-budget consumer, and the preceding TailMeet rows lock that contribution to the root packet before any $\RealUp$ seal receives it.
 \end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root formal budget-refusal totality]
+\label{thm:regular-cauchy-tail-meet-root-formal-budget-refusal-totality}
+Every downstream $\RealUp$, $\CompletionUp$, $\UniformCauchyCriterionUp$, or $\RegularCauchySelectorBudgetUp$ consumer that reaches a selector-budget or quotient-stream request from the root formal handoff must first pass through the paired $\RegSeqRatUp$ sources, paired $\StreamNameUp$ windows, source modulus rows, shared $\DyadicRatCoreUp$ threshold ledger, comparison row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row of the accepted $\RegularCauchyTailMeetUp$ packet.
+
+If the same consumer asks for quotient-stream equality, the request factors through \autoref{thm:regular-cauchy-tail-meet-quotient-refusal-factorization} and the $\QuotientStreamRefusalUp$ route of \autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. No such consumer receives a selected limit, quotient stream equality, host real equality, trichotomy row, independent tail oracle, or ambient completeness witness outside those displayed routes.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-tail-meet-root-formal-handoff-surface}. The handoff presented to downstream $\RealUp$ and $\UniformCauchyCriterionUp$ consumers is already the finite TailMeet packet, with its paired sources, windows, modulus rows, threshold ledger, comparison row, transports, continuations, provenance, and local certificate displayed.
+
+Next apply \autoref{thm:regular-cauchy-tail-meet-selector-budget-route-lock}. It forces every selector-budget read consumed by that handoff, including the $\RegularCauchySelectorBudgetUp$ sibling read, through the same accepted TailMeet rows before any $\RealUp$ seal can see the request.
+
+For a quotient-stream request, use \autoref{thm:regular-cauchy-tail-meet-quotient-refusal-factorization} together with \autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. The completion-facing request first traverses the finite TailMeet source-window route and then enters the quotient-refusal route; if either route is absent, the request is recorded by the refusal ledger.
+
+These two consumer routes cover the selector-budget and quotient-stream branches of the root formal handoff. The cited boundaries jointly exclude selected limits, quotient stream equality, host real equality, trichotomy rows, independent tail oracles, and ambient completeness as data exported to downstream consumers.
+\end{proof}
