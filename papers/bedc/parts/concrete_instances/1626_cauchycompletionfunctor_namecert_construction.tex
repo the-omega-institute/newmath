@@ -184,6 +184,24 @@ Finally apply \autoref{thm:real-observation-budget-root-unblock-package}. That p
 Combining these readings, every public completion consumer reaches the rows $S,U,B$ of $F$ only after passing through $E_R,W_R,D_R,R_R,S_R$. Since neither packet has a coordinate for quotient completion equality, selected limits, host completed metric spaces, ambient completeness, host real equality, or hidden schedules, those objects do not enter the consumer route.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionFunctor observation-budget seal determinacy]
+\label{thm:cauchycompletionfunctor-observation-budget-seal-determinacy}
+Let $F=(M,R,S,U,B,E,P,T,N)$ be an accepted $\CauchyCompletionFunctorUp$ packet, and let an accepted $\RealObservationBudgetUp$ packet $B_R=(E_R,W_R,D_R,R_R,S_R,H_R,C_R,P_R,N_R)$ serve the completion-facing seal rows of $F$. If two public completion consumers display the same observation route
+$$
+E_R \longmapsto W_R \longmapsto D_R \longmapsto R_R \longmapsto S_R
+$$
+and read the same rows of $F$, then they determine the same completion seal $S$, the same unit-and-bind schedule $U$, and the same universal-property extension row $B$. The determination is only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it exports no quotient completion, selected limit, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchycompletionfunctor-observation-budget-factorization}. Both consumers must enter the completion-facing rows of $F$ through the same displayed route $E_R,W_R,D_R,R_R,S_R$ before $S,U,B$ can be read.
+
+Next apply \autoref{thm:cauchycompletionfunctor-public-completion-export}. Once the route has reached $F$, the only public completion surface is the displayed packet $M,R,S,U,B,E,P,T,N$, so the seal, unit-and-bind schedule, and extension row cannot be replaced by another completion-facing coordinate.
+
+Use the finite-route and seal-ledger rows from the observation budget. \autoref{thm:real-observation-budget-finite-route-coverage} keeps the route on $E_R,W_R,D_R,R_R,S_R$, and \autoref{thm:real-observation-budget-seal-ledger-exhaustion} exhausts the seal ledger by $E_R,W_R,D_R,R_R,S_R,H_R,C_R,P_R,N_R$.
+
+Therefore two consumers with the same displayed route and the same $F$ rows determine the same $S,U,B$ rows. The non-escape clauses in the cited export and ledger theorems remove quotient completion, selected limits, host equality, and ambient completeness from the route, so no hidden coordinate can separate the two determinations.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionFunctor RegSeqRat-to-Real completion route]
 \label{thm:cauchycompletionfunctor-regseq-real-endofunctor}
 Let $F=(M,R,S,U,B,E,P,T,N)$ be an accepted $\CauchyCompletionFunctorUp$ packet. Suppose the regular row $R$ is served by a $\RegSeqRatUp$ route and the completion seal $S$ is served through $\RealCauchyCompletionUp$ and $\RealObservationBudgetUp$. Then every public completion consumer factors through the finite route
@@ -234,6 +252,28 @@ Next apply \autoref{thm:cauchycompletionfunctor-observation-budget-factorization
 Use \autoref{thm:cauchycompletionfunctor-tail-budget-coherence-factorization} to keep the budgeted completion route coherent with the TailMeet threshold, StreamName window, dyadic ledger, RegSeqRat readback, tail-agreement seal, and Cauchy-limit seal. This prevents a consumer from inserting an unbudgeted completion selector between the observation route and the functor rows.
 
 Finally apply \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}. The accepted selector packet $Q$ supplies the diagonal finite-observation route $B_Q,S_Q,W_Q,D_Q,R_Q,E_Q$ before any completion-facing seal row is opened. Since the selector packet and the functor packet contain no coordinates for quotient completion equality, selected limits, host completed metric spaces, ambient completeness, host real equality, countable choice, or hidden selectors, every public completion consumer reaches $S,U,B$ only through the displayed selector route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor selector-budget determinacy]
+\label{thm:cauchycompletionfunctor-selector-budget-determinacy}
+Let $F=(M,R,S,U,B,E,P,T,N)$ be an accepted $\CauchyCompletionFunctorUp$ packet, and let $Q=(B_Q,S_Q,W_Q,D_Q,R_Q,E_Q,H_Q,C_Q,P_Q,N_Q)$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet serving the same completion-facing seal rows. Suppose two public completion consumers have the same selector route
+$$
+B_Q \longmapsto S_Q \longmapsto W_Q \longmapsto D_Q \longmapsto R_Q \longmapsto E_Q
+$$
+and read the same displayed source, regular-Cauchy, classifier, transport, provenance, and naming rows of $F$. Then the two consumers determine the same completion seal $S$, the same unit-and-bind schedule $U$, and the same universal-property row $B$.
+
+The determined rows are only the displayed rows of $F$ reached through the finite selector route. No consumer thereby obtains quotient completion equality, selected limits, host completed metric spaces, ambient completeness, host real equality, countable choice, or a hidden selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycompletionfunctor-finite-observation-selector-factorization}. Both consumers must pass through the same accepted selector route $B_Q,S_Q,W_Q,D_Q,R_Q,E_Q$ before reading the completion-facing rows of $F$.
+
+Next use \autoref{thm:cauchycompletionfunctor-public-completion-export}. Once the selector route is fixed, the public completion surface of $F$ exposes only $M,R,S,U,B,E,P,T,N$, so the completion seal, unit-and-bind schedule, and universal-property row have no second public source.
+
+Apply \autoref{thm:cauchycompletionfunctor-bind-ledger-consumer-exhaustion} to the composed reads. The monadic continuation ledger can consume only the displayed functor rows already reached through the selector route, and it cannot add a separate schedule or universal-property witness.
+
+Finally apply \autoref{thm:cauchycompletionfunctor-observation-budget-seal-determinacy}. The common finite observation route fixes the seal-facing read of $S$; with $S$ fixed, the public export and bind-ledger exhaustion fix $U$ and $B$ as the corresponding displayed rows of $F$.
+
+Carrier non-escape supplies the exclusions. Neither the selector packet nor the completion-functor packet contains coordinates for quotient completion equality, selected limits, host completed metric spaces, ambient completeness, host real equality, countable choice, or hidden selectors, so no such object can distinguish the two consumers.
 \end{proof}
 
 \closureat{CauchyCompletionFunctorUp}{publicStr}

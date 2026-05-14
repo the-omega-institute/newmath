@@ -79,6 +79,7 @@ $$
 $$
 In particular, the terminal consumer must traverse the observation cap, the regular Cauchy tail budget, the shared TailMeet threshold, the finite StreamName window $W$, the dyadic readback row $D$, the agreement row $A$, and the displayed $R,S,H,C,P,N$ rows. It has no quotient stream equality, selected limit, uncapped observation, host convergence witness, or second agreement coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealTailAgreementSealUp.RealTailAgreementSealTerminalRoute\_exhaustion}
 \begin{proof}
 First apply the budget-source window service. It places the finite StreamName window behind the $\ObservationBudgetLimiterUp$ cap and the $\RegularCauchyTailBudgetUp$ source before any agreement-facing row can be read.
 
@@ -87,4 +88,18 @@ Next apply shared-threshold budget exactness and the budgeted TailMeet window ex
 Apply the Real-completion budgeted route and the budget-threshold readback exhaustion theorem to the terminal consumer. They identify the remaining public rows as $R,S,H,C,P,N$ and show that both $\RealUp$ and $\CompletionUp$ consumers use the same carrier route.
 
 Carrier projection now leaves exactly the displayed packet coordinates, and non-escape removes every route not represented by those coordinates. Hence quotient stream equality, selected limits, uncapped observation requests, host convergence witnesses, and any second agreement coordinate are outside the terminal consumer surface.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root budget-source totality]
+\label{thm:real-tail-agreement-seal-root-budget-source-totality}
+Every root-facing $\RealTailAgreementSealUp$ consumer that exposes the public agreement row must first read $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, the finite $\StreamNameUp$ window $W$, the dyadic readback row $D$, and the agreement row $A$, before any $\RealUp$ or $\CompletionUp$ seal row is public. Thus the root budget-source route is total for agreement-facing consumers and has no quotient stream equality, selected limit, uncapped observation, host convergence witness, or second agreement coordinate.
+\end{theorem}
+\begin{proof}
+Start with the budget-source window service. It places every root-facing window read behind the $\ObservationBudgetLimiterUp$ cap and the $\RegularCauchyTailBudgetUp$ source before the finite window $W$ is available.
+
+Next apply shared-threshold budget exactness and budgeted TailMeet window exhaustion. These force the public route through $\RegularCauchyTailMeetUp$, then through $W$, the dyadic readback row $D$, and the agreement row $A$.
+
+Finally use terminal consumer route exhaustion. It identifies the only later public rows as the displayed $\RealUp$ and $\CompletionUp$ seal rows carried by $R,S,H,C,P,N$, so the earlier budget-source route is total for any consumer exposing $A$.
+
+Coordinate exhaustion gives the exclusions. Quotient streams, selected limits, uncapped observations, host convergence witnesses, and second agreement coordinates have no carrier row in the displayed root route.
 \end{proof}

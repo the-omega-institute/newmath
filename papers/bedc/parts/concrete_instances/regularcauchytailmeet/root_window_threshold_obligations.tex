@@ -146,3 +146,21 @@ Next read the limiter side through \autoref{ch:concrete-instances-observationbud
 
 Finally combine this limiter boundary with \autoref{thm:regular-cauchy-tail-meet-observation-budget-selector-handoff} and \autoref{thm:observation-budget-limiter-service-triad-coverage}. The first theorem shows that selector-facing reads consume the TailMeet threshold only through the finite observation-budget route, while the second identifies the public limiter service as the triad $(E,B,K)$, $(W,D,R)$, and $(S,H,C,P,N)$. Thus each listed downstream consumer must read the TailMeet route before it reads the limiter triad, and the excluded analytic rows have no carrier coordinate or local $\NameCert$ clause from which to be exported.
 \end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet budgeted refinement seal factorization]
+\label{thm:regular-cauchy-tail-meet-budgeted-refinement-seal-factorization}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any root threshold route exported to a $\CauchyModulusRefinementUp$ consumer or to a $\CauchyLimitSealUp$ consumer is read in the following order. The consumer first reads the displayed TailMeet rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+It then reads the finite observation-budget surface and any limiter cap surface attached to that route. Only after those finite rows have been displayed may a $\RealUp$ or $\CompletionUp$ consumer read the seal. The route exports no quotient stream, selected limit, host real equality, trichotomy row, hidden selector, uncapped observation schedule, independent completion carrier, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the root threshold route. By \autoref{thm:regular-cauchy-tail-meet-root-observation-budget-entry}, every accepted export enters the $\RealObservationBudgetUp$ surface only through the displayed TailMeet rows, together with their comparison, transport, continuation, ledger, and local naming coordinates.
+
+The threshold row is then fixed before the seal is visible. Apply \autoref{thm:regular-cauchy-tail-meet-root-threshold-readback-determinacy} to identify all readbacks along the route with the same dyadic threshold row $\tau$, and apply \autoref{thm:regular-cauchy-tail-meet-root-seal-budget-synchronization} to place the $\RealUp$ and $\CompletionUp$ seal reads after the finite budget entrance.
+
+Now attach the capped budget surface. By \autoref{thm:regular-cauchy-tail-meet-observation-budget-limiter-cap-synchronization}, every downstream $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, or selector-facing read must pass through the TailMeet route and then through the limiter service rows before it can consume a seal.
+
+Finally compare the two named consumers. The refinement chapter \autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert} reads a Real or Completion route only after its displayed source, selector-budget, window, readback, and seal rows are present, while the Cauchy-limit seal chapter \autoref{ch:concrete-instances-cauchylimitseal-namecert} records the finite seal handoff boundary. Composing these chapter surfaces with the TailMeet budget and limiter theorems gives the stated factorization and leaves none of the excluded analytic rows with a carrier coordinate from which to be exported.
+\end{proof}
