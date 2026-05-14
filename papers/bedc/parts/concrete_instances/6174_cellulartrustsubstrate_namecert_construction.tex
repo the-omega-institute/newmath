@@ -83,6 +83,32 @@ The falsifiable prediction identifies the two row removals that would break the 
 Together these ingredients exhaust the obligation surface named by \autoref{thm:cellular-trust-substrate-obligation-surface}. Since the packet still lacks coordinates for universality, host evaluator semantics, quotient streams, cellular completeness, and induction over all times, obligation closure stops at the displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[Cellular trust substrate primitive scope binding]
+\label{thm:cellular-trust-substrate-primitive-scope-binding}
+For every accepted $\CellularTrustSubstrateUp$ carrier $S=(R,W,K,M,A,H,C,P,N)$, the rows $R,W,K,M,A,H,C,P,N$ bind only to the BEDC primitive surface $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In particular, $R,W,K,M,A$ are finite $\BHist$ rows, $H$ is their componentwise $\hsame$ transport, $C$ is their displayed $\Cont$ route, $P$ is their $\Pkg$ provenance, and $N$ is the local $\NameCert_{\CellularTrustSubstrateUp}$ row.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:cellular-trust-substrate-obligation-surface}. It lists the complete carrier admission route for $S=(R,W,K,M,A,H,C,P,N)$ and names no primitive outside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Local-rule nonescape forces every classifier read through the displayed $R$ and $W$ rows. Orbit observation boundary forces every closed observation through the finite manifest and audit rows $M$ and $A$.
+
+The checked TasteGate single-carrier alignment cited at \autoref{thm:cellular-trust-substrate-obligation-closure} confirms that the displayed carrier shape is the aligned cellular trust substrate shape. Hence the primitive bindings are exactly the listed BEDC rows, with no host evaluator, quotient stream, or induction principle added by the packet.
+\end{proof}
+
+\begin{theorem}[Cellular trust substrate sibling scope binding]
+\label{thm:cellular-trust-substrate-sibling-scope-binding}
+For every accepted $\CellularTrustSubstrateUp$ carrier $S=(R,W,K,M,A,H,C,P,N)$, the same rows bind the packet to the sibling surfaces $\CellularAutomatonUp$, $\BoundedUniversalTraceUp$, $\CellularSubstrateUp$, and $\LocalityCellUp$. The rule and orbit rows consume the cellular automaton and bounded trace surfaces, while the classifier, manifest, audit, transport, route, provenance, and naming rows expose only the local substrate and locality-cell boundaries needed by downstream cellular trust consumers.
+\end{theorem}
+\begin{proof}
+The opening dependency paragraphs place $\CellularTrustSubstrateUp$ after the local rule and finite orbit discipline of $\CellularAutomatonUp$ and $\BoundedUniversalTraceUp$, and after the local substrate and local read boundaries of $\CellularSubstrateUp$ and $\LocalityCellUp$.
+
+Apply local-rule nonescape. The accepted classifier route cannot pass around $R$ and $W$, so the cellular automaton and bounded trace rows are sibling inputs rather than optional explanatory context.
+
+Apply orbit observation boundary. The manifest row $M$ and audit row $A$ bound every closed observation before it is exported, and $H,C,P,N$ keep the same route transported, replayed, packaged, and named.
+
+Finally use the obligation closure theorem together with the checked TasteGate single-carrier alignment cited at \autoref{thm:cellular-trust-substrate-obligation-closure}. They identify the accepted sibling scope as the displayed finite route and exclude Rule 110 universality, host evaluator correctness, quotient stream equality, cellular completeness, and all-time induction from the binding.
+\end{proof}
+
 The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularTrustSubstrateUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \mathsf{CellularTrustSubstrateUp}$ and $\mathsf{FieldFaithful}\ \mathsf{CellularTrustSubstrateUp}$ instances for the displayed carrier, while $\mathsf{BEDC.Derived.CellularTrustSubstrateUp.taste\_gate}$ records the chapter-level TasteGate instance.
 
 \closureat{CellularTrustSubstrateUp}{seedStr}
