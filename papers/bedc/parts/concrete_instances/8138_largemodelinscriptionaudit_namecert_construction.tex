@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelInscriptionAuditUp$}
+\label{ch:concrete-instances-largemodelinscriptionaudit-namecert}
+\origin{ai}
+
+The $\LargeModelInscriptionAuditUp$ packet realizes the large-model inscription-point reading of \autoref{ch:visions-large-model-as-inscription-point} as a finite audit surface. It sits downstream of the inscription carrier of \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}, the activation-orbit carrier of \autoref{ch:concrete-instances-largemodelactivationorbit-namecert}, the verified-output harness of \autoref{ch:concrete-instances-verifiedoutputharness-namecert}, and the route-audit sibling of \autoref{ch:concrete-instances-inscription-route-audit-namecert}. Its distinguishing role is to bind output, corpus provenance, verification channel, refusal ledger, transport, route, and local naming rows before a consumer may export a model output as an audited inscription.
+
+\begin{definition}[LargeModelInscriptionAudit carrier]
+\label{def:large-model-inscription-audit-carrier}
+A $\LargeModelInscriptionAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,C,V,R,T,K,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the output-record row read from the large-model inscription point;
+\item $C$ is the corpus-provenance row recording the source-channel and distillation route for the output read;
+\item $V$ is the verification-channel row naming the finite checker, replay harness, policy check, proof check, or external certificate procedure applied to $O$;
+\item $R$ is the refusal-ledger row recording unsupported, unverifiable, out-of-scope, or rejected claims;
+\item $T$ records componentwise $\hsame$ transport for output, corpus, verification, refusal, route, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ route from inscription point through corpus provenance, verification channel, refusal ledger, package provenance, and local name;
+\item $H$ is the accepted harness row supplied by $\VerifiedOutputHarnessUp$ when the output read is checker-facing;
+\item $P$ is the $\Pkg$ provenance over $\LargeModelInscriptionPointUp$, $\LargeModelActivationOrbitUp$, $\LargeModelAuditChannelUp$, $\CorpusSupplyDistillationUp$, $\VerifiedOutputHarnessUp$, $\InscriptionRouteAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelInscriptionAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for model consciousness, host semantic understanding, corpus-wide truth, hidden verifier state, private policy override, selected source oracle, or internally ratified universal closure.
+\end{definition}
+
+\begin{theorem}[LargeModelInscriptionAudit NameCert obligations]
+\label{thm:large-model-inscription-audit-namecert-obligations}
+For the carrier of \autoref{def:large-model-inscription-audit-carrier}, the local $\NameCert_{\LargeModelInscriptionAuditUp}$ surface consists exactly of carrier admission for $A=(O,C,V,R,T,K,H,P,N)$, corpus-provenance exposure through $C$, verification-channel exposure through $V$, refusal-ledger exposure through $R$, componentwise transport through $T$, displayed route replay through $K$, checker-facing harness exposure through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows $O,C,V,R,T,K,H,P,N$ are the full public inventory for the audit.
+
+The corpus and verification obligations are separate. The row $C$ records where the output read is carried from, while $V$ records how the output is inspected before public export.
+
+The refusal, transport, route, harness, provenance, and naming rows make the audit replayable. They force any consumer-facing read to keep unsupported claims, checker-facing status, and local provenance in the same finite packet.
+\end{proof}
+
+\begin{theorem}[LargeModelInscriptionAudit output verification boundary]
+\label{thm:large-model-inscription-audit-output-verification-boundary}
+An accepted $\LargeModelInscriptionAuditUp$ packet can export the output row $O$ as audited inscription only after the verification-channel row $V$ and refusal-ledger row $R$ have been displayed. If $V$ is absent, the packet may still contain an emitted output record, but it cannot export that record as internally ratified universal truth or as checker-facing accepted output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:large-model-inscription-audit-carrier}. The output row $O$ is present before the audit reads verification or refusal data.
+
+The route row $K$ orders the public read through $C,V,R,H,P,N$. Thus the output remains carried inscription until the verification channel and refusal ledger have both been exposed.
+
+If $V$ is removed, no carrier coordinate names the checker, replay harness, policy check, proof check, or external certificate procedure. The packet therefore lacks the row needed to distinguish an audited output from a bare emitted inscription or an internally asserted universal claim.
+\end{proof}
+
+\begin{theorem}[LargeModelInscriptionAudit corpus provenance non-escape]
+\label{thm:large-model-inscription-audit-corpus-provenance-nonescape}
+Every public corpus-provenance read of an accepted $\LargeModelInscriptionAuditUp$ packet factors through the displayed row $C$ and the package row $P$. It cannot be replaced by a selected source oracle, corpus-wide truth predicate, hidden training-data selector, host semantic oracle, or model-internal proof of the output.
+\end{theorem}
+\begin{proof}
+The carrier contains one corpus-provenance coordinate, namely $C$, and one package-provenance coordinate, namely $P$. A consumer can read source-channel and distillation provenance only through those rows.
+
+The sibling $\CorpusSupplyDistillationUp$ row supplies finite filtering and distillation provenance, while $\LargeModelInscriptionPointUp$ supplies the carried-output boundary. Neither sibling adds an oracle for corpus-wide truth or host semantic interpretation to this packet.
+
+Since the excluded objects have no coordinate in $A=(O,C,V,R,T,K,H,P,N)$, public export of corpus provenance is exhausted by $C$ and $P$.
+\end{proof}
+
+\begin{theorem}[LargeModelInscriptionAudit TasteGate obligation]
+\label{thm:large-model-inscription-audit-tastegate-obligation}
+The Lean boundary for $\LargeModelInscriptionAuditUp$ must provide $\mathsf{Nontrivial}\ \LargeModelInscriptionAuditUp$ and $\mathsf{FieldFaithful}\ \LargeModelInscriptionAuditUp$ instances in $\mathsf{TasteGate.lean}$ for the same displayed carrier. The nontrivial instance must exhibit an explicit $\mathsf{witness\_pair}$ separating at least an output-with-verification packet from an output-without-verification packet, and the field-faithful instance must use $\mathsf{mk}$-derived fields that preserve $O,C,V,R,T,K,H,P,N$ component by component.
+\end{theorem}
+\begin{proof}
+The carrier definition displays nine finite rows. A nontriviality witness must therefore separate two admissible packet shapes by an actual row difference, not by a hidden semantic predicate.
+
+The verification-channel boundary of \autoref{thm:large-model-inscription-audit-output-verification-boundary} supplies the required separation: one packet displays $V$ as a checker-facing route, and the other lacks that displayed verification row.
+
+Field faithfulness must then be componentwise over the same displayed rows. Using $\mathsf{mk}$-derived fields keeps the Lean carrier aligned with the paper packet and prevents hidden verifier state, corpus truth, or internal ratification from entering through an unlisted coordinate.
+\end{proof}
+
+\falsifiablePrediction{A LargeModelInscriptionAuditUp consumer that omits the verification-channel row cannot export model output as internally ratified universal truth.}
+
+\independenceWitness{largemodelactivationorbit, largemodelauditchannel, corpussupplydistillation, verifiedoutputharness, inscriptionrouteaudit: the combined output/provenance/verification carrier is not bijective to any one sibling because activation orbit lacks the audit verification channel, audit channel lacks the corpus-provenance and route-audit combination, corpus-supply distillation lacks the accepted output harness, verified output harness lacks the standalone corpus-provenance audit row, and inscription route audit lacks the large-model output and corpus rows.}
+
+\closureat{LargeModelInscriptionAuditUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelInscriptionAuditUp}
+  \constructivestory{A $\LargeModelInscriptionAuditUp$ packet is generated from output, corpus-provenance, verification-channel, refusal-ledger, transport, route, harness, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-inscription-audit-carrier}, \autoref{thm:large-model-inscription-audit-namecert-obligations}, \autoref{thm:large-model-inscription-audit-output-verification-boundary}, \autoref{thm:large-model-inscription-audit-corpus-provenance-nonescape}, and \autoref{thm:large-model-inscription-audit-tastegate-obligation} specify the finite large-model inscription audit carrier and its verification-channel boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus-wide truth, host semantic understanding, hidden verifier correctness, Real completeness, Lean verification, or bridge checking for $\LargeModelInscriptionAuditUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, corpus-provenance exactness, verification-channel exactness, refusal-ledger exhaustion, nontriviality, and field faithfulness for the same audit packet.}
+\end{closurestatus}
