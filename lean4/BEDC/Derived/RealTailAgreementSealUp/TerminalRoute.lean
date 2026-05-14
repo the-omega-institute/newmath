@@ -73,4 +73,44 @@ theorem RealTailAgreementSealTerminalRoute_exhaustion
                                                     · exact terminalCont
                                                     · exact agreementCont
 
+theorem RealTailAgreementSeal_budget_route_uniqueness
+    {R S W D A P leftRead rightRead leftDyadic rightDyadic agreement terminal : BHist} :
+    RealTailAgreementSealTerminalRoute R S W D A P leftRead rightRead leftDyadic
+      rightDyadic agreement terminal →
+      hsame agreement (append leftDyadic A) ∧ hsame terminal (append agreement P) ∧
+        Cont W D leftDyadic ∧ Cont W D rightDyadic ∧ Cont leftDyadic A agreement ∧
+          Cont agreement P terminal := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro route
+  cases route with
+  | intro unaryW routeTail =>
+      cases routeTail with
+      | intro unaryD routeTail =>
+          cases routeTail with
+          | intro unaryA routeTail =>
+              cases routeTail with
+              | intro unaryP routeTail =>
+                  cases routeTail with
+                  | intro leftCont routeTail =>
+                      cases routeTail with
+                      | intro rightCont routeTail =>
+                          cases routeTail with
+                          | intro agreementCont routeTail =>
+                              cases routeTail with
+                              | intro terminalCont packetWitness =>
+                                  cases packetWitness with
+                                  | intro packet packetEq =>
+                                      cases packetEq
+                                      constructor
+                                      · exact agreementCont
+                                      · constructor
+                                        · exact terminalCont
+                                        · constructor
+                                          · exact leftCont
+                                          · constructor
+                                            · exact rightCont
+                                            · constructor
+                                              · exact agreementCont
+                                              · exact terminalCont
+
 end BEDC.Derived.RealTailAgreementSealUp
