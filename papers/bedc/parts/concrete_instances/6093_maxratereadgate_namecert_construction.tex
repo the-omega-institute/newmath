@@ -90,6 +90,22 @@ Then use \autoref{thm:max-rate-read-gate-symmetry-nonescape}. It preserves the r
 Thus downstream consumers receive a finite gate rather than a rate primitive. Any consumer that asks for a read of $R$ without $S$ and $F$ is outside the displayed packet.
 \end{proof}
 
+\begin{theorem}[MaxRateReadGate CrossHistCausalRate handoff]
+\label{thm:max-rate-read-gate-cross-hist-causal-rate-handoff}
+Every $\CrossHistCausalRateUp$ consumer of an accepted $\MaxRateReadGateUp$ packet reads the maximum-rate row only through
+$$
+M,R,S,F,L,H,Q,C,P,N.
+$$
+The row $R$ is tied to the $\MaxCausalRateUp$ surface of \autoref{ch:concrete-instances-maxcausalrate-namecert}, $S$ is the observer-symmetry row, $F$ is the no-global-frame refusal row, and $L$ is the consumer lock. The handoff to \autoref{ch:concrete-instances-crosshistcausalrate-namecert} therefore exports a gated maximum-rate boundary rather than a detached rate value, host speed, metric row, clock, or global observer frame.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:max-rate-read-gate-namecert-obligations}. It binds the carrier rows $M,R,S,F,L,H,Q,C,P,N$ into one local NameCert surface and makes rate-source locality part of the packet.
+
+Next apply \autoref{thm:max-rate-read-gate-symmetry-nonescape}. This forces every public read of $R$ to pass through the observer-symmetry row $S$, the no-global-frame refusal row $F$, and the lock row $L$.
+
+Finally apply \autoref{thm:max-rate-read-gate-downstream-consumer-boundary}. A $\CrossHistCausalRateUp$ consumer is one of the maximum-rate consumers that receives the finite gate, so its handoff reads the same ten rows and no detached global-frame or numeric-rate surface.
+\end{proof}
+
 \begin{theorem}[MaxRateReadGate NameCert package]
 \label{thm:max-rate-read-gate-namecert-package}
 The carrier, local NameCert obligations, symmetry-and-non-escape theorem, and downstream consumer boundary assemble the concrete $\NameCert_{\MaxRateReadGateUp}$ package over $\MultiHistConfigUp$, $\MaxCausalRateUp$, $\CrossHistCausalUp$, $\ObserverLocalityCellUp$, $\InterHistInvariantUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$. The package is ready for a Lean realization whose gate file provides \texttt{Nontrivial MaxRateReadGateUp} and \texttt{FieldFaithful MaxRateReadGateUp} instances in \texttt{lean4/BEDC/Derived/MaxRateReadGateUp/TasteGate.lean}, with the canonical declaration surface expected at \texttt{BEDC.Derived.MaxRateReadGateUp.taste\_gate}.

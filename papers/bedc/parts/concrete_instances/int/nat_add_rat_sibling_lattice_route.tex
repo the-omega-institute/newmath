@@ -1,0 +1,13 @@
+\begin{theorem}[Int Nat Add Rat sibling lattice route]
+\label{thm:int-nat-add-rat-sibling-lattice-route}
+Every $\IntUp$ signed-pair read consumed by the rational denominator surface is routed through the $\NatUp$ unary rows of \autoref{ch:concrete-instances-nat-namecert}, the $\AddUp$ balance rows of \autoref{ch:concrete-instances-add-namecert}, and the $\RatUp$ signed-denominator consumer surface of \autoref{ch:concrete-instances-rat-namecert}. The route exposes a displayed signed-pair ledger and denominator consumer; it does not introduce a quotient-class primitive, host integer equality, primitive subtraction row, or field-level rational equality at the integer boundary.
+\end{theorem}
+\begin{proof}
+Begin with the signed-pair interface. The magnitude rows are unary histories supplied by the Nat certificate, while the sign-aware balance row is routed through the Add continuation ledger.
+
+Apply \autoref{prop:int-nat-add-rat-sibling-dependency-lattice}. It places $\IntUp$ as the horizontal dependency node whose Nat and Add rows are already present before the Rat denominator route cites the integer surface.
+
+Next use \autoref{thm:int-nat-add-rat-sibling-route} and \autoref{thm:int-rat-additive-denominator-route}. The rational consumer receives the balanced signed row beside its positive denominator witness, so the downstream surface is the Rat signed-denominator consumer rather than a replacement carrier for Int.
+
+Finally apply \autoref{thm:int-rat-denominator-dependency-surface}. The dependency stops at the displayed signed-pair row and the denominator packet, leaving no coordinate for a quotient-class primitive or host equality.
+\end{proof}
