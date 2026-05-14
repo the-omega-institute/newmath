@@ -176,6 +176,49 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def render_active_board_targets(limit: int = 12) -> str:
+    from dispatch_bedc_target import parse_board
+
+    targets = parse_board()
+    rows: list[dict[str, object]] = []
+    now = datetime.now(timezone.utc)
+    for target in targets.values():
+        done_path = STATE_DIR / f"{target.slug}.json"
+        if done_path.exists():
+            continue
+        marker = STATE_DIR / target.slug / ".in_progress"
+        if marker.exists():
+            status = "in_progress"
+            try:
+                age_seconds: object = now.timestamp() - marker.stat().st_mtime
+            except OSError:
+                age_seconds = None
+        else:
+            status = "pending"
+            age_seconds = None
+        rows.append({
+            "target_id": target.target_id,
+            "status": status,
+            "age": _fmt_age(age_seconds) if age_seconds is not None else "-",
+            "slug": target.slug,
+            "title": target.title[:60],
+        })
+    if not rows:
+        return "  (no active BOARD targets)"
+
+    rows.sort(key=lambda item: (item["status"] != "in_progress", str(item["target_id"])))
+    shown = rows if limit <= 0 else rows[:limit]
+    lines = [f"  {'TARGET':<8} {'STATUS':<12} {'AGE':<8} TITLE"]
+    for item in shown:
+        lines.append(
+            f"  {item['target_id']:<8} {item['status']:<12} {item['age']:<8} "
+            f"{item['title']}  [{item['slug']}]"
+        )
+    if limit > 0 and len(rows) > len(shown):
+        lines.append(f"  ... {len(rows) - len(shown)} more active rows omitted")
+    return "\n".join(lines)
+
+
 def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     by_event = data.get("by_event") or {}
     if not by_event:
@@ -786,6 +829,8 @@ def main() -> int:
     print(render_server(_safe_get_server()))
     print(_section("BOARD"))
     print(render_board())
+    print(_section("Active BOARD Targets"))
+    print(render_active_board_targets())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
     print(_section("Board Refill"))
