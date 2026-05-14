@@ -464,6 +464,24 @@ Finally use \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. 
 The three clauses use the same displayed carrier and the same sibling rows. Therefore they assemble one root-unblock package rather than three independent routes, and every downstream consumer must cite that package through the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement Real-completeness handoff]
+\label{thm:cauchy-modulus-refinement-real-completeness-handoff}
+Every downstream Real-completeness consumer of an accepted $\CauchyModulusRefinementUp$ refinement packet must read the shared meet row, extraction witness, selector budget, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readbacks, and $\RealUp$ seal in the displayed order
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+before using the completion boundary. The consumer may cite the packet only through the shared $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by that finite route.
+\end{theorem}
+\begin{proof}
+Begin with the root-unblock package of \autoref{thm:cauchy-modulus-refinement-root-unblock-package}. It packages the local $\NameCert$ scope, budget-selector source lock, and diagonal-consumer boundary as one accepted route for downstream Real-completion consumers.
+
+Use the diagonal-consumer boundary from \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. It forces any Real or diagonal-completion read through the displayed sibling rows before the seal row can be consumed.
+
+Next apply Real-seal factorization and window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. These identify the selected windows, dyadic tolerance rows, regular readbacks, and Real seal as the same ordered route after $M_0,M_1,U,V,T$.
+
+The completion boundary is therefore reached only after the displayed meet, extraction, selector, window, tolerance, readback, and seal rows have been read. Since the packet has no quotient stream, selected host limit, host real equality, hidden selector, side channel completion object, second meet row, or ambient completeness coordinate, the stated handoff exhausts the Real-completeness consumer surface.
+\end{proof}
+
 \closureat{CauchyModulusRefinementUp}{seedStr}
 \closureat{CauchyModulusRefinementUp}{obligationStr}
 

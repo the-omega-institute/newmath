@@ -75,3 +75,53 @@ For boundary rows, the empty subspace open is carried by $\bot_{\TopologyUp}$ be
 The ledger row records that every accepted subspace open keeps the ambient open index and adds only the visible carrier proof $S(h)$ at membership sites. Thus the certificate consumer sees the $\mathsf{BHist}$ carrier predicate, classifier transport, finite-intersection closure, arbitrary-union closure, boundary rows, and provenance, which is precisely the paper-side $\NameCert_{\TopologyUp}$ obligation surface.
 \end{proof}
 \leanchecked{BEDC.Derived.TopologyUp.BHistSubspaceOpen\_boundary\_closure}
+
+\begin{theorem}[Subspace pullback image factorization]
+\label{thm:topology-subspace-pullback-image-factorization}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $\BHist$, with classifier $\mathsf{same}_X$, open indices $\mathsf{OpenIx}$, and ambient membership predicate $\mathsf{OpenAt}$. Let $S:\BHist\to\mathsf{Prop}$ determine the subspace surface of \autoref{def:topology-bhist-subspace-open-surface}. Let $Y$ be a $\BHist$-carried source with classifier $\mathsf{same}_Y$, and let
+$$
+f:Y\to\BHist
+$$
+be a displayed classifier-respecting $\BHist$ map as in \autoref{def:topology-bhist-pullback-open-row}. Assume that the image of $f$ is displayed inside the subspace,
+$$
+\rho_f:\forall y:Y,\ S(f(y)).
+$$
+For every ambient open index $i:\mathsf{OpenIx}$ and every $y:Y$, the pullback of the subspace-open row along $f$ factors through the ordinary ambient pullback row:
+$$
+\mathsf{SubOpenAt}(i,f(y))
+\Longleftrightarrow
+\mathsf{OpenAt}(i,f(y)).
+$$
+Equivalently, the restricted predicate
+$$
+\mathsf{SubOpenAt}^{f}_{i}(y):\Longleftrightarrow\mathsf{SubOpenAt}(i,f(y))
+$$
+and the ambient pullback predicate
+$$
+\mathsf{OpenAt}^{f}_{i}(y):\Longleftrightarrow\mathsf{OpenAt}(i,f(y))
+$$
+have the same pointwise membership row on $Y$. Moreover this identified row transports along $\mathsf{same}_Y$ by the same classifier route as the ambient pullback open row of \autoref{def:topology-bhist-pullback-open-row}.
+\end{theorem}
+\begin{proof}
+Fix $i:\mathsf{OpenIx}$ and $y:Y$. By \autoref{def:topology-bhist-subspace-open-surface}, the restricted membership predicate is
+$$
+\mathsf{SubOpenAt}(i,f(y))
+\Longleftrightarrow
+S(f(y))\wedge\mathsf{OpenAt}(i,f(y)).
+$$
+The displayed image witness $\rho_f(y)$ supplies the first conjunct. Hence restricted membership implies ambient membership by projection, and ambient membership implies restricted membership by pairing it with $\rho_f(y)$. This proves
+$$
+\mathsf{SubOpenAt}(i,f(y))
+\Longleftrightarrow
+\mathsf{OpenAt}(i,f(y)).
+$$
+Unfolding the two displayed pullback predicates $\mathsf{SubOpenAt}^{f}_{i}$ and $\mathsf{OpenAt}^{f}_{i}$ gives the stated pointwise identification on $Y$.
+
+It remains only to record the transport route. If $\mathsf{same}_Y(y_0,y_1)$ holds, the map row for $f$ gives $\mathsf{same}_X(f(y_0),f(y_1))$. The ambient indexed-open stability field of \autoref{def:topology-indexed-open-carrier}, equivalently the pullback-row transport of \autoref{thm:topology-pullback-open-row-classifier-transport} applied to the ambient row indexed by $i$, transports
+$$
+\mathsf{OpenAt}(i,f(y_0))
+\Longleftrightarrow
+\mathsf{OpenAt}(i,f(y_1)).
+$$
+Composing this equivalence with the pointwise factorization at $y_0$ and $y_1$ transports the restricted pullback predicate as well. Thus the subspace pullback row introduces no additional source-side open predicate: its membership and classifier transport are exactly the ambient pullback row, with the subspace conjunct discharged by the displayed image witness $\rho_f$.
+\end{proof}
