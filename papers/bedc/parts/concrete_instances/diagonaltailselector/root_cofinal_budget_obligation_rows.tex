@@ -370,3 +370,51 @@ route. Carrier-coordinate exhaustion therefore leaves exactly the displayed
 coordinates and no remaining carrier from which one of the excluded objects
 could be read.
 \end{proof}
+
+\begin{theorem}[Diagonal tail selector terminal cofinal route uniqueness]
+\label{thm:diagonal-tail-selector-terminal-cofinal-route-uniqueness}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Suppose two terminal
+$\RealUp$ or $\CompletionUp$ consumers of $G$ both pass through the displayed
+L10 spine
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+Then their terminal cofinal route is the same displayed packet-and-spine route,
+up to the $\hsame$ transports already carried by $G$. No second selector,
+quotient stream, hidden tail oracle, host-selected limit, or ambient
+completeness row can distinguish the two terminal consumers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-tail-selector-root-cofinal-admission} and
+\autoref{thm:diagonal-tail-selector-root-budget-handoff}. Both terminal
+consumers are admitted from the same accepted root packet, so their visible
+coordinates are the coordinates of the displayed $G$ and their transports are
+the $\hsame$ transports already present in that packet.
+
+Next apply \autoref{thm:diagonal-tail-selector-cofinal-budget-replay}. Since
+both consumers pass through the named L10 spine, the replay supplies the same
+finite cofinal budget at each listed selector, stream, dyadic, regular sequence,
+seal, and real-facing row.
+
+Now use \autoref{thm:diagonal-tail-selector-terminal-budget-determinacy} and
+\autoref{thm:diagonal-tail-selector-root-formal-target-surface}. These identify
+the terminal read of each consumer with the same public packet-and-spine route,
+leaving only the already displayed $\hsame$ transports as admissible
+coordinate changes.
+
+Finally invoke
+\autoref{thm:diagonal-tail-selector-terminal-cofinal-route-exhaustion}. The
+exhaustion theorem removes every non-displayed coordinate, so no second
+selector, quotient stream, hidden tail oracle, host-selected limit, or ambient
+completeness row remains available to distinguish the two terminal routes.
+\end{proof}
