@@ -158,6 +158,46 @@ Now seal the consumer boundary. The seal consumer exhaustion theorem leaves no d
 Thus $H,C,P,N$ can only transport, replay, authenticate, and name the same ordered route. They do not supply another selected observation or another seal endpoint.
 \end{proof}
 
+\begin{theorem}[Real completeness selector-window source determinacy]
+\label{thm:real-completeness-selector-window-source-determinacy}
+Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. Every accepted selector-window-seal read of $R$ reads the modulus row $\mu$ before it reads the selector row $\Delta$, and it reads $\Delta$ before any of the dyadic, stream-window, regular-sequence, or real-seal rows $D,W,Q,S$. The transport, route, package, and local naming rows $H,C,P,N$ can replay and certify that order, but they cannot supply an alternate source for the selected observation.
+\end{theorem}
+\begin{proof}
+Start with selector route coverage. Theorem~\ref{thm:real-completeness-selector-route-coverage} makes every selected diagonal observation pass through the displayed selector route before it can be read by a $\RealUp$ or $\CauchyLimitSealUp$ consumer.
+
+Now apply the modulus-selector factorization. Theorem~\ref{thm:real-completeness-modulus-selector-factorization} fixes the front of that route: the finite request is supplied by $\mu$, the selected diagonal row is supplied by $\Delta$, and the middle certificate rows $D,W,Q,S$ are reached only after that source pair is displayed.
+
+Finally compare with the selector-window-seal factorization. Theorem~\ref{thm:real-completeness-selector-window-seal-factorization} identifies $H,C,P,N$ as transport, replay, provenance, and naming rows for the same ordered packet. Hence no accepted read can swap the source order or introduce a second source row.
+\end{proof}
+
+\begin{theorem}[Real completeness selector-window dyadic-window nonescape]
+\label{thm:real-completeness-selector-window-dyadic-window-nonescape}
+Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. In every selector-window-seal read of $R$, the middle rows $D,W,Q$ expose only the displayed $\DyadicRatCoreUp$ ledger, $\StreamNameUp$ windows, and $\RegSeqRatUp$ readback attached to the source rows $\mu,\Delta$. They cannot export quotient streams, host equality, choice selectors, selected host limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-completeness-selector-window-source-determinacy} first. It places $D,W,Q$ downstream of the displayed source rows $\mu,\Delta$, so the middle rows are read as certificate rows for that selected observation rather than as independent completion data.
+
+Next apply the nonescape boundary. Theorem~\ref{thm:real-completeness-nonescape-boundary} excludes quotient streams, host-selected limits, countable-choice selectors, host equality, and ambient completeness from the public $\RealCompletenessUp$ export.
+
+The selector-window-seal factorization then pins the same exclusion to the middle rows. Since $D,W,Q$ are the dyadic ledger, finite stream-window display, and regular-sequence readback inside the ordered route, they have no coordinate from which any of the excluded objects could be exported.
+\end{proof}
+
+\begin{theorem}[Real completeness selector-window consumer readback]
+\label{thm:real-completeness-selector-window-consumer-readback}
+Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. Every $\RealUp$, $\CauchyLimitSealUp$, selector-facing, and completion-facing consumer of the selector-window-seal surface reads back the same displayed route
+$$
+\mu,\Delta,D,W,Q,S,H,C,P,N.
+$$
+No such consumer obtains a second modulus row, selector row, dyadic ledger, stream window, regular-sequence readback, seal row, transport, route replay, package provenance, or local naming row.
+\end{theorem}
+\begin{proof}
+First exhaust the seal-facing consumers. Theorem~\ref{thm:real-completeness-seal-consumer-exhaustion} says that $\RealUp$, $\CauchyLimitSealUp$, selector-facing, and completion-facing reads use the selector-presented rows and the displayed $\RealCompletenessUp$ rows.
+
+Next attach the shared-tail handoff. Theorem~\ref{thm:real-completeness-shared-tail-modulus-handoff} identifies the completion-facing route through the shared threshold, dyadic ledger, stream windows, regular-sequence readbacks, and the same real-facing seal row $S$.
+
+Finally apply terminal export. Theorem~\ref{thm:real-completeness-selector-window-terminal-export} exports exactly the selector-window-seal packet, and \autoref{thm:real-completeness-selector-window-dyadic-window-nonescape} removes the possible middle-row escape routes. Thus every listed consumer reads back the same displayed $\mu,\Delta,D,W,Q,S,H,C,P,N$ route.
+\end{proof}
+
 \begin{theorem}[Real completeness selector-window terminal export]
 \label{thm:real-completeness-selector-window-terminal-export}
 Let $R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)$ be an accepted $\RealCompletenessUp$ packet. Once the ordered route
