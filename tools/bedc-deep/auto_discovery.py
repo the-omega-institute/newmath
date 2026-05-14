@@ -96,6 +96,19 @@ def sync_dev_if_clean() -> bool:
     n = behind.stdout.strip() or "0"
     if n == "0":
         return False
+    changed = _git(["diff", "--name-only", f"HEAD..{UPSTREAM_REF}"])
+    changed_paths = [line.strip() for line in changed.stdout.splitlines() if line.strip()]
+    forbidden = [
+        path for path in changed_paths
+        if path.startswith("lean4/") or path in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"}
+    ]
+    if forbidden:
+        print(
+            "[discovery] sync_dev refused: upstream touches protected paths "
+            f"({', '.join(forbidden[:5])})",
+            flush=True,
+        )
+        return False
     print(f"[discovery] sync_dev pulling {n} commits from {UPSTREAM_REF}", flush=True)
     with file_lock("paper_writes"):
         merge = _git(["merge", "--no-edit", UPSTREAM_REF])
