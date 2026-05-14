@@ -1,0 +1,95 @@
+\chapter{CauchySealFunctorUp NameCert construction}
+\label{ch:concrete-instances-cauchy-seal-functor-namecert}
+\origin{ai}
+
+The $\CauchySealFunctorUp$ surface realizes the Real-completion Cauchy seal route of \autoref{ch:visions-real-completeness} as a finite seal-transport packet. It sits between the completion classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, the limit-seal source of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the regular-rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite-window source of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. Its role is to carry a reusable transport row from displayed CauchyLimitSeal inputs to displayed RealCompletionSealClassifier reads before a $\RealUp$ handoff consumes the route.
+
+\falsifiablePrediction{If a seal transport reaches a RealUp consumer without passing through either a displayed CauchyLimitSeal row or a displayed RealCompletionSealClassifier row, the CauchySealFunctor packet is refuted.}
+
+\independenceWitness{realcompletionsealclassifier, cauchylimitseal, cauchysealbudgetsynchronizer, regseqrat, streamname: no sibling is bijective because CauchySealFunctor carries a transport row between seal reads, while each sibling supplies only one endpoint, budget, regular-source, or finite-window surface.}
+
+\begin{definition}[Cauchy seal functor carrier]
+\label{def:cauchy-seal-functor-carrier}
+A $\CauchySealFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(L,E,T,W,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the source $\CauchyLimitSealUp$ row;
+\item $E$ is the target $\RealCompletionSealClassifierUp$ row;
+\item $T$ is the seal-transport row linking $L$ to $E$ through displayed finite reads;
+\item $W$ is the $\StreamNameUp$ finite-window schedule consumed by the transport;
+\item $R$ is the $\RegSeqRatUp$ regular-source handoff;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the same handoff;
+\item $H$ records componentwise $\hsame$ transport for $L,E,T,W,R,D,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay the seal transport;
+\item $P$ is the $\Pkg$ provenance naming $\CauchyLimitSealUp$, $\RealCompletionSealClassifierUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchySealFunctorUp}$ row.
+\end{enumerate}
+The carrier accepts only transports whose consumer-visible route factors through $L,E,T,W,R,D,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy seal functor NameCert obligations]
+\label{thm:cauchy-seal-functor-namecert-obligations}
+For the carrier of \autoref{def:cauchy-seal-functor-carrier}, the local $\NameCert_{\CauchySealFunctorUp}$ surface consists exactly of carrier admission for $F=(L,E,T,W,R,D,H,C,P,N)$, source-seal admission for $L$, target-classifier admission for $E$, seal-transport exactness for $T$, finite-window scheduling through $W$, regular-source handoff through $R$, dyadic tolerance readback through $D$, componentwise $\hsame$ transport through $H$, displayed consumer routes through $C$, package provenance through $P$, local naming through $N$, and non-escape from quotient streams, selected limits, host real equality, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed rows are exactly $L,E,T,W,R,D,H,C,P,N$, so carrier admission, transport exactness, package provenance, and local naming are finite $\BHist$ reads.
+
+Read the source and target rows through the sibling chapters. The source row is the displayed $\CauchyLimitSealUp$ surface, and the target row is the displayed $\RealCompletionSealClassifierUp$ classifier surface; $T$ records only the transport between these two displayed endpoints.
+
+The regularity and window rows are $W,R,D$. They force every transport read through a finite StreamName window, a RegSeqRat handoff, and a DyadicRatCore tolerance ledger before the route reaches a $\RealUp$ consumer.
+
+The excluded objects have no carrier coordinate. Therefore the local $\NameCert$ surface contains no quotient stream, selected external limit, host real equality, countable choice, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[Cauchy seal functor non-escape]
+\label{thm:cauchy-seal-functor-nonescape}
+Every public consumer of an accepted $\CauchySealFunctorUp$ packet reads only the source seal row $L$, target classifier row $E$, seal-transport row $T$, finite-window row $W$, regular-source row $R$, dyadic tolerance row $D$, componentwise $\hsame$ rows $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local name row $N$. In particular, a $\RealUp$ consumer receives a transported finite seal read, not a quotient stream, selected limit, host real equality, countable choice, or ambient completeness proof.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $F=(L,E,T,W,R,D,H,C,P,N)$. The consumer-facing rows are the two seal endpoints, the transport row, the three finite route rows, and the local transport, route, provenance, and name rows.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-seal-functor-namecert-obligations}. They force every public read through the displayed finite packet and leave no coordinate for a host-level completion object.
+
+Thus any $\RealUp$ read sees only the transported finite seal surface. Since quotient streams, selected limits, host equality, countable choice, and ambient completeness are absent from the carrier, no public consumer can extract them.
+\end{proof}
+
+\begin{theorem}[Cauchy seal functor regularity handoff]
+\label{thm:cauchy-seal-functor-regularity-handoff}
+Let $F=(L,E,T,W,R,D,H,C,P,N)$ be an accepted $\CauchySealFunctorUp$ packet. Every regularity-sensitive seal transport factors through the same triple $W,R,D$: a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ regular-source handoff, and a $\DyadicRatCoreUp$ tolerance ledger. The transport row $T$ may replay these rows through $H$ and $C$, but it cannot replace them by an unbounded stream, a selected representative, or a host real-completion argument.
+\end{theorem}
+\begin{proof}
+Read the transport row $T$ together with the route rows $W,R,D$. By carrier admission, these rows are the only finite-window, regular-source, and dyadic-tolerance coordinates available to the transport.
+
+The componentwise $\hsame$ and $\Cont$ rows $H$ and $C$ replay the same triple rather than adding a second source. Hence every regularity-sensitive transport remains attached to the displayed StreamName, RegSeqRat, and DyadicRatCore rows.
+
+The non-escape theorem excludes unbounded streams, selected representatives, host equality, and ambient completeness. The regularity handoff is therefore exactly the finite triple $W,R,D$ as stated.
+\end{proof}
+
+\begin{theorem}[Cauchy seal functor Real-completion boundary]
+\label{thm:cauchy-seal-functor-real-completion-boundary}
+Let $F=(L,E,T,W,R,D,H,C,P,N)$ be an accepted $\CauchySealFunctorUp$ packet. Any Real-completion consumer of $F$ must pass through either the displayed $\CauchyLimitSealUp$ row $L$ before transport or the displayed $\RealCompletionSealClassifierUp$ row $E$ after transport, with $T,W,R,D,H,C,P,N$ providing the finite route. A read that reaches a $\RealUp$ consumer while bypassing both displayed seal rows is not a read of this packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the two seal endpoints $L$ and $E$. The carrier has no other seal endpoint, so a Real-completion consumer can enter the transport only before $T$ through $L$ or after $T$ through $E$.
+
+Use the regularity handoff of \autoref{thm:cauchy-seal-functor-regularity-handoff}. The route between the endpoints is the finite triple $W,R,D$ together with the local rows $H,C,P,N$.
+
+Finally apply non-escape. A consumer path that bypasses both $L$ and $E$ has no source seal, no target classifier, and no displayed transport row of the packet, so it is outside the $\CauchySealFunctorUp$ carrier.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\CauchySealFunctorUp$ must provide explicit $\mathsf{Nontrivial}\ \CauchySealFunctorUp$ and $\mathsf{FieldFaithful}\ \CauchySealFunctorUp$ instances for the displayed finite seal-transport packet.
+
+\closureat{CauchySealFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CauchySealFunctorUp}
+  \constructivestory{A $\CauchySealFunctorUp$ packet is generated from a CauchyLimitSeal source row, a RealCompletionSealClassifier target row, one seal-transport row, StreamName windows, RegSeqRat handoff rows, DyadicRatCore tolerance rows, componentwise hsame transports, displayed Cont routes, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-seal-functor-carrier}, \autoref{thm:cauchy-seal-functor-namecert-obligations}, \autoref{thm:cauchy-seal-functor-nonescape}, \autoref{thm:cauchy-seal-functor-regularity-handoff}, and \autoref{thm:cauchy-seal-functor-real-completion-boundary} specify the finite seal-transport packet and its Real-completion consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy streams, selected limits, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, seal-transport exactness, regularity handoff, Real-completion boundary, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

@@ -703,6 +703,82 @@ of the excluded host, quotient, evaluator, divergence, or global-normalization
 objects is available.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ terminal fuel row exhaustion]
+\label{thm:znormal-terminal-fuel-row-exhaustion}
+Every terminal-normality read of an accepted $\ZNormalUp$ packet is exhausted
+by the rows
+$$
+T,F,V,R,H,C,P,N.
+$$
+The row $K$ contributes only the finite Zeckendorf and carry-facing sibling
+normal-word surface already available to the packet, and the TasteGate-facing
+consumer surface is the same field surface later used by
+\texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:znormal-terminal-fuel-field-scope}. It places each
+terminal-normality read behind $T,F,V,R$ and uses $H,C,P,N$ only as transport,
+replay, package, and naming rows.
+
+Next use \autoref{thm:znormal-total-host-consumer-scope}. A consumer that asks
+for host conversion, quotient computation, divergence, unrestricted
+evaluation, or global normalization receives no additional row.
+
+The remaining sibling evidence is exactly the finite handoff of
+\autoref{thm:znormal-sibling-normalword-handoff}. Thus the TasteGate boundary
+seen by later Nontrivial and FieldFaithful instances is the displayed finite
+surface, not a host evaluator.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-word sibling exactness]
+\label{thm:znormal-normal-word-sibling-exactness}
+The normal-word row $K$ of an accepted $\ZNormalUp$ packet is exact only
+through the Zeckendorf and carry-facing sibling routes cited by
+\autoref{thm:znormal-sibling-normalword-handoff}. Together with the
+continuation readback row $R$, it is transported through $H,C,P,N$ and not
+through host conversion, quotient computation, divergence, unrestricted
+evaluation, or global normalization.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-sibling-normalword-handoff}. It identifies $K$
+with the finite Zeckendorf and carry-facing sibling normal-word evidence.
+
+Now apply \autoref{thm:znormal-continuation-normal-word-pullback}. This places
+$K$ and $R$ on one transported route and permits only the structural rows
+$H,C,P,N$ to move that route across the packet.
+
+Finally use \autoref{thm:znormal-total-host-consumer-scope}. Since the packet
+exports no host or quotient-facing normalizer, the exactness of $K$ is exactly
+the sibling exactness already named in the finite rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host refusal package]
+\label{thm:znormal-total-host-refusal-package}
+For every accepted $\ZNormalUp$ packet, the public refusal package excludes
+host conversion, quotient computation, divergence oracle, unrestricted
+evaluator, and global normalizer. All admitted reads factor through
+$$
+T,F,V,K,R,H,C,P,N,
+$$
+with terminal-normality routed by $T,F,V,R,H,C,P,N$ and sibling normal-word
+evidence routed by $K$ through the Zeckendorf and carry-facing sibling surface.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:znormal-terminal-fuel-row-exhaustion} with
+\autoref{thm:znormal-normal-word-sibling-exactness}. These rows separate the
+terminal-normality route from the sibling normal-word route while keeping both
+inside the same finite packet.
+
+Next apply \autoref{thm:znormal-total-host-consumer-scope}. It refuses every
+total-host request whose requested object has no coordinate in
+$T,F,V,K,R,H,C,P,N$.
+
+The TasteGate surface is therefore explicit: later Nontrivial and
+FieldFaithful instances consume the same finite field surface, and no hidden
+host conversion, quotient computation, divergence oracle, unrestricted
+evaluator, or global normalizer is packaged.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}
