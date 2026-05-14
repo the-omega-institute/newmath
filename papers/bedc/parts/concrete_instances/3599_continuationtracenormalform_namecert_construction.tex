@@ -59,12 +59,26 @@ Use \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The termi
 Finally inspect the excluded objects. Each would require a separate carrier coordinate or a second consumer route outside $S,T,R,Q,V,H,C,P,N$. Since the accepted packet has neither, the terminal normal-form surface is exactly the displayed finite NameCert packet.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm terminal scope]
+\label{thm:continuation-trace-normal-form-terminal-scope}
+Every accepted $\ContinuationTraceNormalFormUp$ packet exposes the terminal row only after consuming the $\ContinuationTraceUp$ ledger, the $\ContinuationBigStepUp$ terminal-read row, and the $\TypedReductionNormalFormUp$ row through the displayed $\Cont$ routes. No consumer can replace that sequence by host conversion, quotient normalization, evaluator graphs, or normalization oracles.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Z=(S,T,R,Q,V,H,C,P,N)$. The terminal row $R$ is a coordinate of the same finite packet as the trace ledger $T$, terminal-read row $Q$, typed normal-form row $V$, and displayed continuation routes $C$.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. Trace replay is first consumed through $T$ and $C$, terminal-read exposure is then consumed through $Q$, and typed normal-form readback is consumed through $V$ before the local name $N$ is reached.
+
+Apply \autoref{thm:continuation-trace-normal-form-non-escape}. Host conversion, quotient normalization, evaluator graphs, and normalization oracles have no coordinate in $Z$, so none can serve as an alternate terminal-read route.
+\end{proof}
+
+This terminal-scope row is the paper obligation needed before Lean can formalize the continuation trace normal-form handoff.
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationTraceNormalFormUp}
   \constructivestory{A $\ContinuationTraceNormalFormUp$ packet is generated from a source history row, a finite $\ContinuationTraceUp$ ledger, a terminal row, a $\ContinuationBigStepUp$ terminal-read witness, a $\TypedReductionNormalFormUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, and \autoref{thm:continuation-trace-normal-form-non-escape} bind terminal trace normalization as a finite continuation-replay NameCert packet.}
+  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, and \autoref{thm:continuation-trace-normal-form-terminal-scope} bind terminal trace normalization as a finite continuation-replay NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
