@@ -1,0 +1,39 @@
+\begin{theorem}[Closed-term substitution boundary root value visibility]
+\label{thm:closed-term-substitution-boundary-root-value-visibility}
+Every root consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must expose
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}
+$$
+before either the closed-shift row $Q$ or the substitute-closed row $R$ is used. The exposed rows are the displayed source term, substituting value, inspected depth, source closedness witness, and value closedness witness of the same finite $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Read the root consumer through the carrier and local certificate rows of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ packet coordinates rather than hidden preconditions.
+
+Use source and value admission from \autoref{thm:closed-term-substitution-boundary-source-closedness-admission} and \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}. These rows place the closedness witnesses on the visible route before the shift or substitution boundary can be read.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. The ledger and consumer boundary prevent a root consumer from obtaining $Q$ or $R$ from host substitution semantics, a hidden evaluator, or an ambient compiler theorem.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root operation dependency]
+\label{thm:closed-term-substitution-boundary-root-operation-dependency}
+In every root read of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the rows $Q$ and $R$ are dependent operation rows over the displayed witnesses $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$. They may be consumed only as the packet's certified closed-shift and substitute-closed boundary rows, not as host shift semantics, host substitution semantics, subject reduction, or an evaluator equation.
+\end{theorem}
+\begin{proof}
+Start from the operation inventory of \autoref{thm:closed-term-substitution-boundary-operation-row-determinacy}. It identifies $Q$ and $R$ as the only operation rows of the finite packet.
+
+Use \autoref{thm:closed-term-substitution-boundary-closedness-ledger-coverage} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. These rows force the operation read through the displayed closedness witnesses and ledger before any downstream citation can mention $Q$ or $R$.
+
+The exclusion of host semantics follows from \autoref{thm:closed-term-substitution-boundary-ledger-route-separation} and \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. Hence the operation dependency is a packet dependency over the displayed closedness witnesses, not an imported shift or substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root consumer exhaustion]
+\label{thm:closed-term-substitution-boundary-root-consumer-exhaustion}
+Downstream self-compilation and normalization consumers exhaust their closed-substitution read through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet of $\ClosedTermSubstitutionBoundaryUp$. No remaining consumer route may add an unregistered free-variable coordinate, host equality, hidden evaluator, hidden compiler state, subject-reduction theorem, or host substitution semantics.
+\end{theorem}
+\begin{proof}
+First package the root-visible rows by \autoref{thm:closed-term-substitution-boundary-root-value-visibility} and \autoref{thm:closed-term-substitution-boundary-root-operation-dependency}. Together they expose the source, value, depth, closedness, and operation surface before any root read continues.
+
+Next use the existing consumer rows. The self-compilation route of \autoref{thm:closed-term-substitution-boundary-consumer-factorization} and the normalization-frontier handoff of \autoref{thm:closed-term-substitution-boundary-normalization-frontier-handoff} both factor through the same finite boundary packet.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-namecert-export-totality} and \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. The displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows therefore exhaust the downstream read, with no route to hidden substitution or compiler data.
+\end{proof}

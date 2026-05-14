@@ -1,0 +1,173 @@
+\section{StreamName Tail-Compatible Finite-Window Packet}
+\label{sec:streamname-tail-compatible-finite-window-packet}
+
+\begin{theorem}[StreamName tail-compatible window request]
+\label{thm:streamname-tail-compatible-window-request}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$ rational
+stream rows, let $\mathcal P:\mathsf{ProbeBundle}$ be a finite observation
+window, and let $n:\mathsf{BHist}$ be a certified unary observation with
+$\mathsf{InBundle}(n,\mathcal P)$. A tail-compatible window request from the
+L10 countable-name gateway to a $\RegSeqRatUp$ readback or a finite-window
+$\RealUp$ seal is determined by exactly the following finite rows:
+\begin{enumerate}
+\item the observation index $n$ together with its $\mathsf{UnaryHistory}(n)$
+and $\mathsf{InBundle}(n,\mathcal P)$ witnesses;
+\item the tail-selector route carrying the selected StreamName observation
+window;
+\item the finite-window budget surface for the same $\mathcal P$; and
+\item the pointwise handoff row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ consumed by the $\RegSeqRatUp$
+side.
+\end{enumerate}
+No other source row is part of the request. In particular, the request has no
+coordinate for quotient stream equality, selected limits, host real equality,
+metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the tail selector route of
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport}. It fixes
+the selected StreamName window and the downstream $\RegSeqRatUp$ and $\RealUp$
+readback rows through one finite transport packet.
+
+Next read the finite observation row through
+\autoref{thm:streamname-tail-selector-pointwise-transport}. For the certified
+index $n$, the transported source row is exactly the bundled
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ evidence
+together with $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Now attach the budget surface by
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It places
+the same finite $\mathsf{ProbeBundle}$, membership, unary-history,
+observation-budget, and tail-budget rows before any regularity, dyadic, or
+Real-seal consumer row.
+
+Finally apply \autoref{thm:streamname-regseqrat-pointwise-handoff}. The
+pointwise handoff has only StreamName carrier, finite-window classifier,
+membership, unary-history, and rational-history classifier slots. The
+displayed rows therefore determine the request, and the cited non-escape
+clauses exclude quotient, limit, host-real, metric-completeness, and ambient
+completeness data.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible window coverage]
+\label{thm:streamname-tail-compatible-window-coverage}
+Every accepted finite-window handoff from $\StreamNameUp$ to a $\RegSeqRatUp$
+readback or to a finite-window $\RealUp$ seal factors through the
+tail-compatible window request of
+\autoref{thm:streamname-tail-compatible-window-request}, together with the
+shared support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The factorization is finite: it is read from the selected $\mathsf{BHist}$
+observation index, the tail selector route, the finite-window budget row, the
+pointwise $\RegSeqRatUp$ handoff, and the displayed support rows. It does not
+use a quotient stream class, a chosen limit, host real equality, or an ambient
+completion theorem.
+\end{theorem}
+\begin{proof}
+Begin with an accepted finite-window StreamName handoff. By
+\autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness}, the
+handoff decomposes into the public finite-window classifier, bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, pointwise rational-history
+classifier rows, the accepted $\RegSeqRatUp$ spine, DyadicRatCore endpoint
+rows, and the finite $\RealUp$ ledger.
+
+The rowwise source is then the request from
+\autoref{thm:streamname-tail-compatible-window-request}. Its determining data
+are the certified $\mathsf{BHist}$ observation index, the selected tail route,
+the finite-window budget surface, and the pointwise $\RegSeqRatUp$ handoff.
+
+Next use
+\autoref{thm:streamname-regseqrat-tail-selector-real-window-factorization}.
+It reads every consumer-facing $\RealUp$ row through the same finite
+StreamName-to-RegSeqRat packet and the same DyadicRatCore endpoint rows.
+
+Finally apply
+\autoref{thm:streamname-real-completion-four-object-exit-route}. The exit
+boundary adds only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support needed by the four sibling faces. Combining these route
+statements gives the displayed finite factorization and leaves quotient
+classes, selected limits, host real equality, and ambient completion outside
+the accepted handoff.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible window packet]
+\label{thm:streamname-tail-compatible-window-packet}
+The tail-compatible finite-window packet is exactly the tuple consisting of the unary index row, the bundle-membership row, the tail-selector route, the finite-window budget surface, the pointwise $\RegSeqRatUp$ handoff, and the support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Any accepted downstream $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal read is classified by equality of these displayed rows and by no additional stream-level coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-tail-compatible-window-request}. It identifies the request by the certified unary observation, membership in the finite bundle, the selected tail route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$ handoff.
+
+Apply \autoref{thm:streamname-tail-compatible-window-coverage}. Every admitted downstream finite-window consumer route factors through that request together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally use the pointwise transport and budget handoff rows, \autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness} and \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. These rows leave no second stream source, quotient stream class, selected limit, host real equality, metric-completeness datum, or ambient completion coordinate, so equality of the displayed tuple is exactly packet equality for downstream reads.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible window nonescape]
+\label{thm:streamname-tail-compatible-window-nonescape}
+The tail-compatible finite-window packet exported from $\StreamNameUp$ to
+$\RegSeqRatUp$ and $\RealUp$ carries only the request rows of
+\autoref{thm:streamname-tail-compatible-window-request} and the support rows
+of \autoref{thm:streamname-tail-compatible-window-coverage}. It exports no
+quotient stream equality, no selected limit, no host real equality, no
+metric-completeness datum, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-tail-compatible-window-request}. The request is
+determined by the certified finite observation, tail-selector route,
+finite-window budget surface, and pointwise $\RegSeqRatUp$ handoff.
+
+Apply \autoref{thm:streamname-tail-compatible-window-coverage}. Any accepted
+finite-window consumer route factors through that request and the displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally use \autoref{thm:streamname-real-completion-four-object-exit-route}.
+The four-object exit boundary consumes the same finite StreamName,
+DyadicRatCore, RegSeqRat, and RealUp faces without adding quotient stream
+equality, host sequence equality, selected limits, metric-completeness data,
+countable choice, standard bridges, or ambient completeness. Hence the
+tail-compatible packet has no escaping coordinate of the listed kinds.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible window terminality]
+\label{thm:streamname-tail-compatible-window-terminality}
+Every accepted finite-window handoff from $\StreamNameUp$ to a $\RegSeqRatUp$
+readback or to a finite-window $\RealUp$ seal factors terminally through the
+request rows of \autoref{thm:streamname-tail-compatible-window-request} and
+the support rows of \autoref{thm:streamname-tail-compatible-window-coverage}.
+
+If two accepted finite-window consumers expose the same finite observation,
+tail-selector route, budget surface, pointwise handoff, and support rows, then
+they classify through the same tail-compatible window route. The terminal
+packet exports no quotient stream equality, selected limit, host real equality,
+metric-completeness datum, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the request theorem. By
+\autoref{thm:streamname-tail-compatible-window-request}, the finite-window
+request is determined by the certified observation row, the tail-selector
+route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$
+handoff row.
+
+Next add the shared support. Apply
+\autoref{thm:streamname-tail-compatible-window-coverage}; every accepted
+handoff to a $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal factors
+through the same request together with the displayed $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Now compare two consumers with the same visible inventory. The request rows
+agree by the first step, and the support rows agree by the second step, so the
+two consumers replay the same finite StreamName window route into the
+downstream readback or seal.
+
+Finally use \autoref{thm:streamname-tail-compatible-window-nonescape}. It
+excludes quotient stream equality, selected limits, host real equality,
+metric-completeness data, and ambient $\RealUp$ completeness from the packet.
+Thus the displayed request and support rows are terminal for finite-window
+consumers.
+\end{proof}

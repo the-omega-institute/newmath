@@ -310,3 +310,44 @@ route, and all four together are sufficient without adding quotient streams,
 host real equality, selected limits, ambient completeness, choice data, or
 hidden seal coordinates.
 \end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-window saturation]
+\label{thm:regseqrat-real-seal-finite-window-saturation}
+Every accepted public $\RegSeqRatUp$ read that exits as a $\RealUp$ seal for
+Phase Real and Completion is saturated by exactly four finite faces:
+\begin{enumerate}
+\item the $\StreamNameUp$ schedule and membership rows;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance ledgers;
+\item the $\RegSeqRatUp$ classifier, regularity, and transport rows;
+\item the public $\RealUp$ seal row.
+\end{enumerate}
+No fifth face is available to the exit read. In particular, the saturated
+route contains no quotient stream, host real equality, selected limit,
+ambient completeness witness, choice datum, or hidden seal coordinate beyond
+the displayed $\mathsf{BHist}$, componentwise $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regseqrat-l10-four-face-necessity}. It shows that a
+Phase Real and Completion exit read requires the schedule, dyadic ledger,
+RegSeqRat classifier, and public seal faces, and that those four faces
+suffice for the L10 exit route.
+
+Use
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence}. It identifies
+each displayed face with the same finite $\mathsf{BHist}$ route through the
+other three, so any accepted public seal read already recovers the schedule,
+dyadic, classifier, transport, and seal rows without an extra coordinate.
+
+Next apply \autoref{thm:regseqrat-common-dyadic-tail-ledger}. It keeps common
+cofinal dyadic refinements on the same endpoint, radius, distance,
+classifier, regularity, transport, continuation, provenance, and local naming
+ledger. Thus refinements do not create an additional face.
+
+Finally use
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence}. It
+ties the finite source read to the public seal read in both directions. The
+only surfaces exported to the seal are the four listed faces, and the
+excluded quotient, host equality, selected-limit, completeness, choice, and
+hidden-coordinate data have no row in the accepted route.
+\end{proof}
