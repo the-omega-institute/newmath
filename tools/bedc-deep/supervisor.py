@@ -1327,11 +1327,6 @@ def main() -> int:
         final_inner = supervisor_state.get("inner") or inner
         if final_inner is not None:
             stop_inner(final_inner)
-        if STOP_FILE.exists():
-            try:
-                STOP_FILE.unlink()
-            except OSError:
-                pass
         supervisor_log("supervisor exiting")
     return 0
 
