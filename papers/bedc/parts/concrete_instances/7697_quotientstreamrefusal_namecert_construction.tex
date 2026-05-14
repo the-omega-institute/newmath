@@ -242,6 +242,28 @@ Ledger exactness and off-route nonescape route every quotient-stream, selected-l
 The displayed TasteGate commitment supplies the remaining two marker obligations: nontriviality and field faithfulness for the same finite packet rows. Hence the listed carrier, route, ledger, non-escape, nontriviality, and field-faithfulness obligations form the complete paper-side TasteGate route.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal public bridge boundary]
+\label{thm:quotient-stream-refusal-public-bridge-boundary}
+The public refusal export of $\QuotientStreamRefusalUp$ bridges to the standard Real-completion boundary exactly through the displayed route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyLimitSealUp \longmapsto \RealUp.
+$$
+In carrier coordinates this is the packet
+$$
+Q=(S,R,L,E,F,H,C,P,N),
+$$
+where $S,R,L,E$ are the bridge route and $F$ is the refusal ledger. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\mathsf{Nontrivial}\ \QuotientStreamRefusalUp$, and $\mathsf{FieldFaithful}\ \QuotientStreamRefusalUp$ rows are structural support for that route only. They export no quotient-stream equality, selected limit, host real equality, hidden tail oracle, ambient completeness row, or alternative Real-completion boundary.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{thm:quotient-stream-refusal-carrier-admission}. It fixes the public packet as $Q=(S,R,L,E,F,H,C,P,N)$ and leaves no additional quotient-stream, selected-limit, host-equality, hidden-tail, or completeness coordinate.
+
+Route ordering is \autoref{thm:quotient-stream-refusal-route-ordering}. It forces every accepted completion read through $S \longmapsto R \longmapsto L \longmapsto E$ before the $\RealUp$ seal row is public.
+
+Terminal exhaustion is \autoref{thm:quotient-stream-refusal-terminal-route-exhaustion}. Regular-tail factorization is \autoref{thm:quotient-stream-refusal-regular-tail-factorization}. Together they rule out a second terminal read through quotient-stream equality or a hidden tail interpretation of the shared row.
+
+Obligation closure is \autoref{thm:quotient-stream-refusal-obligation-closure}. The TasteGate marker route is \autoref{thm:quotient-stream-refusal-tastegate-marker-route}. These results assemble the refusal ledger, structural support rows, nontriviality commitment, and field-faithfulness commitment around the same displayed route, so the public bridge boundary is exactly the StreamName, RegSeqRat, CauchyLimitSeal, and RealUp route and nothing outside it.
+\end{proof}
+
 \falsifiablePrediction{Any accepted Real-completion consumer that asks for quotient-stream equality is refused unless it first factors through the displayed StreamName, RegSeqRat, CauchyLimitSeal, and RealUp seal rows.}
 
 \independenceWitness{streamname, regseqrat, cauchylimitseal, realwindowsynchronizer, real: no sibling is bijective because none carries the refusal row together with all four route surfaces and the non-escape ledger.}
@@ -252,14 +274,15 @@ The Lean file \texttt{Derived/QuotientStreamRefusalUp/TasteGate.lean} will provi
 \closureat{QuotientStreamRefusalUp}{obligationStr}
 \closureat{QuotientStreamRefusalUp}{scopedStr}
 \closureat{QuotientStreamRefusalUp}{publicStr}[BEDC.Derived.QuotientStreamRefusalUp.taste\_gate]
+\closureat{QuotientStreamRefusalUp}{bridgedStr}
 
 \begin{closurestatus}{\QuotientStreamRefusalUp}
   \constructivestory{A $\QuotientStreamRefusalUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, CauchyLimitSeal route row, RealUp seal row, quotient-refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming; the TasteGate row is recorded at BEDC.Derived.QuotientStreamRefusalUp.taste\_gate.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, and \autoref{thm:quotient-stream-refusal-tastegate-marker-route} display the finite refusal scope and public refusal route over StreamNameUp, RegSeqRatUp, CauchyLimitSealUp, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, \autoref{thm:quotient-stream-refusal-tastegate-marker-route}, and \autoref{thm:quotient-stream-refusal-public-bridge-boundary} display the finite refusal scope, public refusal route, and Real-completion bridge over StreamNameUp, RegSeqRatUp, CauchyLimitSealUp, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not construct quotient streams, select limits, prove host real equality, close ambient completeness, or provide a checked Lean certificate.}
-  \upgradepath{Bridged closure next requires a bridge statement from the public refusal export to the standard Real-completion boundary, without quotient streams or selected limits.}
+  \upgradepath{Mature closure requires terminal examples and cross-chapter completeness-boundary coverage for the bridged refusal boundary.}
 \end{closurestatus}
