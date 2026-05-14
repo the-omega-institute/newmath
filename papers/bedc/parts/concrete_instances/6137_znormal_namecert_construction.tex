@@ -550,6 +550,54 @@ Apply \autoref{thm:znormal-root-unblock-nonescape-ledger} and \autoref{thm:znorm
 Thus the ledger has no exported coordinate from which a divergence oracle, host conversion, quotient computation, unrestricted evaluator, or global normalizer could be read.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ terminal consumer totality]
+\label{thm:znormal-terminal-consumer-totality}
+Let
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+be an accepted $\ZNormalUp$ packet. Every terminal normal-form consumer that reads $R$ or $K$ must first pass through carrier admission, the local $\NameCert_{\ZNormalUp}$ obligations, terminal-normality consumer gate, and total-host refusal exhaustion. The consumer therefore reads only the typed endpoint, finite fuel, terminal-normality, finite normal-word, terminal continuation, transport, replay, package, and local naming rows $T,F,V,K,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with finite-fuel carrier admission. \autoref{thm:znormal-finite-fuel-carrier-admission} exposes $T,F,V,K,R,H,C,P,N$ as one finite $\BHist$ packet and gives no coordinate outside that packet to a terminal consumer.
+
+Next apply the NameCert obligations and the terminal-normality consumer gate. The obligation surface binds the local naming row to the carrier, while \autoref{thm:znormal-terminal-normality-consumer-gate} places any continuation read behind $T,F,V$ and transports it only through $H,C,P,N$.
+
+Finally use no-divergence and total-host refusal. \autoref{thm:znormal-no-divergence-oracle-ledger} and \autoref{thm:znormal-total-host-refusal-exhaustion} exhaust the terminal-facing reads by the displayed rows, so the consumer has no route to host conversion, quotient computation, unrestricted evaluation, a divergence oracle, or a global normalizer.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ finite-route readback boundary]
+\label{thm:znormal-finite-route-readback-boundary}
+For an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every downstream readback of a normal word or terminal continuation factors through the finite routes certified by \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-continuation-normal-word-pullback}. The readback boundary is $T,F,V,K,R,H,C,P,N$ and no host conversion, quotient computation, divergence oracle, unrestricted evaluator, or global normalizer is exposed at that boundary.
+\end{theorem}
+\begin{proof}
+Begin with the terminal readback exactness theorem. It makes $R$ a readback row of the accepted packet rather than a host-side evaluator result.
+
+Now attach the normal-word row. \autoref{thm:znormal-sibling-normalword-handoff} reads $K$ through the finite sibling normal-word surfaces, and \autoref{thm:znormal-continuation-normal-word-pullback} binds $K$ and $R$ into one transported and replayed route through $H,C,P,N$.
+
+The total-host refusal theorem closes the boundary. Since any total-host request that does not factor through the packet is refused, the finite readback route cannot be replaced by host conversion, quotient computation, a divergence oracle, unrestricted evaluation, or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream normal-form package]
+\label{thm:znormal-downstream-normal-form-package}
+Every downstream normal-form consumer of an accepted $\ZNormalUp$ packet factors through the finite package
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The package is assembled from carrier admission, local $\NameCert$ obligations, terminal consumer totality, finite-route readback boundary, no-divergence ledger, continuation normal-word pullback, and total-host refusal exhaustion. It exports no host conversion, quotient computation, divergence oracle, unrestricted evaluator, total host computation, substrate halting row, or global normalizer.
+\end{theorem}
+\begin{proof}
+First expose the packet. The carrier admission theorem and the local NameCert obligations make $T,F,V,K,R,H,C,P,N$ the complete finite inventory available to a downstream normal-form consumer.
+
+Next apply terminal consumer totality and finite-route readback boundary. The first theorem forces terminal consumers through $T,F,V,K,R,H,C,P,N$, and the second places normal-word and continuation readbacks on the same transported finite route.
+
+Finally combine the no-divergence ledger, continuation normal-word pullback, and total-host refusal exhaustion. These results exhaust all public normal-form reads through the displayed rows and refuse every host-side or quotient-style request that lacks a coordinate in the accepted packet.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}

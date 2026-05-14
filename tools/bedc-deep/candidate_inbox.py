@@ -158,6 +158,9 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
         "dependency_trace": candidate.get("dependency_trace"),
         "rate_modulus_surface": candidate.get("rate_modulus_surface"),
         "oracle_mode": candidate.get("oracle_mode"),
+        "difficulty": candidate.get("difficulty"),
+        "quality_score": candidate.get("quality_score"),
+        "selection_rank": candidate.get("selection_rank"),
         **extra,
     }
     with file_lock("candidate_inbox"):

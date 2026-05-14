@@ -456,6 +456,41 @@ def _classify_board_judge_error(error: str) -> str:
     return ""
 
 
+def _board_judge_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for shared BOARD judge outages."""
+    if "board_judge_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: shared BOARD judge/fallback is unavailable; "
+            "do not bypass board_spawn, and do not refresh BEDC oracle tabs for this."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for the shared BOARD judge; "
+            "this is separate from BEDC oracle browser tabs."
+        )
+    elif "claude_cli_missing" in error_kind:
+        lines.append(
+            f"{prefix}action: install or expose the Claude CLI used by board_spawn."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -810,11 +845,7 @@ def render_board_spawn() -> str:
     error_kind = str(data.get("error_kind") or "")
     if error_kind:
         lines.append(f"  error_kind: {error_kind}")
-    if "board_judge_unavailable" in error_kind:
-        lines.append(
-            "  alert: shared BOARD judge/fallback is unavailable; "
-            "do not bypass board_spawn, and do not refresh BEDC oracle tabs for this."
-        )
+    lines.extend(_board_judge_action_lines(error_kind))
     return "\n".join(lines)
 
 
@@ -989,11 +1020,7 @@ def render_research_candidate_lane() -> str:
     error_kind = str(data.get("error_kind") or "")
     if error_kind:
         lines.append(f"  last append error_kind: {error_kind}")
-    if "board_judge_unavailable" in error_kind:
-        lines.append(
-            "  alert: research ready packets reached board_spawn, but judge/fallback is CLI-side unavailable; "
-            "refreshing BEDC oracle tabs will not fix this."
-        )
+    lines.extend(_board_judge_action_lines(error_kind))
     return "\n".join(lines)
 
 
@@ -1048,6 +1075,12 @@ def render_pi_agent() -> str:
             f"inbox={rec.get('inbox_count')} deepen_emitted={rec.get('deepen_emitted')}"
         ),
     ]
+    if not rec.get("ok"):
+        error_kind = str(rec.get("error_kind") or "").strip()
+        if error_kind:
+            lines.append(f"  error_kind: {error_kind}")
+        else:
+            lines.append("  error_kind: planner_failed_without_classified_reason")
     if rates:
         rate_text = ", ".join(f"{k}={v}" for k, v in rates.items())
         lines.append(f"  completion rates: {rate_text}")
