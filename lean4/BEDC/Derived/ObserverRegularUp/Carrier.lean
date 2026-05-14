@@ -99,4 +99,42 @@ theorem ObserverRegularCarrier_namecert_obligations [AskSetup] [PackageSetup]
       consumerPkg,
       semanticCert⟩
 
+theorem ObserverRegularCarrier_resolving_window_soundness [AskSetup] [PackageSetup]
+    {alphabet resolvingState schedule window readback transport route provenance name
+      selectedWindow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverRegularCarrier alphabet resolvingState schedule window readback transport route
+        provenance name bundle pkg ->
+      Cont resolvingState window selectedWindow ->
+        Cont selectedWindow readback consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory resolvingState ∧ UnaryHistory window ∧ UnaryHistory selectedWindow ∧
+              UnaryHistory readback ∧ UnaryHistory consumer ∧
+                Cont alphabet resolvingState schedule ∧ Cont schedule window readback ∧
+                  Cont resolvingState window selectedWindow ∧
+                    Cont selectedWindow readback consumer ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier selectedRoute consumerRoute consumerPkg
+  obtain ⟨_alphabetUnary, resolvingStateUnary, _scheduleUnary, windowUnary, readbackUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, alphabetResolvingSchedule,
+    scheduleWindowReadback, _readbackTransportRoute, _routeNameProvenance, provenancePkg,
+    _semanticCert⟩ := carrier
+  have selectedUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed resolvingStateUnary windowUnary selectedRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed selectedUnary readbackUnary consumerRoute
+  exact
+    ⟨resolvingStateUnary,
+      windowUnary,
+      selectedUnary,
+      readbackUnary,
+      consumerUnary,
+      alphabetResolvingSchedule,
+      scheduleWindowReadback,
+      selectedRoute,
+      consumerRoute,
+      provenancePkg,
+      consumerPkg⟩
+
 end BEDC.Derived.ObserverRegularUp
