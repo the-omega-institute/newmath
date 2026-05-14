@@ -49,6 +49,11 @@ RATE_SURFACE_RE = re.compile(
     r"\b(rate|modulus|finite cover|finite-cover|tail bound|tail-bound|tail|schedule|threshold|window|finite witness)\b",
     re.IGNORECASE,
 )
+ZERO_CUT_TRACE_RE = re.compile(
+    r"\b(cut[- ]?rank\s*0|no intermediate|no hidden|only the displayed|displayed finite|finite rows|"
+    r"finite ledger|projects?|projection|empty finite|identity morphism itself)\b",
+    re.IGNORECASE,
+)
 DETERMINISTIC_ORACLE_RE = re.compile(
     r"\b(definition expansion|normalization|obligation split|schema check|label dedup|dedup|format check)\b",
     re.IGNORECASE,
@@ -145,8 +150,20 @@ def validate_logic_packet(record: dict[str, Any]) -> GateResult:
             reasons.append("bridge_missing_cut_rank")
         elif cut_rank not in {"0", "1", "2", "noneliminable", "unknown"}:
             reasons.append(f"invalid_cut_rank:{cut_rank[:60]}")
-        if len(field_text(record, "elimination_plan")) < 30:
+        elimination_plan = field_text(record, "elimination_plan")
+        zero_cut_trace = " ".join([
+            elimination_plan,
+            field_text(record, "resource_trace"),
+            field_text(record, "dependency_trace"),
+            field_text(record, "budget_reason"),
+            field_text(record, "witness_extractor"),
+        ])
+        if len(elimination_plan) < 30 and not (
+            cut_rank == "0" and ZERO_CUT_TRACE_RE.search(zero_cut_trace)
+        ):
             reasons.append("bridge_missing_elimination_plan")
+        elif len(elimination_plan) < 30 and cut_rank == "0":
+            warnings.append("bridge_elimination_plan_implicit_cut_rank_zero")
         interpretation_kind = field_text(record, "interpretation_kind")
         if interpretation_kind and interpretation_kind not in INTERPRETATION_KINDS:
             reasons.append(f"invalid_interpretation_kind:{interpretation_kind[:60]}")
