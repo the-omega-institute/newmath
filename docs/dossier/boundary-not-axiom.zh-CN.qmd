@@ -1,0 +1,178 @@
+---
+title: "边界, 不是公理"
+subtitle: "BEDC 为什么拒绝匿名外部性, 以及七种非公理边界形式是什么"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "任何形式化系统迟早会走到一个点: 下一步需要的供给, 衬底本身没生成. 默认动作是加一条 axiom. BEDC 拒绝. 这是让 BEDC 既能保持 0 axiom 0 sorry, 又能讨论归纳、意识、宇宙的纪律——七种边界形式."
+---
+
+```{=html}
+<div class="lang-switch"><a href="boundary-not-axiom.qmd">English</a></div>
+```
+
+## 默认动作是错的
+
+你在做形式化, 证到一半, 这一步需要一个事实, 衬底里没法导出. 几乎每个形式系统都允许、且鼓励的默认动作是:
+
+```lean
+axiom ThatFact : Whatever
+```
+
+这是错的. 不是风格上的错, 不是"不推荐"的错, 而是结构上的错——就跟把借来的选择子当成你自己构造的输出来用, 是同一种错. 一旦你写下这条 axiom, 衬底就把这条内容标成衬底自身的真理. 不再有构造子, 不再有 def, 不再有 setup field. 这条事实真正的来源——它从哪借来、谁帮你算的——消失了.
+
+从审计的角度看, 这不是无害的捷径. 这是来源抹除.
+
+```{=html}
+<span class="elim-mark">✗ "形式系统最后总得有 axiom 作起点."</span>
+```
+
+前半句对, 后半句错. *某些东西*必须作为起点接受——对 BEDC, 那是 Calculus of Inductive Constructions 加 Lean 的 `inductive` 机制. 这步接受之后, 问题变成: 后续每条内容怎么处理? BEDC 的回答是: 永远不在这之上加 axiom. 暴露边界, 而非内化.
+
+这一篇讲的, 就是让这个回答在 1837 条定理上都成立的纪律.
+
+## "暴露边界" 在 BEDC 里具体怎么做
+
+BEDC 时不时撞到边界. 任意域上的数学归纳法. Quotient 代表元. 命题等同从双向蕴含. 项层选择子. 多观察者之间的全局同步. 跨观察者最大因果率. 宇宙是不是可计算的.
+
+这些都是真压力. BEDC 不假装它们不存在. BEDC 拒绝的, 是用 axiom 处理它们. 每一个压力, 都必须以七种边界形式之一暴露:
+
+::: {.evidence}
+**七种非公理边界形式.**
+
+1. `inductive` —— 闭生成子, 构造子可见.
+2. `def` —— 已有材料的可计算或定义性压缩.
+3. structure 或 class field —— 由调用方提供的参数化 setup 输入.
+4. `NameCert` row —— 持牌的公共名字, 含 source、classifier、stability、ledger.
+5. `GAP` ledger —— 压缩残差或缺失的守恒行, 始终可审计.
+6. bridge slot —— 外部语义对应, 与内部证明严格分开.
+7. apophatic socket —— 被命名的外部供给位置, 衬底明确不内化.
+:::
+
+这不是七种风格, 而是同一个问题"这条内容的 source-channel 在哪"的七个互斥回答. 前四个说"在衬底里, 显式可见". 第五、第六个说"在外面, 但已 ledger". 第七个说"在外面, 衬底拒绝声明对面有什么".
+
+Axiom 这七种都不是. Axiom 说"这条内容直接可用"——而这句话本身, 就是来源抹除.
+
+## 准入决策
+
+每条 BEDC 候选内容都要走一个决策树. 闭语法? `inductive`. 从前面行算出来? `def`. 参数化接口输入? setup field. 公共成熟名字? `NameCert`. 压缩残差? `GAP`. 外部语义对应? bridge slot. 不支持的前向供给? apophatic socket. 都不是? 这个接口的边界还没识别清楚, 不是允许 axiom 的理由, 而是该重新设计.
+
+```{=html}
+<span class="role-tag discovery">⊕ 纪律</span>
+```
+
+这条决策不可让步. "重新设计而非接受 axiom" 听起来很硬, 直到你看见任何一个项目放宽这条纪律之后会发生什么: 一条 axiom 接受之后, 后面会有更多 axiom 依赖它, 不出几个月, axiom 集就承担了项目的实际内容, 而证明部分变成路由参数.
+
+```{=html}
+<span class="elim-mark">✗ "先临时加一条, 等之后补正经构造."</span>
+```
+
+经验上, 临时 axiom 活得比作者长. 纪律把它们当从写下那一刻起就承重的对象. 设计成本是 BEDC 为"审计面不堆隐性债"付的前置费.
+
+## 被禁的写法及替换
+
+纪律的咬合, 是写出"禁用 → BEDC 替换"对照表才显现. 表里每一行, 都是把形式化语境会诱导你写的写法, 替换成把同一条内容暴露成边界的 BEDC 写法.
+
+| 禁用写法 | BEDC 替换 |
+| --- | --- |
+| `axiom ExternalInput` | `T`-socket 或 apophatic boundary |
+| `axiom MathematicalInduction` | generator-local eliminator 或 induction socket |
+| `axiom InformationConservation` | `GAP` ledger + provenance conservation gates |
+| `axiom ObserverChoice` | `SelStep` witness 和 selector ledger |
+| `axiom GlobalClock` | extension carrier + synchronization certificate |
+| `axiom LightSpeedConstancy` | `MaxCausalRate` `NameCert` target |
+| `axiom QuotientCollapse` | classifier transport + `GAP` provenance |
+| `axiom PropositionEquality` | 定向 `hsame` / `psame` transport |
+| `axiom StandardModelBridge` | 受限的 bridge slot + 显式 fields |
+| `axiom RuntimeCorrectness` | host delegation 标为 audit / socket 边界 |
+
+这张表不是风格表. 每一行替换都保住了禁用写法会抹掉的信息: 来源、见证、classifier、残差、调用者义务、边界状态. 从头读到尾, 这是一张"每一个形式化项目尝试把外部供给塞进衬底" 的现象学清单.
+
+## 用代码强制的四个 gate
+
+这条纪律不是形而上的, 而是会让 build 失败的审计脚本:
+
+::: {.evidence}
+**`tools/check-axioms.py` —— 拒绝衬底内 axiom.**
+扫 `lean4/BEDC/` 下任何 `axiom` 声明. 边界含义: 衬底真理必须经由生成、定义、显式 setup 边界参数化, 或 socket; 不得以内部 oracle 形式出现.
+
+```bash
+$ python3 tools/check-axioms.py
+Axiom audit: 0 axioms in lean4/BEDC/. Project invariant holds.
+```
+:::
+
+::: {.evidence}
+**`bedc_ci.py axiom-purity --strict` —— 拒绝 host axiom 渗透.**
+对每条 BEDC 公开定理跑 Lean 的 `#print axioms`, 检查传递证明祖先. 拒绝任何 `Classical.choice`、`Quot.sound`、`propext` 依赖. 边界含义: Lean CIC 内核可以替我们验证生成的 BEDC 证明, 但它的禁用 commitment 不得变成 BEDC 定理内容.
+
+```bash
+$ python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+[bedc-ci] axiom-purity: theorems=1837 pure=1837 impure=0
+forbidden=['Classical.choice', 'Quot.sound', 'propext']
+```
+:::
+
+::: {.evidence}
+**`bedc_ci.py conservativity-audit` —— 拒绝 baseline 被污染.**
+扫 Lean 模块导入图. 拒绝 baseline 模块导入 AI 起源章节的模块. 边界含义: 被识别的或被压缩的表面, 不得通过隐藏导入改变 baseline 衬底.
+:::
+
+::: {.evidence}
+**`bedc_ci.py audit` —— 拒绝 paper-Lean 名字漂移.**
+扫论文里每一条 `\leanchecked`、`\leanvariant`、`\leandef`、`\leanstmt`、`\leantarget`. 拒绝任何 Lean 声明缺失、模糊、重复的 marker. 边界含义: 论文里的形式名字, 只有 Lean inventory 里真存在对应声明, 才是 certificate.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "这就是 lint 脚本而已."</span>
+```
+
+表面是扫码, 是的. 边界含义不是. 每一个 gate 保护外部性纪律的一个面. 合在一起, 它们就是衬底内容和外部供给之间的可执行膜.
+
+## Schema 定理
+
+这条纪律的章节级表述, 是一条 schema 形式的定理, 写在论文一侧而不是 Lean 一侧, 因为精确形式取决于周围接口:
+
+> **非公理边界保持 schema.** 设 `X` 是一个 BEDC 候选依赖. 假设 `X` 被某个公开定理、certificate 或接口消费. 如果 `X` 的每次使用都经过七种非公理边界形式之一, 并且对应的 gate 都报告该边界形式仍可见, 则 `X` 没有被内化为衬底 axiom.
+
+证明按七种形式逐 case 走. `inductive` 生成子有构造子和 eliminator, 来源显式. `def` 可展开, 来源可计算溯源. setup field 仍是接口字段, 调用方负责. `NameCert` row 显出 source、pattern、classifier、stability、ledger. `GAP` ledger 记录压缩残差. bridge slot 是解释性. apophatic socket 命名外部依赖但不把内容作为定理. 每种情形里, `X` 的使用都 source-channel 可见.
+
+两条 corollary:
+
+**无 axiom ≠ 无依赖.** BEDC 当然有依赖, 它只是拒绝把它们做成衬底内的真理来源.
+
+```{=html}
+<span class="elim-mark">✗ "BEDC 没 axiom, 那它内核外面什么都没有."</span>
+```
+
+它的内核外面有不少. 七种边界形式, 就是把"外面有什么"以审计可见的方式写下来.
+
+**Socketed 内容不是定理.** Socketed 依赖不是已内部证明的事实. 手稿可以讨论 socket 的角色、审计面、要求的供给形状, 但不得把 socket 当成衬底已生成的内容来消费.
+
+## 最终规则
+
+整条纪律压成一句:
+
+> 不要加 axiom. 暴露边界.
+
+BEDC 里所有的形式化基础设施——七种边界形式、四个 gate、schema 定理、替换表——都是把这条规则操作化的方式. 这条规则之所以不是风格偏好, 是因为关于"边界本身"有一条结构性事实, 让这条规则承重而非装饰. 这正是三联剩下两篇要讲的内容.
+
+```{=html}
+<div class="cta-choices">
+  <a href="one-far-end.zh-CN.qmd"><strong>所有 socket 的统一远端</strong><br/>如果你把每一个 socket 都暴露成边界, 远端是什么? BEDC 的回答出奇地干净: 不是多个——一个.</a>
+  <a href="hash-like-reading.zh-CN.qmd"><strong>用 hash 看宇宙</strong><br/>三联的第三篇: 宇宙不是一个全局 digest, 唯一否定式远端的行为像所有局部 hash fiber 的共同远端.</a>
+</div>
+```
+
+### 相关阅读
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基</strong><br/>最小的 `inductive` —— 让 BEDC 开始时不偷带集合或类型的边界形式.</a>
+  <a href="formalization-routes.zh-CN.qmd"><strong>形式化路线</strong><br/>七种边界形式在 BEDC `NameCert` 纪律里的源头.</a>
+  <a href="zero-information-debt.zh-CN.qmd"><strong>零信息债</strong><br/>纪律里 `GAP` ledger 那一面: 压缩不留来源记忆 = 未 ledger 的 quotient 坍缩.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, 2026 年 5 月*
