@@ -41,3 +41,27 @@ coordinate from which to obtain quotient-real equality, a selected host
 limit, an ambient completeness principle, or a direct seal edge around those
 two surfaces.
 \end{proof}
+
+\begin{theorem}[RealUp StreamName RegSeqRat dyadic window exhaustion]
+\label{thm:realup-streamname-regseqrat-dyadic-window-exhaustion}
+Every accepted $\RealUp$ seal-facing finite-window read whose source is a $\StreamNameUp$ window and whose spine is a $\RegSeqRatUp$ row is exhausted by the route
+$$
+\text{StreamName finite-window ledger}
+\to
+\text{RegSeqRat pointwise handoff}
+\to
+\text{DyadicRatCore observation row}
+\to
+\mathsf{RealUnaryStreamClassifier}.
+$$
+The route reads only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by the StreamName, RegSeqRat, DyadicRatCore, and Real finite-window surfaces. No quotient-real equality, selected host limit, ambient completeness row, or off-ledger dyadic sample can determine the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Begin with the pointwise seal composition of \autoref{thm:real-streamname-regseqrat-pointwise-seal-composition}. It already forces the seal-facing read to pass through the displayed StreamName finite-window ledger and the RegSeqRat pointwise handoff before it reaches the local real classifier.
+
+The handoff is exhaustive by \autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. Thus the source window contributes only its visible finite ledger, unary-history observations, bundle membership, and pointwise $\hsame$ comparisons; it cannot add a second stream source or a hidden real equality row.
+
+The dyadic part is then read through the public DyadicRatCore observation and source-boundary surface. That surface supplies the observation row used by the real finite-window classifier, while the RealUp finite-window coverage rows identify the classifier-facing input with $\mathsf{RealUnaryStreamClassifier}$.
+
+Composing these four displayed routes leaves no unused coordinate in the seal-facing packet. A host limit, ambient completeness row, quotient-real equality, or off-ledger dyadic sample is absent from the route and therefore cannot determine the accepted $\RealUp$ seal.
+\end{proof}

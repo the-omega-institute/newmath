@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Unary
+import BEDC.Derived.RealObservationBudgetUp.TasteGate
 
 namespace BEDC.Derived.RealDiagonalMeshBudgetUp
 
@@ -120,6 +121,32 @@ theorem RealDiagonalMeshBudgetCarrier_consumer_scope_exhaustion
   exact
     ⟨sealUnary, downstreamUnary, qbRoute, budgetWindowRoute, omegaReadbackRoute,
       readbackLedgerRoute, sealRoute, downstreamRoute, provenanceSame, nameSame⟩
+
+theorem RealDiagonalMeshBudgetCarrier_observation_budget_handoff
+    {q b omega rho delta theta e h c p n sealConsumer observationConsumer : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      Cont theta e sealConsumer ->
+        Cont e p observationConsumer ->
+          (∃ obs : BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetUp,
+              obs =
+                BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetUp.mk q omega delta rho
+                  e h c p n) ∧
+            UnaryHistory sealConsumer ∧ UnaryHistory observationConsumer ∧
+              Cont theta e sealConsumer ∧ Cont e p observationConsumer ∧ hsame p p ∧
+                hsame n n := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro carrier sealRoute observationRoute
+  obtain ⟨_qUnary, _bUnary, _omegaUnary, _rhoUnary, _deltaUnary, thetaUnary, eUnary,
+    _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
+    provenanceUnary, provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  have observationUnary : UnaryHistory observationConsumer :=
+    unary_cont_closed eUnary provenanceUnary observationRoute
+  exact
+    ⟨⟨BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetUp.mk q omega delta rho e h c p n,
+      rfl⟩, sealUnary, observationUnary, sealRoute, observationRoute, provenanceSame,
+      nameSame⟩
 
 theorem RealDiagonalMeshBudgetCarrier_budget_monotonicity
     {q b bPrime omega rho delta theta e h hPrime c p n : BHist} :
