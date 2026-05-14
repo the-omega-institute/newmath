@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness zero-strip source totality]
+\label{thm:critical-line-witness-zero-strip-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every supplied zero or critical-strip source read of $W$ is total on the displayed finite route $Z,S,H,C,P,N$ before any downstream $\mathsf{RH}$-facing consumer inspects the packet. The source read may cite the root-source rows of \autoref{thm:critical-line-witness-root-source-triad}, the comparison-ledger rows of \autoref{thm:critical-line-witness-root-comparison-ledger}, and the RH-refusal rows of \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}, but it remains a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface rather than an $\mathsf{RH}$ proof datum or analytic-continuation import.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through its zero-strip source coordinates. The rows $Z$ and $S$ are supplied rows of the packet, while $H,C,P,N$ give the componentwise transport, displayed route, package provenance, and local name.
+
+Apply the root-source triad and root comparison ledger. These rows place source and comparison reads on the same packet $W=(Z,S,M,R,Q,H,C,P,N)$, so the zero-strip source is total without leaving the finite BEDC surface.
+
+Finally use the RH-refusal ledger. It removes any route to $\mathsf{RH}$ proof data, host zero classification, analytic continuation, quotient representatives, host equality, or ambient completeness, leaving exactly the finite source route stated above.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus-depth ledger]
+\label{thm:critical-line-witness-modulus-depth-ledger}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every modulus-depth, real-part, or rational-comparison read of $W$ factors through the displayed rows $M,R,Q,H,C,P,N$, with $Z$ and $S$ retained as the supplied zero-strip source coordinates. The read may use the root-source, comparison-ledger, and RH-refusal rows, but it is only a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ ledger for supplied zero, strip, modulus, and rational comparison data; it is not an $\mathsf{RH}$ proof or an analytic-continuation certificate.
+\end{theorem}
+\begin{proof}
+Project $W$ to its modulus and comparison coordinates. The depth row $M$, real-part row $R$, rational comparison row $Q$, and local rows $H,C,P,N$ are the only displayed coordinates that answer modulus-depth requests.
+
+Use the root comparison ledger to identify every rational comparison with $Q$ and every depth read with the same local route. The root-source rows keep $Z$ and $S$ attached to the read, so the ledger is still a row of the accepted packet.
+
+The RH-refusal rows then block analytic-continuation imports, global zero classifiers, host equality, quotient representatives, ambient completeness, and $\mathsf{RH}$ proof data. Thus the ledger is total as a finite BEDC read and no stronger object is exported.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zeta dependency readback]
+\label{thm:critical-line-witness-zeta-dependency-readback}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Any zeta-dependency readback that cites $W$ reads only the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison row $Q$, and the local $H,C,P,N$ rows already exposed by the root-source, comparison-ledger, and RH-refusal surfaces. The dependency readback remains finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data and imports no analytic continuation theorem, completed zeta-function object, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Start with the displayed packet $W=(Z,S,M,R,Q,H,C,P,N)$. A zeta-dependency readback can cite the packet only through its supplied source rows, its modulus and comparison ledger, and its local transport, route, provenance, and naming rows.
+
+Combine the root-source triad with the comparison ledger. These force every readback to use the same finite coordinates and prevent a separate zeta-continuation carrier from being substituted for the accepted packet.
+
+Finally apply the RH-refusal ledger. Since analytic continuation, completed zeta data, global zero classification, host equality, quotient representatives, ambient completeness, and $\mathsf{RH}$ truth are absent from the accepted rows, the dependency readback is exactly the finite BEDC surface described in the statement.
+\end{proof}
