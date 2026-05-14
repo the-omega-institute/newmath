@@ -51,6 +51,10 @@ LITERAL_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 STANDARD_LABEL_PREFIXES = ("sec", "subsec", "fact", "obs", "rmk", "thm", "lem", "prop", "cor", "def", "eq")
 LINE_CAP = 800
 FALLBACK_LINE_READ_BYTES = 100 * 1024
+INSPIRATION_ONLY_PATH_RE = re.compile(
+    r"^papers/bedc/parts/(?:visions|conjectures)/",
+    re.IGNORECASE,
+)
 
 
 @dataclass
@@ -154,6 +158,9 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
         "dependency_trace": candidate.get("dependency_trace"),
         "rate_modulus_surface": candidate.get("rate_modulus_surface"),
         "oracle_mode": candidate.get("oracle_mode"),
+        "difficulty": candidate.get("difficulty"),
+        "quality_score": candidate.get("quality_score"),
+        "selection_rank": candidate.get("selection_rank"),
         **extra,
     }
     with file_lock("candidate_inbox"):
@@ -362,6 +369,8 @@ def _rejection_reason(
             return f"non_paper_local_input:{rel}"
         if not rel.startswith("papers/bedc/parts/"):
             return f"non_paper_local_input:{rel}"
+        if INSPIRATION_ONLY_PATH_RE.search(rel):
+            return f"inspiration_only_not_board_landing:{rel}"
         if not _path_exists(rel):
             return f"missing_local_input:{rel}"
         info = file_lookup.get(rel)

@@ -202,6 +202,7 @@ Finally apply \autoref{thm:subject-reduction-route-classifier-primitive-scope}. 
 \label{thm:subject-reduction-route-classifier-invocation-payload-inversion}
 Let $I$ be the invocation row of an accepted $\SubjectReductionRouteClassifierUp$ packet. Reading $I$ along the $\mathsf{bundle}$ route reconstructs the displayed discharge rows $B,A,L,P$ by explicit bundle projection, and reading $I$ along the $\mathsf{typeclass}$ route reconstructs the same four rows by setup-field extraction followed by bundle conversion. Thus invocation inversion never changes the discharge payload consumed from the socket chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteClassifierUp.SubjectReductionRouteClassifierCarrier\_invocation\_payload\_inversion}
 \begin{proof}
 Start with the socket scope theorem, \autoref{thm:subject-reduction-route-classifier-socket-scope}. It records that $B,A,L,P$ are already consumed from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} before this classifier routes them.
 
@@ -281,7 +282,7 @@ Finally invoke \autoref{thm:subject-reduction-route-classifier-socket-scope} and
 \begin{closurestatus}{\SubjectReductionRouteClassifierUp}
   \constructivestory{A $\SubjectReductionRouteClassifierUp$ packet is generated from four subject-reduction discharge rows, a two-valued route-kind classifier, invocation and consumer rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:subject-reduction-route-classifier-carrier}, \autoref{thm:subject-reduction-route-classifier-namecert-obligations}, \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}, \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}, \autoref{thm:subject-reduction-route-classifier-public-export}, and \autoref{thm:subject-reduction-route-classifier-vision-concretization} bind the finite route classifier over the shared subject-reduction discharge rows.}
+  \scopeclosed{\autoref{thm:subject-reduction-route-classifier-primitive-scope}, \autoref{thm:subject-reduction-route-classifier-socket-scope}, \autoref{thm:subject-reduction-route-classifier-type-preserving-scope}, \autoref{thm:subject-reduction-route-classifier-route-kind-coverage}, \autoref{thm:subject-reduction-route-classifier-invocation-payload-inversion}, \autoref{thm:subject-reduction-route-classifier-audit-handoff-totality}, and \autoref{thm:subject-reduction-route-classifier-consumer-route-totality} bind the finite route classifier to its primitive scope, socket source, type-preserving consumer scope, route-kind coverage, invocation-payload inversion, audit handoff, and consumer-route totality.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

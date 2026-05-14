@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealWindowSynchronizerUp.TasteGate
+namespace BEDC.Derived.RealWindowSynchronizerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,9 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive RealWindowSynchronizerUp : Type where
   | mk :
-      (window regSeqTail threshold limitSeal realSeal transports routes provenance name :
-        BHist) →
-        RealWindowSynchronizerUp
+      (window tail threshold limitSeal realSeal transport routes provenance name : BHist) →
+      RealWindowSynchronizerUp
   deriving DecidableEq
 
 def realWindowSynchronizerEncodeBHist : BHist → RawEvent
@@ -34,52 +33,29 @@ private theorem realWindowSynchronizerDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
-
-private theorem realWindowSynchronizer_mk_congr
-    {window window' regSeqTail regSeqTail' threshold threshold' limitSeal limitSeal'
-      realSeal realSeal' transports transports' routes routes' provenance provenance'
-      name name' : BHist}
-    (hWindow : window' = window)
-    (hRegSeqTail : regSeqTail' = regSeqTail)
-    (hThreshold : threshold' = threshold)
-    (hLimitSeal : limitSeal' = limitSeal)
-    (hRealSeal : realSeal' = realSeal)
-    (hTransports : transports' = transports)
-    (hRoutes : routes' = routes)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    RealWindowSynchronizerUp.mk window' regSeqTail' threshold' limitSeal' realSeal'
-        transports' routes' provenance' name' =
-      RealWindowSynchronizerUp.mk window regSeqTail threshold limitSeal realSeal transports
-        routes provenance name := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hWindow
-  cases hRegSeqTail
-  cases hThreshold
-  cases hLimitSeal
-  cases hRealSeal
-  cases hTransports
-  cases hRoutes
-  cases hProvenance
-  cases hName
-  rfl
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def realWindowSynchronizerToEventFlow : RealWindowSynchronizerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RealWindowSynchronizerUp.mk window regSeqTail threshold limitSeal realSeal transports
-      routes provenance name =>
-      [[BMark.b0], realWindowSynchronizerEncodeBHist window, [BMark.b1, BMark.b0],
-        realWindowSynchronizerEncodeBHist regSeqTail, [BMark.b1, BMark.b1, BMark.b0],
+  | RealWindowSynchronizerUp.mk window tail threshold limitSeal realSeal transport routes
+      provenance name =>
+      [[BMark.b0],
+        realWindowSynchronizerEncodeBHist window,
+        [BMark.b1, BMark.b0],
+        realWindowSynchronizerEncodeBHist tail,
+        [BMark.b1, BMark.b1, BMark.b0],
         realWindowSynchronizerEncodeBHist threshold,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         realWindowSynchronizerEncodeBHist limitSeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         realWindowSynchronizerEncodeBHist realSeal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        realWindowSynchronizerEncodeBHist transports,
+        realWindowSynchronizerEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         realWindowSynchronizerEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
@@ -101,7 +77,7 @@ def realWindowSynchronizerFromEventFlow : EventFlow → Option RealWindowSynchro
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | regSeqTail :: rest3 =>
+              | tail :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
@@ -125,7 +101,7 @@ def realWindowSynchronizerFromEventFlow : EventFlow → Option RealWindowSynchro
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transports :: rest11 =>
+                                              | transport :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -151,7 +127,7 @@ def realWindowSynchronizerFromEventFlow : EventFlow → Option RealWindowSynchro
                                                                                   (realWindowSynchronizerDecodeBHist
                                                                                     window)
                                                                                   (realWindowSynchronizerDecodeBHist
-                                                                                    regSeqTail)
+                                                                                    tail)
                                                                                   (realWindowSynchronizerDecodeBHist
                                                                                     threshold)
                                                                                   (realWindowSynchronizerDecodeBHist
@@ -159,7 +135,7 @@ def realWindowSynchronizerFromEventFlow : EventFlow → Option RealWindowSynchro
                                                                                   (realWindowSynchronizerDecodeBHist
                                                                                     realSeal)
                                                                                   (realWindowSynchronizerDecodeBHist
-                                                                                    transports)
+                                                                                    transport)
                                                                                   (realWindowSynchronizerDecodeBHist
                                                                                     routes)
                                                                                   (realWindowSynchronizerDecodeBHist
@@ -170,19 +146,16 @@ def realWindowSynchronizerFromEventFlow : EventFlow → Option RealWindowSynchro
 
 private theorem realWindowSynchronizer_round_trip :
     ∀ x : RealWindowSynchronizerUp,
-      realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) =
-        some x := by
+      realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk window regSeqTail threshold limitSeal realSeal transports routes provenance name =>
+  | mk window tail threshold limitSeal realSeal transport routes provenance name =>
       change
         some
           (RealWindowSynchronizerUp.mk
-            (realWindowSynchronizerDecodeBHist
-              (realWindowSynchronizerEncodeBHist window))
-            (realWindowSynchronizerDecodeBHist
-              (realWindowSynchronizerEncodeBHist regSeqTail))
+            (realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist window))
+            (realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist tail))
             (realWindowSynchronizerDecodeBHist
               (realWindowSynchronizerEncodeBHist threshold))
             (realWindowSynchronizerDecodeBHist
@@ -190,31 +163,25 @@ private theorem realWindowSynchronizer_round_trip :
             (realWindowSynchronizerDecodeBHist
               (realWindowSynchronizerEncodeBHist realSeal))
             (realWindowSynchronizerDecodeBHist
-              (realWindowSynchronizerEncodeBHist transports))
-            (realWindowSynchronizerDecodeBHist
-              (realWindowSynchronizerEncodeBHist routes))
+              (realWindowSynchronizerEncodeBHist transport))
+            (realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist routes))
             (realWindowSynchronizerDecodeBHist
               (realWindowSynchronizerEncodeBHist provenance))
-            (realWindowSynchronizerDecodeBHist
-              (realWindowSynchronizerEncodeBHist name))) =
+            (realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist name))) =
           some
-            (RealWindowSynchronizerUp.mk window regSeqTail threshold limitSeal realSeal
-              transports routes provenance name)
-      exact
-        congrArg some
-          (realWindowSynchronizer_mk_congr
-            (realWindowSynchronizerDecode_encode_bhist window)
-            (realWindowSynchronizerDecode_encode_bhist regSeqTail)
-            (realWindowSynchronizerDecode_encode_bhist threshold)
-            (realWindowSynchronizerDecode_encode_bhist limitSeal)
-            (realWindowSynchronizerDecode_encode_bhist realSeal)
-            (realWindowSynchronizerDecode_encode_bhist transports)
-            (realWindowSynchronizerDecode_encode_bhist routes)
-            (realWindowSynchronizerDecode_encode_bhist provenance)
-            (realWindowSynchronizerDecode_encode_bhist name))
+            (RealWindowSynchronizerUp.mk window tail threshold limitSeal realSeal transport
+              routes provenance name)
+      rw [realWindowSynchronizerDecode_encode_bhist window,
+        realWindowSynchronizerDecode_encode_bhist tail,
+        realWindowSynchronizerDecode_encode_bhist threshold,
+        realWindowSynchronizerDecode_encode_bhist limitSeal,
+        realWindowSynchronizerDecode_encode_bhist realSeal,
+        realWindowSynchronizerDecode_encode_bhist transport,
+        realWindowSynchronizerDecode_encode_bhist routes,
+        realWindowSynchronizerDecode_encode_bhist provenance,
+        realWindowSynchronizerDecode_encode_bhist name]
 
-private theorem realWindowSynchronizerToEventFlow_injective
-    {x y : RealWindowSynchronizerUp} :
+private theorem realWindowSynchronizerToEventFlow_injective {x y : RealWindowSynchronizerUp} :
     realWindowSynchronizerToEventFlow x = realWindowSynchronizerToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -231,50 +198,45 @@ instance realWindowSynchronizerBHistCarrier : BHistCarrier RealWindowSynchronize
   toEventFlow := realWindowSynchronizerToEventFlow
   fromEventFlow := realWindowSynchronizerFromEventFlow
 
-instance realWindowSynchronizerChapterTasteGate :
-    ChapterTasteGate RealWindowSynchronizerUp where
+instance realWindowSynchronizerChapterTasteGate : ChapterTasteGate RealWindowSynchronizerUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x
+    change realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x
     exact realWindowSynchronizer_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (realWindowSynchronizerToEventFlow_injective heq)
 
-instance realWindowSynchronizerFieldFaithful : FieldFaithful RealWindowSynchronizerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | RealWindowSynchronizerUp.mk window regSeqTail threshold limitSeal realSeal transports
-        routes provenance name =>
-        [window, regSeqTail, threshold, limitSeal, realSeal, transports, routes, provenance,
-          name]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk window₁ regSeqTail₁ threshold₁ limitSeal₁ realSeal₁ transports₁ routes₁
-        provenance₁ name₁ =>
-        cases y with
-        | mk window₂ regSeqTail₂ threshold₂ limitSeal₂ realSeal₂ transports₂ routes₂
-            provenance₂ name₂ =>
-            cases h
-            rfl
-
 def taste_gate : ChapterTasteGate RealWindowSynchronizerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realWindowSynchronizerChapterTasteGate
 
+instance realWindowSynchronizerFieldFaithful : FieldFaithful RealWindowSynchronizerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RealWindowSynchronizerUp.mk window tail threshold limitSeal realSeal transport routes
+        provenance name =>
+        [window, tail, threshold, limitSeal, realSeal, transport, routes, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk window₁ tail₁ threshold₁ limitSeal₁ realSeal₁ transport₁ routes₁ provenance₁ name₁ =>
+        cases y with
+        | mk window₂ tail₂ threshold₂ limitSeal₂ realSeal₂ transport₂ routes₂ provenance₂ name₂ =>
+            simp only [] at h
+            cases h
+            rfl
+
 theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist h) = h) ∧
+        realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist h) = h) ∧
       (∀ x : RealWindowSynchronizerUp,
-        realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) =
-          some x) ∧
+        realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x) ∧
         (∀ x y : RealWindowSynchronizerUp,
-          realWindowSynchronizerToEventFlow x = realWindowSynchronizerToEventFlow y →
-            x = y) ∧
+          realWindowSynchronizerToEventFlow x = realWindowSynchronizerToEventFlow y → x = y) ∧
           realWindowSynchronizerEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
@@ -286,4 +248,18 @@ theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
         exact realWindowSynchronizerToEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.RealWindowSynchronizerUp.TasteGate
+namespace TasteGate
+
+theorem RealWindowSynchronizerTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        realWindowSynchronizerDecodeBHist (realWindowSynchronizerEncodeBHist h) = h) ∧
+      (∀ x : RealWindowSynchronizerUp,
+        realWindowSynchronizerFromEventFlow (realWindowSynchronizerToEventFlow x) = some x) ∧
+        (∀ x y : RealWindowSynchronizerUp,
+          realWindowSynchronizerToEventFlow x = realWindowSynchronizerToEventFlow y → x = y) ∧
+          realWindowSynchronizerEncodeBHist BHist.Empty = ([] : List BMark) :=
+  RealWindowSynchronizerUp.RealWindowSynchronizerTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.RealWindowSynchronizerUp
