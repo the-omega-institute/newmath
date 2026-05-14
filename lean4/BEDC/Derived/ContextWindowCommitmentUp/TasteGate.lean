@@ -13,7 +13,6 @@ inductive ContextWindowCommitmentUp : Type where
   | mk :
       (scope prompt boundary refusal consumer transport routes provenance nameCert : BHist) →
       ContextWindowCommitmentUp
-  deriving DecidableEq
 
 def contextWindowCommitmentEncodeBHist : BHist → RawEvent
   | BHist.Empty => []
@@ -122,16 +121,26 @@ def contextWindowCommitmentFromEventFlow :
                                                                           | [] =>
                                                                               some
                                                                                 (ContextWindowCommitmentUp.mk
-                                                                                  (contextWindowCommitmentDecodeBHist scope)
-                                                                                  (contextWindowCommitmentDecodeBHist prompt)
-                                                                                  (contextWindowCommitmentDecodeBHist boundary)
-                                                                                  (contextWindowCommitmentDecodeBHist refusal)
-                                                                                  (contextWindowCommitmentDecodeBHist consumer)
-                                                                                  (contextWindowCommitmentDecodeBHist transport)
-                                                                                  (contextWindowCommitmentDecodeBHist routes)
-                                                                                  (contextWindowCommitmentDecodeBHist provenance)
-                                                                                  (contextWindowCommitmentDecodeBHist nameCert))
-                                                                          | _ :: _ => none
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    scope)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    prompt)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    boundary)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    refusal)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    consumer)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    transport)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    routes)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    provenance)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    nameCert))
+                                                                          | _ :: _ =>
+                                                                              none
 
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
@@ -162,8 +171,8 @@ private theorem contextWindowCommitment_round_trip :
             (contextWindowCommitmentDecodeBHist
               (contextWindowCommitmentEncodeBHist nameCert))) =
           some
-            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
-              provenance nameCert)
+            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport
+              routes provenance nameCert)
       rw [contextWindowCommitmentDecode_encode_bhist scope,
         contextWindowCommitmentDecode_encode_bhist prompt,
         contextWindowCommitmentDecode_encode_bhist boundary,
