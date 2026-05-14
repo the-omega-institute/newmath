@@ -268,6 +268,43 @@ Use the checked TasteGate marker recorded in the chapter as the single-carrier a
 Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the carrier has no global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed coordinate, the bridge exposes only the displayed finite unary-bound packet.
 \end{proof}
 
+\begin{theorem}[MaxCausalRate bridge consumer surface]
+\label{thm:max-causal-rate-bridge-consumer-surface}
+Every bridge-facing public consumer of an accepted $\MaxCausalRateUp$ packet
+factors through
+$$
+M,X,U,B,H,Q,C,P,N,
+$$
+before any public causal-rate read. The consumer reads the
+$\MultiHistConfigUp$ configuration row, the $\CrossHistCausalUp$ witness
+family, the shared unary bound, the comparison ledger, and the single-carrier
+TasteGate guard as one finite packet surface.
+
+The bridge-facing surface contains no global frame, metric tensor, Lorentz
+geometry, synchronized clock, or real-valued speed.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:max-causal-rate-unary-bound-consumer-bridge}. This gives the
+displayed carrier tuple $M,X,U,B,H,Q,C,P,N$ as the only bridge-facing packet
+available before a public causal-rate read.
+
+Use \autoref{thm:max-causal-rate-public-unary-bound-export}. It keeps the
+shared unary bound $U$ attached to the same public carrier tuple and prevents
+the consumer from reading $U$ as an independent rate surface.
+
+Next apply \autoref{thm:max-causal-rate-comparison-ledger-exactness}. The
+comparison ledger $B$ relates each displayed causal witness in $X$ to the same
+unary bound $U$, so the public bridge consumes a finite ledger rather than a
+host-valued speed.
+
+Finally apply \autoref{thm:max-causal-rate-non-escape}. Together with the
+single-carrier TasteGate guard already used in
+\autoref{thm:max-causal-rate-unary-bound-consumer-bridge}, the non-escape row
+excludes global frames, metric tensors, Lorentz geometry, synchronized clocks,
+and real-valued speed from the public bridge surface.
+\end{proof}
+
 \closureat{MaxCausalRateUp}{seedStr}
 \closureat{MaxCausalRateUp}{obligationStr}
 \closureat{MaxCausalRateUp}{scopedStr}[BEDC.Derived.MaxCausalRateUp.taste\_gate]

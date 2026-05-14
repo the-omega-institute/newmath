@@ -471,6 +471,53 @@ binds every seal read to the stated finite handoff route and excludes host
 real equality and ambient completeness rows.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion RealTailAgreementSeal route correspondence]
+\label{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+packet. Every accepted completion-facing consumer of $K$ whose $\RealUp$
+seal is mediated by an accepted $\RealTailAgreementSealUp$ packet factors
+through the same finite route
+$$
+\ObservationBudgetLimiterUp,\ \RegularCauchyTailBudgetUp,\
+\RegularCauchyTailMeetUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\
+\RegSeqRatUp,\ \RealUp,\ \CompletionUp.
+$$
+Conversely, every terminal $\RealTailAgreementSealUp$ route supplies the
+CauchyCriterion tail-budget, $\RegSeqRatUp$, and $\RealUp$ seal rows needed
+by \autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. The
+correspondence exports no selected limit, quotient-stream equality,
+uncapped observation, host real equality, ambient completeness principle, or
+second agreement coordinate.
+\end{theorem}
+\begin{proof}
+Start from the CauchyCriterion handoff theorem
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. It fixes
+the $\StreamNameUp$ source window, the $\RegSeqRatUp$ source row, the dyadic
+budget rows, and the $\RealUp$ seal as the only displayed handoff route for
+the accepted packet.
+
+The tail-budget seal determinacy theorem
+\autoref{thm:cauchycriterion-tail-budget-seal-determinacy} and the
+completion-facing readback normal form
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form} then
+force every completion-facing consumer to read the same budget, regular
+rational, and real-seal rows before any $\CompletionUp$ surface is exposed.
+
+For the mediated case, apply
+\autoref{thm:real-tail-agreement-seal-terminal-consumer-route-exhaustion}
+and \autoref{thm:real-tail-agreement-seal-budget-route-uniqueness}. These
+identify the terminal $\RealTailAgreementSealUp$ consumer route as the
+finite path through the observation cap, regular Cauchy tail budget,
+shared tail meet, finite stream window, dyadic readback, agreement row, and
+the displayed $\RealUp$ and $\CompletionUp$ seal rows.
+
+Projecting this terminal route back to the CauchyCriterion rows gives the
+forward factorization. Reading it in the other direction supplies exactly
+the tail-budget, $\RegSeqRatUp$, and $\RealUp$ seal rows required by the
+handoff theorem, while the non-escape clauses on both packets exclude every
+host, quotient, uncapped, completeness, or second-agreement route.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion mature downstream examples]
 \label{thm:cauchycriterion-mature-downstream-examples}
 The public certificate, real-completion consumer bridge, modulus-tail consumer
