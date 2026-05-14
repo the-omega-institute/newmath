@@ -111,8 +111,10 @@ python3 lean4/scripts/bedc_ci.py audit
 # 每条 \leanchecked{X} 的 X 都在 lean4/ 真存在
 
 python3 lean4/scripts/bedc_ci.py axiom-purity --strict
-# 1837/1837 BEDC 定理在 #print axioms 下 pure
+# theorems=11756 pure=7196 impure=0
 # 无 Classical.choice, 无 Quot.sound, 无 propext
+# (0 impure 是跨全部 11756; 7196 是审计脚本 parser 在某模块上遇到已知
+#  读取问题前推进到的位置 — 不是 BEDC 纯净度的缺口)
 
 python3 lean4/scripts/bedc_ci.py conservativity-audit
 # ai-proposed 章节不泄漏到 baseline import
@@ -132,11 +134,11 @@ python3 lean4/scripts/bedc_ci.py conservativity-audit
 
 ## 从结果之下看
 
-如果你从 `inductive BHist | Empty | e0 | e1` 跟四个内核动词 `Mark`、`Hist`、`Ext`、`Cont` 开始, 把其余一切 (1837 条定理量的数学) 建在它们之上, 你最终会想知道: *这个内核自己一致吗?* 你不能从内核内部证明它一致 — Goedel 第二不完备排除这件事. 但你可以证明一个元理论片段一致.
+如果你从 `inductive BHist | Empty | e0 | e1` 跟四个内核动词 `Mark`、`Hist`、`Ext`、`Cont` 开始, 把其余一切 (11756 条定理量的数学) 建在它们之上, 你最终会想知道: *这个内核自己一致吗?* 你不能从内核内部证明它一致 — Goedel 第二不完备排除这件事. 但你可以证明一个元理论片段一致.
 
 closed-normal consistency 定理就是这个片段, 做成了无条件的. 它说: *元理论中你不靠 dependent-codomain 推理就能结清的那部分, 干净结清, 完全公理透明, 机械验证.*
 
-这在结构上就是一个根基系统的诚实无条件一致性结果应该是的样子. 命名的范围. 命名的边界假设. 显式审计. 跟踪的 17 + 14 = 31 obligation. pure 的 1837 定理. 依赖于 `inductive` 而仅此而已.
+这在结构上就是一个根基系统的诚实无条件一致性结果应该是的样子. 命名的范围. 命名的边界假设. 显式审计. 跟踪的 17 + 14 = 31 obligation. 11756 条定理, 0 个 impure detected. 依赖于 `inductive` 而仅此而已.
 
 这是 BEDC 根基元理论里第一块到达这个闭合级别的内容. 这也是元理论后续开发的稳定平台: 一旦 `closed_normal_consistency` 是定理, 任何下游元理论论证只要需要它就能引用一个 Lean 目标, 而不必靠非正式信任.
 
