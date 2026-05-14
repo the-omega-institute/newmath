@@ -1,0 +1,39 @@
+\begin{theorem}[$\ZNormalUp$ total-host terminal carrier admission]
+\label{thm:znormal-total-host-terminal-carrier-admission}
+Every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+admits a total-host terminal carrier only through the displayed terminal normality row $V$, bounded fuel replay row $F$, typed endpoint row $T$, and terminal continuation row $R$. The TasteGate-facing structural rows $H,C,P,N$ transport, replay, package, and name this same carrier, while $K$ remains finite sibling normal-word evidence. The carrier admits no host conversion row, quotient normalization row, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier and its local obligations, \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They expose exactly $T,F,V,K,R,H,C,P,N$ as the finite packet and make terminal normality a displayed row rather than a host-side conversion judgment.
+
+Use the root terminal carrier and terminal non-escape surfaces, \autoref{thm:znormal-root-terminal-carrier-admission} and \autoref{thm:znormal-root-terminal-nonescape-interface}. These place terminal use on $T,F,V,R$ and keep the sibling normal-word row $K$ inside the same accepted packet.
+
+Finally apply the TasteGate scope binding, \autoref{thm:znormal-tastegate-scope-binding}. The later TasteGate consumer sees the same finite field surface, so the admitted carrier cannot acquire any excluded host, quotient, evaluator, divergence, or global-normalization row.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel readback TasteGate route]
+\label{thm:znormal-fuel-readback-tastegate-route}
+For every accepted $\ZNormalUp$ packet, the bounded fuel readback route reaches TasteGate only after the typed endpoint $T$, finite fuel $F$, terminal normality $V$, continuation readback $R$, and structural rows $H,C,P,N$ have been displayed. The normal-word row $K$ may contribute only the finite Zeckendorf and carry-facing sibling route. This TasteGate route exports no host conversion, quotient computation, unrestricted evaluation, divergence detection, or global normalization.
+\end{theorem}
+\begin{proof}
+Start from terminal fuel field scope and terminal fuel row exhaustion, \autoref{thm:znormal-terminal-fuel-field-scope} and \autoref{thm:znormal-terminal-fuel-row-exhaustion}. They route fuel readback through $T,F,V,R,H,C,P,N$ and leave $K$ as finite sibling evidence.
+
+Next use the root TasteGate field surface, \autoref{thm:znormal-root-tastegate-field-surface}. It identifies the TasteGate-facing consumer surface with the displayed tuple $T,F,V,K,R,H,C,P,N$.
+
+The total-host refusal package, \autoref{thm:znormal-total-host-refusal-package}, closes the route. Since every excluded host or quotient object is absent from the packet, the fuel readback reaches TasteGate only through the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ downstream normal consumer non-escape]
+\label{thm:znormal-downstream-normal-consumer-nonescape}
+Every downstream normal-form consumer of an accepted $\ZNormalUp$ total-host packet is confined to terminal normality through $T,F,V,R$, finite sibling normal-word evidence through $K$, and the TasteGate-aligned structural rows $H,C,P,N$. The downstream route is exhausted by the displayed packet and cannot escape to host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, or global normalization.
+\end{theorem}
+\begin{proof}
+Begin with downstream normal route exhaustion, \autoref{thm:znormal-downstream-normal-route-exhaustion}. It accounts for terminal fuel, sibling normal-word evidence, componentwise transport, continuation replay, provenance, and local naming for every downstream normal-form consumer.
+
+Apply the total-host terminal carrier admission above. The downstream consumer therefore reads the same terminal carrier that already passed through terminal normality, bounded fuel replay, TasteGate alignment, and the local structural rows.
+
+Finally use the root total-host refusal theorem, \autoref{thm:znormal-root-total-host-refusal}. It refuses host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, and global normalization for every route not carried by $T,F,V,K,R,H,C,P,N$. Hence the downstream normal consumer has no escape route beyond the displayed packet.
+\end{proof}
