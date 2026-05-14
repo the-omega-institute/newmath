@@ -351,6 +351,24 @@ theorem CauchyModulusRefinementCarrier_root_threshold_public_exhaustion
     ⟨selectedUnary, readbackUnary, sealReadUnary, publicReadUnary, m0m1u, uvt, tWSelected,
       selectedQReadback, readbackESeal, sealHPublic, pPkg, publicPkg, hn⟩
 
+theorem CauchyModulusRefinementCarrier_root_source_binding [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont m0 u rootRead ->
+        PkgSig bundle rootRead pkg ->
+          UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory u ∧ UnaryHistory rootRead ∧
+            Cont m0 m1 u ∧ Cont m0 u rootRead ∧ PkgSig bundle p pkg ∧
+              PkgSig bundle rootRead pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier rootRoute rootPkg
+  rcases carrier with
+    ⟨m0Unary, m1Unary, uUnary, _vUnary, _tUnary, _wUnary, _qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, m0m1u, _uvt, _twq, _qeh, pPkg, hn⟩
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed m0Unary uUnary rootRoute
+  exact ⟨m0Unary, m1Unary, uUnary, rootUnary, m0m1u, rootRoute, pPkg, rootPkg, hn⟩
+
 theorem CauchyModulusRefinementCarrier_root_classifier_transport_exactness [AskSetup]
     [PackageSetup]
     {m0 m1 u v t w q e h c p n endpoint : BHist}

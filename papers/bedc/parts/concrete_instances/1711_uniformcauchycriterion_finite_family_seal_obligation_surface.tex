@@ -111,6 +111,7 @@ U=(I,W,M,Q,T,E,H,C,P,N)
 $$
 be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal obligation surface. If two finite-family overlap refinements preserve the displayed rows $I,W,M,Q,T,E,H,C,P,N$, then both refinements determine the same $\RegSeqRatUp$ tail row and $\RealUp$ seal handoff. Neither refinement can introduce a second $\StreamNameUp$ family, detached tail oracle, selected limit, quotient stream, host real equality, or ambient completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_seal\_overlap\_determinacy}
 \begin{proof}
 Start with the finite-family seal obligation package. By \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}, the rows $I,W,M,Q,T,E,H,C,P,N$ are the complete seal-facing inventory for the accepted packet.
 
@@ -119,6 +120,51 @@ Next use the RegSeqRat--Real handoff. \autoref{thm:uniform-cauchy-criterion-fini
 The shared seal-route determinacy theorem now compares the two refinements. Since both refinements preserve the displayed rows, \autoref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy} leaves them with the same route from $I$ through $E$ and with repacking only along $H,C,P,N$.
 
 Finally apply root seal pullback non-escape. \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape} removes selected limits, quotient streams, host real equality, detached tail oracles, and ambient completeness witnesses from the completion-facing surface. Thus the two overlap refinements determine the same tail row and seal handoff, with no second public route.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-family route lock]
+\label{thm:uniform-cauchy-criterion-finite-family-route-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family
+seal obligation surface. Any $\RegSeqRatUp$-visible or $\RealUp$-visible
+consumer preserving $I,W,M,Q,T,E,H,C,P,N$ must use the single handoff route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The consumer cannot introduce a second $\StreamNameUp$ family, detached tail
+oracle, selected limit, quotient stream, host real equality, or ambient
+completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the finite-family seal package and RegSeqRat--Real handoff.
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}
+exposes exactly the rows $I,W,M,Q,T,E,H,C,P,N$, and
+\autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff}
+routes both tail and real-facing consumers from the finite index ledger to the
+seal handoff.
+
+Next apply the nonescape ledger and window seal exhaustion.
+\autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} removes
+selected limits, quotient streams, host real equality, ambient completeness, and
+detached tail data, while
+\autoref{thm:uniform-cauchy-criterion-finite-family-window-seal-exhaustion}
+prevents a consumer from bypassing the shared window and tail ledger.
+
+Now use shared seal-route determinacy together with seal overlap determinacy.
+\autoref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy}
+fixes the route from $I$ through $E$, and
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy}
+shows that overlap refinements preserving the displayed rows cannot split the
+tail row or the seal handoff.
+
+Therefore every $\RegSeqRatUp$-visible or $\RealUp$-visible consumer preserving
+the displayed packet rows uses the handoff
+$I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E$.
+The excluded data are not available as public coordinates, so they cannot
+provide a second route.
 \end{proof}
 
 \begin{theorem}[UniformCauchyCriterion finite-family refinement handoff]
