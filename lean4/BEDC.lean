@@ -251,6 +251,7 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteSupportUp.TasteGate
+import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
