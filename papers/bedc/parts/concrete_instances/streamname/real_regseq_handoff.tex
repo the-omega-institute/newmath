@@ -97,6 +97,57 @@ row is accounted for by exactly one side of the handoff, and no completion or
 host equality row is imported from the finite StreamName package.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-Real seal composition]
+\label{thm:streamname-regseqrat-real-seal-composition}
+Let $\mathcal{W}$ be a public $\StreamNameUp$ finite-window package whose
+selected finite rows are certified by the displayed
+$\mathsf{RatHistoryClassifier}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, $\hsame$, finite $\Cont$, and
+$\Pkg$ provenance data. Let $S$ be a $\RegSeqRatUp$ finite-window seal that
+consumes exactly those selected rational-history rows together with its
+regularity, dyadic-tolerance, transport, stream-spine, and seal-interface
+ledger rows. Let $R$ be a finite-window $\RealUp$ ledger-boundary row that
+consumes the seal $S$.
+
+Then every Real-facing consumer row of $R$ factors through exactly the selected
+finite rows of $\mathcal{W}$, the $\RegSeqRat$ regularity,
+dyadic-tolerance, transport, stream-spine, and seal rows of $S$, and the
+$\RealUp$ seal-classifier ledger row. Conversely, those three displayed
+surfaces repack into the same Real-facing finite-window ledger boundary.
+
+The composed route exports no quotient stream, selected host limit, host
+equality, completion witness, countable-choice schedule, or ambient
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+First isolate the source rows. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It says that the
+public StreamName window contributes only the selected rational-history
+classifier rows, the finite probe ledger, bundle-membership rows, unary
+observations, finite transport data, and provenance rows.
+
+Next seal those rows on the RegSeqRat side. Use
+\autoref{thm:regseqrat-finite-window-seal-exactness} to read the selected
+finite classifier rows as the input surface of $S$, and use
+\autoref{thm:regseqrat-obligation-seal-interface} to place the regularity,
+dyadic-tolerance, transport, stream-spine, and seal-interface rows on the
+RegSeqRat ledger side of the boundary.
+
+Finally pass to the Real-facing row. Apply
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. These theorems
+consume the RegSeqRat seal as a finite ledger boundary and expose only the
+seal-classifier row required by the RealUp consumer.
+
+The preceding three steps give the forward factorization. The converse
+repacking follows by reading the same cited theorems in order: the StreamName
+finite rows supply the source packet, the RegSeqRat exactness and interface
+rows rebuild the seal packet, and the RealUp boundary theorem rebuilds the
+finite-window ledger row. Since each cited boundary excludes quotient streams,
+host equalities, completion witnesses, countable-choice schedules, and ambient
+completeness coordinates, the composed route exports none of them.
+\end{proof}
+
 \begin{definition}[StreamName-RegSeqRat scheduled seal package]
 \label{def:streamname-regseqrat-scheduled-seal-package}
 A $\StreamNameUp$--$\RegSeqRat$ scheduled seal package is the scheduled
