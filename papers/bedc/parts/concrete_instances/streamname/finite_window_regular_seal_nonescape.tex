@@ -69,3 +69,19 @@ Use the seal boundary from \autoref{thm:streamname-real-seal-factorization-bound
 
 The non-escape conclusion follows from \autoref{thm:streamname-finite-window-regularity-real-seal-nonescape} and \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}. Their coordinate lists omit quotient streams, host sequence equality, selected limits, metric completeness, ambient $\RealUp$ completeness, and independent completed-real carriers, so those objects cannot be read through the handoff.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real tail-window exactness]
+\label{thm:streamname-regseqrat-real-tail-window-exactness}
+Let $W$ be an accepted finite $\StreamNameUp$ tail window consumed by $\RegSeqRatUp$ regularity, $\DyadicRatCoreUp$ observation readback, and a finite-window $\RealUp$ seal. Then the seal-facing packet has exactly the displayed rows: the StreamName window $W$, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership, certified $\mathsf{UnaryHistory}$ observations, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+There is no extra coordinate for quotient streams, host sequence equality, selected limits, metric completeness, ambient $\RealUp$ completeness, or an independent completed-real carrier.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. It gives the complete list of public rows visible to a Real seal consumer from an accepted finite StreamName window.
+
+Next use \autoref{thm:streamname-regseqrat-real-budgeted-common-pullback}. The tail-window presentation and any budgeted readback presentation factor through the same finite pullback packet when the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real seal boundary agree.
+
+Finally apply \autoref{thm:streamname-real-handoff-completion-nonescape}. Completion-facing use remains at the displayed pullback packet, so the exact packet is the finite row list already named above.
+
+The exclusions follow because each cited route omits quotient streams, host sequence equality, selected limits, metric completeness, ambient $\RealUp$ completeness, and independent completed-real carriers. Since the composition only repacks the same finite rows, it cannot create any of those objects.
+\end{proof}
