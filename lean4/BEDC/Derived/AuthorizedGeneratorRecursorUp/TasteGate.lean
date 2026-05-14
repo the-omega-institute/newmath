@@ -285,6 +285,10 @@ instance authorizedGeneratorRecursorChapterTasteGate :
     intro x y hxy heq
     exact hxy (authorizedGeneratorRecursorToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate AuthorizedGeneratorRecursorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  authorizedGeneratorRecursorChapterTasteGate
+
 theorem AuthorizedGeneratorRecursorTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         authorizedGeneratorRecursorDecodeBHist (authorizedGeneratorRecursorEncodeBHist h) = h) ∧
