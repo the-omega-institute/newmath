@@ -1032,6 +1032,37 @@ def _read_research_latest_counts() -> dict[str, int]:
     return counts
 
 
+def _read_research_ready_titles(limit: int = 5) -> list[str]:
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return []
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return []
+    titles: list[str] = []
+    in_ready = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "## Ready":
+            in_ready = True
+            continue
+        if in_ready and stripped.startswith("## "):
+            break
+        if not in_ready or not stripped.startswith("- "):
+            continue
+        title = stripped[2:].strip()
+        if " [" in title:
+            title = title.rsplit(" [", 1)[0].strip()
+        if title:
+            titles.append(title)
+        if len(titles) >= limit:
+            break
+    return titles
+
+
 def render_research_candidate_lane() -> str:
     counts = _read_research_latest_counts()
     lines = [
@@ -1062,6 +1093,12 @@ def render_research_candidate_lane() -> str:
     if error_kind:
         lines.append(f"  last append error_kind: {error_kind}")
     lines.extend(_board_judge_action_lines(error_kind))
+    if counts["ready"] and "board_judge_unavailable" in error_kind:
+        titles = _read_research_ready_titles(limit=5)
+        if titles:
+            lines.append("  held ready behind shared judge outage:")
+            for title in titles:
+                lines.append(f"    - {title}")
     return "\n".join(lines)
 
 
