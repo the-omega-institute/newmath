@@ -10,6 +10,14 @@ from __future__ import annotations
 import auto_discovery
 import candidate_inbox
 import killo_golden_writeback
+import sys
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+BRIDGE_DIR = REPO_ROOT / "tools" / "automath_newmath_bridge"
+sys.path.insert(0, str(BRIDGE_DIR))
+import bridge_to_bedc_board  # type: ignore  # noqa: E402
 
 
 def _candidate(path: str) -> dict:
@@ -58,6 +66,59 @@ def main() -> int:
 
         target = killo_golden_writeback._resolve_target_tex(path)
         assert target is None, target
+
+    bridge_record = {
+        "source_repo": "the-omega-institute/automath",
+        "source_branch_or_ref": "origin/main",
+        "source_commit": "abc123",
+        "source_path": "automath/some/theorem.lean",
+        "source_artifact_kind": "lean_theorem",
+        "destination_path": "tools/automath_newmath_bridge/review_packets/signal.json",
+        "bridge_direction": "automath_to_newmath",
+        "gate_status": "gate_passed",
+        "readiness": "ready_for_local_packet",
+        "destination_repo": "the-omega-institute/newmath",
+        "priority": 90,
+        "evidence_summary": ["source signal is useful but has no BEDC-native landing yet"],
+    }
+    bridge_candidate = bridge_to_bedc_board._candidate(
+        bridge_record,
+        "tools/automath_newmath_bridge/review_packets/signal.json",
+    )
+    assert bridge_candidate["local_inputs"] == [], bridge_candidate["local_inputs"]
+    assert bridge_candidate["landing_kind"] == "reject", bridge_candidate["landing_kind"]
+    assert (
+        "tools/automath_newmath_bridge/review_packets/signal.json"
+        in bridge_candidate["review_metadata_inputs"]
+    )
+    reason = candidate_inbox._rejection_reason(
+        bridge_candidate,
+        source="automath_newmath_bridge",
+        existing_titles=existing_titles,
+        seen_titles=seen_titles,
+        file_lookup=file_lookup,
+        existing_labels=labels,
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+    assert reason == "external_signal_landing_reject", reason
+
+    landing_record = dict(bridge_record)
+    landing_record["paper_files"] = [
+        "papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex"
+    ]
+    landing_candidate = bridge_to_bedc_board._candidate(
+        landing_record,
+        "tools/automath_newmath_bridge/review_packets/signal.json",
+    )
+    assert landing_candidate["local_inputs"] == [
+        "papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex"
+    ], landing_candidate["local_inputs"]
+    assert landing_candidate["landing_kind"] == "existing_chapter_lemma", landing_candidate["landing_kind"]
+    assert not any(
+        path.startswith("tools/automath_newmath_bridge/review_packets/")
+        for path in landing_candidate["local_inputs"]
+    )
 
     print("qa_vision_landing_gate: ok")
     return 0

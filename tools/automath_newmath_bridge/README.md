@@ -34,8 +34,9 @@ content.
 - `validate_bridge_manifest.py` validates manifest or packet JSONL records.
 - `render_bridge_report.py` renders manifest or packet JSONL as Markdown for
   human and AI review.
-- `review_packets/` contains durable bridge review packets that may be cited
-  from BEDC BOARD entries. These are not runtime artifacts.
+- `review_packets/` contains durable bridge review packets for local review
+  memory. They are metadata/evidence surfaces only: they must not become BEDC
+  BOARD `local_inputs`, paper provenance, or theorem evidence.
 - `inbox/`, `out/`, `state/`, and `logs/` are runtime directories. Generated
   contents are ignored by Git and should not be uploaded.
 
