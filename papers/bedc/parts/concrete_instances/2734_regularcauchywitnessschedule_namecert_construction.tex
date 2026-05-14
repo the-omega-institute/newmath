@@ -212,6 +212,24 @@ The only tail-facing rows left in the carrier are $H,C,P,N$. These rows preserve
 Therefore every tail-facing consumer route is administrative over the displayed finite rows. An unbounded diagonal stream is not a coordinate of the carrier and cannot be recovered from the tail route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule tail-budget factorization]
+\label{thm:regular-cauchy-witness-schedule-tail-budget-factorization}
+Let $S=(X,\mu,W,D,R,T,H,C,P,N)$ be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Every tail-budget consumer or $\RealUp$ seal consumer first reads the $\RegSeqRatUp$ family row $X$, the selected modulus row $\mu$, the finite $\StreamNameUp$ window row $W$, and the $\DyadicRatCoreUp$ ledger row $D$. Only after these rows have been fixed can the consumer read the rational observation row $R$ and the $\RealUp$ seal row $T$, transported through $H$, replayed through $C$, packaged by $P$, and named by $N$. The factorization exports no quotient stream, selected limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition for the accepted packet. Its consumer-visible coordinates are exactly $X,\mu,W,D,R,T,H,C,P,N$, so a tail-budget read has no source outside the displayed tuple.
+
+Apply \autoref{thm:regularcauchywitnessschedule-window-coverage}. It fixes the initial finite window surface as $X,\mu,W,D$ before any seal-facing read is available.
+
+Next use \autoref{thm:regularcauchywitnessschedule-tail-route}. Tail-facing consumption can only proceed through the rational observation row $R$, the seal row $T$, and the administrative route $H,C,P,N$ after the finite window has been selected.
+
+The $\RealUp$ dependency is the handoff of \autoref{thm:regularcauchywitnessschedule-real-handoff}; it adds a seal row, not an ambient completeness object. Since the chapter carries the displayed TasteGate marker
+$$
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},
+$$
+the $\origin{ai}$ consumer boundary is aligned with the same carrier route. Thus every tail-budget or seal consumer factors through the explicit modulus, finite window, dyadic ledger, and seal rows, and no quotient stream, selected limit, host real equality, or completeness witness is exported.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy witness schedule Real handoff]
 \label{thm:regularcauchywitnessschedule-real-handoff}
 For an accepted $\RegularCauchyWitnessScheduleUp$ packet, the $\RealUp$ seal row $T$ is a finite handoff from $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ data: it is reached from $X,\mu,W,D,R$ through the displayed route and then transported, located, and named by $H,C,P,N$. The handoff is not a completeness theorem, quotient-equality theorem, host real equality theorem, or selected-limit theorem.
