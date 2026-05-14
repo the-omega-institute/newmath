@@ -33,6 +33,34 @@ For accepted $\SignedDigitStreamUp$ carriers $S$ and $T$, the classifier $\maths
 The classifier compares finite normalized observations, not infinite tails. A classified pair therefore exposes agreement of all windows actually requested by the schedules and supplies no host real equality, choice of a global stream representative, or quotient equality of digit streams.
 \end{definition}
 
+\begin{theorem}[SignedDigitStream sibling route through scheduled dyadic endpoints]
+\label{thm:streamname-hub-dyadic-regseq-real-sibling-route}
+Every accepted $\SignedDigitStreamUp$ packet factors through the concrete-instance sibling route
+$$
+\autoref{ch:concrete-instances-streamname-namecert}
+\to
+\autoref{ch:concrete-instances-dyadicratcore-namecert}
+\to
+\autoref{ch:concrete-instances-regseqrat-namecert}
+\to
+\autoref{ch:concrete-instances-signeddigitreal-namecert}
+\to
+\autoref{ch:concrete-instances-real-namecert}
+$$
+before any $\RealUp$ seal consumer can read it. The route reads the $\StreamNameUp$ schedule and provenance rows, the normalized $\DyadicRatCoreUp$ endpoint rows, the $\RegSeqRatUp$ handoff surface, the signed-digit real finite-window boundary, and then the $\RealUp$ seal rows.
+
+The route exports no quotient stream equality, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $(D,N,C,P,E,L)$ of \autoref{def:signeddigitstream-carrier}. The rows $N$ and $P$ are exactly the finite-window schedule and provenance surface supplied by $\StreamNameUp$, so every downstream read first passes through \autoref{ch:concrete-instances-streamname-namecert}.
+
+The row $E$ is the displayed list of normalized endpoint rows obtained from the finite prefixes and the carry ledger $C$. These are $\DyadicRatCoreUp$ rows, so the next visible dependency is \autoref{ch:concrete-instances-dyadicratcore-namecert}; the digit and carry data only justify those endpoint rows and do not create an independent completed endpoint.
+
+Use \autoref{thm:signeddigitstream-regseqrat-handoff} to expose the regular rational consumer surface. It reads only scheduled normalized dyadic endpoints and their ledgers, giving the $\RegSeqRatUp$ stage. Then use \autoref{thm:signeddigitstream-real-seal-finite-window-boundary} to identify the finite-window seal boundary that passes through the signed-digit real surface before reaching the $\RealUp$ seal rows.
+
+Every object read along the route is one of the six projected carrier rows or one of the downstream rows named by those two handoff theorems. Since none of those rows contains a quotient stream equality, selected limit, host real equality, or ambient completeness datum, the sibling route exhausts the visible dependency surface before any $\RealUp$ seal consumer can read the packet.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream finite-window transport]
 \label{thm:signeddigitstream-window-transport}
 Let $S$ be an accepted $\SignedDigitStreamUp$ carrier. Suppose $T$ is obtained by transporting the signed digit rows, unary schedule rows, carry ledger, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and hidden-tail ledger of $S$ through displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes. If every transported prefix normalizes to the transported endpoint row with the transported carry ledger, then $T$ is an accepted $\SignedDigitStreamUp$ carrier and $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds on each shared finite window.
