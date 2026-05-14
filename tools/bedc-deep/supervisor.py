@@ -9,8 +9,9 @@ Wraps `oracle_client.py --loop` and adds:
   1. Server health: ensure bedc_oracle_server.py is running on :8767.
   2. Stale cleanup: prune dead .in_progress markers each pass.
   3. Inner loop manager: spawn oracle_client, restart on crash with backoff.
-  4. BOARD low-water: trigger auto_discovery probe when unfinished < threshold.
-  5. Curator: trigger after a batch of new completions.
+  4. BOARD low-water: trigger paper-native refill/review when unfinished < threshold.
+  5. Curator/probe discovery is opt-in only because legacy discovery surfaces
+     may inspect non-paper axes; the default supervisor must remain paper-native.
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
   8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
@@ -60,6 +61,7 @@ DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
+DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY = False
 TAB_STUCK_THRESHOLD_S = 300
 ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 ZERO_EXTRACTION_HANG_SECONDS = 900
@@ -669,15 +671,23 @@ def trigger_oracle_board_refill() -> None:
     run_id = _now_tag_safe()
     log_path = SUPERVISOR_LOG_DIR / f"refill_{run_id}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "python3",
+        str(SCRIPT_DIR / "oracle_board_refill.py"),
+        "--no-attach-pdf",
+        "--run-id",
+        run_id,
+    ]
+    status = server_status()
+    if status.get("dispatch_ready_poll_agents"):
+        supervisor_log(
+            "oracle_board_refill: dispatch-ready tab present; "
+            "ignoring stale refill circuit breaker for this run"
+        )
+        cmd.append("--ignore-refill-circuit-breaker")
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            [
-                "python3",
-                str(SCRIPT_DIR / "oracle_board_refill.py"),
-                "--no-attach-pdf",
-                "--run-id",
-                run_id,
-            ],
+            cmd,
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -1124,6 +1134,10 @@ def main() -> int:
                         help="Opt in to upstream integration sync before discovery triggers.")
     parser.add_argument("--no-dev-sync", action="store_true",
                         help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set.")
+    parser.add_argument("--allow-lean-adjacent-discovery", action="store_true",
+                        default=DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY,
+                        help="Opt in to legacy auto_discovery probe/curriculum/curator triggers. "
+                             "Default off so the always-on BEDC supervisor remains paper-native.")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
     args = parser.parse_args()
 
@@ -1139,7 +1153,8 @@ def main() -> int:
         f"supervisor starting (parallel={args.parallel}, "
         f"claude_review={'off' if args.no_claude_review else 'on'}, "
         f"auto_commit={'off' if args.no_auto_commit else 'on'}, "
-        f"dev_sync={'on' if dev_sync_enabled else 'off'})"
+        f"dev_sync={'on' if dev_sync_enabled else 'off'}, "
+        f"lean_adjacent_discovery={'on' if args.allow_lean_adjacent_discovery else 'off'})"
     )
 
     if dev_sync_enabled:
@@ -1171,6 +1186,7 @@ def main() -> int:
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
+        "allow_lean_adjacent_discovery": args.allow_lean_adjacent_discovery,
     }
 
     try:
@@ -1189,8 +1205,9 @@ def main() -> int:
             if retried:
                 supervisor_log(f"reset {retried} crashed targets for retry")
 
+            unfinished = board_unfinished_count()
             inner = supervisor_state.get("inner")
-            if inner is None or inner.poll() is not None:
+            if unfinished > 0 and (inner is None or inner.poll() is not None):
                 if inner is not None and inner.poll() is not None:
                     rc = inner.poll()
                     supervisor_log(f"inner exited rc={rc}; backoff {args.inner_restart_backoff}s before respawn")
@@ -1203,19 +1220,39 @@ def main() -> int:
                     oracle_parallel=getattr(args, "oracle_parallel", 0) or 0,
                 )
                 supervisor_state["inner"] = inner
+            elif unfinished == 0 and inner is not None and inner.poll() is not None:
+                supervisor_log("inner exited and BOARD has no unfinished targets; waiting for refill")
+                supervisor_state["inner"] = None
 
-            unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
             since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
+            allow_lean_adjacent_discovery = bool(
+                supervisor_state.get("allow_lean_adjacent_discovery", False)
+            )
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
-                trigger_probe(no_dev_sync=no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
+                    trigger_probe(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        "BOARD low water: skipped auto_discovery probe "
+                        "because paper-native supervisor defaults forbid "
+                        "Lean-adjacent discovery; oracle_board_refill and "
+                        "paper_review remain enabled"
+                    )
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
-                trigger_curriculum_probe(no_dev_sync=no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
+                    trigger_curriculum_probe(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        "BOARD low water: skipped curriculum probe because "
+                        "paper-native supervisor defaults forbid Lean-adjacent "
+                        "discovery"
+                    )
                 last_curriculum_ts = _now()
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
@@ -1229,8 +1266,15 @@ def main() -> int:
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
             if done_now - last_completed_count >= COMPLETIONS_PER_CURATOR and since_curator_h > supervisor_state["curator_cooldown_hours"]:
-                supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
-                trigger_curator(no_dev_sync=no_dev_sync)
+                if allow_lean_adjacent_discovery:
+                    supervisor_log(f"completions delta={done_now - last_completed_count} → curator")
+                    trigger_curator(no_dev_sync=no_dev_sync)
+                else:
+                    supervisor_log(
+                        f"completions delta={done_now - last_completed_count}: "
+                        "skipped curator because paper-native supervisor "
+                        "defaults forbid Lean-adjacent discovery"
+                    )
                 last_curator_ts = _now()
                 last_completed_count = done_now
 
