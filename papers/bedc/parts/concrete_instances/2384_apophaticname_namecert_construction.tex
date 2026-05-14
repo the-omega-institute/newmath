@@ -622,6 +622,46 @@ Apply the non-escape certificate together with supply-request nonimport, \autore
 Thus any downstream descent is exactly a replay through $\Cont$, packaging through $\Pkg$, and citation by the local $\NameCert$ row. The descent is ledger-bounded by $S,R,G,L,H,C,P,N$ and has no other boundary object to export.
 \end{proof}
 
+\begin{theorem}[ApophaticName downstream boundary consumer]
+\label{thm:apophatic-name-downstream-boundary-consumer}
+Every downstream consumer read of an accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+factors through the displayed socket, requested supply-shape, refusal gate, ledger, componentwise transport, continuation, provenance, and local naming rows. The consumer receives only that refusal-boundary packet and no supplied object, quotient representative, hidden theorem, host datum, or generated witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-name-carrier}. The only rows presented to a downstream consumer are $S,R,G,L,H,C,P,N$.
+
+Apply the refusal ledger, obligation surface, and non-escape certificate, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-obligation-surface}, and \autoref{thm:apophatic-name-non-escape-certificate}. These rows identify the permitted reads, the local NameCert obligations, and the barred conversions for the same packet.
+
+Finally use the sibling socket and gate surfaces already binding this chapter, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-boundary-citation-exhaustion}. They force the downstream citation to remain a public refusal-boundary citation rather than a supplied object or host-side witness.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal gate separation]
+\label{thm:apophatic-name-refusal-gate-separation}
+The refusal gate $G$ separates socket requests from generated witnesses, quotient representatives, hidden theorems, and host objects for every accepted $\ApophaticNameUp$ packet. A read may name the socket row $S$ and requested supply-shape row $R$ only by passing through $G,L,H,C,P,N$, and it cannot turn the request into substrate content.
+\end{theorem}
+\begin{proof}
+Begin with the refusal ledger of \autoref{thm:apophatic-name-refusal-ledger}. It records each permitted socket and request read together with the barred conversions from request to internal content.
+
+Use the non-escape certificate, \autoref{thm:apophatic-name-non-escape-certificate}. It rules out the attempted repackaging of the named externality as a generated object, assumed proposition, quotient class, hidden theorem, or host-side datum.
+
+The socket-request gate factorization and boundary citation exhaustion, \autoref{thm:apophatic-name-socket-request-gate-factorization} and \autoref{thm:apophatic-name-boundary-citation-exhaustion}, keep the request behind $G$ through $\Cont$, $\Pkg$, and $\NameCert$. Hence the gate separates the public request from every hidden or host-side realization.
+\end{proof}
+
+\begin{theorem}[ApophaticName NameCert handoff exhaustion]
+\label{thm:apophatic-name-namecert-handoff-exhaustion}
+The local $\NameCert_{\ApophaticNameUp}$ handoff through $N$ exhausts all public refusal-boundary exports of an accepted packet $A=(S,R,G,L,H,C,P,N)$. Any public export is a replay of the refusal ledger through $H,C,P,N$, not an export of supplied content, a quotient representative, a hidden theorem, a generated witness, or a host object.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:apophatic-name-obligation-surface}. Its carrier, classifier-stability, ledger-exactness, continuation, package, and non-escape rows are the local NameCert obligations for the packet.
+
+Apply the refusal ledger and non-escape certificate, \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-non-escape-certificate}. They identify the public refusal rows and exclude every conversion to supplied or host-side content.
+
+Finally cite downstream named-externality refusal and boundary descent, \autoref{thm:apophatic-name-downstream-named-externality-refusal} and \autoref{thm:apophatic-name-boundary-descent-ledger}. Together they show that a downstream export is exhausted by replay through $H,C,P,N$, so the local NameCert handoff has no remaining hidden route to export.
+\end{proof}
+
 \closureat{ApophaticNameUp}{scopedStr}
 \closureat{ApophaticNameUp}{publicStr}
 
