@@ -163,6 +163,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.ApophaticSocketUp
+import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -768,6 +769,7 @@ import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.ProofTermErasureClassifierUp.TasteGate
+import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
