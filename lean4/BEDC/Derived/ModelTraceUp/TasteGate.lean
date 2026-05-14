@@ -250,8 +250,9 @@ theorem ModelTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, modelTraceDecodeBHist (modelTraceEncodeBHist h) = h) ∧
       (∀ x : ModelTraceUp, modelTraceFromEventFlow (modelTraceToEventFlow x) = some x) ∧
         (∀ x y : ModelTraceUp, modelTraceToEventFlow x = modelTraceToEventFlow y → x = y) ∧
-          modelTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+          Nonempty (FieldFaithful ModelTraceUp) ∧ Nonempty (Nontrivial ModelTraceUp) ∧
+            modelTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   constructor
   · exact modelTraceDecode_encode_bhist
   · constructor
@@ -259,6 +260,10 @@ theorem ModelTraceTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact modelTraceToEventFlow_injective heq
-      · rfl
+      · constructor
+        · exact ⟨modelTraceFieldFaithful⟩
+        · constructor
+          · exact ⟨modelTraceNontrivial⟩
+          · rfl
 
 end BEDC.Derived.ModelTraceUp

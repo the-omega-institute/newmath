@@ -221,6 +221,28 @@ Next specialize the consumer to $\RealCauchyCompletionUp$. The specialization ch
 Finally combine \autoref{thm:uniform-cauchy-criterion-regular-tail-fusion-factorization} with \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility}. The Real completion consumer is locked to the finite package and seal route, so any claim of Real completeness, quotient-stream equality, selected limits, host equality, countable choice, or ambient completeness lies outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion selector-seal handoff lock]
+\label{thm:uniform-cauchy-criterion-selector-seal-handoff-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any $\RealUp$ or $\RealCauchyCompletionUp$ consumer that exposes a selector-seal packet must first traverse the finite budget package of \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the shared-tail sibling of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, and the $\RealCompletionSelectorSealUp$ route
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E
+$$
+from \autoref{ch:concrete-instances-realcompletionselectorseal-namecert}. The handoff surface refuses quotient-stream equality, selected limits, host equality, countable choice, ambient completeness, and open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with the root budget package. By \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the accepted packet exposes only the finite rows $I,W,M,Q,T,H,C,P,N$ before any Real or Completion consumer can read a terminal seal.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility} and \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock}. These results place the seal-facing read after the same finite budget package and after the shared-tail sibling of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
+
+Now use \autoref{thm:real-completion-selector-seal-terminality}. A consumer that exposes a selector-seal packet is exhausted by the concrete route $B,W,R,L,E,H,C,P,N$, with $B\mapsto W\mapsto R\mapsto L\mapsto E$ as the terminal Real and Completion handoff.
+
+The displayed rows are therefore exhausted by the UniformCauchyCriterion root budget, the regular shared-tail sibling, and the selector-seal packet. None of those rows carries quotient-stream equality, selected limits, host equality, countable choice, ambient completeness, or open-cover compactness, so no consumer can export such data from the handoff.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion tail-cofinality schedule handoff]
 \label{thm:uniform-cauchy-criterion-tail-cofinality-schedule-handoff}
 Let
