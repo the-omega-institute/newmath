@@ -74,19 +74,19 @@ Once you have a classifier, you have a place where it can be *wrong*. The projec
 The current numbers are:
 
 ```text
-table audit (cook_collisions.c full 33 rows): 26/33 PASS, 7 FAIL
+table audit (cook_collisions.c full 33 rows): 33/33 PASS
 Martinez 2012 Table 1/Table 2 cross-check: 33/33 matched
 ```
 
-The 33/33 paper cross-check means the table's claims are what the paper printed. The 26/33 strict detector PASS means that for 26 of those rows the direct simulation reproduces the claimed outcome under the detector's recognition rule. The remaining 7 are "detector cannot name the output glider" — the classifier's tag set doesn't have a phase entry for one of the produced gliders, so the detector can see something arrived at a given offset but can't assign it a name.
+The 33/33 paper cross-check means the table's claims are what the paper printed. The 33/33 strict detector PASS means that for every one of those rows the direct simulation reproduces the claimed outcome under the detector's current recognition rule. Both layers agree on every row in the catalog.
 
-This is what classifier disagreement looks like when it is exposed. It is not a fault. It is an honest reading of where the catalog's tag set stops covering what the substrate produces. The relevant value of the project's audit setup is precisely that this reading is *visible* — the audit prints `INFO N audit finding(s)`, the boundary doesn't get smoothed out by a softer recognition rule.
+This is what classifier discipline looks like when it holds across the whole table. It did not always hold. An earlier version of the substrate reached 26/33 on the strict layer — the remaining 7 rows were "detector cannot name the output glider", because the classifier's tag set was missing phase entries for some produced gliders. Extending the classifier (and tightening the detector around the additions) closed the gap one row at a time, with each step audited and the progress recorded as it moved.
 
-Compare what would happen without the disagreement boundary. The detector could be made more permissive — "well, this output kind of looks like Ē, call it Ē". The strict count would go up. The catalog's actual coverage would not change at all. The classifier discipline would have been silently weakened.
+What the project's audit setup buys is *visibility* of where the classifier disagrees with the substrate. The audit prints `INFO N audit finding(s)` whenever the two layers don't line up; the boundary doesn't get smoothed out by a softer recognition rule. The current 33/33 state is the boundary at zero — the catalog covers what the substrate produces in this table.
 
 ## What the BEDC kernel disagreement boundary looks like
 
-The kernel has the same kind of boundary in the same kind of place. When BEDC tries to apply its `closed-normal consistency` theorem to a closed term whose codomain depends on a typed sub-term, it stops. The kernel doesn't pretend that case is settled; it names four `subject-reduction` discharge hypotheses and tracks them as `\formalstatus{formalTargetV}` rather than `\theoremCheckedV`. The closed-codomain case has 17 strict obligations PASS in the project's exhaustiveness audit; the dependent-codomain case is parked behind the four hypotheses.
+The kernel has the same kind of boundary in the same kind of place. When BEDC tries to apply its `closed-normal consistency` theorem to a closed term whose codomain depends on a typed sub-term, it stops. The kernel doesn't pretend that case is settled; it names four `subject-reduction` discharge hypotheses and tracks them as `\formalstatus{formalTargetV}` rather than `\theoremCheckedV`. The exhaustiveness audit registers 17 strict targets and 14 convention-bound targets (31 total); the closed-codomain main result rests on the strict targets, and the dependent-codomain case is parked behind the four hypotheses inside the convention-bound group.
 
 This is the same kind of structural honesty. The classifier — here the kernel's normalisation argument — has a coverage. Beyond that coverage, no recognition tag is assigned. The boundary is *visible* in the audit, not hidden in a more permissive rule.
 
