@@ -1,0 +1,35 @@
+\begin{theorem}[ZetaContinuationWitness public export factorization]
+\label{thm:zeta-continuation-witness-public-export-factorization}
+For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every public export of the witness factors through the displayed rows $B,E,A,P,F,T,G,H,C,R,N$ and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure. The export contains no route outside the source row, eta route, analytic-continuation row, pole ledger, functional-equation route, trivial-zero ledger, Gamma boundary, transport rows, continuation routes, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Begin with the public export packet of \autoref{thm:zeta-continuation-witness-public-export}. It already assembles the carrier row, contour route, Gamma ledger, critical-strip scope, provenance rows, and local $\NameCert$ rows as one finite witness export.
+
+Next use the carrier and contour rows. \autoref{thm:zeta-continuation-witness-carrier-row} supplies $B,E,A,P,F,T,G,H,C,R,N$ as the packet coordinates, while \autoref{thm:zeta-continuation-witness-contour-route} keeps analytic and contour reads inside the displayed continuation packet.
+
+Finally apply the source-lock and provenance exactness rows. They attach every public consumer to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so no off-packet analytic branch or hidden witness row can be part of the export.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness critical-strip public refusal]
+\label{thm:zeta-continuation-witness-critical-strip-public-refusal}
+Every public critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet receives the finite witness rows $B,E,A,P,F,T,G,H,C,R,N$ and receives no RH predicate, non-trivial-zero locator, global zero classifier, completed Gamma certificate, or off-packet analytic-continuation branch.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:zeta-continuation-witness-zero-route-input-package}. It identifies the public input package for $\ZetaZerosUp$ and critical-strip consumers as the displayed witness rows together with their BEDC structure.
+
+Use \autoref{thm:zeta-continuation-witness-critical-strip-consumer-nonescape} to remove the zero-facing escape routes. The consumer has no packet coordinate for an RH predicate, a non-trivial-zero locator, or a global zero classifier.
+
+Close with \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}. Gamma-facing data either remains at the displayed boundary or is already present in the functional-equation route, so no completed Gamma certificate or hidden analytic branch is exported to the critical strip.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma boundary public ledger]
+\label{thm:zeta-continuation-witness-gamma-boundary-public-ledger}
+Every Gamma-facing public read of an accepted $\ZetaContinuationWitnessUp$ packet stops at the displayed rows $P,F,G,H,C,R,N$, unless the requested Gamma datum is already displayed as part of the functional-equation route $F$. The public ledger therefore exposes pole, functional-equation, Gamma-boundary, transport, continuation, provenance, and local naming rows, and it exposes no completed Gamma certificate outside that route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}. It states the public Gamma boundary condition: a Gamma-facing read lands at $G$ unless the same data is already displayed inside $F$.
+
+Next use \autoref{thm:zeta-continuation-witness-gamma-boundary-scope}. The boundary read is exhausted by $P,F,G,H,C,R,N$, so the structural rows that authenticate the Gamma side are exactly the displayed transports, routes, provenance, and local name.
+
+Finally apply \autoref{thm:zeta-continuation-witness-public-export-factorization}. Since the public export itself factors through $B,E,A,P,F,T,G,H,C,R,N$, the Gamma-facing subroute cannot acquire an additional completed Gamma certificate, RH predicate, zero locator, or hidden analytic branch.
+\end{proof}
