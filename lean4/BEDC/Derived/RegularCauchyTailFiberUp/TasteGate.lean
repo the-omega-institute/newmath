@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailFiberUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -325,5 +335,40 @@ theorem RegularCauchyTailFiberTasteGate_single_carrier_alignment :
       · intro x y heq
         exact regularCauchyTailFiberToEventFlow_injective heq
       · rfl
+
+def RegularCauchyTailFiberPacket [AskSetup] [PackageSetup]
+    (r0 r1 w0 w1 d0 d1 t a h c p n : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory ProbeBundle
+  UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+    UnaryHistory d0 ∧ UnaryHistory d1 ∧ UnaryHistory t ∧ UnaryHistory a ∧
+      UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory n ∧
+        Cont r0 w0 h ∧ Cont r1 w1 c ∧ Cont d0 d1 t ∧ Cont t a p ∧
+          PkgSig bundle p pkg
+
+theorem RegularCauchyTailFiberPacket_source_swap_stability [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n h' c' t' p' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont r1 w1 h' →
+        Cont r0 w0 c' →
+          Cont d1 d0 t' →
+            Cont t' a p' →
+              PkgSig bundle p' pkg →
+                RegularCauchyTailFiberPacket r1 r0 w1 w0 d1 d0 t' a h' c' p' n
+                    bundle pkg ∧ hsame a a ∧ UnaryHistory t' := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory ProbeBundle
+  intro packet hRoute cRoute tRoute pRoute pPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, _tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, nUnary, _hRoute, _cRoute, _tRoute, _pRoute,
+    _sourcePkg⟩ := packet
+  have hUnary' : UnaryHistory h' := unary_cont_closed r1Unary w1Unary hRoute
+  have cUnary' : UnaryHistory c' := unary_cont_closed r0Unary w0Unary cRoute
+  have tUnary' : UnaryHistory t' := unary_cont_closed d1Unary d0Unary tRoute
+  have pUnary' : UnaryHistory p' := unary_cont_closed tUnary' aUnary pRoute
+  exact
+    ⟨⟨r1Unary, r0Unary, w1Unary, w0Unary, d1Unary, d0Unary, tUnary', aUnary,
+        hUnary', cUnary', pUnary', nUnary, hRoute, cRoute, tRoute, pRoute, pPkg⟩,
+      hsame_refl a, tUnary'⟩
 
 end BEDC.Derived.RegularCauchyTailFiberUp
