@@ -85,3 +85,43 @@ None of these rows has the type or role of a quotient carrier, representative se
 
 Therefore a downstream consumer cannot project any excluded object from the packet. It may either use the displayed $\psame$ transport route or supply a separate certificate whose boundary is audited independently.
 \end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary fixed classifier]
+\label{thm:quotient-soundness-boundary-fixed-classifier}
+For an accepted $\QuotientSoundnessBoundaryUp$ carrier $Q=(E,A,T,V,H,C,P,N)$, every accepted comparison is exhausted by the relation rows $E$, requested representative rows $A$, replacement row $T$, refusal verdict $V$, and the displayed transport rows $H,C$. No comparison may consult a quotient carrier, canonical representative, quotient equality eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-soundness-boundary-carrier}. The only comparison-facing coordinates are the relation evidence $E$, the recorded representative demands $A$, the replacement row $T$, the verdict $V$, and the locality rows $H,C$.
+
+Apply the transport replacement theorem, \autoref{thm:quotient-soundness-boundary-transport-replacement}. It consumes $E$ and $T$ as the positive classifier-respecting route, while $A$ and $V$ keep representative selection in the refusal ledger.
+
+The non-escape theorem, \autoref{thm:quotient-soundness-boundary-non-escape}, excludes every quotient eliminator and $\mathsf{Quot.sound}$ route from the packet. Hence the classifier is fixed by $E,A,T,V,H,C$ and cannot be widened by an ambient quotient principle.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary kernel non-escape]
+\label{thm:quotient-soundness-boundary-kernel-nonescape}
+Every kernel-facing consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet remains inside the rows
+$$
+E,A,T,V,H,C,P,N.
+$$
+The packet cannot import $\mathsf{Quot.sound}$, a host quotient eliminator, a hidden representative selector, or erased relation-derivation recovery.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:quotient-soundness-boundary-namecert-obligations}. They list carrier admission, relation admission, refused representative requests, classifier-respecting transport, componentwise stability, locality, provenance, and local naming as the full public surface.
+
+Use the fixed classifier theorem above to identify the comparison route. The kernel-facing read is not an arbitrary quotient read; it is the finite path through $E,A,T,V,H,C$ and then through package provenance and the local certificate.
+
+Finally apply \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency} and \autoref{thm:quotient-soundness-boundary-non-escape}. The refusal dependency explains why the blocked request is represented negatively, and non-escape prevents any $\mathsf{Quot.sound}$ or host quotient eliminator from entering the kernel route.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary NameCert ledger]
+\label{thm:quotient-soundness-boundary-namecert-ledger}
+The carrier of \autoref{def:quotient-soundness-boundary-carrier}, the fixed classifier of \autoref{thm:quotient-soundness-boundary-fixed-classifier}, the transport replacement of \autoref{thm:quotient-soundness-boundary-transport-replacement}, the negative-refusal dependency of \autoref{thm:quotient-soundness-boundary-negative-refusal-dependency}, and the kernel non-escape theorem of \autoref{thm:quotient-soundness-boundary-kernel-nonescape} assemble the local $\NameCert_{\QuotientSoundnessBoundaryUp}$ ledger.
+\end{theorem}
+\begin{proof}
+The carrier supplies the finite inventory $E,A,T,V,H,C,P,N$. The fixed classifier theorem binds every accepted comparison to the displayed relation, request, replacement, verdict, and transport rows.
+
+The transport replacement theorem supplies the positive operation available to downstream consumers. It routes classifier-respecting reads through named source rows rather than through selected quotient representatives.
+
+The negative-refusal dependency and kernel non-escape theorems complete the ledger. They record the blocked quotient-soundness demand as a negative boundary request and keep every exported consumer inside $E,A,T,V,H,C,P,N$, so the local naming certificate contains exactly the quotient-boundary obligations listed in \autoref{thm:quotient-soundness-boundary-namecert-obligations}.
+\end{proof}
