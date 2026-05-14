@@ -635,6 +635,48 @@ Use the NameCert obligation theorem to inspect the continuation row. The row $C$
 Finally apply refusal non-escape. Once the source route is absent, the request cannot escape to an internal closure coordinate or hidden $\mathsf{T}$ supply, so the public data $G,S,H,C,P,N$ fixes the branch: supported through $S$ when the source route is displayed, and refusal-routed to $R$ otherwise.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary sibling source totality]
+\label{thm:gap-closure-boundary-sibling-source-totality}
+For every supported read of $\GapClosureBoundaryUp$ by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$, the consumer first factors through the displayed source route
+$$
+G \longrightarrow S.
+$$
+Only after that route is exposed may the read use the structural rows $H,C,P,N$. Thus the listed sibling consumers receive a common source route before any transport, continuation, provenance, or local naming row is read.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(G,S,R,H,C,P,N)$ using \autoref{def:gap-closure-boundary-carrier}. The carrier exposes one request row, one displayed source row, one refusal row, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations and displayed source precondition, \autoref{thm:gap-closure-boundary-namecert-obligations} and \autoref{thm:gap-closure-boundary-displayed-source-precondition}. A supported root request cannot be read by a sibling consumer until the public source row has been displayed as the route $G \longrightarrow S$.
+
+Now use source-refusal orthogonality, hard-problem consumer factorization, and closure-request determinacy. These theorems keep the supported branch separate from $R$, force each listed sibling through the same boundary packet, and make the source branch the determined route whenever the displayed source is present. The rows $H,C,P,N$ therefore occur only as the transport, continuation, provenance, and local naming surface for that already displayed source route.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal route determinacy]
+\label{thm:gap-closure-boundary-refusal-route-determinacy}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, if a root closure request has no displayed source route through $G \longrightarrow S$, then the request is deterministically routed to the refusal row $R$. The same $H,C,P,N$ rows transport, route, package, and name this refusal; no unsupported request may choose a second source row, hidden closure row, private access row, or hidden $\mathsf{T}$ supply.
+\end{theorem}
+\begin{proof}
+Start with the displayed source precondition. Its contrapositive boundary reading is that a supported branch must display the route from $G$ to $S$ before any sibling can consume the boundary.
+
+When that route is absent, apply refusal non-escape and source-refusal orthogonality. Refusal non-escape sends the unsupported request to $R$ and excludes internal closure, private access, causal necessity, direct aspect reduction, off-packet continuation, and hidden $\mathsf{T}$ supply; orthogonality prevents $R$ from being reread as a concealed source branch.
+
+Finally use hard-problem consumer factorization and closure-request determinacy. Every listed sibling reads the same packet $G,S,R,H,C,P,N$, and the public data determine the branch: displayed source gives the supported route, while absence of the displayed source gives the refusal route $R$ with the same structural rows.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary structural row conservation]
+\label{thm:gap-closure-boundary-structural-row-conservation}
+For accepted $\GapClosureBoundaryUp$ carriers, the structural rows $H,C,P,N$ conserve only the two displayed branches: the source branch $G \longrightarrow S$ and the refusal branch through $R$. These rows cannot introduce internal closure, a hidden $\mathsf{T}$ supply, a private access route, causal necessity, direct aspect reduction, or any consumer-specific route outside the displayed boundary packet.
+\end{theorem}
+\begin{proof}
+Read the carrier and NameCert obligations together. The rows $H,C,P,N$ are respectively transport, continuation, provenance, and local naming rows for the visible packet $G,S,R$; they are not additional carriers and contain no independent closure coordinate.
+
+For the supported branch, apply sibling source totality. Each listed sibling reaches $H,C,P,N$ only after the route $G \longrightarrow S$ has been displayed, so the structural rows preserve that route rather than supplying a hidden source.
+
+For the unsupported branch, apply refusal route determinacy and refusal non-escape. The same structural rows carry the request to $R$ and exclude hidden closure supply, private access, causal necessity, direct aspect reduction, off-packet continuation, and hidden $\mathsf{T}$ supply.
+
+The source-refusal orthogonality and hard-problem consumer factorization theorems then exhaust the boundary. Since every listed consumer is routed through one of the two displayed branches over $G,S,R,H,C,P,N$, the structural rows conserve the visible source/refusal split and cannot add an internal closure branch.
+\end{proof}
+
 \closureat{GapClosureBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\GapClosureBoundaryUp}
