@@ -88,4 +88,36 @@ theorem RealTailAgreementSealCarrier_root_dyadic_agreement_exactness
     ⟨agreementReadUnary, finalReadUnary, windowDyadicRoute, agreementFinalRoute,
       agreementExact, finalExact⟩
 
+theorem RealTailAgreementSealCarrier_root_window_budget_determinacy
+    {R S W D A H C P N limiter selectorBudget tailBudget leftRead rightRead : BHist} :
+    UnaryHistory R →
+      UnaryHistory limiter →
+        UnaryHistory selectorBudget →
+          UnaryHistory W →
+            UnaryHistory D →
+              UnaryHistory A →
+                Cont R limiter tailBudget →
+                  Cont tailBudget selectorBudget W →
+                    Cont W D leftRead →
+                      Cont W D rightRead →
+                        (∃ packet : RealTailAgreementSealUp,
+                          packet = RealTailAgreementSealUp.mk R S W D A H C P N) →
+                          hsame leftRead rightRead ∧ hsame leftRead (append W D) ∧
+                            hsame rightRead (append W D) ∧ Cont R limiter tailBudget ∧
+                              Cont tailBudget selectorBudget W := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro _rootUnary _limiterUnary _selectorUnary _windowUnary _dyadicUnary _agreementUnary
+  intro rootLimiterRoute tailSelectorRoute leftRoute rightRoute packet
+  obtain ⟨_packet, packetEq⟩ := packet
+  cases packetEq
+  have leftExact : hsame leftRead (append W D) := by
+    cases leftRoute
+    rfl
+  have rightExact : hsame rightRead (append W D) := by
+    cases rightRoute
+    rfl
+  have readSame : hsame leftRead rightRead :=
+    Eq.trans leftExact rightExact.symm
+  exact ⟨readSame, leftExact, rightExact, rootLimiterRoute, tailSelectorRoute⟩
+
 end BEDC.Derived.RealTailAgreementSealUp

@@ -187,6 +187,46 @@ Use \autoref{thm:continuation-trace-normal-form-normal-boundary-exhaustion}. The
 Finally combine \autoref{thm:continuation-trace-normal-form-terminal-route-determinacy} with \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. The same source, terminal, transport, route, provenance, and naming rows determine the public normal-form consumer surface, so the obligation package has no hidden host conversion, quotient-normalization, evaluator, or oracle component.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm visible source route]
+\label{thm:continuation-trace-normal-form-visible-source-route}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the public source route exposes the source history row $S$, the $\ContinuationTraceUp$ ledger $T$, the terminal row $R$, the $\ContinuationBigStepUp$ terminal-read row $Q$, the $\TypedReductionNormalFormUp$ boundary row $V$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\ContinuationTraceNormalFormUp}$ row $N$ before any terminal consumer reads the normal-form endpoint.
+
+No terminal consumer can read the endpoint by skipping the visible source route, adding an evaluator coordinate, importing host conversion, quotient trace equality, global confluence, or external normalization.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:continuation-trace-normal-form-carrier}. Its visible rows are exactly $S,T,R,Q,V,H,C,P,N$.
+
+Apply \autoref{thm:continuation-trace-normal-form-non-escape} and \autoref{thm:continuation-trace-normal-form-terminal-scope}. They place terminal exposure behind the displayed trace ledger, terminal-read row, typed normal-form row, transports, routes, provenance, and local name.
+
+Use \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion} and \autoref{thm:continuation-trace-normal-form-terminal-route-determinacy}. The finite trace ledger exhausts exported trace reads, and the displayed route determines the same public normal-form consumer surface whenever its route rows agree.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm typed-reduction handoff]
+\label{thm:continuation-trace-normal-form-typed-reduction-handoff}
+Every typed-reduction or normal-form consumer of an accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$ can read the terminal row only through $T,R,Q,V,H,C,P,N$ after the source row $S$ has been displayed. The handoff cannot bypass the $\ContinuationTraceUp$ ledger, cannot import host normalization, and cannot replace the $\TypedReductionNormalFormUp$ boundary by quotient normalization, evaluator correctness, or global confluence.
+\end{theorem}
+\begin{proof}
+Begin with the terminal readback lock of \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. It places $R$ behind the trace ledger, terminal-read row, transports, routes, provenance, and local name.
+
+Apply \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The typed normal-form boundary is read through the displayed trace, terminal, transport, route, package, and naming rows rather than through host conversion or evaluator data.
+
+Finally use \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}. The bridge exports exactly the continuation trace, terminal-read, typed-boundary, transport, route, provenance, and naming surface, so the typed-reduction handoff has no hidden host normalizer or off-route terminal reader.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm consumer readback envelope]
+\label{thm:continuation-trace-normal-form-consumer-readback-envelope}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the downstream consumer envelope consists exactly of the visible source route of \autoref{thm:continuation-trace-normal-form-visible-source-route}, the typed-reduction handoff of \autoref{thm:continuation-trace-normal-form-typed-reduction-handoff}, the terminal readback lock of \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}, and the standard bridge surface of \autoref{thm:continuation-trace-normal-form-standard-bridge-surface}.
+
+The envelope exports no hidden evaluator, quotient trace equality, external normalizer, host conversion route, global confluence theorem, or unbounded fuel row beyond the displayed finite packet $S,T,R,Q,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:continuation-trace-normal-form-visible-source-route} with \autoref{thm:continuation-trace-normal-form-typed-reduction-handoff}. The source route displays every row consumed by the typed-reduction handoff before a terminal consumer reads the normal-form endpoint.
+
+Next apply \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. It makes the terminal row available only behind the finite trace, terminal-read, transport, route, provenance, and local naming rows.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-standard-bridge-surface} and \autoref{thm:continuation-trace-normal-form-non-escape}. The standard bridge surface is the public consumer object, and the non-escape clause rules out hidden evaluator state, quotient trace equality, external normalization, host conversion, global confluence, and unbounded fuel.
+\end{proof}
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 \closureat{ContinuationTraceNormalFormUp}{obligationStr}
 \closureat{ContinuationTraceNormalFormUp}{scopedStr}
