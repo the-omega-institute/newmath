@@ -34,6 +34,8 @@ THEOREM_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary)\}")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 DEFINITION_RE = re.compile(r"\\begin\{definition\}\s*\\label\{([^}]+)\}")
 END_ENV_RE = re.compile(r"\\end\{(conjecture|question|definition)\}")
+CONJECTURE_STATUS_RE = re.compile(r"\\conjectureStatus\{([^}]+)\}")
+METACIC_OBLIGATION_ITEM_RE = re.compile(r"\\item\s+\$\\mathrm\{([^}]+)\}\$\.\s*(.*)")
 
 TODO_COMMENT_RE = re.compile(r"%\s*(?:TODO|FIXME|UNPROVEN|TO\s*VERIFY|TO\s*PROVE)\b[^\n]*", re.IGNORECASE)
 
@@ -64,7 +66,7 @@ NON_TARGET_PREFIXES = (
 class GapHit:
     file_rel: str
     line_no: int
-    kind: str  # "conjecture" | "todo" | "open_prose" | "orphan_definition"
+    kind: str  # "conjecture" | "todo" | "open_prose" | "orphan_definition" | "metacic_obligation"
     snippet: str
     label: str = ""
 
@@ -107,12 +109,33 @@ def _scan_file(path: Path) -> list[GapHit]:
     lines = text.splitlines()
     rel = str(path.relative_to(REPO_ROOT))
     hits: list[GapHit] = []
+    conjecture_status = ""
+    status_match = CONJECTURE_STATUS_RE.search(text)
+    if status_match:
+        conjecture_status = status_match.group(1).strip().lower()
+    skip_conjecture_file_gaps = (
+        rel.startswith("papers/bedc/parts/conjectures/")
+        and conjecture_status
+        and conjecture_status != "open"
+    )
+
+    if rel == "papers/bedc/parts/visions/metacic_open_problems.tex":
+        for idx, line in enumerate(lines):
+            m = METACIC_OBLIGATION_ITEM_RE.search(line)
+            if not m:
+                continue
+            label = "metacic-" + re.sub(r"[^a-z0-9]+", "-", m.group(1).lower()).strip("-")
+            hits.append(GapHit(rel, idx + 1, "metacic_obligation", _snippet(lines, idx), label))
 
     for idx, line in enumerate(lines):
         m = CONJECTURE_RE.search(line)
         if m:
+            if skip_conjecture_file_gaps:
+                continue
             label = _find_label_in_block(lines, idx)
             hits.append(GapHit(rel, idx + 1, m.group(1), _snippet(lines, idx), label))
+            continue
+        if skip_conjecture_file_gaps:
             continue
         if TODO_COMMENT_RE.search(line):
             hits.append(GapHit(rel, idx + 1, "todo", _snippet(lines, idx)))
@@ -144,6 +167,9 @@ def scan_all() -> list[GapHit]:
 
 
 def _title_from_hit(hit: GapHit) -> str:
+    if hit.kind == "metacic_obligation" and hit.label.startswith("metacic-"):
+        tail = hit.label.removeprefix("metacic-").replace("-", " ")
+        return f"MetaCIC {tail} discharge obligation"[:TITLE_MAX_CHARS]
     if hit.label:
         words = hit.label.split(":", 1)
         tail = words[1] if len(words) > 1 else words[0]
@@ -183,11 +209,30 @@ def _claim_from_hit(hit: GapHit) -> str:
     return claim[:600] if claim else f"see {hit.file_rel}:{hit.line_no}"
 
 
+def _rationale_snippet(snippet: str) -> str:
+    """Keep context useful without feeding structural labels into pre-gate."""
+    kept: list[str] = []
+    for raw in snippet.splitlines():
+        line = raw.rstrip()
+        stripped = line.strip()
+        if stripped.startswith("\\label"):
+            continue
+        if stripped.startswith(("\\leanvariant", "\\concretizedIn")):
+            continue
+        kept.append(line)
+    return "\n".join(kept).strip()
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
     claim = str(candidate.get("concrete_claim") or "").strip()
     first = _first_substantive_line(hit.snippet)
+    if (
+        hit.kind == "open_prose"
+        and hit.file_rel == "papers/bedc/parts/visions/metacic_open_problems.tex"
+    ):
+        return False
     if hit.kind == "open_prose":
         if first.startswith(NON_TARGET_PREFIXES):
             return False
@@ -203,21 +248,33 @@ def hit_to_candidate(hit: GapHit) -> dict:
     title = _title_from_hit(hit)
     if hit.kind == "conjecture":
         fit, novelty = 8, 8
+    elif hit.kind == "metacic_obligation":
+        fit, novelty = 8, 7
     elif hit.kind == "open_prose":
         fit, novelty = 7, 7
     elif hit.kind == "orphan_definition":
         fit, novelty = 7, 6
     else:
         fit, novelty = 6, 6
+    label_note = ""
+    if hit.label and hit.kind != "metacic_obligation":
+        label_note = " label=" + hit.label
     rationale = (
         f"Surfaced from paper gap scan: {hit.kind} at "
         f"{hit.file_rel}:{hit.line_no}"
-        f"{' label=' + hit.label if hit.label else ''}.\n\n"
-        f"Snippet:\n{hit.snippet}"
+        f"{label_note}.\n\n"
+        f"Snippet:\n{_rationale_snippet(hit.snippet)}"
     )
     if len(rationale) < MIN_RATIONALE_CHARS:
         rationale = rationale + "\n\n(snippet was short; widen CONTEXT_AFTER if needed)"
     claim = _claim_from_hit(hit)
+    if hit.kind == "metacic_obligation" and hit.label.startswith("metacic-"):
+        obligation = hit.label.removeprefix("metacic-").replace("-", "")
+        claim = (
+            "If the MetaCIC subject-reduction discharge interface is used, "
+            f"then the {obligation} row must be supplied as an explicit finite "
+            "setup obligation rather than inferred from the parameterised theorem."
+        )
     return {
         "title": title,
         "claim": claim,

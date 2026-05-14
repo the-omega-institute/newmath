@@ -384,4 +384,37 @@ theorem RealCompletenessBHistCarrier_public_seal_export [AskSetup] [PackageSetup
       exact ⟨sourceRow.right.right, endpointRoute⟩
   }
 
+theorem RealCompletenessBHistCarrier_diagonal_limit_candidate [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert
+      endpoint request diagonal candidate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg ->
+      Cont modulus selector request ->
+        Cont selector dyadic diagonal ->
+          Cont diagonal windows candidate ->
+            Cont candidate sealRow endpoint ->
+              UnaryHistory sealRow ∧ UnaryHistory endpoint ∧ UnaryHistory modulus ∧
+                UnaryHistory selector ∧ UnaryHistory dyadic ∧ UnaryHistory windows ∧
+                  UnaryHistory candidate ∧ Cont modulus selector request ∧
+                    Cont selector dyadic diagonal ∧ Cont diagonal windows candidate ∧
+                      Cont candidate sealRow endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier modulusSelector selectorDyadic diagonalWindows candidateSeal
+  obtain ⟨_familyUnary, modulusUnary, selectorUnary, dyadicUnary, windowsUnary, _readbackUnary,
+    sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary, _endpointUnary,
+    _endpointRoute, endpointPkg⟩ := carrier
+  have _requestUnary : UnaryHistory request :=
+    unary_cont_closed modulusUnary selectorUnary modulusSelector
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed selectorUnary dyadicUnary selectorDyadic
+  have candidateUnary : UnaryHistory candidate :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindows
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed candidateUnary sealUnary candidateSeal
+  exact
+    ⟨sealUnary, endpointUnary, modulusUnary, selectorUnary, dyadicUnary, windowsUnary,
+      candidateUnary, modulusSelector, selectorDyadic, diagonalWindows, candidateSeal,
+      endpointPkg⟩
+
 end BEDC.Derived.RealCompletenessUp
