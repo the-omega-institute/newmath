@@ -19076,3 +19076,89 @@ Rationale:
 This is a small but real normalized-polynomial algebra gap: the paper already has raw-add commutativity and defines PolyAdd as trimmed raw addition, while the existing BOARD index contains polynomial multiplication, raw addition associativity, and distributivity targets but no normalized PolyAdd commutativity target. It is concrete, local to the polynomial add/trim files, and should close by applying raw commutativity to trimmed representatives and folding back PolySame.
 
 ---
+
+### B-745 - Module LinearMap zero-map kernel is whole source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module LinearMap zero-map kernel is whole source |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If z:M->N is pointwise classified with 0_N under ModuleUp(R,M) and ModuleUp(R,N), then every carried source endpoint x lies in Ker_z, and every Ker_z witness projects to carriedness of x.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the kernel predicate and zero-map certificate are already present in nearby linear-map files
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem unfolds a predicate-defined zero fiber and packages pointwise-zero rows; no quotient, extensionality, or non-finite construction is needed.
+- `witness_extractor`: source carried endpoint paired with the pointwise zero comparison z(x)~0_N
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: equivalent
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the kernel predicate, source carried endpoint, pointwise-zero LinearMap rows, target zero classifier, and kernel witness projection.
+- `dependency_trace`: Uses def:module-linearmap-kernel-predicate in papers/bedc/parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action.tex and thm:module-zero-linearmap-certificate plus related zero-map rows in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a concrete exactness theorem for an existing predicate carrier, not a parameter echo: it identifies the zero map's kernel with the whole carried source. Existing BOARD entries cover LinearMap additive identity and inverse cancellation, and the paper has kernel submodule closure and the injectivity-kernel criterion, but not the zero-map kernel exactness row.
+
+---
+
+### B-746 - Module identity LinearMap image is whole target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module identity LinearMap image is whole target |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If id_M carries the Module LinearMap identity certificate, then every carried endpoint y:M satisfies Im_id(y), and every Im_id(y) witness projects to carriedness of y.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the identity LinearMap certificate and image predicate are already in the local linearmap surface
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof chooses y as its own finite image witness and unfolds the image predicate, so a finite constructive witness is sufficient.
+- `witness_extractor`: identity-image witness x:=y with id_M(y)~y
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: equivalent
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the identity LinearMap certificate, source and target carriedness rows for the same module, image predicate witness, and module classifier reflexivity.
+- `dependency_trace`: Uses thm:module-linearmap-identity-certificate and def:module-linearmap-image-predicate in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex, together with image closure material in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a concrete image-coverage row for an existing LinearMap predicate, and it is not covered by the current BOARD titles or the paper's image submodule closure theorem. It gives the expected exactness boundary for the identity map using only the existing image predicate and identity certificate.
+
+---
