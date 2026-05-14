@@ -682,4 +682,22 @@ Use \autoref{thm:cross-hist-causal-rate-root-observer-slot-totality} and \autore
 The no-global-frame boundary, root consumer exactness, and consumer boundary of \autoref{thm:cross-hist-causal-rate-no-global-frame-boundary}, \autoref{thm:cross-hist-causal-rate-root-consumer-exactness}, and \autoref{thm:cross-hist-causal-rate-consumer-boundary} then keep the identity dependence inside the packet rather than in a host frame.
 \end{proof}
 
+\begin{theorem}[Cross-Hist causal-rate falsifiability and independence surface]
+\label{thm:cross-hist-causal-rate-falsifiability-independence-surface}
+For an accepted $\CrossHistCausalRateUp$ packet
+$$
+R=(A,B,D,M,S,G,H,C,P,N),
+$$
+the carrier has a falsifiable consequence: a maximum-rate read is rejected unless both the observer-symmetry row $S$ and the no-global-frame ledger $G$ are present on the same displayed route as $D,M,H,C,P,N$. Its independence surface is witnessed by the simultaneous presence of the two $\Hist$ slots $A,B$, causal-dependence route family $D$, maximum-rate row $M$, observer-symmetry row $S$, no-global-frame ledger $G$, componentwise transport $H$, continuation row $C$, provenance row $P$, and local name $N$. This surface is not bijective to any listed sibling surface $\InterHistInvariantUp$, $\ObserverHistIdentityUp$, $\HistTimeStreamUp$, $\ContinuationTraceUp$, or $\SupplyKindRouterUp$.
+\end{theorem}
+\begin{proof}
+Read the carrier definition \autoref{def:cross-hist-causal-rate-carrier}. It displays the two history slots, route family, maximum-rate row, observer-symmetry row, no-frame ledger, and structural rows as simultaneous fields of one packet.
+
+Apply maximum-row exactness from \autoref{thm:cross-hist-causal-rate-max-row-exactness}. The maximum-rate row $M$ is attached to the finite dependence family $D$, not to a detached host speed or metric coordinate.
+
+Use the invariant boundary and no-global-frame boundary of \autoref{thm:cross-hist-causal-rate-invariant-boundary} and \autoref{thm:cross-hist-causal-rate-no-global-frame-boundary}. Together with observer identity dependence from \autoref{thm:cross-hist-causal-rate-observer-identity-dependence}, they require the observer-symmetry and no-frame rows before a public maximum-rate read can pass to an invariant-facing consumer.
+
+Finally use route-family field faithfulness from \autoref{thm:cross-hist-causal-rate-root-route-family-field-faithfulness}. The separate fields $A,B,D,M,S,G,H,C,P,N$ cannot collapse to the inventory of any one sibling surface, so the packet exposes a distinct independence surface while keeping the falsifiable maximum-rate rejection tied to its carrier rows.
+\end{proof}
+
 \input{parts/concrete_instances/5029_crosshistcausalrate_late_scope_and_status}
