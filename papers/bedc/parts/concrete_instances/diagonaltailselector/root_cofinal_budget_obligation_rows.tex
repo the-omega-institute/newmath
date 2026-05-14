@@ -136,6 +136,55 @@ host-selected limits, host real equality, hidden tail oracles, or ambient
 completeness. Hence the replay is exactly the displayed cofinal budget route.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector public root replay package]
+\label{thm:diagonal-tail-selector-public-root-replay-package}
+Every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+whose public budget source reads the root cofinal admission row of
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission}, the root budget
+handoff row of \autoref{thm:diagonal-tail-selector-root-budget-handoff}, and
+the cofinal budget replay row of
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay} exports exactly the
+finite route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+The package exports no quotient stream, selected host limit, countable-choice
+schedule, host real equality, ambient completeness principle, or hidden tail
+oracle.
+\end{theorem}
+\begin{proof}
+Project the root cofinal admission row. It fixes the accepted packet
+$G=(R,n,\mu,k,W,D,T,S,H,C,P,N)$ as the full carrier inventory available to the
+public budget source.
+
+Apply the root budget handoff row next. The handoff places the selected cofinal
+read on the displayed L10 factorization through $\LimitSelectorUp$,
+$\RegularCauchyTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+
+Use the cofinal budget replay row to reuse the same finite budget through that
+consumer chain. The replay does not allocate a second selector, stream, or host
+limit row; it only replays the rows already named by the root packet.
+
+Finally combine the public budget export and non-escape rows. They identify
+the exported object as the finite route above and exclude quotient streams,
+selected host limits, countable-choice schedules, host real equality, ambient
+completeness, and hidden tail oracles from the public replay package.
+\end{proof}
+
 \begin{theorem}[Diagonal tail selector budget readback non-escape]
 \label{thm:diagonal-tail-selector-budget-readback-nonescape}
 The readback exported by the cofinal budget replay of
