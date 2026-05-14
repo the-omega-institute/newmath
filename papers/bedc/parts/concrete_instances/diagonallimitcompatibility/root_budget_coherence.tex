@@ -253,3 +253,50 @@ $\RealUp$ or $\CompletionUp$ consumer reaches the public read without inserting
 a host limit, quotient stream, choice datum, host real equality, or ambient
 completeness coordinate between any two links of the chain.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility TailMeet refinement seal route]
+\label{thm:diagonal-limit-compatibility-tailmeet-refinement-seal-route}
+Every accepted $\DiagonalLimitCompatibilityUp$ packet whose root budget route
+enters through $\RegularCauchyTailMeetUp$, whose refinement read is governed by
+$\CauchyModulusRefinementUp$, and whose endpoint seal is consumed by
+$\RealTailAgreementSealUp$ factors through the single displayed L10 route
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+followed by the TailMeet budget-seal rows, the refinement rows, and the
+agreement-seal rows. The composed route exports no quotient stream, host real
+equality, selected limit, choice datum, side-channel completion carrier, or
+ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the local diagonal packet. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}. It
+places every $\RealUp$ or $\CompletionUp$ consumer of the accepted
+$\DiagonalLimitCompatibilityUp$ carrier on the ordered route
+$R,T,S,D,W,Q,L,H,C,P,N$ before the public read.
+
+Next attach the TailMeet entry and refinement handoff. Use
+\autoref{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion}. A
+consumer entering through the $\RegularCauchyTailMeetUp$ root budget-seal
+package must consume the displayed TailMeet rows and then the refinement route
+before any endpoint seal is exported.
+
+The route is unique at the refinement surface. Apply
+\autoref{thm:cauchy-modulus-refinement-tailmeet-budget-route-uniqueness}. It
+identifies the exported $\RealUp$ and $\CompletionUp$ handoff as the same
+public route under the displayed $\hsame$ rows, with no side-channel completion
+carrier or ambient completeness coordinate.
+
+Finally use
+\autoref{thm:real-tail-agreement-seal-root-selector-completion-lattice}. The
+$\RealTailAgreementSealUp$ endpoint is reached through the finite completion
+lattice after the selector, window, dyadic readback, regular readback, and
+agreement-seal rows have been consumed.
+
+These four route certificates exhaust the available
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ coordinates. Since the diagonal packet,
+TailMeet package, refinement read, and agreement seal each expose only their
+displayed rows, no quotient stream, host real equality, selected limit, choice
+datum, side-channel completion carrier, or ambient completeness coordinate can
+be exported by the composed route.
+\end{proof}
