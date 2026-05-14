@@ -68,10 +68,10 @@ import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
+import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
-import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
@@ -207,6 +207,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
+import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
@@ -215,6 +216,7 @@ import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
+import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
@@ -262,7 +264,6 @@ import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
-import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.RecursorGeneratorUp
@@ -509,6 +510,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.RootBudgetPackage
 import BEDC.Derived.UniformCauchyCriterionUp.RootInterfaces
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatTailEquivalence
+import BEDC.Derived.UniformCauchyCriterionUp.SealRouteUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
 import BEDC.Derived.UniformCauchyCriterionUp.SharedWindow
 import BEDC.Derived.UniformCauchyCriterionUp.TailLedger
@@ -655,7 +657,6 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
-import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.ProofTermErasureClassifierUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubstitutionAuditMapUp.Core
