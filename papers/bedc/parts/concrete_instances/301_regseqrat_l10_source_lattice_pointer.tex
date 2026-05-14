@@ -1,0 +1,42 @@
+\begin{theorem}[RegSeqRat L10 source lattice pointer]
+\label{thm:regseqrat-l10-source-lattice-pointer}
+Every accepted $\RegSeqRatUp$ carrier consumes the finite observation schedules
+of $\StreamNameUp$ from
+\autoref{ch:concrete-instances-streamname-namecert} and the endpoint and
+radius ledgers of $\DyadicRatCoreUp$ from
+\autoref{ch:concrete-instances-dyadicratcore-namecert} before it can be
+consumed by the $\RealUp$ seal surface of
+\autoref{ch:concrete-instances-real-namecert}. The source lattice is therefore
+the visible route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+Along this route the accepted packet carries only scheduled finite stream
+windows, dyadic endpoint rows, dyadic radius rows, finite dyadic-distance
+ledgers, regularity ledgers, classifier rows, $\hsame$ comparisons, displayed
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows. It
+does not expose quotient streams, host real equality, selected limits, ambient
+completeness, or a hidden completion carrier.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition in \autoref{def:regseqrat-stream-carrier}.
+Its stored coordinates are the scheduled finite windows supplied by
+$\StreamNameUp$ together with the $\DyadicRatCoreUp$ endpoint and radius rows
+attached to those windows.
+
+Next read the classifier in \autoref{def:regseqrat-classifier}. The classifier
+adds only finite dyadic-tolerance rows over the same scheduled observations:
+endpoint rows, radius rows, finite distance ledgers, regularity rows, and the
+displayed provenance needed to transport them.
+
+The exact handoff theorem
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} identifies
+the complete route from the stream-name schedule and dyadic ledgers through
+the $\RegSeqRatUp$ classifier to the $\RealUp$ seal rows. Applying
+\autoref{thm:regseqrat-real-seal-handoff} then shows that a seal consumer
+reads this regular-rational source surface itself.
+
+Since all cited surfaces are finite BEDC rows, no quotient stream, host real
+equality, selected limit, ambient completeness datum, or hidden completion
+carrier can be consumed along the route.
+\end{proof}
