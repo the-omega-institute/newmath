@@ -1,0 +1,51 @@
+\begin{theorem}[ZetaContinuationWitness source obligation]
+\label{thm:zeta-continuation-witness-source-obligation}
+Every root-facing consumer of an accepted $\ZetaContinuationWitnessUp$ packet must first project the displayed packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N)
+$$
+and read the source row $B$, eta route $E$, analytic-continuation row $A$, functional-equation row $F$, transport row $H$, continuation row $C$, package provenance $R$, and local name $N$ through the existing NameCert obligation surface. The pole, trivial-zero, and Gamma rows $P,T,G$ remain ledger coordinates of the same packet; they do not supply an RH predicate, a non-trivial-zero locator, or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Project $W=(B,E,A,P,F,T,G,H,C,R,N)$. The carrier exposes each row as a coordinate before any root-facing read is available.
+
+Apply \autoref{thm:zeta-continuation-witness-namecert-obligation-surface} and \autoref{thm:zeta-continuation-witness-source-lock-coverage}. The obligation surface binds carrier admission, analytic-continuation exactness, and ledger exactness, while source-lock coverage requires $B,E,A,F$ and the authentication rows $H,C,R,N$ to be visible first.
+
+Use \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} for the boundary. Since the packet contains no RH predicate, non-trivial-zero locator, global zero classifier, or completed Gamma certificate, the source obligation is exactly the displayed finite source lock.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness analytic readback obligation]
+\label{thm:zeta-continuation-witness-analytic-readback-obligation}
+For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every root-facing analytic readback factors through $B,E,A,F,H,C,R,N$ and the pole-Gamma boundary rows $P,G$ before it can be consumed by a zeta-zero or critical-strip route. The readback may use the functional-equation row $F$ and the Gamma boundary row $G$, but it cannot import an off-packet analytic branch or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Begin with the source obligation above. It places $B,E,A,F,H,C,R,N$ on the route before any root-facing readback is consumed.
+
+Apply \autoref{thm:zeta-continuation-witness-pole-gamma-boundary}. Pole and Gamma-dependent reads are confined to the displayed pole ledger $P$, functional-equation row $F$, and Gamma boundary row $G$.
+
+Finally use the dependency ledger of \autoref{thm:zeta-continuation-witness-dependency-ledger}. The $\ZetaBasicUp$, $\ZetaContUp$, $\AnalyticContUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies are already bound to $W$, leaving no coordinate for an off-packet branch or completed Gamma certificate.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness zero ledger non-escape]
+\label{thm:zeta-continuation-witness-zero-ledger-nonescape}
+An accepted $\ZetaContinuationWitnessUp$ packet exports no zero-location witness beyond the displayed trivial-zero ledger $T$ and no RH-facing predicate beyond the source, analytic, pole, functional-equation, Gamma, transport, continuation, provenance, and naming rows of $W=(B,E,A,P,F,T,G,H,C,R,N)$. A root-facing consumer cannot read the packet as a completed zero ledger, a global zero classifier, or an RH proof.
+\end{theorem}
+\begin{proof}
+Project the packet and read the zero-facing coordinates. The only zero ledger coordinate is $T$, and it appears beside the source, analytic, pole, functional-equation, Gamma, transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} and \autoref{thm:zeta-continuation-witness-critical-strip-consumer-nonescape}. These boundary rows exclude RH predicates, non-trivial-zero locators, global zero classifiers, and completed Gamma certificates from any critical-strip or root-facing consumer.
+
+Use the pole-Gamma boundary and dependency ledger to exhaust the remaining routes. Since $P,F,G,H,C,R,N$ only authenticate the displayed packet and do not add a zero-location coordinate, the trivial-zero ledger cannot escape as a completed zero classifier.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness root package]
+\label{thm:zeta-continuation-witness-root-package}
+The root-facing obligation package for an accepted $\ZetaContinuationWitnessUp$ packet is the finite surface consisting of the source obligation of \autoref{thm:zeta-continuation-witness-source-obligation}, the analytic readback obligation of \autoref{thm:zeta-continuation-witness-analytic-readback-obligation}, and the zero ledger non-escape boundary of \autoref{thm:zeta-continuation-witness-zero-ledger-nonescape}. It exposes only $W=(B,E,A,P,F,T,G,H,C,R,N)$ and keeps RH predicates, non-trivial-zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates outside the packet.
+\end{theorem}
+\begin{proof}
+First assemble the source face. The source obligation projects $W$ and binds the zero-facing consumer to the displayed source lock and NameCert obligation surface.
+
+Next attach analytic readback. The analytic obligation routes every root-facing readback through the source rows, functional-equation row, pole-Gamma boundary, and dependency ledger.
+
+Finally apply zero ledger non-escape. The zero-facing ledger remains the displayed $T$ row inside $W$, while RH predicates, zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates remain outside the packet.
+\end{proof}

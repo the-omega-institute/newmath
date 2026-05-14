@@ -1,0 +1,51 @@
+\begin{theorem}[Closed-term substitution boundary root closedness gate]
+\label{thm:closed-term-substitution-boundary-root-closedness-gate}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the source closedness row $C_{\mathsf{src}}$ gates every closed shift read through $Q$, and the pair $C_{\mathsf{src}},C_{\mathsf{val}}$ gates every closed substitution read through $R$. Both operation reads remain in the displayed carrier, classifier, ledger, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They display the term row, value row, depth row, source and value closedness rows, shift row, substitution row, ledger row, audit row, transports, routes, package, and local naming row as one finite packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Its closed-shift clause makes $C_{\mathsf{src}}$ the gate for $Q$, while its closed-substitution clause makes $C_{\mathsf{src}}$ together with $C_{\mathsf{val}}$ the gate for $R$.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. They keep both operation reads inside the displayed ledger and consumer boundary, with no appeal to host substitution semantics, subject reduction, or unchecked compiler state.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root substitution non-escape]
+\label{thm:closed-term-substitution-boundary-root-substitution-nonescape}
+Every root substitution read of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet stays inside
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+It may consume the substitution row $R$ only through the displayed closedness gates, the finite ledger $L$, the audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, package provenance $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-root-closedness-gate}. It supplies the source and value closedness gates required before $R$ can be read.
+
+Use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger and audit rows have no coordinate for an unregistered free variable, host equality, unchecked compiler state, or ambient subject reduction.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. It forces every consumer-facing closed substitution read through the same finite boundary packet.
+
+Finally cite the existing root package rows \autoref{thm:closed-term-substitution-boundary-root-substitution-scope} and \autoref{thm:closed-term-substitution-boundary-root-unblock-obligation-package}. They identify the downstream root route as the same $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ surface, so the substitution read cannot escape to host substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root audit gate]
+\label{thm:closed-term-substitution-boundary-root-audit-gate}
+The audit row $A$ gates every root read of the closed-term substitution boundary. A read that is not accepted by the displayed audit route over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+cannot be consumed as a free-variable leak check, host equality, unchecked compiler state, subject reduction theorem, or host substitution semantics.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:closed-term-substitution-boundary-carrier} and the local obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. The audit row $A$ is part of the same finite carrier as the closedness, shift, substitution, ledger, transport, route, package, and naming rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. It states that the finite ledger and audit surface do not export unregistered free variables, hidden host equality, unchecked compiler state, or subject reduction.
+
+Use \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization} and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. Together they make every audit-visible consumer factor through the displayed boundary rows.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-root-substitution-nonescape}. Since substitution reads themselves remain inside the audited packet, the root audit gate prevents host substitution semantics from appearing as an additional consumer coordinate.
+\end{proof}
