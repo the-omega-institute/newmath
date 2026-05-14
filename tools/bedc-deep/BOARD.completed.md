@@ -19427,3 +19427,177 @@ Rationale:
 This is a concrete first-course module fact that fits exactly beside the existing LinearMap kernel/image surface. Existing BOARD already covers the zero-map kernel and identity-map image, but not the dual zero-map image exactness. It is not a marker, closurestatus, or Lean-axis task, and it is not merely a parameter echo: it gives a concrete inversion-and-coverage characterization of the image predicate for the zero LinearMap. The local files are below the line cap and include a natural child-file landing, so the downstream theorem can be added without risky hub edits.
 
 ---
+
+### B-752 - BetaStepBoundary obstruction trigger enumeration exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BetaStepBoundary obstruction trigger enumeration exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a consumer reads a subject-reduction obstruction trigger from an accepted BetaStepBoundaryUp packet, then that trigger is one of the four displayed obstruction rows: beta substitution, application-argument stability, lambda-domain preservation, or Pi-domain preservation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4153_betastepboundary_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the claim is a finite carrier-row inventory and does not attempt to discharge any MetaCIC preservation theorem.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is finite case analysis over the displayed obstruction-trigger coordinate of the packet.
+- `witness_extractor`: beta_step_boundary_obstruction_slot_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: R beta-step rule surface; C beta-conversion surface; O four subject-reduction obstruction-trigger slots; H,K,P,N finite transport, continuation, provenance, and naming rows.
+- `dependency_trace`: Uses the BetaStepBoundaryUp carrier rows and its existing NameCert obligation surface in papers/bedc/parts/concrete_instances/4153_betastepboundary_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-inventory lemma inside an existing concrete_instances chapter. It is not a duplicate of the completed MetaCIC preservation-obligation discharge targets, because it only classifies which obstruction-trigger row was read from the BetaStepBoundary packet and does not prove any preservation theorem. The landing is small, BEDC-native, and directly refines an existing obligation surface.
+
+---
+
+### B-753 - FiniteTailFiberSchedule seal-route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteTailFiberSchedule seal-route determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted FiniteTailFiberScheduleUp packets have the same displayed tail index, fiber, schedule, dyadic ledger, RegSeqRat readback, transport, continuation, provenance, and local name rows, then their RealUp seal rows classify together along the same finite route.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/5791_finitetailfiberschedule_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Use cut_rank 1: project both packets to the shared T,F,S,D,R,H,C,P,N rows, replay the schedule-to-fiber and readback exactness through the shared finite route, and eliminate a distinct seal route by the packet's non-escape inventory.
+- `ripeness_risk`: medium, route-determinacy patterns exist nearby, but this object has its own finite tail-fiber and RealUp seal handoff surface.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof only consumes finite displayed schedule, fiber, ledger, readback, and continuation rows, with no quotient real or choice-based tail selector.
+- `witness_extractor`: finite_tail_fiber_schedule_seal_route_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Use cut_rank 1: project both packets to the shared T,F,S,D,R,H,C,P,N rows, replay the schedule-to-fiber and readback exactness through the shared finite route, and eliminate a distinct seal route by the packet's non-escape inventory.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: T selected tail index; F finite fiber; S finite schedule; D dyadic radius ledger; R RegSeqRat readback; E RealUp seal row; H,C,P,N route and naming rows.
+- `dependency_trace`: Uses the FiniteTailFiberScheduleUp carrier definition and the schedule-to-fiber plus dyadic/readback exactness obligations in papers/bedc/parts/concrete_instances/5791_finitetailfiberschedule_namecert_construction.tex.
+- `rate_modulus_surface`: Finite tail index T, finite fiber F, dyadic radius ledger D, and RegSeqRat readback R; no ambient completeness or countable tail-selection principle.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is close to existing route-determinacy idioms, but it is not a title-level duplicate of RegularCauchyTailSchedule or CofinalRegularLimitBudget entries because the packet surface here binds a finite tail fiber, dyadic ledger, RegSeqRat readback, and RealUp seal row. It deserves a BOARD slot as a concrete determinacy companion only if kept as an existing-chapter lemma, not inflated into a new chapter.
+
+---
+
+### B-754 - CellularPatternCatalog tag lookup determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CellularPatternCatalog tag lookup determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted CellularPatternCatalogUp packets agree on the rule identity, local window, catalog row, transport, continuation, provenance, and local naming rows, then their finite phase, glider, and ether tag rows classify together.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/7634_cellularpatterncatalog_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the claim is a bounded finite-catalog lookup and explicitly avoids global orbit recognition.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is bounded lookup in the displayed finite catalog row over a finite local window.
+- `witness_extractor`: cellular_catalog_finite_tag_lookup
+- `existence_mode`: bounded_search
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: R rule identity; W finite local window; G finite catalog row; T finite phase, glider, and ether tag rows; H,C,P,N finite transport and replay rows.
+- `dependency_trace`: Uses the CellularPatternCatalogUp carrier and its existing obligation route R -> W -> G -> T in papers/bedc/parts/concrete_instances/7634_cellularpatterncatalog_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a clean BEDC finite-lookup determinacy theorem: same rule, same finite window, and same catalog row determine the same exposed tag classification. It is distinct from existing finite-phase or alias-collision entries because it concerns catalog lookup exactness for a specific packet rather than obstruction from sampling collisions or a global cellular classifier.
+
+---
+
+### B-757 - Ideal preimage is monotone under inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Ideal preimage is monotone under inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If $I\preceq_R J$ as target $\IdealUp$ predicates and $f$ is a carried ring map, then $\mathsf{Preim}^{\mathrm{ideal}}_{f,I}\preceq_S\mathsf{Preim}^{\mathrm{ideal}}_{f,J}$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ideal/05_finite_meet_and_preimage_surface.tex`
+- `papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut rank 0: unfold preimage membership, project the target-side $I(f(x))$ witness, apply the given ideal-inclusion implication to obtain $J(f(x))$, and repack the same source-carried row as preimage membership.
+- `ripeness_risk`: low, the preimage and inclusion predicates are already present and the proof is a direct witness transformation.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The theorem is one finite membership projection followed by a single existing inclusion implication.
+- `witness_extractor`: ring_map_preimage_membership_projector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Cut rank 0: unfold preimage membership, project the target-side $I(f(x))$ witness, apply the given ideal-inclusion implication to obtain $J(f(x))$, and repack the same source-carried row as preimage membership.
+- `equality_kind`: none
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: A preimage witness for $x$ exposes source carriedness and target membership $I(f(x))$; the target inclusion sends this to $J(f(x))$ while source carriedness is reused unchanged.
+- `dependency_trace`: Uses def:ring-map-ideal-preimage-predicate and thm:ring-map-ideal-preimage-ideal-closure in papers/bedc/parts/concrete_instances/ideal/05_finite_meet_and_preimage_surface.tex, and def:ideal-inclusion-predicate in papers/bedc/parts/concrete_instances/ideal/02_lattice_sum_surface.tex.
+- `oracle_mode`: forbid
+Rationale:
+This is a standard and useful lattice compatibility fact for ring-map ideal preimages, distinct from the existing preimage closure and quotient-kernel export statements. It has a safe existing landing file, consumes only visible preimage and inclusion rows, and gives the ideal chapter a named monotonicity lemma parallel to the already-present sum monotonicity theorem.
+
+---
