@@ -210,3 +210,41 @@ injective, Church-style embedding from the BEDC history carrier into the
 represented calculus. It does not identify the whole represented-history
 fragment, does not certify total decoding, and does not internalize the
 history-operation algebra as MetaCIC programs.
+
+\begin{lemma}[Represented BHist payload decoder left inverse]
+\label{lem:bhist-payload-partial-decoder-left-inverse}
+For every source history $h:\BHist$, the payload-level partial decoder returns the same history after payload encoding:
+
+$$
+\begin{aligned}
+\texttt{bhistFromPayloadTerm?}(\texttt{bhistPayloadToTerm}(h))
+  = \mathrm{some}(h).
+\end{aligned}
+$$
+\end{lemma}
+\begin{proof}
+Proceed by induction on the generated history $h$. If $h$ is empty, the payload encoding is the represented variable for the empty branch, namely $\mathrm{var}\ 2$. The first decoder clause sends that variable to $\mathrm{some}(\emp)$, which is exactly $\mathrm{some}(h)$.
+
+Suppose $h=\Ezero(r)$. The payload encoding is the represented $b0$ branch applied to the triple-lambda wrapper around the payload encoding of $r$. The matching decoder clause strips this visible $b0$ shape, recursively decodes the inner payload, and repacks the result with $\Ezero$. By the induction hypothesis, the recursive decode of the inner payload is $\mathrm{some}(r)$. Therefore the outer clause returns $\mathrm{some}(\Ezero(r))$, which is $\mathrm{some}(h)$.
+
+Suppose $h=\Eone(r)$. The proof is the same branch computation with the represented $b1$ variable. The decoder clause strips the visible $b1$ shape, recursively decodes the inner payload, and repacks the result with $\Eone$. The induction hypothesis gives $\mathrm{some}(r)$ for the recursive call, hence the outer clause returns $\mathrm{some}(\Eone(r))=\mathrm{some}(h)$.
+\end{proof}
+
+\begin{theorem}[Represented BHist decoder left inverse on encoded histories]
+\label{thm:bhist-encoded-term-partial-decoder-left-inverse}
+For every source history $h:\BHist$, applying the represented-history partial decoder to the encoded term of $h$ recovers $h$:
+
+$$
+\begin{aligned}
+\texttt{bhistFromTerm?}(\texttt{bhistToTerm}(h))
+  = \mathrm{some}(h).
+\end{aligned}
+$$
+
+Equivalently, the partial decoder is a left inverse of \texttt{bhistToTerm} on the image of the BEDC history substrate.
+\end{theorem}
+\begin{proof}
+By the embedding description in \autoref{subsec:bhist-substrate-embedding}, \texttt{bhistToTerm} wraps \texttt{bhistPayloadToTerm} in the three lambdas that bind the empty, $b0$, and $b1$ branches. The top-level decoder \texttt{bhistFromTerm?} has exactly the matching wrapper clause: on a three-lambda represented history it strips the wrapper and calls \texttt{bhistFromPayloadTerm?} on the body. The remaining computation is precisely \autoref{lem:bhist-payload-partial-decoder-left-inverse}, so the result is $\mathrm{some}(h)$.
+
+This proves only the image-side inverse. It does not classify all represented terms that the partial decoder accepts and does not assert surjectivity of closed \texttt{Term} values onto $\BHist$, matching the boundary stated in \autoref{subsec:bhist-substrate-unproved-boundaries}.
+\end{proof}
