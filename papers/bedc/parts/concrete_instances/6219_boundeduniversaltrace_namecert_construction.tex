@@ -292,6 +292,46 @@ Next use \autoref{thm:bounded-universal-trace-fuel-determinacy}, \autoref{thm:bo
 Thus a future TasteGate carrier has one exact package to encode. Nontriviality can witness distinct packets by changing a displayed row, and field faithfulness must project each of the nine rows rather than replacing the finite trace by host evaluation.
 \end{proof}
 
+\begin{theorem}[BoundedUniversalTrace carrier transport obligation]
+\label{thm:bounded-universal-trace-carrier-transport-obligation}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, componentwise $\hsame$ transport preserves the fuel row $F$, substrate row $M$, source row $S$, finite trace ledger $T$, terminal readback row $R$, route row $C$, provenance row $P$, and local $\NameCert_{\BoundedUniversalTraceUp}$ row $N$ as separate public coordinates. The transport row $H$ may identify corresponding coordinates of two accepted packets, but it cannot collapse fuel into substrate, substrate into ledger, ledger into readback, or any displayed row into a host evaluator.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:bounded-universal-trace-carrier}. The carrier lists $F,M,S,T,R,H,C,P,N$ as the complete finite row family.
+
+Use the obligation surface of \autoref{thm:bounded-universal-trace-namecert-obligations}. Its classifier transport clause is componentwise over the displayed fuel, substrate, source, trace, readback, package, and naming rows.
+
+Apply the fuel-substrate-ledger separation of \autoref{thm:bounded-universal-trace-fuel-substrate-ledger-separation}. It prevents the transported rows from being collapsed into one another, while \autoref{thm:bounded-universal-trace-non-escape} excludes host evaluator equality as a replacement coordinate.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace terminal readback obligation]
+\label{thm:bounded-universal-trace-terminal-readback-obligation}
+Every terminal readback from an accepted $\BoundedUniversalTraceUp$ carrier is public only through the displayed fuel row $F$ and the finite continuation ledger $T$. The read may cite the substrate siblings $\TuringMachineUp$ and $\CellularAutomatonUp$ through \autoref{ch:concrete-instances-turingmachine-namecert} and \autoref{ch:concrete-instances-cellularautomaton-namecert}, and it may cite the ledger sibling $\ContinuationTraceUp$ through \autoref{ch:concrete-instances-continuationtrace-namecert}; it cannot bypass $F$ and $T$ by a host evaluator, unbounded halting predicate, or hidden continuation.
+\end{theorem}
+\begin{proof}
+Begin with the step-indexed readback theorem \autoref{thm:bounded-universal-trace-step-index-readback}. It makes $R$ readable only after the fuel row and finite trace ledger have been displayed.
+
+Use the substrate readback theorem \autoref{thm:bounded-universal-trace-substrate-readback}. It routes substrate information through the $\TuringMachineUp$ or $\CellularAutomatonUp$ row $M$ and the finite $\ContinuationTraceUp$ ledger $T$ before terminal readback.
+
+Finally apply \autoref{thm:bounded-universal-trace-ledger-exhaustion} and \autoref{thm:bounded-universal-trace-non-escape}. The ledger exhausts visible steps below the bound, and the absent unbounded halting, host evaluator, and hidden continuation coordinates cannot substitute for $F$ and $T$.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace Nontrivial and FieldFaithful obligation]
+\label{thm:bounded-universal-trace-nontrivial-fieldfaithful-obligation}
+The paper-side obligation for the Lean $\mathsf{TasteGate}$ target over $\BoundedUniversalTraceUp$ is to provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the same nine displayed rows
+$$
+F,M,S,T,R,H,C,P,N.
+$$
+Nontriviality must distinguish accepted packets by at least one displayed row, and field faithfulness must project fuel, substrate, source, trace ledger, readback, transport, route, provenance, and local naming without replacing any row by host evaluation or unbounded computation semantics.
+\end{theorem}
+\begin{proof}
+Read the TasteGate readiness package of \autoref{thm:bounded-universal-trace-tastegate-readiness-package}. It already identifies the exact nine rows that a single carrier must encode.
+
+Use the carrier transport obligation above to keep the nine coordinates separate under $\hsame$ transport. A $\mathsf{FieldFaithful}$ instance must therefore project each displayed coordinate rather than identifying roles by a host-side semantic equality.
+
+Use the terminal readback obligation and the non-escape boundary of \autoref{thm:bounded-universal-trace-non-escape}. They force terminal computation through the finite fuel and ledger rows, so a $\mathsf{Nontrivial}$ witness must vary a displayed packet row and cannot appeal to unbounded computation or hidden evaluator behaviour.
+\end{proof}
+
 \closureat{BoundedUniversalTraceUp}{seedStr}
 
 \begin{closurestatus}{\BoundedUniversalTraceUp}
