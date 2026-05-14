@@ -70,4 +70,30 @@ theorem ApophaticGateQuestionCarrier_refusal_audit_ledger
       questionRefusalRoute, refusalReadbackTransport, readbackRouteNameRow, auditUnary,
       provenancePkg⟩
 
+theorem ApophaticGateQuestionCarrier_audit_consumer_nonescape
+    [AskSetup] [PackageSetup]
+    {socket question refusal readback transport route provenance nameRow auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticGateQuestionCarrier socket question refusal readback transport route provenance
+        nameRow bundle pkg →
+      Cont readback route auditRead →
+        PkgSig bundle auditRead pkg →
+          UnaryHistory socket ∧ UnaryHistory question ∧ UnaryHistory refusal ∧
+            UnaryHistory readback ∧ UnaryHistory auditRead ∧
+              Cont socket question readback ∧ Cont question refusal route ∧
+                Cont readback route auditRead ∧ hsame readback (append socket question) ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier auditRoute auditPkg
+  obtain ⟨socketUnary, questionUnary, refusalUnary, readbackUnary, _transportUnary,
+    routeUnary, _provenanceUnary, _nameRowUnary, socketQuestionReadback,
+    questionRefusalRoute, _refusalReadbackTransport, _readbackRouteNameRow,
+    readbackSameSourceQuestion, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed readbackUnary routeUnary auditRoute
+  exact
+    ⟨socketUnary, questionUnary, refusalUnary, readbackUnary, auditUnary,
+      socketQuestionReadback, questionRefusalRoute, auditRoute, readbackSameSourceQuestion,
+      provenancePkg, auditPkg⟩
+
 end BEDC.Derived.ApophaticGateQuestionUp
