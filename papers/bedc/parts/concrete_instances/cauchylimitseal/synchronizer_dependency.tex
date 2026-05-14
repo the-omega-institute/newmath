@@ -109,3 +109,19 @@ Now use observation-budget route exactness, \autoref{thm:cauchy-limit-seal-synch
 
 Carrier-coordinate exhaustion finishes the handoff. The displayed rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ are the whole route available to the consumer before the $\RealUp$ seal is public. Since quotient streams, selected host limits, hidden family limits, host real equality, unbounded schedules, countable choice, and ambient completeness are not coordinates of that route, none can be exported by the observer-budget limiting surface.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal synchronizer observer-real seal factorization]
+\label{thm:cauchy-limit-seal-synchronizer-observer-real-seal-factorization}
+Every synchronizer-facing $\CauchyLimitSealUp$ read consumed by a Real completion consumer factors through the finite $\StreamNameUp$ window surface, the $\RegularCauchyNameUp$ route, the $\RegSeqRatUp$ handoff, the $\RealObservationBudgetUp$ rows, the $\CauchySealBudgetSynchronizerUp$ rows, the local $\CauchyLimitSealUp$ seal rows, and the public $\RealUp$ seal route before any completion-facing output is public.
+
+The factorization is a finite BEDC route over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. It exports no quotient stream equality, selected host limit, host real equality, unbounded schedule, countable-choice row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with synchronizer route factorization, \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization}. It places every synchronizer-facing $\CauchyLimitSealUp$ read on the finite $\StreamNameUp$ window, the $\RegularCauchyNameUp$ and $\RegSeqRatUp$ handoff rows, the observation-budget rows, the synchronizer rows, and the local seal rows before the $\RealUp$ seal is consumed.
+
+Next apply common-window budget synchronizer exhaustion. \autoref{thm:cauchy-limit-seal-common-window-budget-synchronizer-exhaustion} identifies the synchronizer and observation-budget legs with the same finite window, source row, dyadic ledger, completion diagonal, and seal route, so the Real-facing consumer cannot split them into two independent routes.
+
+Now use the RealCompletionSealClassifier handoff theorem. It sends the already factorized synchronizer-facing read through the classifier public export surface, which keeps the completion-facing output behind the same finite seal route.
+
+Finally apply observer-budget handoff. The observer-budget theorem states that the public Real completion read appears only after the $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, local $\CauchyLimitSealUp$, and $\RealUp$ seal rows have all been traversed. Since quotient stream equality, selected host limits, host real equality, unbounded schedules, countable choice, and ambient completeness are absent from that traversed route, none can be supplied to the completion-facing output.
+\end{proof}
