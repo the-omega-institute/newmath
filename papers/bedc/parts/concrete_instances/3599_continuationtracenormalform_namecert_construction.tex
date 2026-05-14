@@ -473,6 +473,45 @@ Use root readback order exhaustion from \autoref{thm:continuation-trace-normal-f
 Finally use typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient-normalization, evaluator-graph, global-confluence, and external-normalizer objects are not coordinates of $Z$, so they cannot extend the downstream boundary.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm terminal selector totality]
+\label{thm:continuation-trace-normal-form-terminal-selector-totality}
+Every downstream normal-form consumer route for an accepted $\ContinuationTraceNormalFormUp$ packet
+$$
+Z=(S,T,R,Q,V,H,C,P,N)
+$$
+passes through the source row $S$, trace ledger $T$, terminal row $R$, terminal-read row $Q$, typed normal-form row $V$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. Terminal selection is fixed by the trace ledger and terminal-read row, and the consumer receives no host conversion, quotient normalization, evaluator graph, global confluence theorem, or external normalizer.
+\end{theorem}
+\begin{proof}
+Start with terminal scope and trace ledger exhaustion, \autoref{thm:continuation-trace-normal-form-terminal-scope} and \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. They force terminal exposure to pass through the finite trace ledger $T$ after the source row $S$.
+
+Next apply terminal readback lock, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. The terminal selection is tied to $R,Q$ and carried through $H,C,P,N$, so a downstream consumer cannot substitute an evaluator state or quotient normalizer for the terminal-read witness.
+
+Finally use typed boundary nonescape and the downstream normal-form consumer boundary, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape} and \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. The typed row $V$ is reached only through the displayed packet, which exhausts every terminal selector route by $S,T,R,Q,V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm normal row precedence]
+\label{thm:continuation-trace-normal-form-normal-row-precedence}
+In every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the normal row $V$ can be read only after the source row $S$, trace ledger $T$, terminal row $R$, terminal-read row $Q$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$ have fixed the terminal selector route. No downstream consumer may read $V$ as a host conversion result, quotient-normalized value, evaluator graph endpoint, confluence result, or external normalizer output.
+\end{theorem}
+\begin{proof}
+Begin with root readback order exhaustion, \autoref{thm:continuation-trace-normal-form-root-readback-order-exhaustion}. It orders source, trace, terminal, terminal-read, and typed-boundary access before any downstream endpoint consumer is exposed.
+
+Use terminal selector totality from \autoref{thm:continuation-trace-normal-form-terminal-selector-totality}. The same $S,T,R,Q,H,C,P,N$ route fixes how the consumer reaches $V$, so the normal row is not an independent terminal selector.
+
+Finally apply typed boundary nonescape, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The typed normal-form row is a coordinate of the accepted packet and has no host, quotient, evaluator, confluence, or oracle substitute.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm consumer route nonbranching]
+\label{thm:continuation-trace-normal-form-consumer-route-nonbranching}
+Let $Z=(S,T,R,Q,V,H,C,P,N)$ and $Z'=(S',T,R',Q,V',H,C,P,N)$ be accepted $\ContinuationTraceNormalFormUp$ packets whose trace ledger, terminal-read witness, typed boundary, transport row, consumer route, provenance row, and local name are the same. Then both packets determine the same downstream normal-form consumer surface. No host conversion, quotient normalization, evaluator graph, global confluence theorem, or external normalizer can branch the consumer route.
+\end{theorem}
+\begin{proof}
+First apply terminal route determinacy, \autoref{thm:continuation-trace-normal-form-terminal-route-determinacy}. Agreement on the trace ledger, typed boundary, transport, route, provenance, and local naming rows fixes the public normal-form consumer surface.
+
+Next combine terminal readback lock with normal row precedence, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock} and \autoref{thm:continuation-trace-normal-form-normal-row-precedence}. The shared terminal-read witness and typed boundary force both packets through the same $T,Q,V,H,C,P,N$ route before the consumer may read the normal form.
+
+Finally use the downstream normal-form consumer boundary, \autoref{thm:continuation-trace-normal-form-downstream-normalform-consumer-boundary}. Since the excluded host conversion, quotient normalization, evaluator graph, global confluence, and external normalizer have no coordinate in either packet, they cannot separate the two consumer surfaces.
+
 \begin{theorem}[ContinuationTraceNormalForm terminal-consumer cut]
 \label{thm:continuation-trace-normal-form-terminal-consumer-cut}
 For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, any terminal consumer that reads the endpoint row $R$ must pass through the displayed trace row $T$, terminal-read row $Q$, typed-boundary row $V$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$. No host evaluator state, quotient trace representative, global confluence proof, or external normalizer can supply an alternate terminal route.
