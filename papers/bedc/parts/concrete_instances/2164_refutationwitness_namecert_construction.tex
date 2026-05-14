@@ -54,6 +54,22 @@ A certificate-indexed truth branch would require a row assigning, for each namin
 The packet therefore supports only the local refutation read: assume the displayed witness row $a$, replay the finite route $\rho$, and obtain the displayed bottom row $b$. That read blocks any extraction of excluded middle, undecided double-negation elimination, or existential witness selection from the $\RefutationWitnessUp$ surface.
 \end{proof}
 
+\begin{theorem}[RefutationWitness ground-refutation route link]
+\label{thm:refutation-witness-ground-refutation-route-link}
+Every accepted $\GroundRefutationUp$ or $\RefutationBoundaryUp$ consumer that uses an assumption-to-bottom row consumes the local $\RefutationWitnessUp$ route shape through \autoref{ch:concrete-instances-groundrefutation-namecert} and \autoref{ch:concrete-instances-refutationboundary-namecert} only after the displayed rows
+$$
+A,a,\rho,b,H,C,P,N
+$$
+are present. The route is a finite replay from the assumed witness row $a$ to the bottom row $b$, not a host-level truth branch or a selected witness extracted from an undecided negation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refutation-witness-carrier}. The local route shape has exactly the proposition row, assumed witness row, finite refutation route, bottom row, transport ledger, continuation ledger, provenance row, and naming row.
+
+Use \autoref{thm:refutation-witness-namecert-obligations}. Its route replay and bottom-row accountability clauses force any consumer to carry the displayed assumption-to-bottom route $\rho$ before it may consume the bottom row $b$ in a ground-refutation or boundary-refutation packet.
+
+Finally apply \autoref{thm:refutation-witness-truth-branch-blocker}. Since the local packet exports no certificate-indexed truth branch, excluded middle, double-negation eliminator, or witness selector, the GroundRefutation and RefutationBoundary consumers can only cite the finite route through the two named sibling chapters.
+\end{proof}
+
 \closureat{RefutationWitnessUp}{seedStr}
 
 \begin{closurestatus}{\RefutationWitnessUp}

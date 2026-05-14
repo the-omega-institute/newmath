@@ -46,6 +46,20 @@ Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It already require
 The proposition only repacks that route as an obligation surface. It preserves the open recogniser-to-carrier problem because no row here constructs a tuple carrier from an arbitrary regular-language recogniser.
 \end{proof}
 
+\begin{theorem}[Finite tuple StdBridge refutation candidate]
+\label{thm:finite-tuple-stdbridge-refutation-candidate}
+A valid counter-instance to \autoref{conj:finite-bhist-injection-admits-stdbridge} in the fixed finite tuple case must display all five fixed-tuple rows: the tuple carrier $(b_0,b_1,\ldots,b_k)$, the image row, the readback row, the componentwise $\NameCert$ transport rows, and the $\ChapterTasteGate$ row. It must also display a reflection-axis requirement for the same chapter that is incompatible with the standard reflection schema consumed by $\StdBridge$.
+
+Thus a failed bridge attempt caused only by a missing tuple, missing image row, missing readback row, missing componentwise transport, or missing $\ChapterTasteGate$ row is not a counter-instance to the weakened fixed-tuple route.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finite-bhist-injection-fixed-tuple-route}. That theorem identifies the fixed tuple, image, readback, componentwise naming transport, and $\ChapterTasteGate$ rows as prerequisites for the route under test.
+
+Now use \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}. It repacks the same rows as the exact obligation surface and separates them from the open recogniser-to-carrier problem.
+
+Therefore the negation surface must keep the whole fixed-tuple surface present and locate the obstruction in an additional reflection-axis requirement. A missing prerequisite only shows that the fixed-tuple theorem was not reached; it does not refute the route once its premises are displayed.
+\end{proof}
+
 \paragraph{Refutation route (if false).}
 Find a chapter satisfying the displayed finite tuple, image, readback,
 fixed-tuple, and $\ChapterTasteGate$ premises for which a
