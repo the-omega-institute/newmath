@@ -207,6 +207,37 @@ the $\TuringMachineUp$ row contributes only finite transition evidence inside
 the local package.
 \end{proof}
 
+\begin{theorem}[BoundedUniversalTrace fuel-substrate-ledger separation]
+\label{thm:bounded-universal-trace-fuel-substrate-ledger-separation}
+For every accepted $\BoundedUniversalTraceUp$ carrier
+$U=(F,M,S,T,R,H,C,P,N)$, the fuel row $F$, substrate row $M$, and finite
+continuation ledger $T$ are pairwise distinct public roles. A consumer may
+transport these roles componentwise through $H,C,P,N$, but may not collapse
+fuel into substrate, substrate into ledger, or ledger into the terminal readback
+row $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-universal-trace-carrier}. The row
+$F$ names the finite step bound, $M$ names the displayed Turing-machine or
+cellular substrate, and $T$ names the finite $\ContinuationTraceUp$ ledger.
+They are introduced as separate coordinates of the same packet.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback}. Terminal
+readback must pass through $F$ and $T$, so the fuel row bounds the read and the
+ledger supplies the displayed steps rather than one row replacing the other.
+
+Next use \autoref{thm:bounded-universal-trace-substrate-readback}. Substrate
+information is read through $M$ before the ledger reaches $R$, which prevents
+the substrate role from being identified with either the fuel schedule or the
+ledger rows.
+
+Finally apply \autoref{thm:bounded-universal-trace-ledger-exhaustion}. The
+ledger $T$ exhausts the visible step rows below $F$, while $H,C,P,N$ only
+transport, replay, cite, and name the same finite packet. Hence componentwise
+transport preserves the three public roles without collapsing them into one
+another or into terminal readback.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\BoundedUniversalTraceUp$ must include explicit $\mathsf{Nontrivial}\ \BoundedUniversalTraceUp$ and $\mathsf{FieldFaithful}\ \BoundedUniversalTraceUp$ instances for the displayed carrier. These instances must preserve the fuel row, substrate row, source row, finite continuation ledger, terminal readback row, transport rows, route rows, package provenance, and local naming row.
 
 \closureat{BoundedUniversalTraceUp}{seedStr}
