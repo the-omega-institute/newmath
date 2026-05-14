@@ -172,4 +172,53 @@ theorem ContinuationMonadCarrier_root_route_source_exposure {A B C f g u H K L N
     ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
       unaryK, unaryL, sameEndpoint⟩
 
+theorem ContinuationMonadCarrier_root_continuation_rule_coverage
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      PkgSig bundle L pkg ->
+        SemanticNameCert
+          (fun row : BHist =>
+            ContinuationMonadCarrier A B C f g u H K L N ∧ hsame row L)
+          (fun row : BHist =>
+            Cont f g K ∧ Cont K u L ∧ hsame row L ∧ PkgSig bundle L pkg)
+          (fun row : BHist => UnaryHistory row ∧ hsame N L ∧ PkgSig bundle L pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier pkgSig
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro L
+          (And.intro
+            ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+              sameEndpoint⟩
+            (hsame_refl L))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨routeK, routeL, source.right, pkgSig⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport unaryL (hsame_symm source.right), sameEndpoint, pkgSig⟩
+  }
+
 end BEDC.Derived.ContinuationMonadUp
