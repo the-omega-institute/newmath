@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness root source lock]
+\label{thm:critical-line-witness-root-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every root-facing read of the source side is locked to the displayed $\BHist$ rows $Z,S,M,R,Q$ together with the componentwise $\hsame$ row $H$, the visible $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. No analytic-continuation row, host evaluator, global zero classification, or $\mathsf{RH}$ truth value can replace this finite source route.
+\end{theorem}
+\begin{proof}
+Start with the root source exposure package of \autoref{thm:critical-line-witness-root-source-exposure}. It exposes the supplied zero row, the strip row, the modulus row, the real-part row, and the rational comparison row as the finite source surface of $W$.
+
+Use the source-modulus interface of \autoref{thm:critical-line-witness-source-normalization-interface} and \autoref{thm:critical-line-witness-modulus-ledger-interface}. These rows route the source read through $Z,S,M,R,Q$ before any downstream consumer receives it.
+
+The transport, continuation, provenance, and local naming rows $H,C,P,N$ then authenticate the same finite route. Since the route is already exhausted by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, it has no slot for an analytic continuation, a host evaluator, a global zero classifier, or an $\mathsf{RH}$ truth-value oracle.
+\end{proof}
+
+\begin{theorem}[Critical-line witness strip reflection boundary]
+\label{thm:critical-line-witness-strip-reflection-boundary}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, any strip-reflection or zero-strip consumer reads only the displayed $\BHist$ packet rows, the componentwise $\hsame$ transport $H$, the $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The boundary refuses analytic continuation, $\mathsf{RH}$ truth values, global zero classification, and host evaluators.
+\end{theorem}
+\begin{proof}
+Project the zero-strip boundary through \autoref{thm:critical-line-witness-zero-strip-boundary}. It places the strip side on the supplied $Z,S$ rows and keeps the read inside the displayed packet.
+
+Apply the zero-strip consumer boundary of \autoref{thm:critical-line-witness-zero-strip-consumer-boundary}. The consumer must pass through $Z,S,M,R,Q,H,C,P,N$, including the visible $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+The root RH-boundary refusal of \autoref{thm:critical-line-witness-root-rh-boundary-refusal} then removes the analytic exits. Hence strip reflection remains a finite BEDC boundary and cannot become analytic continuation, an $\mathsf{RH}$ truth value, a global zero classifier, or a host evaluator.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream RH unblock package]
+\label{thm:critical-line-witness-downstream-rh-unblock-package}
+The downstream RH-facing unblock surface of an accepted $\CriticalLineWitnessUp$ packet is exactly the finite package
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+It exposes the $\BHist$ source rows, the $\hsame$ transport row, the $\Cont$ route row, the $\Pkg$ provenance row, and the local $\NameCert_{\CriticalLineWitnessUp}$ row needed by downstream consumers, while refusing analytic continuation, $\mathsf{RH}$ truth values, global zero classification, and host evaluators.
+\end{theorem}
+\begin{proof}
+First use the root source lock of \autoref{thm:critical-line-witness-root-source-lock}. It fixes the source and modulus side of the downstream read to the displayed finite packet.
+
+Next use the strip reflection boundary of \autoref{thm:critical-line-witness-strip-reflection-boundary}. This keeps every zero-strip consumer on the same $Z,S,M,R,Q,H,C,P,N$ surface and records the refusal rows before an RH-facing consumer can read the package.
+
+Finally apply the downstream RH-boundary refinement of \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement} together with the root refusal downstream gate of \autoref{thm:critical-line-witness-root-refusal-downstream-gate}. The downstream route is therefore an unblock package for finite BEDC reads only, with no analytic continuation, $\mathsf{RH}$ truth value, global zero classification, or host evaluator exported.
+\end{proof}
