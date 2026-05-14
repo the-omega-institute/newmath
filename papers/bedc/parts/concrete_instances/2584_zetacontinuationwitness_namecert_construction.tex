@@ -144,6 +144,42 @@ Apply the pole-Gamma boundary and critical-strip input refusal. These rows exclu
 Finally use route-carrier admission and consumer-ledger exhaustion. Any critical-strip route must be replayed through the same displayed $\Cont$ row and authenticated by $R,N$, so there is no remaining bridge through which an excluded critical-strip object can enter.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness source-lock triad]
+\label{thm:zeta-continuation-witness-source-lock-triad}
+For an accepted $\ZetaContinuationWitnessUp$ packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N),
+$$
+every zero-facing or critical-strip consumer must first expose the source triad $B,E,A$ together with the functional-equation route $F$. Thus the mandatory source, eta, analytic-continuation, and functional-equation route is $B,E,A,F$ before any zero consumer can read the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-continuation-witness-carrier}. The rows $B,E,A,F$ are displayed coordinates of the same finite packet, not ambient analytic data.
+
+Apply source-lock coverage and dependency-ledger exhaustion. \autoref{thm:zeta-continuation-witness-source-lock-coverage} exposes $B,E,A,F$ before continuation, zero, or critical-strip use, and \autoref{thm:zeta-continuation-witness-dependency-ledger} keeps the consumer route inside the displayed dependency ledger.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma-boundary triad]
+\label{thm:zeta-continuation-witness-gamma-boundary-triad}
+For an accepted $\ZetaContinuationWitnessUp$ packet, the pole, trivial-zero, and Gamma-horizon ledger is exactly the displayed triad $P,T,G$. Pole-facing reads remain in $P$, trivial-zero reads remain in $T$, and Gamma-dependent reads stop at $G$ unless the requested Gamma factor is already displayed inside $F$; the packet carries no completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Use the carrier projection and the NameCert obligation surface. The only pole, trivial-zero, and Gamma-horizon rows named by \autoref{def:zeta-continuation-witness-carrier} and \autoref{thm:zeta-continuation-witness-namecert-obligation-surface} are $P,T,G$.
+
+Now apply the pole-Gamma boundary and Gamma-horizon consumer row. \autoref{thm:zeta-continuation-witness-pole-gamma-boundary} confines pole and Gamma reads to $P,F,G$, while \autoref{thm:zeta-continuation-witness-gamma-horizon-consumer-row} refuses any completed Gamma certificate beyond the displayed functional-equation factor and the boundary row.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness critical-strip ledger triad]
+\label{thm:zeta-continuation-witness-critical-strip-ledger-triad}
+Every critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet receives the source-lock rows $B,E,A,F$, the ledger triad $P,T,G$, and the authentication rows $H,C,R,N$ as one finite ledger $B,E,A,P,F,T,G,H,C,R,N$. It receives no RH predicate, non-trivial-zero locator, global zero classifier, hidden analytic branch, or completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+First combine the two triads. \autoref{thm:zeta-continuation-witness-source-lock-triad} supplies $B,E,A,F$, and \autoref{thm:zeta-continuation-witness-gamma-boundary-triad} supplies $P,T,G$ as the only pole, trivial-zero, and Gamma-horizon ledger.
+
+Next attach the transport, route, provenance, and naming rows. The carrier and \autoref{thm:zeta-continuation-witness-critical-strip-bridge-row} route every critical-strip consumer through $H,C,R,N$ after the displayed ledger rows.
+
+Finally apply critical-strip input refusal. \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} excludes RH predicates, non-trivial-zero locators, global zero classifiers, and completed Gamma certificates from the packet input, so the consumer ledger is exactly the finite packet already displayed.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationWitness pole-ledger refusal row]
 \label{thm:zeta-continuation-witness-pole-ledger-refusal-row}
 Every pole-facing read of an accepted $\ZetaContinuationWitnessUp$ packet stays in the displayed pole ledger $P$ and its authentication rows $H,C,R,N$. The pole row cannot become a separate pole-completion object, cannot supply a second continuation carrier, and cannot bypass the eta, functional-equation, Gamma-boundary, and consumer-ledger rows already displayed by the packet.
