@@ -155,3 +155,21 @@ Now use the transducer handoff theorem \autoref{thm:cauchy-window-transducer-reg
 
 Finally apply \autoref{thm:cauchy-window-transducer-real-seal-nonescape}. The transducer contributes only its finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows. Since both sides of the handoff have exhausted their displayed budgets, no quotient stream, selected host limit, hidden transducer schedule, hidden tail witness, host real equality, or ambient completeness coordinate can be exported.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal transducer meet determinacy]
+\label{thm:cauchy-limit-seal-transducer-meet-determinacy}
+If two $\CauchyLimitSealUp$ consumer routes are served by $\CauchyWindowTransducerUp$ packets and both pull back to the same $\StreamNameUp$ finite-window lattice meet, then the displayed schedule, source, ledger, diagonal, and seal rows
+$$
+S,X,D,G,E
+$$
+together with the transducer finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows determine one consumer-visible route. The route exports no second schedule, quotient stream equality, selected host limit, hidden transducer schedule, hidden tail witness, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with common-window transport from \autoref{thm:cauchy-limit-seal-common-window-transport}. Once both served routes pull back to the same finite-window meet, transport preserves the displayed source, ledger, diagonal, seal, and structural rows rather than creating a second schedule.
+
+Apply the transducer pullback theorem, \autoref{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}. It places the CauchyWindowTransducer service before the RegSeqRat readback and Real seal rows, so the transducer rows are read as part of the same finite-window route.
+
+Now use transducer route-budget exhaustion from \autoref{thm:cauchy-limit-seal-transducer-route-budget-exhaustion}. The transducer contributes only the displayed finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows.
+
+Finally apply the window budget audit lock, \autoref{thm:cauchy-limit-seal-window-budget-audit-lock}. With the CauchyLimitSeal rows and the transducer rows already exhausted, no hidden schedule, tail witness, quotient stream equality, selected host limit, host real equality, or ambient completeness coordinate remains to distinguish two consumer-visible routes over the same meet.
+\end{proof}
