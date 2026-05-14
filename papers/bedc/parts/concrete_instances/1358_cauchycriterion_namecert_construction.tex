@@ -535,6 +535,63 @@ handoff theorem, while the non-escape clauses on both packets exclude every
 host, quotient, uncapped, completeness, or second-agreement route.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion and finite-family UniformCauchyCriterion route agreement]
+\label{thm:cauchycriterion-uniformcriterion-finite-family-reduction}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Let
+$U$ be an accepted $\UniformCauchyCriterionUp$ packet whose finite-family
+ledger is either singleton or a fixed finite family with the same displayed
+shared window row $W$, shared modulus row $M$, dyadic tolerance row $Q$, tail
+ledger $T$, and real seal row $E$. Assume that both packets consume the same
+$\StreamNameUp$ source route, the same $\RegSeqRatUp$ tail route, and the same
+$\RealUp$ seal route as displayed by
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. Then the
+$\UniformCauchyCriterionUp$ family route restricts to the same finite
+$\CauchyCriterionUp$ route
+$$
+M\to Q\to T\to W\to E.
+$$
+Equivalently, the singleton or fixed finite family packet exposes no additional
+route beyond the CauchyCriterion modulus, tolerance, tail, window, and seal
+rows. The correspondence uses
+\autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence},
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}, and
+\autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}, and exports
+no quotient stream, selected limit, host real equality, ambient completeness
+principle, or independently chosen family limit.
+\end{theorem}
+\begin{proof}
+Project the CauchyCriterion packet first. By
+\autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence},
+the accepted $K$ packet exposes the finite seal route through its displayed
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows, and this route is exactly
+the CauchyCriterion handoff through $M,Q,T,W,E$.
+
+Now project the uniform packet along its singleton or fixed finite family
+ledger. The hypotheses identify the shared window row with $W$, the shared
+modulus row with $M$, the dyadic tolerance row with $Q$, the tail ledger with
+$T$, and the seal row with $E$ componentwise.
+
+Apply \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. It says
+that every accepted family tail comparison in $U$ is read through the displayed
+uniform tail ledger after the shared window, shared modulus, and dyadic
+tolerance rows have already been fixed.
+
+Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}. The
+$\RegSeqRatUp$ consumer therefore sees the same finite tail evidence as the
+ledger route, so the family-side readback cannot insert a second stream source,
+a second modulus schedule, or an unrecorded tolerance row.
+
+The cited $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ construction chapters
+fix the source, tail, and seal carriers used by both packets. After the
+componentwise identifications above, the uniform route and the single
+CauchyCriterion route expose the same finite path $M\to Q\to T\to W\to E$.
+The non-export clauses on the two packets then exclude quotient streams,
+selected limits, host real equality, ambient completeness, and any additional
+family-limit object.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion mature downstream examples]
 \label{thm:cauchycriterion-mature-downstream-examples}
 The public certificate, real-completion consumer bridge, modulus-tail consumer

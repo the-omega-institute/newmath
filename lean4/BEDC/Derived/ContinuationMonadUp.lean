@@ -113,4 +113,40 @@ theorem ContinuationMonadCarrier_root_kleisli_associativity_surface
     ⟨unaryA, unaryB, unaryC, unaryK, unaryL, routeB, routeC, routeK, routeL,
       sameEndpoint, cert⟩
 
+theorem ContinuationMonadCarrier_root_route_source_exposure {A B C f g u H K L N : BHist}
+    (packet : ContinuationMonadCarrier A B C f g u H K L N) :
+    UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧ UnaryHistory g ∧
+      UnaryHistory u ∧ Cont A f B ∧ Cont B g C ∧ Cont f g K ∧ Cont K u L ∧
+        UnaryHistory K ∧ UnaryHistory L ∧ hsame N L := by
+  -- BEDC touchpoint anchor: BHist Cont
+  have unaryA : UnaryHistory A :=
+    packet.left
+  have unaryF : UnaryHistory f :=
+    packet.right.left
+  have unaryG : UnaryHistory g :=
+    packet.right.right.left
+  have unaryU : UnaryHistory u :=
+    packet.right.right.right.left
+  have routeB : Cont A f B :=
+    packet.right.right.right.right.left
+  have routeC : Cont B g C :=
+    packet.right.right.right.right.right.left
+  have routeK : Cont f g K :=
+    packet.right.right.right.right.right.right.left
+  have routeL : Cont K u L :=
+    packet.right.right.right.right.right.right.right.left
+  have sameEndpoint : hsame N L :=
+    packet.right.right.right.right.right.right.right.right
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+      unaryK, unaryL, sameEndpoint⟩
+
 end BEDC.Derived.ContinuationMonadUp
