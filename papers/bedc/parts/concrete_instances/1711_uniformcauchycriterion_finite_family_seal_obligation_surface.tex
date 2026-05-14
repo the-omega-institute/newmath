@@ -204,3 +204,23 @@ The finite-family RegSeqRat--Real handoff of \autoref{thm:uniform-cauchy-criteri
 
 It remains to check overlap refinement. The root seal package already states that overlap refinement preserves the same finite index ledger, shared window family, threshold schedule, tolerance row, tail ledger, and seal handoff. Since the nonescape ledger removes every completion-facing coordinate outside those rows, refinement has no place to introduce the excluded objects.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion terminal Real-route certificate]
+\label{thm:uniform-cauchy-criterion-terminal-real-route-certificate}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any Phase Real and Completion consumer that preserves the finite index ledger, shared window, threshold schedule, dyadic tolerance, tail ledger, seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row reaches the terminal Real-facing route only through the ordered finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Such a consumer cannot extract a selected limit, quotient stream, host real equality, ambient completeness witness, detached tail oracle, or second $\StreamName$ family.
+\end{theorem}
+\begin{proof}
+First compose the finite-family seal obligation package with the finite-family RegSeqRat--Real handoff. The package theorem fixes the accepted inventory $I,W,M,Q,T,E,H,C,P,N$, and the handoff routes the Real-facing use through the same finite index ledger, shared window, threshold schedule, tolerance row, tail ledger, and seal handoff.
+
+Next apply the window seal exhaustion and shared seal route determinacy theorems. They leave no alternate seal entry after the shared window and tail rows have been chosen, so a Phase Real or Completion consumer preserving $H,C,P,N$ must stay on the ordered route from $I$ to $E$.
+
+Finally apply the finite-family nonescape ledger and the root seal pullback non-escape theorem. The nonescape ledger removes selected limits, quotient streams, host real equality, ambient completeness witnesses, and detached tail oracles from the consumer surface; the pullback theorem also prevents overlap refinement from adding any completion-facing coordinate outside the displayed rows. A second $\StreamName$ family would be another public route to the same seal, contradicting shared seal route determinacy, so the terminal certificate has exactly the displayed Real-facing route.
+\end{proof}
