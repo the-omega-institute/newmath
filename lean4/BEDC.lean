@@ -163,6 +163,7 @@ import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealSealAdmissionCutUp.TasteGate
+import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
@@ -311,6 +312,7 @@ import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
+import BEDC.Derived.DiagonalLimitBudgetUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.LimitSelectorUp
@@ -1444,6 +1446,7 @@ import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExact
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
+import BEDC.Derived.BedcTheoryIdentityUp.TasteGate
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
