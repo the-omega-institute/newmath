@@ -46,6 +46,31 @@ Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It already require
 The proposition only repacks that route as an obligation surface. It preserves the open recogniser-to-carrier problem because no row here constructs a tuple carrier from an arbitrary regular-language recogniser.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection recognizer boundary]
+\label{thm:finite-bhist-injection-recognizer-boundary}
+A recognizer-to-carrier route can be compared with the fixed-tuple
+$\StdBridge$ route only after it displays a recognizer acceptance row, a finite
+tuple extraction row, a readback row into $\BHist$ components, componentwise
+$\NameCert$ transport, and a $\ChapterTasteGate$ row. These five rows form the
+boundary between arbitrary regular-language recognizers and the fixed finite
+tuple obligation surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-fixed-tuple-route}. It gives the
+fixed tuple, image row, readback row, componentwise $\NameCert$ transport, and
+$\ChapterTasteGate$ row required before the fixed-tuple bridge route is
+requested.
+
+Now use \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}.
+It records the same rows as the public obligation surface and keeps them
+separate from the construction of tuple carriers from arbitrary recognizers.
+
+Thus a recognizer-side comparison must first expose the acceptance row and the
+finite tuple extraction row that land in that surface. This theorem only names
+that boundary; it does not construct the bridge or solve the recognizer-to-tuple
+transport problem.
+\end{proof}
+
 \begin{theorem}[Finite tuple StdBridge refutation candidate]
 \label{thm:finite-tuple-stdbridge-refutation-candidate}
 A valid counter-instance to \autoref{conj:finite-bhist-injection-admits-stdbridge} in the fixed finite tuple case must display all five fixed-tuple rows: the tuple carrier $(b_0,b_1,\ldots,b_k)$, the image row, the readback row, the componentwise $\NameCert$ transport rows, and the $\ChapterTasteGate$ row. It must also display a reflection-axis requirement for the same chapter that is incompatible with the standard reflection schema consumed by $\StdBridge$.
