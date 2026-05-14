@@ -311,9 +311,13 @@ def generate_candidates(
     limit: int = 0,
 ) -> list[dict]:
     hits = scan_all()
+    existing_titles = _existing_board_titles()
     candidates = []
     for hit in hits:
         candidate = hit_to_candidate(hit)
+        title_key = str(candidate.get("title") or "").strip().lower()
+        if title_key in existing_titles:
+            continue
         if _is_substantive_gap(hit, candidate):
             candidates.append(candidate)
     candidates = [
@@ -323,6 +327,14 @@ def generate_candidates(
     if limit > 0:
         candidates = candidates[:limit]
     return candidates
+
+
+def _existing_board_titles() -> set[str]:
+    try:
+        import board_archive
+        return board_archive.existing_target_titles(include_archive=True)
+    except Exception:
+        return set()
 
 
 def main() -> int:

@@ -1,0 +1,152 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICRedexFrontierUp$}
+\label{ch:concrete-instances-metacic-redex-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICRedexFrontierUp$ packet realizes the beta-redex part of the
+MetaCIC subject-reduction frontier as finite certificate data. It reads the
+open-problem inventory of \autoref{ch:visions-metacic-open-problems}, the
+finite row catalogue of
+\autoref{ch:concrete-instances-metacicopenproblemledger-namecert}, and the
+normalization boundary of
+\autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. Its
+purpose is narrower than those ledgers: it binds the four subject-reduction
+discharge rows to a beta-boundary route and to an obstruction ledger, so a
+consumer can distinguish an incomplete beta-redex packet from a complete
+frontier carrier.
+
+\falsifiablePrediction{A packet lacking the beta-redex row but carrying the other three discharge rows is rejected by the redex-frontier carrier.}
+
+\independenceWitness{metacicopenproblemledger, metacicnormalizationfrontier, metacic-substitution-audit-packet, beta-critical-pair, apophaticname: those siblings either inventory open rows, record normalization boundaries, isolate substitution windows, expose critical pairs, or refuse external supply; none is bijective with the complete redex-frontier carrier because this packet requires all four discharge rows plus the obstruction ledger in one carrier.}
+
+\begin{definition}[MetaCIC redex-frontier carrier]
+\label{def:metacic-redex-frontier-carrier}
+A $\MetaCICRedexFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,A,L,P,O,E,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-redex discharge row, carrying $\mathrm{BetaSubstitutionPreservation}$ for the beta case;
+\item $A$ is the application-argument discharge row, carrying $\mathrm{AppArgTypeStable}$ for reduction under the argument of an application;
+\item $L$ is the lambda-domain discharge row, carrying $\mathrm{LamDomainSubjectReduction}$ for binder-domain reduction inside lambda formation;
+\item $P$ is the Pi-domain discharge row, carrying $\mathrm{PiDomainSubjectReduction}$ for binder-domain reduction inside Pi formation;
+\item $O$ is the obstruction ledger row recording that the four rows are required because closed subject reduction is not exported at this boundary;
+\item $E$ is the beta-boundary route row that places beta-redex consumption before any subject-reduction handoff;
+\item $H$ records componentwise $\hsame$ transports for $B,A,L,P,O,E$ together with provenance and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from the four discharge rows to the beta-boundary route and from that route to subject-reduction consumers;
+\item $G$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\SubjectReductionDischargeBundle$, $\SubjectReductionSetup$, $\MetaCICSubjectReductionFrontierUp$, $\MetaCICNormalizationFrontierUp$, $\BetaCriticalPairUp$, and the open-problem ledger rows;
+\item $N$ is the local $\NameCert_{\MetaCICRedexFrontierUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with all four discharge rows
+$B,A,L,P$ and the obstruction ledger $O$ present in the same carrier. It has no
+coordinate for a beta-only shortcut, a three-row discharge interface, a hidden
+substitution oracle, a closed subject-reduction theorem, or a consumer route
+that bypasses $E$.
+\end{definition}
+
+\begin{theorem}[MetaCICRedexFrontier NameCert obligations]
+\label{thm:metacic-redex-frontier-namecert-obligations}
+For the carrier of \autoref{def:metacic-redex-frontier-carrier}, the local
+$\NameCert_{\MetaCICRedexFrontierUp}$ surface consists exactly of six finite
+obligations:
+\begin{enumerate}
+\item carrier admission for $R=(B,A,L,P,O,E,H,C,G,N)$;
+\item four-row discharge coverage for beta-redex, application-argument, lambda-domain, and Pi-domain subject-reduction cases;
+\item beta-boundary routing through $E$ before any subject-reduction consumer can read the discharge packet;
+\item obstruction ledger exposure through $O$, separating the finite route from a closed subject-reduction theorem;
+\item componentwise transport and replay through $H$ and $C$;
+\item provenance and local naming exhaustion through $G,N$, with no beta-only shortcut, hidden substitution oracle, or off-packet consumer route.
+\end{enumerate}
+The Lean follow-up must provide \texttt{Nontrivial MetaCICRedexFrontierUp} and
+\texttt{FieldFaithful MetaCICRedexFrontierUp} in
+\texttt{lean4/BEDC/Derived/MetaCICRedexFrontierUp/TasteGate.lean}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:metacic-redex-frontier-carrier}. The displayed tuple
+$R=(B,A,L,P,O,E,H,C,G,N)$ is the full row inventory available to an accepted
+redex-frontier reader.
+
+The four discharge rows are read next. The beta row $B$ supplies the
+substitution-preservation case, while $A,L,P$ supply the application-argument,
+lambda-domain, and Pi-domain cases. Since the classifier requires all four
+rows, a packet that omits $B$ is not the displayed carrier even if $A,L,P$ are
+present.
+
+The boundary and obstruction rows are then read through $E$ and $O$. The row
+$E$ is the only route by which beta-redex consumption reaches a
+subject-reduction consumer, and $O$ records why this finite route is not being
+replaced by a closed subject-reduction theorem.
+
+Finally, $H,C,G,N$ transport, replay, package, and name the same finite
+surface. The carrier has no coordinate for a beta-only shortcut, hidden
+substitution oracle, or off-packet consumer path, so the six obligations
+exhaust the local certificate boundary.
+\end{proof}
+
+\begin{theorem}[MetaCICRedexFrontier beta-boundary routing]
+\label{thm:metacic-redex-frontier-beta-boundary}
+Every accepted $\MetaCICRedexFrontierUp$ carrier routes beta-redex consumption
+through
+$$
+B \to E \to C
+$$
+before a subject-reduction consumer may read the packet. The remaining
+discharge rows $A,L,P$ travel with the same carrier, but none of them replaces
+the beta row $B$ or the beta-boundary route $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The beta-redex row is $B$, the beta-boundary route row is
+$E$, and the consumer replay row is $C$.
+
+Use the obligation theorem for the same packet. It makes four-row discharge
+coverage and beta-boundary routing simultaneous requirements of the local
+$\NameCert_{\MetaCICRedexFrontierUp}$ surface.
+
+The rows $A,L,P$ remain necessary discharge rows, but their branch content is
+application-argument, lambda-domain, and Pi-domain preservation. They do not
+contain the beta-substitution premise-conclusion shape carried by $B$.
+Therefore the only accepted beta-facing route is the displayed path from $B$
+through $E$ to $C$.
+\end{proof}
+
+\begin{theorem}[MetaCICRedexFrontier obstruction non-escape]
+\label{thm:metacic-redex-frontier-nonescape}
+No consumer of an accepted $\MetaCICRedexFrontierUp$ carrier can extract a
+closed MetaCIC subject-reduction theorem, a hidden substitution oracle, or a
+three-row subject-reduction interface from the packet. Every consumer read
+factors through the displayed rows
+$$
+B,A,L,P,O,E,H,C,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Read the carrier definition. It exposes the four discharge rows, the
+obstruction ledger, the beta-boundary route, transport, replay, provenance, and
+local naming. It lists no closed theorem coordinate and no hidden oracle
+coordinate.
+
+Apply the NameCert obligations. The obstruction row $O$ keeps the packet tied
+to the finite discharge route described by
+\autoref{ch:visions-metacic-open-problems}, rather than to a closed
+subject-reduction theorem. The beta-boundary row $E$ also prevents a consumer
+from reading the beta case without the named route.
+
+The remaining structural rows $H,C,G,N$ preserve the same packet. Since the
+classifier requires all four discharge rows $B,A,L,P$, a three-row interface
+is rejected rather than completed by transport, continuation replay,
+provenance, or local naming.
+\end{proof}
+
+\closureat{MetaCICRedexFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICRedexFrontierUp}
+  \constructivestory{A $\MetaCICRedexFrontierUp$ packet is generated from beta-redex, application-argument, lambda-domain, and Pi-domain discharge rows, an obstruction ledger, a beta-boundary route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-redex-frontier-carrier}, \autoref{thm:metacic-redex-frontier-namecert-obligations}, \autoref{thm:metacic-redex-frontier-beta-boundary}, and \autoref{thm:metacic-redex-frontier-nonescape} bind the finite beta-redex frontier packet and its obstruction non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close MetaCIC subject reduction, confluence, normalization, substitution admissibility, dependent-codomain readback, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, nontrivial witnesses, field-faithful projections, four-row coverage, beta-boundary routing, and obstruction non-escape for the same finite packet.}
+\end{closurestatus}
