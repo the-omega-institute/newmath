@@ -48,6 +48,49 @@ Runtime validation is separated by $V$. The argument of \autoref{thm:reflection-
 Finally, $P$ and $N$ bind provenance and local naming without adding new evaluator content. Ledger exhaustion follows because every available consumer route has already passed through $I,T,A,V,H,C,P,N$, so an unlisted evaluator, truth predicate, total halting predicate, or infinite trace would require an extra coordinate absent from the carrier.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator bounded trace coverage]
+\label{thm:finite-trace-evaluator-bounded-trace-coverage}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, every accepted evaluator result factors through
+$$
+I \longmapsto T \longmapsto A.
+$$
+No accepted result can bypass the bounded trace row $T$ or be supplied by a host evaluator, a total truth predicate, or an unbounded execution stream.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. The only input-facing coordinate is $I$, the only trace-step coordinate is the finite row $T$, and the only accepted-result classifier is $A$.
+
+Apply \autoref{thm:finite-trace-evaluator-namecert-obligations}. Its trace-step exposure and accepted-result classifier clauses force a consumer to read from $I$ into $T$ before any accepted result is visible at $A$.
+
+The sibling runtime boundary of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, the finite diagonal trace of \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, and the finite-trace GAP socket of \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert} supply only bounded object-level routes. They do not add a host evaluator, total truth predicate, or unbounded execution stream to the packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator host-validation refusal ledger]
+\label{thm:finite-trace-evaluator-host-validation-refusal-ledger}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, the row $V$ is only a refusal and validation-boundary row. It does not supply host validation, total truth for $\mathrm{CIC}^{*}$ sentences, or a self-validating evaluator.
+\end{theorem}
+\begin{proof}
+Read $V$ through \autoref{def:finite-trace-evaluator-carrier}. The definition names it as the validation-boundary coordinate and explicitly keeps host validation outside the displayed evaluator rows.
+
+Use the runtime-validation non-escape clause of \autoref{thm:finite-trace-evaluator-namecert-obligations}. It prevents any packet row from becoming the validating host judgment for the same evaluator.
+
+The cited sibling packets \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, and \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert} expose runtime candidates, trace rows, and finite windows as object-level evidence. None of them turns $V$ into host validation, total truth, or self-validation.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator result-validation separation]
+\label{thm:finite-trace-evaluator-result-validation-separation}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, result classification is visible only after bounded trace exposure through $I \longmapsto T \longmapsto A$, while validation remains outside the packet at the boundary row $V$. Thus the packet can display a bounded accepted result without claiming host validation of the evaluator that produced it.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. It places every accepted result on the bounded route from $I$ through $T$ to $A$.
+
+Next apply \autoref{thm:finite-trace-evaluator-host-validation-refusal-ledger}. It keeps host validation, total truth, and self-validation outside the same packet and records the refusal at $V$.
+
+Together with \autoref{thm:finite-trace-evaluator-namecert-obligations}, these two readings exhaust the accepted packet. The runtime-candidate boundary, halting-distinction trace, and finite-trace GAP socket chapters supply finite object-level anchors, but the validation judgment is not a coordinate of $E$.
+\end{proof}
+
 \begin{theorem}[FiniteTraceEvaluator object-level boundary]
 \label{thm:finite-trace-evaluator-object-level-boundary}
 Every consumer read of an accepted $\FiniteTraceEvaluatorUp$ packet factors through the finite route
