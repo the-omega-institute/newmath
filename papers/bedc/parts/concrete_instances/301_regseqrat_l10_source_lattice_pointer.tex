@@ -40,3 +40,15 @@ Since all cited surfaces are finite BEDC rows, no quotient stream, host real
 equality, selected limit, ambient completeness datum, or hidden completion
 carrier can be consumed along the route.
 \end{proof}
+
+\begin{theorem}[RegSeqRat L10 source lattice exhaustion]
+\label{thm:regseqrat-l10-source-lattice-exhaustion}
+Every accepted $\RegSeqRatUp$-to-$\RealUp$ seal read on the L10 route has exactly four row owners. $\StreamNameUp$ owns the finite observation schedules, $\DyadicRatCoreUp$ owns endpoint rows, radius rows, and finite dyadic-distance ledgers, $\RegSeqRatUp$ owns regularity rows and classifier rows, and $\RealUp$ owns the terminal seal row. The accepted handoff has no row supplied by a quotient stream, host real equality, selected limit, completion witness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source lattice pointer, \autoref{thm:regseqrat-l10-source-lattice-pointer}. It fixes the route as $\StreamNameUp,\DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$ and lists the visible source rows before the seal can be read.
+
+Apply the exact handoff theorem, \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It identifies the StreamName schedules, dyadic endpoint and radius ledgers, finite dyadic-distance ledgers, regularity rows, classifier rows, and seal rows as one finite handoff rather than as separate ambient services.
+
+Finally use the Real seal handoff rows. They make the $\RealUp$ seal the terminal row of the same route, so the ownership list is exhausted by the four displayed chapters and cannot be enlarged by quotient streams, host equality, selected limits, completion witnesses, or ambient completeness.
+\end{proof}
