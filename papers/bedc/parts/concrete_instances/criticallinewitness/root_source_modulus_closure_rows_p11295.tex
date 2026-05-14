@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness strip-modulus source exhaustion]
+\label{thm:critical-line-witness-strip-modulus-source-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied $\ZetaZerosUp$ row $Z$, supplied $\CritStripUp$ row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ exhaust the root source-modulus surface. A consumer of this surface receives no $\mathsf{RH}$ proof, zero search, quotient representative, host equality, analytic-continuation certificate, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:critical-line-witness-carrier} and the NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. They expose the accepted packet as the finite tuple $Z,S,M,R,Q,H,C,P,N$ and bind all public reads to the local naming row.
+
+Use the root source triad and source-route totality rows, \autoref{thm:critical-line-witness-root-source-triad} and \autoref{thm:critical-line-witness-source-route-totality}. These rows put the $\ZetaZerosUp$ source, $\CritStripUp$ source, $\BHist$ carrier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ surface on the same finite route.
+
+Finally apply the root comparison ledger and root refusal route, \autoref{thm:critical-line-witness-root-comparison-ledger} and \autoref{thm:critical-line-witness-root-refusal-route}. The modulus and comparison reads stay inside $M,R,Q,H,C,P,N$, while every RH-facing or analytic request is refused rather than exported.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zeta-route carrier separation]
+\label{thm:critical-line-witness-zeta-route-carrier-separation}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the zeta route carried by $Z$ and the strip-modulus route carried by $S,M,R,Q$ remain separate carrier rows until the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$ relate them. The packet does not identify the $\ZetaZerosUp$ source with the $\CritStripUp$, $\RealUp$, or $\RatUp$ comparison surface by host equality, quotient representatives, analytic continuation, zero search, $\mathsf{RH}$ proof data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the source rows first. The root source triad of \autoref{thm:critical-line-witness-root-source-triad} exposes $Z,S,Q$ as finite source data before any downstream comparison is read.
+
+Next route the modulus and comparison rows through \autoref{thm:critical-line-witness-root-comparison-ledger} and \autoref{thm:critical-line-witness-root-modulus-readback}. These rows attach $M,R,Q$ to the $\RealUp$ and $\RatUp$ comparison surfaces only through the displayed packet route.
+
+It remains to account for the separation boundary. The NameCert obligations and fixed-tuple readback rows, \autoref{thm:critical-line-witness-namecert-obligations} and \autoref{thm:critical-line-witness-fixed-tuple-readback-row}, permit comparison only through $H,C,P,N$. Thus no host equality, quotient representative, analytic-continuation row, zero search, RH proof, or ambient completeness principle identifies the carrier rows outside the packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH-refusal ledger closure]
+\label{thm:critical-line-witness-rh-refusal-ledger-closure}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The RH-refusal ledger of $W$ closes the root-unblock surface over the displayed $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Every request for an $\mathsf{RH}$ proof, zero search, quotient representative, host equality, analytic-continuation certificate, or ambient completeness witness is recorded as a refusal on the same packet and does not become a second carrier, oracle, or downstream proof row.
+\end{theorem}
+\begin{proof}
+Begin with the RH-refusal ledger completeness theorem \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It already states that downstream RH-facing access is exhausted by $Z,S,M,R,Q,H,C,P,N$ together with the visible BEDC structural rows.
+
+Use strip-modulus source exhaustion from \autoref{thm:critical-line-witness-strip-modulus-source-exhaustion}. This supplies the root source-modulus surface over the zeta, strip, real, rational, history, transport, replay, provenance, and naming rows.
+
+Finally combine the zeta-route carrier separation of \autoref{thm:critical-line-witness-zeta-route-carrier-separation} with the root analytic-refusal exhaustion of \autoref{thm:critical-line-witness-root-analytic-refusal-exhaustion}. The former prevents carrier collapse across source and comparison rows; the latter sends every analytic or RH-facing request to the displayed refusal route. Therefore the root-unblock ledger is closed by refusal on the accepted packet.
+\end{proof}
