@@ -379,4 +379,65 @@ theorem CompactUniformContinuityPacket_root_metric_route [AskSetup] [PackageSetu
       sourceReadPkg,
       targetReadPkg⟩
 
+theorem CompactUniformContinuityPacket_finite_row_audit_boundary [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow metricRead realRead sourceRead targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont source net sourceRead ->
+        Cont precision target targetRead ->
+          Cont precision nameRow metricRead ->
+            Cont metricRead transport realRead ->
+              PkgSig bundle sourceRead pkg ->
+                PkgSig bundle targetRead pkg ->
+                  PkgSig bundle realRead pkg ->
+                    UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+                      UnaryHistory tolerance ∧ UnaryHistory net ∧ UnaryHistory coverage ∧
+                        UnaryHistory modulusRows ∧ UnaryHistory radiusRows ∧
+                          UnaryHistory fold ∧ UnaryHistory route ∧ UnaryHistory precision ∧
+                            UnaryHistory sourceRead ∧ UnaryHistory targetRead ∧
+                              UnaryHistory metricRead ∧ UnaryHistory realRead ∧
+                                Cont net coverage modulusRows ∧
+                                  Cont modulusRows radiusRows fold ∧
+                                    Cont fold transport route ∧ Cont route nameRow precision ∧
+                                      Cont source net sourceRead ∧
+                                        Cont precision target targetRead ∧
+                                          Cont precision nameRow metricRead ∧
+                                            Cont metricRead transport realRead ∧
+                                              PkgSig bundle precision pkg ∧
+                                                PkgSig bundle sourceRead pkg ∧
+                                                  PkgSig bundle targetRead pkg ∧
+                                                    PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet sourceNetRead precisionTargetRead precisionNameMetric metricTransportReal
+    sourceReadPkg targetReadPkg realReadPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, toleranceUnary, netUnary, coverageUnary,
+    radiusRowsUnary, transportUnary, nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed foldUnary transportUnary foldTransportRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed routeUnary nameRowUnary routeNamePrecision
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed sourceUnary netUnary sourceNetRead
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed precisionUnary targetUnary precisionTargetRead
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed precisionUnary nameRowUnary precisionNameMetric
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed metricReadUnary transportUnary metricTransportReal
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, toleranceUnary, netUnary, coverageUnary,
+      modulusRowsUnary, radiusRowsUnary, foldUnary, routeUnary, precisionUnary,
+      sourceReadUnary, targetReadUnary, metricReadUnary, realReadUnary,
+      netCoverageModulusRows, modulusRowsRadiusRowsFold, foldTransportRoute,
+      routeNamePrecision, sourceNetRead, precisionTargetRead, precisionNameMetric,
+      metricTransportReal, precisionPkg, sourceReadPkg, targetReadPkg, realReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
