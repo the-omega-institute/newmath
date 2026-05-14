@@ -184,6 +184,26 @@ Apply \autoref{thm:tail-budget-coherence-obligation-closure-package}. The obliga
 Combine this with \autoref{thm:tail-budget-coherence-sibling-scope-lock} and \autoref{thm:tail-budget-coherence-real-route-scope}. The first locks every row to the named sibling and kernel packets, and the second forces Real and Completion consumers through the finite route before any seal read. Therefore the scoped route exports no ambient completeness object beyond the displayed coherence packet.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence public export boundary]
+\label{thm:tail-budget-coherence-public-export-boundary}
+The public export of an accepted $\TailBudgetCoherenceUp$ packet is exactly the finite route
+$$
+M,O,S,W,D,R,A,L,H,C,P,N
+$$
+through the sibling rows named by \autoref{thm:tail-budget-coherence-sibling-scope-lock}. Every $\RealUp$ or Completion consumer must pass through threshold-budget exposure, window-readback exactness, Real route scope, and no-ambient-completeness scope before it reads the agreement seal $A$ or limit seal $L$.
+
+Consequently the public export contains no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the sibling-scope lock of \autoref{thm:tail-budget-coherence-sibling-scope-lock}. It ties $M,O,S,A,L,W,R,D$ to the named TailMeet, observation-budget, selector-budget, agreement-seal, limit-seal, StreamName, RegSeqRat, and DyadicRatCore sibling packets, and ties $H,C,P,N$ to the BEDC kernel rows.
+
+Apply threshold-budget exposure from \autoref{thm:tail-budget-coherence-threshold-budget-exposure}. It places $M,O,S$ before any finite window, dyadic tolerance, regular readback, agreement-seal, or limit-seal coordinate can be consumed.
+
+Next apply window-readback exactness from \autoref{thm:tail-budget-coherence-window-readback-exactness} and Real route scope from \autoref{thm:tail-budget-coherence-real-route-scope}. These identify $W,D,R$ as the exact readback route under $M,O,S$ and force every Real or Completion consumer through $M,O,S,W,D,R,A,L,H,C,P,N$ before seal access.
+
+Finally use no-ambient-completeness scope from \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}. Since the accepted route exports no quotient stream equality, host real equality, selected limit, countable-choice selector, or ambient completeness principle, the finite route written above is the complete public boundary.
+\end{proof}
+
 \falsifiablePrediction{If a completion-facing consumer reads the limit seal without a displayed TailMeet threshold, observation budget, selector budget, finite window ledger, dyadic tolerance ledger, regular readback, and agreement-seal row, that read is not accepted by $\TailBudgetCoherenceUp$.}
 
 The composite-dependency explanation is the replacement for an atomic independence witness. The carrier is deliberately assembled from existing $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows; its content is the coherence of those rows at the Real-completion handoff, not a new primitive analytic object.
