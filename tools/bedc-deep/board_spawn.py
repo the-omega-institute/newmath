@@ -274,7 +274,9 @@ def classify_judge_error(error: str) -> str:
         return ""
 
     claude_kind = "claude_unavailable"
-    if "not logged in" in low:
+    if "organization does not have access to claude" in low:
+        claude_kind = "claude_access_denied"
+    elif "not logged in" in low or "please login again" in low:
         claude_kind = "claude_not_logged_in"
     elif "claude cli not found" in low:
         claude_kind = "claude_cli_missing"
