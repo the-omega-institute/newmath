@@ -599,11 +599,14 @@ def _run_local_gap_fallback(
         codex_candidates=candidates,
         oracle_candidates=[],
     )
+    reject_reasons, reject_examples = _summarize_rejections(spawn_result.rejected)
     summary = {
         "ok": spawn_result.ok,
         "candidates_proposed": len(candidates),
         "accepted": len(spawn_result.accepted),
         "rejected": len(spawn_result.rejected),
+        "reject_reasons": reject_reasons,
+        "reject_examples": reject_examples,
         "appended_ids": spawn_result.appended_ids,
         "error": spawn_result.error,
         "error_kind": getattr(spawn_result, "error_kind", ""),
@@ -619,6 +622,19 @@ def _run_local_gap_fallback(
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if spawn_result.ok else 1
+
+
+def _summarize_rejections(rejected: list[dict]) -> tuple[dict[str, int], dict[str, str]]:
+    reasons: dict[str, int] = {}
+    examples: dict[str, str] = {}
+    for item in rejected:
+        if not isinstance(item, dict):
+            continue
+        reason = str(item.get("reason") or "unknown").strip() or "unknown"
+        reasons[reason] = reasons.get(reason, 0) + 1
+        if reason not in examples:
+            examples[reason] = str(item.get("title") or item.get("candidate_id") or "?")[:160]
+    return dict(sorted(reasons.items(), key=lambda kv: (-kv[1], kv[0]))), examples
 
 
 # ---------------------------------------------------------------------------
