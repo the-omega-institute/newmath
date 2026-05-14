@@ -93,6 +93,19 @@ def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
     return False
 
 
+def _is_conjecture_fallback(candidate: dict[str, Any]) -> bool:
+    """Conjecture fallback is a review lane, not an executable BOARD lane."""
+    tastegate_mode = str(candidate.get("tastegate_mode") or "").strip().lower()
+    if tastegate_mode == "conjecture_fallback":
+        return True
+    value = str(candidate.get("conjecture_fallback") or "").strip().lower()
+    if not value:
+        return False
+    if value in {"false", "no", "none", "n/a", "na", "0"}:
+        return False
+    return True
+
+
 def _candidate_id(candidate: dict[str, Any], source: str) -> str:
     payload = {
         "source": source,
@@ -311,6 +324,8 @@ def _rejection_reason(
         return "missing_claim"
     if len(claim) < 30:
         return "claim_too_short"
+    if _is_conjecture_fallback(candidate):
+        return "conjecture_fallback_not_board_lane"
     if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
     landing_kind = str(candidate.get("landing_kind") or "").strip()

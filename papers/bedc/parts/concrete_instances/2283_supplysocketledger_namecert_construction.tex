@@ -75,7 +75,6 @@ L=(G,K,S,A,C,P,N).
 $$
 It exposes the $\mathsf{GAP}$ tag row, supply-kind row, socket site, audit gate, $\Cont$ consumption routes, $\Pkg$ provenance, and local $\NameCert_{\SupplySocketLedgerUp}$ row, and it contains no coordinate carrying the refused supply itself.
 \end{theorem}
-\leanchecked{BEDC.Derived.SupplySocketLedgerUp.SupplySocketLedgerTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the carrier of \autoref{def:supply-socket-ledger-carrier}. Its complete displayed inventory is the seven-tuple $L=(G,K,S,A,C,P,N)$, so the TasteGate-relevant boundary has precisely those coordinates.
 
@@ -108,15 +107,89 @@ Use \autoref{thm:supply-socket-ledger-namecert-obligations} to identify what tho
 The forbidden citations have no carrier coordinate. By \autoref{thm:supply-socket-ledger-audit-nonescape}, they remain refused socket requests visible through the ledger surface, so a downstream chapter may cite the provenance and NameCert rows but not the missing supply.
 \end{proof}
 
-\closureat{SupplySocketLedgerUp}{seedStr}
+\begin{theorem}[SupplySocketLedger kind-route determinacy]
+\label{thm:supply-socket-ledger-kind-route-determinacy}
+For an accepted $\SupplySocketLedgerUp$ packet $L=(G,K,S,A,C,P,N)$, the
+$\mathsf{BHist}$ row $K$ determines the visible socket-kind route consumed by
+any $\Cont$ read of the ledger. The route is read with the socket-site row
+$S$, audit row $A$, $\Pkg$ provenance row $P$, and local
+$\NameCert_{\SupplySocketLedgerUp}$ row $N$; no second route can classify the
+same accepted packet as a different supply kind.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:supply-socket-ledger-carrier}. The packet
+has one kind coordinate $K$, one socket-site row $S$, one audit row $A$, one
+family of consumption routes $C$, one provenance row $P$, and one local naming
+row $N$.
+
+Apply \autoref{thm:supply-socket-ledger-kind-exhaustion} to the projected
+kind row. Since $K$ ranges over the seven displayed supply kinds and the
+carrier has no further classifier coordinate, a consumer route cannot obtain a
+different kind without leaving the packet.
+
+Finally use \autoref{thm:supply-socket-ledger-route-coverage}. Every
+classifier read factors through the displayed $\Cont$ routes and audit gate,
+so the route determined by $K$ is the only route certified by $P$ and $N$ for
+the accepted row.
+\end{proof}
+
+\begin{theorem}[SupplySocketLedger refused-row non-escape]
+\label{thm:supply-socket-ledger-refused-row-nonescape}
+If a $\mathsf{BHist}$ supply row is outside the displayed
+$\SupplySocketLedgerUp$ packet $L=(G,K,S,A,C,P,N)$, then no consumer can read
+it through the local ledger. The only readable refusal data are the displayed
+$G,K,S,A$ rows, their $\Cont$ consumption routes $C$, the $\Pkg$ provenance
+row $P$, and the local $\NameCert_{\SupplySocketLedgerUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Start from the inventory in \autoref{def:supply-socket-ledger-carrier}. A row
+outside $G,K,S,A,C,P,N$ is absent from the finite packet and therefore is not a
+coordinate that a local consumer can project.
+
+Apply \autoref{thm:supply-socket-ledger-audit-nonescape}. The refused
+principles and host supplies remain recorded as socket requests behind the
+displayed audit row; they are not converted into substrate theorems or
+available carrier fields.
+
+The NameCert obligations then preserve the boundary. By
+\autoref{thm:supply-socket-ledger-namecert-obligations}, provenance and local
+naming certify exactly the displayed refusal rows and their $\Cont$ routes, so
+an outside supply row has no certified path into the ledger.
+\end{proof}
+
+\begin{theorem}[SupplySocketLedger consumption coverage]
+\label{thm:supply-socket-ledger-consumption-coverage}
+Every accepted $\SupplySocketLedgerUp$ socket route consumed by a downstream
+chapter is covered by the displayed $\mathsf{BHist}$ rows of the same packet:
+the $\mathsf{GAP}$ tag $G$, socket-kind row $K$, socket-site row $S$, audit row
+$A$, $\Cont$ routes $C$, $\Pkg$ provenance row $P$, and local
+$\NameCert_{\SupplySocketLedgerUp}$ row $N$. No accepted route may cite the
+ledger while omitting the local NameCert row or bypassing provenance.
+\end{theorem}
+\begin{proof}
+Project an accepted packet $L=(G,K,S,A,C,P,N)$. The displayed carrier gives
+the complete list of rows from which a consumer may read a socket route.
+
+Use \autoref{thm:supply-socket-ledger-route-coverage} for reads of the
+classifier and \autoref{thm:supply-socket-ledger-consumer-provenance} for
+downstream citations. Together they force each accepted consumption route to
+pass through $C$, cite $P$, and retain the local naming row $N$.
+
+It remains to rule out partial consumption. The non-escape result of
+\autoref{thm:supply-socket-ledger-audit-nonescape} says that bypassing the
+audit or provenance rows would replace the displayed refusal by the refused
+supply itself, which is not a coordinate of the accepted packet.
+\end{proof}
+
+\closureat{SupplySocketLedgerUp}{obligationStr}
 
 \begin{closurestatus}{\SupplySocketLedgerUp}
   \constructivestory{A $\SupplySocketLedgerUp$ packet is generated from one $\mathsf{GAP}$ tag row, one of the seven supply-kind classifiers, one displayed socket site, one audit-gate row, displayed $\Cont$ consumption routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:supply-socket-ledger-carrier}, \autoref{thm:supply-socket-ledger-namecert-obligations}, \autoref{thm:supply-socket-ledger-kind-exhaustion}, \autoref{thm:supply-socket-ledger-audit-nonescape}, \autoref{thm:supply-socket-ledger-tastegate-carrier-boundary}, \autoref{thm:supply-socket-ledger-route-coverage}, and \autoref{thm:supply-socket-ledger-consumer-provenance} bind the finite carrier, seven-kind classifier, audit-gate routing, continuation locality, package provenance, consumer provenance, and explicit non-escape rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:supply-socket-ledger-carrier}, \autoref{thm:supply-socket-ledger-namecert-obligations}, \autoref{thm:supply-socket-ledger-kind-exhaustion}, \autoref{thm:supply-socket-ledger-audit-nonescape}, \autoref{thm:supply-socket-ledger-tastegate-carrier-boundary} with \leanchecked{BEDC.Derived.SupplySocketLedgerUp.taste\_gate}, \autoref{thm:supply-socket-ledger-route-coverage}, and \autoref{thm:supply-socket-ledger-consumer-provenance} bind the finite carrier, seven-kind classifier, audit-gate routing, continuation locality, package provenance, consumer provenance, and explicit non-escape rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close TasteGate-backed obligation discharge, Lean verification, public export, standard bridge data, or any internal theorem supplying the refused socket contents.}
-  \upgradepath{Obligation closure requires TasteGate-backed proofs that the finite ledger covers each accepted socket kind, transports through the displayed consumption routes, and preserves audit non-escape for every refused supply row.}
+  \upgradepath{Scoped closure requires making the existing carrier, seven-kind classifier, route coverage, consumer provenance, and refused-row non-escape rows explicit as the dependency scope.}
 \end{closurestatus}
