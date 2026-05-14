@@ -970,8 +970,46 @@ def _discovery_status(data: dict) -> str:
     return suffix
 
 
+def _latest_supervisor_discovery_run() -> tuple[float, Path, str] | None:
+    if not SUPERVISOR_LOG_DIR.exists():
+        return None
+    paths: list[Path] = []
+    for pattern in ("probe_*.log", "curriculum_*.log", "paper_review_*.log", "curator_*.log"):
+        paths.extend(SUPERVISOR_LOG_DIR.glob(pattern))
+    latest: tuple[float, Path, str] | None = None
+    for path in paths:
+        try:
+            mtime = path.stat().st_mtime
+            lines = [
+                line.strip()
+                for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                if line.strip()
+            ]
+        except OSError:
+            continue
+        detail = lines[-1] if lines else "(no log output yet)"
+        item = (mtime, path, detail)
+        if latest is None or item[0] > latest[0]:
+            latest = item
+    return latest
+
+
 def render_discovery_lane() -> str:
+    supervisor_run = _latest_supervisor_discovery_run()
     if not DISCOVERY_LOG_DIR.exists():
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no discovery artifacts)"
     records: list[tuple[float, Path, dict]] = []
     for path in DISCOVERY_LOG_DIR.glob("*.json"):
@@ -985,6 +1023,19 @@ def render_discovery_lane() -> str:
         data["_mode"] = path.name.split("_", 1)[0]
         records.append((mtime, path, data))
     if not records:
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no parseable discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no parseable discovery artifacts)"
     records.sort(key=lambda item: item[0], reverse=True)
     now = datetime.now(timezone.utc)
@@ -1008,6 +1059,17 @@ def render_discovery_lane() -> str:
             "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
             "it is not a BEDC oracle tab-refresh signal."
         )
+    if supervisor_run:
+        run_mtime, run_path, detail = supervisor_run
+        latest_artifact_mtime = records[0][0]
+        if run_mtime > latest_artifact_mtime:
+            age = _fmt_age(
+                (now - datetime.fromtimestamp(run_mtime, tz=timezone.utc)).total_seconds()
+            )
+            lines.append(
+                f"  pending/no-artifact: supervisor {run_path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
     return "\n".join(lines)
 
 
@@ -1032,14 +1094,71 @@ def _read_research_latest_counts() -> dict[str, int]:
     return counts
 
 
+def _read_research_latest_profiles() -> dict[str, str]:
+    profiles: dict[str, str] = {}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return profiles
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return profiles
+    for line in lines:
+        match = re.match(r"-\s+(ready_(?:budget|difficulty|oracle_mode)):\s+(.+?)\s*$", line.strip())
+        if match:
+            profiles[match.group(1)] = match.group(2)
+    return profiles
+
+
+def _read_research_ready_titles(limit: int = 5) -> list[str]:
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return []
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return []
+    titles: list[str] = []
+    in_ready = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "## Ready":
+            in_ready = True
+            continue
+        if in_ready and stripped.startswith("## "):
+            break
+        if not in_ready or not stripped.startswith("- "):
+            continue
+        title = stripped[2:].strip()
+        if " [" in title:
+            title = title.rsplit(" [", 1)[0].strip()
+        if title:
+            titles.append(title)
+        if len(titles) >= limit:
+            break
+    return titles
+
+
 def render_research_candidate_lane() -> str:
     counts = _read_research_latest_counts()
+    profiles = _read_research_latest_profiles()
     lines = [
         (
             f"  latest packets={counts['packets']} ready={counts['ready']} "
             f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
         )
     ]
+    if counts["ready"] and profiles:
+        if profiles.get("ready_budget"):
+            lines.append(f"  ready budget: {profiles['ready_budget']}")
+        if profiles.get("ready_difficulty"):
+            lines.append(f"  ready difficulty: {profiles['ready_difficulty']}")
+        if profiles.get("ready_oracle_mode"):
+            lines.append(f"  ready oracle modes: {profiles['ready_oracle_mode']}")
     if not RESEARCH_BOARD_SPAWN_LATEST.exists():
         lines.append("  append status: no research board_spawn attempt recorded")
         return "\n".join(lines)
@@ -1062,6 +1181,12 @@ def render_research_candidate_lane() -> str:
     if error_kind:
         lines.append(f"  last append error_kind: {error_kind}")
     lines.extend(_board_judge_action_lines(error_kind))
+    if counts["ready"] and "board_judge_unavailable" in error_kind:
+        titles = _read_research_ready_titles(limit=5)
+        if titles:
+            lines.append("  held ready behind shared judge outage:")
+            for title in titles:
+                lines.append(f"    - {title}")
     return "\n".join(lines)
 
 

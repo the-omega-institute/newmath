@@ -22,6 +22,23 @@ Apply \autoref{thm:cauchy-modulus-refinement-shared-meet-dependency} to fix the 
 Now apply \autoref{thm:cauchy-modulus-refinement-selector-budget-dependency}. It identifies $T$ as the selector-budget row consumed by the selected-window and tolerance-readback rows, so $W,Q$ are read only after the extraction row and through $T$.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement paper-Lean readback sync]
+\label{thm:cauchy-modulus-refinement-paper-lean-readback-sync}
+For every accepted $\CauchyModulusRefinementUp$ packet whose root source-meet-extraction route
+$$
+M_0,M_1,U,V
+$$
+is displayed, the selector-budget row $T$, selected-window row $W$, tolerance-readback row $Q$, seal row $E$, and structural rows $H,C,P,N$ are preserved along that same carrier route. The readback exposes no second meet, hidden selector, quotient stream, or ambient completeness coordinate as an alternate source of those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_root\_readback\_stability}
+\begin{proof}
+Apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. It fixes the root route through $M_0,M_1,U,V$ before any selector, seal, or structural row can be read.
+
+Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The selected-window and tolerance-readback rows reach $W,Q$ only through the selector-budget row $T$, so their readback remains on the same displayed carrier route.
+
+Finally apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The Real seal and structural rows $E,H,C,P,N$ stay behind the same displayed route, while the excluded quotient stream, hidden selector, second meet, and ambient completeness coordinate have no exported entry point.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement root Real seal non-escape]
 \label{thm:cauchy-modulus-refinement-root-real-seal-nonescape}
 Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ packet reaches the seal row $E$ only after the displayed route
