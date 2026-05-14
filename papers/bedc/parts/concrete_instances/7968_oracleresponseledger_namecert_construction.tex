@@ -1,0 +1,151 @@
+\chapter{A Concrete Naming Certificate for $\OracleResponseLedgerUp$}
+\label{ch:concrete-instances-oracleresponseledger-namecert}
+\origin{ai}
+
+The $\OracleResponseLedgerUp$ packet realizes the oracle-response row of
+\autoref{def:quadrant-oracle-substrate} as a finite $\NameCert$ surface. It
+sits between the oracle-call transcript of
+\autoref{ch:concrete-instances-oracleaugmentedsubstrate-namecert} and the
+external-channel boundary of
+\autoref{ch:concrete-instances-oracle-substrate-boundary-namecert}. Its
+distinguishing datum is a response ledger: a query can be paired with a finite
+reply and boundary row without becoming a closed-substrate observation.
+
+\falsifiablePrediction{No accepted response ledger can certify a closed-substrate observation unless the same packet also displays the boundary row separating the response from substrate-internal orbit data.}
+
+\independenceWitness{closureuniversalityquadrant, oracleaugmentedsubstrate, oraclesubstrateboundary, universalclosedsubstrate, presburger-subuniversal; the response ledger carries a query/response row that the quadrant map and closed-substrate witnesses lack, while boundary chapters do not classify response equality.}
+
+\begin{definition}[Oracle-response ledger carrier]
+\label{def:oracle-response-ledger-carrier}
+An $\OracleResponseLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,Q,R,B,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the substrate row whose oracle-facing request is being inspected;
+\item $Q$ is the finite oracle-query row, recording the query name, request
+site, and local input slice;
+\item $R$ is the response row, recording the finite reply token, response
+name, and point of consumption;
+\item $B$ is the boundary row, separating the response from closed
+substrate-internal orbit observations;
+\item $F$ is the refusal row, excluding closed-substrate certification,
+quotient-response equality, hidden oracle correctness, and host-semantic
+conversion of the response;
+\item $E$ is the route-exactness row, recording that any public response read
+must pass through $Q,R,B,F$ before it reaches a quadrant or boundary consumer;
+\item $H$ records componentwise $\hsame$ transports for $S,Q,R,B,F,E,P,N$;
+\item $C$ records displayed $\Cont$ routes through the query, response,
+boundary, refusal, and response-ledger reads;
+\item $P$ is the $\Pkg$ provenance over $\OracleResponseLedgerUp$,
+$\OracleAugmentedSubstrateUp$, $\OracleSubstrateBoundaryUp$,
+$\ClosureUniversalityQuadrantUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\OracleResponseLedgerUp}$ row.
+\end{enumerate}
+The local classifier compares accepted ledgers only through these rows. It has
+no coordinate for treating the response as a closed orbit record, no hidden
+oracle-correctness proof, and no quotient equality of response behaviours.
+\end{definition}
+
+\begin{theorem}[Oracle-response ledger NameCert obligations]
+\label{thm:oracle-response-ledger-namecert-obligations}
+For the carrier of \autoref{def:oracle-response-ledger-carrier}, the local
+$\NameCert_{\OracleResponseLedgerUp}$ surface consists exactly of seven finite
+obligation rows:
+\begin{enumerate}
+\item carrier exposure for $L=(S,Q,R,B,F,E,H,C,P,N)$;
+\item query accountability through the displayed oracle-query row $Q$;
+\item response accountability through the displayed reply row $R$;
+\item boundary accountability through $B$, separating the response from
+closed-substrate observations;
+\item refusal accountability through $F$, excluding closed replay, hidden
+oracle correctness, quotient response equality, and host semantic conversion;
+\item route exactness through $E,C$, requiring public response consumers to
+read the query, response, boundary, and refusal rows in the same packet;
+\item componentwise stability, provenance, and local naming through $H,P,N$.
+\end{enumerate}
+Thus an oracle response is accepted only as a finite BEDC ledger over query,
+response, boundary, refusal, route, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from
+\autoref{def:oracle-response-ledger-carrier}. The accepted packet displays
+the substrate row, query row, response row, boundary row, refusal row,
+route-exactness row, transports, routes, provenance, and local name as its only
+public coordinates.
+
+Query and response accountability are separate finite reads. The row $Q$
+records the request site and local input slice, while $R$ records the reply
+token and point of consumption. Neither row reconstructs the other from the
+substrate row alone.
+
+Boundary and refusal accountability keep the response outside the closed
+observation channel. The boundary chapter supplies the external-channel
+separation, and the oracle-augmented substrate chapter supplies the call and
+transcript surface. The refusal row records that closed replay, hidden oracle
+correctness, quotient response equality, and host semantic conversion are not
+available inside the ledger.
+
+Finally $E,C,H,P,N$ route, transport, package, and name the same finite packet.
+Any public response consumer must therefore pass through the displayed query,
+response, boundary, and refusal rows before using the ledger, and no unlisted
+closed-substrate or oracle-correctness coordinate remains.
+\end{proof}
+
+\begin{theorem}[Oracle-response ledger boundary non-escape]
+\label{thm:oracle-response-ledger-boundary-nonescape}
+Every public response read exported by an accepted
+$\OracleResponseLedgerUp$ packet factors through the finite route
+$$
+S,Q,R,B,F,E,H,C,P,N .
+$$
+The route can certify a finite query/response ledger at an oracle boundary,
+but it exports no closed-substrate observation for the response, no hidden
+oracle-correctness theorem, no quotient equality of response streams, no host
+semantic equality, and no closed universal substrate witness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The only response-facing coordinates are
+the substrate row $S$, query row $Q$, response row $R$, boundary row $B$,
+refusal row $F$, route-exactness row $E$, transports $H$, continuations $C$,
+provenance $P$, and local name $N$.
+
+The boundary row must be displayed before a response can be read as an oracle
+response. By \autoref{ch:concrete-instances-oracle-substrate-boundary-namecert},
+the oracle-facing edge is separated from closed substrate observations, and by
+\autoref{ch:concrete-instances-oracleaugmentedsubstrate-namecert} the call and
+transcript remain explicit oracle rows rather than substrate-internal orbit
+data.
+
+The refusal row then blocks the remaining escape modes. A closed universal
+substrate witness, quotient response equality, hidden oracle-correctness
+theorem, or host semantic equality would require a coordinate not present in
+$L$.
+
+Thus the public response ledger is exactly the displayed finite route. It may
+serve quadrant and boundary consumers as oracle-response evidence, but only as
+finite BEDC data with the boundary and refusal rows still visible.
+\end{proof}
+
+The later Lean \texttt{TasteGate.lean} development for
+$\OracleResponseLedgerUp$ must provide explicit
+$\mathsf{Nontrivial}\ \OracleResponseLedgerUp$ and
+$\mathsf{FieldFaithful}\ \OracleResponseLedgerUp$ instances for the displayed
+carrier. These instances must preserve the query row, response row, boundary
+row, refusal row, route-exactness row, transport rows, continuation routes,
+package provenance, and local naming row.
+
+\closureat{OracleResponseLedgerUp}{seedStr}
+
+\begin{closurestatus}{\OracleResponseLedgerUp}
+  \constructivestory{An $\OracleResponseLedgerUp$ packet is generated from a substrate row, oracle-query row, response row, boundary row, refusal row, route-exactness row, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oracle-response-ledger-carrier}, \autoref{thm:oracle-response-ledger-namecert-obligations}, and \autoref{thm:oracle-response-ledger-boundary-nonescape} specify the finite oracle-response ledger certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, oracle correctness, closed replay of oracle responses, quotient response equality, host semantic equality, or physical realizability of oracle channels.}
+  \upgradepath{Obligation closure requires checked carrier admission, query accountability, response accountability, boundary accountability, refusal exactness, route exactness, nontriviality, and field faithfulness for the same response ledger.}
+\end{closurestatus}
