@@ -165,3 +165,45 @@ No cited surface carries a quotient stream, host equality, hidden limit
 selection, or ambient completeness datum, so the precision request cannot
 introduce one.
 \end{proof}
+
+\begin{theorem}[StreamName observation-budget CauchyLimitSeal compatibility]
+\label{thm:streamname-observation-budget-cauchy-limit-seal-compatibility}
+Let an accepted $\StreamNameUp$ finite-window packet be read both by a
+$\RealObservationBudgetUp$ precision request and by a $\CauchyLimitSealUp$
+consumer. The two reads factor through the same visible four-row surface:
+the StreamName finite window, the $\DyadicRatCoreUp$ observation ledger, the
+$\RegSeqRatUp$ readback, and the $\RealUp$ seal row.
+
+The common route may project only the displayed $\BHist$ observations,
+componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$
+provenance, and local $\NameCert$ coordinates on that finite pullback. It
+exports no quotient stream, host equality, selected limit, ambient
+completeness, metric-completion row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read the precision-budget route. By
+\autoref{thm:streamname-real-observation-budget-factorization}, every
+$\RealObservationBudgetUp$ request consumes the accepted StreamName packet
+through the displayed StreamName window, $\DyadicRatCoreUp$ ledger,
+$\RegSeqRatUp$ readback, $\RealUp$ seal, and the visible $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next read the CauchyLimitSeal route. The forward lattice theorem
+\autoref{thm:streamname-cauchy-limit-seal-forward-lattice} places the seal
+consumer on the StreamName window, RegSeqRat readback, dyadic ledger, Real
+seal row, and displayed finite-window seal surface. The reverse source
+exhaustion theorem
+\autoref{thm:streamname-cauchy-limit-seal-reverse-source-exhaustion} says that
+no other public source row is available to that consumer.
+
+Finally identify the two routes. Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} to read the
+StreamName finite window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback,
+and $\RealUp$ seal as one finite pullback surface. Then use
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}:
+both consumers can project only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ coordinates of that pullback. Since neither cited
+route contains a quotient stream, host equality, selected limit, ambient
+completeness, metric-completion row, or standard bridge row, the two
+consumers cannot diverge into hidden completion routes.
+\end{proof}

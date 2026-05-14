@@ -207,6 +207,26 @@ Now read the convergence-seal packet. \autoref{thm:bounded-monotone-convergence-
 Finally apply \autoref{thm:bounded-monotone-convergence-seal-obligation-package}. It packages the second-stage rows as the displayed convergence-seal obligation surface. Since both stages have exhausted their public ledgers, the combined route has no remaining coordinate for any excluded completion, equality, order, compactness, or choice-selected tail.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal selector synchronization]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-selector-synchronization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any $\BoundedMonotoneConvergenceSealUp$ consumer using $W$ synchronizes its selected tail window through the witness rows $\mu,\sigma,\lambda$ and the seal-facing rows before it reads the convergence-seal selector.
+
+Concretely, a tolerance request is first answered by $\mu$ on the scheduled window $\sigma$ and recorded in the dyadic ledger $\lambda$. The resulting window is then routed through $I,Q,H,C,P,N$ and only then through the convergence-seal rows
+$$
+W,M,K,F',\sigma',D,L,R,H',C',P',N'.
+$$
+Thus the selected limit, quotient equality, host real equality, ambient completeness, and detached tail-oracle readings are unavailable unless they are already exposed by the displayed witness and seal packets.
+\end{theorem}
+\begin{proof}
+Begin with the local carrier. \autoref{def:bounded-monotone-cauchy-witness-carrier} exposes exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the consumer has no selector coordinate outside those rows.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}. It sends each tolerance request to $\mu$, ties the answer to the scheduled windows $\sigma$, and records the requested dyadic tolerance in $\lambda$.
+
+Now route the synchronized tail into the seal-facing side. By \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}, the read of $Q$ passes through the regular-sequence row, the window schedule, the tail modulus, the dyadic ledger, the located trap, transport, continuation, provenance, and local naming rows.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}. The convergence-seal consumer reads the witness packet before it reads $M,K,F',\sigma',D,L,R,H',C',P',N'$. Consequently the selected window is synchronized across $\mu,\sigma,\lambda$ and the seal rows before the convergence-seal selector is available, and the excluded completion and equality coordinates remain outside the combined route.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness scoped dependency package]
 \label{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}
 The scoped dependency package of \autoref{def:bounded-monotone-cauchy-witness-carrier} consists exactly of the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
