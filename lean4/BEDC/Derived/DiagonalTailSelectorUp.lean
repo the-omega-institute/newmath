@@ -274,4 +274,28 @@ theorem DiagonalTailSelectorCarrier_root_cofinal_admission [AskSetup] [PackageSe
       cUnary, pUnary, nameUnary, admissionUnary, nMuK, kWD, pNameAdmission,
       carrierPkg⟩
 
+theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name budgetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont d t budgetRead →
+      Cont budgetRead s sealRead →
+      PkgSig bundle sealRead pkg →
+        UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧ UnaryHistory w ∧
+          UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧ UnaryHistory budgetRead ∧
+            UnaryHistory sealRead ∧ Cont n mu k ∧ Cont k w d ∧
+              Cont d t budgetRead ∧ Cont budgetRead s sealRead ∧ PkgSig bundle p pkg ∧
+                PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier budgetRoute sealRoute sealPkg
+  obtain ⟨_rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary,
+    _hUnary, _cUnary, _pUnary, _nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed dUnary tUnary budgetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed budgetUnary sUnary sealRoute
+  exact
+    ⟨nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, budgetUnary,
+      sealUnary, nMuK, kWD, budgetRoute, sealRoute, pPkg, sealPkg⟩
+
 end BEDC.Derived.DiagonalTailSelectorUp
