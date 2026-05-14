@@ -81,6 +81,22 @@ The consumer-facing surface is therefore fixed before the handoff row is read. A
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteCauchyApproximationUp.FiniteCauchyApproximationCarrier\_refinement\_stability}
 
+\begin{theorem}[Finite Cauchy approximation precision weakening route]
+\label{thm:finite-cauchy-approximation-precision-weakening-route}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose $n'$ is a second unary precision row whose request is weaker than $n$ through a displayed $\CauchyModulusUp$ comparison, and suppose the $\StreamNameUp$ window for $n'$ is obtained by restricting or reusing the displayed window $W$ while retaining the same $\DyadicRatCoreUp$ ledger rows. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer at $n'$ factors through $R,n,k,W,D,E,H,C,P,N$ before reaching $S$.
+
+The weakening route exports only the displayed finite-window surface. It does not identify quotient streams, select a real value, supply an infinite-tail witness, introduce a host metric, or invoke $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the rows $R,n,k,W,D,E,S,H,C,P,N$. Apply \autoref{thm:finite-cauchy-approximation-threshold-route-coverage} at the original precision row $n$ to obtain the displayed threshold route through the source, precision, threshold, finite window, dyadic ledger, and error row.
+
+The comparison in $\CauchyModulusUp$ says that the request at $n'$ asks for no finer information than the request already served at $n$. The $\StreamNameUp$ hypothesis either reuses $W$ or restricts it, so \autoref{thm:finite-cauchy-approximation-window-soundness} keeps every dyadic observation for the weakened request inside the same finite ledger $D$ and the same error row $E$.
+
+Transport the shared rows through $H$ and the displayed continuation routes $C$. By \autoref{thm:finite-cauchy-approximation-refinement-stability}, replacing the consumer-side precision request by the weaker row while keeping the source, threshold, window, dyadic ledger, and error rows fixed preserves the exported finite surface.
+
+It remains only to cross the real-facing boundary. Apply \autoref{thm:finite-cauchy-approximation-real-handoff}: every $\RealUp$ or $\CauchyLimitSealUp$ consumer reaches $S$ after the finite rows and bookkeeping rows have been exposed, and the packet has no coordinate for quotient stream equality, a selected real value, an infinite tail, a host metric, or a completeness principle.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy approximation Real handoff]
 \label{thm:finite-cauchy-approximation-real-handoff}
 Every $\RealUp$ consumer of an accepted $\FiniteCauchyApproximationUp$ carrier factors through the displayed handoff row $S$. The handoff may read only the source $\RegSeqRatUp$ row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row supplied by the packet.
@@ -263,7 +279,7 @@ Therefore the downstream CauchySequenceSpace classifier is the consumer of the f
 \begin{closurestatus}{\FiniteCauchyApproximationUp}
   \constructivestory{A $\FiniteCauchyApproximationUp$ packet is generated from a $\RegSeqRatUp$ source row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, $\RealUp$ and $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, and \autoref{thm:finite-cauchy-approximation-budget-route-exactness} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
+  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-precision-weakening-route}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, and \autoref{thm:finite-cauchy-approximation-budget-route-exactness} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
