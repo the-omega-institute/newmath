@@ -699,6 +699,39 @@ completeness, hidden tails, and alternate Real seals. Hence every off-route
 completion request is refused at the forbidden-coordinate boundary.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger Real seal consumer totality]
+\label{thm:cauchy-witness-ledger-real-seal-consumer-totality}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted
+$\CauchyWitnessLedgerUp$ packet. Every $\RealUp$ completion-facing consumer of
+$L$ either factors through the displayed route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with its transport, replay, provenance, and local-name rows $H,C,P,N$, or lands
+in the forbidden-coordinate refusal boundary of
+\autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Thus the ledger
+has no completion-facing consumer outside the displayed diagonal-budget,
+observation-budget, seal-synchronizer, and completion-seal route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:cauchy-witness-ledger-carrier}. Its only completion-facing rows are
+$Q,B,S,K$ together with the structural rows $H,C,P,N$, so a consumer must first
+read one of those displayed coordinates.
+
+Route coverage \autoref{thm:cauchy-witness-ledger-route-coverage} makes that
+displayed route total for accepted ledger reads. The budget-seal lock
+\autoref{thm:cauchy-witness-ledger-budget-seal-lock} then forces a seal-facing
+read to pass through the budget side before reaching $S$ and $K$.
+
+It remains to classify off-route requests. Apply
+\autoref{thm:cauchy-witness-ledger-real-consumer-nonescape} and then the
+refusal boundary
+\autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Every remaining
+completion demand is refused as a forbidden coordinate rather than exported as
+an alternate $\RealUp$ completion route.
+\end{proof}
+
 \falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
 
 \independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}

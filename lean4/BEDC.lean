@@ -555,6 +555,7 @@ import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.InscriptionTraceClassifierUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.TasteGate
+import BEDC.Derived.InscriptionHashTraceUp.TasteGate
 import BEDC.Derived.InscriptionRouteAuditUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
