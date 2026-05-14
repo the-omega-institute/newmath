@@ -205,6 +205,31 @@ Now use the coverage and replay rows. By \autoref{thm:diagonal-limit-stability-w
 Finally apply \autoref{thm:diagonal-limit-stability-namecert-scope-closure}. The closed local scope contains exactly the displayed route through $\RegSeqRatUp$, $\DiagonalTailSelectorUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Therefore the tail-refined packet preserves the sealed RealUp route for every RealCompletenessUp consumer and supplies no additional primitive or analytic coordinate.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-refinement confluence]
+\label{thm:diagonal-limit-stability-cofinal-refinement-confluence}
+Let
+$$
+T_0=(R,D,L,S,W,H,C,P,N),
+$$
+$$
+T_1=(R,D_1,L_1,S,W_1,H_1,C_1,P_1,N_1),
+$$
+and
+$$
+T_2=(R,D_2,L_2,S,W_2,H_2,C_2,P_2,N_2)
+$$
+be accepted $\DiagonalLimitStabilityUp$ packets with the same $\RegSeqRatUp$ source row $R$ and the same $\RealUp$ seal row $S$. Suppose $W_1$ and $W_2$ are displayed $\StreamNameUp$ tail refinements of $W$, and suppose there is a common cofinal displayed $\StreamNameUp$ tail refinement $W_{12}$ of both $W_1$ and $W_2$ such that the $\DiagonalTailSelectorUp$ rows $D_1$ and $D_2$ transport to the same displayed selector read over $W_{12}$ while the $\CauchyLimitSealUp$ row remains the seal row $S$. Then every $\RealCompletenessUp$ consumer reading through $T_1$ and every $\RealCompletenessUp$ consumer reading through $T_2$ factors through the same sealed $\RealUp$ route replayed over the common window $W_{12}$. The confluence uses only the displayed $\BHist$ packet, componentwise $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\DiagonalLimitStabilityUp}$ rows, and it supplies no quotient stream equality, host real equality, selected representative, trichotomy row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First compare each accepted refinement with the base packet. Apply \autoref{thm:diagonal-limit-stability-tail-refinement-invariance} to the refinement from $T_0$ to $T_1$, and apply the same theorem to the refinement from $T_0$ to $T_2$. Both readings preserve the sealed $\RealUp$ route because the source row $R$ and the seal row $S$ are shared.
+
+Next force both consumer reads into the common comparison boundary. By \autoref{thm:diagonal-limit-stability-representative-seal-comparison}, the representative side and the seal side of each accepted packet are compared only through the displayed finite window. By \autoref{thm:diagonal-limit-stability-window-coverage}, every $\RealCompletenessUp$ consumer reaches the window and structural rows after choosing the representative side or the seal side. Since $W_{12}$ is cofinal over both $W_1$ and $W_2$, the two refined reads pass through the same displayed window boundary after transporting $D_1$ and $D_2$.
+
+Now replay the transported packets over that boundary. Use \autoref{thm:diagonal-limit-stability-transport-replay} to identify the componentwise $\hsame$ rows and displayed $\Cont$ routes as replays of the same carrier coordinates. The rows $H_1,C_1,P_1,N_1$ and $H_2,C_2,P_2,N_2$ therefore contribute only the displayed transport, continuation, provenance, and local naming data over $W_{12}$, while the seal side remains $S$.
+
+Finally apply \autoref{thm:diagonal-limit-stability-namecert-scope-closure}. The closed local scope is exactly the route through $\RegSeqRatUp$, $\DiagonalTailSelectorUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Thus both accepted refinements factor through the same sealed $\RealUp$ route over $W_{12}$, with no additional analytic, quotient, representative-choice, trichotomy, or completeness coordinate.
+\end{proof}
+
 \closureat{DiagonalLimitStabilityUp}{seedStr}
 \closureat{DiagonalLimitStabilityUp}{obligationStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 \closureat{DiagonalLimitStabilityUp}{scopedStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
