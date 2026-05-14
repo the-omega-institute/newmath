@@ -124,3 +124,51 @@ Now apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The com
 
 The assembled route therefore reaches the Real classifier only through the common-refinement packet, the RegSeqRat readback, and the DyadicRatCore observation row. None of the cited packets contains a coordinate for quotient-real equality, host sequence equality, selected host limits, ambient Real completeness, independent Real carrier rows, or metric-completeness data, so no terminal consumer can read one from this handoff.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp finite-window factorization]
+\label{thm:streamname-regseqrat-realup-finite-window-factorization}
+Every accepted $\RealUp$ L10 finite-window seal read whose source is a
+$\StreamNameUp$ window and whose regularity witness is a $\RegSeqRatUp$ row
+factors through exactly the four displayed faces
+$$
+\text{StreamName finite-window ledger}
+\to
+\text{RegSeqRat pointwise handoff}
+\to
+\text{DyadicRatCore observation and tolerance row}
+\to
+\mathsf{RealUnaryStreamClassifier}\text{ with its local }\NameCert_{\RealUp}\text{ row}.
+$$
+The factorization is finite and uses only the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates on those faces. It exports no
+quotient stream, host sequence equality, selected limit, ambient completeness,
+metric-completion datum, off-ledger dyadic sample, or direct $\RealUp$ seal
+edge outside the four-face route.
+\end{theorem}
+\begin{proof}
+Start with the pointwise seal composition of
+\autoref{thm:real-streamname-regseqrat-pointwise-seal-composition}. It puts
+the accepted seal-facing read on the StreamName finite-window ledger, then on
+the RegSeqRat pointwise handoff, and only then on the local Real
+classifier-facing row.
+
+Next apply the dyadic-window exhaustion theorem,
+\autoref{thm:realup-streamname-regseqrat-dyadic-window-exhaustion}. This
+identifies the remaining classifier input with the DyadicRatCore observation
+and tolerance row and rules out any off-ledger dyadic sample before the Real
+classifier is read.
+
+Use the terminal seal exhaustion theorem,
+\autoref{thm:real-streamname-regseqrat-terminal-seal-exhaustion}, to attach
+the local $\NameCert_{\RealUp}$ row after the source, regularity, dyadic, and
+classifier coordinates have been consumed. The terminal packet therefore has
+no unused coordinate from which to read quotient stream data, host sequence
+equality, selected limits, ambient completeness, or metric-completion data.
+
+Finally compare this packet with the ordered L10 dependency lattice of
+\autoref{def:real-l10-dependency-lattice}. The open-phase sibling route,
+\autoref{thm:real-l10-open-phase-sibling-route}, reads the same
+StreamName, RegSeqRat, DyadicRatCore, and local Real faces and no other
+source surface. Repacking the three seal-exhaustion results along that route
+gives the claimed finite-window factorization.
+\end{proof}
