@@ -232,16 +232,57 @@ Apply the audit-route theorem, shift-budget exhaustion, and substitution free-va
 Finally invoke the consumer boundary of \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. The self-compilation consumer therefore factors through the full finite boundary surface rather than through a detached compiler theorem, host syntax quotient, evaluator, or subject-reduction package.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary obligation route triad]
+\label{thm:closed-term-substitution-boundary-obligation-route-triad}
+The carrier, classifier, and $\NameCert$ obligations of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet route closed shift, closed substitution, and audit non-escape through the same finite packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The shift row $Q$, substitution row $R$, and audit row $A$ may be consumed only after the displayed closedness witnesses and ledger rows have been read through this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. They expose the term rows, depth row, closedness witnesses, operation rows, ledger row, audit row, componentwise transports, continuation routes, package provenance, and local naming row as one accepted packet.
+
+Use the NameCert obligations to route the operations. Closed shift reads the source closedness witness, closed substitution reads the source and value closedness witnesses, and both operation rows remain tied to the same ledger row $L$.
+
+Finally apply ledger non-escape and the audit consumer boundary. The audit row $A$ reads the same displayed history, transport, route, provenance, and naming rows, so the three obligations cannot split into independent compiler, substitution, or audit surfaces.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary kernel scope package]
+\label{thm:closed-term-substitution-boundary-kernel-scope-package}
+The only scoped primitives consumed by the $\ClosedTermSubstitutionBoundaryUp$ packet are $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In particular, the scoped package contains no host syntax quotient, evaluator, subject-reduction theorem, compiler state, semantic environment, or external substitution relation.
+\end{theorem}
+\begin{proof}
+Read the finite carrier rows of \autoref{def:closed-term-substitution-boundary-carrier}. The term, value, depth, closedness, shift, substitution, ledger, audit, transport, continuation, package, and naming rows exhaust the local inventory.
+
+Then apply the obligation route triad of \autoref{thm:closed-term-substitution-boundary-obligation-route-triad}. It forces closed shift, closed substitution, and audit non-escape to use the same displayed packet rather than an additional kernel primitive.
+
+The exclusions follow from the consumer boundary and operation row determinacy. A host quotient, evaluator, subject-reduction theorem, compiler state, semantic environment, or external substitution relation would require a further scoped primitive not listed in the carrier.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary closedness consumer export]
+\label{thm:closed-term-substitution-boundary-closedness-consumer-export}
+Every downstream self-compilation consumer may cite closed shift and closed substitution from an accepted $\ClosedTermSubstitutionBoundaryUp$ packet only through the displayed witnesses $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, the operation rows $Q$ and $R$, and the closedness ledger $L$. The exported route is therefore the displayed closedness boundary, not a host substitution semantics or ambient compiler-correctness theorem.
+\end{theorem}
+\begin{proof}
+Start with consumer factorization from \autoref{thm:closed-term-substitution-boundary-consumer-factorization}. Every self-compilation read already factors through the rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Use closedness ledger coverage and operation row determinacy. They make $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, and $L$ the only visible closedness and operation rows available to such a consumer.
+
+Finally invoke the kernel scope package of \autoref{thm:closed-term-substitution-boundary-kernel-scope-package}. Since no host substitution semantics or ambient compiler-correctness theorem is present in the scoped primitive list, downstream citation of closed shift and closed substitution must pass through the displayed witnesses and ledger.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
+\closureat{ClosedTermSubstitutionBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\ClosedTermSubstitutionBoundaryUp}
   \constructivestory{A $\ClosedTermSubstitutionBoundaryUp$ packet is generated from displayed $\mathsf{Term}$ rows, $\mathsf{ClosedAt}$ witnesses, a depth row, closed $\mathsf{shift}$ and $\mathsf{substitute}$ boundary rows, a finite closedness ledger, an audit-visible non-escape row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-consumer-boundary} bind closed-term substitution as a finite NameCert packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-consumer-boundary}, \autoref{thm:closed-term-substitution-boundary-obligation-route-triad}, \autoref{thm:closed-term-substitution-boundary-kernel-scope-package}, and \autoref{thm:closed-term-substitution-boundary-closedness-consumer-export} bind closed-term substitution as a scoped finite packet over $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full compiler correctness, subject reduction, host syntax quotienting, hidden semantic models, or bridge checking.}
-  \upgradepath{Scoped closure requires one scope proof over the carrier, classifier, NameCert obligations, ledger non-escape, and consumer-boundary rows for the same closed-term substitution packet.}
+  \upgradepath{A Lean theorem for the scoped kernel package is the next verification-axis obligation for the same closed-term substitution packet.}
 \end{closurestatus}
