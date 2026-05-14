@@ -71,6 +71,48 @@ Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. Trace r
 Apply \autoref{thm:continuation-trace-normal-form-non-escape}. Host conversion, quotient normalization, evaluator graphs, and normalization oracles have no coordinate in $Z$, so none can serve as an alternate terminal-read route.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm trace ledger exhaustion]
+\label{thm:continuation-trace-normal-form-trace-ledger-exhaustion}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the finite row $T$ exhausts all trace reads exported by the packet. A consumer may replay only the displayed $\ContinuationTraceUp$ ledger through $C$ and may transport it only through $H$; it cannot read an additional trace from a host evaluator, quotient normalization, global confluence, or an external normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:continuation-trace-normal-form-carrier}. The only trace coordinate is $T$, and the only replay coordinate is the displayed continuation route row $C$.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. Trace replay is certified through the $\ContinuationTraceUp$ ledger, componentwise transport is certified through $H$, and the package and local name are certified through $P,N$ for the same finite tuple.
+
+Use \autoref{thm:continuation-trace-normal-form-non-escape}. Since host conversion, quotient behaviour, evaluator graphs, global confluence, and normalization oracles have no coordinate in $Z$, none can provide a second trace read outside $T$.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-terminal-scope}. Terminal exposure consumes the displayed trace before reaching $R,Q,V$, so every exported trace read is exhausted by $T$.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm terminal readback lock]
+\label{thm:continuation-trace-normal-form-terminal-readback-lock}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the terminal row $R$ is locked behind the finite trace row $T$, terminal-read row $Q$, transport row $H$, displayed continuation row $C$, provenance row $P$, and local naming row $N$. No public read may expose $R$ without first consuming those displayed rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:continuation-trace-normal-form-carrier}. The row $R$ is not an isolated terminal object; it is part of the finite packet $S,T,R,Q,V,H,C,P,N$.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The terminal-read exposure through $Q$ is certified only after trace replay through $T$ and $C$, componentwise transport through $H$, and package/name recording through $P,N$.
+
+Use \autoref{thm:continuation-trace-normal-form-terminal-scope}. It places the terminal row behind the $\ContinuationTraceUp$ ledger, the $\ContinuationBigStepUp$ terminal-read witness, and the $\TypedReductionNormalFormUp$ row.
+
+Finally use \autoref{thm:continuation-trace-normal-form-non-escape}. A host conversion relation, quotient normalizer, evaluator graph, global confluence theorem, or external normalizer cannot unlock a terminal readback because none is a row of the accepted packet.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm typed boundary nonescape]
+\label{thm:continuation-trace-normal-form-typed-boundary-nonescape}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the typed normal-form row $V$ cannot be replaced by host conversion, quotient normalization, evaluator graphs, or global confluence. The typed boundary is read only through the displayed trace, terminal, transport, route, package, and local naming rows of $Z$.
+\end{theorem}
+\begin{proof}
+Read $V$ from \autoref{def:continuation-trace-normal-form-carrier}. It is the finite $\TypedReductionNormalFormUp$ row of the same packet as $S,T,R,Q,H,C,P,N$.
+
+Apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. Typed normal-form readback is certified through $V$ after trace replay, terminal-read exposure, componentwise transport, displayed continuation replay, provenance, and local naming have been fixed.
+
+Use \autoref{thm:continuation-trace-normal-form-terminal-scope}. The typed normal-form row is reached through the terminal route rather than through a host conversion check or evaluator graph.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-non-escape}. The packet has no coordinate for quotient normalization, global confluence, evaluator graphs, or external normalizers, so none can replace $V$ as the typed boundary.
+\end{proof}
+
 This terminal-scope row is the paper obligation needed before Lean can formalize the continuation trace normal-form handoff.
 
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
