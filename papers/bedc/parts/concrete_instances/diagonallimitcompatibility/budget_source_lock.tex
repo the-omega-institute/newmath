@@ -62,3 +62,17 @@ Use \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate} for the 
 
 The remaining non-escape clauses are exactly the absence claims carried by those gates. The terminal route exposes no quotient stream, host limit, host equality, choice datum, or ambient completeness coordinate, so every listed consumer is exhausted by the synchronized budget route.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility budget-seal handoff determinacy]
+\label{thm:diagonal-limit-compatibility-budget-seal-handoff-determinacy}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet and every $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ consumer that reaches either a $\CauchyLimitSealUp$ read or a $\CauchySealBudgetSynchronizerUp$ handoff, the consumer route is determined by the displayed prefix consisting of the $\CauchyDiagonalBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyTriangleBoundUp$, and $\StreamNameUp$ rows, followed by the seal-budget route. There is no second route through quotient streams, selected limits, host equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-budget-source-lock}. It fixes the visible prefix for every seal-facing route as the diagonal budget, mesh budget, triangle bound, and stream-window rows of the accepted packet.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. The $\CauchyLimitSealUp$ read and the $\CauchySealBudgetSynchronizerUp$ handoff occur only after that same prefix, so the handoff is a route through the displayed budget rows rather than through a separate selected limit or quotient stream.
+
+The consumer cases are covered by \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate} and \autoref{thm:diagonal-limit-compatibility-budget-source-readback-totality}. These two gates cover the $\RealUp$ and $\CompletionUp$ exits together with the $\RegSeqRatUp$ readback side, so every listed consumer reaches the handoff through the same budget-to-seal surface.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-synchronized-budget-terminality}. Since the synchronized terminal route exposes no quotient stream, selected host limit, host equality coordinate, choice datum, or ambient completeness input, the displayed prefix followed by the seal-budget route is the unique available consumer route.
+\end{proof}

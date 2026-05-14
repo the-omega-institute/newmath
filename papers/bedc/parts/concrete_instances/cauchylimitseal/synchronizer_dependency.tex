@@ -145,3 +145,15 @@ Finally apply the witness-ledger budget factorization theorem, \autoref{thm:cauc
 
 The excluded coordinates are absent from both sides of the composition. The synchronizer side has no quotient stream equality, selected host limit, host real equality, countable-choice row, or ambient completeness coordinate, and the witness-ledger route adds only the displayed $Q,B,S,K,H,C,P,N$ rows. Thus the composed handoff has no external route through which any excluded coordinate can become public.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal synchronizer witness-ledger finality]
+\label{thm:cauchy-limit-seal-synchronizer-witness-ledger-finality}
+Every synchronizer-facing $\CauchyLimitSealUp$ read that has passed through $\StreamNameUp$, $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, and $\CauchyWitnessLedgerUp$ is final at the displayed finite witness-ledger route. Any public completion-facing output factors through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and $Q,B,S,K,H,C,P,N$ coordinates, and cannot read quotient stream equality, selected host limit, host real equality, countable choice, ambient completeness, or a second seal edge.
+\end{theorem}
+\begin{proof}
+First compose synchronizer route factorization with observer-real seal factorization, using \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization} and \autoref{thm:cauchy-limit-seal-synchronizer-observer-real-seal-factorization}. The synchronizer-facing read is already on the finite stream-name, regular-Cauchy-name, rational-sequence, observation-budget, synchronizer, and local seal rows before any completion-facing output is public.
+
+Next apply the witness-ledger synchronizer handoff of \autoref{thm:cauchy-limit-seal-witness-ledger-synchronizer-handoff}. It sends the synchronized seal read into the displayed witness-ledger path and prevents the completion consumer from bypassing the ledger.
+
+Finally use the budget factorization of \autoref{thm:cauchy-witness-ledger-budget-factorization}. The public output can read only $Q,B,S,K,H,C,P,N$ together with the underlying $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure already traversed by the seal route. Since quotient stream equality, selected host limits, host real equality, countable choice, ambient completeness, and a second seal edge are absent from those coordinates, the witness-ledger route is final for the synchronized read.
+\end{proof}

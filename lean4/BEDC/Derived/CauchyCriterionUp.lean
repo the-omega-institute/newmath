@@ -524,4 +524,31 @@ theorem CauchyCriterionCarrier_shared_tail_budget_seal_comparison [AskSetup] [Pa
   exact
     ⟨sameSealRead, comparisonUnary, sealReadRow, sealReadRow', comparisonRow, comparisonPkg⟩
 
+theorem CauchyCriterionCarrier_tail_budget_real_observation_lock [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      observationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg →
+      Cont ledger realSeal observationRead →
+        PkgSig bundle observationRead pkg →
+          UnaryHistory window ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory ledger ∧ UnaryHistory realSeal ∧ UnaryHistory observationRead ∧
+              Cont window modulus tolerance ∧ Cont tolerance ledger regseq ∧
+                Cont ledger realSeal observationRead ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle observationRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier ledgerRealSealObservation observationPkg
+  obtain ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, windowModulusTolerance, toleranceLedgerRegseq,
+    _regseqRealSealTransport, _transportLocalCertRoute, _routeProvenanceEndpoint,
+    endpointPkg⟩ := carrier
+  have observationUnary : UnaryHistory observationRead :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealObservation
+  exact
+    ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, realSealUnary,
+      observationUnary, windowModulusTolerance, toleranceLedgerRegseq,
+      ledgerRealSealObservation, endpointPkg, observationPkg⟩
+
 end BEDC.Derived.CauchyCriterionUp

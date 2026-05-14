@@ -610,6 +610,7 @@ stream coordinate, hidden tail oracle, quotient stream, selected limit,
 countable-choice row, or ambient completeness theorem can supply a second
 window source for the ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_streamname\_window\_source\_lock}
 \begin{proof}
 Start from the carrier definition \autoref{def:cauchy-witness-ledger-carrier}.
 It lists exactly the rows $Q,B,S,K,H,C,P,N$ and gives no coordinate for a
@@ -699,9 +700,44 @@ completeness, hidden tails, and alternate Real seals. Hence every off-route
 completion request is refused at the forbidden-coordinate boundary.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger Real seal consumer totality]
+\label{thm:cauchy-witness-ledger-real-seal-consumer-totality}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted
+$\CauchyWitnessLedgerUp$ packet. Every $\RealUp$ completion-facing consumer of
+$L$ either factors through the displayed route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with its transport, replay, provenance, and local-name rows $H,C,P,N$, or lands
+in the forbidden-coordinate refusal boundary of
+\autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Thus the ledger
+has no completion-facing consumer outside the displayed diagonal-budget,
+observation-budget, seal-synchronizer, and completion-seal route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:cauchy-witness-ledger-carrier}. Its only completion-facing rows are
+$Q,B,S,K$ together with the structural rows $H,C,P,N$, so a consumer must first
+read one of those displayed coordinates.
+
+Route coverage \autoref{thm:cauchy-witness-ledger-route-coverage} makes that
+displayed route total for accepted ledger reads. The budget-seal lock
+\autoref{thm:cauchy-witness-ledger-budget-seal-lock} then forces a seal-facing
+read to pass through the budget side before reaching $S$ and $K$.
+
+It remains to classify off-route requests. Apply
+\autoref{thm:cauchy-witness-ledger-real-consumer-nonescape} and then the
+refusal boundary
+\autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Every remaining
+completion demand is refused as a forbidden coordinate rather than exported as
+an alternate $\RealUp$ completion route.
+\end{proof}
+
 \falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
 
 \independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}
+
+\input{parts/concrete_instances/cauchywitnessledger/source_sibling_readback}
 
 \closureat{CauchyWitnessLedgerUp}{seedStr}
 \closureat{CauchyWitnessLedgerUp}{obligationStr}
@@ -709,3 +745,15 @@ completion request is refused at the forbidden-coordinate boundary.
 \closureat{CauchyWitnessLedgerUp}{publicStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 \closureat{CauchyWitnessLedgerUp}{bridgedStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 \closureat{CauchyWitnessLedgerUp}{matureStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
+
+\begin{closurestatus}{\CauchyWitnessLedgerUp}
+  \constructivestory{A $\CauchyWitnessLedgerUp$ packet is built by placing the diagonal budget row $Q$, observation-budget row $B$, seal-synchronizer row $S$, completion-seal classifier row $K$, componentwise transport row $H$, route-replay row $C$, package-provenance row $P$, and local NameCert row $N$ in one finite witness ledger.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The carrier \autoref{def:cauchy-witness-ledger-carrier}, NameCert obligations \autoref{thm:cauchy-witness-ledger-namecert-obligations}, route coverage \autoref{thm:cauchy-witness-ledger-route-coverage}, budget-seal lock \autoref{thm:cauchy-witness-ledger-budget-seal-lock}, Real consumer nonescape \autoref{thm:cauchy-witness-ledger-real-consumer-nonescape}, and Real seal consumer totality \autoref{thm:cauchy-witness-ledger-real-seal-consumer-totality} bind the mature paper-side treatment.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected limits, countable choice, ambient completeness, or bridge checking.}
+  \upgradepath{No further paper-side theory closure remains; formal verification and bridge checking remain separate formal-axis obligations.}
+\end{closurestatus}
