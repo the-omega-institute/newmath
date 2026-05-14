@@ -307,4 +307,23 @@ theorem RealCauchyWitnessGridTasteGate_single_carrier_alignment :
         exact realCauchyWitnessGridToEventFlow_injective heq
       · rfl
 
+theorem RealCauchyWitnessGridUp_obligation_surface :
+    Nonempty (BHistCarrier RealCauchyWitnessGridUp) ∧
+      Nonempty (ChapterTasteGate RealCauchyWitnessGridUp) ∧
+      ∃ x : RealCauchyWitnessGridUp,
+        x =
+            RealCauchyWitnessGridUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x : RealCauchyWitnessGridUp :=
+    RealCauchyWitnessGridUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  constructor
+  · exact ⟨realCauchyWitnessGridBHistCarrier⟩
+  · constructor
+    · exact ⟨realCauchyWitnessGridChapterTasteGate⟩
+    · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
 end BEDC.Derived.RealCauchyWitnessGridUp
