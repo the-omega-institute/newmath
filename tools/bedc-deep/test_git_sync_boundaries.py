@@ -7,6 +7,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 SUPERVISOR = SCRIPT_DIR / "supervisor.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
+PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 
 def _text(path: Path) -> str:
@@ -97,6 +98,18 @@ def test_auto_discovery_dev_sync_is_opt_in_and_path_guarded() -> None:
     assert "[discovery] sync_dev refused: upstream touches protected paths" in text
 
 
+def test_bridge_prompts_keep_external_sources_as_metadata_only() -> None:
+    codex = _text(PROMPTS_DIR / "codex_track_attempt.txt")
+    oracle = _text(PROMPTS_DIR / "oracle_initial.txt")
+    assert "non-authoritative" in codex
+    assert "Do NOT read Automath source" in codex
+    assert "The admissible evidence" in codex
+    assert "not as paper evidence" not in codex
+    assert "不是 BEDC 论文证据" in oracle
+    assert "不得读取或依赖 Automath source path" in oracle
+    assert "本轮可用证据只限 BEDC" in oracle
+
+
 if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_disables_dev_sync_resolver()
@@ -106,4 +119,5 @@ if __name__ == "__main__":
     test_supervisor_refill_can_recover_from_stale_circuit_breaker()
     test_supervisor_keeps_board_state_files_local_only()
     test_auto_discovery_dev_sync_is_opt_in_and_path_guarded()
+    test_bridge_prompts_keep_external_sources_as_metadata_only()
     print("test_git_sync_boundaries: ok")
