@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\GeneratorLocalInductionBoundaryUp$}
+\label{ch:concrete-instances-generator-local-induction-boundary-namecert}
+\origin{ai}
+
+The $\GeneratorLocalInductionBoundaryUp$ packet realizes the induction boundary of \autoref{ch:visions-external-supply-without-axioms} as a finite NameCert object. It records when induction is licensed by a displayed generator and when a claimed domain has become free-floating boundary pressure. The packet sits beside \autoref{ch:concrete-instances-external-supply-boundary-namecert}, \autoref{ch:concrete-instances-supplysocketledger-namecert}, \autoref{ch:concrete-instances-selectorledger-namecert}, \autoref{ch:concrete-instances-apophaticgatequestion-namecert}, and \autoref{ch:concrete-instances-apophaticname-namecert}: those packets expose supply, selector, question, or apophatic naming rows, while this packet binds generator closure, eliminator locality, refusal, and induction-ledger rows in one carrier.
+
+\begin{definition}[GeneratorLocalInductionBoundary carrier]
+\label{def:generator-local-induction-boundary-carrier}
+A $\GeneratorLocalInductionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,E,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the generator-domain row, naming the closure of the displayed generator and no larger semantic totality;
+\item $E$ is the eliminator-locality row, recording that the induction principle consumes exactly the constructor cases of $D$;
+\item $L$ is the induction-ledger row, recording the base, step, replay, and consumer rows used by the local eliminator;
+\item $F$ is the free-floating-refusal row, recording that any universal claim outside $D$ is routed to a boundary request instead of internal proof;
+\item $H$ records componentwise $\hsame$ transport for $D,E,L,F$;
+\item $C$ records displayed $\Cont$ replay routes through the same generator, eliminator, ledger, and refusal rows;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\SelectorLedgerUp$, $\ApophaticGateQuestionUp$, $\ApophaticNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GeneratorLocalInductionBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for induction over an unspecified semantic totality, no hidden generator, no host well-foundedness oracle, and no theorem converting free-floating induction into internal induction.
+\end{definition}
+
+\begin{theorem}[GeneratorLocalInductionBoundary NameCert obligations]
+\label{thm:generator-local-induction-boundary-namecert-obligations}
+For the carrier of \autoref{def:generator-local-induction-boundary-carrier}, the local $\NameCert_{\GeneratorLocalInductionBoundaryUp}$ surface consists exactly of carrier admission for $G=(D,E,L,F,H,C,P,N)$, generator-domain exposure through $D$, eliminator-locality exactness through $E$, induction-ledger readback through $L$, free-floating-refusal readback through $F$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Equivalently, a consumer may run generator-local induction only by reading the displayed generator closure, the displayed eliminator cases, and the displayed ledger. A consumer that asks for induction beyond those rows receives only the refusal row and the boundary provenance.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $G=(D,E,L,F,H,C,P,N)$. The generator-domain row $D$ fixes the domain of induction before any eliminator is read.
+
+Read $E$ and $L$ together. The eliminator-locality row says that the admissible cases are exactly the constructor cases of $D$, while the induction-ledger row records the base, step, replay, and consumer rows actually used by the proof route.
+
+Now inspect $F$. The refusal row separates any claim over an unspecified semantic totality from the generator-local route. Such a claim can be recorded as boundary pressure, but it is not converted into an internal eliminator.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same four substantive rows. They add no hidden generator and no wider induction principle, so the NameCert obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[GeneratorLocalInductionBoundary noninternalization]
+\label{thm:generator-local-induction-boundary-noninternalization}
+Every accepted $\GeneratorLocalInductionBoundaryUp$ packet keeps free-floating induction outside the internal proof surface. A downstream consumer may cite $D,E,L,F,H,C,P,N$ as boundary evidence for a generator-local induction route, but it may not read from the packet a universal eliminator over an unspecified totality, a hidden well-foundedness oracle, a host induction principle, or a theorem that turns the refusal row into generated structure.
+\end{theorem}
+\begin{proof}
+Begin with the generator-domain row $D$. It is a finite displayed row, so the available induction domain is the closure of that row and not an ambient universe of possible cases.
+
+Use $E$ and $L$ to read the permitted proof route. The eliminator row supplies only the constructor cases belonging to $D$, and the ledger records only the local base, step, replay, and consumer rows.
+
+Apply the refusal row $F$ to every induction request outside that route. The request remains visible as boundary pressure, but there is no coordinate in the packet that supplies a universal eliminator, host induction principle, or hidden well-foundedness oracle.
+
+Finally read $H,C,P,N$. These rows preserve the same generator, eliminator, ledger, and refusal data under transport, replay, provenance, and naming. Since no packet coordinate internalizes the refused domain, free-floating induction remains outside the internal proof surface.
+\end{proof}
+
+\falsifiablePrediction{A packet that omits either the displayed generator row or the eliminator row cannot satisfy the non-internalization theorem.}
+
+\independenceWitness{Compare ExternalSupplyBoundary, SupplySocketLedger, SelectorLedger, ApophaticGateQuestion, and ApophaticName: none is bijective to GeneratorLocalInductionBoundary because none simultaneously carries generator closure, eliminator locality, free-floating refusal, and induction-ledger rows.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \GeneratorLocalInductionBoundaryUp$ and $\mathsf{FieldFaithful}\ \GeneratorLocalInductionBoundaryUp$ instances in $\mathsf{lean4/BEDC/Derived/GeneratorLocalInductionBoundaryUp/TasteGate.lean}$ before the chapter can claim a checked taste-gate target.
+
+\closureat{GeneratorLocalInductionBoundaryUp}{seedStr}
+\closureat{GeneratorLocalInductionBoundaryUp}{obligationStr}
