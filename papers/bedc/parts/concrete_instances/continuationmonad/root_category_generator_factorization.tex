@@ -83,3 +83,42 @@ $\Pkg$ provenance and the local $\NameCert$ row leaves no exported coordinate
 for host function composition, quotient Kleisli arrows, ambient hom sets,
 independent category carriers, or unlisted generators.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root public export]
+\label{thm:continuation-monad-root-public-export}
+Every public root export of an accepted $\ContinuationMonadUp$ packet factors
+through the combined finite rows
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+On this single BEDC route, category-generator reads, public unit reads, public
+bind reads, carrier obligations, classifier stability, ledger exactness,
+package provenance, and local $\NameCert$ naming are all read from the same
+packet. The export contains no host function composition, quotient Kleisli
+arrow, ambient hom set, independent category carrier, or unlisted continuation
+generator.
+\end{theorem}
+\begin{proof}
+First assemble the root category-generator side. Apply
+\autoref{thm:continuation-monad-root-category-generator-factorization} to put
+the $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, and
+$\GeneratorClosureUp$ refusal surfaces on $A,B,C,f,g,u,H,K,L,N$.
+
+Next assemble the public unit and bind side. Apply
+\autoref{thm:continuation-monad-root-bind-unit-boundary}; every public unit
+read and public bind read uses $u,f,g,H,K,L,N$ together with the source
+histories $A,B,C$.
+
+Now use \autoref{thm:continuation-monad-root-downstream-surface-exactness}.
+It identifies the downstream root surface with the carrier rows, classifier
+stability, ledger exactness, package provenance, and local NameCert surface
+over the same finite packet.
+
+Finally cite the carrier, classifier, and ledger theorems:
+\autoref{thm:continuation-monad-carrier-obligation},
+\autoref{thm:continuation-monad-classifier-stability}, and
+\autoref{thm:continuation-monad-ledger-exactness}. These rows leave no public
+coordinate for host function composition, quotient Kleisli arrows, ambient hom
+sets, independent category carriers, or unlisted continuation generators, so
+the displayed route is the public root export.
+\end{proof}

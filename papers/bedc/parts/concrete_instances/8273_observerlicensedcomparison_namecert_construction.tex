@@ -1,0 +1,69 @@
+\chapter{ObserverLicensedComparisonUp NameCert construction}
+\label{ch:concrete-instances-observerlicensedcomparison-namecert}
+\origin{ai}
+
+The $\mathsf{ObserverLicensedComparison}^{\uparrow}$ surface realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite licensed comparison carrier. It sits between the single-history packet of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the pairwise observation packet of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, and the classifier packet of \autoref{ch:concrete-instances-observerhsameclassifier-namecert}. Its public role is to carry the licensed observations, their $\hsame$ transports, and the classifier-output row together, without adding observer-substance or host equality.
+
+\falsifiablePrediction{Changing only unlicensed observer-substance rows leaves every public comparison read unchanged.}
+
+\independenceWitness{Nearest siblings: observerhsameclassifier, observerhistidentity, observerhistoryidentity, observersubjectboundary, observerfilter. The carrier is not bijective to any of them: it stores a reusable licensed-comparison packet with source histories, licensed observations, hsame transport, classifier output, and public routes, while the siblings either carry a single identity row, a pairwise observation row, a classifier-only output surface, a subject boundary, or a filter selector.}
+
+\begin{definition}[Observer licensed comparison carrier]
+\label{def:observer-licensed-comparison-carrier}
+An $\mathsf{ObserverLicensedComparison}^{\uparrow}$ carrier is a finite $\BHist$ packet
+$$
+L=(H_0,H_1,A,R,D,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ and $H_1$ are the observer-history rows being compared;
+\item $A$ is the licensed observation ledger, listing exactly the displayed mark, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, and comparison reads allowed to affect the public result;
+\item $R$ records componentwise $\hsame$ transport for the histories, licensed observations, classifier-output row, route row, package row, and local naming row;
+\item $D$ is the finite classifier-output row, read only after the licensed ledger and transport rows are displayed;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $H_0,H_1,A,R,D,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\ObserverHistIdentityUp$, $\ObserverHistoryIdentityUp$, $\ObserverHsameClassifierUp$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\mathsf{ObserverLicensedComparison}^{\uparrow}}$ row.
+\end{enumerate}
+The carrier accepts only comparisons whose public result factors through $A,R,D,C,P,N$. It has no coordinate for unlicensed observation, observer-substance, host equality, quotient history identity, or hidden classifier state.
+\end{definition}
+
+\begin{theorem}[Observer licensed comparison NameCert obligations]
+\label{thm:observer-licensed-comparison-namecert-obligations}
+For the carrier of \autoref{def:observer-licensed-comparison-carrier}, the local $\NameCert_{\mathsf{ObserverLicensedComparison}^{\uparrow}}$ surface consists exactly of carrier admission for $L=(H_0,H_1,A,R,D,C,P,N)$, licensed-observation exactness for $A$, componentwise $\hsame$ transport through $R$, classifier-output confinement through $D$, displayed consumer routes through $C$, package provenance through $P$, local naming through $N$, and non-escape from unlicensed observation, observer-substance, host equality, quotient identity, and hidden classifier state.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed rows are exactly $H_0,H_1,A,R,D,C,P,N$, so carrier admission and local naming are finite $\BHist$ reads rather than host-side equality claims.
+
+Licensed-observation exactness is the row $A$. A consumer may use a mark, continuation, probe bundle, signature relation, or prior comparison read only when that datum appears in the displayed licensed ledger and is then transported through $R$.
+
+Classifier-output confinement is the row $D$ read through $C,P,N$. The same route also records provenance through $\ObserverHistIdentityUp$, $\ObserverHistoryIdentityUp$, and the sibling classifier surface of \autoref{ch:concrete-instances-observerhsameclassifier-namecert}.
+
+The excluded objects have no carrier coordinate. Thus no accepted comparison can expose unlicensed observation, observer-substance, host equality, quotient identity, or hidden classifier state.
+\end{proof}
+
+\begin{theorem}[Observer licensed comparison non-escape]
+\label{thm:observer-licensed-comparison-nonescape}
+Every public consumer of an accepted $\mathsf{ObserverLicensedComparison}^{\uparrow}$ packet reads only the licensed observation ledger $A$, the componentwise $\hsame$ transports $R$, the classifier-output row $D$, the displayed $\Cont$ routes $C$, package provenance $P$, and local name row $N$. Changing any unlicensed observer-substance datum leaves the public comparison read unchanged.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $L=(H_0,H_1,A,R,D,C,P,N)$. The consumer-facing comparison rows are $A,R,D,C,P,N$; the two history rows are sources for the licensed ledger, not observer-substance fields.
+
+Apply the NameCert obligations of \autoref{thm:observer-licensed-comparison-namecert-obligations}. They force every public comparison read through the displayed licensed observations, $\hsame$ transports, classifier output, route, provenance, and local name.
+
+No unlicensed observer-substance row is present in the carrier. A change confined to such a row changes none of $A,R,D,C,P,N$, so every public comparison read remains unchanged.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\mathsf{ObserverLicensedComparison}^{\uparrow}$ must provide explicit $\mathsf{Nontrivial}\ \mathsf{ObserverLicensedComparison}^{\uparrow}$ and $\mathsf{FieldFaithful}\ \mathsf{ObserverLicensedComparison}^{\uparrow}$ instances for the displayed licensed comparison packet.
+
+\closureat{ObserverLicensedComparisonUp}{seedStr}
+
+\begin{closurestatus}{\mathsf{ObserverLicensedComparison}^{\uparrow}}
+  \constructivestory{An $\mathsf{ObserverLicensedComparison}^{\uparrow}$ packet is generated from two observer-history rows, a licensed observation ledger, componentwise hsame transports, a classifier-output row, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-licensed-comparison-carrier}, \autoref{thm:observer-licensed-comparison-namecert-obligations}, and \autoref{thm:observer-licensed-comparison-nonescape} specify the finite licensed-comparison packet and its unlicensed-observation non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full observer-history identity, observer-filter completeness, hidden observer state, quotient history identity, unbounded observation, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, licensed-observation exactness, classifier-output confinement, non-escape, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

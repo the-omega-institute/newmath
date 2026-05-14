@@ -9,6 +9,14 @@ Anderson and Moore, \emph{Optimal Control: Linear Quadratic Methods} (1990).
 The BEDC certificate is only the named finite packet consumed by $\LQRUp$ and
 $\KalmanFilterUp$.
 
+The Riccati packet reads its matrix rows through
+\autoref{ch:concrete-instances-matrix-namecert}, its vector-space rows through
+\autoref{ch:concrete-instances-vecspace-namecert}, its real-scalar rows through
+\autoref{ch:concrete-instances-real-namecert}, and its dynamic-system rows
+through \autoref{ch:concrete-instances-dynsystem-namecert}. Its downstream
+readers are \autoref{ch:concrete-instances-lqr-namecert} and
+\autoref{ch:concrete-instances-kalmanfilter-namecert}.
+
 \begin{definition}[RiccatiUp control packet carrier]
 \label{def:riccati-control-packet-carrier}
 A $\RiccatiUp$ carrier is a finite $\mathsf{BHist}$ packet whose displayed rows
@@ -110,6 +118,20 @@ prediction-update covariance data.
 
 All remaining objects named in the theorem are absent from the carrier. Hence
 they are not readable through the $\RiccatiUp$ certificate.
+\end{proof}
+
+\begin{theorem}[RiccatiUp state-space control dependency]
+\label{thm:riccati-state-space-control-dependency}
+Every accepted $\RiccatiUp$ finite value ledger must first read the state-transition and control rows through \autoref{ch:concrete-instances-statespacemodel-namecert}. Only after those rows are displayed may $\LQRUp$ and $\KalmanFilterUp$ consumers read the finite value and covariance-style rows through \autoref{ch:concrete-instances-lqr-namecert} and \autoref{ch:concrete-instances-kalmanfilter-namecert}. The dependency introduces no solver row and no infinite-horizon row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riccati-control-packet-carrier}. Its visible fields include matrix state rows, matrix control rows, symmetric-cost rows, a finite horizon row, value ledger entries, continuation rows, transports, and provenance.
+
+The state and control fields are the state-space read. They are therefore consumed through \autoref{ch:concrete-instances-statespacemodel-namecert} before any downstream regulator or filter view can read the value ledger.
+
+The $\LQRUp$ consumer then reads the finite cost, horizon, control, and value rows through \autoref{ch:concrete-instances-lqr-namecert}. The $\KalmanFilterUp$ consumer reads the covariance-style matrix value rows through \autoref{ch:concrete-instances-kalmanfilter-namecert}.
+
+All three reads are projections from the same finite packet. Since the carrier has no solver coordinate and no infinite-horizon coordinate, the dependency row records only the displayed state-space, control, value, and covariance ledger.
 \end{proof}
 
 \begin{theorem}[RiccatiUp seed NameCert surface]
