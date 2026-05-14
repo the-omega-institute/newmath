@@ -1,0 +1,47 @@
+\begin{theorem}[Critical-line witness source modulus exposure]
+\label{thm:critical-line-witness-source-modulus-exposure}
+Every accepted $\CriticalLineWitnessUp$ packet exposes the supplied source strip row, modulus row, zero witness row, transport row, route row, package row, and local $\NameCert$ row before any critical-line read is available. The visible surface is the finite packet
+$$
+Z,S,M,R,Q,H,C,P,N,
+$$
+so a critical-line consumer must read the source strip, modulus ledger, zero witness, continuation route, provenance, and naming rows as displayed $\BHist$ data.
+\end{theorem}
+\begin{proof}
+Begin with the root source-modulus interface of \autoref{thm:critical-line-witness-source-normalization-interface} and \autoref{thm:critical-line-witness-modulus-ledger-interface}. These rows expose the supplied zero-strip source and the modulus-comparison ledger before downstream use.
+
+Apply \autoref{thm:critical-line-witness-root-zero-strip-route} and \autoref{thm:critical-line-witness-root-modulus-ledger}. The zero-strip side is carried by $Z,S,H,C,P,N$, while the modulus side is carried by $M,R,Q,H,C,P,N$.
+
+Finally use the root unblock rows in \autoref{thm:critical-line-witness-modulus-comparison-route-totality} and \autoref{thm:critical-line-witness-root-source-triad}. Together they identify the accepted source, modulus, zero witness, transport, route, package, and local naming rows as the finite boundary preceding any critical-line read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip boundary]
+\label{thm:critical-line-witness-zero-strip-boundary}
+Every zero-strip read of an accepted $\CriticalLineWitnessUp$ packet is a finite $\BHist$, $\Cont$, $\hsame$, and $\Pkg$ row read through
+$$
+Z,S,H,C,P,N.
+$$
+It supplies no analytic continuation, no $\mathsf{RH}$ truth value, and no global zeta-zero classification.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:critical-line-witness-root-zero-strip-route}. It places the supplied zero row $Z$ and critical-strip row $S$ on the displayed $\hsame$ and $\Cont$ route before any modulus or downstream read is exposed.
+
+Use \autoref{thm:critical-line-witness-supplied-zero-strip-route} and \autoref{thm:critical-line-witness-root-nonescape-package}. These identify the zero-strip read as finite $\BHist$ carrier data transported and replayed by $H$ and $C$, with provenance and naming recorded by $P$ and $N$.
+
+The RH boundary rows of \autoref{thm:critical-line-witness-rh-nonescape-package} and \autoref{thm:critical-line-witness-root-refusal-route} exclude analytic continuation, $\mathsf{RH}$ proof content, and global zero classification from this zero-strip boundary.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH boundary refusal]
+\label{thm:critical-line-witness-rh-boundary-refusal}
+Any $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet may cite the packet only as a finite witness boundary over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer cannot extract a proof or refutation of $\mathsf{RH}$ from the supplied zero-strip rows, modulus ledger, transport, route, package, or local naming rows.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:critical-line-witness-rh-refusal-interface} with \autoref{thm:critical-line-witness-rh-nonescape-package}. These theorems identify the RH-facing surface with the finite witness packet and refuse proof content, zero search, global classification, quotient representatives, analytic continuation, and ambient completeness.
+
+Next apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} and \autoref{thm:critical-line-witness-root-refusal-downstream-gate}. They keep every downstream RH-facing read inside the displayed rows $Z,S,M,R,Q,H,C,P,N$.
+
+Thus the consumer receives a finite boundary witness only. Since neither an $\mathsf{RH}$ truth coordinate nor a global zero classifier appears in the carrier, the packet cannot be read as a proof or refutation of $\mathsf{RH}$.
+\end{proof}

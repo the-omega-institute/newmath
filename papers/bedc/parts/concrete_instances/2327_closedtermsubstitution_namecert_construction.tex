@@ -4,6 +4,8 @@
 
 The $\ClosedTermSubstitutionUp$ surface packages the MetaCIC boundary law for substitution as finite NameCert data. It records the term row, the closedness boundary, the substituting value, the shift and substitution witnesses, componentwise transport, continuation reads, provenance, and the local naming row that prevents a substitution payload from becoming an unregistered free variable.
 
+The displayed boundary rows are consumed from \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The $\ClosedTermSubstitutionUp$ surface specializes that finite boundary to the inert value-payload route $Q=(T,d,V,S,H,C,P,N)$, without adding subject reduction, evaluator correctness, host CIC truth, or an unregistered variable source.
+
 \begin{definition}[Closed-term substitution carrier]
 \label{def:closed-term-substitution-carrier}
 A $\ClosedTermSubstitutionUp$ carrier is a finite $\BHist$ packet
@@ -55,6 +57,22 @@ Carrier admission is projection from \autoref{def:closed-term-substitution-carri
 Boundary accountability follows from \autoref{thm:closed-term-substitution-boundary-inertness}. The substitution and shift witnesses are read from $S$, and the continuation routes in $C$ expose those witnesses without adding a further generator.
 
 Finally inspect the excluded objects. None appears as a carrier coordinate, and the transport row $H$ preserves only the displayed coordinates. Therefore a consumer of $\ClosedTermSubstitutionUp$ cannot extract an open-term theorem, evaluator semantics, host truth predicate, future binder budget, or unregistered free variable from this packet.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution closure-preservation provenance]
+\label{thm:closed-term-substitution-closure-preservation-provenance}
+Every $\ClosedTermSubstitutionUp$ boundary-inert read consumed by closure-preservation or beta-substitution routes remains the displayed packet
+$$
+Q=(T,d,V,S,H,C,P,N).
+$$
+Downstream closure-preservation consumers may cite this substitution surface only through the provenance rows of \autoref{ch:concrete-instances-closurepreservationtrace-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert}. Those consumers add closure-preservation and typing-route context, but they do not add an open-term theorem, evaluator semantics, host truth predicate, or free-variable source to the closed substitution packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:closed-term-substitution-carrier}. It exposes only $T,d,V,S,H,C,P,N$ as the term, boundary, value, witness, transport, route, provenance, and local naming rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-inertness} and \autoref{thm:closed-term-substitution-namecert-obligations}. The inertness theorem keeps the substitution read at the displayed boundary, and the NameCert obligations keep every public read inside the same packet.
+
+The sibling closure-preservation, beta-substitution, and subject-reduction chapters consume this packet through their own provenance rows. Their additional rows record closure-preservation and typing-route context downstream; they do not enlarge $Q$ with open-term semantics, evaluator truth, host truth, or a new free-variable source.
 \end{proof}
 
 \closureat{ClosedTermSubstitutionUp}{seedStr}
