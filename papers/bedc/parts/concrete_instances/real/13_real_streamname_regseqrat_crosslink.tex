@@ -65,3 +65,46 @@ The dyadic part is then read through the public DyadicRatCore observation and so
 
 Composing these four displayed routes leaves no unused coordinate in the seal-facing packet. A host limit, ambient completeness row, quotient-real equality, or off-ledger dyadic sample is absent from the route and therefore cannot determine the accepted $\RealUp$ seal.
 \end{proof}
+
+\begin{theorem}[Real StreamName RegSeqRat terminal seal exhaustion]
+\label{thm:real-streamname-regseqrat-terminal-seal-exhaustion}
+Every terminal $\RealUp$ seal-facing consumer whose source is a
+$\StreamNameUp$ finite-window row and whose regularity witness is a
+$\RegSeqRatUp$ row factors through exactly the route
+$$
+\text{StreamName finite-window ledger}
+\to
+\text{RegSeqRat pointwise handoff}
+\to
+\text{DyadicRatCore observation row}
+\to
+\mathsf{RealUnaryStreamClassifier}
+$$
+before the local $\NameCert_{\RealUp}$ row can be read. The terminal packet
+has no additional carrier coordinate for quotient-real equality, a selected
+host limit, ambient completeness, an off-ledger dyadic sample, or a direct
+$\RealUp$ seal edge bypassing either the StreamName source surface or the
+RegSeqRat regularity surface.
+\end{theorem}
+\begin{proof}
+Apply the pointwise seal composition of
+\autoref{thm:real-streamname-regseqrat-pointwise-seal-composition}. It sends
+any accepted seal-facing read with a StreamName source and RegSeqRat readback
+through the StreamName finite-window ledger, the RegSeqRat pointwise handoff,
+and the local real classifier-facing row.
+
+Next apply the dyadic-window exhaustion of
+\autoref{thm:realup-streamname-regseqrat-dyadic-window-exhaustion}. This
+identifies the only remaining classifier input as the DyadicRatCore
+observation row feeding $\mathsf{RealUnaryStreamClassifier}$, with no
+off-ledger dyadic sample and no ambient real-completion coordinate.
+
+It remains only to read the terminal seal packet itself. Its carrier
+coordinates are the Real finite-window seal rows and the local
+$\NameCert_{\RealUp}$ rows displayed in this chapter, so the preceding two
+exhaustion routes consume every available source, regularity, dyadic, and
+classifier coordinate before the local certificate is opened. Hence a
+quotient-real equality, selected host limit, ambient completeness row, or
+direct Real seal edge around StreamName or RegSeqRat has no coordinate from
+which to determine the terminal consumer.
+\end{proof}
