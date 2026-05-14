@@ -1,0 +1,49 @@
+\begin{theorem}[$\ZNormalUp$ root total-host source packet]
+\label{thm:znormal-root-total-host-source}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host source exposed at the root is the single finite packet obtained by reading the typed reduction normal-form row $T$, the finite fuel row $F$, the terminal-normality row $V$, the Zeckendorf and carry-facing normal-word row $K$, the terminal continuation-trace row $R$, the componentwise transport row $H$, the displayed continuation replay row $C$, the package provenance row $P$, and the local $\NameCert_{\ZNormalUp}$ row $N$. The source cannot be split into a typed endpoint source, a normal-word source, a carry source, or a continuation-trace source outside that $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. It lists $T,F,V,K,R,H,C,P,N$ as the full accepted packet and gives no second root source row.
+
+Use the NameCert obligation surface of \autoref{thm:znormal-namecert-obligations}. The typed endpoint, finite fuel, terminal normality, sibling normal-word evidence, continuation readback, transport, replay, package, and local naming rows are all read through one local $\NameCert_{\ZNormalUp}$ surface.
+
+Apply \autoref{thm:znormal-root-bhist-source} and \autoref{thm:znormal-root-classifier-stability}. These keep the typed reduction normal-form row, the Zeckendorf and carry-facing row, and the continuation-trace row inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally use \autoref{thm:znormal-root-ledger-exhaustion}. Since the ledger has no coordinate outside $T,F,V,K,R,H,C,P,N$, the total-host source is exactly the displayed finite source packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root terminal normality exposure]
+\label{thm:znormal-root-terminal-normality-exposure}
+For every accepted $\ZNormalUp$ packet, the terminal-normality row $V$ is readable at the root only after the finite fuel replay through $F$ has been displayed and the terminal continuation evidence $R$ has been admitted through the same transported route. A consumer may read terminal normality through
+$$
+T \longmapsto F \longmapsto V \longmapsto R
+$$
+with transport $H$, replay $C$, provenance $P$, and local naming $N$, but it may not read $V$ from an ambient normalizer, host conversion judgment, quotient computation, unrestricted evaluator, or divergence detector.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-fuel-normality-nonescape}. It places terminal normality on the finite route from the typed endpoint $T$ through finite fuel $F$ to the continuation read $R$.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. The terminal read factors through $T,F,V,R,H,C,P,N$, and the sibling row $K$ can be consumed only after $V$ is already displayed as finite evidence.
+
+Use \autoref{thm:znormal-terminal-fuel-route-admission} to force the finite replay order before consumer use. The structural rows $H,C,P,N$ are the only transport, replay, package, and naming routes available for that exposure.
+
+Finally invoke \autoref{thm:znormal-root-unblock-terminal-route} and \autoref{thm:znormal-root-terminal-nonescape-interface}. They keep terminal continuation evidence attached to the same root route and exclude ambient normalization, host conversion, quotient computation, unrestricted evaluation, and divergence detection.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root forbidden host conversion exclusion]
+\label{thm:znormal-root-forbidden-host-conversion-exclusion}
+No accepted $\ZNormalUp$ packet exports a divergence oracle, host conversion row, quotient-normalization row, unrestricted host evaluator, global normalization procedure, or substrate halting row. Every root request for such an object is exhausted by the displayed rows $T,F,V,K,R,H,C,P,N$ and by the refusal ledgers attached to the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Read the complete packet through \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. The accepted carrier has only the typed endpoint, fuel, terminal normality, sibling normal-word, continuation readback, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:znormal-finite-host-boundary-refusal}. It prevents the displayed finite route from being replaced by host conversion, quotient computation, divergence, unrestricted evaluation, or global normalization.
+
+Next use \autoref{thm:znormal-root-total-host-refusal-ledger} and \autoref{thm:znormal-root-refusal-audit-exhaustion}. These root ledgers account for host conversion, quotient normalization, unrestricted evaluation, substrate halting, divergence detection, and global normalization requests without adding any exported row for them.
+
+Finally combine \autoref{thm:znormal-root-ledger-exhaustion} with \autoref{thm:znormal-total-host-frontier-lock}. The root source remains $T,F,V,K,R,H,C,P,N$, so no divergence oracle, host conversion row, or global normalization procedure is available outside the finite packet.
+\end{proof}

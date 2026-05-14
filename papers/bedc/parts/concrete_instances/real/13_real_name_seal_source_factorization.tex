@@ -1,0 +1,91 @@
+\begin{definition}[Real name seal carrier]
+\label{def:real-name-seal-carrier}
+A $\RealUp$ name-seal carrier is a finite $\BHist$ packet
+$$
+R=(D,S,Q,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ observation row recording the endpoint, radius, and finite tolerance data available to the read;
+\item $S$ is the $\StreamNameUp$ finite-window schedule that exposes the requested observations;
+\item $Q$ is the $\RegSeqRatUp$ regularity row that records the pointwise regular-rational readback;
+\item $L$ is the finite ledger tying the selected windows, dyadic observations, radius rows, and regularity checks to one request surface;
+\item $E$ is the local $\RealUp$ seal row exposed only after $D,S,Q,L$ have been displayed;
+\item $H$ records the componentwise $\hsame$ transports for $D,S,Q,L,E,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes from the finite-window schedule through the dyadic and regularity rows to the seal row;
+\item $P$ records $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealUp}$ row for this name-seal packet.
+\end{enumerate}
+The carrier has no coordinate for a quotient stream, a selected host limit, host real equality, host sequence equality, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Real name seal source factorization]
+\label{thm:real-name-seal-source-factorization}
+Every $\RealUp$ seal read accepted through the carrier of \autoref{def:real-name-seal-carrier} factors through the displayed source route
+$$
+S,D,Q,L \longmapsto E
+$$
+together with the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Equivalently, the seal may be read only after the $\StreamNameUp$ finite-window schedule, the $\DyadicRatCoreUp$ observation row, the $\RegSeqRatUp$ regularity row, and the finite ledger have all been consumed through the same packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:real-name-seal-carrier}. The only seal coordinate is $E$, and the only source rows that lead to it are $S,D,Q,L$ with the transport, continuation, package, and naming rows $H,C,P,N$.
+
+The route is the local RealUp form of \autoref{thm:real-regseqrat-streamname-lattice-route}. That theorem places the Phase Real and Completion seal path behind the StreamName, RegSeqRat, and DyadicRatCore sibling surfaces before the local seal is public.
+
+The RegularCauchyName seal results provide the readback discipline used by the same boundary. Apply \autoref{thm:regularcauchyname-real-seal-consumer-scope}, \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion}, and \autoref{thm:regularcauchyname-seal-readback-exhaustion}: a real-seal consumer is downstream of the displayed finite window, dyadic observation, regularity ledger, package provenance, and local NameCert rows. Repacking those rows as $D,S,Q,L,E,H,C,P,N$ gives the stated factorization.
+\end{proof}
+
+\begin{theorem}[Real StreamName-RegSeqRat seal route]
+\label{thm:real-streamname-regseqrat-seal-route}
+Every accepted $\RealUp$ name-seal packet
+$$
+R=(D,S,Q,L,E,H,C,P,N)
+$$
+of \autoref{def:real-name-seal-carrier} consumes the $\StreamNameUp$ finite-window schedule $S$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ regularity row $Q$, and the ledger $L$ before exposing the local seal row $E$. The resulting Phase Real and Completion exit route is the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+carried only by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The route exports no quotient stream equality, selected host limit, host real equality, host sequence equality, ambient $\RealUp$ completeness principle, metric-completeness datum, or choice row.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the source factorization theorem, \autoref{def:real-name-seal-carrier} and \autoref{thm:real-name-seal-source-factorization}. They identify $D,S,Q,L$ as the only source rows through which the accepted packet can reach $E$, with $H,C,P,N$ as structural transport, replay, provenance, and naming rows.
+
+Next apply the Real L10 sibling lattice summary. The ordered lattice of \autoref{def:real-l10-dependency-lattice}, together with \autoref{thm:real-l10-source-route-nonescape} and \autoref{thm:real-l10-dependency-lattice-interface-totality}, places Phase Real and Completion consumers on the same DyadicRatCore, StreamName, RegSeqRat, and Real faces.
+
+The four public faces provide the component rows. The StreamName face is the public finite-window interface of \autoref{thm:streamname-public-finite-window-interface}; the DyadicRatCore face is the real-phase source coverage of \autoref{thm:dyadicratcore-real-phase-source-coverage}; the RegSeqRat face is the real-seal handoff of \autoref{thm:regseqrat-real-seal-handoff}; and the local Real face is finite-prefix exactness through \autoref{thm:real-stream-finite-prefix-exactness}.
+
+Composing those rows with the source factorization repacks the accepted read as the displayed route to $E$. Since each cited interface exposes only finite packet rows and the same structural support, no quotient stream equality, selected host limit, host real equality, host sequence equality, ambient Real completeness principle, metric-completeness datum, or choice row is exported.
+\end{proof}
+
+\begin{theorem}[Real name seal NameCert obligations]
+\label{thm:real-name-seal-namecert-obligations}
+For the carrier of \autoref{def:real-name-seal-carrier}, the local $\NameCert_{\RealUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $R=(D,S,Q,L,E,H,C,P,N)$;
+\item classifier transport by the displayed $\hsame$ rows over the dyadic observation, finite-window schedule, regularity row, finite ledger, and seal row;
+\item stability of the same route under the displayed $\Cont$ rows;
+\item ledger exhaustion by $D,S,Q,L$ before the seal row $E$ is public;
+\item source factorization through \autoref{thm:real-name-seal-source-factorization}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The packet lists every public row available to the local RealUp name-seal read, so the carrier and classifier have no hidden coordinate beyond $D,S,Q,L,E,H,C,P,N$.
+
+Transport and stability are componentwise. The $H$ row moves the displayed source and seal rows, while the $C$ row replays the same finite route from the StreamName schedule through the dyadic observation, RegSeqRat readback, ledger, and seal.
+
+Ledger exhaustion is supplied by \autoref{thm:real-name-seal-source-factorization} together with the RegularCauchyName exhaustion theorems cited there. Thus the local $\NameCert_{\RealUp}$ obligations are exactly carrier, classifier, stability, ledger, and source-factorization obligations.
+\end{proof}
+
+\begin{theorem}[Real name seal non-completeness boundary]
+\label{thm:real-name-seal-no-completeness}
+An accepted $\RealUp$ name-seal carrier exports only the finite packet rows $D,S,Q,L,E,H,C,P,N$ of \autoref{def:real-name-seal-carrier}. It exports no quotient stream, no selected limit, no host real equality, no host sequence equality, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. Its analytic rows are the DyadicRatCore observation, StreamName schedule, RegSeqRat regularity readback, finite ledger, and RealUp seal; its structural rows are $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ evidence.
+
+Apply \autoref{thm:real-name-seal-source-factorization}. Every seal read is forced through the displayed source route before $E$ is public, so a consumer cannot enter through a quotient stream, selected host limit, host equality test, or ambient completeness principle.
+
+Finally use \autoref{thm:real-name-seal-namecert-obligations}. The obligation surface records carrier admission, classifier transport, route stability, ledger exhaustion, and the same source factorization, leaving no remaining exported coordinate from which any of the excluded analytic objects could be obtained.
+\end{proof}

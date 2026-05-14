@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness source modulus classifier lock]
+\label{thm:critical-line-witness-source-modulus-classifier-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied zero row $Z$, critical-strip row $S$, rational comparison ledger $Q$, modulus row $M$, $\RealUp$ row $R$, $\RatUp$ comparison row, $\hsame$ row $H$, $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert$ row $N$ are the only root-facing source and classifier surface of $W$.
+
+Consequently a root consumer may classify the supplied zero-strip source only by reading those displayed rows. It receives no $\mathsf{RH}$ proof object, global zero classifier, analytic-continuation certificate, quotient representative, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the root-source triad of \autoref{thm:critical-line-witness-root-source-triad}. It exposes $Z,S,Q$ as the finite source triad carried by $H,C,P,N$.
+
+Use the root comparison ledger of \autoref{thm:critical-line-witness-root-comparison-ledger}. The ledger places every rational comparison through $Q,M,R,H,C,P,N$ and refuses analytic or quotient replacement rows.
+
+Finally apply the zero-strip carrier totality and RH-refusal non-escape theorems. They identify the accepted packet as exactly $Z,S,M,R,Q,H,C,P,N$ and exclude an $\mathsf{RH}$ proof object, global zero classifier, analytic-continuation certificate, quotient representative, host equality, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip readback totality]
+\label{thm:critical-line-witness-zero-strip-readback-totality}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every root readback of the zero-strip side is total through the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, and the structural rows $H,C,P,N$. No root readback may skip directly to a global zero-set decision, analytic-continuation certificate, host equality, quotient representative, $\mathsf{RH}$ proof object, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the zero-strip transport lock. By \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}, the rows $Z$ and $S$ remain attached to the displayed $\BHist$ surface through $H,C,P,N$.
+
+Attach the comparison side through the root comparison ledger. The ledger forces rational and real-part comparison readback through $Q,M,R,H,C,P,N$ rather than through a host zero search or analytic continuation.
+
+The root refusal route then supplies the exclusion. By \autoref{thm:critical-line-witness-root-refusal-route}, an $\mathsf{RH}$ proof object, global classifier, analytic certificate, quotient representative, host equality, and ambient completeness remain outside the root packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root NameCert scope completion]
+\label{thm:critical-line-witness-root-namecert-scope-completion}
+The root $\NameCert_{\CriticalLineWitnessUp}$ scope for an accepted packet $W=(Z,S,M,R,Q,H,C,P,N)$ is completed by the supplied zero row, critical-strip row, rational comparison ledger, modulus row, $\RealUp$ and $\RatUp$ rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local naming row. These rows are the whole root-facing source, readback, and classifier boundary for downstream RH-boundary consumers.
+
+The completed scope still does not provide an $\mathsf{RH}$ proof object, global zero classifier, analytic-continuation certificate, quotient representative, host equality, hidden zero search, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:critical-line-witness-source-modulus-classifier-lock}. It locks the source and classifier surface to $Z,S,M,R,Q,H,C,P,N$.
+
+Next use \autoref{thm:critical-line-witness-zero-strip-readback-totality}. The zero-strip readback is total through the same displayed packet and cannot skip to an external analytic or host-level row.
+
+Finally apply the existing root-source triad and root comparison ledger. Together they supply the NameCert-facing source and comparison obligations, while the refusal results rule out every requested proof, classifier, continuation, quotient, host-equality, and completeness object outside the packet.
+\end{proof}
