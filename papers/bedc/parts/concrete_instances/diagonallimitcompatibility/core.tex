@@ -87,6 +87,26 @@ limit, host real equality row, choice datum, or ambient completeness principle
 is present, no classifier transport or seal consumer can export one.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility terminal Real route]
+\label{thm:diagonal-limit-compatibility-terminal-real-route}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every terminal $\RealUp$ seal read factors through the displayed route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Here $R$ is read from $\RealCompletenessUp$, $T$ from $\RegularCauchyTriangleBoundUp$, $S$ from $\CauchyLimitSealUp$, $D$ from $\DyadicRatCoreUp$, $W$ from $\StreamNameUp$, $Q$ from $\RegSeqRatUp$, and $L$ from $\RealUp$. The terminal read has no quotient stream, host limit, choice datum, or ambient completeness principle available outside this route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:diagonal-limit-compatibility-carrier}. Its displayed rows name the diagonal-limit packet, triangle estimate, seal route, tolerance ledger, window family, rational readback, terminal Real seal, transport rows, continuation rows, provenance, and local naming row.
+
+Apply the NameCert obligation theorem \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. The triangle-bound clause routes $T$ through $R,W,D$, and the seal-route clause reads $Q$ and $L$ only after $R,T,D,W$ have been fixed.
+
+Finally use the non-escape clause of the same obligation theorem. Since no quotient stream, host limit, choice datum, or ambient completeness principle is a coordinate of $K$, a terminal $\RealUp$ seal read cannot leave the displayed chain.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit triangle selector alignment]
 \label{thm:diagonal-limit-compatibility-triangle-selector-alignment}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet

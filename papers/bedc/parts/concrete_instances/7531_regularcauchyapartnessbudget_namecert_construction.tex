@@ -57,6 +57,54 @@ Apply the NameCert obligations of \autoref{thm:regular-cauchy-apartness-budget-n
 The excluded objects are not packet fields. A host nonzero real, trichotomy branch, quotient stream, selected representative, total reciprocal operation, or ambient completeness theorem would require an additional coordinate or an additional route, neither of which is present in the accepted carrier.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy apartness-budget transport stability]
+\label{thm:regular-cauchy-apartness-budget-transport-stability}
+For accepted $\RegularCauchyApartnessBudgetUp$ packets, the lower-bound row is stable only componentwise through the displayed transport and continuation surface. If
+$$
+B=(X,A,M,W,D,R,E,H,C,P,N),
+$$
+then $H$ transports the regular source, apartness budget, modulus row, StreamName window, DyadicRatCore lower-bound row, RegSeqRat readback, Real seal, provenance, and local name componentwise, while $C$ records the corresponding displayed route stability
+$$
+\Cont(M,W),\qquad \Cont(W,D),\qquad \Cont(W,R),\qquad \Cont(R,E).
+$$
+No transported consumer may detach the lower-bound row $D$ from the apartness budget $A$ and the finite window $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only lower-bound coordinate is $D$, and it is placed after the apartness budget $A$, modulus row $M$, and StreamName window $W$.
+
+Use the NameCert obligations. They make classifier stability componentwise through $H$ and replay the lower-bound and readback routes through $C$.
+
+The non-escape theorem then blocks any transported read that asks for a detached lower bound. Such a read would require a lower-bound coordinate outside $X,A,M,W,D,R,E,H,C,P,N$, which the accepted packet does not contain.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy apartness-budget Real seal refusal]
+\label{thm:regular-cauchy-apartness-budget-real-seal-refusal}
+No $\RealUp$ seal or reciprocal-window read is public from a $\RegularCauchyApartnessBudgetUp$ packet unless the apartness-budget row $A$ has already been read. A route that exposes $E$ or a reciprocal lower-bound consumer while omitting $A$ is not a carrier read of the accepted packet.
+\end{theorem}
+\begin{proof}
+Read the order of the displayed packet. The apartness-budget row $A$ is the only public nonzero-budget coordinate, and the lower-bound and seal rows occur downstream of the finite window route.
+
+Apply transport stability for the lower-bound row. It keeps $D$ attached to $A,M,W$ under $H$ and $C$, so a reciprocal-window consumer cannot read $D$ as an independent public datum.
+
+Finally apply non-escape. The Real seal row $E$ is exposed only through $R,H,C,P,N$ after the same apartness and lower-bound route, so a consumer omitting $A$ leaves the public surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy apartness-budget reciprocal-window boundary]
+\label{thm:regular-cauchy-apartness-budget-reciprocal-window-boundary}
+Every reciprocal-window consumer of an accepted $\RegularCauchyApartnessBudgetUp$ packet factors through the $\DyadicRatCoreUp$ lower-bound row, the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ readback row, and the local $\NameCert$ rows
+$$
+A,M,W,D,R,H,C,P,N.
+$$
+The boundary exposes a finite apartness budget and finite readback route, not a total reciprocal operation, host nonzero real, quotient stream, selected representative, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They require apartness-budget exposure before the dyadic lower-bound row and require that lower bound to be read from the finite StreamName window selected by the modulus row.
+
+Use transport stability to keep the $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows on the same displayed route under $H$ and $C$.
+
+Apply the Real seal refusal and non-escape theorems. A reciprocal-window consumer that asks for a total reciprocal or host-level nonzero fact asks for data not carried by $A,M,W,D,R,H,C,P,N$, so the public boundary is exactly the finite route stated above.
+\end{proof}
+
 \falsifiablePrediction{Any accepted reciprocal-window consumer that omits the displayed apartness-budget row is not a RegularCauchyApartnessBudgetUp carrier read.}
 
 \independenceWitness{Nearest siblings: cauchyinversebudget, apartnessreal, regseqrat, dyadicratcore, streamname. The carrier is not bijective to CauchyInverseBudgetUp because it has no reciprocal readback row; not to ApartnessRealUp because it keeps finite regular-Cauchy window budgets rather than a completed Real apartness predicate; not to RegSeqRatUp because it adds nonzero lower-bound rows; not to DyadicRatCoreUp because it includes stream-window and Real-seal routes; not to StreamNameUp because it includes dyadic lower-bound and apartness ledger rows.}

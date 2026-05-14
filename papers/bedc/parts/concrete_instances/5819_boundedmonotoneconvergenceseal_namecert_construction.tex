@@ -122,6 +122,26 @@ The sibling surfaces determine the displayed route. The witness part is \autoref
 Apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. It forces every Real or completion consumer through $W$, then $M,K$, then $F,\sigma,D,L$, and only then $R,H,C,P,N$. Therefore the ordered package is the complete obligation surface for the current seal, while completeness, selected limits, quotient stream equality, and host real equality remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal terminal budget exhaustion]
+\label{thm:bounded-monotone-convergence-seal-terminal-budget-exhaustion}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N),
+$$
+every terminal $\RealUp$ or completion-facing consumer of $S$ is exhausted by the ordered route
+$$
+W \to (M,K) \to (F,\sigma,D,L) \to R
+$$
+together with the structural rows $H,C,P,N$. After that route has been read, the packet cannot recover a selected limit, quotient stream equality, host real equality, trichotomy row, open-cover compactness row, detached tail oracle, ambient completeness theorem, or metric-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:bounded-monotone-convergence-seal-carrier}. Its only terminal-facing coordinates are the witness row $W$, the public monotone and Cauchy rows $M,K$, the finite stream, dyadic, regular-rational, and limit-seal route $F,\sigma,D,L$, the Real handoff row $R$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff}, \autoref{thm:bounded-monotone-convergence-seal-criterion-route}, and \autoref{thm:bounded-monotone-convergence-seal-real-handoff}. These results force the terminal consumer through the displayed route before any Real-facing read is available.
+
+Use \autoref{thm:bounded-monotone-convergence-seal-obligation-package} to collect the same rows as the complete obligation surface. The carrier has no coordinate for the excluded completion or compactness data, so exhausting the displayed route also exhausts every completion-facing read available from the packet.
+\end{proof}
+
 \begin{theorem}[Bounded monotone convergence seal scoped handoff package]
 \label{thm:bounded-monotone-convergence-seal-scoped-handoff-package}
 Every accepted $\BoundedMonotoneConvergenceSealUp$ packet

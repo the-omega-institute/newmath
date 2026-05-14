@@ -214,6 +214,24 @@ Now attach the consumer side. \autoref{thm:real-observation-budget-regseq-real-c
 Finally close the non-escape boundary. \autoref{lem:regular-cauchy-sequence-non-escape} and \autoref{thm:real-observation-budget-nonescape} leave no coordinate for quotient streams, host real equality, selected limits, countable choice, hidden schedules, or ambient completeness, so no consumer can bypass the finite route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence selector-budget Real-completeness route]
+\label{thm:regular-cauchy-sequence-selector-budget-real-completeness-route}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Suppose its selected-window packet is consumed by an accepted $\RegularCauchySelectorBudgetUp$ route and then by a $\RealCompletenessUp$ handoff. Then the RealCompleteness-facing consumer reads the same finite rows $F,\mu,W,D,R,G,E,H,C,P,N$ displayed by $S$. The selector-budget rows may refine only the selected finite window route already named by $W,D,R,G,E,H,C,P,N$; they add no quotient stream, host limit, countable-choice selector, hidden window enlargement, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with selected-window coverage. By \autoref{thm:regular-cauchy-sequence-selected-window-coverage}, every selected read of $S$ is already confined to the displayed family row, modulus row, finite windows, dyadic ledger, regular readback, transports, continuations, provenance, and local naming rows.
+
+Next attach the observation-budget seal factorization of \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}. It keeps the Real-facing seal route on the same selected-window, dyadic, readback, coverage, and seal rows before the consumer reaches $E$.
+
+Now use the selector-budget factor and its Real-completeness handoff, \autoref{thm:regular-cauchy-sequence-selector-budget-factor} and \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}. These rows allow the selector budget to inspect and refine the displayed finite window route, but they do not give it a second stream, a host-selected limit, or a larger hidden window.
+
+Finally apply the local non-escape boundary of \autoref{lem:regular-cauchy-sequence-non-escape}. Since the accepted packet has no coordinate outside $F,\mu,W,D,R,G,E,H,C,P,N$, the composed RealCompleteness route cannot leave the displayed finite packet.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence shared-tail threshold extraction]
 \label{thm:regular-cauchy-sequence-shared-tail-threshold-extraction}
 Let
