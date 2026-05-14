@@ -1,0 +1,47 @@
+\begin{theorem}[Closed-term substitution boundary source triad]
+\label{thm:closed-term-substitution-boundary-source-triad}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the displayed rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ form the complete source, value, and depth admission triad before any shift row $Q$ or substitution row $R$ is consumed. The triad is read through the carrier, classifier, local $\NameCert$ obligations, and closedness ledger, and it exposes no operation row before the source and value closedness witnesses are fixed.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. It displays the source term row $T$, value row $V$, inspected depth row $d$, source closedness row $C_{\mathsf{src}}$, value closedness row $C_{\mathsf{val}}$, operation rows, ledger, audit row, transports, routes, provenance, and local name as one finite packet.
+
+Use the classifier and local $\NameCert$ obligations of \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make the source/value closedness rows the admission surface for closed shift and closed substitution.
+
+Finally apply source/value closedness admission through \autoref{thm:closed-term-substitution-boundary-closedness-ledger-coverage}. The ledger records the closedness reads before $Q$ or $R$ is consumed, so the source, value, and depth rows form the complete admission triad for the operation boundary.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary operation route]
+\label{thm:closed-term-substitution-boundary-operation-route}
+Every accepted operation read of a $\ClosedTermSubstitutionBoundaryUp$ packet factors through
+$$
+Q,R,L,H,C,P,N
+$$
+after the closedness witnesses $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ have been displayed. The route is the finite operation surface of the packet, not host substitution semantics, unchecked compiler state, subject reduction, or a hidden evaluator.
+\end{theorem}
+\begin{proof}
+Start from the source triad of \autoref{thm:closed-term-substitution-boundary-source-triad}. It supplies the displayed term rows, depth row, and closedness witnesses that must be fixed before any operation read.
+
+Apply the substitution-row exactness and shift-substitution ledger lock theorems, \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. These results force reads of $Q$ and $R$ through the closedness ledger $L$ and the audit-visible packet boundary.
+
+The remaining operation route is componentwise transport, continuation consumption, package provenance, and local naming. Thus $H,C,P,N$ are the only admissible transport and consumer rows after $Q,R,L$, and no host substitution semantics, unchecked compiler state, subject reduction, or hidden evaluator is exported.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary audit non-escape]
+\label{thm:closed-term-substitution-boundary-audit-nonescape}
+The audit row $A$ of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet excludes free-variable leaks, host equality, unchecked compiler state, subject reduction, and host substitution semantics from the source/value/depth admission surface and from the operation route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,H,C,P,N.
+$$
+Every audit-visible consumer must replay the displayed finite packet rather than importing an external substitution theorem or compiler fact.
+\end{theorem}
+\begin{proof}
+Project the audit row from the carrier and route it through the classifier. The rows $A,H,C,P,N$ belong to the same finite packet as the source triad and operation rows, so audit visibility cannot be detached from the displayed boundary.
+
+Apply the local $\NameCert$ obligations and ledger non-escape theorem, \autoref{thm:closed-term-substitution-boundary-namecert-obligations} and \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. They rule out unregistered free variables, hidden host equality, unchecked compiler state, ambient subject reduction, and host substitution semantics.
+
+Finally combine the source triad with the operation route from \autoref{thm:closed-term-substitution-boundary-source-triad} and \autoref{thm:closed-term-substitution-boundary-operation-route}. Every operation read already passes through the closedness witnesses, ledger, transports, continuation route, provenance, and local name, so the audit row covers the complete finite route and no external substitution or compiler fact is available.
+\end{proof}
