@@ -191,7 +191,20 @@ def push_branch(branch: str, *, set_upstream: bool = False,
 
     Each retry refetches origin and remerges so we push the latest
     incorporated tip, not a stale local tip that would just race again.
+
+    Concurrency: wraps each push attempt in `acquire_push_lock(branch)`
+    so the R-side / P-side orchestrators (which also push to
+    `codex-auto-dev`) cannot push during this attempt. Cross-process
+    file lock at `.git/<branch>.push.lock`. See `tools/repo_push_lock.py`
+    for the rationale (cuts the chronic ff-rejection race seen on
+    2026-05-14).
     """
+    from contextlib import nullcontext
+    try:
+        from repo_push_lock import acquire_push_lock as _pl  # tools/ is on sys.path
+        push_lock_cm = lambda: _pl(branch, timeout=300)
+    except Exception:
+        push_lock_cm = lambda: nullcontext()
     env = os.environ.copy()
     env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
     backoff = 1.0
@@ -202,7 +215,8 @@ def push_branch(branch: str, *, set_upstream: bool = False,
             cmd.extend(["--set-upstream", "origin", branch])
         else:
             cmd.extend(["origin", branch])
-        res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
+        with push_lock_cm():
+            res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
         if res.returncode == 0:
             if attempt > 1:
                 print(f"[sync] push {branch} succeeded on attempt {attempt}",
