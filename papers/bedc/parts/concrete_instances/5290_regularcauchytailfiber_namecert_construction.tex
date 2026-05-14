@@ -102,12 +102,70 @@ These are precisely the fields used by the window projection, shared seal factor
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Regular Cauchy tail fiber classifier stability]
+\label{thm:regular-cauchy-tail-fiber-classifier-stability}
+For an accepted $\RegularCauchyTailFiberUp$ carrier
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N),
+$$
+componentwise $\hsame$ transport through the row $H$ preserves the common fiber classifier on $R_0,R_1,W_0,W_1,D_0,D_1,T,A$. In particular, a transported read still classifies the two regular Cauchy source tails through the same finite row $T$ before reaching the $\RealUp$ seal row $A$, and the transport introduces neither quotient-stream equality nor host-real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-fiber-carrier}. The row $H$ is displayed as componentwise $\hsame$ transport for the two source rows, the two windows, the two dyadic ledgers, the shared fiber row, and the seal row.
+
+Apply the window projection of \autoref{thm:regular-cauchy-tail-fiber-window-projection}. Any source-facing read reaches $R_0,R_1,W_0,W_1,D_0,D_1$ before it can see a seal-facing row, so the transported classifier has the same finite source and window support.
+
+Apply the shared seal factorization of \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}. The tail-meet route and the tail-agreement route both pass through the same row $T$ before $A$ is available.
+
+Finally use non-escape from \autoref{thm:regular-cauchy-tail-fiber-nonescape}. Since the accepted packet contains no quotient-stream equality and no host-real equality, componentwise transport along $H$ cannot export either kind of equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fiber paired-window exactness]
+\label{thm:regular-cauchy-tail-fiber-paired-window-exactness}
+For an accepted $\RegularCauchyTailFiberUp$ carrier
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N),
+$$
+every $\RegularCauchyTailMeetUp$ read and every $\RealTailAgreementSealUp$ read factors through the same finite tuple
+$$
+(R_0,R_1,W_0,W_1,D_0,D_1,T).
+$$
+Thus the BEDC correspondence between the regular-tail meet route and the real-tail agreement route is witnessed by one paired-window tuple, not by an external equality of streams or host reals.
+\end{theorem}
+\begin{proof}
+Start with a $\RegularCauchyTailMeetUp$ consumer. By \autoref{thm:regular-cauchy-tail-fiber-window-projection}, its source and window observations are exactly the two regular-rational rows, the two finite stream windows, and the two dyadic ledgers, followed by the shared fiber row $T$.
+
+Now read a $\RealTailAgreementSealUp$ consumer. By \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}, the seal route uses the same shared fiber row $T$ before it reaches the seal row $A$.
+
+The two reads therefore have identical finite support up to $T$. The remaining rows $H,C,P,N$ transport, replay, package, and name that support, so the correspondence is the displayed BEDC route through the paired-window tuple.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fiber seal-consumer exhaustion]
+\label{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion}
+For an accepted $\RegularCauchyTailFiberUp$ carrier
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N),
+$$
+all downstream reads by $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, and $\RealUp$ consumers remain inside
+$$
+R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N.
+$$
+No listed consumer can read a detached source tail, detached stream window, detached dyadic radius, second fiber row, external seal, quotient-stream witness, host-real witness, selected limit, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use the carrier projection and the NameCert obligations of \autoref{thm:regular-cauchy-tail-fiber-namecert-obligations}. The only exposed rows are the two source rows, two windows, two dyadic ledgers, shared fiber, seal, transport, continuation, provenance, and local name.
+
+For $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ consumers, apply \autoref{thm:regular-cauchy-tail-fiber-window-projection}. Their reads are exhausted by $R_0,R_1,W_0,W_1,D_0,D_1,T$ before any seal boundary is available.
+
+For $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, and $\RealUp$ consumers, apply \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The shared seal route reaches $A$ only through $T$, and the packet exports no further equality, selector, or completeness data.
+\end{proof}
+
 \closureat{RegularCauchyTailFiberUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyTailFiberUp}
   \constructivestory{A $\RegularCauchyTailFiberUp$ packet is generated from two $\RegSeqRatUp$ source rows, two finite $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ tail-radius ledgers, one shared tail fiber row, one $\RealUp$ tail-agreement seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-fiber-carrier}, \autoref{thm:regular-cauchy-tail-fiber-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fiber-window-projection}, \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}, \autoref{thm:regular-cauchy-tail-fiber-nonescape}, and \autoref{thm:regular-cauchy-tail-fiber-tastegate-contract} specify the finite common-tail fiber carrier, local NameCert rows, window projection, shared seal factorization, non-escape boundary, and TasteGate follow-up contract.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-fiber-carrier}, \autoref{thm:regular-cauchy-tail-fiber-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fiber-window-projection}, \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}, \autoref{thm:regular-cauchy-tail-fiber-nonescape}, \autoref{thm:regular-cauchy-tail-fiber-tastegate-contract}, \autoref{thm:regular-cauchy-tail-fiber-classifier-stability}, \autoref{thm:regular-cauchy-tail-fiber-paired-window-exactness}, and \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion} specify the finite common-tail fiber carrier, local NameCert rows, window projection, shared seal factorization, non-escape boundary, TasteGate follow-up contract, classifier stability, paired-window exactness, and seal-consumer exhaustion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
