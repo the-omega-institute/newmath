@@ -481,4 +481,36 @@ theorem BoundedMonotoneCauchyWitnessCarrier_root_monotone_window_totality
       windowRegularWitness, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
       provenancePkg, witnessPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_tail_seal_row_determinacy
+    [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert tailA
+      tailB readA readB : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg → Cont source schedule tailA →
+      Cont source schedule tailB → Cont tailA sealRow readA → Cont tailB sealRow readB →
+        PkgSig bundle readA pkg → PkgSig bundle readB pkg →
+          UnaryHistory tailA ∧ UnaryHistory tailB ∧ UnaryHistory readA ∧ UnaryHistory readB ∧
+            hsame tailA tailB ∧ hsame readA readB ∧ Cont tailA sealRow readA ∧
+              Cont tailB sealRow readB ∧ PkgSig bundle readA pkg ∧
+                PkgSig bundle readB pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceScheduleTailA sourceScheduleTailB tailSealReadA tailSealReadB readPkgA
+    readPkgB
+  obtain ⟨sourceUnary, _regularUnary, scheduleUnary, _witnessUnary, _ledgerUnary, _trapUnary,
+    sealUnary, _provenanceUnary, _sourceScheduleRegular, _regularWitnessTrap, _trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, _provenancePkg⟩ := carrier
+  have tailUnaryA : UnaryHistory tailA :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleTailA
+  have tailUnaryB : UnaryHistory tailB :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleTailB
+  have readUnaryA : UnaryHistory readA := unary_cont_closed tailUnaryA sealUnary tailSealReadA
+  have readUnaryB : UnaryHistory readB := unary_cont_closed tailUnaryB sealUnary tailSealReadB
+  have sameTail : hsame tailA tailB :=
+    cont_respects_hsame (hsame_refl source) (hsame_refl schedule) sourceScheduleTailA
+      sourceScheduleTailB
+  have sameRead : hsame readA readB :=
+    cont_respects_hsame sameTail (hsame_refl sealRow) tailSealReadA tailSealReadB
+  exact ⟨tailUnaryA, tailUnaryB, readUnaryA, readUnaryB, sameTail, sameRead, tailSealReadA,
+    tailSealReadB, readPkgA, readPkgB⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
