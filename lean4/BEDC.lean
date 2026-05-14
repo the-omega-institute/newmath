@@ -67,6 +67,7 @@ import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
+import BEDC.Derived.AuditMapConcreteInventoryUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
@@ -168,6 +169,7 @@ import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
+import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
