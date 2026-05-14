@@ -371,4 +371,54 @@ theorem RegularCauchyTailFiberPacket_source_swap_stability [AskSetup] [PackageSe
         hUnary', cUnary', pUnary', nUnary, hRoute, cRoute, tRoute, pRoute, pPkg⟩,
       hsame_refl a, tUnary'⟩
 
+theorem RegularCauchyTailFiberPacket_classifier_exactness [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n r0' r1' w0' w1' d0' d1' t' a' h' c' p' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      hsame r0 r0' →
+        hsame r1 r1' →
+          hsame w0 w0' →
+            hsame w1 w1' →
+              hsame d0 d0' →
+                hsame d1 d1' →
+                  hsame t t' →
+                    hsame a a' →
+                      Cont r0' w0' h' →
+                        Cont r1' w1' c' →
+                          Cont t' a' p' →
+                            PkgSig bundle p' pkg →
+                              UnaryHistory h' ∧ UnaryHistory c' ∧ UnaryHistory p' ∧
+                                hsame h h' ∧ hsame c c' ∧ hsame p p' ∧
+                                  PkgSig bundle p' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameR0 sameR1 sameW0 sameW1 sameD0 sameD1 sameT sameA hRoute cRoute
+    pRoute pPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, _d0Unary, _d1Unary, tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, oldHRoute, oldCRoute, _oldTRoute, oldPRoute,
+    _oldPkg⟩ := packet
+  have r0Unary' : UnaryHistory r0' := unary_transport r0Unary sameR0
+  have r1Unary' : UnaryHistory r1' := unary_transport r1Unary sameR1
+  have w0Unary' : UnaryHistory w0' := unary_transport w0Unary sameW0
+  have w1Unary' : UnaryHistory w1' := unary_transport w1Unary sameW1
+  have tUnary' : UnaryHistory t' := unary_transport tUnary sameT
+  have aUnary' : UnaryHistory a' := unary_transport aUnary sameA
+  have hUnary' : UnaryHistory h' := unary_cont_closed r0Unary' w0Unary' hRoute
+  have cUnary' : UnaryHistory c' := unary_cont_closed r1Unary' w1Unary' cRoute
+  have pUnary' : UnaryHistory p' := unary_cont_closed tUnary' aUnary' pRoute
+  have sameH : hsame h h' :=
+    cont_respects_hsame sameR0 sameW0 oldHRoute hRoute
+  have sameC : hsame c c' :=
+    cont_respects_hsame sameR1 sameW1 oldCRoute cRoute
+  have sameP : hsame p p' :=
+    cont_respects_hsame sameT sameA oldPRoute pRoute
+  exact
+    ⟨hUnary',
+      cUnary',
+      pUnary',
+      sameH,
+      sameC,
+      sameP,
+      pPkg⟩
+
 end BEDC.Derived.RegularCauchyTailFiberUp
