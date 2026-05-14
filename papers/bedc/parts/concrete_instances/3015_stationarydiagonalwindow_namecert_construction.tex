@@ -4,6 +4,11 @@
 
 The $\StationaryDiagonalWindowUp$ packet realizes the stationary diagonal finite-window classifier correspondence as a concrete $\NameCert$ surface. It keeps the rational seed rows, the constant stream-name windows, the regular-rational readback rows, the dyadic finite-window ledger, the real-facing diagonal representatives, the three classifier faces, transports, continuations, provenance, and local naming in one finite packet. It does not export quotient stream equality, host real equality, selected limit data, non-stationary tails, or ambient completeness.
 
+Its five source rows are sibling certificate rows rather than private coordinates: $Q$ is read from \autoref{ch:concrete-instances-rat-namecert}, $S$ from \autoref{ch:concrete-instances-streamname-namecert}, $G$ from \autoref{ch:concrete-instances-regseqrat-namecert}, $D$ from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and $R$ from \autoref{ch:concrete-instances-real-namecert}. Thus the diagonal-window packet records a finite Real-completion lattice edge whose classifier row can be consumed only after those five sibling surfaces have been displayed.
+
+\falsifiablePrediction{Removing any one of $Q,S,G,D,R$ breaks the three-face classifier correspondence, because the rational seed, finite stream window, regular readback, dyadic ledger, and real-facing diagonal row are all needed before $K$ can be read as one correspondence.}
+\independenceWitness{Nearest siblings: rat, streamname, regseqrat, dyadicratcore, and real. None is bijective to $\StationaryDiagonalWindowUp$ because no single sibling carries the full five-row packet $Q,S,G,D,R$ together with the shared classifier row $K$, while the stationary diagonal packet does not own the full internal surfaces of those sibling chapters.}
+
 \begin{definition}[Stationary diagonal window carrier]
 \label{def:stationary-diagonal-window-carrier}
 A $\StationaryDiagonalWindowUp$ carrier is a finite $\BHist$ packet
@@ -115,12 +120,24 @@ Start from the carrier definition and expose the displayed tuple. The rows $Q,S,
 Apply the classifier-correspondence theorem to route the Real-facing classifier read through the same finite window, and apply finite-window exhaustion to rule out every consumer path outside the tuple. The public-boundary theorem then gives the exact Real-completion-facing ledger and records the absence of every hidden request named in the statement.
 \end{proof}
 
+\begin{theorem}[Stationary diagonal window sibling lattice link]
+\label{thm:stationary-diagonal-window-sibling-lattice-link}
+Every accepted $\StationaryDiagonalWindowUp$ packet obtains $Q$ from $\RatUp$, $S$ from $\StreamNameUp$, $G$ from $\RegSeqRatUp$, $D$ from $\DyadicRatCoreUp$, and $R$ from $\RealUp$ through the same finite $\BHist/\hsame/\Cont/\Pkg/\NameCert$ route. Consequently the three classifier faces in $K$ form a cross-sibling finite-window correspondence rather than an isolated packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-diagonal-window-carrier}. Its source coordinates $Q,S,G,D,R$ are read in order from the sibling surfaces \autoref{ch:concrete-instances-rat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Use \autoref{thm:stationary-diagonal-window-classifier-correspondence} to identify the three faces in $K$ as the rational, regular-rational finite-window, and real diagonal finite-window reads over that shared source route. The transport and continuation coordinates $H,C$ keep the faces on the same finite window, while $P,N$ record package provenance and local naming.
+
+Finally use \autoref{thm:stationary-diagonal-window-ledger-exactness-obligation}. It rules out escape through quotient streams, host equality, selected limits, non-stationary tails, and ambient completeness, so the correspondence visible in $K$ is exactly the cross-sibling finite-window link supplied by the five displayed source rows.
+\end{proof}
+
 \closureat{StationaryDiagonalWindowUp}{seedStr}
 
 \begin{closurestatus}{\StationaryDiagonalWindowUp}
   \constructivestory{A $\StationaryDiagonalWindowUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp readbacks, a DyadicRatCoreUp finite-window ledger, RealUp diagonal representative rows, a three-face classifier correspondence row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stationary-diagonal-window-carrier}, \autoref{thm:stationary-diagonal-window-namecert-obligations}, \autoref{thm:stationary-diagonal-window-classifier-correspondence}, \autoref{thm:stationary-diagonal-window-finite-window-exhaustion}, \autoref{thm:stationary-diagonal-window-public-boundary}, \autoref{thm:stationary-diagonal-window-carrier-source-obligation}, \autoref{thm:stationary-diagonal-window-classifier-stability-obligation}, and \autoref{thm:stationary-diagonal-window-ledger-exactness-obligation} bind the finite NameCert packet for the stationary diagonal finite-window classifier correspondence over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:stationary-diagonal-window-carrier}, \autoref{thm:stationary-diagonal-window-namecert-obligations}, \autoref{thm:stationary-diagonal-window-classifier-correspondence}, \autoref{thm:stationary-diagonal-window-finite-window-exhaustion}, \autoref{thm:stationary-diagonal-window-public-boundary}, \autoref{thm:stationary-diagonal-window-carrier-source-obligation}, \autoref{thm:stationary-diagonal-window-classifier-stability-obligation}, \autoref{thm:stationary-diagonal-window-ledger-exactness-obligation}, and \autoref{thm:stationary-diagonal-window-sibling-lattice-link} bind the finite NameCert packet for the stationary diagonal finite-window classifier correspondence over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

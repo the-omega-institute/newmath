@@ -58,6 +58,50 @@ The shift and substitution obligations are the two operation rows $Q$ and $R$. T
 Finally the audit row $A$ fixes the non-escape claim. Since the carrier has no coordinate for a free-variable leak, hidden host equality, or ambient subject-reduction theorem, no consumer route can export such data from the local certificate.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary source closedness admission]
+\label{thm:closed-term-substitution-boundary-source-closedness-admission}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the source closedness row $C_{\mathsf{src}}$ must be exposed before either the shift boundary row $Q$ or the substitution boundary row $R$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. The displayed packet places $C_{\mathsf{src}}$ in the same finite $\BHist$ surface as $Q$ and $R$.
+
+Use the classifier of \autoref{def:closed-term-substitution-boundary-classifier} and the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. The classifier permits only componentwise transport of the displayed rows, while the operation obligations require source closedness before either boundary operation is read.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary value closedness admission]
+\label{thm:closed-term-substitution-boundary-value-closedness-admission}
+For every accepted substitution-row read of a $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the value closedness row $C_{\mathsf{val}}$ must be exposed before the substitution boundary row $R$ can be consumed.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates from \autoref{def:closed-term-substitution-boundary-carrier}. The value witness $C_{\mathsf{val}}$ is displayed as the closedness row for the substituting value, and the substitution row $R$ is part of the same finite packet.
+
+Apply \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Their substitution boundary clause permits a read of $R$ only after the source and value closedness witnesses have been displayed and recorded in the local ledger.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary substitution-row exactness]
+\label{thm:closed-term-substitution-boundary-substitution-row-exactness}
+In an accepted $\ClosedTermSubstitutionBoundaryUp$ packet
+$$
+S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N),
+$$
+the substitution row $R$ is read only through the finite surface $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},L,A,H,C,P,N$. It exports no free variable, host equality, unchecked compiler state, or subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier and classifier. \autoref{def:closed-term-substitution-boundary-carrier} lists every row available to the substitution boundary, and \autoref{def:closed-term-substitution-boundary-classifier} allows only displayed $\hsame$ transports and $\Cont$ routes across those rows.
+
+Use the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They force the read of $R$ through $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ and the ledger and audit rows before any consumer may cite the substitution boundary.
+
+The export exclusions are absence-of-coordinate consequences. The packet has no row for a free variable, host equality, unchecked compiler state, or subject-reduction theorem, and the local certificate cannot reconstruct one from $L,A,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[Closed-term substitution boundary ledger non-escape]
 \label{thm:closed-term-substitution-boundary-ledger-non-escape}
 Every accepted $\ClosedTermSubstitutionBoundaryUp$ packet exposes closed-term substitution only through the rows
