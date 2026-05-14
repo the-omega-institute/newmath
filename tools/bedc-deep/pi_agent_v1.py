@@ -566,6 +566,45 @@ def _recent_deepen_rejections(
     return count
 
 
+def _recent_shallow_deepen_rejections(
+    recent_cycles: list[dict],
+    *,
+    threshold: int = 4,
+) -> int:
+    """Count recent rejections from the shallow-completed deepen heuristic.
+
+    The target-specific guard above stops repeated retries of the same BOARD
+    item. This guard stops the heuristic from rotating through multiple targets
+    when the gauntlet has recently judged the whole signal too weak.
+    """
+    count = 0
+    for cycle in reversed(recent_cycles):
+        if not isinstance(cycle, dict):
+            continue
+        for rec in cycle.get("gauntlet_results") or []:
+            if not isinstance(rec, dict):
+                continue
+            action = rec.get("action") if isinstance(rec.get("action"), dict) else {}
+            if (action.get("action") or "").strip() != "request_deepen_target":
+                continue
+            if action.get("source") != "pi_agent_v1_shallow_completed_heuristic":
+                continue
+            if rec.get("pass_all"):
+                return 0
+            count += 1
+            if count >= threshold:
+                return count
+    return count
+
+
+def _is_shallow_deepen_action(action: dict) -> bool:
+    return (
+        isinstance(action, dict)
+        and (action.get("action") or "").strip() == "request_deepen_target"
+        and action.get("source") == "pi_agent_v1_shallow_completed_heuristic"
+    )
+
+
 def _snapshot_has_active_refill(snapshot: dict) -> bool:
     server = snapshot.get("server") or {}
     for task in (server.get("agents") or {}).values():
@@ -1322,7 +1361,25 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
             recent_pi_cycles,
             shallow.get("target_id") if isinstance(shallow, dict) else "",
         )
-        if shallow and recent_deepen_rejections >= 3:
+        recent_shallow_deepen_rejections = _recent_shallow_deepen_rejections(
+            recent_pi_cycles,
+        )
+        if recent_shallow_deepen_rejections >= 4:
+            suppressed = [
+                a for a in autonomous_actions
+                if _is_shallow_deepen_action(a)
+            ]
+            if suppressed:
+                autonomous_actions = [
+                    a for a in autonomous_actions
+                    if not _is_shallow_deepen_action(a)
+                ]
+                inbox.append(
+                    "**suppressed autonomous action** (request_deepen_target) — "
+                    "shallow-completed heuristic was rejected by the gauntlet "
+                    f"{recent_shallow_deepen_rejections} recent cycles"
+                )
+        elif shallow and recent_deepen_rejections >= 3:
             inbox.append(
                 "**suppressed autonomous action** (request_deepen_target) — "
                 f"{shallow.get('target_id')} was rejected by the gauntlet "
@@ -1333,6 +1390,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
             and not has_deepen
             and not autonomous_actions
             and recent_deepen_rejections < 3
+            and recent_shallow_deepen_rejections < 4
             and not _snapshot_has_active_refill(snapshot)
         ):
             autonomous_actions.append({
