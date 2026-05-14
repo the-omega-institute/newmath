@@ -1,0 +1,329 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.RegularCauchyTailFiberUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive RegularCauchyTailFiberUp : Type where
+  | mk : (R0 R1 W0 W1 D0 D1 T A H C P N : BHist) → RegularCauchyTailFiberUp
+  deriving DecidableEq
+
+def regularCauchyTailFiberEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: regularCauchyTailFiberEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyTailFiberEncodeBHist h
+
+def regularCauchyTailFiberDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyTailFiberDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyTailFiberDecodeBHist tail)
+
+private theorem regularCauchyTailFiberDecode_encode_bhist :
+    ∀ h : BHist,
+      regularCauchyTailFiberDecodeBHist
+        (regularCauchyTailFiberEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
+
+def regularCauchyTailFiberToEventFlow :
+    RegularCauchyTailFiberUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyTailFiberUp.mk R0 R1 W0 W1 D0 D1 T A H C P N =>
+      [[BMark.b0],
+        regularCauchyTailFiberEncodeBHist R0,
+        [BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist R1,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist W0,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist W1,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist D0,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist D1,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist T,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchyTailFiberEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyTailFiberEncodeBHist N]
+
+def regularCauchyTailFiberFromEventFlow :
+    EventFlow → Option RegularCauchyTailFiberUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | R0 :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | R1 :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | W0 :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | W1 :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | D0 :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | D1 :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | T :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | A :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | H :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | C :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | P :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] => none
+                                                                                          | _tag11 :: rest22 =>
+                                                                                              match rest22 with
+                                                                                              | [] => none
+                                                                                              | N :: rest23 =>
+                                                                                                  match rest23 with
+                                                                                                  | [] =>
+                                                                                                      some
+                                                                                                        (RegularCauchyTailFiberUp.mk
+                                                                                                          (regularCauchyTailFiberDecodeBHist R0)
+                                                                                                          (regularCauchyTailFiberDecodeBHist R1)
+                                                                                                          (regularCauchyTailFiberDecodeBHist W0)
+                                                                                                          (regularCauchyTailFiberDecodeBHist W1)
+                                                                                                          (regularCauchyTailFiberDecodeBHist D0)
+                                                                                                          (regularCauchyTailFiberDecodeBHist D1)
+                                                                                                          (regularCauchyTailFiberDecodeBHist T)
+                                                                                                          (regularCauchyTailFiberDecodeBHist A)
+                                                                                                          (regularCauchyTailFiberDecodeBHist H)
+                                                                                                          (regularCauchyTailFiberDecodeBHist C)
+                                                                                                          (regularCauchyTailFiberDecodeBHist P)
+                                                                                                          (regularCauchyTailFiberDecodeBHist N))
+                                                                                                  | _ :: _ => none
+
+private theorem regularCauchyTailFiber_round_trip :
+    ∀ x : RegularCauchyTailFiberUp,
+      regularCauchyTailFiberFromEventFlow
+        (regularCauchyTailFiberToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk R0 R1 W0 W1 D0 D1 T A H C P N =>
+      change
+        some
+          (RegularCauchyTailFiberUp.mk
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist R0))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist R1))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist W0))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist W1))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist D0))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist D1))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist T))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist A))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist H))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist C))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist P))
+            (regularCauchyTailFiberDecodeBHist
+              (regularCauchyTailFiberEncodeBHist N))) =
+          some (RegularCauchyTailFiberUp.mk R0 R1 W0 W1 D0 D1 T A H C P N)
+      rw [regularCauchyTailFiberDecode_encode_bhist R0,
+        regularCauchyTailFiberDecode_encode_bhist R1,
+        regularCauchyTailFiberDecode_encode_bhist W0,
+        regularCauchyTailFiberDecode_encode_bhist W1,
+        regularCauchyTailFiberDecode_encode_bhist D0,
+        regularCauchyTailFiberDecode_encode_bhist D1,
+        regularCauchyTailFiberDecode_encode_bhist T,
+        regularCauchyTailFiberDecode_encode_bhist A,
+        regularCauchyTailFiberDecode_encode_bhist H,
+        regularCauchyTailFiberDecode_encode_bhist C,
+        regularCauchyTailFiberDecode_encode_bhist P,
+        regularCauchyTailFiberDecode_encode_bhist N]
+
+private theorem regularCauchyTailFiberToEventFlow_injective
+    {x y : RegularCauchyTailFiberUp} :
+    regularCauchyTailFiberToEventFlow x =
+      regularCauchyTailFiberToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      regularCauchyTailFiberFromEventFlow
+          (regularCauchyTailFiberToEventFlow x) =
+        regularCauchyTailFiberFromEventFlow
+          (regularCauchyTailFiberToEventFlow y) :=
+    congrArg regularCauchyTailFiberFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (regularCauchyTailFiber_round_trip x).symm
+      (Eq.trans hread (regularCauchyTailFiber_round_trip y)))
+
+instance regularCauchyTailFiberBHistCarrier :
+    BHistCarrier RegularCauchyTailFiberUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := regularCauchyTailFiberToEventFlow
+  fromEventFlow := regularCauchyTailFiberFromEventFlow
+
+instance regularCauchyTailFiberChapterTasteGate :
+    ChapterTasteGate RegularCauchyTailFiberUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change
+      regularCauchyTailFiberFromEventFlow
+        (regularCauchyTailFiberToEventFlow x) = some x
+    exact regularCauchyTailFiber_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (regularCauchyTailFiberToEventFlow_injective heq)
+
+instance regularCauchyTailFiberFieldFaithful :
+    FieldFaithful RegularCauchyTailFiberUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RegularCauchyTailFiberUp.mk R0 R1 W0 W1 D0 D1 T A H C P N =>
+        [R0, R1, W0, W1, D0, D1, T, A, H, C, P, N]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk R0₁ R1₁ W0₁ W1₁ D0₁ D1₁ T₁ A₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk R0₂ R1₂ W0₂ W1₂ D0₂ D1₂ T₂ A₂ H₂ C₂ P₂ N₂ =>
+            injection h with hR0 t1
+            injection t1 with hR1 t2
+            injection t2 with hW0 t3
+            injection t3 with hW1 t4
+            injection t4 with hD0 t5
+            injection t5 with hD1 t6
+            injection t6 with hT t7
+            injection t7 with hA t8
+            injection t8 with hH t9
+            injection t9 with hC t10
+            injection t10 with hP t11
+            injection t11 with hN _
+            cases hR0
+            cases hR1
+            cases hW0
+            cases hW1
+            cases hD0
+            cases hD1
+            cases hT
+            cases hA
+            cases hH
+            cases hC
+            cases hP
+            cases hN
+            rfl
+
+instance regularCauchyTailFiberNontrivial :
+    Nontrivial RegularCauchyTailFiberUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyTailFiberUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      RegularCauchyTailFiberUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RegularCauchyTailFiberUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  inferInstance
+
+theorem RegularCauchyTailFiberTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyTailFiberDecodeBHist (regularCauchyTailFiberEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyTailFiberUp,
+        regularCauchyTailFiberFromEventFlow (regularCauchyTailFiberToEventFlow x) =
+          some x) ∧
+        (∀ x y : RegularCauchyTailFiberUp,
+          regularCauchyTailFiberToEventFlow x =
+            regularCauchyTailFiberToEventFlow y → x = y) ∧
+          regularCauchyTailFiberEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact regularCauchyTailFiberDecode_encode_bhist
+  · constructor
+    · exact regularCauchyTailFiber_round_trip
+    · constructor
+      · intro x y heq
+        exact regularCauchyTailFiberToEventFlow_injective heq
+      · rfl
+
+end BEDC.Derived.RegularCauchyTailFiberUp
