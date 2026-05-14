@@ -199,3 +199,17 @@ Now attach the completion-facing budget packet. Apply \autoref{thm:real-tail-agr
 
 Finally use root budget route determinacy together with the Real and Completion consumer exhaustion rows. \autoref{thm:real-tail-agreement-seal-root-budget-route-determinacy} identifies the public handoff route, while \autoref{thm:real-tail-agreement-seal-real-completion-consumer-exhaustion} and \autoref{thm:real-tail-agreement-seal-budget-real-handoff} list the available consumer rows. Quotient stream equality, selected limits, host convergence predicates, choice-selected tails, hidden family limits, and ambient completeness data are outside that list, so they cannot distinguish the two handoffs.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal budget source totality]
+\label{thm:real-tail-agreement-seal-budget-source-totality}
+Every accepted $\RealTailAgreementSealUp$ consumer that reaches $\RealUp$ or $\CompletionUp$ through the budget route is sourced exactly by the limiter budget, regular tail budget, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback, $\CauchyLimitSealUp$ budget packet, and displayed rows $R,S,W,D,A,H,C,P,N$. It cannot introduce an unlisted tail source, quotient stream equality, host convergence predicate, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply limiter-budget factorization from \autoref{thm:real-tail-agreement-seal-limiter-budget-factorization}. It places the accepted consumer behind the observation limiter and regular Cauchy tail-budget rows before any agreement seal is available.
+
+Next use dyadic readback route totality from \autoref{thm:real-tail-agreement-seal-dyadic-readback-route-totality}. The finite $\StreamNameUp$ window reaches the agreement row only through the displayed $\DyadicRatCoreUp$ readback, so the local route is fixed by $W,D,A$.
+
+Attach the completion-facing budget packet with \autoref{thm:real-tail-agreement-seal-cauchy-limit-budget-handoff}. Then apply the budget Real handoff of \autoref{thm:real-tail-agreement-seal-budget-real-handoff}. These two rows put the regular source, finite window, dyadic readback, and $\RealUp$ seal surface on the same $\CauchyLimitSealUp$ budget packet.
+
+Finally use budget-fusion non-escape from \autoref{thm:real-tail-agreement-seal-budget-fusion-nonescape}. The consumer has already factored through the limiter, regular tail budget, window, readback, CauchyLimitSeal packet, and displayed carrier rows, so no unlisted tail source, quotient stream equality, host convergence predicate, selected limit, or ambient completeness coordinate remains.
+\end{proof}
