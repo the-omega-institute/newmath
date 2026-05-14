@@ -706,6 +706,58 @@ Then apply \autoref{thm:cross-hist-causal-rate-root-max-invariant-handoff}, \aut
 Finally, \autoref{thm:cross-hist-causal-rate-root-consumer-exactness} prevents a second invariant source, so the $\InterHistInvariantUp$ dependence is exactly the displayed packet route.
 \end{proof}
 
+\begin{theorem}[Cross-Hist causal-rate root source-channel totality]
+\label{thm:cross-hist-causal-rate-root-source-channel-totality}
+Every accepted $\CrossHistCausalRateUp$ packet exposes its two observer-history source slots, finite causal-dependence route, observer-symmetry row, and no-global-frame row through the displayed route
+$$
+A,B,D,S,G,H,C,P,N
+$$
+before any consumer reads the maximum-rate row $M$. Thus the source channel for a maximum-rate read is the packet's finite $\BHist$ route with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ certification, not hidden frame data or an ambient clock.
+\end{theorem}
+\begin{proof}
+Start from the observer-slot route of \autoref{thm:cross-hist-causal-rate-observer-slot-route}. It makes $A$ and $B$ the only entrance for the causal-dependence family $D$.
+
+Apply \autoref{thm:cross-hist-causal-rate-root-observer-slot-totality} and \autoref{thm:cross-hist-causal-rate-root-dependence-route-exhaustion}. These force every accepted route row to pass through the same finite observer-history slots before $M$ is available.
+
+Use \autoref{thm:cross-hist-causal-rate-observer-symmetry-totality} and \autoref{thm:cross-hist-causal-rate-no-global-frame-boundary}. The first supplies the observer-symmetry row $S$, and the second keeps the no-global-frame row $G$ inside the displayed packet.
+
+Finally apply \autoref{thm:cross-hist-causal-rate-consumer-boundary}. It places $H,C,P,N$ on the same route before any maximum-rate read, giving totality for the displayed source channel.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate max-bound ledger]
+\label{thm:cross-hist-causal-rate-max-bound-ledger}
+For an accepted $\CrossHistCausalRateUp$ packet, the maximum-rate row $M$ is ledger-bound by the route rows
+$$
+A,B,D,S,G,H,C,P,N.
+$$
+No consumer may replace this ledger with metric tensors, synchronized clocks, host speeds, a privileged frame, or any off-carrier maximum-rate primitive.
+\end{theorem}
+\begin{proof}
+Use maximum-row exactness from \autoref{thm:cross-hist-causal-rate-max-row-exactness}. It binds $M$ to the displayed packet rather than to an external speed comparison.
+
+The invariant boundary and no-global-frame boundary of \autoref{thm:cross-hist-causal-rate-invariant-boundary} and \autoref{thm:cross-hist-causal-rate-no-global-frame-boundary} exclude hidden frame data, synchronized clocks, metric tensors, and host speeds from the consumer route.
+
+Apply \autoref{thm:cross-hist-causal-rate-root-source-channel-totality}. Since every maximum-rate read first exposes $A,B,D,S,G,H,C,P,N$, the ledger for $M$ is exactly the displayed root route.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate downstream factorization]
+\label{thm:cross-hist-causal-rate-downstream-factorization}
+Every $\MaxCausalRateUp$, $\InterHistInvariantUp$, or $\LorentzFrameRateUp$ consumer of an accepted $\CrossHistCausalRateUp$ packet factors through the same displayed route
+$$
+A,B,D,S,G,H,C,P,N
+$$
+before reading $M$. The downstream consumer may specialize the rate, invariant, or frame-facing interpretation only after that route has been exposed.
+\end{theorem}
+\begin{proof}
+For $\MaxCausalRateUp$, apply \autoref{thm:cross-hist-causal-rate-maxcausalrate-dependence}. It reads $M$ only after the displayed causal route and structural gates.
+
+For $\InterHistInvariantUp$, apply \autoref{thm:cross-hist-causal-rate-interhist-invariant-dependence}. It places invariant-facing consumption downstream of observer identity, route exposure, observer symmetry, no-frame refusal, transport, continuation, provenance, and naming.
+
+For $\LorentzFrameRateUp$, use the same max-bound ledger of \autoref{thm:cross-hist-causal-rate-max-bound-ledger}. Since a frame-facing rate consumer has no permitted off-carrier metric, clock, host-speed, or privileged-frame coordinate, it must factor through the displayed route before reading $M$.
+
+The consumer boundary of \autoref{thm:cross-hist-causal-rate-consumer-boundary} closes the three cases by preventing a second route for downstream reads.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CrossHistCausalRateUp$ packet admits no maximum-rate read unless both observer-symmetry and no-global-sync rows are present.}
 
 \independenceWitness{interhistinvariant, observerhistidentity, histtimestream, continuationtrace, supplykindrouter: $\CrossHistCausalRateUp$ has two Hist slots, a causal-dependence route, a maximum-rate row, and no-global-frame refusal data; these rows are not bijective with invariant-only, identity-only, time-stream-only, trace-only, or socket-router packets.}
