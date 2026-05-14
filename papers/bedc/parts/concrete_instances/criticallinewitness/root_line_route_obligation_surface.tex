@@ -1,0 +1,75 @@
+\begin{theorem}[Critical-line witness root-line row exposure]
+\label{thm:critical-line-witness-root-line-row-exposure}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted root critical-line read of $W$ first exposes the supplied zero
+row $Z$, the critical-strip row $S$, the modulus row $M$, the rational
+comparison row $R$, the comparison ledger $Q$, the componentwise transport row
+$H$, the displayed continuation row $C$, the provenance row $P$, and the local
+$\NameCert_{\CriticalLineWitnessUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:critical-line-witness-carrier}.
+The packet has exactly the displayed finite rows $Z,S,M,R,Q,H,C,P,N$, so a root
+critical-line read has no earlier carrier coordinate to inspect.
+
+Apply the root public-read package of
+\autoref{thm:critical-line-witness-root-public-readiness} and the zero-strip
+consumer boundary of
+\autoref{thm:critical-line-witness-zero-strip-consumer-boundary}. These rows
+place the zero row, strip row, modulus row, comparison rows, transport row,
+continuation row, provenance row, and local naming row in the same finite
+readback route.
+
+The read therefore begins with the supplied BEDC rows rather than with an
+ambient analytic object. Any later consumer receives the packet through this
+exposure order.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip route factorization]
+\label{thm:critical-line-witness-zero-strip-route-factorization}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every zero-strip consumer route through $W$ factors through
+$$
+Z,S,H,C,P,N
+$$
+before any modulus row or $\mathsf{RH}$-facing row is readable.
+\end{theorem}
+\begin{proof}
+Read the zero-strip side first. The supplied zero row $Z$ and critical-strip
+row $S$ are bound to the same componentwise transport, continuation replay,
+package provenance, and local naming rows by
+\autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}.
+
+Next use \autoref{thm:critical-line-witness-strip-modulus-readback}. It places
+modulus access downstream of the displayed strip route, so $M,R,Q$ are not
+available before the route has passed through $Z,S,H,C,P,N$.
+
+Finally apply \autoref{thm:critical-line-witness-rh-nonescape-package}. The
+same finite route separates zero-strip consumption from every
+$\mathsf{RH}$-facing request.
+\end{proof}
+
+\begin{theorem}[Critical-line witness analytic-continuation nonescape]
+\label{thm:critical-line-witness-analytic-continuation-nonescape}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+No accepted packet exports analytic continuation, $\mathsf{RH}$ proof data,
+global zero classification, a quotient representative, host equality, or
+ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the refusal ledger route of
+\autoref{thm:critical-line-witness-rh-refusal-ledger}. It exhausts every
+$\mathsf{RH}$-facing request through the finite packet rows and reports no host
+analytic theorem.
+
+Use the downstream refusal package of
+\autoref{thm:critical-line-witness-downstream-refusal-package} together with
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. These rows
+exclude analytic-continuation data, $\mathsf{RH}$ proof data, global zero
+classification, quotient representatives, host equality, and ambient
+completeness from downstream reads.
+
+The root-line row exposure above gives the only accepted readback surface.
+Hence none of the excluded objects can be exported as a hidden coordinate of
+the accepted packet.
+\end{proof}

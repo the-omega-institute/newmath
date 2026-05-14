@@ -122,6 +122,7 @@ $R,A,H,C,P,N$ exhaust the audit ledger after the visible source and question
 rows have been read. No hidden axiom, quotient collapse, unmarked selector, or
 host gate answer is exported by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticGateQuestionUp.ApophaticGateQuestionCarrier\_refusal\_audit\_ledger}
 \begin{proof}
 Read the carrier and NameCert obligations. After $S$ and $Q$, the remaining
 audit-facing rows are exactly the refusal ledger $R$, audit readback $A$,
@@ -177,6 +178,51 @@ Use source exposure and socket-name dependency. Theorems~\ref{thm:apophatic-gate
 Now apply audit route exactness and the root refusal audit ledger. The row $A$ records only the answer to the displayed question over $S$ after the refusal row $R$ has been fixed, and Theorem~\ref{thm:apophatic-gate-question-root-refusal-audit-ledger} leaves no second refusal or audit coordinate.
 
 Finally use visible socket non-escape. Since the carrier has no coordinate for a hidden predicate, host judgment, quotient collapse, unmarked selector, or detached gate answer, the kind readback is determined by the visible rows $S,Q,R$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question supply-kind route totality]
+\label{thm:apophatic-gate-question-supply-kind-route-totality}
+For an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, every supply-kind-facing route for the gate question first reads the visible socket row $S$ as a finite $\BHist$ route, then reads the gate-question row $Q$, then reads the finite supply-kind and requested-shape refusal row $R$, and only then reads the audit readback row $A$.
+
+The public route vocabulary is exactly $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ over the displayed rows $S,Q,R,A,H,C,P,N$. It contains no hidden outside-supply witness, host gate answer, quotient collapse, unmarked selector, or detached audit answer.
+\end{theorem}
+\begin{proof}
+Start with source exposure. Theorems~\ref{thm:apophatic-gate-question-source-exposure} and~\ref{thm:apophatic-gate-question-root-visible-source} place the visible socket row $S$ before the question row $Q$ and keep both rows inside the finite $\BHist$ packet.
+
+Next use socket-name dependency. Theorem~\ref{thm:apophatic-gate-question-socket-name-dependency} forces the gate question to read the visible $\ApophaticSocketUp$ or $\ApophaticNameUp$ surface before any refusal or audit suffix can be consumed.
+
+Finally apply kind-readback determinacy. Theorem~\ref{thm:apophatic-gate-question-kind-readback-determinacy} determines the audit readback $A$ from $S,Q,R$, so the supply-kind and requested-shape row $R$ is read before audit readback. The transport, continuation, provenance, and local naming rows supply only $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ vocabulary for that finite route.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question refusal readback exactness]
+\label{thm:apophatic-gate-question-refusal-readback-exactness}
+For an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, the refusal row $R$ and readback row $A$ are exactly the finite ledger suffix after the visible source row $S$ and gate-question row $Q$. They are transported only by $H,C,P,N$, namely by componentwise $\hsame$, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row over $\BHist$.
+
+No hidden outside-supply witness, host gate answer, quotient collapse, unmarked selector, detached readback, or additional refusal channel is part of the suffix.
+\end{theorem}
+\begin{proof}
+Project the carrier and local NameCert obligations. The packet displays $R$ as the refusal row and $A$ as the audit readback row after the visible source and question rows $S,Q$.
+
+Use the root refusal audit ledger. Theorem~\ref{thm:apophatic-gate-question-root-refusal-audit-ledger} identifies $R,A,H,C,P,N$ as the complete suffix after $S,Q$ and leaves no second refusal or audit coordinate.
+
+The exact transport vocabulary is then forced by the carrier rows. The row $H$ provides componentwise $\hsame$, $C$ provides the displayed $\Cont$ routes, $P$ provides $\Pkg$ provenance, and $N$ provides the local $\NameCert$ row over the same finite $\BHist$ packet. Thus $R$ and $A$ are transported only by $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question audit consumer non-escape]
+\label{thm:apophatic-gate-question-audit-consumer-nonescape}
+Every downstream audit consumer of an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$ reads only the finite $\BHist$ route
+$$
+S,Q,R,A,H,C,P,N.
+$$
+The route vocabulary is $\hsame$ transport, $\Cont$ continuation, $\Pkg$ provenance, and local $\NameCert$ naming for those displayed rows. The consumer receives no hidden axiom, outside supply witness, quotient collapse, unmarked selector, host replacement, or detached audit answer.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApophaticGateQuestionUp.ApophaticGateQuestionCarrier\_audit\_consumer\_nonescape}
+\begin{proof}
+Read the routed question first. Theorem~\ref{thm:apophatic-gate-question-supply-kind-route-totality} forces the consumer through $S,Q,R$ before audit readback, so no audit consumer can bypass the visible socket row or the finite refusal row.
+
+Then use refusal readback exactness. Theorem~\ref{thm:apophatic-gate-question-refusal-readback-exactness} identifies $R,A,H,C,P,N$ as the exact finite suffix transported by $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ vocabulary over $\BHist$.
+
+Finally apply visible socket non-escape and audit ledger exhaustion. The carrier has no coordinate for hidden axioms, outside supply witnesses, quotient collapses, unmarked selectors, host replacements, or detached audit answers, so every downstream audit consumer is confined to the displayed packet.
 \end{proof}
 
 \begin{theorem}[Apophatic gate question question exactness route]
