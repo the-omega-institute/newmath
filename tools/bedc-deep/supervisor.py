@@ -60,6 +60,7 @@ DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
+DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY = False
@@ -600,8 +601,25 @@ DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
 def git_sync_dev() -> bool:
-    """Disabled upstream merge hook for the paper-native BEDC supervisor."""
-    supervisor_log("git_sync_dev: disabled for paper-native BEDC supervisor")
+    """Synchronize BEDC with the shared auto-dev integration branch.
+
+    Sync is required so this branch does not duplicate work already produced
+    by auto-dev/loning.  Safety lives in dev_sync_resolver's path protection,
+    conflict handling, and post-merge gates, not in disabling sync.
+    """
+    proc = subprocess.run(
+        ["python3", str(DEV_SYNC_RESOLVER)],
+        cwd=str(REPO_ROOT),
+        text=True,
+        capture_output=True,
+        timeout=2400,
+    )
+    output = (proc.stdout or proc.stderr or "").strip()
+    summary = " ".join(output.split())[:500]
+    if proc.returncode == 0:
+        supervisor_log(f"git_sync_dev: ok {summary}")
+        return True
+    supervisor_log(f"git_sync_dev: blocked rc={proc.returncode} {summary}")
     return False
 
 
@@ -914,7 +932,7 @@ def retry_pending_network_push() -> bool:
     if behind:
         reason = (
             f"branch is ahead={ahead} and behind={behind}; "
-            "auto-merge disabled for paper-native BEDC supervisor"
+            "sync resolver must integrate upstream before push"
         )
         _write_network_resume_checkpoint(
             "push_blocked_diverged",
@@ -924,6 +942,7 @@ def retry_pending_network_push() -> bool:
             upstream=current_upstream(),
         )
         supervisor_log(f"network-resume: {reason}")
+        git_sync_dev()
         return False
     supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
     push = _git(["push", "origin", branch], capture=False)
@@ -953,6 +972,15 @@ def commit_and_push_if_changed() -> bool:
         pre_relation = ahead_behind_upstream()
         if pre_relation:
             pre_ahead, pre_behind = pre_relation
+            if pre_behind:
+                supervisor_log(
+                    "auto-commit: branch behind upstream; running sync before commit "
+                    f"(ahead={pre_ahead}, behind={pre_behind})"
+                )
+                git_sync_dev()
+                pre_relation = ahead_behind_upstream()
+                if pre_relation:
+                    pre_ahead, pre_behind = pre_relation
             if pre_ahead or pre_behind:
                 supervisor_log(
                     "auto-commit: skipped because branch is not aligned with upstream "
@@ -1008,9 +1036,10 @@ def commit_and_push_if_changed() -> bool:
             if behind:
                 reason = (
                     f"branch behind upstream by {behind}; "
-                    "auto-merge disabled for paper-native BEDC supervisor"
+                    "sync resolver must integrate upstream before push"
                 )
                 supervisor_log(f"auto-commit: {reason}")
+                git_sync_dev()
                 _write_network_resume_checkpoint(
                     "push_blocked_diverged",
                     branch,
@@ -1133,6 +1162,8 @@ def main() -> int:
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
                         help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
                              "leverages project-attached PDF for deeper candidate suggestions.")
+    parser.add_argument("--dev-sync-cooldown-minutes", type=float, default=DEFAULT_DEV_SYNC_COOLDOWN_MINUTES,
+                        help="Cooldown between BEDC sync attempts from origin/auto-dev through dev_sync_resolver.")
     parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
                         help="Cooldown between fetch-and-report checks of loning-side integration branches.")
     parser.add_argument("--no-loning-watch", action="store_true",
@@ -1153,9 +1184,9 @@ def main() -> int:
                              "Set to e.g. 'papers/bedc/main.pdf' to enable userscript-side upload.")
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--dev-sync", action="store_true",
-                        help="Opt in to upstream integration sync before discovery triggers.")
+                        help="Deprecated compatibility flag; BEDC sync is enabled by default.")
     parser.add_argument("--no-dev-sync", action="store_true",
-                        help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set.")
+                        help="Disable BEDC sync from origin/auto-dev. Use only for emergency debugging.")
     parser.add_argument("--allow-lean-adjacent-discovery", action="store_true",
                         default=DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY,
                         help="Opt in to legacy auto_discovery probe/curriculum/curator triggers. "
@@ -1170,8 +1201,8 @@ def main() -> int:
     if not assert_required_branch():
         return 2
 
-    dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
-    no_dev_sync = not dev_sync_enabled
+    dev_sync_enabled = not bool(args.no_dev_sync)
+    no_dev_sync = True
 
     supervisor_log(
         f"supervisor starting (parallel={args.parallel}, "
@@ -1194,6 +1225,7 @@ def main() -> int:
     last_oracle_refill_ts = 0.0
     last_paper_review_ts = 0.0
     last_loning_watch_ts = 0.0
+    last_dev_sync_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     last_zero_extract_alert_ts = 0.0
@@ -1218,6 +1250,10 @@ def main() -> int:
             if not assert_required_branch():
                 break
             ensure_server()
+
+            if dev_sync_enabled and (_now() - last_dev_sync_ts) / 60.0 >= args.dev_sync_cooldown_minutes:
+                git_sync_dev()
+                last_dev_sync_ts = _now()
 
             cleaned = stale_cleanup()
             if cleaned:

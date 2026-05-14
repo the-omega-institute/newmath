@@ -463,3 +463,27 @@ Even if $R$ recognizes $S$ as a package, $\NameCert$, theorem, or chapter flow, 
 \label{rem:recognizer-generated-outlook}
 This chapter establishes that recognizers are not external parsers, but event flows. The core judgments are $\mathsf{Recognizes}(R,\rho,S)$ and $\mathsf{CertifiedRecognizer}(R,\rho)$. A recognizer candidate flow is not automatically a recognizer; formal use requires a recognizer certificate with domain, target, role, soundness, completeness, ledger, failure, stability, and seal subflows. Uncertified recognizers and host-parser outputs are inadmissible. A certified recognizer hierarchy removes hidden structural input for package, certificate, theorem, and chapter recognition. Self-hosting compiler flow removes compiler-as-hidden-input, but self-hosting is behavior classification, not kernel equality. Undischarged bootstrap obligations block full self-hosting claims. Recognizer flows remain conservative over the finite kernel, recognizer existence does not imply recognized-object existence, and recognition does not imply acceptance. The next ground-compiler chapter gives the detailed self-hosting construction path from the channel base recognizer to a compiler flow that can compile and recognize itself.
 \end{remark}
+
+\begin{lemma}[Certified recognizer certificates expose ledger and failure]
+\label{lem:recognizer-generated-certified-certificate-exposes-ledger-failure}
+Let $R$, $\rho$, $S$, $C_R$, and $Q$ be event flows. Suppose there is formal recognition evidence for $R$, $\rho$, and $S$, and suppose its certificate side is backed by
+$$
+  \mathsf{RecognizesRecognizerCert}(Q,C_R,R,\rho).
+$$
+Then there are event flows $L$ and $F$ such that
+$$
+\begin{gathered}
+  \mathsf{RecLedger}_Q(C_R,L),\\
+  \mathsf{RecFailure}_Q(C_R,F).
+\end{gathered}
+$$
+In particular, the evidence cannot use $R$ as a formal recognizer while hiding either the recognizer ledger or the recognizer failure record.
+\end{lemma}
+
+\begin{proof}
+By \autoref{prin:recognizer-generated-no-recognizer-without-cert}, formal recognition evidence for $R$, $\rho$, and $S$ includes the certificate judgment $\mathsf{CertifiedRecognizer}(R,\rho)$. By \autoref{def:recognizer-generated-certified-recognizer}, such a certification is witnessed by a recognizer-certificate flow and a meta-recognizer flow, and the assumed judgment
+$$
+  \mathsf{RecognizesRecognizerCert}(Q,C_R,R,\rho)
+$$
+identifies $C_R$ as the certificate flow recognized by $Q$ for this role. The recognized certificate field surface in \autoref{def:recognizer-generated-certificate-fields} includes the ledger and failure roles. The ledger requirement in \autoref{def:recognizer-generated-ledger} supplies an event flow $L$ with $\mathsf{RecLedger}_Q(C_R,L)$, and the failure-ledger requirement in \autoref{def:recognizer-generated-failure-ledger} supplies an event flow $F$ with $\mathsf{RecFailure}_Q(C_R,F)$. These are finite subflows of the same recognized recognizer certificate $C_R$, so the formal recognition evidence exposes both fields.
+\end{proof}

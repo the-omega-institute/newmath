@@ -20,17 +20,19 @@ def test_supervisor_does_not_clear_stop_file() -> None:
     assert "STOP_FILE.unlink()" not in text
 
 
-def test_supervisor_disables_dev_sync_resolver() -> None:
+def test_supervisor_runs_gated_dev_sync_resolver() -> None:
     text = _text(SUPERVISOR)
     start = text.index("def git_sync_dev()")
     end = text.index("\ndef trigger_probe", start)
     body = text[start:end]
-    assert "disabled for paper-native BEDC supervisor" in body
-    assert "DEV_SYNC_RESOLVER" not in body
-    assert "subprocess.run" not in body
+    assert "origin/auto-dev" in body or "dev_sync_resolver" in body
+    assert "DEV_SYNC_RESOLVER" in body
+    assert "subprocess.run" in body
+    assert '["python3", str(DEV_SYNC_RESOLVER)]' in body
+    assert "Safety lives in dev_sync_resolver's path protection" in body
 
 
-def test_supervisor_passes_no_dev_sync_to_discovery_children() -> None:
+def test_supervisor_keeps_discovery_children_single_sync_entrypoint() -> None:
     text = _text(SUPERVISOR)
     for name in (
         "trigger_probe",
@@ -45,6 +47,15 @@ def test_supervisor_passes_no_dev_sync_to_discovery_children() -> None:
             end = len(text)
         body = text[start:end]
         assert "cmd.append(\"--no-dev-sync\")" in body, name
+
+
+def test_supervisor_defaults_to_continuous_auto_dev_sync() -> None:
+    text = _text(SUPERVISOR)
+    assert "DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15" in text
+    assert "dev_sync_enabled = not bool(args.no_dev_sync)" in text
+    assert "git_sync_dev()" in text
+    assert "--no-dev-sync" in text
+    assert "Disable BEDC sync from origin/auto-dev" in text
 
 
 def test_supervisor_defaults_to_paper_native_discovery() -> None:
@@ -112,8 +123,9 @@ def test_bridge_prompts_keep_external_sources_as_metadata_only() -> None:
 
 if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
-    test_supervisor_disables_dev_sync_resolver()
-    test_supervisor_passes_no_dev_sync_to_discovery_children()
+    test_supervisor_runs_gated_dev_sync_resolver()
+    test_supervisor_keeps_discovery_children_single_sync_entrypoint()
+    test_supervisor_defaults_to_continuous_auto_dev_sync()
     test_supervisor_defaults_to_paper_native_discovery()
     test_supervisor_has_hard_branch_guard()
     test_supervisor_refill_can_recover_from_stale_circuit_breaker()

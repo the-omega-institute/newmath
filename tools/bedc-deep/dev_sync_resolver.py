@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""dev_sync_resolver — auto-merge UPSTREAM_REF with claude-driven conflict resolution.
+"""dev_sync_resolver — auto-merge UPSTREAM_REF with gate-aware boundaries.
 
-UPSTREAM_REF is currently `origin/codex-auto-dev` (was `origin/dev` until
-the codex_formalize integration branch became the trunk to track).
-Switch the constant at module top to point elsewhere if the pipeline
-needs to follow a different lane.
+UPSTREAM_REF is currently `origin/auto-dev`.  BEDC must stay synchronized
+with the integration branch so it does not duplicate work already produced by
+the shared auto-dev/loning lanes.  The safety boundary is not "do not sync";
+it is "sync through path protection, conflict handling, and post-merge gates".
 
 Replaces the supervisor's bare `git_sync_dev` (which aborted on any conflict)
 with a flow that:
@@ -48,12 +48,10 @@ LOG_DIR = SCRIPT_DIR / "state" / "dev_sync_logs"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 # Upstream integration branch we sync into bedc-claim-packet-pipeline.
-# Originally `dev`, switched to `codex-auto-dev` because the codex
-# formalization lane (lean4-codex-auto-dev / paper-codex-auto-dev) merges
-# into `codex-auto-dev` first; `dev` lags by hours-to-days. Pulling
-# from the integration branch keeps our writebacks rebased against the
-# freshest paper + lean state, reducing the merge surface.
-UPSTREAM_BRANCH = "codex-auto-dev"
+# This follows the shared integration trunk so BEDC does not rediscover or
+# rewrite work already landed by auto-dev/loning.  Path protection and gates
+# below decide what may be merged or auto-resolved.
+UPSTREAM_BRANCH = os.environ.get("BEDC_SYNC_UPSTREAM_BRANCH", "auto-dev")
 UPSTREAM_REF = f"origin/{UPSTREAM_BRANCH}"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
@@ -61,6 +59,8 @@ CLAUDE_RESOLVE_TIMEOUT = 1800   # 30 minutes for whole resolution
 CLAUDE_RESOLVE_PER_FILE_TIMEOUT = 600
 
 VALIDATION_TIMEOUTS = {
+    "paper_provenance": 120,
+    "paper_check": 600,
     "lake": 600,
     "check_axioms": 60,
     "bedc_ci": 120,
@@ -74,9 +74,23 @@ PROTECTED_PATTERNS = [
     re.compile(r"^papers/bedc/main\.tex$"),
     re.compile(r"^papers/bedc/preamble\.tex$"),
     re.compile(r"^papers/bedc/Makefile$"),
+    re.compile(r"^papers/bedc/scripts/"),
+    re.compile(r"^tools/automath_newmath_bridge/review_packets/"),
+    re.compile(r"^tools/automath_newmath_bridge/inbox/"),
+    re.compile(r"^tools/automath_newmath_bridge/out/"),
+    re.compile(r"^tools/automath_newmath_bridge/state/"),
+    re.compile(r"^tools/bedc-deep/BOARD(?:\.completed)?\.md$"),
+    re.compile(r"^tools/bedc-deep/state/"),
     re.compile(r"^\.github/"),
     re.compile(r"^lakefile\.lean$"),
     re.compile(r"^lake-manifest\.json$"),
+]
+POST_MERGE_PROTECTED_PATTERNS = [
+    re.compile(r"^tools/automath_newmath_bridge/review_packets/"),
+    re.compile(r"^tools/automath_newmath_bridge/inbox/"),
+    re.compile(r"^tools/automath_newmath_bridge/out/"),
+    re.compile(r"^tools/automath_newmath_bridge/state/"),
+    re.compile(r"^tools/bedc-deep/BOARD(?:\.completed)?\.md$"),
 ]
 
 
@@ -106,6 +120,10 @@ def _git(args: list[str], capture: bool = True, check: bool = False, timeout: in
 
 def _is_protected(path: str) -> bool:
     return any(p.search(path) for p in PROTECTED_PATTERNS)
+
+
+def _is_post_merge_protected(path: str) -> bool:
+    return any(p.search(path) for p in POST_MERGE_PROTECTED_PATTERNS)
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
@@ -163,6 +181,19 @@ def _conflicted_files() -> list[str]:
     """Return files in conflict state per `git diff --name-only --diff-filter=U`."""
     res = _git(["diff", "--name-only", "--diff-filter=U"], timeout=10)
     return [line.strip() for line in res.stdout.splitlines() if line.strip()]
+
+
+def _changed_files_against(ref: str) -> list[str]:
+    res = _git(["diff", "--name-only", ref, "HEAD"], timeout=30)
+    return [line.strip() for line in res.stdout.splitlines() if line.strip()]
+
+
+def _post_merge_boundary_failure(before_ref: str) -> str:
+    changed = _changed_files_against(before_ref)
+    protected = [path for path in changed if _is_post_merge_protected(path)]
+    if protected:
+        return "post_merge_protected_paths:" + ",".join(protected[:20])
+    return ""
 
 
 def _read_conflict_file(path: str) -> ConflictFile:
@@ -292,12 +323,49 @@ class ValidationResult:
     summary: str = ""
 
 
-def _validate_post_resolution() -> ValidationResult:
+def _validate_post_resolution(*, changed_files: list[str] | None = None) -> ValidationResult:
     """Run the project's CI gates. Returns pass/fail + which gate failed.
 
     Note: pdflatex is NOT in the gauntlet here — it's slow and Stage 2 will
     catch any compile breakage on its next append cycle, then roll back."""
     failures: list[str] = []
+    changed = changed_files or []
+
+    # BEDC paper provenance gate: no external source paths / bridge packets
+    # may leak into paper body after sync.
+    try:
+        proc = subprocess.run(
+            ["python3", "scripts/check_external_provenance.py"],
+            cwd=str(REPO_ROOT / "papers" / "bedc"),
+            capture_output=True,
+            text=True,
+            timeout=VALIDATION_TIMEOUTS["paper_provenance"],
+        )
+        if proc.returncode != 0:
+            tail = (proc.stdout or "")[-1000:] + (proc.stderr or "")[-1000:]
+            failures.append(f"paper provenance failed:\n{tail}")
+    except (subprocess.TimeoutExpired, FileNotFoundError) as exc:
+        failures.append(f"paper provenance infra error: {exc}")
+
+    # Paper build/check gate catches bad LaTeX and phase paper gates.
+    if any(path.startswith("papers/bedc/") for path in changed):
+        try:
+            proc = subprocess.run(
+                ["make", "check"],
+                cwd=str(REPO_ROOT / "papers" / "bedc"),
+                capture_output=True,
+                text=True,
+                timeout=VALIDATION_TIMEOUTS["paper_check"],
+            )
+            if proc.returncode != 0:
+                tail = (proc.stdout or "")[-1500:] + (proc.stderr or "")[-800:]
+                failures.append(f"paper make check failed:\n{tail}")
+        except (subprocess.TimeoutExpired, FileNotFoundError) as exc:
+            failures.append(f"paper make check infra error: {exc}")
+
+    if not any(path.startswith("lean4/") or path.startswith("tools/check-axioms.py") for path in changed):
+        summary = "paper gates passed" if not failures else f"{len(failures)} gate(s) failed"
+        return ValidationResult(passed=not failures, failures=failures, summary=summary)
 
     # Lake build (Lean correctness)
     try:
@@ -342,7 +410,7 @@ def _validate_post_resolution() -> ValidationResult:
     except (subprocess.TimeoutExpired, FileNotFoundError) as exc:
         failures.append(f"bedc_ci audit infra error: {exc}")
 
-    summary = "all 3 gates passed" if not failures else f"{len(failures)} gate(s) failed"
+    summary = "paper + lean gates passed" if not failures else f"{len(failures)} gate(s) failed"
     return ValidationResult(passed=not failures, failures=failures, summary=summary)
 
 
@@ -400,11 +468,37 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
         n_behind = int((behind_res.stdout.strip() or "0"))
         if n_behind == 0:
             return SyncResult(status="up_to_date", branch=branch)
+        before_head = _git(["rev-parse", "HEAD"], timeout=10).stdout.strip()
 
         # Attempt merge
         merge_res = _git(["merge", "--no-edit", UPSTREAM_REF], timeout=120)
         if merge_res.returncode == 0:
-            # FF or clean merge succeeded; push.
+            changed = _changed_files_against(before_head)
+            boundary_failure = _post_merge_boundary_failure(before_head)
+            if boundary_failure:
+                _git(["reset", "--hard", before_head], capture=False, timeout=20)
+                return SyncResult(
+                    status="aborted_validation",
+                    branch=branch,
+                    n_dev_commits=n_behind,
+                    validation=ValidationResult(
+                        passed=False,
+                        failures=[boundary_failure],
+                        summary="post-merge boundary gate failed",
+                    ),
+                    error=boundary_failure,
+                )
+            validation = _validate_post_resolution(changed_files=changed)
+            if not validation.passed:
+                _git(["reset", "--hard", before_head], capture=False, timeout=20)
+                return SyncResult(
+                    status="aborted_validation",
+                    branch=branch,
+                    n_dev_commits=n_behind,
+                    validation=validation,
+                    error=validation.summary,
+                )
+            # FF or clean merge succeeded and gates passed; push.
             push_res = _git(["push", "origin", branch], capture=False, timeout=60)
             if push_res.returncode != 0:
                 return SyncResult(
@@ -454,7 +548,22 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
             )
 
         # All conflicts resolved + staged; run validation
-        validation = _validate_post_resolution()
+        changed = _changed_files_against(before_head)
+        boundary_failure = _post_merge_boundary_failure(before_head)
+        if boundary_failure:
+            _git(["reset", "--hard", "ORIG_HEAD"], capture=False, timeout=20)
+            return SyncResult(
+                status="aborted_validation", branch=branch,
+                n_dev_commits=n_behind, conflict_files=conflicts,
+                resolved_files=resolved,
+                validation=ValidationResult(
+                    passed=False,
+                    failures=[boundary_failure],
+                    summary="post-merge boundary gate failed",
+                ),
+                error=boundary_failure,
+            )
+        validation = _validate_post_resolution(changed_files=changed)
         if not validation.passed:
             # Abort merge by hard reset (since we already staged files)
             _git(["reset", "--hard", "ORIG_HEAD"], capture=False, timeout=20)
