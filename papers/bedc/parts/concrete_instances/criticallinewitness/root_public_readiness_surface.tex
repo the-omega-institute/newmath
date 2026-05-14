@@ -1,0 +1,82 @@
+\begin{theorem}[CriticalLineWitness root public readiness]
+\label{thm:critical-line-witness-root-public-readiness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every downstream public read of $W$ factors through the displayed finite route
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+
+It also factors through the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$.
+The route therefore exposes the supplied zero row, critical-strip row, modulus
+row, real-part row, rational comparison ledger, componentwise $\hsame$
+transport, displayed $\Cont$ replay, package provenance, and local naming row
+before any public consumer can read the witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier with \autoref{def:critical-line-witness-carrier}.
+The carrier is exactly the finite tuple $Z,S,M,R,Q,H,C,P,N$, so a public read
+has no carrier coordinate outside the displayed packet.
+
+Use the NameCert obligations of
+\autoref{thm:critical-line-witness-namecert-obligations}. Carrier admission,
+zero-strip compatibility, modulus discipline, ledger exactness, and non-escape
+are all attached to the same local naming row.
+
+Finally apply the obligation closure package
+\autoref{thm:critical-line-witness-obligation-closure-package} together with
+the downstream source obligation
+\autoref{thm:critical-line-witness-downstream-source-obligation}. These rows
+repack every downstream source read through the finite route and the local
+NameCert row.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root scope binding]
+\label{thm:critical-line-witness-root-scope-binding}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+public-read route depends only on the chapter's displayed $\BHist$ carrier,
+the local $\hsame$ transport row, the displayed $\Cont$ replay row, the $\Pkg$
+provenance row, the local $\NameCert_{\CriticalLineWitnessUp}$ row, and the
+already cited $\ZetaZerosUp$ and $\CritStripUp$ source rows. No further source
+object is needed to bind the root public-read route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:critical-line-witness-carrier}. It lists the supplied
+$\ZetaZerosUp$ row $Z$ and $\CritStripUp$ row $S$ together with $M,R,Q,H,C,P,N$
+inside one $\BHist$ packet.
+
+Apply \autoref{thm:critical-line-witness-namecert-obligations}. The obligations
+bind classifier transport through $H$, continuation replay through $C$,
+package provenance through $P$, and local naming through $N$ on that same
+packet.
+
+Use \autoref{thm:critical-line-witness-obligation-closure-package} to close the
+scope. The package has no second carrier, no external classifier, and no
+additional source row; hence the public-read route is scoped exactly by the
+listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ZetaZerosUp$, and
+$\CritStripUp$ rows.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root ledger refusal totality]
+\label{thm:critical-line-witness-root-ledger-refusal-totality}
+For an accepted $\CriticalLineWitnessUp$ packet, requests for $\mathsf{RH}$
+proof data, global zero search, host equality, quotient representatives,
+analytic continuation, or ambient completeness have no ledger coordinate in
+the downstream public-read route through $Z,S,M,R,Q,H,C,P,N$ and the local
+$\NameCert_{\CriticalLineWitnessUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the non-escape clauses in
+\autoref{thm:critical-line-witness-namecert-obligations}. They make the local
+ledger a finite packet ledger rather than a route to host analytic data.
+
+Apply the ledger non-escape obligation
+\autoref{thm:critical-line-witness-ledger-nonescape-obligation}. It exhausts
+the local ledger through $M,Q,H,C,P,N$ together with $Z,S,R$ and refuses
+$\mathsf{RH}$ proof data, zero search, analytic-continuation data, quotient
+representatives, host equality, and ambient completeness.
+
+Finally use \autoref{thm:critical-line-witness-downstream-source-obligation}.
+Every downstream public source read has already been factored through the same
+finite packet, so the refused objects cannot re-enter as hidden coordinates of
+the public-read route.
+\end{proof}
