@@ -1,0 +1,17 @@
+\begin{theorem}[ContinuationMonad root formal NameCert handoff]
+\label{thm:continuation-monad-root-formal-namecert-handoff}
+Every downstream formal target consuming $\ContinuationMonadUp$ receives the local $\NameCert$ row only through the finite packet
+
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+
+The received readings are exactly the displayed $\BHist$ source histories, $\Cont$ unit and bind tails, $\hsame$ transports, $\Pkg$ provenance, $\CategoryUp$ hom-carrier row, $\mathsf{ContinuationMorphism}$ row, and local $\NameCert$ row. No quotient Kleisli arrow, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator is exported.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It forces root consumers to read the source histories $A,B,C$ and continuation tails $f,g,u$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of the packet.
+
+Next use \autoref{thm:continuation-monad-root-formal-route-saturation}. Downstream formal targets receive exactly $A,B,C,f,g,u,H,K,L,N$ through the formal route, together with the displayed Category hom-carrier and $\mathsf{ContinuationMorphism}$ readings.
+
+Finally compose with \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. The ledger boundary is the same finite packet and admits no extra entry for quotient Kleisli arrows, host-function composition, ambient category completion, external evaluators, or unlisted continuation generators. Hence the local $\NameCert$ row reaches downstream formal targets only through the named packet and not through an external monad schema.
+\end{proof}
