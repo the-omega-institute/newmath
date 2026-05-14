@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ExternalSupplySocketUp$}
+\label{ch:concrete-instances-external-supply-socket-namecert}
+\origin{ai}
+
+The $\ExternalSupplySocketUp$ packet realizes the socket side of \autoref{ch:visions-external-supply-without-axioms} as a finite NameCert carrier. It sits between the boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the apophatic naming surface of \autoref{ch:concrete-instances-apophaticname-namecert}, the kind router of \autoref{ch:concrete-instances-supply-kind-router-namecert}, and the classifier packet of \autoref{ch:concrete-instances-socketkindclassifier-namecert}. The socket packet keeps the requested supply visible as a refused boundary row while preserving the ledger rows that downstream audit consumers read.
+
+\begin{definition}[ExternalSupplySocket carrier]
+\label{def:external-supply-socket-carrier}
+An $\ExternalSupplySocketUp$ carrier is a finite $\BHist$ packet
+$$
+X=(B,A,K,R,F,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\ExternalSupplyBoundaryUp$ row naming the boundary site and requested supply shape;
+\item $A$ is the $\ApophaticNameUp$ row naming the supply position without supplying the far end;
+\item $K$ is the $\SocketKindClassifierUp$ row naming the socket kind that governs the request;
+\item $R$ is the $\SupplyKindRouterUp$ row routing the request through the chosen kind and requested-shape surface;
+\item $F$ is the refusal-gate row recording that the requested supply is not available as substrate truth;
+\item $L$ is the socket ledger row recording the GAP pressure, visible use site, and refusal readback for the same request;
+\item $H$ records componentwise $\hsame$ transport for $B,A,K,R,F,L$;
+\item $C$ records displayed $\Cont$ routes from the boundary row to the apophatic name, classifier, router, refusal gate, and ledger rows;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\ApophaticNameUp$, $\SupplyKindRouterUp$, $\SocketKindClassifierUp$, the socket ledger, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ExternalSupplySocketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for the requested outside supply, no hidden selector, no quotient representative, no proposition-equality token, no host equality, and no theorem asserting that the requested supply has become internal.
+\end{definition}
+
+\begin{theorem}[ExternalSupplySocket NameCert surface]
+\label{thm:external-supply-socket-namecert-surface}
+For the carrier of \autoref{def:external-supply-socket-carrier}, the local $\NameCert_{\ExternalSupplySocketUp}$ surface consists exactly of carrier admission for
+$$
+X=(B,A,K,R,F,L,H,C,P,N),
+$$
+boundary exposure through $B$, apophatic-name exposure through $A$, socket-kind classification through $K$, kind routing through $R$, refusal-gate readback through $F$, socket-ledger readback through $L$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+
+Consequently every accepted public read of the socket must pass through the boundary row, name row, classifier row, router row, refusal-gate row, and ledger row before it may cite the socket as an external-supply boundary.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The packet lists $B,A,K,R,F,L,H,C,P,N$, so the certificate has no coordinate from which to manufacture another boundary name, kind classifier, refusal gate, ledger, transport, route, provenance, or local name.
+
+Read the dependency rows in order. The boundary row $B$ gives the requested supply shape, the apophatic row $A$ names the same unsupplied position, the classifier row $K$ fixes the socket kind, and the router row $R$ places that kind before the requested-shape and refusal reads.
+
+Finally read $F,L,H,C,P,N$. The refusal gate and ledger record the non-internalizing readback, while transport, continuation, provenance, and local naming preserve the same finite packet. Thus the NameCert surface is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[ExternalSupplySocket noninternalization]
+\label{thm:external-supply-socket-noninternalization}
+Every accepted $\ExternalSupplySocketUp$ packet keeps its requested supply external. A consumer may read the boundary row, apophatic name, socket-kind classifier, kind router, refusal gate, socket ledger, transport, route, provenance, and local name, but it receives no supplied witness, quotient representative, proposition-equality token, host equality, hidden selector, unrestricted induction principle, or theorem turning the requested supply into substrate truth.
+\end{theorem}
+\begin{proof}
+Start with the boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}. It records the requested supply and non-internalization row before any socket consumer reads the request.
+
+Use the apophatic name and classifier rows next. The apophatic surface names the external position without a far-end object, and the socket-kind classifier fixes the local kind row that must be routed before refusal data is available.
+
+Apply the kind router and the refusal-gate row. The router forces the requested-shape read through the displayed kind route, while $F$ records that this route ends in refusal rather than supplied content.
+
+Finally use the ledger and structural rows. The row $L$ records GAP pressure and refusal readback, and $H,C,P,N$ only transport, replay, package, and name the same packet. Since no carrier coordinate stores a supplied witness or host-level replacement, the requested supply remains external.
+\end{proof}
+
+\falsifiablePrediction{A packet without the refusal-gate row cannot satisfy the noninternalization theorem.}
+
+\independenceWitness{Nearest siblings: externalsupplyboundary, apophaticname, supplykindrouter, socketkindclassifier, and supplysocketledger. None is bijective to $\ExternalSupplySocketUp$ because the socket packet simultaneously carries boundary naming, apophatic naming, kind classification, kind routing, refusal-gate readback, and socket-ledger rows; each sibling omits at least one of those rows.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ExternalSupplySocketUp$ and $\mathsf{FieldFaithful}\ \ExternalSupplySocketUp$ instances in $\mathsf{Derived/ExternalSupplySocketUp/TasteGate.lean}$ before the alignment theorem $\mathsf{BEDC.Derived.ExternalSupplySocketUp.ExternalSupplySocketTasteGate\_single\_carrier\_alignment}$ can be cited by a checked paper marker.
+
+\closureat{ExternalSupplySocketUp}{seedStr}
+\closureat{ExternalSupplySocketUp}{obligationStr}
