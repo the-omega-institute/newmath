@@ -584,3 +584,23 @@ Next attach the compatible modulus-extraction packet. The public export of \auto
 
 Finally align the seal envelope. The finite-window budget equivalence of \autoref{thm:cauchy-limit-seal-finite-window-budget-equivalence} identifies the terminal seal read with the same finite budget-window route, and the verification handoff of \autoref{thm:cauchy-limit-seal-verification-handoff} repacks that route as the reusable $\CauchyLimitSealUp$ surface. Thus the Real-facing terminal read is the same finite budget-window-modulus route already displayed by the diagonal packet and the extraction packet, with no extra completion coordinate.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit window synchronizer pullback]
+\label{thm:diagonal-limit-window-synchronizer-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+Z=(W_Z,Q_Z,S_Z,L_Z,D_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\RealWindowSynchronizerUp$ packet whose $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\CauchyLimitSealUp$ row, $\RealUp$ seal row, and shared threshold-budget rows agree componentwise with $W,Q,S,L,D$ through the displayed $\hsame$ and $\Cont$ routes. Then every terminal $\RealUp$ or $\CauchyLimitSealUp$ consumer of $K$ pulls back through the synchronizer finite window-to-seal packet $Z$.
+
+The pullback uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two accepted packets. It does not introduce quotient streams, selected host limits, host real equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First lock the diagonal side. Apply \autoref{thm:diagonal-limit-compatibility-window-budget-triad-lock} to force every terminal read of $K$ through the common $(D,W,Q)$ triad before $L$ is available. Then apply \autoref{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal} to make the terminal $\RealUp$ and $\CauchyLimitSealUp$ reads use the same finite budget-window-modulus route.
+
+Next read the synchronizer side. The budget pullback of \autoref{thm:real-window-synchronizer-budget-pullback} places the synchronizer threshold and window rows over the same finite budget surface. The limit-seal compatibility of \autoref{thm:real-window-synchronizer-limit-seal-compatibility} carries the $\CauchyLimitSealUp$ row through that surface, and the Real-seal exposure of \autoref{thm:real-window-synchronizer-real-seal-exposure} exposes the terminal $\RealUp$ seal only after the same window-to-seal route.
+
+It remains to identify the two finite routes. The hypotheses give componentwise $\hsame$ and $\Cont$ transport from the diagonal rows $W,Q,S,L,D$ to the synchronizer rows $W_Z,Q_Z,S_Z,L_Z,D_Z$. Transport through the displayed $\BHist$, $\Pkg$, and $\NameCert$ rows repacks the consumer as a read of $Z$ without changing the terminal object.
+
+Finally use \autoref{thm:real-window-synchronizer-nonescape}. Since the synchronizer packet exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate, the pulled-back consumer has no route outside the finite window-to-seal packet.
+\end{proof}
