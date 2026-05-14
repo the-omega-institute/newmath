@@ -721,3 +721,35 @@ host-index equality, metric-completeness, arithmetic or order, standard bridge,
 and hidden-selector data from the readout, so the confluence is a statement
 only about the displayed finite source rows.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window terminal coverage]
+\label{thm:streamname-tail-window-terminal-coverage}
+Any terminal $\RealUp$ read induced by a finite $\StreamNameUp$ tail-window
+cover chain is covered by exactly the common finite source surface of
+\autoref{thm:streamname-tail-window-cover-chain-source-confluence}. Thus the
+terminal read exposes the finite-window classifier rows, selected
+$\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine,
+DyadicRatCore endpoint rows, and transported
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance rows.
+
+It exposes no completion object, quotient representative, host-index equality,
+metric-completeness row, arithmetic or order row, standard bridge row, or hidden
+selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-tail-window-cover-chain-source-confluence} to the
+finite cover chain. The induced terminal source is the common finite surface
+carried by every packet in the chain.
+
+Next apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. It routes
+the terminal RealUp read through the displayed StreamName, RegSeqRat, and
+DyadicRatCore source rows rather than through an external completion carrier.
+
+Finally use \autoref{thm:streamname-tail-window-realup-boundary}. The boundary
+removes quotient representatives, host-index equality, metric-completeness
+rows, arithmetic and order rows, standard bridge rows, and hidden selectors from
+the terminal read. Therefore the read is covered exactly by the common finite
+source surface from the confluence theorem.
+\end{proof}
