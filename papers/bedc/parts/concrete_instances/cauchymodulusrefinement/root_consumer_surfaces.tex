@@ -147,3 +147,21 @@ Apply the shared-tail handoff, \autoref{thm:cauchy-modulus-refinement-shared-tai
 Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. The displayed packet has no quotient stream, selected host limit, hidden selector, host equality, or ambient completeness coordinate. Therefore two routes with the same $T$, the same $W,Q$ readback, and the same $E$ seal determine the same Real-completion consumer surface through $\BHist$, $H$, $C$, $P$, and $N$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_selector\_budget\_regseqrat\_real\_seal\_determinacy}
+
+\begin{theorem}[Cauchy modulus refinement window-route factorization]
+\label{thm:cauchy-modulus-refinement-window-route-factorization}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every Real-completion consumer route that exposes the selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance, $\RegSeqRatUp$ readback, and $\RealUp$ seal factors through the ordered subroute
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+If two such routes expose the same selector-budget, selected-window, dyadic-tolerance, and seal rows $T,W,Q,E$, then they determine the same consumer surface through componentwise $\hsame$ transport along $H$, displayed replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\CauchyModulusRefinementUp}$ row $N$. No quotient stream, selected host limit, hidden selector, second meet row, side-channel completion row, host real equality, or ambient completeness coordinate can replace that factorization.
+\end{theorem}
+\begin{proof}
+First extract the selected-window spine. Common-window selector extraction, \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}, and root window-selector totality, \autoref{thm:cauchy-modulus-refinement-root-window-selector-totality}, force every selected $\StreamNameUp$ window and $\DyadicRatCoreUp$ tolerance read through $M_0,M_1,U,V,T$ before it reaches $W,Q$.
+
+Next stabilize the readback. Root readback stability, \autoref{thm:cauchy-modulus-refinement-root-readback-stability}, transports the same $W,Q$ readback only through $H,C,P,N$, so a consumer cannot split the $\RegSeqRatUp$ readback away from the displayed window route.
+
+Then pass to the completion-facing seal. Real-completeness handoff, \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}, places the selected window, dyadic tolerance, regular readback, and Real seal in the displayed order before any completion boundary is consumed.
+
+Finally apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. Agreement on $T,W,Q,E$ identifies the two Real-completion consumer surfaces through componentwise $\hsame$ transport and the displayed $C,P,N$ rows. The excluded coordinates are absent from the accepted packet, so none of them supplies an alternative factorization route.
+\end{proof}
