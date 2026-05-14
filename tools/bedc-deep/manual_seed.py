@@ -21,8 +21,10 @@ Usage:
 Each candidate is a dict with keys:
   - title (≤80 chars)
   - claim (single implication form)
-  - chapter (one of: core / proof_obligations / concrete_instances /
-            hardening / formalization / proof_sprint / proof_standing)
+  - chapter (one of: core / proof_obligations / concrete_hardening /
+            concrete_instances / ground_compiler / hardening /
+            formalization / proof_sprint / proof_standing /
+            project_governance / self_compilation / capstones)
   - fit_score (int 0-10)
   - novelty (int 0-10)
   - rationale (≥100 chars; cite file:line evidence of why this is open)
@@ -71,9 +73,9 @@ REQUIRED_FIELDS = {
 }
 
 VALID_CHAPTERS = {
-    "core", "proof_obligations", "concrete_instances", "hardening",
-    "formalization", "proof_sprint", "proof_standing", "project_governance",
-    "capstones",
+    "core", "proof_obligations", "concrete_hardening", "concrete_instances",
+    "ground_compiler", "hardening", "formalization", "proof_sprint",
+    "proof_standing", "project_governance", "self_compilation", "capstones",
 }
 
 
