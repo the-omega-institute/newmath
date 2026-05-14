@@ -16,11 +16,13 @@ inductive ContextWindowCommitmentUp : Type where
   deriving DecidableEq
 
 def contextWindowCommitmentEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: contextWindowCommitmentEncodeBHist h
   | BHist.e1 h => BMark.b1 :: contextWindowCommitmentEncodeBHist h
 
 def contextWindowCommitmentDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (contextWindowCommitmentDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (contextWindowCommitmentDecodeBHist tail)
@@ -29,6 +31,7 @@ private theorem contextWindowCommitmentDecode_encode_bhist :
     ∀ h : BHist,
       contextWindowCommitmentDecodeBHist
         (contextWindowCommitmentEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
   | Empty =>
@@ -40,6 +43,7 @@ private theorem contextWindowCommitmentDecode_encode_bhist :
 
 def contextWindowCommitmentToEventFlow :
     ContextWindowCommitmentUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
   | ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
       provenance nameCert =>
       [[BMark.b0],
@@ -65,45 +69,131 @@ def contextWindowCommitmentToEventFlow :
 
 def contextWindowCommitmentFromEventFlow :
     EventFlow → Option ContextWindowCommitmentUp
-  | [[BMark.b0], scope,
-      [BMark.b1, BMark.b0], prompt,
-      [BMark.b1, BMark.b1, BMark.b0], boundary,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b0], refusal,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], consumer,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0], transport,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        routes,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b0], provenance,
-      [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-        BMark.b1, BMark.b0], nameCert] =>
-      some
-        (ContextWindowCommitmentUp.mk
-          (contextWindowCommitmentDecodeBHist scope)
-          (contextWindowCommitmentDecodeBHist prompt)
-          (contextWindowCommitmentDecodeBHist boundary)
-          (contextWindowCommitmentDecodeBHist refusal)
-          (contextWindowCommitmentDecodeBHist consumer)
-          (contextWindowCommitmentDecodeBHist transport)
-          (contextWindowCommitmentDecodeBHist routes)
-          (contextWindowCommitmentDecodeBHist provenance)
-          (contextWindowCommitmentDecodeBHist nameCert))
-  | _ => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | scope :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | prompt :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | boundary :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | refusal :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | consumer :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | routes :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameCert :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (ContextWindowCommitmentUp.mk
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    scope)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    prompt)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    boundary)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    refusal)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    consumer)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    transport)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    routes)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    provenance)
+                                                                                  (contextWindowCommitmentDecodeBHist
+                                                                                    nameCert))
+                                                                          | _ :: _ => none
 
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
       contextWindowCommitmentFromEventFlow
         (contextWindowCommitmentToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk scope prompt boundary refusal consumer transport routes provenance nameCert =>
-      simp [contextWindowCommitmentToEventFlow, contextWindowCommitmentFromEventFlow,
-        contextWindowCommitmentDecode_encode_bhist]
+      change
+        some
+          (ContextWindowCommitmentUp.mk
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist scope))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist prompt))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist boundary))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist refusal))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist consumer))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist transport))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist routes))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist provenance))
+            (contextWindowCommitmentDecodeBHist
+              (contextWindowCommitmentEncodeBHist nameCert))) =
+          some
+            (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport
+              routes provenance nameCert)
+      rw [contextWindowCommitmentDecode_encode_bhist scope,
+        contextWindowCommitmentDecode_encode_bhist prompt,
+        contextWindowCommitmentDecode_encode_bhist boundary,
+        contextWindowCommitmentDecode_encode_bhist refusal,
+        contextWindowCommitmentDecode_encode_bhist consumer,
+        contextWindowCommitmentDecode_encode_bhist transport,
+        contextWindowCommitmentDecode_encode_bhist routes,
+        contextWindowCommitmentDecode_encode_bhist provenance,
+        contextWindowCommitmentDecode_encode_bhist nameCert]
 
 private theorem contextWindowCommitmentToEventFlow_injective
     {x y : ContextWindowCommitmentUp} :
     contextWindowCommitmentToEventFlow x =
       contextWindowCommitmentToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
       contextWindowCommitmentFromEventFlow
@@ -117,11 +207,13 @@ private theorem contextWindowCommitmentToEventFlow_injective
 
 instance contextWindowCommitmentBHistCarrier :
     BHistCarrier ContextWindowCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := contextWindowCommitmentToEventFlow
   fromEventFlow := contextWindowCommitmentFromEventFlow
 
 instance contextWindowCommitmentChapterTasteGate :
     ChapterTasteGate ContextWindowCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
@@ -134,10 +226,12 @@ instance contextWindowCommitmentChapterTasteGate :
     exact hxy (contextWindowCommitmentToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate ContextWindowCommitmentUp :=
+  -- BEDC touchpoint anchor: BHist BMark
   contextWindowCommitmentChapterTasteGate
 
 instance contextWindowCommitmentNontrivial :
     Nontrivial ContextWindowCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨ContextWindowCommitmentUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
@@ -149,6 +243,7 @@ instance contextWindowCommitmentNontrivial :
 
 instance contextWindowCommitmentFieldFaithful :
     FieldFaithful ContextWindowCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
     | ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
@@ -176,6 +271,7 @@ theorem ContextWindowCommitmentTasteGate_single_carrier_alignment :
           contextWindowCommitmentToEventFlow x =
             contextWindowCommitmentToEventFlow y → x = y) ∧
           contextWindowCommitmentEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact contextWindowCommitmentDecode_encode_bhist
   · constructor
