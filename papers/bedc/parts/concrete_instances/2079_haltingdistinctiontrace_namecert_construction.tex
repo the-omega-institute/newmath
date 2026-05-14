@@ -124,16 +124,33 @@ The obstruction part of that tuple is $T,D,E$. By \autoref{thm:halting-distincti
 Apply \autoref{thm:halting-distinction-trace-provenance-nonescape} and \autoref{thm:halting-distinction-trace-scoped-consumer-factorization}. Provenance, naming, and consumer access remain attached to the displayed packet, so a $\HaltingObstructionUp$ consumer receives only the finite trace, distinction, and diagonal self-query rows with their recorded routes.
 \end{proof}
 
+\begin{theorem}[HaltingDistinctionTrace mature boundary readback]
+\label{thm:halting-distinction-trace-mature-boundary-readback}
+Every mature consumer read of an accepted $\HaltingDistinctionTraceUp$ packet factors through the displayed rows
+$$
+A \longmapsto T \longmapsto D \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The read combines the diagonal obstruction package, bridge readback, and obstruction handoff, and still receives no total halting predicate, global truth predicate, divergence detector, or host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:halting-distinction-diagonal-obstruction-package}. It identifies the diagonal obstruction as the finite route through the admitted input, trace, distinction classifier, self-application row, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:halting-distinction-trace-bridge-readback}. A bridge-facing mature request reads the same tuple $A,T,D,E,H,C,P,N$ and no external halting coordinate.
+
+Finally use \autoref{thm:halting-distinction-trace-obstruction-handoff}. The obstruction consumer receives only the finite trace, distinction, and diagonal self-query with their attached structural rows, so the mature readback boundary contains no total predicate, truth predicate, divergence detector, or host evaluator.
+\end{proof}
+
 \closureat{HaltingDistinctionTraceUp}{seedStr}
 \closureat{HaltingDistinctionTraceUp}{obligationStr}
 \closureat{HaltingDistinctionTraceUp}{scopedStr}
 \closureat{HaltingDistinctionTraceUp}{publicStr}
 \closureat{HaltingDistinctionTraceUp}{bridgedStr}
+\closureat{HaltingDistinctionTraceUp}{matureStr}
 
 \begin{closurestatus}{\HaltingDistinctionTraceUp}
   \constructivestory{A $\HaltingDistinctionTraceUp$ packet is generated from an admitted certificate-history input row, a finite continuation trace row, a distinction classifier row, a diagonal self-application row, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:halting-distinction-trace-carrier}, \autoref{thm:halting-distinction-diagonal-obstruction-package}, \autoref{thm:halting-distinction-trace-diagonal-readback}, \autoref{thm:halting-distinction-trace-provenance-nonescape}, \autoref{thm:halting-distinction-trace-scoped-consumer-factorization}, \autoref{thm:halting-distinction-trace-scoped-transport-nonescape}, \autoref{thm:halting-distinction-trace-bridge-readback}, and \autoref{thm:halting-distinction-trace-obstruction-handoff} bind the finite trace carrier, diagonal readback route, scoped consumer factorization, componentwise transport, provenance non-escape boundary, bridge readback surface, and obstruction handoff.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:halting-distinction-trace-carrier}, \autoref{thm:halting-distinction-diagonal-obstruction-package}, \autoref{thm:halting-distinction-trace-diagonal-readback}, \autoref{thm:halting-distinction-trace-provenance-nonescape}, \autoref{thm:halting-distinction-trace-scoped-consumer-factorization}, \autoref{thm:halting-distinction-trace-scoped-transport-nonescape}, \autoref{thm:halting-distinction-trace-bridge-readback}, \autoref{thm:halting-distinction-trace-obstruction-handoff}, and \autoref{thm:halting-distinction-trace-mature-boundary-readback} bind the finite trace carrier, diagonal readback route, scoped consumer factorization, componentwise transport, provenance non-escape boundary, bridge readback surface, obstruction handoff, and mature boundary readback.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
