@@ -270,6 +270,22 @@ The shared $\CauchySequenceSpaceUp$ packet reads the same source and common-wind
 Therefore the downstream CauchySequenceSpace classifier is the consumer of the finite-window surface already exposed by $F$. The exclusions follow from the local non-escape and budget-route exactness rows: no accepted coordinate contains quotient stream equality, a selected real, an infinite tail, a host metric, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation shared-window budget exhaustion]
+\label{thm:finite-cauchy-approximation-shared-window-budget-exhaustion}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Suppose its finite-window rows, dyadic-ledger rows, budget rows, seal rows, componentwise $\hsame$ transports, and displayed $\Cont$ routes agree componentwise with accepted $\RealObservationBudgetUp$, $\RealDiagonalMeshBudgetUp$, and $\CauchySequenceSpaceUp$ packets. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $F$ reaches the same handoff row $S$ through the displayed $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, explicit error row $E$, and finite budget route before any seal handoff.
+
+The shared finite route is the route exposed by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-real-observation-budget-namecert}, \autoref{ch:concrete-instances-realdiagonalmeshbudget-namecert}, and \autoref{ch:concrete-instances-cauchysequencespace-namecert}. It exports no selected real value, quotient stream equality, infinite tail, host metric, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}. This fixes the finite threshold, window, dyadic ledger, explicit error row, and local route support as the only displayed path from the approximation packet toward the seal-facing handoff.
+
+Next apply \autoref{thm:finite-cauchy-approximation-budget-route-exactness}. Because the observation-budget and diagonal-mesh budget rows agree componentwise with $F$, every budget-facing read uses the same finite route through $W$, $D$, $E$, and $S$ before any downstream seal read is available.
+
+Finally apply \autoref{thm:finite-cauchy-approximation-cauchysequence-space-handoff}. The CauchySequenceSpace packet reads the same finite-window surface through the stream-name and regular-sequence handoff rows, so a $\RealUp$ or $\CauchyLimitSealUp$ consumer cannot bypass the displayed budget route when it reaches $S$.
+
+The exclusions are inherited from the three component route theorems. None of the participating carriers contains a coordinate for a selected real value, quotient stream equality, infinite tail, host metric, or $\RealUp$ completeness, so those objects cannot be exported by the shared finite-window route.
+\end{proof}
+
 \closureat{FiniteCauchyApproximationUp}{seedStr}
 \closureat{FiniteCauchyApproximationUp}{obligationStr}
 \closureat{FiniteCauchyApproximationUp}{scopedStr}
@@ -279,7 +295,7 @@ Therefore the downstream CauchySequenceSpace classifier is the consumer of the f
 \begin{closurestatus}{\FiniteCauchyApproximationUp}
   \constructivestory{A $\FiniteCauchyApproximationUp$ packet is generated from a $\RegSeqRatUp$ source row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, $\RealUp$ and $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-precision-weakening-route}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, and \autoref{thm:finite-cauchy-approximation-budget-route-exactness} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
+  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-threshold-route-coverage}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-precision-weakening-route}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility}, \autoref{thm:finite-cauchy-approximation-budget-route-exactness}, \autoref{thm:finite-cauchy-approximation-cauchysequence-space-handoff}, and \autoref{thm:finite-cauchy-approximation-shared-window-budget-exhaustion} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
