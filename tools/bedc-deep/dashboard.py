@@ -654,6 +654,15 @@ def render_board_refill() -> str:
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
             "do not bypass the final maker/checker gate."
         )
+        if "claude_not_logged_in" in latest_status:
+            lines.append(
+                "  action: restore Claude CLI auth for the BOARD judge; "
+                "refreshing BEDC oracle tabs will not fix this outage."
+            )
+        if "codex_sandbox_init_failed" in latest_status:
+            lines.append(
+                "  note: Codex fallback also failed during sandbox app-server initialization."
+            )
     return "\n".join(lines)
 
 
