@@ -297,9 +297,6 @@ def crash_retry_sweep() -> int:
     return reset_retriable()
 
 
-_REJECTION_ITEM_RE = re.compile(r"item\s*(\d+)|build\s*invariant|content\s*duplication|non-?LaTeX")
-
-
 def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dict[str, int]:
     """Count Stage 2 rejection reason categories from RECENT completed targets.
 
@@ -308,11 +305,9 @@ def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dic
     targets) doesn't keep firing the recurring-pattern trigger after the
     underlying root cause is fixed.
 
-    Returns dict of category → count when count >= min_count.
-    Categories are normalized: 'item N' (hygiene checklist item N),
-    'build_invariant' (label / undefined macro), 'content_duplication',
-    'non_latex_trailing', 'line_cap', 'bad_target_file',
-    'undefined_macro'.
+    Returns dict of category → count when count >= min_count. Categories are
+    semantic enough for PI advice: line-cap/routing failures should not be
+    collapsed with transport-discipline or LaTeX-layout prompt failures.
     """
     if not STATE_DIR.exists():
         return {}
@@ -333,26 +328,71 @@ def stage2_reject_clusters(min_count: int = 3, window_hours: float = 2.0) -> dic
             continue
         if data.get("verdict") != "reject":
             continue
+        rejection_codes = list(data.get("rejection_codes") or [])
+        for code in rejection_codes:
+            cat = _stage2_reject_category(str(code or ""))
+            counts[cat] = counts.get(cat, 0) + 1
+        if rejection_codes:
+            continue
         for reason in data.get("rejection_reasons") or []:
-            r = (reason or "").lower()
-            cat = "other"
-            m = _REJECTION_ITEM_RE.search(r)
-            if m and m.group(1):
-                cat = f"item_{m.group(1)}"
-            elif "build invariant" in r:
-                cat = "build_invariant"
-            elif "content duplication" in r:
-                cat = "content_duplication"
-            elif "800" in r or "line cap" in r or "far past" in r or "would exceed" in r:
-                cat = "line_cap"
-            elif "does not exist" in r and ("target" in r or "file" in r):
-                cat = "bad_target_file"
-            elif "undefined control sequence" in r or "undefined macro" in r:
-                cat = "undefined_macro"
-            elif "non-latex" in r or "trailing" in r:
-                cat = "non_latex_trailing"
+            cat = _stage2_reject_category(str(reason or ""))
             counts[cat] = counts.get(cat, 0) + 1
     return {k: v for k, v in counts.items() if v >= min_count}
+
+
+def _stage2_reject_category(reason: str) -> str:
+    r = reason.lower()
+    if r in {
+        "bad_target_file",
+        "line_cap",
+        "empty_content",
+        "compile_failed",
+        "external_provenance_leak",
+        "killo_review_reject",
+    }:
+        return r
+    if "duplicate \\leanchecked" in r or "duplicate \\leantarget" in r:
+        return "duplicate_lean_marker"
+    if "build invariant" in r:
+        return "build_invariant"
+    if "content duplication" in r:
+        return "content_duplication"
+    if "non-latex" in r or "trailing" in r:
+        return "non_latex_trailing"
+    if "undefined control sequence" in r or "undefined macro" in r:
+        return "undefined_macro"
+    if (
+        "800-line" in r
+        or "line cap" in r
+        or "far past the 800" in r
+        or "would exceed" in r
+        or "exceed 800 lines" in r
+    ):
+        return "line_cap"
+    if (
+        ("target" in r and "does not exist" in r)
+        or "not a concrete body file" in r
+    ):
+        return "bad_target_file"
+    if (
+        "transport-style" in r
+        or "without a transport-citation" in r
+        or "without a transport citation" in r
+        or "implicit transport step" in r
+    ):
+        return "implicit_transport_without_citation"
+    if "implicit inversion" in r or "no labeled theorem/lemma" in r:
+        return "missing_inversion_or_projection_lemma"
+    if "display math" in r:
+        return "latex_layout"
+    if "operatorname" in r or "macro convention" in r:
+        return "macro_convention"
+    if "no theorem" in r or "no \\begin{theorem}" in r or "contains json" in r:
+        return "missing_appendable_latex_environment"
+    m = re.search(r"item\s*(\d+)", r)
+    if m:
+        return f"checklist_item_{m.group(1)}"
+    return "other"
 
 
 def stage2_reject_advice(clusters: dict[str, int]) -> str:
@@ -361,6 +401,18 @@ def stage2_reject_advice(clusters: dict[str, int]) -> str:
         return "consider splitting or rerouting target files"
     if cats and cats <= {"undefined_macro", "build_invariant"}:
         return "consider hardening compile-hygiene checks"
+    if cats and cats <= {
+        "implicit_transport_without_citation",
+        "missing_inversion_or_projection_lemma",
+    }:
+        return "consider adding transport/inversion obligations before writeback"
+    if cats and cats <= {
+        "latex_layout",
+        "missing_appendable_latex_environment",
+        "macro_convention",
+        "non_latex_trailing",
+    }:
+        return "consider hardening appendable-LaTeX prompt checks"
     return "consider hardening WRITE_PAPER_LATEX prompt"
 
 
