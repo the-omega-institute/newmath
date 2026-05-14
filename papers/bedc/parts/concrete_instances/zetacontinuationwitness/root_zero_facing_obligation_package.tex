@@ -38,6 +38,24 @@ Apply \autoref{thm:zeta-continuation-witness-critical-strip-input-refusal} and \
 Use the pole-Gamma boundary and dependency ledger to exhaust the remaining routes. Since $P,F,G,H,C,R,N$ only authenticate the displayed packet and do not add a zero-location coordinate, the trivial-zero ledger cannot escape as a completed zero classifier.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness formal-target ledger]
+\label{thm:zeta-continuation-witness-formal-target-ledger}
+For an accepted $\ZetaContinuationWitnessUp$ packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N),
+$$
+the source totality row, Gamma functional boundary totality row, and critical-strip consumer non-escape row jointly present the finite formal target surface for $\ZetaContinuationWitnessUp$. A consumer receives only $B,E,A,P,F,T,G,H,C,R,N$ with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. RH predicates, non-trivial-zero locators, global zero classifiers, hidden analytic branches, and completed Gamma certificates remain outside the packet.
+\end{theorem}
+\begin{proof}
+Use the source obligation theorem to bind root-facing reads to the displayed source row, eta route, analytic-continuation row, functional-equation row, transport row, continuation row, package provenance, and local name. This supplies the source-totality side of the formal target surface.
+
+Use the analytic readback obligation for the Gamma functional boundary. It routes analytic access through $B,E,A,F,H,C,R,N$ and the pole-Gamma rows $P,G$, so a consumer cannot import an off-packet branch or a completed Gamma certificate.
+
+Use zero ledger non-escape for the critical-strip boundary. It leaves the displayed trivial-zero ledger row $T$ inside $W$ and refuses RH predicates, non-trivial-zero locators, and global zero classifiers.
+
+The chapter-level dependency ledger already records the packet dependencies through the Lean target $BEDC.Derived.ZetaContinuationWitnessUp.ZetaContinuationWitnessPacket\_dependency\_ledger$. Combining these three paper rows with that dependency ledger gives one finite formal-target surface over $B,E,A,P,F,T,G,H,C,R,N$ and no additional analytic or zero-facing coordinate.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationWitness root package]
 \label{thm:zeta-continuation-witness-root-package}
 The root-facing obligation package for an accepted $\ZetaContinuationWitnessUp$ packet is the finite surface consisting of the source obligation of \autoref{thm:zeta-continuation-witness-source-obligation}, the analytic readback obligation of \autoref{thm:zeta-continuation-witness-analytic-readback-obligation}, and the zero ledger non-escape boundary of \autoref{thm:zeta-continuation-witness-zero-ledger-nonescape}. It exposes only $W=(B,E,A,P,F,T,G,H,C,R,N)$ and keeps RH predicates, non-trivial-zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates outside the packet.
