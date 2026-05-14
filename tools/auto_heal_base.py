@@ -647,6 +647,28 @@ def cycle() -> None:
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
 
+    # Detect propext-axiom violations from log tail. Runs independently
+    # of the gate-storm threshold (5/30min) because propext violations
+    # block ALL R-side rounds — even one in the log tail is a critical
+    # issue that should be healed immediately. Threshold-based gate
+    # detection misses cases where R-side stopped retrying (e.g., after
+    # cooldown decay) before storm window expired.
+    propext_v = detect_propext_violations_from_log()
+    if propext_v:
+        print(f"[heal] {len(propext_v)} propext violation(s) parsed from log "
+              f"(threshold=1); invoking codex per-theorem", flush=True)
+        for v in propext_v[:5]:
+            print(f"[heal]   {v}", flush=True)
+        if heal_propext_violations(propext_v):
+            if push_to_origin():
+                print("[heal] codex committed + pushed (propext)", flush=True)
+            else:
+                print("[heal] codex committed but push failed (retry next tick)",
+                      flush=True)
+            return  # one heal per cycle is enough
+    else:
+        print("[heal] no propext violation in log tail", flush=True)
+
     # Detect generic gate-failure storms in orchestrator logs.
     storms = detect_gate_storms()
     if not storms:
