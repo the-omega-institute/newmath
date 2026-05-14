@@ -295,14 +295,23 @@ def _logic_surface_audit(content: str) -> dict:
             )
 
     if re.search(r"\b(bridge|transport|continuation|embedding|projection|interpretation|mirror)\b|\\[hmp]same\b", low):
-        if not re.search(r"\b(eliminat|cut|factor|intermediate|compose|composition|reduce|through|autoref\{[^}]*transport)\b", low):
+        if not re.search(
+            r"\b(eliminat|cut|factor|intermediate|compose|composition|reduce|through)\b"
+            r"|\\autoref\{[^}]*transport[^}]*\}"
+            r"|finite observation|common observation|consumer-facing|displayed coordinates|displayed classifier",
+            low,
+        ):
             add(
                 "bridge_surface_without_elimination_cue",
                 "bridge/transport surface appears without an obvious elimination, cut, or factorization cue",
             )
 
     if re.search(r"\b(limit|completion|compactness|continuity|cauchy|convergen)\b", low):
-        if not re.search(r"\b(rate|modulus|bound|bounded|tail|finite cover|finite subcover|covering|cofinal)\b", low):
+        if not re.search(
+            r"\b(rate|modulus|bound|bounded|tail|finite cover|finite subcover|covering|cofinal)\b"
+            r"|finite[- ]window|finite observation|excluded (?:limit|completion)|outside (?:the )?(?:meet )?packet",
+            low,
+        ):
             add(
                 "completion_surface_without_rate_modulus_cue",
                 "limit/completion/compactness surface appears without an obvious rate, modulus, bound, or finite-cover cue",
