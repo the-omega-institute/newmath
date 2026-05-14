@@ -1,0 +1,40 @@
+\begin{theorem}[Cauchy witness ledger root source lock]
+\label{thm:cauchy-witness-ledger-root-source-lock}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. The diagonal-budget row $Q$, observation-budget row $B$, synchronizer row $S$, and completion-seal classifier row $K$ use one shared finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ source surface. Thus the public root read of $L$ cannot attach $K$ to a stream, rational, dyadic, or Real source separate from the source already read by $Q$, $B$, and $S$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:cauchy-witness-ledger-carrier}. The accepted packet exposes only $Q,B,S,K,H,C,P,N$, so every source visible at the root must be read through one of those rows.
+
+Apply \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:cauchy-witness-ledger-diagonal-observation-route}. The budget factorization orders the analytic route as $Q \longmapsto B \longmapsto S \longmapsto K$, and the diagonal-observation route identifies the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ surface seen by $B$ with the one already fixed by $Q$.
+
+Finally use \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The synchronizer carries the same $Q \longmapsto B$ source into $K$, so the classifier has no separate source row from which an alternate completion-facing read could be exposed.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root budget coherence]
+\label{thm:cauchy-witness-ledger-root-budget-coherence}
+Let $L=(Q,B,S,K,H,C,P,N)$ and $L'=(Q',B',S',K',H',C',P',N')$ be accepted $\CauchyWitnessLedgerUp$ packets. If the two public reads agree on $Q,B,S,H,C,P,N$, then they determine the same public completion-seal classifier read $K$. In particular, no accepted root read can split the classifier from the displayed budget route $Q \longmapsto B \longmapsto S \longmapsto K$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-witness-ledger-route-determinacy}. Agreement on the displayed route and structural rows fixes the completion-facing route, so the public read has no second branch on which $K$ could vary.
+
+Use \autoref{thm:cauchy-witness-ledger-budget-source-coherence}. The rows $Q$, $B$, and $S$ share one finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ source before $K$ is exposed.
+
+Now apply \autoref{thm:cauchy-witness-ledger-completion-classifier-readback}. The classifier readback is exactly the displayed route through $Q \longmapsto B \longmapsto S \longmapsto K$ together with $H,C,P,N$. Since those route and structural rows already agree, the public classifier read agrees as well.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root consumer exhaustion]
+\label{thm:cauchy-witness-ledger-root-consumer-exhaustion}
+Every downstream $\RealUp$-completion consumer of an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$ factors through
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+and the structural rows $H,C,P,N$. Such a consumer has no quotient stream, host real equality, selected external limit, countable-choice row, hidden tail, alternate seal, or ambient completeness coordinate outside the displayed ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_root\_consumer\_exhaustion}
+\begin{proof}
+First apply \autoref{thm:cauchy-witness-ledger-ledger-exhaustion} and \autoref{thm:cauchy-witness-ledger-real-completion-nonescape}. Ledger exhaustion confines every public read to $Q,B,S,K,H,C,P,N$, and Real-completion nonescape places every admitted completion read on the route $Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Next use \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock} and \autoref{thm:cauchy-witness-ledger-regseqrat-readback-totality}. The StreamName window source and RegSeqRat readback are both supplied by the same finite budget source, so a downstream consumer cannot detach a stream window, rational readback, dyadic tolerance row, or hidden tail from the ledger.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Any request outside the displayed route lands at the refusal boundary rather than at a quotient stream, host Real equality, selected external limit, countable-choice row, alternate seal, or ambient completeness coordinate.
+\end{proof}

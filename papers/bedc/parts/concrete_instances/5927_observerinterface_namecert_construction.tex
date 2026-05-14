@@ -123,6 +123,7 @@ The proposed Lean follow-up site is \texttt{lean4/BEDC/Derived/ObserverInterface
 \label{thm:observer-interface-public-export}
 Every public consumer of an accepted $\ObserverInterfaceUp$ packet factors through the displayed observer-history identity, observer-filter row, attention-ledger row, selected-row ledger, omitted-row boundary, licensed-observation row, $\StreamNameUp$ handoff, componentwise transport, displayed continuation, package provenance, and local $\NameCert$ rows of \autoref{def:observer-interface-carrier}. In particular, the public interface exports selected observations only through the exact selected-row route and exports omitted observations only as boundary rows; no consumer receives a hidden observer state, an unledgered observation, or a StreamName-facing row outside this finite surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverInterfaceUp.ObserverInterfacePacket\_public\_export}
 \begin{proof}
 Project the accepted packet through the carrier of \autoref{def:observer-interface-carrier}. The observer-history identity, filter, attention ledger, selected ledger, omitted boundary, licensed observation, StreamName handoff, transports, continuations, provenance, and local naming rows are all displayed coordinates of the same finite packet.
 

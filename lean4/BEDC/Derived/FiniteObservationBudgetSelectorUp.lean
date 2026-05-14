@@ -128,4 +128,24 @@ theorem FiniteObservationBudgetSelectorCarrier_schedule_admission
     }
   exact ⟨unaryB, unaryS, unaryW, routeW, cert⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_budget_route_determinacy
+    [AskSetup] (_ps : PackageSetup)
+    {B S W D R E H C P N W' R' C' : BHist} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont B S W' ->
+        Cont W' D R' ->
+          Cont R' E C' ->
+            hsame W W' ∧ hsame R R' ∧ hsame C C' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier budgetSchedule' windowDyadic' regularSeal'
+  obtain ⟨_unaryB, _unaryS, _unaryD, _unaryE, budgetSchedule, windowDyadic,
+    regularSeal, _sameName⟩ := carrier
+  have sameWindow : hsame W W' :=
+    cont_respects_hsame (hsame_refl B) (hsame_refl S) budgetSchedule budgetSchedule'
+  have sameRegular : hsame R R' :=
+    cont_respects_hsame sameWindow (hsame_refl D) windowDyadic windowDyadic'
+  have sameSeal : hsame C C' :=
+    cont_respects_hsame sameRegular (hsame_refl E) regularSeal regularSeal'
+  exact ⟨sameWindow, sameRegular, sameSeal⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp
