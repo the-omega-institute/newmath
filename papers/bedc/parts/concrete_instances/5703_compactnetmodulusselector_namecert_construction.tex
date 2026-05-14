@@ -218,6 +218,50 @@ Apply \autoref{thm:compact-net-modulus-selector-fold-soundness} and \autoref{thm
 Finally use \autoref{thm:compact-net-modulus-selector-metric-consumer-boundary} and \autoref{thm:compact-net-modulus-selector-field-faithful-row}. A downstream $\UniformModulusUp$ consumer receives the same field-preserving selector packet, so every public source read remains inside the listed carrier coordinates.
 \end{proof}
 
+\begin{theorem}[Compact net modulus selector center ledger exposure]
+\label{thm:compact-net-modulus-selector-center-ledger-exposure}
+Let
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N)
+$$
+be an accepted $\CompactNetModulusSelectorUp$ carrier. Every accepted selector packet exposes the finite probe spine $\mathcal{P}$, center coverage row $C$, subordinate radius row $R$, and pointwise-modulus row $M$ before the selected precision row $D$ can be read. Thus the precision handoff is never read from a hidden center selector, a quotient point equality, an ambient compactness principle, or an external modulus function.
+\end{theorem}
+\begin{proof}
+Project $S$ through \autoref{def:compact-net-modulus-selector-carrier}. The finite probe spine, center coverage row, subordinate radius row, and pointwise-modulus row are displayed coordinates of the same accepted packet as the selected precision row.
+
+Apply \autoref{thm:compact-net-modulus-selector-namecert-obligations}. Its compact-net exactness and pointwise-modulus exactness rows force $C,R,M$ to be public before a consumer can reach the lower-bound fold or the selected precision.
+
+Finally use \autoref{thm:compact-net-modulus-selector-pointwise-radius-route}. Each center radius reaches the precision threshold only through the displayed pointwise-modulus and metric rows, so no hidden center choice, quotient equality, ambient compactness principle, or external modulus function can supply $D$.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector fold radius exhaustion]
+\label{thm:compact-net-modulus-selector-fold-radius-exhaustion}
+For an accepted carrier
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N),
+$$
+the fold row $F$ consumes exactly the displayed finite probe spine $\mathcal{P}$ and subordinate radius ledger $R$ before it exports the selected precision row $D$. The fold cannot read a host minimum, a choice-selected center, quotient point equality, or an external modulus as a second source for the selected radius budget.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:compact-net-modulus-selector-fold-soundness}. It identifies the lower-bound fold as a read over the displayed probe spine and radius ledger.
+
+Use \autoref{thm:compact-net-modulus-selector-finite-fold-budget-exactness}. The selected precision is exact only as the fold output over $\mathcal{P}$ and $R$, so a second host minimum or external rational infimum has no carrier coordinate.
+
+Apply non-escape and field faithfulness, \autoref{thm:compact-net-modulus-selector-nonescape} and \autoref{thm:compact-net-modulus-selector-field-faithful-row}. Public consumers preserve the displayed fold route and cannot replace it by choice-selected center data, quotient point equality, or an external modulus.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector UniformModulus handoff]
+\label{thm:compact-net-modulus-selector-uniformmodulus-handoff}
+Any downstream $\UniformModulusUp$ read of the selected precision row $D$ from an accepted $\CompactNetModulusSelectorUp$ packet passes through the already exposed compact row $X,\mathcal{P},C,R$, continuous pointwise row $M$, metric rows $X,Y$, rational tolerance row $E$, fold row $F$, transport row $H$, continuation row $Q$, provenance row $P$, and local $\NameCert$ row $N$. The handoff therefore consumes the selector obligation surface rather than a parameter-only modulus promise.
+\end{theorem}
+\begin{proof}
+Begin with source coverage, \autoref{thm:compact-net-modulus-selector-source-coverage}. It places every public source read for the uniform-modulus output inside the displayed selector coordinates.
+
+Next use the metric consumer boundary, \autoref{thm:compact-net-modulus-selector-metric-consumer-boundary}. A metric-facing consumer must keep the compact, continuous, rational, and fold inputs attached to the selected threshold rather than reading the threshold as a detached number.
+
+Finally apply the request obligation surface and public handoff rows, \autoref{thm:compact-net-modulus-selector-tastegate-obligation} and \autoref{thm:compact-net-modulus-selector-uniform-modulus-public-handoff}. They carry the same transport, continuation, provenance, and local naming rows into $\UniformModulusUp$, so the downstream read of $D$ is exactly the exposed selector route.
+\end{proof}
+
 \begin{theorem}[Compact net modulus selector metric threshold stability]
 \label{thm:compact-net-modulus-selector-metric-threshold-stability}
 For accepted $\CompactNetModulusSelectorUp$ carriers
