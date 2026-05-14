@@ -348,6 +348,7 @@ import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyLimitSealUp.ChoiceFreeSelector
 import BEDC.Derived.CauchyLimitSealUp.CompletionBudget
 import BEDC.Derived.CauchyLimitSealUp.ConsumerUniformRouteLock
+import BEDC.Derived.CauchyLimitSealUp.FiniteWindowLattice
 import BEDC.Derived.CauchyLimitSealUp.LedgerNonescape
 import BEDC.Derived.CauchyLimitSealUp.PublicRouteTransport
 import BEDC.Derived.CauchyLimitSealUp.RootBudgetSourceTotality
@@ -575,6 +576,7 @@ import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
+import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
