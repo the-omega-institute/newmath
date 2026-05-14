@@ -1,0 +1,39 @@
+\begin{theorem}[Cauchy witness ledger root diagnostic budget totality]
+\label{thm:cauchy-witness-ledger-root-diagnostic-budget-totality}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Every root diagnostic read of $L$ consumes the diagonal-budget row $Q$, observation-budget row $B$, seal-synchronizer row $S$, completion-seal classifier row $K$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, and local NameCert row $N$. No such root read can bypass the diagonal budget, observation budget, synchronizer, or completion-seal classifier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:cauchy-witness-ledger-carrier}. The carrier exposes only $Q,B,S,K,H,C,P,N$, so any root diagnostic read must land on the displayed ledger rows.
+
+Apply \autoref{thm:cauchy-witness-ledger-namecert-obligations}. The local NameCert surface requires carrier admission, budget exposure, synchronizer exposure, classifier exposure, transport, replay, provenance, and local naming for the same finite packet.
+
+Now use \autoref{thm:cauchy-witness-ledger-budget-factorization}. It orders the analytic budget route through $Q$, then $B$, then $S$, then $K$. Since the root diagnostic read is a read of the accepted packet, it cannot omit any one of those budget rows while still preserving the displayed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root seal classifier lock]
+\label{thm:cauchy-witness-ledger-root-seal-classifier-lock}
+For an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$, the completion-seal classifier row $K$ is exposed only after the route
+$$
+Q \longmapsto B \longmapsto S
+$$
+has been displayed. A consumer cannot read $K$ as a detached classifier row before the diagonal-budget row, observation-budget row, and seal-synchronizer row have been consumed.
+\end{theorem}
+\begin{proof}
+First read the carrier in \autoref{def:cauchy-witness-ledger-carrier}. The row $K$ is one coordinate of the same finite packet as $Q,B,S,H,C,P,N$, not a separate classifier object.
+
+Apply \autoref{thm:cauchy-witness-ledger-namecert-obligations} to bind $K$ to the local certificate for the packet. The certificate exposes $K$ together with the displayed budget and synchronizer rows.
+
+Finally use \autoref{thm:cauchy-witness-ledger-budget-factorization}. The factorization places the classifier after $Q \longmapsto B \longmapsto S$, so a detached read of $K$ would skip part of the certified route and would not be a root read of the accepted packet.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root forbidden coordinate exclusion packet]
+\label{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet}
+The root packet of an accepted $\CauchyWitnessLedgerUp$ carrier $L=(Q,B,S,K,H,C,P,N)$ contains no quotient stream equality, host real equality, selected external limit, countable-choice row, or ambient completeness coordinate. All root completion-facing reads are confined to the displayed budget route, structural rows, provenance row, and local NameCert row.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:cauchy-witness-ledger-carrier}. Its root coordinates are exactly $Q,B,S,K,H,C,P,N$, and none of these is a quotient stream equality, host real equality, selected external limit, countable-choice row, or ambient completeness coordinate.
+
+Use \autoref{thm:cauchy-witness-ledger-budget-factorization} to locate every completion-facing read on the budget route through $Q,B,S,K$. The structural rows $H,C,P,N$ preserve and name that route rather than adding a separate completion source.
+
+Finish with \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. That theorem rules out the forbidden coordinates for the ledger surface, and the present root packet exposes no additional row on which such a coordinate could be introduced.
+\end{proof}
