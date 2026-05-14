@@ -162,6 +162,24 @@ Transport and handoff are then read through the same packet. By \autoref{thm:cho
 Finally use \autoref{thm:choice-free-limit-schedule-consumer-readback} and \autoref{thm:choice-free-limit-schedule-nonescape}. Completion-facing consumers read exactly the finite schedule-to-seal surface and cannot export any excluded analytic object outside the displayed rows.
 \end{proof}
 
+\begin{theorem}[Choice-free limit schedule CauchyLimitSeal factorization]
+\label{thm:choice-free-limit-schedule-cauchy-limit-seal-factorization}
+Every accepted $\ChoiceFreeLimitScheduleUp$ packet whose finite route reaches the $\RealUp$ seal row $S$ factors the seal-facing consumer through the $\CauchyLimitSealUp$ surface of \autoref{ch:concrete-instances-cauchylimitseal-namecert} before any Real-completion consumer reads the finite schedule-to-seal export.
+
+Thus a Real-completion consumer receives the public surface of \autoref{thm:choice-free-limit-schedule-public-seal-export} only after the consumer readback row of \autoref{thm:choice-free-limit-schedule-consumer-readback} has been confined to the Cauchy-limit seal boundary. The factorization adds no quotient stream, host real equality, countable choice, hidden selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $L=(E,M,W,D,R,S,H,C,P,N)$ whose route reaches the $\RealUp$ seal row $S$. By \autoref{thm:choice-free-limit-schedule-consumer-readback}, every completion-facing read of $L$ is already forced through the displayed route
+$$
+E \to M \to W \to D \to R \to S
+$$
+and through the same componentwise transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Now place the seal-facing end of that route at the Cauchy-limit seal boundary supplied by \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The $\CauchyLimitSealUp$ surface is the consumer boundary between regular-source readback and Real-facing seal consumption, so the row $S$ is read only after the finite schedule route has been exposed at that surface.
+
+Finally apply \autoref{thm:choice-free-limit-schedule-public-seal-export}. The exported Real-completion surface remains exactly the finite schedule-to-seal route with $H,C,P,N$, now read through the displayed Cauchy-limit seal boundary first. Since neither the schedule packet nor the cited seal surface supplies quotient streams, host real equality, countable choice, hidden selectors, or an ambient completeness theorem, the factorization exports none of them.
+\end{proof}
+
 \begin{theorem}[Choice-free limit schedule well-founded readback]
 \label{thm:choice-free-limit-schedule-choice-free-well-founded-readback}
 Every completion-facing readback of an accepted $\ChoiceFreeLimitScheduleUp$ packet follows the finite route
