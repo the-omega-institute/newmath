@@ -687,6 +687,50 @@ Apply the diagonal-consumer boundary from \autoref{thm:cauchy-modulus-refinement
 Finally combine root readback stability with non-escape, \autoref{thm:cauchy-modulus-refinement-root-readback-stability} and \autoref{thm:cauchy-modulus-refinement-nonescape}. The $W,Q$ readbacks and the seal row $E$ stay on the same displayed route under $H$ and $C$, and no forbidden completion coordinate remains available. Hence $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ exhaust the root Real-seal surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement root-threshold scope]
+\label{thm:cauchy-modulus-refinement-root-threshold-scope}
+Every accepted $\CauchyModulusRefinementUp$ refinement packet routes its root threshold scope through the displayed finite rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+No Real- or Completion-facing consumer may replace that root route by a second meet, hidden selector, selected host limit, quotient stream, host real equality, side-channel completion row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier definition and the root-unblock package of \autoref{thm:cauchy-modulus-refinement-root-unblock-package}. Together they identify the only root threshold inventory as the source schedules, meet, extraction, selector-budget, selected-window, tolerance, seal, transport, route, provenance, and local naming rows.
+
+Apply common-window selector extraction from \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}. It forces $W,Q$ to be read from the same selector-budget route $T$ after $M_0,M_1,U,V$.
+
+Finally use the Real-completeness handoff of \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}. The downstream seal read arrives only after the displayed root route, so the listed excluded coordinates have no packet row from which to enter.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared-tail handoff]
+\label{thm:cauchy-modulus-refinement-shared-tail-handoff}
+Every shared-tail handoff exported by an accepted $\CauchyModulusRefinementUp$ packet factors through the existing $\CauchySharedTailModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ surfaces. The handoff reads the same selector-budget, window, tolerance, readback, and seal route $T,W,Q,E$ already displayed by the packet, together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the root-unblock package. It allows a downstream Real-completion consumer to cite the refinement packet only through the displayed finite rows and their named sibling surfaces.
+
+Use common-window selector extraction to reach $W,Q$ through $T$. The shared-tail side can therefore consume only the finite window and tolerance rows supplied by the same route.
+
+The Real-completeness handoff then carries those rows into the $\RegSeqRatUp$ readback and $\RealUp$ seal surface, with $\CauchySharedTailModulusUp$ serving as the shared-tail threshold sibling. No additional tail witness or host completion row is exported.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real-consumer coverage]
+\label{thm:cauchy-modulus-refinement-real-consumer-coverage}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ packet reads only the displayed selector-budget, window, readback, and seal route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Thus the Real-completion consumer surface is exhausted by the carrier route, the common-window selector extraction, and the Real-completeness handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The consumer-visible rows are exactly the displayed finite tuple and the structural rows $H,C,P,N$ that transport, replay, package, and name it.
+
+Apply \autoref{thm:cauchy-modulus-refinement-common-window-selector-extraction}. This removes any competing selected-window path by requiring $W,Q$ to be obtained through the same $T$ route.
+
+Finally apply \autoref{thm:cauchy-modulus-refinement-real-completeness-handoff}. It orders the meet, extraction, selector, finite-window, tolerance, readback, and seal rows before any Real-completion use. Therefore every consumer read is covered by the displayed route and no hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate remains.
+\end{proof}
+
 \closureat{CauchyModulusRefinementUp}{seedStr}
 \closureat{CauchyModulusRefinementUp}{obligationStr}
 
