@@ -35,6 +35,30 @@ The route is the local RealUp form of \autoref{thm:real-regseqrat-streamname-lat
 The RegularCauchyName seal results provide the readback discipline used by the same boundary. Apply \autoref{thm:regularcauchyname-real-seal-consumer-scope}, \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion}, and \autoref{thm:regularcauchyname-seal-readback-exhaustion}: a real-seal consumer is downstream of the displayed finite window, dyadic observation, regularity ledger, package provenance, and local NameCert rows. Repacking those rows as $D,S,Q,L,E,H,C,P,N$ gives the stated factorization.
 \end{proof}
 
+\begin{theorem}[Real StreamName-RegSeqRat seal route]
+\label{thm:real-streamname-regseqrat-seal-route}
+Every accepted $\RealUp$ name-seal packet
+$$
+R=(D,S,Q,L,E,H,C,P,N)
+$$
+of \autoref{def:real-name-seal-carrier} consumes the $\StreamNameUp$ finite-window schedule $S$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ regularity row $Q$, and the ledger $L$ before exposing the local seal row $E$. The resulting Phase Real and Completion exit route is the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+carried only by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The route exports no quotient stream equality, selected host limit, host real equality, host sequence equality, ambient $\RealUp$ completeness principle, metric-completeness datum, or choice row.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the source factorization theorem, \autoref{def:real-name-seal-carrier} and \autoref{thm:real-name-seal-source-factorization}. They identify $D,S,Q,L$ as the only source rows through which the accepted packet can reach $E$, with $H,C,P,N$ as structural transport, replay, provenance, and naming rows.
+
+Next apply the Real L10 sibling lattice summary. The ordered lattice of \autoref{def:real-l10-dependency-lattice}, together with \autoref{thm:real-l10-source-route-nonescape} and \autoref{thm:real-l10-dependency-lattice-interface-totality}, places Phase Real and Completion consumers on the same DyadicRatCore, StreamName, RegSeqRat, and Real faces.
+
+The four public faces provide the component rows. The StreamName face is the public finite-window interface of \autoref{thm:streamname-public-finite-window-interface}; the DyadicRatCore face is the real-phase source coverage of \autoref{thm:dyadicratcore-real-phase-source-coverage}; the RegSeqRat face is the real-seal handoff of \autoref{thm:regseqrat-real-seal-handoff}; and the local Real face is finite-prefix exactness through \autoref{thm:real-stream-finite-prefix-exactness}.
+
+Composing those rows with the source factorization repacks the accepted read as the displayed route to $E$. Since each cited interface exposes only finite packet rows and the same structural support, no quotient stream equality, selected host limit, host real equality, host sequence equality, ambient Real completeness principle, metric-completeness datum, or choice row is exported.
+\end{proof}
+
 \begin{theorem}[Real name seal NameCert obligations]
 \label{thm:real-name-seal-namecert-obligations}
 For the carrier of \autoref{def:real-name-seal-carrier}, the local $\NameCert_{\RealUp}$ surface consists exactly of the following obligations:

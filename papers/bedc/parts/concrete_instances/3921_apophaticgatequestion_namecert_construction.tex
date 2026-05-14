@@ -313,6 +313,42 @@ Use boundary row triad and audit readback locality. They force the root route to
 Finally apply visible socket non-escape and refusal ledger transport. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows can replay only the same packet, which rules out hidden source predicates, semantic harmlessness proofs, quotient collapse, unmarked selectors, and host gate answers.
 \end{proof}
 
+\begin{theorem}[Apophatic gate question source-question ledger lock]
+\label{thm:apophatic-gate-question-source-question-ledger-lock}
+For every root consumer of an accepted $\ApophaticGateQuestionUp$ packet $G=(S,Q,R,A,H,C,P,N)$, the root ledger is locked in the order $S$ before $Q$, and $Q$ before each of $R,A,H,C,P,N$. Thus every source-question-refusal-readback citation reads the visible socket-name row before the gate question and reads the gate question before refusal, audit readback, transport, continuation, provenance, or local naming can be exported.
+\end{theorem}
+\begin{proof}
+Project the carrier and local \NameCert{} obligations. They display $G$ as the finite packet $S,Q,R,A,H,C,P,N$, with $S$ the source socket-name row and $Q$ the gate-question row.
+
+Use source exposure, socket-name dependency, and the boundary row triad. These force $S$ to be read before $Q$, and force $Q$ to precede the refusal row $R$ on every accepted root route.
+
+Now apply audit readback locality and the root unblock package. The audit row $A$ and the later rows $H,C,P,N$ are consumed only as the same packet's readback, transport, continuation, provenance, and naming coordinates, so none of them can be exported before the source-question lock has been read.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question visible audit route totality]
+\label{thm:apophatic-gate-question-visible-audit-route-totality}
+The visible audit route of an accepted $\ApophaticGateQuestionUp$ packet is exhausted by the finite rows $S,Q,R,A,H,C,P,N$ together with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure. Every downstream audit consumer obtains the source-question-refusal-readback route from these rows and obtains no further audit carrier outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the public \NameCert{} package and the root unblock package. They identify the exported root surface with the displayed carrier rows and with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates attached to those rows.
+
+Apply the source-question ledger lock. It fixes the entrance route as $S$ before $Q$ and places the refusal ledger, audit readback, transport, continuation, provenance, and naming rows after the gate question.
+
+Finally use refusal ledger transport and audit readback locality. Transport in $H$, route replay in $C$, provenance in $P$, and local naming in $N$ preserve the same packet, so the visible audit route has no extra carrier beyond $S,Q,R,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question refusal readback exhaustion]
+\label{thm:apophatic-gate-question-refusal-readback-exhaustion}
+Every refusal readback exported by the public $\ApophaticGateQuestionUp$ root package is exhausted by the displayed source-question-refusal-readback route. It cannot export a hidden source predicate, host gate answer, quotient collapse, proposition-extensionality collapse, unmarked selector, or outside-supply witness.
+\end{theorem}
+\begin{proof}
+Read the refusal ledger through source-gate exactness and refusal nonescape coverage. The row $R$ answers only the displayed question $Q$ after the visible source row $S$ has been consumed, and it records the forbidden channels inside the finite packet.
+
+Use visible audit route totality. The readback row $A$ and the rows $H,C,P,N$ are the only audit, transport, continuation, provenance, and naming coordinates available to a root consumer.
+
+Close with the public package theorem and the root unblock package. Since the exported route is exactly the finite BEDC packet and its certificate rows, hidden source predicates, host gate answers, quotient collapse, proposition-extensionality collapse, unmarked selectors, and outside-supply witnesses have no export coordinate.
+\end{proof}
+
 \begin{theorem}[Apophatic gate question root visible socket triad]
 \label{thm:apophatic-gate-question-root-visible-socket-triad}
 Every root consumer of the public $\ApophaticGateQuestionUp$ package reads a visible socket triad before any downstream readiness claim: the socket-name row $S$, the gate-question row $Q$, and the refusal-ledger row $R$. The triad is carried as a finite $\BHist$ surface with the same componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row as the package $G=(S,Q,R,A,H,C,P,N)$. It exports no requested outside object, host gate answer, hidden axiom, quotient collapse, unmarked selector, or detached source predicate.
