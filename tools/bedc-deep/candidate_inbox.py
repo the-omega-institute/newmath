@@ -25,6 +25,10 @@ FORBIDDEN_AXIS_RE = re.compile(
     r"chapter retirement",
     re.IGNORECASE,
 )
+NEGATED_FORBIDDEN_AXIS_RE = re.compile(
+    r"\b(?:not|no|without|avoid(?:s|ing)?|exclud(?:e|es|ed|ing)|rather than|instead of)\b",
+    re.IGNORECASE,
+)
 STRUCTURAL_TITLE_RE = re.compile(
     r"^\s*\\(?:label|begin|chapter|section|subsection|input|include)\b",
     re.IGNORECASE,
@@ -74,6 +78,19 @@ def _claim(candidate: dict[str, Any]) -> str:
         or candidate.get("problem")
         or ""
     ).strip()
+
+
+def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
+    """Reject marker-axis targets without punishing negated evidence notes."""
+    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
+        return True
+    for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):
+        if not FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        if NEGATED_FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        return True
+    return False
 
 
 def _candidate_id(candidate: dict[str, Any], source: str) -> str:
@@ -294,7 +311,7 @@ def _rejection_reason(
         return "missing_claim"
     if len(claim) < 30:
         return "claim_too_short"
-    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim, rationale])):
+    if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
@@ -458,6 +475,8 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     by_source_reason: dict[str, dict[str, int]] = {}
     seen_rejection_keys: set[tuple[str, str]] = set()
     stale_logic_packet_rejections = 0
+    by_current_forbidden_axis_reason: dict[str, int] = {}
+    stale_forbidden_axis_rejections = 0
     windowed = 0
     latest_ts: datetime | None = None
     latest_event: dict[str, Any] | None = None
@@ -539,6 +558,17 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                         by_current_logic_packet_reason[key] = (
                             by_current_logic_packet_reason.get(key, 0) + 1
                         )
+        elif reason == "forbidden_axis_or_marker_candidate":
+            if _has_forbidden_axis_marker(
+                str(rec.get("title") or ""),
+                str(rec.get("claim") or ""),
+                str(rec.get("rationale") or ""),
+            ):
+                by_current_forbidden_axis_reason[reason] = (
+                    by_current_forbidden_axis_reason.get(reason, 0) + 1
+                )
+            else:
+                stale_forbidden_axis_rejections += 1
 
     def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
         return [
@@ -582,6 +612,8 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         "logic_packet_gate_reasons": _top(by_logic_packet_reason),
         "current_logic_packet_gate_reasons": _top(by_current_logic_packet_reason),
         "stale_logic_packet_gate_rejections": stale_logic_packet_rejections,
+        "current_forbidden_axis_reasons": _top(by_current_forbidden_axis_reason),
+        "stale_forbidden_axis_rejections": stale_forbidden_axis_rejections,
     }
 
 

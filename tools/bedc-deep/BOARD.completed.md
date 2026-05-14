@@ -18624,3 +18624,162 @@ Rationale:
 This is a concrete finite-subfamily restriction theorem inside an existing audit-map frontier chapter. It is not already covered by the carrier or the five NameCert obligations: those bind the frontier index and synthesis handoff, but do not explicitly state locality under displayed neighbouring-map restriction or the corresponding no-unlisted-neighbour non-escape result. The file is a short non-hub landing, so it is safe as an existing-chapter lemma.
 
 ---
+
+### B-733 - RegularCauchyTailSchedule seal-facing route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RegularCauchyTailSchedule seal-facing route determinacy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted RegularCauchyTailScheduleUp packets share the precision request, RegSeqRat source, StreamName window schedule, DyadicRatCore ledger, cofinal index, tail witness, sibling consumer rows, transport, continuation, provenance, and naming rows, then their RealUp seal-facing handoff rows are hsame.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The schedule is a displayed finite packet; the handoff comparison is a finite route-readback argument through named rows Q,R,W,D,K,T,M,F,H,C,P,N.
+- `witness_extractor`: regular_cauchy_tail_schedule_handoff_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Cut through the cofinal-index/tail-witness pair K,T: align the shared precision, window, dyadic, and sibling consumer rows, then use C and H to compare the two E handoff endpoints.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes Q,R,W,D,K,T,M,F,E,H,C,P,N from the carrier; the sibling TailMeet and TailFusion rows are read only as displayed consumer rows, with no quotient stream equality, selected limit, or ambient completeness principle.
+- `dependency_trace`: Builds on papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 for the carrier and papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:32 for the local obligation rows.
+- `rate_modulus_surface`: Finite precision request Q, finite window schedule W, DyadicRatCore tolerance ledger D, and cofinal index K form the complete modulus surface.
+- `oracle_mode`: proof_search
+Rationale:
+The carrier at papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 is a finite BHist packet S=(Q,R,W,D,K,T,M,F,E,H,C,P,N); lines 15-23 describe the precision request, window schedule, dyadic ledger, cofinal index, tail witness, sibling consumer rows, and seal-facing handoff. The existing theorem at lines 32-42 gives NameCert obligation rows but does not state a two-packet handoff determinacy result. Focused grep for RegularCauchyTailSchedule and schedule/tail determinacy returned only this file's carrier and obligation labels plus neighboring general tail-meet or diagonal-tail theorems, so this packet-specific claim remains open and is not merely a parameter transport echo.
+
+---
+
+### B-734 - InducedRep restriction-induction classifier equivalence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InducedRep restriction-induction classifier equivalence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If the consumed SubgroupUp and RepresentationRingUp classifiers, endpoint hsame rows, Frobenius hsame rows, provenance hsame row, and continuation-ledger comparisons are equivalence-stable, then the InducedRepUp restriction-induction classifier is reflexive, symmetric, and transitive on accepted carrier packets.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex`
+- `papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The classifier is a finite componentwise tuple; equivalence closure is obtained by projecting and repacking finitely many hsame and Cont comparison rows.
+- `witness_extractor`: inducedrep_componentwise_classifier_tuple
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: No bridge cut is needed; prove reflexivity, symmetry, and transitivity by componentwise projection over S,R,i,r,F,eta,epsilon,rho,lambda and repack the classifier tuple.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the finite carrier packet S,R,i,r,F,eta,epsilon,rho,lambda and the classifier tuple rows for source certificates, endpoints, Frobenius rows, provenance, and Cont ledger comparison.
+- `dependency_trace`: Builds on the carrier definition in papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:4, the restriction-induction classifier definition at papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:59, and the stability obligation packet in papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex:31.
+- `oracle_mode`: proof_search
+Rationale:
+The restriction-induction classifier is defined concretely at papers/bedc/parts/concrete_instances/inducedrep/carrier_definition.tex:59 as seven componentwise transport fields, and the stability obligation packet at papers/bedc/parts/concrete_instances/inducedrep/stability_and_consumption.tex:31 repacks those fields. The existing classifier-stability theorem at lines 60-70 transports carrier components, but a focused grep for inducedrep/restriction-induction classifier reflexive, symmetric, transitive, or equivalence returned 0 hits in the inducedrep chapter. This is a genuine certificate-level gap: the NameCert surface relies on classifier equivalence, yet the paper has stability and boundary theorems without a standalone classifier-equivalence package.
+
+---
+
+### B-735 - OptionalStopping post-stop tail erasure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | OptionalStopping post-stop tail erasure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted OptionalStoppingUp finite carrier has a first displayed stopping branch before the visible bound and a truncation keeps exactly the rows through that branch while deleting later filtration-window rows, then the truncated packet is accepted and its stopped-value row is classifier-equal to the original stopped value.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only projects and repacks a finite carrier tuple already containing the bound, stopped-value row, filtration-window ledger, integrability row, transports, continuation routes, package provenance, and local NameCert row; no limiting, countable, or compactness resource is needed.
+- `witness_extractor`: first_stopping_branch_truncation
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the first displayed stopping branch from the original finite carrier, rebuild the truncated carrier from the retained coordinates, and eliminate the stopped-value cut with the bounded stopped-value readback theorem.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the OptionalStopping finite carrier O=(Omega,X,T,b,V,F,I,H,C,P,N), the stopping-time decision rows T, the bounded index b, the stopped value V, filtration ledger F, integrability row I, componentwise hsame transports H, continuation routes C, package provenance P, and local NameCert row N.
+- `dependency_trace`: Uses def:optional-stopping-carrier, thm:optional-stopping-namecert-obligations, thm:optional-stopping-bounded-stopped-value-readback, and thm:optional-stopping-finite-expectation-window from papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex.
+- `oracle_mode`: candidate_generation
+Rationale:
+OptionalStopping is a clear under-covered stochastic subarea: the file gives the finite carrier at papers/bedc/parts/concrete_instances/1288_optionalstopping_namecert_construction.tex:9, says the stopped value is read from the first displayed stopping branch before the bound at :19-:22, proves only bounded stopped-value readback at :56-:65 and finite expectation-window/no-escape boundaries at :69-:91, while rg over BOARD/state found no completed OptionalStopping target beyond paper_index entries. The missing theorem is not a new optional-stopping theorem; it is the canonical finite ledger erasure property forced by the existing carrier.
+
+---
+
+### B-736 - Topology subspace pullback image-factorization
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Topology subspace pullback image-factorization |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a classifier-respecting BHist map f:Y->X lands in a displayed subspace S and i is an ambient open index, then pulling back the subspace-open row S and OpenAt(i,-) along f is equivalent to the ordinary pullback of the ambient open row i along f.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex`
+- `papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The image-in-subspace witness is supplied pointwise and the proof only rewrites the two displayed membership predicates; it does not construct opens, choose subsets, or use arbitrary-union existence.
+- `witness_extractor`: subspace_pullback_image_factor
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Use the image-in-subspace row S(f(y)) to remove the subspace conjunct from SubOpenAt(i,f(y)), then refold the BHist pullback-open predicate for the ambient open row; classifier transport is inherited from the pullback and subspace transport rows.
+- `equality_kind`: equivalent
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the BHist pullback-open row, the classifier-respecting map row f, the subspace carrier predicate S, same_S projection to same_X, and the ambient indexed-open membership predicate OpenAt(i,-).
+- `dependency_trace`: Uses def:topology-bhist-pullback-open-row and thm:topology-pullback-open-row-classifier-transport from papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex, plus def:topology-bhist-subspace-open-surface and thm:topology-subspace-open-carrier-transport from papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex.
+- `oracle_mode`: candidate_generation
+Rationale:
+Topology has generic indexed-union and metric-ball BOARD coverage, but the split child files expose two adjacent surfaces without their connecting image-factorization row: pullback rows are defined and closed under finite meet/arbitrary union in papers/bedc/parts/concrete_instances/topology/pullback_open_rows.tex:1-:77, while subspace opens are defined as S(h) and OpenAt(i,h) in papers/bedc/parts/concrete_instances/topology/subspace_open_surface.tex:1-:17 and closed under finite intersection at :38-:55. The missing claim is a concrete bridge between these two existing child-body files, not a new abstract topology schema.
+
+---

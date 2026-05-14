@@ -169,6 +169,53 @@ excluded conclusions require coordinates not present in
 ledger.
 \end{proof}
 
+\begin{theorem}[LipschitzMap complete-metric regular seal boundary]
+\label{thm:lipschitzmap-completemetric-regular-seal-boundary}
+For an accepted $\LipschitzMapUp$ packet
+$$
+L=(X,Y,B,G,M,H,C,P,N),
+$$
+any $\CompleteMetricUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the
+Lipschitz graph and bound must factor through the displayed source
+$\MetricSpaceUp$ row $X$, target $\MetricSpaceUp$ row $Y$, rational
+$\RealUp$ bound ledger $B$, $\ContinuousMapUp$ graph row $G$, induced
+$\UniformModulusUp$ row $M$, componentwise $\hsame$ transports $H$,
+displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$
+row $N$.
+
+The handoff exports no Banach fixed point, completed orbit, host function
+equality, quotient map, selected limit, or ambient completeness row. The
+downstream seal surfaces are the complete-metric row of
+\autoref{ch:concrete-instances-completemetric-namecert}, the regular-rational
+source row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the
+real-name seal row of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:lipschitz-map-namecert-obligations}. It exposes
+exactly the carrier rows $X,Y,B,G,M,H,C,P,N$ together with the local
+classifier, stability, exactness, and ledger obligations.
+
+Apply \autoref{thm:lipschitz-map-ledger-nonescape}. Every listed consumer of
+the Lipschitz graph and bound remains inside the displayed source metric,
+target metric, rational bound, graph, modulus, transport, continuation,
+package, and naming rows. Thus a completion-facing read cannot obtain an
+ambient completeness coordinate or a selected point from the Lipschitz packet.
+
+Use \autoref{thm:lipschitz-map-uniform-modulus-consumer-handoff} for the
+modulus route. The induced row $M$ is read from $X$, $G$, and $B$ through the
+same transport and package surface, so the route toward regular-rational and
+real seal consumers is the carried modulus route rather than a host function
+equality or quotient map.
+
+The sibling chapters
+\autoref{ch:concrete-instances-completemetric-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert} supply only the downstream seal
+surfaces. Since none of those surfaces is a coordinate of $L$, the
+LipschitzMap packet contributes only the displayed graph-and-bound ledger to
+their consumer routes.
+\end{proof}
+
 \begin{theorem}[LipschitzMap uniform-modulus consumer handoff]
 \label{thm:lipschitz-map-uniform-modulus-consumer-handoff}
 Every $\UniformModulusUp$ consumer of an accepted $\LipschitzMapUp$ carrier
@@ -325,6 +372,49 @@ $\BanachFixedPointUp$ are listed consumers, and the packet contains no
 completeness, fixed-point, quotient, selector, or host-extensionality
 coordinate. The contraction-threshold handoff is therefore exactly the
 displayed finite route.
+\end{proof}
+
+\begin{theorem}[LipschitzMap contraction-threshold factorization]
+\label{thm:lipschitz-map-contraction-threshold-factorization}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. If the bound ledger $B$ is read as
+strictly below the unit threshold and a downstream fixed-point consumer supplies
+the required $\CompleteMetricUp$, $\PicardContractionUp$, or
+$\BanachFixedPointUp$ carrier row, then the consumer route factors through
+exactly
+$$
+X,Y,B,G,M,H,C,P,N
+$$
+plus that displayed completeness or contraction row. The route cannot read
+fixed points, completeness, quotient-map equality, selected representatives, or
+host function extensionality from the $\LipschitzMapUp$ packet itself.
+\end{theorem}
+\begin{proof}
+Start with target-distance exactness from
+\autoref{thm:lipschitz-map-target-distance-exactness}. Every target-distance
+comparison used by the downstream consumer is routed through the source metric
+row $X$, graph row $G$, bound ledger $B$, and target metric row $Y$.
+
+Use bound transport from \autoref{thm:lipschitz-map-bound-transport} together
+with the uniform-modulus handoff of
+\autoref{thm:lipschitz-map-uniform-modulus-consumer-handoff}. These results
+keep the subunit threshold read attached to the displayed carrier and expose
+the modulus row $M$ only through $X,G,B,H,C,P,N$.
+
+Apply the contraction-threshold handoff of
+\autoref{thm:lipschitz-map-contraction-threshold-handoff}. A
+$\PicardContractionUp$ or $\BanachFixedPointUp$ consumer may therefore import
+only the displayed Lipschitz packet together with its own completeness or
+contraction row.
+
+Finally apply ledger nonescape from
+\autoref{thm:lipschitz-map-ledger-nonescape}. The $\LipschitzMapUp$ packet has
+no coordinate for a fixed point, a completeness witness, quotient-map equality,
+a selected representative, or host function extensionality, so those data must
+come from the downstream carrier rather than from $L$.
 \end{proof}
 
 \begin{theorem}[LipschitzMap composite-bound routing]

@@ -201,6 +201,38 @@ Apply the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecer
 Finally use budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundness}. The Real-completion handoff receives $\mathsf{Mu}$ only as the threshold justified by the displayed budget and schedule rows, so componentwise transport preserves both the modulus row and its finite budget source.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction selector stability]
+\label{thm:cauchy-modulus-extraction-selector-stability}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+componentwise $\hsame$ transport of the tolerance request $E$, finite budget $B$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ schedule $S$, $\DyadicRatCoreUp$ ledger $Q$, and modulus row $\mathsf{Mu}$ preserves the same selected modulus for any $\RealUp$ diagonal consumer. The transported consumer reads the same finite selector surface and receives no external modulus selector, quotient stream representative, selected limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The selector data visible before the $\RealUp$ handoff are exactly $E,B,W,S,Q,\mathsf{Mu}$, and the transport row $H$ is componentwise over those coordinates.
+
+Apply the NameCert obligations and budget soundness. Carrier admission fixes the tuple, budget exposure fixes the finite source $B$, schedule extraction fixes $W,S$, dyadic soundness fixes $Q$, and budget soundness identifies $\mathsf{Mu}$ as the threshold justified by those displayed rows.
+
+Use transport stability from \autoref{thm:cauchy-modulus-extraction-transport-stability}. Since the transported packet preserves both the modulus row and the finite budget source, the selected modulus seen by a diagonal consumer is the same selected row $\mathsf{Mu}$.
+
+Finally apply the StreamName--RegSeqRat factorization and the $\RealUp$ seal non-escape theorem. The consumer reaches the handoff only through the finite budget, stream windows, regular schedule, dyadic ledger, and exported modulus, so no outside selector or completion object can alter the selected threshold.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-extraction finite-budget handoff]
+\label{thm:cauchy-modulus-extraction-budget-handoff}
+Every $\RealUp$ completion-facing handoff from an accepted $\CauchyModulusExtractionUp$ packet factors through the finite budget row $B$ before reading the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ schedule $S$, the $\DyadicRatCoreUp$ comparison ledger $Q$, and the exported modulus row $\mathsf{Mu}$. Thus the completion-facing route is a finite-budget handoff rather than a direct appeal to host convergence, quotient stream equality, selected limits, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through \autoref{def:cauchy-modulus-extraction-carrier}. The continuation row $C$ lists the route from tolerance to budget, from budget to windows, from windows to schedule reads, from schedule reads to $\mathsf{Mu}$, and from $\mathsf{Mu}$ to the $\RealUp$ diagonal consumer.
+
+Apply the NameCert obligations and budget soundness. Budget exposure makes $B$ the only finite observation source for $E$, while budget soundness ties the exported modulus to the displayed budget, windows, schedule, and dyadic ledger.
+
+Next use the StreamName--RegSeqRat factorization. It places $W$ and $S$ after the budget row and before the modulus export, and it places $Q$ as the dyadic ledger required by the extracted threshold.
+
+Finish with the $\RealUp$ seal non-escape theorem. Since every seal-facing route reads through $B,W,S,Q,\mathsf{Mu}$ and the carrier has no coordinate for host convergence or quotient stream equality, every completion-facing handoff factors through the finite budget before the remaining rows are consumed.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus-extraction real diagonal handoff]
 \label{thm:cauchy-modulus-extraction-real-diagonal-handoff}
 Any $\RealUp$ diagonal or completion consumer of an accepted $\CauchyModulusExtractionUp$ carrier
@@ -351,14 +383,15 @@ Finally combine \autoref{thm:cauchy-modulus-extraction-budget-fiber-exhaustion} 
 
 \closureat{CauchyModulusExtractionUp}{obligationStr}
 \closureat{CauchyModulusExtractionUp}{scopedStr}
+\closureat{CauchyModulusExtractionUp}{publicStr}
 
 \begin{closurestatus}{\CauchyModulusExtractionUp}
   \constructivestory{A $\CauchyModulusExtractionUp$ packet is generated from a positive tolerance request, finite observation budget, StreamNameUp windows, RegSeqRatUp witness schedule, extracted modulus row, dyadic comparison ledger, componentwise transports, continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-extraction-carrier}, \autoref{thm:cauchy-modulus-extraction-namecert-obligations}, \autoref{thm:cauchy-modulus-extraction-budget-soundness}, \autoref{thm:cauchy-modulus-extraction-streamname-regseqrat-factorization}, \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-nonescape}, \autoref{thm:cauchy-modulus-extraction-real-diagonal-handoff}, and \autoref{thm:cauchy-modulus-extraction-obligation-closure-package} bind the scoped dependency surface for the finite modulus-extraction packet used by the Real-completion diagonal route.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-extraction-carrier}, \autoref{thm:cauchy-modulus-extraction-namecert-obligations}, \autoref{thm:cauchy-modulus-extraction-budget-soundness}, \autoref{thm:cauchy-modulus-extraction-streamname-regseqrat-factorization}, \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-nonescape}, \autoref{thm:cauchy-modulus-extraction-real-diagonal-handoff}, \autoref{thm:cauchy-modulus-extraction-obligation-closure-package}, and \autoref{thm:cauchy-modulus-extraction-public-export} bind the public dependency surface for the finite modulus-extraction packet used by the Real-completion diagonal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, or Lean verification.}
-  \upgradepath{Scoped closure requires one scope proof over the listed carrier admission, budget exposure, schedule extraction, dyadic soundness, transport stability, and budget-sound handoff rows for the same finite packet.}
+  \upgradepath{Bridged closure requires a bridge theorem from the public Cauchy modulus-extraction export to the Real-completion consumer schema.}
 \end{closurestatus}
