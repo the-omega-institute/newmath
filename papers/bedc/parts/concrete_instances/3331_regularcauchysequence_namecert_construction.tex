@@ -406,6 +406,30 @@ limits, countable choice, hidden tail oracles, or ambient completeness, so no
 consumer can leave the displayed finite handoff.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence tail-selector exhaustion]
+\label{thm:regular-cauchy-sequence-tail-selector-exhaustion}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Any completion-facing consumer that reads a $\DiagonalTailSelectorUp$, $\RegularCauchySelectorBudgetUp$, $\RegularCauchyTailMeetUp$, or $\RegularCauchyTailFusionUp$ row transported through $S$ must factor through the single finite route
+$$
+F,\mu,W,D,R,G,E,H,C,P,N
+$$
+together with the transported selector and shared-tail rows before reading the $\RealUp$ seal.
+
+The exhausted route contains no quotient stream, host real equality, selected limit, countable-choice coordinate, hidden tail oracle, alternate tail threshold, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First route the selector side. The diagonal tail-selector factorization of \autoref{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization} binds every transported $\DiagonalTailSelectorUp$ read to the displayed family, selector, window, dyadic, readback, diagonal, seal, transport, continuation, package, and naming rows of $S$.
+
+Next force the selected budget. Apply \autoref{thm:regular-cauchy-sequence-selector-budget-factor} to pass every selector-budget consumer through the same selected-window packet, and then apply \autoref{thm:regular-cauchy-sequence-tail-selector-budget-lock} to identify the shared finite rows with the transported $\RegularCauchyTailMeetUp$ threshold.
+
+Now attach the fusion route. The handoff theorem \autoref{thm:regular-cauchy-sequence-tail-fusion-budget-handoff} makes the tail-fusion and budget routes meet on $W,D,R,G,E,H,C,P,N$ before any $\RealUp$ seal read.
+
+Finally use \autoref{lem:regular-cauchy-sequence-non-escape}. The accepted carrier has no coordinate for quotient streams, host real equality, selected limits, countable choice, hidden tail oracles, alternate thresholds, or ambient completeness, so every Real-facing tail-selector consumer is exhausted by the single finite diagonal-tail route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence root obligation export]
 \label{thm:regular-cauchy-sequence-root-obligation-export}
 The $\RegularCauchySequenceUp$ root obligation exported to later Real and Completion formalization consists of the local obligation closure of \autoref{thm:regular-cauchy-sequence-obligation-closure}, the shared-threshold import of \autoref{thm:regular-cauchy-sequence-shared-threshold-import}, and the consumer-surface boundary of \autoref{thm:regular-cauchy-sequence-tail-meet-consumer-surface}. Thus a later diagonal route may consume regular-family data through the displayed packet and a transported $\RegularCauchyTailMeetUp$ shared threshold, but it receives no quotient stream, selected limit, host equality, choice coordinate, hidden tail oracle, or ambient completeness theorem.
@@ -488,7 +512,7 @@ Finally apply \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrie
 \begin{closurestatus}{\RegularCauchySequenceUp}
   \constructivestory{A $\RegularCauchySequenceUp$ packet is generated from a finite regular Cauchy family row, explicit modulus, selected StreamName windows, a DyadicRatCore readback ledger, RegSeqRat readbacks, RealDiagonalWindowCoverage coverage, a RealUp handoff row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}, \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}, \autoref{thm:regular-cauchy-sequence-public-export}, and \autoref{thm:regular-cauchy-sequence-mature-consumer-route} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, RealObservationBudget window synchronization, observation-budget-to-seal factorization, shared-threshold import, root obligation export, exact scoped dependency surface, Completion-facing handoff boundary, public NameCert export, and mature Real and Completion consumer route for regular Cauchy family data.}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}, \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-tail-selector-exhaustion}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}, \autoref{thm:regular-cauchy-sequence-public-export}, and \autoref{thm:regular-cauchy-sequence-mature-consumer-route} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, RealObservationBudget window synchronization, observation-budget-to-seal factorization, tail-selector exhaustion, shared-threshold import, root obligation export, exact scoped dependency surface, Completion-facing handoff boundary, public NameCert export, and mature Real and Completion consumer route for regular Cauchy family data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
