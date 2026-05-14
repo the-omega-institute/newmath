@@ -327,6 +327,7 @@ import BEDC.Derived.ContinuationMonadUp
 import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RouteTotality
 import BEDC.Derived.ContinuationMonadUp.RootNameCert
+import BEDC.Derived.ContinuationMonadUp.RootBindUnitBoundary
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -394,6 +395,7 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameRegularNameLattice
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
+import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
