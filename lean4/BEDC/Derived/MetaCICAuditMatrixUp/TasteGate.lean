@@ -260,4 +260,22 @@ theorem MetaCICAuditMatrixTasteGate_single_carrier_alignment :
         exact metaCICAuditMatrixToEventFlow_injective heq
       · rfl
 
+theorem MetaCICAuditMatrixUp_obligation_surface :
+    Nonempty (BHistCarrier MetaCICAuditMatrixUp) ∧
+      Nonempty (ChapterTasteGate MetaCICAuditMatrixUp) ∧
+      ∃ x : MetaCICAuditMatrixUp,
+        x =
+            MetaCICAuditMatrixUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x : MetaCICAuditMatrixUp :=
+    MetaCICAuditMatrixUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  constructor
+  · exact ⟨metaCICAuditMatrixBHistCarrier⟩
+  · constructor
+    · exact ⟨metaCICAuditMatrixChapterTasteGate⟩
+    · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
 end BEDC.Derived.MetaCICAuditMatrixUp
