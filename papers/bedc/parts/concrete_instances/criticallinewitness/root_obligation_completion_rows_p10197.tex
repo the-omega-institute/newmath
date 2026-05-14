@@ -1,0 +1,37 @@
+\begin{theorem}[Critical-line witness strip localization]
+\label{thm:critical-line-witness-strip-localization}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every root read that localizes the witness to the critical strip factors through the displayed $\CritStripUp$ row $S$, the supplied $\ZetaZerosUp$ row $Z$, the $\NatUp$ depth route of $M$, the $\RatUp$ comparison ledger $Q$, the $\RealUp$ real-part row $R$, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. It cannot replace the displayed strip row by analytic continuation, host complex equality, a quotient representative, a global zero classifier, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. It displays the supplied zero row $Z$, the critical-strip row $S$, and the rational comparison ledger $Q$ as finite $\BHist$ source data under $H,C,P,N$.
+
+Next apply \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}. The zero row and strip row are transported componentwise through the same $\hsame$ surface, so localization cannot be replaced by host equality or a detached zero search.
+
+Finally use \autoref{thm:critical-line-witness-root-comparison-ledger} and \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The Nat, Rat, and Real dependency rows are consumed only through $M,R,Q$, while the refusal ledger removes analytic continuation, quotient representatives, global zero classification, and ambient completeness from the localized strip read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-row soundness]
+\label{thm:critical-line-witness-zero-row-soundness}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every zero-row read is sound only as a read of the supplied finite witness packet. The read consumes the $\ZetaZerosUp$ row $Z$ together with the $\CritStripUp$ row $S$, the $\NatUp$ depth row of $M$, the $\RatUp$ comparison ledger $Q$, the $\RealUp$ real-part row $R$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it does not construct a zero, enumerate zeros, prove $\mathsf{RH}$, or import host complex analysis.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. The zero-facing coordinate is the supplied row $Z$, and it is packaged with $S,M,R,Q,H,C,P,N$ rather than with a zero-producing search.
+
+Use \autoref{thm:critical-line-witness-zero-source-totality} and \autoref{thm:critical-line-witness-supplied-zero-readback}. These results force every zero-facing read through the displayed $\ZetaZerosUp$ and $\CritStripUp$ source rows before any modulus or comparison data are inspected.
+
+Now apply \autoref{thm:critical-line-witness-real-strip-handoff} and \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. The real-part and rational comparison data are read through $R,Q$ inside the same finite packet, so the zero row remains a supplied witness row and not an analytic construction.
+
+The downstream refusal package and \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} exhaust the remaining ledger. They exclude $\mathsf{RH}$ proof data, zero enumeration, global zero classification, analytic continuation, quotient representatives, host equality, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Critical-line witness ledger non-escape]
+\label{thm:critical-line-witness-ledger-nonescape}
+Every ledger read of an accepted $\CriticalLineWitnessUp$ packet factors through the finite route over $Z,S,M,R,Q,H,C,P,N$ and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The ledger may expose the supplied $\ZetaZerosUp$ zero row, the $\CritStripUp$ strip row, the $\NatUp$ depth requests, the $\RatUp$ comparison rows, and the $\RealUp$ real-part row, but it exports no analytic continuation theorem, global $\mathsf{RH}$ proof, host complex-zero classifier, quotient representative, host equality row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-strip-localization}. It confines root strip reads to $Z,S,M,R,Q,H,C,P,N$ and to the displayed CritStrip, ZetaZeros, Nat, Rat, and Real dependency rows.
+
+Then use \autoref{thm:critical-line-witness-zero-row-soundness}. The zero row is sound only as a supplied finite packet row, so it cannot create a zero-producing route or a global zero classifier.
+
+Finally apply \autoref{thm:critical-line-witness-ledger-nonescape-obligation} together with \autoref{thm:critical-line-witness-root-refusal-route}. The local ledger is exhausted by the displayed carrier, transport, continuation, package, and naming rows, and every request for analytic continuation, $\mathsf{RH}$ proof data, quotient representatives, host equality, or ambient completeness is refused rather than exported.
+\end{proof}
