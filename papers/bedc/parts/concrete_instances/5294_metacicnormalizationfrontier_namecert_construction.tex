@@ -257,6 +257,72 @@ outside both positive boundaries has no carrier coordinate from which to read
 normalization evidence.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization frontier root candidate readback]
+\label{thm:metacic-normalization-frontier-root-candidate-readback}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, any root candidate consumer reads the candidate row
+$C$ and the closed-candidate row $K$ before it may read any finished-normal
+endpoint row. The consumer route is therefore rooted at $C,K,R,P,L$, not at
+the finished-normal pair $E,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The accepted packet is exactly
+$F=(C,K,E,N,S,H,R,P,L)$, and the local obligations assign candidate-facing
+reads to the candidate boundary before a finished-normal endpoint is exposed.
+
+Apply the candidate route
+\autoref{thm:metacic-normalization-frontier-candidate-route}. It routes
+candidate-facing consumers through $C,K,R,P,L$ and leaves $E,N$ as the
+separate finished-normal surface.
+
+Finally use consumer-route totality and non-escape. A root candidate read
+that bypasses $C,K$ or starts from $E,N$ has no carrier coordinate from which
+to read candidate evidence, so it is not a read of the accepted packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root obstruction retention]
+\label{thm:metacic-normalization-frontier-root-obstruction-retention}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, the obstruction row $S$ remains present under every
+candidate read through $C,K$ and every finished-normal read through $E,N$.
+Neither the endpoint row $E$ nor the normal row $N$ discharges $S$.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger
+\autoref{thm:metacic-normalization-frontier-obstruction-ledger}. It keeps
+$S$ as a displayed coordinate of the same packet as $C,K,E,N,H,R,P,L$.
+
+Use the candidate route and the finished route. The candidate route consumes
+$C,K,R,P,L$, while the finished route consumes $E,N,R,P,L$; neither route
+contains a discharge coordinate for subject-reduction obstruction.
+
+Apply the obstruction consumer lock and kernel non-escape. Since erased
+subject-reduction transport is outside the packet, $S$ remains visible under
+both positive evidence routes.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root normal endpoint handoff]
+\label{thm:metacic-normalization-frontier-root-normal-endpoint-handoff}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, the normal endpoint row $N$ is exposed only after the
+finished-normal evidence row $E$ and only through the replay, provenance, and
+local-name rows $R,P,L$. A root consumer cannot read $N$ as a free-standing
+normalization endpoint.
+\end{theorem}
+\begin{proof}
+Project the finished route
+\autoref{thm:metacic-normalization-frontier-finished-route}. It routes
+finished-normal consumers through $E,N,R,P,L$ inside the same accepted packet.
+
+Use the public obligation package. Its handoff row assigns closed-normal
+consumer exposure to the displayed replay, provenance, and local naming rows,
+so $N$ is not available before $E$ or outside $R,P,L$.
+
+Finally apply non-escape. A free-standing read of $N$ would require a hidden
+blanket normalization coordinate, full closed consistency coordinate, or
+erased subject-reduction transport; none belongs to $F$.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization frontier obstruction consumer lock]
 \label{thm:metacic-normalization-frontier-obstruction-consumer-lock}
 For every accepted $\MetaCICNormalizationFrontierUp$ packet, the obstruction
