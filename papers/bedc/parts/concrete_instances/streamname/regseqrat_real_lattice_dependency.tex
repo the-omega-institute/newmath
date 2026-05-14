@@ -37,6 +37,20 @@ Finally pass to the Real seal. The boundary factorization of \autoref{thm:stream
 Coordinate exhaustion proves the non-escape clause. The four sibling rows just composed contain no coordinate for a quotient stream, host real equality witness, selected limit, or ambient completeness operation, so the pullback route cannot export any of those objects to its downstream consumer.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat Real window source triangle]
+\label{thm:streamname-regseqrat-real-window-source-triangle}
+For every accepted finite $\StreamNameUp$ window consumed by a $\RegSeqRatUp$ row and then by a $\RealUp$ seal row, the StreamName window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ endpoint ledger, and the $\RealUp$ seal boundary form one finite pullback triangle of sources. Every route among the StreamName, RegSeqRat, and Real-facing surfaces factors through the same $\BHist$ packet, $\ProbeBundle$ and $\InBundle$ membership rows, $\mathsf{UnaryHistory}$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The triangle exports no quotient stream equality, no host sequence equality, no selected limit, no metric-completeness witness, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First expose the point source. By \autoref{thm:streamname-rat-regseqrat-lattice-source}, the accepted window is read through the StreamName row together with the rational and RegSeqRat point rows, bundle membership, unary observations, transport, continuation, provenance, and local naming coordinates.
+
+Next use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. It identifies the shared finite dyadic window on which the StreamName window row, RegSeqRat readback row, DyadicRatCore endpoint ledger, and Real seal boundary are all projected. Thus a route from any one of the three surfaces to another must pass through that same finite packet.
+
+Finally apply the local non-escape clauses in this StreamName lattice section. The cited pullback and consumer-exhaustion rows list all available coordinates, and none is a quotient stream equality, host sequence equality, selected limit, metric-completeness witness, or ambient RealUp completeness principle. Hence the source triangle closes only the finite BEDC rows named in the statement.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat Real dyadic-pullback seal determinacy]
 \label{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}
 Let two accepted $\StreamNameUp$ finite-window packets be consumed through the displayed $\BHist$ observations, componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and local $\NameCert$ rows. If the two packets induce the same visible StreamName finite-window row, the same $\RegSeqRatUp$ readback row, the same $\DyadicRatCoreUp$ observation ledger, and the same $\RealUp$ seal row, then every $\RealUp$ seal consumer reads the same finite pullback surface.
@@ -164,6 +178,48 @@ coordinates, while the observation-budget theorems consume exactly those rows.
 No cited surface carries a quotient stream, host equality, hidden limit
 selection, or ambient completeness datum, so the precision request cannot
 introduce one.
+\end{proof}
+
+\begin{theorem}[StreamName Real budget route determinacy]
+\label{thm:streamname-real-budget-route-determinacy}
+Let two accepted $\StreamNameUp$ finite-window packets induce the same visible
+StreamName window row, the same $\DyadicRatCoreUp$ ledger row, the same
+$\RegSeqRatUp$ readback row, the same $\RealUp$ seal row, and the same accepted
+$\RealObservationBudgetUp$ precision-request route. Then every budget consumer
+reads the same finite BEDC route through the displayed $\BHist$ observations,
+componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$
+provenance, and local $\NameCert$ coordinates.
+
+No quotient stream, host equality, selected limit, trichotomy row, or ambient
+completeness datum can provide an alternate budget source for either packet.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The shared
+visible StreamName window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback,
+and $\RealUp$ seal row place both accepted packets on the same four-row
+pullback surface.
+
+Next attach the budget route. By
+\autoref{thm:streamname-real-observation-budget-factorization}, any
+$\RealObservationBudgetUp$ precision request consuming either packet factors
+through that StreamName-to-dyadic-to-regular-sequence-to-real route. The
+consumer route theorem
+\autoref{thm:real-observation-budget-regseq-real-consumer-factorization}
+confines the budget-facing $\RegSeqRatUp$ and $\RealUp$ reads to the displayed
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Apply
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. Since
+the two packets agree on the four visible rows and on the accepted precision
+request route, the downstream seal-facing consumer has no second row from which
+to choose a different finite budget source.
+
+Finally use consumer exhaustion for the pullback surface. The available
+consumer projections are exactly the listed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ coordinates, so quotient streams, host equalities,
+selected limits, trichotomy rows, and ambient completeness data cannot enter as
+alternate budget inputs.
 \end{proof}
 
 \begin{theorem}[StreamName observation-budget CauchyLimitSeal compatibility]

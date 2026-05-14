@@ -104,4 +104,28 @@ theorem TailCofinalityScheduleCarrier_diagonal_handoff [AskSetup] [PackageSetup]
       diagonalUnary, precisionWindowDyadic, dyadicRegseqSeal, routeProvenanceEndpoint,
       precisionEndpointDiagonal, endpointPkg, diagonalPkg⟩
 
+theorem TailCofinalityScheduleCarrier_window_coverage [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont precision window windowRead →
+        PkgSig bundle windowRead pkg →
+          UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory windowRead ∧ Cont precision window dyadic ∧
+              Cont precision window windowRead ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier precisionWindowRead windowReadPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, _regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowRead
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, windowReadUnary, precisionWindowDyadic,
+      precisionWindowRead, endpointPkg, windowReadPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
