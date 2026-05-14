@@ -34,6 +34,7 @@ import codex_orchestrator
 import killo_golden_writeback
 import board_spawn
 import board_context
+import loning_assimilator
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -149,6 +150,12 @@ def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tup
     rejected is the calibration list claude considered and dropped.
     """
     template = template_path.read_text(encoding="utf-8")
+    try:
+        loning_block = loning_assimilator.latest_prompt_block()
+    except Exception:
+        loning_block = ""
+    if loning_block:
+        template = template.rstrip() + "\n\n" + loning_block + "\n"
     safe_kwargs = {k: _safe(v) if isinstance(v, str) else v for k, v in format_kwargs.items()}
     prompt = template.format(**safe_kwargs)
     ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)

@@ -37,6 +37,7 @@ import board_context
 import candidate_inbox
 import paper_index
 import logic_packet_gate
+import loning_assimilator
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -354,6 +355,12 @@ def _judge_candidates(
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
     paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
+    try:
+        loning_block = loning_assimilator.latest_prompt_block()
+    except Exception:
+        loning_block = ""
+    if loning_block:
+        template = template.rstrip() + "\n\n" + loning_block + "\n"
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
