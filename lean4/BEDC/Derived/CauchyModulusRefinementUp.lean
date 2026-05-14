@@ -273,6 +273,31 @@ theorem CauchyModulusRefinement_selector_stability_lock [AskSetup] [PackageSetup
     cont_respects_hsame sameT (hsame_refl w) carrierWindow transportedWindow
   exact ⟨sameT, sameQ⟩
 
+theorem CauchyModulusRefinementCarrier_selector_seal_two_step_transport
+    [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n vPrime tPrime qPrime ePrime hPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      hsame v vPrime ->
+        hsame e ePrime ->
+          Cont u vPrime tPrime ->
+            Cont tPrime w qPrime ->
+              Cont qPrime ePrime hPrime ->
+                hsame t tPrime ∧ hsame q qPrime ∧ hsame h hPrime := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier sameSelector sameSeal transportedSelector transportedWindow transportedSeal
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, _tUnary, _wUnary, _qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, _m0m1u, carrierSelector,
+      carrierWindow, carrierSeal, _pPkg, _hn⟩
+  have sameT : hsame t tPrime :=
+    cont_respects_hsame (hsame_refl u) sameSelector carrierSelector transportedSelector
+  have sameQ : hsame q qPrime :=
+    cont_respects_hsame sameT (hsame_refl w) carrierWindow transportedWindow
+  have sameH : hsame h hPrime :=
+    cont_respects_hsame sameQ sameSeal carrierSeal transportedSeal
+  exact ⟨sameT, sameQ, sameH⟩
+
 theorem CauchyModulusRefinementCarrier_root_budget_stability [AskSetup] [PackageSetup]
     {m0 m1 u v t w q e h c p n : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
