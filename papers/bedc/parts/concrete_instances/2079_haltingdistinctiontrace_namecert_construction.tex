@@ -44,15 +44,40 @@ The diagonal point is the row $E$. Componentwise transport is supplied by $H$, w
 Therefore every diagonal read remains inside the displayed route through $A,T,D,E,H,C,P,N$. The obstruction is the finite certificate-level self-query itself, carried by $\Cont$, $\Ext$, $\Pkg$, and $\NameCert$ data rather than by any global halting classifier.
 \end{proof}
 
+\begin{theorem}[HaltingDistinctionTrace diagonal readback]
+\label{thm:halting-distinction-trace-diagonal-readback}
+For an accepted $\HaltingDistinctionTraceUp$ carrier $R=(A,T,D,E,H,C,P,N)$, the diagonal row $E$ can be read only after the finite trace row $T$, the distinction row $D$, and the continuation route $C$ have been displayed. Thus the packet exposes a finite certificate-level self-query, not a direct global halting classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:halting-distinction-trace-carrier}. The diagonal row $E$ is a displayed coordinate of the same finite packet as $A,T,D,H,C,P,N$, and the carrier has no coordinate for a global classifier.
+
+Apply the diagonal obstruction package of \autoref{thm:halting-distinction-diagonal-obstruction-package}. It factors every diagonal read through the finite route from the admitted input to the trace row, then to the distinction row, then to the diagonal self-application row.
+
+The surrounding $\HaltingDistinctionUp$ surface of \autoref{ch:concrete-instances-haltingdistinction-namecert} supplies the distinction context, but the trace packet keeps the read inside $T,D,E,C$. Therefore a consumer reads the diagonal row only through the displayed finite trace route.
+\end{proof}
+
+\begin{theorem}[HaltingDistinctionTrace provenance non-escape]
+\label{thm:halting-distinction-trace-provenance-nonescape}
+For an accepted $\HaltingDistinctionTraceUp$ carrier $R=(A,T,D,E,H,C,P,N)$, the provenance row $P$ and local $\NameCert_{\HaltingDistinctionTraceUp}$ row $N$ package only the displayed rows $A,T,D,E,H,C$. They cannot turn the packet into a total halting predicate, divergence detector, host evaluator, or truth predicate.
+\end{theorem}
+\begin{proof}
+Read $P$ and $N$ in the carrier definition. Their provenance and naming scope is the finite packet $A,T,D,E,H,C,P,N$, with $P$ naming the displayed BEDC objects and $N$ naming the local certificate.
+
+Use \autoref{thm:halting-distinction-trace-diagonal-readback}. The only diagonal information available to $P,N$ is the self-query route through the finite trace, distinction row, and continuation route.
+
+Finally apply the non-export clause of \autoref{thm:halting-distinction-diagonal-obstruction-package}. Since the obstruction package itself exports no total halting predicate, global truth predicate, divergence detector, or host-level evaluator, the provenance and naming rows cannot export those objects either.
+\end{proof}
+
 \closureat{HaltingDistinctionTraceUp}{seedStr}
+\closureat{HaltingDistinctionTraceUp}{obligationStr}
 
 \begin{closurestatus}{\HaltingDistinctionTraceUp}
   \constructivestory{A $\HaltingDistinctionTraceUp$ packet is generated from an admitted certificate-history input row, a finite continuation trace row, a distinction classifier row, a diagonal self-application row, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:halting-distinction-trace-carrier} and \autoref{thm:halting-distinction-diagonal-obstruction-package} bind the finite trace carrier and the certificate-level diagonal obstruction route.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:halting-distinction-trace-carrier}, \autoref{thm:halting-distinction-diagonal-obstruction-package}, \autoref{thm:halting-distinction-trace-diagonal-readback}, and \autoref{thm:halting-distinction-trace-provenance-nonescape} bind the finite trace carrier, diagonal readback route, and provenance non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a total halting predicate, a global truth predicate, divergence detection, host evaluation, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires checked carrier admission, trace readability, distinction transport, diagonal boundary exactness, and consumer non-escape for the displayed trace packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, trace readability, distinction transport, diagonal boundary exactness, and consumer non-escape for the displayed trace packet.}
 \end{closurestatus}
