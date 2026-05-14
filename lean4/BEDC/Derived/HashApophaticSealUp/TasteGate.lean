@@ -90,6 +90,7 @@ def hashApophaticSealToEventFlow : HashApophaticSealUp → EventFlow
         hashApophaticSealEncodeBHist name]
 
 def hashApophaticSealFromEventFlow : EventFlow → Option HashApophaticSealUp
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
