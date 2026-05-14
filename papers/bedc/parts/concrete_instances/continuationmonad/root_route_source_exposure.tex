@@ -35,3 +35,19 @@ Read the category side through \autoref{thm:continuation-monad-category-hom-row-
 
 Finally combine the two root-unblock child packages, \autoref{thm:continuation-monad-downstream-unblock-route-package} and \autoref{thm:continuation-monad-root-downstream-readback-package}. They identify the downstream surface with the finite root route package, so host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators have no consumer-visible coordinate.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root consumer standard row]
+\label{thm:continuation-monad-root-consumer-standard-row}
+Every root consumer standard row of an accepted $\ContinuationMonadUp$ packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N)
+$$
+is exhausted by the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, transport row $H$, route row $K$, ledger row $L$, and local name row $N$. Unit reads and bind reads are covered by the root continuation rule package over these rows, while category-facing and generator-facing reads remain separated from host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-route-source-exposure}. It identifies the root source surface with exactly $A,B,C,f,g,u,H,K,L,N$ and leaves no coordinate for an external source object.
+
+Next use \autoref{thm:continuation-monad-root-continuation-rule-coverage}. Unit and bind reads are already covered by the displayed tails, histories, transport, route, ledger, and local naming rows, so the standard row cannot import a second continuation rule package.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separation}. The downstream separation theorem blocks host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators. Therefore the root consumer standard row is precisely the displayed finite packet.
+\end{proof}
