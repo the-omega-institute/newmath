@@ -1,0 +1,39 @@
+\begin{theorem}[RegSeqRat tail-selector RealUp seal exhaustion]
+\label{thm:regseqrat-tail-selector-real-seal-exhaustion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let a completion-facing
+$\RealUp$ seal consumer use a RegSeqRat tail selector to choose its finite
+readout. Then the consumer factors through exactly the displayed
+$\StreamNameUp$ schedule rows, the $\DyadicRatCoreUp$ endpoint and radius
+ledgers, the $\RegSeqRatUp$ regularity and classifier rows, and the local
+$\RealUp$ seal provenance attached to $P$.
+
+Equivalently, the tail-selector route exposes only the same finite
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ source surface
+as the terminal tail-budget handoff. It exports no quotient stream, host real
+equality, selected limit, completion point, metric-completeness datum, or extra
+seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-tail-budget-terminal-real-seal}. It places
+every completion-facing tail-budget consumer on the single finite route whose
+rows are the displayed StreamName schedule, DyadicRatCore endpoint, radius, and
+distance ledger, RegSeqRat classifier and regularity ledgers, transport,
+continuation, package provenance, local naming, and public RealUp seal row.
+
+Next use \autoref{thm:regseqrat-tail-stable-window-cover-exhaustion}. The
+tail-selector read selects only a finite public window cover of that same
+accepted packet, and the cover exhaustion identifies each selected window with
+the displayed schedule, pointwise classifier, dyadic ledger, and provenance
+rows.
+
+Now apply \autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. Any two
+selector-visible seal reads over the cover repack through one accepted common
+finite window, so the selected tail window cannot introduce a second quotient
+stream, selected limit, completion point, or metric-completeness coordinate.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The RealUp seal
+consumes exactly the regular-rational source surface assembled above. Since
+that surface has no projection for host real equality or an additional seal
+coordinate, the tail-selector consumer is exhausted by the displayed schedule,
+ledger, regularity, classifier, and local seal-provenance rows.
+\end{proof}

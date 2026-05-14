@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary bridge precondition surface]
+\label{thm:gap-closure-boundary-bridge-precondition-surface}
+The bridge-facing precondition surface of $\GapClosureBoundaryUp$ is exactly the displayed packet $B=(G,S,R,H,C,P,N)$ together with four rows: the source/refusal split through $G \longrightarrow S$ and $G \longrightarrow R$, the consumer exactness package for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$, and the root replay rows carried by $\Cont$, $\hsame$, $\Pkg$, and $\NameCert_{\GapClosureBoundaryUp}$. No hidden closure row, hidden $\mathsf{T}$ supply, host equality row, quotient datum, or off-packet continuation belongs to that precondition surface.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the seven displayed coordinates $G,S,R,H,C,P,N$ before any bridge-facing consumer reads the boundary.
+
+Use source-route totality and refusal-route exactness, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. These theorems identify the two public branches as the displayed route to $S$ and the displayed route to $R$.
+
+Finally combine consumer exactness with root NameCert replay, \autoref{thm:gap-closure-boundary-consumer-exactness-package} and \autoref{thm:gap-closure-boundary-root-namecert-replay}. The first theorem fixes which downstream consumers may read the boundary, and the second keeps replay inside the same $\Cont$, $\hsame$, $\Pkg$, and local $\NameCert$ rows. The excluded hidden rows therefore have no coordinate in the precondition surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary TasteGate boundary]
+\label{thm:gap-closure-boundary-tastegate-boundary}
+Any Lean TasteGate or $\StdBridge$ work for $\GapClosureBoundaryUp$ must preserve the same seven packet rows $G,S,R,H,C,P,N$ and the same displayed source/refusal routes. Its paper-side boundary may read carrier admission, the source route, the refusal route, consumer exactness, root package replay, provenance, and local naming, but it cannot read hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or any continuation outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the bridge precondition surface of \autoref{thm:gap-closure-boundary-bridge-precondition-surface}. The only available packet rows are $G,S,R,H,C,P,N$, and the only branch rows are the displayed source and refusal routes.
+
+Use structural row conservation and the root visible refusal audit, \autoref{thm:gap-closure-boundary-structural-row-conservation} and \autoref{thm:gap-closure-boundary-root-visible-refusal-audit}. They keep $\Cont$, $\hsame$, $\Pkg$, and local $\NameCert$ replay tied to the visible packet and prevent the structural rows from adding host equality, quotient data, or hidden supply.
+
+The TasteGate or $\StdBridge$ reader therefore has no additional coordinate to inspect. Its admissible input is the seven-row packet with the displayed branch split, consumer exactness, root replay, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary obligation status assembly]
+\label{thm:gap-closure-boundary-obligation-status-assembly}
+The carrier rows, source/refusal split, root-unblock package, consumer-exactness package, root NameCert replay rows, bridge precondition surface, and TasteGate boundary assemble the paper-side $\obligationClosure$ surface for $\GapClosureBoundaryUp$. The assembly justifies recording $\closureat{GapClosureBoundaryUp}{obligationStr}$ while leaving the verification axis at $\unformalizedV$ until a separate Lean target checks the corresponding root package.
+\end{theorem}
+\begin{proof}
+Begin with the displayed carrier and branch obligations. \autoref{thm:gap-closure-boundary-namecert-obligations}, \autoref{thm:gap-closure-boundary-source-route-totality}, and \autoref{thm:gap-closure-boundary-refusal-route-exactness} identify the accepted packet and its two public routes.
+
+Next apply the root-unblock and consumer-exactness packages, \autoref{thm:gap-closure-boundary-root-unblock-package} and \autoref{thm:gap-closure-boundary-consumer-exactness-package}. These package the listed hard-problem consumers as readers of exactly that source/refusal surface.
+
+Add the root replay and bridge boundary rows from \autoref{thm:gap-closure-boundary-root-namecert-replay}, \autoref{thm:gap-closure-boundary-bridge-precondition-surface}, and \autoref{thm:gap-closure-boundary-tastegate-boundary}. The assembled surface records every paper obligation needed by the boundary while making no Lean verification claim, so the closure and verification axes remain independent.
+\end{proof}

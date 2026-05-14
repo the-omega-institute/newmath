@@ -52,3 +52,36 @@ Apply the exact handoff theorem, \autoref{thm:regseqrat-streamname-dyadic-real-h
 
 Finally use the Real seal handoff rows. They make the $\RealUp$ seal the terminal row of the same route, so the ownership list is exhausted by the four displayed chapters and cannot be enlarged by quotient streams, host equality, selected limits, completion witnesses, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Real handoff exhaustion]
+\label{thm:regseqrat-streamname-real-handoff-exhaustion}
+Every accepted L10 handoff that starts from $\StreamNameUp$ schedules and is admitted to the $\RealUp$ seal through $\RegSeqRatUp$ is exhausted by exactly four row owners. $\StreamNameUp$ owns the finite stream schedules, $\DyadicRatCoreUp$ owns the dyadic endpoint and radius rows together with finite dyadic-distance ledgers, $\RegSeqRatUp$ owns the regularity and classifier rows, and $\RealUp$ owns the terminal seal row. The handoff has no row owned by a quotient stream, host real equality, selected limit, completion witness, ambient completeness principle, or choice datum.
+\end{theorem}
+\begin{proof}
+Begin with the source lattice pointer and source lattice exhaustion,
+\autoref{thm:regseqrat-l10-source-lattice-pointer} and
+\autoref{thm:regseqrat-l10-source-lattice-exhaustion}. Together they identify
+the visible L10 route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+and assign the finite schedule, dyadic, regularity, classifier, and seal rows
+to the four displayed owners.
+
+Apply the exact StreamName--dyadic--Real handoff theorem,
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It keeps the
+scheduled StreamName windows, dyadic endpoint and radius rows, finite
+dyadic-distance ledgers, RegSeqRat regularity rows, classifier rows, and Real
+seal row in one finite handoff rather than in separate ambient services.
+
+The Lean-facing touchpoints are
+$\texttt{RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff}$,
+$\texttt{DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness}$, and
+$\texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff}$. They are precisely the
+schedule, dyadic bridge, and Real seal pieces named by the paper route.
+
+Since the two lattice theorems already exclude quotient streams, host real
+equality, selected limits, completion witnesses, and ambient completeness, and
+since the exact handoff introduces no extra owner, adding a choice datum or any
+other off-route owner would require a row absent from the displayed packet.
+\end{proof}
