@@ -76,6 +76,18 @@ def test_supervisor_refill_can_recover_from_stale_circuit_breaker() -> None:
     assert "ignoring stale refill circuit breaker" in body
 
 
+def test_supervisor_keeps_board_state_files_local_only() -> None:
+    text = _text(SUPERVISOR)
+    start = text.index("def commit_and_push_if_changed()")
+    end = text.index("\n\n# ---------------------------------------------------------------------------\n# PI agent review", start)
+    body = text[start:end]
+    assert '"tools/bedc-deep/BOARD.md"' in body
+    assert '"tools/bedc-deep/BOARD.completed.md"' in body
+    assert "local_only_state_files" in body
+    assert "if path not in local_only_state_files" in body
+    assert "local-only BOARD state files" in body
+
+
 def test_auto_discovery_dev_sync_is_opt_in_and_path_guarded() -> None:
     text = _text(AUTO_DISCOVERY)
     assert "dev_sync_enabled = bool(getattr(args, \"dev_sync\", False))" in text
@@ -92,5 +104,6 @@ if __name__ == "__main__":
     test_supervisor_defaults_to_paper_native_discovery()
     test_supervisor_has_hard_branch_guard()
     test_supervisor_refill_can_recover_from_stale_circuit_breaker()
+    test_supervisor_keeps_board_state_files_local_only()
     test_auto_discovery_dev_sync_is_opt_in_and_path_guarded()
     print("test_git_sync_boundaries: ok")

@@ -974,20 +974,24 @@ def commit_and_push_if_changed() -> bool:
                 files.append(parts[1])
         if not files:
             return False
+        local_only_state_files = {
+            "tools/bedc-deep/BOARD.md",
+            "tools/bedc-deep/BOARD.completed.md",
+        }
         committable_files = [
             path for path in files
-            if path != "tools/bedc-deep/BOARD.md"
+            if path not in local_only_state_files
         ]
         if not committable_files:
             supervisor_log(
-                "auto-commit: skipped push for local-only BOARD.md queue state"
+                "auto-commit: skipped push for local-only BOARD state files"
             )
             return False
         skipped = len(files) - len(committable_files)
         if skipped:
             supervisor_log(
                 f"auto-commit: {len(committable_files)} committable changed files "
-                f"({skipped} local-only BOARD.md state file skipped)"
+                f"({skipped} local-only BOARD state file(s) skipped)"
             )
         else:
             supervisor_log(f"auto-commit: {len(committable_files)} changed files")
