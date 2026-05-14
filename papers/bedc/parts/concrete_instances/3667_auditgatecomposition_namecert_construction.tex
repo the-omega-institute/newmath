@@ -82,6 +82,22 @@ repair, or unlisted audit result, the six obligations exhaust the public
 surface of the composition packet.
 \end{proof}
 
+\begin{theorem}[Audit-gate composition sibling dependency route]
+\label{thm:audit-gate-composition-sibling-dependency-route}
+Every composed refusal route of an accepted $\AuditGateCompositionUp$ packet first consumes the gate rows of \autoref{ch:concrete-instances-auditgateboundary-namecert} and the membrane boundary surface of \autoref{ch:concrete-instances-operationalmembrane-namecert} before the local packet
+$$
+G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N
+$$
+can export the composed refusal trace. The exported trace is therefore a routed composition of sibling gate and membrane rows, not a standalone refusal oracle or a host-side repair of a refused boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:audit-gate-composition-carrier}. The rows $G_0,G_1$ are the two gate rows, $B_0,B_1$ are the boundary-content rows, and $R_0,R_1,Q,H,K,P,N$ are the displayed refusal, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:audit-gate-composition-namecert-obligations}. Its first-gate and second-gate obligations expose the two gate rows before the composed trace is public, while its shared-boundary transport obligation forces the boundary comparison through the displayed rows in $H$ and $K$.
+
+The provenance row $P$ names the sibling audit-gate boundary and operational membrane surfaces, and the local $\NameCert$ row $N$ packages them with the route. Thus the composed trace $Q$ can be exported only after those sibling gate and membrane rows have been consumed.
+\end{proof}
+
 \begin{theorem}[Audit-gate composition refusal transitivity]
 \label{thm:audit-gate-composition-refusal-transitivity}
 Let $C=(G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N)$ be an accepted
