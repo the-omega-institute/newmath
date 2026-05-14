@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -73,5 +75,53 @@ theorem ObserverFilterCarrier_identity_stability [AskSetup] [PackageSetup]
         provenanceUnary', localNameUnary', sourceSelected', ledgerOmitted',
         routesLocalName', pkgSig'⟩,
       sameLedger, sameRoutes, sameProvenance⟩
+
+theorem ObserverFilter_ledger_exactness [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ObserverFilterCarrier source selected omitted transport ledger routes provenance
+            localName bundle pkg ∧
+            hsame row omitted)
+        (fun _row : BHist => Cont source selected ledger ∧ Cont ledger omitted routes ∧
+          PkgSig bundle provenance pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame PkgSig SemanticNameCert
+  intro carrier
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+    provenanceUnary, localNameUnary, sourceSelected, ledgerOmitted, routesLocalName,
+    pkgSig⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro omitted (And.intro
+          ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+            provenanceUnary, localNameUnary, sourceSelected, ledgerOmitted, routesLocalName,
+            pkgSig⟩
+          (hsame_refl omitted))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceData
+        exact And.intro sourceData.left (hsame_trans (hsame_symm sameRows) sourceData.right)
+    }
+    pattern_sound := by
+      intro row sourceData
+      exact And.intro sourceSelected (And.intro ledgerOmitted pkgSig)
+    ledger_sound := by
+      intro row sourceData
+      exact And.intro (unary_transport omittedUnary (hsame_symm sourceData.right)) pkgSig
+  }
 
 end BEDC.Derived.ObserverFilterUp

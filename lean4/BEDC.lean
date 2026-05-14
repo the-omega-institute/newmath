@@ -167,6 +167,8 @@ import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
+import BEDC.Derived.ObserverInterfaceUp.TasteGate
+import BEDC.Derived.ObserverFrameRefusalUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
@@ -354,6 +356,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.RegularCauchyTailMeetUp
+import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LorentzFrameRateUp.TasteGate

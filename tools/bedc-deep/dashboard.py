@@ -491,6 +491,35 @@ def _board_judge_action_lines(error_kind: str, *, prefix: str = "  ") -> list[st
     return lines
 
 
+def _planner_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for PI planner/fallback outages."""
+    if "planner_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: PI planner/fallback is unavailable; "
+            "this is a CLI-side planning issue, not a BEDC oracle tab-refresh signal."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for PI planning and shared judge paths."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for PI planning."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -794,10 +823,22 @@ def render_board_refill() -> str:
                 "  scanner: "
                 f"gap_hits={scanner_stats.get('gap_hits', 0)} "
                 f"namecert_raw={scanner_stats.get('raw_namecert_candidates', 0)} "
+                f"prelimit={scanner_stats.get('prelimit_candidates', 0)} "
+                f"emitted={scanner_stats.get('emitted_candidates', 0)}/"
+                f"{scanner_stats.get('limit', 0)} "
                 f"paper_covered_skips={scanner_stats.get('skip_known_paper_covered_title', 0)} "
                 f"board/archive_skips={scanner_stats.get('skip_existing_board_or_archive_title', 0)} "
-                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)}"
+                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)} "
+                f"threshold_skips={scanner_stats.get('skip_below_threshold', 0)} "
+                f"batch_dupes={scanner_stats.get('skip_duplicate_title_in_batch', 0)}"
             )
+            by_kind = scanner_stats.get("gap_hits_by_kind") or {}
+            if isinstance(by_kind, dict) and by_kind:
+                kind_text = ", ".join(
+                    f"{key}={value}"
+                    for key, value in sorted(by_kind.items(), key=lambda item: str(item[0]))
+                )
+                lines.append(f"  scanner gap kinds: {kind_text}")
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
@@ -929,8 +970,46 @@ def _discovery_status(data: dict) -> str:
     return suffix
 
 
+def _latest_supervisor_discovery_run() -> tuple[float, Path, str] | None:
+    if not SUPERVISOR_LOG_DIR.exists():
+        return None
+    paths: list[Path] = []
+    for pattern in ("probe_*.log", "curriculum_*.log", "paper_review_*.log", "curator_*.log"):
+        paths.extend(SUPERVISOR_LOG_DIR.glob(pattern))
+    latest: tuple[float, Path, str] | None = None
+    for path in paths:
+        try:
+            mtime = path.stat().st_mtime
+            lines = [
+                line.strip()
+                for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                if line.strip()
+            ]
+        except OSError:
+            continue
+        detail = lines[-1] if lines else "(no log output yet)"
+        item = (mtime, path, detail)
+        if latest is None or item[0] > latest[0]:
+            latest = item
+    return latest
+
+
 def render_discovery_lane() -> str:
+    supervisor_run = _latest_supervisor_discovery_run()
     if not DISCOVERY_LOG_DIR.exists():
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no discovery artifacts)"
     records: list[tuple[float, Path, dict]] = []
     for path in DISCOVERY_LOG_DIR.glob("*.json"):
@@ -944,6 +1023,19 @@ def render_discovery_lane() -> str:
         data["_mode"] = path.name.split("_", 1)[0]
         records.append((mtime, path, data))
     if not records:
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no parseable discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no parseable discovery artifacts)"
     records.sort(key=lambda item: item[0], reverse=True)
     now = datetime.now(timezone.utc)
@@ -967,6 +1059,17 @@ def render_discovery_lane() -> str:
             "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
             "it is not a BEDC oracle tab-refresh signal."
         )
+    if supervisor_run:
+        run_mtime, run_path, detail = supervisor_run
+        latest_artifact_mtime = records[0][0]
+        if run_mtime > latest_artifact_mtime:
+            age = _fmt_age(
+                (now - datetime.fromtimestamp(run_mtime, tz=timezone.utc)).total_seconds()
+            )
+            lines.append(
+                f"  pending/no-artifact: supervisor {run_path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
     return "\n".join(lines)
 
 
@@ -991,14 +1094,71 @@ def _read_research_latest_counts() -> dict[str, int]:
     return counts
 
 
+def _read_research_latest_profiles() -> dict[str, str]:
+    profiles: dict[str, str] = {}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return profiles
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return profiles
+    for line in lines:
+        match = re.match(r"-\s+(ready_(?:budget|difficulty|oracle_mode)):\s+(.+?)\s*$", line.strip())
+        if match:
+            profiles[match.group(1)] = match.group(2)
+    return profiles
+
+
+def _read_research_ready_titles(limit: int = 5) -> list[str]:
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return []
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return []
+    titles: list[str] = []
+    in_ready = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "## Ready":
+            in_ready = True
+            continue
+        if in_ready and stripped.startswith("## "):
+            break
+        if not in_ready or not stripped.startswith("- "):
+            continue
+        title = stripped[2:].strip()
+        if " [" in title:
+            title = title.rsplit(" [", 1)[0].strip()
+        if title:
+            titles.append(title)
+        if len(titles) >= limit:
+            break
+    return titles
+
+
 def render_research_candidate_lane() -> str:
     counts = _read_research_latest_counts()
+    profiles = _read_research_latest_profiles()
     lines = [
         (
             f"  latest packets={counts['packets']} ready={counts['ready']} "
             f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
         )
     ]
+    if counts["ready"] and profiles:
+        if profiles.get("ready_budget"):
+            lines.append(f"  ready budget: {profiles['ready_budget']}")
+        if profiles.get("ready_difficulty"):
+            lines.append(f"  ready difficulty: {profiles['ready_difficulty']}")
+        if profiles.get("ready_oracle_mode"):
+            lines.append(f"  ready oracle modes: {profiles['ready_oracle_mode']}")
     if not RESEARCH_BOARD_SPAWN_LATEST.exists():
         lines.append("  append status: no research board_spawn attempt recorded")
         return "\n".join(lines)
@@ -1021,6 +1181,12 @@ def render_research_candidate_lane() -> str:
     if error_kind:
         lines.append(f"  last append error_kind: {error_kind}")
     lines.extend(_board_judge_action_lines(error_kind))
+    if counts["ready"] and "board_judge_unavailable" in error_kind:
+        titles = _read_research_ready_titles(limit=5)
+        if titles:
+            lines.append("  held ready behind shared judge outage:")
+            for title in titles:
+                lines.append(f"    - {title}")
     return "\n".join(lines)
 
 
@@ -1075,6 +1241,13 @@ def render_pi_agent() -> str:
             f"inbox={rec.get('inbox_count')} deepen_emitted={rec.get('deepen_emitted')}"
         ),
     ]
+    if not rec.get("ok"):
+        error_kind = str(rec.get("error_kind") or "").strip()
+        if error_kind:
+            lines.append(f"  error_kind: {error_kind}")
+            lines.extend(_planner_action_lines(error_kind))
+        else:
+            lines.append("  error_kind: planner_failed_without_classified_reason")
     if rates:
         rate_text = ", ".join(f"{k}={v}" for k, v in rates.items())
         lines.append(f"  completion rates: {rate_text}")

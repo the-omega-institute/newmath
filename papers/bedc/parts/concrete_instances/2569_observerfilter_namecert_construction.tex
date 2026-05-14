@@ -101,6 +101,7 @@ In the omitted case the new row is placed in $O$ with its boundary reason, trans
 
 The induction hypothesis accounts for the preceding source rows. The two filter-row cases are disjoint and exhaustive, so the full source history is partitioned by $S$ and $O$, and every consumer read passes through the displayed ledger rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilter\_ledger\_exactness}
 
 \begin{theorem}[ObserverFilter selected-row totality]
 \label{thm:observer-filter-selected-row-totality}
@@ -136,6 +137,18 @@ Start from the handoff theorem \autoref{thm:observer-filter-streamname-handoff}.
 Apply \autoref{thm:observer-filter-ledger-exactness} to the same carrier. The finite source rows of $H$ are exhausted by the selected surface $S$ and the omitted boundary $O$, so every stream-name read is already accounted for by the selected side of the partition.
 
 The omitted side remains visible only as $O$. Since neither \autoref{def:observer-filter-bhist-carrier} nor the handoff theorem carries hidden observer state or quotient history identity, no omitted row can escape into the selected subhistory route.
+\end{proof}
+
+\begin{theorem}[ObserverFilter ObserverHistoryIdentity StreamName lattice route]
+\label{thm:observer-filter-observerhistoryidentity-streamname-lattice-route}
+Every $\StreamNameUp$ consumer of an accepted $\ObserverFilterUp$ packet first reads the $\ObserverHistoryIdentityUp$ source row, then the selected subhistory $S$ and omitted-row ledger $O$, and only then the $\StreamNameUp$ handoff rows $R,C,P,N$. Omitted rows remain boundary data and cannot become stream data, hidden observer state, or quotient history identity.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:observer-filter-observer-history-factorization}. It factors the accepted packet through the source observer-history row $H$, selected subhistory $S$, omitted ledger $O$, transports $R$, observer ledger $L$, routes $C$, provenance $P$, and local name $N$.
+
+Next apply \autoref{thm:observer-filter-ledger-exactness}. The selected and omitted rows exhaust the source history, so every downstream read must pass through either the selected side $S$ or the boundary side $O$ with its ledger entry.
+
+Finally apply \autoref{thm:observer-filter-streamname-selected-subhistory-nonescape}. It identifies the StreamName handoff with the selected subhistory route and keeps omitted rows at the boundary. Thus no omitted row becomes stream data, hidden observer state, or quotient history identity.
 \end{proof}
 
 \closureat{ObserverFilterUp}{seedStr}
