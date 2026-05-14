@@ -213,6 +213,106 @@ limit, representative choice, host equality, ambient completeness principle,
 arithmetic package, order package, or metric-completeness row can be exported.
 \end{proof}
 
+\begin{theorem}[Real RegSeqRat StreamName seal-source minimality]
+\label{thm:real-regseq-streamname-seal-source-minimality}
+For an accepted $\RealUp$ RegSeqRat StreamName dependency triple
+$(S,Q,D,R,H,C,P,N)$, the current accepted seal source is minimal in its four
+open-phase faces. Removing any one of the $\DyadicRatCoreUp$ observation face
+$D$, the $\StreamNameUp$ finite-window face $S$, the $\RegSeqRatUp$ readback
+face $Q$, or the local $\RealUp$ seal face $R$ leaves no accepted current
+Phase Real or Completion seal source.
+
+The transport, continuation, package, and local certificate rows $H,C,P,N$
+do not replace a missing face. They only carry and name the route after all
+four faces are present in the displayed dependency triple.
+\end{theorem}
+\begin{proof}
+Start from the route exhaustion of
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It places every
+accepted seal read on the finite path through $S$, then $Q$, then $D$, and
+only then $R$, with $H,C,P,N$ carrying that displayed path.
+
+Use the current-surface theorem
+\autoref{thm:real-open-phase-dependency-triple-current-surface}. Its
+converse assembles the accepted current surface from precisely the four
+faces together with $H,C,P,N$, and its exclusion clause leaves no quotient,
+host, completeness, arithmetic, order, or metric-completeness coordinate
+outside them.
+
+Now delete one face. If $S$ is absent, there is no finite-window source for
+the readback. If $Q$ is absent, there is no regular-rational readback for the
+dyadic observation ledger. If $D$ is absent, there is no dyadic observation
+face for the seal route. If $R$ is absent, there is no local Real seal for
+the endpoint read. In each case the Cauchy-completion interface of
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface} has no
+accepted endpoint route, so no current seal source remains.
+\end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName current-phase gate]
+\label{thm:real-regseq-streamname-current-phase-gate}
+Every current Phase Real and Completion consumer of an accepted dependency
+triple $(S,Q,D,R,H,C,P,N)$ must enter through the four-face route
+$$
+S,\quad Q,\quad D,\quad R
+$$
+before it reads a $\RealUp$ endpoint. The gate is carried only by the
+componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the $\Pkg$
+provenance $P$, and the local $\NameCert$ row $N$.
+
+No endpoint read is licensed from quotient streams, selected host limits,
+representative choices, host equality, ambient completeness, arithmetic or
+order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface}. It states
+that every completion-facing consumer must pass through the finite
+StreamName, RegSeqRat, DyadicRatCore, and local Real seal route before
+reading a $\RealUp$ endpoint.
+
+Next apply
+\autoref{thm:real-finite-window-completion-boundary}. The boundary repeats
+the same entry order for completion-facing consumers and identifies $H,C,P,N$
+as the only transport, route, provenance, and certificate rows attached to
+that entry.
+
+Finally apply
+\autoref{thm:real-regseq-streamname-seal-source-minimality}. Since no one of
+the four faces can be removed while retaining an accepted current seal
+source, the entry route is a gate rather than an optional presentation of the
+endpoint.
+\end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName no completion escape]
+\label{thm:real-regseq-streamname-no-completion-escape}
+Completion-facing consumers of an accepted $\RealUp$ RegSeqRat StreamName
+dependency triple cannot bypass the four faces through quotient streams,
+selected host limits, representative choices, host equality, ambient
+completeness, arithmetic packages, order packages, or metric-completeness
+rows. Their only accepted completion route is the displayed path through the
+$\StreamNameUp$ finite-window face, the $\RegSeqRatUp$ readback face, the
+$\DyadicRatCoreUp$ observation face, and the local $\RealUp$ seal face.
+\end{theorem}
+\begin{proof}
+Use route exhaustion to identify the only seal-facing path. By
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion}, that path is the
+displayed finite route through $S,Q,D,R$ with $H,C,P,N$.
+
+Use the current-phase gate to place every Phase Real and Completion endpoint
+read behind the same path. A completion-facing consumer therefore cannot
+reach the endpoint before the four faces have all been read.
+
+It remains to exclude escape coordinates. The finite-window completion
+boundary of \autoref{thm:real-finite-window-completion-boundary} and the
+Cauchy-completion interface of
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface} both remove
+quotient streams, selected host limits, representative choices, host
+equality, ambient completeness, arithmetic and order packages, and
+metric-completeness rows from the exported boundary. Since minimality also
+prevents deleting any face, there is no completion route outside the four
+displayed faces.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat StreamName endpoint determinacy]
 \label{thm:real-regseq-streamname-endpoint-determinacy}
 Let $(S,Q,D,R,H,C,P,N)$ and $(S',Q',D',R',H',C',P',N')$ be accepted
