@@ -864,14 +864,20 @@ def render_reject_clusters() -> str:
             continue
         if d.get("verdict") not in ("reject", "compile_failed"):
             continue
-        for r in d.get("rejection_reasons") or []:
+        reasons = list(d.get("rejection_reasons") or [])
+        reasons.extend(d.get("compile_errors") or [])
+        for r in reasons:
             r_low = (r or "").lower()
             cat = "other"
             m = re.search(r"item\s*(\d+)", r_low)
             if m:
                 cat = f"item_{m.group(1)}"
+            elif "duplicate \\leanchecked" in r_low or "duplicate \\leantarget" in r_low:
+                cat = "duplicate_lean_marker"
             elif "build invariant" in r_low:
                 cat = "build_invariant"
+            elif "undefined control sequence" in r_low or "undefined macro" in r_low:
+                cat = "undefined_macro"
             elif "content duplication" in r_low:
                 cat = "content_duplication"
             elif "non-latex" in r_low or "trailing" in r_low:
