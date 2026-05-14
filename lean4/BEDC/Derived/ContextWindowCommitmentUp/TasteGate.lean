@@ -145,33 +145,6 @@ def contextWindowCommitmentFromEventFlow :
                                                                           | _ :: _ =>
                                                                               none
 
-private theorem contextWindowCommitment_mk_congr
-    {scope scope' prompt prompt' boundary boundary' refusal refusal' consumer consumer'
-      transport transport' routes routes' provenance provenance' nameCert nameCert' : BHist}
-    (hScope : scope' = scope)
-    (hPrompt : prompt' = prompt)
-    (hBoundary : boundary' = boundary)
-    (hRefusal : refusal' = refusal)
-    (hConsumer : consumer' = consumer)
-    (hTransport : transport' = transport)
-    (hRoutes : routes' = routes)
-    (hProvenance : provenance' = provenance)
-    (hNameCert : nameCert' = nameCert) :
-    ContextWindowCommitmentUp.mk scope' prompt' boundary' refusal' consumer' transport'
-        routes' provenance' nameCert' =
-      ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
-        provenance nameCert := by
-  cases hScope
-  cases hPrompt
-  cases hBoundary
-  cases hRefusal
-  cases hConsumer
-  cases hTransport
-  cases hRoutes
-  cases hProvenance
-  cases hNameCert
-  rfl
-
 private theorem contextWindowCommitment_round_trip :
     ∀ x : ContextWindowCommitmentUp,
       contextWindowCommitmentFromEventFlow
@@ -203,18 +176,15 @@ private theorem contextWindowCommitment_round_trip :
           some
             (ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport
               routes provenance nameCert)
-      exact
-        congrArg some
-          (contextWindowCommitment_mk_congr
-            (contextWindowCommitmentDecode_encode_bhist scope)
-            (contextWindowCommitmentDecode_encode_bhist prompt)
-            (contextWindowCommitmentDecode_encode_bhist boundary)
-            (contextWindowCommitmentDecode_encode_bhist refusal)
-            (contextWindowCommitmentDecode_encode_bhist consumer)
-            (contextWindowCommitmentDecode_encode_bhist transport)
-            (contextWindowCommitmentDecode_encode_bhist routes)
-            (contextWindowCommitmentDecode_encode_bhist provenance)
-            (contextWindowCommitmentDecode_encode_bhist nameCert))
+      rw [contextWindowCommitmentDecode_encode_bhist scope,
+        contextWindowCommitmentDecode_encode_bhist prompt,
+        contextWindowCommitmentDecode_encode_bhist boundary,
+        contextWindowCommitmentDecode_encode_bhist refusal,
+        contextWindowCommitmentDecode_encode_bhist consumer,
+        contextWindowCommitmentDecode_encode_bhist transport,
+        contextWindowCommitmentDecode_encode_bhist routes,
+        contextWindowCommitmentDecode_encode_bhist provenance,
+        contextWindowCommitmentDecode_encode_bhist nameCert]
 
 private theorem contextWindowCommitmentToEventFlow_injective
     {x y : ContextWindowCommitmentUp} :

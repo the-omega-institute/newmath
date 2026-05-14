@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyClassifierNormalFormUp$}
+\label{ch:concrete-instances-regular-cauchy-classifier-normal-form-namecert}
+\origin{ai}
+
+The $\RegularCauchyClassifierNormalFormUp$ packet realizes the Real completeness route of \autoref{ch:visions-real-completeness} as a common classifier-normal-form surface for finite rational completion data. It sits over the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the RealUp seal row of \autoref{ch:concrete-instances-real-namecert}. The packet is a shared route certificate: it does not identify any one source surface with another, and it exports no quotient stream, selected limit representative, host real equality, countable choice row, or ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy classifier normal-form carrier]
+\label{def:regular-cauchy-classifier-normal-form-carrier}
+A $\RegularCauchyClassifierNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the common $\DyadicRatCoreUp$ tolerance row used by every finite read in the packet;
+\item $W$ is the $\StreamNameUp$ finite-window row inspected at the same tolerance;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed window and tolerance;
+\item $R$ is the $\RealUp$ seal row reached only after $D,W,Q$ have been displayed;
+\item $E$ is the completion-seal classifier row from \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, recording that the RealUp read uses the same finite route;
+\item $H$ stores componentwise $\hsame$ transport for $D,W,Q,R,E,C,P,N$ and for the local classifier-normal-form packet;
+\item $C$ stores the displayed $\Cont$ routes from $D$ to $W$, from $W$ to $Q$, from $Q$ to $R$, from $R$ to $E$, and from those rows to the local certificate;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealCompletionSealClassifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyClassifierNormalFormUp}$ row.
+\end{enumerate}
+The carrier records the classifier-normal-form route across the four source surfaces. It has no coordinate for a quotient stream, hidden modulus replacement, selected external limit, host real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy classifier normal-form obligations]
+\label{thm:regular-cauchy-classifier-normal-form-obligations}
+For the carrier of \autoref{def:regular-cauchy-classifier-normal-form-carrier}, the local $\NameCert_{\RegularCauchyClassifierNormalFormUp}$ surface consists of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $K=(D,W,Q,R,E,H,C,P,N)$;
+\item common dyadic tolerance exactness requiring the same $D$ row to serve the StreamName window, RegSeqRat readback, and RealUp seal route;
+\item finite-window exactness requiring $W$ to be displayed before any regular rational readback is consumed;
+\item RegSeqRat-to-RealUp handoff requiring $Q$ to be displayed before $R$ and requiring the completion-seal classifier row $E$ to read the same route;
+\item classifier stability under the componentwise $\hsame$ transports in $H$ and the displayed $\Cont$ routes in $C$;
+\item provenance, naming, and non-escape through $P,N$, excluding quotient streams, hidden modulus replacement, selected limits, host real equality, countable choice, and ambient completeness.
+\end{enumerate}
+The later Lean \texttt{TasteGate.lean} contract for this chapter must provide explicit \texttt{Nontrivial RegularCauchyClassifierNormalFormUp} and \texttt{FieldFaithful RegularCauchyClassifierNormalFormUp} instances for this carrier surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The dyadic tolerance, finite stream window, regular readback, RealUp seal, completion-seal classifier, transport, continuation, provenance, and local naming rows are all carrier coordinates.
+
+The common dyadic tolerance row is read first. Since $D$ is the only tolerance coordinate, the StreamName window, RegSeqRat readback, and RealUp seal route cannot switch to a second tolerance ledger without leaving the packet.
+
+The finite-window row $W$ is then displayed before the regular handoff $Q$. The route row $C$ records this order, and the componentwise transport row $H$ preserves the same fields under classifier comparison.
+
+The RealUp seal row $R$ and completion-seal classifier row $E$ are read after $D,W,Q$. Provenance and local naming authenticate exactly that finite sequence.
+
+No remaining carrier coordinate can supply quotient streams, hidden modulus replacement, selected external limits, host real equality, countable choice, or ambient completeness. Hence the six rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy classifier normal-form Real handoff]
+\label{thm:regular-cauchy-classifier-normal-form-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyClassifierNormalFormUp$ packet reads the regular Cauchy classifier route only through
+$$
+D,W,Q,R,E,H,C,P,N.
+$$
+In particular, the common dyadic tolerance row is displayed before the StreamName schedule, the StreamName schedule is displayed before the RegSeqRat readback, and the RegSeqRat readback is displayed before the RealUp seal and completion-seal classifier handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $K=(D,W,Q,R,E,H,C,P,N)$. The only dyadic, stream, regular, RealUp, and completion-seal classifier coordinates are $D,W,Q,R,E$.
+
+Apply the obligation surface of \autoref{thm:regular-cauchy-classifier-normal-form-obligations}. Its dyadic exactness, finite-window exactness, and handoff rows place $D$ before $W$, $W$ before $Q$, and $Q$ before $R,E$.
+
+The displayed $\Cont$ routes in $C$ replay the same order for consumers, while the componentwise $\hsame$ transports in $H$ preserve the named rows. The provenance row $P$ and local name $N$ add authentication without adding analytic data.
+
+Thus every RealUp or completion-facing read factors through the listed finite route. A bypass would require a second tolerance ledger, a quotient stream, a selected limit representative, host real equality, countable choice, or ambient completeness, and none of those coordinates is present.
+\end{proof}
+
+\falsifiablePrediction{Removing the common dyadic tolerance row breaks the RegSeqRat-to-RealUp classifier handoff while preserving the StreamName schedule.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchylimitseal: none is bijective because this packet stores the shared classifier-normal-form route across all four source surfaces rather than any single source surface.}
+
+\closureat{RegularCauchyClassifierNormalFormUp}{seedStr}
