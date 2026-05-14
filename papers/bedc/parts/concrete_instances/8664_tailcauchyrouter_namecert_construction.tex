@@ -86,6 +86,46 @@ Follow the displayed continuation route. It first selects and covers the finite 
 Since no detached endpoint or ambient completeness coordinate occurs in the carrier, every accepted Real-facing consumer route factors through the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[Tail Cauchy router RegSeqRat route totality]
+\label{thm:tail-cauchy-router-regseqrat-route-totality}
+Every $\RegSeqRatUp$ read admitted by an accepted $\TailCauchyRouterUp$ packet reaches the consumer only through
+$$
+S,M,W,R,H,C,P,N.
+$$
+Here $W$ is the finite $\StreamNameUp$ and $\RegSeqRatUp$ window selected by $S$ under the shared modulus $M$. The packet has no unbounded window coordinate and no RegSeqRat route outside the displayed finite window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tailcauchyrouter-carrier}. The RegSeqRat-facing rows available before the limit handoff are the selector $S$, shared modulus $M$, finite window $W$, regular-Cauchy source row $R$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+
+Use \autoref{thm:tailcauchyrouter-carrier-exposure} and \autoref{thm:tailcauchyrouter-selector-determinacy}. They expose the displayed rows and bind $W$ to the selected tail route, so a consumer cannot replace the selected window while keeping the same packet.
+
+Finally apply \autoref{thm:tailcauchyrouter-modulus-window-coverage}. The RegSeqRat readback required by $R$ is covered inside $W$, and the carrier contains no unbounded window coordinate. Hence every admitted RegSeqRat read is total only along the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Tail Cauchy router dyadic budget non-escape]
+\label{thm:tail-cauchy-router-dyadic-budget-nonescape}
+In an accepted $\TailCauchyRouterUp$ packet, every dyadic tolerance and budget read is confined to the shared modulus $M$, selected tail $S$, finite window row $W$, and route provenance $H,C,P,N$. No dyadic budget can be imported from a hidden selector, detached window, quotient stream equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier rows for the budget-facing route. The only dyadic control row is the shared modulus $M$, and it is paired with the selected tail row $S$ before the route reaches the finite window $W$.
+
+Apply \autoref{thm:tailcauchyrouter-selector-determinacy}. The selector cannot be changed while preserving the same continuation row, so a second dyadic schedule would not be a read of the accepted packet.
+
+Then apply \autoref{thm:tailcauchyrouter-modulus-window-coverage}. The budget reaches the StreamName and RegSeqRat observations through $W$, with $H,C,P,N$ recording transport, continuation, provenance, and local naming. The carrier exposure theorem supplies no hidden selector, detached window, quotient equality, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Tail Cauchy router Real seal handoff]
+\label{thm:tail-cauchy-router-real-seal-handoff}
+The Real seal endpoint $E$ of an accepted $\TailCauchyRouterUp$ packet is public only after the selected window $W$ and source row $R$ feed the displayed $\CauchyLimitSealUp$ row $L$. The handoff exports no quotient stream equality, host real equality, hidden choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:tailcauchyrouter-seal-non-escape}. The limit row $L$ is fed only by the displayed finite window $W$ and regular-Cauchy source row $R$, after $W$ has been selected from $S$ under the shared modulus $M$.
+
+Now apply \autoref{thm:tailcauchyrouter-realup-consumer-handoff}. Every Real-facing consumer route factors through the full displayed packet $S,M,W,R,L,E,H,C,P,N$, so the endpoint $E$ is visible only downstream of the selected window and limit handoff.
+
+The carrier exposure theorem supplies no quotient stream equality, host real equality, hidden choice row, or ambient completeness row. Therefore the public seal handoff is exactly the displayed finite route to $E$.
+\end{proof}
+
 \falsifiablePrediction{Any accepted TailCauchyRouterUp packet whose selected tail window does not feed the displayed CauchyLimitSeal row is outside the certificate.}
 
 \independenceWitness{streamname, regseqrat, regularcauchysequence, cauchylimitseal, real: TailCauchyRouterUp is not bijective to any sibling because it carries a route row binding all five surfaces at once; the siblings expose point streams, regular sequence rows, Cauchy input data, limit seals, or RealUp endpoints separately.}
@@ -97,7 +137,7 @@ The Lean site \texttt{lean4/BEDC/Derived/TailCauchyRouterUp/TasteGate.lean} must
 \begin{closurestatus}{\TailCauchyRouterUp}
   \constructivestory{A $\TailCauchyRouterUp$ packet is generated from a tail selector, shared modulus, finite StreamName and RegSeqRat window, regular-Cauchy source row, CauchyLimitSeal handoff, RealUp endpoint, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tailcauchyrouter-carrier}, \autoref{thm:tailcauchyrouter-carrier-exposure}, \autoref{thm:tailcauchyrouter-selector-determinacy}, \autoref{thm:tailcauchyrouter-modulus-window-coverage}, \autoref{thm:tailcauchyrouter-seal-non-escape}, and \autoref{thm:tailcauchyrouter-realup-consumer-handoff} specify the finite tail-selection route from StreamName and RegSeqRat windows to CauchyLimitSeal and RealUp handoff.}
+  \scopeclosed{\autoref{def:tailcauchyrouter-carrier}, \autoref{thm:tailcauchyrouter-carrier-exposure}, \autoref{thm:tailcauchyrouter-selector-determinacy}, \autoref{thm:tailcauchyrouter-modulus-window-coverage}, \autoref{thm:tailcauchyrouter-seal-non-escape}, \autoref{thm:tailcauchyrouter-realup-consumer-handoff}, \autoref{thm:tail-cauchy-router-regseqrat-route-totality}, \autoref{thm:tail-cauchy-router-dyadic-budget-nonescape}, and \autoref{thm:tail-cauchy-router-real-seal-handoff} specify the finite tail-selection route from StreamName and RegSeqRat windows to CauchyLimitSeal and RealUp handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
