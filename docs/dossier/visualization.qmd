@@ -1322,7 +1322,7 @@ function renderCy() {
     userZoomingEnabled: true,
     userPanningEnabled: true,
     boxSelectionEnabled: false,
-    wheelSensitivity: 0.2,
+    wheelSensitivity: 0.6,
     autoungrabify: true,
     minZoom: 0.05,
     maxZoom: 4,
@@ -1330,16 +1330,22 @@ function renderCy() {
   setupZoomControls();
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
+  // Clear logic shared by empty-space taps and edge taps. Edges are
+  // decorative routing lines; tapping one shouldn't select the edge,
+  // but instead should reset the highlight state the same way tapping
+  // empty space does.
+  const clearSelection = () => {
+    document.getElementById("detail-content").innerHTML =
+      `<div class="hint">${t("hint")}</div>`;
+    CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
+    CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
+    CY.nodes().unselect();
+    // Zoom / pan preserved so the user's view isn't snapped back
+    // unexpectedly.
+  };
+  CY.on("tap", "edge", clearSelection);
   CY.on("tap", evt => {
-    if (evt.target === CY) {
-      document.getElementById("detail-content").innerHTML =
-        `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight").removeClass("highlight-down").removeClass("faded");
-      CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
-      CY.nodes().unselect();
-      // Tapping empty space clears the selection only — keep the current
-      // zoom / pan so the user's view isn't snapped back unexpectedly.
-    }
+    if (evt.target === CY) clearSelection();
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
   // outline below, labels stay legible even when fit-zoomed. The dropdown
