@@ -915,24 +915,41 @@ def merge_current_upstream_for_push(branch: str) -> bool:
 def retry_pending_network_push() -> bool:
     """Resume a push that may have failed during a network outage.
 
-    This also works when the checkpoint file is absent: if the branch is
-    ahead of its upstream, the supervisor has a clean, deterministic action
-    to take. If the branch is behind as well, leave conflict-aware sync to
-    the normal dev-sync path rather than forcing a blind push.
+    A resume is only valid for the exact HEAD recorded by the checkpoint.
+    Without that guard, an old local merge can be pushed later after the branch
+    has deliberately been moved back to a paper-native BEDC tip.
     """
     branch = current_branch_name()
     if not branch:
         return False
+    checkpoint: dict = {}
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            loaded = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                checkpoint = loaded
+        except (OSError, json.JSONDecodeError):
+            checkpoint = {}
+    if not checkpoint:
+        return False
+    checkpoint_head = str(checkpoint.get("head") or "").strip()
+    head = current_head()
+    if checkpoint_head and checkpoint_head != head:
+        supervisor_log(
+            "network-resume: clearing stale checkpoint "
+            f"head={checkpoint_head[:12]} current={head[:12]}"
+        )
+        _clear_network_resume_checkpoint()
+        return False
     relation = ahead_behind_upstream()
     if relation is None:
-        if NETWORK_RESUME_FILE.exists():
-            _write_network_resume_checkpoint(
-                "upstream_unknown",
-                branch,
-                "could not resolve upstream while checking pending network resume",
-                head=current_head(),
-            )
-            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        _write_network_resume_checkpoint(
+            "upstream_unknown",
+            branch,
+            "could not resolve upstream while checking pending network resume",
+            head=head,
+        )
+        supervisor_log("network-resume: upstream unknown; will retry next tick")
         return False
     ahead, behind = relation
     if ahead == 0:
