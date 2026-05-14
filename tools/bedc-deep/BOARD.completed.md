@@ -20005,3 +20005,47 @@ Rationale:
 The existing paper separates accepted theorem status from accepted object status and also states broad certificate requirements elsewhere, but this P7-local positive extraction is not already present as its own theorem. It is narrow, finite, and useful because downstream theorem-flow consumers can cite one ledger-row projection instead of unfolding the accepted-theorem definition and the P6 gate surface each time.
 
 ---
+
+### B-764 - BHist encoded-term partial decoder left inverse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BHist encoded-term partial decoder left inverse |
+| Layer | self_compilation |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If h is a BEDC BHist source history, then applying the represented-history partial decoder to bhistToTerm(h) returns exactly h.
+
+Local inputs:
+- `papers/bedc/parts/self_compilation/10_bhist_substrate_bridge.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: prove directly by structural recursion over the BHist constructor spine, repacking each decoded constructor case without an intermediate bridge cut.
+- `ripeness_risk`: low, the source file already exposes bhistToTerm closedness and injectivity and explicitly marks inverse decoding as unused rather than impossible.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof only follows the finite BHist constructor spine and the represented-history decoder clauses, so no search, quotient, compactness, or choice resource is visible.
+- `witness_extractor`: bhistToTerm_partial_decode_left_inverse
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: prove directly by structural recursion over the BHist constructor spine, repacking each decoded constructor case without an intermediate bridge cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: faithful_embedding
+- `resource_trace`: BHist constructor spine -> bhistToTerm encoded term -> represented-history partial decoder -> returned BHist endpoint.
+- `dependency_trace`: Uses the BHist substrate bridge around bhistToTerm, its closedness and injectivity statements, and the local inverse-decoding boundary in papers/bedc/parts/self_compilation/10_bhist_substrate_bridge.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete missing companion to the existing BHist substrate bridge: the paper already has a faithful embedding direction and notes partial decoders, but it does not state the smallest left-inverse-on-image theorem. It is BEDC-native, finite, safe to land in the existing self-compilation file, and gives downstream self-compilation arguments a usable decoder fact without claiming full surjectivity or beta-equivalence completeness.
+
+---
