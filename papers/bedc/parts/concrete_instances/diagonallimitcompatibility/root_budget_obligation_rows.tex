@@ -129,3 +129,23 @@ The synchronizer gives the seal-budget boundary. \autoref{thm:diagonal-limit-com
 
 Finally apply root-budget terminal route uniqueness from \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness}. Once the selector and synchronizer rows are not part of the request, the remaining requested coordinates would have to form a second terminal route through quotient identity, a selected host limit, host real equality, choice, hidden observation budget, independent seal budget, or ambient completeness. Terminal uniqueness excludes that second route, so the request is routed to the visible refusal boundary.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility selector-synchronizer admission criterion]
+\label{thm:diagonal-limit-compatibility-selector-synchronizer-admission-criterion}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ root-budget packet. A $\RealUp$ or $\CompletionUp$ consumer of $K$ is admitted to the terminal root-budget route exactly when its request factors through both the displayed $\FiniteObservationBudgetSelectorUp$ rows and the $\CauchySealBudgetSynchronizerUp$ request, seal, and budget rows named by \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-factorization}. In that case the admitted request has the unique terminal route through $D$, $W$, $Q$, $L$, the selector packet, the synchronizer request, seal, and budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. Every completion-facing request that does not factor through both displayed gates is routed to the visible refusal boundary.
+\end{theorem}
+\begin{proof}
+First suppose the consumer is admitted to the terminal root-budget route. Finite observation-budget factorization in \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-factorization} supplies the displayed route through the diagonal source, dyadic ledger, stream window, regular readback, Real seal, selector rows, synchronizer request, seal, and budget rows, transports, continuations, provenance, and local name.
+
+The two gates are forced on this route. The selector route theorem \autoref{thm:diagonal-limit-compatibility-budget-selector-route} and selector non-escape theorem \autoref{thm:finite-observation-budget-selector-nonescape} keep the finite observation-budget component inside the displayed selector rows. The synchronizer handoff theorem \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff} then places the request, seal, and budget rows before the readback $Q$ and Real seal $L$ can be consumed.
+
+Uniqueness gives the terminal route. By \autoref{thm:diagonal-limit-compatibility-root-budget-selector-synchronizer-exactness}, a request preserving the displayed selector and synchronizer rows determines the single terminal root-budget route through those rows and cannot open a second completion-facing path.
+
+Conversely, suppose a $\RealUp$ or $\CompletionUp$ request does not factor through both displayed gates. The refusal exactness theorem \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-refusal-exactness} says that quotient stream identity, selected host limits, host real equality, countable-choice rows, hidden observation budgets, independent seal-budget routes, and ambient completeness are visible only at the refusal boundary unless the request first passes through the selector rows and synchronizer rows named above.
+
+Thus the admission test is exactly the joint factorization through the displayed $\FiniteObservationBudgetSelectorUp$ rows and $\CauchySealBudgetSynchronizerUp$ request, seal, and budget rows. Requests satisfying that test use the unique terminal route; all other completion-facing requests are refused.
+\end{proof}
