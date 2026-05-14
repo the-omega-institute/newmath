@@ -86,4 +86,20 @@ Next apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. It forces
 Finally apply \autoref{thm:finite-witnessed-refutation-non-escape}. Since the carrier has no coordinate for a host law, global falsification principle, external observation selector, or erased $\Gap$, the exported object is exactly the finite public packet.
 \end{proof}
 
+\begin{theorem}[Finite witnessed refutation Gap boundary crosslink]
+\label{thm:finite-witnessed-refutation-gap-boundary-crosslink}
+For an accepted $\FiniteWitnessedRefutationUp$ packet
+$$
+F=(R,G,K,V,D,H,C,P,N),
+$$
+the forward-binding $\Gap$ row $G$ and the refusal/non-escape reading of the refutation are governed by the common boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}. The finite witnessed refutation supplies the contrary record $V$ and decision ledger $D$, while $\GapClosureBoundaryUp$ supplies the rule that unsupported closure requests route to refusal rather than to internal universal closure.
+\end{theorem}
+\begin{proof}
+Project the finite refutation carrier. The rows $R,G,K,V,D,H,C,P,N$ display the support ledger, forward-binding $\Gap$ commitment, commitment key, contrary witness, decision ledger, transport, continuation, provenance, and local name.
+
+Apply the public packet theorem above. It lets downstream consumers inspect $R,G,K,V,D$ only through the same structural rows $H,C,P,N$ and does not erase the original $\Gap$ commitment.
+
+Now use the GapClosureBoundary source and refusal surface of \autoref{thm:gap-closure-boundary-namecert-obligations} and \autoref{thm:gap-closure-boundary-refusal-nonescape}. That common carrier routes unsupported attempts to turn a $\Gap$ request into internal closure to the refusal ledger, so the finite witnessed refutation remains a contrary-record packet rather than a universal closure principle.
+\end{proof}
+
 \closureat{FiniteWitnessedRefutationUp}{obligationStr}
