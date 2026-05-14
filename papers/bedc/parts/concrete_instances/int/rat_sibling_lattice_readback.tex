@@ -1,0 +1,13 @@
+\begin{theorem}[Int Rat sibling lattice readback]
+\label{thm:int-rat-sibling-lattice-readback}
+Every $\RatUp$ signed-denominator route that consumes $\IntUp$ signed-pair data reads the $\IntUp$ carrier through the $\NatUp$ rows of \autoref{ch:concrete-instances-nat-namecert} and the $\AddUp$ rows of \autoref{ch:concrete-instances-add-namecert} before denominator normalization in \autoref{ch:concrete-instances-rat-namecert}. The rational packet is a downstream consumer of the displayed signed-pair row; it is not a replacement carrier for $\IntUp$ and it exports no host integer quotient, primitive subtraction row, or field-level rational equality at the integer boundary.
+\end{theorem}
+\begin{proof}
+Start with the signed-pair carrier of $\IntUp$. Its sign row is read beside a unary magnitude row, so the magnitude component is already governed by the $\NatUp$ surface before any rational denominator packet can consume it.
+
+Next read the additive balancing route. The $\AddUp$ rows supply the comparison and balance data used by the signed-pair presentation, so the rational route receives an already balanced integer numerator rather than a new integer construction.
+
+Apply \autoref{thm:int-nat-add-rat-sibling-route} and \autoref{prop:int-nat-add-rat-sibling-dependency-lattice}. They identify the sibling lattice edge from $\NatUp$ and $\AddUp$ through $\IntUp$ into the $\RatUp$ denominator surface.
+
+Finally use the denominator-side descriptions of \autoref{thm:int-rat-additive-denominator-route} and \autoref{thm:int-rat-denominator-dependency-surface}. The $\RatUp$ packet reads the displayed signed-pair row beside its positive denominator witness only after those Nat and Add rows are in force, so the route is a downstream readback of $\IntUp$, not a replacement for it.
+\end{proof}
