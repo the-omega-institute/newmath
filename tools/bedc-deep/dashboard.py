@@ -35,7 +35,7 @@ PI_RECENT_CYCLES = STATE_DIR / "pi_recent_cycles.jsonl"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
-PI_DRY_BOARD_SUPPRESSION_COMMIT = "4c65afc404"
+PI_DRY_BOARD_SUPPRESSION_COMMIT = "cc71b590f8"
 
 sys.path.insert(0, str(SCRIPT_DIR))
 
