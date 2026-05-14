@@ -153,6 +153,20 @@ limit, unbounded schedule, or ambient completeness, so projecting the common
 finite rows gives the stated handoff.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal finite-budget selector pullback]
+\label{thm:cauchy-limit-seal-finite-budget-selector-pullback}
+Let $F$ be an accepted $\FiniteObservationBudgetSelectorUp$ route whose displayed route surface is read over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Suppose the $\RealUp$ seal row selected by $F$ is consumed by an accepted $\RealObservationBudgetUp$ packet, and that this budget packet is then consumed by an accepted $\CauchyLimitSealUp$ packet. Then the composite consumer route pulls back to one finite route over exactly the displayed selector, budget, and seal rows. The route exposes no quotient stream, selected host limit, host real equality, hidden family limit, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the public export of $\FiniteObservationBudgetSelectorUp$ from \autoref{thm:finite-observation-budget-selector-public-export}. It makes the selector route a finite packet over the displayed stream name, dyadic rational core, regular rational sequence, real seal row, history, transport, continuation, package, and naming rows.
+
+Next attach the observation-budget pullback of \autoref{thm:cauchy-limit-seal-observation-budget-pullback}. The accepted $\RealObservationBudgetUp$ consumer can read the selected seal only through its finite precision request, windows, dyadic ledger, regular handoff, seal row, transports, routes, provenance, and local naming data.
+
+Now use the RealObservationBudget handoff of \autoref{thm:cauchy-limit-seal-real-observation-budget-handoff}. This identifies the $\RealUp$ endpoint of the composite route with the shared finite budget and seal rows rather than with a detached real-completion object.
+
+Finally apply ledger non-escape totality from \autoref{thm:cauchy-limit-seal-ledger-nonescape-totality}. Since the selector export, budget pullback, and seal handoff have already accounted for every visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinate, no quotient stream, selected host limit, host real equality, hidden family limit, countable-choice witness, or ambient completeness witness remains available to the consumer.
+\end{proof}
+
 \begin{definition}[CauchyLimitSeal RealTailAgreement route]
 \label{def:cauchy-limit-seal-real-tail-agreement-route}
 For an accepted $\CauchyLimitSealUp$ packet

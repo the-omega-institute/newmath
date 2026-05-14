@@ -101,6 +101,20 @@ constructor for Cauchy--Hadamard exactness or real supremum, so the finite
 prefix reduct exposes exactly the listed checked rows.
 \end{proof}
 
+\begin{theorem}[ConvergenceRadius SOne ComplexLimit consumer boundary]
+\label{thm:convrad-s1-complexlimit-consumer-boundary}
+For a $\ConvergenceRadiusUp$ source packet restricted to a certified finite unary prefix window, any $\SOneUp$ or $\ComplexLimitUp$ consumer reads only the checked-row reduct, the geometric-bound rows on the displayed prefix, the $\ComplexLimitUp$ modulus rows, the $\SOneUp$ unit-equation consumer rows, $\BHist$ histories, $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance.
+
+The consumer receives no Cauchy--Hadamard exactness row, no real supremum, no host complex-analysis boundary, and no choice-based radius extraction.
+\end{theorem}
+\begin{proof}
+Begin with the checked-row reduct readback of \autoref{thm:convergence-radius-checked-row-reduct-readback}. It identifies the source row and geometric-bound readbacks as the rows retained from the convergence-radius source packet.
+
+Restrict to the certified finite unary prefix and apply \autoref{thm:convergence-radius-prefix-window-stability}. The restricted consumer surface keeps the same radius witness, retained geometric-bound rows, endpoint packages, $\BHist$ histories, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance, and it adds no Cauchy--Hadamard or real-supremum row.
+
+Now read the two sibling consumers through their own finite boundaries. The $\ComplexLimitUp$ semantic certificate supplies only modulus rows on displayed complex histories, while the $\SOneUp$ componentwise RealUp and metric boundary supplies only unit-equation consumer rows. Neither sibling boundary adds a host complex-analysis theorem or a radius extractor, so the combined consumer reads exactly the listed finite-prefix rows.
+\end{proof}
+
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
 \autoref{thm:conv-rad-semantic-namecert} exports the public
