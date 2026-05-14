@@ -4,6 +4,8 @@
 
 The $\QuotientSoundnessBoundaryUp$ interface names the finite boundary at which a quotient-style equality request is refused as an unwitnessed representative-selection step and replaced by classifier-respecting $\psame$ transport. It does not construct a quotient type, select a canonical representative, collapse equivalent source rows, or import $\mathsf{Quot.sound}$. It records the visible source relation rows, requested representative rows, transport replacement, refusal verdict, locality routes, provenance, and naming certificate that downstream quotient-like chapters may consume.
 
+The refusal surface is the quotient-facing specialization of the negative-boundary discipline of \autoref{ch:concrete-instances-negative-name-boundary-namecert}: representative-selection requests are first treated as blocked boundary reads, and only then replaced by local $\psame$ transport.
+
 \begin{definition}[QuotientSoundnessBoundary carrier]
 \label{def:quotient-soundness-boundary-carrier}
 A $\QuotientSoundnessBoundaryUp$ carrier is a finite $\BHist$ packet
@@ -52,6 +54,20 @@ Begin with a consumer request recorded in $A$. By the refusal verdict $V$, the r
 The only positive route left by the carrier is the transport row $T$. It reads the relevant relation rows in $E$ and supplies the classifier-respecting $\psame$ transport needed by the downstream operation.
 
 The rows $H$ and $C$ then make the replacement stable and local: $H$ moves the relation, refusal, and transport data componentwise, while $C$ displays the route from relation evidence to transport and then to the consumer. Thus the operation proceeds on named source rows and never obtains a hidden quotient representative.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary negative refusal dependency]
+\label{thm:quotient-soundness-boundary-negative-refusal-dependency}
+Every quotient-style representative request accepted by a $\QuotientSoundnessBoundaryUp$ packet first lands in the negative-boundary refusal discipline of \autoref{ch:concrete-instances-negative-name-boundary-namecert}. This chapter specializes that discipline to the visible relation rows $E$, requested representative rows $A$, classifier-respecting $\psame$ transport row $T$, refusal verdict $V$, componentwise transport $H$, continuation routes $C$, provenance $P$, and local naming row $N$, replacing any appeal to $\mathsf{Quot.sound}$ by displayed transport through $T$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:quotient-soundness-boundary-carrier}. The requested representative rows $A$ and refusal verdict $V$ record the same kind of blocked boundary read handled by the negative-name boundary.
+
+Apply the transport replacement theorem, \autoref{thm:quotient-soundness-boundary-transport-replacement}. It routes the surviving operation through $E,T,H,C,N$ rather than through a quotient representative or quotient equality eliminator.
+
+Use the sibling refusal surface \autoref{ch:concrete-instances-negative-name-boundary-namecert} to read the representative request as a negative boundary request before the transport replacement is consumed. The local packet then records the specialized quotient-facing rows $E,A,T,V,H,C,P,N$.
+
+Finally cite non-escape, \autoref{thm:quotient-soundness-boundary-non-escape}. Since the excluded quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery map, and $\mathsf{Quot.sound}$ dependency are absent from the packet, the only exported replacement is the displayed $\psame$ transport route.
 \end{proof}
 
 \begin{theorem}[QuotientSoundnessBoundary non-escape]

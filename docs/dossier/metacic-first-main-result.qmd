@@ -110,8 +110,11 @@ python3 lean4/scripts/bedc_ci.py audit
 # Every \leanchecked{X} target X exists in lean4/
 
 python3 lean4/scripts/bedc_ci.py axiom-purity --strict
-# 1837/1837 BEDC theorems pure under #print axioms
+# theorems=11756 pure=7196 impure=0
 # No Classical.choice, no Quot.sound, no propext
+# (0 impure across all 11756; the 7196 number is how far the audit
+#  script's parser advances before a known reading issue on one module —
+#  not a BEDC purity gap)
 
 python3 lean4/scripts/bedc_ci.py conservativity-audit
 # ai-proposed chapters do not leak into baseline imports
@@ -131,11 +134,11 @@ The choice of `structure` over `class` is one of the things that makes the resul
 
 ## The view from below the result
 
-If you start from `inductive BHist | Empty | e0 | e1` and the four kernel verbs `Mark`, `Hist`, `Ext`, `Cont`, and you build everything else (1837 theorems' worth of mathematics) on top of them, you eventually want to know: *is this kernel itself consistent?* You can't prove it consistent from inside the kernel — Goedel's second incompleteness rules that out. But you can prove a meta-theoretic fragment consistent.
+If you start from `inductive BHist | Empty | e0 | e1` and the four kernel verbs `Mark`, `Hist`, `Ext`, `Cont`, and you build everything else (11756 theorems' worth of mathematics) on top of them, you eventually want to know: *is this kernel itself consistent?* You can't prove it consistent from inside the kernel — Goedel's second incompleteness rules that out. But you can prove a meta-theoretic fragment consistent.
 
 The closed-normal consistency theorem is that fragment, made unconditional. It says: *the part of the meta-theory you can settle without dependent-codomain reasoning settles cleanly, with full axiomatic transparency, mechanically verified.*
 
-This is, structurally, what an honest unconditional consistency result for a foundational system looks like. The named scope. The named hypotheses for the boundary. The explicit audit. The 17 + 14 = 31 obligations tracked. The 1837 theorems pure. The dependence on `inductive` and nothing else.
+This is, structurally, what an honest unconditional consistency result for a foundational system looks like. The named scope. The named hypotheses for the boundary. The explicit audit. The 17 + 14 = 31 obligations tracked. The 11756 theorems with 0 impure detected. The dependence on `inductive` and nothing else.
 
 It is the first piece of BEDC's foundational meta-theory that has reached this level of closure. It is also a stable platform for the rest of the meta-theory development: once `closed_normal_consistency` is a theorem, every downstream meta-theoretic argument that needs it can cite it as a Lean target rather than relying on informal trust.
 

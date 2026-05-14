@@ -106,6 +106,24 @@ Apply \autoref{thm:cellular-substrate-namecert-obligations}. Its exactness and l
 Now cite \autoref{thm:cellular-substrate-local-update-nonescape}. Since the complete route already factors through $S,N,U,G,H,C,P,L$, the audit replay has no coordinate from which to export a hidden evaluator, infinite grid, scheduler, or unbounded oracle.
 \end{proof}
 
+\begin{theorem}[Cellular substrate local-rule factorization]
+\label{thm:cellular-substrate-local-rule-factorization}
+Every accepted $\CellularSubstrateUp$ local-update read of a carrier
+$$
+Q=(S,N,U,G,H,C,P,L)
+$$
+factors through the sibling $\CellularLocalUpdateRuleUp$ surface: the displayed neighbourhood window $N$, the selected local rule row $U$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The read cannot be reconstructed from the global-step ledger alone, a hidden scheduler, an infinite grid, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:cellular-substrate-carrier}. The only local-update source available to the packet is the displayed pair of the neighbourhood-window row $N$ and the local update route $U$, together with the visible transport, continuation, package, and naming rows.
+
+Apply the window exposure theorem \autoref{thm:cellular-substrate-window-exposure-obligation} and the ledger replay theorem \autoref{thm:cellular-substrate-ledger-replay-obligation}. The first forces the local-update read to see $N$ before $U$, and the second confines any later replay to $G,C,P,L$ rather than to an external evaluator.
+
+Now compare the exposed rows with the sibling packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}. Its obligation theorem \autoref{thm:cellular-local-update-rule-namecert-obligations} identifies the local-rule consumer surface as a finite neighbourhood window, selected local rule row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ route.
+
+Thus the $\CellularSubstrateUp$ local-update row is consumed through that sibling surface. Since the carrier has no coordinate for a hidden scheduler, infinite grid, host evaluator, or ledger-only rule source, no accepted read factors by any other route.
+\end{proof}
+
 The Lean file \texttt{Derived/CellularSubstrateUp/TasteGate.lean} must later include \texttt{Nontrivial CellularSubstrateUp} and \texttt{FieldFaithful CellularSubstrateUp} instances for the displayed carrier.
 
 \closureat{CellularSubstrateUp}{seedStr}

@@ -63,6 +63,20 @@ Apply the core continuation associativity row cited in \autoref{lem:unary-contin
 For the unit rows, apply \autoref{lem:unary-continuation-unit}. The left and right products with $\emp$ read back to the original unary history under the same classifier. These facts are ledger entries in $C$, not host monoid equalities.
 \end{proof}
 
+\begin{theorem}[Unary Cont monoid operation closure]
+\label{thm:unary-cont-monoid-operation-closure}
+For unary histories $a,b$ and a displayed continuation result $r$ with $\ContR(a,b,r)$, the product row $\mu(a,b)=r$ remains inside the $\UnaryContMonoidUp$ carrier. It is transported componentwise by $\hsame$ and packaged by the same $\Pkg$ provenance and $\NameCert$ rows as the carrier packet.
+
+No quotient product, host monoid multiplication, or external carrier equality is introduced by this operation row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-cont-monoid-carrier}. Its unary row admits histories through $\mathsf{UnaryHistory}$, and its operation row is exactly displayed $\ContR$ composition.
+
+Use the NameCert obligations of \autoref{thm:unary-cont-monoid-namecert-obligations}. They include closure of $\mu$ under displayed $\Cont$ composition, componentwise classifier stability under $\hsame$, and packaging by the provenance and local naming rows $P,N$.
+
+The associativity and unit theorem \autoref{thm:unary-cont-monoid-cont-associativity} supplies the operation ledger used by later algebraic reads. That ledger remains a continuation row inside the same carrier, so it adds neither a quotient product nor a host monoid multiplication nor an external equality.
+\end{proof}
+
 \begin{theorem}[Unary Cont sibling dependency]
 \label{thm:unary-cont-monoid-sibling-dependency}
 The $\UnaryContMonoidUp$ packet is the monoid-shaped dependency sibling of $\ContinuationMonadUp$ and $\CategoryUp$: it consumes the continuation unit and associativity rows named by \autoref{ch:concrete-instances-continuationmonad-namecert}, agrees with the tail-composition reading used by \autoref{ch:concrete-instances-category-namecert}, and realizes the operational interpretation of \autoref{ch:visions-computation-as-continuation} without adding any host monoid primitive, quotient carrier, or non-BEDC operation.

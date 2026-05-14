@@ -113,6 +113,20 @@ Use \autoref{thm:continuation-trace-normal-form-terminal-scope}. The typed norma
 Finally apply \autoref{thm:continuation-trace-normal-form-non-escape}. The packet has no coordinate for quotient normalization, global confluence, evaluator graphs, or external normalizers, so none can replace $V$ as the typed boundary.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm terminal route determinacy]
+\label{thm:continuation-trace-normal-form-terminal-route-determinacy}
+Let $Z=(S,T,R,Q,V,H,C,P,N)$ and $Z'=(S',T',R',Q',V',H',C',P',N')$ be accepted $\ContinuationTraceNormalFormUp$ packets. If two terminal reads have the same trace row, typed boundary row, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row, then they determine the same normal-form consumer surface. No off-route evaluator state, host conversion relation, quotient-normalization datum, global confluence theorem, or external normalization oracle can distinguish the two reads.
+\end{theorem}
+\begin{proof}
+First apply terminal scope from \autoref{thm:continuation-trace-normal-form-terminal-scope}. Each terminal read consumes the $\ContinuationTraceUp$ ledger, the $\ContinuationBigStepUp$ terminal-read row, and the $\TypedReductionNormalFormUp$ row through the displayed route before reaching a consumer surface.
+
+Next use trace ledger exhaustion from \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. Since the trace rows agree and every trace read is exhausted by that finite ledger, neither packet can supply an additional trace from a host evaluator or quotient normalizer.
+
+Apply the terminal readback lock of \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. The common transport, route, provenance, and naming rows place the terminal row behind the same $T,Q,H,C,P,N$ surface in both packets.
+
+Finally use typed boundary nonescape from \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The common typed row $V$ is the only normal-form boundary available to the consumer, and the excluded off-route evaluator state, host conversion relation, quotient-normalization datum, global confluence theorem, and external normalization oracle have no coordinate in either accepted packet.
+\end{proof}
+
 This terminal-scope row is the paper obligation needed before Lean can formalize the continuation trace normal-form handoff.
 
 \closureat{ContinuationTraceNormalFormUp}{seedStr}

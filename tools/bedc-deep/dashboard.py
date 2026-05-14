@@ -706,6 +706,11 @@ def render_board_refill() -> str:
             for name, count in sorted(buckets.items(), key=lambda item: (-item[1], item[0]))
         )
         lines.append(f"  recent refill status buckets: {bucket_text}")
+        if any(name.startswith("judge_unavailable") for name in buckets):
+            lines.append(
+                "  note: recent refill judge outages are Claude/Codex CLI-side; "
+                "they are not BEDC oracle tab-refresh signals."
+            )
 
     lines.append(_next_refill_prompt_note())
 
@@ -865,15 +870,24 @@ def render_discovery_lane() -> str:
     records.sort(key=lambda item: item[0], reverse=True)
     now = datetime.now(timezone.utc)
     lines: list[str] = []
+    recent_judge_outage = False
     for mtime, path, data in records[:6]:
         age = _fmt_age((now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds())
-        lines.append(f"  {path.stem}: {age} ago   {_discovery_status(data)}")
+        status = _discovery_status(data)
+        lines.append(f"  {path.stem}: {age} ago   {status}")
+        if "discovery_judge_unavailable" in status:
+            recent_judge_outage = True
     latest = records[0][2]
     latest_status = _discovery_status(latest)
     if "discovery_judge_unavailable" in latest_status:
         lines.append(
             "  alert: discovery lane cannot currently run its maker/checker path; "
             "refreshing BEDC oracle tabs will not fix Claude/Codex CLI auth or sandbox failures."
+        )
+    elif recent_judge_outage:
+        lines.append(
+            "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
+            "it is not a BEDC oracle tab-refresh signal."
         )
     return "\n".join(lines)
 

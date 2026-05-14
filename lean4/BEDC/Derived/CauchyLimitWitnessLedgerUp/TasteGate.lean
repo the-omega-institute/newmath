@@ -58,21 +58,54 @@ def cauchyLimitWitnessLedgerToEventFlow :
 
 def cauchyLimitWitnessLedgerFromEventFlow :
     EventFlow → Option CauchyLimitWitnessLedgerUp
-  | D :: T :: S :: W :: G :: R :: H :: C :: P :: N :: A :: [] =>
-      some
-        (CauchyLimitWitnessLedgerUp.mk
-          (cauchyLimitWitnessLedgerDecodeBHist D)
-          (cauchyLimitWitnessLedgerDecodeBHist T)
-          (cauchyLimitWitnessLedgerDecodeBHist S)
-          (cauchyLimitWitnessLedgerDecodeBHist W)
-          (cauchyLimitWitnessLedgerDecodeBHist G)
-          (cauchyLimitWitnessLedgerDecodeBHist R)
-          (cauchyLimitWitnessLedgerDecodeBHist H)
-          (cauchyLimitWitnessLedgerDecodeBHist C)
-          (cauchyLimitWitnessLedgerDecodeBHist P)
-          (cauchyLimitWitnessLedgerDecodeBHist N)
-          (cauchyLimitWitnessLedgerDecodeBHist A))
-  | _ => none
+  | [] => none
+  | D :: rest0 =>
+      match rest0 with
+      | [] => none
+      | T :: rest1 =>
+          match rest1 with
+          | [] => none
+          | S :: rest2 =>
+              match rest2 with
+              | [] => none
+              | W :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | G :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | R :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | H :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | C :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | P :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | N :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | A :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (CauchyLimitWitnessLedgerUp.mk
+                                                      (cauchyLimitWitnessLedgerDecodeBHist D)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist T)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist S)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist W)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist G)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist R)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist H)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist C)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist P)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist N)
+                                                      (cauchyLimitWitnessLedgerDecodeBHist A))
+                                              | _ :: _ => none
 
 private theorem cauchyLimitWitnessLedger_mk_congr
     {D D' T T' S S' W W' G G' R R' H H' C C' P P' N N' A A' : BHist}
@@ -232,14 +265,29 @@ def taste_gate : ChapterTasteGate CauchyLimitWitnessLedgerUp :=
   cauchyLimitWitnessLedgerChapterTasteGate
 
 theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
-    cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-      cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
-        cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
-  -- BEDC touchpoint anchor: BHist BMark
+    (∀ h : BHist,
+      cauchyLimitWitnessLedgerDecodeBHist
+        (cauchyLimitWitnessLedgerEncodeBHist h) = h) ∧
+      (∀ x : CauchyLimitWitnessLedgerUp,
+        cauchyLimitWitnessLedgerFromEventFlow
+          (cauchyLimitWitnessLedgerToEventFlow x) = some x) ∧
+        (∀ x y : CauchyLimitWitnessLedgerUp,
+          cauchyLimitWitnessLedgerToEventFlow x =
+            cauchyLimitWitnessLedgerToEventFlow y → x = y) ∧
+          cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+              cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
   constructor
-  · rfl
+  · exact cauchyLimitWitnessLedgerDecode_encode_bhist
   · constructor
-    · rfl
-    · rfl
+    · exact cauchyLimitWitnessLedger_round_trip
+    · constructor
+      · intro x y heq
+        exact cauchyLimitWitnessLedgerToEventFlow_injective heq
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · rfl
 
 end BEDC.Derived.CauchyLimitWitnessLedgerUp

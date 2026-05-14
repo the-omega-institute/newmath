@@ -75,19 +75,19 @@ inductive BHist where
 当前数值:
 
 ```text
-table audit (cook_collisions.c full 33 rows): 26/33 PASS, 7 FAIL
+table audit (cook_collisions.c full 33 rows): 33/33 PASS
 Martinez 2012 Table 1/Table 2 cross-check: 33/33 matched
 ```
 
-33/33 论文交叉核对的意思是, 表的主张就是论文印的内容. 26/33 严格检测 PASS 的意思是, 这 26 行里直接模拟在检测器的识别规则下复现了表登记的输出. 剩下 7 行是「检测器无法命名输出 glider」 — 分类器的标签集没有给某个产物 glider 准备相位条目, 所以检测器看得到有东西到了某个偏移, 但分配不了名字.
+33/33 论文交叉核对的意思是, 表的主张就是论文印的内容. 33/33 严格检测 PASS 的意思是, 表里每一行直接模拟在当前检测器的识别规则下都复现了表登记的输出. 两层在整张表上一致.
 
-这就是分类器分歧暴露出来的样子. 这不是 bug. 这是关于「目录的标签集在哪里停止覆盖底层产物」的诚实读数. 项目这套审计设置的意义恰恰就是把这个读数 *可见* — 审计输出 `INFO N audit finding(s)`, 边界没有被更软的识别规则抹平.
+这就是分类器纪律在整张表上成立时的样子. 它一开始不成立. 底层早期版本严格层只到 26/33 — 剩下 7 行是「检测器无法命名输出 glider」, 因为分类器的标签集缺一些产物 glider 的相位条目. 扩展分类器 (并把检测器在新增条目周围收紧) 把缺口一行一行合上, 每一步都被审计, 进度按行被记录.
 
-对比一下没有分歧边界会发生什么. 可以把检测器调得更宽容 — 「呃, 这个输出大致看起来像 Ē, 就当 Ē 吧」. 严格通过数会升上去. 目录的实际覆盖完全没变. 分类器纪律被悄悄削弱了.
+项目这套审计设置买到的是「分类器在哪里跟底层分歧」的 *可见性*. 两层不一致时审计输出 `INFO N audit finding(s)`; 边界没有被更软的识别规则抹平. 当前 33/33 状态是边界归零 — 目录覆盖了底层在这张表里产出的东西.
 
 ## BEDC 内核的分歧边界长什么样
 
-内核在类似的位置有同类型的边界. 当 BEDC 试图把 `closed-normal consistency` 定理应用到一个闭项, 而这个闭项的 codomain 依赖于一个有类型的子项时, 它会停下来. 内核不假装这种情形已经处理; 它命名四条 `subject-reduction` discharge 假设, 把它们跟踪为 `\formalstatus{formalTargetV}` 而不是 `\theoremCheckedV`. closed-codomain 情形在项目的穷举审计里有 17 条 strict obligation PASS; dependent-codomain 情形被这四条假设挡在后面.
+内核在类似的位置有同类型的边界. 当 BEDC 试图把 `closed-normal consistency` 定理应用到一个闭项, 而这个闭项的 codomain 依赖于一个有类型的子项时, 它会停下来. 内核不假装这种情形已经处理; 它命名四条 `subject-reduction` discharge 假设, 把它们跟踪为 `\formalstatus{formalTargetV}` 而不是 `\theoremCheckedV`. 穷举审计登记 17 条 strict 目标跟 14 条 convention-bound 目标 (共 31); closed-codomain 主结果靠 strict 目标支撑, dependent-codomain 情形被这四条假设挡在 convention-bound 那组里.
 
 这是同一种结构性诚实. 分类器 — 这里是内核的归一化论证 — 有一个覆盖范围. 在覆盖范围之外, 没有识别标签被分配. 边界在审计里 *可见*, 没有被藏在更宽容的规则里.
 
