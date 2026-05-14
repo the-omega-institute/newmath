@@ -1,0 +1,79 @@
+\begin{theorem}[Closed-term substitution boundary root closed boundary cut]
+\label{thm:closed-term-substitution-boundary-root-closed-boundary-cut}
+Every downstream self-compilation consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must enter the root closed-boundary cut through the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ gate every read of the closed shift row $Q$ and substitute-closed row $R$, and the cut exports only the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of the packet. It exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or unregistered operation coordinate.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. These rows make the source term, value, depth, closedness witnesses, operation rows, ledger, audit, transport, continuation, provenance, and local naming data visible as one finite BEDC packet.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-root-value-visibility} and \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock}. They force $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ to be visible before $Q$ or $R$ is consumed by any root read.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-consumer-audit-factorization}. The downstream consumer is exhausted by the displayed audit route, so the cut has no remaining access to host substitution semantics, subject reduction, quotient syntax, hidden evaluation, or compiler state.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary closed value route determinacy]
+\label{thm:closed-term-substitution-boundary-closed-value-route-determinacy}
+In the displayed root packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+the closed-value route is determined by the value row $V$, the depth row $d$, and the witness row $C_{\mathsf{val}}$ before any read of $Q$ or $R$. A downstream self-compilation consumer may therefore cite the substitute-closed boundary only through the same finite packet route, not through a host value semantics, hidden evaluator, subject reduction theorem, or hidden compiler state.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}. It places $C_{\mathsf{val}}$ on the displayed closedness route for the same value and depth rows that the accepted packet exposes.
+
+Apply \autoref{thm:closed-term-substitution-boundary-root-value-visibility}. The theorem makes $V,d,C_{\mathsf{val}}$ visible before either operation row is available to a root consumer.
+
+The determinacy of the route follows by \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock}. Since $Q$ and $R$ are read only after the displayed closedness rows and through $L,A,H,C,P,N$, no host value semantics or hidden compiler object can supply an alternate route.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary shift-substitution source synchronization]
+\label{thm:closed-term-substitution-boundary-shift-substitution-source-synchronization}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ root packet, the closed shift row $Q$ and substitute-closed row $R$ are synchronized to the same displayed source rows $T,d,C_{\mathsf{src}}$ in
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Thus a downstream consumer cannot read the shift boundary from one source witness and the substitution boundary from another; both reads are gated by the same $C_{\mathsf{src}}$ and then carried through the common ledger, audit, transport, continuation, provenance, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closed-term-substitution-boundary-source-closedness-admission} to identify $C_{\mathsf{src}}$ as the displayed source closedness witness for the accepted packet. The source term row $T$ and depth row $d$ are therefore part of the same finite carrier surface as the closedness witness.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. It locks the closed shift and substitute-closed rows behind the same ledger route, so $Q$ and $R$ cannot be split across independent source witnesses.
+
+Finally read the root operation through \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock}. The common route through $L,A,H,C,P,N$ synchronizes both operation rows to the same source witness and blocks replacement by host shift or substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary consumer ledger exhaustion]
+\label{thm:closed-term-substitution-boundary-consumer-ledger-exhaustion}
+Every downstream self-compilation consumer of the displayed root packet exhausts its operation access through the ledger row $L$ and audit row $A$ of
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+After the ledger has admitted the closed-source and closed-value witnesses and the operation rows, the remaining consumer surface is exactly $H,C,P,N$; there is no additional host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or implicit read channel.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. It states that the ledger does not let a consumer escape the displayed finite packet when reading closed-substitution data.
+
+Combine this with \autoref{thm:closed-term-substitution-boundary-consumer-boundary} and \autoref{thm:closed-term-substitution-boundary-root-consumer-audit-factorization}. The consumer boundary and audit factorization route all downstream access through $L$ and $A$ before the structural rows $H,C,P,N$ are packaged.
+
+The ledger is therefore exhaustive for the consumer. Any attempted host semantics, hidden evaluator, subject-reduction theorem, quotient syntax, compiler state, or implicit read channel would be an additional row outside the displayed packet, contradicting the ledger and audit boundary.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary NameCert root unblock package]
+\label{thm:closed-term-substitution-boundary-namecert-root-unblock-package}
+The root closed-boundary cut, closed-value route determinacy, shift-substitution source synchronization, and consumer ledger exhaustion form a NameCert root-unblock package for downstream self-compilation consumers of $\ClosedTermSubstitutionBoundaryUp$. The package is precisely the finite BEDC route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+together with the carrier, classifier, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows already displayed in the chapter. It exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, hidden compiler pass, or extra root operation beyond that finite route.
+\end{theorem}
+\begin{proof}
+First package the closed-boundary cut by \autoref{thm:closed-term-substitution-boundary-root-closed-boundary-cut}. It identifies the finite route and states that the closed-source and closed-value witnesses gate the operation rows.
+
+Next add value determinacy and source synchronization by \autoref{thm:closed-term-substitution-boundary-closed-value-route-determinacy} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-source-synchronization}. These two rows make the value and source witnesses part of the same closed operation surface.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-consumer-ledger-exhaustion} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The downstream self-compilation consumer receives the finite NameCert package, and every excluded host semantic, evaluator, quotient, compiler-state, compiler-pass, or extra operation route lies outside the exported BEDC boundary.
+\end{proof}
