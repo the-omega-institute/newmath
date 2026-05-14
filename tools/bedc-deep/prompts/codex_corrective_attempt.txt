@@ -68,6 +68,16 @@ Method:
    - "parameter-transport echo" / "source-equivalence repackaging" →
      STOP. This is a substance failure, not a surface fix. Set
      `verdict=escalate` with reason "invalid parameter-echo target".
+   - "line_cap" / "append would exceed 800 lines" → do not shorten or
+     rewrite the proof to fit. Keep the mathematics unchanged and reroute
+     `tex_file` to an existing concrete body file under `papers/bedc/parts/`
+     whose post-append line count stays at or below 800. If no such existing
+     body file fits, set `verdict=escalate` with reason
+     "routing_capacity_blocked: no existing concrete body file has capacity".
+   - "bad_target_file" / "resolved tex_file is not a concrete body file" →
+     keep the mathematics unchanged and choose an existing concrete body file
+     under `papers/bedc/parts/`. Never invent a new `.tex` file; never choose
+     `main.tex` or a wrapper file that only `\input`s other files.
 
 2. Apply ALL applicable fixes in this round. Do not leave any rejection
    reason unaddressed unless it is the special-case `topic mismatch` or
@@ -83,6 +93,8 @@ Method:
    - No `closurestatus` / `\theoryclosure` / `\formalstatus` /
      `\leantarget`.
    - No abstract carrier/classifier parameter-transport echo.
+   - `tex_file` names an existing concrete body file whose post-append line
+     count is at most 800.
 
 4. Score yourself on `audit_score` 0-10 (post-fix self-rating):
    - 0-3: I could not address several rejections, escalate.
