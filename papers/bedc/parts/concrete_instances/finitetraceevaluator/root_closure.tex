@@ -51,6 +51,41 @@ recover a host validator, total truth predicate, total halting predicate, or
 unbounded evaluator from the validation boundary.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator root boundary package]
+\label{thm:finite-trace-evaluator-root-boundary-package}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+every root-facing $\ReflectionRuntimeCheckpointUp$ consumer reads one finite
+boundary package consisting of the root trace-result route, the root validation
+boundary, provenance exhaustion, and the checkpoint consumer route. The package
+exposes accepted results only through $I \to T \to A$ and validation-facing
+data only through $V,H,C,P,N$; it does not contain host validation, total
+truth, self-validation, total halting, or unbounded evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. The
+accepted packet has exactly the rows $I,T,A,V,H,C,P,N$, so a root-facing
+checkpoint consumer has no coordinate outside the displayed finite evaluator
+packet.
+
+Apply \autoref{thm:finite-trace-evaluator-root-trace-result-totality}. It
+places every accepted-result read on the route $I \to T \to A$ before any
+consumer can continue through the rest of the packet.
+
+Apply \autoref{thm:finite-trace-evaluator-root-validation-boundary}. It sends
+every validation-facing read to the boundary, transport, continuation,
+provenance, and local naming rows $V,H,C,P,N$.
+
+Finally use \autoref{thm:finite-trace-evaluator-provenance-exhaustion} and
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. Provenance
+exhausts the available dependency rows, and the checkpoint route is already
+the same finite ledger $I,T,A,V,H,C,P,N$; hence no host-validation row, truth
+predicate, self-validator, total halting predicate, or unbounded evaluator can
+be repacked from the root boundary package.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FiniteTraceEvaluatorUp$ packet whose public read treats the input-only trace shape and the accepted-result shape as the same packet fails the carrier separation witnessed by the displayed $A,V$ rows.}
 \independenceWitness{runtimecandidateboundary, haltingdistinctiontrace, finite-trace-gap-socket, reflection-runtime-checkpoint: none is bijective to $\FiniteTraceEvaluatorUp$ because those siblings expose runtime candidate, halting distinction, gap socket, or reflection checkpoint rows, while this carrier binds coded input, finite trace, accepted-result classifier, validation boundary, transport, continuation, provenance, and local naming in one evaluator packet.}
 
