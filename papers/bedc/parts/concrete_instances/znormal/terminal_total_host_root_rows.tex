@@ -1,0 +1,39 @@
+\begin{theorem}[$\ZNormalUp$ terminal total-host carrier row]
+\label{thm:znormal-terminal-total-host-carrier-row}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the terminal total-host carrier row is the displayed $\BHist$ carrier read through terminal normality $V$, continuation readback $R$, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, package provenance $P$, and local $\NameCert_{\ZNormalUp}$ row $N$. The row admits terminal normality as finite displayed data and exports no host conversion, quotient normalization, divergence oracle, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Project the carrier and local certificate surface using \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. These rows expose $T,F,V,K,R,H,C,P,N$ as the complete accepted packet and bind the carrier to one local $\NameCert_{\ZNormalUp}$ surface.
+
+Apply \autoref{thm:znormal-root-terminal-carrier-admission} and \autoref{thm:znormal-total-host-terminal-carrier-admission}. They place the terminal total-host carrier on the displayed terminal route through $T,F,V,R$ with $H,C,P,N$ attached as transport, replay, package, and naming evidence.
+
+Finally use \autoref{thm:znormal-root-total-host-refusal}. Since the root refusal ledger excludes host conversion, quotient normalization, divergence detection, unrestricted evaluation, and global normalization outside the packet, the carrier row is finite displayed data rather than a host-side normalizer.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel replay classifier row]
+\label{thm:znormal-fuel-replay-classifier-row}
+For every accepted $\ZNormalUp$ packet, the fuel replay classifier row reads bounded fuel $F$ together with terminal normality $V$, terminal readback $R$, $\hsame$ transport $H$, $\Cont$ replay $C$, package provenance $P$, and local $\NameCert_{\ZNormalUp}$ naming $N$. The classifier may consume the sibling normal-word row $K$ only as finite displayed evidence, and it supplies no unrestricted evaluator or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-fuel-replay-nondivergence-boundary}. It identifies the bounded replay path from $T$ through $F$ to $V$ and $R$, transported and replayed by $H,C,P,N$, with $K$ remaining finite sibling normal-word evidence.
+
+Use \autoref{thm:znormal-fuel-readback-tastegate-route} and \autoref{thm:znormal-terminal-fuel-row-exhaustion}. These results keep the fuel readback classifier on the displayed packet rows before any TasteGate-facing consumer can read it.
+
+The root side is fixed by \autoref{thm:znormal-root-normal-form-consumer-exhaustion}. It confines downstream normal-form consumers to the same finite packet, so bounded replay remains classifier data and cannot become unrestricted evaluation or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ divergence-oracle non-escape row]
+\label{thm:znormal-divergence-oracle-nonescape-row}
+Every divergence-oracle request addressed to a root $\ZNormalUp$ total-host packet is blocked by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ZNormalUp}$ rows of the same accepted packet. Terminal normality and bounded replay are read as finite data through $T,F,V,K,R,H,C,P,N$; no route escapes to a divergence oracle, substrate halting predicate, host conversion row, quotient normalization row, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+First assemble the finite root packet using \autoref{thm:znormal-root-readiness-bridge-source}. It exposes the root $\BHist$ source and attaches transport, replay, package provenance, and local naming to the same displayed fields.
+
+Next apply \autoref{thm:znormal-root-readiness-terminal-nonescape} and \autoref{thm:znormal-root-unblock-nonescape-ledger}. These rows keep terminal reads inside the finite normality and continuation route while refusing escape to omitted host-facing objects.
+
+Finally use \autoref{thm:znormal-no-divergence-oracle-ledger} with \autoref{thm:znormal-root-total-host-refusal}. The first ledger refuses divergence-oracle readings, and the second refuses the total-host exits listed in the statement; together they leave only terminal normality and bounded replay as finite displayed data.
+\end{proof}
