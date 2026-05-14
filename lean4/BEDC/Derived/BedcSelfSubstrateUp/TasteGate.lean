@@ -198,7 +198,7 @@ private theorem bedcSelfSubstrate_round_trip :
             (bedcSelfSubstrateDecode_encode_bhist provenance)
             (bedcSelfSubstrateDecode_encode_bhist name))
 
-private theorem bedcSelfSubstrateToEventFlow_injective {x y : BedcSelfSubstrateUp} :
+private theorem bedcSelfSubstrateToEventFlow_injective (x y : BedcSelfSubstrateUp) :
     bedcSelfSubstrateToEventFlow x = bedcSelfSubstrateToEventFlow y → x = y := by
   intro heq
   have hread :
@@ -220,7 +220,7 @@ instance bedcSelfSubstrateChapterTasteGate : ChapterTasteGate BedcSelfSubstrateU
     exact bedcSelfSubstrate_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (bedcSelfSubstrateToEventFlow_injective heq)
+    exact hxy (bedcSelfSubstrateToEventFlow_injective x y heq)
 
 def taste_gate : ChapterTasteGate BedcSelfSubstrateUp :=
   bedcSelfSubstrateChapterTasteGate
@@ -312,8 +312,7 @@ theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
   · constructor
     · exact bedcSelfSubstrate_round_trip
     · constructor
-      · intro x y heq
-        exact bedcSelfSubstrateToEventFlow_injective heq
+      · exact bedcSelfSubstrateToEventFlow_injective
       · constructor
         · rfl
         · constructor

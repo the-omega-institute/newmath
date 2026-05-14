@@ -569,4 +569,32 @@ theorem UniformCauchyCriterionPacket_overlap_refinement_determinacy [AskSetup]
       refinedSame, sealReadSame, refinedSealRootA, refinedSealRootB, namePkg, rootPkgA,
       rootPkgB⟩
 
+theorem UniformCauchyCriterionPacket_root_budget_seal_eligibility [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name tailRead
+      sealRead sealBudgetRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg → Cont index tail tailRead → Cont tail sealRow sealRead →
+      Cont tailRead sealRead sealBudgetRead → PkgSig bundle tailRead pkg →
+        PkgSig bundle sealRead pkg → PkgSig bundle sealBudgetRead pkg →
+          UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+            UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory sealRow ∧
+              UnaryHistory tailRead ∧ UnaryHistory sealRead ∧ UnaryHistory sealBudgetRead ∧
+                Cont index windows modulus ∧ Cont modulus tolerance tail ∧
+                  Cont index tail tailRead ∧ Cont tail sealRow sealRead ∧
+                    Cont tailRead sealRead sealBudgetRead ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle tailRead pkg ∧ PkgSig bundle sealRead pkg ∧
+                        PkgSig bundle sealBudgetRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet indexTailRead tailSealRead readSealBudget tailReadPkg sealReadPkg budgetPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have tailReadUnary : UnaryHistory tailRead := unary_cont_closed indexUnary tailUnary indexTailRead
+  have sealReadUnary : UnaryHistory sealRead := unary_cont_closed tailUnary sealRowUnary tailSealRead
+  have budgetUnary : UnaryHistory sealBudgetRead := unary_cont_closed tailReadUnary sealReadUnary readSealBudget
+  exact ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    tailReadUnary, sealReadUnary, budgetUnary, indexWindowsModulus, modulusToleranceTail,
+    indexTailRead, tailSealRead, readSealBudget, namePkg, tailReadPkg, sealReadPkg, budgetPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp

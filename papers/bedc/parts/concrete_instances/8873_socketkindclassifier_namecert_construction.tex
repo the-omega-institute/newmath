@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\SocketKindClassifierUp$}
+\label{ch:concrete-instances-socketkindclassifier-namecert}
+\origin{ai}
+
+The $\SocketKindClassifierUp$ packet realizes the socket-kind taxonomy of \autoref{ch:visions-transcendental-supply-taxonomy} as a finite BEDC carrier. It sits beside the socket ledger of \autoref{ch:concrete-instances-supply-socket-ledger-namecert}, the refusal surface of \autoref{ch:concrete-instances-negative-name-boundary-namecert}, and the audit gate of \autoref{ch:concrete-instances-auditgateboundary-namecert}. Those siblings consume, refuse, or police sockets; this packet records the kind row that tells downstream consumers which supply aspect is being handled.
+
+\begin{definition}[SocketKindClassifier carrier]
+\label{def:socket-kind-classifier-carrier}
+A $\SocketKindClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,K_D,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the socket-site row naming the visible $\mathsf{GAP}$ or supply socket under classification;
+\item $K_D$ is the socket-kind row naming the Type I, Type II, Type III, or later taxonomy row from \autoref{ch:visions-transcendental-supply-taxonomy};
+\item $R$ is the requested-supply row recording the exact shortcut the site asks to consume;
+\item $G$ is the gate-locality row naming the audit gate that must reject or admit that kind at the local site;
+\item $H$ records componentwise $\hsame$ transport for the socket-site, kind, requested-supply, gate-locality, route, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ routes through $S,K_D,R,G$ before a consumer reads the classification;
+\item $P$ is the $\Pkg$ provenance over $\SupplySocketLedgerUp$, $\NegativeNameBoundaryUp$, $\AuditGateBoundaryUp$, $\ApophaticGateQuestionUp$, $\QuotientSoundnessBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SocketKindClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a supplied witness, quotient equality, host-side harmlessness proof, anonymous socket kind, or global taxonomy oracle.
+\end{definition}
+
+\leandef{BEDC.Derived.SocketKindClassifierUp.SocketKindClassifierUp}
+
+\begin{theorem}[SocketKindClassifier NameCert obligations]
+\label{thm:socket-kind-classifier-namecert-obligations}
+For the carrier of \autoref{def:socket-kind-classifier-carrier}, the local $\NameCert_{\SocketKindClassifierUp}$ surface consists exactly of carrier admission for $K=(S,K_D,R,G,H,C,P,N)$, socket-site exposure through $S$, kind exposure through $K_D$, requested-supply exactness through $R$, gate-locality exactness through $G$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Equivalently, the standard five-row NameCert surface is carrier admission, classifier-kind exactness, gate-locality stability, displayed route/provenance readback, and non-escape for omitted supply coordinates.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The accepted packet lists $S,K_D,R,G,H,C,P,N$, so the local certificate cannot introduce another socket site, kind row, requested-supply row, audit gate, transport, route, provenance, or local name.
+
+Read the classification rows in order. The socket-site row $S$ is displayed before the kind row $K_D$, and the requested-supply row $R$ is read before the gate-locality row $G$ can certify where the classification is policed.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, package, and name only the same finite packet. Therefore the NameCert obligations are exhausted by the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[SocketKindClassifier gate-locality exactness]
+\label{thm:socket-kind-classifier-gate-locality-exactness}
+Every accepted $\SocketKindClassifierUp$ packet binds its socket-kind row to the local audit gate displayed in $G$. A consumer that identifies a Type II witness socket with a Type III extensional-collapse socket fails this gate-locality row, because witness visibility and extensional-collapse refusal are distinct audit gates in \autoref{ch:visions-transcendental-supply-taxonomy}.
+\end{theorem}
+\begin{proof}
+Begin with the socket-kind row $K_D$ and requested-supply row $R$. Together they record which shortcut is requested: a missing witness, an extensional equality token, or another named taxonomy route.
+
+Use the gate-locality row $G$. It ties the classification to the audit gate appropriate to that requested supply, so a witness-visibility gate cannot be read as an extensional-collapse gate.
+
+The support rows $H,C,P,N$ only transport and package the displayed classification. Since no row supplies a host-side coercion between Type II and Type III, the mixed identification is rejected by the local gate.
+\end{proof}
+
+\begin{theorem}[SocketKindClassifier sibling separation]
+\label{thm:socket-kind-classifier-sibling-separation}
+The $\SocketKindClassifierUp$ carrier is not bijective to $\SupplySocketLedgerUp$, $\NegativeNameBoundaryUp$, $\AuditGateBoundaryUp$, $\ApophaticGateQuestionUp$, or $\QuotientSoundnessBoundaryUp$. The classifier has an explicit kind row $K_D$ and gate-locality row $G$ that these siblings respectively consume, refuse, gate, question, or specialize, so no row-preserving bijection can preserve all displayed NameCert fields.
+\end{theorem}
+\begin{proof}
+Compare the socket ledger first. $\SupplySocketLedgerUp$ records visible socket use, while the classifier records the kind row and its gate-locality row before use is consumed.
+
+Compare the refusal and gate siblings next. $\NegativeNameBoundaryUp$ refuses internalization, $\AuditGateBoundaryUp$ records audit verdict surfaces, and $\ApophaticGateQuestionUp$ asks the gate question; none of these carries the classifier's simultaneous socket-site, kind, requested-supply, and local-gate tuple.
+
+Finally compare $\QuotientSoundnessBoundaryUp$. It specializes the Type III extensional-collapse refusal, while $\SocketKindClassifierUp$ must also distinguish Type I and Type II rows and later taxonomy rows. The displayed fields therefore cannot be matched by a bijection preserving all NameCert rows.
+\end{proof}
+
+\falsifiablePrediction{A socket-kind classifier packet that identifies a Type II witness socket with a Type III extensional-collapse socket fails the gate-locality row.}
+
+\independenceWitness{Compare SupplySocketLedger, NegativeNameBoundary, AuditGateBoundary, ApophaticGateQuestion, and QuotientSoundnessBoundary: the classifier has an explicit kind row that these siblings either consume, refuse, gate, question, or specialize, so no bijection preserves all NameCert rows.}
+
+The Lean TasteGate module $\mathsf{BEDC.Derived.SocketKindClassifierUp.TasteGate}$ provides $\mathsf{Nontrivial}\ \SocketKindClassifierUp$ and $\mathsf{FieldFaithful}\ \SocketKindClassifierUp$ instances over the displayed rows $S,K_D,R,G,H,C,P,N$.
+
+\closureat{SocketKindClassifierUp}{seedStr}
+\closureat{SocketKindClassifierUp}{obligationStr}
+
+\begin{closurestatus}{\SocketKindClassifierUp}
+  \constructivestory{A $\SocketKindClassifierUp$ packet is generated from a socket-site row, a socket-kind row, a requested-supply row, a gate-locality row, componentwise transport, displayed continuation, package provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:socket-kind-classifier-carrier}, \autoref{thm:socket-kind-classifier-namecert-obligations}, \autoref{thm:socket-kind-classifier-gate-locality-exactness}, \autoref{thm:socket-kind-classifier-sibling-separation}, and \leanchecked{BEDC.Derived.SocketKindClassifierUp.taste\_gate} bind the supply taxonomy to a finite classifier packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SocketKindClassifierUp.SocketKindClassifierTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not supply missing witnesses, quotient equality, host harmlessness, global taxonomy completeness, or bridge checking for $\SocketKindClassifierUp$.}
+  \upgradepath{Scoped closure requires checked gate-locality exactness and sibling-separation obligations for the same classifier rows.}
+\end{closurestatus}

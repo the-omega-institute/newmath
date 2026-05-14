@@ -163,178 +163,7 @@ handoff and separation theorems exclude every row outside those components, so
 the repacked package is exhaustive.
 \end{proof}
 
-\begin{theorem}[StreamName Real-RegSeq finite-overlap source stability]
-\label{thm:streamname-real-regseq-finite-overlap-source-stability}
-Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
-finite-window packages whose observation windows restrict to a certified common
-finite overlap $K$. Suppose the two restrictions expose the same
-$\mathsf{RatHistoryClassifier}$ rows, the same finite
-$\mathsf{ProbeBundle}$ ledger, the same $\mathsf{InBundle}$ membership rows,
-the same $\mathsf{UnaryHistory}$ observation rows, and the same displayed
-$\mathsf{hsame}$ comparisons on $K$. Then any $\RegSeqRat$ handoff package, and
-any finite-window $\RealUp$ handoff package, induced by the two restrictions
-has the same source surface on $K$.
-
-The common source surface is only the restricted $\StreamNameUp$ finite-window
-surface over those rows. It excludes every $\RegSeqRat$ regularity row, the
-$\RealUp$ seal classifier, completion data, quotient data, and host index
-equality.
-\end{theorem}
-\begin{proof}
-First restrict both public StreamName packages to $K$. By
-\autoref{thm:streamname-real-regseq-finite-window-handoff}, each restricted
-handoff exposes only the selected rational-history classifier, finite
-$\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ rows, and
-$\mathsf{UnaryHistory}$ rows.
-
-The assumed overlap equality identifies exactly those rows through the
-displayed $\mathsf{hsame}$ comparisons. In the constant source case,
-\autoref{thm:streamname-constant-window-overlap-exactness} gives the same
-identification from the shared constant rational endpoint row; for a general
-finite RealUp overlap, the overlap boundary is the one recorded by
-\autoref{thm:realup-finite-window-exhaustion-overlap-closure}.
-
-Now apply \autoref{thm:streamname-real-regseq-obligation-separation}. The
-RegSeqRat regularity rows and the RealUp seal classifier are downstream
-obligations, while completion data, quotient data, and host index equality are
-not exported by the finite StreamName side.
-
-Repacking the two restricted inputs therefore gives the same source handoff
-surface on $K$ for either downstream consumer, with all non-source rows kept
-outside the overlap package.
-\end{proof}
-
-\begin{theorem}[StreamName Real-RegSeq overlap unique source]
-\label{thm:streamname-real-regseq-overlap-unique-source}
-Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
-finite-window packages whose restrictions to a certified finite overlap $K$
-expose the same $\mathsf{RatHistoryClassifier}$ rows, the same
-$\mathsf{ProbeBundle}$ ledger, the same $\mathsf{InBundle}$ membership rows,
-the same $\mathsf{UnaryHistory}$ observation rows, and the same displayed
-$\hsame$ rows. Then the overlap determines one StreamName source surface:
-every $\RegSeqRat$ handoff package induced from either restriction, and every
-finite-window $\RealUp$ handoff package induced from either restriction, has
-that same source surface on $K$.
-
-This source surface consists only of the public finite-window
-$\StreamNameUp$ rows displayed on the certified overlap. It does not include
-$\RegSeqRat$ regularity rows, $\RealUp$ seal classifiers, completion data,
-quotient data, or host index equality.
-\end{theorem}
-\begin{proof}
-First restrict both public finite-window packages to the common overlap $K$.
-\autoref{thm:streamname-real-regseq-finite-window-handoff} identifies the
-source-facing rows of each restriction as the rational-history classifier,
-probe-bundle ledger, membership rows, unary-history rows, and displayed
-$\hsame$ comparisons.
-
-The hypotheses say precisely that those rows agree on $K$.
-\autoref{thm:streamname-real-regseq-finite-overlap-source-stability} then
-turns the shared restricted rows into the same source surface for every
-induced $\RegSeqRat$ handoff and every induced finite-window $\RealUp$
-handoff.
-
-It remains to check that no downstream or host row is being folded into the
-source. Apply
-\autoref{thm:streamname-real-regseq-obligation-separation}: RegSeqRat
-regularity rows and RealUp seal classifiers are downstream obligations rather
-than StreamName source rows. The same separation keeps completion data,
-quotient data, and host index equality outside the handoff source.
-
-Finally, \autoref{thm:realup-finite-window-exhaustion-overlap-closure}
-supplies the RealUp finite-window overlap boundary used by the consumer side.
-Since the RealUp boundary reads the same certified overlap and the StreamName
-source has already been fixed there, both induced consumer packages inherit
-one source handoff surface on $K$.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat pointwise seal stability]
-\label{thm:streamname-regseqrat-pointwise-seal-stability}
-Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be public $\StreamNameUp$
-finite-window packages whose restrictions to a certified finite overlap $K$
-agree on every certified unary observation, every selected
-$\mathsf{RatHistoryClassifier}$ row, every $\mathsf{ProbeBundle}$ ledger row,
-every $\mathsf{InBundle}$ membership row, and every displayed $\hsame$ row.
-Suppose the two induced $\RegSeqRat$ handoff packages consume the same
-DyadicRatCore finite ledger over that overlap. Then the $\RealUp$ seal
-classifier rows induced from those two handoffs agree pointwise on $K$.
-
-The source used by this pointwise seal comparison is only the public
-$\StreamNameUp$ finite-window surface together with the consumed
-$\RegSeqRat$ dyadic ledger. The comparison does not use completion data,
-quotient data, host index equality, or a $\RealUp$ completeness row.
-\end{theorem}
-\begin{proof}
-First fix the source surface. Apply
-\autoref{thm:streamname-real-regseq-overlap-unique-source} to the two
-restricted public StreamName packages. The hypotheses are exactly the shared
-finite-window rows on $K$, so both induced $\RegSeqRat$ handoffs and both
-finite-window $\RealUp$ handoffs read one source surface there.
-
-Next fix the seal ledger. By
-\autoref{thm:regseqrat-dyadic-common-radius-seal}, the $\RegSeqRat$ seal reads
-the refined finite dyadic ledger: carried RatUp endpoints, positive unary
-denominators, common-radius rows, $\hsame$ and $\Cont$ provenance, and the
-scoped DyadicRatCore boundary. Since the two handoffs consume the same
-DyadicRatCore ledger, the seal input rows coincide pointwise on the overlap.
-
-Now transport the public observation rows along the displayed comparisons.
-\autoref{thm:dyadicratcore-public-observation-hsame-transport-bridge} says
-that each $\hsame$-transported DyadicRatCore public observation remains the
-same $\RealUp$ finite-window input, with the same finite ledger and RatUp
-endpoint faces.
-
-Finally use classifier stability and transitivity along the displayed
-$\hsame$ rows. The StreamName finite-window classifiers agree on $K$, the
-dyadic seal ledger agrees on $K$, and the transported RealUp finite-window
-inputs are the same rows. Hence the induced $\RealUp$ seal classifier rows are
-pointwise identical on the common overlap, without importing any completion,
-quotient, host-index, or RealUp completeness datum.
-\end{proof}
-
-\begin{theorem}[StreamName RegSeqRat pointwise seal pasting]
-\label{thm:streamname-regseqrat-pointwise-seal-pasting}
-Let $\mathcal{W}_0$ and $\mathcal{W}_1$ be certified finite
-$\StreamNameUp$ windows with a certified finite overlap $K$. Suppose their
-restrictions to $K$ agree on every certified unary observation, every selected
-$\mathsf{RatHistoryClassifier}$ row, every $\mathsf{ProbeBundle}$ ledger row,
-every $\mathsf{InBundle}$ membership row, and every displayed $\hsame$ row.
-Suppose also that the induced $\RegSeqRat$ handoff packages consume the same
-DyadicRatCore finite ledger on $K$. Then the $\RealUp$ seal classifier rows
-induced from the two handoffs paste to a single finite-window source surface
-on $\mathcal{W}_0 \cup \mathcal{W}_1$.
-
-The pasted surface exports only $\mathsf{RatHistoryClassifier}$ rows,
-$\mathsf{ProbeBundle}$ ledger rows, $\mathsf{InBundle}$ membership rows,
-$\mathsf{UnaryHistory}$ observations, $\hsame$ comparisons, and the shared
-dyadic ledger. It exports no completion datum, quotient datum, host index
-equality, or $\RealUp$ completeness row.
-\end{theorem}
-\begin{proof}
-First identify the common source on the overlap. Apply
-\autoref{thm:streamname-real-regseq-overlap-unique-source} to the two
-restricted certified windows. The displayed agreement rows are exactly the
-finite StreamName source rows, so the overlap has one source-facing surface
-for both induced $\RegSeqRat$ handoffs.
-
-Next stabilize the seal rows over that common source. By
-\autoref{thm:streamname-regseqrat-pointwise-seal-stability}, the shared
-DyadicRatCore finite ledger forces the $\RealUp$ seal classifier rows induced
-from the two handoffs to agree pointwise on every member of $K$.
-
-It remains to build the union surface. Use finite $\mathsf{ProbeBundle}$
-induction over the selected rows of $\mathcal{W}_0$ and $\mathcal{W}_1$: rows
-outside the overlap are inserted from their own certified window, while rows
-inside $K$ are identified by the pointwise seal stability just obtained.
-
-Finally exhaust the pasted rows. Apply
-\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}: every row in
-the handoff surface is one of the displayed pointwise
-$\mathsf{RatHistoryClassifier}$ observations, bundle and membership rows,
-unary observations, $\hsame$ comparisons, or dyadic ledger rows. Hence the
-finite union surface contains no completion, quotient, host-index, or
-RealUp-completeness datum.
-\end{proof}
+\input{parts/concrete_instances/streamname/real_regseq_overlap_pasting}
 
 \begin{theorem}[StreamName RegSeqRat overlap-pasting consumer exhaustion]
 \label{thm:streamname-regseqrat-overlap-pasting-consumer-exhaustion}
@@ -782,4 +611,63 @@ quotient representatives, host index equality, or hidden regularity data.
 Thus the forward direction gives a unique finite-window $\RealUp$ seal
 boundary, and the reverse direction factors every public read through precisely
 the displayed rows.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat finite-window cover refinement exhaustion]
+\label{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}
+Let $\mathcal{W}$ be a finite cover of public $\StreamNameUp$ rational
+observation windows feeding a common $\RegSeqRat$ consumer and a common
+finite-window $\RealUp$ seal. Suppose that each window in $\mathcal{W}$ carries
+the displayed $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership, $\mathsf{UnaryHistory}$ observations,
+$\hsame$ transports, a finite $\Cont$ ledger, accepted
+$\mathsf{DyadicRatCore}$ ledger entries, accepted $\RegSeqRat$ pointwise seal
+rows, and shared $\Pkg$ provenance.
+
+Let $\mathcal{W}'$ be any certified finite refinement cover of
+$\mathcal{W}$ whose refined subwindows have the same pointwise StreamName
+carrier and classifier rows, the same bundle-membership rows, the same unary
+observations, the same $\hsame$ transports, the same finite $\Cont$ ledger,
+the same $\mathsf{DyadicRatCore}$ ledger entries, and the same $\Pkg$
+provenance as their parent windows. Then $\mathcal{W}$ and $\mathcal{W}'$
+determine the same exhausted $\RegSeqRat$ consumer surface and the same
+finite-window $\RealUp$ seal boundary.
+
+The common exhausted surface consists only of those displayed StreamName
+source rows, bundle-membership rows, unary observations, $\hsame$ transports,
+finite $\Cont$ ledger entries, $\mathsf{DyadicRatCore}$ ledger entries,
+$\Pkg$ provenance rows, the accepted $\RegSeqRat$ pointwise seal rows, and
+the $\RealUp$ endpoint seal row. It contains no quotient representative,
+completion object, host index equality, off-ledger regularity row,
+Classical datum, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First exhaust the original finite cover. Apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. It
+identifies all windows in $\mathcal{W}$ with one finite consumer surface
+because their StreamName rows, bundle memberships, unary observations,
+$\hsame$ transports, finite ledger entries, accepted dyadic entries, and
+provenance rows agree on every displayed overlap.
+
+Next compare each refined subwindow with its parent window. Use
+\autoref{thm:streamname-regseqrat-nested-window-handoff}. The certified
+subwindow contributes no new carrier, classifier, membership, observation,
+transport, ledger, dyadic, or provenance row; it restricts the already
+exhausted parent surface to the smaller public window.
+
+Now identify the seal rows seen by the common consumer. Apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal} to the original
+cover and to the refined cover. The accepted $\RegSeqRat$ pointwise seal rows
+and the finite-window $\RealUp$ endpoint readback are the same finite packet in
+both presentations because the refinement keeps the same displayed ledger and
+source rows.
+
+Finally use \autoref{thm:streamname-realup-seal-boundary} and
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. The first
+theorem fixes the $\RealUp$ boundary from the accepted $\RegSeqRat$ seal rows,
+and the second theorem exhausts the consumer surface to exactly the listed
+public rows. Hence the original cover and every certified finite refinement
+cover determine the same exhausted surface, with no quotient, completion,
+host-index, off-ledger regularity, Classical, or standard-bridge datum.
 \end{proof}
