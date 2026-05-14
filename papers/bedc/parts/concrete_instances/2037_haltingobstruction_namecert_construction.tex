@@ -415,6 +415,44 @@ Apply \autoref{thm:halting-obstruction-root-ledger-exactness}. The package and l
 Finally invoke \autoref{thm:halting-obstruction-distinction-boundary}. The HaltingDistinction and HaltingDiagonal consumers receive the same finite boundary rows before any obstruction ledger is read, so the public downstream surface is exact and contains no additional classifier or off-packet row.
 \end{proof}
 
+\begin{theorem}[Halting obstruction root trace admission]
+\label{thm:halting-obstruction-root-trace-admission}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. The accepted root surface exposes the finite trace row $T$ only through the carrier row $S$, input-history row $I$, componentwise transport row $H$, displayed route row $C$, package row $P$, and local $\NameCert$ row $N$. It supplies no root trace outside the displayed finite packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:halting-obstruction-root-carrier-admission} to place the accepted obstruction on the single tuple $S,I,T,R,D,H,C,P,N$. The only trace coordinate in that tuple is $T$.
+
+Apply \autoref{thm:halting-obstruction-trace-coverage}. It records the finite trace as the accepted trace surface and does not provide another trace carrier.
+
+Finally use the NameCert obligations and \autoref{thm:halting-obstruction-public-read-boundary}. The trace can be transported through $H$, replayed through $C$, packaged by $P$, and named by $N$, but no downstream root read receives a second trace row.
+\end{proof}
+
+\begin{theorem}[Halting obstruction root policy exhaustion]
+\label{thm:halting-obstruction-root-policy-exhaustion}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ packet. The diagonal-policy row $D$ exhausts the obstruction-policy surface of the root packet. It remains a local policy ledger for the displayed trace and self-reference route and cannot become a global halting classifier, host divergence oracle, or decision procedure for arbitrary histories.
+\end{theorem}
+\begin{proof}
+Read the root packet through \autoref{thm:halting-obstruction-root-carrier-admission}. The policy-facing coordinate is the displayed row $D$, paired with the finite trace and self-reference rows $T$ and $R$.
+
+Apply \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}. It exhausts the diagonal-policy surface by the local ledger row and gives no classifier row for arbitrary histories.
+
+Use \autoref{thm:halting-obstruction-diagonal-nonescape} and \autoref{thm:halting-obstruction-public-read-boundary}. They keep the diagonal policy inside the finite obstruction route, so the policy row cannot escape as a global halting classifier.
+\end{proof}
+
+\begin{theorem}[Halting obstruction root consumer boundary]
+\label{thm:halting-obstruction-root-consumer-boundary}
+For every accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, each downstream $\HaltingDistinctionUp$ or $\HaltingDiagonalUp$ consumer factors through $S,I,T,R,D,H,C,P,N$. The consumer may read the finite trace, self-reference, diagonal-policy, transport, route, package, and naming rows, but it receives no global halting classifier, unbounded continuation search, host divergence oracle, quotient equality, or off-packet name equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:halting-obstruction-root-carrier-admission}. It fixes the root obstruction as the finite tuple $S,I,T,R,D,H,C,P,N$.
+
+Apply \autoref{thm:halting-obstruction-root-trace-admission} and \autoref{thm:halting-obstruction-root-policy-exhaustion}. These bind the trace-facing and policy-facing reads to $T$ and $D$ inside the same tuple.
+
+Next use \autoref{thm:halting-obstruction-root-transport-scope} and \autoref{thm:halting-obstruction-root-ledger-exactness}. Transport, route replay, packaging, and local naming are exactly the rows $H,C,P,N$ already carried by the packet.
+
+Finally invoke \autoref{thm:halting-obstruction-public-downstream-exactness}. The HaltingDistinction and HaltingDiagonal handoffs are exhausted by the displayed finite rows, so every downstream consumer factors through $S,I,T,R,D,H,C,P,N$ and obtains no global halting surface.
+\end{proof}
+
 \closureat{HaltingObstructionUp}{publicStr}
 
 \begin{closurestatus}{\HaltingObstructionUp}
