@@ -155,6 +155,22 @@ Apply the NameCert obligation sketch and the observer-locality lattice link. The
 Finally use the public export theorem. Since the exported surface has no coordinate for inter-Hist synchronization, a shared global clock, or a host time index, every observer-locality consumer must read the displayed local stream rows before transport and cannot extend them with a hidden time source.
 \end{proof}
 
+\begin{theorem}[HistTimeStream observer-locality bridge route]
+\label{thm:histtimestream-observer-locality-bridge-route}
+Every observer-locality consumer reads an accepted $\HistTimeStreamUp$ packet first through the displayed rows
+$$
+H,T,S,C,L,P,N,
+$$
+then through the sibling $\ObserverHistoryIdentityUp$ and $\ObserverLocalityTransportUp$ surfaces of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The route cannot add a global clock, host time index, inter-Hist synchronization row, or temporal-rate row.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem, \autoref{thm:histtimestream-public-export}. It makes $H,T,S,C,L,P,N$ the whole local-time stream surface visible to an outside consumer.
+
+Next apply the observer-locality lattice link. That theorem identifies the same carrier rows as the local-time component consumed by observer-history identity and observer-locality transport, so the sibling surfaces are reached only after the finite HistTimeStream packet has been read.
+
+Finally use the consumption bridge of \autoref{thm:histtimestream-observer-locality-consumption-bridge}. Since the consumed packet has no coordinate for a global clock, host time index, inter-Hist synchronization, or rate measurement, the bridge route cannot add any such row downstream.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
