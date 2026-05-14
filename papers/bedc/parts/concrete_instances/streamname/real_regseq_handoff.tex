@@ -35,6 +35,53 @@ handoff.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_real\_regseq\_handoff}
 
+\begin{theorem}[StreamName singleton RegSeqRat RealUp handoff exactness]
+\label{thm:streamname-singleton-regseq-real-handoff-exactness}
+Let $s,t:\Hist\to\Hist$ be StreamName streams and let $n:\Hist$ be a
+certified unary observation. If $\mathsf{RatStreamNameClassifier}(s,t)$
+holds and $n$ is a $\mathsf{UnaryHistory}$ row, then the singleton packet
+$\mathsf{ProbeBundle.Bcons}\ n\ \mathsf{ProbeBundle.Bnil}$ supplies the
+finite-window StreamName classifier consumed by the $\RegSeqRat$ and
+$\RealUp$ handoff.
+
+For that singleton packet, the exported consumer surface is exactly the
+selected rational classifier row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, the singleton
+$\mathsf{ProbeBundle}$ row, the corresponding $\mathsf{InBundle}$ ledger
+row, the displayed $\mathsf{UnaryHistory}$ row for $n$, and the visible
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\mathsf{NameCert}$ support already
+present on the public StreamName side.
+
+The packet exports no $\RegSeqRat$ regularity row, no $\RealUp$
+completeness row, no quotient stream, no host sequence equality row, and no
+selected limit.
+\end{theorem}
+\begin{proof}
+Use the singleton diagonal handoff shape for rational StreamName classifiers.
+It turns the pointwise hypothesis $\mathsf{RatStreamNameClassifier}(s,t)$ and
+the certified unary row for $n$ into a
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ over
+$\mathsf{ProbeBundle.Bcons}\ n\ \mathsf{ProbeBundle.Bnil}$, with membership
+given by the singleton $\mathsf{InBundle}$ constructor.
+
+The same shape identifies the only selected classifier row: every member of
+the singleton packet is judgmentally the displayed observation $n$, so the
+finite-window classifier reads the single row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ and no second rational-history
+coordinate.
+
+Now apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff} to this
+finite-window package. That theorem lists exactly the rows visible to
+$\RegSeqRat$ and finite-window $\RealUp$ consumers: selected rational
+classifier data, the finite probe ledger, membership rows, unary-history rows,
+and the displayed StreamName support rows.
+
+Since the singleton construction supplies only those rows, all regularity,
+completion, quotient, host-equality, and limit data remain outside the
+handoff.
+\end{proof}
+
 \begin{theorem}[StreamName constant-window handoff boundary]
 \label{thm:streamname-real-regseq-constant-boundary}
 Let $a,b:\Hist$ be rational-history endpoints and let $\mathcal{W}$ be a
