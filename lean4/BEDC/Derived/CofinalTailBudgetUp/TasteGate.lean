@@ -221,6 +221,9 @@ instance cofinalTailBudgetChapterTasteGate : ChapterTasteGate CofinalTailBudgetU
     intro x y hxy heq
     exact hxy (cofinalTailBudgetToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CofinalTailBudgetUp :=
+  cofinalTailBudgetChapterTasteGate
+
 instance cofinalTailBudgetFieldFaithful : FieldFaithful CofinalTailBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
