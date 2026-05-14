@@ -172,3 +172,23 @@ Use the sibling concrete-instance surfaces as the public handoff language. The $
 
 Finally apply root budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. These theorems already cover every Real or Completion consumer of the root packet, so the Real seal is reached only through the displayed budget rows and never through quotient equality, selected limits, host real equality, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement window-meet seal unicity]
+\label{thm:cauchy-modulus-refinement-window-meet-seal-unicity}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any $\RealUp$ or Completion consumer that reads the shared meet row $U$, selector budget $T$, finite $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readback row $Q$, and $\RealUp$ seal row $E$ factors through the same displayed route
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+Across the L10 sibling surfaces, no second meet, hidden selector, quotient stream, host real equality, selected limit, or ambient completeness row determines a different seal handoff.
+\end{theorem}
+\begin{proof}
+First fix the route. Root route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}, sends every accepted read of the displayed packet through $M_0,M_1,U,V,T,W,Q,E$ and leaves $H,C,P,N$ only as the transport, continuation, provenance, and local naming rows for that route.
+
+Next compare the seal on the common window and readback rows. Root-window Real seal determinacy, \autoref{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}, says that two accepted packets sharing $U,T,W,Q$ classify their public Real seal rows through the same root route. Thus a consumer that has already read those rows cannot obtain a different seal by changing only the handoff surface.
+
+Finally use the sibling handoff and exclusion rows. The Real seal handoff theorem, \autoref{thm:cauchy-modulus-refinement-real-seal-handoff}, places the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ reads on the same displayed chain, while meet-threshold nonescape, \autoref{thm:cauchy-modulus-refinement-meet-threshold-nonescape}, excludes second meets, hidden selectors, quotient streams, host real equality, selected limits, and ambient completeness rows. Hence the shared meet, window, readback, and seal route uniquely determines the Real seal handoff across those L10 surfaces.
+\end{proof}
