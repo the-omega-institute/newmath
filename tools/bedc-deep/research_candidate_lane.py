@@ -108,8 +108,8 @@ def _safe_inputs(inputs: list[str], files: dict[str, dict[str, Any]]) -> tuple[l
         if not rel.startswith("papers/bedc/parts/"):
             reasons.append(f"non_paper_local_input:{rel}")
             continue
-        if rel.startswith("papers/bedc/parts/visions/"):
-            reasons.append(f"vision_inspiration_only:{rel}")
+        if BLOCKED_LANDING_PATH_RE.search(rel):
+            reasons.append(f"inspiration_only_not_board_landing:{rel}")
             continue
         path = REPO_ROOT / rel
         if not path.exists():
@@ -236,6 +236,9 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
     oracle_recommended = bool(ORACLE_WORTHY_RE.search(text)) and not reasons
     if oracle_recommended:
         enriched["oracle_mode"] = "proof_search"
+    _set_missing(enriched, "difficulty", _difficulty(enriched))
+    _set_missing(enriched, "quality_score", _quality_score(enriched, reasons))
+    _set_missing(enriched, "selection_rank", "")
     return {
         "ts": now_iso(),
         "source": source,
@@ -244,6 +247,32 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         "oracle_recommended": oracle_recommended,
         "candidate": enriched,
     }
+
+
+def _quality_score(candidate: dict[str, Any], reasons: list[str]) -> dict[str, int]:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    safe_landing = bool(candidate.get("local_inputs")) and not reasons
+    text = _text(candidate).lower()
+    return {
+        "verifiability": 3 if safe_landing else 0,
+        "locality": 2 if safe_landing else 0,
+        "downstream_use": 2 if fit >= 8 else 1 if fit >= DEFAULT_FIT_THRESHOLD else 0,
+        "line_cap_safety": 2 if safe_landing else 0,
+        "nontriviality": 2 if novelty >= 8 else 1 if novelty >= DEFAULT_NOVELTY_THRESHOLD else 0,
+        "cross_chapter_unification": 2 if len(_as_list(candidate.get("local_inputs"))) >= 3 else 1 if "sibling" in text else 0,
+    }
+
+
+def _difficulty(candidate: dict[str, Any]) -> str:
+    fit = _score(candidate, "fit_score")
+    novelty = _score(candidate, "novelty")
+    text = _text(candidate)
+    if novelty >= 8 and (ORACLE_WORTHY_RE.search(text) or BRIDGE_RE.search(text)):
+        return "high"
+    if fit >= 8 and novelty >= 7:
+        return "medium"
+    return "low"
 
 
 def collect_candidates(limit: int) -> list[dict[str, Any]]:
@@ -308,6 +337,9 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
                 "dependency_trace",
                 "rate_modulus_surface",
                 "oracle_mode",
+                "difficulty",
+                "quality_score",
+                "selection_rank",
             )
         }
         candidate["source"] = "research_lane:candidate_inbox"
@@ -382,6 +414,9 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
     ready = [p for p in packets if p.get("status") == "ready"]
     blocked = [p for p in packets if p.get("status") != "ready"]
     oracle = [p for p in packets if p.get("oracle_recommended")]
+    ready_budget = _count_field(ready, "axiom_budget")
+    ready_difficulty = _count_field(ready, "difficulty")
+    ready_oracle_mode = _count_field(ready, "oracle_mode")
     lines = [
         "# research candidate lane latest",
         "",
@@ -390,6 +425,9 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
         f"- ready: {len(ready)}",
         f"- blocked: {len(blocked)}",
         f"- oracle_recommended: {len(oracle)}",
+        f"- ready_budget: {_render_counts(ready_budget)}",
+        f"- ready_difficulty: {_render_counts(ready_difficulty)}",
+        f"- ready_oracle_mode: {_render_counts(ready_oracle_mode)}",
         "",
         "## Ready",
         "",
@@ -404,6 +442,23 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
         c = packet["candidate"]
         lines.append(f"- {c.get('title')}: {'; '.join(packet.get('reasons') or [])}")
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _count_field(packets: list[dict[str, Any]], field: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for packet in packets:
+        candidate = packet.get("candidate")
+        if not isinstance(candidate, dict):
+            continue
+        value = str(candidate.get(field) or "unspecified").strip() or "unspecified"
+        counts[value] = counts.get(value, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _render_counts(counts: dict[str, int]) -> str:
+    if not counts:
+        return "none"
+    return ", ".join(f"{key}={value}" for key, value in counts.items())
 
 
 def append_ready(packets: list[dict[str, Any]]) -> object:

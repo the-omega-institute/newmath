@@ -103,3 +103,31 @@ Finally, Real seal non-escape \autoref{thm:cauchy-window-transducer-real-seal-no
 \falsifiablePrediction{Removing the window-step row permits a RealUp seal read without a displayed RegSeqRat handoff.}
 
 \independenceWitness{Nearest siblings: StreamName, DyadicRatCore, RegSeqRat, RealUp, and LimitSelector. None is bijective to $\CauchyWindowTransducerUp$ because this carrier stores the joint window source, dyadic tolerance, step row, readback row, seal route, selector handoff, transport, replay, provenance, and local naming rows in one finite packet, while each sibling exposes only one surface of that route.}
+
+\begin{theorem}[Cauchy window transducer scoped closure package]
+\label{thm:cauchy-window-transducer-scoped-closure-package}
+The carrier of \autoref{def:cauchy-window-transducer-carrier}, the NameCert obligations of \autoref{thm:cauchy-window-transducer-namecert-obligations}, window-step determinacy from \autoref{thm:cauchy-window-transducer-window-step-determinacy}, the RegSeqRat handoff of \autoref{thm:cauchy-window-transducer-regseq-handoff}, Real seal non-escape from \autoref{thm:cauchy-window-transducer-real-seal-nonescape}, the falsifiable prediction, the independence witness, and the checked TasteGate alignment jointly bind the scoped finite route from StreamName windows and DyadicRatCore tolerances through RegSeqRat readback to the RealUp seal.
+\end{theorem}
+\begin{proof}
+The carrier fixes the whole packet as the displayed tuple $S,D,W,R,E,L,H,C,P,N$. The NameCert obligation theorem says that these rows are exactly the local public surface.
+
+Window-step determinacy fixes the passage from the source window, dyadic tolerance, selector handoff, and local step row to the RegSeqRat readback and RealUp seal route. The RegSeqRat handoff theorem then forces every Real-facing read through $R$ before $E$ is public.
+
+Real seal non-escape excludes the remaining ambient coordinates. Together with the falsifiable prediction and independence witness, this leaves a scoped finite route rather than a quotient real, selected host limit, global stream equality, countable-choice principle, or hidden completeness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyWindowTransducerUp.CauchyWindowTransducerTasteGate\_single\_carrier\_alignment}
+
+\closureat{CauchyWindowTransducerUp}{scopedStr}[BEDC.Derived.CauchyWindowTransducerUp.CauchyWindowTransducerTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\CauchyWindowTransducerUp}
+  \constructivestory{A $\CauchyWindowTransducerUp$ packet is generated from a StreamName finite-window source row, DyadicRatCore tolerance row, local window-step row, RegSeqRat readback row, RealUp seal row, LimitSelector handoff row, componentwise hsame transport, displayed continuation replay, package provenance, and local NameCert row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-window-transducer-carrier}, \autoref{thm:cauchy-window-transducer-namecert-obligations}, \autoref{thm:cauchy-window-transducer-window-step-determinacy}, \autoref{thm:cauchy-window-transducer-regseq-handoff}, \autoref{thm:cauchy-window-transducer-real-seal-nonescape}, and \autoref{thm:cauchy-window-transducer-scoped-closure-package} bind the finite route over StreamName, DyadicRatCore, RegSeqRat, RealUp, LimitSelector, BHist, hsame, Cont, Pkg, and NameCert.}
+  \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.CauchyWindowTransducerUp.taste\_gate}
+  \leantarget{BEDC.Derived.CauchyWindowTransducerUp.CauchyWindowTransducerTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close selected limits, quotient real equality, global stream equality, countable choice, ambient completeness, or bridge checking.}
+  \upgradepath{Bridge closure requires a checked standard bridge for the same finite Cauchy window transducer route.}
+\end{closurestatus}
