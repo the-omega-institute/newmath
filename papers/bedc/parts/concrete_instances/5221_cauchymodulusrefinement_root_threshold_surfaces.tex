@@ -77,3 +77,23 @@ Apply window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-
 
 Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-coverage}. Since every Real or Completion consumer is covered by the displayed route before reading $E$, the selector budget, finite window, and readback rows exhaust the root budget consumer surface.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement root threshold public exhaustion]
+\label{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}
+For every accepted $\CauchyModulusRefinementUp$ root surface
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+every public $\RealUp$ or Completion consumer of $R$ is exhausted by the displayed route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The consumer first reads the source schedules, shared meet, extraction witness, selector budget, finite-window ledger, tolerance and regular-readback ledger, and Real seal row, and then reads only the componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows attached to that same route.
+\end{theorem}
+\begin{proof}
+Start with root carrier threshold admission and classifier transport exactness, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They place $M_0,M_1,U,V,T,W,Q,E$ and the structural rows $H,C,P,N$ in one accepted carrier route.
+
+Apply route determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. It fixes the only public route from the two source schedules through the shared meet, selector budget, finite windows, readbacks, and Real seal, with no second meet, hidden selector, quotient stream, host equality, or ambient completeness row.
+
+Finally use budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion}. Since every public Real or Completion consumer must pass through the selector-budget, window, readback, and seal rows of the same route, the displayed packet exhausts the public root threshold surface.
+\end{proof}
