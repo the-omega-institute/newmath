@@ -33,6 +33,7 @@ Finally use the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-m
 \label{thm:cauchy-limit-seal-regular-tail-selector-nonescape}
 After a compatible selector route is read through the accepted $\RegularCauchyTailSelectorUp$ packet, the $\CauchyLimitSealUp$ seal cannot export quotient stream identity, host real equality, a choice-selected limit, a hidden family limit, or ambient completeness. The exported boundary is only the selected-tail witness, the $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, the $\RealObservationBudgetUp$ meet, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_regular\_tail\_selector\_nonescape}
 \begin{proof}
 Start from the budget compatibility theorem above. It fixes the selector, budget, and completion-facing reads on the same regular tail-selector packet and the same tail-budget meet.
 
@@ -45,6 +46,7 @@ Finally apply \autoref{thm:cauchy-limit-seal-selector-budget-transport} and \aut
 \label{thm:cauchy-limit-seal-tail-selector-window-support-determinacy}
 Every compatible $\CauchyLimitSealUp$ route that factors through the accepted $\RegularCauchyTailSelectorUp$ packet reads the same selected-tail witness, $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, and $\RealObservationBudgetUp$ meet across the selector route, observation-budget route, and completion-facing route. Thus selector-facing, budget-facing, and completion-facing consumers share one finite support packet rather than three independent reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_tail\_selector\_window\_support\_determinacy}
 \begin{proof}
 First apply the sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}. It routes every compatible seal read through the accepted regular tail-selector packet before the selected-tail witness, StreamName window, DyadicRatCore ledger, RegSeqRat handoff, Real seal, and observation-budget meet are consumed.
 
@@ -99,4 +101,22 @@ Transport that common route by \autoref{thm:cauchy-limit-seal-selector-budget-tr
 Now attach the cofinal shared-tail row by \autoref{thm:cofinal-tail-budget-primitive-scope-binding}. Its primitive scope is the finite shared-tail budget packet, so it adds only the public $\CofinalTailBudgetUp$ row aligned with the same regular handoff and completion-facing consumer.
 
 Finally invoke the non-escape boundary of \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. Together with the cofinal primitive scope, it removes quotient stream identity, host sequence equality, hidden tail selectors, countable-choice schedules, selected host limits, independent completion rows, and ambient $\RealUp$ completeness from the exported route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal regular tail-selector ProbeBundle coverage]
+\label{thm:cauchy-limit-seal-regular-tail-selector-probebundle-coverage}
+Let $Q$ be an accepted $\CauchyLimitSealUp$ route compatible with the regular tail-selector sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}. Every finite $\mathsf{ProbeBundle}$ of selector-facing, observation-budget-facing, and completion-facing requests for $Q$ factors through one finite envelope. The envelope consists of the $\RegularCauchyTailSelectorUp$ selected-tail witness, the $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, the $\RealObservationBudgetUp$ meet, the $\CofinalTailBudgetUp$ shared-tail row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Thus finite bundled consumers receive the same route-level support as the pointwise fused route. The bundle exposes no quotient stream identity, host sequence equality, hidden selector, countable-choice schedule, selected host limit, independent completion row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct over the finite $\mathsf{ProbeBundle}$. The empty bundle uses the finite envelope already displayed by the accepted route, with no consumer request to place outside it.
+
+For a successor request, apply the sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link} and budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-selector-budget-compatibility}. The new selector-facing, observation-budget-facing, or completion-facing read is forced through the accepted regular tail-selector packet before it can read the StreamName window, dyadic ledger, regular-sequence handoff, Real seal, observation-budget meet, transport, continuation, package, or naming rows.
+
+Next use the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet} and selector-budget transport from \autoref{thm:cauchy-limit-seal-selector-budget-transport}. These identify the support of the new request with the accumulated support of the earlier bundle entries, so the induction step does not introduce a second budget row or a second selector packet.
+
+Now attach the cofinal shared-tail row by the fusion theorem \autoref{thm:cauchy-limit-seal-streamname-cofinal-tail-budget-fusion}. It places the $\CofinalTailBudgetUp$ coordinate on the same StreamName, DyadicRatCore, RegSeqRat, Real, observation-budget, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already carried by the bundle envelope.
+
+Finally apply the non-escape theorem \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. Since neither the pointwise route nor the finite induction step can export quotient stream identity, host sequence equality, hidden selectors, countable-choice schedules, selected host limits, independent completion rows, or ambient $\RealUp$ completeness, the finite bundle repacks as one $\mathsf{ProbeBundle}$ coverage row over exactly the displayed envelope.
 \end{proof}

@@ -29,6 +29,26 @@ The active finite test is exactly the fixed-tuple kernel route: a tuple carrier,
 
 The exact remaining target is recognizer-to-carrier construction. It must produce a recognizer acceptance row, finite tuple extraction, $\BHist$ component readback, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ from the recognizer presentation before any stronger $\StdBridge$ conjecture is reopened.
 
+\begin{conjecture}[Finite BHist injection recognizer-to-carrier route]
+\label{conj:finite-bhist-injection-recognizer-to-carrier}
+A regular recognizer-side input lands on the finite packet test only after it displays seven kernel rows as named carrier data:
+\begin{enumerate}
+  \item a recognizer acceptance row through $\GroundCompilerRecognizerFlowUp$;
+  \item a generated-recognizer row recording the recognizer presentation used for the finite test;
+  \item a certificate-gate row admitting that presentation to the BEDC packet surface;
+  \item a finite tuple extraction row through $\FiniteReflectionTupleUp$;
+  \item a $\BHist$ component readback row for each extracted component;
+  \item componentwise $\hsame$ and $\NameCert$ transport rows through the displayed component reads;
+  \item a $\ChapterTasteGate$ row.
+\end{enumerate}
+These rows must live inside the existing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\GroundCompilerRecognizerFlowUp$, and $\FiniteReflectionTupleUp$ support surface. The conjecture asks only for this finite packet landing test; it does not assert a $\StdBridge$ theorem and does not construct a recognizer-to-carrier map.
+\end{conjecture}
+
+\conjectureStatus{weakened}
+
+\paragraph{Recognizer-to-carrier status.}
+The surviving recognizer-to-carrier claim is exactly the seven-row finite BEDC-kernel landing test supplied by \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition} and \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}. The test is the existence of those seven displayed rows inside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\GroundCompilerRecognizerFlowUp$, and $\FiniteReflectionTupleUp$ kernel surface. No $\StdBridge$ theorem is claimed, and no full recognizer-to-carrier map is claimed.
+
 \begin{theorem}[Finite BHist injection fixed tuple route]
 \label{thm:finite-bhist-injection-fixed-tuple-route}
 In the fixed finite tuple case, every candidate $\StdBridge$ route must be a displayed $\BHist$ tuple route. The image row, readback row, tuple carrier, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row must all be present before the bridge is requested.
@@ -206,6 +226,42 @@ Use the fixed tuple obligation surface, \autoref{prop:finite-bhist-injection-fix
 Now apply the recognizer boundary, \autoref{thm:finite-bhist-injection-recognizer-boundary}, together with the StdBridge counter surface, \autoref{thm:finite-bhist-injection-stdbridge-counter-surface}. The recognizer may add acceptance and extraction rows, but it still must land on the fixed tuple surface and display non-escape before a bridge request can be tested.
 
 Therefore recognizer acceptance without tuple readback does not refute the weakened conjecture. It simply has not reached the fixed tuple carrier boundary on which the bridge question is posed.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection recognizer carrier-map decomposition]
+\label{thm:finite-bhist-injection-recognizer-carrier-map-decomposition}
+Every recognizer-to-carrier route for \autoref{conj:finite-bhist-injection-recognizer-to-carrier} must decompose into exactly the following displayed BEDC rows before it can land on the fixed tuple $\StdBridge$ surface:
+\begin{enumerate}
+  \item recognizer acceptance through $\GroundCompilerRecognizerFlowUp$;
+  \item generated-recognizer mediation;
+  \item certificate-gate admission;
+  \item finite tuple extraction through $\FiniteReflectionTupleUp$;
+  \item component readback into $\BHist$;
+  \item componentwise $\hsame$ and $\NameCert$ transport;
+  \item the $\ChapterTasteGate$ row.
+\end{enumerate}
+This decomposition is not a $\StdBridge$ construction and not a full recognizer-to-carrier map. It only names the rows that any such route must expose before the fixed tuple surface can be tested.
+\end{theorem}
+\begin{proof}
+Start with the fixed tuple route and its obligation surface, \autoref{thm:finite-bhist-injection-fixed-tuple-route} and \autoref{prop:finite-bhist-injection-fixed-tuple-obligation-surface}. They require the tuple image, readback, componentwise naming transport, and $\ChapterTasteGate$ rows before a fixed tuple bridge request is meaningful.
+
+Next apply the recognizer boundary and landing surface, \autoref{thm:finite-bhist-injection-recognizer-boundary-sharpens} and \autoref{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}. These results place recognizer acceptance, generated-recognizer mediation, and certificate-gate admission in front of the fixed tuple packet, while keeping the bridge construction and the full carrier map outside the available conclusion.
+
+The two sibling packet surfaces then isolate the named rows. The GroundCompiler recognizer-flow packet supplies acceptance, generated-recognizer mediation, and certificate-gate admission; the FiniteReflectionTuple packet supplies finite tuple extraction, readback into $\BHist$, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row.
+
+Composing only these displayed surfaces gives the stated decomposition. Since the proof merely identifies the rows needed before the fixed tuple route can be tested, it does not construct a $\StdBridge$ theorem and does not construct the missing recognizer-to-carrier map.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection recognizer row exhaustion]
+\label{thm:finite-bhist-injection-recognizer-row-exhaustion}
+Every admissible recognizer-to-carrier test for \autoref{conj:finite-bhist-injection-recognizer-to-carrier} is exhausted by the seven displayed rows of \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition}: recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, component readback, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. Once those rows are displayed, the recognizer route has reached the finite BEDC-kernel test surface; no additional row is claimed to construct the full carrier map.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition}. It lists the only rows used to move a recognizer-side input toward the fixed tuple surface: the three recognizer-flow rows, the tuple extraction row, the readback row, the componentwise transport row, and the taste-gate row.
+
+The recognizer-flow rows are exactly recognizer acceptance, generated-recognizer mediation, and certificate-gate admission. The finite tuple rows are exactly finite tuple extraction, component readback into $\BHist$, componentwise $\hsame$ and $\NameCert$ transport, and $\ChapterTasteGate$.
+
+Therefore the admissible test surface has no further row beyond those seven displayed rows. This exhausts the finite BEDC-kernel test while leaving the construction of a full recognizer-to-carrier map outside the conclusion.
 \end{proof}
 
 \paragraph{Refutation route (if false).}

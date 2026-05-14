@@ -148,4 +148,28 @@ theorem FiniteObservationBudgetSelectorCarrier_budget_route_determinacy
     cont_respects_hsame sameRegular (hsame_refl E) regularSeal regularSeal'
   exact ⟨sameWindow, sameRegular, sameSeal⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {B S W D R E H C P N realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N →
+      Cont R E realRead →
+        PkgSig bundle realRead pkg →
+          UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory D ∧
+            UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory realRead ∧ Cont B S W ∧
+              Cont W D R ∧ Cont R E realRead ∧ hsame N E ∧
+                PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier realSeal realReadPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, sameName⟩ :=
+    carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD routeR
+  have unaryRealRead : UnaryHistory realRead :=
+    unary_cont_closed unaryR unaryE realSeal
+  exact
+    ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryRealRead, routeW, routeR,
+      realSeal, sameName, realReadPkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

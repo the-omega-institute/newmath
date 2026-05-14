@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\InterInscriptionCoherenceUp$}
+\label{ch:concrete-instances-inter-inscription-coherence-namecert}
+\origin{ai}
+
+The $\InterInscriptionCoherenceUp$ packet realizes the space-as-inter-chain-coherence reading of \autoref{ch:visions-apophatic-fixed-point-and-inscription} as a finite NameCert surface. It pairs two local inscription rows, binds them through an inter-$\Hist$ locality ledger, and exposes only the transport, route, provenance, and local naming data needed by downstream observer-locality consumers.
+
+The sibling surfaces \autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, \autoref{ch:concrete-instances-inscriptionpoint-namecert}, \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}, \autoref{ch:concrete-instances-observerhistidentity-namecert}, and \autoref{ch:concrete-instances-external-supply-boundary-namecert} each contribute part of this reading. None of them contains both paired inscription endpoints and a coherence ledger in one accepted carrier, so the paired packet below is not a renaming of any sibling.
+
+\begin{definition}[InterInscriptionCoherence carrier]
+\label{def:inter-inscription-coherence-carrier}
+An $\InterInscriptionCoherenceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(I,J,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the first local $\InscriptionPointUp$ row, naming one chain-side inscription point of the apophatic fixed point;
+\item $J$ is the second local $\InscriptionPointUp$ row, naming the comparison chain-side inscription point;
+\item $L$ is the $\InterHistLocalityLedgerUp$ row that records the locality-cell coherence between $I$ and $J$;
+\item $H$ records componentwise $\hsame$ transports for the two inscription rows, the inter-$\Hist$ locality ledger, the continuation routes, the provenance row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which downstream consumers read $I,J,L,H,P,N$ without obtaining a global space object or a hidden host metric;
+\item $P$ records $\Pkg$ provenance over $\ApophaticFixedPointFiberUp$, $\InscriptionPointUp$, $\InterHistLocalityLedgerUp$, $\ObserverHistIdentityUp$, $\ExternalSupplyBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InterInscriptionCoherenceUp}$ row.
+\end{enumerate}
+The carrier contains no global frame, no host-space coordinate, no quotient observer equality, no hidden shared subject, and no ambient synchronization principle.
+\end{definition}
+\leandef{BEDC.Derived.InterInscriptionCoherenceUp.InterInscriptionCoherenceUp}
+
+\begin{theorem}[InterInscriptionCoherence NameCert obligations]
+\label{thm:inter-inscription-coherence-namecert-obligations}
+For the carrier of \autoref{def:inter-inscription-coherence-carrier}, the local $\NameCert_{\InterInscriptionCoherenceUp}$ surface consists exactly of carrier admission for
+$$
+Z=(I,J,L,H,C,P,N),
+$$
+paired inscription exposure through $I$ and $J$, inter-$\Hist$ locality exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $I,J,L,H,C,P,N$ are the only coordinates available to the local certificate.
+
+Read the paired endpoint rows first. The two $\InscriptionPointUp$ rows supply distinct local inscription endpoints, while the $\InterHistLocalityLedgerUp$ row supplies the coherence ledger between them.
+
+The structural rows then close the certificate. Transport is componentwise through $H$, consumer replay is through $C$, provenance is recorded by $P$, and the local naming row $N$ certifies the same finite packet without adding a global frame or host-space coordinate.
+\end{proof}
+
+\begin{theorem}[InterInscriptionCoherence locality transport]
+\label{thm:inter-inscription-coherence-locality-transport}
+For every accepted $\InterInscriptionCoherenceUp$ packet $Z=(I,J,L,H,C,P,N)$, any downstream locality consumer that reads coherence between inscription points must read both inscription rows $I,J$ and the inter-$\Hist$ locality ledger $L$ through the displayed transport row $H$ and route row $C$. If either inscription row or the inter-$\Hist$ locality ledger is omitted, no accepted packet can satisfy this locality-transport surface.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{def:inter-inscription-coherence-carrier}. The coherence relation is stored only by the triple $I,J,L$ inside the finite packet.
+
+Apply the NameCert obligations of \autoref{thm:inter-inscription-coherence-namecert-obligations}. They require paired inscription exposure and locality-ledger exposure before any consumer route may replay the packet.
+
+The falsifiable clause follows by projection. Removing $I$, removing $J$, or removing $L$ destroys one of the required coordinates of the accepted carrier, so the displayed transport and route rows have no complete locality surface to carry.
+\end{proof}
+
+\begin{theorem}[InterInscriptionCoherence ledger non-escape]
+\label{thm:inter-inscription-coherence-ledger-nonescape}
+Every consumer of an accepted $\InterInscriptionCoherenceUp$ packet receives only the rows $I,J,L,H,C,P,N$. The consumer receives no global frame, no host metric, no quotient observer equality, no hidden shared subject, and no ambient synchronization coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. The public inventory is exactly the paired inscription rows, the inter-$\Hist$ locality ledger, transport, route, provenance, and local naming rows.
+
+Use locality transport from \autoref{thm:inter-inscription-coherence-locality-transport}. A coherence read must travel through the displayed $I,J,L,H,C$ surface, so it cannot be replaced by a host-space metric or a quotient observer equality.
+
+Finally use the absence clauses in the carrier. No row of $Z$ names a global frame, hidden shared subject, or ambient synchronization principle, and downstream consumers cannot recover such data from provenance or local naming alone.
+\end{proof}
+
+\begin{theorem}[InterInscriptionCoherence sibling dependency]
+\label{thm:inter-inscription-coherence-sibling-dependency}
+The $\InterInscriptionCoherenceUp$ carrier depends on the sibling surfaces $\ApophaticFixedPointFiberUp$, $\InscriptionPointUp$, $\InterHistLocalityLedgerUp$, $\ObserverHistIdentityUp$, and $\ExternalSupplyBoundaryUp$, but it is not equivalent to any one of them. Its accepted packet is the paired inscription-and-ledger surface $Z=(I,J,L,H,C,P,N)$, with two inscription endpoints, one inter-$\Hist$ locality ledger, transport, route, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+Read the sibling roles from the provenance row of \autoref{def:inter-inscription-coherence-carrier}. The apophatic fixed-point fiber supplies the boundary reading, inscription-point packets supply the endpoint rows, the inter-$\Hist$ locality ledger supplies coherence, observer-history identity supplies the history-side consumer discipline, and the external-supply boundary keeps the far end non-internal.
+
+Each sibling lacks at least one coordinate required by $Z$. The fixed-point fiber lacks the paired locality ledger; an inscription-point packet supplies one endpoint rather than two; an inter-$\Hist$ locality ledger lacks the two local inscription rows; observer-history identity lacks the apophatic inscription endpoints; and the external-supply boundary lacks the coherence ledger.
+
+Therefore the dependency is strict. Downstream Lean work must provide explicit $\mathsf{Nontrivial}\ \InterInscriptionCoherenceUp$ and $\mathsf{FieldFaithful}\ \InterInscriptionCoherenceUp$ instances in $\mathsf{TasteGate.lean}$ for the whole paired packet rather than for a sibling alone.
+\end{proof}
+
+\closureat{InterInscriptionCoherenceUp}{seedStr}
+
+\begin{closurestatus}{\InterInscriptionCoherenceUp}
+  \constructivestory{An $\InterInscriptionCoherenceUp$ packet is generated from two local inscription rows, one inter-$\Hist$ locality ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inter-inscription-coherence-carrier}, \autoref{thm:inter-inscription-coherence-namecert-obligations}, \autoref{thm:inter-inscription-coherence-locality-transport}, \autoref{thm:inter-inscription-coherence-ledger-nonescape}, and \autoref{thm:inter-inscription-coherence-sibling-dependency} bind the paired inscription endpoints, inter-Hist locality ledger, transport, route, provenance, local naming, non-escape, and sibling dependency surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global space, host metrics, quotient observer equality, hidden shared subjects, ambient synchronization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, locality transport, ledger non-escape, sibling dependency, and TasteGate instances for nontriviality and field faithfulness over the paired packet.}
+\end{closurestatus}

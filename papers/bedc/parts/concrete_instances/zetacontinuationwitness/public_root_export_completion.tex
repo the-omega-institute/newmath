@@ -1,0 +1,43 @@
+\begin{theorem}[ZetaContinuationWitness public source-lock export]
+\label{thm:zeta-continuation-witness-public-source-lock-export}
+For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every continuation consumer of the public source-lock export reaches the continuation surface only through the finite rows
+$$
+B,E,A,P,F,T,G,H,C,R,N.
+$$
+The export therefore routes source access through the $\ZetaBasicUp$ source row $B$, eta-continuation row $E$, analytic-continuation row $A$, pole ledger $P$, functional-equation route $F$, trivial-zero ledger $T$, Gamma boundary $G$, transport rows $H$, continuation routes $C$, provenance $R$, and local name $N$.
+\end{theorem}
+\begin{proof}
+Begin with the public export route of \autoref{thm:zeta-continuation-witness-public-export-route}. It already makes the finite packet $B,E,A,P,F,T,G,H,C,R,N$ the only public root-facing route.
+
+Apply the source scoped readback of \autoref{thm:zeta-continuation-witness-source-scoped-readback}. The source-facing part of the route must pass through $B,E,A,H,C,R,N$, so no continuation consumer can enter through an off-packet analytic branch.
+
+Finally use public export factorization. The pole, functional-equation, trivial-zero, and Gamma rows remain part of the same packet surface, so the public source-lock export has one displayed route for every continuation consumer.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public critical-strip export]
+\label{thm:zeta-continuation-witness-public-critical-strip-export}
+For an accepted $\ZetaContinuationWitnessUp$ packet, the public critical-strip export supplies only the finite witness packet
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure. It supplies no RH predicate, no non-trivial-zero locator, no global zero classifier, and no completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Use the critical-strip consumer scope of \autoref{thm:zeta-continuation-witness-critical-strip-consumer-scope}. It confines every critical-strip consumer to the displayed witness packet.
+
+Next apply the public critical-strip refusal theorem of \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. The public route has no coordinate for RH, a non-trivial-zero locator, a global zero classifier, or a completed Gamma certificate.
+
+The packet structure is then the one named by public export factorization. Its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows authenticate the finite export without adding any zero-location datum.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public root completion]
+\label{thm:zeta-continuation-witness-public-root-completion}
+An accepted $\ZetaContinuationWitnessUp$ public root surface is exactly the downstream packet obtained by packaging the source-lock export, the critical-strip export, the Gamma boundary, and the no-RH non-escape condition over the rows $B,E,A,P,F,T,G,H,C,R,N$. The surface is a finite downstream root witness route, not an RH theorem, zero locator, global analytic-continuation branch, or host complex equality principle.
+\end{theorem}
+\begin{proof}
+First combine the source-lock export of \autoref{thm:zeta-continuation-witness-public-source-lock-export} with the critical-strip export of \autoref{thm:zeta-continuation-witness-public-critical-strip-export}. Together they make the same finite packet the route for continuation consumers and critical-strip consumers.
+
+Add the Gamma boundary public ledger of \autoref{thm:zeta-continuation-witness-gamma-boundary-public-ledger}. Gamma-facing reads stop at $P,F,G,H,C,R,N$, unless the requested datum is already part of the displayed functional-equation route.
+
+Finally use analytic boundary non-escape and no-RH non-escape. RH predicates, zero locators, off-packet analytic branches, completed Gamma certificates, and host complex equality have no packet coordinate, so the packaged downstream root surface is exactly the finite route displayed above.
+\end{proof}

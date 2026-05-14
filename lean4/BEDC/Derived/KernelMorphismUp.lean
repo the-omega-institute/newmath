@@ -414,6 +414,28 @@ theorem KernelMorphismCarrier_edge_lift_transport [AskSetup] [PackageSetup]
         graphEndpoint', endpointPkg'⟩,
       targetSame, graphSame, endpointSame⟩
 
+theorem KernelMorphismCarrier_scoped_edge_lift_consumer [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport route provenance cert endpoint
+      endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismEdgeLiftCarrier source target graph edgeAdmission classifierLift transport route
+        provenance cert endpoint bundle pkg →
+      hsame endpointRead endpoint →
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+          UnaryHistory endpointRead ∧ Cont source edgeAdmission target ∧
+            Cont target classifierLift graph ∧ Cont graph route endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier endpointSame
+  obtain ⟨sourceUnary, targetUnary, graphUnary, _admissionUnary, _liftUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _certUnary, endpointUnary, sourceAdmissionTarget,
+    targetLiftGraph, graphRouteEndpoint, endpointPkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_transport_symm endpointUnary endpointSame
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, endpointReadUnary, sourceAdmissionTarget,
+      targetLiftGraph, graphRouteEndpoint, endpointPkg⟩
+
 theorem KernelMorphismCarrier_composition_scope [AskSetup] [PackageSetup]
     {source middle target graphLeft graphRight edgeLeft edgeRight liftLeft liftRight
       transportLeft routesLeft provenanceLeft certLeft transportRight routesRight provenanceRight
