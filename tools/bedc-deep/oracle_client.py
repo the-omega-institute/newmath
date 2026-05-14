@@ -326,6 +326,49 @@ def write_text(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
+def _extract_latex_body(raw_text: str) -> str:
+    fenced = re.search(r"```(?:latex)?\s*(.*?)```", raw_text or "", re.DOTALL)
+    if fenced:
+        return fenced.group(1)
+    first = re.search(r"\\begin\{(?:theorem|lemma|proposition|corollary|definition)\}", raw_text or "")
+    if first:
+        return raw_text[first.start():]
+    return raw_text or ""
+
+
+def _preflight_stage2_target(raw_text: str, suggested: str) -> tuple[bool, list[str], list[str]]:
+    """Deterministic Stage 2 target-file preflight before invoking writeback."""
+    if not suggested:
+        return (
+            False,
+            ["missing insertion target; expected `Insertion target: papers/bedc/parts/...tex`"],
+            ["bad_target_file"],
+        )
+    target = killo_golden_writeback._resolve_target_tex(suggested)
+    if target is None:
+        return (
+            False,
+            ["resolved tex_file is not a concrete body file"],
+            ["bad_target_file"],
+        )
+    content = _extract_latex_body(raw_text).strip()
+    if not content:
+        return (False, ["empty content"], ["empty_content"])
+    original = target.read_text(encoding="utf-8")
+    block = "\n\n" + content.rstrip() + "\n"
+    if "\\endinput" in original:
+        new_text = original.replace("\\endinput", block + "\\endinput", 1)
+    else:
+        new_text = original.rstrip() + block
+    if new_text.count("\n") + 1 > killo_golden_writeback.MAX_FILE_LINES:
+        return (
+            False,
+            [f"append would exceed {killo_golden_writeback.MAX_FILE_LINES} lines"],
+            ["line_cap"],
+        )
+    return (True, [], [])
+
+
 # ---------------------------------------------------------------------------
 # Verdict detection (response-side regex)
 # ---------------------------------------------------------------------------
@@ -1017,38 +1060,58 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
     if verdict == "done" and raw_latex_path.exists():
         max_attempts = int(getattr(args, "stage2_max_attempts", 3))
         for attempt in range(1, max_attempts + 1):
-            suggested = _extract_insertion_target(raw_latex_path.read_text(encoding="utf-8"))
-            result = killo_golden_writeback.writeback(
-                target_id=target.target_id,
-                target_title=target.title,
-                transcript_dir=out_dir,
-                raw_latex_path=raw_latex_path,
-                suggested_target_tex=suggested,
-            )
-            attempt_record = {
-                "attempt": attempt,
-                "ok": result.ok,
-                "verdict": result.verdict,
-                "tex_file": result.tex_file,
-                "appended": result.appended,
-                "compile_ok": result.compile_ok,
-                "rejection_reasons": list(result.rejection_reasons),
-                "rejection_codes": list(getattr(result, "rejection_codes", None) or []),
-                "compile_errors": list(getattr(result, "compile_errors", None) or []),
-                "error": result.error,
-                "closure_candidate": getattr(result, "closure_candidate", None) or {},
-                "logic_audit": getattr(result, "logic_audit", None) or {},
-            }
+            raw_text = raw_latex_path.read_text(encoding="utf-8")
+            suggested = _extract_insertion_target(raw_text)
+            preflight_ok, preflight_reasons, preflight_codes = _preflight_stage2_target(raw_text, suggested)
+            result = None
+            if preflight_ok:
+                result = killo_golden_writeback.writeback(
+                    target_id=target.target_id,
+                    target_title=target.title,
+                    transcript_dir=out_dir,
+                    raw_latex_path=raw_latex_path,
+                    suggested_target_tex=suggested,
+                )
+                attempt_record = {
+                    "attempt": attempt,
+                    "ok": result.ok,
+                    "verdict": result.verdict,
+                    "tex_file": result.tex_file,
+                    "appended": result.appended,
+                    "compile_ok": result.compile_ok,
+                    "rejection_reasons": list(result.rejection_reasons),
+                    "rejection_codes": list(getattr(result, "rejection_codes", None) or []),
+                    "compile_errors": list(getattr(result, "compile_errors", None) or []),
+                    "error": result.error,
+                    "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                    "logic_audit": getattr(result, "logic_audit", None) or {},
+                }
+            else:
+                attempt_record = {
+                    "attempt": attempt,
+                    "ok": False,
+                    "verdict": "reject",
+                    "tex_file": suggested,
+                    "appended": False,
+                    "compile_ok": False,
+                    "rejection_reasons": preflight_reasons,
+                    "rejection_codes": preflight_codes,
+                    "compile_errors": [],
+                    "error": "",
+                    "closure_candidate": {},
+                    "logic_audit": {},
+                    "stage2_preflight": True,
+                }
             stage2_attempts.append(attempt_record)
-            if result.appended and result.compile_ok:
+            if result is not None and result.appended and result.compile_ok:
                 print(
                     f"[v2 stage2 attempt {attempt}] appended to {result.tex_file} and `make` succeeded",
                     flush=True,
                 )
                 break
             print(
-                f"[v2 stage2 attempt {attempt}] verdict={result.verdict} "
-                f"appended={result.appended} compile_ok={result.compile_ok}",
+                f"[v2 stage2 attempt {attempt}] verdict={attempt_record['verdict']} "
+                f"appended={attempt_record['appended']} compile_ok={attempt_record['compile_ok']}",
                 flush=True,
             )
             if attempt >= max_attempts:
@@ -1059,16 +1122,18 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             # - verdict=="compile_failed": pdflatex broke; feed compile_errors as reasons
             # - other: nothing useful for codex; break
             corrective_reasons: list[str] = []
-            rejection_codes = list(getattr(result, "rejection_codes", None) or [])
-            if result.verdict == "reject" and result.rejection_reasons:
-                corrective_reasons = list(result.rejection_reasons)
+            rejection_codes = list(attempt_record.get("rejection_codes") or [])
+            rejection_reasons = list(attempt_record.get("rejection_reasons") or [])
+            verdict_for_corrective = str(attempt_record.get("verdict") or "")
+            if verdict_for_corrective == "reject" and rejection_reasons:
+                corrective_reasons = list(rejection_reasons)
                 if rejection_codes:
                     corrective_reasons = [
                         "Stage 2 rejection code(s): " + ", ".join(rejection_codes),
                         *corrective_reasons,
                     ]
-            elif result.verdict == "compile_failed":
-                ce = list(getattr(result, "compile_errors", None) or [])
+            elif verdict_for_corrective == "compile_failed":
+                ce = list(attempt_record.get("compile_errors") or [])
                 if ce:
                     corrective_reasons = [
                         "Stage 2 rejection code(s): "
@@ -1082,7 +1147,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                         "`$$ ... $$` display math not on its own line; undefined "
                         "control sequence (likely a typo or mashed token).",
                     ]
-            elif result.verdict == "reject" and rejection_codes:
+            elif verdict_for_corrective == "reject" and rejection_codes:
                 corrective_reasons = [
                     "Stage 2 rejection code(s): " + ", ".join(rejection_codes)
                 ]
@@ -1092,7 +1157,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
             # ---- v2 corrective: codex first, oracle fallback ----
             print(
                 f"[v2 stage2 attempt {attempt}] running codex corrective track "
-                f"(verdict={result.verdict}, {len(corrective_reasons)} reasons)",
+                f"(verdict={verdict_for_corrective}, {len(corrective_reasons)} reasons)",
                 flush=True,
             )
             cc = codex_track.run_codex_corrective_track(
