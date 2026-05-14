@@ -180,6 +180,26 @@ Apply metric-distance route soundness from \autoref{thm:uniformmodulus-metric-di
 Finally use consumer read exhaustion from \autoref{thm:uniformmodulus-consumer-read-exhaustion}. Since downstream consumers read only $E,D,\mathcal{P},R,C,M,F,L,Q,P,N$, there is no remaining coordinate for open-cover compactness, sequential compactness, host finite-subcover selection, host minimum selection, or an external modulus function.
 \end{proof}
 
+\begin{theorem}[UniformModulus root finite-net budget factorization]
+\label{thm:uniform-modulus-root-finite-net-budget-factorization}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+every root tolerance-to-precision consumer factors through exactly the finite $\mathsf{ProbeBundle}$ center row $\mathcal{P}$, the $\CompactMetricUp$ coverage row $C$, the $\MetricUp$ distance witness row, the $\RatUp$ radius and fold ledger rows $R,F$, the $\ContinuousMapUp$ pointwise-modulus row $M$, and the boundary rows $L,Q,P,N$.
+
+The factorization excludes open-cover compactness, host finite-subcover selection, host minimum selection, and external modulus functions. In particular, the consumer may read the folded precision row $D$ only after those displayed rows have supplied the center, coverage, distance, radius, pointwise, fold, transport, continuation, package, and local naming data.
+\end{theorem}
+\begin{proof}
+First build the finite-net spine. Apply \autoref{thm:uniformmodulus-finite-net-realizer-unblock}; it places every center read inside the displayed $\mathsf{ProbeBundle}$ row $\mathcal{P}$ with its compact coverage row $C$ and radius ledger $R$.
+
+Next route covered points through displayed metric data. Use \autoref{thm:uniformmodulus-covered-point-radius-route} to reach the bundled center and radius row before any pointwise-modulus row is consumed.
+
+Now apply \autoref{thm:uniformmodulus-metric-distance-route-soundness}. The distance witness, selected pointwise-modulus row in $M$, and finite fold ledger $F$ remain inside the same $\BHist$ packet and are transported only by $L,Q,P,N$.
+
+Finally use \autoref{thm:uniformmodulus-consumer-read-exhaustion}. Since the root consumer reads only $E,D,\mathcal{P},R,C,M,F,L,Q,P,N$, no coordinate remains for open-cover compactness, host finite-subcover selection, host minimum selection, or an external modulus function.
+\end{proof}
+
 \begin{theorem}[UniformModulus consumer read exhaustion]
 \label{thm:uniformmodulus-consumer-read-exhaustion}
 For an accepted $\UniformModulusUp$ packet
