@@ -19780,3 +19780,183 @@ Rationale:
 The existing FiniteTraceEvaluator surface proves bounded trace coverage, trace-result routing, result classifier exactness, trace-window accountability, and root trace-result totality, but those statements do not state prefix-subtrace restriction. The candidate is a concrete finite-ledger restriction theorem with useful downstream shape: it preserves the same validation boundary while preventing the prefix route from importing host validation or an unbounded evaluator. It is distinct from the existing trace-window accountability theorem because it constructs a restricted accepted route from an explicitly displayed prefix subtrace, rather than merely locating accepted results inside the finite trace window. The line-cap risk is real, so the BOARD target should direct work to a new sibling file under the existing FiniteTraceEvaluator chapter.
 
 ---
+
+### B-761 - PdeUp finite relation subrow projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | PdeUp finite relation subrow projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a PdeUp carried source row has a finite PDE relation row and a displayed subrow selects relation entries whose derivative endpoints, order tags, and type tags all occur in the original relation, then the selected subrow is again a carried PdeUp relation row over the same manifold, derivative, boundary-data, package, and probe sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/172_pde_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct projection/repacking through the displayed finite relation-entry selector; cut_rank 0 because the proof only reuses the existing manifold, derivative, boundary, package, and probe rows.
+- `ripeness_risk`: medium, the theorem is local and finite but needs precise wording so it is not confused with the existing relation-transport classifier obligation.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite selector over displayed PDE relation entries and their already named endpoint, order, type, boundary, package, and probe rows.
+- `witness_extractor`: pde_relation_subrow_selector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct projection/repacking through the displayed finite relation-entry selector; cut_rank 0 because the proof only reuses the existing manifold, derivative, boundary, package, and probe rows.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: finite PDE relation row, selected derivative endpoint entries, order tags, type tags, same ManifoldUp carrier row, same DerivativeUp endpoint rows, same boundary-data classifier row, same Pkg provenance, and same ProbeBundle read rows
+- `dependency_trace`: Uses def:pde-carried-source-row for the carried source packet, thm:pde-relation-classifier-obligation for endpoint/order/type relation shape, thm:pde-boundary-data-obligation for boundary-row compatibility, and thm:pde-public-interface-export for the public exported rows.
+- `rate_modulus_surface`: finite PDE relation row whose entries name derivative endpoints together with order and type tags, plus the ProbeBundle read rows and boundary-data classifier carried by the same source row
+- `oracle_mode`: proof_search
+Rationale:
+This target fills a concrete gap in the PdeUp surface. The chapter already defines a carried source row with finite PDE relation entries over named derivative endpoints and proves transport and public-interface export theorems, but those theorems treat the relation row as a whole packet. A finite subrow projection lemma is distinct from relation transport: it states that selecting displayed relation entries and preserving their endpoint/order/type data yields a smaller carried relation row over the same sources. The claim is finite, local, and useful for downstream PDE examples that consume only part of a displayed equation packet.
+
+---
+
+### B-760 - Fourier finite observation subpacket restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Fourier finite observation subpacket restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a FourierUp finite-observation package carries coefficient observations, transform samples, inner-product probes, and integral witnesses, and a displayed finite subpacket selects some of those observations with their attached ledger entries, then the selected subpacket is again a FourierUp finite-observation package over the same SOneUp, RealUp, InnerProductUp, and IntegralUp sources.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/102_fourier_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `ripeness_risk`: low, the landing file is short and the claim is a finite selector over already exposed Fourier observation rows.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a displayed finite selector over already certified observation and ledger rows, with no convergence, inversion, or Plancherel content.
+- `witness_extractor`: fourier_observation_subpacket_selector
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: Direct projection/repacking through the displayed finite subpacket selector; cut_rank 0 because no intermediate bridge, analytic theorem, or host equality is introduced.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: finite coefficient observations, transform samples, inner-product probes, integral witnesses, ProbeBundle/SigRel rows, attached truncation windows, orthogonality probes, integration witnesses, convergence-modulus ledger entries, and same source-package provenance
+- `dependency_trace`: Uses thm:fourier-carrier-obligation for the finite observation carrier surface, thm:fourier-ledger-obligation for attached truncation/window/orthogonality/integration/modulus rows, and thm:fourier-exactness-obligation for finite-package coverage, soundness, and completeness.
+- `rate_modulus_surface`: finite coefficient and transform observation package with coefficient windows, truncation-bound ledger entries, orthogonality probes, integration witness rows, and convergence-modulus ledger entries recorded beside the selected observations
+- `oracle_mode`: proof_search
+Rationale:
+This deserves a target slot because FourierUp currently exposes a finite-observation carrier, classifier, ledger, exactness row, and standard bridge, but it does not isolate the closure property needed when a downstream consumer keeps only a displayed finite subpacket of observations. The claim stays fully BEDC-native: it copies visible ProbeBundle/SigRel rows and their attached ledgers, preserves the same SOneUp, RealUp, InnerProductUp, and IntegralUp provenance, and explicitly avoids analytic Fourier theorems. It is not a duplicate of the existing standard bridge because the bridge exports the whole finite interface, while this target gives the local restriction lemma for subpacket consumers.
+
+---
+
+### B-763 - Matrix singleton additive fold double-reverse readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (both) |
+| Object | Matrix singleton additive fold double-reverse readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a singleton additive fold spine is carried under the MatrixUp singleton fold surface, then the fold over its double reversal is carried and classifier-equal to the original singleton additive fold.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `ripeness_risk`: low, because the landing file is short and the proof only composes existing finite reverse readback facts.
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The claim only uses finite singleton fold data, finite reverse preservation, reverse involutivity, and transitivity of classifier equality, so no search, choice, quotient, cover, limit, or modulus resource is visible.
+- `witness_extractor`: matrix_singleton_add_fold_double_reverse_readback
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `elimination_plan`: cut_rank 0: the proof is a direct finite-spine repacking using reverse-carrier readback twice and reverse involutivity, with no intermediate bridge cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: A carried finite singleton additive fold spine; the existing reverse-carrier readback for the spine and for its reverse; the finite reverse-involutive endpoint normalization; and history-sameness transitivity for the displayed classifier comparison.
+- `dependency_trace`: Uses the MatrixUp singleton additive fold reverse-empty append readback and reverse-carrier readback in papers/bedc/parts/concrete_instances/matrix/finite_fold_reverse_readback.tex; no ambient chapter dependencies beyond the existing MatrixUp finite fold carrier and classifier surface are needed.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is a concrete existing-chapter lemma with a precise implication form, a safe landing file, and visible proof resources already present in the MatrixUp reverse readback surface. It is not a new chapter, not a marker or verification-status task, and not abstract parameter echo: it records a specific finite double-reversal closure/readback fact for the singleton additive fold object. Novelty is only moderate because it is a close corollary of the single-reverse theorem, but the supplied paper and BOARD evidence indicates no existing double-reverse label or target, so it clears the threshold as a small local strengthening.
+
+---
+
+### B-762 - KKT finite slackness optimality extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KKT finite slackness optimality extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted KKTUp packet exposes primal feasibility, dual feasibility, stationarity, and a complementary-slackness ledger whose primal-dual rows instantiate the LPDualityUp finite ordered-field surface, then the packet exports the LPDuality weak-duality slackness optimality packet for those displayed primal and dual rows, without adding solver semantics.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lpduality/dual_faces_and_objective_fibers.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: cut_rank=1: project the KKT finite carrier rows into the LPDuality primal-feasibility, dual-feasibility, and complementary-slackness rows; invoke the existing LPDuality slackness optimality packet; repackage the exported optimality certificate back through the KKT finite consumer boundary with no solver-existence or host-minimization cut.
+- `ripeness_risk`: low, because all resources are finite rows already named in KKT and LPDuality surfaces
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible level is finite witness extraction: the proof only consumes displayed feasibility and complementary-slackness rows plus the finite weak-duality packet, with no compactness, limit, choice, or optimization-existence principle.
+- `witness_extractor`: KKT_primal_dual_slackness_row_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: cut_rank=1: project the KKT finite carrier rows into the LPDuality primal-feasibility, dual-feasibility, and complementary-slackness rows; invoke the existing LPDuality slackness optimality packet; repackage the exported optimality certificate back through the KKT finite consumer boundary with no solver-existence or host-minimization cut.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: finite KKT carrier rows -> displayed LP primal row -> displayed LP dual row -> complementary-slackness product ledger -> LPDuality objective-equality and weak-duality optimality packet -> KKT finite consumer export
+- `dependency_trace`: KKT carrier and classifier surface in papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex; LPDuality finite ordered-field surface in papers/bedc/parts/concrete_instances/213_lpduality_namecert_construction.tex; slackness optimality packet in papers/bedc/parts/concrete_instances/lpduality/dual_faces_and_objective_fibers.tex
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete existing-chapter consequence rather than a new object: KKT already advertises finite optimality data and carries the feasibility and complementary-slackness rows, while LPDuality already contains the finite slackness-to-optimality packet. The missing theorem is the conservative export step from the KKT packet to the LPDuality optimality certificate. It is distinct from the existing KKT finite-packet standard bridge because the target is not just a carrier/standard-surface bridge; it consumes the complementary-slackness ledger to extract a specific weak-duality optimality packet. The target is finite, auditable, and useful as a downstream consumer-facing closure row.
+
+---
