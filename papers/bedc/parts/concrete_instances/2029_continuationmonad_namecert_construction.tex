@@ -187,6 +187,42 @@ Use ledger exactness to read the unit, first step, second step, and composite fr
 Finally apply the Kleisli composition boundary and scope non-escape. The only route available to a public consumer is the displayed $\Cont$ route row, so no second host route or host monad equality can be projected.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad route readback totality]
+\label{thm:continuation-monad-route-readback-totality}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every public readback of the route is one of the displayed unit, first-step, second-step, or composite rows recorded by $K$, $L$, and $N$. The readback surface is exhausted by the histories $A,B,C$, tails $u,f,g$, componentwise transport $H$, continuation route row $K$, ledger row $L$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier obligation. It projects the accepted packet to exactly $A,B,C,f,g,u,H,K,L,N$, so a public route read has no source coordinate outside the displayed continuation packet.
+
+Use classifier stability and ledger exactness to keep the unit, first-step, second-step, and composite reads on $H$, $K$, and $L$. These rows record the route as finite continuation data rather than as host functions.
+
+Finally apply \autoref{thm:continuation-monad-kleisli-composition-boundary}, \autoref{thm:continuation-monad-scoped-route-dependencies}, and \autoref{thm:continuation-monad-route-readback-determinacy}. The boundary supplies the finite Kleisli-facing route, the dependency theorem restricts all consumers to the listed BEDC rows, and determinacy says the four displayed readbacks exhaust the public route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad unit-composite readback totality]
+\label{thm:continuation-monad-unit-composite-readback-totality}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, unit-law consumers and composite-law consumers are jointly exhausted by $u,f,g,H,K,L,N$. They may read the displayed unit row, the two displayed step rows, the displayed composite row, componentwise $\hsame$ transport, the continuation ledger, and the local $\NameCert_{\ContinuationMonadUp}$ row, but they cannot request host monad equalities.
+\end{theorem}
+\begin{proof}
+Project the packet by carrier obligation. The only unit input is the tail $u$, and the only composite inputs are the tails $f$ and $g$ together with the route row $K$.
+
+Apply classifier stability and ledger exactness. Stability keeps all unit and composite reads under the same transport row $H$, while exactness records their readbacks through $K$ and $L$.
+
+Now use \autoref{thm:continuation-monad-kleisli-composition-boundary}, \autoref{thm:continuation-monad-scoped-route-dependencies}, and \autoref{thm:continuation-monad-route-readback-determinacy}. The boundary excludes host monad equality, the scoped dependencies leave only $u,f,g,H,K,L,N$, and determinacy identifies any public unit-law or composite-law read with one of those displayed rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad category-boundary readback totality]
+\label{thm:continuation-monad-category-boundary-readback-totality}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ handoff is total exactly on the same finite route rows $A,B,C,f,g,u,H,K,L,N$. A category-boundary consumer receives only the displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ surface of that packet, with no independent category object, host function, quotient Kleisli arrow, or host monad equality.
+\end{theorem}
+\begin{proof}
+First use the carrier obligation to expose the route rows $A,B,C,f,g,u,H,K,L,N$. The category-facing names are attached to those histories, tails, transport, route, ledger, provenance, and naming rows.
+
+Classifier stability and ledger exactness identify the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings with the same displayed continuation data. No category-boundary read can leave the transport row $H$ or the ledger rows $K$ and $L$.
+
+Finally apply \autoref{thm:continuation-monad-kleisli-composition-boundary}, \autoref{thm:continuation-monad-scoped-route-dependencies}, and \autoref{thm:continuation-monad-route-readback-determinacy}. The category boundary is therefore total precisely on the finite route readbacks already determined by $Z$, and every excluded host or quotient object remains outside the public handoff.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad unit route non-escape]
 \label{thm:continuation-monad-unit-route-nonescape}
 Every public unit-law read of an accepted $\ContinuationMonadUp$ packet factors through the unit tail $u$, componentwise transport row $H$, continuation route row $K$, ledger row $L$, and local $\NameCert_{\ContinuationMonadUp}$ row $N$. The read may expose the finite $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows of the packet, but it cannot export host monad equality, a host identity function, or a quotient Kleisli unit.
