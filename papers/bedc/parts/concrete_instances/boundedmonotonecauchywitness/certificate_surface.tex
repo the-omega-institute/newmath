@@ -245,6 +245,32 @@ Classifier movement is supplied by \autoref{thm:bounded-monotone-cauchy-witness-
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Every public read is exhausted by the listed carrier rows, so the scoped dependency package is exactly the displayed package and no excluded completion or compactness object belongs to it.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness source-to-seal triad]
+\label{thm:bounded-monotone-cauchy-witness-source-to-seal-triad}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every $\RealUp$-facing bounded monotone witness read from $W$ factors through exactly three stages:
+\begin{enumerate}
+\item the bounded source generator rows $S_{\mathrm{gen}},S_{\mathrm{mono}},S_{\mathrm{ub}}$ over the displayed $\RegSeqRatUp$ and $\StreamNameUp$ interface;
+\item the scheduled finite tail-window service $\sigma,\mu,\lambda$ over the displayed $\CauchyModulusUp$ and $\DyadicRatCoreUp$ interface;
+\item the located $\RealUp$ seal route $I,Q,H,C,P,N$ through the displayed $\LocatedIntervalUp$ and $\RealUp$ rows.
+\end{enumerate}
+No selected limit, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness row enters between these stages or supplies an additional $\RealUp$-facing route.
+\end{theorem}
+\begin{proof}
+Start with the bounded source. By \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness}, every generator-facing observation is already confined to $S_{\mathrm{gen}},S_{\mathrm{mono}},S_{\mathrm{ub}}$ together with the displayed regular-sequence, stream-name, and dyadic guard data.
+
+Next pass to the finite tail service. \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope} sends each tolerance request through $\mu$ on the windows scheduled by $\sigma$ and records the tolerance ledger in $\lambda$.
+
+For the seal-facing route, use \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. It routes every $\RealUp$ read through the located interval row $I$, the seal row $Q$, the transport row $H$, the continuation row $C$, provenance $P$, and the local naming row $N$.
+
+Now compare the three pieces with \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}. That package lists $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as the whole public surface of the accepted carrier, with the source rows, scheduled tail service, and located seal route as the only BEDC packet stages visible to consumers.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since the public ledger is exhausted by the displayed rows, no selected limit, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness row can enter between the three stages or provide a further seal route.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness source row scope]
 \label{thm:bounded-monotone-cauchy-witness-source-row-scope}
 Let
@@ -557,6 +583,26 @@ First invoke the budget regularity lock and located trap factorization above. Th
 Next apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. The seal row $Q$ is readable only after the located trap and witness-facing rows have been displayed.
 
 Finally use \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion} together with \autoref{thm:bounded-monotone-cauchy-witness-cauchy-modulus-extraction-factorization}. The ledger exhausts every public read, and the modulus factorization keeps tolerance responses inside $\sigma,\mu,\lambda$. Therefore the seal schedule has no remaining coordinate for any excluded equality, limit, completeness, trichotomy, compactness, or choice object.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness seal-trap-budget determinacy]
+\label{thm:bounded-monotone-cauchy-witness-seal-trap-budget-determinacy}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose two Real-completion-facing consumers agree on the bounded source row $S$, regular handoff row $F$, schedule $\sigma$, Cauchy modulus row $\mu$, dyadic ledger $\lambda$, located trap $I$, and structural rows $H,C,P,N$. Then they determine the same $\RealUp$ seal read $Q$ and the same completion-facing export of $W$.
+
+The determinacy is only a row-level determinacy for the displayed carrier route. It does not assert a selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First apply the tail-window service. It makes each tolerance request pass through the same displayed $S,F,\sigma,\mu,\lambda$ service, so the two consumers have no separate tail budget to read.
+
+Next use located trap factorization. Since both consumers agree on $I$ and on the structural rows $H,C,P,N$, every trap-facing read is already fixed by the shared source, handoff, schedule, modulus, ledger, and structural route.
+
+Now apply Real seal schedule exhaustion. The seal row $Q$ is readable only through that shared route, hence both consumers determine the same Real seal read.
+
+Finally invoke the Real completion export theorem. The completion-facing export has no coordinate beyond $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so equality of the shared route and of the seal read forces the same export while excluding all selected-limit, quotient, host-equality, trichotomy, completeness, compactness, and choice-tail data.
 \end{proof}
 
 \begin{theorem}[Bounded monotone Cauchy witness source-tail synchronization]
