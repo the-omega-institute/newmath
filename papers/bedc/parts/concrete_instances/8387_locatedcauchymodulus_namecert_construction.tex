@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyModulusUp$}
+\label{ch:concrete-instances-locatedcauchymodulus-namecert}
+\origin{ai}
+
+The $\LocatedCauchyModulusUp$ packet realizes the Real and Completion route of \autoref{ch:visions-real-completeness} as a finite located tail-modulus object. It sits downstream of the finite seal classifier in \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}: StreamName windows, RegSeqRat readbacks, DyadicRatCore radius ledgers, CauchyLimitSeal compatibility rows, and RealUp seal rows are exposed as one displayed packet before any completion-facing consumer may read the seal. The packet is not a quotient stream, host real equality, selected limit, countable-choice surface, or ambient completeness principle.
+
+\begin{definition}[Located Cauchy modulus carrier]
+\label{def:located-cauchy-modulus-carrier}
+A $\LocatedCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,R,D,T,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window source row;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row exposed from the displayed windows;
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger recording the dyadic tolerance attached to the same tail request;
+\item $T$ is the located tail-modulus row naming the finite threshold at which the StreamName and RegSeqRat windows become mutually readable at radius $D$;
+\item $L$ is the $\CauchyLimitSealUp$ compatibility row reached after the located tail-modulus threshold;
+\item $E$ is the $\RealUp$ seal row consumed only after $S,R,D,T,L$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the window, readback, radius, modulus, limit-seal, Real-seal, route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from $S,R,D$ to $T$, from $T$ to $L$, and from $L$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedCauchyModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, selected limits, unbounded observation, detached tail choice, or a RealUp seal read that bypasses the located modulus row.
+\end{definition}
+
+\begin{theorem}[Located Cauchy modulus NameCert obligations]
+\label{thm:located-cauchy-modulus-namecert-obligations}
+For the carrier of \autoref{def:located-cauchy-modulus-carrier}, the local $\NameCert_{\LocatedCauchyModulusUp}$ surface consists exactly of carrier admission for
+$$
+M=(S,R,D,T,L,E,H,C,P,N),
+$$
+StreamName window exposure through $S$, RegSeqRat readback through $R$, DyadicRatCore radius accounting through $D$, located tail-modulus exposure through $T$, CauchyLimitSeal compatibility through $L$, RealUp seal routing through $E$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-cauchy-modulus-carrier}. The displayed packet exposes exactly the window, readback, radius, tail-modulus, limit-seal, Real-seal, transport, route, provenance, and local naming rows.
+
+Read the route in dependency order. The StreamName row $S$ supplies the finite window, the RegSeqRat row $R$ reads that window as regular-rational data, and the DyadicRatCore row $D$ supplies the radius ledger. The located modulus row $T$ may then be consumed, followed by the CauchyLimitSeal compatibility row $L$ and the RealUp seal row $E$.
+
+The rows $H,C,P,N$ preserve this route componentwise, replay it as displayed continuations, record its provenance, and name the local surface. Since the carrier contains no quotient stream equality, host real equality, selected limit, unbounded observation, detached tail choice, or bypass route to $E$, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Located Cauchy modulus window stability]
+\label{thm:located-cauchy-modulus-window-stability}
+Let $M=(S,R,D,T,L,E,H,C,P,N)$ and $M'=(S',R',D',T',L',E',H',C',P',N')$ be accepted $\LocatedCauchyModulusUp$ packets. If their StreamName, RegSeqRat, DyadicRatCore, and located tail-modulus rows are related componentwise by the displayed transport rows $H$ and $H'$, then every completion-facing read of $E$ and $E'$ factors through the same ordered window route
+$$
+S,R,D,T,L,E.
+$$
+In particular, transport cannot create a second RealUp seal route outside the displayed StreamName window, RegSeqRat handoff, DyadicRatCore radius ledger, located modulus threshold, and CauchyLimitSeal compatibility row.
+\end{theorem}
+\begin{proof}
+Start with the two carrier projections. The only analytic rows before the RealUp seal are $S,R,D,T,L$ in the first packet and $S',R',D',T',L'$ in the second.
+
+Use the NameCert obligations above. They bind every accepted seal read to the displayed route through the StreamName window, RegSeqRat readback, DyadicRatCore radius ledger, located modulus threshold, and CauchyLimitSeal compatibility row.
+
+Now apply the componentwise transport rows. Transport preserves the named window, readback, radius, modulus, limit-seal, and Real-seal coordinates, while the displayed continuations replay the same order. No carrier coordinate remains for quotient stream equality, host real equality, selected limits, or a detached tail oracle, so transported completion-facing reads still factor through the same finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted RealUp seal read from a located modulus factors through a displayed StreamName window, RegSeqRat handoff, DyadicRatCore radius ledger, and CauchyLimitSeal compatibility row.}
+
+\independenceWitness{cauchymodulus, regseqrat, streamname, realcompletionsealclassifier, cauchysealbudgetsynchronizer: none is bijective to $\LocatedCauchyModulusUp$ because a Cauchy modulus row lacks the StreamName and RegSeqRat window readbacks, RegSeqRat lacks the dyadic radius and limit-seal rows, StreamName lacks the regular-rational and Real seal rows, RealCompletionSealClassifier lacks the located tail-modulus threshold as a carrier row, and CauchySealBudgetSynchronizer records synchronized budget rows without making the located modulus row the displayed threshold. The located carrier stores $S,R,D,T,L,E,H,C,P,N$ together in one finite surface.}
+
+The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived/LocatedCauchyModulusUp/TasteGate.lean}. It must provide \texttt{Nontrivial LocatedCauchyModulusUp} and \texttt{FieldFaithful LocatedCauchyModulusUp} instances for the same displayed carrier.
+
+\closureat{LocatedCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyModulusUp}
+  \constructivestory{A $\LocatedCauchyModulusUp$ packet is generated from a StreamName finite-window source, RegSeqRat readback, DyadicRatCore radius ledger, located tail-modulus row, CauchyLimitSeal compatibility row, RealUp seal, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-modulus-carrier}, \autoref{thm:located-cauchy-modulus-namecert-obligations}, and \autoref{thm:located-cauchy-modulus-window-stability} bind the finite located tail-modulus route from StreamName and RegSeqRat windows through DyadicRatCore radius accounting to CauchyLimitSeal and RealUp seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located tail-modulus exposure, window stability, CauchyLimitSeal compatibility, RealUp seal routing, nontriviality, and field faithfulness for the same finite packet.}
+\end{closurestatus}
