@@ -491,6 +491,35 @@ def _board_judge_action_lines(error_kind: str, *, prefix: str = "  ") -> list[st
     return lines
 
 
+def _planner_action_lines(error_kind: str, *, prefix: str = "  ") -> list[str]:
+    """Render operator guidance for PI planner/fallback outages."""
+    if "planner_unavailable" not in error_kind:
+        return []
+    lines = [
+        (
+            f"{prefix}alert: PI planner/fallback is unavailable; "
+            "this is a CLI-side planning issue, not a BEDC oracle tab-refresh signal."
+        )
+    ]
+    if "claude_not_logged_in" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI auth for PI planning and shared judge paths."
+        )
+    elif "claude_access_denied" in error_kind:
+        lines.append(
+            f"{prefix}action: restore Claude CLI organization access for PI planning."
+        )
+    if "codex_sandbox_init_failed" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also failed during sandbox app-server initialization."
+        )
+    elif "codex_operation_not_permitted" in error_kind:
+        lines.append(
+            f"{prefix}note: Codex planner fallback also hit an operation-permitted sandbox failure."
+        )
+    return lines
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -794,10 +823,22 @@ def render_board_refill() -> str:
                 "  scanner: "
                 f"gap_hits={scanner_stats.get('gap_hits', 0)} "
                 f"namecert_raw={scanner_stats.get('raw_namecert_candidates', 0)} "
+                f"prelimit={scanner_stats.get('prelimit_candidates', 0)} "
+                f"emitted={scanner_stats.get('emitted_candidates', 0)}/"
+                f"{scanner_stats.get('limit', 0)} "
                 f"paper_covered_skips={scanner_stats.get('skip_known_paper_covered_title', 0)} "
                 f"board/archive_skips={scanner_stats.get('skip_existing_board_or_archive_title', 0)} "
-                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)}"
+                f"nonsubstantive_skips={scanner_stats.get('skip_nonsubstantive_gap', 0)} "
+                f"threshold_skips={scanner_stats.get('skip_below_threshold', 0)} "
+                f"batch_dupes={scanner_stats.get('skip_duplicate_title_in_batch', 0)}"
             )
+            by_kind = scanner_stats.get("gap_hits_by_kind") or {}
+            if isinstance(by_kind, dict) and by_kind:
+                kind_text = ", ".join(
+                    f"{key}={value}"
+                    for key, value in sorted(by_kind.items(), key=lambda item: str(item[0]))
+                )
+                lines.append(f"  scanner gap kinds: {kind_text}")
     if latest_status.startswith("local_gap_fallback_judge_unavailable"):
         lines.append(
             "  alert: local gap fallback found pre-gate candidates, but BOARD judge is unavailable; "
@@ -1079,6 +1120,7 @@ def render_pi_agent() -> str:
         error_kind = str(rec.get("error_kind") or "").strip()
         if error_kind:
             lines.append(f"  error_kind: {error_kind}")
+            lines.extend(_planner_action_lines(error_kind))
         else:
             lines.append("  error_kind: planner_failed_without_classified_reason")
     if rates:
