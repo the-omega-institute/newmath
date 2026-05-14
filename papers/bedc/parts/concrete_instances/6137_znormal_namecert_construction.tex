@@ -121,6 +121,54 @@ Apply \autoref{thm:znormal-namecert-obligations} to bind the NameCert surface. T
 Finally use \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. These identify the terminal read and the sibling normal-word handoff as displayed finite rows, so the carrier, NameCert, fuel, terminal readback, sibling handoff, and host-boundary components form one obligation package.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ route transport]
+\label{thm:znormal-route-transport}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the route from the typed endpoint row $T$ through finite fuel $F$, terminal normality $V$, the sibling normal-word row $K$, and the terminal continuation read $R$ is transported only by the displayed componentwise row $H$ and replayed only by the displayed continuation row $C$. No accepted route can insert host conversion, quotient computation, unrestricted evaluation, or a global normalizer between these coordinates.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:znormal-carrier}. The only route-bearing coordinates exposed by the carrier are the componentwise transport row $H$ and the continuation replay row $C$.
+
+Apply \autoref{thm:znormal-namecert-obligations} to bind these rows to the local $\NameCert_{\ZNormalUp}$ surface. Then use \autoref{thm:znormal-fuel-normality-nonescape} to keep the path from $T$ through $F$ and $V$ inside finite fuel and terminal-normality evidence.
+
+Finally apply \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. The terminal read and sibling normal-word row are reached through the same displayed transport and replay rows, so no external normalizer or host computation route is available.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal output boundary]
+\label{thm:znormal-normal-output-boundary}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the public normal-output row is exactly the terminal-normality row $V$ together with the terminal read row $R$. This output boundary exports no divergence oracle, host conversion, quotient computation, unrestricted evaluator, global normalizer, or total host-computation principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The normal-output data are displayed as $V$ and $R$, while $T,F,K,H,C,P,N$ only type, fuel, compare, transport, replay, package, and name that same finite packet.
+
+Use \autoref{thm:znormal-namecert-obligations} to make the projection a local certificate read. The finite-output claim is then constrained by \autoref{thm:znormal-fuel-normality-nonescape}, which excludes divergence and unrestricted evaluation at the fuel boundary.
+
+The terminal side is fixed by \autoref{thm:znormal-terminal-readback-exactness}, and the sibling side is fixed by \autoref{thm:znormal-sibling-normalword-handoff}. Together they show that $V$ with $R$ is the whole public normal-output boundary and that no host conversion, quotient computation, or global normalizer is exported.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ consumer non-escape]
+\label{thm:znormal-consumer-nonescape}
+Every downstream consumer of an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+factors through the displayed rows $T,F,V,K,R,H,C,P,N$ and the finite sibling surfaces cited in \autoref{thm:znormal-sibling-normalword-handoff}. The consumer obtains no route to host conversion, quotient computation, unrestricted evaluation, global normalization, divergence detection, or total host computation outside those rows.
+\end{theorem}
+\begin{proof}
+Project $Z$ through \autoref{def:znormal-carrier}. This exposes the typed endpoint, fuel, terminal normality, sibling normal-word, terminal read, transport, continuation, provenance, and naming rows as the complete consumer surface.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The certificate admits consumer reads only through those displayed coordinates and their local $\NameCert_{\ZNormalUp}$ provenance.
+
+The finite boundary is inherited from \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-terminal-readback-exactness}. The only sibling handoff available to downstream chapters is the finite handoff of \autoref{thm:znormal-sibling-normalword-handoff}. Hence every consumer factors through the displayed packet and cannot escape to any omitted host or global normalization object.
+\end{proof}
+
 The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp} instances for the same carrier.
 
 \closureat{ZNormalUp}{seedStr}
@@ -128,7 +176,7 @@ The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt
 \begin{closurestatus}{\ZNormalUp}
   \constructivestory{A $\ZNormalUp$ packet is generated from a typed reduction normal-form row, finite fuel row, terminal-normality row, finite Zeckendorf and carry-facing comparison row, continuation terminal-read row, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-obligation-closure-package} bind the finite normal-form packet, terminal readback, sibling handoff, and host-side total-language boundary.}
+  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, \autoref{thm:znormal-obligation-closure-package}, \autoref{thm:znormal-route-transport}, \autoref{thm:znormal-normal-output-boundary}, and \autoref{thm:znormal-consumer-nonescape} bind the finite normal-form packet, terminal readback, sibling handoff, route transport, public normal-output boundary, consumer non-escape, and host-side total-language boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
