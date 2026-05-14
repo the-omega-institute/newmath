@@ -610,7 +610,7 @@ def writeback(
 
 
 def _extract_compile_errors(compile_log: str) -> list[str]:
-    """Pluck real pdflatex errors out of the noisy compile log.
+    """Pluck real pdflatex/precheck errors out of the noisy compile log.
 
     Returns a deduplicated list of error lines + their line context (`l.NNN`
     line) suitable to feed back to codex as rejection_reasons. Filters out
@@ -621,6 +621,27 @@ def _extract_compile_errors(compile_log: str) -> list[str]:
     out: list[str] = []
     seen: set[str] = set()
     lines = compile_log.splitlines()
+
+    def add(msg: str) -> None:
+        msg = msg.strip()[:400]
+        if msg and msg not in seen:
+            seen.add(msg)
+            out.append(msg)
+
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith("DUPLICATE \\leanchecked / \\leantarget"):
+            ctx = []
+            for j in range(i + 1, min(i + 5, len(lines))):
+                cl = lines[j].strip()
+                if cl:
+                    ctx.append(cl)
+            add(stripped + (" | " + " ; ".join(ctx) if ctx else ""))
+        elif stripped.startswith("Fix: keep one canonical site with \\leanchecked / \\leantarget"):
+            add(stripped)
+        if len(out) >= 8:
+            return out
+
     skip_prefixes = (
         "Overfull \\hbox", "Underfull \\hbox", "Overfull \\vbox", "Underfull \\vbox",
         "LaTeX Font Warning",
@@ -640,12 +661,9 @@ def _extract_compile_errors(compile_log: str) -> list[str]:
             cl = lines[j].strip()
             if cl.startswith("l.") or "Undefined" in cl or "Missing" in cl:
                 ctx.append(cl[:200])
-        msg = (stripped + " | " + " ; ".join(ctx))[:400]
-        if msg not in seen:
-            seen.add(msg)
-            out.append(msg)
-            if len(out) >= 8:  # cap; codex doesn't need 50 errors
-                break
+        add(stripped + " | " + " ; ".join(ctx))
+        if len(out) >= 8:  # cap; codex doesn't need 50 errors
+            break
     return out
 
 
