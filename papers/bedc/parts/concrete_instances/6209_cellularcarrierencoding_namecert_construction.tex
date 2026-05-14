@@ -220,6 +220,28 @@ The structural fields are visible for the same reason. Route stability preserves
 Therefore the classifier cannot hide a field mismatch inside host bytes, quotient representatives, or detached cellular evaluation. Equality of the ordered projection is equality of accepted packets, and inequality in a displayed field remains classifier-visible.
 \end{proof}
 
+\begin{theorem}[CellularCarrierEncoding formal target boundary]
+\label{thm:cellular-carrier-encoding-formal-target-boundary}
+The paper surface of $\CellularCarrierEncodingUp$ exposes the exact obligations needed by later formal instances. The witness pair of \autoref{thm:cellular-carrier-encoding-two-witness-separation} supplies the displayed paper witnesses for a later
+$$
+\mathsf{Nontrivial}\ \CellularCarrierEncodingUp
+$$
+instance. The ordered projection of \autoref{thm:cellular-carrier-encoding-field-projection-faithfulness} supplies the field-faithful projection consumed by a later
+$$
+\mathsf{FieldFaithful}\ \CellularCarrierEncodingUp
+$$
+instance.
+
+Both obligations are read through the existing checked TasteGate alignment surface and through the carrier rows $B,T,R,S,H,C,P,N$. No host byte string, hidden row offset, detached cellular evaluator, orbit quotient, or unrecorded substrate witness is part of the target surface.
+\end{theorem}
+\begin{proof}
+Apply the checked TasteGate alignment surface named at the chapter opening. It fixes the single-carrier alignment for the displayed $\CellularCarrierEncodingUp$ packet and keeps the paper route on the carrier rows already named by the chapter.
+
+For nontriviality, use \autoref{thm:cellular-carrier-encoding-two-witness-separation}. Its two accepted packets agree on $B,T,S,H,C,P,N$ and differ in the displayed $R$ coordinate, so they give the paper witness pair required by the later $\mathsf{Nontrivial}$ instance.
+
+For field faithfulness, use \autoref{thm:cellular-carrier-encoding-field-projection-faithfulness}. Equality of the ordered projection $B,T,R,S,H,C,P,N$ is equality of accepted packets, and any mismatch in one displayed field remains classifier-visible. Thus the same projection is the ordered-field surface consumed by the later $\mathsf{FieldFaithful}$ instance.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
 \closureat{CellularCarrierEncodingUp}{seedStr}
