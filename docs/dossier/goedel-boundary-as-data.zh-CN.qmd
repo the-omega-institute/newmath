@@ -4,7 +4,7 @@ subtitle: "不完备性成为可测数字的两个层. MetaCIC 中 dependent-cod
 author: "The Omega Institute"
 date: 2026-05-14
 lang: zh-Hans
-description: "Goedel 第二不完备定理通常被当作一堵墙. BEDC 把它当数据看. 同一条边界在元理论层 (四条 subject-reduction 假设) 与元胞底层 (cook compile-frontier 64p/64t 需求 vs 当前 16p/32t 前沿) 各显现一次. 墙有坐标."
+description: "Goedel 第二不完备定理通常被当作一堵墙. BEDC 把它当数据看. 同一条边界在元理论层 (四条 subject-reduction 假设) 与元胞底层 (cook compile-frontier: halted TM 需要 ~64p/64t; 当前底层最大均衡 case 是 (8,8,16384), 极端单轴 case 可达 P=16 或 T=32) 各显现一次. 墙有坐标."
 ---
 
 ```{=html}
@@ -43,21 +43,22 @@ rule110 子项目端到端实现 Cook 2009 构造: 一个图灵机编译成 tag 
 pipeline 已经在小输入上端到端跑过. 底层当前能通过的最大 cyclic-tag round-trip 在 `rule110/STATUS.md` 里:
 
 ```text
-Scale frontier: largest passing = scale_2p_16t_16384
+Scale frontier: largest passing = scale_8p_8t_16384
 
-Cook packet scale cases:
-  (P=2,  T=16, S=16384)
-  (P=8,  T=8,  S=16384)
-  (P=4,  T=16, S=32768)
-  (P=2,  T=32, S=32768)
-  (P=16, T=2,  S=8192)
+Cook packet scale cases (全部 PASS):
+  (P=2,  T=2,  S=1024)    (P=3,  T=3,  S=2048)
+  (P=4,  T=4,  S=4096)    (P=5,  T=5,  S=8192)
+  (P=3,  T=8,  S=8192)    (P=2,  T=16, S=16384)
+  (P=8,  T=4,  S=8192)    (P=6,  T=6,  S=16384)
+  (P=4,  T=16, S=32768)   (P=2,  T=32, S=32768)
+  (P=16, T=2,  S=8192)    (P=8,  T=8,  S=16384)
 ```
 
-`(P, T, S)` 是 *productions, tape symbols, Rule 110 steps*. 所以底层已经被压到 16 个生产规则, 32 个 tape 符号, 32768 步, 在某种组合下.
+`(P, T, S)` 是 *productions, tape symbols, Rule 110 steps*. 所以底层已经被锻炼过 12 个 configuration, $P \cdot T$ 峰值 64 (例如 `(8,8)`, `(4,16)`, `(2,32)`, `(16,2)`), 单轴极端 case 分别到 $P=16$ 或 $T=32$. 最大均衡 case 是 $(8, 8, 16384)$.
 
 最小 *halted* 图灵机 — 没有任何转移规则、一个 halt 状态 — 按 Cook 2009 §1.2/§1.3 编译, 大约得到 64 个生产规则跟 64 个 tape 符号的 cyclic tag 系统. 最小值不是零, 也不是小. 编译是多项式时间的 (Cook 证过), 但常数大到即便 no-op TM 也落在 64p/64t.
 
-*跑真实 TM 所需的规模* 跟 *底层当前跑得动的规模* 之间的差距因此大致是: 生产规则数 4 倍, tape 大小 2 倍. 这就是 cook compile-frontier — 元胞底层从「理论上足够 *普适*」走到「实际上跑得动一个普适计算」之间停下来的位置, 在经验上的所在.
+*跑真实 TM 所需的规模* 跟 *底层当前跑得动的规模* 之间的差距因此大致是: $P \cdot T$ 乘积 64 倍 (当前峰值 64 vs 目标 $64 \cdot 64 = 4096$), 最大生产规则数 4 倍, 最大 tape 大小 2 倍. 这就是 cook compile-frontier — 元胞底层从「理论上足够 *普适*」走到「实际上跑得动一个普适计算」之间停下来的位置, 在经验上的所在.
 
 这是 Goedel 边界另一个面. 底层原则上普适 (Cook 2004 证过). 底层 *目前不* 实际普适 (现规模下跑不了真 TM). 「原则上」与「实际上」之间的距离, 有限, 可测.
 
@@ -125,7 +126,7 @@ cd rule110 && make test-scale
 
 不是「我们绕过了 Goedel」. 第二不完备定理正确; 项目把它当结构事实接受. 上面描述的两层边界是 Goedel 的 *应用*, 不是驳斥.
 
-不是「工程会无限地推动边界」. 把 cook compile-frontier 从 16p 推到 64p 是有限工程任务. 把 dependent-codomain 假设闭合可能困难得多, 在项目约束下可能不可能. 诚实在簿记里, 而不是在完成时间的乐观里.
+不是「工程会无限地推动边界」. 把 cook compile-frontier 从当前 $P \cdot T = 64$ 峰值推到 halted-TM 目标 $P \cdot T = 4096$ 是有限工程任务. 把 dependent-codomain 假设闭合可能困难得多, 在项目约束下可能不可能. 诚实在簿记里, 而不是在完成时间的乐观里.
 
 不是方法论论文. 这是一个立场: 把数学里被引最多的限制性结果之一 — 第二不完备定理 — 的后果当数据点看, 而不是当单一抽象墙看, 会更有用.
 
