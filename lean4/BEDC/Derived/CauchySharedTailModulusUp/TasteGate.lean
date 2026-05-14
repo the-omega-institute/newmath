@@ -328,6 +328,52 @@ theorem CauchySharedTailModulusTasteGate_single_carrier_alignment :
           · rfl
           · rfl
 
+theorem CauchySharedTailModulusCarrier_tail_synchronization
+    (x : CauchySharedTailModulusUp) :
+    ∃ r0 r1 m0 m1 tau d w0 w1 q0 q1 e h c p n : BHist,
+      cauchySharedTailModulusFields x =
+          [r0, r1, m0, m1, tau, d, w0, w1, q0, q1, e, h, c, p, n] ∧
+        cauchySharedTailModulusSealRoute x =
+            [m0, m1, tau, d, w0, w1, q0, q1, e, h, c, p, n] ∧
+          Cont m0 tau (append m0 tau) ∧
+            Cont m1 tau (append m1 tau) ∧
+              Cont tau w0 (append tau w0) ∧
+                Cont tau w1 (append tau w1) ∧
+                  Cont w0 q0 (append w0 q0) ∧
+                    Cont w1 q1 (append w1 q1) ∧
+                      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk r0 r1 m0 m1 tau d w0 w1 q0 q1 e h c p n =>
+      refine ⟨r0, r1, m0, m1, tau, d, w0, w1, q0, q1, e, h, c, p, n, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · rfl
+            · constructor
+              · rfl
+              · constructor
+                · rfl
+                · constructor
+                  · rfl
+                  · constructor
+                    · rfl
+                    · change
+                        cauchySharedTailModulusFromEventFlow
+                            (cauchySharedTailModulusToEventFlow
+                              (CauchySharedTailModulusUp.mk
+                                r0 r1 m0 m1 tau d w0 w1 q0 q1 e h c p n)) =
+                          some
+                            (CauchySharedTailModulusUp.mk
+                              r0 r1 m0 m1 tau d w0 w1 q0 q1 e h c p n)
+                      exact cauchySharedTailModulus_round_trip
+                        (CauchySharedTailModulusUp.mk
+                          r0 r1 m0 m1 tau d w0 w1 q0 q1 e h c p n)
+
 theorem CauchySharedTailModulusCarrier_real_seal_handoff
     (x : CauchySharedTailModulusUp) :
     ∃ m0 m1 tau d w0 w1 q0 q1 e h c p n : BHist,
