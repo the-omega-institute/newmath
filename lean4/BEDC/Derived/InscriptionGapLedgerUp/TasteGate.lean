@@ -246,6 +246,9 @@ instance inscriptionGapLedgerChapterTasteGate : ChapterTasteGate InscriptionGapL
     intro x y hxy heq
     exact hxy (inscriptionGapLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionGapLedgerUp :=
+  inscriptionGapLedgerChapterTasteGate
+
 theorem InscriptionGapLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionGapLedgerDecodeBHist (inscriptionGapLedgerEncodeBHist h) = h) ∧
       (∀ x : InscriptionGapLedgerUp,
