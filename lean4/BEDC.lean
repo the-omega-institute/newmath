@@ -184,6 +184,7 @@ import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
+import BEDC.Derived.ObserverFilterBudgetSelectorUp.TasteGate
 import BEDC.Derived.ObserverInterfaceUp.TasteGate
 import BEDC.Derived.ObserverFrameRefusalUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
@@ -269,6 +270,7 @@ import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
+import BEDC.Derived.SocketKindClassifierUp.TasteGate
 import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
