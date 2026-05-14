@@ -137,6 +137,54 @@ Apply \autoref{thm:znormal-namecert-obligations} to bind these rows to the local
 Finally apply \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. The terminal read and sibling normal-word row are reached through the same displayed transport and replay rows, so no external normalizer or host computation route is available.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root carrier exposure]
+\label{thm:znormal-root-unblock-carrier-exposure}
+Every root consumer of an accepted $\ZNormalUp$ packet first sees exactly the displayed tuple
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The rows expose the typed endpoint, finite fuel, terminal normality, sibling normal-word evidence, terminal readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local $\NameCert$ naming. No root-unblock consumer receives a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, or global normalizer outside those coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. It lists $T,F,V,K,R,H,C,P,N$ as the complete finite packet and gives no other coordinate to a root consumer.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The NameCert surface identifies the same fields as the complete local naming, transport, route, provenance, and package surface.
+
+Use \autoref{thm:znormal-fuel-normality-nonescape} and the displayed TasteGate contract row. The finite fuel boundary and the carrier-faithful TasteGate reading keep the exposed tuple from becoming a route to host conversion, quotient computation, unrestricted evaluation, divergence, or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root terminal route]
+\label{thm:znormal-root-unblock-terminal-route}
+For every accepted $\ZNormalUp$ packet, the terminal normal-form route used by root consumers is
+$$
+T \to F \to V \to R,
+$$
+with $K$ available only as sibling normal-word evidence. The route is transported through $H$, replayed through $C$, packaged through $P$, and named through $N$; it cannot be replaced by host conversion, quotient computation, unrestricted evaluation, or global normalization.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-fuel-normality-nonescape}. It already binds terminal normality to the finite path from the typed endpoint $T$ through fuel $F$ and terminal row $V$ to the continuation read $R$.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. The theorem makes $R$ the exact terminal readback row and permits $K$ only after $V$ has been displayed.
+
+Finally combine \autoref{thm:znormal-sibling-normalword-handoff} with \autoref{thm:znormal-route-transport}. The sibling row remains finite evidence, while $H,C,P,N$ transport, replay, package, and name the same terminal route without adding any excluded host or global normalization object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root non-escape ledger]
+\label{thm:znormal-root-unblock-nonescape-ledger}
+The root-unblock ledger of an accepted $\ZNormalUp$ packet is exhausted by carrier admission, NameCert obligations, finite fuel non-escape, terminal readback exactness, sibling normal-word handoff, and route transport. Thus every downstream normal-form row must pass through
+$$
+T,F,V,K,R,H,C,P,N
+$$
+and the finite sibling surfaces named by $K$, while host conversion, quotient computation, unrestricted evaluation, divergence detection, and global normalization remain absent.
+\end{theorem}
+\begin{proof}
+First assemble the carrier and naming rows using \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They expose the packet fields and no separate host computation surface.
+
+Next apply \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-terminal-readback-exactness}, and \autoref{thm:znormal-sibling-normalword-handoff}. These rows bind finite fuel, terminal readback, and sibling evidence to the displayed packet.
+
+Finally use \autoref{thm:znormal-route-transport} together with the displayed TasteGate contract row. Transport and replay stay inside $H,C,P,N$, so the ledger has no coordinate for host conversion, quotient computation, unrestricted evaluation, divergence detection, or global normalization.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ normal output boundary]
 \label{thm:znormal-normal-output-boundary}
 For every accepted $\ZNormalUp$ packet
