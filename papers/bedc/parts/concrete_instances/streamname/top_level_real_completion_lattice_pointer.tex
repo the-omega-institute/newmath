@@ -11,3 +11,17 @@ Next route the same source surface through the DyadicRatCore observation ledger 
 
 Finally close the route at the $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. The seal receives only the finite-window, regular-source, and dyadic ledger rows already displayed, and it imports no ambient completeness principle or selected host limit.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat DyadicRatCore RealUp endpoint correspondence]
+\label{thm:streamname-regseqrat-dyadic-real-endpoint-correspondence}
+A top-level Real-completion $\StreamNameUp$ certificate read reaches a $\RealUp$ endpoint exactly when the same finite-window surface factors through the regular-source row of \autoref{ch:concrete-instances-regseqrat-namecert}, the observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the seal boundary of \autoref{ch:concrete-instances-real-namecert}. The correspondence is a four-object handoff among $\StreamNameUp$, $\mathsf{RegSeqRat}^{\uparrow}$, $\DyadicRatCoreUp$, and $\RealUp$; it is not quotient stream equality, a selected host limit, a countable-choice selector, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-top-level-real-completion-dependency}. It identifies the only top-level Real-completion route available from $\StreamNameUp$: finite-window rows followed by regular-source, dyadic observation, and Real seal reads.
+
+For the forward direction, a $\RealUp$ endpoint read must already have passed through the finite-window StreamName surface. The dependency theorem then forces the same displayed surface through the $\mathsf{RegSeqRat}^{\uparrow}$ regular-source row and the $\DyadicRatCoreUp$ observation ledger before the $\RealUp$ seal can be read.
+
+For the reverse direction, assume the finite-window surface has these three sibling readings. The regular-source row supplies the source discipline, the dyadic ledger supplies the observation boundary, and the $\RealUp$ seal supplies the endpoint boundary, so the composed certificate read is exactly the licensed Real-completion endpoint route.
+
+The excluded objects are absent at every stage of the composition. None of the cited routes adds quotient stream equality, selected host limits, countable-choice selectors, or ambient completeness; hence the endpoint correspondence remains a finite certificate handoff.
+\end{proof}
