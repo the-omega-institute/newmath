@@ -490,18 +490,18 @@ def main() -> int:
                     flush=True,
                 )
                 return 0
-            if not status.get("project_active_poll_agents"):
+            if not status.get("dispatch_ready_poll_agents"):
                 if not args.allow_queue_without_tabs:
                     print(
-                        "[board_refill] no compatible BEDC Project tabs polling; "
+                        "[board_refill] no dispatch-ready BEDC conversation tabs polling; "
                         "skipping submit instead of queueing.",
                         flush=True,
                     )
                     return 0
                 print(
-                    f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
-                    f"Submit will queue but won't dispatch. Open the BEDC Project "
-                    f"tabs first.",
+                    "[board_refill] WARN: no dispatch-ready BEDC conversation tabs "
+                    "polling. Submit will queue but won't dispatch until a BEDC "
+                    "Project /c/... tab is polling.",
                     flush=True,
                 )
         except Exception as exc:
