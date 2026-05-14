@@ -208,9 +208,52 @@ identical displayed BEDC seal route and no additional selector or host-limit
 coordinate.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization RealUp seal idempotent route]
+\label{thm:cauchyregularization-real-seal-idempotent-route}
+For accepted $\CauchyRegularizationUp$ packets whose first and second
+regularization reads share the transported $\RationalStreamUp$ windows,
+$\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ ledger rows,
+$\RegSeqRatUp$ handoff row, $\hsame$ and $\Cont$ routes, $\Pkg$
+provenance, and $\NameCert$ ledger, the $\RealUp$ consumer seal route after
+the second read is the same displayed route as after the first read. The
+repeated real-facing read introduces no quotient stream, selected limit,
+host real equality, hidden tail selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the finite carrier
+$G=(S,M,D,W,R,E,H,C,P,N)$. The shared carrier rows fix the source windows,
+modulus thresholds, dyadic ledgers, regularized approximants, handoff row,
+transport routes, package provenance, and local naming ledger for both reads.
+
+Apply
+\autoref{thm:cauchyregularization-common-modulus-idempotence}. The
+$\RegSeqRatUp$ handoff classifier and the $\RealUp$ seal-provenance row are
+locked to the displayed rows $R$ and $E$ for the first read and for the
+second read.
+
+Apply \autoref{thm:cauchyregularization-real-seal-boundary} to expand both
+real-facing reads. Each read passes through the same handoff, transported
+rational-stream window, continuation route, package row, and local naming
+row, and the boundary lists no further consumer-visible coordinate.
+
+Therefore the second $\RealUp$ seal route is the same displayed route as the
+first. Since the carrier and the boundary exclusions contain no quotient
+stream, selected limit, host real equality, hidden tail selector, or ambient
+completeness coordinate, repeated regularization through the same finite rows
+adds no Real-facing escape route.
+\end{proof}
+
 \begin{theorem}[CauchyRegularization public real-regularization export]
 \label{thm:cauchyregularization-public-real-regularization-export}
-The finite carrier, modulus classifier, regular-sequence handoff, and $\RealUp$ seal boundary assemble a public $\CauchyRegularizationUp$ export over $\RationalStreamUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The export exposes only displayed rational-stream windows, modulus thresholds, dyadic comparison rows, regularized approximants, the regular-sequence handoff, the real-seal provenance, and the named transport and package rows.
+The finite carrier, modulus classifier, regular-sequence handoff, $\RealUp$
+seal boundary, and Real-facing idempotent route assemble a public
+$\CauchyRegularizationUp$ export over $\RationalStreamUp$,
+$\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The export exposes only displayed rational-stream windows, modulus
+thresholds, dyadic comparison rows, regularized approximants, the
+regular-sequence handoff, the real-seal provenance, and the named transport
+and package rows.
 
 It exposes no quotient stream, host real equality, selected limit, hidden tail selector, or ambient completeness theorem.
 \end{theorem}
@@ -221,7 +264,16 @@ Apply \autoref{thm:cauchyregularization-namecert-obligation-surface} to bind car
 
 Next use \autoref{thm:cauchyregularization-regular-sequence-handoff}. It routes every $\RegSeqRatUp$ read through a displayed rational window, a displayed modulus threshold, the dyadic ledger, and the finite approximant row.
 
-Finally use \autoref{thm:cauchyregularization-real-seal-boundary}. The $\RealUp$ read is mediated by the same handoff, transport, continuation, package, and local naming provenance. The finite-row assembly therefore gives a public real-regularization export without quotient streams, host equality, selected limits, hidden tail selectors, or ambient completeness.
+Use \autoref{thm:cauchyregularization-real-seal-boundary}. The $\RealUp$
+read is mediated by the same handoff, transport, continuation, package, and
+local naming provenance.
+
+Finally use
+\autoref{thm:cauchyregularization-real-seal-idempotent-route}. Repeated
+regularization through the same finite rows preserves that Real-facing route.
+The finite-row assembly therefore gives a public real-regularization export
+without quotient streams, host equality, selected limits, hidden tail
+selectors, or ambient completeness.
 \end{proof}
 
 \closureat{CauchyRegularizationUp}{seedStr}
