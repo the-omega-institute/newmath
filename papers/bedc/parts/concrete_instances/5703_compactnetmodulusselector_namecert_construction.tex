@@ -646,6 +646,52 @@ Apply \autoref{thm:compact-net-modulus-selector-nonescape} and \autoref{thm:comp
 Finally use \autoref{thm:compact-net-modulus-selector-selected-precision-exactness} and \autoref{thm:compact-net-modulus-selector-primitive-scope-closure}. The selected precision is determined by the visible finite-net, radius, pointwise-modulus, fold, transport, route, provenance, and naming rows, leaving no coordinate for open-cover compactness, host minima, choice-selected centers, quotient point equality, sequential compactness, or external modulus functions.
 \end{proof}
 
+\begin{theorem}[Compact net modulus selector root-budget admission]
+\label{thm:compact-net-modulus-selector-root-budget-admission}
+For every accepted root-ready $\CompactNetModulusSelectorUp$ packet
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N),
+$$
+the selector budget $D$ is admitted for downstream use only with the displayed finite probe spine $\mathcal{P}$, compact coverage row $C$, positive radius rows $R$, pointwise-modulus rows $M$, finite fold row $F$, selected precision row $D$, transport rows $H$, route rows $Q$, provenance row $P$, and local $\NameCert$ row $N$. Thus the budget is a finite root-ready handoff and not a parameter-only compactness promise.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:compact-net-modulus-selector-carrier} and \autoref{def:compact-net-modulus-selector-root-readiness}. These two displays enumerate exactly the root rows $X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N$ and assign the budget role to the selected precision row $D$.
+
+Apply \autoref{thm:compact-net-modulus-selector-finite-net-exposure}. It binds $D$ to the nonempty finite probe spine, compact coverage rows, subordinate positive radius ledger, pointwise-modulus rows, and selected fold output.
+
+Use \autoref{thm:compact-net-modulus-selector-totallybounded-handoff} to pass the same rows to the downstream compact-net and uniform-modulus consumers. The handoff keeps the finite fold and selected precision visible together with the transport, route, provenance, and local naming rows.
+
+Finally invoke \autoref{thm:compact-net-modulus-selector-consumer-nonescape}. Since no consumer can leave the displayed packet, a budget read without any one of the root rows is not an admitted selector read.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector fold-consumer coherence]
+\label{thm:compact-net-modulus-selector-fold-consumer-coherence}
+Every fold consumer of a root-ready $\CompactNetModulusSelectorUp$ packet that preserves the selected precision row $D$ also preserves the same $\mathsf{ProbeBundle}$ spine $\mathcal{P}$ and positive radius ledger $R$. Consequently the fold handoff cannot be reinterpreted as a host minimum, quotient center equality, or external modulus function.
+\end{theorem}
+\begin{proof}
+Project the consumer read through \autoref{def:compact-net-modulus-selector-carrier}. The only fold data in the carrier are the finite fold row $F$, the selected precision row $D$, the bundled centers $\mathcal{P}$, and the radius ledger $R$.
+
+Now use \autoref{def:compact-net-modulus-selector-root-readiness} and \autoref{thm:compact-net-modulus-selector-finite-net-exposure}. They identify $D$ as the fold-selected precision attached to the same finite probe spine and subordinate positive radius rows.
+
+Apply \autoref{thm:compact-net-modulus-selector-totallybounded-handoff}. Any consumer preserving $D$ along the finite fold route receives the compact finite-net rows through $F,D$ and therefore keeps $\mathcal{P}$ and $R$ in the same public ledger.
+
+\autoref{thm:compact-net-modulus-selector-consumer-nonescape} excludes every alternate read of a host minimum, quotient center equality, and external modulus function. The preserved selected precision is therefore coherent only with the original probe bundle and radius ledger.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector uniform-modulus entry exhaustion]
+\label{thm:compact-net-modulus-selector-uniform-modulus-entry-exhaustion}
+Every $\UniformModulusUp$ entry through a root-ready $\CompactNetModulusSelectorUp$ packet exhausts the visible route through $\CompactUp$, $\ContinuousFunctionUp$, $\MetricSpaceUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No additional entry point supplies compactness, continuity, metric control, rational positivity, finite selection, history transport, package provenance, or local naming data.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:compact-net-modulus-selector-carrier}. It lists the compact source rows, continuous pointwise-modulus rows, metric rows, rational tolerance and radius rows, finite fold data, history transport, continuation route, package provenance, and local name certificate.
+
+\autoref{def:compact-net-modulus-selector-root-readiness} turns that carrier list into the root-ready packet. The displayed roles specify how $X,\mathcal{P},C,R,M,F,D,H,Q,P,N$ become the finite selector handoff.
+
+Use \autoref{thm:compact-net-modulus-selector-finite-net-exposure} and \autoref{thm:compact-net-modulus-selector-totallybounded-handoff}. Together they force the selected precision read through the compact finite-net spine, pointwise-modulus rows, positive rational ledger, finite fold, and route rows before it reaches $\UniformModulusUp$.
+
+Finally apply \autoref{thm:compact-net-modulus-selector-consumer-nonescape}. Since every downstream read factors through the root-ready tuple, the visible route is exhausted and no separate entry point can supply the omitted compactness, continuity, metric, rational, fold, history, transport, provenance, or naming data.
+\end{proof}
+
 \falsifiablePrediction{Removing the selected lower-bound row breaks the uniform-modulus handoff while leaving compact-net coverage and pointwise-modulus rows readable.}
 
 \independenceWitness{Compare compact, continuous, metric, finite-net-minimum-fold, and uniform-modulus siblings: none is bijective because this carrier alone stores the compact-net input, pointwise-modulus radii, selected lower-bound fold row, and tolerance-only handoff together.}
