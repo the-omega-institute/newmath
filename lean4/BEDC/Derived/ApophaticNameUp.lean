@@ -129,4 +129,45 @@ theorem ApophaticNameCarrier_obligation_surface [AskSetup] [PackageSetup]
     ⟨cert, socketUnary, requestUnary, gateUnary, ledgerUnary, nameRowUnary, auditUnary,
       socketRequestGate, gateLedgerNameRow, ledgerNameAudit, provenancePkg, auditPkg⟩
 
+theorem ApophaticNameCarrier_refusal_transport_totality [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow socket' request' gate'
+      ledger' transport' route' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg →
+      hsame socket socket' →
+        hsame request request' →
+          hsame gate gate' →
+            hsame ledger ledger' →
+              hsame transport transport' →
+                hsame route route' →
+                  hsame provenance provenance' →
+                    hsame nameRow nameRow' →
+                      PkgSig bundle provenance' pkg →
+                        ApophaticNameCarrier socket' request' gate' ledger' transport' route'
+                            provenance' nameRow' bundle pkg ∧
+                          hsame ledger' (append request' gate') ∧ Cont gate' ledger' route' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameSocket sameRequest sameGate sameLedger sameTransport sameRoute
+    sameProvenance sameNameRow provenancePkg'
+  obtain ⟨socketUnary, requestUnary, gateUnary, ledgerUnary, transportUnary, routeUnary,
+    provenanceUnary, nameRowUnary, socketRequestGate, requestGateRoute, gateLedgerRoute,
+    gateLedgerNameRow, ledgerSameRequestGate, _provenancePkg⟩ := carrier
+  cases sameSocket
+  cases sameRequest
+  cases sameGate
+  cases sameLedger
+  cases sameTransport
+  cases sameRoute
+  cases sameProvenance
+  cases sameNameRow
+  constructor
+  · exact
+      ⟨socketUnary, requestUnary, gateUnary, ledgerUnary, transportUnary, routeUnary,
+        provenanceUnary, nameRowUnary, socketRequestGate, requestGateRoute, gateLedgerRoute,
+        gateLedgerNameRow, ledgerSameRequestGate, provenancePkg'⟩
+  · constructor
+    · exact ledgerSameRequestGate
+    · exact gateLedgerRoute
+
 end BEDC.Derived.ApophaticNameUp

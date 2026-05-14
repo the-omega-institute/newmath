@@ -189,6 +189,33 @@ instance lorentzFrameRateChapterTasteGate : ChapterTasteGate LorentzFrameRateUp 
     intro x y hxy heq
     exact hxy (lorentzFrameRateToEventFlow_injective heq)
 
+instance lorentzFrameRateFieldFaithful : FieldFaithful LorentzFrameRateUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport route provenance
+        name =>
+        [multiConfig, causalWitness, maxRate, symmetry, transport, route, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk multiConfig1 causalWitness1 maxRate1 symmetry1 transport1 route1 provenance1 name1 =>
+        cases y with
+        | mk multiConfig2 causalWitness2 maxRate2 symmetry2 transport2 route2 provenance2 name2 =>
+            cases h
+            rfl
+
+instance lorentzFrameRateNontrivial : Nontrivial LorentzFrameRateUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨LorentzFrameRateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      LorentzFrameRateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem LorentzFrameRateTasteGate_single_carrier_alignment :
     (∀ h : BHist, lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist h) = h) ∧
       (∀ x : LorentzFrameRateUp,
