@@ -324,6 +324,24 @@ Now apply \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}. 
 Finally use \autoref{thm:regular-cauchy-tail-meet-consumer-exactness} and \autoref{thm:regular-cauchy-tail-meet-shared-threshold-nonescape}. The TailMeet packet supplies the shared threshold as the finite ledger reached before any Real-facing read, and it exports no hidden threshold oracle or ambient completeness data.
 \end{proof}
 
+\begin{theorem}[RegularCauchySelectorBudget diagonal consumer non-escape]
+\label{thm:regular-cauchy-selector-budget-diagonal-consumer-nonescape}
+Every accepted $\RegularCauchySelectorBudgetUp$ packet consumed by a diagonal reader or by a $\RealUp$ seal reader factors through the finite carrier route
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+The factorization uses only the displayed $\BHist$ packet, componentwise $\hsame$ rows, finite $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of the selector-budget carrier. It exports no quotient stream, selected limit, trichotomy row, hidden window enlargement, countable-choice selector, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First project the accepted selector-budget tail source. The displayed rows $\mu,W,S,R,D,E,H,C,P,N$ place the $\DyadicRatCoreUp$ tolerance row $D$ and finite window budget $W$ before the StreamName observation row $S$, the $\RegSeqRatUp$ witness row $R$, and the $\RealUp$ seal row $E$.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}. It forces each Real-facing tail read to pass through the TailMeet shared-threshold row before $E$ is read, so the diagonal consumer cannot bypass the finite dyadic threshold route.
+
+Next use \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, and \autoref{thm:regular-cauchy-selector-budget-real-seal-nonescape-package}. These rows place the RegSeqRat handoff after the StreamName observations and place the Real seal after the same handoff, all under $H,C,P,N$.
+
+Finally compare the sibling pullback surfaces. The StreamName surface supplies only the displayed observation rows, the RegSeqRat surface consumes those observations as the finite regular-rational witness, and the Real surface receives only the seal row. Exhausting those coordinates rules out quotient streams, selected limits, trichotomy, host equality, hidden budget, and ambient completeness as consumer outputs.
+\end{proof}
+
 \begin{theorem}[RegularCauchySelectorBudget tail-meet route determinacy]
 \label{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}
 Two selector-budget reads using the same accepted $\RegularCauchyTailMeetUp$ packet and the same transported $D,W,S,R,H,C,P,N$ rows reach the same shared dyadic threshold ledger. The determinacy is internal to the selector-budget tail source, the TailMeet shared-threshold route, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
@@ -421,7 +439,8 @@ Finally apply \autoref{thm:cauchy-inverse-budget-root-regseq-real-handoff} and \
   \constructivestory{A $\RegularCauchySelectorBudgetUp$ packet is generated from a selector modulus, finite window budget, StreamName observation rows, a RegSeqRat witness, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-precision-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-selector-exhaustion}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-nonescape}, \autoref{thm:regular-cauchy-selector-budget-selector-budget-exactness}, \autoref{thm:regular-cauchy-selector-budget-finite-window-provenance}, and \autoref{thm:regular-cauchy-selector-budget-real-seal-nonescape-package} bind the finite selector-budget carrier, tail-meet selector exhaustion, and local NameCert obligation surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchySelectorBudgetUp.RegularCauchySelectorBudgetCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real limits, countable choice, hidden window enlargement, or a public standard bridge.}

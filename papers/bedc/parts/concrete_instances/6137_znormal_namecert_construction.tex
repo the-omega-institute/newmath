@@ -498,6 +498,64 @@ Now combine \autoref{thm:znormal-continuation-normal-word-pullback} with \autore
 Therefore the refused objects remain absent from the export surface. A consumer asking for host conversion, a quotient normalizer, an unrestricted evaluator, a divergence oracle, or a global normalizer asks for data outside the accepted $\ZNormalUp$ packet.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root source totality]
+\label{thm:znormal-root-source-totality}
+Every accepted $\ZNormalUp$ root packet is read from one finite $\BHist$ carrier
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+whose rows expose the typed endpoint $T$, finite fuel $F$, terminal-normality row $V$, finite normal-word row $K$, terminal continuation row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ZNormalUp}$ ledger $N$. A normal-word read of $K$ or a continuation read of $R$ is admitted only after the finite-fuel row and terminal-normality row have been read inside the same packet. The source surface exports no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:znormal-carrier}. Its source rows are exactly $T,F,V,K,R,H,C,P,N$, and each is a finite coordinate of the same $\BHist$ packet.
+
+Use \autoref{thm:znormal-frontier-carry-readback-totality} for the normal-word side. It reads $K$ through the finite sibling normal-word surface only after the finite word boundary is present.
+
+Use \autoref{thm:znormal-continuation-terminal-route} and \autoref{thm:znormal-continuation-normal-word-pullback} for the continuation side. They force $R$ to follow $T,F,V$ and keep $K$ and $R$ in one transported packet through $H,C,P,N$.
+
+The non-export clause is carrier exhaustion. Since no coordinate names host conversion, quotient normalization, unrestricted evaluation, divergence, or global normalization, no source read can return one.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root classifier stability]
+\label{thm:znormal-root-classifier-stability}
+Let
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+and
+$$
+Z'=(T',F',V',K',R',H',C',P',N')
+$$
+be accepted $\ZNormalUp$ packets that classify together at the root. Then the classifier preserves the finite-fuel and terminal-normality reads before transporting the normal-word and continuation rows: $K$ is compared only through the sibling normal-word route, $R$ only through the terminal continuation route, and both comparisons are mediated by the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No classifier step may replace these rows by host conversion, quotient normalization, unrestricted evaluation, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Start from the root carrier and classifier rows already isolated by \autoref{thm:znormal-root-source-totality}. A root classification has no input except the displayed finite packet rows and their componentwise transport.
+
+For $K$, apply \autoref{thm:znormal-sibling-normalword-handoff} together with \autoref{thm:znormal-frontier-carry-readback-totality}. The normal-word comparison is therefore the finite Zeckendorf and carry-facing route, not an ambient normalizer.
+
+For $R$, apply \autoref{thm:znormal-continuation-terminal-route}. The continuation comparison is admitted only after the typed endpoint, finite-fuel, and terminal-normality rows have been exposed.
+
+Finally use \autoref{thm:znormal-route-transport}. The rows $H,C,P,N$ transport, replay, package, and name the same comparison, while the absent host and quotient objects remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root ledger exactness]
+\label{thm:znormal-root-ledger-exactness}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root ledger is exactly the finite route that first reads $T,F,V$, then reads $K$ through the sibling normal-word surface and $R$ through the terminal continuation surface, and finally transports, replays, packages, and names the result through $H,C,P,N$. Any root consumer of normal output, continuation output, or total-host refusal receives this ledger and no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-root-source-totality}. It supplies the only source rows available to a root consumer and orders finite fuel and terminal normality before normal-word or continuation reads.
+
+Next combine \autoref{thm:znormal-root-classifier-stability} with \autoref{thm:znormal-continuation-normal-word-pullback}. The classifier and pullback keep $K$ and $R$ on the same finite route through the sibling normal-word and terminal continuation surfaces.
+
+Apply \autoref{thm:znormal-root-unblock-nonescape-ledger} and \autoref{thm:znormal-total-host-refusal-exhaustion}. These exhaust all root-facing reads through $H,C,P,N$ and record that total-host requests are refused unless they factor through the displayed packet.
+
+Thus the ledger is exact: every permitted read is one of the listed finite rows, and every refused host or quotient object has no exported coordinate.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}

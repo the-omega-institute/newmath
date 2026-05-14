@@ -144,6 +144,22 @@ Use \autoref{thm:quotient-stream-refusal-ledger-exactness} for the terminal refu
 Finally apply \autoref{thm:quotient-stream-refusal-route-ordering}. The only completion-facing order is $S \longmapsto R \longmapsto L \longmapsto E$, and the rows $H,C,P,N$ are transport, replay, provenance, and name rows for that order. Thus the displayed nine rows exhaust the accepted terminal read, leaving no quotient, selected-limit, host-equality, hidden-tail, ambient-completeness, or metric-completeness row.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal terminal route naming exactness]
+\label{thm:quotient-stream-refusal-terminal-route-naming-exactness}
+After the terminal route
+$$
+S,R,L,E,F,H,C,P,N
+$$
+is exhausted for an accepted $\QuotientStreamRefusalUp$ packet, the local $\NameCert_{\QuotientStreamRefusalUp}$ row names exactly the refusal packet. It does not convert the refusal row $F$ into quotient-stream equality, selected limits, host real equality, a hidden tail oracle, ambient completeness, or metric-completeness data.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:quotient-stream-refusal-carrier-admission}. It admits only the route rows $S,R,L,E$, refusal row $F$, and structural rows $H,C,P,N$.
+
+Use \autoref{thm:quotient-stream-refusal-route-ordering} and \autoref{thm:quotient-stream-refusal-terminal-route-exhaustion}. These theorems identify the terminal read as the displayed route together with refusal, transport, replay, provenance, and naming.
+
+Apply \autoref{thm:quotient-stream-refusal-ledger-exactness} and \autoref{thm:quotient-stream-refusal-namecert-surface}. The ledger remains a refusal row, and the local NameCert surface names that row rather than discharging any excluded completion request.
+\end{proof}
+
 \begin{theorem}[QuotientStreamRefusal off-route nonescape]
 \label{thm:quotient-stream-refusal-offroute-nonescape}
 If a $\QuotientStreamRefusalUp$ consumer asks for quotient-stream equality, a selected limit, host real equality, hidden family limit, hidden tail data, or ambient completeness, the request lands in the refusal row $F$. The packet records the refusal and exports no completion coordinate outside the ordered route $S \longmapsto R \longmapsto L \longmapsto E$.
