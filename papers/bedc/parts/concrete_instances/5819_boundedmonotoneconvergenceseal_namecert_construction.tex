@@ -232,6 +232,46 @@ The equality of $W,M,K,F,\sigma,D,L,R,H,C,P,N$ therefore transports the same wit
 Now change one of $W,K,F,\sigma,D,L,R$. The witness-consumption theorem detects a change of $W$; the criterion-route theorem detects changes of $K,F,\sigma,D,L$; and the Real-handoff theorem detects a change of $R$. Each changed field is on the unique consumer route to the corresponding public read, so the corresponding route changes.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal stability envelope]
+\label{thm:bounded-monotone-convergence-seal-stability-envelope}
+For accepted $\BoundedMonotoneConvergenceSealUp$ packets $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$ and $S'=(W',M',K',F',\sigma',D',L',R',H',C',P',N')$, componentwise $\hsame$ transport recorded by $H$ preserves the displayed route
+$$
+W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N).
+$$
+Thus a transported consumer still reads the bounded witness, public monotone-tail and Cauchy-criterion rows, finite rational-stream route, $\CauchyLimitSealUp$ boundary, $\RealUp$ handoff, continuation replay, provenance, and local name in that order.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission of \autoref{thm:bounded-monotone-convergence-seal-carrier-admission}. It fixes the only coordinates available to a consumer as $W,M,K,F,\sigma,D,L,R,H,C,P,N$.
+
+Apply the local $\NameCert$ obligations of \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations}. These obligations make $H$ the componentwise $\hsame$ transport row for the displayed packet rather than a second route.
+
+The public and scoped handoff rows of \autoref{thm:bounded-monotone-convergence-seal-public-handoff} and \autoref{thm:bounded-monotone-convergence-seal-scoped-handoff-package} then preserve the route through $W$, $(M,K)$, $(F,\sigma,D,L)$, and $R$. Finally, \autoref{thm:bounded-monotone-convergence-seal-provenance-local-naming}, \autoref{thm:bounded-monotone-convergence-seal-nontriviality}, and \autoref{thm:bounded-monotone-convergence-seal-field-faithfulness} keep the transport attached to the same finite provenance, local name, distinguishable boundary rows, and faithful public seal fields.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal exactness envelope]
+\label{thm:bounded-monotone-convergence-seal-exactness-envelope}
+Within an accepted $\BoundedMonotoneConvergenceSealUp$ packet, the row $L$ is exactly the $\CauchyLimitSealUp$ compatibility boundary reached after $W,M,K,F,\sigma,D$, and the row $R$ is exactly the $\RealUp$ handoff reached only after that finite route. No consumer may read $L$ as a selected Real limit, or read $R$ before the displayed bounded-witness, public-criterion, stream, dyadic, and regular-rational rows have been exposed.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bounded-monotone-convergence-seal-criterion-route}. It places $L$ after the witness, public monotone-tail, public Cauchy-criterion, regular-rational, stream, and dyadic rows, so $L$ is only the compatibility boundary for that route.
+
+Next apply \autoref{thm:bounded-monotone-convergence-seal-real-handoff} and \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. Together they put $R$ after the same finite route and keep the Real-facing read from bypassing $W,M,K,F,\sigma,D,L$.
+
+The carrier, obligation package, scoped handoff package, provenance-local-naming row, nontriviality row, and field-faithfulness row then rule out any alternate coordinate for a selected limit, an early Real handoff, or a second completion boundary.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal ledger exhaustion]
+\label{thm:bounded-monotone-convergence-seal-ledger-exhaustion}
+For an accepted $\BoundedMonotoneConvergenceSealUp$ packet, the provenance row $P$ and local naming row $N$ name exactly the displayed packet $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$. They cannot add selected limits, quotient stream equality, host real equality, trichotomy, compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier and NameCert obligation rows from \autoref{def:bounded-monotone-convergence-seal-carrier} and \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations}. The provenance and naming coordinates are $P$ and $N$ for the listed packet, with no extra coordinate for limit selection or ambient completeness.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-provenance-local-naming}. It identifies $P$ as source provenance and $N$ as the local NameCert row for the same route.
+
+Finally combine \autoref{thm:bounded-monotone-convergence-seal-carrier-admission}, \autoref{thm:bounded-monotone-convergence-seal-public-handoff}, \autoref{thm:bounded-monotone-convergence-seal-scoped-handoff-package}, \autoref{thm:bounded-monotone-convergence-seal-nontriviality}, and \autoref{thm:bounded-monotone-convergence-seal-field-faithfulness}. The route remains finite and field-faithful, so $P,N$ exhaust the ledger rather than importing quotient equality, host equality, trichotomy, compactness, or a completeness principle.
+\end{proof}
+
 \falsifiablePrediction{Every accepted consumer of the convergence seal factors through BoundedMonotoneCauchyWitnessUp, MonotoneCauchyUp, CauchyCriterionUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp rows before it reads the Real convergence handoff.}
 
 \independenceWitness{boundedmonotonecauchywitness, monotonecauchy, cauchycriterion, cauchylimitseal, real: the bounded witness lacks the public convergence seal row, monotonecauchy lacks the bounded witness source packet, cauchycriterion lacks the monotone source ledger, cauchylimitseal lacks the bounded monotone witness and public criterion bridge, and real lacks the finite witness-to-seal route; therefore no bijection preserves all carrier rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$.}

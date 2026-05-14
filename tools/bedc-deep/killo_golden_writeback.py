@@ -309,7 +309,9 @@ def _logic_surface_audit(content: str) -> dict:
     if re.search(r"\b(limit|completion|compactness|continuity|cauchy|convergen)\b", low):
         if not re.search(
             r"\b(rate|modulus|bound|bounded|tail|finite cover|finite subcover|covering|cofinal)\b"
-            r"|finite[- ]window|finite observation|excluded (?:limit|completion)|outside (?:the )?(?:meet )?packet",
+            r"|finite[- ]window|finite observation|finite submesh|finite mesh|finite request|displayed finite"
+            r"|non[- ]escape|cannot recover|without adding any analytic object|excluded (?:limit|completion)"
+            r"|outside (?:the )?(?:meet )?packet|no ambient completeness|ambient .*completeness theorem",
             low,
         ):
             add(
