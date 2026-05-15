@@ -99,3 +99,19 @@ completeness, and any second completion seal. Hence the selector route and the
 shared-threshold seal route agree on the finite packet before the $\RealUp$
 seal is exposed.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion selector-seal synchronizer totality]
+\label{thm:cauchycriterion-selector-seal-synchronizer-totality}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and finite-window selector rows at the completion-facing boundary. Then there is a total synchronizer route between the CauchyCriterion budget-selector surface and the UniformCauchyCriterion shared-threshold surface before any $\RealUp$ seal is consumed.
+
+The synchronizer route is the common StreamName--RegSeqRat--DyadicRatCore--Real finite packet with its selector rows, $\BHist$ support, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows. It exposes no quotient stream, selected limit, host real equality, detached threshold family, ambient completeness principle, or second completion seal.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}. It places every CauchyCriterion selector-facing read on the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route before exposing selector output.
+
+Apply \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}. The CauchyCriterion selector route and the UniformCauchyCriterion shared-threshold seal route factor through the same finite packet before a $\RealUp$ seal is exposed.
+
+Use the StreamName finite-window request and coverage rows together with the shared Real-facing handoff. They make the selector rows total over the displayed finite windows rather than over an ambient completion object.
+
+Finally read the UniformCauchyCriterion shared-threshold transport and non-escape boundary. The uniform route contributes no detached threshold family or second seal, so the common packet gives the total synchronizer route claimed above.
+\end{proof}
