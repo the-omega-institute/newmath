@@ -1,0 +1,115 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root output audit totality]
+\label{thm:authorized-generator-recursor-root-output-audit-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, every public read
+of the output row $O$ passes through the accepted constructor signature $I$,
+emitted eliminator $E$, checked motive $M$, branch package $B$,
+structural-descent row $D$, audit row $A$, transport row $H$, continuation
+row $C$, package provenance $P$, host-kernel boundary row $G$, and local name
+row $N$. Thus the public output is total only as the displayed NameCert packet
+$$
+(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+not as a detached recursor result.
+\end{theorem}
+\begin{proof}
+Start with the carrier and branch surface. The carrier of
+\autoref{def:authorized-generator-recursor-carrier} displays all rows named in
+the conclusion, and
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} forces each
+branch read to stay on the constructor signature $I$, eliminator $E$, checked
+motive $M$, and branch package $B$.
+
+Next add the recursive and audit rows.
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}
+confines public recursive reads to the displayed descent row $D$, while
+\autoref{thm:authorized-generator-recursor-audit-boundary} places public
+exposure of $O$ behind the audit row $A$.
+
+It remains to keep the public output attached to the downstream rows.
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization}
+retains $H,C,P,G,N$ at the output boundary, and
+\autoref{thm:authorized-generator-recursor-output-name-stability} prevents a
+stable public output from dropping the signature, motive, branch, descent, or
+audit rows. Therefore every public read of $O$ consumes the whole displayed
+packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root boundary nonescape]
+\label{thm:authorized-generator-recursor-root-boundary-nonescape}
+Once an accepted $\AuthorizedGeneratorRecursorUp$ packet reaches the
+host-kernel boundary row $G$, it exports no free induction principle, no
+hidden proof generator, no external axiom channel, and no unaudited dependency
+route. The only public generator authority remaining at $G$ is the accepted
+recursor call named by $E$ over the finite rows
+$(I,M,B,D,O,A,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+First isolate the hidden-generator case.
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}
+excludes any proof-producing source outside the accepted signature and
+recursor row.
+
+The host-kernel handoff preserves that exclusion rather than widening it.
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the
+TasteGate marker only as the single-carrier alignment witness for the finite
+packet, so $G$ does not export a second induction principle or a new proof
+generator.
+
+Finally apply the audit refusal surface.
+\autoref{thm:authorized-generator-recursor-audit-dependency-refusal} blocks
+external axiom channels and hidden dependency routes before $O$ becomes
+public. Hence a packet that has reached $G$ has no non-displayed route by
+which generator authority, axiom authority, or audit authority can escape the
+carrier.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root NameCert consumer readiness]
+\label{thm:authorized-generator-recursor-root-namecert-consumer-readiness}
+The rows
+$$
+(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+of an accepted $\AuthorizedGeneratorRecursorUp$ packet form the root
+consumer-readiness surface for downstream closed-normal and generator-audit
+packets. A downstream consumer may cite this surface only as the conjunction
+of root output audit totality, root boundary nonescape, the
+$\OperationalMembraneUp$ audit handoff of
+\autoref{ch:concrete-instances-operationalmembrane-namecert}, and the local
+TasteGate alignment marker attached to
+\autoref{def:authorized-generator-recursor-carrier}.
+\end{theorem}
+\begin{proof}
+The output side is supplied by
+\autoref{thm:authorized-generator-recursor-root-output-audit-totality}. It
+requires every public read of $O$ to consume the accepted signature,
+eliminator, motive, branch, descent, audit, transport, continuation,
+provenance, boundary, and local name rows.
+
+The nonescape side is supplied by
+\autoref{thm:authorized-generator-recursor-root-boundary-nonescape}. It
+prevents the same packet from exporting a free induction principle, hidden
+proof generator, external axiom channel, or unaudited dependency route after
+the boundary row $G$ is reached.
+
+The audit handoff is the local consumer of
+\autoref{ch:concrete-instances-operationalmembrane-namecert}. Together with
+\autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}
+and the displayed TasteGate alignment marker, it makes the packet ready for
+downstream closed-normal and generator-audit consumers without granting any
+authority beyond the finite NameCert surface.
+\end{proof}
+
+\closureat{AuthorizedGeneratorRecursorUp}{seedStr}
+\closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
+\closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\AuthorizedGeneratorRecursorUp}
+  \constructivestory{An $\AuthorizedGeneratorRecursorUp$ packet is generated from an accepted constructor signature, an emitted eliminator, a checked motive, complete branch data, structural descent, an output name, audit provenance, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a $\mathsf{GAP}$ boundary row, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:authorized-generator-recursor-carrier}, \autoref{thm:authorized-generator-recursor-branch-exhaustion}, \autoref{thm:authorized-generator-recursor-namecert-surface}, \autoref{thm:authorized-generator-recursor-audit-boundary}, \autoref{thm:authorized-generator-recursor-structural-descent-locality}, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}, \autoref{thm:authorized-generator-recursor-branch-descent-totality}, \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} with \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} bind authorized recursor output as a finite NameCert packet over accepted signatures, branch coverage, structural descent, audit provenance, and the TasteGate handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a public standard bridge, kernel completeness, unrestricted termination, global semantic conservativity, or any proof-producing route outside the displayed recursor packet.}
+  \upgradepath{The paper-side scope is closed for the displayed recursor packet; remaining work is independent Lean verification, a public bridge, and standard bridge checking for the same carrier, branch, descent, audit, and boundary rows.}
+\end{closurestatus}
