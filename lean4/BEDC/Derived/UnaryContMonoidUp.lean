@@ -86,4 +86,92 @@ theorem UnaryContMonoidCarrier_public_namecert_export [AskSetup] [PackageSetup]
     ⟨unaryProduct, unaryLeftUnit, unaryRightUnit, unaryLedger, productRoute, leftUnitRoute,
       rightUnitRoute, ledgerRoute, sameUnit, ledgerPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_unit_bind_surface [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name unitBindRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont unitLeft unitRight unitBindRead ->
+        PkgSig bundle unitBindRead pkg ->
+          UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory ab ∧ UnaryHistory unitLeft ∧
+            UnaryHistory unitRight ∧ UnaryHistory unitBindRead ∧ Cont a b ab ∧
+              Cont BHist.Empty a unitLeft ∧ Cont a BHist.Empty unitRight ∧
+                Cont unitLeft unitRight unitBindRead ∧ hsame e BHist.Empty ∧
+                  PkgSig bundle unitBindRead pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row unitBindRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        Cont unitLeft unitRight row ∧ hsame e BHist.Empty)
+                      (fun row : BHist =>
+                        hsame row unitBindRead ∧ PkgSig bundle unitBindRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier unitBindRoute unitBindPkg
+  obtain ⟨unaryA, unaryB, _unaryName, productRoute, leftUnitRoute, rightUnitRoute,
+    _ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryRightUnit : UnaryHistory unitRight :=
+    unary_cont_closed unaryA unary_empty rightUnitRoute
+  have unaryUnitBindRead : UnaryHistory unitBindRead :=
+    unary_cont_closed unaryLeftUnit unaryRightUnit unitBindRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row unitBindRead ∧ UnaryHistory row)
+        (fun row : BHist => Cont unitLeft unitRight row ∧ hsame e BHist.Empty)
+        (fun row : BHist => hsame row unitBindRead ∧ PkgSig bundle unitBindRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro unitBindRead
+            (And.intro (hsame_refl unitBindRead) unaryUnitBindRead)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨cont_result_hsame_transport unitBindRoute (hsame_symm source.left), sameUnit⟩
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left unitBindPkg
+    }
+  exact
+    ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryRightUnit, unaryUnitBindRead,
+      productRoute, leftUnitRoute, rightUnitRoute, unitBindRoute, sameUnit, unitBindPkg, cert⟩
+
+theorem UnaryContMonoidCarrier_operation_closure [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      UnaryHistory ab ∧ Cont a b ab ∧ Cont BHist.Empty a unitLeft ∧
+        Cont a BHist.Empty unitRight ∧ UnaryHistory unitLeft ∧
+          UnaryHistory unitRight ∧ hsame e BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨unaryA, unaryB, _unaryName, productRoute, leftUnitRoute, rightUnitRoute,
+    _ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryRightUnit : UnaryHistory unitRight :=
+    unary_cont_closed unaryA unary_empty rightUnitRoute
+  exact
+    ⟨unaryProduct, productRoute, leftUnitRoute, rightUnitRoute, unaryLeftUnit,
+      unaryRightUnit, sameUnit⟩
+
 end BEDC.Derived.UnaryContMonoidUp

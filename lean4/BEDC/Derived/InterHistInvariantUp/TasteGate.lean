@@ -208,7 +208,41 @@ instance interHistInvariantChapterTasteGate : ChapterTasteGate InterHistInvarian
     intro x y hxy heq
     exact hxy (interHistInvariantToEventFlow_injective heq)
 
+def InterHistInvariantUp_StdBridge_fields : InterHistInvariantUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | InterHistInvariantUp.mk leftHist rightHist relation invariant observerSymmetry
+      hsameTransport contRoute provenance nameCert =>
+      [leftHist, rightHist, relation, invariant, observerSymmetry, hsameTransport,
+        contRoute, provenance, nameCert]
+
+instance InterHistInvariantUp_StdBridge_field_faithful :
+    FieldFaithful InterHistInvariantUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := InterHistInvariantUp_StdBridge_fields
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk leftHist₁ rightHist₁ relation₁ invariant₁ observerSymmetry₁ hsameTransport₁
+        contRoute₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk leftHist₂ rightHist₂ relation₂ invariant₂ observerSymmetry₂ hsameTransport₂
+            contRoute₂ provenance₂ nameCert₂ =>
+            cases h
+            rfl
+
+instance InterHistInvariantUp_StdBridge_nontrivial : Nontrivial InterHistInvariantUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨InterHistInvariantUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      InterHistInvariantUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate InterHistInvariantUp :=
+  -- BEDC touchpoint anchor: BHist BMark
   interHistInvariantChapterTasteGate
 
 theorem InterHistInvariantTasteGate_single_carrier_alignment :

@@ -102,7 +102,13 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 8   # lowered 2026-05-14 from 20: push-race analysis showed
+LEAN_MAX = 12  # lowered 2026-05-15 (later): push lock starvation observed —
+               # R6327 held lock 1076s for codex_resolve_conflicts (which
+               # runs INSIDE the lock). With 16+ contenders, flock unfairness
+               # starves P workers >600s → cooldown cascades. Cap at 12
+               # reduces waiter pool. Structural fix (move codex_resolve
+               # outside lock) deferred to next orchestrator restart.
+LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
                # R + P orchestrators + sync daemon all pushing to the same
@@ -115,14 +121,19 @@ LEAN_MAX = 8   # lowered 2026-05-14 from 20: push-race analysis showed
                # cuts ff-rejection rate dramatically.
 
 PAPER_BUFFER = 4
-PAPER_MIN = 18  # raised 2026-05-12 from 12: P-side discovery channels
+PAPER_MIN = 6   # lowered 2026-05-15 (later): with PAPER_MAX=10 due to push-
+                # lock starvation, MIN must be ≤ MAX. 6 still keeps discovery
+                # channels warm. Restore once codex_resolve moves out of lock.
+PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # (vision/automath/human_chapter_extension) need a warm
                 # pool of workers ready to consume new discovery candidates
                 # as soon as Phase Review emits them; PAPER_MIN=12 was
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 25  # raised 2026-05-12 from 20 by user directive
+PAPER_MAX = 10  # lowered 2026-05-15 (later): same push-lock starvation —
+                # P workers wait >600s when R holds lock for codex_resolve.
+                # Cut from 25 → 10 reduces concurrent push contenders.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
@@ -191,16 +202,27 @@ def read_system_metrics() -> dict:
         metrics["load_15min"] = load15
     except OSError:
         pass
-    # vm_stat: free + inactive pages, page size 4096
+    # vm_stat: free + inactive pages. Page size is 16384 on arm64 Macs
+    # (Apple Silicon) and 4096 on Intel. Parse the first line of vm_stat
+    # which reports `Mach Virtual Memory Statistics: (page size of N bytes)`.
+    # Previously hard-coded 4096 under-reported memory by 4× on arm64,
+    # falsely triggering RAM_LOW_GB pressure cut (real 2.5GB inactive read
+    # as 0.6GB → lean 8→4 cap, halving R-side throughput silently for days).
     try:
         r = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5)
         free = inactive = 0
+        page_size = 4096
+        import re as _vm_re
         for line in r.stdout.splitlines():
+            m = _vm_re.search(r"page size of (\d+) bytes", line)
+            if m:
+                page_size = int(m.group(1))
+                continue
             if line.startswith("Pages free:"):
                 free = int(line.rsplit(":", 1)[1].strip().rstrip("."))
             elif line.startswith("Pages inactive:"):
                 inactive = int(line.rsplit(":", 1)[1].strip().rstrip("."))
-        metrics["mem_avail_gb"] = (free + inactive) * 4096 / (1024 ** 3)
+        metrics["mem_avail_gb"] = (free + inactive) * page_size / (1024 ** 3)
     except Exception:
         pass
     try:
