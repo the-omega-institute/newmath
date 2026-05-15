@@ -81,14 +81,16 @@ Now use no hidden source consumption. \autoref{thm:digest-provenance-packet-no-h
 It remains to identify the order relevant to equality-facing claims. The carrier gives no coordinate that can replace $S$ by a hidden source, no coordinate that can replace $F$ by a host preimage oracle, and no coordinate that can replace $G$ by silent far-end supply. Therefore $E$ can authorize or refuse only after the source, fiber, and ledger rows have been opened in that order.
 \end{proof}
 
-\closureat{DigestProvenancePacketUp}{seedStr}
+\closureat{DigestProvenancePacketUp}{seedStr}[BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\DigestProvenancePacketUp}
   \constructivestory{A $\DigestProvenancePacketUp$ packet is generated from a visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, componentwise transports, displayed replay routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:digest-provenance-packet-carrier}, \autoref{thm:digest-provenance-packet-namecert-obligations}, \autoref{thm:digest-provenance-packet-no-hidden-source-consumption}, and \autoref{thm:digest-provenance-packet-source-fiber-ledger-order} bind the digest-provenance carrier, visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, transport, replay, provenance, and local naming rows.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:digest-provenance-packet-carrier}, \autoref{thm:digest-provenance-packet-namecert-obligations}, \autoref{thm:digest-provenance-packet-no-hidden-source-consumption}, \autoref{thm:digest-provenance-packet-source-fiber-ledger-order}, and the TasteGate target bind the digest-provenance carrier, visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DigestProvenancePacketUp.DigestProvenancePacketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim Lean verification, bridge checking, global digest semantics, source equality, hidden preimage recovery, quotient source equality, or object-level truth for $\DigestProvenancePacketUp$.}
-  \upgradepath{Obligation closure requires carrier admission, digest-source exposure, provenance non-escape, transport stability, and local naming obligations for the same digest-provenance packet.}
+  \origin{ai}
+  \notclaimed{This chapter does not claim source equality, preimage oracle access, quotient source equality, host hash semantics, a standard bridge, or object-level truth for $\DigestProvenancePacketUp$.}
+  \upgradepath{Obligation closure requires fiber, GAP, exactness or refusal, replay, provenance, and local naming rows for the same digest-provenance packet.}
 \end{closurestatus}

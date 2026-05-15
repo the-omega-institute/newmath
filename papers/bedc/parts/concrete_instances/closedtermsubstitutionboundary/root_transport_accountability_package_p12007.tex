@@ -1,0 +1,47 @@
+\begin{theorem}[Closed-term substitution boundary root transport accountability]
+\label{thm:closed-term-substitution-boundary-root-transport-accountability}
+Every root consumer that makes closed substitution transport accountable for $\ClosedTermSubstitutionBoundaryUp$ must first expose the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Here $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$ are the term, value, depth, and closedness inputs; $Q$ and $R$ are the closed shift and substitute-closed operation rows; $L$ and $A$ are the ledger and audit rows; and $H,C,P,N$ are the transport, continuation, provenance, and local naming rows. No accountable closed substitution transport is available from a host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or operation row outside this packet.
+\end{theorem}
+\begin{proof}
+Read the root consumer through \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. That row makes every audit-visible root read total over the displayed packet and prevents the consumer from starting at a detached host operation.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The ledger fixes the closed shift and substitute-closed boundary rows inside the packet, while the NameCert export keeps the same carrier, classifier, transport, continuation, provenance, and naming rows visible to downstream consumers.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. A compiler-facing citation is admitted only after the same rows have been exposed, so accountable transport is exactly transport over $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ and not over a host substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root consumer coverage]
+\label{thm:closed-term-substitution-boundary-root-consumer-coverage}
+Every self-compilation, proof-erasure, or compiler-facing consumer of $\ClosedTermSubstitutionBoundaryUp$ is covered by the displayed closed-boundary packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Such a consumer may read the closed shift, substitute-closed, ledger, audit, transport, continuation, provenance, and naming rows only through that packet, and it receives no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or extra compiler object.
+\end{theorem}
+\begin{proof}
+Start with self-compilation and proof-erasure consumers. By \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, any root audit consumer factors through the closed-boundary packet before it can inspect the operation rows.
+
+For compiler-facing consumers, apply \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. It allows the sibling compiler chapter to be cited only after the accepted packet has exposed the same term, closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows.
+
+The non-escape and export rows close the remaining alternatives. Use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} to rule out hidden operation sources, and use \autoref{thm:closed-term-substitution-boundary-namecert-export-totality} to keep the consumer attached to the displayed NameCert carrier. Thus each listed consumer is covered by the closed-boundary packet and by no host substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root-unblock certificate]
+\label{thm:closed-term-substitution-boundary-root-unblock-certificate}
+The root transport accountability row of \autoref{thm:closed-term-substitution-boundary-root-transport-accountability}, the root consumer coverage row of \autoref{thm:closed-term-substitution-boundary-root-consumer-coverage}, the root audit totality row of \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, and the root compiler non-escape row of \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape} assemble a downstream root-unblock certificate for $\ClosedTermSubstitutionBoundaryUp$. The certificate is a finite handoff over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or additional compiler-facing route.
+\end{theorem}
+\begin{proof}
+First build the accountable transport surface. Apply \autoref{thm:closed-term-substitution-boundary-root-transport-accountability} to force every accountable closed substitution transport through the displayed term, closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows.
+
+Next cover the downstream consumers. By \autoref{thm:closed-term-substitution-boundary-root-consumer-coverage}, self-compilation, proof-erasure, and compiler-facing reads all use the same closed-boundary packet and no host substitution semantics.
+
+Finally combine the root audit and compiler rows. The audit side is total by \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, while the compiler side is non-escaping by \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Together with \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}, these rows provide the downstream root-unblock certificate over the single displayed packet.
+\end{proof}

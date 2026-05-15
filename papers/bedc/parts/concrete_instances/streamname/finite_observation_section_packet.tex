@@ -1,0 +1,144 @@
+\section{StreamName finite-observation section packet}
+\label{sec:streamname-finite-observation-section-packet}
+
+\begin{theorem}[StreamName finite-observation section]
+\label{thm:streamname-finite-observation-section}
+Every certified finite observation section of a $\StreamNameUp$ window is
+exhausted by the displayed $\mathsf{ProbeBundle}$ membership row, the
+$\mathsf{UnaryHistory}$ row, the $\mathsf{RatHistoryClassifier}$ row, the
+componentwise $\hsame$ transport, the displayed $\Cont$ route, $\Pkg$
+provenance, and the local $\NameCert$ row of the StreamName packet. The
+section contributes no regularity witness, quotient stream equality,
+completion row, host-index equality, selected limit, or ambient completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+Start from the certified observation section inside the finite StreamName
+window. Apply
+\autoref{thm:streamname-finite-observation-classifier-exhaustion}; it
+projects any selected certified unary observation to the finite
+$\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership row,
+$\mathsf{UnaryHistory}$ row, pointwise $\mathsf{RatHistoryClassifier}$ row,
+$\hsame$ comparison, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$
+provenance.
+
+The membership and unary-history rows identify the observation as a finite
+section of the window rather than as a host-indexed stream. The pointwise
+classifier and $\hsame$ rows identify exactly the rational-history data
+visible at that section, while $\Cont$, $\Pkg$, and $\NameCert$ only replay,
+package, and name the same finite surface.
+
+The exclusions are therefore inherited from the classifier exhaustion theorem.
+Regularity witnesses, quotient stream equality, completion rows, host-index
+equality, selected limits, and ambient completeness coordinates are not fields
+of the section packet, so no certified finite observation section can export
+them.
+\end{proof}
+
+\begin{theorem}[StreamName finite-observation constant seed]
+\label{thm:streamname-finite-observation-constant-seed}
+For a constant rational stream section $\mathsf{RatConstStream}_d$, any two
+certified observations of the same finite $\StreamNameUp$ window read the same
+hidden $\RatUp$ seed $d$. The public section row is therefore the common
+$\hsame$ class of the two observed histories, together with the same finite
+membership, unary-history, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-stream-name-constant-witness} to the first certified
+observation. The observed history of $\mathsf{RatConstStream}_d$ is identified
+by $\hsame$ with the hidden seed $d$.
+
+Apply the same witness theorem to the second certified observation. Its
+observed history is again identified by $\hsame$ with $d$, using only the
+certified unary observation row and the constant rational stream definition.
+
+Now use
+\autoref{thm:rat-const-stream-certified-observation-determinacy}. It composes
+the two point-sameness witnesses through the seed and gives the same public
+history row for both certified observations. The finite membership,
+unary-history, $\Cont$, $\Pkg$, and $\NameCert$ rows are the support rows of
+the section packet, so the constant section reads one RatUp seed across all
+certified observations of the window.
+\end{proof}
+
+\begin{theorem}[StreamName finite-observation Real exit handoff]
+\label{thm:streamname-finite-observation-real-exit-handoff}
+The finite-observation section packet of
+\autoref{thm:streamname-finite-observation-section} and the constant-seed
+packet of \autoref{thm:streamname-finite-observation-constant-seed} are
+exactly the $\StreamNameUp$ contribution to the Phase Real and Completion
+four-object exit surface. When the exit route is read through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, the
+StreamName side supplies only finite observation rows, constant-seed
+determinacy where the stream is constant, and the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-finite-observation-realup-seal-scope}. It
+places every finite-window $\RealUp$ seal read on the StreamName side over the
+carried endpoints, finite bundle membership, unary observation, and pointwise
+rational-history classifier rows.
+
+Combine that scope theorem with
+\autoref{thm:streamname-finite-observation-section}. The section packet is
+therefore the whole StreamName finite-observation contribution before the
+RegSeqRat and Real-facing rows are consumed.
+
+For constant rational stream sections, insert
+\autoref{thm:streamname-finite-observation-constant-seed}. The same finite
+section surface now also records that all certified observations read the same
+hidden RatUp seed, without adding a quotient stream, selected limit, or
+ambient completeness coordinate.
+
+Finally apply
+\autoref{thm:streamname-real-completion-four-object-exit-route}. The
+four-object route reads the Phase Real and Completion boundary through exactly
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with only
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. Thus the section and constant-seed packets are precisely the
+StreamName-side finite observation handoff into that exit surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat tail-budget section lock]
+\label{thm:streamname-finite-observation-regseqrat-tail-budget-section-lock}
+Every finite $\StreamNameUp$ observation section consumed by a
+$\RegSeqRatUp$ tail-budget read and then by a finite $\RealUp$ seal factors
+through the same displayed section packet. The packet consists of the
+$\mathsf{ProbeBundle}$ membership row, the $\mathsf{InBundle}$ membership row,
+the $\mathsf{UnaryHistory}$ observation row, the
+$\mathsf{RatHistoryClassifier}$ endpoint row, the $\DyadicRatCoreUp$ tolerance
+ledger, the $\RegSeqRatUp$ regularity and classifier rows, the displayed
+$\hsame$ transports, the $\Cont$ routes, $\Pkg$ provenance, and the local
+$\NameCert$ rows. It exports no quotient stream equality, host sequence
+equality, selected limit, ambient $\RealUp$ completeness, metric-completeness
+datum, or second dyadic source.
+\end{theorem}
+\begin{proof}
+The local section inventory is fixed by
+\autoref{thm:streamname-finite-observation-section}. A certified finite
+observation section exposes exactly the bundle membership, in-bundle
+membership, unary-history, rational-history classifier, $\hsame$, $\Cont$,
+$\Pkg$, and local $\NameCert$ rows listed there.
+
+The handoff to the Phase Real and Completion exit surface is the one in
+\autoref{thm:streamname-finite-observation-real-exit-handoff}. It says that the
+StreamName contribution to the four-object route is precisely the finite
+observation packet before the downstream DyadicRatCore, RegSeqRat, and Real
+rows are read.
+
+Now route the consumer through
+\autoref{thm:regseqrat-tail-budget-meet-handoff}. A tail-budget read is ordered
+through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and then
+$\RealUp$, so the dyadic tolerance ledger and the RegSeqRat regularity and
+classifier rows consume the same finite StreamName section rather than a
+separate source.
+
+Finally use
+\autoref{thm:streamname-real-regseq-shared-tail-budget-route}. The shared-tail
+consumer keeps the RegSeqRat readback and the finite Real seal on the same
+public finite-window route. Since the cited packets contain no fields for a
+quotient stream equality, host sequence equality, selected limit, ambient Real
+completeness principle, metric-completeness datum, or second dyadic source,
+none of those objects can be inserted between the section packet and its
+tail-budget or seal consumers.
+\end{proof}
