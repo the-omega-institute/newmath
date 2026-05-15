@@ -26,4 +26,24 @@ theorem CauchyWitnessLedgerCarrier_root_diagnostic_budget_totality
   subst hK
   exact ⟨routeBudget, routeEndpoint⟩
 
+theorem CauchyWitnessLedgerCarrier_root_seal_classifier_lock
+    {Q B S K H C P N Q' B' S' K' H' C' P' N' endpoint : BHist} :
+    FieldFaithful.fields (CauchyWitnessLedgerUp.mk Q B S K H C P N) =
+        FieldFaithful.fields (CauchyWitnessLedgerUp.mk Q' B' S' K' H' C' P' N') →
+      Cont Q B S →
+        Cont S K endpoint →
+          K = K' ∧ Cont Q' B' S' ∧ Cont S' K' endpoint := by
+  -- BEDC touchpoint anchor: BHist Cont FieldFaithful
+  intro hfields routeBudget routeEndpoint
+  change [Q, B, S, K, H, C, P, N] = [Q', B', S', K', H', C', P', N'] at hfields
+  injection hfields with hQ tailQ
+  injection tailQ with hB tailB
+  injection tailB with hS tailS
+  injection tailS with hK _tailK
+  subst hQ
+  subst hB
+  subst hS
+  subst hK
+  exact ⟨rfl, routeBudget, routeEndpoint⟩
+
 end BEDC.Derived.CauchyWitnessLedgerUp
