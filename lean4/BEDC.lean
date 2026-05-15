@@ -616,6 +616,7 @@ import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
+import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
