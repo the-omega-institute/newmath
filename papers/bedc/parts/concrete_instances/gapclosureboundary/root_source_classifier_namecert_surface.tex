@@ -1,0 +1,57 @@
+\begin{theorem}[GapClosureBoundary source packet]
+\label{thm:gap-closure-boundary-source-packet}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the root source packet exposes exactly the following rows over the displayed $\BHist$ surface:
+\begin{enumerate}
+\item the request row $G$ and the source observation or socket row $S$;
+\item the refusal ledger $R$ for every closure-facing read that lacks a displayed source route;
+\item the hard-problem consumer rows for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$;
+\item the componentwise $\hsame$ transport rows in $H$ and the displayed $\Cont$ routes in $C$ from $G$ to $S$ or $R$;
+\item the provenance row $P$ as $\Pkg$ data and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$.
+\end{enumerate}
+No accepted consumer reads a source, refusal, transport, provenance, or local naming coordinate outside $G,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gap-closure-boundary-carrier}. It gives the finite $\BHist$ packet $G,S,R,H,C,P,N$ and assigns the structural meanings of $H,C,P,N$.
+
+Use source route totality and refusal route exactness from \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-refusal-route-exactness}. They place every supported read on $G \longrightarrow S$ and every unsupported closure request on $G \longrightarrow R$.
+
+Finally apply the consumer exactness package and recognizer consumer exhaustion, \autoref{thm:gap-closure-boundary-consumer-exactness-package} and \autoref{thm:gap-closure-boundary-recognizer-consumer-exhaustion}. These results keep the listed consumers, recognizer landing rows, $\Pkg$ provenance, and local $\NameCert$ entry inside the displayed packet, so no external coordinate is exported.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary classifier stability]
+\label{thm:gap-closure-boundary-classifier-stability}
+Let $B=(G,S,R,H,C,P,N)$ be an accepted $\GapClosureBoundaryUp$ carrier. Componentwise $\hsame$ transport in $H$ together with the displayed $\Cont$ routes in $C$ preserves the source/refusal classifier: a supported read remains routed through $G \longrightarrow S$, and an unsupported closure request remains routed through $G \longrightarrow R$. The transport cannot introduce hidden host refusal, private source selection, unrecorded consumer authority, hidden $\mathsf{T}$ supply, causal necessity, direct aspect reduction, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the source packet of \autoref{thm:gap-closure-boundary-source-packet}. The only classifier-visible rows are the request, source, refusal, transport, continuation, provenance, consumer, and naming rows already displayed by $B$.
+
+For supported reads, apply source route totality and downstream branch determinacy. They force the consumer to expose $G \longrightarrow S$ before reading $H,C,P,N$, and they prevent a structural row from selecting a private source.
+
+For unsupported closure requests, apply refusal route exactness and refusal ledger stability. The same $\hsame$ and $\Cont$ rows carry the request to $R$ and preserve the refusal endpoint rather than turning it into host-level refusal data or concealed closure supply.
+
+The remaining exclusions follow from consumer ledger exhaustion and recognizer consumer exhaustion. Both surfaces exhaust accepted hard-problem reads by the displayed source/refusal split, so no unrecorded consumer authority or off-packet continuation remains available.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary NameCert obligation surface]
+\label{thm:gap-closure-boundary-namecert-obligation-surface}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the local $\NameCert_{\GapClosureBoundaryUp}$ obligation surface consists of exactly five obligations:
+\begin{enumerate}
+\item carrier exposure: the certificate exposes the finite $\BHist$ rows $G,S,R,H,C,P,N$;
+\item source-route admission: every supported read enters through the displayed route $G \longrightarrow S$ with the $\hsame$, $\Cont$, and $\Pkg$ rows carried by $H,C,P$;
+\item refusal-ledger exactness: every unsupported closure request enters $R$ through the displayed refusal route and receives no hidden closure or hidden $\mathsf{T}$ supply;
+\item consumer-boundary exhaustion: the five listed hard-problem consumers read only the displayed source/refusal packet and its structural rows;
+\item non-escape of host/global refusal data: the local refusal ledger is not a host refusal oracle, global closure refusal, private source selector, or consumer-authority row.
+\end{enumerate}
+These five obligations are sufficient for the root $\GapClosureBoundaryUp$ surface consumed by the sibling hard-problem packets.
+\end{theorem}
+\begin{proof}
+Carrier exposure is the direct projection of \autoref{def:gap-closure-boundary-carrier}. The packet exposes $G,S,R,H,C,P,N$ and no additional public coordinate.
+
+Source-route admission follows from source route totality and recognizer source admission. A supported read must pass through the displayed source branch before the hard-problem consumer or recognizer landing surface consumes the packet.
+
+Refusal-ledger exactness follows from refusal route exactness and recognizer refusal stability. An unsupported closure request lands in $R$ through the displayed continuation rows and remains refusal data rather than closure supply.
+
+Consumer-boundary exhaustion follows from the consumer exactness package, source/refusal consumer ledger, and recognizer landing obligations. Those sibling rows cover the listed consumers by the source/refusal split.
+
+Non-escape follows from classifier stability above together with refusal non-escape. Since $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserve the displayed packet, the local ledger cannot become host refusal data, global refusal data, private source selection, or unrecorded consumer authority.
+\end{proof}

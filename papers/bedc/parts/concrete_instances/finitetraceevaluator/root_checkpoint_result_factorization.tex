@@ -1,0 +1,41 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-result totality]
+\label{thm:finite-trace-evaluator-checkpoint-result-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every accepted checkpoint/result read factors through the displayed finite $\BHist$ trace $T$, the validation row $V$, the result row $R$ classified at $A$, the $\Cont$ replay routes $C$, componentwise $\hsame$ transports $H$, $\Pkg$ provenance $P$, and the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. The read has no carrier coordinate for host validation, total truth, total halting, unbounded evaluation, or an infinite trace.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its readable evaluator surface is the finite packet $I,T,A,V,H,C,P,N$, and the accepted result row $R$ is exposed only through the classifier row $A$.
+
+Apply \autoref{thm:finite-trace-evaluator-trace-window-accountability} and \autoref{thm:finite-trace-evaluator-result-classifier-exactness}. They place the result row $R$ behind the displayed finite trace $T$ and make $A$ the only accepted-result classifier available to the checkpoint/result consumer.
+
+Use \autoref{thm:finite-trace-evaluator-validation-refusal-package} and \autoref{thm:finite-trace-evaluator-consumer-factorization}. The validation row $V$, the replay routes $C$, the componentwise transports $H$, the provenance row $P$, and the local naming row $N$ account for the remaining checkpoint boundary.
+
+Finally attach \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. Since the root ledger has no row outside $I,T,A,V,H,C,P,N$, the checkpoint/result read cannot import host validation, total truth, total halting, unbounded evaluation, or an infinite trace.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator bounded replay stability]
+\label{thm:finite-trace-evaluator-bounded-replay-stability}
+Bounded replay for an accepted $\FiniteTraceEvaluatorUp$ packet is stable under the displayed componentwise $\hsame$ transports. Replaying the finite route through $I \to T \to A$, the validation boundary $V$, and the continuation rows $C$ preserves the checkpoint/result factorization of \autoref{thm:finite-trace-evaluator-checkpoint-result-totality} and cannot import host runtime state.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. It locks accepted-result replay to the displayed input, finite trace, and classifier route $I \to T \to A$ before any checkpoint consumer can inspect a result.
+
+The componentwise transport row $H$ carries only the named packet coordinates: input, trace, accepted-result classifier, validation boundary, provenance, and local naming. Transporting along $H$ therefore preserves the same bounded route rather than creating a new runtime source.
+
+Apply \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The runtime checkpoint receives the finite evaluator carrier, validation non-escape, result-validation separation, root trace-result totality, root validation boundary, and root package rows as one handoff.
+
+Thus replay through $C$ remains bounded by $I,T,A,V,H,C,P,N$. No host runtime state is a coordinate of that packet, so none can be imported by transport or replay.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator NameCert root ledger factorization]
+\label{thm:finite-trace-evaluator-namecert-root-ledger-factorization}
+The root $\NameCert_{\FiniteTraceEvaluatorUp}$ ledger is exhausted by the finite trace $T$, validation row $V$, result row $R$ classified at $A$, checkpoint rows, refusal rows, $\Cont$ replay routes $C$, $\Pkg$ provenance $P$, and local naming row $N$. Every root ledger read factors through these displayed rows and no source outside the finite evaluator packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-namecert-obligations}. The local certificate exposes carrier admission, finite trace-step exposure, accepted-result classification, validation non-escape, provenance, and local naming as its obligation rows.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-result-totality}. Accepted checkpoint/result reads pass through $T,V,R,H,C,P,N$, with $R$ available only as the result row classified at $A$.
+
+Next apply \autoref{thm:finitetraceevaluator-root-validation-refusal} and \autoref{thm:finite-trace-evaluator-bounded-replay-stability}. The refusal rows stop host validation, total truth, total halting, and unbounded evaluation at $V,H,C,P,N$, while bounded replay stays on the displayed transported route.
+
+Finally use \autoref{thm:finite-trace-evaluator-ledger-exhaustion} and \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The provenance and naming rows expose no dependency beyond the finite evaluator packet, so the root ledger is exactly the displayed trace, validation, result, checkpoint, refusal, replay, provenance, and naming surface.
+\end{proof}
