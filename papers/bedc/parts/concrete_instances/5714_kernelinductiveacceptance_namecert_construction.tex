@@ -107,20 +107,37 @@ Apply the positivity-refusal stability clause of \autoref{thm:kernel-inductive-a
 The nontrivial boundary of \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary} separates the accepted and refused sides of the TasteGate surface. Thus the failed candidate cannot be read by the accepted-declaration, trace, generator, type-classifier, or subject-reduction consumers as an entered inductive declaration.
 \end{proof}
 
+\begin{theorem}[KernelInductiveAcceptance obligation closure package]
+\label{thm:kernel-inductive-acceptance-obligation-closure-package}
+The carrier of \autoref{def:kernel-inductive-acceptance-carrier}, NameCert obligations of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}, TasteGate nontrivial boundary of \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary}, field-faithful boundary of \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}, constructor-ledger exhaustion of \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion}, eliminator-ledger exhaustion of \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}, and positivity-refusal nonescape of \autoref{thm:kernel-inductive-acceptance-refusal-nonescape} assemble the full paper-side obligation surface for $\KernelInductiveAcceptanceUp$. The assembled package exports no theorem-proof row, generic theorem trace, generator-closure theorem, type-membership theorem, subject-reduction target, or hidden kernel-correctness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $I=(D,S,E,P,R,H,C,Q,N)$. These coordinates display the declaration candidate, constructor-signature ledger, emitted-eliminator ledger, positivity refusal, recursion discipline, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. Its five rows give carrier admission, constructor-signature exactness, emitted-eliminator exactness, positivity-refusal stability, and environment-entry non-escape for the same finite packet.
+
+Use \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary} and \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}. They enforce the AI TasteGate discipline by keeping the accepted and refused sides distinct and by making faithful reads preserve the paired constructor-signature plus emitted-eliminator fields.
+
+The accepted read surface is exhausted by \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion} and \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}. Constructor consumers return to $S$, and recursor, induction-principle, and computation consumers pass through $S$ before $E$.
+
+Finally apply \autoref{thm:kernel-inductive-acceptance-refusal-nonescape}. Failed positivity routes stay in $P$, so the package cannot leak into accepted declaration, trace, generator, type-classifier, or subject-reduction consumers through a hidden kernel-correctness theorem.
+\end{proof}
+
 \falsifiablePrediction{If the carrier is atomic, every accepted row exposes a constructor signature and emitted eliminator ledger; a packet lacking either row is rejected by the local classifier.}
 
 \independenceWitness{kernelacceptancewitness, kernelacceptancetrace, generatorclosure, typeclassifiermembership, subjectreduction: none is bijective because those siblings lack the paired constructor-signature plus emitted-eliminator ledger row, while this carrier lacks their theorem-proof, generic trace, generator-closure, or subject-reduction target rows.}
 
-\closureat{KernelInductiveAcceptanceUp}{seedStr}
+\closureat{KernelInductiveAcceptanceUp}{obligationStr}
 
 \begin{closurestatus}{\KernelInductiveAcceptanceUp}
   \constructivestory{A $\KernelInductiveAcceptanceUp$ packet is generated from an inductive declaration candidate, constructor-signature ledger, emitted-eliminator ledger, positivity-refusal row, recursion-discipline row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kernel-inductive-acceptance-carrier}, \autoref{thm:kernel-inductive-acceptance-namecert-obligations}, \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary}, \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}, \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion}, \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}, and \autoref{thm:kernel-inductive-acceptance-refusal-nonescape} name the carrier, local NameCert obligation, nontrivial boundary, field-faithful boundary, eliminator totality, positivity refusal, and environment nonescape rows.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:kernel-inductive-acceptance-carrier}, \autoref{thm:kernel-inductive-acceptance-namecert-obligations}, \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary}, \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}, \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion}, \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}, \autoref{thm:kernel-inductive-acceptance-refusal-nonescape}, and \autoref{thm:kernel-inductive-acceptance-obligation-closure-package} bind the carrier, local NameCert obligation, nontrivial boundary, field-faithful boundary, constructor and eliminator ledger exhaustion, positivity refusal, environment nonescape, and obligation package rows.}
+  \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.KernelInductiveAcceptanceUp.taste\_gate}
   \leantarget{BEDC.Derived.KernelInductiveAcceptanceUp.KernelInductiveAcceptanceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove full kernel correctness, subject reduction, theorem-proof soundness, generic trace completeness, generic theorem proof rows, or any bridge theorem.}
-  \upgradepath{Obligation closure requires the paper-side obligation surface to be read as a closed package with the TasteGate target cited on the verification axis.}
+  \upgradepath{Scoped closure requires binding the displayed kernel primitives and sibling consumer routes to one carrier-local readback surface.}
 \end{closurestatus}

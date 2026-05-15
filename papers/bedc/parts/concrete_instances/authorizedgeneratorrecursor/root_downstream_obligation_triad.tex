@@ -1,0 +1,48 @@
+\begin{theorem}[AuthorizedGeneratorRecursor branch output closure row]
+\label{thm:authorized-generator-recursor-branch-output-closure-row}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, the public branch output row remains behind the displayed carrier rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+In particular, a downstream public read of $O$ cannot detach the recursor output from the accepted signature row $I$, emitted eliminator row $E$, checked motive row $M$, branch package row $B$, structural-descent row $D$, audit row $A$, transport row $H$, continuation row $C$, package row $P$, boundary row $G$, or local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the root output boundary package of \autoref{def:authorized-generator-recursor-root-output-boundary-package}. It presents $O$ only as one coordinate of the displayed packet, not as a standalone generator result.
+
+The branch side is fixed by \autoref{thm:authorized-generator-recursor-root-branch-output-closed-boundary}. It keeps public output reads behind $I,E,M,B,D$ and refuses an output route detached from the constructor signature, emitted eliminator, checked motive, complete branch package, and structural descent.
+
+The audit side is fixed by \autoref{thm:authorized-generator-recursor-root-audit-membrane-source-refusal} and \autoref{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}. These rows retain $A,H,C,P,G,N$ before the boundary can expose $O$ to a consumer.
+
+Finally cite \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} only as carrier alignment. The TasteGate handoff reads the same finite packet and supplies no independent branch output channel, so the public branch output remains closed behind exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit provenance row]
+\label{thm:authorized-generator-recursor-audit-provenance-row}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, the rows $A,H,C,P,G,N$ are retained before public output exposure. The audit provenance row, componentwise transport row, continuation route row, package provenance row, host-boundary row, and local $\NameCert$ row therefore form the required downstream provenance package for any public read of $O$.
+\end{theorem}
+\begin{proof}
+Begin with audit provenance factorization, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}. It states that $O$ becomes public only after the audit row $A$, transports $H$, continuation routes $C$, package row $P$, boundary row $G$, and local name row $N$ are retained.
+
+The root package strengthens this retention at the output boundary. By \autoref{thm:authorized-generator-recursor-root-audit-membrane-source-refusal}, $A$ carries operational provenance, source refusal, and dependency refusal before $O$ leaves the package boundary.
+
+The boundary and local naming side is supplied by \autoref{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}. The row $G$ is exhausted by the same displayed $\NameCert_{\AuthorizedGeneratorRecursorUp}$ packet and cannot export a hidden generator or off-packet certificate.
+
+Use \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} only to identify the carrier consumed by the TasteGate handoff. Since that handoff adds no theorem row and no substitute audit route, $A,H,C,P,G,N$ remain the provenance package required before public exposure of $O$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor closed substitution consumer row]
+\label{thm:authorized-generator-recursor-closed-substitution-consumer-row}
+Every $\ClosedTermSubstitutionBoundaryUp$ consumer of an accepted $\AuthorizedGeneratorRecursorUp$ root packet reaches the recursor output only through the displayed branch, descent, audit, route, package, and $\NameCert$ rows. Such a consumer has no direct substitution authority over $O$ outside the carrier
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:authorized-generator-recursor-consumer-ledger-cover}. It already includes $\ClosedTermSubstitutionBoundaryUp$ among the downstream consumers that receive only the carrier, branch, descent, audit, transport, continuation, package, boundary, and local certificate rows displayed by the packet.
+
+The branch and descent route is closed by \autoref{thm:authorized-generator-recursor-branch-output-closure-row}. A substitution-boundary consumer therefore reaches $O$ only after $I,E,M,B,D$ have been retained with the output boundary.
+
+The audit and provenance route is closed by \autoref{thm:authorized-generator-recursor-audit-provenance-row}. It keeps $A,H,C,P,G,N$ attached before the public output can be consumed downstream.
+
+Finally apply \autoref{thm:authorized-generator-recursor-root-consumer-factorization}. Downstream consumers factor through the finite carrier and receive no free induction principle, hidden proof generator, external axiom, unaudited dependency route, or off-packet substitution channel. Hence every closed-substitution consumer reaches the recursor output only through the displayed branch, descent, audit, route, package, and local $\NameCert$ rows.
+\end{proof}
