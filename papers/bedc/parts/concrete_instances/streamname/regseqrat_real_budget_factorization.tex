@@ -63,3 +63,23 @@ For the reverse direction, start with a read that factors through the displayed 
 
 Finally apply \autoref{thm:streamname-real-completion-classifier-pullback}. It identifies public classifier equality with componentwise agreement on exactly the four faces and the displayed support rows, while the same non-escape exclusions leave no hidden classifier coordinate outside them.
 \end{proof}
+
+\begin{theorem}[StreamName Real-seal observation factorization]
+\label{thm:streamname-real-seal-observation-factorization}
+For every current Phase Real and Completion consumer read, a Real-facing observation is accepted exactly when it factors through the finite StreamName window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Under this acceptance test, equality of Real-facing observation classifiers is componentwise agreement on exactly those four faces and five support rows.
+
+The observation packet has no quotient stream coordinate, host limit, ambient completeness datum, choice row, Classical datum, or bridge row. It is therefore a consumer statement over the current four-face Real-and-Completion route, not an appeal to an external completion object.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-real-budget-factorization}. It gives the forward factorization through the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed BEDC support rows.
+
+Next use \autoref{thm:streamname-regseqrat-real-budget-route-exactness}. The same finite route is also sufficient for acceptance, and its classifier equality is exactly componentwise agreement on the four faces and five support rows.
+
+Now invoke \autoref{thm:streamname-regseqrat-real-budget-nonescape}. This removes quotient streams, host sequence equality, selected limits, ambient or metric completeness data, countable choice, Classical data, and bridge rows from the observation packet.
+
+Finally use \autoref{thm:realup-finite-window-exhaustion-obligation}. The Real-facing seal is read through finite windows, so the combined observation remains a finite BEDC route through the current Phase Real and Completion faces.
+\end{proof}
