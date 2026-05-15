@@ -495,4 +495,31 @@ theorem ApophaticSocketCarrier_positive_supply_refusal_scope [AskSetup] [Package
     ⟨sameRequest, requestUnary, requestUnary', kindSupplyGate, gateSiteReplay,
       supplyReplay, provenancePkg, requestPkg, nameCertAuditGate⟩
 
+theorem ApophaticSocketCarrier_scoped_supply_ledger [AskSetup] [PackageSetup]
+    {socketKind supplyShape auditGate site transport replay provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay provenance
+        nameCert bundle pkg ->
+      Cont supplyShape replay consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory socketKind ∧ UnaryHistory supplyShape ∧ UnaryHistory auditGate ∧
+            UnaryHistory site ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+              UnaryHistory nameCert ∧ UnaryHistory consumer ∧
+                Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+                  Cont supplyShape replay consumer ∧ Cont replay provenance nameCert ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg ∧
+                      PkgSig bundle consumer pkg ∧ hsame nameCert auditGate := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier supplyReplayConsumer consumerPkg
+  obtain ⟨socketKindUnary, supplyShapeUnary, auditGateUnary, siteUnary, _transportUnary,
+    replayUnary, provenanceUnary, nameCertUnary, nameCertAuditGate, kindSupplyGate,
+    gateSiteReplay, replayProvenanceNameCert, provenancePkg, nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed supplyShapeUnary replayUnary supplyReplayConsumer
+  exact
+    ⟨socketKindUnary, supplyShapeUnary, auditGateUnary, siteUnary, replayUnary,
+      provenanceUnary, nameCertUnary, consumerUnary, kindSupplyGate, gateSiteReplay,
+      supplyReplayConsumer, replayProvenanceNameCert, provenancePkg, nameCertPkg,
+      consumerPkg, nameCertAuditGate⟩
+
 end BEDC.Derived.ApophaticSocketUp
