@@ -1,0 +1,53 @@
+\begin{theorem}[$\ZNormalUp$ root constructor readback]
+\label{thm:znormal-root-constructor-readback}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+each root constructor readback factors through the displayed terminal, fuel, terminal-normality, sibling normal-word, terminal readback, transport, replay, provenance, and local-name rows. The constructor surface therefore reads only the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ZNormalUp}$ packet and does not introduce a host conversion row, quotient computation, unrestricted evaluator, divergence oracle, substrate-halting row, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The root constructor inventory is exactly the finite tuple $T,F,V,K,R,H,C,P,N$.
+
+Apply \autoref{thm:znormal-terminal-row-constructor-exhaustion}. It identifies the terminal row constructor surface with typed endpoint, finite fuel, terminal normality, sibling normal-word evidence, terminal readback, componentwise transport, continuation replay, provenance, and local naming.
+
+Use \autoref{thm:znormal-root-normal-form-readiness} and \autoref{thm:znormal-total-host-ledger-exhaustion}. These theorems keep the constructor readback on the same normal-form readiness route and exhaust the total-host ledger by the displayed packet.
+
+Finally apply \autoref{thm:znormal-root-tastegate-field-surface}. The TasteGate-facing field surface is the same packet surface, so the constructor readback has no additional host or global-normalization coordinate.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal normal-form refusal]
+\label{thm:znormal-terminal-normal-form-refusal}
+Every terminal normal-form read of an accepted $\ZNormalUp$ packet refuses host conversion, quotient computation, unrestricted evaluation, divergence oracle access, substrate-halting evidence, and global normalizer routes. Such a read may use only the finite packet
+$$
+T,F,V,K,R,H,C,P,N
+$$
+and the sibling normal-word surfaces named by the $\ZNormalUp$ root route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-terminal-normality-admission}. Terminal normality is admitted only through the displayed typed endpoint and finite fuel rows, so a terminal read cannot start from host conversion, quotient computation, unrestricted evaluation, divergence detection, or substrate halting.
+
+Apply \autoref{thm:znormal-root-total-host-refusal}. The root interface excludes host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate-halting rows, and global normalizers from every total-host or downstream normal-form use.
+
+Next use \autoref{thm:znormal-root-sibling-normalword-consumption}. The normal-word component $K$ is consumed only through finite sibling surfaces and cannot be detached into a host normalizer or quotient computation.
+
+Finally apply \autoref{thm:znormal-fuel-replay-nondivergence-boundary}. The fuel replay route records only the displayed finite nondivergence path through $T,F,V,K,R,H,C,P,N$. Hence terminal normal-form reads refuse exactly the listed host and global routes.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ consumer route totality]
+\label{thm:znormal-consumer-route-totality}
+Every downstream consumer of $\ZNormalUp$ factors through the finite packet
+$$
+T,F,V,K,R,H,C,P,N
+$$
+together with the typed endpoint, finite normal-word, carry, and terminal continuation sibling surfaces used by the root route. The consumer receives no normal-form evidence outside those rows, and the TasteGate-facing boundary remains confined to the displayed field surface rather than a host evaluator or global normalizer.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:znormal-root-downstream-totality}. It places every downstream normal-form consumer inside the displayed $\ZNormalUp$ root packet.
+
+Use \autoref{thm:znormal-root-normal-form-consumer-boundary}. The consumer receives terminal normality, finite normal-word evidence, transport, continuation replay, provenance, and local naming only through the named packet rows.
+
+Attach the sibling side by \autoref{thm:znormal-root-sibling-refusal-exhaustion}. The ZeckendorfNormal, ZCarry, and ContinuationTraceNormalForm sibling surfaces exhaust the permitted normal-word route outside the root packet, and they exclude host conversion, quotient normalization, unrestricted evaluation, divergence detection, substrate halting, and global normalization.
+
+Finally apply \autoref{thm:znormal-root-tastegate-field-surface}. The TasteGate-facing boundary is the same finite field surface, so downstream consumers are total over the packet and sibling surfaces and have no route outside them.
+\end{proof}
