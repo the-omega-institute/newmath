@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for \RealityConstrainedApproximationTowerUp}
+\label{ch:concrete-instances-reality-constrained-approximation-tower-namecert}
+\origin{ai}
+
+The \RealityConstrainedApproximationTowerUp packet realizes the indexed approximation-tower discipline of \autoref{ch:visions-reality-constrained-approximation-towers} as a concrete BEDC NameCert carrier. It sits after the approximation carrier of \autoref{ch:concrete-instances-approximation-namecert}, the finite Cauchy approximation carrier of \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}, the Real approximation envelope of \autoref{ch:concrete-instances-realapproximationenvelope-namecert}, and the observer-filter budget selector of \autoref{ch:concrete-instances-observer-filter-budget-selector-namecert}. Those siblings provide approximation rows, finite Cauchy windows, Real-facing envelope data, and selected observer budgets; this carrier binds them into one indexed reality-constrained tower without importing host equality, quotient reals, hidden limit selectors, or ambient completeness.
+
+\begin{definition}[Reality-constrained approximation-tower carrier]
+\label{def:reality-constrained-approximation-tower-carrier}
+A \RealityConstrainedApproximationTowerUp carrier is a finite $\BHist$ packet
+$$
+T=(O,Q,M,A,\Sigma,C,D,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the ontic source row naming the reality-facing source whose signatures are being approximated;
+\item $Q$ is the observation bundle row, containing the finite admissible observations selected for the tower;
+\item $M$ is the model row, naming the visible mathematical model read from the observed source;
+\item $A$ is the compression-chain row, recording the indexed sequence of approximation, finite Cauchy, Real-envelope, and observer-budget stages;
+\item $\Sigma$ is the physical-signature row extracted from $O$ through $Q$ and read against $M$;
+\item $C$ is the classifier row comparing model-facing signatures with the reality-facing signature row $\Sigma$;
+\item $D$ is the descent row listing the operations whose use on the visible model is certified to respect the displayed classifier;
+\item $L$ is the ledger row recording every hidden source, compressed stage, rejected signature omission, and open residue of the tower;
+\item $H$ records componentwise $\hsame$ transport among source, observation, model, chain, signature, classifier, descent, ledger, provenance, and local-name rows;
+\item $R$ records the displayed $\Cont$ route from source observation to model readback, signature comparison, descent use, and ledger inspection;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-approximation-namecert}, \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}, \autoref{ch:concrete-instances-realapproximationenvelope-namecert}, \autoref{ch:concrete-instances-observer-filter-budget-selector-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RealityConstrainedApproximationTowerUp}$ row.
+\end{enumerate}
+The classifier admits $T$ only when the signature, descent, and ledger rows are all displayed on the same indexed tower. The carrier has no coordinate for mathematical approximation divorced from physical signature, descent without a listed operation, erased compression residue, quotient-real equality, selected host limits, host-level physical law, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Reality-constrained approximation-tower ledger exactness]
+\label{thm:reality-constrained-approximation-tower-ledger-exactness}
+For every accepted \RealityConstrainedApproximationTowerUp carrier
+$$
+T=(O,Q,M,A,\Sigma,C,D,L,H,R,P,N),
+$$
+the ledger row $L$ records exactly the source histories, observation choices, compression stages, signature omissions, descent boundaries, and residue left by the displayed tower route $O,Q,M,A,\Sigma,C,D$. A consumer that reads $M$ through the tower must be able to inspect the corresponding entries of $L$ before treating the model row as reality-facing.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The positive route exposes the source row $O$, observation bundle $Q$, model row $M$, compression-chain row $A$, physical-signature row $\Sigma$, classifier $C$, and descent row $D$ before the structural rows are read.
+
+The ledger row is attached to that same route. Each admissible compression in $A$ records what was hidden or compressed; each signature comparison through $\Sigma$ and $C$ records which physical features were retained; each descent use through $D$ records which operations remain stable. These are exactly the source histories, observation choices, compression stages, signature omissions, descent boundaries, and residue named in the statement.
+
+Finally $H,R,P,N$ only transport, replay, package, and name this displayed packet. Since no additional coordinate exists for a hidden ledger, a detached approximation residue, or an unrecorded source history, the ledger available to the consumer is precisely $L$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained approximation-tower descent non-escape]
+\label{thm:reality-constrained-approximation-tower-descent-nonescape}
+Every operation consumed through an accepted \RealityConstrainedApproximationTowerUp packet factors through the displayed descent row $D$ and the classifier row $C$. No operation may be transported from the source side to the visible model side by using only the approximation chain $A$, the model row $M$, host equality, quotient-real equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier $T=(O,Q,M,A,\Sigma,C,D,L,H,R,P,N)$. Its only operation-facing coordinate is the descent row $D$, and $D$ is displayed after the physical-signature row $\Sigma$ and classifier row $C$.
+
+Apply ledger exactness from \autoref{thm:reality-constrained-approximation-tower-ledger-exactness}. Any operation whose stability depends on hidden source history or omitted physical signature must be recorded in the ledger rather than silently transported across the approximation chain.
+
+It remains to exhaust the excluded routes. The approximation chain $A$ records compression, $M$ records the visible model, and the structural rows $H,R,P,N$ only transport, replay, package, and name displayed data. None of these rows contains host equality, quotient-real equality, selected limits, ambient completeness, or a second descent coordinate. Thus every accepted operation factors through $D$ and $C$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained approximation-tower sibling independence]
+\label{thm:reality-constrained-approximation-tower-sibling-independence}
+The \RealityConstrainedApproximationTowerUp carrier is not bijective to the approximation, finite-Cauchy-approximation, Real-approximation-envelope, observer-filter-budget-selector, or residue surfaces named by its provenance. Each sibling lacks at least one of the joint ontic source, observation bundle, model row, compression-chain row, physical-signature row, classifier row, descent row, ledger row, transport, continuation, provenance, and local NameCert coordinates required by \autoref{def:reality-constrained-approximation-tower-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the four positive siblings. The approximation carrier supplies approximation rows but not the full physical-signature and descent inventory. The finite Cauchy approximation carrier supplies finite precision windows but not the ontic source and physical-signature classifier. The Real approximation envelope supplies Real-facing boundary rows but not the selected observation bundle with omitted-row residue. The observer-filter budget selector supplies selected and omitted observer rows but not the full indexed tower from ontic source to model readback.
+
+The residue surface is also separated. It records what remains outside a given admission, while the tower carrier binds residue to the same packet that contains source, observation, model, chain, signature, classifier, descent, ledger, transport, continuation, provenance, and local naming rows.
+
+Therefore no listed sibling carries all coordinates of $T$ and no coordinate of $T$ can be deleted without changing the accepted NameCert surface. A bijection preserving the local obligations would have to preserve all displayed rows, which none of the siblings can do.
+\end{proof}
+
+\falsifiablePrediction{Any accepted \RealityConstrainedApproximationTowerUp packet omitting a physical-signature row, a descent row, or a ledger row is rejected by the local classifier.}
+
+\independenceWitness{approximation, finite-cauchy-approximation, real-approximation-envelope, observer-filter-budget-selector, residue: no listed sibling is bijective to \RealityConstrainedApproximationTowerUp because only this packet carries ontic source, observation bundle, model row, compression chain, physical signature, classifier, descent certificate, ledger, hsame transport, Cont route, Pkg provenance, and local NameCert rows together.}
+
+Lean development for this route must provide $\mathsf{Nontrivial}\ \RealityConstrainedApproximationTowerUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedApproximationTowerUp$ instances in \texttt{lean4/BEDC/Derived/RealityConstrainedApproximationTowerUp/TasteGate.lean}.

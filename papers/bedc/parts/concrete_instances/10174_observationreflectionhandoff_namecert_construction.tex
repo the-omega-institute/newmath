@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ObservationReflectionHandoffUp$}
+\label{ch:concrete-instances-observation-reflection-handoff-namecert}
+\origin{ai}
+
+The $\ObservationReflectionHandoffUp$ packet concretizes the observation--reflection architecture of \autoref{ch:visions-reality-constrained-approximation-towers} as a finite NameCert handoff from a recorded observation trace to a reflection classifier. It consumes the finite-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the selected observation-budget route of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, the Real-facing observation budget of \autoref{ch:concrete-instances-real-observation-budget-namecert}, the request limiter of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, and the kernel observation sieve of \autoref{ch:concrete-instances-kernel-observation-sieve-namecert}. It is adjacent to the broader packet of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, but its carrier is narrower: it records the exact handoff surface through which a finite observation trace is read as a StreamName window, budgeted as a Real observation row, filtered by limiter and sieve rows, and then offered to a reflection classifier.
+
+\begin{definition}[ObservationReflectionHandoff carrier]
+\label{def:observation-reflection-handoff-carrier}
+An $\ObservationReflectionHandoffUp$ carrier is a finite packet
+$$
+Q=(O,S,R,B,L,K,C,T,M,E,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite observation trace recorded in $\BHist$;
+\item $S$ is the finite $\StreamNameUp$ window through which the trace is named for downstream consumers;
+\item $R$ is the $\RealObservationBudgetUp$ row serving the Real-facing precision request for that same named window;
+\item $B$ is the $\FiniteObservationBudgetSelectorUp$ row choosing the displayed finite request subroute;
+\item $L$ is the $\ObservationBudgetLimiterUp$ row bounding the request before any Real-facing seal is read;
+\item $K$ is the $\KernelObservationSieveUp$ row filtering the trace into the kernel-visible observation surface;
+\item $C$ is the reflection classifier row that reads only the displayed $O,S,R,B,L,K$ handoff;
+\item $T$ is the stability-transport row, carrying componentwise $\hsame$ comparisons for the trace, window, budget, selector, limiter, sieve, and classifier rows;
+\item $M$ is the ledger row recording accepted handoffs, rejected physical-fit reads, rejected MetaCIC-reflection reads, and remaining open gaps;
+\item $E$ is the displayed $\Cont$ route from the observation trace through the StreamName and budget rows to the classifier row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\StreamNameUp$, $\RealObservationBudgetUp$, $\FiniteObservationBudgetSelectorUp$, $\ObservationBudgetLimiterUp$, $\KernelObservationSieveUp$, $\hsame$, $\Cont$, and the classifier row;
+\item $N$ is the local $\NameCert_{\ObservationReflectionHandoffUp}$ row naming exactly this handoff packet.
+\end{enumerate}
+The carrier has no coordinate for an unbounded observation stream, a quotient stream, host observation equality, a completed Real value, or a physical-reality identity principle outside the displayed handoff.
+\end{definition}
+
+\begin{theorem}[ObservationReflectionHandoff NameCert obligations]
+\label{thm:observation-reflection-handoff-namecert-obligations}
+For the carrier of \autoref{def:observation-reflection-handoff-carrier}, the local $\NameCert_{\ObservationReflectionHandoffUp}$ surface consists exactly of carrier admission for $Q$, trace-window exactness through $O,S$, Real-budget exactness through $R$, selected-budget exactness through $B$, limiter exactness through $L$, kernel-sieve exactness through $K$, classifier locality through $C$, stability transport through $T$, ledger accountability through $M$, continuation routing through $E$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observation-reflection-handoff-carrier}. The displayed tuple lists all rows available to a consumer, so the NameCert surface can only bind those rows.
+
+Trace-window exactness reads $O$ through $S$. The StreamName sibling of \autoref{ch:concrete-instances-streamname-namecert} supplies the finite naming discipline, while the selector, Real-budget, limiter, and sieve siblings supply the budgeted request route through \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, \autoref{ch:concrete-instances-real-observation-budget-namecert}, \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, and \autoref{ch:concrete-instances-kernel-observation-sieve-namecert}.
+
+Classifier locality then reads only $O,S,R,B,L,K$. The transport, ledger, continuation, package, and local naming rows $T,M,E,P,N$ record stability, accepted and rejected reads, replayable consumer route, provenance, and the local certificate name. Since no other coordinate appears in $Q$, the listed obligations exhaust the packet.
+\end{proof}
+
+\begin{theorem}[ObservationReflectionHandoff non-escape boundary]
+\label{thm:observation-reflection-handoff-nonescape}
+Every accepted $\ObservationReflectionHandoffUp$ packet exports a physical-fit or MetaCIC-reflection read only through the displayed rows $O,S,R,B,L,K,C,T,M,E,P,N$. It exports no read that changes the finite observation trace, StreamName window, Real observation-budget row, selected-budget row, limiter row, kernel-observation sieve row, classifier row, stability transports, ledger, continuation route, package provenance, or local NameCert outside that packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier $Q=(O,S,R,B,L,K,C,T,M,E,P,N)$. The only observation-facing rows are $O$ and $S$, the only budget-facing rows are $R,B,L$, and the only kernel-facing row is $K$.
+
+Apply \autoref{thm:observation-reflection-handoff-namecert-obligations}. A legal read must expose the observation trace and named window before the Real-budget, selector, limiter, sieve, and classifier rows are consumed. The stability, ledger, continuation, package, and naming rows then replay that same displayed path.
+
+There is therefore no coordinate by which a consumer can alter a source row or export a hidden physical-fit or MetaCIC-reflection reading. Any such demand is recorded in $M$ as rejected or open rather than returned as a packet field.
+\end{proof}
+
+\begin{theorem}[ObservationReflectionHandoff independence boundary]
+\label{thm:observation-reflection-handoff-independence-boundary}
+The $\ObservationReflectionHandoffUp$ carrier is not bijective to the StreamName, finite observation-budget selector, Real observation-budget, observation-budget limiter, or kernel-observation sieve siblings. Each listed sibling supplies one visible service row, while $\ObservationReflectionHandoffUp$ stores the cross-domain handoff from a finite observation trace to a reflection classifier together with the finite StreamName and Real budget rows.
+\end{theorem}
+\begin{proof}
+The StreamName sibling supplies finite naming windows but not the Real observation-budget, selector, limiter, sieve, and reflection-classifier rows. The finite observation-budget selector supplies selected request routes but not the source trace, Real-facing budget, kernel sieve, and classifier ledger.
+
+The Real observation-budget sibling supplies the Real-facing precision route but not the full trace-to-classifier handoff. The limiter bounds the request, and the kernel-observation sieve filters the kernel-visible surface, but neither contains the complete $O,S,R,B,L,K,C,T,M,E,P,N$ carrier.
+
+Thus no listed sibling can be bijective to $\ObservationReflectionHandoffUp$ while preserving all fields. A bijection would have to recover rows absent from at least one side, contradicting the displayed carrier inventories.
+\end{proof}
+
+\begin{theorem}[ObservationReflectionHandoff TasteGate obligation]
+\label{thm:observation-reflection-handoff-tastegate-obligation}
+Any future Lean TasteGate for $\ObservationReflectionHandoffUp$ must provide explicit $\mathsf{Nontrivial}\ \ObservationReflectionHandoffUp$ and $\mathsf{FieldFaithful}\ \ObservationReflectionHandoffUp$ instances in \texttt{lean4/BEDC/Derived/ObservationReflectionHandoffUp/TasteGate.lean}. The instances must preserve $O,S,R,B,L,K,C,T,M,E,P,N$ as separate fields and must not identify the packet with a quotient stream, a host observation equality, a completed Real value, or a physical-reality identity principle.
+\end{theorem}
+\begin{proof}
+Nontriviality is required because the carrier has independently readable trace, window, budget, selector, limiter, sieve, classifier, transport, ledger, continuation, provenance, and naming rows. Collapsing them to a singleton would erase the handoff boundary stated in \autoref{thm:observation-reflection-handoff-independence-boundary}.
+
+Field faithfulness is required because the non-escape theorem depends on the rows remaining separate. If a future instance merged a StreamName window with a Real budget row, or merged the limiter with the kernel sieve, the classifier could no longer be checked against the displayed handoff packet. The Lean file named in the statement is therefore the appropriate obligation site for these two instance surfaces.
+\end{proof}
+
+\falsifiablePrediction{If an accepted handoff exports a physical-fit or MetaCIC-reflection read while changing the StreamName finite window, RealObservationBudget row, selector row, limiter row, or kernel-observation sieve row outside the displayed packet, it refutes the ObservationReflectionHandoffUp classifier.}
+
+\independenceWitness{streamname, finiteobservationbudgetselector, realobservationbudget, observationbudgetlimiter, kernelobservationsieve: no sibling is bijective to ObservationReflectionHandoffUp because this carrier stores the cross-domain handoff from observation trace to reflection classifier together with the finite StreamName and Real budget rows.}
+
+\closureat{ObservationReflectionHandoffUp}{seedStr}
+
+\begin{closurestatus}{\ObservationReflectionHandoffUp}
+  \constructivestory{An $\ObservationReflectionHandoffUp$ packet is generated from a finite observation trace, StreamName window, Real observation-budget row, finite selector row, limiter row, kernel-observation sieve row, reflection classifier, stability transports, ledger, continuation route, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-reflection-handoff-carrier}, \autoref{thm:observation-reflection-handoff-namecert-obligations}, \autoref{thm:observation-reflection-handoff-nonescape}, \autoref{thm:observation-reflection-handoff-independence-boundary}, and \autoref{thm:observation-reflection-handoff-tastegate-obligation} bind the finite observation-reflection handoff packet at seed scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert quotient streams, host observation equality, completed Real values, physical-reality identity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, NameCert obligations, non-escape boundary, independence boundary, and TasteGate instance requirements for $\ObservationReflectionHandoffUp$.}
+\end{closurestatus}
