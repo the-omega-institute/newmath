@@ -63,3 +63,38 @@ Next apply \autoref{thm:category-continuationmonad-hom-carrier-route}. The Categ
 
 Finally compose with \autoref{thm:continuation-monad-root-source-coverage}, \autoref{thm:continuation-monad-root-formal-route-saturation}, and \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. These root source, route, and ledger boundaries exhaust the readback surface, so every formal target consumes the finite packet and no external monad semantics.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad formal route target exhaustion]
+\label{thm:continuation-monad-formal-route-target-exhaustion}
+Any formal target that reads the displayed continuation packet
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+must factor through the root formal $\NameCert$ handoff, the $\CategoryUp$
+hom-carrier route, and the formal-target readback exhaustion. Therefore the
+target receives only the displayed $\BHist$ source histories, $\Cont$
+continuation tails, $\hsame$ transports, $\Pkg$ provenance, Category
+hom-carrier row, $\mathsf{ContinuationMorphism}$ row, and local $\NameCert$
+row. It cannot obtain quotient Kleisli arrows, host-function composition,
+ambient category completion, external monad evaluators, or unlisted
+generators.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:continuation-monad-root-formal-namecert-handoff}. It fixes the
+formal route to the finite packet $A,B,C,f,g,u,H,K,L,N$ and excludes quotient
+Kleisli arrows, host composition, ambient category completion, external
+evaluators, and unlisted generators from the local $\NameCert$ handoff.
+
+Next use \autoref{thm:category-continuationmonad-hom-carrier-route}. The
+Category hom-carrier exposure is the displayed $\mathsf{CategoryHomCarrier}$
+and $\mathsf{ContinuationMorphism}$ reading of the same continuation packet,
+not an external category-completion route.
+
+Finally compose with
+\autoref{thm:continuation-monad-formal-target-readback-exhaustion}. The
+formal target has already read the root handoff and the Category route, and
+the readback theorem exhausts the remaining consumer surface. Hence every
+formal consumer factors through those three routes and receives no unlisted
+continuation or monad data.
+\end{proof}
