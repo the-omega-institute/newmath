@@ -258,6 +258,9 @@ instance closedSubstitutionBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (closedSubstitutionBoundaryToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ClosedSubstitutionBoundaryUp :=
+  closedSubstitutionBoundaryChapterTasteGate
+
 theorem ClosedSubstitutionBoundaryTasteGate_single_carrier_alignment :
     (forall h : BHist,
       closedSubstitutionBoundaryDecodeBHist (closedSubstitutionBoundaryEncodeBHist h) = h) /\
