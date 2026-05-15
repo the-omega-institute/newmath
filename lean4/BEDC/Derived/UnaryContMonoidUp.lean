@@ -317,4 +317,31 @@ theorem UnaryContMonoidCarrier_scoped_grounding [AskSetup] [PackageSetup]
     ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryLedger, unaryScoped,
       productRoute, leftUnitRoute, ledgerRoute, scopedRoute, sameUnit, scopedPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_sibling_dependency [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name siblingK siblingL : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont b name siblingK ->
+        Cont siblingK e siblingL ->
+          PkgSig bundle siblingL pkg ->
+            UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory ab ∧ UnaryHistory siblingK ∧
+              UnaryHistory siblingL ∧ Cont a b ab ∧ Cont b name siblingK ∧
+                Cont siblingK e siblingL ∧ hsame e BHist.Empty ∧
+                  PkgSig bundle ledger pkg ∧ PkgSig bundle siblingL pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier siblingRoute tailRoute siblingPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, _leftUnitRoute, _rightUnitRoute,
+    _ledgerRoute, ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have siblingKUnary : UnaryHistory siblingK :=
+    unary_cont_closed unaryB unaryName siblingRoute
+  have unitUnary : UnaryHistory e :=
+    unary_transport unary_empty (hsame_symm sameUnit)
+  have siblingLUnary : UnaryHistory siblingL :=
+    unary_cont_closed siblingKUnary unitUnary tailRoute
+  exact
+    ⟨unaryA, unaryB, unaryProduct, siblingKUnary, siblingLUnary, productRoute,
+      siblingRoute, tailRoute, sameUnit, ledgerPkg, siblingPkg⟩
+
 end BEDC.Derived.UnaryContMonoidUp
