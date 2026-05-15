@@ -116,4 +116,38 @@ theorem CauchyLimitFunctorCarrier_real_completion_consumer_boundary [AskSetup] [
       sourceTargetObservation, observationClassifierConsumer, sourceTransportTarget,
       readbackToleranceClassifier, classifierEndpointCarrier, carrierEndpointPkg, consumerPkg⟩
 
+theorem CauchyLimitFunctorCarrier_public_seal_export [AskSetup] [PackageSetup]
+    {sourceSeal targetSeal transportMap sourceWindow targetWindow readback tolerance classifier
+      endpoint hsameRows routes provenance nameCert carrierEndpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitFunctorCarrier sourceSeal targetSeal transportMap sourceWindow targetWindow
+        readback tolerance classifier endpoint hsameRows routes provenance nameCert
+        carrierEndpoint bundle pkg ->
+      Cont targetSeal endpoint publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory sourceSeal ∧ UnaryHistory targetSeal ∧ UnaryHistory transportMap ∧
+            UnaryHistory sourceWindow ∧ UnaryHistory targetWindow ∧ UnaryHistory readback ∧
+              UnaryHistory tolerance ∧ UnaryHistory classifier ∧ UnaryHistory endpoint ∧
+                UnaryHistory publicRead ∧ Cont sourceSeal transportMap targetSeal ∧
+                  Cont sourceWindow targetWindow readback ∧
+                    Cont readback tolerance classifier ∧
+                      Cont classifier endpoint carrierEndpoint ∧
+                        Cont targetSeal endpoint publicRead ∧
+                          PkgSig bundle carrierEndpoint pkg ∧
+                            PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier targetEndpointPublic publicPkg
+  obtain ⟨sourceSealUnary, targetSealUnary, transportMapUnary, sourceWindowUnary,
+    targetWindowUnary, readbackUnary, toleranceUnary, classifierUnary, endpointUnary,
+    _hsameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary, _carrierEndpointUnary,
+    sourceTransportTarget, sourceTargetReadback, readbackToleranceClassifier,
+    classifierEndpointCarrier, _hsameRowsRoutesProvenance, carrierEndpointPkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed targetSealUnary endpointUnary targetEndpointPublic
+  exact
+    ⟨sourceSealUnary, targetSealUnary, transportMapUnary, sourceWindowUnary,
+      targetWindowUnary, readbackUnary, toleranceUnary, classifierUnary, endpointUnary,
+      publicReadUnary, sourceTransportTarget, sourceTargetReadback, readbackToleranceClassifier,
+      classifierEndpointCarrier, targetEndpointPublic, carrierEndpointPkg, publicPkg⟩
+
 end BEDC.Derived.CauchyLimitFunctorUp
