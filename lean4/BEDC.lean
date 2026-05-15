@@ -122,6 +122,7 @@ import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionEnvelopeDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionObservationRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
@@ -173,6 +174,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceLock
 import BEDC.Derived.CauchyWitnessLedgerUp.CompletionConsumerFactorization
+import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
