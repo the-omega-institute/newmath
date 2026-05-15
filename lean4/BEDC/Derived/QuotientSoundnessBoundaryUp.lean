@@ -179,6 +179,27 @@ theorem QuotientSoundnessBoundaryCarrier_transport_replacement [AskSetup] [Packa
     ⟨eUnary, tUnary, hUnary, cUnary, replacementUnary, eTH, replacementRoute,
       replacementPkg, hN⟩
 
+theorem QuotientSoundnessBoundary_root_psame_source_admission [AskSetup] [PackageSetup]
+    {e a t v h c p n sourceRead transportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg →
+      hsame sourceRead e →
+        Cont t h transportRead →
+          PkgSig bundle transportRead pkg →
+            UnaryHistory e ∧ UnaryHistory t ∧ UnaryHistory h ∧
+              UnaryHistory transportRead ∧ hsame sourceRead e ∧ Cont e t h ∧
+                Cont t h transportRead ∧ PkgSig bundle p pkg ∧
+                  PkgSig bundle transportRead pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceSame transportRoute transportPkg
+  obtain ⟨eUnary, _aUnary, tUnary, _vUnary, hUnary, _cUnary, _pUnary, _nUnary,
+    _eAV, eTH, _hCN, pPkg, _nPkg, hN⟩ := carrier
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed tUnary hUnary transportRoute
+  exact
+    ⟨eUnary, tUnary, hUnary, transportUnary, sourceSame, eTH, transportRoute, pPkg,
+      transportPkg, hN⟩
+
 theorem QuotientSoundnessBoundary_root_transport_verdict_order [AskSetup] [PackageSetup]
     {e a t v h c p n refusalRead transportRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
