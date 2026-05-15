@@ -1,0 +1,68 @@
+\begin{definition}[FiniteTraceEvaluator root exactness surface]
+\label{def:finite-trace-evaluator-root-exactness-surface}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the root exactness surface is
+the finite packet
+$$
+E_{\mathrm{root}}=(I,T,A,V,H,C,P,N).
+$$
+Its rows are the carrier of \autoref{def:finite-trace-evaluator-carrier}, the
+local $\NameCert_{\FiniteTraceEvaluatorUp}$ obligations of
+\autoref{thm:finite-trace-evaluator-namecert-obligations}, the trace-result
+route of \autoref{thm:finite-trace-evaluator-root-trace-result-totality}, the
+validation-boundary route of
+\autoref{thm:finite-trace-evaluator-root-validation-boundary}, and the
+checkpoint-consumer route of
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. The surface has
+no row outside $I,T,A,V,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[FiniteTraceEvaluator root exactness scope]
+\label{thm:finite-trace-evaluator-root-exactness-scope}
+Every root checkpoint read of the surface in
+\autoref{def:finite-trace-evaluator-root-exactness-surface} factors either
+through the accepted-result route
+$$
+I \to T \to A
+$$
+or through the validation and ledger route $V,H,C,P,N$. No root checkpoint read
+can mix those routes into a host validator, total truth predicate, total halting
+classifier, unbounded evaluator, infinite trace, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-trace-evaluator-root-trace-result-totality}. It
+places every accepted-result read on the route $I \to T \to A$ before a root
+consumer can inspect the result classifier.
+
+Next use \autoref{thm:finite-trace-evaluator-root-validation-boundary}. It
+sends validation-facing reads to $V,H,C,P,N$ and keeps host validation, total
+truth, total halting, and unbounded evaluation outside the packet.
+
+Finally apply \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. The
+checkpoint source remains locked to the accepted-result route and the
+validation boundary, so the root read factors through one of the displayed
+routes and cannot create a second checkpoint source.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint ledger cut]
+\label{thm:finite-trace-evaluator-checkpoint-ledger-cut}
+The checkpoint ledger of the surface in
+\autoref{def:finite-trace-evaluator-root-exactness-surface} has no coordinate
+for host validation, total truth for $\mathrm{CIC}^{*}$ sentences, total
+halting, unbounded evaluation, an infinite trace, or a second checkpoint
+source. Its complete checkpoint-facing ledger is the displayed packet
+$I,T,A,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-root-boundary-package}. The root
+boundary package exposes accepted results only through $I \to T \to A$ and
+validation-facing data only through $V,H,C,P,N$.
+
+Use \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The runtime
+handoff receives the same finite evaluator rows and no extra coordinate for
+host validation, total truth, total halting, unbounded evaluation, or an
+infinite trace.
+
+Combining the two package facts cuts the checkpoint ledger at the displayed
+surface. A second checkpoint source would require a row not present in
+$I,T,A,V,H,C,P,N$, so it is not part of the ledger.
+\end{proof}
