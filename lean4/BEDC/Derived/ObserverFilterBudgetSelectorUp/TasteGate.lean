@@ -338,6 +338,23 @@ theorem ObserverFilterBudgetSelectorStreamNameHandoff_omitted_boundary_not_erase
   injection tail2 with homitted _
   cases homitted
 
+theorem ObserverFilterBudgetSelectorOmittedRowExclusion_omitted_boundary_not_repacked
+    (filter identity selected budget window dyadic handoff realSeal transport route provenance
+      name : BHist) :
+    observerFilterBudgetSelectorToEventFlow
+        (ObserverFilterBudgetSelectorUp.mk filter identity selected BHist.Empty budget window
+          dyadic handoff realSeal transport route provenance name) ≠
+      observerFilterBudgetSelectorToEventFlow
+        (ObserverFilterBudgetSelectorUp.mk filter identity selected (BHist.e0 BHist.Empty)
+          budget window dyadic handoff realSeal transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  injection heq with _ tail0
+  injection tail0 with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with homitted _
+  cases homitted
+
 theorem ObserverFilterBudgetSelectorRealSealTerminality_terminal_field_not_erased
     (filter identity selected omitted budget window dyadic handoff transport route provenance
       name : BHist) :
