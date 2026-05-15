@@ -355,4 +355,51 @@ theorem FiniteNetMinimumFoldPacket_order_selector_transport [AskSetup] [PackageS
       transportAccumulatorSelector, selectorLowerSelected, transportedSame,
       transportedNameExported, lowerRouteProvenance, exportedPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_compact_uniform_modulus_consumption
+    [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow compactInput folded
+      lowerExport handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg ->
+      Cont bundleRow radius compactInput ->
+        Cont compactInput accumulator folded ->
+          Cont folded lower lowerExport ->
+            Cont accumulator lower handoff ->
+              hsame handoff transport ->
+                PkgSig bundle lowerExport pkg ->
+                  PkgSig bundle handoff pkg ->
+                    UnaryHistory bundleRow ∧ UnaryHistory radius ∧
+                      UnaryHistory accumulator ∧ UnaryHistory lower ∧
+                        UnaryHistory compactInput ∧ UnaryHistory folded ∧
+                          UnaryHistory lowerExport ∧ UnaryHistory handoff ∧
+                            Cont bundleRow radius compactInput ∧
+                              Cont compactInput accumulator folded ∧
+                                Cont folded lower lowerExport ∧
+                                  Cont accumulator lower handoff ∧
+                                    Cont accumulator lower transport ∧
+                                      hsame handoff transport ∧
+                                        PkgSig bundle lowerExport pkg ∧
+                                          PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame ProbeBundle Pkg
+  intro packet bundleRadiusCompact compactAccumulatorFolded foldedLowerExport
+    accumulatorLowerHandoff handoffSame lowerExportPkg handoffPkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _provenancePkg⟩ := packet
+  have compactInputUnary : UnaryHistory compactInput :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusCompact
+  have foldedUnary : UnaryHistory folded :=
+    unary_cont_closed compactInputUnary accumulatorUnary compactAccumulatorFolded
+  have lowerExportUnary : UnaryHistory lowerExport :=
+    unary_cont_closed foldedUnary lowerUnary foldedLowerExport
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed accumulatorUnary lowerUnary accumulatorLowerHandoff
+  exact
+    ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, compactInputUnary,
+      foldedUnary, lowerExportUnary, handoffUnary, bundleRadiusCompact,
+      compactAccumulatorFolded, foldedLowerExport, accumulatorLowerHandoff,
+      accumulatorLowerTransport, handoffSame, lowerExportPkg, handoffPkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp
