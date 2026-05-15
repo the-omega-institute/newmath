@@ -463,4 +463,43 @@ theorem QuotientSoundnessBoundary_psame_request_determinacy [AskSetup] [PackageS
       consumerUnary, eAV, vTRefusal, tHTransport, hCConsumer, pPkg, refusalPkg,
       transportPkg, consumerPkg, hN⟩
 
+theorem QuotientSoundnessBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {e a t v h c p n : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ∧ hsame row n)
+        (fun row : BHist => Cont e a v ∧ Cont e t h ∧ Cont h c row)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle p pkg ∧ PkgSig bundle n pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  have carrierWitness :
+      QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg := carrier
+  obtain ⟨_eUnary, _aUnary, _tUnary, _vUnary, _hUnary, _cUnary, _pUnary, nUnary,
+    eAV, eTH, hCN, pPkg, nPkg, _hN⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro n (And.intro carrierWitness (hsame_refl n))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨eAV, eTH, cont_result_hsame_transport hCN (hsame_symm source.right)⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport nUnary (hsame_symm source.right), pPkg, nPkg⟩
+  }
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
