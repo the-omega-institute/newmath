@@ -168,6 +168,42 @@ Now apply the source-lock theorems. The Gamma eta handoff of \autoref{thm:zeta-c
 Finally use non-escape from \autoref{thm:zeta-continuation-application-non-escape}. Since every downstream consumer factors through $E,F,P,T,G,A,H,C,Q,N$, the only remaining public structure is $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and the local $\NameCert$ row $N$ over the same $\BHist$ packet.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication root NameCert obligation surface]
+\label{thm:zeta-continuation-application-root-namecert-obligation-surface}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the root NameCert obligation surface is the local package consisting of carrier admission, componentwise stability, ledger exactness, Gamma horizon boundary, eta factorization, analytic-operation routing, ZetaBasic source locking, primitive scope, and non-escape for the same displayed rows. Every root obligation is therefore a row obligation over $E,F,P,T,G,A,H,C,Q,N$ and the primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert rows in \autoref{def:zeta-continuation-application-carrier} and \autoref{thm:zeta-continuation-application-namecert-obligations}. These identify the local packet and list the rows whose admission, stability, replay, provenance, and naming must be checked.
+
+Next attach the carrier admission, componentwise stability, and ledger exactness theorems. They keep the accepted packet on the displayed rows and make the pole, zero, Gamma horizon, application, provenance, and naming ledgers exact for that packet.
+
+Finally use the eta factorization, Gamma horizon, analytic-operation boundary, ZetaBasic source lock, primitive scope package, and non-escape theorems. Together they give the root obligation surface as a finite NameCert package rather than an off-table continuation theorem.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication source route exactness]
+\label{thm:zeta-continuation-application-source-route-exactness}
+For an accepted $\ZetaContinuationApplicationUp$ carrier, every read of the $\GammaUp$ horizon, analytic-operation surface, or $\ZetaBasicUp$ source row factors through the displayed source routes $G$, $A$, and $E$ respectively, then through componentwise transport $H$, finite replay $C$, provenance $Q$, and local naming $N$. No source read may replace these routes by a completed Gamma object, a second analytic operation, or an independent zeta continuation branch.
+\end{theorem}
+\begin{proof}
+Read the three source locks separately. The Gamma eta handoff theorem routes Gamma-facing requests through $G$, the analytic-operation boundary routes operation-facing requests through $A$, and the ZetaBasic source lock routes zeta-source requests through $E$.
+
+Componentwise stability then prevents exchange among those rows. Transport through $H$ preserves the source identities separately, while replay through $C$ returns each request to the corresponding displayed route.
+
+The primitive scope package repacks the same source routes with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The non-escape theorem excludes completed Gamma data, a second analytic operation, and an undisplayed continuation branch, so the displayed source routes are exact.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication ledger non-escape]
+\label{thm:zeta-continuation-application-ledger-nonescape}
+Every ledger-facing consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the pole ledger $P$, trivial-zero ledger $T$, Gamma horizon ledger $G$, application provenance $Q$, and local name $N$ inside $Z=(E,F,P,T,G,A,H,C,Q,N)$. The ledger surface rules out RH, nontrivial-zero classification, completed Gamma construction, and undisplayed continuation branches.
+\end{theorem}
+\begin{proof}
+Begin with ledger exactness. The pole boundary is recorded in $P$, the trivial-zero surface in $T$, the Gamma horizon in $G$, and the package and naming records in $Q$ and $N$.
+
+Use carrier admission and componentwise stability to keep these ledgers attached to the accepted packet. A ledger read transported by $H$ and replayed by $C$ returns to the same coordinate of $Z$.
+
+Finally apply the primitive scope package and non-escape theorem. Since the carrier has no coordinate for RH, nontrivial-zero classification, completed Gamma construction, or an undisplayed continuation branch, no ledger-facing consumer can export one.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationApplication public export surface]
 \label{thm:zeta-continuation-application-public-export-surface}
 For an accepted $\ZetaContinuationApplicationUp$ carrier, the public export surface is exactly the finite packet
