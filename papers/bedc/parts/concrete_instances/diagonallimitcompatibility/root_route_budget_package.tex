@@ -159,6 +159,38 @@ The terminal access to $Q$, $S$, and $L$ is fixed by \autoref{thm:diagonal-limit
 Finally combine \autoref{thm:diagonal-limit-compatibility-root-route-public-factorization}, \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion}, and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. Public readback and classifier readback are exhausted by the same finite package, and the non-escape boundary excludes host limits, quotient streams, selected limits, host equality, choice data, and ambient completeness rows.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility route budget exhaustion]
+\label{thm:diagonal-limit-compatibility-route-budget-exhaustion}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every terminal $\RealUp$ or $\CompletionUp$ read through $K$ is exhausted by the ordered finite route
+$$
+\CauchyDiagonalBudgetUp \longmapsto \RealDiagonalMeshBudgetUp \longmapsto \RegularCauchyTriangleBoundUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto S \longmapsto \RealUp \longmapsto \BHist/\hsame/\Cont/\Pkg/\NameCert_{\DiagonalLimitCompatibilityUp}.
+$$
+The read has no remaining public coordinate outside that route: not a host limit, quotient stream, selected limit, host real equality, choice datum, hidden tail oracle, detached classifier row, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-limit-compatibility-root-route-source-exhaustion}. It exhausts the source side of the accepted packet by the diagonal budget, Real mesh budget, triangle bound, and stream-window rows before any terminal readback is exported.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-route-seal-window-lock} and \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock}. These place the $\StreamNameUp$ window between the source rows and the later $\RegSeqRatUp$, seal-route, and $\RealUp$ rows, so $Q$, $S$, and $L$ are read only after the source order has been fixed.
+
+Use \autoref{thm:diagonal-limit-compatibility-root-route-terminal-budget-lock}. It identifies the terminal $\RealUp$ or $\CompletionUp$ read with the displayed budget, mesh, triangle, stream, regular-readback, seal, Real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally combine \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion} with \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. The classifier inventory contains no extra row beyond the displayed package, and the non-escape boundary excludes host limits, quotient streams, selected limits, host equality, choice data, hidden tail oracles, and ambient completeness coordinates. Hence the ordered route exhausts every terminal read.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility StreamName budget triad]
+\label{thm:diagonal-limit-compatibility-streamname-budget-triad}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, the $\StreamNameUp$ window is the unique middle budget face between the source triad $\CauchyDiagonalBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyTriangleBoundUp$ and the terminal seal rows $\RegSeqRatUp$, $S$, and $\RealUp$. Consequently, any two terminal $\RealUp$ or $\CompletionUp$ reads through accepted packets that agree on the source triad, the $\StreamNameUp$ window, and the $\RegSeqRatUp$ readback agree on the same public consumer boundary.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-limit-compatibility-route-budget-exhaustion}. It displays the only ordered route available to a terminal read and places $\StreamNameUp$ strictly between the diagonal-budget source rows and the regular-readback plus seal rows.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-route-seal-window-lock}. The seal-facing part of the route passes through the $\StreamNameUp \to \RegSeqRatUp \to \RealUp$ window, so no second middle face can be inserted between the source triad and the terminal seal rows.
+
+Now use \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock}. Agreement on the source triad, $\StreamNameUp$ window, and $\RegSeqRatUp$ readback fixes the selector surface before $S$ or $L$ is exported.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-classifier-exhaustion} and \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. Since every classifier read is exhausted by the same locked route and no host or ambient coordinate is exported, two terminal reads agreeing on the triad have the same public consumer boundary.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root-route public readback exhaustion]
 \label{thm:diagonal-limit-compatibility-root-route-public-readback-exhaustion}
 For every accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, public readback of $Q$, $S$, and $L$ is exhausted by the finite route of \autoref{thm:diagonal-limit-compatibility-root-route-terminal-budget-lock}. The public surface exports only the displayed budget, mesh, triangle, stream-window, regular-readback, seal-route, Real-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and exports no host limit, quotient stream, selected limit, host real equality, choice datum, or ambient completeness row.
