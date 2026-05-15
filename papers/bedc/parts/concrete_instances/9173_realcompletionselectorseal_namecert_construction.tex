@@ -238,6 +238,22 @@ Use \autoref{thm:real-completion-selector-seal-two-step-cont-boundary} to fix th
 Finally combine non-escape with terminal consumer exhaustion, \autoref{thm:real-completion-selector-seal-nonescape} and \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. The excluded coordinates are absent from the carrier, and the terminal consumer is exhausted by the displayed rows, so the structural rows remain transport, replay, provenance, and naming rows only.
 \end{proof}
 
+\begin{theorem}[Real completion selector-seal TasteGate witness surface]
+\label{thm:real-completion-selector-seal-tastegate-witness-surface}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+the displayed rows $B,W,R,L,E,H,C,P,N$ form the paper-side witness surface for later $\Nontrivial$ and $\FieldFaithful$ TasteGate work. Two accepted packets whose selector-budget rows or selected-window rows differ are distinguishable at the selector-seal boundary unless a displayed componentwise transport row in $H$ carries one row to the other. Conversely, equality of all displayed rows $B,W,R,L,E,H,C,P,N$ determines the whole selector-seal packet, with no hidden selector, quotient stream equality, host real equality, detached limit, second completion route, or ambient completeness coordinate left to separate the packets.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:real-completion-selector-seal-carrier}. The accepted packet has exactly the rows $B,W,R,L,E,H,C,P,N$, and the classifier compares carriers only by those rows.
+
+Apply route determinacy and the window tolerance lock, \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-window-tolerance-lock}. The selector budget $B$ fixes the admissible selected window $W$, the readback row $R$, and the route toward $L$ and $E$; changing $B$ or $W$ therefore changes the displayed route unless the transport row $H$ supplies the componentwise identification.
+
+Finally use structural row nonpromotion, \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}. The rows $H,C,P,N$ transport, replay, record, and name only the already displayed route, so equality of all nine rows leaves no further coordinate that could separate two packets. This is precisely the finite witness surface on which later TasteGate nontriviality and field faithfulness can be tested.
+\end{proof}
+
 The Lean follow-up must provide \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp} in \texttt{lean4/BEDC/Derived/RealCompletionSelectorSealUp/TasteGate.lean}.
 
 \closureat{RealCompletionSelectorSealUp}{seedStr}
@@ -245,10 +261,10 @@ The Lean follow-up must provide \texttt{Nontrivial RealCompletionSelectorSealUp}
 \begin{closurestatus}{\RealCompletionSelectorSealUp}
   \constructivestory{A $\RealCompletionSelectorSealUp$ packet is generated from a finite selector-budget row, selected StreamName window, RegSeqRat readback row, CauchyLimitSeal handoff row, terminal Real endpoint row, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-completion-selector-seal-carrier}, \autoref{thm:real-completion-selector-seal-namecert-obligations}, \autoref{thm:real-completion-selector-seal-route-determinacy}, \autoref{thm:real-completion-selector-seal-nonescape}, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}, and \autoref{thm:real-completion-selector-seal-terminality} bind the carrier, NameCert obligations, route determinacy, non-escape, L10 handoff scope, selector-budget totality, readback exactness, terminal consumer exhaustion, and terminality rows.}
+  \scopeclosed{\autoref{def:real-completion-selector-seal-carrier}, \autoref{thm:real-completion-selector-seal-namecert-obligations}, \autoref{thm:real-completion-selector-seal-route-determinacy}, \autoref{thm:real-completion-selector-seal-nonescape}, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}, \autoref{thm:real-completion-selector-seal-terminality}, and \autoref{thm:real-completion-selector-seal-tastegate-witness-surface} bind the carrier, NameCert obligations, route determinacy, non-escape, L10 handoff scope, selector-budget totality, readback exactness, terminal consumer exhaustion, terminality, and TasteGate witness-surface rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, hidden selectors, detached limits, second completion routes, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, selector-budget exposure, selected-window readback, limit-seal handoff, terminal endpoint routing, componentwise transport, displayed continuation, provenance, and local naming rows.}
+  \upgradepath{Obligation closure requires a checked TasteGate instance together with the selector-budget, selected-window, readback, limit-seal, terminal endpoint, transport, continuation, provenance, naming, and TasteGate witness-surface rows.}
 \end{closurestatus}
