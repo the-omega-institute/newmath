@@ -135,6 +135,32 @@ theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
   exact ⟨startUnary, productionUnary, derivationUnary, readbackUnary, yieldUnary,
     finalYieldUnary, finalYieldRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_parse_tree_derivation_boundary [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint tree routeBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      UnaryHistory tree ->
+        Cont derivation tree routeBoundary ->
+          Cont routeBoundary readback endpoint ->
+            UnaryHistory routeBoundary ∧ UnaryHistory endpoint ∧
+              Cont derivation tree routeBoundary ∧ Cont routeBoundary readback endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet treeUnary derivationTreeBoundary routeBoundaryReadbackEndpoint
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _startRow, _productionRow, _routeRow, _nameRow,
+    _endpointRow, pkgSig⟩ := packet
+  have routeBoundaryUnary : UnaryHistory routeBoundary :=
+    unary_cont_closed derivationUnary treeUnary derivationTreeBoundary
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeBoundaryUnary readbackUnary routeBoundaryReadbackEndpoint
+  exact
+    ⟨routeBoundaryUnary, endpointUnary, derivationTreeBoundary,
+      routeBoundaryReadbackEndpoint, pkgSig⟩
+
 theorem ContextFreeGrammarPacket_consumer_boundary_determinacy [AskSetup] [PackageSetup]
     {terminal nonterminal start production yield derivation readback transport route provenance
       name endpoint terminal' nonterminal' start' production' yield' derivation' readback'

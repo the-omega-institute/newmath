@@ -1,0 +1,61 @@
+\chapter{Stationary Window Seal Exhaustion Name Certificate Construction}
+\label{ch:concrete-instances-stationary-window-seal-exhaustion-namecert}
+\origin{ai}
+
+The $\StationaryWindowSealExhaustionUp$ packet realizes the transported stationary finite-window seal of \autoref{ch:visions-real-completeness} as a single finite $\NameCert$ carrier. It packages the rational seed, constant stream window, regular-rational seal readback, dyadic ledger, real-facing seal, exhaustion row, transport rows, continuations, provenance, and local naming so that downstream RealUp seal consumers read one L10 surface rather than five disconnected public readings. The route is adjacent to $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{DiagonalCofinalTail}^{\uparrow}$, and $\mathsf{StationaryWindowLattice}^{\uparrow}$.
+
+\begin{definition}[Stationary window seal exhaustion carrier]
+\label{def:stationary-window-seal-exhaustion-carrier}
+A $\StationaryWindowSealExhaustionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(Q,S,R,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the paired $\RatUp$ seed row, including the two rational history carriers and their transported $\mathsf{RatHistoryClassifier}$ row;
+\item $S$ is the constant $\StreamNameUp$ finite-window row induced by $Q$;
+\item $R$ is the $\RegSeqRatUp$ finite-window seal consumption row over the same stream window;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger for that window;
+\item $W$ is the $\RealUp$ finite-window classifier row reached only through $S,R,D$;
+\item $E$ is the transported stationary seal exhaustion row of \autoref{thm:real-completeness-transported-stationary-window-seal-exhaustion};
+\item $H$ records componentwise $\hsame$ transports for $Q,S,R,D,W,E$ and the structural rows;
+\item $C$ records the displayed $\Cont$ routes from $Q$ to $S$, from $S$ to $R$, from $R$ to $D$, from $D$ to $W$, and from $E$ to each public reading;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{DiagonalCofinalTail}^{\uparrow}$, $\mathsf{StationaryWindowLattice}^{\uparrow}$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\StationaryWindowSealExhaustionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unbounded window family, a selected limit, quotient-stream equality, host real equality, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Stationary window seal exhaustion NameCert obligations]
+\label{thm:stationary-window-seal-exhaustion-namecert-obligations}
+The local $\NameCert_{\StationaryWindowSealExhaustionUp}$ surface for \autoref{def:stationary-window-seal-exhaustion-carrier} consists exactly of carrier admission for $L=(Q,S,R,D,W,E,H,C,P,N)$, $\RatUp$ seed exposure through $Q$, $\StreamNameUp$ constant-window exposure through $S$, $\RegSeqRatUp$ seal consumption exposure through $R$, $\DyadicRatCoreUp$ ledger exposure through $D$, $\RealUp$ finite-window classifier exposure through $W$, transported stationary exhaustion through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the packet $L$. The five public readings are exactly $Q,S,R,D,W$, and the exhaustion row $E$ names the theorem that forces those readings to agree with the same transported rational seed.
+
+Apply \autoref{thm:real-completeness-transported-stationary-window-seal-exhaustion}. It identifies the certified finite observation window with the RatUp seed classifier, StreamNameUp constant-window classifier, RegSeqRatUp finite-window seal consumption row, DyadicRatCoreUp observation ledger, and RealUp finite-window classifier.
+
+The structural rows $H,C,P,N$ preserve that single route under componentwise transport, continuation replay, package provenance, and local naming. Since the carrier has no extra selector, quotient, host-equality, or completeness coordinate, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Stationary window seal exhaustion L10 handoff]
+\label{thm:stationary-window-seal-exhaustion-l10-handoff}
+Every accepted downstream consumer that reads the transported stationary seal through $\StationaryWindowSealExhaustionUp$ receives precisely the finite L10 packet
+$$
+L=(Q,S,R,D,W,E,H,C,P,N).
+$$
+The consumer first reads the $\RatUp$ seed row, then the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, the transported exhaustion row, componentwise transports, continuation replay, provenance, and local naming. The handoff exports no second carrier, hidden selector, quotient-stream equality, host real equality, or ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:stationary-window-seal-exhaustion-carrier}. This gives the displayed L10 rows $Q,S,R,D,W,E,H,C,P,N$ and no further public coordinates.
+
+Use \autoref{thm:stationary-window-seal-exhaustion-namecert-obligations}. It binds the five public readings to the same local naming surface and routes them through the transported stationary exhaustion theorem.
+
+Finally compose with the finite faces already consumed by $\mathsf{DiagonalCofinalTail}^{\uparrow}$ and $\mathsf{StationaryWindowLattice}^{\uparrow}$. Those sibling surfaces read the same RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows, so a downstream consumer can only receive the single packet $L$ before using the transported stationary seal.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer that reads the transported stationary seal without the RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows refutes the $\StationaryWindowSealExhaustionUp$ packet.}
+
+\independenceWitness{transportedstationarydiagonal, stationarywindowlattice, diagonalcofinaltail, realtailagreementseal, and realcompletionselectorseal: none is bijective to $\StationaryWindowSealExhaustionUp$ because this carrier alone stores the five public readings together with the exhaustion row, transport rows, continuation replay, provenance, and local naming as one L10 handoff.}
+
+The Lean realization must provide Nontrivial and FieldFaithful instances in \texttt{lean4/BEDC/Derived/StationaryWindowSealExhaustionUp/TasteGate.lean} before the packet can be promoted to a checked TasteGate surface.
