@@ -122,6 +122,7 @@ import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionEnvelopeDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionObservationRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
@@ -173,6 +174,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceLock
 import BEDC.Derived.CauchyWitnessLedgerUp.CompletionConsumerFactorization
+import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
@@ -399,6 +401,7 @@ import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
+import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
@@ -1034,6 +1037,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealBudgetNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowRefinement
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudget
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetObligationRows
