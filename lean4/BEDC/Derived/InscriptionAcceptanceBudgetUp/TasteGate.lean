@@ -274,6 +274,45 @@ instance inscriptionAcceptanceBudgetChapterTasteGate :
     intro x y hxy heq
     exact hxy (inscriptionAcceptanceBudgetToEventFlow_injective heq)
 
+def inscriptionAcceptanceBudgetFields : InscriptionAcceptanceBudgetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | InscriptionAcceptanceBudgetUp.mk source name route check consumer budget residue transports
+      routes provenance localName =>
+      [source, name, route, check, consumer, budget, residue, transports, routes, provenance,
+        localName]
+
+private theorem inscriptionAcceptanceBudget_fields_faithful :
+    ∀ x y : InscriptionAcceptanceBudgetUp,
+      inscriptionAcceptanceBudgetFields x = inscriptionAcceptanceBudgetFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk source name route check consumer budget residue transports routes provenance localName =>
+      cases y with
+      | mk source' name' route' check' consumer' budget' residue' transports' routes'
+          provenance' localName' =>
+          cases hfields
+          rfl
+
+instance inscriptionAcceptanceBudgetFieldFaithful :
+    FieldFaithful InscriptionAcceptanceBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := inscriptionAcceptanceBudgetFields
+  field_faithful := inscriptionAcceptanceBudget_fields_faithful
+
+instance inscriptionAcceptanceBudgetNontrivial :
+    Nontrivial InscriptionAcceptanceBudgetUp where
+  witness_pair :=
+    ⟨InscriptionAcceptanceBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      InscriptionAcceptanceBudgetUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        -- BEDC touchpoint anchor: BHist BMark
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate InscriptionAcceptanceBudgetUp :=
   inscriptionAcceptanceBudgetChapterTasteGate
 
