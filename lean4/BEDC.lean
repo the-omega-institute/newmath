@@ -170,6 +170,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SharedSelectorDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
+import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
@@ -697,6 +698,7 @@ import BEDC.Derived.LyapunovUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
+import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
