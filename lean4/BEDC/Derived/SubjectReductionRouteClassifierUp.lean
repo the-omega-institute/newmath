@@ -150,4 +150,33 @@ theorem SubjectReductionRouteClassifierCarrier_invocation_payload_inversion [Ask
     (hsame_trans endpointRouteReadback routeKindReadback)
     (hsame_trans endpointRouteReadback provenanceReadback)
 
+theorem SubjectReductionRouteClassifierCarrier_audit_handoff_totality [AskSetup]
+    [PackageSetup]
+    {beta app lambda pi routeKind invocation consumer transport route provenance name
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionRouteClassifierCarrier beta app lambda pi routeKind invocation consumer
+        transport route provenance name bundle pkg ->
+      Cont invocation consumer endpoint ->
+        PkgSig bundle endpoint pkg ->
+          UnaryHistory beta ∧ UnaryHistory app ∧ UnaryHistory lambda ∧ UnaryHistory pi ∧
+            UnaryHistory endpoint ∧ hsame endpoint routeKind ∧ hsame endpoint provenance ∧
+              Cont beta app routeKind ∧ Cont invocation consumer endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro hCarrier endpointRoute endpointPkg
+  obtain ⟨betaUnary, appUnary, lambdaUnary, piUnary, _routeKindUnary, invocationUnary,
+    consumerUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    betaAppRouteKind, _lambdaPiTransport, invocationConsumerRoute, routeKindReadback,
+    provenanceReadback, _carrierPkg⟩ := hCarrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed invocationUnary consumerUnary endpointRoute
+  have endpointRouteKind : hsame endpoint routeKind :=
+    hsame_trans (cont_deterministic endpointRoute invocationConsumerRoute) routeKindReadback
+  have endpointProvenance : hsame endpoint provenance :=
+    hsame_trans (cont_deterministic endpointRoute invocationConsumerRoute) provenanceReadback
+  exact
+    ⟨betaUnary, appUnary, lambdaUnary, piUnary, endpointUnary, endpointRouteKind,
+      endpointProvenance, betaAppRouteKind, endpointRoute, endpointPkg⟩
+
 end BEDC.Derived.SubjectReductionRouteClassifierUp
