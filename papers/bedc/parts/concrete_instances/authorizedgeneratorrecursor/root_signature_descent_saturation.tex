@@ -1,0 +1,99 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root signature row totality]
+\label{thm:authorized-generator-recursor-root-signature-row-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, each public root
+read exposes the entire row family
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+as the local $\BHist$ packet with componentwise $\hsame$ transport, displayed
+$\Cont$ routes, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$
+surface. No public root read may expose only a partial signature, branch,
+descent, audit, or output row while suppressing the remaining displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:authorized-generator-recursor-carrier}. It names the finite
+$\BHist$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ and gives no coordinate for a
+second root signature or a detached public route.
+
+Use the local surface of
+\autoref{thm:authorized-generator-recursor-namecert-surface}. The
+$\NameCert_{\AuthorizedGeneratorRecursorUp}$ row reads the accepted signature,
+recursor name, motive, branch package, descent row, output name, audit
+provenance, transports, routes, package provenance, boundary, and local naming
+row as one public packet.
+
+Branch and recursive-read coverage are supplied by
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}. The
+audit and handoff side is supplied by
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization} and
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. Together
+these results make every root read total over the displayed $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root descent audit coupling]
+\label{thm:authorized-generator-recursor-root-descent-audit-coupling}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the structural
+descent row $D$ and audit row $A$ must be transported together before the
+output row $O$ is public. A public output exposure cannot retain $D$ while
+dropping $A$, cannot retain $A$ while dropping $D$, and cannot route $O$ through
+an audit surface detached from the accepted structural-descent row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the structural locality theorem. The displayed
+packet of \autoref{def:authorized-generator-recursor-carrier} places $D$ in
+the same tuple as $I,E,M,B,O,A,H,C,P,G,N$, while
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}
+confines public recursive reads to the accepted signature, eliminator, motive,
+branch package, and descent row.
+
+Next apply the audit boundary and audit-provenance factorization.
+\autoref{thm:authorized-generator-recursor-audit-boundary} requires public
+output to pass through the accepted signature, checked motive, complete branch
+package, structural descent, and audit provenance.
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization}
+keeps $O$ attached to $A,H,C,P,G,N$ before exposure.
+
+Finally use branch exhaustion and the TasteGate handoff. By
+\autoref{thm:authorized-generator-recursor-branch-exhaustion}, no branch read
+can escape the accepted constructor list; by
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff}, the
+checked alignment witness consumes only the same finite carrier. Hence the
+descent row and audit row are coupled before $O$ becomes public.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root output NameCert saturation]
+\label{thm:authorized-generator-recursor-root-output-namecert-saturation}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, public output
+exposure is saturated by the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$
+surface over
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The exposure cannot add an unlisted constructor, an extra branch, a second
+recursion channel, an axiom row, or a hidden generator outside the displayed
+packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition and the local NameCert surface. The carrier in
+\autoref{def:authorized-generator-recursor-carrier} is exactly the displayed
+tuple, and \autoref{thm:authorized-generator-recursor-namecert-surface} makes
+$O$ public only through that tuple.
+
+Branch and descent saturation follow from
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}. These
+results rule out an unlisted constructor, an extra branch, or a recursive read
+whose descent is absent from $D$.
+
+Audit saturation follows from
+\autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization}.
+They keep $O$ behind $A,H,C,P,G,N$ and refuse an unaudited dependency channel.
+The TasteGate handoff of
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} consumes
+only the same aligned carrier, so no axiom row or hidden generator can be
+introduced by the output exposure.
+\end{proof}
