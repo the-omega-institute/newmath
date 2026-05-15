@@ -739,6 +739,18 @@ completeness, so no $\RegSeqRat$ handoff factored through the common window can
 export such data.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore directed refinement radius handoff]
+\label{thm:dyadicratcore-directed-refinement-radius-handoff}
+Every directed-refinement common-window read of $\DyadicRatCoreUp$ that feeds a $\RegSeqRatUp$ or $\RealUp$ consumer exposes the common exponent, transported denominator ledgers, dyadic radius row, monotone radius witness, and $\RegSeqRatUp$ handoff before any $\RealUp$ seal can consume it. The handoff exports no quotient rational, host equality row, completed $\RealUp$ endpoint, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-directed-refinement-common-window}. It places both refined packets on one common monotone unary radius window with the shared exponent, denominator ledger, classifier, distance rows, transport, readback, and provenance already visible.
+
+Use \autoref{thm:dyadicratcore-regseqrat-radius-monotone-window-extraction} to read the dyadic radius row and monotone radius witness from that common window.
+
+Finally apply \autoref{thm:dyadicratcore-regseqrat-window-radius-handoff}. The $\RegSeqRatUp$ consumer receives the finite radius handoff before any $\RealUp$ seal can inspect it, and the displayed carrier rows contain no quotient rational, host equality row, completed real endpoint, or real-completeness coordinate.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 \closureat{DyadicRatCoreUp}{bridgedStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
 \closureat{DyadicRatCoreUp}{matureStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
