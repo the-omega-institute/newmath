@@ -37,3 +37,57 @@ Next use the output and boundary readiness results. \autoref{thm:authorized-gene
 
 Finally apply terminal consumer readiness. \autoref{thm:authorized-generator-recursor-terminal-consumer-readiness} leaves no terminal normalization, closed-substitution, or generator-audit route outside the finite packet, so $O$ has no consumer apart from $A,G,N$ and the displayed rows that carry them.
 \end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor terminal route totality]
+\label{thm:authorized-generator-recursor-terminal-route-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N,
+$$
+every terminal normalization, closed-substitution, or generator-audit consumer that reads the emitted output row $O$ must traverse the displayed signature, eliminator, motive, branch, structural-descent, audit, transport, continuation, provenance, ground-boundary, and local $\NameCert$ rows. The terminal route cannot read detached generator authority, host induction, hidden prompt state, or an unregistered output row.
+\end{theorem}
+\begin{proof}
+Start from carrier admission and terminal generator admission. \autoref{thm:authorized-generator-recursor-carrier-admission} admits exactly the displayed packet, while \autoref{thm:authorized-generator-recursor-terminal-generator-admission} keeps every terminal generator-facing route on those rows.
+
+Next attach descent exactness. By \autoref{thm:authorized-generator-recursor-terminal-branch-descent-exactness}, any terminal route that reaches $O$ must pass through $B$ and $D$ inside the same packet.
+
+Now use terminal audit nonescape and ground-compiler authorization. \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape} binds $O$ to $A,G,N$, and \autoref{thm:authorized-generator-recursor-ground-compiler-authorization} prevents the ground compiler from reading $O$ apart from the displayed carrier.
+
+Thus the terminal route is total only along $I,E,M,B,D,O,A,H,C,P,G,N$. A route that imports detached generator authority, host induction, hidden prompt state, or an unregistered output row has no carrier coordinate and is outside the accepted surface.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor terminal output ledger totality]
+\label{thm:authorized-generator-recursor-terminal-output-ledger-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N,
+$$
+the output ledger available to terminal normalization, closed-substitution, and generator-audit consumers is exhausted by the output row $O$, the audit row $A$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $P$, the ground-boundary row $G$, and the local $\NameCert$ row $N$. No terminal consumer can attach a second output ledger, a detached generator authority, host induction, hidden prompt state, or an unregistered output row.
+\end{theorem}
+\begin{proof}
+First read the output through the root output audit surface. \autoref{thm:authorized-generator-recursor-root-output-audit-totality} forces public exposure of $O$ through the accepted signature, branch package, descent row, and audit provenance.
+
+Next use terminal audit nonescape. The terminal consumer may not separate $O$ from $A,G,N$, because \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape} makes those rows the audit and naming boundary for output consumption.
+
+Now add branch descent exactness and terminal route totality. The branch and descent rows are required before output reaches terminal consumers, and the terminal route has already been shown to stay on the displayed packet.
+
+The structural rows $H,C,P$ do not add an output ledger; they transport, replay, and source the same row $O$. Hence a second ledger, detached authority, host induction principle, hidden prompt state, or unregistered output row is absent from the accepted $\AuthorizedGeneratorRecursorUp$ surface.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor terminal ground-compiler boundary]
+\label{thm:authorized-generator-recursor-terminal-ground-compiler-boundary}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N,
+$$
+a terminal ground-compiler consumer may use the emitted output row $O$ only after the carrier admission, terminal generator admission, branch descent exactness, terminal audit NameCert nonescape, and ground-compiler authorization rows have all been displayed. It cannot import detached generator authority, host induction, hidden prompt state, closed-substitution evidence outside the packet, or an unregistered output row.
+\end{theorem}
+\begin{proof}
+Begin with ground-compiler authorization. \autoref{thm:authorized-generator-recursor-ground-compiler-authorization} makes the ground-compiler read of $O$ depend on the carrier, audit, boundary, package, and local $\NameCert$ rows.
+
+Use carrier admission and terminal generator admission to identify the available carrier. The only rows displayed to the terminal ground-compiler route are $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+Next apply branch descent exactness and terminal audit nonescape. Branches reach output only through $B,D$, and output consumption stays attached to $A,G,N$.
+
+Finally invoke terminal output ledger totality. Since the output ledger is exhausted by the displayed packet, the ground compiler has no separate coordinate for detached generator authority, host induction, hidden prompt state, off-packet closed-substitution evidence, or an unregistered output row.
+\end{proof}

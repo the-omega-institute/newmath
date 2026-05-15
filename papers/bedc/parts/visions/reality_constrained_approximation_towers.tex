@@ -1,0 +1,353 @@
+\chapter{Reality-Constrained Approximation Towers}
+\label{ch:visions-reality-constrained-approximation-towers}
+
+Mathematical approximation and physical adequacy are not the same relation. A mathematical object may admit several convenient representations, and those representations may be equivalent under a chosen mathematical classifier. When the representation is used as a model of a real system, however, the relevant classifier is no longer freely chosen. It is constrained by the reality-facing properties through which the system responds to admissible observation and intervention.
+
+This chapter records the resulting conceptual framework. BEDC already treats equality, function, limit, real number, circle, and other mature objects as derived interfaces rather than primitive givens. Compression, packaging, projection, sealing, and identification must carry source, classifier, stability, and $\mathsf{GAP}$ ledger data. The same discipline applies to physical modelling: a mathematical representation is physically admissible only when the classifier that licenses it is compatible with the physical signature bundle under which the represented system is queried.
+
+\section{Reality-facing signatures}
+\label{sec:reality-constrained-signatures}
+
+\begin{definition}[Reality-facing property]
+\label{def:reality-facing-property}
+A reality-facing property of a system is a property that can affect the system's stable interaction profile under some admissible physical procedure. Removing, smoothing, quotienting, or replacing such a property by an approximate surrogate can change at least one physically relevant response.
+\end{definition}
+
+Mass, charge, curvature, boundary differentiability, stress concentration, causal accessibility, optical response, and measurement-stable phase information are standard examples. A purely mathematical feature becomes reality-facing only when it enters such a response profile.
+
+\begin{definition}[Mathematical classifier]
+\label{def:reality-constrained-mathematical-classifier}
+A mathematical classifier $\sim_{\mathcal M}$ is an equivalence or comparison relation that groups mathematical representations according to selected mathematical features. It becomes physically relevant only when the grouped features coincide with the reality-facing properties activated by the physical system under the observation bundle in use.
+\end{definition}
+
+\begin{definition}[Ontic signature source]
+\label{def:ontic-signature-source}
+Let $O$ be a system and let $\Pi_{\mathrm{phys}}$ be a bundle of physically admissible questions. The physical signature of $O$ relative to $\Pi_{\mathrm{phys}}$ is written
+$$
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O).
+$$
+The ontic signature source of $O$, relative to $\Pi_{\mathrm{phys}}$, is the invariant source of this signature. It is not identified with any particular mathematical representation.
+\end{definition}
+
+Two systems are physically indistinguishable at the resolution $\Pi_{\mathrm{phys}}$ only when their signatures agree:
+$$
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O_1)
+\sim
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O_2).
+$$
+This is a signature-level sameness judgment, not host-level identity.
+
+\begin{definition}[Mathematical representation]
+\label{def:reality-constrained-mathematical-representation}
+A mathematical representation of an ontic signature source $O$ is a structured mathematical object $M$ together with a representation route
+$$
+\rho:O\rightsquigarrow M
+$$
+and an interpretation procedure that reads features of $M$ as candidate reality-facing properties of $O$.
+\end{definition}
+
+The representation is mathematically adequate relative to a mathematical classifier $\sim_{\mathcal M}$ when it preserves the mathematical features selected by that classifier. It is physically adequate relative to $\Pi_{\mathrm{phys}}$ only when its induced physical signature agrees with the signature of the represented system:
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M)
+\sim
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O).
+$$
+
+\begin{definition}[Physical-fit relation]
+\label{def:physical-fit-relation}
+For mathematical representations $M_1$ and $M_2$, the physical-fit relation relative to $\Pi_{\mathrm{phys}}$ is
+$$
+M_1\equiv_{\mathrm{phys},\Pi}M_2
+$$
+exactly when
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_1)
+\sim
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_2).
+$$
+\end{definition}
+
+The physical-fit relation may be strictly finer than a mathematical approximation relation. Polygonal approximations and a smooth circle may agree under area, perimeter, or Hausdorff-distance classifiers while separating under tangent-field, curvature, reflection, stress-response, or boundary-layer classifiers.
+
+\begin{definition}[Representation gap]
+\label{def:representation-gap}
+A representation gap occurs when two representations are identified by a mathematical classifier but separated by a physically active signature:
+$$
+M_1\sim_{\mathcal M}M_2
+\quad\text{and}\quad
+M_1\not\equiv_{\mathrm{phys},\Pi}M_2.
+$$
+The gap is evidence that the mathematical classifier is too coarse for the physical question being asked.
+\end{definition}
+
+\begin{definition}[Reality-constrained classifier]
+\label{def:reality-constrained-classifier}
+A mathematical classifier $\sim_{\mathcal M}$ is reality-constrained by $\Pi$ when
+$$
+M_1\sim_{\mathcal M}M_2
+\quad\Longrightarrow\quad
+M_1\equiv_{\mathrm{phys},\Pi}M_2.
+$$
+Equivalently, every mathematical identification licensed by $\sim_{\mathcal M}$ preserves the physical signature exposed by $\Pi$.
+\end{definition}
+
+\section{Ledgered approximation towers}
+\label{sec:ledgered-approximation-towers}
+
+\begin{definition}[GAP-admissible compression]
+\label{def:gap-admissible-compression}
+A compression
+$$
+C:X\rightsquigarrow Y
+$$
+is $\mathsf{GAP}$-admissible when it carries a source domain of admissible histories, a signature-generation policy, a package policy assigning visible tokens to signatures, a gap ledger recording which source histories lie behind each visible token, and a stability condition specifying which operations descend through the compression.
+\end{definition}
+
+This is the physical reading of BEDC's finite globalization discipline. Package tokens are not quotient classes accepted without provenance. They are visible rows whose source histories remain available through $\mathsf{GAP}$ and package policies; see \autoref{ch:visions-certificate-closure-and-generator-induction} and \autoref{ch:visions-external-supply-without-axioms}.
+
+\begin{definition}[Approximation tower]
+\label{def:reality-constrained-approximation-tower}
+An approximation tower is a finite or transfinite chain of $\mathsf{GAP}$-admissible compressions
+$$
+O
+\longrightarrow
+D_0
+\longrightarrow
+D_1
+\longrightarrow
+\cdots
+\longrightarrow
+D_n
+\longrightarrow
+M,
+$$
+where $O$ is the ontic signature source, the intermediate $D_i$ are observation histories, finite data, discrete models, continuous models, smooth models, or other certified representation layers, and $M$ is the visible mathematical object used for reasoning.
+\end{definition}
+
+Each arrow compresses, packages, hides, regularizes, completes, or idealizes source material. The tower is admissible only when each arrow carries a ledger and the composite tower carries the composite ledger.
+
+\begin{definition}[Operational descent]
+\label{def:reality-constrained-operational-descent}
+An operation $F$ descends through a classifier $\sim$ when there is a target classifier $\sim'$ such that
+$$
+x\sim y
+\quad\Longrightarrow\quad
+F(x)\sim'F(y).
+$$
+A descent certificate is a proof that the operation respects the source classifier and lands in the target classifier.
+\end{definition}
+
+Without such a certificate, sameness before applying $F$ does not imply sameness after applying $F$. The physically important case is differentiation: a classifier that identifies two shapes by coarse geometric approximation does not automatically permit tangent fields, curvature measures, boundary conditions, or dynamics to descend through it.
+
+\begin{definition}[Physical representation certificate]
+\label{def:physical-representation-certificate}
+A physical representation certificate for a model $M$ of a system $O$ relative to $\Pi$ is a five-field certificate
+$$
+\operatorname{PhysCert}(M,O;\Pi)
+=
+(\operatorname{SourceSpec},
+\operatorname{PatternSpec},
+\operatorname{ClassifierSpec},
+\operatorname{StabilityCert},
+\operatorname{LedgerPolicy}).
+$$
+The fields record the observation traces and conditions that license the model, the stable pattern claimed by the model, the comparison rule between model-generated and reality-facing signatures, the stability data supporting reuse and prediction, and the record of what was compressed, ignored, idealized, or hidden.
+\end{definition}
+
+\begin{principle}[Reality-signature priority]
+\label{prin:reality-signature-priority}
+Physical equivalence is determined by reality-facing signatures, not by mathematical convenience alone. If
+$$
+M_1\sim_{\mathrm{math}}M_2
+$$
+but
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_1)
+\not\sim
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_2),
+$$
+then $M_1$ and $M_2$ are mathematically similar but physically inequivalent relative to $\Pi_{\mathrm{phys}}$.
+\end{principle}
+
+\begin{principle}[No free transfer of structure]
+\label{prin:no-free-transfer-of-structure}
+If a compression identifies two source histories, no operation on those histories may be transported across the compression unless a stability or descent certificate has been supplied.
+\end{principle}
+
+\begin{principle}[Compression requires physical memory]
+\label{prin:compression-requires-physical-memory}
+Every physically meaningful idealization must record what it hides. When a model replaces rough, discrete, finite, noisy, or staged source material by a smooth visible object, the lost source structure must remain available in a ledger whenever later physical questions may depend on it.
+\end{principle}
+
+\section{Physical adequacy theorems}
+\label{sec:physical-adequacy-theorems}
+
+\begin{theorem}[Mathematical approximation does not imply physical equivalence]
+\label{thm:math-approx-not-physical-equivalence}
+Let $M_1$ and $M_2$ be mathematical representations. Suppose $M_1\sim_{\mathrm{math}}M_2$ under a mathematical classifier. If
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_1)
+\not\sim
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_2),
+$$
+then $M_1$ and $M_2$ are not physically equivalent relative to $\Pi_{\mathrm{phys}}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:physical-fit-relation}, physical equivalence relative to $\Pi_{\mathrm{phys}}$ is sameness of induced physical signatures. The hypothesis gives failure of such signature sameness. Therefore the physical-fit relation does not hold, although the mathematical classifier identifies the two representations.
+\end{proof}
+
+\begin{corollary}[Physics may refine mathematical equivalence]
+\label{cor:physics-refines-mathematical-equivalence}
+A physical classifier may refine, split, or reject a mathematical equivalence class.
+\end{corollary}
+
+\begin{proof}
+Let $[M]_{\mathrm{math}}$ be a mathematical equivalence class. If there are $M_1,M_2\in[M]_{\mathrm{math}}$ whose physical signatures differ, then \autoref{thm:math-approx-not-physical-equivalence} separates them in the physical-fit relation. Thus the physical classifier partitions the mathematical class into finer classes or rejects some members as inadequate for the intended physical use.
+\end{proof}
+
+\begin{corollary}[Mathematical convenience is not a physical certificate]
+\label{cor:mathematical-convenience-not-physical-certificate}
+A mathematically convenient representation is physically admissible only when the classifier that licenses its convenience is reality-constrained for the intended signature bundle.
+\end{corollary}
+
+\begin{proof}
+Mathematical convenience supplies a reason to choose a representation or classifier. By \autoref{thm:math-approx-not-physical-equivalence}, however, mathematical equivalence under that classifier does not by itself imply preservation of physical signature. Physical admissibility therefore requires the additional reality-constrained condition of \autoref{def:reality-constrained-classifier}.
+\end{proof}
+
+\begin{theorem}[Polygonal convergence does not certify differentiability descent]
+\label{thm:polygon-circle-no-automatic-differentiability}
+Let $P_n$ be regular polygons approximating a circle $C$, and let $\sim_0$ be a coarse geometric classifier such as agreement in area, perimeter, finite-resolution visibility, or Hausdorff distance. If the polygonal histories and the circle history are packaged into the same visible circle-like token under $\sim_0$, then an operation extracting differentiable boundary structure does not automatically descend through $\sim_0$.
+\end{theorem}
+
+\begin{proof}
+The classifier $\sim_0$ records coarse shape agreement. It does not, by itself, record tangent-field or curvature data. Each finite polygon has vertices at which the boundary direction changes discontinuously. The circle has a tangent at every point and constant curvature. Hence polygonal source histories and smooth-circle histories may agree under coarse signatures while separating under differentiability signatures. If differentiable-boundary extraction descended through $\sim_0$, coarse sameness would imply sameness after extraction. The displayed separation contradicts that implication. A separate descent certificate is therefore required.
+\end{proof}
+
+\begin{corollary}[Circle-like tokens are classifier-relative]
+\label{cor:circle-like-token-classifier-relative}
+A visible package token produced by polygonal approximation may behave as a circle under coarse shape queries while failing to be a smooth circle under differentiability-sensitive queries.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:polygon-circle-no-automatic-differentiability}, the coarse classifier may license a shared visible token without licensing differentiability descent. The token is therefore circle-like only relative to the classifier that licensed the package.
+\end{proof}
+
+\begin{corollary}[Hidden vertices remain physically relevant when queried]
+\label{cor:hidden-vertices-physically-relevant}
+If a physical system is sensitive to tangent discontinuity, curvature concentration, stress concentration, or boundary scattering, then polygonal approximants and a smooth circle may belong to different physical-fit classes.
+\end{corollary}
+
+\begin{proof}
+Vertex singularities affect tangent and curvature structure and may affect stress, reflection, or boundary dynamics. If the observation bundle $\Pi$ includes such responses, then the induced physical signatures of the polygonal approximants and the smooth circle separate. By \autoref{def:physical-fit-relation}, this separation is exactly failure of physical-fit equivalence.
+\end{proof}
+
+\begin{theorem}[Composite towers retain source dependence]
+\label{thm:composite-towers-retain-source-dependence}
+Let
+$$
+X_0\xrightarrow{C_1}X_1\xrightarrow{C_2}X_2\xrightarrow{C_3}\cdots\xrightarrow{C_n}X_n
+$$
+be an approximation tower in which each compression carries a $\mathsf{GAP}$ ledger satisfying coverage. Then the composite compression from $X_0$ to $X_n$ has a composite ledger recording which original source histories in $X_0$ lie behind each final visible token in $X_n$.
+\end{theorem}
+
+\begin{proof}
+For two stages, a source $x\in X_0$ lies behind a final token $z\in X_2$ exactly when there exists an intermediate token $y\in X_1$ such that $x$ lies in the $C_1$ ledger behind $y$ and $y$ lies in the $C_2$ ledger behind $z$. This is the composite-gap construction. For more stages, apply the two-stage construction inductively: the composite ledger to $X_{n-1}$ composes with the ledger for $C_n$, yielding a ledger from $X_0$ to $X_n$.
+\end{proof}
+
+\begin{corollary}[Hidden source structure can become physically active]
+\label{cor:hidden-source-structure-physically-active}
+A feature hidden at an early level of an approximation tower may become relevant when a later physical query depends on it.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:composite-towers-retain-source-dependence}, the hidden source structure is retained by a ledger-complete tower. If a later query, such as differentiation, curvature response, stress concentration, or causal propagation, depends on that hidden structure, then the query must inspect the ledger rather than only the final visible token.
+\end{proof}
+
+\begin{theorem}[Physical admissibility requires signature preservation and descent]
+\label{thm:physical-admissibility-signature-descent}
+Let $M$ be a mathematical representation of a system $O$, and let $\Pi_{\mathrm{phys}}$ be the physical signature bundle relevant to the intended modelling context. If $M$ is physically admissible for $O$ relative to $\Pi_{\mathrm{phys}}$, then the following conditions hold:
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M)
+\sim
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O),
+$$
+and every operation used to extract physical predictions from $M$ descends through the classifier by which $M$ was admitted.
+\end{theorem}
+
+\begin{proof}
+If signature preservation fails, $M$ does not reproduce the relevant reality-facing properties of $O$ and is not physically admissible. If operational descent fails, then there is an operation $F$ and classifier-same inputs $M_1\sim M_2$ with $F(M_1)\not\sim'F(M_2)$. Predictions depending on $F$ are then not well defined at the visible package level; they depend on hidden source history rather than on the admitted model token. Both conditions are therefore necessary.
+\end{proof}
+
+\begin{corollary}[Physical representation is unique only up to physical fit]
+\label{cor:physical-representation-unique-up-to-fit}
+There may be many mathematical descriptions of one system, but relative to a complete physical signature bundle they occupy one admissible physical-fit class.
+\end{corollary}
+
+\begin{proof}
+If $M_1$ and $M_2$ are physically admissible representations of the same $O$, \autoref{thm:physical-admissibility-signature-descent} gives
+$$
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_1)
+\sim
+\operatorname{PhysSig}_{\Pi_{\mathrm{phys}}}(O)
+\sim
+\operatorname{Sig}_{\Pi_{\mathrm{phys}}}(M_2).
+$$
+By transitivity of signature sameness, $M_1\equiv_{\mathrm{phys},\Pi}M_2$.
+\end{proof}
+
+\begin{theorem}[Refining physical questions refines model fit]
+\label{thm:refining-physical-questions-refines-fit}
+Let $\Pi\subseteq\Pi'$ be physical signature bundles, and let $\equiv_{\Pi}$ and $\equiv_{\Pi'}$ be the induced physical-fit relations. Then
+$$
+M_1\equiv_{\Pi'}M_2
+\quad\Longrightarrow\quad
+M_1\equiv_{\Pi}M_2.
+$$
+The converse need not hold.
+\end{theorem}
+
+\begin{proof}
+Agreement under $\Pi'$ includes agreement on every question in $\Pi$, since every question in $\Pi$ is also in $\Pi'$. Hence agreement under the larger bundle restricts to agreement under the smaller bundle. The converse fails when $\Pi'$ contains a question omitted by $\Pi$. Polygonal approximants and a smooth circle may agree under a coarse shape bundle while separating under a differentiability or curvature bundle.
+\end{proof}
+
+\begin{corollary}[Approximation is tower-relative]
+\label{cor:approximation-is-tower-relative}
+An approximation statement is indexed by the tower level and signature bundle at which it is asserted.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:refining-physical-questions-refines-fit}, changing the signature bundle can refine the equivalence relation. Since an approximation tower is a staged sequence of classifiers and compressions, an approximation judgment is meaningful only relative to the layer and bundle that license it.
+\end{proof}
+
+\begin{theorem}[Physical adequacy requires a representation certificate]
+\label{thm:physical-adequacy-requires-representation-certificate}
+If a model $M$ is used as a physically adequate representation of a system $O$ relative to $\Pi$, then $M$ must carry a physical representation certificate.
+\end{theorem}
+
+\begin{proof}
+Physical adequacy requires an observational source, a pattern extracted from that source, a classifier comparing model-generated and reality-facing signatures, a stability condition licensing continuation beyond observed data, and a ledger recording the compression performed by the model. Without source data the model is disconnected from observation. Without a pattern there is no stated behaviour being modelled. Without a classifier there is no fit judgment. Without stability data finite fit cannot support prediction. Without a ledger hidden source structure cannot be recovered when it becomes physically relevant. These are precisely the fields of \autoref{def:physical-representation-certificate}.
+\end{proof}
+
+\begin{corollary}[An equation is not yet a physical model]
+\label{cor:equation-not-yet-physical-model}
+An equation becomes a physical model only when embedded in a certificate specifying source, pattern, classifier, stability, and ledger.
+\end{corollary}
+
+\begin{proof}
+An equation gives a formal relation among mathematical symbols. It does not by itself specify which observations licensed it, which physical signatures it preserves, what classifier compares it with reality, why it may be reused predictively, or what idealizations it hides. By \autoref{thm:physical-adequacy-requires-representation-certificate}, those fields are required for physical adequacy.
+\end{proof}
+
+\input{parts/visions/reality_constrained_open_fit}
+\input{parts/visions/reality_constrained_ontic_state}
+\input{parts/visions/reality_constrained_tower_compression}
+\input{parts/visions/reality_constrained_physical_induction}
+\input{parts/visions/reality_constrained_objectivity}
+\input{parts/visions/reality_constrained_observation_reflection}
+\input{parts/visions/reality_constrained_scientific_methodology}
+\input{parts/visions/reality_constrained_model_audit}
+\input{parts/visions/reality_constrained_final_synthesis}
+
+\concretizedIn{ch:concrete-instances-physical-fit-tower-namecert}{PhysicalFitTowerUp realizes reality-constrained approximation towers as finite physical-signature, classifier, ledger, descent, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-reality-constrained-approximation-tower-namecert}{Finite signature, descent, and ledger rows realize the approximation-tower vision as a NameCert carrier.}
+\concretizedIn{ch:concrete-instances-observer-approximation-tower-namecert}{finite observer approximation towers with reality-facing signature ledgers}
