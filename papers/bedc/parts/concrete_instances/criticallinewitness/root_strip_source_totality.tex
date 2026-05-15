@@ -1,0 +1,87 @@
+\begin{theorem}[Critical-line witness root-strip source totality]
+\label{thm:critical-line-witness-root-strip-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every root $\CriticalLineWitnessUp$ consumer must expose the finite source rows
+for $\CritStripUp$, $\GammaUp$, $\ZetaContinuationWitnessUp$,
+$\ZetaZerosUp$, $\NatUp$, $\RatUp$, and $\RealUp$ through
+$Z,S,M,R,Q,H,C,P,N$ before any critical-line-facing read is available. The
+consumer therefore enters the packet only through the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$ route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier description of
+\autoref{def:critical-line-witness-carrier}. Its visible coordinates are the
+supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row
+$R$, rational comparison ledger $Q$, transport row $H$, continuation route
+$C$, provenance row $P$, and local naming row $N$.
+
+Apply the source-route totality of
+\autoref{thm:critical-line-witness-source-route-totality} and the root-line
+row exposure of \autoref{thm:critical-line-witness-root-line-row-exposure}.
+These rows place the $\ZetaZerosUp$, $\CritStripUp$, $\NatUp$, $\RatUp$, and
+$\RealUp$ sources on the finite route before a line-facing consumer can read
+the modulus or comparison side.
+
+Finally use the zeta-boundary non-escape theorem
+\autoref{thm:critical-line-witness-zeta-boundary-nonescape}. The
+$\ZetaContinuationWitnessUp$ and $\GammaUp$ interfaces remain inside the
+displayed zeta ledger and its transport, continuation, provenance, and naming
+rows. Hence the root consumer receives the listed finite source rows before
+any critical-line-facing read begins.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus refusal exhaustion]
+\label{thm:critical-line-witness-modulus-refusal-exhaustion}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every
+zero-strip modulus request is exhausted by the displayed route through
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$. Such a request cannot become analytic
+continuation evidence, zero-free-strip evidence, a global zero classifier, or
+a host numeric oracle.
+\end{theorem}
+\begin{proof}
+Begin with the zero-strip route factorization of
+\autoref{thm:critical-line-witness-zero-strip-route-factorization}. It forces
+a zero-strip consumer through $Z,S,H,C,P,N$ before any modulus row or
+$\mathsf{RH}$-facing row is readable.
+
+Next apply the root modulus-strip source totality theorem
+\autoref{thm:critical-line-witness-modulus-strip-source-totality}. The
+modulus request is read against the same finite source rows
+$Z,S,M,R,Q,H,C,P,N$ and not against an ambient analytic continuation surface.
+
+Close with the root bridge readback totality theorem
+\autoref{thm:critical-line-witness-root-bridge-readback-totality}. It exports
+no $\mathsf{RH}$ proof, host zero classifier, analytic-continuation theorem,
+quotient representative, host equality, or ambient completeness coordinate.
+The modulus refusal is therefore exhausted by the displayed BEDC route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH-boundary nonescape]
+\label{thm:critical-line-witness-rh-boundary-nonescape}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+root packet exports no $\mathsf{RH}$ proof, no finished critical-line theorem,
+and no host analytic primitive. Its public surface is only the finite
+$\ZetaZerosUp$--$\CritStripUp$--$\ZetaContinuationWitnessUp$ source route,
+the $\NatUp$, $\RatUp$, and $\RealUp$ modulus rows, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Read the packet through
+\autoref{thm:critical-line-witness-root-strip-source-totality}. The available
+positive data are exactly the finite source, modulus, comparison, transport,
+continuation, provenance, and naming rows exposed before any line-facing read.
+
+Use the analytic-continuation nonescape theorem
+\autoref{thm:critical-line-witness-analytic-continuation-nonescape}. It
+refuses analytic continuation, $\mathsf{RH}$ proof data, global zero
+classification, quotient representatives, host equality, and ambient
+completeness as exports of an accepted packet.
+
+Finally apply
+\autoref{thm:critical-line-witness-modulus-refusal-exhaustion}. Zero-strip
+modulus requests remain inside the displayed route and do not produce
+zero-free-strip evidence or a host analytic primitive. Thus the root packet
+cannot escape into an $\mathsf{RH}$ proof or a finished critical-line theorem.
+\end{proof}
