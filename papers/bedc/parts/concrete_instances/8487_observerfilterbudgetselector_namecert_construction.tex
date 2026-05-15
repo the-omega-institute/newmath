@@ -64,6 +64,27 @@ Thus the public handoff is exactly the displayed finite route. Because $O$ is no
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorStreamNameHandoff\_omitted\_boundary\_not\_erased}
 
+\begin{theorem}[Observer-filter budget-selector omitted-row exclusion]
+\label{thm:observer-filter-budget-selector-omitted-row-exclusion}
+For every accepted $\ObserverFilterBudgetSelectorUp$ packet
+$$
+G=(F,I,S,O,B,W,D,R,E,H,C,P,N),
+$$
+any consumer that reaches one of $B,W,D,R,E$ factors through the selected row $S$. The omitted ledger $O$ may be read only through the boundary rows $H,C,P,N$ and cannot be repacked as an observation window, dyadic ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, quotient stream, host equality row, hidden limit selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier definition for $G$. The positive observation coordinates are $I,F,S,B,W,D,R,E$, while the omitted ledger occurs only as the displayed row $O$ together with the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:observer-filter-budget-selector-namecert-surface}. It identifies $O$ as boundary-only data and places carrier admission, continuation replay, provenance, and local naming in the rows $H,C,P,N$ rather than in the observation route.
+
+Apply \autoref{thm:observer-filter-budget-selector-streamname-handoff}. The handoff forces every consumer reaching the budget, window, dyadic, regular-sequence, or Real-seal coordinates through
+$$
+I \to F \to S \to B \to W \to D \to R \to E.
+$$
+
+It remains to exhaust the packet coordinates. There is no carrier slot in which $O$ can appear as $B$, $W$, $D$, $R$, $E$, a quotient stream, host equality row, hidden limit selector, or ambient completeness row, so the omitted ledger cannot be repacked as any such consumer-facing object.
+\end{proof}
+
 \begin{theorem}[Observer-filter budget-selector dyadic readback exactness]
 \label{thm:observer-filter-budget-selector-dyadic-readback-exactness}
 Every accepted $\ObserverFilterBudgetSelectorUp$ packet reads the $\DyadicRatCoreUp$ row $D$ only after the selected $\ObserverFilterUp$ row $S$, finite budget row $B$, and $\StreamNameUp$ window family $W$ have been exposed in the displayed route
