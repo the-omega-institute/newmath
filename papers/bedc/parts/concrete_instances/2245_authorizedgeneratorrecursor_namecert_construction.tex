@@ -508,6 +508,109 @@ Next synchronize the audit rows. \autoref{thm:authorized-generator-recursor-audi
 Finally attach output naming and the public handoff. \autoref{thm:authorized-generator-recursor-output-name-stability}, \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} prevent a detached output name, hidden generator, or carrier-alignment read from bypassing the synchronized branch and audit rows.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor kernel acceptance scope]
+\label{thm:authorized-generator-recursor-kernel-acceptance-scope}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, any public
+host-kernel handoff through the boundary row $G$ is scoped by the displayed
+rows $I,E,M,B,D,O,A,H,C,P,N$. The handoff authorizes only the finite carrier
+tuple of \autoref{def:authorized-generator-recursor-carrier}; it cannot be read
+as an unbounded eliminator principle, a global induction rule, or a public
+recursion channel outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple
+$(I,E,M,B,D,O,A,H,C,P,G,N)$. The rows $I,E,M,B,D$ give the accepted signature,
+emitted eliminator, checked motive, branch package, and structural descent
+surface, while $O,A,H,C,P,N$ give the named output, audit row, transports,
+routes, provenance, and local certificate.
+
+Use branch exhaustion and structural locality. By
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}, every
+public recursive read stays on the accepted constructor signature, the checked
+motive, the branch package, and the structural-descent row.
+
+Attach the audit and output rows. Apply
+\autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-output-name-stability}; public
+exposure of $O$ remains behind the audit surface and cannot keep a stable name
+after any supporting row is detached.
+
+Finally use hidden-generator exclusion and the ground-compiler handoff.
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} and
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} leave no
+carrier coordinate for an unbounded eliminator, global induction rule, or
+external recursion source beyond the displayed $G$ handoff.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor branch motive pairing]
+\label{thm:authorized-generator-recursor-branch-motive-pairing}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the motive row $M$
+and branch row $B$ are paired constructor-by-constructor against the accepted
+signature row $I$. A downstream recursor consumer may not detach a branch from
+the motive that types it or from the constructor case in $I$ that it covers.
+\end{theorem}
+\begin{proof}
+Project the same carrier tuple and read the $I,M,B,D$ coordinates together.
+The accepted signature supplies the constructor cases, the motive supplies the
+target family for those cases, the branch row supplies the case data, and the
+descent row supplies the legal recursive reads.
+
+Apply branch exhaustion and structural descent locality. By
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}, branch
+coverage is exhausted only as a package over the accepted constructors and the
+checked motive, with recursive reads confined to the displayed descent row.
+
+Use the audit boundary and output-name stability to make the pairing public.
+\autoref{thm:authorized-generator-recursor-audit-boundary} places output
+exposure behind the same $I,M,B,D,A$ packet, and
+\autoref{thm:authorized-generator-recursor-output-name-stability} prevents a
+stable public output from retaining $B$ while dropping $M$ or $I$.
+
+Finally cite hidden-generator exclusion and the ground-compiler handoff.
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} blocks a
+replacement branch source, and
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the
+TasteGate alignment only for the finite packet. Hence each branch remains paired
+with its motive and constructor case.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit dependency refusal]
+\label{thm:authorized-generator-recursor-audit-dependency-refusal}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the audit row $A$
+refuses external axiom channels and hidden dependency surfaces before the
+output row $O$ becomes public. The refusal is the same operational-membrane
+route used by \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}
+and the same audit boundary used by the displayed packet.
+\end{theorem}
+\begin{proof}
+Project $(I,E,M,B,D,O,A,H,C,P,G,N)$. The audit row is not a detached label: it
+is packaged with the accepted signature, emitted eliminator, motive, branch
+data, structural descent, transports, routes, provenance, boundary, and local
+certificate before $O$ is exposed.
+
+Use branch exhaustion and structural locality first. By
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}, any
+dependency surface visible to a public branch read is already confined to the
+accepted constructors, motive, branch package, and descent row.
+
+Now apply the audit boundary and the operational membrane handoff.
+\autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}
+place public exposure of $O$ behind the build check, source-axiom refusal,
+dependency refusal, and operational-membrane provenance carried by $A$.
+
+Close the dependency refusal with output-name stability, hidden-generator
+exclusion, and the ground-compiler handoff.
+\autoref{thm:authorized-generator-recursor-output-name-stability},
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}, and
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} prevent a
+stable output name, hidden generator, or host-kernel handoff from bypassing the
+audited dependency surface.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
