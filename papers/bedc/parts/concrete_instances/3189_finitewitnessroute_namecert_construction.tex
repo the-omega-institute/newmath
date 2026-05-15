@@ -119,6 +119,24 @@ Use \autoref{thm:finite-witness-route-namecert-obligations} to attach those thre
 Finally apply \autoref{thm:finite-witness-route-non-escape}. It excludes quotient stream equality, selected real values, unrecorded limits, and host-level infinite traces from the accepted packet, so the regular readback remains a finite row of the displayed route.
 \end{proof}
 
+\begin{theorem}[Finite witness-route seal-budget exactness]
+\label{thm:finite-witness-route-seal-budget-exactness}
+For an accepted $\FiniteWitnessRouteUp$ packet
+$$
+R=(q,w,r,d,s,h,c,p,n),
+$$
+any $\CauchyLimitSealUp$ or $\RealUp$ seal-budget consumer factors through the request row $q$, the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, the $\DyadicRatCoreUp$ ledger $d$, the seal row $s$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\FiniteWitnessRouteUp}$ rows before receiving the route. The packet exports no hidden observation budget, quotient stream equality, host real equality, selected host limit, countable-choice row, ambient completeness coordinate, independent dyadic ledger, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:finite-witness-route-carrier}. Its displayed coordinates are exactly $q,w,r,d,s,h,c,p,n$, with $q$ naming the request, $w$ the selected stream window, $r$ the regular rational readback, $d$ the dyadic ledger, $s$ the seal row, and $h,c,p,n$ the transport, continuation, package, and naming rows.
+
+The local certificate surface is fixed by \autoref{thm:finite-witness-route-namecert-obligations}. Its clauses expose carrier admission, request exposure, selected-window admission, readback admission, dyadic ledger admission, seal handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local naming row for the same finite packet.
+
+Now apply non-escape, \autoref{thm:finite-witness-route-non-escape}. The route has no coordinate for host infinite traces, quotient stream equality, host real equality, selected host limits, ambient completeness, metric completion, countable choice, independent dyadic ledgers, or standard bridge data.
+
+Finally use request-window admission, \autoref{thm:finite-witness-route-request-window-admission}, and regular readback admission, \autoref{thm:finite-witness-route-regular-readback-admission}. Every seal-budget read enters through $q,w$, then reads only $r,d$ below that selected window before reaching $s,h,c,p,n$. Thus every budget coordinate received by a $\CauchyLimitSealUp$ or $\RealUp$ consumer is already one of the displayed packet rows.
+\end{proof}
+
 \begin{theorem}[Finite witness-route consumer route exactness]
 \label{thm:finite-witness-route-consumer-route-exactness}
 Every Real-and-Completion consumer route that accepts a $\FiniteWitnessRouteUp$ packet factors through the displayed rows
@@ -132,7 +150,7 @@ Begin with \autoref{thm:finite-witness-route-consumer-factorization}. It sends e
 
 Attach \autoref{thm:finite-witness-route-request-window-admission}. The consumer route cannot reach the observation side without the request row $q$ and the selected window row $w$.
 
-Next use \autoref{thm:finite-witness-route-regular-readback-admission}. The readback and dyadic comparison rows are the finite rows $r$ and $d$, not quotient stream equality or a selected real value.
+Next use \autoref{thm:finite-witness-route-seal-budget-exactness}. The readback and dyadic comparison rows are the finite rows $r$ and $d$, and the seal-budget consumer receives no hidden observation budget, quotient stream equality, selected real value, countable-choice row, ambient completeness coordinate, independent dyadic ledger, or standard bridge row.
 
 The seal row $s$ is therefore downstream of $q,w,r,d$, and the remaining rows $h,c,p,n$ preserve, replay, package, and name the same route. Hence the accepting consumer factors through the displayed dependency order.
 \end{proof}
@@ -303,17 +321,38 @@ Now use \autoref{thm:finite-witness-route-real-completion-scope}. It restricts P
 Finally apply \autoref{thm:finite-witness-route-seal-boundary-scope}. The seal read is downstream of the selected window, readback, ledger, transport, continuation, provenance, and naming rows, so the entrance to the $\CauchyLimitSealUp$ or $\RealUp$ seal is exactly the four-face route displayed in the statement.
 \end{proof}
 
+\begin{theorem}[Finite witness-route public NameCert export]
+\label{thm:finite-witness-route-public-namecert-export}
+For every accepted $\FiniteWitnessRouteUp$ packet
+$$
+R=(q,w,r,d,s,h,c,p,n),
+$$
+the public certificate $\NameCert_{\FiniteWitnessRouteUp}$ exports exactly the finite packet $R$ and the four L10 faces $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\CauchyLimitSealUp$ or $\RealUp$ displayed by $w,r,d,s$. Its support is only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of the same finite carrier.
+
+No public consumer of this certificate receives a host infinite trace, quotient stream equality, selected real value, ambient Real completeness, metric completeness, countable-choice selector, independent dyadic ledger, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read the public certificate obligations. By \autoref{thm:finite-witness-route-namecert-obligations}, the local naming row accounts for carrier admission, request exposure, selected-window admission, readback admission, dyadic ledger admission, seal handoff, componentwise transport, route replay, and package provenance for the same finite packet $R$.
+
+Next restrict the support rows. Apply \autoref{thm:finite-witness-route-scoped-support-rows}; it identifies the available support as the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows together with the named $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and $\RealUp$ faces.
+
+Now factor the seal side through the Real and Completion boundary. By \autoref{thm:finite-witness-route-real-seal-factorization}, every $\CauchyLimitSealUp$ or $\RealUp$ consumer follows the ordered finite route $q,w,r,d,s,h,c,p,n$ and gains no independent limit object, real value, completeness principle, quotient equality, countable-choice selector, host trace, metric-completion row, or standard bridge route.
+
+Finally use \autoref{thm:finite-witness-route-four-face-exit-exactness}. The public exit surface is exactly the selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\CauchyLimitSealUp$ or $\RealUp$ seal row carried by the packet. Combining these four results repacks the same finite route as the public $\NameCert_{\FiniteWitnessRouteUp}$ export, with no coordinate left for the excluded host, quotient, real-value, completeness, choice, ledger, or bridge data.
+\end{proof}
+
 \closureat{FiniteWitnessRouteUp}{seedStr}
 \closureat{FiniteWitnessRouteUp}{obligationStr}
 \closureat{FiniteWitnessRouteUp}{scopedStr}
+\closureat{FiniteWitnessRouteUp}{publicStr}
 
 \begin{closurestatus}{\FiniteWitnessRouteUp}
   \constructivestory{A $\FiniteWitnessRouteUp$ packet is generated from a finite witness request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\CauchyLimitSealUp$ or $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, \autoref{thm:finite-witness-route-consumer-route-exactness}, \autoref{thm:finite-witness-route-selected-window-seal-uniqueness}, \autoref{thm:finite-witness-route-scoped-export-factorization}, \autoref{thm:finite-witness-route-kernel-scope-lock}, \autoref{thm:finite-witness-route-scoped-support-rows}, \autoref{thm:finite-witness-route-real-completion-scope}, \autoref{thm:finite-witness-route-streamname-source-lock}, \autoref{thm:finite-witness-route-regseq-budget-exhaustion}, \autoref{thm:finite-witness-route-real-seal-factorization}, \autoref{thm:finite-witness-route-seal-boundary-scope}, and \autoref{thm:finite-witness-route-four-face-exit-exactness} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, scoped support, Real-and-Completion consumer factorization, kernel scope locking, seal-boundary consumption, and four-face exit exactness.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, \autoref{thm:finite-witness-route-seal-budget-exactness}, \autoref{thm:finite-witness-route-consumer-route-exactness}, \autoref{thm:finite-witness-route-selected-window-seal-uniqueness}, \autoref{thm:finite-witness-route-scoped-export-factorization}, \autoref{thm:finite-witness-route-kernel-scope-lock}, \autoref{thm:finite-witness-route-scoped-support-rows}, \autoref{thm:finite-witness-route-real-completion-scope}, \autoref{thm:finite-witness-route-streamname-source-lock}, \autoref{thm:finite-witness-route-regseq-budget-exhaustion}, \autoref{thm:finite-witness-route-real-seal-factorization}, \autoref{thm:finite-witness-route-seal-boundary-scope}, \autoref{thm:finite-witness-route-four-face-exit-exactness}, and \autoref{thm:finite-witness-route-public-namecert-export} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, seal-budget exactness, scoped support, Real-and-Completion consumer factorization, kernel scope locking, seal-boundary consumption, four-face exit exactness, and the public $\NameCert_{\FiniteWitnessRouteUp}$ export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient stream equality, infinite traces, independent route ledgers, Lean verification, or bridge checking.}
-  \upgradepath{The paper-side route next needs a public exported NameCert statement; Lean verification remains a separate formal-axis obligation.}
+  \upgradepath{Bridged closure requires a standard bridge for the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$ or $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
 \end{closurestatus}
