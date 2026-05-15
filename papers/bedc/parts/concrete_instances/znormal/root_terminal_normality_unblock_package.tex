@@ -1,0 +1,95 @@
+\begin{theorem}[$\ZNormalUp$ terminal normality admission]
+\label{thm:znormal-terminal-normality-admission}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the terminal-normality row $V$ is exposed only after the typed endpoint row
+$T$ and the finite fuel row $F$ have already been displayed. The admission
+surface therefore reads terminal normality as a finite packet coordinate, not
+as a host conversion, quotient computation, unrestricted evaluator, divergence
+oracle, or substrate halting theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The accepted packet is
+the tuple $T,F,V,K,R,H,C,P,N$, and $V$ appears in that tuple after the typed
+endpoint and fuel rows.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local
+$\NameCert_{\ZNormalUp}$ surface reads carrier admission, typed endpoint,
+finite fuel, terminal normality, sibling normal-word evidence, terminal
+readback, transport, replay, provenance, and naming as one finite certificate.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}. Terminal readback
+factors through $T,F,V,R,H,C,P,N$, so the consumer can reach $V$ only through
+the displayed endpoint and fuel path.
+
+Finally apply \autoref{thm:znormal-finite-host-boundary-refusal}. The admitted
+terminal-normality row remains inside the finite packet boundary and cannot be
+reinterpreted as host conversion, quotient computation, unrestricted
+evaluation, divergence detection, or a substrate halting theorem.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ finite-fuel classifier stability]
+\label{thm:znormal-finite-fuel-classifier-stability}
+For an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+componentwise $\hsame$ transport preserves the finite fuel row $F$, terminal
+normality row $V$, sibling normal-word row $K$, continuation readback row $R$,
+continuation replay row $C$, provenance row $P$, and local naming row $N$.
+The transported classifier surface adds no host conversion row and performs no
+quotient computation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:znormal-carrier}. The rows $F,V,K,R,H,C,P,N$ are
+coordinates of the same displayed $\BHist$ packet, with $H$ reserved for
+componentwise $\hsame$ transport.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The NameCert surface binds
+finite fuel, terminal normality, sibling normal-word evidence, continuation
+readback, transport, replay, provenance, and local naming to the same local
+packet.
+
+Use \autoref{thm:znormal-terminal-readback-exactness} for the continuation
+side. The terminal read is transported through the listed finite rows and does
+not introduce a separate evaluator.
+
+Then apply \autoref{thm:znormal-finite-host-boundary-refusal}. Since the
+boundary refuses host conversion and quotient computation, componentwise
+$\hsame$ transport can preserve the displayed classifier rows only as finite
+packet data.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host ledger nonescape]
+\label{thm:znormal-total-host-ledger-nonescape}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host ledger exports exactly the finite terminal-normality, fuel,
+normal-word, continuation, transport, replay, provenance, and local naming
+rows displayed by the packet. It exports no divergence oracle, unrestricted
+evaluator, global normalizer, host conversion row, or substrate halting
+theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:znormal-carrier}. The ledger-readable
+surface is the finite tuple $T,F,V,K,R,H,C,P,N$ and has no additional
+total-host coordinate.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The same rows are read as
+the local $\NameCert_{\ZNormalUp}$ obligations: endpoint, fuel, terminal
+normality, sibling normal-word evidence, terminal readback, transport, replay,
+provenance, and naming.
+
+Use \autoref{thm:znormal-terminal-readback-exactness} to route any terminal
+ledger read through the finite readback coordinates. The row $R$ is a
+displayed continuation read, not an unrestricted evaluator.
+
+Finally apply \autoref{thm:znormal-finite-host-boundary-refusal}. The
+total-host ledger therefore cannot export divergence detection, global
+normalization, host conversion, quotient computation, or a substrate halting
+theorem.
+\end{proof}
