@@ -788,6 +788,7 @@ import BEDC.Derived.LyapunovUp.TasteGate
 import BEDC.Derived.LocalSelfCenterInscriptionSealUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
+import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
@@ -861,6 +862,7 @@ import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.TailBudgetCoherence
 import BEDC.Derived.CauchyCriterionUp.ObserverRoute
 import BEDC.Derived.UniformCauchyCriterionUp.CompletionFunctorBudget
+import BEDC.Derived.UniformCauchyCriterionUp.DiagonalBudgetPullback
 import BEDC.Derived.UniformCauchyCriterionUp.EndpointBudgetReflector
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowExhaustion
 import BEDC.Derived.UniformCauchyCriterionUp.FiniteFamilyWindowSeal
