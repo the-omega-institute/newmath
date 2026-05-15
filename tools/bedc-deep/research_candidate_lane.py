@@ -153,6 +153,69 @@ def _safe_inputs(inputs: list[str], files: dict[str, dict[str, Any]]) -> tuple[l
     return safe, reasons
 
 
+def _landing_words(candidate: dict[str, Any]) -> set[str]:
+    text = _text(candidate)
+    return {
+        word.lower()
+        for word in re.findall(r"[A-Za-z][A-Za-z0-9]{4,}", text)
+        if word.lower()
+        not in {
+            "candidate",
+            "chapter",
+            "local",
+            "claim",
+            "surface",
+            "boundary",
+            "displayed",
+            "existing",
+        }
+    }
+
+
+def _fallback_safe_inputs(
+    candidate: dict[str, Any],
+    original_inputs: list[str],
+    files: dict[str, dict[str, Any]],
+    *,
+    limit: int = 2,
+) -> list[str]:
+    """Pick smaller BEDC-native landing files for held/refinement packets.
+
+    The final board_spawn/writeback gates still decide whether the candidate is
+    executable.  This only prevents useful held packets from looping forever
+    on a near-800-line file when an adjacent concrete body file is available.
+    """
+
+    words = _landing_words(candidate)
+    preferred_dirs = {
+        str(Path(rel).parent)
+        for rel in original_inputs
+        if rel.startswith("papers/bedc/parts/")
+    }
+    scored: list[tuple[int, int, str]] = []
+    for rel, info in files.items():
+        if not rel.startswith("papers/bedc/parts/"):
+            continue
+        if BLOCKED_LANDING_PATH_RE.search(rel):
+            continue
+        if info.get("hub_like"):
+            continue
+        path = REPO_ROOT / rel
+        if not path.exists():
+            continue
+        line_count = _line_count(rel, files)
+        if line_count >= 720:
+            continue
+        hay = " ".join([rel, str(info.get("title") or "")]).lower()
+        score = sum(1 for word in words if word in hay)
+        if str(Path(rel).parent) in preferred_dirs:
+            score += 4
+        if score:
+            scored.append((-score, line_count, rel))
+    scored.sort()
+    return [rel for _neg_score, _line_count, rel in scored[:limit]]
+
+
 def _text(candidate: dict[str, Any]) -> str:
     return " ".join(
         str(candidate.get(k) or "")
@@ -235,7 +298,18 @@ def _fill_logic_packet(candidate: dict[str, Any]) -> dict[str, Any]:
 
 def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str, Any]]) -> dict[str, Any]:
     enriched = _fill_logic_packet(candidate)
-    inputs, input_reasons = _safe_inputs(_as_list(enriched.get("local_inputs")), files)
+    original_inputs = _as_list(enriched.get("local_inputs"))
+    inputs, input_reasons = _safe_inputs(original_inputs, files)
+    if not inputs and any(
+        reason.startswith(("near_line_cap:", "no_safe_landing_input", "hub_like_input:"))
+        for reason in input_reasons
+    ):
+        fallback_inputs = _fallback_safe_inputs(enriched, original_inputs, files)
+        if fallback_inputs:
+            inputs = fallback_inputs
+            input_reasons = [
+                f"rerouted_landing_from:{','.join(original_inputs) or 'none'}",
+            ]
     enriched["local_inputs"] = inputs
     if "claim" not in enriched and enriched.get("concrete_claim"):
         enriched["claim"] = enriched.get("concrete_claim")
@@ -244,6 +318,8 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
     title_key = title.lower()
     existing_titles = board_archive.existing_target_titles(include_archive=True)
     reasons = list(input_reasons)
+    if reasons and all(reason.startswith("rerouted_landing_from:") for reason in reasons):
+        reasons = []
     if title_key in existing_titles:
         reasons.append("duplicate_title_in_board_or_archive")
     if PROSE_TITLE_RE.search(title):

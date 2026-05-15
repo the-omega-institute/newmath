@@ -259,15 +259,29 @@ def _safe_landing_inputs(inputs: list[str], files: dict[str, dict[str, Any]]) ->
         info = files.get(rel) or {}
         if info.get("hub_like"):
             continue
+        try:
+            if int(info.get("line_count") or info.get("lines") or 0) >= 740:
+                continue
+        except (TypeError, ValueError):
+            continue
         safe.append(rel)
     return safe
 
 
-def _fallback_landing(files: dict[str, dict[str, Any]], text: str) -> str:
+def _fallback_landing(
+    files: dict[str, dict[str, Any]],
+    text: str,
+    preferred_inputs: list[str] | None = None,
+) -> str:
     words = {
         w.lower()
         for w in re.findall(r"[A-Za-z][A-Za-z0-9]{4,}", text)
         if w.lower() not in {"candidate", "chapter", "local", "claim", "surface"}
+    }
+    preferred_dirs = {
+        str(Path(rel).parent)
+        for rel in (preferred_inputs or [])
+        if rel.startswith("papers/bedc/parts/")
     }
     scored: list[tuple[int, str]] = []
     for rel, info in files.items():
@@ -282,6 +296,8 @@ def _fallback_landing(files: dict[str, dict[str, Any]], text: str) -> str:
             continue
         hay = " ".join([rel, str(info.get("title") or "")]).lower()
         score = sum(1 for word in words if word in hay)
+        if str(Path(rel).parent) in preferred_dirs:
+            score += 3
         if score:
             scored.append((score, rel))
     if not scored:
@@ -482,7 +498,7 @@ def review_record(source_event: str, record: dict[str, Any], files: dict[str, di
     claim = _claim(record)
     inputs = _as_list(record.get("local_inputs"))
     safe_inputs = _safe_landing_inputs(inputs, files)
-    target = safe_inputs[0] if safe_inputs else _fallback_landing(files, f"{title} {claim}")
+    target = safe_inputs[0] if safe_inputs else _fallback_landing(files, f"{title} {claim}", inputs)
     decision, decision_reason, landing_kind, risk_flags = _decision(record, title, claim, safe_inputs, target)
     missing_support: list[str] = []
     if not target:
