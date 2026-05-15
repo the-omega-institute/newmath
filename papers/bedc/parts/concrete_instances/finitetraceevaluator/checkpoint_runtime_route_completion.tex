@@ -1,0 +1,98 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-runtime route determinacy]
+\label{thm:finitetrace-evaluator-checkpoint-runtime-route-determinacy}
+Let two accepted $\FiniteTraceEvaluatorUp$ checkpoint-runtime packets display
+rows
+$$
+I,T,A,V,H,C,P,N
+$$
+and
+$$
+I',T',A',V',H',C',P',N'.
+$$
+If the input, finite trace, accepted-result, validation-boundary, transport,
+route, provenance, and local naming rows compare componentwise by $\hsame$,
+and the displayed $\Cont$ routes identify the checkpoint replay from $I$ to
+$T$ and from $T$ to $A$, then the two runtime reads have the same public
+checkpoint route. The determinacy is read only through the
+$\FiniteTraceEvaluatorUp$ carrier and the root $\NameCert$ obligation surface.
+\end{theorem}
+\begin{proof}
+Start with the checkpoint-runtime triad. By
+\autoref{thm:finite-trace-evaluator-checkpoint-runtime-triad}, each accepted
+packet presents checkpoint, runtime, image, and readback rows as the single
+finite surface $I,T,A,V,H,C,P,N$.
+
+Next apply the acceptance lock and the root obligation surface. The lock of
+\autoref{thm:finite-trace-evaluator-checkpoint-runtime-acceptance-lock} forces
+both reads to pass through the same input, trace, accepted-result,
+validation-boundary, transport, route, provenance, and local naming rows, while
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations} supplies the
+carrier and classifier rows that make componentwise $\hsame$ transport valid.
+
+Finally use the displayed $\Cont$ hypotheses. Since the replay routes from
+input to trace and from trace to accepted result are matched componentwise, no
+second checkpoint route remains. The public runtime read is therefore
+determined by the displayed packet and its local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime acceptance nonescape]
+\label{thm:finitetrace-evaluator-runtime-acceptance-nonescape}
+Every runtime acceptance read of an accepted $\FiniteTraceEvaluatorUp$ packet
+is confined to the displayed checkpoint-runtime rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+No host validator, total truth predicate, total halting classifier, unchecked
+compiler theorem, hidden runtime state, unbounded evaluator, or infinite trace
+can be exported from the runtime acceptance row.
+\end{theorem}
+\begin{proof}
+First read the accepted packet through the carrier and root NameCert
+obligation surface. The rows $I,T,A,V,H,C,P,N$ are exactly the input, finite
+trace, accepted-result, validation-boundary, componentwise transport, replay
+route, provenance, and local naming rows.
+
+Use \autoref{thm:finite-trace-evaluator-terminal-runtime-nonescape} for the
+terminal runtime side. It already excludes host evaluators, hidden runtime
+state, total truth predicates, total halting classifiers, unbounded evaluator
+semantics, infinite traces, and alternate checkpoint routes.
+
+Now apply \autoref{thm:finite-trace-evaluator-validation-refusal-closure}. The
+validation-facing row is a finite boundary inside the accepted packet, not a
+host-valid runtime judgment or a global compiler theorem. Thus the runtime
+acceptance read cannot escape the displayed checkpoint-runtime surface.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint replay totality]
+\label{thm:finitetrace-evaluator-checkpoint-replay-totality}
+Every checkpoint replay of an accepted $\FiniteTraceEvaluatorUp$ packet
+factors through the displayed rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+The replay first reads the input row $I$, then the finite trace row $T$, then
+the accepted-result row $A$, and then the validation-boundary row $V$ together
+with the componentwise transport $H$, displayed route $C$, provenance $P$, and
+local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. This totality assertion
+uses only the carrier and root obligation surface, and it introduces no
+infinite trace or unchecked host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with checkpoint image readback. By
+\autoref{thm:finite-trace-evaluator-checkpoint-image-readback}, accepted
+checkpoint images read back through $I \to T \to A$ and then through
+$V,H,C,P,N$ for validation-facing reads.
+
+Next apply checkpoint-runtime acceptance lock. It requires every accepted
+checkpoint-facing read to use the same input, trace, accepted-result,
+validation-boundary, transport, route, provenance, and local naming rows before
+runtime acceptance is available.
+
+Finally combine route determinacy with runtime nonescape. The determinacy
+theorem above makes the replay route unique under componentwise $\hsame$ and
+displayed $\Cont$ transport, while
+\autoref{thm:finitetrace-evaluator-runtime-acceptance-nonescape} excludes
+host validators, total truth predicates, total halting classifiers, unchecked
+compiler theorems, and infinite traces. Hence every checkpoint replay is total
+on the displayed finite route.
+\end{proof}

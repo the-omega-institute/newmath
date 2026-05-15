@@ -222,3 +222,50 @@ Now split by the downstream consumer. If the read is consumed by $\CauchyTailWit
 
 If the read is consumed by $\CauchyModulusRefinementUp$, apply \autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}; the remaining route is exactly $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, and hidden selectors are excluded. Thus both terminal branches share the same diagonal budget readback boundary before they diverge.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility uniform Cauchy terminal handoff]
+\label{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal
+$\RealUp$ or $\CompletionUp$ consumer read, and suppose that the read is later
+consumed by an accepted $\UniformCauchyCriterionUp$ packet. Then the terminal
+read first factors through the same diagonal budget prefix
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Only after this prefix may it enter the uniform Cauchy finite-family seal rows:
+the finite family index ledger, shared $\StreamNameUp$ window family, uniform
+$\CauchyModulusUp$ schedule, $\DyadicRatCoreUp$ tolerance row,
+$\DyadicTailBoundUp$ tail ledger, $\RealUp$ seal handoff, and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. The handoff exports no quotient
+stream equality, selected host limit, hidden tail selector, host real equality,
+choice datum, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First bind the diagonal terminal prefix. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These place the
+terminal $\RealUp$ or $\CompletionUp$ read behind the displayed budget source,
+window, readback, Real seal, transport, route, provenance, and local naming
+rows.
+
+Next close that prefix against bypass. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}; the
+terminal consumer can inspect only $R,T,S,D,W,Q,L,H,C,P,N$ before it reaches a
+downstream packet. Hence quotient stream equality, selected host limits, host
+real equality, choice data, and ambient completeness are unavailable at the
+handoff boundary.
+
+Now read the accepted $\UniformCauchyCriterionUp$ consumer through its finite
+family seal surface. The public export, downstream consumer boundary, and seal
+completion boundary of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}
+force the uniform criterion read to pass through the finite index ledger,
+shared window family, uniform modulus, dyadic tolerance, finite tail ledger,
+Real seal handoff, and structural $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows.
+
+Combining the two surfaces gives the claimed order: the diagonal terminal
+prefix is read first, and only then can the finite-family uniform Cauchy seal
+rows be consumed. Since neither side exposes hidden tail selectors, quotient
+streams, selected host limits, host real equality, choice data, or ambient
+completeness, the composite handoff exports none of them.
+\end{proof}
