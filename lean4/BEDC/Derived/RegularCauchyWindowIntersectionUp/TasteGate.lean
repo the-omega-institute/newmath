@@ -13,13 +13,13 @@ inductive RegularCauchyWindowIntersectionUp : Type where
   | mk (X Y WX WY D M T H C P N : BHist) : RegularCauchyWindowIntersectionUp
   deriving DecidableEq
 
-private def regularCauchyWindowIntersectionEncodeBHist : BHist → RawEvent
+def regularCauchyWindowIntersectionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyWindowIntersectionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyWindowIntersectionEncodeBHist h
 
-private def regularCauchyWindowIntersectionDecodeBHist : RawEvent → BHist
+def regularCauchyWindowIntersectionDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyWindowIntersectionDecodeBHist tail)
@@ -73,22 +73,87 @@ private def regularCauchyWindowIntersectionToEventFlow :
 private def regularCauchyWindowIntersectionFromEventFlow :
     EventFlow → Option RegularCauchyWindowIntersectionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag0, X, _tag1, Y, _tag2, WX, _tag3, WY, _tag4, D, _tag5, M, _tag6, T,
-      _tag7, H, _tag8, C, _tag9, P, _tag10, N] =>
-      some
-        (RegularCauchyWindowIntersectionUp.mk
-          (regularCauchyWindowIntersectionDecodeBHist X)
-          (regularCauchyWindowIntersectionDecodeBHist Y)
-          (regularCauchyWindowIntersectionDecodeBHist WX)
-          (regularCauchyWindowIntersectionDecodeBHist WY)
-          (regularCauchyWindowIntersectionDecodeBHist D)
-          (regularCauchyWindowIntersectionDecodeBHist M)
-          (regularCauchyWindowIntersectionDecodeBHist T)
-          (regularCauchyWindowIntersectionDecodeBHist H)
-          (regularCauchyWindowIntersectionDecodeBHist C)
-          (regularCauchyWindowIntersectionDecodeBHist P)
-          (regularCauchyWindowIntersectionDecodeBHist N))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | X :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | Y :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | WX :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | WY :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | D :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | M :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | T :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | H :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | C :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | P :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | N :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] =>
+                                                                                              some
+                                                                                                (RegularCauchyWindowIntersectionUp.mk
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist X)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist Y)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist WX)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist WY)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist D)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist M)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist T)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist H)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist C)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist P)
+                                                                                                  (regularCauchyWindowIntersectionDecodeBHist N))
+                                                                                          | _ :: _ => none
 
 private theorem regularCauchyWindowIntersection_round_trip :
     ∀ x : RegularCauchyWindowIntersectionUp,
@@ -213,5 +278,20 @@ instance regularCauchyWindowIntersectionNontrivial :
 def taste_gate : ChapterTasteGate RegularCauchyWindowIntersectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyWindowIntersectionChapterTasteGate
+
+theorem RegularCauchyWindowIntersectionTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier RegularCauchyWindowIntersectionUp) ∧
+      Nonempty (ChapterTasteGate RegularCauchyWindowIntersectionUp) ∧
+        Nonempty (FieldFaithful RegularCauchyWindowIntersectionUp) ∧
+          Nonempty (Nontrivial RegularCauchyWindowIntersectionUp) ∧
+            regularCauchyWindowIntersectionEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+              regularCauchyWindowIntersectionEncodeBHist (BHist.e0 BHist.Empty) =
+                [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨⟨regularCauchyWindowIntersectionBHistCarrier⟩,
+      ⟨⟨regularCauchyWindowIntersectionChapterTasteGate⟩,
+        ⟨⟨regularCauchyWindowIntersectionFieldFaithful⟩,
+          ⟨⟨regularCauchyWindowIntersectionNontrivial⟩, rfl, rfl⟩⟩⟩⟩
 
 end BEDC.Derived.RegularCauchyWindowIntersectionUp
