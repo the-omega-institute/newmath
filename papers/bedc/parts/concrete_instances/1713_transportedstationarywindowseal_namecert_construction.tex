@@ -416,6 +416,30 @@ Now apply the checked Real-facing package. The Real factorization theorem, the s
 Finally close the consumer boundary with \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Since quotient streams, host equality, selected limits, choice, and real-completeness data are absent from the packet, every consumer route factors through the displayed finite BEDC packet and nothing outside it.
 \end{proof}
 
+\begin{theorem}[Transported stationary window-seal tail-cofinality handoff]
+\label{thm:transported-stationary-window-seal-tail-cofinality-handoff}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet, and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. Every completion-facing or real-facing read first factors through the transported stationary triad
+$$
+R \longmapsto S \longmapsto G,
+$$
+then through the scheduled tail-cofinality route
+$$
+E_T \longmapsto W_T \longmapsto D_T \longmapsto R_T \longmapsto L_T
+$$
+with structural rows $H_T,C_T,P_T,N_T$, and only then through the finite envelope $W$ and seal row $E$ of $T$. The combined handoff exports no quotient-stream equality, selected host limit, host real equality, choice principle, hidden tail oracle, ambient completeness, or second completion route.
+\end{theorem}
+\begin{proof}
+Begin with the local stationary source. By \autoref{thm:transported-stationary-window-seal-constant-window-triad}, the rows $R,S,G$ are one transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ triad under the displayed $H,C,P,N$ rows.
+
+Next apply \autoref{thm:transported-stationary-window-seal-envelope-window-exactness}. It places the finite envelope row $W$ downstream from that triad and upstream from the local seal row $E$, so the transported packet has no route that reaches $W$ or $E$ before the triad is fixed.
+
+Now read the schedule packet on the same window and seal row. The real-seal readback theorem \autoref{thm:tail-cofinality-schedule-real-seal-readback} routes every schedule-facing $\RealUp$ read through $E_T,W_T,D_T,R_T,L_T$, and \autoref{thm:tail-cofinality-schedule-scoped-binding} keeps the same route inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and the local $\NameCert$ row.
+
+For completion-facing consumers, use \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}. It places the completion seal read after the same scheduled route, and \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization} keeps the shared finite window and tail budget as the unique displayed factorization for the participating Real and Completion rows.
+
+Finally combine the schedule exclusions with \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Neither packet contains a coordinate for quotient-stream equality, selected host limits, host real equality, choice, hidden tail oracles, ambient completeness, or another completion route. Thus every completion-facing or real-facing consumer must pass through the transported triad, the schedule rows, and then the finite envelope and seal row in the order stated.
+\end{proof}
+
 \closureat{TransportedStationaryWindowSealUp}{seedStr}
 
 \begin{closurestatus}{\TransportedStationaryWindowSealUp}
