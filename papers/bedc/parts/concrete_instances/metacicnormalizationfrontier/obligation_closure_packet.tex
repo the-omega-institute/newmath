@@ -1,0 +1,41 @@
+\begin{theorem}[MetaCIC normalization frontier obligation carrier totality]
+\label{thm:metacic-normalization-frontier-obligation-closure-carrier-totality}
+Carrier admission for an accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+is exhausted by the displayed $\BHist$ rows. The carrier of \autoref{def:metacic-normalization-frontier-carrier}, the NameCert obligations of \autoref{thm:metacic-normalization-frontier-namecert-obligations}, and the root carrier rows of \autoref{thm:metacic-normalization-frontier-root-carrier-rows} leave no admitted frontier coordinate outside $C,K,E,N,S,H,R,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. It presents $F=(C,K,E,N,S,H,R,P,L)$ as the finite frontier packet and assigns the candidate, finished-normal, obstruction, transport, replay, provenance, and local naming roles to those rows.
+
+Apply the NameCert obligations. Candidate reads are bound to $C,K$, finished-normal reads are bound to $E,N$, and the obstruction row $S$ remains separated from the positive normalization surfaces.
+
+Finally use the root carrier rows. Every root consumer begins from the same displayed $\BHist$ packet, so carrier admission is total over exactly those rows and has no hidden normalization, consistency, or erased-transport coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obligation evidence split]
+\label{thm:metacic-normalization-frontier-obligation-closure-evidence-split}
+For an accepted $\MetaCICNormalizationFrontierUp$ packet, positive normalization evidence splits before any closed-normal handoff into the candidate route through $C,K$ and the finished-normal route through $E,N$. This split is the joint content of \autoref{thm:metacic-normalization-frontier-candidate-route}, \autoref{thm:metacic-normalization-frontier-finished-route}, \autoref{thm:metacic-normalization-frontier-evidence-choice-exhaustion}, and \autoref{thm:metacic-normalization-frontier-public-obligation-package}.
+\end{theorem}
+\begin{proof}
+Start with the candidate route. It routes candidate-facing consumers through $C,K,R,P,L$ and keeps the read inside the same finite packet.
+
+Turn to the finished-normal route. It routes endpoint-facing consumers through $E,N,R,P,L$ and makes the normal endpoint available only after the finished-normal evidence row has been read.
+
+The evidence-choice exhaustion theorem supplies the dichotomy. It rules out a third positive normalization evidence surface between those two routes.
+
+Repack the result through the public obligation package. Since the package records carrier admission, the two positive routes, and the retained obstruction row together, any closed-normal handoff receives one of the two displayed positive surfaces rather than an unnamed normalization source.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obligation obstruction retention]
+\label{thm:metacic-normalization-frontier-obligation-closure-obstruction-retention}
+For an accepted $\MetaCICNormalizationFrontierUp$ packet, the subject-reduction obstruction row $S$ is retained across both positive routes and cannot be consumed as normalization evidence. The obstruction ledger of \autoref{thm:metacic-normalization-frontier-obstruction-ledger}, the retention theorem of \autoref{thm:metacic-normalization-frontier-obstruction-retention}, and the subject-reduction compatibility theorem of \autoref{thm:metacic-normalization-frontier-subject-reduction-obstruction-compatibility} keep $S$ visible beside the candidate rows $C,K$ and the finished-normal rows $E,N$.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger first. It names $S$ as a separate coordinate of the same frontier packet as $C,K,E,N,H,R,P,L$.
+
+Apply obstruction retention along the candidate and finished-normal routes. The candidate side through $C,K$ and the endpoint side through $E,N$ transport $S$ rather than turning it into positive normalization evidence.
+
+Use subject-reduction obstruction compatibility for downstream consumers. A SubjectReductionBoundary-facing consumer may read $S$ as an obstruction coordinate, but it cannot discharge that row by consuming either positive normalization surface.
+\end{proof}
