@@ -224,6 +224,8 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessLedgerUp.RegularRealDependencyScope
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetRealRouteTotality
 import BEDC.Derived.CauchyWitnessLedgerUp.ObserverFilterBudgetSelectorLock
+import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
+import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
@@ -861,6 +863,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.SharedScheduleRealSealInheritance
 import BEDC.Derived.UniformCauchyCriterionUp.SharedWindow
 import BEDC.Derived.UniformCauchyCriterionUp.TailMeetRootExport
 import BEDC.Derived.UniformCauchyCriterionUp.TailLedger
+import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
 import BEDC.Derived.MetaCICDischargeObstructionLatticeUp.TasteGate
