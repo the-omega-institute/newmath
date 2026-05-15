@@ -468,7 +468,11 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
         return []
 
     # First-proposal classifier: union of (a) newly-added .tex files and
-    # (b) files where this round's diff added a `\origin{ai}` line.
+    # (b) files where `\origin{ai}` is present in HEAD but was NOT in
+    # the base_sha version (genuine human→ai or none→ai transition).
+    # Do NOT use `_added_lines_per_file` here: a file rewrite shows every
+    # existing line as both deleted+added, which would mis-classify
+    # routine maintenance commits as first-proposal.
     added_files = set(_changed_files(
         worktree=worktree, base_sha=base_sha,
         prefix="papers/bedc/parts/concrete_instances/",
@@ -478,14 +482,17 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     for rel in changed:
         if rel in first_proposal:
             continue
+        # File existed in base_sha. Check if `\origin{ai}` was already
+        # present there. If yes → maintenance. If no → transition.
         try:
-            added_lines = _added_lines_per_file(
-                worktree=worktree, base_sha=base_sha, rel_path=rel
+            base_text = _git(
+                ["show", f"{base_sha}:{rel}"], cwd=worktree
             )
         except Exception:
-            added_lines = []
-        if any(_ORIGIN_AI_RE.search(content) for _, content in added_lines):
-            first_proposal.add(rel)
+            base_text = ""
+        if _ORIGIN_AI_RE.search(base_text):
+            continue  # already ai in base — maintenance edit
+        first_proposal.add(rel)
 
     violations: list[str] = []
     for rel in changed:
@@ -682,7 +689,11 @@ GATE_DISPATCH = {
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
-    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    # FieldFaithful is a Lean-side instance; checking it from P is a layer
+    # violation. R phase_c.txt enforces the FF HARD GATE on its own side
+    # when formalizing `\origin{ai}` chapters. If R cannot satisfy FF,
+    # R revises (carrier design, or relabels chapter origin) — not P.
+    # "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
     "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
     "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }
