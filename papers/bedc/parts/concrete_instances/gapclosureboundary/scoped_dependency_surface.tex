@@ -1,0 +1,45 @@
+\begin{theorem}[GapClosureBoundary scoped dependency inventory]
+\label{thm:gap-closure-boundary-scoped-dependency-inventory}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the packet displays its $\BHist$ carrier rows together with $\hsame$ transport $H$, $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any consumer reads the boundary. The dependency inventory is therefore the seven-row packet $G,S,R,H,C,P,N$, and it contains no hidden closure, hidden $\mathsf{T}$ supply, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite boundary packet as the request, source, refusal, transport, continuation, provenance, and naming rows.
+
+Next apply the consumer exactness package. \autoref{thm:gap-closure-boundary-consumer-exactness-package} requires the hard-problem consumers to read the displayed carrier before any downstream route is used.
+
+Finally use root NameCert replay, \autoref{thm:gap-closure-boundary-root-namecert-replay}. The replay keeps $H,C,P,N$ attached to the same $\BHist$ carrier, so the dependency inventory is already visible before the consumer read.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary scoped source-refusal exactness]
+\label{thm:gap-closure-boundary-scoped-source-refusal-exactness}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the source branch
+$$
+G \longrightarrow S
+$$
+and the refusal branch
+$$
+G \longrightarrow R
+$$
+are exactly the two scoped routes over $H,C,P,N$. A supported read uses the source route, an unsupported read uses the refusal route, and no third route over the same packet is accepted.
+\end{theorem}
+\begin{proof}
+First expose the scoped dependency inventory. \autoref{thm:gap-closure-boundary-scoped-dependency-inventory} fixes $G,S,R,H,C,P,N$ as the visible packet before route selection.
+
+For the source branch, apply source-route totality from \autoref{thm:gap-closure-boundary-source-route-totality}. A supported read of $G$ reaches the displayed source row $S$ and remains transported, routed, packaged, and named by $H,C,P,N$.
+
+For the refusal branch, apply refusal route exactness from \autoref{thm:gap-closure-boundary-refusal-route-exactness}. An unsupported read of $G$ reaches the displayed refusal row $R$ over the same structural rows.
+
+The consumer exactness package then removes any residual case. Since every hard-problem consumer read is already assigned to the source/refusal surface, no additional accepted route remains.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary scoped consumer non-escape]
+\label{thm:gap-closure-boundary-scoped-consumer-nonescape}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the sibling consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ can read only the scoped source/refusal surface of $G,S,R,H,C,P,N$. They cannot read hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or any continuation outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with scoped source-refusal exactness. \autoref{thm:gap-closure-boundary-scoped-source-refusal-exactness} assigns each accepted read to $G \longrightarrow S$ or $G \longrightarrow R$ over $H,C,P,N$.
+
+Use refusal non-escape and the consumer exactness package, \autoref{thm:gap-closure-boundary-refusal-nonescape} and \autoref{thm:gap-closure-boundary-consumer-exactness-package}. These rows remove hidden closure, hidden $\mathsf{T}$ supply, and consumer-specific routes from the accepted packet.
+
+Close with root NameCert replay. \autoref{thm:gap-closure-boundary-root-namecert-replay} keeps replay inside the displayed $\Cont$, $\hsame$, $\Pkg$, and local $\NameCert$ rows, so host equality, quotient data, and off-packet continuations have no readable coordinate.
+\end{proof}
