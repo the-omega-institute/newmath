@@ -138,6 +138,34 @@ missing, the handoff has no carrier coordinate licensing a public output row,
 so obligation closure cannot expose $O$.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor root normalization boundary]
+\label{thm:authorized-generator-recursor-root-normalization-boundary}
+Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Any public output row $O$ consumed by a normalization or closed-substitution consumer must first pass through the accepted signature rows $I,E,M$, branch coverage $B$, structural descent $D$, audit provenance $A,H,C,P$, the ground-compiler boundary $G$, and the sibling $\ClosedTermSubstitutionBoundaryUp$ rows named by \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The consumer then reaches $\MetaCICNormalizationFrontierUp$ only as a finite boundary route, not as an output detached from the authorized generator packet.
+\end{theorem}
+\begin{proof}
+Start from the local carrier and readiness rows. The carrier of \autoref{def:authorized-generator-recursor-carrier} displays $I,E,M,B,D,O,A,H,C,P,G,N$, while \autoref{thm:authorized-generator-recursor-root-output-audit-totality} and \autoref{thm:authorized-generator-recursor-obligation-triad} force a public read of $O$ through signature admission, branch coverage, structural descent, and audit provenance.
+
+Next attach the compiler-facing handoff. Apply \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} and \autoref{thm:authorized-generator-recursor-root-boundary-nonescape}. These keep the public output inside the accepted recursor packet at $G$ and exclude hidden generators, free induction principles, external axioms, and unaudited dependency routes.
+
+Finally route the consumer through the sibling boundaries. The $\ClosedTermSubstitutionBoundaryUp$ chapter supplies the closed shift and substitution rows that a closed-substitution consumer must read, while the $\MetaCICNormalizationFrontierUp$ chapter supplies the candidate and endpoint frontier rows for normalization consumers. Since neither sibling adds an off-carrier public output coordinate, the consumed output remains the displayed $O$ reached through the finite authorized generator route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor consumer NameCert totality]
+\label{thm:authorized-generator-recursor-consumer-namecert-totality}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the complete consumer-facing NameCert route for normalization and closed-substitution consumers is the finite route
+$$
+I \longmapsto E \longmapsto M \longmapsto B \longmapsto D \longmapsto O \longmapsto A \longmapsto H \longmapsto C \longmapsto P \longmapsto G \longmapsto N
+$$
+together with the closed-boundary rows of $\ClosedTermSubstitutionBoundaryUp$ and the candidate-frontier rows of $\MetaCICNormalizationFrontierUp$. No consumer may replace this route by a detached recursor output, an unchecked substitution row, a blanket normalization theorem, an ambient termination principle, or a hidden generator channel.
+\end{theorem}
+\begin{proof}
+First build the authorized generator side. Use \autoref{thm:authorized-generator-recursor-root-normalization-boundary} to place every normalization or closed-substitution consumer after accepted signature, branch coverage, structural descent, audit provenance, and ground-compiler handoff rows.
+
+Next use local consumer readiness. \autoref{thm:authorized-generator-recursor-root-namecert-consumer-readiness} packages the rows of the accepted recursor packet as a downstream-ready NameCert surface, and \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} blocks public routes outside the displayed carrier.
+
+It remains to name the two downstream boundaries. $\ClosedTermSubstitutionBoundaryUp$ supplies the finite closed-term shift and substitution route, and $\MetaCICNormalizationFrontierUp$ supplies the candidate-mediated normalization frontier. Combining these sibling surfaces with the authorized generator route yields the displayed consumer-facing NameCert totality statement and leaves no coordinate for the excluded replacements.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
