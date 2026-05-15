@@ -65,12 +65,28 @@ The exactness or refusal row $E$ controls equality-facing claims. If $E$ contain
 Finally route the read through $H,C,P,N$. Componentwise transport, continuation replay, package provenance, and local naming preserve the same packet and do not add a preimage oracle, quotient representative, host hash semantics, global digest universe, or object-level $\mathsf{T}$ coordinate. Therefore no source content is consumed unless the displayed fiber and GAP ledger rows have already been opened.
 \end{proof}
 
+\begin{theorem}[DigestProvenancePacket source-fiber ledger order]
+\label{thm:digest-provenance-packet-source-fiber-ledger-order}
+For every accepted $\DigestProvenancePacketUp$ carrier
+$$
+D=(V,S,F,G,E,H,C,P,N),
+$$
+each source-sensitive read must expose the source row $S$, then the fiber-membership row $F$, then the $\mathsf{GAP}$ ledger row $G$, before the exactness or refusal row $E$ may authorize or refuse an equality-facing source claim. A read that has not passed through $S,F,G$ has no packet-local authority to assert source equality, digest-as-source equality, quotient source equality, hidden preimage recovery, or host hash-function semantics.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The rows of \autoref{def:digest-provenance-packet-carrier} place the visible digest token $V$ beside a source row $S$, then a fiber-membership row $F$, then the $\mathsf{GAP}$ ledger $G$, with $E$ recording only the exactness or refusal status that follows those displayed rows.
+
+Now use no hidden source consumption. \autoref{thm:digest-provenance-packet-no-hidden-source-consumption} forces every source-content read through $S,F,G,E,H,C,P,N$ before any source equality claim, while a token-only read exposes $V$ and no source content.
+
+It remains to identify the order relevant to equality-facing claims. The carrier gives no coordinate that can replace $S$ by a hidden source, no coordinate that can replace $F$ by a host preimage oracle, and no coordinate that can replace $G$ by silent far-end supply. Therefore $E$ can authorize or refuse only after the source, fiber, and ledger rows have been opened in that order.
+\end{proof}
+
 \closureat{DigestProvenancePacketUp}{seedStr}
 
 \begin{closurestatus}{\DigestProvenancePacketUp}
   \constructivestory{A $\DigestProvenancePacketUp$ packet is generated from a visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, componentwise transports, displayed replay routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:digest-provenance-packet-carrier}, \autoref{thm:digest-provenance-packet-namecert-obligations}, and \autoref{thm:digest-provenance-packet-no-hidden-source-consumption} bind the digest-provenance carrier, visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:digest-provenance-packet-carrier}, \autoref{thm:digest-provenance-packet-namecert-obligations}, \autoref{thm:digest-provenance-packet-no-hidden-source-consumption}, and \autoref{thm:digest-provenance-packet-source-fiber-ledger-order} bind the digest-provenance carrier, visible digest token, source row, fiber-membership row, GAP ledger, exactness or refusal row, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, global digest semantics, source equality, hidden preimage recovery, quotient source equality, or object-level truth for $\DigestProvenancePacketUp$.}
