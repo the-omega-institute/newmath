@@ -155,4 +155,31 @@ theorem TranscendentalSupplyTaxonomyCarrier_namecert_obligations [AskSetup] [Pac
     ⟨cert, socketKindUnary, requestedSupplyUnary, gapUnary, auditGateUnary,
       auditReadUnary, socketRequestedGap, gapAuditRead, auditPkg⟩
 
+theorem TranscendentalSupplyTaxonomySocketKindTotality [AskSetup] [PackageSetup]
+    {socketKind requestedSupply gap auditGate site transport route provenance nameRow auditRead
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendentalSupplyTaxonomyCarrier socketKind requestedSupply gap auditGate site transport
+        route provenance nameRow bundle pkg →
+      Cont gap auditGate auditRead →
+        Cont auditRead site boundary →
+          PkgSig bundle auditRead pkg →
+            UnaryHistory socketKind ∧ UnaryHistory requestedSupply ∧ UnaryHistory gap ∧
+              UnaryHistory auditGate ∧ UnaryHistory auditRead ∧ UnaryHistory boundary ∧
+                Cont socketKind requestedSupply gap ∧ Cont gap auditGate auditRead ∧
+                  Cont auditRead site boundary ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg UnaryHistory Cont
+  intro carrier gapAuditRead auditReadSiteBoundary auditReadPkg
+  obtain ⟨socketKindUnary, requestedSupplyUnary, gapUnary, auditGateUnary, siteUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameRowUnary, socketRequestedGap,
+    _gapAuditSite, _siteTransportRoute, _routeProvenanceName, _siteSameGapAudit,
+    _provenancePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed gapUnary auditGateUnary gapAuditRead
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed auditReadUnary siteUnary auditReadSiteBoundary
+  exact
+    ⟨socketKindUnary, requestedSupplyUnary, gapUnary, auditGateUnary, auditReadUnary,
+      boundaryUnary, socketRequestedGap, gapAuditRead, auditReadSiteBoundary, auditReadPkg⟩
+
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp
