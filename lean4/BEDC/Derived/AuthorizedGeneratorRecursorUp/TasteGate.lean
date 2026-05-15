@@ -267,6 +267,27 @@ private theorem authorizedGeneratorRecursorToEventFlow_injective {x y : Authoriz
     (Eq.trans (authorizedGeneratorRecursor_round_trip x).symm
       (Eq.trans hread (authorizedGeneratorRecursor_round_trip y)))
 
+def authorizedGeneratorRecursorFields : AuthorizedGeneratorRecursorUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | AuthorizedGeneratorRecursorUp.mk signature eliminator motive branches descent output audit
+      transport routes provenance gap name =>
+      [signature, eliminator, motive, branches, descent, output, audit, transport, routes,
+        provenance, gap, name]
+
+private theorem authorizedGeneratorRecursor_field_faithful :
+    ∀ x y : AuthorizedGeneratorRecursorUp,
+      authorizedGeneratorRecursorFields x = authorizedGeneratorRecursorFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk signature eliminator motive branches descent output audit transport routes provenance gap
+      name =>
+      cases y with
+      | mk signature' eliminator' motive' branches' descent' output' audit' transport' routes'
+          provenance' gap' name' =>
+          cases hfields
+          rfl
+
 instance authorizedGeneratorRecursorBHistCarrier : BHistCarrier AuthorizedGeneratorRecursorUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := authorizedGeneratorRecursorToEventFlow
@@ -284,6 +305,11 @@ instance authorizedGeneratorRecursorChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (authorizedGeneratorRecursorToEventFlow_injective heq)
+
+instance authorizedGeneratorRecursorFieldFaithful : FieldFaithful AuthorizedGeneratorRecursorUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := authorizedGeneratorRecursorFields
+  field_faithful := authorizedGeneratorRecursor_field_faithful
 
 def taste_gate : ChapterTasteGate AuthorizedGeneratorRecursorUp :=
   -- BEDC touchpoint anchor: BHist BMark
