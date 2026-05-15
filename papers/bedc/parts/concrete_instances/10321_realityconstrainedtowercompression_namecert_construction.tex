@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RealityConstrainedTowerCompressionUp$}
+\label{ch:concrete-instances-reality-constrained-tower-compression-namecert}
+\origin{ai}
+
+The $\RealityConstrainedTowerCompressionUp$ packet realizes the ledgered tower-compression discipline of \autoref{sec:approximation-towers-ledgered-compression} as a finite BEDC NameCert carrier. It sits beside the indexed approximation carrier of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the observer-facing tower carrier of \autoref{ch:concrete-instances-observer-approximation-tower-namecert}, the signature-fit carrier of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, and the model-audit carrier of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}. The physical-fit tower of \autoref{ch:concrete-instances-physical-fit-tower-namecert} supplies the source-facing descent route; this chapter packages the composite ledger that prevents endpoint/source collapse across the tower.
+
+\begin{definition}[Reality-constrained tower-compression carrier]
+\label{def:reality-constrained-tower-compression-carrier}
+A $\RealityConstrainedTowerCompressionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,O,F,A,M,C,L,E,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row, naming the reality-facing system, trace family, or observation process at the base of the tower;
+\item $T$ is the indexed tower row, recording the finite approximation levels and their compression arrows;
+\item $O$ is the observer tower row, recording the admissible observer-side readback and budgeted observation windows;
+\item $F$ is the physical-fit tower row, exposing the source-facing signature and descent discipline;
+\item $A$ is the reality-constrained approximation row, naming the tower carrier whose mathematical endpoint is being compressed;
+\item $M$ is the model-audit row, recording which model-facing fit claims are audited against the tower;
+\item $C$ is the classifier row comparing endpoint packages only through the declared physical signatures and observer budgets;
+\item $L$ is the composite-ledger row, recording the hidden residue of every compression arrow after transport to the endpoint;
+\item $E$ is the endpoint row, naming the visible terminal package without identifying it with $S$;
+\item $R$ is the replay row, recording the displayed $\Cont$ route through $S,T,O,F,A,M,C,L,E$;
+\item $P$ is the $\Pkg$ provenance over the sibling carriers, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RealityConstrainedTowerCompressionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for source/endpoint identity, unledgered quotient collapse, hidden physical truth, or endpoint-only model validation.
+\end{definition}
+
+\begin{theorem}[Reality-constrained tower-compression NameCert obligations]
+\label{thm:reality-constrained-tower-compression-namecert-obligations}
+For the carrier of \autoref{def:reality-constrained-tower-compression-carrier}, the local $\NameCert_{\RealityConstrainedTowerCompressionUp}$ surface consists exactly of seven obligation rows:
+\begin{enumerate}
+\item carrier admission for $K=(S,T,O,F,A,M,C,L,E,R,P,N)$;
+\item source and tower exposure through $S$ and $T$;
+\item observer and physical-fit exactness through $O$ and $F$;
+\item approximation and audit compatibility through $A$ and $M$;
+\item classifier accountability through $C$;
+\item composite-ledger and endpoint exposure through $L$ and $E$;
+\item replay, provenance, and local naming closure through $R,P,N$.
+\end{enumerate}
+Every accepted read of the compressed endpoint must display these rows before a consumer may treat the endpoint as a reality-facing modelling claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reality-constrained-tower-compression-carrier}. The admitted object is the twelve-row packet $K=(S,T,O,F,A,M,C,L,E,R,P,N)$, so the source, tower, observer, physical-fit, approximation, audit, classifier, ledger, endpoint, replay, provenance, and local-name coordinates are all visible.
+
+The source and tower rows bind the compression chain to $S$ and $T$. The observer and physical-fit rows then restrict which signatures can be read from that chain, and the approximation and audit rows specify which endpoint packages may be compared.
+
+Classifier accountability belongs to $C$ alone. It compares endpoint packages only through the displayed observer and physical-fit rows, so it cannot convert mathematical endpoint equality into source identity.
+
+Finally the ledger and endpoint rows expose the terminal package together with the transported hidden residue of every compression arrow. Replay, provenance, and local naming close the same packet, giving exactly the seven displayed obligation rows.
+\end{proof}
+
+\begin{theorem}[Reality-constrained tower-compression ledger non-escape]
+\label{thm:reality-constrained-tower-compression-ledger-nonescape}
+Let
+$$
+K=(S,T,O,F,A,M,C,L,E,R,P,N)
+$$
+be an accepted $\RealityConstrainedTowerCompressionUp$ packet. Any consumer that exports an endpoint claim from $E$ must read it through the composite ledger $L$, the classifier $C$, and the source-facing rows $S,T,O,F,A,M$. A route that omits $L$ or treats $E$ as source identity is not a $\RealityConstrainedTowerCompressionUp$ export.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:reality-constrained-tower-compression-namecert-obligations}. They require every accepted read to expose the source, tower, observer, physical-fit, approximation, audit, classifier, composite-ledger, endpoint, replay, provenance, and naming rows.
+
+The composite ledger row $L$ records the hidden residue of each compression arrow after transport to the endpoint. A consumer route that omits $L$ therefore lacks the row that distinguishes terminal visibility from the source material hidden along the tower.
+
+The endpoint row $E$ names only the visible terminal package. Since the carrier has no source/endpoint identity coordinate, any route that treats $E$ as $S$ bypasses the displayed classifier and ledger and is rejected by the local NameCert boundary.
+\end{proof}
+
+The Lean development in \texttt{lean4/BEDC/Derived/RealityConstrainedTowerCompressionUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \RealityConstrainedTowerCompressionUp$ and $\mathsf{FieldFaithful}\ \RealityConstrainedTowerCompressionUp$ instances preserving $S,T,O,F,A,M,C,L,E,R,P,N$.
+
+\falsifiablePrediction{An accepted RealityConstrainedTowerCompressionUp endpoint claim that omits the composite ledger or identifies the endpoint with the source refutes the carrier.}
+
+\independenceWitness{realityconstrainedapproximationtower, observerapproximationtower, realityconstrainedsignaturefit, realityconstrainedmodelaudit, physicalfittower: none is bijective because $\RealityConstrainedTowerCompressionUp$ carries source, indexed tower, observer readback, physical fit, approximation, audit, classifier, composite-ledger, endpoint, replay, provenance, and local NameCert rows in one packet. Each listed sibling supplies a constituent surface, while only this packet binds composite compression ledgers to endpoint/source non-collapse.}
+
+\closureat{RealityConstrainedTowerCompressionUp}{seedStr}
+
+\begin{closurestatus}{\RealityConstrainedTowerCompressionUp}
+  \constructivestory{A $\RealityConstrainedTowerCompressionUp$ packet is generated from source, tower, observer, physical-fit, approximation, audit, classifier, composite-ledger, endpoint, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-tower-compression-carrier}, \autoref{thm:reality-constrained-tower-compression-namecert-obligations}, and \autoref{thm:reality-constrained-tower-compression-ledger-nonescape} bind ledgered tower compression to endpoint/source non-collapse.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert Lean verification, bridge checking, source/endpoint identity, unledgered quotient collapse, hidden physical truth, or endpoint-only model validation.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, classifier accountability, composite-ledger non-escape, TasteGate nontriviality, and field faithfulness for $S,T,O,F,A,M,C,L,E,R,P,N$.}
+\end{closurestatus}

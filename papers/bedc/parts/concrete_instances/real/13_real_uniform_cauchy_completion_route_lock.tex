@@ -1,0 +1,56 @@
+\begin{theorem}[Real uniform Cauchy completion route lock]
+\label{thm:real-uniform-cauchy-completion-route-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet read by a Phase Real and
+Completion consumer. If the consumer uses $U$ to reach a $\RealUp$ seal or a
+completion-facing endpoint, then its route factors through
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+together with the $\StreamNameUp$ window row, the $\DyadicRatCoreUp$
+tolerance ledger, the $\RegSeqRatUp$ regular readback row, and the local
+$\RealUp$ seal rows of \autoref{def:real-l10-dependency-lattice}.
+
+The admitted route exposes only the finite packet rows $I,W,M,Q,T,E,H,C,P,N$
+and the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+used by those sibling rows. It cannot export quotient streams, selected host
+limits, host real equality, countable choice, open-cover compactness, ambient
+completeness, or an additional completion carrier.
+\end{theorem}
+\begin{proof}
+Begin with the UniformCauchyCriterion finite-family seal obligation surface.
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}
+and \autoref{thm:uniform-cauchy-criterion-finite-family-route-lock} display
+the rows $I,W,M,Q,T,E,H,C,P,N$ and force the route from the finite index
+ledger to the Real seal handoff through the single chain
+$I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E$.
+
+Now attach the completion-budget rows. The real completion budget lock
+\autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock} places any
+$\RealCauchyCompletionUp$ read after the same budget package, while the
+completion-functor budget handoff
+\autoref{thm:uniform-cauchy-criterion-completion-functor-budget-handoff}
+keeps functor-facing access inside the finite package and the regular
+shared-tail sibling.
+
+Next identify the Real-side dependency lattice. The L10 dependency lattice
+\autoref{def:real-l10-dependency-lattice}, the source-route non-escape theorem
+\autoref{thm:real-l10-source-route-nonescape}, and the terminal source lock
+\autoref{thm:real-l10-terminal-source-lock} route every Phase Real or
+Completion read through the StreamName, DyadicRatCore, RegSeqRat, and local
+Real seal rows, with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support.
+
+Finally compose the two boundaries with the UniformCauchyCriterion finite
+budget envelope
+\autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope}.
+The UniformCauchyCriterion side supplies the ordered budget chain, and the
+Real L10 side supplies the four sibling rows consumed by RealUp. Since the
+cited non-escape and budget-lock theorems expose no quotient stream, selected
+host limit, host equality, countable-choice row, open-cover compactness,
+ambient completeness, or extra completion carrier, the Real-and-Completion
+consumer has no route to export any of them.
+\end{proof}

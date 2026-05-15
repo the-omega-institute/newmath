@@ -83,8 +83,67 @@ The same classifier also requires preservation of the observed and model-generat
 The failure of classifier transport is an audit separation, not a truth judgment. It says that the two packets do not present the same licensed physical-fit certificate.
 \end{proof}
 
+\begin{theorem}[Reality-constrained model-audit signature exactness]
+\label{thm:reality-constrained-model-audit-signature-exactness}
+Every accepted $\RealityConstrainedModelAuditUp$ audit route for
+$$
+A=(H,\Pi,O,M,C,T,L,F,S)
+$$
+reads exactly the observed row $O$ and the model row $M$ extracted from the same source trace $H$ and observation bundle $\Pi$. No alternative observed signature, model signature, classifier input, approximation witness, ledger entry, failure row, or strength row can be substituted without leaving the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with carrier admission in \autoref{thm:reality-constrained-model-audit-namecert-obligations}. It identifies the accepted object with the nine displayed rows of \autoref{def:reality-constrained-model-audit-carrier}, so the audit route has no coordinate from which a second observed or model-generated signature can be read.
+
+The classifier of \autoref{def:reality-constrained-model-audit-classifier} then binds the signature comparison to the same $H$ and $\Pi$ transports. Since classifier stability preserves the displayed comparison row $C$, any route using different signature inputs fails to be the same accepted classifier route.
+
+Ledger non-escape in \autoref{thm:reality-constrained-model-audit-ledger-nonescape} excludes a hidden replacement through compression, translation, or idealization. The fit-separation theorem shows that a changed comparison row is an audit separation rather than another certificate for the same route.
+\end{proof}
+
+\begin{theorem}[Reality-constrained model-audit failure-surface exhaustion]
+\label{thm:reality-constrained-model-audit-failure-surface-exhaustion}
+For an accepted $\RealityConstrainedModelAuditUp$ fit claim on $A=(H,\Pi,O,M,C,T,L,F,S)$, every defeating observation and every signature mismatch used against the claim is named in the finite failure-surface row $F$. A defeat that requires an observation route or mismatch row absent from $F$ is outside the displayed audit certificate.
+\end{theorem}
+\begin{proof}
+The NameCert obligation surface fixes $F$ as one of the carrier rows and makes non-escape part of the accepted audit. Thus a defeating test used by the certificate must be a projection from $A$, not an extra host-side objection added after acceptance.
+
+Classifier stability requires the failure-surface rows of compared packets to name the same defeating tests. If a mismatch is not present in $F$, the classifier has no component on which to transport it as part of the accepted fit comparison.
+
+Ledger non-escape also blocks hiding the missing defeat inside $L$. The ledger may expose provenance, compression, translation, and idealization rows, but it does not create an unlisted failure coordinate. Hence the finite row $F$ exhausts the defeating observations and signature mismatches licensed by the audit route.
+\end{proof}
+
+\begin{theorem}[Reality-constrained model-audit strength-row transport]
+\label{thm:reality-constrained-model-audit-strength-row-transport}
+Whenever $\mathsf{RealityConstrainedModelAuditClassifier}(A,A')$ holds for
+$$
+A=(H,\Pi,O,M,C,T,L,F,S)
+\quad\hbox{and}\quad
+A'=(H',\Pi',O',M',C',T',L',F',S'),
+$$
+the classifier transports the audit-strength row $S$ to $S'$. Therefore classifier agreement cannot upgrade the evidential grade of a fit claim unless the transported strength row already presents that grade.
+\end{theorem}
+\begin{proof}
+Unpack the classifier definition. Alongside the source, observation, signature, tower, ledger, and failure rows, it includes preservation of the declared strength comparison.
+
+The NameCert obligations and ledger non-escape prevent the strength grade from being imported through an unrecorded coordinate. The accepted packet has only the displayed row $S$ for audit strength, and any grade used by the fit claim must be read from that row.
+
+Finally apply \autoref{thm:reality-constrained-model-audit-fit-separation}. If strength is not preserved, the packets are separated as physical audit certificates even when their source and observation rows agree. Thus transported classifier agreement carries $S$; it does not manufacture a stronger evidential grade.
+\end{proof}
+
 The later Lean file \texttt{lean4/BEDC/Derived/RealityConstrainedModelAuditUp/TasteGate.lean} must provide \texttt{Nontrivial RealityConstrainedModelAuditUp} with two distinct audit packets and \texttt{FieldFaithful RealityConstrainedModelAuditUp} by \texttt{.mk} projections from $H,\Pi,O,M,C,T,L,F,S$ and injection on the displayed field surface.
 
 \falsifiablePrediction{A model-audit packet with an unledgered compression row cannot pass the acceptance gate for any fit claim whose signature depends on the hidden row.}
 
 \independenceWitness{Compare largemodelauditchannel, largemodelcorpussupply, physicalfit, finitewindowenvelope, and streamname: those siblings supply channel, corpus, window, and stream rows, but none carries the ten-field physical audit certificate with failure-surface and strength coordinates, so no bijection preserves the obligation rows.}
+
+\closureat{RealityConstrainedModelAuditUp}{seedStr}
+
+\begin{closurestatus}{\RealityConstrainedModelAuditUp}
+  \constructivestory{A $\RealityConstrainedModelAuditUp$ packet is generated from a finite source-trace history, observation bundle, observed signature, model-generated signature, classifier comparison, approximation tower, audit ledger, failure surface, and audit-strength row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-model-audit-carrier}, \autoref{def:reality-constrained-model-audit-classifier}, \autoref{thm:reality-constrained-model-audit-namecert-obligations}, \autoref{thm:reality-constrained-model-audit-ledger-nonescape}, \autoref{thm:reality-constrained-model-audit-fit-separation}, \autoref{thm:reality-constrained-model-audit-signature-exactness}, \autoref{thm:reality-constrained-model-audit-failure-surface-exhaustion}, and \autoref{thm:reality-constrained-model-audit-strength-row-transport} bind the finite carrier, classifier, NameCert obligations, ledger non-escape, fit separation, and exact audit rows for signatures, failures, and strength.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove host-level model truth, unbounded physical validation, continuous experimental adequacy, hidden-source recovery, Lean verification, axiom-clean audit, or bridge checking for $\RealityConstrainedModelAuditUp$.}
+  \upgradepath{Obligation closure requires Lean carrier encoding plus TasteGate nontriviality and field faithfulness for the displayed rows $H,\Pi,O,M,C,T,L,F,S$.}
+\end{closurestatus}
