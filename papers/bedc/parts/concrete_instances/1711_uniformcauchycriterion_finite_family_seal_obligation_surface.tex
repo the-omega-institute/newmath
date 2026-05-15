@@ -461,3 +461,25 @@ For the reverse direction, a StreamName or Real classifier read reaches the same
 
 Finally use shared seal-route determinacy together with the nonescape ledger. Determinacy rules out a second public seal handoff once $I,W,M,Q,T,E,H,C,P,N$ are preserved, and the ledger excludes selected limits, quotient streams, host real equality, ambient completeness, detached tail oracles, and second stream families. Hence the three classifiers correspond bidirectionally as projections of the displayed route.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion terminal quotient-refusal boundary]
+\label{thm:uniform-cauchy-criterion-terminal-quotient-refusal-boundary}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any terminal consumer preserving the finite index ledger $I$, shared window $W$, threshold schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, seal handoff $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$ remains confined to the route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+when it reads one of the $\RegSeqRatUp$ tail classifier, the $\StreamNameUp$ finite-window classifier, or the $\RealUp$ finite-window seal classifier. If the consumer asks instead for quotient-stream equality, selected limits, host real equality, ambient completeness, a detached tail oracle, or a second $\StreamNameUp$ family, that request is not a coordinate of $U$ and must factor through \autoref{ch:concrete-instances-quotientstreamrefusal-namecert} by \autoref{thm:quotient-stream-refusal-nonescape-route} and \autoref{thm:quotient-stream-refusal-offroute-nonescape}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-cauchy-criterion-terminal-regseq-real-classifier-correspondence}. It identifies the $\RegSeqRatUp$ tail classifier, $\StreamNameUp$ finite-window classifier, and $\RealUp$ finite-window seal classifier as mutually determining projections of the same ordered route from $I$ through $E$.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-terminal-seal-classifier-route}. Once the terminal consumer preserves $I,W,M,Q,T,E,H,C,P,N$, the classifier route has no second public seal handoff and no independent completion coordinate.
+
+The refusal boundary inside $\UniformCauchyCriterionUp$ is supplied by \autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} and \autoref{thm:uniform-cauchy-criterion-finite-family-route-lock}. These theorems keep the accepted packet on the finite-family route and exclude selected limits, quotient streams, host real equality, detached tail oracles, ambient completeness, and second stream families from the packet surface.
+
+It remains to route a quotient-facing request. Since none of those requests is a coordinate of $U$, the consumer must leave the $\UniformCauchyCriterionUp$ packet and enter the $\QuotientStreamRefusalUp$ surface of \autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. There \autoref{thm:quotient-stream-refusal-nonescape-route} sends the Real-completion request to the displayed finite route or the refusal ledger, and \autoref{thm:quotient-stream-refusal-offroute-nonescape} records that off-route quotient-style requests export no completion coordinate.
+\end{proof}
