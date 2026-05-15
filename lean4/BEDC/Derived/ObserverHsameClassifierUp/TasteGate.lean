@@ -312,4 +312,14 @@ theorem ObserverHsameClassifierTasteGate_single_carrier_alignment :
       ⟨observerHsameClassifierNontrivial⟩,
       observerHsameClassifierDecode_encode_bhist, rfl⟩
 
+theorem ObserverHsameClassifier_decision_row_concrete_boundary
+    {leftHistory rightHistory licensed transport ledger route provenance name : BHist} :
+    ObserverHsameClassifierUp.mk leftHistory rightHistory licensed transport ledger BHist.Empty
+        route provenance name ≠
+      ObserverHsameClassifierUp.mk leftHistory rightHistory licensed transport ledger
+        (BHist.e0 BHist.Empty) route provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.ObserverHsameClassifierUp
