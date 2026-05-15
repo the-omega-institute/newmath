@@ -162,6 +162,26 @@ For $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ consumers, apply \au
 For $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, and $\RealUp$ consumers, apply \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The shared seal route reaches $A$ only through $T$, and the packet exports no further equality, selector, or completeness data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail fiber Real-completion route coverage]
+\label{thm:regular-cauchy-tail-fiber-real-completion-route-coverage}
+For an accepted $\RegularCauchyTailFiberUp$ carrier
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N),
+$$
+every current Real-and-Completion consumer route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, or $\RealUp$ factors through the paired-window route
+$$
+R_0,R_1,W_0,W_1,D_0,D_1 \longmapsto T \longmapsto A
+$$
+before any Real seal is read, together with the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. The route-coverage surface exports no quotient stream, host real equality, selected limit, countable-choice selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the window projection of \autoref{thm:regular-cauchy-tail-fiber-window-projection}. It makes the two regular-rational rows, two stream windows, and two dyadic ledgers the only source route available before a seal-facing row can be reached.
+
+Next apply shared seal factorization and seal-consumer exhaustion from \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} and \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion}. These place the shared fiber row $T$ before the seal row $A$ for each listed Real-and-Completion consumer.
+
+Finally use classifier exactness and source-swap stability from \autoref{thm:regular-cauchy-tail-fiber-classifier-exactness} and \autoref{thm:regular-cauchy-tail-fiber-source-swap-stability}. The classifier can only replay the displayed paired-window, fiber, seal, transport, continuation, provenance, and local naming rows, so no quotient stream, host equality, selector, choice row, or completeness theorem is exported.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail fiber classifier exactness]
 \label{thm:regular-cauchy-tail-fiber-classifier-exactness}
 For accepted $\RegularCauchyTailFiberUp$ carriers
@@ -350,6 +370,7 @@ F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N)
 $$
 exposes exactly the two $\RegSeqRatUp$ source rows $R_0,R_1$, the two $\StreamNameUp$ windows $W_0,W_1$, the two $\DyadicRatCoreUp$ tail-radius ledgers $D_0,D_1$, the shared fiber row $T$, the $\RealTailAgreementSealUp$ and $\RealUp$ seal row $A$, and the structural rows $H,C,P,N$. No other source, window, dyadic ledger, fiber, seal, transport, continuation, package, or local NameCert row is available to a consumer of the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberPacket\_source\_seal\_ledger\_totality}
 \begin{proof}
 Project the carrier of \autoref{def:regular-cauchy-tail-fiber-carrier}. Its displayed coordinates list the two regular-rational source rows, the two stream windows, the two dyadic tail-radius ledgers, the shared fiber row, the seal row, and the four structural rows.
 
@@ -411,6 +432,7 @@ Apply shared seal factorization from \autoref{thm:regular-cauchy-tail-fiber-shar
 
 Finally combine completion handoff scope with non-escape from \autoref{thm:regular-cauchy-tail-fiber-completion-handoff-scope} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. These results rule out detached seal paths, quotient-stream equality, host equality, selected limits, and ambient completeness coordinates; hence no external coordinate can separate the two displayed seal routes.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberPacket\_shared\_window\_seal\_determinacy}
 
 \begin{theorem}[Regular Cauchy tail fiber source non-escape]
 \label{thm:regular-cauchy-tail-fiber-source-nonescape}
@@ -434,6 +456,7 @@ Finally apply shared-window seal determinacy from \autoref{thm:regular-cauchy-ta
 \label{thm:regular-cauchy-tail-fiber-meet-route}
 Every accepted shared-window tail-fiber read of a $\RegularCauchyTailFiberUp$ packet factors through the displayed $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ classifier rows, the $\DyadicRatCoreUp$ tolerance rows, and the $\CauchyLimitSealUp$ completion handoff before it may be consumed as a completion-facing fiber. The route exports no detached tail, detached finite window, second fiber, quotient stream witness, host-real equality, selected limit, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberPacket\_meet\_route}
 \begin{proof}
 Project the accepted carrier rows
 $$
