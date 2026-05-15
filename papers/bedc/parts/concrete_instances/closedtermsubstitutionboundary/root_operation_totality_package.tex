@@ -1,0 +1,47 @@
+\begin{definition}[Closed-term substitution boundary root operation surface]
+\label{def:closed-term-substitution-boundary-root-operation-surface}
+The root operation surface of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is the finite displayed row list
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Here $T$ is the source term row, $V$ is the substituting closed value row, $d$ is the inspected depth row, $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ are the displayed closedness witnesses, $Q$ is the closed shift boundary row, $R$ is the substitute-closed boundary row, $L$ is the ledger row, $A$ is the audit row, $H$ is the componentwise $\hsame$ transport row, $C$ is the displayed $\Cont$ route row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert$ row.
+\end{definition}
+
+\begin{theorem}[Closed-term substitution boundary root operation totality]
+\label{thm:closed-term-substitution-boundary-root-operation-totality}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the closed shift row $Q$ and the substitute-closed row $R$ are both exhausted by the root operation surface of \autoref{def:closed-term-substitution-boundary-root-operation-surface}. Neither operation can be read from a host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or any row outside
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. These two rows expose the source, value, depth, closedness witnesses, operation rows, ledger, audit row, transport, route, provenance, and local naming data as one finite packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. The ledger blocks escape from the displayed packet, while the root audit row makes every audit-visible operation read pass through $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Since the compiler-facing read is admitted only after the same closed-boundary packet is visible, both $Q$ and $R$ are total over the displayed root operation surface and nowhere else.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root audit compiler coherence]
+\label{thm:closed-term-substitution-boundary-root-audit-compiler-coherence}
+The audit route of \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and the compiler-facing route of \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape} cite the same closed-boundary packet. Their common cited object is the surface of \autoref{def:closed-term-substitution-boundary-root-operation-surface}, not two separate substitution semantics and not a host-level compiler correctness witness.
+\end{theorem}
+\begin{proof}
+Start with the root audit route. By \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, every audit-visible consumer is already routed through the displayed closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows.
+
+Now read the compiler route through \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. That theorem permits a citation of $\ClosedTermSubstitutionCompilerUp$ only after the same closed shift and substitute-closed boundary rows have been exposed by the boundary packet.
+
+The two routes therefore meet at the packet of \autoref{def:closed-term-substitution-boundary-root-operation-surface}. The audit side and compiler side share one closed-boundary citation, so no second host substitution semantics, hidden evaluator, or ambient compiler theorem is present.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root compiler route exhaustion]
+\label{thm:closed-term-substitution-boundary-root-compiler-route-exhaustion}
+Every downstream compiler read that cites \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} factors through the root operation surface of \autoref{def:closed-term-substitution-boundary-root-operation-surface} before the compiler-facing citation is available. The factorization exports exactly the accepted $\ClosedTermSubstitutionBoundaryUp$ packet rows and no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or additional operation coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:closed-term-substitution-boundary-root-operation-totality}. It exhausts closed shift and closed substitution over the single displayed packet, so a compiler consumer cannot obtain either operation from a separate host surface.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-root-audit-compiler-coherence}. The audit route and compiler-facing route cite the same closed-boundary packet, which keeps the operation rows tied to $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. The downstream read may mention the sibling compiler chapter only after the packet has exposed the closed-boundary rows, so the compiler route is exhausted by the packet before the compiler citation is formed.
+\end{proof}

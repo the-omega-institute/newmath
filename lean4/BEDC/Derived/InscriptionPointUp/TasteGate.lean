@@ -210,6 +210,26 @@ instance inscriptionPointChapterTasteGate : ChapterTasteGate InscriptionPointUp 
     intro x y hxy heq
     exact hxy (inscriptionPointToEventFlow_injective heq)
 
+instance inscriptionPointFieldFaithful : FieldFaithful InscriptionPointUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | InscriptionPointUp.mk history gap supply handoff event ledger transport routes
+        provenance nameCert =>
+        [history, gap, supply, handoff, event, ledger, transport, routes, provenance,
+          nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk history1 gap1 supply1 handoff1 event1 ledger1 transport1 routes1 provenance1
+        nameCert1 =>
+        cases y with
+        | mk history2 gap2 supply2 handoff2 event2 ledger2 transport2 routes2 provenance2
+            nameCert2 =>
+            simp only [] at h
+            cases h
+            rfl
+
 def taste_gate : ChapterTasteGate InscriptionPointUp :=
   inscriptionPointChapterTasteGate
 
