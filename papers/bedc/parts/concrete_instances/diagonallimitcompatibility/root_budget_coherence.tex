@@ -76,6 +76,7 @@ consumer non-escape,
 Together they leave no selector-budget coordinate outside
 $R,T,S,D,W,Q,L,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_selector\_budget\_exhaustion}
 
 \begin{theorem}[Diagonal-limit compatibility Real seal readback lock]
 \label{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}
@@ -239,6 +240,56 @@ finite route, with no host real equality, quotient stream, selected limit,
 choice data, ambient completeness, or second budget source.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility budget coherence terminal lock]
+\label{thm:diagonal-limit-compatibility-budget-coherence-terminal-lock}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet
+$K=(R,T,S,D,W,Q,L,H,C,P,N)$, every $\RealUp$ or $\CompletionUp$ consumer that
+reads the root-budget handoff passes through the single ordered route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The terminal route is the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet. It admits no host real equality,
+quotient stream, selected limit, choice datum, ambient completeness input,
+alternate dyadic ledger, alternate $\StreamNameUp$ window, or second budget
+source.
+\end{theorem}
+\begin{proof}
+Begin with root-budget coherence,
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It places
+the budget read on the same $D,W,Q,L,H,C,P,N$ rows carried by the accepted
+packet.
+
+Next use selector-budget exhaustion,
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}.
+The selector contribution consumes $R,T,S,D,W,Q,L$ on the same packet surface,
+so no alternate dyadic ledger or alternate $\StreamNameUp$ window can sit
+between the root budget and the public selector read.
+
+Apply the Real-seal readback lock,
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. It
+forces every $\RealUp$ or $\CompletionUp$ readback to reach $L$ only through
+the already fixed selector, window, dyadic, and regular readback rows.
+
+The finite-window handoff boundary
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary} and
+the root-budget public boundary
+\autoref{thm:diagonal-limit-compatibility-root-budget-public-boundary} package
+these rows as one public consumer route. The handoff totality theorem,
+\autoref{thm:diagonal-limit-compatibility-root-budget-handoff-totality},
+then exhausts the route for every root-budget handoff.
+
+All cited route coordinates are therefore identical:
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Since the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet has already
+consumed the budget, selector, window, readback, and seal rows, no host real
+equality, quotient stream, selected limit, choice datum, ambient completeness,
+alternate dyadic ledger, alternate $\StreamNameUp$ window, or second budget
+source remains available to a $\RealUp$ or $\CompletionUp$ consumer.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root budget consumer chain]
 \label{thm:diagonal-limit-compatibility-root-budget-consumer-chain}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
@@ -311,6 +362,7 @@ agreement-seal rows. The composed route exports no quotient stream, host real
 equality, selected limit, choice datum, side-channel completion carrier, or
 ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_root\_tailmeet\_refinement\_seal\_route}
 \begin{proof}
 Begin with the local diagonal packet. Apply
 \autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}. It

@@ -341,6 +341,185 @@ Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after a
 """
 
 
+HEAL_CI_PROMPT = """You are healing a failed CI run on the BEDC `codex-auto-dev` branch.
+
+A GitHub Actions workflow run has failed. The failure log tail (last ~8 KB of
+the failing step) is:
+
+```
+__LOG__
+```
+
+- **Workflow**: __WORKFLOW__
+- **Run ID**: __RUN_ID__
+- **Failing job/step (best guess)**: __JOB__
+
+## Your task
+
+1. Read the log tail above and identify the SINGLE most-load-bearing error.
+   Common patterns:
+   - **pdflatex `Undefined control sequence \\X`** — a macro is referenced but
+     not defined. Add a preamble stub in `papers/bedc/preamble.tex` (e.g.
+     `\\providecommand{\\X}{...}`) or, if the macro is dead code, remove the
+     reference. Do NOT invent a macro that pretends to be the real thing —
+     stub it as `\\providecommand{\\X}{\\textbf{??}}` so the PDF still flags
+     "??" visibly.
+   - **pdflatex `Missing $`** / **`Extra }`** — find the offending line in
+     the just-changed `.tex` and fix the math env (use `$$...$$` with
+     `\\begin{aligned}` block per the math-env rule in CLAUDE.md).
+   - **lake build `unknown identifier`** / `type mismatch` — find the
+     theorem and either fix the proof, or if the upstream `def`/`theorem`
+     was renamed, update callers. Do NOT introduce `sorry` or `axiom`.
+   - **`bedc_ci.py audit` `unresolved Lean marker`** — paper has
+     `\\leanchecked{X}` for which `X` doesn't exist in `lean4/BEDC/`. Either
+     add the missing Lean theorem OR change the paper marker to
+     `\\leanstmt{X}` if only the statement form is intended.
+   - **`bedc_ci.py axiom-purity --strict` `propext` / `Classical.choice`** —
+     see the propext recipe under HEAL_PROPEXT_PROMPT; concretise the
+     typeclass projection.
+   - **conservativity-audit failure** — an `\\origin{ai}` chapter leaks into
+     baseline import. Move the import behind the meta-logic conservativity
+     fence or relabel the chapter.
+   - **`drift audit` `STALE MARKER`** — same as unresolved Lean marker.
+
+2. Make the minimal fix. Do NOT bundle unrelated cleanups, do NOT add new
+   theorems, do NOT mass-rewrite proofs.
+
+3. Verify the fix locally before committing:
+   - For Lean-side: `cd lean4 && lake build` exits 0; `python3
+     tools/check-axioms.py` exits 0.
+   - For paper-side: `cd papers/bedc && make check` exits 0 (single-pass
+     pdflatex catches macro / math-env errors without the full ~75s build).
+   - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
+
+4. Commit with subject `auto-heal-ci: fix <one-line failure>` and a 1-line
+   body identifying the failing workflow + run ID.
+
+Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop
+after the failing gate passes locally.
+"""
+
+
+CI_HEAL_CACHE = Path("/tmp/auto_heal_ci_seen.json")
+
+
+def _ci_seen() -> set[int]:
+    try:
+        return set(json.loads(CI_HEAL_CACHE.read_text()))
+    except Exception:
+        return set()
+
+
+def _mark_ci_seen(run_id: int) -> None:
+    seen = _ci_seen()
+    seen.add(run_id)
+    if len(seen) > 200:
+        seen = set(sorted(seen)[-200:])
+    try:
+        CI_HEAL_CACHE.write_text(json.dumps(sorted(seen)))
+    except Exception:
+        pass
+
+
+def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
+    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH.
+
+    Returns a list of {run_id, workflow, name, created_at} dicts ordered
+    newest-first. Empty if `gh` CLI is unavailable, no runs in the window
+    failed, or any query error occurred (auto_heal stays passive).
+    """
+    if not shutil.which("gh"):
+        return []
+    try:
+        r = run([
+            "gh", "run", "list",
+            "--branch", BASE_BRANCH,
+            "--limit", "20",
+            "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
+        ], check=False, capture=True, timeout=60)
+    except Exception:
+        return []
+    if r.returncode != 0:
+        return []
+    try:
+        rows = json.loads(r.stdout or "[]")
+    except Exception:
+        return []
+    cutoff = time.time() - window_minutes * 60
+    failures: list[dict] = []
+    for row in rows:
+        if row.get("status") != "completed":
+            continue
+        if row.get("conclusion") != "failure":
+            continue
+        ts = row.get("createdAt", "")
+        try:
+            t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+        except Exception:
+            t = time.time()
+        if t < cutoff:
+            continue
+        failures.append({
+            "run_id": int(row.get("databaseId", 0)),
+            "workflow": row.get("workflowName", "?"),
+            "name": row.get("name", "?"),
+            "created_at": ts,
+        })
+    return failures
+
+
+def heal_ci_failure(failure: dict) -> bool:
+    """Fetch the failing log tail and invoke codex with HEAL_CI_PROMPT."""
+    run_id = failure["run_id"]
+    if not shutil.which("gh"):
+        return False
+    try:
+        r = run([
+            "gh", "run", "view", str(run_id),
+            "--log-failed",
+        ], check=False, capture=True, timeout=120)
+    except Exception as e:
+        print(f"[heal] gh run view {run_id} failed: {e}", file=sys.stderr)
+        _mark_ci_seen(run_id)
+        return False
+    log_tail = (r.stdout or "")[-8192:]
+    if not log_tail.strip():
+        # No failing-step log — try the full run view as fallback.
+        try:
+            r2 = run([
+                "gh", "run", "view", str(run_id), "--log",
+            ], check=False, capture=True, timeout=120)
+            log_tail = (r2.stdout or "")[-8192:]
+        except Exception:
+            pass
+    if not log_tail.strip():
+        print(f"[heal] CI run {run_id} produced empty log; marking seen",
+              file=sys.stderr)
+        _mark_ci_seen(run_id)
+        return False
+    # Best-effort job guess: first line matching `<job>\t<step>\t...`.
+    job_guess = "?"
+    for line in log_tail.splitlines()[:5]:
+        parts = line.split("\t")
+        if len(parts) >= 2:
+            job_guess = f"{parts[0]} / {parts[1]}"
+            break
+    prompt = (HEAL_CI_PROMPT
+              .replace("__LOG__", log_tail)
+              .replace("__WORKFLOW__", failure.get("workflow", "?"))
+              .replace("__RUN_ID__", str(run_id))
+              .replace("__JOB__", job_guess))
+    _mark_ci_seen(run_id)  # prevent ping-pong even if codex fails
+    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    rc = call_codex(prompt, timeout=1800)
+    head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    if head_before == head_after:
+        print(f"[heal] codex did not commit on CI run {run_id} (rc={rc})",
+              file=sys.stderr)
+        return False
+    return True
+
+
 def detect_propext_violations_from_log() -> list[str]:
     """Parse the orchestrator log tail for `<theorem> -> propext` lines.
 
@@ -646,6 +825,31 @@ def cycle() -> None:
             return  # one heal per cycle is enough
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
+
+    # Detect CI failures on origin/BASE_BRANCH within last 60min.
+    ci_failures = detect_ci_failures(window_minutes=60)
+    if ci_failures:
+        attempted = False
+        for failure in ci_failures:
+            if failure["run_id"] in _ci_seen():
+                continue
+            attempted = True
+            print(f"[heal] CI failure detected (run={failure['run_id']} "
+                  f"workflow={failure.get('workflow','?')}); invoking codex",
+                  flush=True)
+            if heal_ci_failure(failure):
+                if push_to_origin():
+                    print("[heal] codex committed + pushed (CI fix)", flush=True)
+                else:
+                    print("[heal] codex committed but push failed (retry next tick)",
+                          flush=True)
+                return  # one heal per cycle is enough
+            break
+        if not attempted:
+            print(f"[heal] all {len(ci_failures)} CI failure(s) already attempted; "
+                  f"skipping (operator triage needed)", flush=True)
+    else:
+        print("[heal] CI clean (no failures in last 60min)", flush=True)
 
     # Detect propext-axiom violations from log tail. Runs independently
     # of the gate-storm threshold (5/30min) because propext violations

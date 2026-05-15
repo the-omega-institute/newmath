@@ -1,0 +1,120 @@
+\chapter{A Concrete Naming Certificate for $\LayeredRelationCertUp$}
+\label{ch:concrete-instances-layeredrelationcert-namecert}
+\origin{ai}
+
+The $\LayeredRelationCertUp$ packet realizes the relation-before-identity discipline of \autoref{ch:visions-layered-relation-certificate} as a finite NameCert surface. It sits beside the classifier-transport row of \autoref{ch:concrete-instances-classifiermorphism-namecert}, the two-history invariant row of \autoref{ch:concrete-instances-interhistinvariant-namecert}, the generated-recognizer flow of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, the finite reflection tuple of \autoref{ch:concrete-instances-finitereflectiontuple-namecert}, and the audit-gate composition of \autoref{ch:concrete-instances-auditgatecomposition-namecert}. Those siblings expose morphism, invariant, recognizer-flow, tuple, and gate-composition surfaces; this chapter binds two displayed refinement chains, their relation classifier, refusal rows, ledger rows, exactness row, failure boundary, and strength row as one consumer packet.
+
+\falsifiablePrediction{Every accepted LayeredRelationCert packet lacking a not-preserved row fails the public exactness export test.}
+
+\independenceWitness{classifiermorphism, interhistinvariant, groundcompilerrecognizerflow, finitereflectiontuple, auditgatecomposition: none is bijective with LayeredRelationCertUp because this carrier has two displayed refinement chains plus preserved, not-preserved, exactness, failure-boundary, and strength rows, while the siblings each bind only one morphism, invariant, recognizer-flow, tuple, or gate-composition surface.}
+
+\begin{definition}[LayeredRelationCert carrier]
+\label{def:layered-relation-cert-carrier}
+A $\LayeredRelationCertUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,M,Q,R,U,E,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two refinement-chain rows, each carrying source, layer, obstruction, carrier, and local classifier data;
+\item $M$ is the displayed layer-map row pairing layers of $A$ with layers of $B$;
+\item $Q$ is the relation-classifier row, accepting same-schema reads only through $A,B,M$;
+\item $R$ is the preserved-structure row;
+\item $U$ is the not-preserved row, listing the object content, empirical content, proof content, bridge content, or subject-side content refused by the comparison;
+\item $E$ is the exactness row, recording the public meaning of same-schema export;
+\item $F$ is the failure-boundary row, naming the condition under which the relation weakens or cannot be exported;
+\item $S$ is the strength row, separating paper certificate, checked certificate, and bridge certificate readings;
+\item $H$ records componentwise $\hsame$ transport for chain, layer-map, classifier, preserved, not-preserved, exactness, failure-boundary, strength, route, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ routes for source-chain projection, layer-map inspection, classifier admission, refusal inspection, exactness export, and public consumer handoff;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-layered-relation-certificate}, \autoref{ch:concrete-instances-classifiermorphism-namecert}, \autoref{ch:concrete-instances-interhistinvariant-namecert}, \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, \autoref{ch:concrete-instances-finitereflectiontuple-namecert}, \autoref{ch:concrete-instances-auditgatecomposition-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LayeredRelationCertUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for object identity between the two domains, hidden empirical law, unmediated proof transfer, subject-substance transfer, bridge certificate, global frame, or unlisted relation strength.
+\end{definition}
+\leandef{BEDC.Derived.LayeredRelationCertUp.LayeredRelationCertUp}
+
+\begin{definition}[LayeredRelationCert classifier]
+\label{def:layered-relation-cert-classifier}
+The $\LayeredRelationCertUp$ classifier accepts a carrier $L=(A,B,M,Q,R,U,E,F,S,H,C,P,N)$ only when all public relation reads factor through the chain rows $A,B$, the layer-map row $M$, the relation-classifier row $Q$, the preserved row $R$, the not-preserved row $U$, the exactness row $E$, the failure-boundary row $F$, and the strength row $S$, with transport, continuation, provenance, and naming supplied by $H,C,P,N$.
+
+Two accepted carriers are classifier-same only when they present the same source-chain boundaries, the same displayed layer-map boundary, the same preserved and not-preserved rows, the same exactness boundary, the same failure-boundary row, and the same strength row after componentwise $\hsame$ transport. The classifier never compares the two domains as objects.
+\end{definition}
+
+\begin{theorem}[LayeredRelationCert field exhaustion]
+\label{thm:layered-relation-cert-field-exhaustion}
+For every accepted $\LayeredRelationCertUp$ carrier
+$$
+L=(A,B,M,Q,R,U,E,F,S,H,C,P,N),
+$$
+every public relation read is exhausted by the displayed rows $A,B,M,Q,R,U,E,F,S,H,C,P,N$. In particular, a same-schema export can read preserved structure only through $R$, refused content only through $U$, public exactness only through $E$, failure behavior only through $F$, and certification strength only through $S$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:layered-relation-cert-carrier}. The tuple displays the two chain rows, layer map, classifier, preserved row, not-preserved row, exactness row, failure-boundary row, strength row, transport, continuation, provenance, and local name.
+
+Use the classifier of \autoref{def:layered-relation-cert-classifier}. It admits public reads only after those rows are present and transported to the same finite surface, so the relation cannot acquire a second source for preservation, refusal, exactness, failure, or strength.
+
+The structural rows $H,C,P,N$ replay and name the same finite packet. Since they do not add a domain-identity coordinate, bridge coordinate, proof-transfer coordinate, or empirical-law coordinate, the row inventory exhausts the public relation surface.
+\end{proof}
+
+\begin{theorem}[LayeredRelationCert refusal non-escape]
+\label{thm:layered-relation-cert-refusal-nonescape}
+For every accepted $\LayeredRelationCertUp$ carrier, all non-preserved content is confined to the row $U$ and the failure-boundary row $F$. The packet cannot export refused content as preserved structure, cannot promote same-schema exactness to object identity, and cannot turn paper-certificate strength into checked or bridge strength.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The only row assigned to not-preserved content is $U$, and the only row assigned to failure behavior is $F$.
+
+Apply \autoref{thm:layered-relation-cert-field-exhaustion}. A public read of preserved structure must pass through $R$, a public exactness read must pass through $E$, and a public strength read must pass through $S$. None of those rows is a constructor from refused content to preserved content.
+
+Finally inspect the classifier row $Q$. It accepts same-schema reads through the displayed chain and layer-map surface, not object identity between the domains. Hence refusal remains visible to every consumer and cannot escape through transport, continuation, provenance, local naming, or strength language.
+\end{proof}
+\leanchecked{BEDC.Derived.LayeredRelationCertUp.LayeredRelationCert\_refused\_row\_concrete\_boundary}
+
+\begin{theorem}[LayeredRelationCert public exactness test]
+\label{thm:layered-relation-cert-public-exactness-test}
+An accepted $\LayeredRelationCertUp$ packet exports public exactness only when the not-preserved row $U$ is present before the exactness row $E$ is read. If the packet lacks $U$, then the exactness export has no displayed refusal surface and fails the public exactness export test.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and read the exactness route through $C$. The route reaches $E$ only after the carrier has displayed the chain rows, layer map, classifier row, preserved row, and not-preserved row.
+
+The role of $U$ is fixed by \autoref{def:layered-relation-cert-carrier}: it lists the content that the relation refuses to preserve. Without that row, same-schema language has no public boundary separating relation exactness from identity.
+
+Apply \autoref{thm:layered-relation-cert-refusal-nonescape}. Since refusal is the guard against over-reading, an exactness export without $U$ lacks the row needed to keep non-preserved content from escaping as preserved content.
+\end{proof}
+
+\begin{theorem}[LayeredRelationCert NameCert obligation surface]
+\label{thm:layered-relation-cert-namecert-obligation-surface}
+For the carrier of \autoref{def:layered-relation-cert-carrier}, the local $\NameCert_{\LayeredRelationCertUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission for $L=(A,B,M,Q,R,U,E,F,S,H,C,P,N)$;
+\item source-chain exposure for $A$ and $B$ before any relation read;
+\item layer-map and classifier exposure through $M$ and $Q$;
+\item preserved and not-preserved disclosure through $R$ and $U$;
+\item exactness, failure-boundary, and strength disclosure through $E,F,S$;
+\item consumer non-escape for object identity, hidden empirical law, proof transfer, subject-substance transfer, bridge promotion, global-frame import, and unlisted strength.
+\end{enumerate}
+Thus the NameCert surface is a relation packet rather than an identity theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:layered-relation-cert-carrier}. The tuple gives the whole finite row list, and the local name row $N$ names that packet as a $\LayeredRelationCertUp$ surface.
+
+The source and classifier obligations are ordered by $C$. A consumer first reads $A$ and $B$, then the layer map $M$, then the relation-classifier row $Q$.
+
+The disclosure obligations are the rows $R,U,E,F,S$. They identify what is preserved, what is refused, what exactness means, where the relation weakens, and what certification strength is available.
+
+Finally apply \autoref{thm:layered-relation-cert-field-exhaustion}, \autoref{thm:layered-relation-cert-refusal-nonescape}, and \autoref{thm:layered-relation-cert-public-exactness-test}. Together they show that the listed rows exhaust the public surface and that no identity, bridge, proof-transfer, empirical-law, subject-substance, global-frame, or unlisted-strength read can escape from the local NameCert packet.
+\end{proof}
+
+The Lean carrier in \texttt{Derived/LayeredRelationCertUp/TasteGate.lean} provides $\mathsf{Nontrivial}\ \LayeredRelationCertUp$ and $\mathsf{FieldFaithful}\ \LayeredRelationCertUp$ instances for the displayed carrier $A,B,M,Q,R,U,E,F,S,H,C,P,N$.
+
+\closureat{LayeredRelationCertUp}{seedStr}
+
+\begin{closurestatus}{\LayeredRelationCertUp}
+  \constructivestory{A $\LayeredRelationCertUp$ packet is generated from two refinement chains, a layer map, a relation classifier, preserved and not-preserved rows, exactness, failure-boundary, strength, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:layered-relation-cert-carrier}, \autoref{def:layered-relation-cert-classifier}, \autoref{thm:layered-relation-cert-field-exhaustion}, \autoref{thm:layered-relation-cert-refusal-nonescape}, \autoref{thm:layered-relation-cert-public-exactness-test}, and \autoref{thm:layered-relation-cert-namecert-obligation-surface} bind the finite LayeredRelationCert carrier, classifier, field exhaustion, refusal, public exactness, and NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close object identity between compared domains, empirical force, physical constants, proof transfer, subject-substance content, global universe structure, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, preserved and not-preserved disclosure, exactness export, failure-boundary refusal, strength separation, transport, continuation, provenance, naming, and TasteGate field faithfulness for the same finite packet.}
+\end{closurestatus}
