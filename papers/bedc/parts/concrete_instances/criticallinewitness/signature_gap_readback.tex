@@ -1,0 +1,43 @@
+\begin{definition}[Critical-line witness signature-gap carrier]
+\label{def:critical-line-witness-signature-gap-carrier}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Its signature-gap carrier is the finite packet readback
+$$
+\begin{aligned}
+\Sig_{\CriticalLineWitnessUp}(W)
+  &= (Z,S,M,R,Q,H,C,P,N),\\
+\Gap_{\CriticalLineWitnessUp}(W)
+  &= (Z,S)\mid(M,R,Q)\mid(H,C,P,N),\\
+\NameCert_{\CriticalLineWitnessUp}(W)
+  &= (Z,S,M,R,Q;\BHist,\hsame,\Cont,\Pkg,N).
+\end{aligned}
+$$
+The first row names the supplied zero-strip signature, the second row names the only admitted gap between source data and modulus-comparison data, and the third row records the local certificate route. All three rows are read over the same $\BHist$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{definition}
+
+\begin{theorem}[Critical-line witness signature-gap exactness]
+\label{thm:critical-line-witness-signature-gap-exactness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every admitted signature-gap read of $W$ factors through the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. Equivalently, the readback is exactly the carrier of \autoref{def:critical-line-witness-signature-gap-carrier} and no further source, comparison, or naming row is available.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:critical-line-witness-carrier}. The carrier exposes exactly $Z,S,M,R,Q,H,C,P,N$, so a signature-gap read starts from a finite BEDC tuple rather than from a host analytic object.
+
+Use the root source triad of \autoref{thm:critical-line-witness-root-source-triad} and the zero-strip source totality of \autoref{thm:critical-line-witness-zero-strip-source-totality}. These rows identify the supplied zero and critical-strip side with the $\ZetaZerosUp$ and $\CritStripUp$ source surfaces before any modulus or comparison read is consumed.
+
+Next apply the root comparison ledger \autoref{thm:critical-line-witness-root-comparison-ledger}, the modulus-depth ledger \autoref{thm:critical-line-witness-modulus-depth-ledger}, and the modulus ledger totality \autoref{thm:critical-line-witness-modulus-ledger-totality}. They route the $\NatUp$ depth, $\RealUp$ real-part, and $\RatUp$ comparison data through $M,R,Q$ under the same structural rows.
+
+Finally use the transport replay obligation \autoref{thm:critical-line-witness-hsame-cont-ledger-obligation} and the NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. These attach $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row to the same carrier, so the admitted signature-gap read is exactly the displayed finite readback.
+\end{proof}
+
+\begin{theorem}[Critical-line witness signature-gap non-escape]
+\label{thm:critical-line-witness-signature-gap-nonescape}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the signature-gap readback of \autoref{def:critical-line-witness-signature-gap-carrier} cannot import an $\mathsf{RH}$ proof, zero search, analytic-continuation certificate, host equality, quotient representative, or ambient completeness witness. Every downstream consumer of the readback receives only the supplied zero-strip row, critical-strip row, modulus row, rational comparison ledger, componentwise transport, continuation replay, package provenance, and local naming route.
+\end{theorem}
+\begin{proof}
+Begin with the signature-gap exactness theorem above. It reduces any admitted readback to the finite tuple $Z,S,M,R,Q,H,C,P,N$ and to the displayed $\Sig$, $\Gap$, and $\NameCert$ rows.
+
+Then apply the root unblock refusal boundary \autoref{thm:critical-line-witness-root-unblock-refusal-boundary} and the RH-refusal ledger completeness theorem \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. These results refuse proof content, global zero classification, zero search, analytic continuation, quotient representatives, host equality, and ambient completeness from the accepted packet.
+
+Use the source-modulus refusal totality of \autoref{thm:critical-line-witness-source-modulus-refusal-totality} together with the downstream refusal export \autoref{thm:critical-line-witness-downstream-refusal-export}. They show that downstream consumers may replay only the supplied zero-strip, modulus, comparison, transport, package, and naming rows.
+
+Thus the signature-gap carrier is a kernel-facing readback surface, not an analytic theorem source. Its non-escape content is exactly the absence of every listed host-level coordinate from the finite packet.
+\end{proof}

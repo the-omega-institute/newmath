@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary supported route totality]
+\label{thm:gap-closure-boundary-supported-route-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every supported boundary route is displayed through the carrier rows, the classifier surface, the refusal ledger, downstream consumer rows, componentwise transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\GapClosureBoundaryUp}$ row. A supported read therefore reaches a hard-problem consumer only through the displayed source route and never through an unrecorded closure coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the finite rows $G,S,R,H,C,P,N$ and require source-route exactness before any supported read is consumed.
+
+Use the classifier and source-route surfaces recorded by \autoref{thm:gap-closure-boundary-classifier-exhaustion} and \autoref{thm:gap-closure-boundary-source-route-exactness}. These show that an accepted supported route reads the displayed source row $S$ and remains inside the finite carrier.
+
+Finally apply the downstream handoff theorems, including \autoref{thm:gap-closure-boundary-root-source-totality} and \autoref{thm:gap-closure-boundary-root-consumer-handoff}. The structural rows $H,C,P,N$ only transport, replay, package, and name the supported route, so no hidden closure coordinate is exported.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal stability route]
+\label{thm:gap-closure-boundary-refusal-stability-route}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, an unsupported read of $G$ remains in the refusal ledger $R$ under componentwise $\hsame$ transport. The displayed route may replay the refusal through $H,C,P,N$, but it cannot turn the unsupported read into internal closure, hidden $\mathsf{T}$ supply, host quotient data, or a private source selection.
+\end{theorem}
+\begin{proof}
+Begin with an unsupported read of the request row $G$. Since no displayed source route through $S$ is present, the displayed source precondition of \autoref{thm:gap-closure-boundary-displayed-source-precondition} is not met.
+
+Apply refusal-ledger routing and transport, \autoref{thm:gap-closure-boundary-refusal-ledger-routing} and \autoref{thm:gap-closure-boundary-refusal-ledger-transport}. They send the unsupported read to $R$ and carry it only through the componentwise $\hsame$ rows, displayed $\Cont$ route, provenance, and local name.
+
+The refusal non-escape theorem \autoref{thm:gap-closure-boundary-refusal-nonescape} excludes internal closure, hidden $\mathsf{T}$ supply, host quotient data, and private source selection. Thus the refusal route is stable under the displayed transports.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer nonescape]
+\label{thm:gap-closure-boundary-consumer-nonescape}
+Every downstream consumer of an accepted $\GapClosureBoundaryUp$ route receives only the displayed rows $G,S,R,H,C,P,N$, the classifier and refusal ledgers, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data. It receives no hidden global classifier, theorem-proof row, host quotient, or unrecorded completion boundary.
+\end{theorem}
+\begin{proof}
+First expose the consumer through \autoref{thm:gap-closure-boundary-root-consumer-handoff}. A supported consumer receives the source handoff, and an off-source consumer receives the refusal handoff; both handoffs use the same finite carrier rows.
+
+Combine supported route totality with refusal stability. The supported case is exhausted by \autoref{thm:gap-closure-boundary-supported-route-totality}, while the unsupported case is exhausted by \autoref{thm:gap-closure-boundary-refusal-stability-route}.
+
+It remains to rule out external replacements. The carrier, classifier exhaustion, and ledger nonescape theorems give no coordinate for a hidden global classifier, theorem-proof row, host quotient, or completion boundary outside $G,S,R,H,C,P,N$. Hence every downstream consumer remains inside the displayed route completion surface.
+\end{proof}

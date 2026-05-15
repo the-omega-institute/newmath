@@ -79,3 +79,21 @@ Use \autoref{thm:continuation-monad-unit-bind-terminal-route} to specialize that
 
 Finally apply \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. The handoff therefore exports only the finite packet route and refuses host composition, quotient Kleisli equality, ambient completion, and external evaluators.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad unit-bind KernelMorphism compiler coherence]
+\label{thm:continuation-monad-unit-bind-kernelmorphism-compiler-coherence}
+Every $\KernelMorphismUp$ or $\CertificateCompilerUp$ consumer of an accepted $\ContinuationMonadUp$ unit-bind terminal route reads the same finite packet
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli rows. Such a consumer cannot replace the route by host function composition, quotient Kleisli equality, ambient monad completion, or an external evaluator.
+\end{theorem}
+\begin{proof}
+First apply root unit-bind coverage, \autoref{thm:continuation-monad-root-unit-bind-coverage}. It identifies every accepted unit or bind read with the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, transport row $H$, route row $K$, ledger $L$, and local naming row $N$.
+
+Next use the root downstream generator package of \autoref{thm:continuation-monad-root-downstream-generator-package}. This is the package available to downstream route consumers, so a kernel-morphism or compiler consumer receives the same displayed packet together with the category, generator, transport, ledger, provenance, and local naming rows.
+
+Apply the terminal route theorem \autoref{thm:continuation-monad-unit-bind-terminal-route}. The $\mathsf{CategoryHomCarrier}$ and Kleisli rows are attached to the same packet rather than to a host operation.
+
+Finally invoke completion nonescape, \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. Host function composition, quotient Kleisli equality, ambient monad completion, and external evaluators are not coordinates of $A,B,C,f,g,u,H,K,L,N$, so the KernelMorphism and CertificateCompiler consumers preserve the displayed terminal route.
+\end{proof}
