@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\OnticTowerUp$}
+\label{ch:concrete-instances-ontic-tower-namecert}
+\origin{ai}
+
+The $\OnticTowerUp$ packet realizes the certified ontic tower of \autoref{sec:certified-ontic-towers} as a finite stage-refinement NameCert carrier. It consumes the stable source row of $\OnticStateUp$ from \autoref{ch:concrete-instances-onticstate-namecert}, the indexed approximation tower of $\RealityConstrainedApproximationTowerUp$ from \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the physical-signature classifier of $\RealityConstrainedSignatureFitUp$ from \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, the residue surface of $\ResidueUp$ from \autoref{ch:concrete-instances-residue-namecert}, and the observer support row of $\ObserverBudgetSupportUp$ from \autoref{ch:concrete-instances-observer-budget-support-namecert}. These rows turn the schematic tower into a finite packet with visible stage, transition, continuity, residue, observer-budget, transport, replay, provenance, and local naming coordinates.
+
+\begin{definition}[OnticTower carrier]
+\label{def:ontic-tower-carrier}
+An $\OnticTowerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(O,A,S,R,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OnticStateUp$ source row naming the stable reality-facing signatures at the base of the tower.
+\item $A$ is the $\RealityConstrainedApproximationTowerUp$ stage row, recording the accepted finite approximation stages.
+\item $S$ is the $\RealityConstrainedSignatureFitUp$ classifier row, recording the physical-signature fit used at each stage.
+\item $R$ is the $\ResidueUp$ ledger row, recording content preserved, withheld, or still unresolved between stages.
+\item $B$ is the $\ObserverBudgetSupportUp$ observer-budget row, recording which observer-facing supports may read the stage data.
+\item $L$ is the ledger-continuity row, recording each stage transition as preservation, refinement, or explicit correction of earlier signature rows.
+\item $H$ is componentwise $\hsame$ transport for $O,A,S,R,B,L$.
+\item $C$ is the displayed $\Cont$ replay route through the stage and ledger rows.
+\item $P$ is $\Pkg$ provenance over $\OnticTowerUp$, the five cited sibling packets, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OnticTowerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an imported limit object, hidden final ontology, host equality of physical states, quotient stream, countable-choice selector, or observer-independent access route.
+\end{definition}
+
+\begin{definition}[OnticTower classifier]
+\label{def:ontic-tower-classifier}
+Two accepted $\OnticTowerUp$ packets are classified as the same only when their $\OnticStateUp$ source rows agree through the same stage row, their $\RealityConstrainedSignatureFitUp$ classifiers preserve the same physical-signature comparisons, their $\ResidueUp$ ledgers record the same hidden and unresolved content, their $\ObserverBudgetSupportUp$ rows admit the same observer-facing reads, and their ledger-continuity rows identify the same sequence of preservation, refinement, and correction transitions under componentwise $\hsame$ transport. Agreement of a single terminal $\OnticStateUp$ row is not enough to classify tower packets.
+\end{definition}
+
+\begin{theorem}[OnticTower stage refinement]
+\label{thm:ontic-tower-stage-refinement}
+Let $T=(O,A,S,R,B,L,H,C,P,N)$ be an accepted $\OnticTowerUp$ packet. Every accepted transition between two tower stages factors through the displayed approximation row $A$, signature-fit row $S$, residue ledger $R$, observer-budget row $B$, and ledger-continuity row $L$. A transition that preserves only the terminal $\OnticStateUp$ source row $O$ while dropping any one of $A,S,R,B,L$ is not an accepted stage refinement.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:ontic-tower-carrier}. The stage data are not read as a bare source row; they are carried by $O,A,S,R,B,L$ together with transport, replay, provenance, and local naming rows.
+
+Use the classifier of \autoref{def:ontic-tower-classifier}. It compares packets by the joint source, approximation-stage, physical-signature, residue, observer-budget, and ledger-continuity rows, so a transition missing one of these rows cannot be classified as the same tower route.
+
+The sibling chapters supply the individual surfaces: $\OnticStateUp$ supplies the source, $\RealityConstrainedApproximationTowerUp$ supplies indexed stage structure, $\RealityConstrainedSignatureFitUp$ supplies physical-signature comparison, $\ResidueUp$ supplies ledgered residue, and $\ObserverBudgetSupportUp$ supplies observer-facing support. Repacking them through $H,C,P,N$ gives the accepted refinement route and no omitted coordinate remains.
+\end{proof}
+
+\begin{theorem}[OnticTower NameCert obligation surface]
+\label{thm:ontic-tower-namecert-obligation-surface}
+For the carrier of \autoref{def:ontic-tower-carrier}, the local $\NameCert_{\OnticTowerUp}$ surface consists exactly of carrier admission, classifier exposure, stage-refinement preservation, ledger-continuity exposure, observer-budget support, componentwise transport, displayed replay, provenance, and local naming. It excludes imported tower limits, final total descriptions, quotient streams, selected host limits, host real equality, countable-choice selectors, and second ledger sources.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed tuple of \autoref{def:ontic-tower-carrier}. Classifier exposure is \autoref{def:ontic-tower-classifier}, which requires the joint source, stage, signature-fit, residue, support, and continuity rows.
+
+Stage-refinement preservation is \autoref{thm:ontic-tower-stage-refinement}. The theorem forces every transition through the same finite packet before a later stage can be read as preserving or refining an earlier stage.
+
+Ledger-continuity and observer support are visible rows of the carrier, and the remaining $H,C,P,N$ rows transport, replay, source, and name the packet. Since the carrier has no additional coordinate, the excluded limit, selector, quotient, host-equality, and second-ledger surfaces cannot be exported from the accepted NameCert.
+\end{proof}
+
+The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticTowerUp/TasteGate.lean}. It must provide explicit $\mathsf{Nontrivial}\ \OnticTowerUp$ and $\mathsf{FieldFaithful}\ \OnticTowerUp$ instances preserving the source, stage, signature-fit, residue, observer-budget, ledger-continuity, transport, replay, provenance, and local naming rows.
+
+\falsifiablePrediction{An accepted $\OnticTowerUp$ packet cannot collapse to $\OnticStateUp$ without losing either a refinement transition or a ledger-continuity row.}
+
+\independenceWitness{onticstate, realityconstrainedapproximationtower, realityconstrainedsignaturefit, residue, observerbudgetsupport: none is bijective because $\OnticTowerUp$ binds source, finite stage refinement, physical-signature classification, residue ledger, observer support, ledger continuity, transport, replay, provenance, and local NameCert rows in one packet. Each named sibling exposes one adjacent surface without the complete tower transition and ledger-continuity packet.}
+
+\closureat{OnticTowerUp}{seedStr}
+
+\begin{closurestatus}{\OnticTowerUp}
+  \constructivestory{An $\OnticTowerUp$ packet is generated from OnticState source, approximation-stage, signature-fit, residue-ledger, observer-budget, ledger-continuity, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ontic-tower-carrier}, \autoref{def:ontic-tower-classifier}, \autoref{thm:ontic-tower-stage-refinement}, and \autoref{thm:ontic-tower-namecert-obligation-surface} bind the finite tower carrier, classifier, stage-refinement route, and NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, final total ontology, imported tower limits, quotient streams, selected host limits, host equality, countable-choice selectors, or observer-independent access.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, stage-refinement preservation, ledger-continuity exposure, observer-budget support, and TasteGate nontrivial and field-faithful rows for the displayed packet.}
+\end{closurestatus}
