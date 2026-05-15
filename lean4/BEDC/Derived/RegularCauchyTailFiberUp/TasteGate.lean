@@ -570,4 +570,25 @@ theorem RegularCauchyTailFiberPacket_meet_route [AskSetup] [PackageSetup]
   exact
     ⟨leftUnary, rightUnary, meetUnary, sealUnary, hsame_refl sealRead, sealPkg⟩
 
+theorem RegularCauchyTailFiberPacket_nonescape [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont t a downstream →
+        PkgSig bundle downstream pkg →
+          UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+            UnaryHistory d0 ∧ UnaryHistory d1 ∧ UnaryHistory t ∧ UnaryHistory a ∧
+              UnaryHistory downstream ∧ Cont d0 d1 t ∧ Cont t a downstream ∧
+                PkgSig bundle p pkg ∧ PkgSig bundle downstream pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet downstreamRoute downstreamPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _hRoute, _cRoute, tailRoute, _packetSealRoute,
+    packetPkg⟩ := packet
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed tUnary aUnary downstreamRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
+      downstreamUnary, tailRoute, downstreamRoute, packetPkg, downstreamPkg⟩
+
 end BEDC.Derived.RegularCauchyTailFiberUp
