@@ -1,0 +1,41 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint row exposure]
+\label{thm:finite-trace-evaluator-checkpoint-row-exposure}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, the checkpoint-facing surface exposes exactly the input row $I$, finite trace row $T$, accepted-result row $A$, validation-boundary row $V$, componentwise transport row $H$, route row $C$, provenance row $P$, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. The exposure is read from the finite carrier and exports no hidden runtime state.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its checkpoint-facing coordinates are the input, trace, accepted-result, validation, transport, route, provenance, and local naming rows.
+
+Apply the root NameCert obligation surface of \autoref{thm:finitetrace-evaluator-root-namecert-obligations}. It identifies those coordinates as the public certificate rows of the accepted evaluator packet.
+
+The checkpoint-runtime triad of \autoref{thm:finite-trace-evaluator-checkpoint-runtime-triad} then reads the checkpoint side through the same finite surface. Since the carrier has no separate runtime coordinate, the checkpoint row exposes only $I,T,A,V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime route totality]
+\label{thm:finite-trace-evaluator-runtime-route-totality}
+Every runtime-facing read of an accepted $\FiniteTraceEvaluatorUp$ packet factors through the checkpoint route
+$$
+I \to T \to A \to V
+$$
+with the transport, route, provenance, and local naming rows $H,C,P,N$ visible. The route is total for the displayed packet and does not require a host evaluator, unchecked validation predicate, unbounded trace, or alternate accepted-result classifier.
+\end{theorem}
+\begin{proof}
+Begin with checkpoint row exposure from \autoref{thm:finite-trace-evaluator-checkpoint-row-exposure}. It supplies the finite packet $I,T,A,V,H,C,P,N$ as the whole runtime-facing surface.
+
+Next use \autoref{thm:finite-trace-evaluator-checkpoint-runtime-acceptance-lock}. It requires every accepted checkpoint-runtime read to pass through the displayed input, trace, accepted-result, validation, transport, route, provenance, and local naming rows.
+
+Finally apply \autoref{thm:finitetrace-evaluator-checkpoint-replay-totality}. The replay reads $I$ before $T$, $T$ before $A$, and then $V,H,C,P,N$, so the runtime route is total on the displayed finite packet and no host evaluator or alternate classifier is imported.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint route nonescape]
+\label{thm:finite-trace-evaluator-checkpoint-route-nonescape}
+No checkpoint-facing consumer of an accepted $\FiniteTraceEvaluatorUp$ packet can escape the displayed route $I,T,A,V,H,C,P,N$. In particular, the consumer cannot replace the input row, finite trace row, accepted-result row, validation row, transport row, route row, provenance row, or local name by hidden runtime state, a host validation coordinate, an unbounded evaluator output, or an alternate evaluator result.
+\end{theorem}
+\begin{proof}
+Start with runtime route totality from \autoref{thm:finite-trace-evaluator-runtime-route-totality}. It places every runtime-facing read on the finite checkpoint route $I \to T \to A \to V$ with $H,C,P,N$ visible.
+
+Use checkpoint-runtime route determinacy from \autoref{thm:finitetrace-evaluator-checkpoint-runtime-route-determinacy}. Componentwise $\hsame$ and displayed $\Cont$ replay identify the route by the exposed rows, so a second checkpoint route cannot be recovered from the same packet.
+
+Now apply runtime acceptance nonescape from \autoref{thm:finitetrace-evaluator-runtime-acceptance-nonescape}. The accepted runtime row exports no host validator, total truth predicate, total halting classifier, unchecked compiler theorem, hidden runtime state, unbounded evaluator, or infinite trace.
+
+Combining these facts, every checkpoint consumer is confined to the displayed input, trace, accepted-result, validation, transport, route, provenance, and local naming rows, and no alternate evaluator output is available.
+\end{proof}
