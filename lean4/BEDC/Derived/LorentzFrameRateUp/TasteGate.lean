@@ -262,6 +262,47 @@ theorem LorentzFrameRateUpstreamRowCoherence
   exact
     ⟨upstreamUnary, routeUnary, multiCausalUpstream, upstreamMaxRoute, rfl, rfl, rfl⟩
 
+theorem LorentzFrameRateRootRouteTotality
+    {multiConfig causalWitness maxRate symmetry transport route provenance name upstream
+      classifierReplay publicRoute : BHist} :
+    Cont multiConfig causalWitness upstream →
+      Cont upstream maxRate route →
+        Cont route symmetry classifierReplay →
+          Cont classifierReplay transport publicRoute →
+            UnaryHistory multiConfig →
+              UnaryHistory causalWitness →
+                UnaryHistory maxRate →
+                  UnaryHistory symmetry →
+                    UnaryHistory transport →
+                      UnaryHistory upstream ∧ UnaryHistory route ∧
+                        UnaryHistory classifierReplay ∧ UnaryHistory publicRoute ∧
+                          Cont multiConfig causalWitness upstream ∧
+                            Cont upstream maxRate route ∧
+                              Cont route symmetry classifierReplay ∧
+                                Cont classifierReplay transport publicRoute ∧
+                                  (fun x : LorentzFrameRateUp =>
+                                    match x with
+                                    | LorentzFrameRateUp.mk m x r s h _ _ _ =>
+                                        m = multiConfig ∧ x = causalWitness ∧
+                                          r = maxRate ∧ s = symmetry ∧ h = transport)
+                                  (LorentzFrameRateUp.mk multiConfig causalWitness maxRate
+                                    symmetry transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro multiCausalUpstream upstreamMaxRoute routeSymmetryClassifier
+    classifierTransportPublic multiUnary causalUnary maxUnary symmetryUnary transportUnary
+  have upstreamUnary : UnaryHistory upstream :=
+    unary_cont_closed multiUnary causalUnary multiCausalUpstream
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed upstreamUnary maxUnary upstreamMaxRoute
+  have classifierReplayUnary : UnaryHistory classifierReplay :=
+    unary_cont_closed routeUnary symmetryUnary routeSymmetryClassifier
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed classifierReplayUnary transportUnary classifierTransportPublic
+  exact
+    ⟨upstreamUnary, routeUnary, classifierReplayUnary, publicRouteUnary,
+      multiCausalUpstream, upstreamMaxRoute, routeSymmetryClassifier,
+      classifierTransportPublic, rfl, rfl, rfl, rfl, rfl⟩
+
 def taste_gate : ChapterTasteGate LorentzFrameRateUp :=
   lorentzFrameRateChapterTasteGate
 
