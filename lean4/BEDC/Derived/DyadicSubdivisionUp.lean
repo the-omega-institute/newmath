@@ -276,7 +276,8 @@ theorem DyadicSubdivisionPacket_refinement_composition [AskSetup] [PackageSetup]
     ⟨second.left, hsame_trans first.right.left second.right.left,
       hsame_trans first.right.right second.right.right⟩
 
-theorem DyadicSubdivisionSource_validated_enclosure_public_export [AskSetup] [PackageSetup]
+theorem DyadicSubdivisionSource_scoped_finite_route_package [AskSetup] [PackageSetup]
+    -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
     {parent level cells mesh validated provenance name enclosureRead consumerRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
