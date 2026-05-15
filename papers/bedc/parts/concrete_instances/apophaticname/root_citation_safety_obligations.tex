@@ -70,6 +70,7 @@ Finally apply \autoref{thm:apophatic-name-public-boundary-package} and \autoref{
 \label{thm:apophatic-name-root-refusal-gate-readback}
 For every accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, a root refusal-gate readback must expose the request row $R$ before the refusal gate row $G$. After $G$ is read, the same readback exposes only the refusal ledger, provenance, and naming rows $L,P,N$, together with the transport and continuation rows $H,C$ that replay the visible route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_refusal\_gate\_readback}
 \begin{proof}
 Apply boundary request totality, \autoref{thm:apophatic-name-boundary-request-totality}. It places the request row $R$ before any exposure of the refusal gate $G$.
 
@@ -82,6 +83,7 @@ The readback is still a root citation. Therefore \autoref{thm:apophatic-name-roo
 \label{thm:apophatic-name-root-boundary-ledger-package}
 The downstream root boundary package for an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$ consists exactly of root citation safety, boundary request totality, refusal-route exhaustion, root source citation export, and root refusal-gate readback. A downstream root consumer may therefore cite the socket row $S$, require the request row $R$ before the refusal gate row $G$, and read only the ledger, transport, continuation, provenance, and naming rows $L,H,C,P,N$ afterward.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_boundary\_ledger\_package}
 \begin{proof}
 First collect the three base rows. Apply \autoref{thm:apophatic-name-root-citation-safety}, \autoref{thm:apophatic-name-boundary-request-totality}, and \autoref{thm:apophatic-name-refusal-route-exhaustion}; together they give citation safety, request-before-gate order, and refusal-route exhaustion on $S,R,G,L,H,C,P,N$.
 

@@ -85,6 +85,24 @@ $$
 It remains to exhaust the packet coordinates. There is no carrier slot in which $O$ can appear as $B$, $W$, $D$, $R$, $E$, a quotient stream, host equality row, hidden limit selector, or ambient completeness row, so the omitted ledger cannot be repacked as any such consumer-facing object.
 \end{proof}
 
+\begin{theorem}[Observer-filter budget selector selected-row gate]
+\label{thm:observer-filter-budget-selector-selected-row-gate}
+Every accepted $\ObserverFilterBudgetSelectorUp$ packet
+$$
+G=(F,I,S,O,B,W,D,R,E,H,C,P,N)
+$$
+must expose the selected $\ObserverFilterUp$ row $S$ before any finite budget row $B$, $\StreamNameUp$ window family $W$, dyadic ledger $D$, $\RegSeqRatUp$ handoff $R$, or $\RealUp$ seal row $E$ can be consumed. The omitted rows $O$ remain ledger data through $H,C,P,N$ and cannot feed the selected schedule, quotient streams, host real equality, or hidden observation selectors.
+\end{theorem}
+\begin{proof}
+Project the carrier $G$. The positive route records $I,F,S,B,W,D,R,E$ in that order, while $O$ is a separate omitted-row ledger and $H,C,P,N$ are the transport, continuation, provenance, and local naming rows.
+
+Apply the local NameCert surface. It admits the budget row only as the row whose selected schedule reads from $S$, and it places the StreamName, dyadic, regular-sequence, and Real-seal rows after that budget row.
+
+Now use omitted-row exclusion from \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion}. Since every consumer of $B,W,D,R,E$ factors through the selected row and since $O$ cannot be repacked as one of those consumer-facing coordinates, the selected-row gate is the only entry to the finite observation route.
+
+The remaining excluded objects follow by coordinate exhaustion. The carrier has no row for quotient streams, host real equality, or hidden observation selectors, so none of them can bypass $S$ or make the omitted ledger into a schedule source.
+\end{proof}
+
 \begin{theorem}[Observer-filter budget-selector dyadic readback exactness]
 \label{thm:observer-filter-budget-selector-dyadic-readback-exactness}
 Every accepted $\ObserverFilterBudgetSelectorUp$ packet reads the $\DyadicRatCoreUp$ row $D$ only after the selected $\ObserverFilterUp$ row $S$, finite budget row $B$, and $\StreamNameUp$ window family $W$ have been exposed in the displayed route
@@ -93,6 +111,7 @@ I \to F \to S \to B \to W \to D.
 $$
 The readback cannot replace $D$ by omitted-row data from $O$, quotient streams, host real equality, or hidden limit selectors.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorDyadicReadbackExactness\_dyadic\_field\_not\_erased}
 \begin{proof}
 Start with the accepted carrier $G=(F,I,S,O,B,W,D,R,E,H,C,P,N)$. The carrier definition places $D$ after $W$, and the StreamName handoff theorem places $W$ after the selected-row budget route through $S$ and $B$.
 
