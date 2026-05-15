@@ -577,6 +577,8 @@ import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
 import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CauchyCriterionUp
+import BEDC.Derived.CauchyCriterionUp.CompletionReadback
+import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
 import BEDC.Derived.CauchyCriterionUp.QuotientRefusal
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyOscillationUp
