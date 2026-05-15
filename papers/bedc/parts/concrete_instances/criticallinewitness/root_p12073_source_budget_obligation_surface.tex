@@ -1,0 +1,85 @@
+\begin{theorem}[CriticalLineWitness source-budget carrier]
+\label{thm:critical-line-witness-source-budget-carrier}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted packet exposes this finite tuple as the zero-strip source,
+source budget, modulus and readback route, refusal row, transport,
+continuation, provenance, and local $\NameCert_{\CriticalLineWitnessUp}$
+rows. No accepted packet exports hidden analytic continuation, a host zero
+locator, a completed $\mathsf{RH}$ proof, or an off-packet critical-line
+oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier description of
+\autoref{def:critical-line-witness-carrier}. Coordinate exhaustion gives only
+the displayed rows $Z,S,M,R,Q,H,C,P,N$: the zero-strip source $Z$, source
+budget $S$, modulus and readback route $M,R,Q$, transport $H$, continuation
+$C$, provenance $P$, and local naming row $N$.
+
+The existing root-strip source totality theorem
+\autoref{thm:critical-line-witness-root-strip-source-totality} places every
+line-facing read on this finite route before it can be consumed. The analytic
+continuation nonescape theorem
+\autoref{thm:critical-line-witness-analytic-continuation-nonescape} then
+removes any ambient analytic continuation, host zero locator, completed
+$\mathsf{RH}$ proof, or off-packet critical-line oracle from the exported
+surface.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zero-strip refusal]
+\label{thm:critical-line-witness-zero-strip-refusal}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every zero-strip consumer factors through the displayed source, budget,
+modulus, readback, and refusal rows before downstream use. The consumer cannot
+replace the refusal row by a theorem about $\mathsf{RH}$, an
+analytic-continuation bridge, or a completed zeta-zero classifier.
+\end{theorem}
+\begin{proof}
+Begin with the tuple projection supplied by
+\autoref{thm:critical-line-witness-source-budget-carrier}. It exposes the
+source, budget, modulus, readback, and refusal coordinates as components of
+the accepted $\BHist$ packet, rather than as host-side analytic data.
+
+Apply the zero-strip route factorization theorem
+\autoref{thm:critical-line-witness-zero-strip-route-factorization}. The
+consumer must pass through $Z,S,M,R,Q$ and the refusal row before any
+downstream use can read the packet.
+
+Finally use the modulus refusal exhaustion theorem
+\autoref{thm:critical-line-witness-modulus-refusal-exhaustion}. Its
+nonescape clause prevents the refusal row from being replaced by an
+$\mathsf{RH}$ theorem, an analytic-continuation bridge, or a completed
+zeta-zero classifier.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness NameCert obligation surface]
+\label{thm:critical-line-witness-namecert-obligation-surface}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+local $\NameCert_{\CriticalLineWitnessUp}$ surface consists exactly of the
+following five obligations:
+\begin{enumerate}
+\item carrier exposure of $Z,S,M,R,Q,H,C,P,N$;
+\item source-budget exactness for the zero-strip source and source budget;
+\item determinacy of the modulus and readback route;
+\item zero-strip refusal non-escape;
+\item downstream stability through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First project the accepted packet to its carrier coordinates. The
+source-budget carrier theorem
+\autoref{thm:critical-line-witness-source-budget-carrier} supplies carrier
+exposure and fixes the zero-strip source and budget as visible packet rows.
+
+Next read the route coordinates. The source-route totality theorem
+\autoref{thm:critical-line-witness-source-route-totality} and the root bridge
+readback totality theorem
+\autoref{thm:critical-line-witness-root-bridge-readback-totality} determine
+the modulus and readback path through the same finite packet.
+
+It remains to isolate the refusal and downstream clauses. The zero-strip
+refusal theorem
+\autoref{thm:critical-line-witness-zero-strip-refusal} gives non-escape for
+the refusal row, while the displayed $H,C,P,N$ coordinates carry transport,
+continuation, provenance, and naming stability. These five rows exhaust the
+local $\NameCert_{\CriticalLineWitnessUp}$ surface.
+\end{proof}

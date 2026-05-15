@@ -127,3 +127,50 @@ so the classifier reflection contains no additional coordinate for quotient
 stream equality, host real equality, selected limits, completion data, or
 RealUp completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat constant tail seal invariance]
+\label{thm:regseqrat-constant-tail-seal-invariance}
+Let $C$ be a $\RegSeqRatUp$ constant dyadic source packet over a displayed
+$\DyadicRatCoreUp$ endpoint $d$. For every certified unary tail shift of the
+$\StreamNameUp$ schedule of $C$, the shifted source presents the same constant
+$\StreamNameUp$ schedule, the same endpoint-distance ledger at $d$, and the
+same $\RegSeqRatUp$ classifier surface to the $\RealUp$ seal.
+
+Consequently any two certified unary tail shifts of the constant source have
+the same $\RealUp$ seal source read after restriction to their common cofinal
+finite window. This invariance is only a statement about the displayed
+constant dyadic source rows, the RegSeqRat regularity and classifier surface,
+and the RealUp seal-facing finite packet. It exports no quotient stream
+equality, host real equality, selected limit, completion datum, or RealUp
+completeness row.
+\end{theorem}
+\begin{proof}
+Project the source by
+\autoref{def:regseqrat-constant-dyadic-source}. A certified unary tail shift
+changes only which schedule rows are requested; every requested row still
+returns the same displayed $\DyadicRatCoreUp$ endpoint $d$ and the same
+constant $\StreamNameUp$ schedule entry.
+
+Apply \autoref{thm:regseqrat-constant-dyadic-regularity}. The endpoint rows on
+the shifted windows are equal to $d$, so the endpoint-distance ledger is the
+same equal-endpoint row and the dyadic-radius rows are read from the same
+constant packet.
+
+Use \autoref{thm:regseqrat-shifted-tail-regularity-closure} to repack each
+shifted finite window as an accepted $\RegSeqRatUp$ window. Since the source is
+constant, the repacked window carries the same regularity ledger and the same
+dyadic-tolerance classifier surface as the unshifted constant source.
+
+Now apply \autoref{thm:regseqrat-tail-cofinal-real-seal-invariance} to two
+certified tail reads of the constant source. Their common cofinal finite
+window identifies the displayed schedule rows, endpoint rows, endpoint-distance
+ledger, classifier witness, $\hsame$ comparisons, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+Finally close with
+\autoref{thm:regseqrat-constant-real-seal-handoff}. The handoff says that the
+constant source reaches the $\RealUp$ seal only through the visible
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, so
+the tail comparison has no coordinate for quotient stream equality, host real
+equality, selected limits, completion data, or RealUp completeness.
+\end{proof}

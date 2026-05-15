@@ -171,6 +171,21 @@ Finally use the route-scope and seal boundary results \autoref{thm:tail-budget-c
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_tail\_budget\_coherence\_consumption}
 
+\begin{theorem}[CauchyCriterion tail-budget observer route]
+\label{thm:cauchycriterion-tail-budget-observer-route}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier whose shared-tail route is presented by \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. Any observer-budget or finite-window observation consumer of $K$ must factor through the displayed Cauchy modulus schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, $\RegSeqRatUp$ source row $W$, finite $\StreamNameUp$ window rows, shared-threshold certificate, and Real seal $E$ before observing the public Real-facing endpoint.
+
+The route exports no quotient stream, selected limit, host real equality, detached tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. It places every Real-facing seal read on the shared finite route through $M,Q,T,W$, the StreamName windows, the dyadic tail-radius coverage row, the regular shared-threshold certificate, and the seal row $E$.
+
+Next use \autoref{thm:cauchy-criterion-tail-budget-coherence-consumption}. A downstream observation consumer can attach to that route only after the TailBudgetCoherence rows have made the finite threshold, budget, window, tolerance, readback, transport, continuation, package, and local naming data visible.
+
+Finally apply RealObservationBudget consumer exactness, \autoref{thm:real-observation-budget-consumer-exactness}. It reads observation budgets and finite windows through the same displayed precision and source rows, so the public endpoint is observed only after the Cauchy modulus schedule, tolerance row, tail ledger, source row, shared-threshold certificate, and seal have been exposed. The excluded quotient streams, selected limits, host real equalities, detached tail oracles, and ambient completeness principles are absent from the cited routes.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_tail\_budget\_observer\_route}
+
 \begin{theorem}[CauchyCriterion uniform-family quotient-refusal factorization]
 \label{thm:cauchycriterion-uniform-family-quotient-refusal-factorization}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier whose shared-tail route is presented through the budgeted seal theorem of \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. Any finite-family or uniform-family consumer that asks for quotient-name equality, a selected limit, host real equality, hidden tail data, or ambient completeness must first consume the displayed CauchyCriterion rows $M,Q,T,W,E$, the finite $\StreamNameUp$ window rows, the $\DyadicTailRadiusLedgerUp$ coverage row, the $\RegularCauchyTailMeetUp$ shared-threshold row, the displayed $\TailBudgetCoherenceUp$ rows, and then the $\QuotientStreamRefusalUp$ refusal row of \autoref{thm:quotient-stream-refusal-regular-tail-factorization}.

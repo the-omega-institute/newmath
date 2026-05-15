@@ -1,0 +1,53 @@
+\begin{theorem}[$\ZNormalUp$ terminal boundary non-escape]
+\label{thm:znormal-terminal-boundary-nonescape}
+For every accepted $\ZNormalUp$ root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+any terminal read through the displayed $\BHist$ rows $T,F,V,R,H,C,P,N$ remains inside the finite terminal-normality boundary of the packet. The read cannot export a host conversion row, quotient normalization row, divergence oracle, unrestricted evaluator, or global-normalization coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:znormal-carrier} and the root packet by \autoref{def:znormal-root-carrier-boundary}. Both displays expose the terminal route as rows of one finite $\BHist$ packet, with $T,F,V,R,H,C,P,N$ already attached to the same local naming surface.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local $\NameCert_{\ZNormalUp}$ obligation reads terminal normality only after typed endpoint evidence, finite fuel, sibling normal-word evidence, continuation readback, transport, replay, provenance, and local naming have been displayed.
+
+The sibling chapters supply component evidence rather than escape routes. \autoref{ch:concrete-instances-typedreductionnormalform-namecert} supplies the typed endpoint surface, \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert} supply finite normal-word and carry evidence, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} supplies terminal continuation readback.
+
+Since no host conversion, quotient normalization, divergence oracle, unrestricted evaluator, or global normalizer is a row of $Z$, the terminal read is exhausted by the displayed $\BHist$ packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ source route totality]
+\label{thm:znormal-source-route-totality}
+Every accepted root consumer that cites terminal normality for $\ZNormalUp$ must first expose the complete displayed source route
+$$
+T,F,V,K,R,H,C,P,N.
+$$
+Thus the consumer reads terminal normality only after the terminal typed endpoint row, finite fuel row, terminal-normality row, sibling normal-word row, continuation readback row, $\hsame$ transport row, $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert_{\ZNormalUp}$ row have all appeared in the $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-root-consumer-readiness}. It requires every downstream normal-route consumer to expose the root carrier boundary before citing terminal normality.
+
+Now read the root boundary itself through \autoref{def:znormal-root-carrier-boundary}. The only source route made available to a consumer is the finite tuple $T,F,V,K,R,H,C,P,N$.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local certificate binds carrier admission, classifier exposure, bounded-fuel replay, transport, package provenance, and local naming to the same displayed packet.
+
+The typed endpoint, finite normal-word, carry, and terminal continuation inputs remain the sibling surfaces of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. Therefore a consumer route is total exactly over the displayed $\BHist$ packet and has no hidden source outside it.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ NameCert ledger exhaustion]
+\label{thm:znormal-namecert-ledger-exhaustion}
+For every accepted $\ZNormalUp$ root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the local $\NameCert_{\ZNormalUp}$ ledger is exhausted by the provenance and naming rows $P,N$ over that displayed $\BHist$ packet. No additional ledger row remains for host conversion, quotient normalization, divergence detection, unrestricted evaluation, global normalization, or a second source route.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:znormal-carrier}. The packet lists $P$ as the $\Pkg$ provenance row and $N$ as the local $\NameCert_{\ZNormalUp}$ row, with no separate ledger component.
+
+Use \autoref{thm:znormal-namecert-obligations} to read the ledger through the same finite packet. The naming surface attaches carrier admission, terminal-normality evidence, sibling evidence, transport, replay, provenance, and naming to $T,F,V,K,R,H,C,P,N$.
+
+Apply \autoref{def:znormal-root-carrier-boundary} and \autoref{thm:znormal-root-consumer-readiness}. They force root consumers to display the same $\BHist$ source route before terminal normality can be used.
+
+The sibling evidence remains local to the displayed rows: typed endpoints come from \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, finite normal words from \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, carry evidence from \autoref{ch:concrete-instances-zcarry-namecert}, and terminal continuation readback from \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. Consequently $P,N$ exhaust the local ledger over $Z$, and every excluded host-side read lacks a NameCert row.
+\end{proof}
