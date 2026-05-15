@@ -123,4 +123,55 @@ theorem UniformCauchyCriterionPacket_finite_family_seal_overlap_determinacy [Ask
         cont_triangle_cycle_right_visible_tail_absurd realRegseqShared
           sharedTransportsOverlap backToReal)⟩
 
+theorem UniformCauchyCriterionPacket_finite_family_route_lock [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name regseqReadA
+      regseqReadB realReadA realReadB lockedRouteA lockedRouteB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail regseqReadA ->
+        Cont index tail regseqReadB ->
+          Cont tail sealRow realReadA ->
+            Cont tail sealRow realReadB ->
+              Cont regseqReadA realReadA lockedRouteA ->
+                Cont regseqReadB realReadB lockedRouteB ->
+                  PkgSig bundle lockedRouteA pkg ->
+                    PkgSig bundle lockedRouteB pkg ->
+                      UnaryHistory lockedRouteA ∧ UnaryHistory lockedRouteB ∧
+                        hsame regseqReadA regseqReadB ∧ hsame realReadA realReadB ∧
+                          hsame lockedRouteA lockedRouteB ∧
+                            Cont regseqReadA realReadA lockedRouteA ∧
+                              Cont regseqReadB realReadB lockedRouteB ∧
+                                PkgSig bundle name pkg ∧
+                                  PkgSig bundle lockedRouteA pkg ∧
+                                    PkgSig bundle lockedRouteB pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet indexTailRegseqA indexTailRegseqB tailSealRealA tailSealRealB
+    regseqRealLockedA regseqRealLockedB lockedPkgA lockedPkgB
+  obtain ⟨indexUnary, _windowsUnary, _modulusUnary, _toleranceUnary, tailUnary,
+    sealRowUnary, _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _indexWindowsModulus, _modulusToleranceTail, _tailSealRowTransports,
+    _transportsRoutesProvenance, namePkg⟩ := packet
+  have regseqUnaryA : UnaryHistory regseqReadA :=
+    unary_cont_closed indexUnary tailUnary indexTailRegseqA
+  have regseqUnaryB : UnaryHistory regseqReadB :=
+    unary_cont_closed indexUnary tailUnary indexTailRegseqB
+  have realUnaryA : UnaryHistory realReadA :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealA
+  have realUnaryB : UnaryHistory realReadB :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealB
+  have lockedUnaryA : UnaryHistory lockedRouteA :=
+    unary_cont_closed regseqUnaryA realUnaryA regseqRealLockedA
+  have lockedUnaryB : UnaryHistory lockedRouteB :=
+    unary_cont_closed regseqUnaryB realUnaryB regseqRealLockedB
+  have sameRegseq : hsame regseqReadA regseqReadB :=
+    cont_deterministic indexTailRegseqA indexTailRegseqB
+  have sameReal : hsame realReadA realReadB :=
+    cont_deterministic tailSealRealA tailSealRealB
+  have sameLocked : hsame lockedRouteA lockedRouteB :=
+    cont_respects_hsame sameRegseq sameReal regseqRealLockedA regseqRealLockedB
+  exact
+    ⟨lockedUnaryA, lockedUnaryB, sameRegseq, sameReal, sameLocked, regseqRealLockedA,
+      regseqRealLockedB, namePkg, lockedPkgA, lockedPkgB⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp

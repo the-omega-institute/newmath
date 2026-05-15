@@ -497,4 +497,62 @@ theorem ApophaticNameCarrier_root_stdbridge_premise_surface [AskSetup] [PackageS
     ⟨transported.left, cert, bridgeUnary, ledger_same_request_gate_prime, gateLedgerNameRowPrime,
       bridgePkg⟩
 
+theorem ApophaticNameCarrier_root_unblock_public_citation_surface [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow bundle pkg →
+      Cont route provenance publicRead →
+        PkgSig bundle publicRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+                  bundle pkg ∧ hsame row provenance)
+              (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+              (fun row : BHist =>
+                PkgSig bundle provenance pkg ∧ hsame row provenance ∧
+                  Cont route provenance publicRead)
+              hsame ∧
+            UnaryHistory publicRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier routeProvenancePublic publicPkg
+  have carrierPacket :
+      ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg :=
+    carrier
+  obtain ⟨_socketUnary, _requestUnary, _gateUnary, _ledgerUnary, _transportUnary,
+    routeUnary, provenanceUnary, _nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, _ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenancePublic
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ hsame row provenance ∧
+              Cont route provenance publicRead)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro provenance ⟨carrierPacket, hsame_refl provenance⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      have rowSameProvenance : hsame row provenance := source.right
+      exact
+        ⟨rowSameProvenance,
+          unary_transport provenanceUnary (hsame_symm rowSameProvenance)⟩
+    · intro row source
+      exact ⟨provenancePkg, source.right, routeProvenancePublic⟩
+  exact ⟨cert, publicUnary, provenancePkg, publicPkg⟩
+
 end BEDC.Derived.ApophaticNameUp
