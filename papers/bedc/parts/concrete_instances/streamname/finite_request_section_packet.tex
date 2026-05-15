@@ -98,3 +98,49 @@ Cauchy-presentation equality, selected limits, host real equality,
 metric-completeness data, or ambient completion. The finite-request section
 therefore reaches the Real seal only through the displayed rows.
 \end{proof}
+
+\begin{theorem}[StreamName finite-request terminal coherence]
+\label{thm:streamname-finite-request-terminal-coherence}
+Any finite $\StreamNameUp$ request that is read both as a $\RealUp$ endpoint
+finite-request section and as a $\RegSeqRatUp$ window-budget section
+determines a unique terminal public row. That row is the four-face
+Real-and-Completion packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with only the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The same packet is therefore the terminal exit route for the request, and it
+contains no quotient stream equality, no quotient equality of Cauchy
+presentations, no host sequence equality, no selected limit, no host real
+equality, no ambient or metric-completeness datum, no countable-choice row, no
+Classical row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-endpoint-finite-request-section}. The endpoint
+reading fixes the finite request as a $\RealUp$ section with the StreamName
+window, RegSeqRat readback, DyadicRatCore budget, RealUp seal, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-regseqrat-window-budget-section}. The
+RegSeqRat window-budget reading uses the same finite section packet, so the
+readback and budget faces are not second routes parallel to the endpoint
+section.
+
+Now compose with
+\autoref{thm:streamname-real-seal-request-section-nonescape}. It removes every
+Real-seal escape coordinate outside the displayed section rows. Invoke
+\autoref{thm:streamname-real-completion-four-object-exit-route} to identify
+those rows with the four-object Real-and-Completion exit packet.
+
+Finally use \autoref{thm:streamname-open-phase-four-face-terminality}. Once
+the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal,
+and displayed support rows agree, there is only one terminal finite BEDC route
+for the request. The exclusions are exactly the non-escape exclusions of
+\autoref{thm:streamname-regseqrat-real-budget-nonescape}, so no quotient,
+selected-limit, ambient-completeness, choice, Classical, or bridge coordinate
+can replace the terminal four-face packet.
+\end{proof}
