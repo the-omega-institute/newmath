@@ -227,6 +227,24 @@ For the reverse direction, a read that factors through the displayed ordered rou
 Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. It excludes quotient streams, host-selected limits, host real equality, choice data, hidden tail oracles, and ambient completeness coordinates from the exported surface, so completeness of the terminal read is exactly completeness of the displayed finite factorization.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility Monotone Cauchy seal handoff]
+\label{thm:diagonal-limit-compatibility-monotone-cauchy-seal-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet, and let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q_M,H_M,C_M,P_M,N_M)
+$$
+be an accepted $\MonotoneCauchyUp$ packet whose public $\RealUp$ seal classifier consumes the terminal $\RealUp$ read exported by $K$. Then the combined read factors through the same ordered finite surface: the $\CauchyDiagonalBudgetUp$ source row, the $\RealDiagonalMeshBudgetUp$ mesh row, the $\RegularCauchyTriangleBoundUp$ triangle row, the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, the monotone $\CauchyModulusUp$ and $\LocatedIntervalUp$ rows, the $\RealUp$ seal row, and the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows from both packets. The handoff exports no quotient stream, selected limit, host real equality, trichotomy row, ambient completeness principle, or choice datum.
+\end{theorem}
+\begin{proof}
+Start with terminal route completeness, \autoref{thm:diagonal-limit-compatibility-terminal-route-completeness}. It places the accepted terminal read of $K$ on the displayed budget, mesh, triangle, stream-window, regular-readback, Real-seal, transport, continuation, provenance, and local naming rows.
+
+Next apply the Monotone Cauchy public route classifier handoff, \autoref{thm:monotone-cauchy-public-route-classifier-handoff}. The public completion-facing classifier and the $\RealUp$ seal-facing classifier of $M$ read the located interval trap, monotone tail-window certificate, $\RegSeqRatUp$ row, $\CauchyModulusUp$ tail-stability row, and $\RealUp$ seal row through $H_M,C_M,P_M,N_M$.
+
+The consumer hypothesis identifies the $\RealUp$ seal read exported by $K$ with the seal-facing classifier input of $M$. Therefore the composed read first traverses the diagonal terminal route and then the monotone classifier surface, without inserting any row outside the two displayed finite packets.
+
+Finally combine the non-escape clause in terminal route completeness with the non-escape conclusion of the Monotone Cauchy classifier handoff. The diagonal packet has no quotient stream, selected limit, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate, and the monotone packet has no quotient stream, host sequence equality, selected limit, trichotomy row, ambient completeness principle, or choice datum. Hence the combined seal handoff factors exactly through the listed ordered surface.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility open-phase exit synchronization]
 \label{thm:diagonal-limit-compatibility-open-phase-exit-synchronization}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet whose terminal route reads the $\CauchyModulusRefinementUp$ diagonal pullback surface and the $\UniformCauchyCriterionUp$ Real-completion exit surface. Then every terminal $\RealUp$ or $\CompletionUp$ read synchronizes exactly the four finite exit faces
