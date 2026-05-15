@@ -111,4 +111,22 @@ theorem QuotientSoundnessBoundary_cont_route_locality [AskSetup] [PackageSetup]
     ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, consumerUnary, eAV, eTH,
       hCConsumer, nPkg, consumerPkg, hN⟩
 
+theorem QuotientSoundnessBoundaryCarrier_transport_replacement [AskSetup] [PackageSetup]
+    {e a t v h c p n replacement : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont h c replacement ->
+        PkgSig bundle replacement pkg ->
+          UnaryHistory e ∧ UnaryHistory t ∧ UnaryHistory h ∧ UnaryHistory c ∧
+            UnaryHistory replacement ∧ Cont e t h ∧ Cont h c replacement ∧
+              PkgSig bundle replacement pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier replacementRoute replacementPkg
+  obtain ⟨eUnary, _aUnary, tUnary, _vUnary, hUnary, cUnary, _pUnary, _nUnary,
+    _eAV, eTH, _hCN, _pPkg, _nPkg, hN⟩ := carrier
+  have replacementUnary : UnaryHistory replacement :=
+    unary_cont_closed hUnary cUnary replacementRoute
+  exact
+    ⟨eUnary, tUnary, hUnary, cUnary, replacementUnary, eTH, replacementRoute,
+      replacementPkg, hN⟩
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
