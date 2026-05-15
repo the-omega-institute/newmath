@@ -307,3 +307,33 @@ theorem LargeModelContextAuditTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.LargeModelContextAuditUp
+
+namespace BEDC.Derived.LargeModelContextAuditUp.TasteGate
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+open BEDC.Derived.LargeModelContextAuditUp
+
+theorem LargeModelContextAuditTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier LargeModelContextAuditUp) ∧
+      Nonempty (ChapterTasteGate LargeModelContextAuditUp) ∧
+        Nonempty (FieldFaithful LargeModelContextAuditUp) ∧
+          Nonempty (Nontrivial LargeModelContextAuditUp) ∧
+            largeModelContextAuditEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+              largeModelContextAuditEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨largeModelContextAuditBHistCarrier⟩
+  · constructor
+    · exact ⟨largeModelContextAuditChapterTasteGate⟩
+    · constructor
+      · exact ⟨largeModelContextAuditFieldFaithful⟩
+      · constructor
+        · exact ⟨largeModelContextAuditNontrivial⟩
+        · constructor
+          · rfl
+          · rfl
+
+end BEDC.Derived.LargeModelContextAuditUp.TasteGate

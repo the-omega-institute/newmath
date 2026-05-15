@@ -57,6 +57,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApophaticGateQuestionUp
+import BEDC.Derived.ApophaticKernelBoundaryUp.TasteGate
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -131,6 +132,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GeneratorRangeExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealObservationSealFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootTailBudgetExactness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
@@ -220,6 +222,7 @@ import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
+import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
 import BEDC.Derived.RealSealAdmissionCutUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.TasteGate
@@ -1017,6 +1020,7 @@ import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSourceReadbackTotality
+import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSealHandoffDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
