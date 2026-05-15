@@ -275,7 +275,6 @@ instance inscriptionAcceptanceBudgetChapterTasteGate :
     exact hxy (inscriptionAcceptanceBudgetToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate InscriptionAcceptanceBudgetUp :=
-  -- BEDC touchpoint anchor: BHist BMark
   inscriptionAcceptanceBudgetChapterTasteGate
 
 theorem InscriptionAcceptanceBudgetTasteGate_single_carrier_alignment :

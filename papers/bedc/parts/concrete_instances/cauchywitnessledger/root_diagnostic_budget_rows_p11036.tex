@@ -19,6 +19,7 @@ Q \longmapsto B \longmapsto S
 $$
 has been displayed. A consumer cannot read $K$ as a detached classifier row before the diagonal-budget row, observation-budget row, and seal-synchronizer row have been consumed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_root\_seal\_classifier\_lock}
 \begin{proof}
 First read the carrier in \autoref{def:cauchy-witness-ledger-carrier}. The row $K$ is one coordinate of the same finite packet as $Q,B,S,H,C,P,N$, not a separate classifier object.
 
@@ -33,7 +34,7 @@ Let $L=(Q,B,S,K,H,C,P,N)$ and $L'=(Q',B',S',K',H',C',P',N')$ be accepted $\Cauch
 $$
 Q \longmapsto B \longmapsto S
 $$
-and on the structural rows $H,C,P,N$. Then the completion-seal classifier read is determined on that public route: $K$ and $K'$ name the same route-bound classifier read. In particular, no second completion-seal classifier for the same public root route can be attached to a different stream source, $\RegSeqRat$ source, $\DyadicRatCore$ source, $\Real$ source, tail source, limit source, or seal source.
+and on the structural rows $H,C,P,N$. Then the completion-seal classifier read is determined on that public route: $K$ and $K'$ name the same route-bound classifier read. In particular, no second completion-seal classifier for the same public root route can be attached to a different stream source, $\RegSeqRat$ source, $\DyadicRatCore$ source, $\RealUp$ source, tail source, limit source, or seal source.
 \end{theorem}
 \begin{proof}
 Use \autoref{thm:cauchy-witness-ledger-root-diagnostic-budget-totality} for both packets. Every public root diagnostic read exposes exactly the diagonal-budget row, observation-budget row, seal-synchronizer row, completion-seal classifier row, componentwise transport row, displayed continuation row, provenance row, and local NameCert row.
