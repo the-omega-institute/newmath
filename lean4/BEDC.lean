@@ -71,6 +71,8 @@ import BEDC.Derived.ApophaticNameUp.RootFactorization
 import BEDC.Derived.ApophaticNameUp.RootPublicCitationSelectorExclusion
 import BEDC.Derived.ApophaticNameUp.RootCitationExport
 import BEDC.Derived.ApophaticNameUp.RootReflectionAxisRefusal
+import BEDC.Derived.ApophaticNameUp.RefusalReadbackRow
+import BEDC.Derived.ApophaticNameUp.RootBridgeTupleNoninternalization
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
