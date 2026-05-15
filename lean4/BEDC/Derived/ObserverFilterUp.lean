@@ -124,6 +124,55 @@ theorem ObserverFilter_ledger_exactness [AskSetup] [PackageSetup]
       exact And.intro (unary_transport omittedUnary (hsame_symm sourceData.right)) pkgSig
   }
 
+theorem ObserverFilterCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ObserverFilterCarrier source selected omitted transport ledger routes provenance
+              localName bundle pkg ∧
+            hsame row provenance)
+        (fun row : BHist =>
+          Cont source selected ledger ∧ Cont ledger omitted routes ∧
+            Cont routes localName provenance ∧ hsame row provenance)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro carrier
+  have carrierWitness :
+      ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg := carrier
+  obtain ⟨_sourceUnary, _selectedUnary, _omittedUnary, _ledgerUnary, _routesUnary,
+    provenanceUnary, _localNameUnary, sourceSelected, ledgerOmitted, routesLocalName,
+    provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance (And.intro carrierWitness (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceData
+        exact And.intro sourceData.left
+          (hsame_trans (hsame_symm sameRows) sourceData.right)
+    }
+    pattern_sound := by
+      intro row sourceData
+      exact ⟨sourceSelected, ledgerOmitted, routesLocalName, sourceData.right⟩
+    ledger_sound := by
+      intro row sourceData
+      exact ⟨unary_transport provenanceUnary (hsame_symm sourceData.right), provenancePkg⟩
+  }
+
 theorem ObserverFilterCarrier_observer_history_factorization [AskSetup] [PackageSetup]
     {source selected omitted transport ledger routes provenance localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

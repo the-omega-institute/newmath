@@ -90,6 +90,7 @@ Use the window projection and shared seal factorization. Any consumer first read
 
 Inspect the excluded data. No coordinate stores quotient stream equality, host real equality, a selected limit, choice, or ambient completeness. The packet therefore cannot export such data to a downstream Real-and-Completion route.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberPacket\_nonescape}
 
 \begin{theorem}[Regular Cauchy tail fiber follow-up TasteGate contract]
 \label{thm:regular-cauchy-tail-fiber-tastegate-contract}
@@ -160,6 +161,26 @@ Use the carrier projection and the NameCert obligations of \autoref{thm:regular-
 For $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ consumers, apply \autoref{thm:regular-cauchy-tail-fiber-window-projection}. Their reads are exhausted by $R_0,R_1,W_0,W_1,D_0,D_1,T$ before any seal boundary is available.
 
 For $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, and $\RealUp$ consumers, apply \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The shared seal route reaches $A$ only through $T$, and the packet exports no further equality, selector, or completeness data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fiber Real-completion route coverage]
+\label{thm:regular-cauchy-tail-fiber-real-completion-route-coverage}
+For an accepted $\RegularCauchyTailFiberUp$ carrier
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N),
+$$
+every current Real-and-Completion consumer route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, or $\RealUp$ factors through the paired-window route
+$$
+R_0,R_1,W_0,W_1,D_0,D_1 \longmapsto T \longmapsto A
+$$
+before any Real seal is read, together with the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. The route-coverage surface exports no quotient stream, host real equality, selected limit, countable-choice selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the window projection of \autoref{thm:regular-cauchy-tail-fiber-window-projection}. It makes the two regular-rational rows, two stream windows, and two dyadic ledgers the only source route available before a seal-facing row can be reached.
+
+Next apply shared seal factorization and seal-consumer exhaustion from \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} and \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion}. These place the shared fiber row $T$ before the seal row $A$ for each listed Real-and-Completion consumer.
+
+Finally use classifier exactness and source-swap stability from \autoref{thm:regular-cauchy-tail-fiber-classifier-exactness} and \autoref{thm:regular-cauchy-tail-fiber-source-swap-stability}. The classifier can only replay the displayed paired-window, fiber, seal, transport, continuation, provenance, and local naming rows, so no quotient stream, host equality, selector, choice row, or completeness theorem is exported.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy tail fiber classifier exactness]
@@ -471,6 +492,28 @@ Apply paired-window exactness from \autoref{thm:regular-cauchy-tail-fiber-paired
 Finally invoke the meet route \autoref{thm:regular-cauchy-tail-fiber-meet-route} and non-escape from \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The meet route supplies the shared route through $T$, while non-escape excludes detached seal data, quotient-stream equality, host real equality, selected limits, and ambient completeness witnesses. Hence the displayed row $A$ is the unique seal row available to the consumer.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail fiber finite-window Real-seal equivalence]
+\label{thm:regular-cauchy-tail-fiber-finite-window-real-seal-equivalence}
+Let
+$$
+F=(R_0,R_1,W_0,W_1,D_0,D_1,T,A,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailFiberUp$ carrier. The $\RegularCauchyTailMeetUp$ route through the paired finite windows and the $\RealTailAgreementSealUp$--$\RealUp$ seal route describe the same completion-facing read exactly when both factor through the finite tuple
+$$
+(W_0,W_1,D_0,D_1,T,A)
+$$
+under the displayed $\hsame$ transports carried by $H$ and the displayed continuations carried by $C$. This correspondence uses no quotient stream, host real equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the forward route. Apply the window projection of \autoref{thm:regular-cauchy-tail-fiber-window-projection}; the two source reads are visible only through $W_0,W_1$ and their dyadic ledgers $D_0,D_1$ under the displayed transports.
+
+Use shared seal factorization from \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}. The paired-window read reaches the shared fiber row $T$ before it reaches the seal row $A$, so the finite tuple $(W_0,W_1,D_0,D_1,T,A)$ already carries the meet-to-seal route.
+
+For the reverse route, apply paired-window exactness from \autoref{thm:regular-cauchy-tail-fiber-paired-window-exactness} and classifier exactness from \autoref{thm:regular-cauchy-tail-fiber-classifier-exactness}. A $\RealTailAgreementSealUp$ or $\RealUp$ seal read that reaches $A$ through $T$ determines the same paired windows and dyadic ledgers, hence returns to the finite meet surface.
+
+Finally invoke Real-seal determinacy from \autoref{thm:regular-cauchy-tail-fiber-real-seal-determinacy} and non-escape from \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The seal row is the unique displayed $A$ reached from $T$, and no quotient stream, host equality, selected limit, or ambient completeness coordinate remains available to separate the two routes.
+\end{proof}
+
 \closureat{RegularCauchyTailFiberUp}{seedStr}
 \closureat{RegularCauchyTailFiberUp}{obligationStr}[BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberTasteGate\_single\_carrier\_alignment]
 \closureat{RegularCauchyTailFiberUp}{scopedStr}[BEDC.Derived.RegularCauchyTailFiberUp.RegularCauchyTailFiberTasteGate\_single\_carrier\_alignment]
@@ -481,7 +524,7 @@ Finally invoke the meet route \autoref{thm:regular-cauchy-tail-fiber-meet-route}
 \begin{closurestatus}{\RegularCauchyTailFiberUp}
   \constructivestory{A $\RegularCauchyTailFiberUp$ packet is generated from two $\RegSeqRatUp$ source rows, two finite $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ tail-radius ledgers, one shared tail fiber row, one $\RealUp$ tail-agreement seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-fiber-carrier}, \autoref{thm:regular-cauchy-tail-fiber-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fiber-window-projection}, \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}, \autoref{thm:regular-cauchy-tail-fiber-nonescape}, \autoref{thm:regular-cauchy-tail-fiber-tastegate-contract}, \autoref{thm:regular-cauchy-tail-fiber-classifier-stability}, \autoref{thm:regular-cauchy-tail-fiber-paired-window-exactness}, \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion}, \autoref{thm:regular-cauchy-tail-fiber-classifier-exactness}, \autoref{thm:regular-cauchy-tail-fiber-regseq-real-handoff-lock}, \autoref{thm:regular-cauchy-tail-fiber-tail-agreement-seal-exactness}, \autoref{thm:regular-cauchy-tail-fiber-completion-consumer-nonescape}, \autoref{thm:regular-cauchy-tail-fiber-source-swap-stability}, \autoref{thm:regular-cauchy-tail-fiber-componentwise-transport}, \autoref{thm:regular-cauchy-tail-fiber-ledger-exhaustion}, \autoref{thm:regular-cauchy-tail-fiber-source-seal-ledger-totality}, \autoref{thm:regular-cauchy-tail-fiber-window-fiber-classifier-coverage}, \autoref{thm:regular-cauchy-tail-fiber-completion-handoff-scope}, \autoref{thm:regular-cauchy-tail-fiber-shared-window-seal-determinacy}, and \autoref{thm:regular-cauchy-tail-fiber-real-seal-determinacy} specify the finite common-tail fiber carrier, local NameCert rows, window projection, shared seal factorization, non-escape boundary, TasteGate follow-up contract, classifier stability, paired-window exactness, seal-consumer exhaustion, classifier exactness, RegSeqRat-to-Real handoff lock, tail-agreement seal exactness, completion consumer nonescape, source-swap stability, componentwise transport, ledger exhaustion, source-seal ledger totality, classifier coverage, completion handoff scope, shared-window seal determinacy, and Real-seal determinacy.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-fiber-carrier}, \autoref{thm:regular-cauchy-tail-fiber-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fiber-window-projection}, \autoref{thm:regular-cauchy-tail-fiber-shared-seal-factorization}, \autoref{thm:regular-cauchy-tail-fiber-nonescape}, \autoref{thm:regular-cauchy-tail-fiber-tastegate-contract}, \autoref{thm:regular-cauchy-tail-fiber-classifier-stability}, \autoref{thm:regular-cauchy-tail-fiber-paired-window-exactness}, \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion}, \autoref{thm:regular-cauchy-tail-fiber-classifier-exactness}, \autoref{thm:regular-cauchy-tail-fiber-regseq-real-handoff-lock}, \autoref{thm:regular-cauchy-tail-fiber-tail-agreement-seal-exactness}, \autoref{thm:regular-cauchy-tail-fiber-completion-consumer-nonescape}, \autoref{thm:regular-cauchy-tail-fiber-source-swap-stability}, \autoref{thm:regular-cauchy-tail-fiber-componentwise-transport}, \autoref{thm:regular-cauchy-tail-fiber-ledger-exhaustion}, \autoref{thm:regular-cauchy-tail-fiber-source-seal-ledger-totality}, \autoref{thm:regular-cauchy-tail-fiber-window-fiber-classifier-coverage}, \autoref{thm:regular-cauchy-tail-fiber-completion-handoff-scope}, \autoref{thm:regular-cauchy-tail-fiber-shared-window-seal-determinacy}, \autoref{thm:regular-cauchy-tail-fiber-real-seal-determinacy}, and \autoref{thm:regular-cauchy-tail-fiber-finite-window-real-seal-equivalence} specify the finite common-tail fiber carrier, local NameCert rows, window projection, shared seal factorization, non-escape boundary, TasteGate follow-up contract, classifier stability, paired-window exactness, seal-consumer exhaustion, classifier exactness, RegSeqRat-to-Real handoff lock, tail-agreement seal exactness, completion consumer nonescape, source-swap stability, componentwise transport, ledger exhaustion, source-seal ledger totality, classifier coverage, completion handoff scope, shared-window seal determinacy, Real-seal determinacy, and finite-window Real-seal correspondence.}
   \leanchecked{BEDC.Derived.RegularCauchyTailFiberUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

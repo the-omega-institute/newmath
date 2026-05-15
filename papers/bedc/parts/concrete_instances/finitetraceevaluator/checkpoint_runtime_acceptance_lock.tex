@@ -1,0 +1,43 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-runtime acceptance lock]
+\label{thm:finite-trace-evaluator-checkpoint-runtime-acceptance-lock}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, a checkpoint-facing read is accepted only when it passes through the displayed input row, finite trace row, accepted-result row, validation-boundary row, componentwise transport row, route row, provenance row, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row. In packet notation the accepted surface is
+$$
+I,T,A,V,H,C,P,N.
+$$
+No checkpoint read is accepted from a detached runtime input, host validation row, unbounded trace source, alternate accepted-result classifier, or local name outside that packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier surface of the finite trace evaluator. Its checkpoint-facing rows are the input, trace, accepted-result, validation, transport, route, provenance, and local naming rows.
+
+Apply the checkpoint-runtime triad of \autoref{thm:finite-trace-evaluator-checkpoint-runtime-triad}. It identifies the checkpoint, runtime, and readback sides as one finite packet $I,T,A,V,H,C,P,N$.
+
+Use checkpoint image readback and terminal runtime nonescape, \autoref{thm:finite-trace-evaluator-checkpoint-image-readback} and \autoref{thm:finite-trace-evaluator-terminal-runtime-nonescape}. These results rule out detached host validation, unbounded trace semantics, alternate accepted-result classifiers, and local names outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime route coverage]
+\label{thm:finite-trace-evaluator-runtime-route-coverage}
+Every runtime-facing consumer of an accepted $\FiniteTraceEvaluatorUp$ packet factors through $\ReflectionRuntimeCheckpointUp$ and $\RuntimeCandidateBoundaryUp$ before reading the evaluator result. The result read is therefore carried only by the finite route $I,T,A,V,H,C,P,N$ and by the candidate-boundary and checkpoint rows named in the provenance packet.
+\end{theorem}
+\begin{proof}
+First expose the runtime checkpoint side. The checkpoint-runtime triad places runtime-facing reads on the same finite evaluator rows as checkpoint-facing reads.
+
+Next route the consumer through the checkpoint sibling. The $\ReflectionRuntimeCheckpointUp$ side supplies the checkpoint state and validation-boundary read before any evaluator result can be consumed.
+
+Finally use the $\RuntimeCandidateBoundaryUp$ provenance row. It supplies the object-level input, transition, and accepted-result boundary read by the evaluator. Since the evaluator result is reached only after those two sibling surfaces, no runtime consumer bypasses them.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator validation refusal closure]
+\label{thm:finite-trace-evaluator-validation-refusal-closure}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, host validators, truth predicates, unrestricted evaluator semantics, and hidden runtime state are refused outside the displayed packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+The validation-facing row records only the finite boundary available to the packet; it does not export host-valid runtime judgment, total truth, unbounded evaluation, or hidden machine state.
+\end{theorem}
+\begin{proof}
+Start with the acceptance lock above. Accepted checkpoint-runtime reads must pass through $I,T,A,V,H,C,P,N$.
+
+Apply runtime route coverage. Any runtime-facing consumer reaches the evaluator only after $\ReflectionRuntimeCheckpointUp$ and $\RuntimeCandidateBoundaryUp$, so the consumer cannot replace the displayed validation row by host validation or by a total truth predicate.
+
+Finally use terminal runtime nonescape. The terminal route exports no host evaluator, hidden runtime state, total truth predicate, total halting classifier, unbounded evaluator, infinite trace semantics, or alternate checkpoint route. The validation refusal is therefore closed at the displayed finite packet.
+\end{proof}

@@ -97,6 +97,7 @@ Apply \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It orders the ana
 
 It remains to account for the structural rows. The same handoff theorem and the NameCert obligations keep $H,C,P,N$ as replay and provenance for that route only. Since no additional real-construction coordinate occurs in $T$, every $\RealUp$ readback through $L$ has already consumed the displayed schedule surface.
 \end{proof}
+\leanchecked{BEDC.Derived.TailCofinalityScheduleUp.TailCofinalityScheduleCarrier\_real\_seal\_readback}
 
 \begin{theorem}[Tail cofinality schedule RegularCauchyTailMeet handoff]
 \label{thm:tail-cofinality-schedule-regular-cauchy-tail-meet-handoff}
@@ -513,6 +514,34 @@ limit source, hidden selector surface, ambient completeness witness, or second
 completion route. The $\RealTailAgreementSealUp$ agreement rows therefore add
 only the displayed finite agreement handoff already used by the pullback
 surface, and every public read is exhausted by the named L10 rows.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule CauchyLimitSeal readback]
+\label{thm:tail-cofinality-schedule-cauchy-limitseal-readback}
+Every accepted $\TailCofinalityScheduleUp$ packet whose selector residue is exhausted reads its $\CauchyLimitSealUp$ boundary only through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ rows of the schedule route.
+\end{theorem}
+\begin{proof}
+Project the schedule carrier and place the selector read on the diagonal route using \autoref{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}. The $\StreamNameUp$ window, $\DyadicRatCoreUp$ dyadic ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ row, and $\CauchyLimitSealUp$ handoff are the displayed rows available to the accepted packet.
+
+Apply the finite-window coverage and completion pullback blocks, including \autoref{thm:tail-cofinality-schedule-selector-completion-pullback}. They identify the completion-facing read with the same finite surface rather than with an independent limit endpoint.
+
+Now use \autoref{thm:tail-cofinality-schedule-selector-seal-pullback} and \autoref{thm:tail-cofinality-schedule-selector-residue-exhaustion}. The selector-seal route passes through the selected window, regular-rational readback, CauchyLimitSeal handoff, and terminal real row, and the residue-exhaustion statement leaves no remaining selector-facing or completion-facing public read outside those rows.
+
+No quotient stream, host limit, choice selector, detached limit, hidden selector row, or ambient completeness coordinate is present in the carrier. Thus the CauchyLimitSeal boundary can be read only through the displayed L10 schedule rows.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule RealCompletionSelectorSeal route]
+\label{thm:tail-cofinality-schedule-real-completion-selector-route}
+For the same accepted $\TailCofinalityScheduleUp$ packet, every $\RealCompletionSelectorSealUp$ consumer route factors through the CauchyLimitSeal readback row of \autoref{thm:tail-cofinality-schedule-cauchy-limitseal-readback} and the selector-seal pullback route of \autoref{thm:tail-cofinality-schedule-selector-seal-pullback}.
+\end{theorem}
+\begin{proof}
+Start with the selector-facing route of \autoref{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}. It fixes the finite tail schedule, selector budget, transport, replay, provenance, and local naming rows before any selector-seal consumer reads the packet.
+
+Next apply the finite-window and selector-seal pullback results. The selected $\StreamNameUp$ window and $\RegSeqRatUp$ readback are the only route by which the selector seal reaches the $\CauchyLimitSealUp$ handoff and the terminal $\RealUp$ row.
+
+Use \autoref{thm:tail-cofinality-schedule-cauchy-limitseal-readback} for the limit-seal boundary. The readback theorem has already exhausted the possible CauchyLimitSeal reads through the displayed stream, dyadic, regular-rational, real, and limit-seal rows.
+
+Finally invoke \autoref{thm:tail-cofinality-schedule-selector-residue-exhaustion}. Since the exhausted packet has no quotient stream, host limit, choice selector, ambient completeness coordinate, hidden tail oracle, or second completion route, any RealCompletionSelectorSeal consumer route must factor through the displayed CauchyLimitSeal readback and selector-seal pullback rows.
 \end{proof}
 
 \closureat{TailCofinalityScheduleUp}{seedStr}
