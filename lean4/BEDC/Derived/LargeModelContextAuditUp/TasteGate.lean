@@ -286,4 +286,24 @@ def taste_gate : ChapterTasteGate LargeModelContextAuditUp :=
   -- BEDC touchpoint anchor: BHist BMark
   largeModelContextAuditChapterTasteGate
 
+theorem LargeModelContextAuditTasteGate_single_carrier_alignment :
+    (∀ h : BHist, largeModelContextAuditDecodeBHist
+        (largeModelContextAuditEncodeBHist h) = h) ∧
+      (∀ x : LargeModelContextAuditUp,
+        largeModelContextAuditFromEventFlow (largeModelContextAuditToEventFlow x) = some x) ∧
+      (∀ x y : LargeModelContextAuditUp,
+        largeModelContextAuditToEventFlow x = largeModelContextAuditToEventFlow y → x = y) ∧
+      largeModelContextAuditEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro h
+    exact largeModelContextAudit_decode_encode_bhist h
+  · constructor
+    · intro x
+      exact largeModelContextAudit_round_trip x
+    · constructor
+      · intro x y heq
+        exact largeModelContextAuditToEventFlow_injective heq
+      · rfl
+
 end BEDC.Derived.LargeModelContextAuditUp

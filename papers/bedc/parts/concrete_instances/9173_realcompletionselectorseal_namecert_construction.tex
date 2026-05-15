@@ -124,6 +124,30 @@ Next apply \autoref{thm:real-completion-selector-seal-route-determinacy}. Two ac
 Therefore any readback visible after $B$ and $W$ must pass through the displayed row $R$. Replacing $R$ by an external equality or by a detached limit would introduce a coordinate absent from the carrier and so would leave the accepted packet.
 \end{proof}
 
+\begin{theorem}[Real completion selector-seal selector-window classifier pullback]
+\label{thm:real-completion-selector-seal-selector-window-classifier-pullback}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+and
+$$
+S'=(B',W',R',L',E',H',C',P',N')
+$$
+be accepted $\RealCompletionSelectorSealUp$ packets. They have the same selector-window classifier surface exactly when the selector budget $B$, selected $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ handoff $L$, terminal $\RealUp$ seal $E$, and structural $H,C,P,N$ rows agree componentwise with their primed counterparts.
+
+The classifier excludes quotient stream equality, host real equality, hidden selectors, detached limit objects, second completion routes, and ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the NameCert obligations of \autoref{thm:real-completion-selector-seal-namecert-obligations}. The local certificate exposes exactly $B,W,R,L,E,H,C,P,N$ as the selector-to-seal surface.
+
+Use route determinacy, \autoref{thm:real-completion-selector-seal-route-determinacy}. If two accepted packets present the same displayed rows, they determine the same finite Real and Completion handoff route, so the selector-window classifier has no further coordinate to inspect.
+
+For the reverse direction, assume componentwise agreement of $B,W,R,L,E,H,C,P,N$. Selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, forces both reads to enter through $B$ before the selected window or readback is available, and readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, fixes $R$ as the only regular-rational readback after $B$ and $W$.
+
+Finally apply non-escape, \autoref{thm:real-completion-selector-seal-nonescape}. Hidden selectors, quotient stream equality, host real equality, detached limits, second completion routes, and ambient completeness are absent from the packet, so none can split the agreed selector-window classifier surface.
+\end{proof}
+
 \begin{theorem}[Real completion selector-seal terminal consumer exhaustion]
 \label{thm:real-completion-selector-seal-terminal-consumer-exhaustion}
 Every terminal $\RealCompletionSelectorSealUp$ completion consumer factors through the full ordered route
