@@ -258,6 +258,30 @@ Now pass from family-tail exhaustion to terminal consumers. Apply \autoref{thm:u
 Finally apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The $\RealUp$ and completion-facing seal reads factor through the same package, with $E$ as the displayed seal handoff and $H,C,P,N$ as transport, continuation, provenance, and local naming. Since every late case has already been placed on that route, the accepted packet has no coordinate for a selected family limit, host real equality, or ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite tail readback coverage]
+\label{thm:uniform-cauchy-criterion-finite-tail-readback-coverage}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every finite tail readback request for $U$ is covered by exactly one of the displayed routes: the empty-family route, the singleton restriction route, the paired-family route, or the nonempty-subfamily route. After that route is selected, every $\RegSeqRatUp$-, $\RealUp$-, or completion-facing consumer factors through
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+together with the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Consequently no finite tail readback of $U$ can export a quotient stream family, a selected family limit, host real equality, or ambient completeness outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Split the finite family request before any $\RegSeqRatUp$ or $\RealUp$ seal is inspected. The empty request is handled by \autoref{thm:uniform-cauchy-criterion-empty-family-tail-ledger}; a one-member request is handled by \autoref{thm:uniform-cauchy-criterion-single-member-restriction-exactness}. A two-sided displayed family read is handled by \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger}.
+
+It remains to cover finite nonempty subfamily reads that are not already one of those boundary cases. Apply \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}. This places the read inside the displayed finite family ledger and the same $W,M,Q,T$ route, with no source for an independently selected modulus family or detached tail ledger.
+
+The four cases are exhaustive for finite tail readbacks because every request is either empty, a singleton, a paired displayed family, or a nonempty subfamily read. Apply \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage} to put all of them on the shared tail ledger, then apply \autoref{thm:uniform-cauchy-criterion-terminal-late-route-exhaustion} to pass from that ledger to terminal consumers.
+
+The consumer handoff is therefore the displayed route through $I,W,M,Q,T,E$ and then through $H,C,P,N$. Since the accepted packet has no coordinate for quotient stream families, selected limits, host equality, or ambient completeness, none of those principles can escape through a finite tail readback.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion late-overlap exhaustion]
 \label{thm:uniform-cauchy-criterion-late-overlap-exhaustion}
 Let
