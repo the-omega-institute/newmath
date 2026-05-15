@@ -185,6 +185,30 @@ For the reverse direction, assume the displayed selector-budget source, synchron
 Finally invoke \autoref{thm:diagonal-limit-compatibility-root-selector-route-determinacy}. The repacked route forces the two accepted reads to present the same completion-facing package to every terminal consumer, so the root selector-budget classifier agrees exactly on the displayed rows.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitCompatibility selector-budget classifier pullback]
+\label{thm:diagonal-limit-compatibility-selector-budget-classifier-pullback}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads. They induce the same completion-facing public classifier exactly when their selector budget, $\CauchySealBudgetSynchronizerUp$ handoff, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, and structural $H,C,P,N$ rows agree componentwise.
+
+The classifier has no coordinate for quotient stream equality, selected host limits, host real equality, independent seals, countable-choice rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, use \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. The accepted root read is locked to the displayed selector-budget source before the synchronizer, stream window, readback, ledger, seal, and structural rows are consumed.
+
+Apply the pullback uniqueness theorem, \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. It identifies the finite StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal with the same selector route whenever the displayed root surface agrees.
+
+For the reverse direction, assume componentwise agreement of the listed rows. The selector-budget lock exactness theorem repacks those coordinates as the finite route $R,T,S,D,W,Q,L,H,C,P,N$ for both reads, and \autoref{thm:diagonal-limit-compatibility-completion-consumer-package} is then the completion-facing package seen by terminal consumers.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. Since quotient streams, selected host limits, host real equality, independent seals, choice rows, and ambient completeness are absent from the exported package, none of them can distinguish the two accepted classifier surfaces.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility shared selector classifier determinacy]
 \label{thm:diagonal-limit-compatibility-shared-selector-classifier-determinacy}
 Let
