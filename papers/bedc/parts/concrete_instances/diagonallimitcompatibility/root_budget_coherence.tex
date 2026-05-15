@@ -390,3 +390,32 @@ the remaining possible coordinates, so the correspondence carries no quotient
 stream, host real equality, selected limit, choice datum, side-channel
 completion carrier, or ambient completeness input.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root transport replay exactness]
+\label{thm:diagonal-limit-compatibility-root-transport-replay-exactness}
+Any root-budget consumer entering the $\RegularCauchyTailMeetUp$ refinement
+route from an accepted $\DiagonalLimitCompatibilityUp$ packet is transported and
+replayed through the same ordered rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The replayed route cannot split into a second diagonal selector, detached
+TailMeet object, host limit, quotient stream, or ambient completion coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_transport\_replay}
+\begin{proof}
+Begin with the root budget consumer chain,
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}. It
+places every root-facing consumer on the displayed
+$R,T,S,D,W,Q,L,H,C,P,N$ route before any TailMeet refinement handoff is read.
+
+Then apply
+\autoref{thm:diagonal-limit-compatibility-root-tailmeet-refinement-real-seal-correspondence}.
+The TailMeet refinement and Real-seal endpoint consume the same root spine and
+do not introduce a second diagonal selector or detached TailMeet coordinate.
+
+The transported replay is therefore exact at the public surface. Since both
+cited routes expose only the listed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows,
+there is no host limit, quotient stream, or ambient completion coordinate left
+for the replay to branch through.
+\end{proof}
