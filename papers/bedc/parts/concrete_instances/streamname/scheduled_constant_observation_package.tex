@@ -407,3 +407,33 @@ provenance ledger, so the seal exports exactly the finite-window RealUp input
 surface and not a quotient representative, completion datum, or completeness
 witness.
 \end{proof}
+
+\begin{theorem}[StreamName constant pointwise inhabited]
+\label{thm:streamname-constant-pointwise-inhabited}
+Let $d:\Hist$ be a certified rational endpoint row, and let
+$r:\Hist\to\Hist$ range over any displayed unary schedule in the scheduled
+constant observation package. The package supplies a $\StreamNameUp$ carrier
+whose pointwise classifier is stable under every such schedule; hence the
+constant certified point determines an inhabited StreamName witness for each
+displayed finite observation row. The witness is the finite scheduled row
+$\mathsf{RatConstStream}_d\circ r$, not an infinite stream object.
+\end{theorem}
+\begin{proof}
+Start with the scheduled constant observation package at the diagonal seeds
+$(d,d)$ and the chosen displayed schedule $r$. By
+\autoref{thm:streamname-constant-scheduled-observation-exactness}, the carrier
+row and classifier row are exactly the StreamNameUp rows induced by the
+certified rational endpoint $d$.
+
+Apply \autoref{thm:streamname-scheduled-window-reindex-stability}. Reindexing
+along the displayed unary schedule changes only the finite observation window;
+the pointwise classifier remains the same certified constant classifier after
+transport through the schedule.
+
+Finally use
+\autoref{thm:streamname-scheduled-constant-realup-seal-exactness}. The RealUp
+seal consumes exactly the scheduled StreamName carrier, classifier, RatUp seed,
+and provenance rows already displayed by the package. Therefore the constant
+certified point inhabits the StreamName carrier through each finite scheduled
+row, with no primitive infinite object or hidden completion datum.
+\end{proof}

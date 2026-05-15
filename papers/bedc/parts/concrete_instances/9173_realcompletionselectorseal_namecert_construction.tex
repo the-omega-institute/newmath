@@ -124,6 +124,32 @@ Next apply \autoref{thm:real-completion-selector-seal-route-determinacy}. Two ac
 Therefore any readback visible after $B$ and $W$ must pass through the displayed row $R$. Replacing $R$ by an external equality or by a detached limit would introduce a coordinate absent from the carrier and so would leave the accepted packet.
 \end{proof}
 
+\begin{theorem}[Real completion selector-seal observer-budget handoff]
+\label{thm:real-completion-selector-seal-observer-budget-handoff}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet, and let
+$$
+G=(F,I,S_{\mathrm{obs}},O,B_{\mathrm{obs}},W_{\mathrm{obs}},D_{\mathrm{obs}},R_{\mathrm{obs}},E_{\mathrm{obs}},H_{\mathrm{obs}},C_{\mathrm{obs}},P_{\mathrm{obs}},N_{\mathrm{obs}})
+$$
+be an accepted $\ObserverFilterBudgetSelectorUp$ packet reading the same selector budget boundary. If $W_{\mathrm{obs}}$ supplies the selected $\StreamNameUp$ window for $W$, $D_{\mathrm{obs}}$ supplies the dyadic ledger read by that window, $R_{\mathrm{obs}}$ supplies the $\RegSeqRatUp$ readback $R$, and $E_{\mathrm{obs}}$ supplies the terminal $\RealUp$ seal face reached by $E$, then the selector-seal consumer remains on the route
+$$
+I \to F \to S_{\mathrm{obs}} \to B_{\mathrm{obs}} \to W_{\mathrm{obs}} \to D_{\mathrm{obs}} \to R_{\mathrm{obs}} \to E_{\mathrm{obs}} \to L,E.
+$$
+The omitted observer rows $O$ remain boundary-only data. They cannot be read as the selected window, dyadic ledger, regular-rational readback, limit-seal handoff, terminal Real seal, quotient stream equality, host real equality, second completion route, ambient completeness principle, or TasteGate instance.
+\end{theorem}
+\begin{proof}
+Start with selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}. It forces the $\RealCompletionSelectorSealUp$ consumer to expose $B$ before $W,R,L,E,H,C,P,N$ can be read.
+
+Use readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}. Once the selector budget and selected window are displayed, the readback route is the single $\RegSeqRatUp$ row $R$, not a quotient stream equality, host real equality, detached limit, second route, or ambient completeness principle.
+
+Now apply the observer-filter budget-selector handoff, \autoref{thm:observer-filter-budget-selector-streamname-handoff}. It routes the selected observation through $I,F,S_{\mathrm{obs}},B_{\mathrm{obs}},W_{\mathrm{obs}},D_{\mathrm{obs}},R_{\mathrm{obs}},E_{\mathrm{obs}}$ before the selector-seal packet consumes the limit and Real endpoint rows.
+
+Finally use omitted-row exclusion, \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion}. The omitted observer ledger remains outside the positive route coordinates, while the existing TasteGate witness surface in this chapter remains a witness row over $B,W,R,L,E,H,C,P,N$ rather than an additional completion source. Hence the consumer route is exactly the displayed observer-budget handoff followed by $L,E$.
+\end{proof}
+
 \begin{theorem}[Real completion selector-seal selector-window classifier pullback]
 \label{thm:real-completion-selector-seal-selector-window-classifier-pullback}
 Let
@@ -184,6 +210,30 @@ Next enforce the entry and readback constraints. By \autoref{thm:real-completion
 Now compare two terminal consumers exposing the same rows. Use \autoref{thm:real-completion-selector-seal-route-determinacy}; equality of the displayed rows $B,W,R,L,E,H,C,P,N$ forces the same finite Real and Completion handoff route, so the selector-seal route through them is unique.
 
 Finally apply \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. It says every terminal handoff consumer has no residual access beyond the displayed route and excludes hidden selectors, external equality coordinates, detached limits, second completion routes, and ambient completeness. Hence every accepted terminal handoff is exhausted by the unique selector-seal route.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal diagonal compatibility pullback]
+\label{thm:real-completion-selector-seal-diagonal-compatibility-pullback}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet, and let
+$$
+K=(R_0,T_0,S_0,D_0,W_0,Q_0,L_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet whose selected-window row, regular-rational readback row, and terminal $\RealUp$ seal row agree with $W,R,E$. Then every terminal selector-seal consumer of $S$ factors through the same finite diagonal route fixed by $K$. The pullback route cannot introduce quotient streams, selected limits, host real equality, hidden selectors, independent completion data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First fix the selector-seal route. By selector-budget totality and readback exactness, \autoref{thm:real-completion-selector-seal-selector-budget-totality} and \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, a terminal consumer of $S$ must expose $B$ before $W$ and then read the displayed row $R$.
+
+Terminality, \autoref{thm:real-completion-selector-seal-terminality}, exhausts the same consumer by the ordered rows $B,W,R,L,E,H,C,P,N$. Thus the selector-seal side supplies one finite route from selector budget through selected window, readback, limit-seal handoff, and terminal endpoint.
+
+Now use the diagonal packet. The selector-budget source lock, \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}, fixes the selector-budget read of $K$ to its displayed diagonal source and finite rows. Since $K$ agrees with $S$ on the selected window, regular readback, and terminal Real seal rows, the shared rows $W,R,E$ lie on that same diagonal route.
+
+Route determinacy and consumer non-escape for diagonal compatibility, \autoref{thm:diagonal-limit-selector-budget-route-determinacy} and \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}, identify any completion-facing or $\RealUp$-facing consumer using those shared rows with the finite route of $K$.
+
+Finally compare the two carrier surfaces. The selector-seal non-escape theorem, \autoref{thm:real-completion-selector-seal-nonescape}, leaves no coordinate in $S$ for hidden selectors, quotient stream equality, host real equality, detached limits, second completion routes, or ambient completeness. The diagonal non-escape theorem leaves no such coordinate in $K$ either, so the terminal selector-seal consumer is the pullback of the diagonal compatibility route rather than an independent completion source.
 \end{proof}
 
 \begin{theorem}[Real completion selector-seal Cont spine compatibility]
