@@ -113,6 +113,7 @@ Next apply convergence-seal readback. Any consumer-side return route is the same
 
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}. That checked non-escape row says completion-facing consumers factor through the public envelope, finite-read route, regular handoff, located trap, and $\RealUp$ seal. Since all of those rows are already in the displayed carrier and no excluded completion coordinate occurs in the packet, the convergence-seal consumer remains inside the finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_nonescape}
 
 \begin{theorem}[Bounded monotone Cauchy witness convergence-seal source lock]
 \label{thm:bounded-monotone-cauchy-witness-convergence-seal-source-lock}
@@ -202,6 +203,30 @@ Next apply the criterion-tail factorization \autoref{thm:bounded-monotone-cauchy
 The readback theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback} returns every consumer-side read to the same displayed source, schedule, regular handoff, Cauchy witness, dyadic ledger, trap, seal, transport, continuation, package, and local naming rows. Thus the scheduled root window remains the boundary that a consumer must read back through.
 
 Finally combine non-escape \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape} with route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}. Non-escape rules out any branch to an external completion principle, and route exhaustion lists the only public path through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. The convergence-seal consumer is therefore locked to the scheduled root window and its refusal boundary.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness located-trap convergence-seal cofinality]
+\label{thm:bounded-monotone-cauchy-witness-located-trap-convergence-seal-cofinality}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Any $\BoundedMonotoneConvergenceSealUp$ or $\RealUp$ consumer of $W$ must preserve the located interval row $I$ cofinally with the root window rows
+$$
+S,F,\sigma,\mu,\lambda
+$$
+and the terminal rows
+$$
+Q,H,C,P,N.
+$$
+Thus every completion-facing read that reaches the convergence seal still carries the same located-trap row $I$ as part of the bounded monotone witness packet.
+
+The consumer cannot bypass $I$ through selected limits, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or a choice-like selector.
+\end{theorem}
+\begin{proof}
+First apply source totality, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source-totality}. It identifies every seal-facing source read with the displayed packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the located interval row $I$ is present before any completion consumer inspects the route.
+
+Next use convergence-seal readback, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback}. Readback returns consumer-side information to the same bounded monotone witness rows, which keeps $I$ in the packet whenever a $\BoundedMonotoneConvergenceSealUp$ or $\RealUp$ consumer reads the seal.
+
+Now apply the root-window convergence-seal lock, \autoref{thm:bounded-monotone-cauchy-witness-root-window-convergence-seal-lock}. The scheduled rows $S,F,\sigma,\mu,\lambda$ cannot be detached from the same packet as the located trap $I$ and the terminal rows $Q,H,C,P,N$.
+
+Finally use route exhaustion, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}. The only completion-facing route runs through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. Carrier-coordinate exhaustion then leaves no coordinate from which a consumer could replace the located trap by selected limits, quotient equality, host equality, trichotomy, completeness, compactness, or selector data.
 \end{proof}
 
 \begin{theorem}[Bounded monotone Cauchy witness convergence-seal diagonal readback]

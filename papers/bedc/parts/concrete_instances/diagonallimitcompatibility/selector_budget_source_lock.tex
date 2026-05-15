@@ -66,3 +66,29 @@ Next apply \autoref{thm:diagonal-limit-compatibility-seal-synchronizer-budget-ha
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}. Every $\CompletionUp$-facing or $\RealUp$-facing consumer using the selector budget is exhausted by the displayed packet coordinates. Hence two such consumer routes with the same displayed diagonal source and the same rows $W,D,Q,L,H,C,P,N$ have no coordinate on which to differ, and the selector-budget route is determined by that finite surface.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit selector-budget Cauchy limit functor pullback]
+\label{thm:diagonal-limit-selector-budget-cauchy-limit-functor-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+F=(S_F,T_F,M_F,W_0,W_1,R_F,D_F,K_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\CauchyLimitFunctorUp$ packet whose source and target seal rows are read through the same selector-budget surface $D,W,Q,L$ of $K$: the functor windows $W_0,W_1$ are supplied by $W$, the readback $R_F$ is supplied by $Q$, the ledger $D_F$ is supplied by $D$, and the Real-facing endpoint row $E_F$ is supplied by $L$.
+
+Then every $\RealUp$-facing or $\CompletionUp$-facing functor transport of $F$ factors through the displayed diagonal selector-budget route of $K$. Conversely, that selector-budget route supplies exactly the finite source, window, readback, dyadic ledger, classifier, endpoint, transport, replay, provenance, and local naming rows required by the public seal export of $F$:
+$$
+S,D,W,Q,L,H,C,P,N
+\quad\hbox{and}\quad
+S_F,W_0,W_1,R_F,D_F,K_F,E_F,H_F,C_F,P_F,N_F .
+$$
+No ambient limit object, hidden selector, quotient stream equality, host real equality, countable-choice selector, independent completion object, or second public transport route is available at the pullback boundary.
+\end{theorem}
+\begin{proof}
+First lock the diagonal side. Apply \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock} and \autoref{thm:diagonal-limit-selector-budget-formal-target-lock}. These force the accepted $\DiagonalLimitCompatibilityUp$ packet to expose only the diagonal source together with $D,W,Q,L,H,C,P,N$, and they prevent a formal target from replacing that route by quotient streams, selected limits, host equality, choice data, independent completion data, ambient completeness, or a second source.
+
+Next identify the downstream route. By \autoref{thm:diagonal-limit-selector-budget-route-determinacy}, any $\RealUp$-facing or $\CompletionUp$-facing consumer using the selector budget is the displayed diagonal route. Since the functor rows $W_0,W_1,R_F,D_F,E_F$ are read through $W,Q,D,L$, any functor transport that reaches a Real or Completion consumer has already entered that same route.
+
+Now read the $\CauchyLimitFunctorUp$ public surface. The NameCert obligations of \autoref{thm:cauchy-limit-functor-namecert-obligations} provide exactly the functor carrier, source-to-target seal exposure, finite observations, completion-consumer rows, and structural rows. The Real-completion consumer boundary of \autoref{thm:cauchy-limit-functor-real-completion-consumer} keeps those rows inside the same finite transport route and removes detached completion data, ambient completeness, host real equality, quotient stream equality, selected limits, countable choice, and second routes.
+
+Finally apply \autoref{thm:cauchy-limit-functor-public-seal-export}. Its reusable public surface is the finite route through source seal, transport map, stream windows, readback, dyadic ledger, classifier, target seal, endpoint, componentwise transport, replay, provenance, and local naming. Under the shared $D,W,Q,L$ read, those requirements are supplied by the displayed selector-budget rows of $K$ together with the functor rows of $F$, so the pullback gives exactly the stated public-seal transport boundary and no additional route.
+\end{proof}
