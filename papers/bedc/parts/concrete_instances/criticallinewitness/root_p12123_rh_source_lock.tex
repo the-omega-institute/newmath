@@ -1,0 +1,97 @@
+\begin{theorem}[Critical-line witness RH source lock]
+\label{thm:critical-line-witness-rh-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every RH-facing read of $W$ first exposes the supplied $\ZetaZerosUp$ row
+$Z$, the supplied $\CritStripUp$ row $S$, the shared $\hsame$ transport row
+$H$, the displayed $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the
+local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. The read may continue to
+the modulus and comparison rows only after that source lock is visible, and
+it receives no host zero source, analytic-continuation certificate, or
+$\mathsf{RH}$ proof from the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:critical-line-witness-carrier}. The carrier exposes
+$Z,S,M,R,Q,H,C,P,N$ as finite $\BHist$ rows and names $Z$ and $S$ as the
+supplied zeta-zero and critical-strip inputs.
+
+Apply the zero-strip compatibility and non-escape rows of
+\autoref{thm:critical-line-witness-namecert-obligations}. These rows bind the
+supplied $\ZetaZerosUp$ and $\CritStripUp$ inputs through the displayed
+$\hsame$ transport and force every public read through the same local
+$\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+The sibling source chapters
+\autoref{ch:concrete-instances-zetazeros-namecert} and
+\autoref{ch:concrete-instances-critical-strip-namecert} supply only the named
+rows consumed by $Z$ and $S$. Together with
+\autoref{thm:critical-line-witness-root-unblock-source-triad} and
+\autoref{thm:critical-line-witness-root-strip-source-totality}, this leaves
+no coordinate for a host zero source, analytic-continuation certificate, or
+$\mathsf{RH}$ proof before an RH-facing read begins.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus window exactness]
+\label{thm:critical-line-witness-modulus-window-exactness}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, each depth request to the modulus row is exhausted
+by the displayed $\NatUp$ depth input to $M$, the $\RealUp$ real-part row
+$R$, the $\RatUp$ comparison ledger $Q$, and the displayed continuation route
+$C$. The request is not discharged by host real equality, quotient
+representatives, ambient analytic completeness, or any hidden numeric oracle.
+\end{theorem}
+\begin{proof}
+Read the modulus coordinate from
+\autoref{def:critical-line-witness-carrier}. The row $M$ is the only
+depth-facing coordinate, and its answer is paired in the carrier with the
+real-part row $R$, rational ledger $Q$, transport row $H$, continuation row
+$C$, provenance row $P$, and local naming row $N$.
+
+Apply the modulus-discipline and ledger-exactness rows of
+\autoref{thm:critical-line-witness-namecert-obligations}. They require a
+depth request to consume the on-critical-line modulus row through $R$ and
+$Q$, with replay performed by the displayed continuation route rather than by
+a host equality principle.
+
+Now use the source-normalization and modulus-ledger interfaces
+\autoref{thm:critical-line-witness-source-normalization-interface} and
+\autoref{thm:critical-line-witness-modulus-ledger-interface}. The source
+chapters \autoref{ch:concrete-instances-nat-namecert},
+\autoref{ch:concrete-instances-real-namecert}, and
+\autoref{ch:concrete-instances-rat-namecert} provide the named depth,
+real-part, and rational-comparison rows, so the modulus window is exact on
+those finite rows and has no route to host real equality, quotient
+representatives, ambient completeness, or a hidden oracle.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream refusal ledger]
+\label{thm:critical-line-witness-downstream-refusal-ledger}
+Every downstream consumer of an accepted $\CriticalLineWitnessUp$ packet
+receives only the displayed refusal ledger over
+$Z,S,M,R,Q,H,C,P,N$. The packet does not export an $\mathsf{RH}$ proof, a zero
+search, an analytic-continuation certificate, a quotient representative, or
+an ambient completeness witness to any downstream RH-facing, zero-facing, or
+modulus-facing consumer.
+\end{theorem}
+\begin{proof}
+Start with the refusal row in
+\autoref{thm:critical-line-witness-root-unblock-refusal-boundary}. It states
+that the exported boundary is a finite packet ledger, not an analytic or
+global-zero object.
+
+Apply \autoref{thm:critical-line-witness-rh-source-lock} for the source side
+and \autoref{thm:critical-line-witness-modulus-window-exactness} for the
+modulus side. These two rows force downstream consumers to read the supplied
+$\ZetaZerosUp$ and $\CritStripUp$ source rows before the modulus window, and
+to replay the modulus request only through the displayed $\NatUp$,
+$\RealUp$, $\RatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+
+Finally cite the downstream RH boundary refinement
+\autoref{thm:critical-line-witness-downstream-rh-boundary-refinement} and the
+sibling continuation refusal surface of
+\autoref{ch:concrete-instances-zeta-continuation-witness-namecert}. They
+leave downstream consumers with the displayed refusal ledger alone. Since no
+packet coordinate names an $\mathsf{RH}$ proof, zero search,
+analytic-continuation certificate, quotient representative, or ambient
+completeness witness, none can be read from $W$.
+\end{proof}

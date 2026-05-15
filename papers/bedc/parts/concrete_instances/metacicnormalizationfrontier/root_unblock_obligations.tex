@@ -1,0 +1,81 @@
+\begin{theorem}[MetaCIC normalization frontier root carrier rows]
+\label{thm:metacic-normalization-frontier-root-carrier-rows}
+Every root consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet first reads exactly the finite carrier rows
+$$
+C,K,E,N,S,H,R,P,L.
+$$
+The rows are the candidate-evidence surface, the closed-candidate surface, the finished-normal evidence surface, the normal-endpoint surface, the obstruction row, the transport row, the replay row, the provenance row, and the local naming row of the root packet.
+\end{theorem}
+\begin{proof}
+Project the carrier definition in \autoref{def:metacic-normalization-frontier-carrier}. It lists $F=(C,K,E,N,S,H,R,P,L)$ as the complete packet and gives no additional root-facing coordinate.
+
+Apply the NameCert obligations of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. Candidate reads enter through $C,K$, finished-normal reads enter through $E,N$, obstruction transport keeps $S$ separate, and closed-normal downstream use replays through $H,R,P,L$.
+
+Finally use the fuel route of \autoref{thm:metacic-normalization-frontier-fuel-route}. Any root consumer that asks for a bounded replay remains inside those carrier rows before it can be consumed by a downstream closed-normal packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root consumer non-escape]
+\label{thm:metacic-normalization-frontier-root-consumer-nonescape}
+No root consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet can extract a blanket strong-normalization theorem, a closed consistency theorem, or erased subject-reduction transport from the rows $C,K,E,N,S,H,R,P,L$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. It exhausts the root packet by the displayed carrier rows and leaves no hidden normalization, consistency, or erased-transport coordinate.
+
+Use \autoref{thm:metacic-normalization-frontier-nonescape}. The chapter already separates candidate and finished-normal evidence from blanket strong normalization, full closed consistency, and erased subject-reduction transport.
+
+Now apply \autoref{thm:metacic-normalization-frontier-redex-boundary} together with \autoref{thm:metacic-normalization-frontier-fuel-route}. The root consumer receives only a bounded redex-boundary and fuel route, with $S$ still displayed as an obstruction row, so none of the excluded global objects can be read from the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root candidate-gate projection]
+\label{thm:metacic-normalization-frontier-root-candidate-gate-projection}
+Every root consumer that asks the candidate gate of an accepted $\MetaCICNormalizationFrontierUp$ packet must project the finite $\BHist$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+through the candidate rows $C,K$ before it can use replay, provenance, or local naming support. The projection exposes no candidate evidence outside the displayed packet and leaves the obstruction row $S$ present as a separate row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. It identifies $F=(C,K,E,N,S,H,R,P,L)$ as the whole root-facing carrier, so a root read has no unnamed candidate coordinate.
+
+Apply the candidate-evidence boundary from \autoref{thm:metacic-normalization-frontier-namecert-obligations}. That boundary places candidate access through $C,K$ and attaches the read to the same local $\NameCert$ surface.
+
+Use \autoref{thm:metacic-normalization-frontier-candidate-route} for the downstream support rows. It routes candidate consumption through $C,K,R,P,L$, while \autoref{thm:metacic-normalization-frontier-root-consumer-nonescape} rules out an external candidate source.
+
+The obstruction row is controlled by \autoref{thm:metacic-normalization-frontier-obstruction-ledger}. Since $S$ is a named row of the same finite packet, the candidate-gate projection does not discharge it.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root normal-endpoint route exhaustion]
+\label{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion}
+Every root consumer that reaches the normal endpoint of an accepted $\MetaCICNormalizationFrontierUp$ packet must route through the finite $\BHist$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+by the finished-normal evidence row $E$, the normal-endpoint row $N$, the replay row $R$, the provenance row $P$, and the local naming row $L$. There is no root endpoint route that bypasses $E,N,R,P,L$ or erases the obstruction row $S$.
+\end{theorem}
+\begin{proof}
+Project the root carrier rows. The finite packet names $E,N,R,P,L$ as the endpoint-facing and support rows and provides no additional normal-endpoint coordinate.
+
+Use the finished-normal boundary in \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It places the finished evidence row $E$ before endpoint use through $N$ and keeps both rows under the local certificate interface.
+
+Next apply \autoref{thm:metacic-normalization-frontier-finished-route} and \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-handoff}. Together they force endpoint consumption through $E,N,R,P,L$ rather than through a free-standing closed-normal witness.
+
+Finally invoke \autoref{thm:metacic-normalization-frontier-root-consumer-nonescape} and \autoref{thm:metacic-normalization-frontier-obstruction-retention}. They exclude a bypassing endpoint object and keep $S$ visible throughout the route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root obstruction-preserving NameCert triad]
+\label{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad}
+For an accepted $\MetaCICNormalizationFrontierUp$ packet, the root-facing $\NameCert$ surface presents exactly the obstruction-preserving triad of the candidate-gate projection through $C,K$, the normal-endpoint route through $E,N,R,P,L$, and the retained obstruction row $S$ inside the finite $\BHist$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The triad is transported only by the displayed $\hsame$, $\Cont$, $\Pkg$, and local naming coordinates of the packet.
+\end{theorem}
+\begin{proof}
+Start with the root carrier rows and the NameCert obligations. They place the local certificate over the same finite packet $F=(C,K,E,N,S,H,R,P,L)$ and do not supply a second certificate target.
+
+Apply \autoref{thm:metacic-normalization-frontier-root-candidate-gate-projection} for the candidate side. It isolates the candidate gate at $C,K$ and leaves replay, provenance, and local naming support inside the displayed packet.
+
+Apply \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} for the endpoint side. It exhausts normal-endpoint access by $E,N,R,P,L$ and keeps the endpoint route within the same $\BHist$ packet.
+
+It remains to track the obstruction row. Use \autoref{thm:metacic-normalization-frontier-obstruction-ledger} and \autoref{thm:metacic-normalization-frontier-root-consumer-nonescape}; together they keep $S$ as a retained row and prevent the triad from exporting blanket normalization, closed consistency, or erased subject-reduction transport.
+\end{proof}
