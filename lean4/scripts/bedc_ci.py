@@ -1294,22 +1294,27 @@ def cmd_manifest_check(args: argparse.Namespace) -> int:
 
 
 def cmd_conservativity_audit(args: argparse.Namespace) -> int:
-    """Verify that ai-proposed chapters do not leak into baseline imports.
+    """Informational survey of baseline imports of ai-proposed chapters.
 
-    Lean 4 enforces module-level isolation: a theorem in module M can only
-    depend on declarations in modules that M (transitively) imports. So if
-    no baseline (\\origin=human) chapter imports any ai-proposed
-    (\\origin=ai) chapter's module, baseline theorem provability is
-    unaffected by adding ai chapters. This is the machine version of
-    metalogical conservativity.
+    Historically (2026-05-10 introduction) this was a hard gate: baseline
+    (\\origin=human) chapters were forbidden from importing ai-proposed
+    (\\origin=ai) chapter modules, enforcing a machine version of
+    metalogical conservativity (Lean 4 module-level isolation guarantees
+    baseline theorem provability is unaffected by ai chapters when no
+    such import exists).
+
+    The gate was removed by user decision: with sufficient taste, human
+    work *should* be able to consume ai-discovered structure — that's
+    what theory discovery looks like. This subcommand is retained as an
+    informational survey so the cross-chapter import graph stays
+    observable, but it never fails the build (always returns 0).
 
     Implementation:
       1. read closurestatus blocks, group chapters by \\origin
       2. for each ai chapter, determine its lean module prefix
-         (BEDC.Derived.<X>Up.* by convention; also BEDC.Meta.* for
-         framework files chapter authors might co-locate)
+         (BEDC.Derived.<X>Up.* by convention)
       3. grep "import <ai_module>" in every lean file outside ai-chapter
-         modules; any hit is a conservativity violation
+         modules; report any hit as an informational baseline→ai edge
     """
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     ai_chapters: list[str] = []
@@ -1321,9 +1326,9 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     ai_chapters = sorted(set(ai_chapters))
 
     if not ai_chapters:
-        msg = "[bedc-ci] conservativity-audit: no \\origin=ai chapters; gate vacuous"
+        msg = "[bedc-ci] conservativity-audit (informational): no \\origin=ai chapters; nothing to survey"
         if args.json:
-            print(json.dumps({"ai_chapters": [], "violations": [], "passed": True}, indent=2))
+            print(json.dumps({"ai_chapters": [], "baseline_to_ai_edges": [], "informational": True}, indent=2))
         else:
             print(msg)
         return 0
@@ -1372,31 +1377,29 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
                         })
                         break
 
-    passed = len(violations) == 0
     if args.json:
         payload = {
             "ai_chapters": ai_chapters,
             "ai_module_prefixes": flat_prefixes,
             "baseline_files_scanned": baseline_files_scanned,
-            "violations": violations,
-            "violation_count": len(violations),
-            "passed": passed,
+            "baseline_to_ai_edges": violations,
+            "baseline_to_ai_edge_count": len(violations),
+            "informational": True,
         }
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
         print(
-            f"[bedc-ci] conservativity-audit:"
+            f"[bedc-ci] conservativity-audit (informational):"
             f" ai_chapters={len(ai_chapters)}"
             f" baseline_files_scanned={baseline_files_scanned}"
-            f" violations={len(violations)}"
-            f" passed={passed}"
+            f" baseline_to_ai_edges={len(violations)}"
         )
         if args.verbose:
             for region in ai_chapters:
                 prefixes = ai_prefixes[region]
                 print(f"  ai chapter {region} -> {prefixes}")
         if violations:
-            print(f"[bedc-ci] conservativity-audit FAIL: {len(violations)} baseline import(s) of ai chapters")
+            print(f"[bedc-ci] {len(violations)} baseline import(s) of ai chapters (allowed, reported for observability):")
             for v in violations[:30]:
                 print(
                     f"  {v['baseline_file']}:{v['line']}"
@@ -1405,7 +1408,7 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
                 )
             if len(violations) > 30:
                 print(f"  ... and {len(violations) - 30} more")
-    return 0 if passed else 1
+    return 0
 
 
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
@@ -1460,55 +1463,70 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             continue
         all_modules.append(module)
         seen_public_decls.update(public_decls)
-    lean_lines = [f"import {m}" for m in all_modules]
-    lean_lines.append("")
-    lean_lines.extend(f"#print axioms {name}" for name in theorems)
-    lean_source = "\n".join(lean_lines) + "\n"
+    import_lines = [f"import {m}" for m in all_modules]
+    chunk_size = max(1, int(args.chunk_size))
+    chunks = [theorems[i : i + chunk_size] for i in range(0, len(theorems), chunk_size)]
 
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        suffix=".lean",
-        prefix="axiom_audit_",
-        dir=str(args.tmp_dir),
-        delete=False,
-        encoding="utf-8",
-    ) as tmp:
-        tmp.write(lean_source)
-        tmp_path = Path(tmp.name)
-
-    try:
-        result = subprocess.run(
-            ["lake", "env", "lean", str(tmp_path)],
-            cwd=LEAN_ROOT,
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-    finally:
-        try:
-            tmp_path.unlink()
-        except OSError:
-            pass
-
-    output = (result.stdout or "") + "\n" + (result.stderr or "")
     pure: list[str] = []
     impure: list[tuple[str, list[str]]] = []
     violations: list[tuple[str, str]] = []
-    for match in PRINT_AXIOMS_RE.finditer(output):
-        decl = match.group(1)
-        axs_raw = match.group(2)
-        if axs_raw is None:
-            pure.append(decl)
-            continue
-        axs = [a.strip() for a in axs_raw.split(",") if a.strip()]
-        impure.append((decl, axs))
-        for ax in axs:
-            if ax in forbidden:
-                violations.append((decl, ax))
+    lean_failed = False
+    last_returncode = 0
+    tail_outputs: list[str] = []
+    for idx, chunk in enumerate(chunks, start=1):
+        lean_lines = list(import_lines)
+        lean_lines.append("")
+        lean_lines.extend(f"#print axioms {name}" for name in chunk)
+        lean_source = "\n".join(lean_lines) + "\n"
+
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            suffix=".lean",
+            prefix=f"axiom_audit_{idx:03d}_",
+            dir=str(args.tmp_dir),
+            delete=False,
+            encoding="utf-8",
+        ) as tmp:
+            tmp.write(lean_source)
+            tmp_path = Path(tmp.name)
+
+        try:
+            result = subprocess.run(
+                ["lake", "env", "lean", str(tmp_path)],
+                cwd=LEAN_ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+        finally:
+            try:
+                tmp_path.unlink()
+            except OSError:
+                pass
+
+        output = (result.stdout or "") + "\n" + (result.stderr or "")
+        for match in PRINT_AXIOMS_RE.finditer(output):
+            decl = match.group(1)
+            axs_raw = match.group(2)
+            if axs_raw is None:
+                pure.append(decl)
+                continue
+            axs = [a.strip() for a in axs_raw.split(",") if a.strip()]
+            impure.append((decl, axs))
+            for ax in axs:
+                if ax in forbidden:
+                    violations.append((decl, ax))
+        if result.returncode != 0:
+            lean_failed = True
+            last_returncode = result.returncode
+            tail = "\n".join(output.strip().splitlines()[-20:])
+            if tail:
+                tail_outputs.append(f"[chunk {idx}/{len(chunks)} rc={result.returncode}]\n{tail}")
+
     parsed = set(pure)
     parsed.update(decl for decl, _axs in impure)
     missing = sorted(set(theorems) - parsed)
-    lean_failed = result.returncode != 0
+    result_returncode = last_returncode
 
     if args.json:
         payload = {
@@ -1520,7 +1538,9 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
                 {"declaration": decl, "axiom": ax} for decl, ax in violations
             ],
             "missing_results": missing,
-            "lean_returncode": result.returncode,
+            "lean_returncode": result_returncode,
+            "chunks": len(chunks),
+            "chunk_size": chunk_size,
             "forbidden_axioms": sorted(forbidden),
             "passed": not lean_failed and not missing and len(violations) == 0,
         }
@@ -1547,9 +1567,8 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             if len(violations) > 50:
                 print(f"  ... and {len(violations) - 50} more")
         if lean_failed:
-            print(f"[bedc-ci] axiom-purity FAIL: lean returned {result.returncode}")
-            tail = "\n".join(output.strip().splitlines()[-20:])
-            if tail:
+            print(f"[bedc-ci] axiom-purity FAIL: lean returned {result_returncode} (in {len(chunks)} chunks of {chunk_size})")
+            for tail in tail_outputs:
                 print(tail)
         if missing:
             print(f"[bedc-ci] axiom-purity FAIL: {len(missing)} theorem(s) had no parsed #print axioms result")
@@ -1654,6 +1673,8 @@ def parser() -> argparse.ArgumentParser:
     purity_p.add_argument("--verbose", "-v", action="store_true", help="Show axiom dep counts")
     purity_p.add_argument("--tmp-dir", type=str, default=str(LEAN_ROOT),
                           help="Directory for the temporary Lean axiom-audit file")
+    purity_p.add_argument("--chunk-size", type=int, default=2000,
+                          help="Split #print axioms queries into chunks of this size, one lean subprocess each (default: 2000, prevents stack overflow on large theorem sets)")
     purity_p.set_defaults(func=cmd_axiom_purity)
 
     metacic_purity_p = sub.add_parser(
@@ -1673,7 +1694,7 @@ def parser() -> argparse.ArgumentParser:
 
     conservativity_p = sub.add_parser(
         "conservativity-audit",
-        help="Verify ai-proposed chapters do not leak into baseline imports (machine conservativity gate)",
+        help="Informational survey of baseline imports of ai-proposed chapters (always exit 0)",
     )
     conservativity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     conservativity_p.add_argument("--verbose", "-v", action="store_true", help="Show per-chapter detail")

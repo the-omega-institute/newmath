@@ -11,6 +11,24 @@ Apply \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:
 Finally use \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The synchronizer carries the same $Q \longmapsto B$ source into $K$, so the classifier has no separate source row from which an alternate completion-facing read could be exposed.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger root source-window route lock]
+\label{thm:cauchy-witness-ledger-root-source-window-route-lock}
+Every accepted $\CauchyWitnessLedgerUp$ completion-facing root read uses one shared finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ source-window route through
+$$
+Q \longmapsto B \longmapsto S \longmapsto K.
+$$
+The read cannot attach a second stream window, rational readback, dyadic tolerance, real seal, hidden tail, quotient stream, host real equality, or ambient completeness row to the displayed carrier rows $Q,B,S,K,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply the root source lock of \autoref{thm:cauchy-witness-ledger-root-source-lock}. It identifies the stream, regular-rational, dyadic, and real source surface of the completion-seal classifier with the source surface already read by $Q,B,S$.
+
+Next use \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock}. The stream window visible to a completion consumer is the window supplied by the same finite budget route, so the consumer cannot attach a separate window source before reading $K$.
+
+Apply the refusal boundary of \autoref{thm:cauchy-witness-ledger-root-budget-refusal-boundary}. Any proposed rational readback, dyadic tolerance, real seal, hidden tail, quotient stream, host real equality, or ambient completeness coordinate outside the route $Q \longmapsto B \longmapsto S \longmapsto K$ is refused at the root boundary.
+
+Finally, \autoref{thm:cauchy-witness-ledger-root-consumer-exhaustion} says every downstream completion-facing consumer factors through the displayed ledger rows. The common source-window route is therefore the whole consumer-facing route, not one branch among several.
+\end{proof}
+
 \begin{theorem}[Cauchy witness ledger root budget coherence]
 \label{thm:cauchy-witness-ledger-root-budget-coherence}
 Let $L=(Q,B,S,K,H,C,P,N)$ and $L'=(Q',B',S',K',H',C',P',N')$ be accepted $\CauchyWitnessLedgerUp$ packets. If the two public reads agree on $Q,B,S,H,C,P,N$, then they determine the same public completion-seal classifier read $K$. In particular, no accepted root read can split the classifier from the displayed budget route $Q \longmapsto B \longmapsto S \longmapsto K$.
