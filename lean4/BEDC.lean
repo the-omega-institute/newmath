@@ -385,6 +385,7 @@ import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GapClosureBoundaryUp.TasteGate
 import BEDC.Derived.GapClosureBoundaryUp.RefusalLedgerTransport
+import BEDC.Derived.GapClosureBoundaryUp.NamecertObligations
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
