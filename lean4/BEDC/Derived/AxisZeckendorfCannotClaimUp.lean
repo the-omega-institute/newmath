@@ -331,4 +331,55 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_nat_refusal_route [AskSetup] [Pa
       exact ⟨source.right.right, routeSame⟩
   }
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_dimlift_refusal_route [AskSetup]
+    [PackageSetup] {a b c d e f g h p n gPrime hPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      hsame g gPrime ->
+        Cont gPrime h hPrime ->
+          PkgSig bundle hPrime pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row hPrime ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist => Cont gPrime h row ∧ UnaryHistory gPrime ∧ UnaryHistory h)
+              (fun row : BHist => PkgSig bundle row pkg ∧ hsame hPrime row)
+              (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro packet sameG routeGHPrime pkgSigPrime
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, eUnary, fUnary, gUnary, _routeAB,
+      _routeCD, routeEF, _sameProvenanceName, _pkgSig⟩ := packet
+  have gPrimeUnary : UnaryHistory gPrime :=
+    unary_transport gUnary sameG
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed eUnary fUnary routeEF
+  have hPrimeUnary : UnaryHistory hPrime :=
+    unary_cont_closed gPrimeUnary hUnary routeGHPrime
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro hPrime ⟨hsame_refl hPrime, hPrimeUnary, pkgSigPrime⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨cont_result_hsame_transport routeGHPrime (hsame_symm source.left),
+          gPrimeUnary, hUnary⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right.right, hsame_symm source.left⟩
+  }
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp
