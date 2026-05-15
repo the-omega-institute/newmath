@@ -97,6 +97,52 @@ theorem CauchyDiagonalBudgetCarrier_selection_determinacy [AskSetup] [PackageSet
     ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, routeUnary, sealUnary,
       routeRow, sealRoute, sealPkg, cert⟩
 
+theorem CauchyDiagonalBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      UnaryHistory epsilon ∧ UnaryHistory m ∧ UnaryHistory w ∧ UnaryHistory d ∧
+        UnaryHistory k ∧ UnaryHistory s ∧ UnaryHistory h ∧ UnaryHistory c ∧
+          UnaryHistory p ∧ UnaryHistory name ∧ Cont epsilon m w ∧ Cont w d k ∧
+            Cont k s h ∧ Cont h c p ∧ Cont c p name ∧ PkgSig bundle p pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row p ∧ UnaryHistory row)
+                (fun row : BHist => hsame row p)
+                (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+      nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg⟩
+  refine
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, pUnary,
+      nameUnary, epsilonMW, wDK, kSH, hCP, cPName, pPkg, ?_⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro p (And.intro (hsame_refl p) pUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro (hsame_trans (hsame_symm sameRows) source.left)
+          (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro row source
+      exact source.left
+    ledger_sound := by
+      intro row source
+      exact And.intro source.left pPkg
+  }
+
 theorem CauchyDiagonalBudget_route_factorization [AskSetup] [PackageSetup]
     {epsilon m w d k s h c p name endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
