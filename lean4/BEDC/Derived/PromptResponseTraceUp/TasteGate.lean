@@ -195,6 +195,10 @@ instance promptResponseTraceChapterTasteGate : ChapterTasteGate PromptResponseTr
     intro x y hxy heq
     exact hxy (promptResponseTraceToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate PromptResponseTraceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  promptResponseTraceChapterTasteGate
+
 instance promptResponseTraceFieldFaithful : FieldFaithful PromptResponseTraceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

@@ -35,6 +35,7 @@ Next apply \autoref{thm:diagonal-limit-compatibility-tail-schedule-readback}. Th
 
 Finally combine \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion} with \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. These results place the $\CauchyLimitSealUp$ boundary and every $\RealUp$ or $\CompletionUp$ consumer inside the same package rows $R,T,S,D,W,Q,L,H,C,P,N$, excluding host limits, quotient streams, selected limits, host equality, countable-choice rows, and ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorWindowRefinement}
 
 \begin{theorem}[DiagonalLimitCompatibility seal budget route exhaustion]
 \label{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}
@@ -66,6 +67,7 @@ K=(R,T,S,D,W,Q,L,H,C,P,N)
 $$
 be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every accepted selector-budget read of $K$ that reaches a $\RealUp$ or $\CompletionUp$ seal passes through the root selector lock, the $\CauchySealBudgetSynchronizerUp$ handoff, the $\TailCofinalityScheduleUp$ readback when present, the $\RegSeqRatUp$ row $Q$, and the $\RealUp$ seal $L$ on the same displayed route. The route exports no quotient stream, selected host limit, host real equality, independent seal object, countable-choice row, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilitySelectorLockSealRouteExhaustion}
 \begin{proof}
 First combine \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock} with \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}. The first theorem fixes the upstream selector-budget prefix, and the second exhausts every $\RealUp$ or $\CompletionUp$ seal consumer by the same finite packet $R,T,S,D,W,Q,L,H,C,P,N$.
 
@@ -92,6 +94,7 @@ R,T,S,D,W,Q,L,H,C,P,N .
 $$
 No quotient stream, selected host limit, host real equality, independent seal object, countable-choice row, or ambient completeness coordinate can distinguish the two reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorWindowPullbackUniqueness}
 \begin{proof}
 Start with \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. It places both root-selector reads on the same selector-budget source and the same structural route before any consumer can inspect the diagonal ledger, finite window, regular readback, or Real seal.
 
@@ -182,6 +185,56 @@ For the reverse direction, assume the displayed selector-budget source, synchron
 Finally invoke \autoref{thm:diagonal-limit-compatibility-root-selector-route-determinacy}. The repacked route forces the two accepted reads to present the same completion-facing package to every terminal consumer, so the root selector-budget classifier agrees exactly on the displayed rows.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitCompatibility selector-budget classifier pullback]
+\label{thm:diagonal-limit-compatibility-selector-budget-classifier-pullback}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads. They induce the same completion-facing public classifier exactly when their selector budget, $\CauchySealBudgetSynchronizerUp$ handoff, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, and structural $H,C,P,N$ rows agree componentwise.
+
+The classifier has no coordinate for quotient stream equality, selected host limits, host real equality, independent seals, countable-choice rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, use \autoref{thm:diagonal-limit-compatibility-root-selector-budget-lock}. The accepted root read is locked to the displayed selector-budget source before the synchronizer, stream window, readback, ledger, seal, and structural rows are consumed.
+
+Apply the pullback uniqueness theorem, \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. It identifies the finite StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal with the same selector route whenever the displayed root surface agrees.
+
+For the reverse direction, assume componentwise agreement of the listed rows. The selector-budget lock exactness theorem repacks those coordinates as the finite route $R,T,S,D,W,Q,L,H,C,P,N$ for both reads, and \autoref{thm:diagonal-limit-compatibility-completion-consumer-package} is then the completion-facing package seen by terminal consumers.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. Since quotient streams, selected host limits, host real equality, independent seals, choice rows, and ambient completeness are absent from the exported package, none of them can distinguish the two accepted classifier surfaces.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility selector-budget terminal pullback]
+\label{thm:diagonal-limit-compatibility-selector-budget-terminal-pullback}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose the displayed classifier identifies their selector-budget source, $\CauchySealBudgetSynchronizerUp$ handoff, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, and structural $H,C,P,N$ rows componentwise. Then every terminal $\RealUp$ or $\CompletionUp$ consumer reads the same finite public pullback package
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+The terminal surface cannot distinguish $K$ from $K'$ by quotient stream equality, selected host limits, host real equality, independent seals, countable-choice rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:diagonal-limit-compatibility-selector-budget-classifier-pullback}. The assumed componentwise agreement is exactly the classifier surface for the accepted packets, so the two reads present one completion-facing public classifier before any terminal consumer inspects the seal rows.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. The shared finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, and structural rows pull both packets back to the same root-selector surface.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. Its exported consumer data is precisely the finite package $R,T,S,D,W,Q,L,H,C,P,N$, so the public $\RealUp$ and $\CompletionUp$ reads receive the same pullback package from $K$ and $K'$.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. Quotient stream equality, selected host limits, host real equality, independent seals, countable-choice rows, and ambient completeness are not exported coordinates of that package. Hence no terminal $\RealUp$ or $\CompletionUp$ consumer can separate the accepted packets at the public surface.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility terminal readback determinacy]
 \label{thm:diagonal-limit-compatibility-terminal-readback-determinacy}
 Let
@@ -206,4 +259,58 @@ Next use \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback
 Apply \autoref{thm:diagonal-limit-compatibility-seal-budget-route-exhaustion}. The $\RealUp$ and $\CompletionUp$ terminal consumers are exhausted by the same route through $R,T,S,D,W,Q,L,H,C,P,N$, and the $\CauchyLimitSealUp$ boundary is already part of that seal-facing route.
 
 Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. The only exported readback package is the displayed finite package, so quotient streams, selected host limits, host real equality, countable-choice data, and ambient completeness have no coordinate by which to separate the two terminal reads.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility selector window tail seal bridge]
+\label{thm:diagonal-limit-compatibility-selector-window-tail-seal-bridge}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads. Suppose the displayed classifier identifies their selector-budget source, $\CauchySealBudgetSynchronizerUp$ handoff, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, tail-schedule readback whenever a terminal tail row is present, $\CauchyLimitSealUp$ boundary, $\RealUp$ seal row, and structural $H,C,P,N$ rows. Then every $\RealUp$, $\CompletionUp$, and $\CauchyLimitSealUp$ terminal consumer receives one finite terminal package
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+The selector window, synchronizer handoff, tail schedule, Cauchy limit boundary, and Real seal cannot be read as separate terminal classifier coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-refinement}. The selector-budget source and synchronizer handoff place the finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row on the same displayed root route.
+
+Next use \autoref{thm:diagonal-limit-compatibility-selector-lock-seal-route-exhaustion}. This makes the seal-facing route exhaustive for the accepted packets, so the $\CauchyLimitSealUp$ boundary and any present tail-schedule readback are consumed through the same finite route instead of a separate terminal channel.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. Since the selector window, readback, ledger, seal, boundary, and structural rows agree, both terminal reads pull back to one completion-facing surface.
+
+Now invoke \autoref{thm:diagonal-limit-compatibility-terminal-readback-determinacy}. The terminal readback for $\RealUp$, $\CompletionUp$, and $\CauchyLimitSealUp$ consumers is already the displayed package $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. Its consumer inventory exports exactly that finite package, so the tail schedule, limit-seal boundary, Real seal row, and completion consumer receive the same terminal data.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility terminal tail-rebase exactness]
+\label{thm:diagonal-limit-compatibility-terminal-tail-rebase-exactness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads. Suppose the displayed classifier identifies their selector-budget source, $\CauchySealBudgetSynchronizerUp$ handoff, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, and structural $H,C,P,N$ rows. Then every terminal read obtained after a tail rebase exposes exactly the same finite package
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+The tail rebase has no coordinate for quotient streams, selected host limits, host real equality, countable-choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-terminal-readback-determinacy}. The shared selector-budget source, synchronizer handoff, window, readback, ledger, seal row, and structural rows already determine the finite terminal readback package for $\RealUp$, $\CompletionUp$, and $\CauchyLimitSealUp$ consumers.
+
+Next use \autoref{thm:diagonal-limit-compatibility-selector-budget-lock-exactness}. This identifies the classifier equality with equality of the displayed finite rows, so a tail rebase cannot introduce another selector-budget source, handoff, window, readback, ledger, seal, or structural row at the terminal boundary.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. The finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal row pull the rebased read back to the same root selector surface.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. The exported consumer package is exactly $R,T,S,D,W,Q,L,H,C,P,N$, and the package inventory omits quotient streams, selected host limits, host equality, countable choice, and ambient completeness. Therefore the tail rebase has no public coordinate by which to change the terminal package.
 \end{proof}

@@ -2,6 +2,7 @@
 \label{thm:continuation-monad-generator-category-triad}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the source histories $A,B,C$, continuation tails $f,g,u$, and structural rows $H,K,L,N$ form one generator-category triad. The $\CategoryUp$ hom-carrier surface reads the displayed tails as $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows, while the generator-boundary refusal surface of \autoref{ch:concrete-instances-generatorclosure-namecert} refuses every unit, bind, or continuation generator not already displayed in $Z$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_generator\_category\_triad}
 \begin{proof}
 Start with carrier admission and classifier stability from \autoref{thm:continuation-monad-carrier-obligation} and \autoref{thm:continuation-monad-classifier-stability}. These rows expose $A,B,C,f,g,u,H,K,L,N$ as one finite packet and keep the transported continuation tails on the same histories.
 
@@ -14,6 +15,7 @@ Finally read the generator side through \autoref{ch:concrete-instances-generator
 \label{thm:continuation-monad-root-bind-schedule-exhaustion}
 Let $Z=(A,B,C,f,g,u,H,K,L,N)$ be an accepted $\ContinuationMonadUp$ packet. Every root-level unit or bind schedule read of $Z$ is exhausted by the displayed unit tail $u$, continuation tails $f,g$, componentwise transports $H$, route rows $K$, ledger rows $L$, and local name $N$. A downstream read cannot replace this schedule by host function composition, a quotient Kleisli arrow, an ambient hom set, or an unlisted generator rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_bind\_schedule\_exhaustion}
 \begin{proof}
 First apply \autoref{thm:continuation-monad-unit-laws} and \autoref{thm:continuation-monad-associativity}. The unit and bind laws are ledger statements about $u,f,g,K,L$ inside the accepted packet.
 
@@ -66,10 +68,56 @@ The downstream package of \autoref{thm:continuation-monad-downstream-unblock-rou
 \label{thm:continuation-monad-category-generator-exactness}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the $\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face are exact on the same displayed rows. The category face reads precisely the continuation tails and transport ledger exposed by $Z$, and the generator face refuses precisely the unit, bind, and continuation generators not displayed by those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_generator\_exactness}
 \begin{proof}
 Apply \autoref{thm:continuation-monad-generator-category-triad}. It already places the CategoryUp hom-carrier surface and the GeneratorClosureUp refusal surface on the same $A,B,C,f,g,u,H,K,L,N$ packet.
 
 Use \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} to identify which unit and bind reads are available. The schedule is the displayed continuation ledger, so exactness is measured against $u,f,g,H,K,L,N$ rather than against host composition.
 
 Finally use \autoref{thm:continuation-monad-downstream-unblock-route-package}. The downstream route exports exactly the category hom-carrier reading and generator refusal reading of the same packet, which proves that the two faces are exact on the displayed rows.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad bind-Cont unit coherence]
+\label{thm:continuation-monad-bind-cont-unit-coherence}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the unit tail $u$, bind tails $f,g$, $\CategoryUp$ hom-carrier face, and $\GeneratorClosureUp$ refusal face are coherent exactly when every displayed bind read is a $\Cont$-route read through $H,K,L,N$. The packet exports no quotient Kleisli arrow, host function composition, ambient hom set, or detached unit law beyond those displayed routes.
+\end{theorem}
+\begin{proof}
+Start with root bind schedule exhaustion. It says that every root unit or bind schedule read is exhausted by $u,f,g,H,K,L,N$ and refuses host function composition, quotient Kleisli arrows, ambient hom sets, and unlisted generator rules.
+
+Apply the generator-category triad. The $\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face are readings of the same displayed continuation packet, so the category and generator sides do not introduce an extra bind source.
+
+Use category-generator exactness and the downstream unblock route package. They identify the exported downstream surface with the same hom-carrier reading, generator refusal reading, and $H,K,L,N$ route rows. Hence bind-Cont unit coherence is exactly the condition that displayed bind reads pass through those $\Cont$ routes.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bind\_cont\_unit\_coherence}
+
+\begin{theorem}[ContinuationMonad generator category public factorization]
+\label{thm:continuation-monad-generator-category-public-factorization}
+Every public read of an accepted $\ContinuationMonadUp$ packet factors first
+through the displayed packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+then through the $\CategoryUp$ hom-carrier face and the
+$\GeneratorClosureUp$ refusal face. The exported public surface contains no
+quotient Kleisli arrow, host composition operation, detached category
+witness, or generator not listed by $Z$.
+\end{theorem}
+\begin{proof}
+Start with category-generator exactness,
+\autoref{thm:continuation-monad-category-generator-exactness}. It places the
+$\CategoryUp$ hom-carrier face and the $\GeneratorClosureUp$ refusal face on
+the same displayed $A,B,C,f,g,u,H,K,L,N$ rows.
+
+Use bind-Cont unit coherence,
+\autoref{thm:continuation-monad-bind-cont-unit-coherence}. Every displayed
+bind read passes through the $\Cont$ route rows $H,K,L,N$, and the packet
+exports no quotient Kleisli arrow, host function composition, ambient hom
+set, or detached unit law outside those routes.
+
+Finally apply
+\autoref{thm:continuation-monad-downstream-unblock-route-package}. It packages
+the category hom-carrier reading and generator-boundary refusal for every
+downstream consumer. Hence a public read factors through $Z$ and then through
+the two displayed faces, with no detached category witness or unlisted
+generator available to the route.
 \end{proof}

@@ -11,6 +11,7 @@ Next use \autoref{thm:continuation-monad-root-source-coverage}. Every root read 
 
 Finally apply ledger exactness from \autoref{thm:continuation-monad-namecert-ledger-exactness}. The consumer-visible Kleisli read is exhausted by the carrier, classifier, unit, bind, associativity, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same finite packet, so no external source coordinate remains.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_source\_totality}
 
 \begin{theorem}[ContinuationMonad root generator boundary readback]
 \label{thm:continuation-monad-root-generator-boundary-readback}
@@ -39,3 +40,21 @@ Next use \autoref{thm:continuation-monad-root-category-generator-obligation-surf
 
 Finally apply \autoref{thm:continuation-monad-root-bind-schedule-exhaustion} and \autoref{thm:continuation-monad-root-ledger-saturation-boundary}. Unit and bind schedules are exhausted by $u,f,g,H,K,L,N$, while the ledger boundary admits no quotient Kleisli arrow, host-function composition, ambient category completion, external evaluator, or unlisted generator.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_category\_hom\_consumer\_totality}
+
+\begin{theorem}[ContinuationMonad root Kleisli source route exhaustion]
+\label{thm:continuation-monad-root-kleisli-source-route-exhaustion}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every root Kleisli consumer factors through the displayed source histories $A,B,C$, continuation tails $f,g$, unit row $u$, generator boundary, $\mathsf{CategoryHomCarrier}$ row, componentwise $\hsame$ transport $H$, $\Cont$ replay row $K$, $\Pkg$ provenance row $L$, and local $\NameCert$ row $N$.
+
+The resulting source route is exhausted by the finite packet $Z$ and by the downstream readback surface of \autoref{thm:continuation-monad-root-downstream-readback-package}. It contains no host evaluator, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-kleisli-source-totality}. It displays the source histories, continuation tails, unit row, componentwise $\hsame$ transport, $\Cont$ route, ledger row, and local $\NameCert$ row as the complete root Kleisli source for $Z$.
+
+Apply \autoref{thm:continuation-monad-root-generator-boundary-readback}. The generator-facing part of the same source route is forced through the authorized boundary and cannot introduce a second continuation rule or generator route.
+
+Next use \autoref{thm:continuation-monad-root-category-hom-consumer-totality}. CategoryHom-facing consumers read only the displayed continuation tails and the $\CategoryUp$ hom row over the same histories, transports, routes, ledger, package, and local name.
+
+Finally cite \autoref{thm:continuation-monad-root-downstream-readback-package}. Its formal target surface packages the downstream readback over the same finite carrier, so composing the three local theorems leaves no coordinate for a host evaluator, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_source\_route\_exhaustion}

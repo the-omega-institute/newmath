@@ -30,6 +30,7 @@ Now use the StreamName lattice-meet exhaustion theorem \autoref{thm:streamname-f
 
 Finally apply the RegSeqRat seal-route exclusion package of \autoref{thm:regseqrat-real-seal-route-exclusion-package}. The regular-source seal route exports no selected limit, hidden tail witness, host real equality, or ambient completeness datum, so the only coherent source-schedule route left for the consumer is the displayed $S,X,D,G,E$ handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_source\_schedule\_lattice\_coherence}
 
 \begin{theorem}[CauchyLimitSeal RegSeqRat Real finite-window pullback]
 \label{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}
@@ -73,6 +74,21 @@ Then apply the RegSeqRat finite-window transport closure of \autoref{thm:regseqr
 
 Finally use the CauchyLimitSeal RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. The $\RealUp$ endpoint therefore consumes the same displayed boundary rows $X,D,G,E$ after transport, and the common finite window is reused for either seal-facing route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_common\_window\_transport}
+
+\begin{theorem}[CauchyLimitSeal four-face finite-window lattice exhaustion]
+\label{thm:cauchy-limit-seal-finite-window-four-face-lattice-exhaustion}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted consumer route that reaches a $\RealUp$ or completion endpoint through a $\StreamNameUp$ finite-window meet is exhausted by exactly four displayed faces: the $\StreamNameUp$ finite-window face $S$, the $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RealUp$ seal row $E$. The route carries only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and it exports no quotient stream, host real equality, selected limit, ambient-completeness datum, hidden tail witness, metric-completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places every endpoint-facing seal route over the $\StreamNameUp$ finite-window meet before any regular source, dyadic ledger, completion diagonal, or seal row is read.
+
+Apply the RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-seal-regseqrat-real-finite-window-pullback}. This pulls the endpoint route back through the displayed source row $X$, tolerance ledger $D$, completion diagonal row $G$, and seal row $E$, with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support visible to the consumer.
+
+Next use common-window transport from \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport to the shared finite window preserves the same displayed rows and does not create a second route through quotient stream equality, host real equality, selected limits, hidden tail witnesses, or ambient completeness.
+
+Finally apply the StreamName finite-window lattice meet exhaustion theorem, \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. Once the route has entered the meet, the consumer-visible lattice is already exhausted by the four displayed faces $S,X,D,E$ together with the listed BEDC support rows. The completion diagonal remains an internal transport face for the seal route, while no metric-completeness datum or standard bridge row is exported to the endpoint.
+\end{proof}
 
 \begin{theorem}[CauchyLimitSeal shared window route]
 \label{thm:cauchy-limit-seal-shared-window-route}
@@ -102,6 +118,24 @@ Begin with the shared window route of \autoref{thm:cauchy-limit-seal-shared-wind
 Apply the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. The endpoint projection may read the seal only through the displayed completion and seal rows, together with the visible history, transport, continuation, package, and local naming data.
 
 Finally use the RegSeqRat seal-route exclusion package of \autoref{thm:regseqrat-real-seal-route-exclusion-package}. The regular source contributes no quotient stream equality, selected host limit, host real equality, hidden tail witness, or ambient completeness coordinate. The audit projection is therefore exactly the displayed tuple and no larger route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal five-face L10 exit route]
+\label{thm:cauchy-limit-seal-five-face-l10-exit-route}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted consumer route for $L$ that reaches a $\RealUp$ or completion endpoint is exhausted by the ordered five-face L10 handoff
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealCauchyCompletionUp \to \RealUp
+$$
+displayed by the rows $S,X,D,G,E$ and carried only by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The route exports no quotient stream equality, selected host limit, host real equality, hidden tail witness, ambient completeness coordinate, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply the finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. It places every endpoint-facing seal read over the $\StreamNameUp$ finite-window meet before the regular source, dyadic ledger, completion diagonal, and real seal rows are consumed.
+
+Next use the shared window route of \autoref{thm:cauchy-limit-seal-shared-window-route}. The consumer route is therefore the ordered $S,X,D,G,E$ handoff through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, and $\RealUp$, with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Now identify the audit surface by \autoref{thm:cauchy-limit-seal-route-audit-projection}. The downstream audit tuple contains exactly the finite window, source, dyadic ledger, completion diagonal, seal, and structural provenance rows, so no off-route row remains for the endpoint.
+
+Finally apply the RegSeqRat seal-route exclusion package, \autoref{thm:regseqrat-real-seal-route-exclusion-package}. It rules out quotient stream equality, selected host limit, host real equality, hidden tail witness, and ambient completeness on the regular-source side; the route audit projection rules out the same off-route coordinates on the seal side. Since no standard bridge row is among the displayed carrier rows, the five-face handoff is the whole L10 exit route.
 \end{proof}
 
 \begin{theorem}[CauchyLimitSeal window budget exhaustion]
@@ -172,4 +206,24 @@ Apply the transducer pullback theorem, \autoref{thm:cauchy-limit-seal-cauchy-win
 Now use transducer route-budget exhaustion from \autoref{thm:cauchy-limit-seal-transducer-route-budget-exhaustion}. The transducer contributes only the displayed finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and naming rows.
 
 Finally apply the window budget audit lock, \autoref{thm:cauchy-limit-seal-window-budget-audit-lock}. With the CauchyLimitSeal rows and the transducer rows already exhausted, no hidden schedule, tail witness, quotient stream equality, selected host limit, host real equality, or ambient completeness coordinate remains to distinguish two consumer-visible routes over the same meet.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal window budget audit-lock formal handoff]
+\label{thm:cauchy-limit-seal-window-budget-audit-lock-formal-handoff}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ packet. Suppose a $\RealUp$ or completion-facing consumer route is served through the $\StreamNameUp$ finite-window lattice meet and through the $\CauchyWindowTransducerUp$ finite-window rows. Then the formal handoff exported to later consumers is exactly the displayed route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealCauchyCompletionUp \to \RealUp
+$$
+together with the transducer finite-window, tolerance, step, selector-handoff, transport, continuation, provenance, and local naming rows, and with the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance carried by $L$.
+
+The handoff exports no quotient stream, selected host limit, hidden tail witness, host real equality, hidden transducer schedule, or ambient completeness coordinate. It also exports no route other than the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, and transducer finite-window route.
+\end{theorem}
+\begin{proof}
+First build the CauchyLimitSeal side of the handoff. Apply the finite-window lattice dependency, \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}, and the common-window transport theorem, \autoref{thm:cauchy-limit-seal-common-window-transport}. These place the consumer route over the shared $\StreamNameUp$ finite-window meet and preserve the displayed $X,D,G,E$ rows with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Next identify the audit projection. Use \autoref{thm:cauchy-limit-seal-route-audit-projection} to make the visible audit tuple exactly the window, source, dyadic ledger, completion diagonal, seal, and structural provenance rows. Then apply \autoref{thm:cauchy-limit-seal-window-budget-exhaustion} and \autoref{thm:cauchy-limit-seal-window-budget-audit-lock}; the CauchyLimitSeal budget is exhausted by that tuple, so no quotient stream, selected host limit, hidden tail witness, host real equality, or ambient completeness coordinate remains on the seal side.
+
+Now pull in the transducer service. The Cauchy-window transducer pullback theorem, \autoref{thm:cauchy-limit-seal-cauchy-window-transducer-pullback}, places the transducer rows on the same finite-window route before the RegSeqRat readback and Real seal rows.
+
+Finally apply transducer route-budget exhaustion and transducer meet determinacy, \autoref{thm:cauchy-limit-seal-transducer-route-budget-exhaustion} and \autoref{thm:cauchy-limit-seal-transducer-meet-determinacy}. These two results exhaust the displayed transducer rows and identify the same meet route for any served consumer, leaving exactly the stated formal handoff and no hidden transducer schedule or off-route completeness coordinate.
 \end{proof}

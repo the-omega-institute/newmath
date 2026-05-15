@@ -1,0 +1,85 @@
+\section{StreamName RegSeqRat Real budget factorization}
+\label{sec:streamname-regseqrat-real-budget-factorization}
+
+\begin{theorem}[StreamName RegSeqRat Real budget factorization]
+\label{thm:streamname-regseqrat-real-budget-factorization}
+Every current $\RealUp$-and-Completion consumer that reads a StreamName window, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ readback, and a $\RealUp$ seal factors through exactly the four finite faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with only the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, the budget boundary for the open L10 route is the finite StreamName window face, the DyadicRatCore tolerance-ledger face, the RegSeqRat readback face, the RealUp seal face, and the BEDC support rows. No fifth consumer face is needed to read the present Real-and-Completion route.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-real-completion-four-object-exit-route}. It names the present Real-and-Completion exit read as the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next use \autoref{thm:streamname-open-phase-four-face-minimality}. The StreamName window, DyadicRatCore ledger, RegSeqRat readback, and RealUp seal are not optional coordinates of a larger object; each is one required face of the same finite route.
+
+Now invoke \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. It identifies any two accepted consumer reads that expose the same four faces and support rows with the same terminal finite BEDC pullback.
+
+Finally read the Real seal through \autoref{thm:realup-finite-window-exhaustion-obligation}. The Real-side endpoint is still a finite-window obligation, so the budget route has no ambient completion coordinate beyond the four faces and the displayed support rows.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real budget non-escape]
+\label{thm:streamname-regseqrat-real-budget-nonescape}
+The budget factorization of \autoref{thm:streamname-regseqrat-real-budget-factorization} exports no quotient stream equality, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness datum, no metric-completeness datum, no countable-choice row, no Classical datum, and no standard bridge row. Every downstream consumer receives only the finite StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, and the rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:streamname-regseqrat-real-budget-factorization}. It reduces the consumer route to the four finite faces and the displayed BEDC support rows.
+
+Apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autoref{thm:streamname-open-phase-four-face-minimality}. These results list the exclusions already present at the exit boundary and prevent a fifth face from replacing any required coordinate.
+
+Use \autoref{thm:streamname-real-completion-four-object-terminal-pullback} for downstream reads. The terminal pullback has no coordinate in which a quotient equality, host sequence equality, selected limit, completeness datum, choice row, Classical datum, or bridge row could be stored.
+
+Finally cite \autoref{thm:realup-finite-window-exhaustion-obligation}. The Real-facing read is exhausted by finite windows, so the budget boundary remains a finite BEDC route rather than an ambient completeness assertion.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real budget route exactness]
+\label{thm:streamname-regseqrat-real-budget-route-exactness}
+For every current Phase Real and Completion consumer read, acceptance by the open L10 budget route is equivalent to factoring through exactly the four finite faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with only the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Under this equivalence, equality of the public classifier surface is exactly componentwise agreement of the finite StreamName window, the DyadicRatCore tolerance ledger, the RegSeqRat readback, the RealUp seal, and those five support rows.
+
+No quotient stream, host sequence equality, selected limit, completeness datum, countable-choice row, Classical datum, or standard bridge row participates in the accepted route or in the public classifier equality.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:streamname-regseqrat-real-budget-factorization}. An accepted consumer read is reduced to the four displayed finite faces and to the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next use \autoref{thm:streamname-regseqrat-real-budget-nonescape}. The non-escape boundary removes quotient stream equality, host sequence equality, selected limits, ambient or metric completeness data, countable choice, Classical data, and standard bridge rows from the route packet.
+
+For the reverse direction, start with a read that factors through the displayed four faces and support rows. The terminal pullback of \autoref{thm:streamname-real-completion-four-object-terminal-pullback} repacks that data as the unique finite BEDC pullback available to current completion-facing and Real-seal-facing consumers, so the read is accepted by the open L10 budget route.
+
+Finally apply \autoref{thm:streamname-real-completion-classifier-pullback}. It identifies public classifier equality with componentwise agreement on exactly the four faces and the displayed support rows, while the same non-escape exclusions leave no hidden classifier coordinate outside them.
+\end{proof}
+
+\begin{theorem}[StreamName Real-seal observation factorization]
+\label{thm:streamname-real-seal-observation-factorization}
+For every current Phase Real and Completion consumer read, a Real-facing observation is accepted exactly when it factors through the finite StreamName window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Under this acceptance test, equality of Real-facing observation classifiers is componentwise agreement on exactly those four faces and five support rows.
+
+The observation packet has no quotient stream coordinate, host limit, ambient completeness datum, choice row, Classical datum, or bridge row. It is therefore a consumer statement over the current four-face Real-and-Completion route, not an appeal to an external completion object.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-real-budget-factorization}. It gives the forward factorization through the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed BEDC support rows.
+
+Next use \autoref{thm:streamname-regseqrat-real-budget-route-exactness}. The same finite route is also sufficient for acceptance, and its classifier equality is exactly componentwise agreement on the four faces and five support rows.
+
+Now invoke \autoref{thm:streamname-regseqrat-real-budget-nonescape}. This removes quotient streams, host sequence equality, selected limits, ambient or metric completeness data, countable choice, Classical data, and bridge rows from the observation packet.
+
+Finally use \autoref{thm:realup-finite-window-exhaustion-obligation}. The Real-facing seal is read through finite windows, so the combined observation remains a finite BEDC route through the current Phase Real and Completion faces.
+\end{proof}

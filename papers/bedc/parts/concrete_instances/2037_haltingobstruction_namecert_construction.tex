@@ -81,6 +81,7 @@ Finally use diagonal non-escape from \autoref{thm:halting-obstruction-diagonal-n
 \label{thm:halting-obstruction-trace-coverage}
 For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, every positive continuation fact exported by the packet is a displayed member of the finite trace row $T$. Such a fact is read through $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and the local $\NameCert$ rows, and it is not supplied by an unbounded search over histories.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingObstructionUp.HaltingObstructionTraceCoverage}
 \begin{proof}
 Project the carrier of \autoref{def:halting-obstruction-carrier}. The only row that records positive continuation facts is the finite trace row $T$.
 
@@ -93,6 +94,7 @@ The package and local naming rows $P,N$ only repack that same finite evidence. S
 \label{thm:halting-obstruction-self-reference-route-determinacy}
 For an accepted $\HaltingObstructionUp$ packet $O=(S,I,T,R,D,H,C,P,N)$, the self-reference row $R$ is readable only through the certificate row $S$, input-history row $I$, finite trace row $T$, componentwise transports $H$, and displayed continuations $C$. The rows $P$ and $N$ certify that route, and no second route can read $R$ without passing through those displayed coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingObstructionUp.HaltingObstructionSelfReferenceRouteDeterminacy}
 \begin{proof}
 Start with the self-reference coordinate in \autoref{def:halting-obstruction-carrier}. It is a row of the same finite packet, not a free-standing self-application operator.
 
@@ -462,7 +464,8 @@ Finally invoke \autoref{thm:halting-obstruction-public-downstream-exactness}. Th
   \constructivestory{A $\HaltingObstructionUp$ packet is generated from finite certificate rows, input-history rows, trace rows, self-reference rows, diagonal-policy rows, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:halting-obstruction-carrier}, \autoref{thm:halting-obstruction-root-carrier-admission}, \autoref{thm:halting-obstruction-trace-coverage}, \autoref{thm:halting-obstruction-self-reference-route-determinacy}, \autoref{thm:halting-obstruction-diagonal-policy-ledger-exactness}, \autoref{thm:halting-obstruction-public-read-boundary}, \autoref{thm:halting-obstruction-root-ledger-exactness}, \autoref{thm:halting-obstruction-stdbridge-image-readback}, \autoref{thm:halting-obstruction-stdbridge-component-transport}, and \autoref{thm:halting-obstruction-stdbridge-tastegate-boundary} bind carrier admission, trace exactness, self-reference readability, diagonal policy locality, package route, public read boundary, local NameCert rows, fixed-tuple image/readback rows, componentwise transport rows, and the bridge request boundary as the public obstruction surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.HaltingObstructionUp.HaltingObstructionRootCarrierAdmission}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close a global halting classifier, unbounded continuation search, host divergence oracle, quotient equality, Lean verification, or bridge checking.}

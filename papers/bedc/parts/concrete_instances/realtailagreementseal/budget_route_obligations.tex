@@ -216,3 +216,57 @@ The local agreement surface is then fixed by downstream route no-branching, \aut
 
 Finally use the CauchyLimitSeal finite-window lattice route, \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency}. The finite window is a lattice meet rather than a hidden selected limit, so the completed route has no coordinate for quotient stream equality, host equality, ambient completeness, or a second agreement row to separate the consumers.
 \end{proof}
+
+\begin{theorem}[Real tail-agreement seal budget route factorization]
+\label{thm:real-tail-agreement-seal-budget-route-factorization}
+Every accepted terminal agreement read of a $\RealTailAgreementSealUp$ packet factors through the canonical budget route, the synchronizer route, and the regular-tailmeet budget lock before it exports the terminal agreement row to a $\RealUp$ or $\CompletionUp$ consumer. Thus the exported terminal agreement has the single displayed route through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchySealBudgetSynchronizerUp$, the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ readback row $D$, the agreement row $A$, and the local seal rows $R,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply budget route uniqueness from \autoref{thm:real-tail-agreement-seal-budget-route-uniqueness}. Any accepted terminal agreement read must use the displayed observation cap, regular Cauchy tail budget, shared TailMeet threshold, finite window, dyadic readback, agreement row, and local seal rows.
+
+Next use the canonical-form theorem \autoref{thm:real-tail-agreement-seal-budget-route-canonical-form}. It identifies the public read of $A$ with that ordered route before the terminal seal rows can be exported.
+
+Insert the synchronizer by \autoref{thm:real-tail-agreement-seal-budget-synchronizer-route-determinacy}. The terminal route preserves the same $\CauchySealBudgetSynchronizerUp$ row before the finite window, readback row, and agreement row are consumed.
+
+Finally apply downstream route no-branching from \autoref{thm:real-tail-agreement-seal-downstream-route-no-branching} and the regular TailMeet budget lock of \autoref{thm:real-tail-agreement-seal-regular-tailmeet-budget-lock}. The terminal agreement row is therefore exported only after the displayed budget route, synchronizer route, and regular-tailmeet lock have all been traversed, with no quotient stream, selected limit, host equality, ambient completeness coordinate, or second agreement row available.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root budget-source canonicality]
+\label{thm:real-tail-agreement-seal-root-budget-source-canonicality}
+Every displayed $\RealTailAgreementSealUp$ packet exposing a terminal agreement row determines a unique root budget-source row. The canonical source is the initial $\BHist$ segment through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchySealBudgetSynchronizerUp$, $W$, $D$, and $A$ whose $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are consumed by the terminal route
+$$
+\ObservationBudgetLimiterUp \to \RegularCauchyTailBudgetUp \to \RegularCauchyTailMeetUp \to \CauchySealBudgetSynchronizerUp \to W \to D \to A \to R,S,H,C,P,N.
+$$
+No second source row, quotient stream equality, selected limit, uncapped observation request, host convergence witness, or ambient completeness datum can serve as a competing root budget source. The intended Lean home for this package is the namespace \texttt{BEDC.Derived.RealTailAgreementSealUp.RootBudget}.
+\end{theorem}
+\begin{proof}
+Use root budget-source totality, \autoref{thm:real-tail-agreement-seal-root-budget-source-totality}. It forces any root-facing agreement consumer to read the observation cap, the regular tail budget, the shared TailMeet threshold, the finite window, the dyadic readback row, and the agreement row before the terminal seal rows are public.
+
+Use budget route uniqueness, \autoref{thm:real-tail-agreement-seal-budget-route-uniqueness}. Once the displayed packet exposes the public agreement row, no accepted $\BHist$ route may omit or reorder the budget source, shared threshold, finite window, readback row, or agreement row.
+
+Finally apply the regular TailMeet budget lock of \autoref{thm:real-tail-agreement-seal-regular-tailmeet-budget-lock}. The synchronizer and the local rows $R,S,H,C,P,N$ are consumed on the same route, so the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows name one canonical root budget-source row and exclude every competing source coordinate.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root budget threshold coverage]
+\label{thm:real-tail-agreement-seal-root-budget-threshold-coverage}
+For every accepted $\RealTailAgreementSealUp$ terminal agreement route, the shared-threshold budget row covers every $\RegularCauchyTailMeetUp$ window admitted by the regular TailMeet budget lock. Concretely, any TailMeet window consumed by $\RealUp$ or $\CompletionUp$ is first covered by the $\RegularCauchyTailBudgetUp$ source and the shared $\RegularCauchyTailMeetUp$ threshold, then read through $W$, $D$, $A$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet. No selected tail, uncapped observation, host convergence witness, quotient stream equality, or second agreement row lies outside this threshold coverage.
+\end{theorem}
+\begin{proof}
+Begin with shared-threshold budget exactness, \autoref{thm:real-tail-agreement-seal-shared-threshold-budget-exactness}. It identifies the shared $\RegularCauchyTailMeetUp$ threshold and the regular tail budget as the unique public source for the finite route before $D$ or $A$ is visible.
+
+Next use budgeted TailMeet window exhaustion and the regular TailMeet budget lock. They show that each terminal $\RealUp$ or $\CompletionUp$ consumer reaches the agreement row only through the shared threshold, the synchronizer, the finite window $W$, and the dyadic readback row $D$.
+
+The terminal route exhaustion theorem then consumes the local rows $R,S,H,C,P,N$ on the same displayed packet. Thus every admitted TailMeet window is already covered by the shared-threshold budget row, and the excluded selected-tail, uncapped-observation, host-convergence, quotient, and second-agreement readings have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal root budget terminal consumption]
+\label{thm:real-tail-agreement-seal-root-budget-terminal-consumption}
+Every terminal $\RealUp$ or $\CompletionUp$ consumer of a displayed $\RealTailAgreementSealUp$ packet may consume only the canonical root budget route produced by root budget-source canonicality and root budget threshold coverage. The permitted consumption route is the finite $\BHist$ route through $\ObservationBudgetLimiterUp$, $\RegularCauchyTailBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchySealBudgetSynchronizerUp$, $W$, $D$, $A$, and $R,S,H,C,P,N$, together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Any terminal read requiring a second source row, a selected limit, quotient stream equality, uncapped observations, host convergence, ambient completeness, or a second agreement coordinate is outside the package.
+\end{theorem}
+\begin{proof}
+First take the canonical source supplied by \autoref{thm:real-tail-agreement-seal-root-budget-source-canonicality}. It combines totality with budget route uniqueness, so the terminal consumer has only one root budget-source row to read.
+
+Next use \autoref{thm:real-tail-agreement-seal-root-budget-threshold-coverage}. The shared threshold covers the TailMeet window consumed by the terminal route, and the window is read through $W$, $D$, and $A$ before any local seal row is exposed.
+
+Finally apply terminal consumer route exhaustion and downstream route no-branching. They consume $R,S,H,C,P,N$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and rule out every terminal route that asks for a second source, selected limit, quotient stream equality, uncapped observation, host convergence, ambient completeness, or a second agreement coordinate.
+\end{proof}

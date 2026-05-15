@@ -38,6 +38,54 @@ equality, host limits, countable choice, ambient completeness, host
 completion, or a direct seal bypass.
 \end{proof}
 
+\begin{theorem}[Real dyadic StreamName RegSeqRat budget exactness]
+\label{thm:real-dyadic-stream-regseq-budget-exactness}
+Let two accepted current Phase Real and Completion $\RealUp$ seal reads be
+presented on the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Suppose their finite observation budgets expose the same displayed
+$\DyadicRatCoreUp$ observations, $\StreamNameUp$ windows, $\RegSeqRatUp$
+readbacks, local $\RealUp$ seal rows, and structural $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows on their overlap. Then replacing one
+budget by the other, or refining either budget, changes only the displayed
+finite request rows. The accepted read remains the same four-face route from
+dyadic observations through finite stream windows and regular-rational
+readback to the local Real seal.
+
+In particular, this budget operation is not a quotient stream equality, host
+real equality, selected limit, countable-choice selector, ambient
+completeness principle, metric-completeness row, or direct $\RealUp$ seal
+bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. Both accepted reads are
+already placed on the ordered finite route from $\DyadicRatCoreUp$ through
+$\StreamNameUp$ and $\RegSeqRatUp$ to $\RealUp$, and the only transport rows
+available on the route are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows.
+
+Next apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. It says that
+the current Phase Real and Completion interface has exactly the four visible
+faces listed in the statement. Since the two budgets agree on those faces and
+on the structural rows over their overlap, every common exposed request row
+projects to the same place in the L10 lattice.
+
+Finally use
+\autoref{thm:real-streamname-regseqrat-terminal-budget-stability}. Refining
+or replacing a finite observation budget changes the finite row display but
+does not add a new carrier, classifier, package row, or naming certificate.
+Row projection therefore preserves the same four-face acceptance route.
+
+The exclusion clause is the non-escape part of the same three inputs. None of
+the displayed route, interface-totality, or terminal-budget rows contains a
+coordinate for quotient stream equality, host real equality, selected limits,
+countable choice, ambient completeness, metric completeness, or a direct Real
+seal bypass, so a budget change cannot certify any of those routes.
+\end{proof}
+
 \begin{theorem}[Real Cauchy window transducer seal route]
 \label{thm:real-cauchy-window-transducer-seal-route}
 Any $\RealUp$ seal read exported by an accepted $\CauchyWindowTransducerUp$ packet factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $\RealUp$. The transducer rows $S,D,W,R,E,L,H,C,P,N$ provide only finite route replay, and they provide no direct seal bypass.
@@ -60,4 +108,138 @@ Apply \autoref{thm:real-dyadic-stream-regseq-route}. It places the Real-facing r
 Then apply \autoref{thm:real-cauchy-window-transducer-seal-route}. The Cauchy window transducer seal read factors through the same dyadic, stream, and regular-rational route before the local Real seal is exposed.
 
 These two routes cite sibling chapter surfaces rather than the local Real chapter as their source. The dependency is therefore horizontal in the L10 lattice and cannot be replaced by a Real self-reference, selected host limit, ambient completion object, or direct seal bypass.
+\end{proof}
+
+\begin{theorem}[Real terminal four-face open-phase exit]
+\label{thm:real-terminal-four-face-open-phase-exit}
+Every current Phase Real and Completion terminal $\RealUp$ seal read is
+accepted exactly when its visible rows factor through the ordered four-face
+route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+displayed by the Real L10 dependency lattice. The visible coordinates of the
+exit read are only the displayed $\BHist$ packet, the displayed $\hsame$
+transports, the displayed $\Cont$ routes, the displayed $\Pkg$ provenance
+rows, and the displayed $\NameCert$ rows on those four faces.
+
+Thus no terminal exit read is accepted by quotient stream equality, countable
+choice, host limits, metric completeness, ambient completion, host real
+equality, or any direct edge to the $\RealUp$ seal outside the displayed
+four-face route.
+\end{theorem}
+\begin{proof}
+Suppose first that a current Phase Real or Completion terminal $\RealUp$ seal
+read is accepted. Apply \autoref{thm:real-dyadic-stream-regseq-route}. It
+places the accepted seal read on the ordered dyadic, StreamName, RegSeqRat,
+and Real route and restricts transport to the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next apply
+\autoref{thm:real-streamname-regseqrat-sibling-nonorphan-route}. The route is
+therefore sourced by the sibling DyadicRatCore, StreamName, RegSeqRat, and
+Cauchy-window-transducer surfaces before the local Real seal is public. This
+rules out a local self-reference or a host-completion shortcut as the source
+of acceptance.
+
+Now read the same terminal packet through the Real L10 dependency lattice,
+using \autoref{def:real-l10-dependency-lattice} and
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The lattice
+gives exactly the four displayed faces, and interface totality says that
+current Phase Real and Completion reads have no fifth visible coordinate.
+
+Conversely, suppose that the visible rows of a terminal read factor through
+that ordered four-face route with only the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates. The route theorem supplies the
+accepted Real seal handoff, and the sibling nonorphan route supplies the
+horizontal source through the dyadic, stream, regular-rational, and
+transducer surfaces. The Real L10 interface totality theorem then repacks
+that handoff as the current Phase Real and Completion terminal surface.
+
+The exclusion clause follows from the same three inputs. None of the route,
+sibling, or L10 lattice rows exports quotient stream equality, countable
+choice, host limits, metric completeness, ambient completion, host real
+equality, or a direct seal bypass, so none of those data can certify a
+terminal exit read.
+\end{proof}
+
+\begin{theorem}[Real completeness four-face exit certificate]
+\label{thm:real-completeness-four-face-exit-certificate}
+A completion-facing public read of the current $\RealUp$ seal is accepted if
+and only if its visible rows factor through the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+using exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows on that route.
+
+Any purported completion-facing read that uses quotient stream equality,
+countable choice, host limits, metric completeness, ambient completion, host
+real equality, or a direct $\RealUp$ seal bypass is rejected by the current
+Phase Real and Completion surface.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-terminal-four-face-open-phase-exit}. It sends every accepted
+terminal $\RealUp$ seal read to the ordered four-face route and restricts the
+visible coordinates to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+For the converse direction, use the same theorem in the reverse direction:
+visible rows on the ordered four-face route, with no extra coordinate, repack
+as the current Phase Real and Completion terminal surface.
+
+Now apply \autoref{thm:real-dyadic-stream-regseq-route}. It identifies the
+route as the finite handoff from DyadicRatCore observations through
+StreamName finite windows and RegSeqRat regular readback to the local
+$\RealUp$ seal. Apply
+\autoref{thm:real-streamname-regseqrat-sibling-nonorphan-route} to record
+that the handoff is horizontal through the sibling surfaces, not a local Real
+self-reference and not a host-completion shortcut.
+
+Finally use
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The Real L10
+interface has no fifth public coordinate beyond the displayed faces. Hence a
+purported read using quotient stream equality, countable choice, host limits,
+metric completeness, ambient completion, host real equality, or a direct Real
+seal bypass has no accepting coordinate on the current Phase Real and
+Completion surface.
+\end{proof}
+
+\begin{theorem}[Real four-face terminal cover pullback]
+\label{thm:real-four-face-terminal-cover-pullback}
+Let a finite family of current Phase Real and Completion terminal
+$\RealUp$ seal reads be displayed over one terminal cover. Suppose that on
+every pairwise overlap the visible rows agree on the $\DyadicRatCoreUp$
+observation rows, the $\StreamNameUp$ finite-window rows, the
+$\RegSeqRatUp$ regular-rational classifier rows, and the local $\RealUp$ seal
+rows, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates. Then the whole family pulls back to one ordered
+terminal four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The resulting terminal surface has no coordinate for quotient stream equality,
+host real equality, countable choice, ambient completion, metric-completeness
+rows, or a direct $\RealUp$ seal bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-completeness-four-face-exit-certificate} to each
+member of the finite terminal cover. Each accepted seal read is therefore
+already presented by the ordered dyadic, stream, regular-rational, and local
+Real faces, with only the displayed structural rows available.
+
+On pairwise overlaps, use
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. Agreement
+of the $\DyadicRatCoreUp$ observation rows and the $\StreamNameUp$
+finite-window rows identifies the same finite-window source for the
+$\RegSeqRatUp$ classifier rows on every overlap, so the local routes share one
+finite source surface.
+
+Finally apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The dependency
+lattice supplies no fifth route beside the four displayed faces, so the cover
+repackages as one terminal four-face surface and excludes quotient stream
+equality, host real equality, countable choice, ambient completion,
+metric-completeness rows, and direct seal bypasses.
 \end{proof}

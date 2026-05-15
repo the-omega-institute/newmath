@@ -13,6 +13,9 @@ Apply the RegSeqRat Real finite-window pullback of \autoref{thm:cauchy-limit-sea
 Finally use the common-window transport of \autoref{thm:cauchy-limit-seal-common-window-transport}. Transport to the shared finite window preserves the displayed $X,D,G,E$ route and adds no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness coordinate. Hence the root route is exactly the sibling route through StreamName, RegSeqRat, DyadicRatCore, and RealUp.
 \end{proof}
 
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_root\_l10\_sibling\_route\_certificate}
+\leanvariant{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_root\_l10\_sibling\_route}
+
 \begin{theorem}[CauchyLimitSeal L10 sibling route totality]
 \label{thm:cauchy-limit-seal-l10-sibling-route-totality}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every $\RealUp$ or completion-facing consumer route for $L$ passes through the $\StreamNameUp$ finite-window surface, the $\RegSeqRatUp$ regular readback, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RealUp$ seal row before any local $\NameCert_{\CauchyLimitSealUp}$ read is public. A route missing any one of these four sibling surfaces is outside the accepted L10 sibling route.
@@ -47,4 +50,82 @@ Apply the factorization theorem \autoref{thm:cauchy-limit-seal-stream-regseq-sea
 The finite-window lattice supplies the StreamName budget, the RegSeqRat pullback supplies the regular-source budget, and common-window transport keeps both budgets on the same finite route. These three dependencies account for every limit-facing read before the RealUp seal is public.
 
 Since quotient streams, selected limits, hidden tail oracles, host real equality, and ambient completeness are not coordinates of the factorized route, none can be exported by an accepted L10 sibling route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal root source-schedule lattice consumption]
+\label{thm:cauchy-limit-seal-root-source-schedule-lattice-consumption}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every accepted root L10 route first consumes the displayed $\StreamNameUp$ schedule row $S$, then the $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, and the $\RealUp$ seal row $E$, with transport, package, and naming supplied only by $T,P,N$. The route has no second schedule, quotient stream, selected host limit, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the root L10 sibling route of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. It places every accepted root route on the StreamName, RegSeqRat, DyadicRatCore, and RealUp sibling surface and excludes quotient streams, selected host limits, host equality, hidden tail oracles, and ambient completeness rows.
+
+Apply source-schedule lattice coherence from \autoref{thm:cauchy-limit-seal-source-schedule-lattice-coherence}. This strengthens the first step of the route: the StreamName surface is the displayed schedule row $S$, and the route continues through the displayed $X,D,G,E$ rows rather than through a second schedule or an independent stream.
+
+Use L10 sibling route totality from \autoref{thm:cauchy-limit-seal-l10-sibling-route-totality} to rule out routes that omit any of the sibling rows. Finally apply \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}; the factorized route has no coordinate from which a selected host limit, host equality, quotient stream, or ambient completeness principle could be exported.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal root envelope-refinement exhaustion]
+\label{thm:cauchy-limit-seal-root-envelope-refinement-exhaustion}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every root L10 route that reaches a $\RealUp$ or completion-facing seal through the source-schedule lattice factors through the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ source row, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal, then through the finite witness-envelope surface of $\CauchyTailWitnessEnvelopeUp$ and the bridged route surface of $\CauchyModulusRefinementUp$. The route exports no quotient stream, host real equality, selected host limit, hidden selector, independent completion carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply the source-schedule lattice consumption theorem \autoref{thm:cauchy-limit-seal-root-source-schedule-lattice-consumption}. It fixes the root L10 route on the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, and $\RealUp$ rows before any Real-facing or completion-facing consumer can read the seal.
+
+Next use the stream-RegSeq seal factorization of \autoref{thm:cauchy-limit-seal-stream-regseq-seal-factorization}. The factorized route carries only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance attached to $T,P,N$, so there is no second stream source or unrecorded selector row.
+
+The Real tail side is supplied by \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}. It places the tail witness read on the finite envelope surface rather than on a host limit, host equality, or quotient stream. The refinement side is supplied by \autoref{thm:cauchy-modulus-refinement-bridged-route-surface}, which routes the modulus refinement through the displayed bridged surface before it can serve completion-facing consumers.
+
+Finally apply the no-unbudgeted-limit theorem \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. Since quotient streams, host real equality, selected host limits, hidden selectors, independent completion carriers, and ambient completeness coordinates do not occur in the displayed packet rows, no accepted route can export them.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal root sibling route exactness]
+\label{thm:cauchy-limit-seal-root-sibling-route-exactness}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. An accepted root $\RealUp$ or completion-facing route exists exactly when it passes through the displayed $\StreamNameUp$ finite-window surface, $\RegSeqRatUp$ regular readback, $\DyadicRatCoreUp$ ledger, $\RealCauchyCompletionUp$ diagonal row, and $\RealUp$ seal row, followed only by the transport, provenance, and local naming rows $T,P,N$.
+
+No omitted sibling row, quotient stream, selected host limit, host real equality, hidden tail oracle, independent completion carrier, or ambient completeness object can serve as an accepted root route for $L$.
+\end{theorem}
+\begin{proof}
+For existence, use the root L10 sibling route and route totality. Theorems~\ref{thm:cauchy-limit-seal-root-l10-sibling-route} and~\ref{thm:cauchy-limit-seal-l10-sibling-route-totality} place every accepted root Real or completion-facing consumer on the displayed StreamName, RegSeqRat, DyadicRatCore, and RealUp sibling surface.
+
+Next apply stream-RegSeq seal factorization. Theorem~\ref{thm:cauchy-limit-seal-stream-regseq-seal-factorization} reads the same $X,D,G,E$ rows together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance carried by $T,P,N$, so the route is a displayed BEDC packet rather than an external completion object.
+
+For necessity, use the no-unbudgeted-limit theorem. Theorem~\ref{thm:cauchy-limit-seal-no-unbudgeted-limit} removes quotient streams, selected limits, hidden tail oracles, host real equality, and ambient completeness from the accepted route surface.
+
+Finally combine source-schedule lattice consumption with envelope-refinement exhaustion. Theorems~\ref{thm:cauchy-limit-seal-root-source-schedule-lattice-consumption} and~\ref{thm:cauchy-limit-seal-root-envelope-refinement-exhaustion} force the schedule, regular readback, dyadic ledger, completion diagonal, Real seal, and the subsequent $T,P,N$ rows to appear in the displayed order. Omitting any sibling row or replacing it by a host-side completion object therefore leaves no accepted root route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal budget-tail root join]
+\label{thm:cauchy-limit-seal-budget-tail-root-join}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Suppose a $\RealObservationBudgetUp$-facing read and a $\CauchyTailWitnessEnvelopeUp$-facing tail read are accepted through $L$ over the same finite $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ ledger. Then the two reads join on one displayed L10 packet through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The joined packet exports the shared finite window, regular source row, dyadic ledger, RealUp seal surface, transport, route, package, and local naming rows. It exports no quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply root source-schedule lattice consumption from \autoref{thm:cauchy-limit-seal-root-source-schedule-lattice-consumption}. It fixes every accepted root route on the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ source row, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, and structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next use root envelope-refinement exhaustion from \autoref{thm:cauchy-limit-seal-root-envelope-refinement-exhaustion}. The tail-facing read is forced through the finite envelope surface rather than through a hidden host limit, quotient stream, or independent completion endpoint.
+
+Now apply budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. Since the budget-facing read uses the same finite $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ ledger, it has no second source surface outside the displayed root L10 packet.
+
+The tail boundary is supplied by \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}. It places the $\CauchyTailWitnessEnvelopeUp$ leg on the same finite witness-envelope route before any RealUp readback is public.
+
+Finally apply the no-unbudgeted-limit theorem \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. The joined route contains only the displayed packet rows, so it cannot export a quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal selector-seal compatibility]
+\label{thm:cauchy-limit-seal-selector-seal-compatibility}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier, and let $Q=(B,W,R,L',E',H,C,P',N')$ be an accepted $\RealCompletionSelectorSealUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ readback row, the $\CauchyLimitSealUp$ handoff row, and the terminal $\RealUp$ endpoint row, so that $W$ is the displayed window of $S$, $R$ is the displayed regular readback through $D$, $L'=L$, and $E'=E$.
+
+Then the selector-seal public route of $Q$ factors through the public route packet of $L$. The consumer reads one displayed L10 handoff
+$$
+\StreamNameUp \to \RegSeqRatUp \to \CauchyLimitSealUp \to \RealUp
+$$
+together with the shared finite-window, dyadic-ledger, transport, continuation, provenance, and local naming rows. It exposes no second completion route, quotient stream, host real equality, hidden selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First fix the CauchyLimitSeal route. By \autoref{thm:cauchy-limit-seal-root-sibling-route-exactness}, the accepted root route for $L$ is exactly the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, and $\RealUp$ packet, followed only by the transport, provenance, and local naming rows.
+
+Next join the visible budget and tail reads. The budget-tail root join theorem, \autoref{thm:cauchy-limit-seal-budget-tail-root-join}, says that reads using the same finite window and the same dyadic ledger meet on one displayed L10 packet. Hence the shared $W,R,L',E'$ rows of $Q$ do not open an independent completion surface.
+
+Finally identify the selector-seal route. The public route export theorem, \autoref{thm:real-completion-selector-seal-public-route-export}, gives the route $B \to W \to R \to L' \to E'$, while \autoref{thm:real-completion-selector-seal-l10-handoff-scope} places that route inside the same L10 Real and Completion handoff. Since $L'=L$ and $E'=E$, the selector-seal consumer factors through the CauchyLimitSeal packet fixed in the first step, and the excluded coordinates are absent from both displayed carrier surfaces.
 \end{proof}

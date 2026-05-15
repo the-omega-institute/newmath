@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LorentzFrameRateUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -189,6 +193,33 @@ instance lorentzFrameRateChapterTasteGate : ChapterTasteGate LorentzFrameRateUp 
     intro x y hxy heq
     exact hxy (lorentzFrameRateToEventFlow_injective heq)
 
+instance lorentzFrameRateFieldFaithful : FieldFaithful LorentzFrameRateUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport route provenance
+        name =>
+        [multiConfig, causalWitness, maxRate, symmetry, transport, route, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk multiConfig1 causalWitness1 maxRate1 symmetry1 transport1 route1 provenance1 name1 =>
+        cases y with
+        | mk multiConfig2 causalWitness2 maxRate2 symmetry2 transport2 route2 provenance2 name2 =>
+            cases h
+            rfl
+
+instance lorentzFrameRateNontrivial : Nontrivial LorentzFrameRateUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨LorentzFrameRateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      LorentzFrameRateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem LorentzFrameRateTasteGate_single_carrier_alignment :
     (∀ h : BHist, lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist h) = h) ∧
       (∀ x : LorentzFrameRateUp,
@@ -205,6 +236,72 @@ theorem LorentzFrameRateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact lorentzFrameRateToEventFlow_injective heq
       · rfl
+
+theorem LorentzFrameRateUpstreamRowCoherence
+    {multiConfig causalWitness maxRate symmetry transport route provenance name upstream :
+      BHist} :
+    Cont multiConfig causalWitness upstream →
+      Cont upstream maxRate route →
+        UnaryHistory multiConfig →
+          UnaryHistory causalWitness →
+            UnaryHistory maxRate →
+              UnaryHistory upstream ∧ UnaryHistory route ∧
+                Cont multiConfig causalWitness upstream ∧ Cont upstream maxRate route ∧
+                  (fun x : LorentzFrameRateUp =>
+                    match x with
+                    | LorentzFrameRateUp.mk m x r _ _ _ _ _ =>
+                        m = multiConfig ∧ x = causalWitness ∧ r = maxRate)
+                    (LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport
+                      route provenance name) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro multiCausalUpstream upstreamMaxRoute multiUnary causalUnary maxUnary
+  have upstreamUnary : UnaryHistory upstream :=
+    unary_cont_closed multiUnary causalUnary multiCausalUpstream
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed upstreamUnary maxUnary upstreamMaxRoute
+  exact
+    ⟨upstreamUnary, routeUnary, multiCausalUpstream, upstreamMaxRoute, rfl, rfl, rfl⟩
+
+theorem LorentzFrameRateRootRouteTotality
+    {multiConfig causalWitness maxRate symmetry transport route provenance name upstream
+      classifierReplay publicRoute : BHist} :
+    Cont multiConfig causalWitness upstream →
+      Cont upstream maxRate route →
+        Cont route symmetry classifierReplay →
+          Cont classifierReplay transport publicRoute →
+            UnaryHistory multiConfig →
+              UnaryHistory causalWitness →
+                UnaryHistory maxRate →
+                  UnaryHistory symmetry →
+                    UnaryHistory transport →
+                      UnaryHistory upstream ∧ UnaryHistory route ∧
+                        UnaryHistory classifierReplay ∧ UnaryHistory publicRoute ∧
+                          Cont multiConfig causalWitness upstream ∧
+                            Cont upstream maxRate route ∧
+                              Cont route symmetry classifierReplay ∧
+                                Cont classifierReplay transport publicRoute ∧
+                                  (fun x : LorentzFrameRateUp =>
+                                    match x with
+                                    | LorentzFrameRateUp.mk m x r s h _ _ _ =>
+                                        m = multiConfig ∧ x = causalWitness ∧
+                                          r = maxRate ∧ s = symmetry ∧ h = transport)
+                                  (LorentzFrameRateUp.mk multiConfig causalWitness maxRate
+                                    symmetry transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro multiCausalUpstream upstreamMaxRoute routeSymmetryClassifier
+    classifierTransportPublic multiUnary causalUnary maxUnary symmetryUnary transportUnary
+  have upstreamUnary : UnaryHistory upstream :=
+    unary_cont_closed multiUnary causalUnary multiCausalUpstream
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed upstreamUnary maxUnary upstreamMaxRoute
+  have classifierReplayUnary : UnaryHistory classifierReplay :=
+    unary_cont_closed routeUnary symmetryUnary routeSymmetryClassifier
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed classifierReplayUnary transportUnary classifierTransportPublic
+  exact
+    ⟨upstreamUnary, routeUnary, classifierReplayUnary, publicRouteUnary,
+      multiCausalUpstream, upstreamMaxRoute, routeSymmetryClassifier,
+      classifierTransportPublic, rfl, rfl, rfl, rfl, rfl⟩
 
 def taste_gate : ChapterTasteGate LorentzFrameRateUp :=
   lorentzFrameRateChapterTasteGate

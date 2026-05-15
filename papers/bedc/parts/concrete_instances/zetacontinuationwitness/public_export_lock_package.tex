@@ -1,0 +1,39 @@
+\begin{theorem}[ZetaContinuationWitness public export lock]
+\label{thm:zeta-continuation-witness-public-export-lock}
+For every accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, the public export of $W$ is exactly the finite row packet
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+together with the dependency rows $\ZetaBasicUp$, $\ZetaContUp$, $\AnalyticContUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No public export row lies outside this displayed witness packet and dependency ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-continuation-witness-carrier}. The accepted object is the finite packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, so the public export has no carrier coordinate beyond those rows.
+
+Apply \autoref{thm:zeta-continuation-witness-namecert-obligation-surface}, \autoref{thm:zeta-continuation-witness-dependency-ledger}, and \autoref{thm:zeta-continuation-witness-source-lock-coverage}. These bind the source, continuation, analytic, holomorphic, complex, history, transport, route, package, and naming dependencies to the same packet before any public consumer receives it.
+
+Finally use \autoref{thm:zeta-continuation-witness-public-export}, \autoref{thm:zeta-continuation-witness-public-export-factorization}, and \autoref{thm:zeta-continuation-witness-public-root-export}. The public packet, closure surface, and root export all read the same rows, so the export is precisely the displayed finite packet with the listed dependency rows.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness zero-facing public factorization]
+\label{thm:zeta-continuation-witness-zero-facing-public-factorization}
+Every zero-facing public consumer of an accepted $\ZetaContinuationWitnessUp$ packet factors through the source lock, eta route, pole ledger, functional-equation route, trivial-zero ledger, and Gamma boundary before it can use the packet as input for $\ZetaZerosUp$ or any critical-strip read. The factorization exposes only the rows $B,E,A,P,F,T,G,H,C,R,N$ and their displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:zeta-continuation-witness-source-lock-coverage} and \autoref{thm:zeta-continuation-witness-public-source-lock-export}. They require a public consumer to pass through the source row $B$, eta route $E$, analytic-continuation row $A$, and functional-equation row $F$ before the witness is consumed.
+
+Next apply \autoref{thm:zeta-continuation-witness-pole-ledger-exactness}, \autoref{thm:zeta-continuation-witness-trivial-zero-ledger-nonescape}, and \autoref{thm:zeta-continuation-witness-gamma-boundary-public-ledger}. These theorems keep the pole ledger $P$, trivial-zero ledger $T$, and Gamma boundary $G$ as displayed rows of the same packet.
+
+Close with \autoref{thm:zeta-continuation-witness-zero-route-input-package}, \autoref{thm:zeta-continuation-witness-public-zero-route-factorization}, and \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. The zero-facing and critical-strip handoff therefore factors through the source lock and the exceptional ledgers before any downstream use, and no RH predicate, non-trivial-zero locator, global zero classifier, completed Gamma certificate, or off-packet analytic branch is exported.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma public boundary lock]
+\label{thm:zeta-continuation-witness-gamma-public-boundary-lock}
+Every public Gamma-facing read of an accepted $\ZetaContinuationWitnessUp$ packet stops at the functional-equation route $F$ or the Gamma boundary row $G$. Such a read does not supply a completed Gamma chapter, an RH predicate, a non-trivial-zero locator, a global zero classifier, or any zero-location object outside the displayed witness packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:zeta-continuation-witness-pole-gamma-boundary} and \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}. A Gamma-facing public read either uses Gamma data already displayed inside $F$ or stops at the boundary row $G$.
+
+Use \autoref{thm:zeta-continuation-witness-gamma-ledger-exhaustion} and \autoref{thm:zeta-continuation-witness-gamma-boundary-public-export}. These exhaust the Gamma-facing public ledger at $P,F,G,H,C,R,N$ and prevent the boundary from becoming a completed Gamma chapter or hidden analytic branch.
+
+Finally apply \autoref{thm:zeta-continuation-witness-no-rh-nonescape}, \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}, and \autoref{thm:zeta-continuation-witness-rh-boundary-exhaustion}. The public Gamma boundary remains a finite packet row and supplies no RH predicate, non-trivial-zero locator, global zero classifier, or zero-location object.
+\end{proof}

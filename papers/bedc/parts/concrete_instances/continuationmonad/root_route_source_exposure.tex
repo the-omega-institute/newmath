@@ -28,10 +28,28 @@ The root downstream packages then provide the handoff to consumers. Since \autor
 \label{thm:continuation-monad-root-downstream-consumer-separation}
 For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, downstream root consumers are separated from host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted continuation generators. Their only available reads are the displayed source rows, unit and bind route rows, the generator-boundary refusal, and the $\CategoryUp$ hom-carrier exposure of the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_downstream\_consumer\_separation}
 \begin{proof}
 Begin with \autoref{thm:continuation-monad-generator-boundary-refusal}. It refuses every unit row, bind row, continuation rule, or route generator not displayed in the accepted packet.
 
 Read the category side through \autoref{thm:continuation-monad-category-hom-row-exposure}. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows are exposed only as readings of $f,g,u$ over $A,B,C,H,K,L,N$.
 
 Finally combine the two root-unblock child packages, \autoref{thm:continuation-monad-downstream-unblock-route-package} and \autoref{thm:continuation-monad-root-downstream-readback-package}. They identify the downstream surface with the finite root route package, so host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators have no consumer-visible coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root consumer standard row]
+\label{thm:continuation-monad-root-consumer-standard-row}
+Every root consumer standard row of an accepted $\ContinuationMonadUp$ packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N)
+$$
+is exhausted by the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, transport row $H$, route row $K$, ledger row $L$, and local name row $N$. Unit reads and bind reads are covered by the root continuation rule package over these rows, while category-facing and generator-facing reads remain separated from host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_consumer\_standard\_row}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-route-source-exposure}. It identifies the root source surface with exactly $A,B,C,f,g,u,H,K,L,N$ and leaves no coordinate for an external source object.
+
+Next use \autoref{thm:continuation-monad-root-continuation-rule-coverage}. Unit and bind reads are already covered by the displayed tails, histories, transport, route, ledger, and local naming rows, so the standard row cannot import a second continuation rule package.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separation}. The downstream separation theorem blocks host function composition, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted generators. Therefore the root consumer standard row is precisely the displayed finite packet.
 \end{proof}

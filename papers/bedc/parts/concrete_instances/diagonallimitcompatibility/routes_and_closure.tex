@@ -25,6 +25,7 @@ K=(R,T,S,D,W,Q,L,H,C,P,N),
 $$
 the row $W$ is the exact shared-window ledger read by the diagonal source $R$, the triangle row $T$, the dyadic ledger $D$, the seal route $S$, the readback row $Q$, and the $\RealUp$ seal row $L$. A completion consumer reaches $Q,L$ only after it has read the same $W$ through the triangle row, dyadic ledger, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, package provenance $P$, and local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_window\_ledger\_exactness}
 \begin{proof}
 Begin with the shared-window ledger theorem. It identifies $W$ as the finite window row used by the diagonal selector, triangle-bound estimate, dyadic tolerance read, regular readback, and downstream seal consumer.
 
@@ -43,6 +44,7 @@ reaches $Q,L$ only after reading the triangle row $T$, the dyadic ledger $D$, th
 
 The consumer receives no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCompletionBoundary}
 \begin{proof}
 First assemble the route. The carrier supplies the rows of $K$, the local NameCert obligations identify their order, and triangle selector alignment fixes $T$ to the displayed $D,W$ ledgers.
 
@@ -51,6 +53,24 @@ Next apply seal route compatibility together with the triangle-seal route theore
 Use window ledger exactness to keep the stream-window row fixed through the same route. The componentwise $\hsame$ transport, displayed $\Cont$ route, package provenance, and local NameCert row then carry that fixed route to the completion consumer without adding another ledger.
 
 Finally use non-escape. Since no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate is present in the packet, the displayed rows are the complete completion boundary.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility terminal formal target]
+\label{thm:diagonal-limit-compatibility-terminal-formal-target}
+An accepted $\DiagonalLimitCompatibilityUp$ packet reaches any $\CauchyLimitSealUp$ or $\RealUp$ terminal consumer only through the displayed diagonal route, triangle row, dyadic ledger, shared stream-window ledger, readback row, $\RealUp$ seal row, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row:
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N).
+$$
+This is the exact formalization target for the present packet. It exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the triangle seal route and window ledger exactness. \autoref{thm:diagonal-limit-compatibility-triangle-seal-route} places the seal route behind $R,T,D,W$, and \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness} keeps the shared stream-window ledger fixed through the readback and seal rows.
+
+Use the completion boundary, \autoref{thm:diagonal-limit-compatibility-completion-boundary}. It forces any terminal $\CauchyLimitSealUp$ or $\RealUp$ consumer to pass through the triangle row, dyadic ledger, stream-window ledger, transport, continuation, provenance, and local naming rows before $Q$ or $L$ is read.
+
+Next apply tolerance ledger handoff and seal consumer factorization. \autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff} fixes the dyadic ledger and window family, while \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization} routes the terminal seal read through the displayed packet rows.
+
+The same rows define the formal target because every cited theorem consumes only $K=(R,T,S,D,W,Q,L,H,C,P,N)$. Non-escape supplies the final exclusion: quotient streams, selected host limits, host real equality, choice data, and ambient completeness have no coordinate in the packet and cannot be exported.
 \end{proof}
 
 \begin{theorem}[Diagonal-limit tolerance ledger handoff]
@@ -190,6 +210,7 @@ using the sibling certificate surfaces
 source, no alternate triangle row, and no bypass around the displayed
 tolerance, window, readback, or seal coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilitySourceRouteExactness}
 \begin{proof}
 Project the accepted carrier. Its displayed mathematical rows are exactly
 $R,T,S,D,W,Q,L$, and its transport, continuation, provenance, and local naming
@@ -243,6 +264,7 @@ alternate dyadic ledger, second window family, or separate readback
 coordinate, $Q$ is the exact regular-rational readback for the displayed
 compatibility route.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_regular\_readback\_exactness}
 
 \begin{theorem}[Diagonal-limit compatibility route ledger totality]
 \label{thm:diagonal-limit-compatibility-route-ledger-totality}
@@ -623,6 +645,24 @@ Lock the source and budget rows with \autoref{thm:diagonal-limit-compatibility-s
 Finally repack the same finite tuple as the bridge surface. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are already displayed by $K$, and the non-escape theorems exclude every quotient, selected-limit, host-equality, choice, and ambient-completeness row not present in that tuple.
 \end{proof}
 
+\begin{theorem}[DiagonalLimitCompatibility bridge support minimality]
+\label{thm:diagonal-limit-compatibility-bridge-support-minimality}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, every standard-reflection or completion-facing bridge read must retain the finite support rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Deleting $D$ loses the dyadic tolerance ledger, deleting $W$ loses the $\StreamNameUp$ window ledger, deleting $Q$ loses the $\RegSeqRatUp$ readback row, deleting $L$ loses the $\RealUp$ seal, and deleting one of $H,C,P,N$ loses componentwise transport, displayed route, package provenance, or local naming. No quotient stream, selected host limit, host real equality, choice datum, hidden tail oracle, or ambient completeness row can replace any missing support row.
+\end{theorem}
+\begin{proof}
+First lock the route that any bridge consumer may read. \autoref{thm:diagonal-limit-compatibility-source-route-budget-lock} forces completion-facing and $\RealUp$ consumers through the source, selector, seal, dyadic, window, readback, and Real rows before $L$ is available. \autoref{thm:diagonal-limit-compatibility-public-budget-route} identifies this same route as the public budget route, and \autoref{thm:diagonal-limit-compatibility-route-ledger-public-exactness} records it as exactly $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next attach the bridge consumer to that route. \autoref{thm:diagonal-limit-compatibility-downstream-public-boundary} makes downstream completion and regular-Cauchy reads factor through the same displayed packet, while \autoref{thm:diagonal-limit-compatibility-standard-bridge-surface} repacks that packet as the standard reflection surface. Thus a standard-reflection or completion-facing bridge read has no support beyond the listed rows.
+
+It remains to check that no listed row is eliminable. Removing $D$ breaks the tolerance handoff used before readback; removing $W$ breaks the stream-window ledger used by the seal and readback rows; removing $Q$ removes the regular rational readback; removing $L$ removes the Real seal read by the bridge; and removing one of $H,C,P,N$ removes the transport, route, provenance, or local naming row that makes the packet public.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, and \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}. These clauses exclude quotient streams, selected host limits, host equality, choice data, hidden tail oracles, and ambient completeness from the carrier, so none of them can supply a substitute for a deleted finite support row.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 \closureat{DiagonalLimitCompatibilityUp}{obligationStr}
 \closureat{DiagonalLimitCompatibilityUp}{scopedStr}
@@ -632,7 +672,7 @@ Finally repack the same finite tuple as the bridge surface. The $\BHist$, $\hsam
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
   \constructivestory{A $\DiagonalLimitCompatibilityUp$ packet is generated from an accepted $\RealCompletenessUp$ diagonal-limit packet, a $\RegularCauchyTriangleBoundUp$ three-leg estimate, a $\CauchyLimitSealUp$ seal route, a $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ windows, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal class, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local naming row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:diagonal-limit-compatibility-carrier}, \autoref{thm:diagonal-limit-compatibility-namecert-obligations}, \autoref{thm:diagonal-limit-compatibility-non-escape}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-route}, \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-boundary}, \autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}, \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}, \autoref{thm:diagonal-limit-compatibility-window-route-lock}, \autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}, \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-finite-source-lock}, \autoref{thm:diagonal-limit-compatibility-real-seal-source-lock}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-scope}, \autoref{thm:diagonal-limit-compatibility-window-fusion}, \autoref{thm:diagonal-limit-compatibility-real-seal-exactness}, \autoref{thm:diagonal-limit-compatibility-real-seal-route-exhaustion}, \autoref{thm:diagonal-limit-compatibility-public-packet-export}, and \autoref{thm:diagonal-limit-compatibility-standard-bridge-surface} bind the finite carrier, route ledger, triangle seal, stream-window ledger, RegSeqRat readback, Real seal, completion boundary, route exhaustion, and standard bridge surface to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the public packet.}
+  \scopeclosed{\autoref{def:diagonal-limit-compatibility-carrier}, \autoref{thm:diagonal-limit-compatibility-namecert-obligations}, \autoref{thm:diagonal-limit-compatibility-non-escape}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-route}, \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-boundary}, \autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}, \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}, \autoref{thm:diagonal-limit-compatibility-window-route-lock}, \autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}, \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-finite-source-lock}, \autoref{thm:diagonal-limit-compatibility-real-seal-source-lock}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-scope}, \autoref{thm:diagonal-limit-compatibility-window-fusion}, \autoref{thm:diagonal-limit-compatibility-real-seal-exactness}, \autoref{thm:diagonal-limit-compatibility-real-seal-route-exhaustion}, \autoref{thm:diagonal-limit-compatibility-public-packet-export}, \autoref{thm:diagonal-limit-compatibility-standard-bridge-surface}, and \autoref{thm:diagonal-limit-compatibility-bridge-support-minimality} bind the finite carrier, route ledger, triangle seal, stream-window ledger, RegSeqRat readback, Real seal, completion boundary, route exhaustion, bridge support, and standard bridge surface to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the public packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}

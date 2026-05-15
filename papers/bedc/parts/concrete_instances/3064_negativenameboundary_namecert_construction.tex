@@ -25,6 +25,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The carrier contains no coordinate for the requested external supply itself.
 \end{definition}
+\leanchecked{BEDC.Derived.NegativeNameBoundaryUp.NegativeNameBoundaryTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[NegativeNameBoundary NameCert obligations]
 \label{thm:negative-name-boundary-namecert-obligations}
@@ -34,6 +35,7 @@ B=(a,s,r,g,h,c,p,n),
 $$
 apophatic handle exposure through $a$, requested socket display through $s$, refusal-ledger exhaustion through $r$, audit-gate readback through $g$, componentwise $\hsame$ stability through $h$, displayed $\Cont$ replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
 \end{theorem}
+\leanchecked{BEDC.Derived.NegativeNameBoundaryUp.NegativeNameBoundaryNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from the displayed tuple. The rows $a,s,r,g$ expose the boundary content: the name, the requested socket shape, the refusal ledger, and the audit gate.
 
@@ -85,15 +87,56 @@ Use non-internalization to remove the forbidden exits. Since the requested exter
 Thus the dependency on \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert} is a lattice dependency between concrete refusal packets: the negative-name packet supplies the handle, socket, refusal, and gate discipline, and the quotient-soundness packet supplies the classifier-respecting transport that replaces representative selection.
 \end{proof}
 
+\begin{theorem}[NegativeNameBoundary obligation closure]
+\label{thm:negative-name-boundary-obligation-closure}
+For an accepted finite $\NegativeNameBoundaryUp$ packet
+$B=(a,s,r,g,h,c,p,n)$, the carrier, refusal ledger, non-internalization row, and
+quotient-soundness lattice link are the complete obligation surface. The packet
+records the apophatic handle, requested socket, refusal gate, transport,
+continuation, provenance, and local name, while excluding host equality,
+$\mathsf{Quot.sound}$, propositional extensionality, and hidden negative-name
+witnesses.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:negative-name-boundary-carrier}. The requested external
+supply is absent from the packet, while $a,s,r,g,h,c,p,n$ are the displayed
+finite rows available to the certificate.
+
+Apply the refusal ledger and non-internalization rows,
+\autoref{thm:negative-name-boundary-refusal-ledger} and
+\autoref{thm:negative-name-boundary-non-internalization}. They send attempted
+uses of the requested socket to the visible refusal ledger and prevent the
+requested supply from becoming generated theorem content.
+
+Finally use the quotient-soundness lattice link
+\autoref{thm:negative-name-boundary-quotient-soundness-lattice-link}. It routes
+representative-selection pressure to local transport rather than to host
+equality, $\mathsf{Quot.sound}$, propositional extensionality, or hidden
+negative-name witnesses. These rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[NegativeNameBoundary public export]
+\label{thm:negative-name-boundary-public-export}
+Every public consumer of an accepted $\NegativeNameBoundaryUp$ packet must read the apophatic handle $a$, requested socket $s$, refusal ledger $r$, audit gate $g$, componentwise $\hsame$ transports $h$, displayed $\Cont$ routes $c$, $\Pkg$ provenance $p$, and local $\NameCert$ row $n$. The only allowed downstream specialization is the quotient-soundness lattice link through local $\psame$ transport; no public export may import external supply, $\mathsf{Quot.sound}$, host equality, a selector, an axiom, or hidden witness data.
+\end{theorem}
+\begin{proof}
+Start with the carrier and certificate rows of \autoref{def:negative-name-boundary-carrier} and \autoref{thm:negative-name-boundary-namecert-obligations}. They display $a,s,r,g,h,c,p,n$ as the complete public packet surface.
+
+Use the refusal ledger and non-internalization boundary, \autoref{thm:negative-name-boundary-refusal-ledger} and \autoref{thm:negative-name-boundary-non-internalization}. These rows send every attempted socket use through the visible refusal route and keep the requested external supply outside generated content.
+
+The downstream specialization is exactly the one supplied by \autoref{thm:negative-name-boundary-quotient-soundness-lattice-link}. Combining it with \autoref{thm:negative-name-boundary-obligation-closure} leaves only local $\psame$ transport as the quotient-soundness route, with no public export of host equality, $\mathsf{Quot.sound}$, a selector, an axiom, or hidden witness data.
+\end{proof}
+
 \closureat{NegativeNameBoundaryUp}{seedStr}
+\closureat{NegativeNameBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\NegativeNameBoundaryUp}
   \constructivestory{A $\NegativeNameBoundaryUp$ packet is generated from an apophatic handle row, requested socket-shape row, refusal and non-internalization ledger, audit gate row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:negative-name-boundary-carrier}, \autoref{thm:negative-name-boundary-namecert-obligations}, \autoref{thm:negative-name-boundary-refusal-ledger}, and \autoref{thm:negative-name-boundary-non-internalization} bind the finite carrier, local naming obligations, refusal ledger, and non-internalization boundary for apophatic negative naming.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:negative-name-boundary-carrier}, \autoref{thm:negative-name-boundary-namecert-obligations}, \autoref{thm:negative-name-boundary-refusal-ledger}, \autoref{thm:negative-name-boundary-non-internalization}, \autoref{thm:negative-name-boundary-quotient-soundness-lattice-link}, and \autoref{thm:negative-name-boundary-obligation-closure} bind the finite carrier, local naming obligations, refusal ledger, non-internalization boundary, quotient-soundness lattice link, and complete obligation surface for apophatic negative naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the requested external supply, positive characterization of the named source, Lean verification, bridge checking, quotient representatives, host selectors, axioms, or hidden witnesses.}
-  \upgradepath{Obligation closure requires checked carrier admission, refusal-ledger exhaustion, audit-gate readback, public-use factoring, and NameCert surface exactness for the same finite packet.}
+  \upgradepath{Public closure requires a public export theorem for the same finite refusal packet.}
 \end{closurestatus}

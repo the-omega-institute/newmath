@@ -76,6 +76,7 @@ consumer non-escape,
 Together they leave no selector-budget coordinate outside
 $R,T,S,D,W,Q,L,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_selector\_budget\_exhaustion}
 
 \begin{theorem}[Diagonal-limit compatibility Real seal readback lock]
 \label{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}
@@ -197,6 +198,98 @@ choice datum, selected limit, or ambient completeness input outside the
 displayed packet route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility root-budget handoff totality]
+\label{thm:diagonal-limit-compatibility-root-budget-handoff-totality}
+Every root-budget handoff from an accepted
+$\DiagonalLimitCompatibilityUp$ packet to a $\RealUp$ or $\CompletionUp$
+consumer is exhausted by the ordered route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The handoff is already the finite Real and Completion route carried by the
+packet. It exposes no host real equality, quotient stream, selected limit,
+choice data, ambient completeness, or second budget source.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It fixes the
+root budget on the displayed $D,W,Q,L,H,C,P,N$ carrier rows before any
+downstream consumer can read the packet.
+
+Next apply
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}.
+This consumes the selector contribution on $R,T,S,D,W,Q,L$ and leaves only
+the displayed transport, continuation, provenance, and naming rows available
+to the handoff.
+
+Now use
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. The
+Real-facing read reaches $L$ only after the public selector and budget rows
+have already been fixed on the same route.
+
+Apply
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary} and
+\autoref{thm:diagonal-limit-compatibility-root-budget-public-boundary}. These
+two public-boundary theorems package the root budget, selector budget, Real
+seal lock, and finite-window handoff as one route for $\RealUp$ and
+$\CompletionUp$ consumers.
+
+The non-escape clauses attached to those five rows remove every remaining
+off-route coordinate. Hence the root-budget handoff is total for the displayed
+finite route, with no host real equality, quotient stream, selected limit,
+choice data, ambient completeness, or second budget source.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility budget coherence terminal lock]
+\label{thm:diagonal-limit-compatibility-budget-coherence-terminal-lock}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet
+$K=(R,T,S,D,W,Q,L,H,C,P,N)$, every $\RealUp$ or $\CompletionUp$ consumer that
+reads the root-budget handoff passes through the single ordered route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The terminal route is the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet. It admits no host real equality,
+quotient stream, selected limit, choice datum, ambient completeness input,
+alternate dyadic ledger, alternate $\StreamNameUp$ window, or second budget
+source.
+\end{theorem}
+\begin{proof}
+Begin with root-budget coherence,
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It places
+the budget read on the same $D,W,Q,L,H,C,P,N$ rows carried by the accepted
+packet.
+
+Next use selector-budget exhaustion,
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}.
+The selector contribution consumes $R,T,S,D,W,Q,L$ on the same packet surface,
+so no alternate dyadic ledger or alternate $\StreamNameUp$ window can sit
+between the root budget and the public selector read.
+
+Apply the Real-seal readback lock,
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. It
+forces every $\RealUp$ or $\CompletionUp$ readback to reach $L$ only through
+the already fixed selector, window, dyadic, and regular readback rows.
+
+The finite-window handoff boundary
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary} and
+the root-budget public boundary
+\autoref{thm:diagonal-limit-compatibility-root-budget-public-boundary} package
+these rows as one public consumer route. The handoff totality theorem,
+\autoref{thm:diagonal-limit-compatibility-root-budget-handoff-totality},
+then exhausts the route for every root-budget handoff.
+
+All cited route coordinates are therefore identical:
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Since the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet has already
+consumed the budget, selector, window, readback, and seal rows, no host real
+equality, quotient stream, selected limit, choice datum, ambient completeness,
+alternate dyadic ledger, alternate $\StreamNameUp$ window, or second budget
+source remains available to a $\RealUp$ or $\CompletionUp$ consumer.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility root budget consumer chain]
 \label{thm:diagonal-limit-compatibility-root-budget-consumer-chain}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
@@ -222,6 +315,7 @@ $\CompletionUp$-facing reads consume one ordered BEDC route rather than a
 host limit, quotient stream, choice datum, host real equality, or ambient
 completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootBudgetConsumerChain}
 \begin{proof}
 First apply
 \autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It fixes the
@@ -268,6 +362,7 @@ agreement-seal rows. The composed route exports no quotient stream, host real
 equality, selected limit, choice datum, side-channel completion carrier, or
 ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_root\_tailmeet\_refinement\_seal\_route}
 \begin{proof}
 Begin with the local diagonal packet. Apply
 \autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}. It
@@ -299,4 +394,79 @@ TailMeet package, refinement read, and agreement seal each expose only their
 displayed rows, no quotient stream, host real equality, selected limit, choice
 datum, side-channel completion carrier, or ambient completeness coordinate can
 be exported by the composed route.
+\end{proof}
+
+\begin{theorem}[Root TailMeet refinement Real-seal correspondence]
+\label{thm:diagonal-limit-compatibility-root-tailmeet-refinement-real-seal-correspondence}
+For every accepted $\DiagonalLimitCompatibilityUp$ packet entering through
+$\RegularCauchyTailMeetUp$, refined by $\CauchyModulusRefinementUp$, and read
+by $\RealTailAgreementSealUp$, the endpoint $\RealUp/\CompletionUp$ consumer
+route is equivalent to the staged public read obtained by first consuming the
+displayed diagonal route
+$$
+R,T,S,D,W,Q,L,H,C,P,N,
+$$
+then the TailMeet budget-seal rows, then the refinement rows, and then the
+agreement-seal rows. Under this correspondence the endpoint route exports no
+quotient stream, host real equality, selected limit, choice datum,
+side-channel completion carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from an endpoint $\RealUp/\CompletionUp$
+consumer of the accepted diagonal packet. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain} to place
+the consumer on the displayed $R,T,S,D,W,Q,L,H,C,P,N$ spine. Then use
+\autoref{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion} to
+force the TailMeet budget-seal entry and the refinement handoff before the
+endpoint seal can be read.
+
+The refinement part has no alternate public route. Apply
+\autoref{thm:cauchy-modulus-refinement-tailmeet-budget-route-uniqueness}; it
+identifies the TailMeet-to-refinement handoff with the same exported
+$\RealUp/\CompletionUp$ read. Finally apply
+\autoref{thm:real-tail-agreement-seal-root-selector-completion-lattice} to
+finish the endpoint through the agreement-seal lattice, so the original
+consumer has exactly the staged diagonal, TailMeet, refinement, and
+agreement-seal presentation.
+
+For the reverse direction, begin with a staged public read in that order. The
+diagonal root-budget chain supplies the $\DiagonalLimitCompatibilityUp$
+consumer spine, the route-exhaustion theorem supplies the TailMeet and
+refinement rows, and the uniqueness theorem prevents a second refinement
+handoff from being inserted. The Real-tail agreement lattice then repacks the
+last rows as the endpoint $\RealUp/\CompletionUp$ seal read.
+
+Both directions use only the exposed $\BHist/\hsame/\Cont/\Pkg/\NameCert$
+rows named by the four cited route theorems. Their exhaustion clauses remove
+the remaining possible coordinates, so the correspondence carries no quotient
+stream, host real equality, selected limit, choice datum, side-channel
+completion carrier, or ambient completeness input.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root transport replay exactness]
+\label{thm:diagonal-limit-compatibility-root-transport-replay-exactness}
+Any root-budget consumer entering the $\RegularCauchyTailMeetUp$ refinement
+route from an accepted $\DiagonalLimitCompatibilityUp$ packet is transported and
+replayed through the same ordered rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The replayed route cannot split into a second diagonal selector, detached
+TailMeet object, host limit, quotient stream, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the root budget consumer chain,
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}. It
+places every root-facing consumer on the displayed
+$R,T,S,D,W,Q,L,H,C,P,N$ route before any TailMeet refinement handoff is read.
+
+Then apply
+\autoref{thm:diagonal-limit-compatibility-root-tailmeet-refinement-real-seal-correspondence}.
+The TailMeet refinement and Real-seal endpoint consume the same root spine and
+do not introduce a second diagonal selector or detached TailMeet coordinate.
+
+The transported replay is therefore exact at the public surface. Since both
+cited routes expose only the listed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows,
+there is no host limit, quotient stream, or ambient completion coordinate left
+for the replay to branch through.
 \end{proof}

@@ -1,0 +1,123 @@
+\chapter{A Concrete Naming Certificate for $\HashLikeFiberBoundaryUp$}
+\label{ch:concrete-instances-hashlikefiberboundary-namecert}
+\origin{ai-composite}
+
+The $\HashLikeFiberBoundaryUp$ packet realizes the hash-like apophatic
+fixed-point discipline of
+\autoref{ch:visions-hash-like-apophatic-fixed-point} as a composite finite
+NameCert packet. It sits beside the hash certificate of
+\autoref{ch:concrete-instances-hash-namecert}, the digest-fiber ledger of
+\autoref{ch:concrete-instances-digestfiberledger-namecert}, the
+apophatic-fixed-point fiber of
+\autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, and the
+apophatic fixed-point packet of
+\autoref{ch:concrete-instances-apophaticfixedpoint-namecert}. Its role is to
+bind digest visibility, hidden fiber membership, GAP provenance, apophatic
+far-end refusal, and consumer non-escape as one concrete boundary surface.
+
+\begin{definition}[HashLikeFiberBoundary carrier]
+\label{def:hash-like-fiber-boundary-carrier}
+A $\HashLikeFiberBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+X=(D,F,G,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest row read through the $\HashUp$ certificate;
+\item $F$ is the hidden fiber ledger row recording source-side membership
+behind $D$ without identifying the source with the digest;
+\item $G$ is the $\mathsf{GAP}$ provenance row for the same fiber ledger;
+\item $T$ is the apophatic far-end boundary row read through the
+$\ApophaticFixedPointFiberUp$ and $\ApophaticFixedPointUp$ sources;
+\item $R$ is the refusal row blocking any consumer from treating $T$ as a
+digest value, source payload, selected preimage, kernel object, or ambient
+universe object;
+\item $H$ records componentwise $\hsame$ transports for $D,F,G,T,R,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes for digest, fiber, GAP,
+far-end, refusal, transport, provenance, and local naming reads;
+\item $P$ is the $\Pkg$ provenance over $\HashUp$, $\DigestFiberLedgerUp$,
+$\ApophaticFixedPointFiberUp$, $\ApophaticFixedPointUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HashLikeFiberBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for digest-as-source equality, selected
+preimage recovery, an internal far-end object, a global universe digest, or an
+unledgered fiber consumer.
+\end{definition}
+\leandef{BEDC.Derived.HashLikeFiberBoundaryUp.HashLikeFiberBoundaryUp}
+
+\begin{theorem}[HashLikeFiberBoundary NameCert obligations]
+\label{thm:hash-like-fiber-boundary-namecert-obligations}
+For the carrier of \autoref{def:hash-like-fiber-boundary-carrier}, the local
+$\NameCert_{\HashLikeFiberBoundaryUp}$ surface consists exactly of carrier
+admission for
+$$
+X=(D,F,G,T,R,H,C,P,N),
+$$
+visible digest exposure through $D$, hidden fiber-ledger exposure through $F$,
+GAP provenance through $G$, apophatic far-end boundary naming through $T$,
+far-end refusal through $R$, componentwise $\hsame$ transport through $H$,
+displayed $\Cont$ replay through $C$, package provenance through $P$, and local
+naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $D,F,G,T,R$ are the complete concrete
+boundary content, while $H,C,P,N$ transport, replay, package, and name the same
+finite packet.
+
+Read the source chapters in their displayed order. The $\HashUp$ certificate
+supplies digest visibility, $\DigestFiberLedgerUp$ supplies hidden fiber and
+GAP provenance, $\ApophaticFixedPointFiberUp$ supplies the fiber-to-far-end
+boundary route, and $\ApophaticFixedPointUp$ supplies the refusal discipline
+that prevents far-end internalization.
+
+The NameCert surface is exhausted by these rows. Since the carrier has no
+coordinate for digest-as-source equality, selected preimage recovery, an
+internal far-end object, global universe digest, or unledgered fiber consumer,
+no accepted read can obtain any of those objects from the packet.
+\end{proof}
+
+\begin{theorem}[HashLikeFiberBoundary noninternalization]
+\label{thm:hash-like-fiber-boundary-noninternalization}
+Every accepted $\HashLikeFiberBoundaryUp$ consumer that reads the far-end row
+$T$ receives it only as the apophatic boundary of the displayed fiber behind
+the visible digest row $D$. The consumer may replay $T$ through $R,H,C,P,N$,
+but it cannot read $T$ as a digest value, source payload, selected preimage,
+kernel object, global universe digest, host equality, or ambient completeness
+principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory in
+\autoref{def:hash-like-fiber-boundary-carrier}. The far-end coordinate is the
+boundary row $T$, and it is displayed together with digest, fiber, GAP, and
+refusal rows.
+
+Apply the NameCert obligations of
+\autoref{thm:hash-like-fiber-boundary-namecert-obligations}. Any consumer of
+$T$ must preserve the route through $D,F,G,T,R,H,C,P,N$, so the far-end read
+cannot detach from the fiber ledger that made it visible.
+
+The refusal row $R$ excludes the forbidden interpretations. A read that treats
+$T$ as a digest value, payload, selected preimage, object, global digest, host
+equality, or completeness principle has no coordinate in the carrier and
+therefore no accepted route.
+\end{proof}
+
+\falsifiablePrediction{Any accepted HashLikeFiberBoundaryUp consumer that reads the far-end row as a digest value violates the noninternalization theorem.}
+
+\independenceWitness{Nearest siblings: hash, digestfiberledger, apophatic-fixed-point-fiber, and apophaticfixedpoint. None is bijective to HashLikeFiberBoundaryUp because each sibling omits at least one row among digest visibility, hidden fiber membership, GAP provenance, apophatic far-end refusal, and consumer non-escape.}
+
+The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/HashLikeFiberBoundaryUp/TasteGate.lean}. It is the intended formal carrier for the displayed digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and naming rows.
+
+\closureat{HashLikeFiberBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\HashLikeFiberBoundaryUp}
+  \constructivestory{A $\HashLikeFiberBoundaryUp$ packet is generated from visible digest, hidden fiber-ledger, GAP provenance, apophatic far-end boundary, far-end refusal, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hash-like-fiber-boundary-carrier}, \autoref{thm:hash-like-fiber-boundary-namecert-obligations}, \autoref{thm:hash-like-fiber-boundary-noninternalization}, the falsifiable prediction, and the independence witness bind the finite digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and local naming packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close selected preimage recovery, digest-as-source equality, internal far-end objects, global universe digests, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires explicit carrier, NameCert, noninternalization, and consumer-route obligation theorems for the displayed packet.}
+\end{closurestatus}

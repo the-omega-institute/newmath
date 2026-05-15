@@ -131,6 +131,40 @@ Use the NameCert obligation theorem to expose carrier admission, graph edge admi
 The downstream handoff is therefore a reuse of the same named rows. The first compiler-certificate consumer is \autoref{ch:concrete-instances-certificatecompiler-namecert}: it may read the source, target, graph, edge, lift, transport, route, provenance, and local naming rows only as its displayed morphism input. Compiler, pipeline, and decompiler certificates can read the morphism packet as input, but any stronger correctness or inverse claim must be supplied by their own certificate surfaces.
 \end{proof}
 
+\begin{theorem}[KernelMorphism CertificateCompiler handoff]
+\label{thm:kernel-morphism-certificate-compiler-handoff}
+Any $\CertificateCompilerUp$, pipeline-stage, or decompiler-right-inverse consumer of an accepted $\KernelMorphismUp$ carrier must first read the source row $S$, target row $T$, graph row $G$, edge-admission row $E$, classifier-lift row $L$, transports $H$, routes $C$, provenance $P$, and local name $N$. The compiler-facing consumer receives these rows as its morphism input and receives no compiler correctness theorem, inverse proof, quotient program equality, or undisplayed target object.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations. \autoref{thm:kernel-morphism-namecert-obligations} reads carrier admission, graph evidence, classifier accountability, transport, route, provenance, and local naming from the displayed packet.
+
+Next use the edge-admission and classifier-lift obligations. They bind graph edges to the accepted source and target rows, and they expose the classifier lift only through the row $L$ rather than through a host compiler fact.
+
+Finally compose non-escape with public export. \autoref{thm:kernel-morphism-non-escape} excludes compiler semantics, inverse data, quotient program equality, and unnamed targets, while \autoref{thm:kernel-morphism-public-export} presents $S,T,G,E,L,H,C,P,N$ as the public morphism packet. Therefore the CertificateCompiler-facing read is exactly that finite input surface and no stronger theorem is transferred.
+\end{proof}
+
+\begin{theorem}[KernelMorphism composite compiler handoff boundary]
+\label{thm:kernel-morphism-composite-compiler-handoff-boundary}
+Given composable accepted $\KernelMorphismUp$ carriers
+$$
+K_{1}=(S,M,G_{1},E_{1},L_{1},H_{1},C_{1},P_{1},N_{1})
+$$
+and
+$$
+K_{2}=(M,T,G_{2},E_{2},L_{2},H_{2},C_{2},P_{2},N_{2}),
+$$
+any $\CertificateCompilerUp$, pipeline-stage, or decompiler-right-inverse consumer of the displayed composite must read the chained source row $S$, middle row $M$, target row $T$, composite graph, edge-admission rows, classifier-lift rows, transports, routes, provenance, and local names before obtaining a compiler-facing morphism input. The consumer receives no ambient compiler correctness theorem, quotient program equality, inverse proof, or category law from the composite packet.
+\end{theorem}
+\begin{proof}
+Start with the composition surface. \autoref{thm:kernel-morphism-composition-surface} projects $K_{1}$ and $K_{2}$, identifies $M$ as the shared middle row, composes $G_{1}$ with $G_{2}$ through displayed middle witnesses, and chains the admission and classifier-lift rows.
+
+The chained rows are still local NameCert rows. Edge admission is read from $E_{1},E_{2}$, classifier lift is read from $L_{1},L_{2}$, and the componentwise transports, routes, provenance, and local names are exactly the displayed $H_{i},C_{i},P_{i},N_{i}$ rows.
+
+Apply public export and the existing compiler handoff to the repacked composite. \autoref{thm:kernel-morphism-public-export} exposes only the finite morphism packet, and \autoref{thm:kernel-morphism-certificate-compiler-handoff} makes that packet the input surface for compiler, pipeline, and decompiler-facing consumers.
+
+Finally use non-escape. \autoref{thm:kernel-morphism-non-escape} blocks compiler semantics, quotient program equality, inverse data, and unnamed target objects, while the composition theorem itself asserts no ambient category law. Hence the composite handoff supplies the chained finite input and nothing stronger.
+\end{proof}
+
 \begin{theorem}[KernelMorphism scoped consumer packet]
 \label{thm:kernel-morphism-scoped-consumer-packet}
 Every accepted $\KernelMorphismUp$ consumer route factors through the single packet
@@ -219,6 +253,7 @@ Transport and replay are controlled by \autoref{thm:kernel-morphism-transport-st
 
 Finally use \autoref{thm:kernel-morphism-non-escape} and \autoref{thm:kernel-morphism-namecert-scope}. They exclude compiler semantics, inverse data, quotient program equality, and ambient category laws, leaving $S,T,E,L,H,C,P,N$ as the scoped consumer route for target-edge reads.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_scoped\_edge\_lift\_consumer}
 
 \begin{theorem}[KernelMorphism CertificateCompiler source lock]
 \label{thm:kernel-morphism-certificate-compiler-source-lock}
@@ -228,6 +263,7 @@ K=(S,T,G,E,L,H,C,P,N)
 $$
 must first read the KernelMorphism source row $S$, target row $T$, graph row $G$, edge-admission row $E$, classifier-lift row $L$, transport row $H$, route row $C$, provenance row $P$, and local name row $N$. The compiler may then add target landing and compiler-stage rows of its own, but it cannot replace the morphism packet by host compiler semantics, quotient program equality, inverse data, or an undisplayed target object.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_certificate\_compiler\_source\_lock}
 \begin{proof}
 Start with the public export theorem \autoref{thm:kernel-morphism-public-export}. It identifies the downstream morphism input with the finite packet rows $S,T,G,E,L,H,C,P,N$ and grants no compiler-correctness theorem beyond those rows.
 

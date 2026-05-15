@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ObserverTraceSealUp$}
+\label{ch:concrete-instances-observertraceseal-namecert}
+\origin{ai}
+
+The $\ObserverTraceSealUp$ packet realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite sealed trace certificate. It reads the no-subject identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert} together with the observer trace, distinction trace, bounded trace, and finite evaluator siblings. Its novelty is the seal row: a visible refusal ledger that binds each accepted trace to the same observer row, observation row, route, provenance, and local name before any consumer may read the trace.
+
+\begin{definition}[ObserverTraceSeal carrier]
+\label{def:observer-trace-seal-carrier}
+An $\ObserverTraceSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,T,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the observer row, read as a finite $\Hist$ or $\BHist$ observer-history surface;
+\item $T$ is the accepted trace row over the same observer-history surface;
+\item $A$ is the observation row, recording the displayed $\Cont$-mediated read of the trace;
+\item $R$ is the seal and no-subject refusal ledger, recording that the trace has no owner, subject carrier, hidden observer equality, or off-packet identity row;
+\item $H$ records componentwise $\hsame$ transport for $O,T,A,R,P,N$;
+\item $C$ records the displayed $\Cont$ routes from the observer row through the trace, observation, seal, provenance, and naming rows;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistIdentityUp$, $\ObserverKernelTraceUp$, $\ObserverDistinctionTraceUp$, $\BoundedUniversalTraceUp$, $\FiniteTraceEvaluatorUp$, $\BHist$, $\Hist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverTraceSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for observer-substance, host equality of observers, quotient observer identity, detached trace ownership, or an evaluator graph outside the displayed trace packet.
+\end{definition}
+
+\begin{theorem}[ObserverTraceSeal NameCert obligations]
+\label{thm:observer-trace-seal-namecert-obligations}
+For the carrier of \autoref{def:observer-trace-seal-carrier}, the local $\NameCert_{\ObserverTraceSealUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $S=(O,T,A,R,H,C,P,N)$;
+\item observer and trace exposure through the displayed $O,T,A$ rows;
+\item seal and no-subject refusal through $R$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance through $H,C,P$;
+\item local naming exactness through $N$.
+\end{enumerate}
+No accepted consumer can read the trace without passing through all five rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observer-trace-seal-carrier}. The packet displays the observer row, trace row, observation row, seal row, transport, route, provenance, and local name.
+
+The observer and trace exposure rows are read through $O,T,A$. The trace is therefore attached to the same observer-history surface and the same displayed observation route before the seal is inspected.
+
+The refusal row $R$ records the no-subject boundary. Componentwise transport and replay are then supplied only by $H$ and $C$, while $P$ and $N$ record provenance and local naming. Since no further coordinate is present, the five rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[ObserverTraceSeal no-subject nonescape]
+\label{thm:observer-trace-seal-non-subject-nonescape}
+Every accepted $\ObserverTraceSealUp$ packet exposes a trace only through the displayed observer row, trace row, observation row, seal row, componentwise $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row $O,T,A,R,H,C,P,N$. It cannot export an observer-substance carrier, hidden subject row, host equality of observers, quotient observer identity, detached trace owner, or evaluator graph outside those rows.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:observer-trace-seal-namecert-obligations}. They force every accepted read through $O,T,A,R,H,C,P,N$ before the local name is available.
+
+Use the observer-history identity sibling \autoref{ch:concrete-instances-observerhistidentity-namecert}. It reads observer identity as a finite history and observation surface rather than as a separate subject carrier.
+
+Now attach the seal row $R$. The refusal ledger is part of the same accepted packet as the trace, so a consumer cannot expose $T$ while omitting the no-subject refusal. The absent observer-substance, hidden subject, host equality, quotient identity, detached owner, and evaluator graph each require a coordinate outside the carrier.
+\end{proof}
+
+\falsifiablePrediction{If an accepted ObserverTraceSeal packet exposes a trace without the no-subject refusal row, then thm:observer-trace-seal-non-subject-nonescape is refuted by that packet.}
+
+\independenceWitness{observerhistidentity, observerkerneltrace, observerdistinctiontrace, boundeduniversaltrace, finitetraceevaluator: the packet records an observer row, trace row, observation row, seal row, no-subject refusal, transport, route, provenance, and local name in one finite carrier.}
+
+The seal row plus the no-subject refusal ledger prevents a bijection to any sibling carrier. $\ObserverHistIdentityUp$ supplies identity comparison without a sealed trace row, $\ObserverKernelTraceUp$ supplies trace exposure without the extra seal obligation, $\ObserverDistinctionTraceUp$ orders distinction steps without bounded trace readback, $\BoundedUniversalTraceUp$ supplies a fuel-indexed trace without observer-history identity, and $\FiniteTraceEvaluatorUp$ supplies finite evaluation without the no-subject seal.
+
+\closureat{ObserverTraceSealUp}{seedStr}
+
+\begin{closurestatus}{\ObserverTraceSealUp}
+  \constructivestory{An $\ObserverTraceSealUp$ packet is generated from an observer row, trace row, observation row, seal and no-subject refusal ledger, componentwise hsame transport, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-trace-seal-carrier}, \autoref{thm:observer-trace-seal-namecert-obligations}, and \autoref{thm:observer-trace-seal-non-subject-nonescape} specify the finite sealed trace packet and its no-subject boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host observer model, quotient observer identity, detached trace ownership, or evaluator graph semantics.}
+  \upgradepath{Obligation closure requires checked carrier admission, observer-trace exposure, seal refusal exactness, hsame transport, Cont replay, provenance, local naming, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

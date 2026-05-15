@@ -19,6 +19,7 @@ Finally use \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness} a
 \label{thm:diagonal-limit-compatibility-tail-schedule-readback}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet whose seal-budget synchronizer supplies the tail schedule row. Then the compatibility route reads the $\TailCofinalityScheduleUp$ packet before the $\RegSeqRatUp$ row $Q$ and the $\RealUp$ seal row $L$. The readback keeps the tail schedule, finite window row, dyadic ledger, regular-rational row, and real seal row on the same displayed route.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_tail\_schedule\_readback}
 \begin{proof}
 First apply \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. The synchronizer rows are upstream of the compatibility readback through $Q,L$, so its tail schedule row is available before the final seal is consumed.
 
@@ -33,6 +34,7 @@ Finally apply \autoref{thm:diagonal-limit-compatibility-source-route-exactness}.
 \label{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet whose seal route is read through an accepted $\CauchySealBudgetSynchronizerUp$ packet and whose tail schedule is supplied by $\TailCofinalityScheduleUp$, the combined route exports only the displayed compatibility rows, synchronizer rows, tail-schedule rows, regular-rational readback, and $\RealUp$ seal. It exports no quotient stream, host real equality, selected host limit, countable choice row, or ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_real\_seal\_budget\_nonescape}
 \begin{proof}
 Use \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} for the compatibility packet. It removes quotient streams, selected host limits, host real equality, choice data, and ambient completeness from every completion-facing read of $K$.
 
@@ -51,6 +53,7 @@ K=(R,T,S,D,W,Q,L,H,C,P,N)
 $$
 be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose its seal route is read through an accepted $\CauchySealBudgetSynchronizerUp$ packet and its tail schedule is supplied by an accepted $\TailCofinalityScheduleUp$ packet on the same displayed route. Then every selector-facing Real consumer reaches the $\RegSeqRatUp$ row $Q$ and the $\RealUp$ seal row $L$ only through the finite route $K$ together with the synchronizer request, seal, budget, selector, compatibility, transport, route, provenance, local naming rows, and the tail-schedule precision, window, dyadic, regular-rational, and Real-seal rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_synchronizer\_tail\_selector\_real\_route}
 \begin{proof}
 First apply \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. It places the synchronizer rows before the regular-rational row and the Real seal inside the displayed compatibility packet.
 
@@ -81,6 +84,7 @@ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the same displaye
 
 The finite route exports no quotient stream, selected host limit, host equality, countable-choice tail, hidden observation budget, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_tail\_budget\_observation\_lock}
 \begin{proof}
 First apply \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. It places the synchronizer request, seal, budget, selector, compatibility, transport, route, provenance, and local naming rows before the regular-rational row $Q$ and the Real seal row $L$.
 
@@ -129,4 +133,51 @@ Next apply \autoref{thm:diagonal-limit-compatibility-tail-schedule-readback} and
 Now use \autoref{thm:diagonal-limit-compatibility-synchronizer-tail-selector-real-route} and \autoref{thm:diagonal-limit-compatibility-selector-budget-shared-tail-nonescape}. They identify the selector-facing Real route with the compatibility packet, synchronizer rows, tail schedule, $Q$, and $L$, and they leave no separate selector or shared-tail coordinate on which the two reads could differ.
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-tail-budget-observation-triple-lock} and \autoref{thm:diagonal-limit-compatibility-triple-budget-route-exhaustion}. The accepted observation-budget packet contributes only its displayed request rows, and the exhausted route has precisely the compatibility, synchronizer, schedule, observation-budget, RegSeqRat, and RealUp seal rows listed in the statement. Since $\rho$ and $\rho'$ agree on all of these rows and on the displayed $hsame$, $Cont$, $Pkg$, and $NameCert$ rows, finite row exhaustion leaves no fifth coordinate from which a distinct cofinal observation route could be read.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility synchronizer-observation route uniqueness]
+\label{thm:diagonal-limit-compatibility-synchronizer-observation-route-uniqueness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let $\rho$ and $\rho'$
+be two Real-facing reads of the displayed synchronizer-observation surface. If
+they agree on the displayed compatibility rows of $K$, the accepted
+$\CauchySealBudgetSynchronizerUp$ rows, the accepted
+$\TailCofinalityScheduleUp$ rows, the accepted $\RealObservationBudgetUp$
+request rows, the $\RegSeqRatUp$ row $Q$, the $\RealUp$ seal row $L$, and the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, then they determine
+the same synchronizer-observation route.
+
+The two reads cannot differ by quotient stream, hidden observation budget,
+selected host limit, host equality, countable-choice tail, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-limit-compatibility-synchronizer-tail-selector-real-route}.
+It places every selector-facing Real read on the displayed compatibility
+packet together with the synchronizer rows, the tail-schedule rows, $Q$, and
+$L$.
+
+Next use
+\autoref{thm:diagonal-limit-compatibility-selector-budget-shared-tail-nonescape}.
+This removes quotient streams, selected host limits, host equality,
+countable-choice tails, and ambient completeness from the shared route, so
+agreement cannot be broken by an external Real-facing coordinate.
+
+Apply
+\autoref{thm:diagonal-limit-compatibility-tail-budget-observation-triple-lock}.
+The observation-budget packet contributes only its accepted request rows on the
+same finite route; hence a hidden observation budget has no separate source.
+
+Finally combine
+\autoref{thm:diagonal-limit-compatibility-triple-budget-route-exhaustion} with
+\autoref{thm:diagonal-limit-compatibility-synchronizer-observation-cofinal-pullback}.
+The triple-budget route is exhausted by the listed compatibility,
+synchronizer, schedule, observation-budget, RegSeqRat, RealUp, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows, and the cofinal pullback identifies any
+two reads that agree on those rows. Thus $\rho$ and $\rho'$ determine one
+synchronizer-observation route.
 \end{proof}

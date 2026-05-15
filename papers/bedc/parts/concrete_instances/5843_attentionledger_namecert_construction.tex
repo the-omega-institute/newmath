@@ -105,6 +105,53 @@ Use non-escape and the ObserverFilter handoff. By \autoref{thm:attention-ledger-
 Now apply the public boundary and the obligation package. \autoref{thm:attention-ledger-public-boundary} requires $S$ and $O$ together before a StreamName-facing row can be exported, while \autoref{thm:attention-ledger-obligation-closure-package} repacks the same rows as the finite NameCert surface. Thus the scoped route is exactly the displayed kernel boundary and contains no coordinate for host observer equality, quotient stream equality, hidden attention state, or unledgered omission.
 \end{proof}
 
+\begin{theorem}[Attention ledger public consumer surface]
+\label{thm:attention-ledger-public-consumer-surface}
+For every accepted $\AttentionLedgerUp$ packet
+$$
+A=(H,F,S,O,U,W,R,L,C,P,N),
+$$
+the complete public consumer surface is the selected ledger $S$, the omitted ledger $O$, the public attention row $U$, the $\StreamNameUp$ handoff row $W$, the exactness row $L$, and the support rows $R,C,P,N$. The source row $H$ and filter row $F$ feed this surface, while no public consumer receives host observer equality, quotient stream equality, hidden attention state, or an unledgered deletion row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. The carrier displays exactly $H,F,S,O,U,W,R,L,C,P,N$, and the local NameCert surface exposes selected rows through $S$, omitted boundary rows through $O$, public attention through $U$, the StreamName handoff through $W$, exactness through $L$, and support through $R,C,P,N$.
+
+Use non-escape and the ObserverFilter handoff. Omitted rows remain boundary data by \autoref{thm:attention-ledger-non-escape}, while \autoref{thm:attention-ledger-observer-filter-handoff} routes the selected side from the filter row $F$ to $S,U,W,R,C,P,N$.
+
+The public boundary and obligation package finish the export. Theorems~\ref{thm:attention-ledger-public-boundary} and~\ref{thm:attention-ledger-obligation-closure-package} require the selected and omitted ledgers to coexist before the StreamName-facing handoff is available, so the public surface is exactly $S,O,U,W,L,R,C,P,N$ over the incoming source and filter rows.
+\end{proof}
+
+\begin{theorem}[Attention ledger ObserverInterface handoff]
+\label{thm:attention-ledger-observer-interface-handoff}
+Every $\ObserverInterfaceUp$ consumer of an accepted $\AttentionLedgerUp$ packet may read the public attention row only through the $\ObserverHistoryIdentityUp$ source row $H$, the $\ObserverFilterUp$ split row $F$, the selected and omitted ledger pair $S,O$, and the $\StreamNameUp$ handoff row $W$. The omitted rows remain boundary data carried by $O,L,R,C,P,N$ and are not public attention rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The source observer-history row $H$ and filter row $F$ are the only incoming observer rows, and the selected and omitted ledgers $S,O$ are the only rows that record the filter result.
+
+Apply the non-escape and ObserverFilter handoff theorems. Non-escape confines omitted observations to $O$ and its boundary reasons, while the handoff theorem routes selected data toward StreamName only through $S,U,W,R,C,P,N$ after the filter split.
+
+Now use the public boundary, obligation closure package, and scoped kernel boundary. These theorems require $S$ and $O$ together, repack the same rows as the finite NameCert surface, and identify the scoped consumer route as $H,F,S,O,U,W,R,L,C,P,N$. Thus an $\ObserverInterfaceUp$ consumer can read public attention only through that displayed route, with omitted rows remaining certified boundary data.
+\end{proof}
+
+\begin{theorem}[Attention ledger public route export]
+\label{thm:attention-ledger-public-route-export}
+For every accepted $\AttentionLedgerUp$ packet
+$$
+A=(H,F,S,O,U,W,R,L,C,P,N),
+$$
+any public export route must pass through the selected ledger $S$, omitted ledger $O$, public attention row $U$, StreamName handoff row $W$, exactness row $L$, and support rows $R,C,P,N$. The source row $H$ and filter row $F$ remain incoming rows for the route; the export cannot carry host observer equality, quotient stream equality, hidden attention state, or deletion of an omitted source row.
+\end{theorem}
+\leanchecked{BEDC.Derived.AttentionLedgerUp.AttentionLedgerPacket\_public\_route\_export}
+\begin{proof}
+Project the carrier and NameCert obligations. They display $H,F,S,O,U,W,R,L,C,P,N$ as the complete packet and identify $S,O,U,W,L,R,C,P,N$ as the public and boundary rows available after the source and filter rows.
+
+Use non-escape and the ObserverFilter handoff. The omitted ledger stays confined to $O$ and its boundary reasons, while selected data reaches StreamName only through $S,U,W,R,C,P,N$ after $F$ has performed the split.
+
+Apply the public boundary and scoped kernel boundary. These theorems require $S$ and $O$ to remain together and make the route exactly the finite kernel surface $H,F,S,O,U,W,R,L,C,P,N$.
+
+Finally use the ObserverInterface handoff. Public observers may read attention only through the displayed route, so host observer equality, quotient stream equality, hidden attention state, and unledgered deletion have no export coordinate.
+\end{proof}
+
 \falsifiablePrediction{An accepted AttentionLedgerUp consumer cannot export a StreamName-facing row unless the selected-row ledger and omitted-row boundary are both present.}
 
 \independenceWitness{observerfilter, observerhistoryidentity, streamname, interhistinvariant, observertracekernel: no sibling is bijective to $\AttentionLedgerUp$ because this carrier simultaneously stores the selected ledger, omitted ledger, and public attention row. Observerfilter has the split but not the public attention row; observerhistoryidentity has source identity without selection; streamname has the exported surface without the omitted boundary; interhistinvariant has invariant readback rather than an attention split; observertracekernel has trace composition without the selected or omitted ledger pair.}
@@ -119,7 +166,8 @@ The Lean TasteGate namespace $\mathsf{BEDC.Derived.AttentionLedgerUp.TasteGate}$
   \constructivestory{An $\AttentionLedgerUp$ packet is generated from observer-history identity, observer-filter selection, selected-row ledger, omitted-row ledger, public attention row, StreamName handoff, componentwise transport, ledger exactness, displayed continuation, package provenance, and local NameCert rows.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:attention-ledger-carrier}, \autoref{thm:attention-ledger-namecert-obligations}, \autoref{thm:attention-ledger-non-escape}, \autoref{thm:attention-ledger-observer-filter-handoff}, \autoref{thm:attention-ledger-public-boundary}, \autoref{thm:attention-ledger-obligation-closure-package}, \autoref{thm:attention-ledger-scoped-kernel-boundary}, and \leandef{BEDC.Derived.AttentionLedgerUp.taste\_gate} specify the finite attention-ledger packet, selected-row ledger, omitted-row boundary, public attention row, StreamName handoff, scoped kernel boundary, and TasteGate-aware obligation surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.AttentionLedgerUp.AttentionLedgerPacket\_public\_route\_export}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove observer identity completeness, StreamName quotient equality, hidden attention-state existence, Lean verification, or bridge checking for $\AttentionLedgerUp$.}

@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionHashTraceUp$}
+\label{ch:concrete-instances-inscription-hash-trace-namecert}
+\origin{ai}
+
+The $\InscriptionHashTraceUp$ packet realizes the hash-like apophatic fixed-point digest of \autoref{ch:visions-hash-like-apophatic-fixed-point} as a finite inscription trace. It sits beside the hash certificate of \autoref{ch:concrete-instances-hash-namecert}, the inscription event packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}, the trace classifier of \autoref{ch:concrete-instances-inscriptiontraceclassifier-namecert}, the apophatic fixed-point packet of \autoref{ch:concrete-instances-apophaticfixedpoint-namecert}, and the hash-apophatic seal of \autoref{ch:concrete-instances-hashapophaticseal-namecert}. Its distinguishing role is that the visible digest, inscription event, trace classifier, refusal ledger, route audit, transport, continuation, package, and local name are one finite consumer-facing row.
+
+\begin{definition}[InscriptionHashTrace carrier]
+\label{def:inscription-hash-trace-carrier}
+An $\InscriptionHashTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,I,K,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest row read through the $\HashUp$ certificate surface;
+\item $I$ is the finite inscription-event row that records where the digest is written into the observer-facing trace;
+\item $K$ is the inscription trace-classifier row that keeps digest sameness distinct from trace-source equality;
+\item $R$ is the refusal-ledger row blocking hidden preimage, global digest, and object-level $\mathsf{T}$ reads;
+\item $A$ is the route-audit row showing that the digest read passes through inscription and classifier surfaces before the apophatic fixed-point seal is cited;
+\item $H$ records componentwise $\hsame$ transports for $D,I,K,R,A,C,P,N$;
+\item $C$ records the displayed $\Cont$ route through the digest, inscription event, classifier, refusal, audit, provenance, and naming rows;
+\item $P$ is the $\Pkg$ provenance over $\HashUp$, $\InscriptionEventUp$, $\InscriptionTraceClassifierUp$, $\ApophaticFixedPointUp$, $\HashApophaticSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InscriptionHashTraceUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a selected digest preimage, a global universe hash, source equality from digest sameness, an uninscribed trace read, an unaudited route, or an internal object named $\mathsf{T}$.
+\end{definition}
+
+\begin{theorem}[InscriptionHashTrace NameCert obligations]
+\label{thm:inscription-hash-trace-namecert-obligations}
+For the carrier of \autoref{def:inscription-hash-trace-carrier}, the local $\NameCert_{\InscriptionHashTraceUp}$ surface consists exactly of carrier admission for
+$$
+T=(D,I,K,R,A,H,C,P,N),
+$$
+visible digest exposure through $D$, inscription-event exposure through $I$, trace-classifier exposure through $K$, refusal-ledger exposure through $R$, route-audit exposure through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every accepted consumer preserves these rows together. In particular, the hash-like digest can be cited toward the apophatic fixed-point seal only after the inscription event, trace classifier, refusal ledger, and route audit have been displayed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:inscription-hash-trace-carrier}. Its displayed rows are exactly $D,I,K,R,A,H,C,P,N$.
+
+Read the sibling surfaces in order. The hash certificate supplies the visible digest row, the inscription-event packet supplies the finite writing site, the trace-classifier packet supplies the trace-facing classifier, and the hash-apophatic seal supplies the apophatic fixed-point endpoint only through a displayed refusal-aware route.
+
+The rows $R$ and $A$ are part of the same carrier, so refusal and route audit are not optional side conditions. Since the carrier has no further coordinate, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[InscriptionHashTrace refusal nonescape]
+\label{thm:inscription-hash-trace-refusal-nonescape}
+Every accepted $\InscriptionHashTraceUp$ consumer that reads $D$ must also read $I,K,R,A,H,C,P,N$. Consequently the packet exports no selected preimage, no global universe digest, no source equality obtained from digest sameness, no uninscribed trace, no unaudited route to the seal, and no internal $\mathsf{T}$ object.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:inscription-hash-trace-namecert-obligations}. They place every public digest read inside the finite carrier $T=(D,I,K,R,A,H,C,P,N)$.
+
+The inscription event and trace classifier are read before the refusal and audit rows. Thus a consumer cannot detach the digest from the trace site or replace classifier sameness by source equality.
+
+Finally inspect the carrier inventory. It contains no preimage selector, global digest, uninscribed trace coordinate, unaudited route coordinate, or internal $\mathsf{T}$ object, so none of those readings can escape the displayed packet.
+\end{proof}
+
+\begin{theorem}[InscriptionHashTrace audit route]
+\label{thm:inscription-hash-trace-audit-route}
+Any accepted route from an $\InscriptionHashTraceUp$ digest row to the $\HashApophaticSealUp$ endpoint factors through the displayed chain
+$$
+\HashUp \to \InscriptionEventUp \to \InscriptionTraceClassifierUp \to R \to A \to H,C,P,N.
+$$
+The route cannot cite the apophatic fixed-point seal before the digest evidence, inscription event, classifier row, refusal ledger, route audit, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows have all been exposed.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:inscription-hash-trace-namecert-obligations} to put the route inside the accepted carrier. The only digest-facing row is $D$, and it is packaged with the inscription event $I$ and classifier row $K$.
+
+Next read $R$ and $A$. The refusal row records the blocked preimage, global digest, and object-level $\mathsf{T}$ readings, while the audit row records the permitted route toward the hash-apophatic seal.
+
+The remaining rows $H,C,P,N$ transport, replay, cite, and name only that finite route. Hence any seal-facing consumer sees the displayed chain and no shortcut around it.
+\end{proof}
+
+\begin{theorem}[InscriptionHashTrace field-faithful prediction]
+\label{thm:inscription-hash-trace-fieldfaithful-prediction}
+A Lean TasteGate carrier for $\InscriptionHashTraceUp$ is field-faithful only when equality of the projected rows $D,I,K,R,A,H,C,P,N$ determines equality of the whole packet, and it is nontrivial only when at least one displayed digest row can vary while the remaining rows stay fixed. Dropping $I$, $K$, $R$, or $A$ makes the carrier unable to witness the inscription hash trace route.
+\end{theorem}
+\leanchecked{BEDC.Derived.InscriptionHashTraceUp.TasteGate.InscriptionHashTraceTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The carrier of \autoref{def:inscription-hash-trace-carrier} is a constructor over the nine displayed rows. Equality of the projected rows therefore gives equality of the constructor instance, while changing the digest row gives a nontrivial witness pair.
+
+The route theorem above supplies the semantic boundary for this encoding. Without the inscription event, the digest is not trace-local; without the classifier, digest sameness can be mistaken for trace-source equality; without the refusal ledger, hidden preimage and object-level $\mathsf{T}$ readings are not blocked; and without the audit row, the route to the hash-apophatic seal is not displayed.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\InscriptionHashTraceUp$ consumer factors through the displayed hash digest, inscription event, trace classifier, refusal ledger, route-audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before it can cite the apophatic fixed-point seal.}
+
+\independenceWitness{hash, inscriptionevent, inscriptiontraceclassifier, apophaticfixedpoint, and hashapophaticseal: no bijection preserves the displayed rows because $\InscriptionHashTraceUp$ alone binds the digest row, inscription event, trace classifier, refusal ledger, route audit, transport, continuation, provenance, and local NameCert row in one carrier.}
+
+The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/InscriptionHashTraceUp/TasteGate.lean}. It includes explicit \texttt{Nontrivial InscriptionHashTraceUp} and \texttt{FieldFaithful InscriptionHashTraceUp} instances for the displayed finite carrier.
+
+\closureat{InscriptionHashTraceUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionHashTraceUp}
+  \constructivestory{An $\InscriptionHashTraceUp$ packet is generated from a visible digest row, inscription-event row, trace-classifier row, refusal-ledger row, route-audit row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-hash-trace-carrier}, \autoref{thm:inscription-hash-trace-namecert-obligations}, \autoref{thm:inscription-hash-trace-refusal-nonescape}, \autoref{thm:inscription-hash-trace-audit-route}, and \autoref{thm:inscription-hash-trace-fieldfaithful-prediction} bind the carrier, NameCert obligations, refusal nonescape, audit route, and field-faithful prediction rows for the finite inscription hash trace packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.InscriptionHashTraceUp.TasteGate.InscriptionHashTraceTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close hidden preimages, global universe digests, source equality from digest sameness, unaudited routes, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier, classifier, refusal, audit-route, nontriviality, and field-faithfulness rows.}
+\end{closurestatus}

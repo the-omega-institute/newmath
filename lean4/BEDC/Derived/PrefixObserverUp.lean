@@ -226,39 +226,44 @@ instance prefixObserverNontrivial : Nontrivial PrefixObserverUp where
         intro h
         cases h⟩
 
+private def prefixObserverFields : PrefixObserverUp → List BHist
+  | PrefixObserverUp.mk source prefixRow route check consumer ledger transport routes provenance
+      nameCert =>
+      [source, prefixRow, route, check, consumer, ledger, transport, routes, provenance, nameCert]
+
+private theorem prefixObserver_field_faithful :
+    ∀ x y : PrefixObserverUp, prefixObserverFields x = prefixObserverFields y → x = y := by
+  intro x y hfields
+  cases x with
+  | mk source prefixRow route check consumer ledger transport routes provenance nameCert =>
+      cases y with
+      | mk source' prefixRow' route' check' consumer' ledger' transport' routes' provenance'
+          nameCert' =>
+          injection hfields with hSource hTail0
+          injection hTail0 with hPrefix hTail1
+          injection hTail1 with hRoute hTail2
+          injection hTail2 with hCheck hTail3
+          injection hTail3 with hConsumer hTail4
+          injection hTail4 with hLedger hTail5
+          injection hTail5 with hTransport hTail6
+          injection hTail6 with hRoutes hTail7
+          injection hTail7 with hProvenance hTail8
+          injection hTail8 with hNameCert _hNil
+          cases hSource
+          cases hPrefix
+          cases hRoute
+          cases hCheck
+          cases hConsumer
+          cases hLedger
+          cases hTransport
+          cases hRoutes
+          cases hProvenance
+          cases hNameCert
+          rfl
+
 instance prefixObserverFieldFaithful : FieldFaithful PrefixObserverUp where
-  fields
-    | PrefixObserverUp.mk source prefixRow route check consumer ledger transport routes provenance
-        nameCert =>
-        [source, prefixRow, route, check, consumer, ledger, transport, routes, provenance, nameCert]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk source prefixRow route check consumer ledger transport routes provenance nameCert =>
-        cases y with
-        | mk source' prefixRow' route' check' consumer' ledger' transport' routes' provenance'
-            nameCert' =>
-            injection hfields with hSource hTail0
-            injection hTail0 with hPrefix hTail1
-            injection hTail1 with hRoute hTail2
-            injection hTail2 with hCheck hTail3
-            injection hTail3 with hConsumer hTail4
-            injection hTail4 with hLedger hTail5
-            injection hTail5 with hTransport hTail6
-            injection hTail6 with hRoutes hTail7
-            injection hTail7 with hProvenance hTail8
-            injection hTail8 with hNameCert _hNil
-            cases hSource
-            cases hPrefix
-            cases hRoute
-            cases hCheck
-            cases hConsumer
-            cases hLedger
-            cases hTransport
-            cases hRoutes
-            cases hProvenance
-            cases hNameCert
-            rfl
+  fields := prefixObserverFields
+  field_faithful := prefixObserver_field_faithful
 
 theorem PrefixObserverTasteGate_single_carrier_alignment :
     (∀ h : BHist, prefixObserverDecodeBHist (prefixObserverEncodeBHist h) = h) ∧
@@ -268,9 +273,11 @@ theorem PrefixObserverTasteGate_single_carrier_alignment :
           prefixObserverToEventFlow x = prefixObserverToEventFlow y → x = y) ∧
           prefixObserverEncodeBHist BHist.Empty = ([] : List BMark) := by
   constructor
-  · exact prefixObserverDecode_encode_bhist
+  · intro h
+    exact prefixObserverDecode_encode_bhist h
   · constructor
-    · exact prefixObserver_round_trip
+    · intro x
+      exact prefixObserver_round_trip x
     · constructor
       · intro x y heq
         exact prefixObserverToEventFlow_injective heq

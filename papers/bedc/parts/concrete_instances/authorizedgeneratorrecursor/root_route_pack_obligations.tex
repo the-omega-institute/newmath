@@ -1,0 +1,99 @@
+\begin{theorem}[AuthorizedGeneratorRecursor route-pack exactness]
+\label{thm:authorized-generator-recursor-route-pack-exactness}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every accepted recursor route factors through the finite packet rows displayed
+in \autoref{def:authorized-generator-recursor-carrier}. The route may expose
+the accepted constructor signature, emitted eliminator, checked motive, branch
+package, structural descent, output name, audit provenance, componentwise
+$\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, $\mathsf{GAP}$
+boundary, and local $\NameCert$ row, but it cannot add a row outside that
+packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:authorized-generator-recursor-carrier}. The displayed tuple is the
+whole route package, and each public recursor read is one of the listed rows.
+
+Use the local NameCert surface of
+\autoref{thm:authorized-generator-recursor-namecert-surface}. It identifies the
+same rows as the naming certificate for the authorized recursor output and
+requires a consumer to read $O$ only through the packet.
+
+Finally apply the audit and boundary results. The audit boundary of
+\autoref{thm:authorized-generator-recursor-audit-boundary} and the kernel
+acceptance scope of
+\autoref{thm:authorized-generator-recursor-kernel-acceptance-scope} keep the
+host-kernel handoff at $G$ on the displayed tuple. Since no carrier coordinate
+exists beyond $I,E,M,B,D,O,A,H,C,P,G,N$, route-pack exactness follows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor branch-budget exhaustion]
+\label{thm:authorized-generator-recursor-branch-budget-exhaustion}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the branch package
+$B$ and structural-descent row $D$ exhaust every public branch read. A public
+consumer may read only constructor branches listed by $I$ and authorized
+through $E,M,B,D$; it cannot import an unlisted constructor branch, a detached
+recursive call, or a second branch budget outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with branch exhaustion from
+\autoref{thm:authorized-generator-recursor-branch-exhaustion}. The row $B$
+contains exactly the accepted branch surface for the constructors displayed by
+$I$, and downstream access reaches it only through the displayed continuation
+route.
+
+Add structural locality from
+\autoref{thm:authorized-generator-recursor-structural-descent-locality} and
+\autoref{thm:authorized-generator-recursor-branch-descent-totality}. These rows
+bind public recursive reads to the checked motive and structural-descent row,
+so every recursive branch read remains inside $E,M,B,D$.
+
+The refusal side is supplied by
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} and
+\autoref{thm:authorized-generator-recursor-gap-boundary-refusal}. The carrier
+has no coordinate for an imported constructor branch, non-structural recursion
+channel, or hidden proof generator, so the displayed branch budget is
+exhausted.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor consumer ledger cover]
+\label{thm:authorized-generator-recursor-consumer-ledger-cover}
+Every downstream $\RecursorGeneratorUp$,
+$\ClosedTermSubstitutionBoundaryUp$, and $\TasteGate$ consumer of an
+accepted $\AuthorizedGeneratorRecursorUp$ packet receives only the carrier,
+branch, descent, audit, $\hsame$, $\Cont$, $\Pkg$, $\mathsf{GAP}$, and local
+$\NameCert$ rows displayed by
+$$
+(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+No such consumer receives an extra generator row, substitution authority,
+unlisted branch, unaudited dependency channel, or naming certificate outside
+the packet.
+\end{theorem}
+\begin{proof}
+The carrier side is fixed by
+\autoref{thm:authorized-generator-recursor-route-pack-exactness}. It makes the
+finite tuple the exact route package available to any consumer.
+
+The branch and descent side is fixed by
+\autoref{thm:authorized-generator-recursor-branch-budget-exhaustion}. Thus a
+$\RecursorGeneratorUp$ consumer can read only the accepted signature,
+eliminator, motive, branch package, and structural-descent rows already
+present in the packet.
+
+The audit and ledger side is fixed by
+\autoref{thm:authorized-generator-recursor-root-namecert-consumer-readiness}
+and \autoref{thm:authorized-generator-recursor-obligation-triad}. They attach
+the output, audit row, transports, continuation routes, package provenance,
+boundary row, and local certificate before downstream closed-normal or
+generator-audit consumers can cite the surface.
+
+Finally the TasteGate handoff of
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads only
+the same single carrier alignment witness. Since the ledger has no coordinate
+for substitution authority, an extra generator, or an outside naming
+certificate, the listed consumers receive exactly the displayed rows.
+\end{proof}

@@ -38,6 +38,7 @@ The local $\NameCert_{\HaltingDistinctionUp}$ surface for \autoref{def:halting-d
 \item non-escape from global truth predicates, classical decidability, divergence oracles, host evaluators, or classifiers not named by $Q$, $T$, $Z$, $H$, $C$, $P$, and $N$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:halting-distinction-carrier}. The packet names exactly the pair, trace, diagonal, transport, continuation, package, and local naming rows.
 
@@ -69,6 +70,7 @@ Since no coordinate of $D$ is a total truth predicate, a classical halting decis
 \label{thm:halting-distinction-consumer-non-escape}
 Every consumer of an accepted $\HaltingDistinctionUp$ packet receives only the finite certificate-history pair row $Q$, the finite $\Cont_P$ trace row $T$, the diagonal self-reference row $Z$, the componentwise $\hsame$ transports $H$, the displayed read routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\HaltingDistinctionUp}$ ledger $N$. No consumer can extract from the packet a total halting predicate, a global truth predicate over certificates, a classical decidability principle for termination, or a host-level evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrier\_consumer\_non\_escape}
 \begin{proof}
 Inspect the carrier coordinates. The exported rows are exactly $Q,T,Z,H,C,P,N$, and each row is finite BEDC data.
 
@@ -86,6 +88,7 @@ therefore classifies pair rows by the displayed certificate-history data and
 the local $\NameCert_{\HaltingDistinctionUp}$ ledger, not by a global truth
 predicate or host evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionPairClassifierTransport}
 \begin{proof}
 Start with the carrier of \autoref{def:halting-distinction-carrier}. The only
 coordinate naming the certificate-history input is $Q$, and the only transport
@@ -109,6 +112,7 @@ and the displayed route row $C$. The read may inspect the visible
 $\Cont_P$ chain segment recorded in $T$, but it cannot turn that finite
 segment into a total halting predicate or divergence oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionTraceReadability}
 \begin{proof}
 The carrier definition supplies $T$ as the only finite trace coordinate and
 $C$ as the only route coordinate for replaying that trace. Thus any
@@ -140,6 +144,7 @@ If the route enters the self-reference branch, apply \autoref{thm:halting-distin
 
 Finally apply \autoref{thm:halting-distinction-consumer-non-escape}. Since every public consumer receives only $Q,T,Z,H,C,P,N$, the inversion cannot reconstruct a hidden total halting classifier, divergence oracle, global truth predicate, or host evaluator.
 \end{proof}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionFiniteTraceInversion}
 
 \begin{theorem}[HaltingDistinction provenance purity boundary]
 \label{thm:halting-distinction-provenance-purity-boundary}
@@ -166,11 +171,13 @@ consumer of the packet can extract a total halting predicate, global truth
 predicate, classical decision principle, divergence oracle, or host evaluator,
 the provenance and naming rows cannot be reinterpreted as any of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionCarrier\_provenance\_purity\_boundary}
 
 \begin{theorem}[HaltingDistinction normal-form route consumption]
 \label{thm:halting-distinction-normal-form-route-consumption}
 Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Every accepted public read that reaches the trace-normal-form route consumes the $\ContinuationTraceNormalFormUp$ sibling surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert} before the diagonal row $Z$ can be used. The read remains a finite route through $Q,T,H,C,P,N$ into $Z$; it does not obtain a host evaluator, an unbounded execution semantics, or a total halting classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionUp.HaltingDistinctionNormalFormRouteConsumption}
 \begin{proof}
 First project the carrier. By \autoref{def:halting-distinction-carrier}, the only trace coordinate is $T$, the only displayed continuation routes are in $C$, and the only transport row for carrying the trace into later reads is $H$.
 

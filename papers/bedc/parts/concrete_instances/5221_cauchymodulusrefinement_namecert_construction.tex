@@ -236,6 +236,7 @@ $$
 $$
 Thus any accepted classifier read of $R$ remains a read of the same two source schedules, shared meet row, refinement witness, selector-budget row, finite-window ledger, tolerance ledger, $\RealUp$ seal row, provenance row, and local $\NameCert$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_classifier\_transport}
 \begin{proof}
 Project the packet $R$. The only transport data in the carrier are the componentwise $\hsame$ entries stored in $H$, and the only replay data are the displayed $\Cont$ routes stored in $C$.
 
@@ -275,6 +276,7 @@ The reverse direction is repacking. A tuple admitted through the displayed meet,
 \label{thm:cauchy-modulus-refinement-shared-budget-pullback}
 For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the meet row $U$ and selector-budget row $T$ jointly determine every selected-window read in $W$ and every tolerance-readback row in $Q$. No selected window may be read from $T$ without the same shared meet row $U$, and no $\DyadicRatCoreUp$ or $\RegSeqRatUp$ readback may be read from $Q$ without the window budget determined by $U$ through $V,T$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_shared\_budget\_pullback}
 \begin{proof}
 First fix the shared source. Source-meet exactness identifies $U$ as the only meet row over the two schedules $M_0,M_1$, and the source-meet budget chain places the refinement witness $V$ after that meet.
 
@@ -630,6 +632,25 @@ Finally use \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. 
 
 The three clauses use the same displayed carrier and the same sibling rows. Therefore they assemble one root-unblock package rather than three independent routes, and every downstream consumer must cite that package through the displayed finite packet.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement diagonal budget cofinality]
+\label{thm:cauchy-modulus-refinement-diagonal-budget-cofinality}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+every diagonal Real-completion consumer that has passed through the shared-meet and selector-budget rows factors through a cofinal finite budget route before reaching the $\RealUp$ seal. The route uses the $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\CauchySharedTailModulusUp$, $\RegularCauchySelectorBudgetUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the packet, and it exports no choice-selected tail, quotient stream, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with source-meet exactness from \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}. It binds the two source modulus rows and the shared meet row to the refinement witness before any selector or Real-facing consumer can be read.
+
+Apply selector budget totality from \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}. The selector row $T$ supplies the finite budget route into the selected-window and tolerance-readback rows, so a diagonal consumer receives a cofinal finite budget before it can ask for the Real seal.
+
+Next use Real seal factorization and the diagonal-consumer boundary, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-diagonal-consumer-boundary}. These results force every Real-completion consumer through $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\CauchySharedTailModulusUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces.
+
+Finally use the root-unblock package of \autoref{thm:cauchy-modulus-refinement-root-unblock-package}. The package assembles the local NameCert scope, budget-selector source lock, and diagonal boundary into one route, so no choice-selected tail, quotient stream, or ambient completeness theorem is exported by the accepted packet.
+\end{proof}
+\leanvariant{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_diagonal\_budget\_cofinality\_route}
 
 \input{parts/concrete_instances/cauchymodulusrefinement/root_consumer_surfaces}
 \input{parts/concrete_instances/cauchymodulusrefinement/root_unblock_obligation_surface}

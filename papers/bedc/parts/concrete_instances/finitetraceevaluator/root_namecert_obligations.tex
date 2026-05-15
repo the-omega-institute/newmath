@@ -1,0 +1,186 @@
+\begin{theorem}[FiniteTraceEvaluator root NameCert obligations]
+\label{thm:finitetrace-evaluator-root-namecert-obligations}
+For an accepted $\FiniteTraceEvaluatorUp$ packet with displayed root surface
+$$
+I,T,A,V,H,C,P,N,
+$$
+the root $\NameCert_{\FiniteTraceEvaluatorUp}$ obligations are exactly the
+carrier admission row, checkpoint acceptance row, bounded replay row, ledger
+exactness row, and consumer non-escape row over the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet. The certificate admits the coded
+input row $I$, finite trace row $T$, accepted-result row $A$, validation row
+$V$, componentwise transport row $H$, displayed continuation row $C$,
+provenance row $P$, and local naming row $N$, and it exports no host evaluator,
+hidden runtime state, unbounded trace semantics, or unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite evaluator packet in
+\autoref{def:finite-trace-evaluator-carrier}. The accepted root surface is the
+displayed $\BHist$ tuple $I,T,A,V,H,C,P,N$ and has no additional coordinate.
+
+Checkpoint acceptance follows from
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality} and
+\autoref{thm:finite-trace-evaluator-checkpoint-result-totality}. They place
+accepted checkpoint reads on the coded-input, finite-trace, accepted-result
+route before any root consumer can use the result row.
+
+Bounded replay and ledger exactness are supplied by
+\autoref{thm:finite-trace-evaluator-bounded-replay-stability} and
+\autoref{thm:finite-trace-evaluator-root-exactness-scope}. The transport and
+continuation rows preserve the displayed route and the exactness surface cuts
+the ledger at $I,T,A,V,H,C,P,N$.
+
+Finally use \autoref{thm:finitetraceevaluator-root-validation-refusal} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The validation and
+ledger rows refuse host evaluation, hidden runtime state, unbounded trace
+semantics, and unchecked compiler theorems, so the listed rows exhaust the
+root NameCert obligations.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator acceptance row stability]
+\label{thm:finitetrace-evaluator-acceptance-row-stability}
+Let two accepted $\FiniteTraceEvaluatorUp$ checkpoint reads display the same
+root rows $I,T,A,V,H,C,P,N$ up to the componentwise $\hsame$ transports in
+$H$ and the displayed $\Cont$ replay in $C$. Then their accepted checkpoint
+rows remain on the same root checkpoint, source, and result route
+$$
+I \to T \to A.
+$$
+No transported read can move acceptance to a host source, a second checkpoint
+ledger, an infinite trace, or an unbounded evaluator.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. It
+locks accepted-result reads to the source route $I \to T \to A$ before any
+validation-facing or ledger-facing row is consumed.
+
+Apply \autoref{thm:finite-trace-evaluator-bounded-replay-stability}. The
+componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the
+finite trace and accepted-result rows, so transported checkpoint reads remain
+on the same bounded evaluator path.
+
+It remains to exclude alternate acceptance sources. Use
+\autoref{thm:finitetraceevaluator-root-validation-refusal} and
+\autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The validation
+boundary and runtime handoff expose only the displayed finite evaluator rows,
+so host sources, second checkpoint ledgers, infinite traces, and unbounded
+evaluators cannot alter the accepted route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator ledger non-escape]
+\label{thm:finitetrace-evaluator-ledger-nonescape}
+The root ledger of an accepted $\FiniteTraceEvaluatorUp$ packet exports exactly
+the displayed finite evaluator rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+It exports no host evaluator, hidden runtime state, unbounded trace semantics,
+unchecked compiler theorem, total truth predicate, total halting classifier, or
+second checkpoint source.
+\end{theorem}
+\begin{proof}
+Project the root exactness surface of
+\autoref{def:finite-trace-evaluator-root-exactness-surface}. Its complete
+ledger-facing packet is $I,T,A,V,H,C,P,N$.
+
+Apply \autoref{thm:finite-trace-evaluator-namecert-root-ledger-factorization}.
+The local naming row factors the root ledger through carrier admission,
+checkpoint-result totality, bounded replay, and validation-boundary exactness.
+
+Now use \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The ledger
+cut removes host validation, total truth, total halting, unbounded evaluation,
+infinite traces, and second checkpoint sources from the checkpoint-facing
+surface.
+
+Finally combine this cut with
+\autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. Hidden runtime
+state and unchecked compiler theorems are not rows of the handoff packet, so no
+root ledger export escapes the displayed finite evaluator surface.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator route totality]
+\label{thm:finite-trace-evaluator-route-totality}
+Every accepted $\FiniteTraceEvaluatorUp$ read factors through the displayed
+root packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+The coded input row $I$, finite trace row $T$, accepted-result row $A$,
+validation row $V$, componentwise transport row $H$, displayed continuation
+row $C$, package provenance row $P$, and local naming row $N$ are therefore the
+complete route for root consumers, with no host evaluator, infinite trace, or
+unchecked compiler theorem available as an alternate source.
+\end{theorem}
+\begin{proof}
+Project the accepted read through the carrier of
+\autoref{def:finite-trace-evaluator-carrier}. The carrier exposes the finite
+root rows $I,T,A,V,H,C,P,N$ before any consumer can read the evaluator surface.
+
+Apply the root NameCert obligations of
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations}. They identify
+carrier admission, checkpoint acceptance, bounded replay, ledger exactness,
+and consumer non-escape as obligations over precisely the displayed packet.
+
+Use acceptance row stability,
+\autoref{thm:finitetrace-evaluator-acceptance-row-stability}, to keep
+accepted reads on the same $I \to T \to A$ route under $\hsame$ transport and
+displayed $\Cont$ replay. Finally apply ledger non-escape,
+\autoref{thm:finitetrace-evaluator-ledger-nonescape}, which removes host
+evaluators, infinite traces, and unchecked compiler theorems from the exported
+row set.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint determinacy]
+\label{thm:finite-trace-evaluator-checkpoint-determinacy}
+Let two accepted $\FiniteTraceEvaluatorUp$ checkpoint reads agree on the root
+rows $I,T,A,V,H,C,P,N$, with agreement displayed by the componentwise $\hsame$
+rows in $H$ and replayed through the $\Cont$ routes in $C$. Then the two reads
+determine the same checkpoint route up to the displayed $\hsame$ transport and
+the same $\Cont$ replay.
+\end{theorem}
+\begin{proof}
+Read both checkpoint packets through
+\autoref{def:finite-trace-evaluator-carrier}. There is one coded-input row,
+one finite-trace row, and one accepted-result row in the displayed root
+surface, so checkpoint comparison starts on $I,T,A$.
+
+The root NameCert obligations of
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations} bind the
+checkpoint acceptance row to the same carrier admission, bounded replay,
+ledger exactness, and local naming rows. No additional checkpoint coordinate is
+available for a second route.
+
+Now apply \autoref{thm:finitetrace-evaluator-acceptance-row-stability}. The
+assumed agreement on $H$ and $C$ is exactly the componentwise transport and
+displayed replay needed to keep both accepted reads on the same checkpoint
+route. Ledger non-escape,
+\autoref{thm:finitetrace-evaluator-ledger-nonescape}, excludes host sources,
+unbounded traces, and unchecked compiler theorems from changing that route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator output non-escape]
+\label{thm:finite-trace-evaluator-output-nonescape}
+The output row of an accepted $\FiniteTraceEvaluatorUp$ packet exports only the
+displayed finite evaluator route
+$$
+I,T,A,V,H,C,P,N.
+$$
+It exports no host evaluator, total truth predicate, total halting classifier,
+infinite trace, unchecked compiler theorem, hidden runtime state, or second
+checkpoint source.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:finite-trace-evaluator-carrier}. The output-facing
+read has no row outside $I,T,A,V,H,C,P,N$, and the accepted-result coordinate
+$A$ is reached only through the finite trace route.
+
+Apply \autoref{thm:finitetrace-evaluator-root-namecert-obligations}. The local
+certificate records carrier admission, checkpoint acceptance, bounded replay,
+ledger exactness, and consumer non-escape for the displayed root packet.
+
+Use \autoref{thm:finitetrace-evaluator-acceptance-row-stability} to keep the
+accepted output on the same checkpoint route under transport and replay. Then
+apply \autoref{thm:finitetrace-evaluator-ledger-nonescape}: the listed
+excluded objects are not ledger exports, so they cannot be output rows of the
+accepted finite evaluator packet.
+\end{proof}

@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for \MetaCICProofObjectAuditRouteUp}
+\label{ch:concrete-instances-metacic-proof-object-audit-route-namecert}
+\origin{ai}
+
+The $\MetaCICProofObjectAuditRouteUp$ packet turns the synthesis view of \autoref{ch:metacic-audit-synthesis} into a concrete route certificate for proof-object audit consumers. It sits beside \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}, and \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}. Those siblings expose the status matrix, synthesis packet, obstruction boundary, discharge ledger, and closed-normal endpoint; the present chapter records the route union that keeps those rows inspectable without converting the blocked subject-reduction edge into a full consistency theorem.
+
+\begin{definition}[MetaCIC proof-object audit route carrier]
+\label{def:metacic-proof-object-audit-route-carrier}
+A $\MetaCICProofObjectAuditRouteUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,O,D,N,C,B,H,R,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the synthesis-status row, recording the subject-reduction, confluence, normalization, substitution, decidability, and closed-normal status matrix read from \autoref{ch:metacic-audit-synthesis};
+\item $O$ is the subject-reduction obstruction row, read through \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert};
+\item $D$ is the discharge-ledger row, exposing the four named subject-reduction slots through \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert};
+\item $N$ is the closed-normal packet row, recording the positive normal-endpoint consistency branch of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert};
+\item $C$ is the confluence and decidable sibling route row, recording the conditional confluence routes and local checking surfaces that constrain proof-object reads;
+\item $B$ is the blocked-edge ledger, naming the unavailable transport from arbitrary closed proof objects to the closed-normal branch;
+\item $H$ records componentwise $\hsame$ transports for $S,O,D,N,C,B$ and the local structural rows;
+\item $R$ records displayed $\Cont$ routes by which proof-object audit consumers read the synthesis, obstruction, discharge, closed-normal, confluence, decidable, and blocked-edge rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}, \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\MetaCICProofObjectAuditRouteUp}$ row.
+\end{enumerate}
+The carrier is not bijective with any one sibling packet. It stores the route union tying positive closed-normal evidence to the obstruction ledger, so agreement on only the synthesis packet, only the obstruction packet, or only the closed-normal packet does not reconstruct the proof-object audit route.
+\end{definition}
+
+\begin{theorem}[MetaCIC proof-object audit route NameCert obligations]
+\label{thm:metacic-proof-object-audit-route-namecert-obligations}
+For every accepted $\MetaCICProofObjectAuditRouteUp$ carrier
+$$
+A=(S,O,D,N,C,B,H,R,P,L),
+$$
+the local $\NameCert_{\MetaCICProofObjectAuditRouteUp}$ surface consists exactly of carrier admission for the displayed tuple, synthesis-status exposure through $S$, obstruction and four-slot ledger exposure through $O,D$, closed-normal endpoint exposure through $N$, confluence and decidable sibling route exposure through $C$, blocked-edge ledger exactness through $B$, componentwise $\hsame$ transport through $H$, displayed route replay through $R$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-proof-object-audit-route-carrier}. The rows $S,O,D,N,C,B,H,R,P,L$ are the complete public packet, so every NameCert obligation is read from one of those coordinates.
+
+The proof-object content is split across the sibling rows. The synthesis-status row $S$ records the audit-map matrix, $O,D$ record the obstruction and discharge slots, $N$ records the closed-normal endpoint branch, and $C$ records the confluence and decidable side routes.
+
+The blocked-edge obligation is the row $B$. Transport, route replay, provenance, and local naming are confined to $H,R,P,L$, and these structural rows preserve the displayed tuple rather than adding a second route. Thus the local NameCert surface is exactly the finite route packet stated above.
+\end{proof}
+
+\begin{theorem}[MetaCIC proof-object audit route blocked-edge non-escape]
+\label{thm:metacic-proof-object-audit-route-blocked-edge-nonescape}
+Every proof-object audit consumer of an accepted $\MetaCICProofObjectAuditRouteUp$ carrier reads the closed-normal branch only through $N$ together with the blocked-edge ledger $B$ and the obstruction rows $O,D$. If $B$ is removed from the carrier, the packet no longer certifies blocked-edge non-escape: a consumer can still see the positive closed-normal row $N$, but the displayed refusal of the missing subject-reduction transport is no longer part of the same route.
+\end{theorem}
+\begin{proof}
+Read the closed-normal side first. The row $N$ exposes the positive closed-normal packet, while $O,D$ expose the subject-reduction obstruction and its four discharge slots.
+
+The non-escape condition is carried by $B$. It records that the route from arbitrary closed proof objects to the closed-normal branch is blocked, so any consumer of $N$ must carry the obstruction ledger in the same packet.
+
+Removing $B$ changes the public certificate surface. The tuple would still contain synthesis, obstruction, discharge, closed-normal, confluence, decidable, transport, route, provenance, and naming rows, but it would no longer contain the row that marks the missing transport edge. Hence blocked-edge non-escape is falsifiable by deleting $B$.
+\end{proof}
+
+\begin{theorem}[MetaCIC proof-object audit route sibling independence]
+\label{thm:metacic-proof-object-audit-route-sibling-independence}
+The $\MetaCICProofObjectAuditRouteUp$ carrier is independent from the sibling carriers of \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}, and \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}. Each sibling supplies one route face, but none of them alone contains the union $S,O,D,N,C,B,H,R,P,L$ that ties positive closed-normal evidence to the obstruction ledger.
+\end{theorem}
+\begin{proof}
+Inspect the sibling roles. The synthesis siblings provide status and combined audit rows, the obstruction sibling provides the blocked subject-reduction boundary, the discharge ledger provides the four named slots, and the closed-normal packet provides the positive endpoint branch.
+
+The present carrier records those rows together with the blocked-edge ledger and a single structural transport, route, provenance, and naming surface. Therefore it is not a repackaging of any one sibling packet.
+
+The independence witness is componentwise: deleting the synthesis row loses the matrix, deleting $O$ or $D$ loses the subject-reduction boundary, deleting $N$ loses the positive closed-normal evidence, and deleting $B$ loses the non-escape certificate. No sibling carrier supplies all of those rows at once.
+\end{proof}
+
+\begin{theorem}[MetaCIC proof-object audit route TasteGate readiness]
+\label{thm:metacic-proof-object-audit-route-tastegate-readiness}
+The $\MetaCICProofObjectAuditRouteUp$ packet is ready for a $\TasteGate$ carrier precisely at the displayed finite surface
+$$
+(S,O,D,N,C,B,H,R,P,L).
+$$
+The Lean follow-up must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier in $\mathsf{lean4/BEDC/Derived/MetaCICProofObjectAuditRouteUp/TasteGate.lean}$, with the public alignment theorem named $\mathsf{BEDC.Derived.MetaCICProofObjectAuditRouteUp.MetaCICProofObjectAuditRouteTasteGate\_single\_carrier\_alignment}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICProofObjectAuditRouteUp.MetaCICProofObjectAuditRouteTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+TasteGate readiness uses the finite packet already displayed in the carrier definition. The row list exposes one public carrier, one classifier surface, and one provenance route for proof-object audit consumers.
+
+Nontriviality is witnessed by the separation between the positive closed-normal row $N$ and the blocked-edge ledger $B$. Field faithfulness is witnessed by componentwise access to $S,O,D,N,C,B,H,R,P,L$, since deleting or identifying any of these rows changes a named audit obligation.
+
+Thus the follow-up Lean target is not a new paper claim about closed consistency. It is the formal TasteGate encoding of the same finite route packet and its componentwise field discipline.
+\end{proof}
+
+\closureat{MetaCICProofObjectAuditRouteUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICProofObjectAuditRouteUp}
+  \constructivestory{A $\MetaCICProofObjectAuditRouteUp$ packet is generated from synthesis-status, subject-reduction obstruction, discharge-ledger, closed-normal packet, confluence and decidable sibling route, blocked-edge ledger, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-proof-object-audit-route-carrier}, \autoref{thm:metacic-proof-object-audit-route-namecert-obligations}, \autoref{thm:metacic-proof-object-audit-route-blocked-edge-nonescape}, \autoref{thm:metacic-proof-object-audit-route-sibling-independence}, and \autoref{thm:metacic-proof-object-audit-route-tastegate-readiness} bind proof-object audit routes as finite NameCert rows tying closed-normal evidence to the subject-reduction blocked-edge ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, full closed MetaCIC consistency, global Church--Rosser, candidate-free normalization, global decidability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked Nontrivial and FieldFaithful instances, carrier alignment, blocked-edge non-escape, sibling independence, and TasteGate readiness for the displayed finite route packet.}
+\end{closurestatus}

@@ -61,6 +61,7 @@ X,\mu,W,D,H,C,P,N.
 $$
 It records the rational observation obtained from the $\RegSeqRatUp$ family row at the modulus-selected source index and the corresponding finite window, with the dyadic observation ledger $D$ supplying the displayed tolerance and comparison rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleCarrier\_diagonal\_readback\_lock}
 \begin{proof}
 Begin with the carrier projection. The row $R$ appears after $X$, $\mu$, $W$, and $D$, so any readback must first pass through the source family, the selected modulus row, the finite window, and the dyadic ledger.
 
@@ -187,6 +188,7 @@ $$
 $$
 the $\origin{ai}$ packet is consumed only through this carrier-aligned route. Thus two accepted presentations with the same displayed rows have the same seal source $T$, and no quotient stream, selected limit, host equality, or completeness row can provide another one.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleCarrier\_seal\_source\_determinacy}
 
 \begin{theorem}[Regular Cauchy witness schedule window coverage]
 \label{thm:regularcauchywitnessschedule-window-coverage}
@@ -250,6 +252,7 @@ X,\mu,W,D,R,T,H,C,P,N.
 $$
 Then they expose the same finite schedule route from the $\RegSeqRatUp$ family row through the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the diagonal readback row, and the $\RealUp$ seal row. No alternate stream source, selected limit source, or completeness source can supply a second route for the same displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleCarrier\_shared\_window\_lock}
 \begin{proof}
 Project both accepted packets to the displayed carrier. The coordinates agree on the family row $X$, modulus selector $\mu$, finite window $W$, dyadic ledger $D$, readback $R$, seal row $T$, transports $H$, routes $C$, provenance $P$, and local name $N$.
 
@@ -281,6 +284,7 @@ $$
 $$
 keeps this $\origin{ai}$ route inside the finite packet. Non-escape excludes quotient streams, host equality, and ambient completeness as bypasses around $\mu,W,D,R,T$.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleCarrier\_tail\_threshold\_readback}
 
 \begin{theorem}[Regular Cauchy witness schedule Real seal readiness]
 \label{thm:regular-cauchy-witness-schedule-real-seal-readiness}
@@ -522,6 +526,34 @@ Now use budget pullback exactness for the compatible $\RealObservationBudgetUp$ 
 The remaining rows $X,H,C,P,N$ supply the source, transport, continuation, provenance, and local naming data attached to the already identified route. Since the budget non-escape clause supplies no additional request, window, dyadic, or seal coordinate, the selector and the witness schedule consume the same finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule budget tail-agreement pullback]
+\label{thm:regular-cauchy-witness-schedule-budget-tail-agreement-pullback}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Let
+$$
+B=(E,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be a compatible $\RealObservationBudgetUp$ route whose precision request, finite window, dyadic ledger, regular-source handoff, and real-seal rows agree componentwise with $\mu,W,D,R,T$ after the displayed transports and continuations are replayed. Suppose that this synchronized budget route is then consumed by a paired-tail route through $\RealTailAgreementSealUp$.
+
+Then the consumer-visible route for the scheduled side pulls back exactly to the finite row surface
+$$
+X,\mu,W,D,R,T,H,C,P,N
+$$
+and the paired-tail route may add only the second-source row and the agreement row required by the $\RealTailAgreementSealUp$ carrier. It exports no quotient stream, selected completed limit, host real equality, ambient completeness principle, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First apply budget pullback exactness, \autoref{thm:regular-cauchy-witness-schedule-budget-pullback-exactness}. The observation-budget request, window, ledger, handoff, and seal rows are transported onto $\mu,W,D,R,T$, so the budget consumer has the same scheduled-side route through $X,\mu,W,D,R,T,H,C,P,N$.
+
+Next apply budget selector compatibility, \autoref{thm:regular-cauchy-witness-schedule-budget-selector-compatibility}. The selector has no second request, alternate window, hidden dyadic ledger, or seal row outside the displayed packet, so the completion-facing budget surface is already spent before the paired-tail route is entered.
+
+Now use the tail-agreement consumer theorem, \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}. After the scheduled-side rows have been read, the $\RealTailAgreementSealUp$ route can contribute only the second source and the displayed agreement row from \autoref{def:real-tail-agreement-seal-carrier}.
+
+Finally use non-escape on both packets. The witness schedule has no coordinate for quotient streams, selected completed limits, host equality, completeness, or choice-selected tails, and the observation budget has no hidden route outside its displayed request, window, ledger, handoff, seal, transport, continuation, provenance, and naming rows. The combined consumer route is therefore exactly the finite scheduled surface together with the paired source and agreement rows.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy witness schedule tail budget exhaustion]
 \label{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}
 Let
@@ -580,6 +612,26 @@ Use \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment} to id
 For the reverse direction, start with the standard finite witness-schedule record carrying exactly the same ten rows. The rows $X,\mu,W,D,R,T,H,C,P,N$ rebuild the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}; the local naming row, transports, routes, and provenance then repack it as the public export package of \autoref{thm:regular-cauchy-witness-schedule-public-export-package}.
 
 Since neither construction introduces a field outside those rows, the bridge has no coordinate for $\RealUp$ completeness, quotient streams, selected limits, host real equality, or choice. The BEDC export and the standard finite witness-schedule record therefore read back to one another over exactly the displayed finite carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule finite-observation terminal coverage]
+\label{thm:regular-cauchy-witness-schedule-finite-observation-terminal-coverage}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet, where $X$ is the $\RegSeqRatUp$ family row, $\mu$ is the modulus-selector row, $W$ is the $\StreamNameUp$ finite window, $D$ is the $\DyadicRatCoreUp$ ledger, $R$ is the diagonal readback row, and $T$ is the $\RealUp$ seal. Every terminal finite observation consumed from $S$ by a $\RealUp$ or completion-facing route factors through exactly the rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The terminal consumer receives no $\RealUp$ completeness principle, quotient stream, selected completed limit, host real equality, or choice operation, and it cannot add a second scheduled observation route downstream.
+\end{theorem}
+\begin{proof}
+Begin with the public export package of \autoref{thm:regular-cauchy-witness-schedule-public-export-package}. It exposes the terminal observation as the finite BEDC packet $X,\mu,W,D,R,T,H,C,P,N$, with the family, modulus, window, dyadic ledger, diagonal readback, and Real seal already displayed before a completion-facing consumer can read the observation.
+
+Next use the standard bridge of \autoref{thm:regular-cauchy-witness-schedule-standard-bridge}. The bridge identifies the same finite witness-schedule record, so a terminal consumer cannot reinterpret $W,D,R,T$ as a quotient stream, selected limit, host real equality, or choice-selected completion object.
+
+Finally apply tail budget exhaustion from \autoref{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}. Once the downstream route has spent the scheduled-side budget on $X,\mu,W,D,R,T,H,C,P,N$, any later completion or paired-tail consumer may only use the route already carried by those rows and cannot introduce a second scheduled observation path.
 \end{proof}
 
 \closureat{RegularCauchyWitnessScheduleUp}{obligationStr}

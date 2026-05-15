@@ -27,6 +27,17 @@ with the following displayed rows:
 The carrier exports a finite audit boundary for frame-comparison requests. It has no coordinate for a global frame, shared clock, metric tensor, host Lorentz chart, selected synchronization function, or comparison detached from the displayed histories.
 \end{definition}
 
+\begin{definition}[LayeredRelationCert carrier for RelationalFrameAudit]
+\label{def:layeredrelationcert-carrier}
+The $\RelationalFrameAuditUp$ realization of $\mathrm{LayeredRelationCert}$ is the finite relation-audit packet
+$$
+\Lambda_R=(S_A,S_B,\ell,\pi,\nu,G,E,\partial,H,C,P,N)
+$$
+where $S_A$ and $S_B$ are the two source-row lists, $\ell$ is the displayed two-chain layer map, $\pi$ records the preserved relation-schema rows, $\nu$ records the not-preserved rows, $G$ is the source ledger for each correspondence, $E$ is the exactness row for same-schema language, and $\partial$ is the failure boundary. The structural rows $H,C,P,N$ are the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\RelationalFrameAuditUp}$ row.
+
+The packet is accepted only as relation-audit data. It may compare the refinement shape of two displayed chains, but it does not identify their objects, sources, observers, empirical content, or host frames.
+\end{definition}
+
 \begin{theorem}[RelationalFrameAudit NameCert obligations]
 \label{thm:relational-frame-audit-namecert-obligations}
 For the carrier of \autoref{def:relational-frame-audit-carrier}, the local $\NameCert_{\RelationalFrameAuditUp}$ surface consists exactly of carrier admission for
@@ -43,6 +54,40 @@ The positive comparison route first reads $M,A,B$. The causal row $D$ and maximu
 The negative route is the refusal verdict $F$. By the no-global-synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}, a request for a privileged frame, shared clock, total observer order, or selected synchronization map is retained as refused data rather than promoted to an admitted coordinate.
 
 Finally $H,C,P,N$ only transport, replay, package, and name the same rows. Thus the NameCert surface is exhausted by the displayed packet.
+\end{proof}
+\leanchecked{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LayeredRelationCert NameCert obligation surface]
+\label{thm:layeredrelationcert-namecert-obligation-surface}
+For the carrier $\Lambda_R$ of \autoref{def:layeredrelationcert-carrier}, the local $\NameCert_{\RelationalFrameAuditUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed tuple $\Lambda_R=(S_A,S_B,\ell,\pi,\nu,G,E,\partial,H,C,P,N)$;
+\item classifier locality for the two source-row lists $S_A,S_B$ and the layer map $\ell$;
+\item stability through the componentwise $\hsame$ transports $H$ and displayed $\Cont$ routes $C$;
+\item exactness through the preserved rows $\pi$, not-preserved rows $\nu$, and same-schema exactness row $E$;
+\item ledger and export control through $G,\partial,P,N$, so any relation read carries provenance, failure boundary, package provenance, and local naming.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple of \autoref{def:layeredrelationcert-carrier}. No source, layer, preservation, refusal, ledger, exactness, boundary, transport, continuation, provenance, or naming row is implicit.
+
+Classifier locality reads only the two displayed source lists and the layer map. The preserved row $\pi$ and not-preserved row $\nu$ then separate same-schema language from object identity.
+
+Stability is supplied by $H$ and $C$. These rows transport and replay the same displayed relation packet; they do not add a third chain, a host frame, or an empirical bridge.
+
+The ledger row $G$, failure boundary $\partial$, package row $P$, and local NameCert row $N$ control export. Hence the NameCert surface is exactly the five listed rows.
+\end{proof}
+
+\begin{theorem}[LayeredRelationCert finite relation exactness]
+\label{thm:layeredrelationcert-finite-relation-exactness}
+An accepted $\RelationalFrameAuditUp$ realization of $\mathrm{LayeredRelationCert}$ exports same-schema language exactly for the finite relation packet $\Lambda_R$. The export is available only when source rows, layer map, preserved rows, not-preserved rows, ledger, exactness, failure boundary, transport, continuation, provenance, and local naming are all displayed in the same packet. It exports no object identity, global frame, empirical law, subject-substance row, or unlisted bridge.
+\end{theorem}
+\begin{proof}
+Begin with the carrier $\Lambda_R$. Its source rows $S_A,S_B$, layer map $\ell$, preserved rows $\pi$, not-preserved rows $\nu$, ledger $G$, exactness row $E$, and boundary $\partial$ are separate coordinates.
+
+Apply \autoref{thm:layeredrelationcert-namecert-obligation-surface}. The exactness row can be consumed only together with the preserved and not-preserved rows, so same-schema language has an explicit positive surface and an explicit refusal surface.
+
+Finally use the export control row. Since $H,C,P,N$ transport, replay, package, and name only the displayed packet, a consumer has no coordinate through which to read object identity, global-frame data, empirical content, subject-substance content, or a bridge outside $\Lambda_R$.
 \end{proof}
 
 \begin{theorem}[RelationalFrameAudit no-global-frame refusal]
@@ -75,9 +120,9 @@ The row $S$ supplies the observer-symmetry audit. Both directions must be visibl
 For the unsupported exit, apply \autoref{thm:relational-frame-audit-no-global-frame-refusal}. A request that does not pass through the two-Hist route has no accepted destination except $F$.
 \end{proof}
 
-\falsifiablePrediction{Any accepted RelationalFrameAuditUp packet that exposes a frame comparison must either factor it through the displayed two-Hist hsame/Cont route or route the request to the no-global-frame refusal row.}
+\falsifiablePrediction{If a relation packet omits the not-preserved row, it cannot satisfy the RelationalFrameAuditUp export gate for same-schema language.}
 
-\independenceWitness{multihistconfig, crosshistcausal, maxcausalrate, noglobalsyncboundary, inter-hist-locality-ledger: none is bijective because RelationalFrameAuditUp carries a frame-request row, observer-symmetry audit row, and refusal verdict that the siblings do not all carry.}
+\independenceWitness{multihistconfig, multihistcoupling, multihistsuperposition, finite-multihist-packet: these siblings carry multi-Hist sites, couplings, superpositions, or packet rows, but none carries a two-chain layer map with preserved and not-preserved relation-audit fields, so no carrier bijection preserves the NameCert obligations.}
 
 The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \RelationalFrameAuditUp$ and $\mathsf{FieldFaithful}\ \RelationalFrameAuditUp$ instances for the displayed rows $M,A,B,Q,S,D,L,F,H,C,P,N$.
 
@@ -86,7 +131,7 @@ The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \RelationalFram
 \begin{closurestatus}{\RelationalFrameAuditUp}
   \constructivestory{A $\RelationalFrameAuditUp$ packet is generated from a multi-Hist configuration, two observer-history slots, a frame request, observer-symmetry audit row, cross-Hist causal route, maximum-rate boundary, no-global-frame refusal verdict, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:relational-frame-audit-carrier}, \autoref{thm:relational-frame-audit-namecert-obligations}, \autoref{thm:relational-frame-audit-no-global-frame-refusal}, and \autoref{thm:relational-frame-audit-observer-symmetry-factorization} display the finite audit boundary for local frame-comparison requests.}
+  \scopeclosed{\autoref{def:relational-frame-audit-carrier}, \autoref{def:layeredrelationcert-carrier}, \autoref{thm:relational-frame-audit-namecert-obligations}, \autoref{thm:layeredrelationcert-namecert-obligation-surface}, \autoref{thm:layeredrelationcert-finite-relation-exactness}, \autoref{thm:relational-frame-audit-no-global-frame-refusal}, and \autoref{thm:relational-frame-audit-observer-symmetry-factorization} display the finite audit boundary for local frame-comparison and same-schema relation requests.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

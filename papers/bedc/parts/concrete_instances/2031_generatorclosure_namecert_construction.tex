@@ -44,6 +44,7 @@ Read the extension through the displayed $\Cont$ route $C$. If the route lands i
 
 If the route asks for a row outside the constructor-list provenance, the carrier has no coordinate that can supply a closure witness. The only visible output is the $\mathsf{GAP}$ non-escape row in the package provenance, so the attempted read is recorded as a boundary and not as a generated continuation.
 \end{proof}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_continuation\_witness\_preservation}
 
 \begin{theorem}[GeneratorClosure NameCert obligations]
 \label{thm:generator-closure-namecert-obligations}
@@ -145,6 +146,7 @@ Now combine \autoref{thm:generator-closure-namecert-obligations} with \autoref{t
 \label{thm:generatorclosure-public-bridge-schema-handoff}
 The public $\GeneratorClosureUp$ packet hands off to downstream schema readers only through the displayed rows $G,L,A,Q,W,H,C,P,N$. Thus a downstream schema may read the authorized generator row, constructor-list provenance, authorized-row ledger, classifier row, continuation-witness ledger, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ row, and displayed $\mathsf{GAP}$ boundary, but it receives no second generator source, no independent constructor rule, and no host-side recursor.
 \end{theorem}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_public\_bridge\_schema\_handoff}
 \begin{proof}
 Start from the carrier obligation in \autoref{thm:generatorclosure-carrier-obligation}. It identifies the public packet with the finite $\BHist$ coordinates $G,L,A,Q,W,H,C,P,N$, so every schema-facing read begins from the displayed carrier.
 
@@ -305,6 +307,7 @@ The carrier, classifier, and ledger obligations in \autoref{thm:generatorclosure
 
 Apply authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization}. Since every authorized consumer factors through the same public surface, a host recursor or second generator would have to appear as an additional public factor. No such factor is present, so the consumed witness is determined by the displayed $G,L,Q,W$ route.
 \end{proof}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_fixedpoint\_consumer\_route\_determinacy}
 
 \begin{theorem}[GeneratorClosure mature consumer inventory]
 \label{thm:generatorclosure-mature-consumer-inventory}
@@ -333,7 +336,8 @@ For fixed-point consumers, use \autoref{thm:generatorclosure-fixedpoint-consumer
   \constructivestory{A $\GeneratorClosureUp$ packet is generated from an authorized generator row, finite constructor-list provenance, authorized-row ledger, generator-closure classifier row, continuation-witness ledger, displayed $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, a local $\NameCert$ row, and $\mathsf{GAP}$ non-escape evidence.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The scoped surface binds the displayed $\BHist$ carrier, authorized generator rows, constructor-list provenance, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert_{\GeneratorClosureUp}$ rows, classifier stability, continuation witness preservation, and $\mathsf{GAP}$ non-escape evidence for authorized generator rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close free-floating induction, universal quantification over objects outside the displayed generator, host recursor correctness, or bridge checking.}

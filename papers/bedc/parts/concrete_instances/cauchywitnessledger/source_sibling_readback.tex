@@ -1,0 +1,39 @@
+\begin{theorem}[Cauchy witness ledger source sibling readback]
+\label{thm:cauchy-witness-ledger-source-sibling-readback}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted
+$\CauchyWitnessLedgerUp$ packet. Every completion-facing read of $L$ exposes
+the four sibling source rows in the order
+$$
+\CauchyDiagonalBudgetUp \longmapsto
+\RealObservationBudgetUp \longmapsto
+\CauchySealBudgetSynchronizerUp \longmapsto
+\RealCompletionSealClassifierUp
+$$
+before any completion-seal classifier consumer reads $K$.
+
+The consumer receives the displayed source rows, the componentwise transport
+row $H$, route replay $C$, package provenance $P$, and the local naming row
+$N$. It receives no quotient stream, host real equality, selected external
+limit, countable-choice row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-witness-ledger-carrier}. Its
+completion-facing source rows are exactly $Q,B,S,K$, with $H,C,P,N$ carrying
+transport, replay, provenance, and local naming for those rows.
+
+The budget factorization and source coherence are the displayed route
+constraints. The diagonal-observation route of
+\autoref{thm:cauchy-witness-ledger-diagonal-observation-route} first reads the
+$\CauchyDiagonalBudgetUp$ row $Q$ and the $\RealObservationBudgetUp$ row $B$.
+The synchronizer-classifier lock of
+\autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock} then carries
+the read through $S$ before the classifier row $K$ is consumed.
+
+Classifier consumer non-escape and forbidden-coordinate exclusion close the
+boundary. Apply \autoref{thm:cauchy-witness-ledger-real-consumer-nonescape}
+and \autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. Any
+request for a quotient stream, host equality, selected limit, countable-choice
+row, or ambient completeness theorem has no carrier coordinate and is refused
+outside the source-sibling route.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_source\_sibling\_readback}

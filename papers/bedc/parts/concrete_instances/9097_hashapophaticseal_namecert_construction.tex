@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\HashApophaticSealUp$}
+\label{ch:concrete-instances-hashapophaticseal-namecert}
+\origin{ai}
+
+The $\HashApophaticSealUp$ packet realizes the digest, fiber, GAP-ledger, and common apophatic far-end boundary of \autoref{ch:visions-hash-like-apophatic-fixed-point} as a single finite NameCert seal. It sits beside the hash certificate of \autoref{ch:concrete-instances-hash-namecert}, the digest-fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, the apophatic fixed-point packet of \autoref{ch:concrete-instances-apophaticfixedpoint-namecert}, the apophatic socket packet of \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the external-supply boundary of \autoref{ch:concrete-instances-external-supply-boundary-namecert}. The seal differs from each sibling because it binds the visible digest, fiber ledger, GAP provenance, far-end boundary, and refusal row in one consumer-facing packet.
+
+\begin{definition}[HashApophaticSeal carrier]
+\label{def:hash-apophatic-seal-carrier}
+A $\HashApophaticSealUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,F,G,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest row, read through the $\HashUp$ certificate surface;
+\item $F$ is the fiber-ledger row, recording source-side membership behind $D$ without converting digest sameness into source equality;
+\item $G$ is the $\mathsf{GAP}$ provenance row that keeps the hidden fiber auditable;
+\item $T$ is the common apophatic far-end boundary row for the displayed fiber route;
+\item $R$ is the refusal row blocking any consumer from treating $T$ as a kernel object, source payload, selected preimage, or global digest;
+\item $H$ records componentwise $\hsame$ transports for $D,F,G,T,R,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which digest, fiber, GAP, far-end, and refusal reads remain in the same finite packet;
+\item $P$ is the $\Pkg$ provenance over $\HashUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointUp$, $\ApophaticSocketUp$, $\ExternalSupplyBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HashApophaticSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for source equality from digest sameness, no hidden preimage selector, no internal object representing the far end, no global universe digest, and no outside-supply witness.
+\end{definition}
+
+\begin{theorem}[HashApophaticSeal NameCert obligations]
+\label{thm:hash-apophatic-seal-namecert-obligations}
+For the carrier of \autoref{def:hash-apophatic-seal-carrier}, the local $\NameCert_{\HashApophaticSealUp}$ surface consists exactly of carrier admission for
+$$
+A=(D,F,G,T,R,H,C,P,N),
+$$
+visible digest exposure through $D$, fiber-ledger exposure through $F$, GAP provenance through $G$, common far-end boundary naming through $T$, apophatic refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every accepted consumer of the seal must preserve those rows together. In particular, digest sameness may be read only as the visible side of the displayed packet, while source equality, preimage selection, object-level far-end internalization, and global digest readings remain absent unless a separate exactness certificate is displayed outside the $\HashApophaticSealUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:hash-apophatic-seal-carrier}. Its displayed coordinates are exactly $D,F,G,T,R,H,C,P,N$.
+
+Read the sibling sources through their local roles. The hash certificate supplies the visible digest row; the digest-fiber ledger supplies the fiber and GAP rows; the apophatic fixed-point and socket surfaces name the far-end boundary without internalizing it; and the external-supply boundary keeps the refused outside object visible only as boundary data.
+
+The NameCert surface is exhausted by those rows. Since no carrier coordinate stores a source-equality reflection, selected preimage, internal far-end object, global digest, or outside-supply witness, an accepted consumer cannot obtain any of those objects from the seal.
+\end{proof}
+
+\begin{theorem}[HashApophaticSeal fiber nonescape]
+\label{thm:hash-apophatic-seal-fiber-nonescape}
+Every accepted $\HashApophaticSealUp$ consumer that reads the visible digest row $D$ must route through the fiber-ledger row $F$, GAP provenance row $G$, common far-end boundary row $T$, refusal row $R$, transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. Removing the GAP fiber ledger while keeping the digest row makes the seal unable to distinguish digest sameness from source equality.
+
+Consequently the seal exports no selected preimage, quotient collapse, host source equality, internal $\mathsf{T}$ object, global universe digest, hidden outside supply, or unledgered far-end read.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $A=(D,F,G,T,R,H,C,P,N)$. The digest row $D$ is only the visible face of the carrier, while $F$ and $G$ record the fiber membership and provenance needed to keep the source side auditable.
+
+Apply the NameCert obligations of \autoref{thm:hash-apophatic-seal-namecert-obligations}. They force a digest consumer to read $D$ together with the fiber ledger, GAP row, far-end boundary, refusal row, componentwise transport, continuation replay, provenance, and local name.
+
+Now inspect the carrier inventory. If $F$ and $G$ are removed while $D$ remains, the remaining rows do not record which source-side fiber produced the digest; digest sameness therefore cannot be separated from source equality by this seal. Because the accepted carrier contains no selected preimage, quotient collapse, host source equality, internal $\mathsf{T}$ object, global digest, hidden supply, or unledgered far-end coordinate, none of those readings escapes the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Removing the GAP fiber ledger while keeping the digest row makes the seal unable to distinguish digest sameness from source equality.}
+
+\independenceWitness{Nearest siblings: hash, apophaticfixedpoint, apophaticsocket, externalsupplyboundary, and gap-policy/namecert surfaces; no bijection exists because the seal owns a combined digest, fiber-ledger, and apophatic far-end refusal row absent from each sibling.}
+
+The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/HashApophaticSealUp/TasteGate.lean}. It provides \texttt{Nontrivial HashApophaticSealUp} and \texttt{FieldFaithful HashApophaticSealUp} instances for the displayed digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and naming carrier.
+\leanchecked{BEDC.Derived.HashApophaticSealUp.HashApophaticSealTasteGate\_single\_carrier\_alignment}
+
+\begin{closurestatus}{\HashApophaticSealUp}
+  \constructivestory{A $\HashApophaticSealUp$ packet is generated from a visible digest, a digest-fiber ledger, GAP provenance, a common apophatic far-end boundary, a refusal row, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The displayed carrier, local NameCert obligations, fiber nonescape theorem, falsifiable prediction, independence witness, and TasteGate theorem are bound for the single $\HashApophaticSealUp$ packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.HashApophaticSealUp.HashApophaticSealTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close source equality from digest sameness, selected preimages, internal far-end objects, a global digest, an outside-supply witness, or bridge checking.}
+  \upgradepath{Obligation closure requires the public carrier, classifier, nonescape, and TasteGate rows to be bound to explicit BEDC primitives.}
+\end{closurestatus}

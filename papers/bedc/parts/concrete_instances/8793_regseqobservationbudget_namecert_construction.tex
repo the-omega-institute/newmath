@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegSeqObservationBudgetUp$}
+\label{ch:concrete-instances-regseqobservationbudget-namecert}
+\origin{ai}
+
+The $\RegSeqObservationBudgetUp$ packet realizes the finite observation-budget route required by the Real-completeness target of \autoref{ch:visions-real-completeness}. It consumes the diagonal selector surface of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, the terminal Real seal surface of \autoref{ch:concrete-instances-real-namecert}, the finite StreamName window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance ledger, and the primitive $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The packet is an observation route to a seal, not an ambient completeness theorem, quotient stream equality, host real equality, or selected external limit.
+
+\falsifiablePrediction{Every RealUp-seal consumer accepted by $\RegSeqObservationBudgetUp$ factors through the displayed observation-budget row before any seal read.}
+
+\independenceWitness{cauchydiagonalbudget, realobservationbudget, regularcauchycomparison, streamname, real: no listed sibling is bijective to $\RegSeqObservationBudgetUp$. The diagonal budget stores selector data without the full RealUp observation row, the Real observation budget stores seal-facing budget admission without the regular-source and diagonal selector packet, the regular-Cauchy comparison row stores finite comparison data without the terminal seal route, the StreamName row stores finite windows without the RealUp budget, and the RealUp certificate stores the seal without the upstream observation schedule.}
+
+\begin{definition}[Regular observer-budget carrier]
+\label{def:regular-observer-budget-carrier}
+A $\RegSeqObservationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+O=(W,R,E,D,\epsilon,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row that exposes the requested observation window;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window;
+\item $E$ is the $\RealUp$ observation-budget row reached only after the regular-source readback;
+\item $D$ is the $\CauchyDiagonalBudgetUp$ row selecting the diagonal observation budget consumed by the same read;
+\item $\epsilon$ is the $\DyadicRatCoreUp$ tolerance row that fixes the finite precision served by the packet;
+\item $H$ records componentwise $\hsame$ transports for the window, readback, RealUp budget, diagonal selector, tolerance, continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay route from $W$ to $R$, from $R$ and $\epsilon$ to $D$, and from $D$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegSeqObservationBudgetUp}$ row.
+\end{enumerate}
+The classifier accepts only the displayed finite route $W,R,E,D,\epsilon,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, an unbounded observation schedule, a hidden diagonal selector, an undisplayed seal read, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular observer-budget NameCert obligations]
+\label{thm:regular-observer-budget-namecert-obligations}
+For the carrier of \autoref{def:regular-observer-budget-carrier}, the local $\NameCert_{\RegSeqObservationBudgetUp}$ surface consists exactly of carrier admission for
+$$
+O=(W,R,E,D,\epsilon,H,C,P,N),
+$$
+StreamName window exposure through $W$, RegSeqRat readback through $R$, RealUp observation-budget exposure through $E$, diagonal selector exposure through $D$, dyadic tolerance exposure through $\epsilon$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Its public rows are precisely the finite window, regular-source readback, RealUp observation budget, diagonal selector, dyadic tolerance, transport, continuation, provenance, and local naming rows.
+
+Read the route in dependency order. The StreamName window $W$ is available before regular readback $R$; the tolerance row $\epsilon$ and diagonal budget $D$ then determine the finite observation request; the RealUp budget row $E$ is reached only after those rows are displayed.
+
+The rows $H,C,P,N$ preserve and name the same packet. Since the carrier lacks coordinates for quotient stream equality, host real equality, unbounded observation schedules, hidden selectors, detached seals, and ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular observer-budget filter-schedule non-escape]
+\label{thm:regular-observer-budget-filter-schedule-nonescape}
+Every accepted $\RegSeqObservationBudgetUp$ consumer route to a $\RealUp$ seal factors through the displayed observation-budget sequence
+$$
+W,R,\epsilon,D,E,H,C,P,N.
+$$
+No accepted route may inspect the terminal RealUp seal before the StreamName window, RegSeqRat readback, dyadic tolerance, and CauchyDiagonalBudget selector rows have been read, and no route may replace that finite schedule by an omitted filter row, hidden diagonal selector, quotient stream, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation theorem. It identifies every accepted packet with the displayed rows $W,R,E,D,\epsilon,H,C,P,N$ and gives the local classifier no additional schedule coordinate.
+
+The positive route is fixed by the carrier itself. The window row $W$ feeds the readback row $R$, the tolerance row $\epsilon$ and diagonal selector $D$ fix the finite observation budget, and only then is the RealUp observation-budget row $E$ available for a seal-facing consumer.
+
+The structural rows preserve that order. Componentwise $\hsame$ transport in $H$ and replay in $C$ move the displayed route, while $P$ and $N$ record provenance and local naming for the same packet. Therefore any omitted filter row, hidden selector, quotient, host equality, or ambient completeness object remains outside the accepted route.
+\end{proof}
+
+The Lean TasteGate boundary for this packet must provide \texttt{Nontrivial RegSeqObservationBudgetUp} and \texttt{FieldFaithful RegSeqObservationBudgetUp} instances in \texttt{Derived/RegSeqObservationBudgetUp/TasteGate.lean}, with the canonical obligation theorem expected at \texttt{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetPacket\_namecert\_obligations}.
+
+\closureat{RegSeqObservationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RegSeqObservationBudgetUp}
+  \constructivestory{A $\RegSeqObservationBudgetUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, RealUp observation-budget row, CauchyDiagonalBudget selector row, DyadicRatCore tolerance row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, and \autoref{thm:regular-observer-budget-filter-schedule-nonescape} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected external limits, hidden selectors, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, RegSeqRat readback, RealUp budget exposure, diagonal selector exposure, dyadic tolerance exposure, filter-schedule non-escape, nontriviality, and field faithfulness for the same finite packet.}
+\end{closurestatus}

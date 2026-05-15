@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\InscribedRouteSelectorUp$}
+\label{ch:concrete-instances-inscribedrouteselector-namecert}
+\origin{ai}
+
+The $\InscribedRouteSelectorUp$ packet realizes the route-selection act described by the inscription-event vision in \autoref{ch:visions-inscription-event-as-concrete-instance}. It sits between the full event surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}, the visible residue ledger of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}, and the route-audit packet of \autoref{ch:concrete-instances-inscription-route-audit-namecert}. The selector isolates the moment at which a visible gap is paired with one named route, one accepted check, and one downstream consumer role before public record export is allowed.
+
+\begin{definition}[Inscribed route-selector carrier]
+\label{def:inscribed-route-selector-carrier}
+An $\InscribedRouteSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,M,R,K,U,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the visible gap row inherited from the inscription-event source boundary and GAP ledger;
+\item $M$ is the named public record row to be reached by the selected route;
+\item $R$ is the selected route row from $G$ to $M$;
+\item $K$ is the accepted check row for the route selection;
+\item $U$ is the downstream consumer role permitted to read the accepted route as public record data;
+\item $L$ is the GAP-ledger row recording the residue left after $R,K,U$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for $G,M,R,K,U,L$ together with package and local name rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect the gap, selected route, accepted check, consumer role, and ledger residue;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\InscriptionRouteAuditUp$, $\InscriptionAcceptanceBudgetUp$, $\InscriptionTraceClassifierUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InscribedRouteSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden route choice, an off-packet checker, an unbudgeted consumer, a private source predicate, or a public record export that bypasses the selected route row.
+\end{definition}
+
+\begin{theorem}[Inscribed route-selector NameCert obligations]
+\label{thm:inscribed-route-selector-namecert-obligations}
+For the carrier of \autoref{def:inscribed-route-selector-carrier}, the local $\NameCert_{\InscribedRouteSelectorUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for $S=(G,M,R,K,U,L,H,C,P,N)$;
+\item route-selection admission requiring the visible gap $G$, named public record $M$, selected route $R$, accepted check $K$, and downstream consumer role $U$ to be displayed in the same packet;
+\item componentwise stability of gap, name, route, check, consumer, and ledger rows under the $\hsame$ transports in $H$;
+\item exactness of public export: the selected route may be exported only through $R,K,U$ together with the GAP-ledger row $L$ and the displayed routes in $C$;
+\item ledger rows for GAP residue, route audit, acceptance budget, trace-classifier handoff, package provenance, and the local naming certificate.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.InscribedRouteSelectorUp.InscribedRouteSelectorTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:inscribed-route-selector-carrier}. The displayed packet lists the gap, name, route, accepted check, consumer, ledger, transport, continuation, package, and local naming rows.
+
+Route-selection admission reads the first five rows together. The visible gap $G$ supplies the open boundary, $M$ names the public record, $R$ selects the route, $K$ admits that selection, and $U$ names the consumer role that may read it.
+
+Stability is componentwise through $H$. Exactness and ledger coverage then use $C,L,P,N$ to replay the same finite route for the route-audit, acceptance-budget, and trace-classifier consumers. Since no hidden route choice, off-packet checker, or extra consumer row is present, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{A packet that omits the accepted route row cannot export an inscribed public record to any downstream consumer.}
+
+\begin{theorem}[Inscribed route-selector nontriviality prediction]
+\label{thm:inscribed-route-selector-nontriviality-prediction}
+For every accepted $\InscribedRouteSelectorUp$ carrier $S=(G,M,R,K,U,L,H,C,P,N)$, a downstream consumer that lacks the selected route row $R$ or the accepted check row $K$ cannot export $M$ as an inscribed public record. Such a consumer may read the visible gap and GAP-ledger residue, but the public inscription route remains unavailable until $R,K,U$ are present in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only row whose role is route selection is $R$, and the only row whose role is route admission is $K$.
+
+Apply \autoref{thm:inscribed-route-selector-namecert-obligations}. Public export is licensed by the simultaneous display of $G,M,R,K,U$ and is replayed through $C$ with residue tracked in $L$.
+
+If either $R$ or $K$ is absent, the remaining rows still expose a visible gap and a ledger residue, but they do not expose an accepted selected route to the named record. Therefore the consumer cannot export $M$ as inscribed public record data.
+\end{proof}
+
+\independenceWitness{inscriptionevent, inscriptiongapledger, inscriptionrouteaudit, inscriptionacceptancebudget, inscriptiontraceclassifier: the selector packet binds visible gap, named record, selected route, accepted check, downstream consumer, GAP ledger, hsame transport, Cont routes, Pkg provenance, and local NameCert in one carrier. The named siblings respectively expose the whole event, the residue ledger, route audit, acceptance budget, or trace classifier, but none singles out the accepted route-selection act as this finite packet.}
+
+The future Lean target family $BEDC.Derived.InscribedRouteSelectorUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed selector carrier before the route-selection packet can serve as a checked taste gate.
+
+\closureat{InscribedRouteSelectorUp}{seedStr}
+
+\begin{closurestatus}{\InscribedRouteSelectorUp}
+  \constructivestory{An $\InscribedRouteSelectorUp$ packet is generated from a visible gap row, a named public record row, one selected route row, one accepted check row, one downstream consumer role, a GAP-ledger row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscribed-route-selector-carrier}, \autoref{thm:inscribed-route-selector-namecert-obligations}, and \autoref{thm:inscribed-route-selector-nontriviality-prediction} bind the visible-gap, selected-route, accepted-check, consumer-role, GAP-ledger, transport, route, provenance, and local naming surface of inscription route selection.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean checking, bridge checking, private agency, hidden source choice, unchecked route replay, or consumer rights outside the displayed packet.}
+  \upgradepath{Obligation closure requires Lean encoding of the selector carrier and checked route-selection admission, exactness, nontriviality, and field-faithfulness results.}
+\end{closurestatus}

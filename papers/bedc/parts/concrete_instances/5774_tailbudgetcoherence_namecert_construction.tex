@@ -103,6 +103,26 @@ Apply \autoref{thm:tail-budget-coherence-real-completion-handoff}. Any Real or C
 Finally inspect the carrier definition. It contains no coordinate for quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness, and the NameCert obligations package only the displayed finite rows.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence Real-completion budget route refinement]
+\label{thm:tail-budget-coherence-real-completion-budget-route-refinement}
+Every Real or Completion consumer of an accepted $\TailBudgetCoherenceUp$ packet factors through the ordered finite route
+$$
+M,O,S,W,D,R,A,L,H,C,P,N.
+$$
+The threshold row $M$, observation-budget row $O$, and selector-budget row $S$ are exposed before any finite window, readback, or seal row is consumed; $W,D,R$ are the unique finite $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$ readback route; and $A,L$ are reachable only after that readback route has been displayed.
+
+The refinement exports no quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:tail-budget-coherence-threshold-budget-exposure}. It fixes $M,O,S$ as the exposed threshold, observation-budget, and selector-budget surface before a consumer reaches any window, readback, tolerance, agreement-seal, or limit-seal row.
+
+Next apply \autoref{thm:tail-budget-coherence-window-readback-exactness}. Under those budget rows, the only readback route is the finite $W,D,R$ surface, read as the $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, and $\RegSeqRatUp$ regular-rational readback.
+
+Then use \autoref{thm:tail-budget-coherence-seal-nonescape}. It places $A,L$ after the displayed readback route and blocks every quotient stream equality, host real equality, selected host limit, countable-choice selector, and ambient completeness coordinate.
+
+Finally apply \autoref{thm:tail-budget-coherence-real-completion-handoff}. The Real and Completion consumer therefore sees a single finite route $M,O,S,W,D,R,A,L,H,C,P,N$, with $H,C,P,N$ transporting, replaying, packaging, and naming the same packet rather than opening a second analytic surface.
+\end{proof}
+
 \begin{theorem}[Tail budget coherence obligation-closure package]
 \label{thm:tail-budget-coherence-obligation-closure-package}
 For an accepted $\TailBudgetCoherenceUp$ packet
@@ -330,7 +350,7 @@ The composite-dependency explanation is the replacement for an atomic independen
   \constructivestory{A $\TailBudgetCoherenceUp$ packet is generated from TailMeet threshold, Real observation-budget, regular Cauchy selector-budget, RealTailAgreementSeal, CauchyLimitSeal, finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, \autoref{thm:tail-budget-coherence-obligation-closure-package}, \autoref{thm:tail-budget-coherence-primitive-scope}, \autoref{thm:tail-budget-coherence-public-export-boundary}, \autoref{thm:tail-budget-coherence-real-seal-window-stability}, \autoref{thm:tail-budget-coherence-sibling-scope-lock}, \autoref{thm:tail-budget-coherence-real-route-scope}, \autoref{thm:tail-budget-coherence-no-ambient-completeness-scope}, and \autoref{thm:tail-budget-coherence-bridge-interface} give the mature treatment of the public export boundary, Real-seal window stability, bridge interface, sibling-scope lock, Real route scope, and no-ambient-completeness scope for the finite Real-completion tail-budget handoff.}
-  \formalstatus{\theoremCheckedV}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.TailBudgetCoherenceUp.TailBudgetCoherenceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}

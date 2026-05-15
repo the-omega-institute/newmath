@@ -69,6 +69,7 @@ Let $M=(A,B,G,E,S,C,H,P,N)$ be an accepted $\ClassifierMorphismUp$ packet. Any c
 
 In particular, the route cannot split $\Ext$ preservation and $\mathsf{SigRel}$ preservation into separate host functions, cannot replace the graph row by an unrecorded semantic relation, and cannot consume either preservation row outside the displayed source-target packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_source\_target\_route\_lock}
 \begin{proof}
 Project the accepted carrier using \autoref{def:classifiermorphism-carrier}. The only source-target transport row is $G$, and the only preservation ledgers attached to it are $E$, $S$, $C$, $H$, $P$, and $N$.
 
@@ -137,15 +138,16 @@ The checked TasteGate boundary records the same finite packet as an encoded gate
 \closureat{ClassifierMorphismUp}{obligationStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
 \closureat{ClassifierMorphismUp}{scopedStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
 \closureat{ClassifierMorphismUp}{publicStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
+\closureat{ClassifierMorphismUp}{bridgedStr}[BEDC.Derived.ClassifierMorphismUp.taste\_gate]
 
 \begin{closurestatus}{\ClassifierMorphismUp}
   \constructivestory{A $\ClassifierMorphismUp$ packet is generated from source and target classifier-membership packets, a finite graph row, $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ preservation rows, package provenance, and a local naming row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:classifiermorphism-carrier}, \autoref{def:classifiermorphism-classifier}, \autoref{thm:classifiermorphism-namecert-obligation-surface}, \autoref{thm:classifiermorphism-ext-sigrel-preservation}, \autoref{thm:classifiermorphism-composition-closure}, and \autoref{thm:classifiermorphism-preservation-nonescape-scope} bind the finite classifier-preservation packet between type-checking membership and naming-certificate morphism surfaces.}
   \leantarget{BEDC.Derived.ClassifierMorphismUp.taste\_gate}
   \formalstatus{\encodedDefV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host compiler semantics, quotient equality between source and target histories, semantic typing interpretation, or bridge checking.}
-  \upgradepath{Bridged closure requires a standard bridge for the same source packet, target packet, graph row, preservation ledgers, transport rows, provenance, and local naming boundary.}
+  \upgradepath{Mature closure requires the standard bridge to be carried by the same source packet, target packet, graph row, preservation ledgers, transport rows, provenance, and local naming boundary.}
 \end{closurestatus}

@@ -23,6 +23,7 @@ every public root consumer is routed through the same $\BHist$, $\Cont$,
 $\Pkg$, and $\NameCert$ rows, the triad is the public obligation surface and
 not a host Kleisli object or an ambient category object.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_obligation\_triad}
 
 \begin{theorem}[ContinuationMonad root public generator boundary]
 \label{thm:continuation-monad-root-public-generator-boundary}
@@ -77,4 +78,37 @@ The package consumes the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
 Category hom, generator boundary, and local $\NameCert$ rows, so the public
 Kleisli readback is total on the displayed packet and has no external
 evaluator or quotient-category coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root Cont-associativity ledger]
+\label{thm:continuation-monad-root-cont-associativity-ledger}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, any root public consumer that reads a composite
+Kleisli route must ledger associativity only through the displayed
+continuation tails $f,g,u$, source histories $A,B,C$, transport row $H$,
+route row $K$, ledger row $L$, and local name $N$. The route exports no host
+function composition, quotient Kleisli category, ambient hom set, or external
+evaluator.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-root-public-obligation-triad}. It
+places every root public consumer behind the displayed source histories,
+continuation tails, and local NameCert rows of $Z$.
+
+Next apply \autoref{thm:continuation-monad-root-public-generator-boundary}. The
+generator-facing route is admitted only through the same displayed tails,
+route row, ledger row, provenance, and local name, so the public consumer has
+no independent generator or host evaluator coordinate.
+
+Use \autoref{thm:continuation-monad-root-public-kleisli-readback} to read the
+composite Kleisli surface. It makes the unit row, bind row, componentwise
+$\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, ledger, and
+local $\NameCert$ row total on the finite packet.
+
+Finally invoke \autoref{thm:continuation-monad-root-downstream-monad-package}.
+The downstream monad package consumes the same finite $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, Category hom, generator boundary, and local $\NameCert$ rows.
+Therefore associativity is a ledger row inside $A,B,C,f,g,u,H,K,L,N$, not an
+export of host function composition, a quotient Kleisli category, an ambient
+hom set, or an external evaluator.
 \end{proof}

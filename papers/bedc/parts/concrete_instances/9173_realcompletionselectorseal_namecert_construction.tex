@@ -1,0 +1,520 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionSelectorSealUp$}
+\label{ch:concrete-instances-realcompletionselectorseal-namecert}
+\origin{ai}
+
+The $\RealCompletionSelectorSealUp$ packet is the finite selector-to-seal carrier for the Real and Completion handoff of \autoref{ch:visions-real-completeness}. It sits after the selector-budget packets and before a consumer reads a $\RealUp$ completion seal: the packet records the finite selector budget, selected window, $\RegSeqRatUp$ readback, $\CauchyLimitSealUp$ handoff, and terminal $\RealUp$ route as one displayed certificate surface.
+
+\falsifiablePrediction{A completion consumer that reads the RealUp seal without the displayed selector-budget and RegSeqRat readback rows refutes the packet.}
+
+\independenceWitness{cauchymodulusrefinement, cauchylimitseal, realcompletionsealclassifier, realsealcomparison, regularcauchycomparison: no listed sibling is bijective to $\RealCompletionSelectorSealUp$. CauchyModulusRefinement records the refinement route without the terminal selector-to-seal packet, CauchyLimitSeal records a seal without the complete selector budget and readback route, RealCompletionSealClassifier records classifier-facing seal comparison without selected-window budget admission, RealSealComparison compares sealed routes without the upstream selector budget, and RegularCauchyComparison compares regular names without the completion seal handoff.}
+
+\begin{definition}[Real completion selector-seal carrier]
+\label{def:real-completion-selector-seal-carrier}
+A $\RealCompletionSelectorSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite selector-budget row naming the precision request, selector index, and admitted budget surface for the completion handoff;
+\item $W$ is the selected $\StreamNameUp$ window row produced by $B$;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the selected window;
+\item $L$ is the $\CauchyLimitSealUp$ row reached only after the selector budget, selected window, and regular-rational readback are displayed;
+\item $E$ is the terminal $\RealUp$ seal route consumed by the Real and Completion handoff;
+\item $H$ records componentwise $\hsame$ transports for the selector budget, selected window, readback, limit seal, terminal Real seal, route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay route from $B$ to $W$, from $W$ to $R$, from $R$ to $L$, and from $L$ to $E$;
+\item $P$ is the $\Pkg$ provenance over selector-budget packets, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RealCompletionSelectorSealUp}$ row.
+\end{enumerate}
+The classifier compares carriers only by the displayed rows $B,W,R,L,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, a hidden selector, a detached limit object, a second completion route, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Real completion selector-seal NameCert obligations]
+\label{thm:real-completion-selector-seal-namecert-obligations}
+For the carrier of \autoref{def:real-completion-selector-seal-carrier}, the local $\NameCert_{\RealCompletionSelectorSealUp}$ surface consists exactly of carrier admission for
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+selector-budget exposure through $B$, selected-window exposure through $W$, $\RegSeqRatUp$ readback through $R$, $\CauchyLimitSealUp$ handoff through $L$, terminal $\RealUp$ seal routing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-selector-seal-carrier}. Its public surface is exactly the selector budget, selected window, readback row, limit seal, terminal Real seal, transports, continuations, provenance, and local naming row.
+
+Read the route in dependency order. The selector budget $B$ admits the requested finite observation budget, the window row $W$ records the chosen finite window, the readback row $R$ exposes the regular-rational data in that window, and the limit-seal row $L$ is available only after those rows are displayed.
+
+The terminal seal row $E$ is then a route from the same displayed packet. The structural rows $H,C,P,N$ transport, replay, record, and name only this finite route, so the certificate has no remaining coordinate for quotient equality, host equality, hidden selection, detached limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal route determinacy]
+\label{thm:real-completion-selector-seal-route-determinacy}
+If two accepted $\RealCompletionSelectorSealUp$ consumers expose the same selector budget $B$, selected window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ row $L$, terminal $\RealUp$ seal row $E$, and the same structural rows $H,C,P,N$, then they determine the same finite Real and Completion handoff route. No second selected window, hidden selector, detached limit row, quotient stream equality, host real equality, or ambient completeness coordinate can distinguish the two reads.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to compare the two accepted reads row by row. The rows $B,W,R,L,E,H,C,P,N$ are the whole carrier surface, and the classifier has no additional comparison coordinate.
+
+Apply the NameCert obligations. They force every seal-facing read through the same selector budget, selected window, regular-rational readback, limit seal, and terminal Real seal before the structural rows can package the route.
+
+Since both consumers expose the same displayed rows, their componentwise $\hsame$ transports and $\Cont$ replays name the same finite route. The excluded objects are absent carrier coordinates, so they cannot produce a second handoff.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal non-escape]
+\label{thm:real-completion-selector-seal-nonescape}
+Every accepted $\RealCompletionSelectorSealUp$ completion consumer factors through the finite route
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E \longmapsto H,C,P,N.
+$$
+The consumer may read the selector budget, selected window, $\RegSeqRatUp$ readback, $\CauchyLimitSealUp$ handoff, terminal $\RealUp$ seal, componentwise transports, continuations, provenance, and local $\NameCert$ row. It receives no quotient stream equality, host real equality, hidden selector, detached limit object, second completion route, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $S=(B,W,R,L,E,H,C,P,N)$. By construction, the selector budget and selected window precede the readback row, and the readback row precedes the limit-seal and terminal Real seal rows.
+
+Use \autoref{thm:real-completion-selector-seal-namecert-obligations}. The local certificate exports exactly the displayed route and makes $H,C,P,N$ structural rows for that route rather than independent sources of completion data.
+
+Finally inspect the excluded coordinates. None is present in the carrier or classifier, so a completion consumer cannot bypass $B,W,R,L,E$ through quotient streams, host real equality, hidden selection, a detached limit, a second route, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal L10 handoff scope]
+\label{thm:real-completion-selector-seal-l10-handoff-scope}
+Every accepted $\RealCompletionSelectorSealUp$ packet factors the current L10 Real and Completion handoff through the sibling chapters
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert},
+\autoref{ch:concrete-instances-cauchylimitseal-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. Its visible route has the ordered carrier spine
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E,
+$$
+where $B$ admits the selector budget, $W$ is the selected $\StreamNameUp$ window, $R$ is the $\RegSeqRatUp$ readback, $L$ is the $\CauchyLimitSealUp$ consumer handoff, and $E$ is the terminal $\RealUp$ endpoint row. The rows $H,C,P,N$ only transport, replay, record provenance for, and name this route.
+
+Consequently the packet is an L10 handoff node for the Real and Completion surface, not an independent completion principle. It supplies no quotient stream equality, host real equality, hidden selector, detached limit object, second completion route, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:real-completion-selector-seal-carrier}. Its first five coordinates are exactly the selector budget, selected stream window, regular-rational readback, Cauchy-limit seal row, and terminal Real endpoint row, and the prose immediately ties these rows to the four sibling chapters in that order.
+
+Apply \autoref{thm:real-completion-selector-seal-namecert-obligations}. The NameCert obligation inventory admits only those five route rows followed by $H,C,P,N$, so the latter rows can only perform componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance recording, and local naming for the same displayed path.
+
+Finally use \autoref{thm:real-completion-selector-seal-nonescape}. Non-escape excludes every bypass coordinate named in the statement: quotient stream equality, host real equality, hidden selectors, detached limits, second completion routes, and ambient completeness. Thus every accepted selector-seal packet lands on the L10 route $B\to W\to R\to L\to E$ before any structural row is read.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal selector-budget totality]
+\label{thm:real-completion-selector-seal-selector-budget-totality}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposes the selector-budget row $B$ before any selected window $W$, $\RegSeqRatUp$ readback row $R$, $\CauchyLimitSealUp$ handoff row $L$, terminal $\RealUp$ endpoint row $E$, or structural row $H,C,P,N$ is readable. In particular, no completion consumer can read a selected window, regular-rational readback, limit seal, terminal endpoint, transport, continuation, provenance, or local naming row without first passing through the finite selector-budget admission recorded by $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-selector-seal-carrier}. Its displayed packet is $S=(B,W,R,L,E,H,C,P,N)$, with $B$ placed as the first route row and with $W,R,L,E,H,C,P,N$ recorded as rows whose meanings are tied to that same packet.
+
+Apply \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. The L10 handoff route has ordered spine
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E,
+$$
+and the rows $H,C,P,N$ only transport, replay, record provenance for, and name this route.
+
+Thus the selected window, readback, limit seal, terminal endpoint, and structural rows are not independent entries. They are readable only after the selector-budget admission row has already been displayed.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal readback exactness]
+\label{thm:real-completion-selector-seal-regseq-readback-exactness}
+Once an accepted $\RealCompletionSelectorSealUp$ packet displays its selector-budget row $B$ and selected window row $W$, every regular-rational readback route factors through the single $\RegSeqRatUp$ row $R$. The readback cannot be replaced by quotient stream equality, host real equality, a detached limit row, a second completion route, or any ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-completion-selector-seal-namecert-obligations}. The local certificate lists $\RegSeqRatUp$ readback exactly as the row $R$ that follows the selector budget $B$ and selected window $W$.
+
+Next apply \autoref{thm:real-completion-selector-seal-route-determinacy}. Two accepted consumers that expose the same $B,W,R,L,E,H,C,P,N$ determine the same finite handoff route, and there is no classifier coordinate that can distinguish the route by quotient stream equality, host real equality, detached limits, second routes, or ambient completeness.
+
+Therefore any readback visible after $B$ and $W$ must pass through the displayed row $R$. Replacing $R$ by an external equality or by a detached limit would introduce a coordinate absent from the carrier and so would leave the accepted packet.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal observer-budget handoff]
+\label{thm:real-completion-selector-seal-observer-budget-handoff}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet, and let
+$$
+G=(F,I,S_{\mathrm{obs}},O,B_{\mathrm{obs}},W_{\mathrm{obs}},D_{\mathrm{obs}},R_{\mathrm{obs}},E_{\mathrm{obs}},H_{\mathrm{obs}},C_{\mathrm{obs}},P_{\mathrm{obs}},N_{\mathrm{obs}})
+$$
+be an accepted $\ObserverFilterBudgetSelectorUp$ packet reading the same selector budget boundary. If $W_{\mathrm{obs}}$ supplies the selected $\StreamNameUp$ window for $W$, $D_{\mathrm{obs}}$ supplies the dyadic ledger read by that window, $R_{\mathrm{obs}}$ supplies the $\RegSeqRatUp$ readback $R$, and $E_{\mathrm{obs}}$ supplies the terminal $\RealUp$ seal face reached by $E$, then the selector-seal consumer remains on the route
+$$
+I \to F \to S_{\mathrm{obs}} \to B_{\mathrm{obs}} \to W_{\mathrm{obs}} \to D_{\mathrm{obs}} \to R_{\mathrm{obs}} \to E_{\mathrm{obs}} \to L,E.
+$$
+The omitted observer rows $O$ remain boundary-only data. They cannot be read as the selected window, dyadic ledger, regular-rational readback, limit-seal handoff, terminal Real seal, quotient stream equality, host real equality, second completion route, ambient completeness principle, or TasteGate instance.
+\end{theorem}
+\begin{proof}
+Start with selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}. It forces the $\RealCompletionSelectorSealUp$ consumer to expose $B$ before $W,R,L,E,H,C,P,N$ can be read.
+
+Use readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}. Once the selector budget and selected window are displayed, the readback route is the single $\RegSeqRatUp$ row $R$, not a quotient stream equality, host real equality, detached limit, second route, or ambient completeness principle.
+
+Now apply the observer-filter budget-selector handoff, \autoref{thm:observer-filter-budget-selector-streamname-handoff}. It routes the selected observation through $I,F,S_{\mathrm{obs}},B_{\mathrm{obs}},W_{\mathrm{obs}},D_{\mathrm{obs}},R_{\mathrm{obs}},E_{\mathrm{obs}}$ before the selector-seal packet consumes the limit and Real endpoint rows.
+
+Finally use omitted-row exclusion, \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion}. The omitted observer ledger remains outside the positive route coordinates, while the existing TasteGate witness surface in this chapter remains a witness row over $B,W,R,L,E,H,C,P,N$ rather than an additional completion source. Hence the consumer route is exactly the displayed observer-budget handoff followed by $L,E$.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal selector-window classifier pullback]
+\label{thm:real-completion-selector-seal-selector-window-classifier-pullback}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+and
+$$
+S'=(B',W',R',L',E',H',C',P',N')
+$$
+be accepted $\RealCompletionSelectorSealUp$ packets. They have the same selector-window classifier surface exactly when the selector budget $B$, selected $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ handoff $L$, terminal $\RealUp$ seal $E$, and structural $H,C,P,N$ rows agree componentwise with their primed counterparts.
+
+The classifier excludes quotient stream equality, host real equality, hidden selectors, detached limit objects, second completion routes, and ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the NameCert obligations of \autoref{thm:real-completion-selector-seal-namecert-obligations}. The local certificate exposes exactly $B,W,R,L,E,H,C,P,N$ as the selector-to-seal surface.
+
+Use route determinacy, \autoref{thm:real-completion-selector-seal-route-determinacy}. If two accepted packets present the same displayed rows, they determine the same finite Real and Completion handoff route, so the selector-window classifier has no further coordinate to inspect.
+
+For the reverse direction, assume componentwise agreement of $B,W,R,L,E,H,C,P,N$. Selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, forces both reads to enter through $B$ before the selected window or readback is available, and readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, fixes $R$ as the only regular-rational readback after $B$ and $W$.
+
+Finally apply non-escape, \autoref{thm:real-completion-selector-seal-nonescape}. Hidden selectors, quotient stream equality, host real equality, detached limits, second completion routes, and ambient completeness are absent from the packet, so none can split the agreed selector-window classifier surface.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal terminal consumer exhaustion]
+\label{thm:real-completion-selector-seal-terminal-consumer-exhaustion}
+Every terminal $\RealCompletionSelectorSealUp$ completion consumer factors through the full ordered route
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E \longmapsto H,C,P,N.
+$$
+The terminal consumer may use the $\StreamNameUp$ selected window, the $\RegSeqRatUp$ readback, the $\CauchyLimitSealUp$ handoff, and the $\RealUp$ endpoint only as the displayed continuation of that route. It has no residual access to a hidden selector, quotient stream equality, host real equality, detached limit object, second completion route, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completion-selector-seal-selector-budget-totality}. It forces every terminal read to expose the selector-budget row $B$ before the selected window, readback, limit seal, endpoint, or structural rows are available.
+
+Use \autoref{thm:real-completion-selector-seal-regseq-readback-exactness} for the readback step. After $B$ and $W$ are visible, the only regular-rational readback row available to the packet is the displayed $\RegSeqRatUp$ row $R$.
+
+Now apply \autoref{thm:real-completion-selector-seal-nonescape}. Non-escape forces every accepted completion consumer through $B,W,R,L,E,H,C,P,N$ and excludes hidden selectors, external equalities, detached limits, second completion routes, and ambient completeness.
+
+Finally use \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. The sibling $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ references are exactly the route positions $W,R,L,E$, so the terminal consumer exhausts the displayed handoff rather than opening another completion surface.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal terminality]
+\label{thm:real-completion-selector-seal-terminality}
+Any two accepted terminal Real and Completion handoff consumers that expose the same ordered rows
+$$
+B,W,R,L,E,H,C,P,N
+$$
+factor through a unique $\RealCompletionSelectorSealUp$ selector-seal route. Every accepted terminal handoff is exhausted by that route: the selector-budget row $B$, the selected $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\CauchyLimitSealUp$ handoff $L$, the terminal $\RealUp$ endpoint $E$, and the structural rows $H,C,P,N$ are the whole finite NameCert surface available to the consumer.
+
+The terminal route supplies no hidden selector, quotient stream equality, host real equality, detached limit object, second completion route, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First identify the ordered route. Apply \autoref{thm:real-completion-selector-seal-l10-handoff-scope}: every accepted packet reaches the Real and Completion handoff through the sibling $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ positions $W,R,L,E$ after the selector-budget row $B$.
+
+Next enforce the entry and readback constraints. By \autoref{thm:real-completion-selector-seal-selector-budget-totality}, no selected window, readback, limit seal, terminal endpoint, or structural row is readable before $B$. By \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, once $B$ and $W$ are displayed, the regular-rational readback is exactly the row $R$.
+
+Now compare two terminal consumers exposing the same rows. Use \autoref{thm:real-completion-selector-seal-route-determinacy}; equality of the displayed rows $B,W,R,L,E,H,C,P,N$ forces the same finite Real and Completion handoff route, so the selector-seal route through them is unique.
+
+Finally apply \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. It says every terminal handoff consumer has no residual access beyond the displayed route and excludes hidden selectors, external equality coordinates, detached limits, second completion routes, and ambient completeness. Hence every accepted terminal handoff is exhausted by the unique selector-seal route.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal diagonal compatibility pullback]
+\label{thm:real-completion-selector-seal-diagonal-compatibility-pullback}
+Let
+$$
+S=(B,W,R,L,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet, and let
+$$
+K=(R_0,T_0,S_0,D_0,W_0,Q_0,L_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet whose selected-window row, regular-rational readback row, and terminal $\RealUp$ seal row agree with $W,R,E$. Then every terminal selector-seal consumer of $S$ factors through the same finite diagonal route fixed by $K$. The pullback route cannot introduce quotient streams, selected limits, host real equality, hidden selectors, independent completion data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First fix the selector-seal route. By selector-budget totality and readback exactness, \autoref{thm:real-completion-selector-seal-selector-budget-totality} and \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, a terminal consumer of $S$ must expose $B$ before $W$ and then read the displayed row $R$.
+
+Terminality, \autoref{thm:real-completion-selector-seal-terminality}, exhausts the same consumer by the ordered rows $B,W,R,L,E,H,C,P,N$. Thus the selector-seal side supplies one finite route from selector budget through selected window, readback, limit-seal handoff, and terminal endpoint.
+
+Now use the diagonal packet. The selector-budget source lock, \autoref{thm:diagonal-limit-compatibility-selector-budget-source-lock}, fixes the selector-budget read of $K$ to its displayed diagonal source and finite rows. Since $K$ agrees with $S$ on the selected window, regular readback, and terminal Real seal rows, the shared rows $W,R,E$ lie on that same diagonal route.
+
+Route determinacy and consumer non-escape for diagonal compatibility, \autoref{thm:diagonal-limit-selector-budget-route-determinacy} and \autoref{thm:diagonal-limit-compatibility-completion-consumer-budget-nonescape}, identify any completion-facing or $\RealUp$-facing consumer using those shared rows with the finite route of $K$.
+
+Finally compare the two carrier surfaces. The selector-seal non-escape theorem, \autoref{thm:real-completion-selector-seal-nonescape}, leaves no coordinate in $S$ for hidden selectors, quotient stream equality, host real equality, detached limits, second completion routes, or ambient completeness. The diagonal non-escape theorem leaves no such coordinate in $K$ either, so the terminal selector-seal consumer is the pullback of the diagonal compatibility route rather than an independent completion source.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal Cont spine compatibility]
+\label{thm:real-completion-selector-seal-cont-spine-compatibility}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposes exactly the two displayed $\Cont$ witnesses for the selector-to-seal spine:
+$$
+B \to W \to R
+\qquad\text{and}\qquad
+R \to L \to E.
+$$
+The structural rows $H,C,P,N$ can package the route only after the selector-budget row $B$, selected window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ handoff $L$, and terminal $\RealUp$ endpoint $E$ have been displayed through those two continuation witnesses. No accepted packet adds a third continuation witness, skips either displayed witness, or reads $H,C,P,N$ as an independent completion route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-selector-seal-carrier}. Its public route rows are $B,W,R,L,E$ and its structural continuation row is the displayed row $C$ for that same carrier.
+
+Use selector-budget totality and readback exactness, \autoref{thm:real-completion-selector-seal-selector-budget-totality} and \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}. They force the first continuation witness to expose the selector budget, selected window, and regular-rational readback as $B \to W \to R$ before any limit-seal endpoint is readable.
+
+Then use terminality, \autoref{thm:real-completion-selector-seal-terminality}. The terminal endpoint is exhausted by the displayed route, so the second continuation witness exposes $R \to L \to E$ and leaves $H,C,P,N$ as packaging rows for that route rather than further completion data.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal two-step Cont boundary]
+\label{thm:real-completion-selector-seal-two-step-cont-boundary}
+Any consumer that tries to read the terminal $\RealUp$ endpoint without both displayed $\Cont$ witnesses
+$$
+B \to W \to R
+\qquad\text{and}\qquad
+R \to L \to E
+$$
+has left the accepted $\RealCompletionSelectorSealUp$ packet. Such a read cannot cite $\RealUp$ completion data through the selector-seal route, cannot use $H,C,P,N$ as a substitute for the missing witness, and cannot recover the endpoint from quotient stream equality, host real equality, a detached limit object, a hidden selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:real-completion-selector-seal-cont-spine-compatibility}. It identifies the two continuation witnesses that must be displayed before the terminal endpoint is packaged.
+
+Apply non-escape, \autoref{thm:real-completion-selector-seal-nonescape}. Every accepted completion consumer factors through $B,W,R,L,E,H,C,P,N$, so omitting either continuation witness omits part of the carrier route itself.
+
+Finally use terminality, \autoref{thm:real-completion-selector-seal-terminality}. The terminal Real and Completion handoff is exhausted by the displayed route, so a consumer outside the two-step boundary has no remaining packet coordinate from which to cite $\RealUp$ completion data.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal window tolerance lock]
+\label{thm:real-completion-selector-seal-window-tolerance-lock}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposing the terminal route
+$$
+B \to W \to R \to L \to E
+$$
+uses the same selected $\StreamNameUp$ window $W$ and the same $\RegSeqRatUp$ readback row $R$ across both displayed $\Cont$ witnesses
+$$
+B \to W \to R
+\qquad\text{and}\qquad
+R \to L \to E.
+$$
+The terminal seal is therefore fed by the selected-window and readback surface already displayed in the packet. No second selected window, detached readback, quotient stream equality, host real equality, hidden selector, detached limit, or ambient completeness row can be introduced between $R$ and $L$.
+\end{theorem}
+\begin{proof}
+First expose the entry side. Selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, forces the packet to display $B$ before any selected window, readback, limit-seal, endpoint, or structural row is readable.
+
+Next identify the readback surface. By \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, once $B$ and $W$ are visible, every regular-rational readback route factors through the displayed row $R$ and cannot be replaced by an external equality or detached completion object.
+
+Now use Cont spine compatibility and the two-step boundary, \autoref{thm:real-completion-selector-seal-cont-spine-compatibility} and \autoref{thm:real-completion-selector-seal-two-step-cont-boundary}. The first witness ends at the displayed row $R$, and the second witness begins from that same row $R$ on its way to $L$ and $E$; omitting or replacing either witness leaves the accepted packet.
+
+Finally apply non-escape, \autoref{thm:real-completion-selector-seal-nonescape}. Since every accepted consumer factors through $B,W,R,L,E,H,C,P,N$, there is no carrier coordinate between $R$ and $L$ for another window, another readback, quotient stream equality, host real equality, hidden selection, detached limits, or ambient completeness. The terminal seal is fed by exactly the selected window and readback already displayed.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal structural row nonpromotion]
+\label{thm:real-completion-selector-seal-structural-row-nonpromotion}
+In every accepted $\RealCompletionSelectorSealUp$ packet, the rows $H,C,P,N$ transport, replay, record provenance for, and name only the already displayed route
+$$
+B \to W \to R \to L \to E.
+$$
+They do not create a hidden selector, quotient stream equality, detached limit object, second completion route, host real equality, or ambient completeness row. In particular, the structural rows cannot turn the selector-seal packet into an independent completion principle after the two displayed $\Cont$ witnesses have been read.
+\end{theorem}
+\begin{proof}
+Use the L10 handoff scope, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. It places $H,C,P,N$ after the visible selector-budget, selected-window, readback, limit-seal, and terminal-endpoint rows.
+
+Use \autoref{thm:real-completion-selector-seal-two-step-cont-boundary} to fix the continuation boundary. A terminal endpoint read that lacks either displayed continuation witness is outside the accepted packet, so $H,C,P,N$ cannot supply a replacement route.
+
+Finally combine non-escape with terminal consumer exhaustion, \autoref{thm:real-completion-selector-seal-nonescape} and \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. The excluded coordinates are absent from the carrier, and the terminal consumer is exhausted by the displayed rows, so the structural rows remain transport, replay, provenance, and naming rows only.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal carrier admission]
+\label{thm:real-completion-selector-seal-carrier-admission}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+carrier admission exposes exactly the selector-budget row $B$, selected-window row $W$, $\RegSeqRatUp$ readback row $R$, $\CauchyLimitSealUp$ handoff row $L$, terminal $\RealUp$ endpoint row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. No admitted carrier has an additional quotient-stream, host-real, hidden-selector, detached-limit, second-route, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition, \autoref{def:real-completion-selector-seal-carrier}. Its displayed packet has exactly the nine rows $B,W,R,L,E,H,C,P,N$.
+
+Apply the NameCert obligation inventory, \autoref{thm:real-completion-selector-seal-namecert-obligations}. It reads those same rows as the full local certificate surface: carrier admission, selector budget, selected window, readback, limit seal, terminal endpoint, transport, continuation, provenance, and local naming.
+
+Finally use route determinacy and non-escape, \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-nonescape}. Since all accepted reads are determined by the displayed rows and every excluded coordinate is absent from the carrier, admission exposes exactly the stated packet.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal selector-budget exposure]
+\label{thm:real-completion-selector-seal-selector-budget-exposure}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+each completion-facing read of $W,R,L,E,H,C,P,N$ passes through the selector-budget row $B$. The packet therefore exposes the selector budget as the entry row for the selected window, regular-rational readback, limit-seal handoff, terminal endpoint, and structural rows.
+\end{theorem}
+\begin{proof}
+Use selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}. It states that no selected window, readback, limit seal, endpoint, transport, continuation, provenance, or local naming row is readable before $B$.
+
+Apply the L10 handoff scope, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. The route spine begins with $B$ and then proceeds to $W,R,L,E$, while $H,C,P,N$ package that same route.
+
+The NameCert obligations of \autoref{thm:real-completion-selector-seal-namecert-obligations} identify the local certificate rows with this displayed packet. Hence every accepted read of a non-budget row is already a read downstream of the selector-budget admission row.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal selected-window readback]
+\label{thm:real-completion-selector-seal-selected-window-readback}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+the selected-window readback route displays $W$ before it displays the $\RegSeqRatUp$ readback row $R$. After $B$ and $W$ are exposed, every regular-rational readback available to the packet is the row $R$.
+\end{theorem}
+\begin{proof}
+Start with selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}. It places the selected-window row $W$ after $B$ and before any readback, limit seal, endpoint, or structural row is readable.
+
+Use readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}. Once $B$ and $W$ have been displayed, the only regular-rational readback route inside the accepted packet factors through $R$.
+
+Terminal consumer exhaustion, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}, keeps the terminal consumer on the same ordered route. The readback step is therefore $W$ followed by $R$, not a detached equality or a second completion read.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal limit-seal handoff]
+\label{thm:real-completion-selector-seal-limit-seal-handoff}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+the $\CauchyLimitSealUp$ handoff row $L$ is reachable only as the displayed continuation of the $\RegSeqRatUp$ readback row $R$. A read that bypasses $R \to L$ leaves the selector-seal packet.
+\end{theorem}
+\begin{proof}
+Apply the L10 handoff scope, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}. Its ordered carrier spine places the limit-seal row immediately after the readback row in the route $B \to W \to R \to L \to E$.
+
+Use readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, to fix $R$ as the only regular-rational readback after $B$ and $W$. Then use Cont spine compatibility, \autoref{thm:real-completion-selector-seal-cont-spine-compatibility}, which displays the second continuation witness as $R \to L \to E$.
+
+The two-step Cont boundary of \autoref{thm:real-completion-selector-seal-two-step-cont-boundary} excludes a terminal read that omits either displayed continuation witness. Thus a limit-seal handoff that bypasses $R \to L$ is not an accepted $\RealCompletionSelectorSealUp$ handoff.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal terminal endpoint routing]
+\label{thm:real-completion-selector-seal-terminal-endpoint-routing}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+the terminal $\RealUp$ endpoint row $E$ is routed from the $\CauchyLimitSealUp$ handoff row $L$, and the rows $H,C,P,N$ remain structural rows for that route. They transport, replay, record provenance for, and name the route; they do not create another completion endpoint.
+\end{theorem}
+\begin{proof}
+Use terminality, \autoref{thm:real-completion-selector-seal-terminality}. It says that the accepted terminal handoff is exhausted by the ordered rows $B,W,R,L,E,H,C,P,N$.
+
+Apply terminal consumer exhaustion, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}. The terminal consumer uses the $\CauchyLimitSealUp$ handoff and the $\RealUp$ endpoint only as the displayed continuation of the selector-to-seal route.
+
+Finally combine non-escape with structural row nonpromotion, \autoref{thm:real-completion-selector-seal-nonescape} and \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}. The rows $H,C,P,N$ cannot supply a hidden selector, detached limit, second route, quotient equality, host equality, or ambient completeness; they remain structural support for the route from $L$ to $E$.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal TasteGate witness surface]
+\label{thm:real-completion-selector-seal-tastegate-witness-surface}
+For every accepted $\RealCompletionSelectorSealUp$ packet
+$$
+S=(B,W,R,L,E,H,C,P,N),
+$$
+the displayed rows $B,W,R,L,E,H,C,P,N$ form the paper-side witness surface for later $\Nontrivial$ and $\FieldFaithful$ TasteGate work. Two accepted packets whose selector-budget rows or selected-window rows differ are distinguishable at the selector-seal boundary unless a displayed componentwise transport row in $H$ carries one row to the other. Conversely, equality of all displayed rows $B,W,R,L,E,H,C,P,N$ determines the whole selector-seal packet, with no hidden selector, quotient stream equality, host real equality, detached limit, second completion route, or ambient completeness coordinate left to separate the packets.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:real-completion-selector-seal-carrier}. The accepted packet has exactly the rows $B,W,R,L,E,H,C,P,N$, and the classifier compares carriers only by those rows.
+
+Apply route determinacy and the window tolerance lock, \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-window-tolerance-lock}. The selector budget $B$ fixes the admissible selected window $W$, the readback row $R$, and the route toward $L$ and $E$; changing $B$ or $W$ therefore changes the displayed route unless the transport row $H$ supplies the componentwise identification.
+
+Finally use structural row nonpromotion, \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}. The rows $H,C,P,N$ transport, replay, record, and name only the already displayed route, so equality of all nine rows leaves no further coordinate that could separate two packets. This is precisely the finite witness surface on which later TasteGate nontriviality and field faithfulness can be tested.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal bridge readiness]
+\label{thm:real-completion-selector-seal-bridge-readiness}
+The ordered route
+$$
+B \to W \to R \to L \to E
+$$
+together with $H,C,P,N$ forms the bridge-ready finite handoff from selector budget to terminal $\RealUp$ endpoint inside the $\RealCompletionSelectorSealUp$ packet. The handoff uses exactly the L10 handoff scope, selector-budget totality, $\RegSeqRatUp$ readback exactness, terminal consumer exhaustion, terminality, the two-step $\Cont$ boundary, and structural-row nonpromotion rows already displayed in this chapter.
+\end{theorem}
+\begin{proof}
+Start with the L10 handoff scope. It orders the visible selector-budget, selected-window, readback, limit-seal, terminal-endpoint, transport, continuation, provenance, and naming rows as a finite packet route.
+
+Next apply selector-budget totality and $\RegSeqRatUp$ readback exactness. These results force the route to expose $B$ before selected-window and readback use, and then bind every readback consumer to the displayed row $R$ rather than to a quotient stream equality, host real equality, detached limit, or ambient completeness witness.
+
+Finally combine terminal consumer exhaustion, terminality, the two-step $\Cont$ boundary, and structural-row nonpromotion. The terminal endpoint is read through the displayed $B,W,R,L,E$ route, while $H,C,P,N$ only transport, replay, record provenance for, and name that route. This gives a finite bridge-ready handoff without claiming a standard bridge.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal standard bridge premise]
+\label{thm:real-completion-selector-seal-standard-bridge-premise}
+Any standard bridge interpreter for the same displayed selector budget $B$, selected $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ handoff $L$, $\RealUp$ endpoint $E$, componentwise $\hsame$ transport rows $H$, $\Cont$ replay rows $C$, $\Pkg$ provenance row $P$, and $\NameCert_{\RealCompletionSelectorSealUp}$ row $N$ is determined by the existing $\RealCompletionSelectorSealUp$ carrier. Such an interpreter cannot introduce quotient stream equality, host real equality, a hidden selector, a detached limit, a second completion route, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First fix the displayed handoff. Bridge readiness, \autoref{thm:real-completion-selector-seal-bridge-readiness}, makes the finite route $B \to W \to R \to L \to E$ together with $H,C,P,N$ the only bridge-ready surface supplied by the packet.
+
+Next apply route determinacy and non-escape, \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-nonescape}. They force any consumer reading the same displayed rows to read the same selector-seal route and leave no carrier coordinate for a quotient stream equality, host real equality, hidden selector, detached limit, second completion route, or ambient completeness witness.
+
+Finally use structural-row nonpromotion and public route export, \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion} and \autoref{thm:real-completion-selector-seal-public-route-export}. The rows $H,C,P,N$ only transport, replay, record provenance for, and name the displayed route, and the public surface exports exactly that route. Therefore a standard bridge interpreter over the named rows is a reader of the existing carrier rather than an additional completion source.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal obligation scope]
+\label{thm:real-completion-selector-seal-obligation-scope}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposes exactly the selector-budget row $B$, selected finite-window row $W$, limit-seal handoff $L$, terminal endpoint route $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, together with the $\RegSeqRatUp$ readback row $R$ on the displayed handoff. It exports no countable-choice selector, quotient stream, host real equality, ambient completeness, or hidden limit oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-selector-seal-carrier}. Its displayed packet is exactly $S=(B,W,R,L,E,H,C,P,N)$, so the selector budget, selected window, regular-rational readback, limit seal, endpoint, transport, continuation, provenance, and local naming rows are the only available coordinates.
+
+Use the existing readback and handoff theorems in order. Selector-budget totality exposes $B$ before $W,R,L,E,H,C,P,N$; $\RegSeqRatUp$ readback exactness fixes $R$ after $B$ and $W$; terminal consumer exhaustion and terminality carry the route through $L$ and $E$.
+
+Finally apply Cont spine compatibility, structural row nonpromotion, and bridge readiness. They keep $H,C,P,N$ as transport, replay, provenance, and naming rows for the same displayed handoff, so no countable-choice selector, quotient stream, host equality, ambient completeness principle, or hidden limit oracle is exported.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal TasteGate grounding]
+\label{thm:real-completion-selector-seal-tastegate-grounding}
+The checked Lean target \texttt{BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations} grounds the carrier and $\NameCert$ obligation row for $\RealCompletionSelectorSealUp$. The remaining \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp} instances are the later TasteGate obligations and are not closed by this chapter.
+\end{theorem}
+\begin{proof}
+Read the chapter's carrier and local naming theorem first. The carrier displays the finite rows $B,W,R,L,E,H,C,P,N$, and the local $\NameCert$ theorem records the package, structural row, and naming obligations over that carrier.
+
+The Lean target checks precisely that carrier and $\NameCert$ obligation surface. It therefore supplies the verification anchor for obligation closure over the finite selector-seal packet.
+
+The TasteGate instance rows ask for \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp}. Those instance obligations require additional TasteGate data and remain outside the present obligation boundary.
+\end{proof}
+
+The Lean follow-up must provide \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp} in \texttt{lean4/BEDC/Derived/RealCompletionSelectorSealUp/TasteGate.lean}.
+
+\begin{theorem}[Real completion selector-seal scoped consumer surface]
+\label{thm:real-completion-selector-seal-scoped-consumer-surface}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposes a single scoped L10 consumer surface
+$$
+S=(B,W,R,L,E,H,C,P,N).
+$$
+Here $B$ is the selector budget, $W$ is the selected $\StreamNameUp$ window, $R$ is the $\RegSeqRatUp$ readback, $L$ is the $\CauchyLimitSealUp$ handoff, $E$ is the terminal $\RealUp$ endpoint, $H$ records componentwise transports, $C$ records the displayed continuation routes, $P$ records provenance, and $N$ is the local $\NameCert_{\RealCompletionSelectorSealUp}$ row.
+
+The surface is scoped to the current L10 Real and Completion handoff: it is generated by the carrier, certified by the NameCert obligations, ordered by the L10 handoff scope, entered through selector-budget totality, read back through the RegSeqRat exactness row, exhausted at the terminal consumer and terminality rows, bounded by the two-step $\Cont$ boundary, kept finite by structural-row nonpromotion, made bridge-ready without claiming a bridge, and grounded by the TasteGate row. It exports no quotient stream equality, host real equality, hidden selector, detached limit object, second completion route, ambient completeness principle, TasteGate instance, or checked bridge.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations, \autoref{def:real-completion-selector-seal-carrier} and \autoref{thm:real-completion-selector-seal-namecert-obligations}. They give exactly the displayed rows $B,W,R,L,E,H,C,P,N$ and make those rows the local certificate surface.
+
+Use the L10 handoff scope, selector-budget totality, and RegSeqRat readback exactness. These results order the consumer route through $B \to W \to R \to L \to E$, force every read to enter through the selector budget, and make $R$ the only readback row after the selected window is displayed.
+
+Now apply terminal consumer exhaustion, terminality, and the two-step $\Cont$ boundary. The terminal Real endpoint is consumed only through the displayed route, any two terminal consumers with the same rows determine the same selector-seal route, and a read missing either continuation witness lies outside the accepted packet.
+
+Finally combine structural-row nonpromotion, bridge readiness, and TasteGate grounding. The rows $H,C,P,N$ only transport, replay, record provenance for, and name the same route; the bridge-ready statement keeps the handoff finite without asserting a standard bridge; and the TasteGate grounding identifies the checked carrier and NameCert obligation row as the verification anchor. The exclusions in the statement are precisely the coordinates absent from the carrier and from each consumer theorem, so the packet exposes one scoped L10 consumer surface and nothing beyond it.
+\end{proof}
+
+\begin{theorem}[Real completion selector-seal public route export]
+\label{thm:real-completion-selector-seal-public-route-export}
+Every accepted $\RealCompletionSelectorSealUp$ packet exports the public L10 selector-seal route
+$$
+B \to W \to R \to L \to E.
+$$
+The structural rows $H,C,P,N$ only transport, replay, record provenance for, and name that route. Every public Real-and-Completion consumer must read the selector budget $B$, selected $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\CauchyLimitSealUp$ handoff $L$, terminal $\RealUp$ endpoint $E$, componentwise transports $H$, displayed continuations $C$, provenance row $P$, and local $\NameCert_{\RealCompletionSelectorSealUp}$ row $N$.
+
+The exported public surface gives no quotient stream equality, host real equality, hidden selector, detached limit object, second completion route, ambient completeness principle, TasteGate instance, or checked bridge.
+\end{theorem}
+\begin{proof}
+First expose the public route. The L10 handoff scope, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}, orders every accepted packet through $B \to W \to R \to L \to E$ before any structural row is read.
+
+Next fix the public reads. Selector-budget totality, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, forces every consumer to enter through $B$, and RegSeqRat readback exactness, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, fixes $R$ as the only readback after $B$ and $W$.
+
+Then exhaust the endpoint. Terminal consumer exhaustion and terminality, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion} and \autoref{thm:real-completion-selector-seal-terminality}, make every terminal Real-and-Completion consumer factor through the displayed route and leave no residual completion coordinate.
+
+Finally apply structural-row nonpromotion and the scoped consumer surface, \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion} and \autoref{thm:real-completion-selector-seal-scoped-consumer-surface}. The rows $H,C,P,N$ remain transport, replay, provenance, and naming rows for the same route, while the scoped surface excludes quotient stream equality, host real equality, hidden selectors, detached limits, second completion routes, ambient completeness, TasteGate instances, and checked bridges. Thus the accepted packet exports exactly the public selector-seal route named in the statement.
+\end{proof}
+
+\closureat{RealCompletionSelectorSealUp}{seedStr}
+\closureat{RealCompletionSelectorSealUp}{obligationStr}[BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations]
+\closureat{RealCompletionSelectorSealUp}{scopedStr}[BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations]
+\closureat{RealCompletionSelectorSealUp}{bridgedStr}[BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations]
+
+\begin{closurestatus}{\RealCompletionSelectorSealUp}
+  \constructivestory{A $\RealCompletionSelectorSealUp$ packet is generated from a finite selector-budget row, selected StreamName window, RegSeqRat readback row, CauchyLimitSeal handoff row, terminal Real endpoint row, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-completion-selector-seal-carrier}, \autoref{thm:real-completion-selector-seal-namecert-obligations}, \autoref{thm:real-completion-selector-seal-route-determinacy}, \autoref{thm:real-completion-selector-seal-nonescape}, \autoref{thm:real-completion-selector-seal-l10-handoff-scope}, \autoref{thm:real-completion-selector-seal-selector-budget-totality}, \autoref{thm:real-completion-selector-seal-regseq-readback-exactness}, \autoref{thm:real-completion-selector-seal-terminal-consumer-exhaustion}, \autoref{thm:real-completion-selector-seal-terminality}, \autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}, \autoref{thm:real-completion-selector-seal-carrier-admission}, \autoref{thm:real-completion-selector-seal-selector-budget-exposure}, \autoref{thm:real-completion-selector-seal-selected-window-readback}, \autoref{thm:real-completion-selector-seal-limit-seal-handoff}, \autoref{thm:real-completion-selector-seal-terminal-endpoint-routing}, \autoref{thm:real-completion-selector-seal-tastegate-witness-surface}, \autoref{thm:real-completion-selector-seal-bridge-readiness}, \autoref{thm:real-completion-selector-seal-tastegate-grounding}, \autoref{thm:real-completion-selector-seal-scoped-consumer-surface}, and \autoref{thm:real-completion-selector-seal-public-route-export} with \leanchecked{BEDC.Derived.RealCompletionSelectorSealUp.taste\_gate} bind the carrier, NameCert obligations, route determinacy, non-escape, L10 handoff scope, selector-budget totality, readback exactness, terminal consumer exhaustion, terminality, structural nonpromotion, carrier admission, selector-budget exposure, selected-window readback, limit-seal handoff, terminal endpoint routing, TasteGate witness surface, bridge readiness, TasteGate grounding, scoped L10 consumer surface, and public route export rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations}
+  \bridgestatus{paperBridge}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, hidden selectors, detached limits, second completion routes, ambient completeness, TasteGate instances, or bridge checking.}
+  \upgradepath{The remaining formal-axis work is a machine-checked standard bridge from auditCleanV to bridgeCheckedV over the same selector-budget, selected-window, RegSeqRat readback, CauchyLimitSeal handoff, Real endpoint, transport, continuation, provenance, and naming rows.}
+\end{closurestatus}

@@ -2,6 +2,7 @@
 \label{thm:continuation-monad-triad-unit-route-package}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the triad rows $A,B,C$, the continuation tails $f,g$, the unit tail $u$, and the rows $H,K,L,N$ are the complete unit-and-bind route package. The unit route is the displayed $u$ row, the bind route is the displayed read through $f,g,K,L$, and the local readback has no coordinate for host function composition, quotient Kleisli arrows, or a general category primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_triad\_unit\_route\_package}
 \begin{proof}
 Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It exposes exactly the three histories, the two continuation tails, the unit tail, the transport row, the route row, the ledger row, and the local naming row.
 
@@ -14,6 +15,7 @@ Use classifier stability and ledger exactness from \autoref{thm:continuation-mon
 \label{thm:continuation-monad-generator-hom-route-exhaustion}
 Every generator-facing or $\mathsf{CategoryHomCarrier}$-facing read of an accepted $\ContinuationMonadUp$ packet is exhausted by the displayed continuation tails $f,g,u$, the generator-boundary surface, and the $\CategoryUp$ hom-carrier surface. The read factors through $A,B,C,H,K,L,N$ and cannot introduce an unlisted continuation rule, independent hom carrier, ambient hom set, host function, or quotient Kleisli arrow.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_generator\_hom\_route\_exhaustion}
 \begin{proof}
 First read the generator boundary through \autoref{thm:continuation-monad-generator-boundary-refusal}. It refuses every unit row, bind row, continuation rule, or route generator not displayed in the packet.
 

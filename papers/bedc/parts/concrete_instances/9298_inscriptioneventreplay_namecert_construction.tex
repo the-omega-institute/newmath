@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionEventReplayUp$}
+\label{ch:concrete-instances-inscription-event-replay-namecert}
+\origin{ai}
+
+The $\InscriptionEventReplayUp$ packet realizes the replay-only boundary named in \autoref{ch:visions-inscription-event-as-concrete-instance}. It sits downstream of the agency-bearing inscription surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}, consumes the accepted route exposed by \autoref{ch:concrete-instances-inscribedroute-namecert}, and offers deterministic checker replay to the route-audit surface of \autoref{ch:concrete-instances-inscription-route-audit-namecert}. The point of the packet is negative as much as positive: replay is valuable audit evidence, but it is not the technical inscription event unless the carrier also contains the acceptance row that selects the route as the record to inscribe.
+
+\falsifiablePrediction{A replay packet whose carrier has no stored accepted public route is not an accepted \InscriptionEventReplayUp carrier.}
+
+\independenceWitness{inscriptionevent, inscribedroute, inscriptionrouteaudit, inscriptiongapledger, finitewindowobserver; the replay carrier is not bijective to any sibling because it requires a pre-existing accepted route and checker replay row while excluding the inscription-acceptance coordinate that the inscription-event siblings carry.}
+
+\begin{definition}[Inscription-event replay carrier]
+\label{def:inscription-event-replay-carrier}
+An $\InscriptionEventReplayUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,M,A,K,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the visible gap row inherited from the source boundary of the earlier inscription event;
+\item $M$ is the named public record whose route has already been accepted;
+\item $A$ is the stored accepted public route row from the prior inscription carrier;
+\item $K$ is the deterministic checker replay row for that stored route;
+\item $D$ is the route-audit readback row exposing $G,M,A,K$ to downstream consumers;
+\item $H$ records componentwise $\hsame$ transports for the gap, name, accepted route, replay, readback, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay the accepted route and inspect the audit readback;
+\item $P$ records $\Pkg$ provenance over $\InscriptionEventUp$, $\InscribedRouteUp$, $\InscriptionRouteAuditUp$, $\InscriptionGapLedgerUp$, $\FiniteWindowObserverUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InscriptionEventReplayUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for the inscription-facing acceptance act by which a conscious observational system first selected $A$ as the record to inscribe. It therefore records deterministic replay of an already accepted route, not technical inscription-event agency.
+\end{definition}
+\leandef{BEDC.Derived.InscriptionEventReplayUp.InscriptionEventReplayUp}
+
+\begin{theorem}[Inscription-event replay NameCert obligations]
+\label{thm:inscription-event-replay-namecert-obligations}
+For the carrier of \autoref{def:inscription-event-replay-carrier}, the local $\NameCert_{\InscriptionEventReplayUp}$ surface consists exactly of carrier admission for
+$$
+R=(G,M,A,K,D,H,C,P,N),
+$$
+stored accepted-route exposure through $A$, deterministic checker replay through $K$, route-audit readback through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. The surface does not include the conscious acceptance row that belongs to the inscription-event carrier of \autoref{ch:concrete-instances-inscriptionevent-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-event-replay-carrier}. Its public rows are the visible gap, named record, stored accepted route, checker replay, audit readback, transport, continuation, provenance, and local naming rows.
+
+Read the dependency order. The replay row $K$ is meaningful only after the accepted public route $A$ is already stored, and the readback row $D$ exposes the pair $A,K$ to the audit consumers.
+
+The structural rows $H,C,P,N$ transport, replay, record, and name that same finite surface. Since no coordinate records the first public acceptance of $A$ as the route to inscribe, the NameCert obligations close replay audit only.
+\end{proof}
+
+\begin{theorem}[Inscription-event replay noninscription boundary]
+\label{thm:inscription-event-replay-noninscription-boundary}
+Every accepted $\InscriptionEventReplayUp$ packet separates deterministic proof replay from technical inscription-event agency. A consumer may read the visible gap $G$, named record $M$, stored accepted route $A$, checker replay $K$, and route-audit readback $D$, but it cannot recover the inscription-facing acceptance coordinate that made $A$ the public record in the first place.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The row $A$ stores an accepted public route and the row $K$ replays it deterministically, but the tuple contains no row for the acceptance act itself.
+
+Apply \autoref{thm:inscription-event-replay-namecert-obligations}. The local certificate exposes replay obligations for $A,K,D,H,C,P,N$ and does not enlarge the carrier with a second agency-bearing coordinate.
+
+Therefore a replay consumer can audit the route once it is present, while the inscription-event acceptance boundary remains in the sibling event carrier rather than in the replay packet.
+\end{proof}
+
+\begin{theorem}[Inscription-event replay consumer non-escape]
+\label{thm:inscription-event-replay-consumer-nonescape}
+Every $\InscriptionEventReplayUp$ consumer factors through the finite replay route
+$$
+G \longmapsto M \longmapsto A \longmapsto K \longmapsto D \longmapsto H,C,P,N.
+$$
+The consumer receives no hidden route choice, off-packet checker, private source predicate, unrecorded acceptance act, or public-record export outside the displayed replay rows.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to read the replay route in order. The gap and named record identify the inherited inscription boundary, the stored route $A$ supplies the object to replay, and the checker row $K$ performs deterministic replay before $D$ exposes the audit readback.
+
+Next apply \autoref{thm:inscription-event-replay-noninscription-boundary}. It removes the only tempting bypass: treating the replay row as if it were the original acceptance row.
+
+The remaining structural rows only transport, replay, package, and name the displayed route. Hence every consumer factors through the listed packet and cannot escape into hidden selection, private source content, or unrecorded agency.
+\end{proof}
+
+The Lean follow-up must provide \texttt{Nontrivial InscriptionEventReplayUp} and \texttt{FieldFaithful InscriptionEventReplayUp} in \texttt{lean4/BEDC/Derived/InscriptionEventReplayUp/TasteGate.lean}.
+
+\closureat{InscriptionEventReplayUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionEventReplayUp}
+  \constructivestory{An $\InscriptionEventReplayUp$ packet is generated from a visible gap row, named public record row, stored accepted-route row, deterministic checker replay row, audit readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-event-replay-carrier}, \autoref{thm:inscription-event-replay-namecert-obligations}, \autoref{thm:inscription-event-replay-noninscription-boundary}, and \autoref{thm:inscription-event-replay-consumer-nonescape} bind the replay-only carrier, deterministic checker route, noninscription boundary, and consumer non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close the original inscription acceptance act, private agency, hidden route selection, Lean verification, bridge checking, or public export outside the displayed replay packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, accepted-route exposure, deterministic replay readback, route-audit exactness, consumer non-escape, and TasteGate Nontrivial and FieldFaithful witnesses.}
+\end{closurestatus}

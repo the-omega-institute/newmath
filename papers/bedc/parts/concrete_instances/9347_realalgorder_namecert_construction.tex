@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RealAlgOrderUp$}
+\label{ch:concrete-instances-real-alg-order-namecert}
+\origin{human}
+
+The $\RealAlgOrderUp$ interface packages the algebra and order rows of displayed constructive real names. It sits above the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic operation ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, and the positive-separation rows of \autoref{ch:concrete-instances-apartnessreal-namecert}. These sibling chapters supply the endpoint, readback, operation, window, and apartness data consumed by the local packet.
+
+The certificate is the constructive algebra/order surface for downstream metric, measure, and probability consumers. It records finite addition, negation, multiplication, absolute-value, nonnegative-order, and strict-apartness evidence as named rows; it does not import trichotomy of reals, quotient equality of Cauchy presentations, a host real carrier, or ambient completeness.
+
+\begin{definition}[RealAlgOrder carrier]
+\label{def:real-alg-order-carrier}
+A $\RealAlgOrderUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+R=(E,G,D,S,A,O,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $E$ is the finite family of $\RealUp$ endpoint rows consumed by the algebra or order request;
+\item $G$ is the family of $\RegSeqRatUp$ readback rows attached to those endpoints before the real-seal handoff;
+\item $D$ is the $\DyadicRatCoreUp$ operation ledger recording the finite dyadic reads used for addition, negation, multiplication, absolute value, and nonnegative comparison;
+\item $S$ is the $\StreamNameUp$ finite-window schedule through which the endpoint readbacks are inspected;
+\item $A$ is the optional $\ApartnessRealUp$ finite-window separation row used when the request is strict apartness rather than nonnegative comparison;
+\item $O$ is the local algebra/order ledger whose rows are the displayed sum, product, negation, absolute-value, nonnegative-order, and strict-apartness conclusions licensed by $E,G,D,S,A$;
+\item $H$ stores the componentwise $\hsame$ transports for endpoint rows, readbacks, dyadic ledgers, windows, apartness rows, and the local order ledger;
+\item $C$ stores the $\Cont$ routes exposing finite readback and operation rows to downstream consumers;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\ApartnessRealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealAlgOrderUp}$ row.
+\end{enumerate}
+The carrier is a finite certificate for algebra and constructive order on displayed real names. It is not a host ordered field, not a quotient of real-name presentations, and not a completeness object.
+\end{definition}
+
+\begin{theorem}[RealAlgOrder NameCert obligations]
+\label{thm:real-alg-order-namecert-obligations}
+The local $\NameCert_{\RealAlgOrderUp}$ surface for the carrier of \autoref{def:real-alg-order-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $R=(E,G,D,S,A,O,H,C,P,N)$ with endpoint, readback, dyadic-operation, finite-window, apartness, ledger, transport, continuation, provenance, and local naming coordinates;
+\item classifier transport: classification transports every endpoint row in $E$, every $\RegSeqRatUp$ readback in $G$, every dyadic operation row in $D$, every finite window in $S$, every apartness row in $A$, and the algebra/order ledger $O$ componentwise through the stored $\hsame$ and $\Cont$ routes;
+\item algebra stability: addition, negation, multiplication, and absolute-value rows in $O$ remain accepted after replacing their inputs by classified $\RealUp$ endpoint rows and transporting the corresponding $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\StreamNameUp$ witnesses;
+\item order stability: nonnegative-order and strict-apartness rows in $O$ are read only from the displayed finite comparison and separation ledgers, and they transport across the same endpoint and window classifiers;
+\item ledger exactness: every downstream algebra or order read is one of the displayed rows in $E,G,D,S,A,O,H,C,P,N$ before any consumer receives it.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:real-alg-order-carrier}. The endpoint rows, regular-rational readbacks, dyadic operation ledger, finite-window schedule, apartness row, local ledger, transport table, continuation table, package provenance, and local naming row are all explicit coordinates.
+
+Classifier transport is componentwise. The $\RealUp$ endpoints transport together with their $\RegSeqRatUp$ source readbacks and $\StreamNameUp$ windows, while the $\DyadicRatCoreUp$ operation rows and $\ApartnessRealUp$ separation rows transport through their own sibling classifiers.
+
+The algebra and order stability rows then repack the transported coordinates into the same ledger shape $O$. Addition, negation, multiplication, and absolute value use only the dyadic operation reads exposed by $D$; nonnegative order and strict apartness use only the finite comparison and separation rows exposed by $D$ and $A$.
+
+Ledger exactness follows because every consumer-facing row is a coordinate of $R$ or a row of $O$ generated from those coordinates. Since no coordinate stores trichotomy, quotient real equality, a host real carrier, or ambient completeness, none of those principles can be projected from the local $\NameCert_{\RealAlgOrderUp}$ surface.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder apartness and order non-escape]
+\label{thm:real-alg-order-apartness-nonescape}
+Every $\MetricSpaceUp$, $\ProbSpaceUp$, measure, or real-algebra consumer of an accepted $\RealAlgOrderUp$ packet receives only the displayed finite rows of \autoref{def:real-alg-order-carrier}: $\RealUp$ endpoint rows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ operation and nonnegative-comparison ledgers, $\StreamNameUp$ finite windows, $\ApartnessRealUp$ finite-window separation rows when strict apartness is requested, and the visible $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+
+In particular, an order or apartness consumer can read nonnegative-order evidence only as a displayed finite comparison row and strict-apartness evidence only as a displayed finite separation row. The packet exports no trichotomy branch, no quotient real equality, no host real carrier, and no ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory in \autoref{def:real-alg-order-carrier}. The only public coordinates are the endpoint family $E$, readback family $G$, dyadic ledger $D$, finite-window schedule $S$, apartness row $A$, algebra/order ledger $O$, and the provenance rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:real-alg-order-namecert-obligations}. Carrier admission and ledger exactness force every downstream read to pass through those coordinates, while classifier transport and the two stability rows preserve the same finite evidence after endpoint replacement.
+
+For nonnegative order, the consumer reads the comparison rows displayed in $D$ and repacked in $O$. For strict apartness, the consumer reads the finite-window separation row displayed in $A$ and repacked in $O$ through the $\ApartnessRealUp$ sibling surface of \autoref{ch:concrete-instances-apartnessreal-namecert}.
+
+Thus every metric, probability, measure, or algebra-facing consumer receives a finite order or separation row with visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. None of the excluded host principles is a carrier coordinate or a ledger row, so none can escape through this handoff.
+\end{proof}
+
+\begin{theorem}[RealAlgOrder constant-rational scoped certificate]
+\label{thm:real-alg-order-constant-rational-scoped-certificate}
+For constant rational $\RealUp$ endpoint rows, the $\RealAlgOrderUp$ packet of \autoref{def:real-alg-order-carrier} carries the scoped certificate obtained by transporting the endpoint and operation rows through the $\RatUp$ classifiers. Concretely, if $d,e,o$ are the displayed rational histories for the left endpoint, right endpoint, and operation row, and $d',e',o'$ are their classified transports, then the packet records $\mathsf{RealConstantHistoryCarrier}$ for each of $BHist.e1(d)$, $BHist.e1(d')$, $BHist.e1(e)$, $BHist.e1(e')$, $BHist.e1(o)$, and $BHist.e1(o')$; it records $\mathsf{RealConstantHistoryClassifier}$ for the three displayed constant rational comparisons $BHist.e1(d)\to BHist.e1(d')$, $BHist.e1(e)\to BHist.e1(e')$, and $BHist.e1(o)\to BHist.e1(o')$; and its order boundary records the transitive $\RatHistoryClassifier$ row from $d$ to $o$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:real-alg-order-carrier}. The endpoint family $E$ supplies the two constant rational $\RealUp$ endpoint rows, the ledger $O$ supplies the operation row, and the sibling $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\StreamNameUp$ rows named in the chapter introduction expose the rational histories and finite reads used by those rows.
+
+Apply the local obligations of \autoref{thm:real-alg-order-namecert-obligations}. Classifier transport moves the endpoint rows and the operation row componentwise through the stored $\hsame$ and $\Cont$ routes, while ledger exactness keeps the downstream read inside the displayed coordinates.
+
+The sibling $\RealUp$ and $\RatUp$ constant classifier interface identifies a rational classifier row with the corresponding constant real classifier on the $BHist.e1$ endpoint. Applying that interface to the three displayed rational comparisons gives the six $\mathsf{RealConstantHistoryCarrier}$ rows and the three $\mathsf{RealConstantHistoryClassifier}$ rows.
+
+Finally, the order boundary is the transitive rational classifier row. The two $\RatHistoryClassifier$ comparisons $d\to e$ and $e\to o$ compose to the displayed $d\to o$ row, so the scoped $\RealAlgOrderUp$ certificate contains exactly the constant-rational endpoint, operation, and boundary data described above, with no appeal to real trichotomy, quotient equality, or completeness.
+\end{proof}
+
+\closureat{RealAlgOrderUp}{seedStr}
+\closureat{RealAlgOrderUp}{obligationStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{scopedStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{publicStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{bridgedStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+
+\begin{closurestatus}{\RealAlgOrderUp}
+  \constructivestory{A $\RealAlgOrderUp$ packet is generated from finite $\RealUp$ endpoint rows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ operation ledgers, $\StreamNameUp$ windows, optional $\ApartnessRealUp$ separation rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:real-alg-order-carrier}, \autoref{thm:real-alg-order-namecert-obligations}, \autoref{thm:real-alg-order-apartness-nonescape}, and the constant-rational scoped certificate enumerate the carrier, NameCert obligation rows, apartness/order non-escape theorem, and constant rational $\RealUp$ rows covered by this obligation surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not reconstruct a full real algebra, an ordered-field structure, trichotomy, quotient real equality, ambient completeness, or a public standard bridge.}
+  \upgradepath{Mature closure requires downstream examples and completeness over the same $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\ApartnessRealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+\end{closurestatus}
