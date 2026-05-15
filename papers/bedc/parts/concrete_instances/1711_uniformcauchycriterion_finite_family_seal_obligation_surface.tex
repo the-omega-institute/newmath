@@ -483,3 +483,40 @@ The refusal boundary inside $\UniformCauchyCriterionUp$ is supplied by \autoref{
 
 It remains to route a quotient-facing request. Since none of those requests is a coordinate of $U$, the consumer must leave the $\UniformCauchyCriterionUp$ packet and enter the $\QuotientStreamRefusalUp$ surface of \autoref{ch:concrete-instances-quotientstreamrefusal-namecert}. There \autoref{thm:quotient-stream-refusal-nonescape-route} sends the Real-completion request to the displayed finite route or the refusal ledger, and \autoref{thm:quotient-stream-refusal-offroute-nonescape} records that off-route quotient-style requests export no completion coordinate.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-observation terminal synchronization]
+\label{thm:uniform-cauchy-criterion-finite-observation-terminal-synchronization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let
+$$
+F=(B,S,W',D,R,E',H',C',P',N')
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Suppose the shared-window, tolerance-ledger, $\RegSeqRatUp$ consumer, and $\RealUp$ seal rows are identified by displayed componentwise transports
+$$
+W \hsame W',\qquad
+Q \hsame D,\qquad
+T \hsame R,\qquad
+E \hsame E'.
+$$
+Then the terminal $\RealUp$ route of $U$ is exactly the finite selector route
+$$
+B \to S \to W' \to D \to R \to E'.
+$$
+Equivalently, after the displayed transports, the route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+is the same terminal handoff as the selector route through $B,S,W',D,R,E'$. No quotient stream, host equality, countable choice, hidden selector, selected limit, host metric, or ambient completeness coordinate can mediate the synchronization.
+\end{theorem}
+\begin{proof}
+First use the terminal certificate, seal classifier route, and RegSeqRat--Real classifier correspondence for $\UniformCauchyCriterionUp$. By \autoref{thm:uniform-cauchy-criterion-terminal-real-route-certificate}, \autoref{thm:uniform-cauchy-criterion-terminal-seal-classifier-route}, and \autoref{thm:uniform-cauchy-criterion-terminal-regseq-real-classifier-correspondence}, any terminal Real-facing read of $U$ is confined to the ordered route from $I$ through $E$ and sees the RegSeqRat, finite-window, and Real classifier faces as projections of that route.
+
+Next apply the terminal quotient-refusal boundary, \autoref{thm:uniform-cauchy-criterion-terminal-quotient-refusal-boundary}. It removes quotient streams, selected limits, host equality, ambient completeness, detached tail oracles, and second stream-family data from the synchronized consumer surface.
+
+Now use the finite-observation pullback \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback}. The displayed transports identify the shared window, dyadic tolerance ledger, regular readback, and Real seal rows of $U$ with the rows $W',D,R,E'$ of $F$, so the UniformCauchyCriterion terminal read is pulled back to the finite selector route through the same visible rows.
+
+Finally apply terminal route no-branching for the selector, \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching}. Once the rows $B,S,W',D,R,E',H',C',P',N'$ and the synchronized UniformCauchyCriterion rows are fixed, there is no second terminal route through hidden selector, quotient, choice, host-metric, selected-limit, or completeness data. Hence the terminal Real route of $U$ is exactly the finite selector route $B \to S \to W' \to D \to R \to E'$.
+\end{proof}
