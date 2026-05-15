@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCauchyGluingBudgetUp$}
+\label{ch:concrete-instances-finitecauchygluingbudget-namecert}
+\origin{ai}
+
+The $\FiniteCauchyGluingBudgetUp$ packet realizes the Real-completeness witness route of \autoref{ch:visions-real-completeness} as the finite budget layer consumed by the $\CauchyWitnessGluingUp$ packet of \autoref{ch:concrete-instances-cauchy-witness-gluing-namecert}. Its role is narrower than a full gluing certificate: it binds the witness ledger, tail envelope, synchronizer, completion-seal classifier, stream window, regular-sequence handoff, dyadic tolerance ledger, and terminal Real seal into one finite budget surface before diagonal-limit or Real-completion consumers read the route.
+
+\begin{definition}[Finite Cauchy gluing-budget carrier]
+\label{def:finite-cauchy-gluing-budget-carrier}
+A $\FiniteCauchyGluingBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\CauchyWitnessGluingUp$ route row naming the witness-gluing consumer surface;
+\item $L$ is the $\CauchyWitnessLedgerUp$ row recording the selected witness ledger consumed by $G$;
+\item $T$ is the $\CauchyTailWitnessEnvelopeUp$ row recording the finite tail envelope served to the gluing route;
+\item $S$ is the $\CauchySealBudgetSynchronizerUp$ row aligning the witness ledger, tail envelope, selected window, and completion-seal request;
+\item $K$ is the $\RealCompletionSealClassifierUp$ row classifying the synchronized completion-seal read;
+\item $U$ is the $\StreamNameUp$ finite window-family row exposed to diagonal-limit readers;
+\item $V$ is the $\RegSeqRatUp$ regular-sequence handoff row reached from the stream windows;
+\item $D$ is the $\DyadicRatCoreUp$ dyadic tolerance ledger used to check the finite observation budget;
+\item $R$ is the terminal $\RealUp$ seal row served by the gluing budget;
+\item $H$ records componentwise $\hsame$ transport for $G,L,T,S,K,U,V,D,R$ and for the structural rows;
+\item $C$ records displayed $\Cont$ routes from the gluing row to the witness ledger, tail envelope, synchronizer, classifier, stream windows, dyadic ledger, regular handoff, and Real seal;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-real-completeness}, \autoref{ch:concrete-instances-cauchy-witness-gluing-namecert}, $\CauchyWitnessLedgerUp$, $\CauchyTailWitnessEnvelopeUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteCauchyGluingBudgetUp}$ row.
+\end{enumerate}
+The carrier contains one finite gluing-budget packet. It contains no quotient stream, host real equality, selected external limit, countable-choice row, hidden synchronizer, detached completion-seal classifier, or ambient completeness principle.
+\end{definition}
+
+\begin{definition}[Finite Cauchy gluing-budget classifier]
+\label{def:finite-cauchy-gluing-budget-classifier}
+The local classifier for $\FiniteCauchyGluingBudgetUp$ accepts exactly those candidate packets
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N)
+$$
+whose rows jointly display the same witness-gluing route, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName window family, RegSeqRat handoff, DyadicRatCore tolerance ledger, RealUp seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local NameCert row. A candidate that preserves $L$ and $T$ but changes $S$ is a different candidate and is rejected as a read of the same budget packet.
+\end{definition}
+
+\begin{theorem}[Finite Cauchy gluing-budget obligation surface]
+\label{thm:finite-cauchy-gluing-budget-obligation-surface}
+For the carrier of \autoref{def:finite-cauchy-gluing-budget-carrier}, the local $\NameCert_{\FiniteCauchyGluingBudgetUp}$ surface consists exactly of carrier admission for
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N),
+$$
+gluing-row exactness through $G$, witness-ledger exactness through $L$, tail-envelope exactness through $T$, synchronizer exactness through $S$, completion-seal classifier exactness through $K$, finite-window exactness through $U$, regular-sequence handoff exactness through $V$, dyadic-tolerance exactness through $D$, Real-seal exactness through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The rows $G,L,T,S,K,U,V,D,R,H,C,P,N$ are the complete public inventory of the budget packet, and the definition excludes every ambient completion object named in the statement.
+
+The first block fixes the gluing route and its witness side. The row $G$ names the consumer surface, while $L$ and $T$ determine the witness ledger and finite tail envelope read by that surface.
+
+The second block fixes the seal side. The synchronizer $S$ binds the ledger and envelope to the completion-seal classifier $K$, then $U,D,V$ expose the finite stream, dyadic, and regular-sequence rows before $R$ is served.
+
+The structural rows close the local certificate. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row are the remaining public coordinates, so the listed clauses exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy gluing-budget route exactness]
+\label{thm:finite-cauchy-gluing-budget-route-exactness}
+Every accepted $\FiniteCauchyGluingBudgetUp$ packet presents the same Real-completion route to a consumer precisely when the consumer preserves
+$$
+G,L,T,S,K,U,V,D,R,H,C,P,N.
+$$
+In particular, preserving the witness ledger $L$ and tail envelope $T$ while replacing the synchronizer row $S$ does not preserve the accepted classifier read.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:finite-cauchy-gluing-budget-classifier}. The classifier reads the displayed tuple as one packet, not as independent witness, tail, and seal fragments.
+
+Preserving all displayed rows preserves the route. The witness ledger, tail envelope, synchronizer, classifier, stream windows, dyadic ledger, regular handoff, and Real seal remain tied to the same gluing row and to the same structural rows.
+
+If $S$ is replaced while $L$ and $T$ are fixed, the row that binds the witness side to the completion-seal classifier has changed. The candidate may be inspected as another packet, but it is rejected as the same $\FiniteCauchyGluingBudgetUp$ classifier read.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy gluing-budget nonescape]
+\label{thm:finite-cauchy-gluing-budget-nonescape}
+Every diagonal-limit, $\CauchyWitnessGluingUp$, or $\RealUp$ consumer of an accepted $\FiniteCauchyGluingBudgetUp$ packet factors through
+$$
+G \to L \to T \to S \to K \to U \to D \to V \to R
+$$
+with $H,C,P,N$ visible. No such consumer can reach a Real seal through an omitted witness ledger, hidden tail envelope, alternate synchronizer, detached completion-seal classifier, quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory of \autoref{def:finite-cauchy-gluing-budget-carrier}. The finite tuple is the whole packet, and the excluded objects are not coordinates of the carrier.
+
+A diagonal-limit consumer first reads the gluing route and witness side. The rows $G,L,T$ determine which witness-gluing surface, ledger, and tail envelope are available.
+
+The consumer then reads the synchronized seal side. The rows $S$ and $K$ determine the completion-seal request, while $U,D,V$ provide the finite StreamName, DyadicRatCore, and RegSeqRat handoff before the Real seal $R$ is exposed.
+
+Finally, the structural rows make the route public. Since $H,C,P,N$ are visible and no further coordinate exists, the consumer has no escape route to a second seal or to an ambient completion principle.
+\end{proof}
+
+\falsifiablePrediction{If the finite gluing-budget packet is accepted, a consumer preserving the witness ledger and tail envelope but changing the synchronizer row is rejected by the classifier.}
+
+\independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: none is bijective because each sibling omits at least one of the gluing route, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, hsame, Cont, Pkg, and NameCert rows required by this finite budget packet.}
+
+The Lean TasteGate development must provide explicit $\Nontrivial\ \FiniteCauchyGluingBudgetUp$ and $\FieldFaithful\ \FiniteCauchyGluingBudgetUp$ instances in $\mathsf{BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate}$.
+
+\closureat{FiniteCauchyGluingBudgetUp}{seedStr}
