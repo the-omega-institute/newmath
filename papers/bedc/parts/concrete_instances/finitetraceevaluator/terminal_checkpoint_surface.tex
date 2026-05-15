@@ -1,0 +1,53 @@
+\begin{theorem}[FiniteTraceEvaluator terminal checkpoint accountability]
+\label{thm:finite-trace-evaluator-terminal-checkpoint-accountability}
+For every accepted $\FiniteTraceEvaluatorUp$ terminal packet
+$$
+I,T,A,V,H,C,P,N,
+$$
+the checkpoint obligation is accountable to the displayed finite $\BHist$ route
+$$
+I \to T \to A.
+$$
+The accepted-result row is read only through \autoref{thm:finite-trace-evaluator-terminal-accepted-result-readback}, the terminal route is total by \autoref{thm:finitetrace-evaluator-terminal-route-totality}, and the root route is total by \autoref{thm:finite-trace-evaluator-route-totality}. The remaining rows $V,H,C,P,N$ provide validation boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ naming. No host evaluator, hidden runtime state, infinite trace, or unchecked compiler theorem is a checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with the terminal root surface of \autoref{def:finite-trace-evaluator-terminal-root-surface}. It displays exactly the rows $I,T,A,V,H,C,P,N$, with $T$ as the finite $\BHist$ trace row and $A$ as the accepted-result classifier.
+
+Apply terminal accepted-result readback, \autoref{thm:finite-trace-evaluator-terminal-accepted-result-readback}. The result side cannot reach $A$ before reading the finite route $I \to T$, so the checkpoint is accountable to the same terminal trace.
+
+Finally apply terminal route totality and root route totality, \autoref{thm:finitetrace-evaluator-terminal-route-totality} and \autoref{thm:finite-trace-evaluator-route-totality}. The rows $V,H,C,P,N$ may transport, replay, package, and name the checkpoint surface, but they do not introduce a host evaluator, hidden runtime state, infinite trace, or unchecked compiler theorem.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal validation route]
+\label{thm:finite-trace-evaluator-terminal-validation-route}
+For an accepted $\FiniteTraceEvaluatorUp$ terminal packet
+$$
+I,T,A,V,H,C,P,N,
+$$
+every validation-facing checkpoint read factors through the finite rows $V,H,C,P,N$ over the same $\BHist$ trace route $I \to T \to A$. The validation boundary is the row $V$ of \autoref{thm:finite-trace-evaluator-terminal-validation-nonescape}; its transports, continuations, package provenance, and local naming are exactly the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\FiniteTraceEvaluatorUp}$ rows $H,C,P,N$. It cannot become host validation, a hidden runtime evaluator, an infinite trace checker, or an unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+Read the validation row from \autoref{thm:finite-trace-evaluator-terminal-validation-nonescape}. It is a boundary refusal row in the terminal packet, not a host-side validator or a second source of accepted results.
+
+Use terminal route totality, \autoref{thm:finitetrace-evaluator-terminal-route-totality}, to keep the validation-facing read on the same finite packet. The accepted-result spine is $I \to T \to A$, while $V,H,C,P,N$ record boundary, transport, replay, provenance, and naming for that spine.
+
+The checkpoint accountability statement, \autoref{thm:finite-trace-evaluator-terminal-checkpoint-accountability}, identifies the only checkpoint source. Since the packet has no coordinate for hidden runtime state, infinite traces, or compiler-side unchecked proof, validation cannot escape the displayed route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal consumer non-escape]
+\label{thm:finite-trace-evaluator-terminal-consumer-nonescape}
+Every downstream consumer of an accepted $\FiniteTraceEvaluatorUp$ terminal checkpoint packet receives only
+$$
+I,T,A,V,H,C,P,N.
+$$
+Its accepted-result access factors through $I \to T \to A$ by \autoref{thm:finite-trace-evaluator-terminal-accepted-result-readback} and \autoref{thm:finitetrace-evaluator-terminal-route-totality}; its validation-facing access factors through $V,H,C,P,N$ by \autoref{thm:finite-trace-evaluator-terminal-validation-nonescape} and \autoref{thm:finite-trace-evaluator-terminal-validation-route}. Thus every consumer route is a displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\FiniteTraceEvaluatorUp}$ route, with no host evaluator, hidden runtime, infinite trace, or unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+First expose the terminal packet through \autoref{def:finite-trace-evaluator-terminal-root-surface}. The consumer receives the eight displayed rows and no off-packet evaluator coordinate.
+
+For accepted-result reads, apply terminal accepted-result readback and terminal route totality. These results bind $A$ to the finite route $I \to T \to A$ and keep all terminal reads inside the same packet.
+
+For validation-facing reads, apply terminal validation nonescape and the terminal validation route theorem. The rows $V,H,C,P,N$ account for boundary refusal, transport, continuation, provenance, and naming without adding host validation or an infinite-trace checker.
+
+Combining the two routes leaves no remaining consumer channel. Any claimed host evaluator, hidden runtime, infinite trace, or unchecked compiler theorem would require a packet coordinate not present in $I,T,A,V,H,C,P,N$.
+\end{proof}

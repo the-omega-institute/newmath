@@ -483,6 +483,24 @@ Now read the consumed $\RegularCauchyTailBudgetUp$ row from \autoref{ch:concrete
 Finally use the real-seal readback scope of \autoref{thm:real-cauchy-completion-real-seal-readback-scope} and the downstream consumer handoff of \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}. They keep the completion-facing seal inside the displayed regular-family, modulus, diagonal, finite-window, readback, dyadic-ledger, tail-budget, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so no quotient stream equality, selected limit, host real equality, or ambient completeness is exported.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion tail-budget seal route]
+\label{thm:real-cauchy-completion-tail-budget-seal-route}
+Every accepted $\RealCauchyCompletionUp$ carrier whose diagonal packet consumes a $\RegularCauchyTailBudgetUp$ row and whose completion-facing seal is compared through a $\CauchyLimitSealUp$ packet over the same finite $\StreamNameUp$ window reads its $\RealUp$ seal only through the finite route consisting of that $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, the tail-budget threshold, the $\CauchyLimitSealUp$ tail-budget meet of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The route exports no quotient streams, selected limits, host real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:real-cauchy-completion-carrier}. This displays the completion carrier as its regular-family row, unary modulus, diagonal packet, completion-facing seal, package provenance, and local naming row.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff}. The same finite $\StreamNameUp$ window must carry the precision request through the $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ ledger before the completion-facing seal can be consumed.
+
+Now apply \autoref{thm:real-cauchy-completion-tail-budget-coherence-consumer}. It forces the diagonal packet to expose the $\RegularCauchyTailBudgetUp$ threshold and its finite observation service inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Attach the sibling seal packet from \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The $\CauchyLimitSealUp$ route compares the completion-facing seal over the same finite window and meets the tail-budget row before the $\RealUp$ seal is read.
+
+Finally use \autoref{thm:real-cauchy-completion-real-seal-readback-scope}. Since both the completion carrier and the seal packet have already been routed through the finite window, readback row, dyadic ledger, tail-budget threshold, $\CauchyLimitSealUp$ meet, structural transports, package provenance, and local naming row, the exported surface contains no quotient streams, selected limits, host real equality, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion tail-fusion budget consumer]
 \label{thm:real-cauchy-completion-tail-fusion-budget-consumer}
 Every accepted $\RealCauchyCompletionUp$ carrier whose diagonal packet consumes both a $\RegularCauchyTailFusionUp$ row and a $\RegularCauchyTailBudgetUp$ row reaches its $\RealUp$ seal only through the finite route consisting of the regular-family row, unary modulus row, diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, the $\RegularCauchyTailFusionUp$ shared-threshold row of \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, the $\RegularCauchyTailBudgetUp$ budget row of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.

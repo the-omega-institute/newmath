@@ -269,4 +269,51 @@ theorem StationaryRationalDiagonalCarrier_seal_factorization [AskSetup] [Package
               (And.intro realSealRow
                 (And.intro sealConsumerRow pkgSig)))))))
 
+theorem StationaryRationalDiagonalCarrier_obligation_closure_package
+    [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert endpoint
+      consumer sealConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport
+        route provenance namecert endpoint bundle pkg ->
+      Cont endpoint namecert consumer ->
+        Cont realSeal route sealConsumer ->
+          SemanticNameCert
+              (fun row : BHist =>
+                StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal
+                    transport route provenance namecert endpoint bundle pkg ∧ hsame row endpoint)
+              (fun row : BHist =>
+                StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal
+                    transport route provenance namecert endpoint bundle pkg ∧ hsame row endpoint)
+              (fun row : BHist =>
+                StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal
+                    transport route provenance namecert endpoint bundle pkg ∧ hsame row endpoint)
+              hsame ∧
+            UnaryHistory rat ∧ UnaryHistory constantStream ∧ UnaryHistory regseq ∧
+            UnaryHistory realSeal ∧ UnaryHistory consumer ∧ UnaryHistory sealConsumer ∧
+            Cont rat constantStream regseq ∧ Cont regseq diagonal realSeal ∧
+            Cont endpoint namecert consumer ∧ Cont realSeal route sealConsumer ∧
+            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier consumerRow sealConsumerRow
+  have certSurface :=
+    StationaryRationalDiagonalCarrier_semantic_name_certificate carrier
+  have consumerBoundary :=
+    StationaryRationalDiagonalCarrier_consumer_boundary carrier consumerRow
+  have sealBoundary :=
+    StationaryRationalDiagonalCarrier_seal_factorization carrier sealConsumerRow
+  exact
+    ⟨certSurface,
+      consumerBoundary.left,
+      consumerBoundary.right.left,
+      consumerBoundary.right.right.left,
+      consumerBoundary.right.right.right.left,
+      consumerBoundary.right.right.right.right.right.left,
+      sealBoundary.right.right.right.right.left,
+      consumerBoundary.right.right.right.right.right.right.left,
+      consumerBoundary.right.right.right.right.right.right.right.left,
+      consumerBoundary.right.right.right.right.right.right.right.right.right.left,
+      sealBoundary.right.right.right.right.right.right.right.left,
+      consumerBoundary.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.StationaryRationalDiagonalUp

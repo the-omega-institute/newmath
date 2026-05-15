@@ -503,4 +503,35 @@ theorem LocatedIntervalPacket_kernel_scope_package [AskSetup] [PackageSetup]
     ⟨moved.left, endpointUnary, readbackUnary, sealConsumerUnary, sameRationalCells,
       sameEndpoint, readbackRoute, sealRoute, sealPkg⟩
 
+theorem LocatedIntervalPacket_endpoint_order_window [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint orderRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont lower upper orderRead ->
+        Cont seals routes sealRead ->
+          PkgSig bundle orderRead pkg ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory orderRead ∧
+                UnaryHistory sealRead ∧ Cont lower upper orderRead ∧
+                  Cont seals routes sealRead ∧ PkgSig bundle orderRead pkg ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory LocatedIntervalPacket
+  intro packet orderRoute sealRoute orderPkg sealPkg
+  obtain ⟨lowerUnary, upperUnary, _rationalCellsUnary, _dyadicUnary, streamWindowsUnary,
+    readbacksUnary, sealsUnary, _nameCertUnary, _rationalCellsRoute, _endpointRoute,
+    transportRoute, routesRoute, _provenanceRoute, _endpointPkg⟩ := packet
+  have orderUnary : UnaryHistory orderRead :=
+    unary_cont_closed lowerUnary upperUnary orderRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed streamWindowsUnary readbacksUnary transportRoute
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed transportUnary sealsUnary routesRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed sealsUnary routesUnary sealRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, sealUnary, orderRoute, sealRoute, orderPkg,
+      sealPkg⟩
+
 end BEDC.Derived.LocatedIntervalUp

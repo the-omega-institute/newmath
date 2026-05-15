@@ -23,6 +23,7 @@ A,B,C,f,g,u,H,K,L,N.
 $$
 The boundary is supplied by the existing root ledger formal boundary together with downstream route exhaustion, and it admits no additional ledger entry for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or continuation generators outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_ledger\_saturation\_boundary}
 \begin{proof}
 First use \autoref{thm:continuation-monad-root-ledger-formal-boundary}. It states that the ledger available to root formal targets is the finite package $A,B,C,f,g,u,H,K,L,N$ with source, tail, unit, transport, route, provenance, generator-refusal, Category hom, and local naming rows.
 
@@ -75,6 +76,7 @@ The sibling formal NameCert handoff confirms the same refusal at the local namin
 \label{thm:continuation-monad-root-formal-namecert-consumer-lock}
 The downstream formal consumers of $\ContinuationMonadUp$ are locked to the audit factorization of \autoref{thm:continuation-monad-root-formal-audit-factorization} and the route-budget exhaustion of \autoref{thm:continuation-monad-root-formal-route-budget-exhaustion}. Together with root formal handoff saturation and the root formal NameCert handoff, this lock permits only reads through $A,B,C,f,g,u,H,K,L,N$, $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$, and local $\NameCert$, and refuses all quotient, host-composition, ambient-completion, evaluator, and unlisted-generator reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_namecert\_consumer\_lock}
 \begin{proof}
 First apply the audit factorization theorem. It routes every downstream formal read through the finite audit rows and their displayed BEDC carriers.
 
