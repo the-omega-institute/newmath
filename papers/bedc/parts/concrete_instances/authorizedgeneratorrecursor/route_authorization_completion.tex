@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor route authorization]
+\label{thm:authorized-generator-recursor-route-authorization}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the public recursor route exposes only the authorized generator rows carried by $I,E,M,B,D,O,A$, the displayed descent routes in $D$, the componentwise $\hsame$ transport in $H$, the replayed $\Cont$ route in $C$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$. No consumer receives a generator row outside this carrier or a route around the displayed descent and audit rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The accepted signature, emitted recursor, motive, branch package, descent row, output row, and audit row are the only generator-facing coordinates.
+
+Use the displayed route surface and root authorization obligations. They force any public read of the recursor through the same $\BHist$ packet, with $D$ supplying descent, $H$ transporting presentations, $C$ replaying the continuation route, $P$ recording provenance, and $N$ recording the local certificate.
+
+Therefore an exposed generator row is authorized exactly when it is one of the displayed rows of $R$. A route outside $I,E,M,B,D,O,A,H,C,P,G,N$ would require a carrier coordinate absent from the accepted packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output ledger exactness]
+\label{thm:authorized-generator-recursor-output-ledger-exactness}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, each generated output row $O$ is read through the same finite authorized route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The output ledger has no detached generator result, off-route branch output, hidden structural descent certificate, or provenance row outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Begin with route authorization. It identifies the only public recursor route and fixes the generator-facing rows before any output can be consumed.
+
+Apply output readiness and the branch audit ledger. Readiness keeps $O$ unavailable until all rows of $R$ are present, while the branch audit ledger ties $B,D,O,A$ to the same audit surface.
+
+The exact output ledger is therefore the displayed route itself. Since $O$ is a coordinate of $R$ and not an external result object, every output read factors through the same transport, continuation, provenance, and local naming rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor substitution handoff nonescape]
+\label{thm:authorized-generator-recursor-substitution-handoff-nonescape}
+Every $\ClosedSubstitutionBoundaryUp$ or $\ClosedTermSubstitutionUp$ consumer of an accepted $\AuthorizedGeneratorRecursorUp$ packet receives the authorized finite route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+and no hidden recursor, host recursion principle, unledgered generator, unrestricted substitution calculus, proof generator, external axiom channel, host equality, or off-packet certificate.
+\end{theorem}
+\begin{proof}
+Start from output ledger exactness. The generated output row is already tied to the authorized route, so a closed-substitution consumer begins with the same packet rather than with a detached generator product.
+
+Use the closed-substitution handoff. It routes the handoff through the closed-boundary row $G$ and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates used by the recursor packet.
+
+Finally apply the root output boundary package. That boundary admits only the displayed handoff route, so there is no coordinate from which to export a hidden recursor, a host recursion principle, or an unledgered generator.
+\end{proof}
