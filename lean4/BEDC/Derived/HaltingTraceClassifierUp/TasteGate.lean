@@ -254,6 +254,36 @@ def taste_gate : ChapterTasteGate HaltingTraceClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   haltingTraceClassifierChapterTasteGate
 
+theorem HaltingTraceClassifierTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate HaltingTraceClassifierUp) ∧
+      Nonempty (FieldFaithful HaltingTraceClassifierUp) ∧
+        Nonempty (Nontrivial HaltingTraceClassifierUp) ∧
+          (∀ h : BHist,
+            haltingTraceClassifierDecodeBHist
+              (haltingTraceClassifierEncodeBHist h) = h) ∧
+            (∀ x : HaltingTraceClassifierUp,
+              haltingTraceClassifierFromEventFlow
+                (haltingTraceClassifierToEventFlow x) = some x) ∧
+              (∀ x y : HaltingTraceClassifierUp,
+                haltingTraceClassifierToEventFlow x =
+                  haltingTraceClassifierToEventFlow y → x = y) ∧
+                haltingTraceClassifierEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨haltingTraceClassifierChapterTasteGate⟩
+  · constructor
+    · exact ⟨haltingTraceClassifierFieldFaithful⟩
+    · constructor
+      · exact ⟨haltingTraceClassifierNontrivial⟩
+      · constructor
+        · exact haltingTraceClassifier_decode_encode_bhist
+        · constructor
+          · exact haltingTraceClassifier_round_trip
+          · constructor
+            · intro x y heq
+              exact haltingTraceClassifierToEventFlow_injective heq
+            · rfl
+
 theorem HaltingTraceClassifierUp_taste_gate_boundary :
     (∀ x : HaltingTraceClassifierUp, ∃ e : EventFlow,
       BHistCarrier.fromEventFlow e = some x) ∧
