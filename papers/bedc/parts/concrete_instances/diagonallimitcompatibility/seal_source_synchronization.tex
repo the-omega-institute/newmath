@@ -258,3 +258,73 @@ exactly the same four faces with the current Phase Real and Completion exit
 route, so the diagonal seal packet contributes no fifth mathematical face or
 standard bridge row.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit four-face pullback exactness]
+\label{thm:diagonal-limit-compatibility-four-face-pullback-exactness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets whose displayed rows agree
+componentwise by $\hsame$. A $\RealUp$ or $\CauchyLimitSealUp$ consumer
+classifies through the diagonal seal source of $K$ and $K'$ if and only if its
+four projections classify componentwise on the $\StreamNameUp$ window/source
+face $(S,W)$, the $\DyadicRatCoreUp$ tolerance face $D$, the $\RegSeqRatUp$
+readback face $Q$ behind the synchronized $T,D,W$ route, and the $\RealUp$ seal
+face $L$.
+
+The only gluing data are the displayed support rows $H,C,P,N$ and
+$H',C',P',N'$, read respectively as $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support. The exact pullback exports no quotient stream, host equality, selected
+limit, ambient completeness theorem, metric-completeness datum, countable-choice
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with a consumer that classifies through the
+diagonal seal source. Apply seal source synchronization,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}, to
+confine the read to the displayed rows of $K$ and $K'$.
+
+Use the triangle readback lock,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}, to keep the
+readback coordinate $Q$ behind the same synchronized $T,D,W$ route. Then apply
+real seal factorization,
+\autoref{thm:diagonal-limit-compatibility-real-seal-factorization}, so the
+$\RealUp$ or $\CauchyLimitSealUp$ consumer reads the seal row only after the
+displayed source, tolerance, window, and readback rows have been fixed.
+
+Now project the synchronized packet to its four faces. Four-face budget
+ownership,
+\autoref{thm:diagonal-limit-compatibility-four-face-budget-ownership}, names
+exactly the $\StreamNameUp$ window/source face, the $\DyadicRatCoreUp$ tolerance
+face, the $\RegSeqRatUp$ readback face, and the $\RealUp$ seal face. The
+componentwise $\hsame$ hypotheses therefore give componentwise classification
+of those four projections, with $H,C,P,N$ and $H',C',P',N'$ as the only support
+rows.
+
+For the reverse direction, assume the four projected faces classify
+componentwise through the displayed support rows. Apply
+\autoref{thm:regseqrat-four-face-terminal-pullback} to repack the
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces as one
+finite terminal pullback surface.
+
+Next apply \autoref{thm:realup-open-phase-four-face-pullback}. The compatible
+open-phase faces determine a single consumer-visible seal-source handoff, and
+the comparison uses only $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally use seal source determinacy,
+\autoref{thm:diagonal-limit-compatibility-seal-source-determinacy}. The
+componentwise agreement of the accepted packets leaves no hidden coordinate
+outside the displayed finite route, so the repacked four-face surface is exactly
+the diagonal seal source classification for $K$ and $K'$.
+
+The exclusion clauses come from the same cited pullback and factorization
+results together with four-face budget ownership. None of the accepted rows
+contains quotient stream equality, host equality, selected limits, ambient
+completeness, metric-completeness data, countable-choice rows, or standard
+bridge rows, so none can be part of the exact pullback.
+\end{proof}
