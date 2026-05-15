@@ -171,6 +171,28 @@ Now read the RegSeqRat-facing consumer. By \autoref{thm:uniform-cauchy-criterion
 Finally attach the Real seal. Use \autoref{thm:uniform-cauchy-criterion-shared-schedule-real-seal-inheritance} and \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the seal read downstream of the same $E,H,C,P,N$ rows. The non-escape boundary then rules out selected family limits, host real equality, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion RegSeqRat--Real seal pullback exactness]
+\label{thm:uniform-cauchy-criterion-regseqrat-real-seal-pullback-exactness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every displayed subfamily pullback that reaches both a $\RegSeqRatUp$-facing consumer and a $\RealUp$ seal is exact on the same route
+$$
+I,W,M,Q,T,E,H,C,P,N.
+$$
+It cannot introduce a second RegSeqRat classifier, quotient stream family, selected family limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First put the pullback on the shared threshold route. Apply \autoref{thm:uniform-cauchy-criterion-shared-window-threshold-meet}: the shared window row $W$ and the single modulus row $M$ are fixed before any tolerance, tail, or seal row is read.
+
+Next restrict the subfamily tail. By \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}, the pullback is an intersection of the existing finite family ledger with the same $W,M,Q,T$ route. It therefore has no separate index carrier or independently selected modulus family.
+
+Now exhaust the RegSeqRat-facing side. Use \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}; the consumer is exhausted by $I,W,M,Q,T,E,H,C,P,N$ and has no coordinate for a second RegSeqRat classifier or quotient stream family.
+
+Finally attach the Real seal through \autoref{thm:uniform-cauchy-criterion-regseqrat-real-seal-overlap}. The overlap already reaches the $\RegSeqRatUp$ consumer and the $\RealUp$ seal through the same route. The non-escape boundary then rules out selected family limits, host real equality, and ambient completeness, so the displayed pullback is exact on the original packet rows.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion shared-tail subfamily pullback]
 \label{thm:uniform-cauchy-criterion-shared-tail-subfamily-pullback}
 For every accepted $\UniformCauchyCriterionUp$ packet $U=(I,W,M,Q,T,E,H,C,P,N)$, any downstream $\RegSeqRatUp$ or $\RealUp$ consumer of a displayed subfamily pullback reads the same shared tail route through the finite index ledger. Such a consumer cannot introduce an indexwise modulus family or detach the pullback from the rows $I,W,M,Q,T,E,H,C,P,N$.

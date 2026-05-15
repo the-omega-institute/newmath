@@ -271,21 +271,15 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
         · exact ⟨{
             round_trip := by
               intro x
-              change certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) =
-                some x
+              change certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x
               exact certificateAuditGate_round_trip x
             layer_separation := by
               intro x y hxy heq
-              exact hxy (certificateAuditGateToEventFlow_injective heq)
-          }⟩
+              exact hxy (certificateAuditGateToEventFlow_injective heq) }⟩
         · constructor
           · exact ⟨{
               fields := certificateAuditGateFields
-              field_faithful := by
-                intro x y h
-                change certificateAuditGateFields x = certificateAuditGateFields y at h
-                exact certificateAuditGate_field_faithful x y h
-            }⟩
+              field_faithful := certificateAuditGate_field_faithful }⟩
           · constructor
             · exact ⟨{ witness_pair := certificateAuditGateWitnessPair }⟩
             · rfl

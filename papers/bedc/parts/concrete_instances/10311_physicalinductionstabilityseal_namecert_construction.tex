@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalInductionStabilitySealUp$}
+\label{ch:concrete-instances-physical-induction-stability-seal-namecert}
+\origin{ai}
+
+The $\PhysicalInductionStabilitySealUp$ packet realizes the certificate-relative physical induction surface of \autoref{sec:physical-induction-open-continuation} as a finite BEDC naming certificate. It is adjacent to the open-fit surface of \autoref{ch:concrete-instances-reality-constrained-open-fit-namecert}, the audit packet of \autoref{ch:concrete-instances-physicalmodelaudit-namecert}, and the inter-observer boundary of \autoref{ch:concrete-instances-reality-constrained-objectivity-namecert}. Those siblings provide finite fit, audit, and objectivity rows; this seal binds finite fit to a continuation class, a stability basis, a failure surface, predictive reuse, transport, provenance, and local naming without exporting an unbounded future oracle.
+
+\begin{definition}[PhysicalInductionStabilitySeal carrier]
+\label{def:physical-induction-stability-seal-carrier}
+A $\PhysicalInductionStabilitySealUp$ carrier is a finite $\BHist$ packet
+$$
+K=(H,F,C,S,L,R,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the observation prefix row from which the finite physical fit is read;
+\item $F$ is the finite fit row comparing observed and model signatures over the displayed prefix;
+\item $C$ is the continuation-class row naming the admissible future histories for this seal;
+\item $S$ is the stability-basis row licensing transport from $F$ to continuations in $C$;
+\item $L$ is the failure-surface row recording the continuations that separate observed and model signatures;
+\item $R$ is the predictive-reuse route from the finite fit row to the continuation-class read;
+\item $T$ records componentwise $\hsame$ transport for $H,F,C,S,L,R$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the sibling fit, audit, objectivity, and induction rows;
+\item $N$ is the local $\NameCert_{\PhysicalInductionStabilitySealUp}$ row.
+\end{enumerate}
+The classifier accepts only packets exposing all nine rows. It has no coordinate for a final-fit oracle, unbounded physical necessity, hidden future history, host-law identity, or predictive reuse outside the displayed continuation class.
+\end{definition}
+
+\begin{theorem}[PhysicalInductionStabilitySeal NameCert obligations]
+\label{thm:physical-induction-stability-seal-namecert-obligations}
+For the carrier of \autoref{def:physical-induction-stability-seal-carrier}, the local $\NameCert_{\PhysicalInductionStabilitySealUp}$ surface is exhausted by five obligation rows:
+\begin{enumerate}
+\item carrier exposure for $K=(H,F,C,S,L,R,T,P,N)$;
+\item classifier laws over the continuation class $C$;
+\item stability transport from the finite fit row $F$ through the stability basis $S$ and transport row $T$;
+\item failure-surface exactness through $L$;
+\item predictive-reuse non-escape through the route $R$, provenance $P$, and local name $N$.
+\end{enumerate}
+Every accepted prediction from the seal must read these rows. No consumer may replace them by a final physical law, an ambient completeness claim, an unlisted continuation, or a host-level oracle over future observations.
+\end{theorem}
+\begin{proof}
+Carrier exposure is immediate from the displayed packet. The rows $H,F,C,S,L,R,T,P,N$ are the complete inventory available to the local naming certificate, and each downstream read must begin from that finite tuple.
+
+Next read the classifier rows over $C$. The continuation class is not a background universal domain; it is a coordinate of the accepted packet. Classifier laws therefore compare finite-fit and continuation reads only through the displayed continuation class and its componentwise transports.
+
+Now transport stability. The finite fit row $F$ is licensed for reuse only through the stability basis $S$ and the transport row $T$. The predictive route $R$ carries that transported read to admissible continuations, while $P$ records the sibling fit, audit, and objectivity provenance that lets the route be consumed.
+
+Finally inspect the failure surface. The row $L$ records exactly the continuations where observed and model signatures separate, so removing $L$ erases the falsifiable boundary of the seal. Since $N$ names the whole packet and no other carrier coordinate is present, predictive reuse cannot escape to an unlisted continuation, hidden future history, host-law identity, or final-fit oracle.
+\end{proof}
+
+\falsifiablePrediction{Removing the failure-surface row or the continuation-class row makes predictive reuse indistinguishable from an unbounded oracle claim and invalidates the seal.}
+
+\independenceWitness{Nearest siblings: realityconstrainedopenfit, physicalmodelaudit, realityconstrainedobjectivity, observationreflectionhandoff, inscriptiongapledger. The seal has a continuation-class plus failure-surface pair none of those siblings has as a single carrier, while each sibling has audit, objectivity, handoff, or residue rows absent from this seal; no row-preserving bijection exists.}
+
+The Lean target family \texttt{BEDC.Derived.PhysicalInductionStabilitySealUp} must provide explicit $\mathsf{Nontrivial}\ \PhysicalInductionStabilitySealUp$ and $\mathsf{FieldFaithful}\ \PhysicalInductionStabilitySealUp$ instances in \texttt{Derived/PhysicalInductionStabilitySealUp/TasteGate.lean}.
+
+\closureat{PhysicalInductionStabilitySealUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalInductionStabilitySealUp}
+  \constructivestory{A $\PhysicalInductionStabilitySealUp$ packet is generated from a finite observation prefix, finite fit, continuation class, stability basis, failure surface, predictive-reuse route, componentwise transport, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-induction-stability-seal-carrier} and \autoref{thm:physical-induction-stability-seal-namecert-obligations} bind the finite certificate-relative physical induction packet and its local NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unbounded future prediction, total physical law, host-law identity, or continuations outside the displayed class.}
+  \upgradepath{The next step is a Lean carrier and TasteGate surface for the displayed packet, including Nontrivial and FieldFaithful instances.}
+\end{closurestatus}
