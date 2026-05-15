@@ -191,6 +191,45 @@ provide a second route.
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_route\_lock}
 
+\begin{theorem}[UniformCauchyCriterion finite-family source exhaustion]
+\label{thm:uniform-cauchy-criterion-finite-family-source-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family
+seal obligation surface. Any $\RegSeqRatUp$-visible or $\RealUp$-visible
+consumer preserving the finite-family seal route has source access exhausted
+by $I,W,M,Q,T,E,H,C,P,N$. It cannot introduce a second source ledger, stream
+family, dyadic tolerance source, tail oracle, quotient stream, host real
+equality, selected limit, or ambient completeness witness before the
+$\RegSeqRatUp$--$\RealUp$ handoff.
+\end{theorem}
+\begin{proof}
+Begin with the finite-family seal obligation package. It displays the full
+accepted source inventory $I,W,M,Q,T,E,H,C,P,N$, with $I$ as the finite index
+ledger, $W$ as the shared window family, $M$ as the pointwise modulus row, $Q$
+as the dyadic tolerance source, $T$ as the tail oracle row, and $E$ as the seal
+handoff.
+
+Apply the $\RegSeqRatUp$--$\RealUp$ handoff. The handoff reads the same
+displayed source rows on the regular-rational side and on the real-seal side,
+so a consumer preserving the route has no independent source coordinate
+between $T$ and $E$.
+
+Next use the nonescape ledger and window seal exhaustion. These results remove
+selected limits, quotient streams, host real equality, ambient completeness
+witnesses, detached tail oracles, and any bypass of the finite window and
+tolerance rows from the public packet surface.
+
+Finally combine shared seal-route determinacy with the route lock above.
+Shared determinacy fixes the row order from $I$ through $E$, and
+\autoref{thm:uniform-cauchy-criterion-finite-family-route-lock} prevents a
+consumer preserving $I,W,M,Q,T,E,H,C,P,N$ from selecting a second route. Hence
+the listed rows exhaust all source access available before the
+$\RegSeqRatUp$--$\RealUp$ handoff.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion CauchyLimitFunctor terminal handoff]
 \label{thm:uniform-cauchy-criterion-cauchy-limit-functor-handoff}
 Let
