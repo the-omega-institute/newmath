@@ -1,0 +1,96 @@
+\begin{theorem}[Critical-line witness root finite route totality]
+\label{thm:critical-line-witness-root-finite-route-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every root-facing consumer of $W$ reads only the supplied zero row, the
+critical-strip row, the modulus row, the real-part row, the rational
+comparison ledger, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows displayed by
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer exports no proof of $\mathsf{RH}$, global zero classifier,
+analytic-continuation certificate, quotient representative, host equality, or
+ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with carrier route exactness and the root-source triad,
+\autoref{thm:critical-line-witness-carrier-route-exactness} and
+\autoref{thm:critical-line-witness-root-source-triad}. They expose the
+supplied zero row, critical-strip row, and source-facing rational comparison
+row as finite $\BHist$ data before any root-facing consumer reads the packet.
+
+Next apply the source-normalization interface and the modulus-ledger
+interface,
+\autoref{thm:critical-line-witness-source-normalization-interface} and
+\autoref{thm:critical-line-witness-modulus-ledger-interface}. These rows place
+$M,R,Q$ downstream of the already exposed $Z,S$ source route and attach the
+read to the same $\hsame/\Cont/\Pkg/\NameCert$ surface.
+
+Finally use the RH-refusal ledger completeness row
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It removes
+proof of $\mathsf{RH}$, global zero classification, analytic continuation,
+quotient representatives, host equality, and ambient completeness from every
+root-facing export, so the route is exactly the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root modulus source exactness]
+\label{thm:critical-line-witness-root-modulus-source-exactness}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, every root-facing modulus or rational-comparison read
+is sourced by $M,R,Q$ only after the supplied $Z,S$ source rows have been
+exposed. No modulus request may be completed from a hidden analytic estimate,
+host equality, quotient representative, ambient completeness row, external
+zero search, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+First expose the source side by
+\autoref{thm:critical-line-witness-source-normalization-interface} and
+\autoref{thm:critical-line-witness-root-source-triad}. These results place the
+zero row and critical-strip row in the accepted finite packet before any
+modulus or rational-comparison read is available to the root boundary.
+
+Now apply the modulus-ledger interface
+\autoref{thm:critical-line-witness-modulus-ledger-interface}. It routes every
+modulus, real-part, and rational-comparison request through $M,R,Q$ together
+with the displayed transport, continuation, package, and naming rows.
+
+The exclusion of alternate sources follows from
+\autoref{thm:critical-line-witness-root-modulus-ledger-scope} and
+\autoref{thm:critical-line-witness-source-modulus-refusal-totality}. Failed or
+off-route requests land in the finite refusal ledger rather than in analytic
+estimates, host equality, quotient representatives, ambient completeness,
+external zero search, or an $\mathsf{RH}$ proof.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root refusal ledger non-escape]
+\label{thm:critical-line-witness-root-refusal-ledger-nonescape}
+Every downstream $\mathsf{RH}$-facing read of an accepted
+$\CriticalLineWitnessUp$ packet remains attached to the displayed refusal
+ledger over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The ledger cannot be bypassed by host equality, quotient representatives, zero
+search, analytic continuation, ambient completeness, a standard bridge, or an
+off-packet modulus source.
+\end{theorem}
+\begin{proof}
+Start with the finite route totality above. It identifies the root-facing
+source, modulus, comparison, transport, continuation, package, and naming
+surface as the entire packet available to downstream consumers.
+
+Next apply the root refusal-boundary totality
+\autoref{thm:critical-line-witness-root-refusal-boundary-totality} and the
+downstream RH boundary nonescape
+\autoref{thm:critical-line-witness-downstream-rh-boundary-nonescape}. These
+rows keep $\mathsf{RH}$-facing reads on the finite refusal side of the same
+displayed packet.
+
+Finally use
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} and
+\autoref{thm:critical-line-witness-root-refusal-downstream-gate}. The refusal
+ledger has no escape coordinate for host equality, quotient representatives,
+zero search, analytic continuation, ambient completeness, a standard bridge,
+or an off-packet modulus source, so every downstream read remains attached to
+the displayed ledger.
+\end{proof}
