@@ -64,3 +64,41 @@ $k\preceq_{\mathsf{unary}}h$ using only $\mathsf{BHist}$,
 $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and the existing total-order carrier
 rows.
 \end{proof}
+
+\begin{theorem}[Unary-prefix comparison readback totality]
+\label{thm:totalorder-unary-prefix-comparison-readback-totality}
+Let $h,k:\mathsf{BHist}$ be carried by the concrete unary-prefix instance of
+\autoref{def:totalorder-unary-prefix-bhist-instance}. Every public comparison
+read for this $\TotalOrderUp$ instance is exhausted by the following BEDC rows:
+the two carrier rows $\mathsf{UnaryHistory}(h)$ and
+$\mathsf{UnaryHistory}(k)$, exactly one displayed continuation tail witnessing
+$h\preceq_{\mathsf{unary}}k$ or $k\preceq_{\mathsf{unary}}h$, the endpoint
+classifier row $\hsame(h,k)$ in the equality branch, and the ambient
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structural rows.
+Thus the comparison readback exposes no host $\mathsf{Nat}$ order, quotient
+order, external trichotomy principle, or second comparison relation.
+\end{theorem}
+\begin{proof}
+Project the carrier, classifier, and prefix order from
+\autoref{def:totalorder-unary-prefix-bhist-instance}. The only carried objects
+available to the public read are the two rows $\mathsf{UnaryHistory}(h)$ and
+$\mathsf{UnaryHistory}(k)$, and the only order witness available inside the
+instance is a displayed $\mathsf{BHist}$ tail through $\Cont$.
+
+Apply \autoref{thm:totalorder-unary-prefix-bhist-laws}. Its totality clause
+splits the read into the left-prefix case, the same-endpoint case, or the
+right-prefix case. In the left-prefix case the visible row is a tail
+$t:\mathsf{BHist}$ with $\Cont(h,t,k)$; in the right-prefix case it is a tail
+$t:\mathsf{BHist}$ with $\Cont(k,t,h)$.
+
+In the same-endpoint case, antisymmetry in the same laws collapses the opposing
+visible tails to the classifier row $\hsame(h,k)$. Repacking this row with the
+two carrier witnesses gives exactly the equality branch of the concrete
+classifier $h\sim_{\mathsf{unary}}k$.
+
+The package and name-certificate rows only record that this carrier, this
+classifier, and this prefix relation are the public $\TotalOrderUp$ surface.
+Since the instance contains no coordinate for a host $\mathsf{Nat}$ order, a
+quotient order, a trichotomy oracle, or any parallel comparison relation, there
+is no additional readback component to expose.
+\end{proof}
