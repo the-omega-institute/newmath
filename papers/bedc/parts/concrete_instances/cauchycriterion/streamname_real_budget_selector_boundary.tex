@@ -1,0 +1,101 @@
+\begin{theorem}[CauchyCriterion StreamName Real budget-selector boundary]
+\label{thm:cauchycriterion-streamname-real-budget-selector-boundary}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Any
+$\RealUp$-completion consumer or finite-window budget selector sharing the
+displayed
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+rows must read through the CauchyCriterion route
+$$
+M,\quad Q,\quad T,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N
+$$
+before exposing a selector output. Conversely, a selector that displays this
+route has exactly the finite CauchyCriterion budget surface available for the
+shared StreamName--RegSeqRat--DyadicRatCore--Real read.
+
+The boundary exports no quotient stream, selected limit, host real equality,
+ambient completeness principle, unrecorded completion object, or selector
+choice independent of $M,Q,T,W,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the CauchyCriterion handoff
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. It places
+the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ source row, the
+$\DyadicRatCoreUp$ budget rows, and the $\RealUp$ seal on the displayed
+CauchyCriterion carrier rows.
+
+Next apply the completion boundary
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary}. It says
+that any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer sharing those
+four faces must factor through $M,Q,T,W,E,H,C,P,N$ before it can read a
+completion seal.
+
+Now use the finite-window selector surfaces from the StreamName and Real
+siblings. The request and coverage theorems
+\autoref{thm:streamname-tail-compatible-window-request} and
+\autoref{thm:streamname-tail-compatible-window-coverage} identify a
+finite-window selector by its selected observation, bundle membership,
+tail-selector route, finite budget surface, pointwise $\RegSeqRatUp$ handoff,
+and the support rows $\hsame,\Cont,\Pkg,\NameCert$. The budget handoff
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff} and the
+boundary \autoref{thm:streamname-realup-finite-window-seal-boundary} then
+force the $\RealUp$ read to use the same finite surface.
+
+Finally read the completion-facing exit through
+\autoref{thm:streamname-real-completion-four-object-exit-route}. Its four
+faces are exactly $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, with no fifth completion coordinate. Combining this exit route with
+the CauchyCriterion handoff and tail-budget boundary gives the stated
+factorization before any selector output is exposed, and the excluded objects
+have no row in the resulting packet.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion uniform selector-seal compatibility]
+\label{thm:cauchycriterion-uniform-selector-seal-compatibility}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
+let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted
+$\UniformCauchyCriterionUp$ packet. Suppose the two presentations display the
+same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ finite
+rows at the completion-facing boundary. Then the budget-selector output of the
+$\CauchyCriterionUp$ route and the shared-threshold seal output of the
+$\UniformCauchyCriterionUp$ route factor through the same finite packet before
+any $\RealUp$ seal is exposed.
+
+The common packet is the displayed StreamName--RegSeqRat--DyadicRatCore--Real
+surface with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. It contains no quotient stream, selected limit, host real equality,
+detached family threshold, ambient completeness principle, or second
+completion seal.
+\end{theorem}
+\begin{proof}
+Begin with the CauchyCriterion side. Apply
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff} and
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary}. These
+place the selector-facing read on the displayed $M,Q,T,W,E,H,C,P,N$ packet
+before any Real or Completion seal can be consumed.
+
+Next expose the StreamName exit route. The finite-window request and coverage
+rows, together with
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff},
+\autoref{thm:streamname-realup-finite-window-seal-boundary}, and
+\autoref{thm:streamname-real-completion-four-object-exit-route}, identify the
+four public faces as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ with no fifth completion coordinate.
+
+Now read the uniform presentation. Apply
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. The family
+threshold request is transported as one finite route through the displayed
+window, threshold, tolerance, and tail rows, with the support rows supplied by
+$H_U,C_U,P_U,N_U$.
+
+Finally apply
+\autoref{thm:uniform-cauchy-criterion-real-seal-handoff},
+\autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}, and
+\autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. The uniform seal
+is downstream of the same finite packet, and the non-escape boundary removes
+quotient streams, selected limits, host equality, detached thresholds, ambient
+completeness, and any second completion seal. Hence the selector route and the
+shared-threshold seal route agree on the finite packet before the $\RealUp$
+seal is exposed.
+\end{proof}

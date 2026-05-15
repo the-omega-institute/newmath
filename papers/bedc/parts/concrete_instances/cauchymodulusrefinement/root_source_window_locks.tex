@@ -81,6 +81,7 @@ M_0,M_1,U,V,T,W,Q,H,C,P,N.
 $$
 The consumer receives no quotient stream, selected host limit, hidden selector, second meet row, ambient completeness coordinate, detached tolerance readback, or route outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_window\_consumer\_coverage}
 \begin{proof}
 Start from the source-window lock. The consumer must read $M_0,M_1,U,V$ before a selected-window route is available.
 
@@ -118,4 +119,26 @@ Apply selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-s
 For $\RealUp$ and Completion consumers, use the Real-seal root handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-root-handoff}, together with Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. These results place $E,H,C,P,N$ after the same source-meet-extraction route and prevent the seal from replacing that route.
 
 For the converse, read the displayed packet in the stated order. Root window exhaustion, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion}, identifies that route with the full selected-window, $\RealUp$, or Completion consumer surface, so the displayed source front and the existing selector and seal rows determine the same consumer.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement source-window totality]
+\label{thm:cauchy-modulus-refinement-source-window-totality}
+Every accepted $\CauchyModulusRefinementUp$ selected-window, $\RealUp$, or Completion consumer is determined by first exposing the source rows, shared meet, and extraction front
+$$
+M_0,M_1,U,V,
+$$
+then routing through
+$$
+T,W,Q,E,H,C,P,N.
+$$
+Conversely, any displayed route with those rows determines the same selected-window, $\RealUp$, or Completion consumer. No quotient stream, selected limit, host real equality, hidden selector, second meet row, ambient completeness coordinate, or detached completion witness supplies another consumer route.
+\end{theorem}
+\begin{proof}
+The forward direction begins with source-window lock, \autoref{thm:cauchy-modulus-refinement-source-window-lock}. It forces every accepted consumer to expose $M_0,M_1,U,V$ before a selected-window or seal row can be read.
+
+Apply selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-stability-lock}. The selector, selected-window, and tolerance-readback segment is exactly the displayed route from $V$ through $T,W,Q$, and the structural rows preserve that route rather than replacing it.
+
+For $\RealUp$ and Completion consumers, use Real-seal root handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-root-handoff}, together with Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. These results place $E,H,C,P,N$ after the same source and selector front and rule out quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness coordinates, and detached completion witnesses.
+
+For the converse, read any displayed route with rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Root window exhaustion, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion}, identifies that route with the complete selected-window, $\RealUp$, or Completion surface. Hence the displayed rows determine the same consumer.
 \end{proof}

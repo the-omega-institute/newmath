@@ -1,0 +1,16 @@
+\section{StreamName RegSeqRat Dyadic Real obligation handoff}
+\label{sec:streamname-regseqrat-dyadic-real-obligation-handoff}
+
+\begin{theorem}[StreamName RegSeqRat Dyadic Real obligation handoff]
+\label{thm:streamname-regseqrat-dyadic-real-obligation-handoff}
+Let $U$ be an accepted L10 consumer whose four visible faces are a $\StreamNameUp$ finite window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, and a $\RealUp$ seal boundary. Then every carrier, classifier, stability, ledger, and non-escape obligation for $U$ factors through those four faces together with the displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ rows. No quotient stream equality, host sequence equality, selected limit, ambient completeness row, metric-completeness datum, or bridge row is exported by this handoff.
+\end{theorem}
+\begin{proof}
+First use open-phase terminal exactness, \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It places every seal-facing L10 read on the ordered StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal route, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next apply the terminal factorization and boundary theorems, \autoref{thm:streamname-real-regseq-terminal-factorization} and \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. They make the four-face route the consumer contract for seal reads and refuse quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, and bridge rows as alternate factors.
+
+Now use the DyadicRatCore window handoff supplied by \autoref{thm:streamname-dyadicratcore-window-anchor} and the Dyadic-RegSeq route factorization of \autoref{thm:streamname-dyadic-regseq-route-factorization}. These keep the observation ledger and readback row on the same finite StreamName window instead of on a detached host sequence or selected limit.
+
+Finally combine the ledger coverage of \autoref{thm:streamname-open-phase-terminal-ledger-coverage} with the public seal no-quotient boundary of \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}. The resulting surface is exactly the four visible faces and their displayed support rows, so carrier, classifier, stability, ledger, and non-escape obligations have no remaining source outside that handoff.
+\end{proof}
