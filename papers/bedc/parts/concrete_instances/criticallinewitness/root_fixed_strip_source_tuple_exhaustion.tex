@@ -1,0 +1,52 @@
+\begin{definition}[Critical-line witness fixed-strip source tuple]
+\label{def:critical-line-witness-fixed-strip-source-tuple}
+For an accepted $\CriticalLineWitnessUp$ packet, the fixed-strip source tuple is
+$$
+W=(Z,S,M,R,Q,H,C,P,N).
+$$
+Here $Z$ is the supplied $\ZetaZerosUp$ zero row, $S$ is the supplied $\CritStripUp$ fixed-strip row, $M$ is the $\NatUp$ depth row, $R$ is the $\RealUp$ real-part row, $Q$ is the $\RatUp$ rational comparison row, $H$ is the componentwise transport row, $C$ is the displayed continuation row, $P$ is the package provenance row, and $N$ is the local $\NameCert_{\CriticalLineWitnessUp}$ row. The tuple is the row inventory of \autoref{def:critical-line-witness-fixed-strip-source} with no extra analytic-continuation, zero-search, host-equality, quotient, or completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Critical-line witness fixed-strip row exhaustion]
+\label{thm:critical-line-witness-fixed-strip-row-exhaustion}
+Every fixed-strip read of an accepted $\CriticalLineWitnessUp$ packet factors through the nine rows
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+of \autoref{def:critical-line-witness-fixed-strip-source-tuple}. The read may inspect the supplied $\ZetaZerosUp$ row, the $\CritStripUp$ strip row, the $\NatUp$ depth row, the $\RealUp$ real-part row, the $\RatUp$ rational comparison row, and the displayed transport, continuation, package, and local naming rows, but it has no tenth row outside that tuple.
+\end{theorem}
+\begin{proof}
+Start with the fixed-strip source of \autoref{def:critical-line-witness-fixed-strip-source}. It already presents the zero, strip, depth, real-part, rational comparison, transport, continuation, package, and local naming rows as the whole fixed-strip source surface.
+
+Apply \autoref{thm:critical-line-witness-zero-strip-source-row} to identify the supplied zero and strip as the source rows. Apply \autoref{thm:critical-line-witness-modulus-readback-row} to route every modulus-facing read through the displayed $\NatUp$, $\RealUp$, and $\RatUp$ rows.
+
+The remaining rows are structural. The transport, continuation, package, and local naming coordinates preserve the same tuple rather than adding a further analytic or host-level coordinate. Thus every fixed-strip read factors through exactly $Z,S,M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-route nonescape]
+\label{thm:critical-line-witness-zero-route-nonescape}
+The zero route carried by \autoref{def:critical-line-witness-fixed-strip-source-tuple} cannot become zero search, analytic continuation, host equality, quotient representative, ambient completeness, or a proof of $\mathsf{RH}$. It remains a finite BEDC route through the supplied zero, fixed strip, depth, real-part, rational comparison, transport, continuation, package, and local naming rows.
+\end{theorem}
+\begin{proof}
+First apply the fixed-strip modulus refusal theorem \autoref{thm:critical-line-witness-fixed-strip-modulus-refusal}. It keeps the modulus request inside the supplied zero and strip rows, the depth and comparison rows, and the displayed refusal route.
+
+Next apply the fixed-strip row exhaustion theorem \autoref{thm:critical-line-witness-fixed-strip-row-exhaustion}. Any zero route that reaches a fixed-strip consumer has already been forced through $Z,S,M,R,Q,H,C,P,N$.
+
+Finally use the RH consumer nonescape row \autoref{thm:critical-line-witness-rh-consumer-nonescape}. Since the RH-facing consumer receives only the finite witness boundary, the zero route cannot acquire zero search, analytic continuation, host equality, quotient representatives, ambient completeness, or an $\mathsf{RH}$ proof.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH consumer boundary]
+\label{thm:critical-line-witness-rh-consumer-boundary}
+Every downstream $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet receives only the finite BEDC witness boundary
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer may cite the supplied $\ZetaZerosUp$ zero row, $\CritStripUp$ fixed-strip row, $\NatUp$ depth row, $\RealUp$ real-part row, $\RatUp$ rational comparison row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but it does not receive an analytic theorem or a host-level zero-location certificate.
+\end{theorem}
+\begin{proof}
+Use the fixed-strip row exhaustion theorem to place the downstream read behind the tuple $Z,S,M,R,Q,H,C,P,N$. This supplies a finite BEDC witness boundary before the consumer can inspect any RH-facing conclusion.
+
+Use the zero-route nonescape theorem to remove the possible escape channels. The same zero route cannot turn into zero search, analytic continuation, host equality, quotient representatives, ambient completeness, or an $\mathsf{RH}$ proof.
+
+It remains only to identify what the consumer receives. The visible rows are the supplied zeta zero, fixed critical strip, depth, real-part, rational comparison, transport, continuation, package, and local naming rows. Therefore every RH-facing consumer receives exactly the finite boundary and no analytic or host-level certificate beyond it.
+\end{proof}
