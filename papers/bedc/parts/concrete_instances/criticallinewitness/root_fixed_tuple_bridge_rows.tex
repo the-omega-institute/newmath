@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness root obligation image row]
+\label{thm:critical-line-witness-root-obligation-image-row}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ root packet. Before any fixed-tuple $\StdBridge$-facing request, $W$ exposes the finite image row
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+as its root obligation image: supplied zero row, critical-strip source row, modulus row, real-part row, rational comparison row, componentwise transport, continuation replay, provenance, and local NameCert row. The image row contains no $\mathsf{RH}$ proof content, zero-search oracle, analytic-continuation closure, quotient stream equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the critical-line witness root source rows. The root source triad and supplied source rows expose $Z$ and $S$ as finite $\BHist$ data before any bridge-facing read.
+
+Add the modulus and comparison rows. The existing modulus and root comparison surfaces place $M,R,Q$ on the same packet as the source rows and keep them under the displayed transport, replay, provenance, and local naming rows $H,C,P,N$.
+
+Finally read the refusal ledger. The RH-facing refusal rows route requests for proof content, zero search, analytic-continuation closure, quotient stream equality, and ambient completeness to the boundary rather than to the fixed tuple. Thus the image row is the displayed finite packet and nothing outside it.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root readback row]
+\label{thm:critical-line-witness-root-readback-row}
+For an accepted $\CriticalLineWitnessUp$ root packet $W=(Z,S,M,R,Q,H,C,P,N)$, every fixed-tuple readback request must read the source side $Z,S$, the modulus and comparison side $M,R,Q$, and the support side $H,C,P,N$ component by component. The readback may cite the root source, modulus, comparison, and refusal rows, but it cannot import $\mathsf{RH}$ proof content, zero-search, analytic-continuation closure, quotient stream equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the source side first. The root source rows expose the supplied zero and critical-strip source as finite rows of the accepted packet.
+
+Read the modulus and comparison side next. The modulus route and rational comparison ledger identify $M,R,Q$ as displayed rows, so a fixed-tuple consumer has no second modulus source and no host analytic estimate.
+
+The support side is $H,C,P,N$. These rows provide componentwise transport, displayed replay, package provenance, and local naming, while the refusal rows keep RH proof content, zero search, analytic continuation, quotient stream equality, and ambient completeness outside the readback.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root componentwise NameCert transport]
+\label{thm:critical-line-witness-root-componentwise-namecert-transport}
+For an accepted $\CriticalLineWitnessUp$ root packet $W=(Z,S,M,R,Q,H,C,P,N)$, the fixed-tuple $\StdBridge$-facing surface transports componentwise through the local $\NameCert_{\CriticalLineWitnessUp}$ rows. Each component of the tuple keeps its source, modulus, comparison, transport, replay, provenance, or naming role, and no transport step identifies the tuple with $\mathsf{RH}$ proof content, zero-search, analytic-continuation closure, quotient stream equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the root obligation image row to fix the finite tuple. It identifies the displayed image before any bridge-facing request.
+
+Use the root readback row to read each component separately. The source rows $Z,S$, modulus and comparison rows $M,R,Q$, and support rows $H,C,P,N$ already have distinct consumer roles.
+
+Componentwise $\NameCert$ transport preserves those roles. Since the refusal ledger excludes proof content, zero search, analytic continuation, quotient equality, and ambient completeness, transport can only carry the finite tuple rows and cannot turn them into analytic or host-level data.
+\end{proof}
