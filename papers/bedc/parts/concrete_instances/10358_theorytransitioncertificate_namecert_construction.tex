@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\TheoryTransitionCertificateUp$}
+\label{ch:concrete-instances-theory-transition-certificate-namecert}
+\origin{ai}
+
+The $\TheoryTransitionCertificateUp$ packet realizes theory change as a finite certificate transition between two certified theory states. It sits beside $\RealityConstrainedModelAuditUp$ of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, $\PhysicalTruthCertificateUp$ of \autoref{ch:concrete-instances-physical-truth-certificate-namecert}, $\RealityConstrainedExplanationUp$ of \autoref{ch:concrete-instances-reality-constrained-explanation-namecert}, $\RealityConstrainedObjectivityUp$ of \autoref{ch:concrete-instances-reality-constrained-objectivity-namecert}, and $\OpenFitPacketUp$ of \autoref{ch:concrete-instances-open-fit-packet-namecert}. Those siblings certify audit, truth, explanation, objectivity, and open fit for presented claims; the present packet binds two theory states and the transition rows between them.
+
+\begin{definition}[Theory transition certificate carrier]
+\label{def:theory-transition-certificate-carrier}
+A $\TheoryTransitionCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T_1,T_2,S,C,D,L,F,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T_1$ is the old certified theory state, read through its displayed $\NameCert$ surface;
+\item $T_2$ is the candidate successor certified theory state, read through its displayed $\NameCert$ surface;
+\item $S$ is the conservative signature preservation row, listing the old certified signatures whose current predictions must remain readable in $T_2$;
+\item $C$ is the classifier-refinement row, naming the classifier changes allowed by the transition;
+\item $D$ is the predictive-stability and descent row, recording which old predictions remain current and which tower-local descent rows are refined;
+\item $L$ is the ledger-refinement row, displaying the ledger entries added, split, or sharpened by the transition;
+\item $F$ is the failure-surface refinement row, displaying the failure boundaries that become more explicit under $T_2$;
+\item $H$ stores componentwise $\hsame$ transports for $T_1,T_2,S,C,D,L,F,P,N$;
+\item $R$ stores the displayed $\Cont$ routes from the old state through signature preservation, classifier refinement, stability, ledger refinement, and failure-surface refinement to the successor state;
+\item $P$ is the $\Pkg$ provenance over $\RealityConstrainedModelAuditUp$, $\PhysicalTruthCertificateUp$, $\RealityConstrainedExplanationUp$, $\RealityConstrainedObjectivityUp$, $\OpenFitPacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TheoryTransitionCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for theory identity, no final-truth oracle, no unledgered prediction transfer, and no hidden failure-surface erasure.
+\end{definition}
+
+\begin{theorem}[TheoryTransitionCertificate NameCert obligations]
+\label{thm:theory-transition-certificate-namecert-obligations}
+For every accepted $\TheoryTransitionCertificateUp$ carrier
+$$
+K=(T_1,T_2,S,C,D,L,F,H,R,P,N),
+$$
+the local $\NameCert_{\TheoryTransitionCertificateUp}$ obligation surface consists exactly of carrier admission for the displayed packet, old and successor theory-state readability through $T_1,T_2$, conservative signature preservation through $S$, classifier refinement through $C$, prediction and descent stability through $D$, ledger refinement through $L$, failure-surface refinement through $F$, componentwise transport through $H$, route replay through $R$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:theory-transition-certificate-carrier}. The definition displays exactly the rows $T_1,T_2,S,C,D,L,F,H,R,P,N$ and assigns one transition role to each row.
+
+The first seven rows are the mathematical transition surface: old state, successor state, conserved signatures, classifier refinement, stability and descent, ledger refinement, and failure-surface refinement. The remaining rows are the BEDC certificate infrastructure for transport, route replay, provenance, and local naming.
+
+The sibling packets provide the surrounding claim-level surfaces. $\RealityConstrainedModelAuditUp$ supplies audit rows, $\PhysicalTruthCertificateUp$ supplies truth-certificate rows, $\RealityConstrainedExplanationUp$ supplies explanation rows, $\RealityConstrainedObjectivityUp$ supplies objectivity rows, and $\OpenFitPacketUp$ supplies open-fit rows. Since the carrier has no further coordinates, every local obligation is one of the displayed rows above.
+\end{proof}
+
+\begin{theorem}[TheoryTransitionCertificate conservative preservation]
+\label{thm:theory-transition-certificate-conservative-preservation}
+Let $K=(T_1,T_2,S,C,D,L,F,H,R,P,N)$ be an accepted $\TheoryTransitionCertificateUp$ packet. Every consumer that reads an old current prediction through $T_1$ and then through the successor state $T_2$ must pass through the conservative signature preservation row $S$, the stability row $D$, the displayed transport row $H$, and the route row $R$. Agreement on $C,L,F,P,N$ cannot replace $S$ or $D$, cannot erase an old certified signature, and cannot turn the transition into an identity between theories.
+\end{theorem}
+\begin{proof}
+Read the old and successor states from \autoref{def:theory-transition-certificate-carrier}. The carrier separates $T_1$ from $T_2$ and makes $S$ the only row that preserves old certified signatures across the transition.
+
+Next read the stability row. The row $D$ records which old predictions remain current and which tower-local descent rows are refined, so a consumer of old current predictions must pass through $D$ after $S$ has displayed the preserved signature.
+
+The route and transport rows preserve this finite passage. Componentwise transport through $H$ and route replay through $R$ carry the same $T_1,S,D,T_2$ surface; the classifier, ledger, failure, provenance, and naming rows cannot substitute for it. Thus conservative preservation is a displayed finite condition, not identity of theories and not an unledgered prediction transfer.
+\end{proof}
+
+\begin{theorem}[TheoryTransitionCertificate ledger refinement boundary]
+\label{thm:theory-transition-certificate-ledger-refinement-boundary}
+For every accepted $\TheoryTransitionCertificateUp$ packet $K=(T_1,T_2,S,C,D,L,F,H,R,P,N)$, ledger refinement is accepted only when the ledger row $L$ and failure-surface row $F$ remain displayed with the preserved-signature and stability rows $S,D$. A transition packet that preserves old current predictions but drops either $L$ or $F$ is not an accepted $\TheoryTransitionCertificateUp$ packet.
+\end{theorem}
+\begin{proof}
+Project $L$ and $F$ from the carrier definition. The ledger row records the entries added, split, or sharpened by the successor theory, while the failure-surface row records the boundaries made more explicit by the transition.
+
+Now combine these rows with the conservative preservation theorem. \autoref{thm:theory-transition-certificate-conservative-preservation} forces old current predictions through $S$ and $D$; the present carrier also requires $L$ and $F$ as separate coordinates of the same packet.
+
+The NameCert obligation theorem exhausts the accepted surface. Since \autoref{thm:theory-transition-certificate-namecert-obligations} lists $L$ and $F$ as mandatory local obligations, a route that preserves predictions while dropping either row is not a route through the displayed $\TheoryTransitionCertificateUp$ packet.
+\end{proof}
+
+The later Lean file \texttt{lean4/BEDC/Derived/TheoryTransitionCertificateUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \TheoryTransitionCertificateUp$ and $\mathsf{FieldFaithful}\ \TheoryTransitionCertificateUp$ instances over the displayed fields $T_1,T_2,S,C,D,L,F,H,R,P,N$.
+
+\falsifiablePrediction{A transition packet that preserves old current predictions but drops a displayed ledger or failure-surface row is not an accepted TheoryTransitionCertificateUp packet.}
+
+\independenceWitness{realityconstrainedmodelaudit, physicaltruthcertificate, realityconstrainedexplanation, realityconstrainedobjectivity, openfitpacket: none is bijective because TheoryTransitionCertificateUp binds two certified theory states and the transition rows between them, while the siblings certify audit, truth, explanation, objectivity, or open fit for a single presented claim.}
+
+\closureat{TheoryTransitionCertificateUp}{seedStr}
+
+\begin{closurestatus}{\TheoryTransitionCertificateUp}
+  \constructivestory{A $\TheoryTransitionCertificateUp$ packet is generated from old and successor certified theory states, preserved signatures, classifier refinement, prediction and descent stability, ledger refinement, failure-surface refinement, componentwise transport, route replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:theory-transition-certificate-carrier}, \autoref{thm:theory-transition-certificate-namecert-obligations}, \autoref{thm:theory-transition-certificate-conservative-preservation}, and \autoref{thm:theory-transition-certificate-ledger-refinement-boundary} bind theory change as a finite transition packet over displayed certificate rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove identity of theories, final physical truth, unledgered prediction transfer, host semantic equivalence, Lean verification, or bridge checking for $\TheoryTransitionCertificateUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, conservative preservation, ledger and failure-surface boundary, route replay, provenance, and local naming over the displayed transition rows.}
+\end{closurestatus}
