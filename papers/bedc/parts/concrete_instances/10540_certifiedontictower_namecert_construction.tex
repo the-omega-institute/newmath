@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CertifiedOnticTowerUp$}
+\label{ch:concrete-instances-certifiedontictower-namecert}
+\origin{ai}
+
+The $\CertifiedOnticTowerUp$ packet realizes the certified-tower direction of \autoref{ch:visions-reality-constrained-ontic-state} as a finite staged NameCert carrier. It sits next to the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the approximation carrier of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the observation-routing surface of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, the model-state surface of \autoref{ch:concrete-instances-statespacemodel-namecert}, and the certified-truth surface of \autoref{ch:concrete-instances-certified-physical-truth-namecert}. Those siblings expose source, approximation, route, model, or truth-certificate rows separately; this carrier binds staged signature refinement and ledger continuity before stable ontic content is read from the tower.
+
+\begin{definition}[CertifiedOnticTower carrier]
+\label{def:certified-ontic-tower-carrier}
+A $\CertifiedOnticTowerUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,T,R,L,K,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite stage list naming the observation-bundle levels used by the tower;
+\item $T$ is the staged signature row, recording the signature exposed at each listed level;
+\item $R$ is the refinement row, recording preservation, exposure, or correction between consecutive stages;
+\item $L$ is the ledger-continuity row, naming the hidden, preserved, and exposed content carried through every refinement step;
+\item $K$ is the classifier row comparing stable tower content across admitted stages;
+\item $H$ records componentwise $\hsame$ transport for stage, signature, refinement, ledger, classifier, provenance, and local naming rows;
+\item $Q$ records displayed $\Cont$ replay through the same finite staged rows;
+\item $P$ is the $\Pkg$ provenance over $\CertifiedOnticTowerUp$, $\OnticStateUp$, $\RealityConstrainedApproximationTowerUp$, $\ObservationReflectionPacketUp$, $\StateSpaceModelUp$, $\CertifiedPhysicalTruthUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CertifiedOnticTowerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an imported limit object, total reality oracle, unledgered stage transition, bare model state, or certified-truth row detached from the staged ledger.
+\end{definition}
+
+\begin{definition}[CertifiedOnticTower classifier]
+\label{def:certified-ontic-tower-classifier}
+For accepted packets
+$$
+C=(S,T,R,L,K,H,Q,P,N)
+\quad\hbox{and}\quad
+C'=(S',T',R',L',K',H',Q',P',N'),
+$$
+the predicate $\mathsf{CertifiedOnticTowerClassifier}(C,C')$ holds when the stage list, staged signatures, refinement rows, ledger-continuity rows, and stable-content classifier are transported componentwise and replayed through the displayed $\Cont$ routes without changing which content is preserved, newly exposed, or corrected at each stage.
+\end{definition}
+
+\begin{theorem}[CertifiedOnticTower ledger continuity]
+\label{thm:certified-ontic-tower-ledger-continuity}
+Every accepted $\CertifiedOnticTowerUp$ public read of stable content from $C=(S,T,R,L,K,H,Q,P,N)$ factors through the ledger-continuity row $L$ together with the stage list $S$, staged signatures $T$, refinement row $R$, classifier row $K$, transport row $H$, replay row $Q$, provenance row $P$, and local name $N$. Removing $L$ leaves the stagewise signature rows readable, but it does not license a stable-content read across the tower.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certified-ontic-tower-carrier}. The stage list and staged signatures expose the finite tower levels, while $R$ records the transition relation between consecutive levels.
+
+The continuity information needed for stable content is not stored in $S$, $T$, or $R$ alone. It is the displayed row $L$ that names what each transition preserves, hides, and exposes, and the classifier row $K$ reads stability only through that named transition ledger.
+
+Rows $H,Q,P,N$ transport, replay, source, and name the same finite packet. If $L$ is removed, a consumer can still inspect the individual stage signatures in $T$, but the carrier has no row from which to certify that later stages preserve the earlier stable content.
+\end{proof}
+
+\begin{theorem}[CertifiedOnticTower signature stability]
+\label{thm:certified-ontic-tower-signature-stability}
+Let $C=(S,T,R,L,K,H,Q,P,N)$ be an accepted $\CertifiedOnticTowerUp$ packet. Any stable signature read across admitted stages must preserve the staged signature row $T$, the refinement row $R$, and the ledger-continuity row $L$ under the componentwise transport displayed by $H$ and the replay displayed by $Q$. In particular, stability is a property of the staged packet, not of a single endpoint signature or a bare model state.
+\end{theorem}
+\begin{proof}
+Use the classifier of \autoref{def:certified-ontic-tower-classifier}. Classifier agreement transports the stage list, staged signatures, refinement rows, and ledger-continuity rows together before it compares stable tower content.
+
+The sibling chapters provide adjacent surfaces but do not replace this packet. $\OnticStateUp$ supplies an ontic-source row, $\RealityConstrainedApproximationTowerUp$ supplies an approximation tower row, $\ObservationReflectionPacketUp$ supplies an observation route, $\StateSpaceModelUp$ supplies a model state, and $\CertifiedPhysicalTruthUp$ supplies a truth-certificate surface.
+
+Thus an accepted stable-signature read must remain inside the displayed carrier. Dropping $R$ or $L$, or replacing $T$ by a single endpoint from a sibling surface, leaves the $\CertifiedOnticTowerUp$ classifier and cannot certify tower-level stability.
+\end{proof}
+
+The later Lean file \texttt{lean4/BEDC/Derived/CertifiedOnticTowerUp/TasteGate.lean} must include explicit $\Nontrivial\ \CertifiedOnticTowerUp$ and $\FieldFaithful\ \CertifiedOnticTowerUp$ instances. These instances must distinguish stage list, staged signatures, refinement, ledger continuity, classifier, transport, replay, provenance, and local NameCert rows.
+
+\falsifiablePrediction{Removing the ledger-continuity row breaks stable-content readback while leaving stagewise signature rows readable.}
+
+\independenceWitness{onticstate, realityconstrainedapproximationtower, observationreflectionpacket, statespacemodel, certifiedphysicaltruth: none is bijective because the tower carrier stores staged refinement and ledger continuity, while the siblings store a single ontic source, approximation tower packet, observation route, model state, or truth-certificate surface.}

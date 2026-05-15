@@ -162,6 +162,24 @@ Use the $\RealObservationBudgetUp$ window coverage and finite route coverage row
 The classifier stability is then the componentwise $\hsame$ stability already carried by the two packets. Since neither packet has coordinates for trichotomy, host-real completeness, hidden limit selection, quotient stream equality, or a selected least bound, the composed dyadic threshold row cannot export them.
 \end{proof}
 
+\begin{theorem}[ArchimedeanReal budgeted bound window exhaustion]
+\label{thm:archimedean-real-budgeted-bound-window-exhaustion}
+Let an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+be consumed by a finite $\RealObservationBudgetUp$ request that uses the same displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal rows. Every budgeted Archimedean bound read is exhausted by the displayed observation-budget rows followed by the Archimedean rows $Q,D,S,G,B,H,C,P,N$. No second window family, unbudgeted dyadic threshold, hidden limit selector, quotient stream equality, host supremum, selected least bound, or ambient completeness coordinate may be substituted for that route.
+\end{theorem}
+\begin{proof}
+Begin with the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness} and the public bound export of \autoref{thm:archimedean-real-public-bound-export}. Together they identify $Q,D,S,G,B,H,C,P,N$ as the only Archimedean bound surface available from the accepted packet.
+
+Now attach the finite observation budget. The budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff} orders the read: the consumer first exposes the relevant $\RealObservationBudgetUp$ rows, then reads the displayed Archimedean bound rows.
+
+The dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality} supplies the finite threshold row for the unary request. The window coverage theorem \autoref{thm:real-observation-budget-window-coverage} keeps each dyadic readback inside the displayed $\StreamNameUp$ windows, and the finite route coverage theorem \autoref{thm:real-observation-budget-finite-route-coverage} keeps the route inside the budget, window, dyadic, regular handoff, seal, transport, continuation, provenance, and local naming rows.
+
+Finally apply the bound-ledger non-escape theorem of \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since neither the observation-budget route nor the Archimedean packet provides coordinates for an alternate window family, unbudgeted threshold, hidden selector, quotient stream equality, host supremum, selected least bound, or ambient completeness, every budgeted bound read is exhausted by the displayed rows.
+\end{proof}
+
 \begin{theorem}[ArchimedeanReal public order consumer]
 \label{thm:archimedean-real-public-order-consumer}
 Every public order, locatedness, or completion-facing consumer of an accepted $\ArchimedeanRealUp$ packet
