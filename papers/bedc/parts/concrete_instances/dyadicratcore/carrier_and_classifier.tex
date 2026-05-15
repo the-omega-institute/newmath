@@ -29,6 +29,18 @@ dyadic value only by projecting the displayed $\RatUp$ mantissa and unary
 denominator rows through the visible $\Cont$ ledger.
 \end{definition}
 
+\begin{theorem}[DyadicRatCore Int/Rat sibling route]
+\label{thm:dyadic-rat-core-rat-int-sibling-route}
+Every public read of an accepted $\DyadicRatCoreUp$ packet $D=(m,e,\ell,P)$ factors the signed mantissa through the consumed $\RatUp$ row, the sign and integer provenance through the consumed $\IntUp$ row, and the exponent and denominator ledger through the visible unary-history route. The read has no coordinate for a quotient rational, host integer normal form, or $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the four carrier fields in \autoref{def:dyadicratcore-carrier}. The mantissa field $m$ is already a signed $\RatUp$ row, while the provenance field $P$ records the attached $\IntUp$ and $\RatUp$ source certificates cited at the start of this chapter.
+
+The exponent field $e$ and ledger field $\ell$ give the unary-history route for the displayed denominator. A public read can therefore inspect the dyadic packet only by following the mantissa, integer-provenance, rational-provenance, exponent, and ledger rows that are already part of $D$.
+
+Finally use the carrier exclusion in \autoref{def:dyadicratcore-carrier}. Since the carrier contains no quotient class of rational pairs, no host integer normal form, and no imported real-number endpoint, the sibling route through $\IntUp$ and $\RatUp$ is the complete public route for the finite dyadic source layer.
+\end{proof}
+
 \begin{definition}[DyadicRatCore common-exponent classifier]
 \label{def:dyadicratcore-classifier}
 For two accepted dyadic packets
@@ -139,4 +151,3 @@ finite rational expression at the transported exponent. Since the window has
 no access to a quotient carrier or real completion endpoint, stability is
 exactly the repacking of those displayed rows.
 \end{proof}
-
