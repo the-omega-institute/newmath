@@ -330,4 +330,43 @@ theorem LocatedIntervalPacket_endpoint_window_readback_exhaustion [AskSetup] [Pa
     ⟨lowerUnary, upperUnary, streamWindowsUnary, readbacksUnary, readbackUnary,
       readbackRoute, readbackPkg⟩
 
+theorem LocatedIntervalPacket_endpoint_cell_seal_factorization [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint cell readback sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg →
+      Cont endpoint streamWindows cell →
+        Cont streamWindows readbacks readback →
+          Cont seals routes sealRead →
+            PkgSig bundle cell pkg →
+              PkgSig bundle readback pkg →
+                PkgSig bundle sealRead pkg →
+                  UnaryHistory endpoint ∧ UnaryHistory cell ∧ UnaryHistory readback ∧
+                    UnaryHistory sealRead ∧ Cont rationalCells dyadicRefinements endpoint ∧
+                      Cont endpoint streamWindows cell ∧
+                        Cont streamWindows readbacks readback ∧ Cont transport seals routes ∧
+                          Cont seals routes sealRead ∧ PkgSig bundle endpoint pkg ∧
+                            PkgSig bundle cell pkg ∧ PkgSig bundle readback pkg ∧
+                              PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory LocatedIntervalPacket
+  intro packet endpointCellRoute readbackRoute sealRoute cellPkg readbackPkg sealPkg
+  obtain ⟨_lowerUnary, _upperUnary, rationalCellsUnary, dyadicUnary, streamWindowsUnary,
+    readbacksUnary, sealsUnary, _nameCertUnary, _rationalCellsRoute, endpointRoute,
+    _transportRoute, routesRoute, _provenanceRoute, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointRoute
+  have cellUnary : UnaryHistory cell :=
+    unary_cont_closed endpointUnary streamWindowsUnary endpointCellRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed streamWindowsUnary readbacksUnary readbackRoute
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed
+      (unary_cont_closed streamWindowsUnary readbacksUnary _transportRoute) sealsUnary routesRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed sealsUnary routesUnary sealRoute
+  exact
+    ⟨endpointUnary, cellUnary, readbackUnary, sealUnary, endpointRoute, endpointCellRoute,
+      readbackRoute, routesRoute, sealRoute, endpointPkg, cellPkg, readbackPkg, sealPkg⟩
+
 end BEDC.Derived.LocatedIntervalUp
