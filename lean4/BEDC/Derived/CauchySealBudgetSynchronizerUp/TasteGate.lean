@@ -13,10 +13,10 @@ theorem CauchySealBudgetSynchronizerTasteGate_obligation_surface
           transport route provenance nameCert) =
       [request, sealRow, budget, tail, selector, compatibility, transport, route, provenance,
         nameCert] ∧
-      BHistCarrier.toEventFlow
+      cauchySealBudgetSynchronizerToEventFlow
           (CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
-        BHistCarrier.toEventFlow
+        cauchySealBudgetSynchronizerToEventFlow
           (CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty) := by
@@ -24,14 +24,6 @@ theorem CauchySealBudgetSynchronizerTasteGate_obligation_surface
   constructor
   · rfl
   · intro heq
-    change
-      cauchySealBudgetSynchronizerToEventFlow
-          (CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
-        cauchySealBudgetSynchronizerToEventFlow
-          (CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty) at heq
     injection heq with _ hTail
     injection hTail with hRequest _
     cases hRequest
