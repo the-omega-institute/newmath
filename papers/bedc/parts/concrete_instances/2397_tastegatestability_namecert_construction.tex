@@ -27,6 +27,7 @@ with the following displayed rows:
 The packet contains no hidden prompt state, no host-side theory approval, no oracle classifier, no unlisted compiler theorem, and no global horizon admission rule outside the displayed rows.
 \end{definition}
 \leandef{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityUp}
+\leanchecked{BEDC.Derived.TasteGateStabilityUp.taste\_gate}
 \leanchecked{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[TasteGateStability NameCert obligations]
@@ -75,14 +76,16 @@ Therefore the forbidden objects have no projection target in the packet. Any con
 \end{proof}
 
 \closureat{TasteGateStabilityUp}{seedStr}
+\closureat{TasteGateStabilityUp}{obligationStr}[BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\TasteGateStabilityUp}
   \constructivestory{A $\TasteGateStabilityUp$ packet is generated from a candidate chapter identity row, candidate NameCert carrier row, ChapterTasteGate row, ground-compiler witness row, admission ledger, componentwise transports, replay routes, package provenance, and local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:taste-gate-stability-carrier}, \autoref{thm:taste-gate-stability-namecert-obligations}, \autoref{thm:taste-gate-stability-ground-compiler-witness-route}, and \autoref{thm:taste-gate-stability-non-escape-boundary} bind the seed carrier, local NameCert surface, compiler-witness route, and non-escape boundary for AI-origin TasteGate stability.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:taste-gate-stability-carrier}, \autoref{thm:taste-gate-stability-namecert-obligations}, \autoref{thm:taste-gate-stability-ground-compiler-witness-route}, and \autoref{thm:taste-gate-stability-non-escape-boundary} with \leanchecked{BEDC.Derived.TasteGateStabilityUp.taste\_gate} bind the seed carrier, local NameCert surface, compiler-witness route, and non-escape boundary for AI-origin TasteGate stability.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify host semantics, close bridge checking, or provide Lean verification for the TasteGateStability packet.}
-  \upgradepath{Obligation closure requires checked carrier, NameCert-surface, ground-compiler-witness, admission-ledger, and non-escape theorems for the same finite stability packet.}
+  \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify host semantics, or close bridge checking.}
+  \upgradepath{Scoped closure requires binding the candidate identity, NameCert carrier, ChapterTasteGate row, compiler witness row, admission ledger, hsame transports, Cont replay, Pkg provenance, and local naming row to their explicit kernel scope.}
 \end{closurestatus}

@@ -606,6 +606,7 @@ import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EmptyUp.TasteGate
+import BEDC.Derived.EmptyFableLedgerUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
