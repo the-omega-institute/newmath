@@ -348,4 +348,35 @@ theorem ContinuationAutomatonCarrier_acceptance_nonescape [AskSetup] [PackageSet
   exact
     ⟨acceptingReadUnary, acceptingUnary, behaviourUnary, acceptingBehaviourTransport, namePkg⟩
 
+theorem ContinuationAutomatonCarrier_transition_determinacy [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      readA readB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg →
+      hsame readA behaviour →
+        hsame readB behaviour →
+          UnaryHistory readA ∧ UnaryHistory readB ∧ hsame readA readB ∧
+            Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+              Cont accepting behaviour transport ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier sameReadA sameReadB
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, _transitionsUnary, behaviourUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    initialTransitionsBehaviour, transitionsRoutesProvenance, acceptingBehaviourTransport,
+    _provenanceNameStates, namePkg⟩ := carrier
+  have readAUnary : UnaryHistory readA :=
+    unary_transport behaviourUnary (hsame_symm sameReadA)
+  have readBUnary : UnaryHistory readB :=
+    unary_transport behaviourUnary (hsame_symm sameReadB)
+  have sameReads : hsame readA readB :=
+    hsame_trans sameReadA (hsame_symm sameReadB)
+  exact
+    And.intro readAUnary
+      (And.intro readBUnary
+        (And.intro sameReads
+          (And.intro initialTransitionsBehaviour
+            (And.intro transitionsRoutesProvenance
+              (And.intro acceptingBehaviourTransport namePkg)))))
+
 end BEDC.Derived.ContinuationAutomatonUp
