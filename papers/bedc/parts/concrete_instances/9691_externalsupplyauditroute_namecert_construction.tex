@@ -69,6 +69,44 @@ The second obligation group stabilizes the route. The classifier ledger $L$ reco
 By \autoref{thm:external-supply-audit-route-ledger-nonescape}, omitting the ledger row prevents route acceptance. Thus the NameCert obligations are exhausted by the displayed rows and do not supply any hidden content.
 \end{proof}
 
+\begin{theorem}[ExternalSupplyAuditRoute GAP-ledger factorization]
+\label{thm:external-supply-audit-route-gap-ledger-factorization}
+Every accepted $\ExternalSupplyAuditRouteUp$ packet factors its accepted route
+through the displayed boundary form $B$, witness route $W$, $\mathsf{GAP}$
+ledger $G$, classifier ledger $L$, componentwise transport $H$, provenance
+$P$, and local $\NameCert$ row $N$. Before any consumer reads the route, the
+provenance row must pass through $\ExternalSupplyBoundaryUp$,
+$\NonAxiomBoundaryFormUp$, $\NonAxiomAdmissionUp$,
+$\InscriptionGapLedgerUp$, and $\GapClosureBoundaryUp$.
+
+Consequently the accepted audit route cannot expose an axiom, hidden selector,
+unledgered supply witness, quotient representative, proposition-equality token,
+or host-side admission outside the finite packet $A=(B,W,G,L,H,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:external-supply-audit-route-carrier}. The
+only accepted route coordinates are the boundary-form row $B$, witness route
+$W$, $\mathsf{GAP}$ ledger $G$, classifier ledger $L$, transport row $H$,
+package provenance $P$, and local naming row $N$.
+
+Apply \autoref{thm:external-supply-audit-route-nonaxiom-boundary}. It restricts
+every downstream read of the external supply request to the displayed
+non-axiom boundary form and the rows that stabilize it.
+
+Next use \autoref{thm:external-supply-audit-route-ledger-nonescape}. The route
+cannot be accepted without $G$, so the supply witness is read only after the
+GAP ledger and classifier ledger have both been displayed.
+
+Finally apply
+\autoref{thm:external-supply-audit-route-namecert-obligations}. The local
+certificate packages $B,W,G,L,H,P,N$ over the provenance chain through
+$\ExternalSupplyBoundaryUp$, $\NonAxiomBoundaryFormUp$,
+$\NonAxiomAdmissionUp$, $\InscriptionGapLedgerUp$, and
+$\GapClosureBoundaryUp$. Since no additional carrier coordinate exists, no
+consumer can extract an axiom, hidden selector, unledgered supply witness,
+quotient representative, proposition-equality token, or host-side admission.
+\end{proof}
+
 \falsifiablePrediction{Any accepted ExternalSupplyAuditRoute packet missing the ledger row fails the route classifier.}
 
 \independenceWitness{Compare inscriptionevent, kernelacceptanceauditwitness, gapclosureboundary, and inscriptiongapledger: none is bijective because none carries all boundary-form, witness-route, non-axiom ledger, and local NameCert rows.}
