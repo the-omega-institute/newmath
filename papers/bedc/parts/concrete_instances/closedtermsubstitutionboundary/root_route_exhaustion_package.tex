@@ -1,0 +1,43 @@
+\begin{theorem}[Closed-term substitution boundary root route exhaustion]
+\label{thm:closed-term-substitution-boundary-root-route-exhaustion}
+Every root route read of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by the finite carrier rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The route may read closedness through $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$, shift through $Q$, substitution through $R$, ledger accounting through $L$, audit non-escape through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. It has no root coordinate for host substitution semantics, subject reduction, host syntax quotienting, hidden evaluator state, hidden compiler state, or an unlisted operation row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the NameCert obligations. \autoref{def:closed-term-substitution-boundary-carrier} displays exactly the rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$, and \autoref{thm:closed-term-substitution-boundary-namecert-obligations} makes the closedness, operation, ledger, audit, transport, continuation, package, and naming rows the local certificate surface.
+
+Next apply the ledger and root route rows. \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} blocks free-variable, host-equality, compiler-state, and subject-reduction escape, while \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff} packages the root handoff as the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally use the root route determinacy package. Since any downstream route is already locked to the displayed operation and handoff rows, the root read is exhausted by the stated carrier coordinates and cannot be replaced by an unlisted host or compiler surface.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root non-escape]
+\label{thm:closed-term-substitution-boundary-root-nonescape}
+No root consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet can escape from the displayed route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+to obtain a free-variable coordinate, host substitution semantics, subject reduction, host syntax quotienting, hidden evaluator state, hidden compiler state, or a compiler-correctness theorem. The closed shift and substitution reads remain guarded by the displayed closedness, ledger, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First read the root consumer through \autoref{thm:closed-term-substitution-boundary-root-route-exhaustion}. That theorem fixes every accepted root route to the displayed carrier rows before any operation boundary is consumed.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger and audit row have no projection for free variables, host equality, unchecked compiler state, or ambient subject reduction, so those objects cannot be exported by a root read.
+
+Now use \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The handoff gives downstream consumers one finite packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a second host substitution or compiler-correctness surface.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root downstream readiness]
+\label{thm:closed-term-substitution-boundary-root-downstream-readiness}
+The root route exhaustion and root non-escape rows make $\ClosedTermSubstitutionBoundaryUp$ ready for downstream self-compilation consumers exactly as a finite closed-boundary packet. A downstream chapter may consume the displayed $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ route, together with the NameCert obligation surface, ledger non-escape row, and root NameCert handoff, but it may not treat the packet as a host compiler theorem, a subject-reduction package, or an untracked substitution semantics.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-root-route-exhaustion}. It supplies the finite operation route that downstream consumers may read.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-root-nonescape}. The same route blocks host substitution semantics, subject reduction, host syntax quotienting, hidden evaluator state, hidden compiler state, and compiler-correctness import.
+
+Finally compose \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. These rows repack the closedness, shift, substitution, ledger, audit, transport, continuation, provenance, and naming data as the precise downstream readiness surface.
+\end{proof}
