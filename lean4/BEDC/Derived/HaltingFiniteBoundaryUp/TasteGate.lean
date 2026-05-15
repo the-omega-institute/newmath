@@ -119,22 +119,6 @@ private theorem haltingFiniteBoundary_round_trip :
   cases x with
   | mk admitted finiteTrace consumer refusal terminalTrace inscription transport route
       provenance name =>
-      change
-        some
-          (HaltingFiniteBoundaryUp.mk
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist admitted))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist finiteTrace))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist consumer))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist refusal))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist terminalTrace))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist inscription))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist transport))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist route))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist provenance))
-            (haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist name))) =
-          some
-            (HaltingFiniteBoundaryUp.mk admitted finiteTrace consumer refusal terminalTrace
-              inscription transport route provenance name)
       exact
         congrArg some
           (haltingFiniteBoundary_mk_congr
@@ -214,17 +198,29 @@ def taste_gate : ChapterTasteGate HaltingFiniteBoundaryUp :=
 
 theorem HaltingFiniteBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist, haltingFiniteBoundaryDecodeBHist (haltingFiniteBoundaryEncodeBHist h) = h) ∧
-      (∀ x : HaltingFiniteBoundaryUp,
-        haltingFiniteBoundaryFromEventFlow (haltingFiniteBoundaryToEventFlow x) = some x) ∧
+      haltingFiniteBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
         (∀ x y : HaltingFiniteBoundaryUp,
-          haltingFiniteBoundaryToEventFlow x = haltingFiniteBoundaryToEventFlow y → x = y) ∧
-          haltingFiniteBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : HaltingFiniteBoundaryUp,
-              haltingFiniteBoundaryFields x = haltingFiniteBoundaryFields y → x = y) := by
+          haltingFiniteBoundaryFields x = haltingFiniteBoundaryFields y → x = y) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨haltingFiniteBoundaryDecode_encode_bhist, haltingFiniteBoundary_round_trip,
-      (fun _ _ heq => haltingFiniteBoundaryToEventFlow_injective heq), rfl,
-      haltingFiniteBoundary_field_faithful⟩
+  constructor
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  · constructor
+    · rfl
+    · intro x y hfields
+      cases x with
+      | mk admitted finiteTrace consumer refusal terminalTrace inscription transport route
+          provenance name =>
+          cases y with
+          | mk admitted' finiteTrace' consumer' refusal' terminalTrace' inscription' transport'
+              route' provenance' name' =>
+              cases hfields
+              rfl
 
 end BEDC.Derived.HaltingFiniteBoundaryUp
