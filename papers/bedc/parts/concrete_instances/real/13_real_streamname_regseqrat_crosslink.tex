@@ -172,3 +172,41 @@ StreamName, RegSeqRat, DyadicRatCore, and local Real faces and no other
 source surface. Repacking the three seal-exhaustion results along that route
 gives the claimed finite-window factorization.
 \end{proof}
+
+\begin{theorem}[Real finite-window classifier endpoint determinacy]
+\label{thm:real-finite-window-classifier-endpoint-determinacy}
+For every accepted $\RealUp$ finite-window seal read whose source is a
+$\StreamNameUp$ window and whose regularity witness is a $\RegSeqRatUp$ row,
+the displayed classifier endpoint is unique up to $\hsame$ once the four faces
+of \autoref{thm:streamname-regseqrat-realup-finite-window-factorization} are
+fixed: the StreamName finite-window ledger, the RegSeqRat pointwise handoff,
+the DyadicRatCore observation and tolerance row, and the local
+$\mathsf{RealUnaryStreamClassifier}$ row with $\NameCert_{\RealUp}$.
+
+Equivalently, any two endpoint reads using those same four displayed faces are
+related by the same finite $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and
+their endpoint witnesses are $\hsame$-equal at the classifier boundary. No
+quotient-real equality, host sequence equality, selected host limit, ambient
+completeness row, or metric-completion datum can separate the two endpoints.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-realup-finite-window-factorization} to the
+two endpoint reads. Both reads are sent to the same four displayed faces, so
+their finite StreamName ledger rows, RegSeqRat handoff rows, and local
+$\NameCert_{\RealUp}$ rows are compared inside the displayed $\BHist$,
+$\Cont$, and $\Pkg$ coordinates rather than through an ambient Real carrier.
+
+Next use \autoref{thm:realup-streamname-regseqrat-dyadic-window-exhaustion}.
+It fixes the dyadic classifier input by the shared DyadicRatCore observation
+and tolerance row, leaving no off-ledger dyadic sample that could distinguish
+one classifier endpoint from the other.
+
+Finally use
+\autoref{thm:real-streamname-regseqrat-terminal-seal-exhaustion} to lock the
+terminal seal boundary. Repacking the shared finite rows through the local
+$\mathsf{RealUnaryStreamClassifier}$ gives the same displayed endpoint up to
+$\hsame$, and the terminal packet contains no coordinate for quotient-real
+equality, host sequence equality, selected limits, ambient completeness, or
+metric-completion data.
+\end{proof}
