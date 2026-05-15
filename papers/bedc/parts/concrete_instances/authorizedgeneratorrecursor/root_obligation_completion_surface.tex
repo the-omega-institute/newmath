@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root branch-package coverage]
+\label{thm:authorized-generator-recursor-root-branch-package-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the branch-package surface exposes every constructor branch only through the accepted signature, emitted eliminator, checked motive, branch package, and structural-descent rows $I,E,M,B,D$. Any branch not listed by $I$ and not carried by $B$ is rejected before a downstream generator-audit or closed-normal consumer can read the output row $O$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The rows $I,E,M,B,D$ are displayed before $O$, and the carrier has no coordinate for an extra constructor, missing branch, or detached branch table.
+
+Use the local NameCert surface and the root row exposure results. By \autoref{thm:authorized-generator-recursor-namecert-surface}, \autoref{thm:authorized-generator-recursor-root-branch-row-exposure}, and \autoref{thm:authorized-generator-recursor-root-signature-row-totality}, the branch package is read as part of the same finite packet rather than through a hidden generator route.
+
+Finally apply \autoref{thm:authorized-generator-recursor-branch-exhaustion}, \autoref{thm:authorized-generator-recursor-branch-budget-exhaustion}, and \autoref{thm:authorized-generator-recursor-obligation-triad}. They force branch coverage to stay on the constructor list displayed by $I$, the recursor row $E$, the checked motive $M$, the branch package $B$, and the descent row $D$. Thus an unlisted branch has no public route to $O$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root motive descent stability]
+\label{thm:authorized-generator-recursor-root-motive-descent-stability}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, structural descent through $D$ preserves the checked motive row $M$ before the output row $O$ is exposed. A public recursive read cannot retain the descent row while replacing the motive, cannot read $O$ from a motive-free descent surface, and cannot route the recursor through a branch package detached from $M$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and root descent exposure. The packet of \autoref{def:authorized-generator-recursor-carrier} places $M$ and $D$ in the same displayed tuple, while \autoref{thm:authorized-generator-recursor-root-descent-row-exposure} exposes the descent row on every root-facing recursive read.
+
+The stability step is supplied by structural locality. Apply \autoref{thm:authorized-generator-recursor-structural-descent-locality}, \autoref{thm:authorized-generator-recursor-branch-descent-totality}, and \autoref{thm:authorized-generator-recursor-root-descent-audit-coupling}. These results keep the recursive read on the accepted signature, emitted eliminator, checked motive, branch package, descent row, and audit row together.
+
+It remains to reach the output boundary. By \autoref{thm:authorized-generator-recursor-root-output-audit-totality} and \autoref{thm:authorized-generator-recursor-root-output-namecert-saturation}, public exposure of $O$ consumes the same packet. The TasteGate target named \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} is used only as the aligned-carrier marker from \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}; the paper-side motive and descent obligations are carried by the cited root theorems.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root audit ledger exactness]
+\label{thm:authorized-generator-recursor-root-audit-ledger-exactness}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, public output reads factor through exactly the output, audit, transport, continuation, package, boundary, and local-name rows $O,A,H,C,P,G,N$ after branch and descent admission. The packet exports no hidden generator, unaudited dependency route, external axiom channel, or naming certificate outside the displayed audit ledger.
+\end{theorem}
+\begin{proof}
+Read the audit ledger from the carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+The rows $O,A,H,C,P,G,N$ are public only as coordinates of this packet, and \autoref{thm:authorized-generator-recursor-audit-boundary} places output exposure behind the accepted signature, motive, branch package, structural descent, and audit provenance.
+
+Use factorization through the sibling root surfaces. \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, \autoref{thm:authorized-generator-recursor-root-audit-boundary-exposure}, \autoref{thm:authorized-generator-recursor-root-consumer-factorization}, and \autoref{thm:authorized-generator-recursor-consumer-ledger-cover} attach $O$ to $A,H,C,P,G,N$ before any downstream consumer can cite the recursor output.
+
+Finally apply the refusal and readiness results. \autoref{thm:authorized-generator-recursor-root-boundary-nonescape}, \autoref{thm:authorized-generator-recursor-root-audit-handoff-lock}, and \autoref{thm:authorized-generator-recursor-root-readiness-exhaustion} exclude hidden generators, unaudited dependency routes, and off-packet naming. Therefore the public ledger is exact for the displayed audit route and exports nothing beyond it.
+\end{proof}

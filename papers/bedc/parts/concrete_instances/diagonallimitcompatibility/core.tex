@@ -702,3 +702,47 @@ The ambient-completeness refusal is supplied by \autoref{thm:diagonal-limit-comp
 
 Finally apply \autoref{thm:diagonal-limit-window-synchronizer-pullback}. The terminal consumer is repacked through the synchronizer finite window-to-seal packet, and the carrier projection together with the non-escape clauses of the displayed packets leaves no coordinate outside the stated source, window, modulus, synchronizer, and seal rows.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility formal target packet]
+\label{thm:diagonal-limit-compatibility-formal-target-packet}
+Every Lean-facing formal target for an accepted $\DiagonalLimitCompatibilityUp$
+packet exposes exactly the carrier rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+together with the compatible finite-window packets cited by
+\autoref{thm:diagonal-limit-compatibility-window-source-exhaustion}. The
+target may consume $\RealCompletenessUp$,
+$\RegularCauchyTriangleBoundUp$, $\CauchyLimitSealUp$, $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ only through those displayed
+rows and their finite-window pullbacks.
+
+The formal target has no coordinate for quotient streams, selected host
+limits, host real equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of the accepted diagonal-limit packet. The projection
+displays exactly $R,T,S,D,W,Q,L,H,C,P,N$, and the local NameCert obligations
+make the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+the only routes available to a formal target.
+
+Next apply the terminal Real route and the window-budget triad lock. The
+terminal route keeps the Real-facing consumer on $R,T,S,D,W,Q,L,H,C,P,N$, while
+\autoref{thm:diagonal-limit-compatibility-window-budget-triad-lock} forces any
+seal-facing read through the displayed $(D,W,Q)$ finite-window triad.
+
+Now attach the shared modulus terminal seal and the synchronizer pullback.
+\autoref{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal}
+identifies the terminal $\RealUp$ and $\CauchyLimitSealUp$ reads with one
+finite budget-window-modulus route, and
+\autoref{thm:diagonal-limit-window-synchronizer-pullback} repacks that route
+through the compatible $\RealWindowSynchronizerUp$ packet.
+
+Finally use
+\autoref{thm:diagonal-limit-compatibility-window-source-exhaustion}. It
+exhausts the source, window, shared modulus, synchronizer, and seal rows
+available to the Lean-facing packet. The named upstream chapters may be
+consumed only through these rows, so quotient streams, selected host limits,
+host real equality, choice data, and ambient completeness have no target
+coordinate.
+\end{proof}
