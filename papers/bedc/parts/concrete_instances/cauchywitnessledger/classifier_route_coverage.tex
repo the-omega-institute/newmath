@@ -1,0 +1,48 @@
+\section{Cauchy witness ledger classifier route coverage}
+\label{sec:cauchy-witness-ledger-classifier-route-coverage}
+
+\begin{theorem}[Cauchy witness ledger classifier route coverage]
+\label{thm:cauchy-witness-ledger-classifier-route-coverage}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet.
+Every public consumer of the completion-seal classifier row $K$ factors through
+the displayed Real-facing route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+together with the structural rows $H,C,P,N$. In particular, no classifier
+consumer can replace that route by quotient stream equality, host $\RealUp$
+equality, selected external limits, countable choice, ambient completeness,
+hidden tails, or an alternate $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the accepted packet by
+\autoref{def:cauchy-witness-ledger-carrier}. Its public coordinates are
+exactly the diagonal budget $Q$, observation budget $B$, synchronizer $S$,
+completion-seal classifier $K$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:cauchy-witness-ledger-namecert-obligations} and
+\autoref{thm:cauchy-witness-ledger-budget-factorization}. The NameCert surface
+certifies the displayed rows, while the budget factorization orders the
+Real-facing route as $Q \longmapsto B \longmapsto S \longmapsto K$ before any
+classifier read is available to a public consumer.
+
+Next use \autoref{thm:cauchy-witness-ledger-budget-source-coherence} and
+\autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock}. The source
+coherence identifies the finite stream, dyadic, regular-rational, and Real
+faces consumed by $Q$ and $B$; the synchronizer-classifier lock carries that
+same source through $S$ into $K$ without adding a second classifier route.
+
+It remains to connect this finite route to the Real-facing seal. Apply
+\autoref{thm:cauchy-witness-ledger-route-determinacy} and
+\autoref{thm:cauchy-witness-ledger-real-completion-handoff}. Once the route
+and structural rows are fixed, the completion-seal classifier read is
+determined, and every $\RealUp$-facing handoff reaches $K$ only through the
+displayed budget, observation, and synchronizer rows.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}.
+The excluded objects have no carrier coordinate, no NameCert entry, and no
+structural row in $H,C,P,N$. A public consumer of $K$ therefore cannot replace
+the displayed route by quotient stream equality, host $\RealUp$ equality,
+selected external limits, countable choice, ambient completeness, hidden tails,
+or an alternate $\RealUp$ seal.
+\end{proof}
