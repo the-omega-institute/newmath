@@ -113,6 +113,7 @@ import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
+import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
@@ -168,6 +169,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LimitSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneBoundRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealRouteNonescape
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealRouteMinimality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealObservationSealFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealBoundary
@@ -543,6 +545,7 @@ import BEDC.Derived.ContinuationMonadUp.RootGeneratorBoundaryReadback
 import BEDC.Derived.ContinuationMonadUp.DownstreamUnblockRoutePackage
 import BEDC.Derived.ContinuationMonadUp.CategoryHomReadback
 import BEDC.Derived.ContinuationMonadUp.UnitRouteLaws
+import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -1209,6 +1212,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalKernelScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.NameCertObligations
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
