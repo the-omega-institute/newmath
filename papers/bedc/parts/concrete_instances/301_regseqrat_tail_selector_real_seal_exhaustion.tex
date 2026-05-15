@@ -51,3 +51,51 @@ Next use \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The S
 
 Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The Real seal consumes exactly the preceding finite handoff surface, and therefore the local lock is the ordered route through the selected window, dyadic ledger, tail-budget handoff, and Real seal row.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector cofinal request determinacy]
+\label{thm:regseqrat-tail-selector-cofinal-request-determinacy}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be public
+finite requests to $P$ whose readouts use certified cofinal RegSeqRat tail
+selectors. Suppose both requests preserve the displayed $\StreamNameUp$ window
+rows, the $\DyadicRatCoreUp$ endpoint, radius, and finite dyadic-distance
+ledgers, the $\RegSeqRatUp$ classifier and regularity rows, the componentwise
+$\hsame$ rows tying those data to the request packet, the displayed $\Cont$
+routes, the $\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$
+rows. Then $S$ and $T$ determine the same $\RealUp$ seal-visible source
+section.
+
+The determinacy is only for the seal-visible source section. It does not
+identify quotient streams, host real equality, selected limits, completion
+points, ambient completeness data, choice data, or second seal coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-tail-selector-real-seal-exhaustion}. Each
+cofinal tail-selector request is exhausted by the displayed
+$\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ source surface,
+so neither request has a detached completion coordinate from which extra seal
+rows could be read.
+
+Next use the window-seal lock,
+\autoref{thm:regseqrat-tail-selector-window-seal-lock}. The certified cofinal
+selector must pass through the selected finite $\StreamNameUp$ window, the
+dyadic radius ledger, the RegSeqRat tail-budget handoff, and the local Real
+seal row. Since $S$ and $T$ preserve those displayed rows, their selector
+routes reach the same locked finite window surface.
+
+Now factor both requests through
+\autoref{thm:regseqrat-finite-request-source-section}. The source section of
+each request consists exactly of the schedule rows, dyadic endpoint, radius,
+distance, classifier, regularity, componentwise $\hsame$, displayed $\Cont$,
+package provenance, and local naming rows named in the statement. The
+hypotheses identify those rows component by component, so the two finite
+source sections are the same public $\BHist$ section.
+
+Finally apply
+\autoref{thm:regseqrat-finite-request-real-seal-correspondence} and
+\autoref{thm:regseqrat-tail-budget-terminal-real-seal}. The correspondence
+restricts the Real seal read to the finite source section just identified, and
+the terminal tail-budget theorem prevents a second selector, limit,
+completion-point, completeness, choice, or seal-coordinate channel from
+entering the route. Therefore the two certified cofinal requests determine the
+same $\RealUp$ seal-visible source section and nothing beyond that section.
+\end{proof}
