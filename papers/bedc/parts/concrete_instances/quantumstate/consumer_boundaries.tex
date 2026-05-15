@@ -166,6 +166,20 @@ the certified ray endpoint, the norm-one Hilbert ledger, and the same
 $\mathsf{Pkg}$ provenance record.
 \end{proof}
 
+\begin{theorem}[QuantumStateUp projective ray non-escape]
+\label{thm:quantumstate-projective-ray-nonescape}
+Every pure-state downstream consumer reading $\NameCert_{\QuantumStateUp}$ factors through the Hilbert source row $\mathcal{H}$, the projective endpoint row $p$, the norm-one ledger $n$, the global-phase row $\phi$, the inherited classifiers $\lambda_H,\lambda_P$, and the provenance row $\rho$. The state packet exports no host vector quotient, ambient projective equality, density-matrix row, observable spectrum row, or channel row.
+\end{theorem}
+\begin{proof}
+Start with the projective phase classifier of \autoref{thm:quantumstate-projective-phase-classifier}. It identifies pure-state sameness through the displayed projective endpoint and global-phase classifier, not through a host quotient of vectors or an ambient projective equality.
+
+Next use global phase stability from \autoref{thm:quantumstate-global-phase-stability}. Transport along $\hsame$ preserves the Hilbert source, projective endpoint, norm-one ledger, phase row, inherited classifiers, and provenance row as the same finite packet data.
+
+Apply the public obligation surface of \autoref{thm:quantumstate-namecert-obligation-surface}. Its exactness clause lists the exported $\QuantumStateUp$ rows and does not include density-matrix data, observable spectra, or channel rows.
+
+Finally use the density-matrix pure ray readback of \autoref{thm:quantumstate-densitymatrix-pure-ray-readback}. Even a density-matrix consumer of a pure ray receives only the projective ray endpoint, norm-one Hilbert ledger, classifiers, and provenance supplied by the state packet. Thus every pure-state consumer remains inside the displayed ray route, and all excluded rows must be supplied by separate downstream certificates.
+\end{proof}
+
 \begin{theorem}[QuantumStateUp channel consumer input boundary]
 \label{thm:quantumstate-channel-consumer-input-boundary}
 A $\QuantumChannelUp$ state-input consumer of
