@@ -219,6 +219,48 @@ Now transport the finite schedule and ledger rows. By schedule classifier stabil
 Finally use observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. The downstream observer-locality route consumes the transported packet as local rows only, so no inter-Hist clock or global synchronization coordinate is produced by the transport.
 \end{proof}
 
+\begin{theorem}[HistTimeStream observer-locality totality]
+\label{thm:hist-time-stream-observer-locality-totality}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every observer-locality or observer-history consumer reads exactly the displayed local rows
+
+$$
+H,T,S,C,L,P,N
+$$
+
+through the carrier, finite step ledger, replay route, no-global-clock locality row, provenance row, and local naming row. No such consumer obtains a global clock, host time index, inter-Hist synchronization row, temporal-rate coordinate, or hidden route.
+\end{theorem}
+\begin{proof}
+Start with the carrier and observation carrier. The definition \autoref{def:histtimestream-namecert-carrier} displays $H,T,S,C,L,P,N$, and \autoref{thm:histtimestream-observation-carrier} identifies $H,T,S,C$ as the finite observation surface.
+
+Next apply schedule classifier stability and ledger exhaustion. Theorem~\ref{thm:histtimestream-schedule-classifier-stability} keeps the finite $\Eone/\Ezero$ schedule attached to $T$, while \autoref{thm:histtimestream-namecert-ledger-exhaustion} keeps the no-global-clock ledger and local naming rows inside the same packet.
+
+Finally use the observer-locality lattice link, public export, and bridge route. Theorems~\ref{thm:histtimestream-observer-locality-lattice-link}, \ref{thm:histtimestream-public-export}, and \ref{thm:histtimestream-observer-locality-bridge-route} show that observer-facing consumers receive only the local packet before any sibling route is available. Thus totality holds on $H,T,S,C,L,P,N$ and all nonlocal time reads are excluded.
+\end{proof}
+
+\begin{theorem}[HistTimeStream local transport exhaustion]
+\label{thm:hist-time-stream-local-transport-exhaustion}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport preserves the local $\Cont$ prefix of $Q$ as the local $\Cont$ prefix of $Q'$. The transport exhausts the displayed local rows and does not add a global clock, a host time index, an inter-Hist synchronization coordinate, or a temporal-rate row.
+\end{theorem}
+\begin{proof}
+First expose the prefix. The Cont-prefix exactness theorem, \autoref{thm:histtimestream-cont-prefix-exactness}, identifies the local route from $\emp$ to $H$ through $T,S,C,L,P,N$.
+
+Now transport componentwise. The hsame prefix transport theorem, \autoref{thm:histtimestream-hsame-prefix-transport}, preserves this prefix across accepted packets, and schedule classifier stability keeps the transported schedule finite.
+
+Finally apply observer-locality transport and local clock refusal. Theorem~\ref{thm:histtimestream-observer-locality-transport} keeps the transported packet local for observer-facing consumers, while \autoref{thm:histtimestream-local-clock-refusal} rejects every nonlocal clock read unless it has already factored through the displayed rows. Hence the transport is exhausted by the local packet.
+\end{proof}
+
+\begin{theorem}[HistTimeStream NameCert route exhaustion]
+\label{thm:hist-time-stream-namecert-route-exhaustion}
+Every $\NameCert$ route of an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$ is exhausted by the carrier, finite step ledger, replay route, no-global-clock ledger, provenance row, and local naming row. The route cannot pass to a global clock, host time index, inter-Hist synchronization row, temporal-rate coordinate, or hidden observer route.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligation sketch and the carrier. The sketch fixes the local naming obligation on the displayed packet, and \autoref{def:histtimestream-namecert-carrier} supplies exactly the rows $H,T,S,C,L,P,N$.
+
+Next assemble the local route. Observation carrier gives the finite prefix rows, schedule classifier stability keeps the step ledger finite, and ledger exhaustion keeps replay, no-global-clock locality, provenance, and naming in the same packet.
+
+Finally pass through the observer-locality surface. The observer-locality lattice link, public export, bridge route, observer-locality transport, and hsame prefix transport show that every downstream route reads the same local packet. Therefore the NameCert surface is exhausted by those rows and has no escape to nonlocal time structure.
+\end{proof}
+
 \begin{theorem}[HistTimeStream local clock refusal]
 \label{thm:histtimestream-local-clock-refusal}
 Let
