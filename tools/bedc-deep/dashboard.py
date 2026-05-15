@@ -885,6 +885,7 @@ def render_board_spawn() -> str:
         ),
         (
             f"  outcome: accepted={data.get('accepted_count')} "
+            f"held={data.get('held_count', 0)} "
             f"rejected={data.get('rejected_count')} cheap_drops={data.get('cheap_drop_count')} "
             f"appended={len(appended)}"
         ),
@@ -1189,7 +1190,8 @@ def render_research_candidate_lane() -> str:
     lines.append(
         (
             f"  last append: {age} ago ok={data.get('ok')} ready={data.get('ready_count')} "
-            f"accepted={data.get('accepted')} rejected={data.get('rejected')} "
+            f"accepted={data.get('accepted')} held={data.get('held', 0)} "
+            f"rejected={data.get('rejected')} "
             f"appended={len(appended)}"
         )
     )

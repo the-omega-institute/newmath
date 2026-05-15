@@ -283,6 +283,7 @@ def _next_target_id(also_accepted: list[str]) -> str:
 class BoardSpawnResult:
     ok: bool
     accepted: list[dict] = field(default_factory=list)
+    held: list[dict] = field(default_factory=list)
     rejected: list[dict] = field(default_factory=list)
     appended_ids: list[str] = field(default_factory=list)
     error: str = ""
@@ -352,6 +353,7 @@ def _write_latest_status(
         "oracle_alive": oracle_alive,
         "cheap_drop_count": cheap_drop_count,
         "accepted_count": len(result.accepted),
+        "held_count": len(result.held),
         "rejected_count": len(result.rejected),
         "appended_ids": result.appended_ids,
         "error_kind": result.error_kind,
@@ -756,7 +758,7 @@ def spawn_from_candidates(
             f"candidates stopped before judge",
             flush=True,
         )
-        result = BoardSpawnResult(ok=True, rejected=cheap_drops + cheap_holds)
+        result = BoardSpawnResult(ok=True, held=cheap_holds, rejected=cheap_drops)
         candidate_inbox.record_rejections(cheap_drops + cheap_holds, mode="board_spawn")
         _write_latest_status(
             result=result,
@@ -799,7 +801,8 @@ def spawn_from_candidates(
                     ok=False,
                     error=err,
                     error_kind=error_kind,
-                    rejected=cheap_drops + cheap_holds + rejected,
+                    held=cheap_holds,
+                    rejected=cheap_drops + rejected,
                 )
                 _write_latest_status(
                     result=result,
@@ -815,7 +818,8 @@ def spawn_from_candidates(
                 ok=False,
                 error=err,
                 error_kind=error_kind,
-                rejected=cheap_drops + cheap_holds + rejected,
+                held=cheap_holds,
+                rejected=cheap_drops + rejected,
             )
             _write_latest_status(
                 result=result,
@@ -836,7 +840,8 @@ def spawn_from_candidates(
             ok=False,
             error=err,
             error_kind=classify_judge_error(err),
-            rejected=cheap_drops + cheap_holds + rejected,
+            held=cheap_holds,
+            rejected=cheap_drops + rejected,
         )
         _write_latest_status(
             result=result,
@@ -885,15 +890,25 @@ def spawn_from_candidates(
             _atomic_append_to_board(blocks)
             candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
+    post_judge_holds: list[dict] = []
+    post_judge_rejects: list[dict] = []
+    for item in rejected + threshold_drops:
+        reason = str(item.get("reason") or item.get("verdict_reason") or "")
+        if candidate_inbox.is_refinable_reason(reason):
+            post_judge_holds.append(item)
+        else:
+            post_judge_rejects.append(item)
+    all_held = cheap_holds + post_judge_holds
+    all_rejected = cheap_drops + post_judge_rejects
     print(
-        f"[board_spawn] accepted={len(final_accepted)} held={len(cheap_holds)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
+        f"[board_spawn] accepted={len(final_accepted)} held={len(all_held)} rejected={len(all_rejected)}",
         flush=True,
     )
-    all_rejected = cheap_drops + cheap_holds + rejected + threshold_drops
-    candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
+    candidate_inbox.record_rejections(all_held + all_rejected, mode="board_spawn")
     result = BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
+        held=all_held,
         rejected=all_rejected,
         appended_ids=appended_ids,
     )

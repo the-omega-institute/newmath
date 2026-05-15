@@ -547,6 +547,7 @@ def write_board_spawn_status(result: object, *, ready_count: int) -> None:
         "ok": bool(getattr(result, "ok", False)),
         "ready_count": ready_count,
         "accepted": len(getattr(result, "accepted", []) or []),
+        "held": len(getattr(result, "held", []) or []),
         "rejected": len(getattr(result, "rejected", []) or []),
         "appended_ids": getattr(result, "appended_ids", []) or [],
         "error_kind": str(getattr(result, "error_kind", "") or ""),
