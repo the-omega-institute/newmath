@@ -81,6 +81,24 @@ and checkpoint readback are confined to the displayed image and readback row,
 so the terminal consumer sees precisely $T,Q,R,X,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[FiniteTraceEvaluator terminal runtime-candidate bridge]
+\label{thm:finite-trace-evaluator-terminal-runtime-candidate-bridge}
+Every terminal consumer of an accepted $\FiniteTraceEvaluatorUp$ route carrier $E=(T,Q,R,X,H,C,P,N)$ that asks for runtime-candidate provenance first factors through $\RuntimeCandidateBoundaryUp$ and $\ReflectionRuntimeCheckpointUp$, and only then through the displayed terminal rows
+$$
+T,Q,R,X,H,C,P,N.
+$$
+The bridge introduces no host validator, hidden runtime state, total truth predicate, total halting classifier, unbounded evaluator, infinite trace semantics, or alternate checkpoint route.
+\end{theorem}
+\begin{proof}
+Start with terminal route exposure. It confines every terminal consumer of the accepted route carrier to $T,Q,R,X,H,C,P,N$, with $T$ as trace row, $Q$ as checkpoint row, $R$ as runtime row, and $X$ as image and readback row.
+
+Use checkpoint-runtime factorization. Checkpoint-facing and runtime-facing reads factor through the same finite route $T \to Q \to R$, transported by $H$, replayed by $C$, packaged by $P$, named by $N$, and read back through $X$.
+
+Now apply checkpoint-runtime acceptance lock and runtime route coverage. Those results force runtime-facing consumers through $\ReflectionRuntimeCheckpointUp$ and $\RuntimeCandidateBoundaryUp$ before the evaluator result is read, while keeping host validation and hidden runtime state outside the finite packet.
+
+Finally combine this with validation refusal closure from the checkpoint-runtime acceptance file. Since the runtime-candidate and checkpoint surfaces are reached only through the displayed terminal route, the bridge cannot introduce total truth, total halting, unbounded evaluator semantics, infinite traces, or an alternate checkpoint route.
+\end{proof}
+
 \begin{theorem}[FiniteTraceEvaluator NameCert terminal obligation surface]
 \label{thm:finite-trace-evaluator-namecert-terminal-obligation-surface}
 The local $\NameCert_{\FiniteTraceEvaluatorUp}$ obligation surface of a
