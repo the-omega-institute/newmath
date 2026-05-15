@@ -283,6 +283,27 @@ private theorem axisCarryDiamondRouteToEventFlow_injective
     (Eq.trans (axisCarryDiamondRoute_round_trip x).symm
       (Eq.trans hread (axisCarryDiamondRoute_round_trip y)))
 
+private def axisCarryDiamondRouteFields : AxisCarryDiamondRouteUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | AxisCarryDiamondRouteUp.mk overlap carryLeft carryRight normal routeLeft routeRight
+      valueLeft valueRight targetLedger boundary continuation provenance nameCert =>
+      [overlap, carryLeft, carryRight, normal, routeLeft, routeRight, valueLeft, valueRight,
+        targetLedger, boundary, continuation, provenance, nameCert]
+
+private theorem axisCarryDiamondRoute_field_faithful :
+    ∀ x y : AxisCarryDiamondRouteUp,
+      axisCarryDiamondRouteFields x = axisCarryDiamondRouteFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk overlap carryLeft carryRight normal routeLeft routeRight valueLeft valueRight
+      targetLedger boundary continuation provenance nameCert =>
+      cases y with
+      | mk overlap' carryLeft' carryRight' normal' routeLeft' routeRight' valueLeft'
+          valueRight' targetLedger' boundary' continuation' provenance' nameCert' =>
+          cases hfields
+          rfl
+
 instance axisCarryDiamondRouteBHistCarrier : BHistCarrier AxisCarryDiamondRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := axisCarryDiamondRouteToEventFlow
@@ -299,26 +320,14 @@ instance axisCarryDiamondRouteChapterTasteGate :
     intro x y hxy heq
     exact hxy (axisCarryDiamondRouteToEventFlow_injective heq)
 
-instance axisCarryDiamondRouteFieldFaithful : FieldFaithful AxisCarryDiamondRouteUp where
+instance axisCarryDiamondRouteFieldFaithful :
+    FieldFaithful AxisCarryDiamondRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | AxisCarryDiamondRouteUp.mk overlap carryLeft carryRight normal routeLeft routeRight
-        valueLeft valueRight targetLedger boundary continuation provenance nameCert =>
-        [overlap, carryLeft, carryRight, normal, routeLeft, routeRight, valueLeft,
-          valueRight, targetLedger, boundary, continuation, provenance, nameCert]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk overlap carryLeft carryRight normal routeLeft routeRight valueLeft valueRight
-        targetLedger boundary continuation provenance nameCert =>
-        cases y with
-        | mk overlap' carryLeft' carryRight' normal' routeLeft' routeRight' valueLeft'
-            valueRight' targetLedger' boundary' continuation' provenance' nameCert' =>
-            cases hfields
-            rfl
+  fields := axisCarryDiamondRouteFields
+  field_faithful := axisCarryDiamondRoute_field_faithful
 
-instance axisCarryDiamondRouteNontrivial : Nontrivial AxisCarryDiamondRouteUp where
+instance axisCarryDiamondRouteNontrivial :
+    Nontrivial AxisCarryDiamondRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨AxisCarryDiamondRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
