@@ -399,4 +399,68 @@ theorem QuotientSoundnessBoundary_root_nonimport_ledger [AskSetup] [PackageSetup
       ledgerUnary, eAV, eTH, vTRefusal, tHTransport, transportNLedger, pPkg, nPkg,
       refusalPkg, ledgerPkg, hN⟩
 
+theorem QuotientSoundnessBoundary_refusal_stability_row [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead transportRead stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont v t refusalRead ->
+        Cont t h transportRead ->
+          Cont h n stableRead ->
+            PkgSig bundle refusalRead pkg ->
+              PkgSig bundle transportRead pkg ->
+                PkgSig bundle stableRead pkg ->
+                  UnaryHistory a ∧ UnaryHistory v ∧ UnaryHistory h ∧
+                    UnaryHistory refusalRead ∧ UnaryHistory transportRead ∧
+                      UnaryHistory stableRead ∧ Cont v t refusalRead ∧
+                        Cont t h transportRead ∧ Cont h n stableRead ∧
+                          PkgSig bundle refusalRead pkg ∧
+                            PkgSig bundle transportRead pkg ∧
+                              PkgSig bundle stableRead pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier vTRefusal tHTransport hNStable refusalPkg transportPkg stablePkg
+  obtain ⟨_eUnary, aUnary, tUnary, vUnary, hUnary, _cUnary, _pUnary, nUnary,
+    _eAV, _eTH, _hCN, _pPkg, _nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary tUnary vTRefusal
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed tUnary hUnary tHTransport
+  have stableUnary : UnaryHistory stableRead :=
+    unary_cont_closed hUnary nUnary hNStable
+  exact
+    ⟨aUnary, vUnary, hUnary, refusalUnary, transportUnary, stableUnary, vTRefusal,
+      tHTransport, hNStable, refusalPkg, transportPkg, stablePkg, hN⟩
+
+theorem QuotientSoundnessBoundary_psame_request_determinacy [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead transportRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont v t refusalRead ->
+        Cont t h transportRead ->
+          Cont h c consumer ->
+            PkgSig bundle refusalRead pkg ->
+              PkgSig bundle transportRead pkg ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory e ∧ UnaryHistory a ∧ UnaryHistory v ∧ UnaryHistory t ∧
+                    UnaryHistory h ∧ UnaryHistory refusalRead ∧
+                      UnaryHistory transportRead ∧ UnaryHistory consumer ∧ Cont e a v ∧
+                        Cont v t refusalRead ∧ Cont t h transportRead ∧
+                          Cont h c consumer ∧ PkgSig bundle p pkg ∧
+                            PkgSig bundle refusalRead pkg ∧
+                              PkgSig bundle transportRead pkg ∧
+                                PkgSig bundle consumer pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier vTRefusal tHTransport hCConsumer refusalPkg transportPkg consumerPkg
+  obtain ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, _pUnary, _nUnary, eAV,
+    _eTH, _hCN, pPkg, _nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary tUnary vTRefusal
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed tUnary hUnary tHTransport
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hUnary cUnary hCConsumer
+  exact
+    ⟨eUnary, aUnary, vUnary, tUnary, hUnary, refusalUnary, transportUnary,
+      consumerUnary, eAV, vTRefusal, tHTransport, hCConsumer, pPkg, refusalPkg,
+      transportPkg, consumerPkg, hN⟩
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
