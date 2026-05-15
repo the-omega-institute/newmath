@@ -214,4 +214,44 @@ theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [Package
       pullbackUnary, precisionWindowDyadic, dyadicRegseqSeal, budgetWindowSelector,
       selectorRegseqSeal, sealEndpointPullback, endpointPkg, pullbackPkg⟩
 
+theorem TailCofinalityScheduleCarrier_transport_determinacy [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      precision' window' dyadic' regseq' sealRow' transport' route' provenance' localCert'
+      endpoint' sealRead sealRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      TailCofinalityScheduleCarrier precision' window' dyadic' regseq' sealRow' transport'
+          route' provenance' localCert' endpoint' bundle pkg →
+        hsame precision precision' →
+          hsame window window' →
+            hsame dyadic dyadic' →
+              hsame regseq regseq' →
+                hsame sealRow sealRow' →
+                  Cont regseq sealRow sealRead →
+                    Cont regseq' sealRow' sealRead' →
+                      PkgSig bundle sealRead pkg →
+                        PkgSig bundle sealRead' pkg →
+                          hsame sealRead sealRead' ∧ UnaryHistory sealRead ∧
+                            UnaryHistory sealRead' ∧ PkgSig bundle endpoint pkg ∧
+                              PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame UnaryHistory
+  intro carrier carrier' _samePrecision _sameWindow _sameDyadic sameRegseq sameSealRow
+    regseqSealRead regseqSealRead' _sealReadPkg _sealReadPkg'
+  obtain ⟨_precisionUnary, _windowUnary, _dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _precisionWindowDyadic, _dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  obtain ⟨_precisionUnary', _windowUnary', _dyadicUnary', regseqUnary', sealUnary',
+    _transportUnary', _routeUnary', _provenanceUnary', _localCertUnary', _endpointUnary',
+    _precisionWindowDyadic', _dyadicRegseqSeal', _sealTransportRoute',
+    _routeProvenanceEndpoint', _endpointLocalCert', endpointPkg'⟩ := carrier'
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary sealUnary regseqSealRead
+  have sealReadUnary' : UnaryHistory sealRead' :=
+    unary_cont_closed regseqUnary' sealUnary' regseqSealRead'
+  have sameSealRead : hsame sealRead sealRead' :=
+    cont_respects_hsame sameRegseq sameSealRow regseqSealRead regseqSealRead'
+  exact ⟨sameSealRead, sealReadUnary, sealReadUnary', endpointPkg, endpointPkg'⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
