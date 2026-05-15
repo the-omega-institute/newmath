@@ -652,6 +652,26 @@ Finally use the root-unblock package of \autoref{thm:cauchy-modulus-refinement-r
 \end{proof}
 \leanvariant{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_diagonal\_budget\_cofinality\_route}
 
+\begin{theorem}[Cauchy modulus refinement RealObservationBudget handoff]
+\label{thm:cauchy-modulus-refinement-real-observation-budget-handoff}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any $\RealObservationBudgetUp$ request that uses the same selected finite $\StreamNameUp$ windows, dyadic tolerance rows, $\RegSeqRatUp$ readback ledger, and $\RealUp$ seal row factors through
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+before any Real-facing observation is consumed. The handoff exports no quotient stream, selected limit, host real equality, hidden selector, second meet row, ambient completeness coordinate, or unbudgeted observation selector.
+\end{theorem}
+\begin{proof}
+First apply the budget-selector source lock of \autoref{thm:cauchy-modulus-refinement-budget-selector-source-lock}. It places the source schedules, shared meet row, extraction witness, and selector budget in the prefix $M_0,M_1,U,V,T$ before the selected finite-window, tolerance-readback, or Real-seal rows can be read.
+
+Next use window readback exhaustion and diagonal budget cofinality, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion} and \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality}. These bind the selected $\StreamNameUp$ windows, dyadic tolerance rows, and $\RegSeqRatUp$ readback ledger to $T,W,Q,E$, and they route every diagonal Real-completion consumer through the displayed cofinal finite budget before the $\RealUp$ seal is observed.
+
+Finally apply the completion boundary and non-escape, \autoref{thm:cauchy-modulus-refinement-completion-boundary} and \autoref{thm:cauchy-modulus-refinement-nonescape}. The completion boundary keeps the observation request on the displayed packet and sibling route, while non-escape removes quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness coordinates, and unbudgeted observation selectors from the exported surface.
+\end{proof}
+
 \input{parts/concrete_instances/cauchymodulusrefinement/root_consumer_surfaces}
 \input{parts/concrete_instances/cauchymodulusrefinement/root_unblock_obligation_surface}
 \input{parts/concrete_instances/cauchymodulusrefinement/root_source_window_locks}
