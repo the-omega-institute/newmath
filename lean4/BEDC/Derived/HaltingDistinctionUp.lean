@@ -298,4 +298,30 @@ theorem HaltingDistinctionNormalFormRouteConsumption [AskSetup] [PackageSetup]
       normalFormUnary, endpointUnary, questionTraceDiagonal, traceRouteRead,
       traceReadClassifierNormalForm, normalFormDiagonalEndpoint, provenancePkg, endpointPkg⟩
 
+theorem HaltingDistinctionCarrier_inscription_event_boundary [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert inscriptionRead endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont question diagonal inscriptionRead ->
+        Cont inscriptionRead classifier endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory question ∧ UnaryHistory diagonal ∧ UnaryHistory inscriptionRead ∧
+              UnaryHistory endpoint ∧ Cont question diagonal inscriptionRead ∧
+                Cont inscriptionRead classifier endpoint ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier inscriptionRoute endpointRoute endpointPkg
+  obtain ⟨questionUnary, _traceUnary, diagonalUnary, _haltUnary, classifierUnary,
+    _routeUnary, _provenanceUnary, _certUnary, _questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have inscriptionUnary : UnaryHistory inscriptionRead :=
+    unary_cont_closed questionUnary diagonalUnary inscriptionRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed inscriptionUnary classifierUnary endpointRoute
+  exact
+    ⟨questionUnary, diagonalUnary, inscriptionUnary, endpointUnary, inscriptionRoute,
+      endpointRoute, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp

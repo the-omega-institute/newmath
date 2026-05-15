@@ -1,0 +1,36 @@
+\begin{definition}[GapClosureBoundary root readback packet]
+\label{def:gap-closure-boundary-root-readback-packet}
+The $\GapClosureBoundaryUp$ root readback packet is the finite $\BHist$ surface
+$$
+Q=(B,S_0,R_0,T_0,H_0,C_0,P_0,N_0)
+$$
+where $B=(G,S,R,H,C,P,N)$ is an accepted $\GapClosureBoundaryUp$ carrier, $S_0$ is the displayed source-readback row for $S$, $R_0$ is the displayed refusal-readback row for $R$, $T_0$ is the downstream consumer handoff row, $H_0$ records componentwise $\hsame$ transport for the source and refusal readbacks, $C_0$ records $\Cont$ replay of the source and refusal branches, $P_0$ records $\Pkg$ provenance through the root-unblock package and the finite witnessed refutation route of \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}, and $N_0$ is the handoff $\NameCert$ row.
+\end{definition}
+
+\begin{theorem}[GapClosureBoundary root NameCert handoff]
+\label{thm:gap-closure-boundary-root-namecert-handoff}
+Every accepted root readback packet $Q=(B,S_0,R_0,T_0,H_0,C_0,P_0,N_0)$ hands off the $\GapClosureBoundaryUp$ NameCert surface to downstream hard-problem consumers only after the source branch $G \longrightarrow S$ or the refusal branch $G \longrightarrow R$ has been read through $B$. The handoff row $T_0$ may cite the root-unblock package of \autoref{thm:gap-closure-boundary-root-unblock-package} and the finite witnessed refutation boundary route of \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}, but it receives no host closure row, hidden $\mathsf{T}$ supply, private access row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier $B=(G,S,R,H,C,P,N)$ inside \autoref{def:gap-closure-boundary-root-readback-packet}. The root readback packet adds only source readback, refusal readback, handoff, transport, replay, provenance, and local naming rows.
+
+For the supported branch, apply source-route totality and the root-unblock package, \autoref{thm:gap-closure-boundary-source-route-totality} and \autoref{thm:gap-closure-boundary-root-unblock-package}. These force the source readback $S_0$ to be a replay of $G \longrightarrow S$ through the displayed structural rows.
+
+For the unsupported branch, apply refusal-route exactness and the finite witnessed refutation crosslink, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}. These force the refusal readback $R_0$ to remain a refusal boundary rather than a universal closure principle.
+
+The handoff row $T_0$ is then packaged by $P_0$ and named by $N_0$. Since no row of $Q$ is a host closure, hidden supply, private access, or off-packet continuation, the downstream handoff exports only the displayed root NameCert surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root consumer locality]
+\label{thm:gap-closure-boundary-root-consumer-locality}
+Every downstream consumer of the root readback packet $Q=(B,S_0,R_0,T_0,H_0,C_0,P_0,N_0)$ is local to the displayed $\GapClosureBoundaryUp$ carrier, its source/refusal readback rows, and the handoff $\NameCert$ surface. A consumer may inspect $B,S_0,R_0,T_0,H_0,C_0,P_0,N_0$ and may follow the hard-problem consumer factorization of \autoref{thm:gap-closure-boundary-consumer-ledger-factorization}; it cannot bypass those rows to inspect a hidden root source, a host equality, a private other-minds access row, a direct aspect-reduction row, or an ambient closure theorem.
+\end{theorem}
+\begin{proof}
+Project the packet $Q$. Its consumer-facing coordinates are exactly the accepted boundary carrier, the two readback rows, the handoff row, transport, replay, provenance, and local naming.
+
+Apply root package consumer cut, \autoref{thm:gap-closure-boundary-root-package-consumer-cut}. It forces every downstream consumer through the displayed package and provenance surface of $B$.
+
+Apply hard-problem consumer factorization, \autoref{thm:gap-closure-boundary-consumer-ledger-factorization}. The consumer route is one of the displayed source/refusal branches and not a separate consumer-specific route.
+
+Finally use the handoff theorem \autoref{thm:gap-closure-boundary-root-namecert-handoff}. The handoff preserves the same source/refusal readback under $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so no hidden source, host equality, private access, direct reduction, or ambient closure theorem can be read outside $Q$.
+\end{proof}
