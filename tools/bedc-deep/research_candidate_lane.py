@@ -58,7 +58,12 @@ ORACLE_WORTHY_RE = re.compile(
     r"\b(obstruction|counterexample|classification|uniqueness|non[- ]?escape|impossib|failure|deep)\b",
     re.IGNORECASE,
 )
-INBOX_RECOVER_EVENTS = {"received", "pre_gate_accept"}
+INBOX_RECOVER_EVENTS = {
+    "received",
+    "pre_gate_accept",
+    "pre_gate_hold",
+    "held_for_refinement",
+}
 INBOX_HARD_REJECT_EVENTS = {"pre_gate_reject", "rejected"}
 BLOCKED_LANDING_PATH_RE = re.compile(
     r"^papers/bedc/parts/(?:conjectures|visions)/",
@@ -68,8 +73,7 @@ PROSE_TITLE_RE = re.compile(r"[.;:]\s*$|\\(?:label|begin|chapter|section)\b", re
 UNRECOVERABLE_REASON_RE = re.compile(
     r"already_in_paper|duplicate_title|forbidden_axis|out_of_scope|"
     r"below_fit_threshold|below_novelty_threshold|too_weak|"
-    r"non_paper_local_input|missing_local_input|hub_only_landing|"
-    r"predicted_line_cap_overflow",
+    r"non_paper_local_input",
     re.IGNORECASE,
 )
 

@@ -99,6 +99,10 @@ POST_MERGE_PROTECTED_PATTERNS = [
     re.compile(r"^tools/automath_newmath_bridge/state/"),
     re.compile(r"^tools/bedc-deep/BOARD(?:\.completed)?\.md$"),
 ]
+OURS_ON_CLEAN_MERGE_PATTERNS = [
+    re.compile(r"^tools/bedc-deep/prompts/codex_track_attempt\.txt$"),
+    re.compile(r"^tools/bedc-deep/prompts/oracle_initial\.txt$"),
+]
 
 
 # ---------------------------------------------------------------------------
@@ -139,6 +143,10 @@ def _is_ours_on_conflict(path: str) -> bool:
 
 def _is_post_merge_protected(path: str) -> bool:
     return any(p.search(path) for p in POST_MERGE_PROTECTED_PATTERNS)
+
+
+def _is_ours_on_clean_merge(path: str) -> bool:
+    return any(p.search(path) for p in OURS_ON_CLEAN_MERGE_PATTERNS)
 
 
 def _claude_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, int]:
@@ -212,6 +220,29 @@ def _post_merge_boundary_failure(before_ref: str) -> str:
     if protected:
         return "post_merge_protected_paths:" + ",".join(protected[:20])
     return ""
+
+
+def _settle_clean_merge_boundaries(before_ref: str) -> list[str]:
+    """Re-apply BEDC local boundaries after a non-conflicting merge.
+
+    A remote commit can change local-only BOARD files or older prompt policy
+    without producing a textual conflict.  Those changes must not survive just
+    because Git considered the merge clean.
+    """
+
+    changed = _changed_files_against(before_ref)
+    settled: list[str] = []
+    for path in changed:
+        if _is_local_only_state(path):
+            _git(["rm", "--cached", "--ignore-unmatch", path], capture=False, timeout=10)
+            settled.append(path)
+            continue
+        if _is_ours_on_clean_merge(path):
+            checkout = _git(["checkout", before_ref, "--", path], capture=False, timeout=10)
+            if checkout.returncode == 0:
+                _git(["add", path], capture=False, timeout=10)
+                settled.append(path)
+    return settled
 
 
 def _settle_local_only_state_conflicts(conflicts: list[str]) -> tuple[list[str], list[str]]:
@@ -539,6 +570,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
         # Attempt merge
         merge_res = _git(["merge", "--no-edit", UPSTREAM_REF], timeout=120)
         if merge_res.returncode == 0:
+            settled_clean = _settle_clean_merge_boundaries(before_head)
             changed = _changed_files_against(before_head)
             boundary_failure = _post_merge_boundary_failure(before_head)
             if boundary_failure:
@@ -564,6 +596,28 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                     validation=validation,
                     error=validation.summary,
                 )
+            if settled_clean:
+                commit_res = _git([
+                    "commit",
+                    "--no-edit",
+                    "-m",
+                    (
+                        f"Auto-merge {UPSTREAM_REF} ({n_behind} commits) — "
+                        "post-merge boundaries settled\n\n"
+                        "Settled local boundaries:\n"
+                        + "\n".join(f"  - {p}" for p in settled_clean)
+                        + f"\n\nValidation: {validation.summary}"
+                    ),
+                ], timeout=30)
+                if commit_res.returncode != 0:
+                    _git(["reset", "--hard", before_head], capture=False, timeout=20)
+                    return SyncResult(
+                        status="error",
+                        branch=branch,
+                        n_dev_commits=n_behind,
+                        validation=validation,
+                        error=f"git commit failed after boundary settle: {commit_res.stderr[:200]}",
+                    )
             # FF or clean merge succeeded and gates passed; push.
             push_res = _git(["push", "origin", branch], capture=False, timeout=60)
             if push_res.returncode != 0:
@@ -571,7 +625,12 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                     status="error", branch=branch, n_dev_commits=n_behind,
                     error=f"clean merge but push failed rc={push_res.returncode}",
                 )
-            return SyncResult(status="ff_merged", branch=branch, n_dev_commits=n_behind)
+            return SyncResult(
+                status="ff_merged",
+                branch=branch,
+                n_dev_commits=n_behind,
+                resolved_files=settled_clean,
+            )
 
         # Conflict path
         conflicts = _conflicted_files()

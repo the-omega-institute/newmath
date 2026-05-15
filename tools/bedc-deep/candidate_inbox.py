@@ -55,12 +55,30 @@ INSPIRATION_ONLY_PATH_RE = re.compile(
     r"^papers/bedc/parts/(?:visions|conjectures)/",
     re.IGNORECASE,
 )
+REFINABLE_REASON_RE = re.compile(
+    r"missing_local_input|missing_local_inputs|no_indexed_safe_landing|"
+    r"hub_only_landing|inspiration_only_not_board_landing|"
+    r"predicted_line_cap_overflow|logic_packet_gate:|missing_logic_budget|"
+    r"existence_missing_|bridge_missing_|equality_missing_|"
+    r"completion_missing_|external_signal_missing_landing_kind|"
+    r"external_signal_landing_reject|external_signal_missing_chapter_worthiness|"
+    r"too_weak",
+    re.IGNORECASE,
+)
+HARD_REJECT_REASON_RE = re.compile(
+    r"duplicate_title|structural_title|missing_title|missing_claim|"
+    r"claim_too_short|forbidden_axis_or_marker_candidate|"
+    r"conjecture_fallback_not_board_lane|non_paper_local_input|"
+    r"below_fit_threshold|below_novelty_threshold|predicted_label_collision",
+    re.IGNORECASE,
+)
 
 
 @dataclass
 class ScreenResult:
     accepted: list[dict[str, Any]] = field(default_factory=list)
     rejected: list[dict[str, Any]] = field(default_factory=list)
+    held: list[dict[str, Any]] = field(default_factory=list)
 
 
 def _now_iso() -> str:
@@ -166,6 +184,15 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
     with file_lock("candidate_inbox"):
         with INBOX_PATH.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def is_refinable_reason(reason: str) -> bool:
+    reason = str(reason or "")
+    if not reason:
+        return False
+    if HARD_REJECT_REASON_RE.search(reason):
+        return False
+    return bool(REFINABLE_REASON_RE.search(reason))
 
 
 def _paper_file_lookup() -> dict[str, dict[str, Any]]:
@@ -433,9 +460,13 @@ def screen_candidates(
         )
         title_key = str(cand.get("title", "")).strip().lower()
         if reason:
-            rejected = {**cand, "source": cand_source, "reason": reason}
-            result.rejected.append(rejected)
-            _record("pre_gate_reject", rejected, cand_source, reason=reason)
+            blocked = {**cand, "source": cand_source, "reason": reason}
+            if is_refinable_reason(reason):
+                result.held.append(blocked)
+                _record("pre_gate_hold", blocked, cand_source, reason=reason)
+            else:
+                result.rejected.append(blocked)
+                _record("pre_gate_reject", blocked, cand_source, reason=reason)
             continue
         seen_titles.add(title_key)
         accepted = {**cand, "source": cand_source}
@@ -455,7 +486,8 @@ def record_rejections(candidates: list[dict[str, Any]], *, mode: str) -> None:
     for candidate in candidates:
         source = str(candidate.get("source") or mode)
         reason = str(candidate.get("reason") or candidate.get("verdict_reason") or "")
-        _record("rejected", candidate, source, reason=reason, mode=mode)
+        event = "held_for_refinement" if is_refinable_reason(reason) else "rejected"
+        _record(event, candidate, source, reason=reason, mode=mode)
 
 
 def _parse_record_ts(value: Any) -> datetime | None:

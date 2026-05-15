@@ -121,6 +121,29 @@ def test_bridge_prompts_keep_external_sources_as_metadata_only() -> None:
     assert "本轮可用证据只限 BEDC" in oracle
 
 
+def test_dev_sync_protects_clean_merge_boundaries() -> None:
+    text = _text(SCRIPT_DIR / "dev_sync_resolver.py")
+    assert "OURS_ON_CLEAN_MERGE_PATTERNS" in text
+    assert "_settle_clean_merge_boundaries(before_head)" in text
+    assert '"rm", "--cached", "--ignore-unmatch", path' in text
+    assert '"checkout", before_ref, "--", path' in text
+    assert "post-merge boundaries settled" in text
+
+
+def test_candidate_inbox_holds_refinable_candidates() -> None:
+    text = _text(SCRIPT_DIR / "candidate_inbox.py")
+    assert "held: list[dict[str, Any]]" in text
+    assert "REFINABLE_REASON_RE" in text
+    assert "pre_gate_hold" in text
+    assert "held_for_refinement" in text
+
+
+def test_research_lane_recovers_held_candidates() -> None:
+    text = _text(SCRIPT_DIR / "research_candidate_lane.py")
+    assert '"pre_gate_hold"' in text
+    assert '"held_for_refinement"' in text
+
+
 if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_runs_gated_dev_sync_resolver()
@@ -132,4 +155,7 @@ if __name__ == "__main__":
     test_supervisor_keeps_board_state_files_local_only()
     test_auto_discovery_dev_sync_is_opt_in_and_path_guarded()
     test_bridge_prompts_keep_external_sources_as_metadata_only()
+    test_dev_sync_protects_clean_merge_boundaries()
+    test_candidate_inbox_holds_refinable_candidates()
+    test_research_lane_recovers_held_candidates()
     print("test_git_sync_boundaries: ok")

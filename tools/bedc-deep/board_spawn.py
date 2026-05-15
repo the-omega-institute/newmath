@@ -10,7 +10,10 @@ Two upstream sources:
 This module merges both lists, dedups against existing BOARD and paper
 coverage, then runs claude as a maker/checker judge (codex's existing
 fit/novelty are part of the candidate's source signal; claude is the
-final gate). Accepted candidates are atomically appended to BOARD.md.
+BOARD execution-intake gate). Candidates that are promising but not yet
+executable are held in candidate_inbox for later refinement instead of being
+thrown away. Accepted candidates are atomically appended to local BOARD.md;
+the supervisor commit path keeps BOARD files local-only.
 
 Replaces the old Stage 1.5 single-source codex.discover_topics flow.
 """
@@ -640,22 +643,24 @@ def spawn_from_candidates(
     )
     codex_alive = codex_screen.accepted
     oracle_alive = oracle_screen.accepted
+    cheap_holds = codex_screen.held + oracle_screen.held
     cheap_drops = codex_screen.rejected + oracle_screen.rejected
 
     if not codex_alive and not oracle_alive:
         print(
             f"[board_spawn] all {len(codex_candidates) + len(oracle_candidates)} "
-            f"candidates dedup'd against existing BOARD titles",
+            f"candidates stopped before judge",
             flush=True,
         )
-        result = BoardSpawnResult(ok=True, rejected=cheap_drops)
+        result = BoardSpawnResult(ok=True, rejected=cheap_drops + cheap_holds)
+        candidate_inbox.record_rejections(cheap_drops + cheap_holds, mode="board_spawn")
         _write_latest_status(
             result=result,
             codex_input=codex_input,
             oracle_input=oracle_input,
             codex_alive=0,
             oracle_alive=0,
-            cheap_drop_count=len(cheap_drops),
+            cheap_drop_count=len(cheap_drops) + len(cheap_holds),
         )
         return result
 
@@ -674,7 +679,7 @@ def spawn_from_candidates(
             ok=False,
             error=err,
             error_kind=classify_judge_error(err),
-            rejected=cheap_drops + rejected,
+            rejected=cheap_drops + cheap_holds + rejected,
         )
         _write_latest_status(
             result=result,
@@ -682,7 +687,7 @@ def spawn_from_candidates(
             oracle_input=oracle_input,
             codex_alive=len(codex_alive),
             oracle_alive=len(oracle_alive),
-            cheap_drop_count=len(cheap_drops),
+            cheap_drop_count=len(cheap_drops) + len(cheap_holds),
         )
         return result
 
@@ -724,10 +729,10 @@ def spawn_from_candidates(
             candidate_inbox.record_board_promotions(final_accepted, appended_ids, mode="board_spawn")
 
     print(
-        f"[board_spawn] accepted={len(final_accepted)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
+        f"[board_spawn] accepted={len(final_accepted)} held={len(cheap_holds)} rejected={len(rejected) + len(threshold_drops) + len(cheap_drops)}",
         flush=True,
     )
-    all_rejected = cheap_drops + rejected + threshold_drops
+    all_rejected = cheap_drops + cheap_holds + rejected + threshold_drops
     candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
     result = BoardSpawnResult(
         ok=True,
