@@ -90,4 +90,28 @@ theorem HistTimeStreamCarrier_namecert_obligation_sketch [AskSetup] [PackageSetu
     }
   exact And.intro semantic (And.intro endpointUnary endpointRoute)
 
+theorem HistTimeStreamCarrier_observation_carrier [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name observation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont source replay observation ->
+        PkgSig bundle observation pkg ->
+          UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+            UnaryHistory replay ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+              UnaryHistory name ∧ UnaryHistory observation ∧ Cont schedule start replay ∧
+                Cont source replay observation ∧ hsame provenance replay ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle observation pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle PkgSig
+  intro carrier sourceReplayObservation observationPkg
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary,
+    provenanceUnary, nameUnary, scheduleStartReplay, _sourceReplayProvenance,
+    provenanceReplay, provenancePkg, namePkg⟩ := carrier
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed sourceUnary replayUnary sourceReplayObservation
+  exact
+    ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, provenanceUnary,
+      nameUnary, observationUnary, scheduleStartReplay, sourceReplayObservation,
+      provenanceReplay, provenancePkg, namePkg, observationPkg⟩
+
 end BEDC.Derived.HistTimeStreamUp
