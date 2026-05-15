@@ -208,4 +208,27 @@ theorem CauchyLimitFunctorCarrier_source_target_seal_exposure [AskSetup] [Packag
     _classifierEndpointCarrier, _hsameRowsRoutesProvenance, _carrierEndpointPkg⟩ := carrier
   exact cont_respects_hsame sameSource sameTransport sourceTransportTarget transportedRoute
 
+theorem CauchyLimitFunctorCarrier_structural_transport [AskSetup] [PackageSetup]
+    {sourceSeal targetSeal transportMap sourceWindow targetWindow readback tolerance classifier
+      endpoint hsameRows routes provenance nameCert carrierEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitFunctorCarrier sourceSeal targetSeal transportMap sourceWindow targetWindow
+        readback tolerance classifier endpoint hsameRows routes provenance nameCert
+        carrierEndpoint bundle pkg →
+      PkgSig bundle provenance pkg →
+        UnaryHistory hsameRows ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+          UnaryHistory nameCert ∧ Cont hsameRows routes provenance ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle carrierEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier provenancePkg
+  obtain ⟨_sourceSealUnary, _targetSealUnary, _transportMapUnary, _sourceWindowUnary,
+    _targetWindowUnary, _readbackUnary, _toleranceUnary, _classifierUnary,
+    _endpointUnary, hsameRowsUnary, routesUnary, provenanceUnary, nameCertUnary,
+    _carrierEndpointUnary, _sourceTransportTarget, _sourceTargetReadback,
+    _readbackToleranceClassifier, _classifierEndpointCarrier,
+    hsameRowsRoutesProvenance, carrierEndpointPkg⟩ := carrier
+  exact
+    ⟨hsameRowsUnary, routesUnary, provenanceUnary, nameCertUnary,
+      hsameRowsRoutesProvenance, provenancePkg, carrierEndpointPkg⟩
+
 end BEDC.Derived.CauchyLimitFunctorUp
