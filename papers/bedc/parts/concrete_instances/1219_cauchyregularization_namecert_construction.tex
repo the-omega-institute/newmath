@@ -243,6 +243,53 @@ completeness coordinate, repeated regularization through the same finite rows
 adds no Real-facing escape route.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization Real seal source-modulus factorization]
+\label{thm:cauchyregularization-real-seal-source-modulus-factorization}
+For an accepted $\CauchyRegularizationUp$ packet
+$G=(S,M,D,W,R,E,H,C,P,N)$, every $\RealUp$ seal read factors through exactly
+the displayed finite $\StreamNameUp$ source window carried by $S$, the
+$\CauchyModulusUp$ threshold row $M$, the $\DyadicRatCoreUp$
+modulus-window ledger $D$, the approximant ledger $W$, the $\RegSeqRatUp$
+handoff row $R$, the seal provenance $E$, and the structural rows
+$H,C,P,N$. Conversely, those rows repack as the same Real-facing seal route.
+No quotient stream, selected limit, host real equality, hidden tail selector,
+ambient completeness theorem, or unrecorded modulus choice contributes to the
+read.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of
+\autoref{def:cauchyregularization-finite-carrier}. Its displayed rows are
+precisely $S,M,D,W,R,E,H,C,P,N$, so any Real-facing route must first account
+for the source window, modulus threshold, dyadic ledger, approximant ledger,
+handoff, seal provenance, transports, continuation routes, package row, and
+local naming ledger named there.
+
+For the forward direction, apply
+\autoref{thm:cauchyregularization-regular-sequence-handoff}. The
+$\RegSeqRatUp$ handoff row $R$ is reached only through the displayed
+$\StreamNameUp$ source window in $S$, the threshold row $M$, the dyadic
+modulus-window ledger $D$, and the approximant ledger $W$.
+
+Then apply \autoref{thm:cauchyregularization-real-seal-boundary}. The
+$\RealUp$ seal reads that handoff through the seal-provenance row $E$ and the
+structural rows $H,C,P,N$, and the boundary exposes no further
+consumer-visible coordinate.
+
+For the converse direction, start from the displayed rows
+$S,M,D,W,R,E,H,C,P,N$. The handoff theorem repacks the source-modulus data as
+the same $\RegSeqRatUp$ route, and the seal-boundary theorem attaches exactly
+the Real-facing provenance row $E$ with the same structural routes and
+ledgers.
+
+Finally use \autoref{thm:cauchyregularization-real-seal-idempotent-route}.
+If another Real-facing route were available from the same source,
+modulus, dyadic, approximant, handoff, seal, transport, package, and naming
+rows, the second read would differ from the first. Idempotence rules this out,
+so the factorization is exactly the displayed route and excludes quotient
+streams, selected limits, host real equality, hidden tail selectors, ambient
+completeness, and unrecorded modulus choices.
+\end{proof}
+
 \begin{theorem}[CauchyRegularization public real-regularization export]
 \label{thm:cauchyregularization-public-real-regularization-export}
 The finite carrier, modulus classifier, regular-sequence handoff, $\RealUp$
