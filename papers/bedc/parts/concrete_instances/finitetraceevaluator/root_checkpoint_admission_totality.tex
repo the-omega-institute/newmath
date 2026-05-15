@@ -1,0 +1,98 @@
+\begin{theorem}[FiniteTraceEvaluator root checkpoint admission totality]
+\label{thm:finitetraceevaluator-root-checkpoint-admission-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet with carrier
+$E=(I,T,A,V,H,C,P,N)$, checkpoint admission is total only along the displayed
+finite route
+$$
+I \to T \to A \to V \to H \to C \to P \to N.
+$$
+The admission surface is a finite $\BHist$ read transported by $\hsame$,
+replayed by $\Cont$, packaged by $\Pkg$, and named by
+$\NameCert_{\FiniteTraceEvaluatorUp}$. It has no coordinate for host
+validation, total truth, total halting, unbounded evaluation, or an infinite
+trace.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:finite-trace-evaluator-carrier}. The
+accepted evaluator packet displays exactly $I,T,A,V,H,C,P,N$, with $T$ as the
+finite $\BHist$ trace row, $H$ as the componentwise $\hsame$ transport row, $C$
+as the $\Cont$ replay row, $P$ as $\Pkg$ provenance, and $N$ as the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row.
+
+Apply the local NameCert obligations and bounded trace coverage,
+\autoref{thm:finite-trace-evaluator-namecert-obligations} and
+\autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. They force every
+accepted-result read through $I \to T \to A$ before checkpoint admission can
+read validation, transport, continuation, provenance, or naming rows.
+
+Finally attach the host-validation refusal ledger and root runtime admission
+surface, \autoref{thm:finite-trace-evaluator-host-validation-refusal-ledger}
+and \autoref{thm:finitetrace-evaluator-root-runtime-admission}. The refusal
+ledger blocks host validation, total truth, total halting, unbounded
+evaluation, and infinite traces, while the runtime admission surface keeps the
+consumer on the same finite route through $V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root trace-validation separation]
+\label{thm:finitetraceevaluator-root-trace-validation-separation}
+For an accepted $\FiniteTraceEvaluatorUp$ packet $E=(I,T,A,V,H,C,P,N)$,
+accepted-result reads and validation-boundary reads remain separated at the
+rows $A$ and $V$. The accepted-result side is read only through
+$$
+I \to T \to A,
+$$
+while the validation-boundary side is read only through
+$$
+V \to H \to C \to P \to N.
+$$
+The two sides may be transported, replayed, packaged, and named inside the same
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet, but neither side becomes host
+validation or an infinite trace checker.
+\end{theorem}
+\begin{proof}
+Start from result-validation separation,
+\autoref{thm:finite-trace-evaluator-result-validation-separation}. It places
+accepted results behind the finite route $I \to T \to A$ and records validation
+only at the boundary row $V$.
+
+Use the checkpoint source lock and validation nonescape totality,
+\autoref{thm:finite-trace-evaluator-checkpoint-source-lock} and
+\autoref{thm:finite-trace-evaluator-validation-nonescape-totality}. They keep
+checkpoint-facing accepted-result reads on $A$ and validation-facing reads on
+$V,H,C,P,N$ under the displayed $\hsame$ transports and $\Cont$ replay routes.
+
+The local NameCert obligations then exhaust the packet. Since $P$ and $N$ add
+only provenance and local naming, the separated reads cannot import host
+validation, total truth, total halting, unbounded evaluation, or infinite trace
+semantics.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root reflection checkpoint handoff]
+\label{thm:finitetraceevaluator-root-reflection-checkpoint-handoff}
+Every $\ReflectionRuntimeCheckpointUp$ handoff that consumes an accepted
+$\FiniteTraceEvaluatorUp$ packet consumes the finite evaluator rows
+$I,T,A,V,H,C,P,N$. The handoff reads bounded trace coverage, accepted-result
+classification, validation-boundary refusal, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row, and
+it cannot import host validation, total truth, total halting, an unbounded
+runtime, or an infinite trace.
+\end{theorem}
+\begin{proof}
+First apply the runtime boundary handoff,
+\autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. It sends every
+$\ReflectionRuntimeCheckpointUp$ handoff through the finite evaluator carrier,
+bounded trace coverage, validation non-escape, result-validation separation,
+root trace-result totality, root validation boundary, and root boundary
+package.
+
+Next use checkpoint admission totality above. The runtime admission surface is
+already the displayed route $I \to T \to A \to V \to H \to C \to P \to N$, so
+the handoff receives no extra host row before reading the evaluator packet.
+
+Finally combine root consumer readiness with runtime admission boundary,
+\autoref{thm:finitetraceevaluator-root-consumer-readiness} and
+\autoref{thm:finite-trace-evaluator-runtime-admission-boundary}. Downstream
+checkpoint consumers receive the same finite $\BHist/\hsame/\Cont/\Pkg/
+\NameCert$ packet, and the refusal surface blocks host validation, total truth,
+total halting, unbounded runtime state, and infinite trace imports.
+\end{proof}
