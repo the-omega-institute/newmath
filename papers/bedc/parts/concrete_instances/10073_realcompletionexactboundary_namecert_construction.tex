@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionExactBoundaryUp$}
+\label{ch:concrete-instances-real-completion-exact-boundary-namecert}
+\origin{ai}
+
+The $\RealCompletionExactBoundaryUp$ packet is the finite boundary surface for the Real completion route of \autoref{ch:visions-real-completeness}. It sits after the seal route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, the witness ledger of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, the synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. Its role is to bind those existing rows into one exact finite NameCert packet, not to add quotient streams, selected host limits, countable choice, host real equality, or ambient completeness.
+
+\falsifiablePrediction{If a Real completion boundary read bypasses either the displayed seal/classifier rows or the displayed witness/budget rows, the packet is refuted.}
+
+\independenceWitness{cauchylimitseal, realcompletionsealclassifier, cauchywitnessledger, cauchysealbudgetsynchronizer, real: no listed sibling contains the exact joint seal, classifier, witness-ledger, synchronizer, StreamName, RegSeqRat, DyadicRatCore, and RealUp packet surface.}
+
+\begin{definition}[Real completion exact-boundary carrier]
+\label{def:real-completion-exact-boundary-carrier}
+A $\RealCompletionExactBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\CauchyLimitSealUp$ seal row consumed by the completion route;
+\item $K$ is the $\RealCompletionSealClassifierUp$ classifier row for the same displayed seal surface;
+\item $J$ is the $\CauchyWitnessLedgerUp$ row naming the finite witness evidence for the route;
+\item $S$ is the $\CauchySealBudgetSynchronizerUp$ row synchronizing the seal budget with the witness ledger;
+\item $W$ is the $\StreamNameUp$ finite-window row read by the same route;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to $W$;
+\item $D$ is the $\DyadicRatCoreUp$ dyadic tolerance and endpoint row used by the readback;
+\item $E$ is the terminal $\RealUp$ seal row reached only after $L,K,J,S,W,R,D$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for all displayed rows;
+\item $C$ records the displayed $\Cont$ replay from seal and witness admission to the terminal Real seal;
+\item $P$ is the $\Pkg$ provenance over the sibling certificates, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RealCompletionExactBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these rows. It has no coordinate for quotient stream equality, host real equality, a hidden selector, a second seal route, a detached witness ledger, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Real completion exact-boundary NameCert obligations]
+\label{thm:real-completion-exact-boundary-namecert-obligations}
+For every accepted $\RealCompletionExactBoundaryUp$ carrier
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealCompletionExactBoundaryUp}$ surface consists exactly of carrier exposure for $B$, completion-seal exposure through $L$, classifier exposure through $K$, witness-ledger exposure through $J$, synchronized budget exposure through $S$, finite-window exposure through $W$, regular-rational readback through $R$, dyadic tolerance readback through $D$, terminal $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-exact-boundary-carrier}. Its displayed packet lists the seal row, classifier row, witness ledger, budget synchronizer, finite window, regular-rational readback, dyadic ledger, terminal Real seal, and structural rows.
+
+Read the sibling dependencies in order. The completion seal $L$ and classifier $K$ fix the seal-facing side, while the witness ledger $J$ and synchronizer $S$ fix the evidence and budget side. The rows $W,R,D,E$ are then the StreamName, RegSeqRat, DyadicRatCore, and RealUp projections of that same route.
+
+The structural rows $H,C,P,N$ only transport, replay, record provenance for, and name the displayed packet. Since no other coordinate is present in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real completion exact-boundary non-escape]
+\label{thm:real-completion-exact-boundary-nonescape}
+Every accepted $\RealCompletionExactBoundaryUp$ consumer factors through the finite route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N.
+$$
+The consumer may inspect the completion seal, seal classifier, witness ledger, synchronized budget, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, componentwise transports, continuations, provenance, and local NameCert row. It receives no quotient stream equality, host real equality, hidden selector, second seal route, detached witness ledger, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $B=(L,K,J,S,W,R,D,E,H,C,P,N)$. The seal/classifier side and the witness/budget side are both displayed before the StreamName, RegSeqRat, DyadicRatCore, and RealUp rows can be consumed as boundary projections.
+
+Apply \autoref{thm:real-completion-exact-boundary-namecert-obligations}. The local certificate exports exactly the rows $L,K,J,S,W,R,D,E,H,C,P,N$ and treats $H,C,P,N$ as structural support for that same finite packet.
+
+Finally inspect the excluded objects. Quotient stream equality, host real equality, hidden selectors, second seal routes, detached witness ledgers, and ambient completeness are absent from the carrier and classifier. A consumer that reads any of them has left the accepted exact-boundary packet.
+\end{proof}
+
+Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
