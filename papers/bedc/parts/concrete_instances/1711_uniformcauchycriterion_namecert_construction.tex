@@ -438,6 +438,47 @@ The same route is preserved for real-facing consumers. Shared-threshold transpor
 The completion-facing step is then the seal boundary of \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. Since the boundary exposes only the finite public surface before $E$ is read, the downstream consumer receives no quotient streams, host real equality, selected family limits, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family Real seal route determinacy]
+\label{thm:uniform-cauchy-criterion-finite-family-real-seal-route-determinacy}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted
+$\UniformCauchyCriterionUp$ packet. The Real-facing seal route of $U$ is
+uniquely determined by the finite family ledger $I$, the shared
+$\StreamNameUp$ window family $W$, the single modulus schedule $M$, the
+dyadic tolerance row $Q$, and the tail ledger $T$.
+
+In particular, any downstream consumer that reaches the seal row $E$ through
+the same displayed rows $I,W,M,Q,T$ reaches the same finite BEDC route through
+$E,H,C,P,N$. The route has no quotient stream family, host real equality,
+selected family limit, ambient completeness object, or choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of
+\autoref{def:uniform-cauchy-criterion-carrier}. It displays exactly the finite
+packet rows $I,W,M,Q,T,E,H,C,P,N$, so the family ledger, shared windows,
+modulus schedule, dyadic tolerance, and tail ledger are public route
+coordinates rather than external analytic data.
+
+Apply
+\autoref{thm:uniform-cauchy-criterion-window-stability}. The shared
+StreamName windows remain the same family under the allowed transports. Then
+use \autoref{thm:uniform-cauchy-criterion-real-seal-handoff} to route every
+Real-facing read through the displayed rows before the seal row $E$ is
+consumed.
+
+Next apply
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. Once
+$I,W,M,Q,T$ are fixed, every accepted tail comparison reads through the same
+finite tolerance and tail ledger, so a consumer reaching $E$ through those
+rows has not introduced a second route.
+
+Finally use
+\autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. Since quotient
+stream families, host real equality, selected family limits, ambient
+completeness, and choice schedules are not packet coordinates, they cannot
+distinguish two consumers that display the same $I,W,M,Q,T$ rows and the same
+seal handoff through $E,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion public non-escape export]
 \label{thm:uniform-cauchy-criterion-public-non-escape-export}
 The public export surface of $\UniformCauchyCriterionUp$ is finite and non-escaping: it exports exactly $I,W,M,Q,T,E,H,C,P,N$ and excludes quotient stream families, host real equality, selected family limits, and ambient completeness. Any downstream consumer that claims one of the excluded objects is outside the public package.
