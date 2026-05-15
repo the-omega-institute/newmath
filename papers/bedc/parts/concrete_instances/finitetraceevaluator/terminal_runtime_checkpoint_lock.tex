@@ -1,0 +1,102 @@
+\begin{theorem}[FiniteTraceEvaluator terminal runtime checkpoint lock]
+\label{thm:finite-trace-evaluator-terminal-runtime-checkpoint-lock}
+For every accepted $\FiniteTraceEvaluatorUp$ terminal checkpoint packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+every terminal checkpoint read remains on the displayed route
+$$
+I \to T \to A \to V \to H \to C \to P \to N.
+$$
+Here $T$ is the finite $\BHist$ trace row, $H$ is the componentwise $\hsame$
+transport row, $C$ is the displayed $\Cont$ replay row, $P$ is the $\Pkg$
+provenance row, and $N$ is the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row. The lock exposes no host evaluator,
+hidden acceptance predicate, total truth predicate, unbounded runtime, or
+infinite trace semantics.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and terminal root surface,
+\autoref{def:finite-trace-evaluator-carrier} and
+\autoref{def:finite-trace-evaluator-terminal-root-surface}. They display
+exactly $I,T,A,V,H,C,P,N$ as the terminal checkpoint packet and provide no
+coordinate for a host evaluator or infinite trace.
+
+Apply checkpoint-budget exhaustion,
+\autoref{thm:finite-trace-evaluator-checkpoint-budget-exhaustion}. It forces
+every checkpoint-budget read consumed by the reflection-runtime sibling to be
+exhausted by the same finite evaluator rows.
+
+Finally use terminal route exposure and root checkpoint admission totality,
+\autoref{thm:finite-trace-evaluator-terminal-route-exposure} and
+\autoref{thm:finitetraceevaluator-root-checkpoint-admission-totality}. These
+results identify the terminal read and root admission route with the displayed
+finite spine from $I$ through $N$, so no off-route checkpoint source remains.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal admission totality]
+\label{thm:finite-trace-evaluator-terminal-admission-totality}
+Terminal admission for an accepted $\FiniteTraceEvaluatorUp$ checkpoint packet
+is total only through the finite
+$\BHist/\hsame/\Cont/\Pkg/\NameCert_{\FiniteTraceEvaluatorUp}$ packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+The admission surface reads trace evidence from $T$, transports it through
+$H$, replays it through $C$, packages provenance through $P$, and names the
+local certificate through $N$. It does not admit a host evaluator, hidden
+acceptance predicate, total truth predicate, total halting classifier,
+unbounded evaluator, or infinite trace semantics.
+\end{theorem}
+\begin{proof}
+Project the terminal packet through
+\autoref{def:finite-trace-evaluator-terminal-root-surface}. The admission
+surface is already finite: $I$ names the coded input, $T$ names the finite
+$\BHist$ trace, $A$ names accepted-result classification, and $V$ names the
+validation-boundary refusal row.
+
+Next use the root checkpoint admission totality theorem. It makes admission
+total only along $I \to T \to A \to V \to H \to C \to P \to N$, with $H,C,P,N$
+as the displayed transport, replay, provenance, and local naming rows.
+
+The remaining terminal clauses are exhausted by the terminal NameCert
+obligation surface,
+\autoref{thm:finite-trace-evaluator-namecert-terminal-obligation-surface}.
+Since that surface lists only finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\FiniteTraceEvaluatorUp}$ data, terminal admission has no further
+truth, halting, host-runtime, or infinite-trace gate.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal reflection handoff]
+\label{thm:finite-trace-evaluator-terminal-reflection-handoff}
+Every reflection-runtime consumer of an accepted $\FiniteTraceEvaluatorUp$
+terminal checkpoint receives only the finite checkpoint packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+The handoff exposes the finite $\BHist$ route, componentwise $\hsame$
+transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ naming surface. It provides no host
+evaluator, hidden acceptance predicate, total truth predicate, total halting
+classifier, infinite trace semantics, or alternate runtime evaluator.
+\end{theorem}
+\begin{proof}
+Start from the reflection-runtime route,
+\autoref{thm:finite-trace-evaluator-reflection-runtime-route}. It sends every
+$\ReflectionRuntimeCheckpointUp$ read through the displayed sequence
+$I \to T \to A \to V \to H \to C \to P \to N$.
+
+Use terminal runtime-candidate bridge,
+\autoref{thm:finite-trace-evaluator-terminal-runtime-candidate-bridge}. That
+bridge factors runtime-candidate provenance through the sibling
+$\RuntimeCandidateBoundaryUp$ and $\ReflectionRuntimeCheckpointUp$ surfaces
+before returning to the displayed terminal rows.
+
+Finally combine terminal admission totality above with checkpoint-budget
+exhaustion. The admissible checkpoint packet is already exhausted by finite
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\FiniteTraceEvaluatorUp}$ data, so a reflection-runtime consumer
+receives no hidden acceptance predicate, total truth predicate, host
+evaluator, total halting classifier, alternate evaluator, or infinite trace
+semantics.
+\end{proof}
