@@ -1,0 +1,45 @@
+\begin{theorem}[GapClosureBoundary root source totality]
+\label{thm:gap-closure-boundary-root-source-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every supported root read of the boundary must pass through the displayed source route
+$$
+G \longrightarrow S
+$$
+before any hard-problem consumer reads the packet. The rows $H,C,P,N$ keep that read inside the componentwise transport, displayed continuation, package provenance, and local $\NameCert_{\GapClosureBoundaryUp}$ surface, so no supported read can use a second source coordinate, host equality, quotient data, hidden closure supply, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:gap-closure-boundary-carrier}. The accepted root packet has exactly the rows $G,S,R,H,C,P,N$, with $S$ the only displayed source row available to a supported boundary read.
+
+Apply the NameCert obligations and displayed source precondition, \autoref{thm:gap-closure-boundary-namecert-obligations} and \autoref{thm:gap-closure-boundary-displayed-source-precondition}. They require a supported read to expose the source observation or socket row $S$ before the packet is consumed.
+
+The structural rows do not change the route. They transport, replay, package, and locally name the already displayed source branch, so the supported root read is exactly the route $G \longrightarrow S$ inside $G,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root refusal handoff totality]
+\label{thm:gap-closure-boundary-root-refusal-handoff-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every off-source root read is handed to the displayed refusal row
+$$
+G \longrightarrow R
+$$
+through $H,C,P,N$. The handoff cannot export internal closure, hidden $\mathsf{T}$ supply, host equality, quotient data, private source selection, or any continuation outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with an off-source read of $G$. By \autoref{thm:gap-closure-boundary-displayed-source-precondition}, such a read has not exposed the source row $S$, so it cannot enter the supported branch.
+
+Use refusal-ledger transport from \autoref{thm:gap-closure-boundary-refusal-ledger-transport}. The request is routed to $R$ along the same structural rows $H,C,P,N$ that belong to the accepted carrier.
+
+Finally apply the carrier and NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. Since the certificate surface contains only $G,S,R,H,C,P,N$, the refusal handoff has no row from which internal closure or hidden $\mathsf{T}$ supply could be exported.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root consumer handoff]
+\label{thm:gap-closure-boundary-root-consumer-handoff}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, the downstream consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ receive exactly the displayed boundary rows $G,S,R,H,C,P,N$. A supported consumer receives the source handoff $G \longrightarrow S$ with $H,C,P,N$, an off-source consumer receives the refusal handoff $G \longrightarrow R$ with $H,C,P,N$, and no listed consumer receives a separate closure, private access, causal-necessity, aspect-reduction, quotient, or hidden $\mathsf{T}$ row.
+\end{theorem}
+\begin{proof}
+First expose the accepted packet through \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. These anchors identify the boundary rows available before any downstream hard-problem consumer reads the packet.
+
+For a supported consumer, use \autoref{thm:gap-closure-boundary-root-source-totality}. The read has already passed through $G \longrightarrow S$, and the structural rows only transport, replay, package, and name that source branch.
+
+For an off-source consumer, use \autoref{thm:gap-closure-boundary-root-refusal-handoff-totality}. The request has already been handed to $R$ through $H,C,P,N$, without exporting hidden closure or hidden $\mathsf{T}$ supply.
+
+It remains to check consumer exhaustion. Apply \autoref{thm:gap-closure-boundary-sibling-consumer-exhaustion}: the causal commitment, finite witnessed refutation, other-minds commitment, aspect-chain, and solipsism-refusal consumers are exactly the listed readers of this boundary packet. Therefore each receives one of the two displayed handoffs and no row outside $G,S,R,H,C,P,N$.
+\end{proof}
