@@ -178,6 +178,42 @@ Next apply \autoref{thm:cauchy-limit-functor-structural-transport}. It supplies 
 Finally use \autoref{thm:cauchy-limit-functor-real-completion-consumer} and \autoref{thm:cauchy-limit-functor-primitive-scope-package}. The first confines Real and Completion consumers to the same finite transport route, while the second keeps the route primitive-scoped. The exclusions in those two results remove quotient stream equality, host real equality, selected limits, detached completion objects, ambient completeness, countable choice, and second routes from the public export.
 \end{proof}
 
+\begin{theorem}[Cauchy limit functor terminal-window fusion]
+\label{thm:cauchy-limit-functor-terminal-window-fusion}
+Every accepted $\CauchyLimitFunctorUp$ packet with carrier
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N)
+$$
+fuses the source terminal $\StreamNameUp$ window $W_0$, target terminal $\StreamNameUp$ window $W_1$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RealCompletionSealClassifierUp$ classifier row $K$, and terminal $\RealUp$ row $E$ into the single terminal-window route
+$$
+S \longmapsto M \longmapsto W_0,W_1,R,D \longmapsto K \longmapsto T \longmapsto E \longmapsto H,C,P,N.
+$$
+The route has no quotient stream equality, selected host limit, countable-choice selector, detached completion object, or second Real-facing route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-limit-functor-carrier}. The only finite source and target windows are $W_0$ and $W_1$, and the only Real-facing observation rows attached to them are $R,D,K,E$.
+
+Use finite observation exposure, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}. It identifies $W_0,W_1,R,D,K,E$ as the complete observation side available to a consumer and excludes quotient stream equality, selected limits, countable-choice selectors, host real equality, detached completion objects, and ambient completeness.
+
+Finally apply the Real-completion consumer boundary and the public seal export, \autoref{thm:cauchy-limit-functor-real-completion-consumer} and \autoref{thm:cauchy-limit-functor-public-seal-export}. Together they force the terminal Real read through the same route from $S$ through $M$, the two windows, readback, tolerance, classifier, target seal, endpoint, and structural rows. Hence the terminal-window route is fused inside the accepted packet and no second Real-facing route remains.
+\end{proof}
+
+\begin{theorem}[Cauchy limit functor Real-seal naturality]
+\label{thm:cauchy-limit-functor-real-seal-naturality}
+Let
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N)
+$$
+be an accepted $\CauchyLimitFunctorUp$ packet. Componentwise $\hsame$ transport along the structural row $H$ preserves the terminal-window route of \autoref{thm:cauchy-limit-functor-terminal-window-fusion} before any Real-facing seal is made public. Thus the transported source seal, target seal, stream windows, readback, tolerance ledger, classifier row, terminal Real row, continuation replay, provenance, and local name still form the same single route, with no public seal read adding a quotient stream equality, selected host limit, countable-choice selector, detached completion object, or second Real-facing route.
+\end{theorem}
+\begin{proof}
+Read the classifier of \autoref{def:cauchy-limit-functor-classifier}. It compares packets only by the rows $S,T,M,W_0,W_1,R,D,K,E,H,C,P,N$, so componentwise transport cannot create a new coordinate for a second seal route or a detached Real object.
+
+Use structural transport, \autoref{thm:cauchy-limit-functor-structural-transport}. The row $H$ is the only componentwise $\hsame$ transport surface, while $C,P,N$ keep the replay, provenance, and local name attached to the same packet.
+
+Apply terminal-window fusion, \autoref{thm:cauchy-limit-functor-terminal-window-fusion}. Since the fused route is already determined before public seal export, transporting each displayed component along $H$ preserves that same route. The exclusions in the fusion theorem therefore persist before any Real-facing seal becomes public.
+\end{proof}
+
 \begin{theorem}[Cauchy limit functor bridge-scope coherence]
 \label{thm:cauchy-limit-functor-bridge-scope-coherence}
 Every bridge-scope consumer of an accepted $\CauchyLimitFunctorUp$ packet with carrier
