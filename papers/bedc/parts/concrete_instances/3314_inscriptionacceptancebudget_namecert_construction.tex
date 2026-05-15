@@ -28,7 +28,6 @@ with the following displayed rows:
 \end{enumerate}
 The classifier for accepted carriers compares only $S,M,R,K,U,B,Q,H,C,P,N$. It has no coordinate for private intention, host trust, unbudgeted downstream use, unchecked route replay, hidden mutation, or a complete inscription-event ontology.
 \end{definition}
-\leanchecked{BEDC.Derived.InscriptionAcceptanceBudgetUp.InscriptionAcceptanceBudgetTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[InscriptionAcceptanceBudget check row exactness]
 \label{thm:inscription-acceptance-budget-check-row-exactness}
@@ -73,15 +72,15 @@ Check-row exactness is exactly \autoref{thm:inscription-acceptance-budget-check-
 For residue non-escape and route stability, inspect the remaining carrier inventory. The only residue coordinate is $Q$, and the only public comparison and consumer routes are the displayed rows $H$ and $C$ with provenance $P,N$.
 \end{proof}
 
-\closureat{InscriptionAcceptanceBudgetUp}{seedStr}
+\closureat{InscriptionAcceptanceBudgetUp}{obligationStr}
 
 \begin{closurestatus}{\InscriptionAcceptanceBudgetUp}
   \constructivestory{An $\InscriptionAcceptanceBudgetUp$ packet is generated from prior source state, a named public record, a route witness, an accepted check row, an intended consumer, a finite consumer-budget row, a GAP residue row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:inscription-acceptance-budget-carrier}, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, \autoref{thm:inscription-acceptance-budget-consumer-boundary}, and \autoref{thm:inscription-acceptance-budget-namecert-obligations} bind the accepted-check and downstream consumer-budget surface of inscription as a finite NameCert packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:inscription-acceptance-budget-carrier}, \leanchecked{BEDC.Derived.InscriptionAcceptanceBudgetUp.taste\_gate}, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, \autoref{thm:inscription-acceptance-budget-consumer-boundary}, and \autoref{thm:inscription-acceptance-budget-namecert-obligations} bind the accepted-check and downstream consumer-budget surface of inscription as a finite NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, complete inscription-event ontology, private intention, hidden agency, unchecked route semantics, unbudgeted downstream consumption, or host process traces.}
-  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for accepted-check exactness, consumer-budget exhaustion, residue non-escape, and downstream route stability.}
+  \upgradepath{Scoped closure requires kernel-scoped paper proofs for accepted-check exactness, consumer-budget exhaustion, residue non-escape, and downstream route stability; Lean verification remains a separate axis.}
 \end{closurestatus}
