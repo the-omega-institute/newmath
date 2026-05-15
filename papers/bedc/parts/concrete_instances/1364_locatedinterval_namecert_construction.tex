@@ -573,6 +573,34 @@ For the seal-facing part, apply \autoref{thm:locatedinterval-dyadic-real-seal-ha
 Finally use \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. It composes rational containment, dyadic refinement, and $\RealUp$ sealing into the displayed finite route. The sibling public surfaces in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicinterval-namecert}, and \autoref{ch:concrete-instances-real-namecert} supply the endpoint-window, readback, refinement, and Real-seal consumers, so none of them can introduce a second route through host intervals, selected endpoints, quotient-real equality, order completeness, or ambient completion.
 \end{proof}
 
+\begin{theorem}[LocatedInterval StreamName Real cell synchronization]
+\label{thm:located-interval-stream-real-cell-synchronization}
+Let
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+and
+$$
+J'=(L',U',I',D',S',R',E',H',C',P',N')
+$$
+be accepted $\LocatedIntervalUp$ packets. If the two packets agree on the lower and upper located-real endpoint rows, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the rational and dyadic cell ledgers, the $\RealUp$ seal rows, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, then every $\RealUp$ or completion-facing endpoint-cell consumer reads the same finite route from $J$ and $J'$.
+
+In particular, such a consumer cannot distinguish the packets by host interval order, selected endpoints, quotient real equality, or order completeness. Its read factors through the synchronized route
+$$
+L,U \to S \to R \to I,D \to E \to H,C,P,N
+$$
+and the corresponding primed route.
+\end{theorem}
+\begin{proof}
+Start with classifier stability for the accepted $\LocatedIntervalUp$ packets. Agreement on $L,U,S,R,I,D,E,H,C,P,N$ places both packets on the same displayed carrier rows before any endpoint-cell consumer reads them.
+
+Use \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. The rational containment cells, dyadic refinements, and $\RealUp$ seal rows form one exact finite route for each packet.
+
+Apply \autoref{thm:locatedinterval-window-cell-seal-unification}. It identifies the endpoint window, readback, cell, refinement, and seal rows as a single consumer route and excludes replacement by host intervals, selected endpoint values, quotient real equality, order completeness, or ambient completion.
+
+Finally compare the two displayed routes componentwise through the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since every consumer-facing coordinate agrees, the two packets are synchronized for every $\RealUp$ or completion-facing endpoint-cell read.
+\end{proof}
+
 \begin{theorem}[LocatedInterval bridged public route]
 \label{thm:located-interval-bridged-public-route}
 The public $\LocatedIntervalUp$ packet over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is the bridge-facing route consumed by downstream Real and completion interfaces. Every such consumer receives the lower endpoint, upper endpoint, rational cell, dyadic refinement, endpoint-window, readback, seal, transport, continuation, package, and naming rows as one finite public certificate.
