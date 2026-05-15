@@ -182,4 +182,62 @@ theorem HistTimeStreamCarrier_schedule_classifier_stability [AskSetup] [PackageS
     }
   exact And.intro semantic (And.intro endpointUnary endpointSameProvenance)
 
+theorem HistTimeStreamCarrier_namecert_ledger_exhaustion [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont provenance name publicRead ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              HistTimeStreamCarrier source schedule start replay transport provenance name bundle
+                pkg ∧ hsame row publicRead)
+            (fun row : BHist =>
+              UnaryHistory source ∧ UnaryHistory schedule ∧ UnaryHistory start ∧
+                UnaryHistory replay ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+                  UnaryHistory name ∧ UnaryHistory row)
+            (fun _row : BHist =>
+              Cont schedule start replay ∧ Cont source replay provenance ∧
+                Cont provenance name publicRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle publicRead pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier provenanceNamePublic publicPkg
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, provenanceUnary,
+    nameUnary, scheduleStartReplay, sourceReplayProvenance, _provenanceReplay, provenancePkg,
+    namePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed provenanceUnary nameUnary provenanceNamePublic
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro publicRead
+        (And.intro carrierWitness (hsame_refl publicRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      have rowUnary : UnaryHistory row :=
+        unary_transport publicUnary (hsame_symm sourceRow.right)
+      exact
+        ⟨sourceUnary, scheduleUnary, startUnary, replayUnary, transportUnary, provenanceUnary,
+          nameUnary, rowUnary⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact
+        ⟨scheduleStartReplay, sourceReplayProvenance, provenanceNamePublic, provenancePkg,
+          namePkg, publicPkg⟩
+  }
+
 end BEDC.Derived.HistTimeStreamUp
