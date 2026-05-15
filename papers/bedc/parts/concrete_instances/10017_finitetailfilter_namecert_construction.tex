@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\FiniteTailFilterUp$}
+\label{ch:concrete-instances-finite-tail-filter-namecert}
+\origin{human}
+
+The $\FiniteTailFilterUp$ packet is the finite-filter surface shared by the Real and Completion routes. It packages the cofinal-tail information that is read by the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the RealUp seal of \autoref{ch:concrete-instances-real-namecert}, the tail budget of \autoref{ch:concrete-instances-dyadictailbound-namecert}, and the common-tail comparison packet of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert}. The packet is the BEDC finite-filter analogue of the constructive Cauchy tail-filter interface: a consumer receives a finite set of admitted tail windows, the dyadic and regular-sequence rows attached to those windows, and the seal-facing route that preserves the same cofinal-tail packet.
+
+\begin{definition}[FiniteTailFilter carrier]
+\label{def:finite-tail-filter-carrier}
+A $\FiniteTailFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window ledger whose entries form the admitted tail filter base;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the admitted windows;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same admitted windows and dyadic ledger;
+\item $B$ is the $\DyadicTailBoundUp$ tail-budget row that records the finite threshold and tolerance data used by the filter;
+\item $Q$ is the $\CauchyTailComparisonUp$ common-tail comparison row read through the same window ledger and dyadic ledger;
+\item $E$ is the $\RealUp$ seal row reached after the window, dyadic, regular-sequence, tail-budget, and common-tail comparison rows have all been displayed;
+\item $H$ records componentwise $\hsame$ transports for $S,D,R,B,Q,E,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes for window readback, dyadic tolerance use, regular-rational readback, tail-budget consumption, common-tail comparison, and RealUp seal consumption;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\DyadicTailBoundUp$, $\CauchyTailComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteTailFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $S,D,R,B,Q,E,H,C,P,N$ and their recorded read routes.
+\end{definition}
+
+\begin{theorem}[FiniteTailFilter NameCert obligations]
+\label{thm:finite-tail-filter-namecert-obligations}
+For the carrier of \autoref{def:finite-tail-filter-carrier}, the local $\NameCert_{\FiniteTailFilterUp}$ surface consists exactly of carrier admission for
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+window-filter exposure through $S$, dyadic tolerance exposure through $D$, regular-sequence readback through $R$, tail-budget exposure through $B$, common-tail comparison through $Q$, RealUp seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $S,D,R,B,Q,E,H,C,P,N$ are the only coordinates of the finite packet, so carrier admission is the assertion that these rows are assembled as one $\BHist$ surface.
+
+Read the analytic rows in order. The window ledger $S$ supplies the finite filter base, the dyadic ledger $D$ supplies the tolerance rows attached to that base, and the regular readback $R$ is the regular rational interpretation of the same finite windows.
+
+The tail-budget row $B$ and the common-tail comparison row $Q$ then read the same $S,D,R$ packet rather than separate windows or separate tolerances. The RealUp seal $E$ is exposed only after those rows have been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, authenticate, and name the same packet. Hence the listed coordinates exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter non-escape]
+\label{thm:finite-tail-filter-nonescape}
+Every downstream consumer of an accepted $\FiniteTailFilterUp$ packet receives only the finite surface
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+It receives no quotient stream equality, selected limit, host real equality, ambient completeness datum, metric-completeness datum, countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:finite-tail-filter-carrier}. The analytic coordinates are the finite window ledger, dyadic tolerance ledger, regular-sequence readback, tail-budget row, common-tail comparison row, and RealUp seal row. The remaining coordinates are transport, continuation, package provenance, and local naming rows for that same packet.
+
+Apply the NameCert obligation theorem. Any consumer route must pass through the displayed coordinates and their recorded $\hsame$ and $\Cont$ witnesses.
+
+None of the excluded objects is a coordinate of the carrier or a row certified by the local naming surface. Therefore an accepted consumer cannot recover quotient stream equality, a selected limit, host real equality, ambient completeness, metric-completeness data, countable choice, or a standard bridge row from the finite filter packet.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter tail-window exactness]
+\label{thm:finite-tail-filter-tail-window-exactness}
+For every accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N),
+$$
+the tail windows consumed by the $\DyadicTailBoundUp$ row $B$, the $\CauchyTailComparisonUp$ row $Q$, and the $\RealUp$ seal row $E$ are exactly the windows displayed in $S$ with the dyadic tolerances displayed in $D$. No accepted read may replace the filter base by an unrecorded window selector, split the tail-budget row from the common-tail comparison row, or substitute a separate dyadic tolerance ledger.
+\end{theorem}
+\begin{proof}
+Project $S$ and $D$ from the carrier. These are the only coordinates that display tail windows and dyadic tolerances.
+
+Use the NameCert obligations to locate $B$ and $Q$. The tail-budget row and the common-tail comparison row are accepted only as rows of the same packet, and both are read after the $S,D,R$ surface has been displayed.
+
+The RealUp seal row $E$ is downstream of that same packet. Its continuation route in $C$ can replay the displayed rows, but it has no coordinate for a second filter base or a second tolerance ledger.
+
+Thus the visible tail-window packet is exact: all accepted budget, comparison, and seal reads use $S$ and $D$ as displayed.
+\end{proof}
+
+\begin{theorem}[FiniteTailFilter Real seal handoff]
+\label{thm:finite-tail-filter-real-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+reaches the seal row $E$ only through the displayed route
+$$
+S,D,R,B,Q,H,C,P,N.
+$$
+The handoff is therefore a finite cofinal-tail route shared by Real and Completion seal reads, not a quotient of streams, selected limit, host real equality, ambient completeness theorem, metric-completeness datum, countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start from the carrier. The seal coordinate $E$ is stored in the same finite packet as the stream-window ledger $S$, dyadic tolerance ledger $D$, regular readback $R$, tail-budget row $B$, common-tail comparison row $Q$, and structural rows $H,C,P,N$.
+
+Apply tail-window exactness. The tail-budget and common-tail comparison rows use the same $S,D$ window packet, so a seal-facing read cannot detach the RealUp row from the cofinal-tail filter base.
+
+Use the NameCert obligation theorem to read the remaining route data. The $\hsame$ rows in $H$, the $\Cont$ routes in $C$, the package row $P$, and the local naming row $N$ certify the displayed handoff and no larger completion structure.
+
+Finally apply non-escape. Since the carrier has no excluded coordinate, the Real and Completion consumers receive the finite route $S,D,R,B,Q,H,C,P,N$ before reaching $E$ and nothing outside that route.
+\end{proof}
+
+\closureat{FiniteTailFilterUp}{seedStr}
+
+\begin{closurestatus}{\FiniteTailFilterUp}
+  \constructivestory{A $\FiniteTailFilterUp$ packet is generated from a finite StreamName window ledger, DyadicRatCore tolerance ledger, RegSeqRat readback, DyadicTailBound tail-budget row, CauchyTailComparison common-tail row, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-tail-filter-carrier}, \autoref{thm:finite-tail-filter-namecert-obligations}, \autoref{thm:finite-tail-filter-nonescape}, \autoref{thm:finite-tail-filter-tail-window-exactness}, and \autoref{thm:finite-tail-filter-real-seal-handoff} bind the finite cofinal-tail filter packet used by Real and Completion seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, ambient completeness, metric-completeness data, countable choice, or standard bridge rows.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, tail-window exactness, non-escape, RealUp seal handoff, and field-faithful TasteGate coverage for the displayed packet.}
+\end{closurestatus}
