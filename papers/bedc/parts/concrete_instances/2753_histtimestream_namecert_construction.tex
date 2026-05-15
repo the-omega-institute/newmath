@@ -560,6 +560,50 @@ Next pass through StreamName and RegSeqRat. StreamName window totality, \autoref
 Finally apply local-clock refusal and the Real readback ledger, \autoref{thm:histtimestream-local-clock-refusal} and \autoref{thm:hist-time-stream-real-readback-ledger}. The refusal theorem preserves the no-global-clock ledger, while the Real ledger records the ordered HistTimeStream, StreamName, RegSeqRat, Real route and rules out every listed nonlocal or quotient datum.
 \end{proof}
 
+\begin{theorem}[HistTimeStream StreamName tail scope]
+\label{thm:histtimestream-streamname-tail-scope}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every $\StreamNameUp$ tail read induced by $Q$ factors through the displayed finite rows
+$$
+H,T,S,C,L,P,N
+$$
+and through the finite-window handoff of \autoref{thm:histtimestream-streamname-finite-window-handoff}. The tail read may consume only that bounded naming window and cannot add a quotient stream, host index, selected limit, ambient completeness witness, global clock, or cross-Hist time coordinate.
+\end{theorem}
+\begin{proof}
+Project $Q$ through the carrier of \autoref{def:histtimestream-namecert-carrier}. The carrier exposes exactly the rows $H,T,S,C,L,P,N$, so a tail consumer has no source coordinate beyond the displayed packet.
+
+Apply the local prefix factorization and the StreamName finite-window handoff, \autoref{thm:histtimestream-local-stream-prefix-factorization} and \autoref{thm:histtimestream-streamname-finite-window-handoff}. Together they force every StreamName-facing tail read to pass through the finite $\Cont$ route before the naming surface is read.
+
+Finally use real-completion window nonescape, the Real readback ledger, and the StreamName Real consumer route, \autoref{thm:histtimestream-real-completion-window-nonescape}, \autoref{thm:hist-time-stream-real-readback-ledger}, and \autoref{thm:histtimestream-streamname-real-consumer-route}. These downstream ledgers preserve the same finite rows and exclude quotient, host, limit, completeness, and clock data, so the StreamName tail scope is exactly the stated bounded window.
+\end{proof}
+
+\begin{theorem}[HistTimeStream RegSeqRat window exactness]
+\label{thm:histtimestream-regseqrat-window-exactness}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every $\RegSeqRatUp$ consumer of the induced downstream window receives exactly the local finite window together with the $\RegSeqRatUp$ regularity obligations already routed through componentwise $\hsame$ transport. It receives no selected host limit, quotient stream representative, ambient completeness witness, global clock, or Real completeness proof.
+\end{theorem}
+\begin{proof}
+Start with the StreamName tail scope of \autoref{thm:histtimestream-streamname-tail-scope}. It fixes the input to the RegSeqRat-facing consumer as the finite window already exposed by HistTimeStream and StreamName.
+
+Next apply RegSeqRat reindex stability and the RegSeqRat Real window route, \autoref{thm:hist-time-stream-regseq-reindex-stability} and \autoref{thm:histtimestream-regseq-real-window-route}. These theorems identify the sequence-facing obligation as regular rational reindexing over the transported finite rows, not as a choice of a host limit or completion object.
+
+The exclusion clauses follow from real-completion window nonescape, the Real readback ledger, and the StreamName Real consumer route, \autoref{thm:histtimestream-real-completion-window-nonescape}, \autoref{thm:hist-time-stream-real-readback-ledger}, and \autoref{thm:histtimestream-streamname-real-consumer-route}. Each cited route keeps the RegSeqRat window inside the same local rows and blocks every listed nonlocal datum.
+\end{proof}
+
+\begin{theorem}[HistTimeStream Real readback scope lock]
+\label{thm:histtimestream-real-readback-scope-lock}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every $\RealUp$ readback on this consumer route must traverse
+$$
+\HistTimeStreamUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The readback may inspect only the certified real surface produced by the carrier, StreamName handoff, RegSeqRat window, and Real readback ledger. It cannot inspect Real completeness, a quotient class, a selected host limit, host-indexed time, global time, or any cross-Hist clock.
+\end{theorem}
+\begin{proof}
+First expose the packet through the carrier and local prefix factorization, \autoref{def:histtimestream-namecert-carrier} and \autoref{thm:histtimestream-local-stream-prefix-factorization}. This places every downstream read after the finite HistTimeStream rows.
+
+Then pass through the two intermediate consumers. The StreamName tail scope and RegSeqRat window exactness, \autoref{thm:histtimestream-streamname-tail-scope} and \autoref{thm:histtimestream-regseqrat-window-exactness}, identify the only naming and rational-sequence surfaces that can be read before RealUp.
+
+Finally apply the Real readback ledger and the StreamName Real consumer route, \autoref{thm:hist-time-stream-real-readback-ledger} and \autoref{thm:histtimestream-streamname-real-consumer-route}. Their route is the displayed HistTimeStream, StreamName, RegSeqRat, Real path, and their exclusions block Real completeness, quotient classes, host limits, host-indexed time, global time, and cross-Hist clocks from the readback scope.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
