@@ -144,6 +144,18 @@ def test_research_lane_recovers_held_candidates() -> None:
     assert '"held_for_refinement"' in text
 
 
+def test_supervisor_runs_plain_review_research_lane() -> None:
+    text = _text(SUPERVISOR)
+    assert "PLAIN_MATH_REVIEW" in text
+    assert "RESEARCH_CANDIDATE_LANE" in text
+    assert "DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0" in text
+    assert "def trigger_research_lane_refinement()" in text
+    assert "plain_math_review + research_candidate_lane" in text
+    assert "--research-lane-cooldown-hours" in text
+    assert "research_lane_refinement" in text
+    assert "does not write paper text directly" in text
+
+
 if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_runs_gated_dev_sync_resolver()
@@ -158,4 +170,5 @@ if __name__ == "__main__":
     test_dev_sync_protects_clean_merge_boundaries()
     test_candidate_inbox_holds_refinable_candidates()
     test_research_lane_recovers_held_candidates()
+    test_supervisor_runs_plain_review_research_lane()
     print("test_git_sync_boundaries: ok")

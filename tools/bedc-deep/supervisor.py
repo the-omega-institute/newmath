@@ -50,6 +50,8 @@ ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
 LONING_ASSIMILATOR = SCRIPT_DIR / "loning_assimilator.py"
+PLAIN_MATH_REVIEW = SCRIPT_DIR / "plain_math_review.py"
+RESEARCH_CANDIDATE_LANE = SCRIPT_DIR / "research_candidate_lane.py"
 
 DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
@@ -60,6 +62,7 @@ DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
+DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0
 DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
@@ -731,6 +734,43 @@ def trigger_oracle_board_refill() -> None:
         )
 
 
+def trigger_research_lane_refinement() -> None:
+    """Run local wide-in/strict-out candidate refinement.
+
+    This is the non-oracle local research lane: first audit old/new supply
+    through plain philosophy/plain math readings, then let research_candidate_lane
+    append only ready packets through board_spawn's normal gates.  It never
+    writes paper text directly.
+    """
+    supervisor_log("triggering plain_math_review + research_candidate_lane")
+    run_id = _now_tag_safe()
+    log_path = SUPERVISOR_LOG_DIR / f"research_lane_{run_id}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "python3",
+        "-c",
+        (
+            "import subprocess, sys; "
+            f"cmds = [[sys.executable, {str(PLAIN_MATH_REVIEW)!r}, '--limit', '80'], "
+            f"[sys.executable, {str(RESEARCH_CANDIDATE_LANE)!r}, '--limit', '24', '--append']]; "
+            "rc = 0\n"
+            "for cmd in cmds:\n"
+            "    print('+', ' '.join(cmd), flush=True)\n"
+            "    p = subprocess.run(cmd)\n"
+            "    rc = rc or p.returncode\n"
+            "sys.exit(rc)\n"
+        ),
+    ]
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            cmd,
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
 def run_loning_watch() -> dict | None:
     """Fetch-and-report loning-side pipeline/closure changes.
 
@@ -1162,6 +1202,9 @@ def main() -> int:
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
                         help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
                              "leverages project-attached PDF for deeper candidate suggestions.")
+    parser.add_argument("--research-lane-cooldown-hours", type=float, default=DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS,
+                        help="Cooldown between local plain-review + research-candidate refinement runs. "
+                             "This wide-in/strict-out lane does not write paper text directly.")
     parser.add_argument("--dev-sync-cooldown-minutes", type=float, default=DEFAULT_DEV_SYNC_COOLDOWN_MINUTES,
                         help="Cooldown between BEDC sync attempts from origin/auto-dev through dev_sync_resolver.")
     parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
@@ -1223,6 +1266,7 @@ def main() -> int:
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
+    last_research_lane_ts = 0.0
     last_paper_review_ts = 0.0
     last_loning_watch_ts = 0.0
     last_dev_sync_ts = 0.0
@@ -1240,6 +1284,7 @@ def main() -> int:
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
+        "research_lane_cooldown_hours": args.research_lane_cooldown_hours,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
         "allow_lean_adjacent_discovery": args.allow_lean_adjacent_discovery,
@@ -1289,6 +1334,7 @@ def main() -> int:
             since_probe_h = (_now() - last_probe_ts) / 3600.0
             since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
+            since_research_lane_h = (_now() - last_research_lane_ts) / 3600.0
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
             allow_lean_adjacent_discovery = bool(
                 supervisor_state.get("allow_lean_adjacent_discovery", False)
@@ -1320,6 +1366,10 @@ def main() -> int:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
                 trigger_paper_review(no_dev_sync=no_dev_sync)
                 last_paper_review_ts = _now()
+            if unfinished < args.low_water and since_research_lane_h > supervisor_state["research_lane_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → research_lane_refinement")
+                trigger_research_lane_refinement()
+                last_research_lane_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
                 trigger_oracle_board_refill()

@@ -22,6 +22,7 @@ import candidate_inbox
 import logic_packet_gate
 import paper_gap_scanner
 import paper_index
+import plain_math_review
 import structural_relation_miner
 
 from dispatch_bedc_target import REPO_ROOT, SCRIPT_DIR
@@ -294,6 +295,7 @@ def collect_candidates(limit: int) -> list[dict[str, Any]]:
 
     candidates.extend(structural_relation_miner.generate_candidates(limit=source_limit))
     candidates.extend(_candidate_inbox_candidates(source_limit))
+    candidates.extend(plain_math_review.candidate_supply_from_reviews(source_limit))
     return _dedupe_candidates(candidates)[:limit]
 
 
