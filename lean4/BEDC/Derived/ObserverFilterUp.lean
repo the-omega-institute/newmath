@@ -418,4 +418,34 @@ theorem ObserverFilterCarrier_real_window_budget_exhaustion [AskSetup] [PackageS
       sourceSelected, ledgerOmitted, selectedBudget, budgetRealWindow, budgetLocalName,
       provenancePkg, realRoutePkg⟩
 
+theorem ObserverFilter_observerhistoryidentity_streamname_lattice_route
+    [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName observerRead
+      streamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg ->
+      Cont source omitted observerRead ->
+        Cont selected localName streamRead ->
+          PkgSig bundle streamRead pkg ->
+            UnaryHistory source ∧ UnaryHistory selected ∧ UnaryHistory omitted ∧
+              UnaryHistory ledger ∧ UnaryHistory routes ∧ UnaryHistory localName ∧
+                UnaryHistory observerRead ∧ UnaryHistory streamRead ∧
+                  Cont source selected ledger ∧ Cont ledger omitted routes ∧
+                    Cont source omitted observerRead ∧ Cont selected localName streamRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle streamRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier sourceOmittedObserverRead selectedLocalNameStreamRead streamReadPkg
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+    _provenanceUnary, localNameUnary, sourceSelected, ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have observerReadUnary : UnaryHistory observerRead :=
+    unary_cont_closed sourceUnary omittedUnary sourceOmittedObserverRead
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed selectedUnary localNameUnary selectedLocalNameStreamRead
+  exact
+    ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary, localNameUnary,
+      observerReadUnary, streamReadUnary, sourceSelected, ledgerOmitted,
+      sourceOmittedObserverRead, selectedLocalNameStreamRead, provenancePkg, streamReadPkg⟩
+
 end BEDC.Derived.ObserverFilterUp
