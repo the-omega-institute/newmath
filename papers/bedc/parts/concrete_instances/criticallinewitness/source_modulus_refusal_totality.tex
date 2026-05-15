@@ -1,0 +1,41 @@
+\begin{theorem}[CriticalLineWitness source-modulus refusal totality]
+\label{thm:critical-line-witness-source-modulus-refusal-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every $\mathsf{RH}$-facing downstream read of $W$ factors through the displayed finite source/modulus/refusal surface
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row. The read has no coordinate for analytic continuation, host zero search, quotient representative, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:critical-line-witness-carrier}. The carrier displays exactly the source rows $Z,S$, modulus and real rows $M,R$, rational comparison ledger $Q$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$.
+
+Apply the root source triad \autoref{thm:critical-line-witness-root-source-triad}. It makes the zero-strip and critical-strip source side finite before any downstream consumer reads the witness. Then use the root comparison ledger \autoref{thm:critical-line-witness-root-comparison-ledger}; the modulus and rational comparison side is read only through $M,R,Q,H,C,P,N$.
+
+Finally apply the downstream refusal package \autoref{thm:critical-line-witness-downstream-refusal-package}. It removes analytic-continuation proofs, host zero searches, quotient representatives, host equality, and ambient completeness from the downstream interface. The only remaining read surface is the displayed finite source/modulus/refusal packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH boundary source nonescape]
+\label{thm:critical-line-witness-rh-boundary-source-nonescape}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, an $\mathsf{RH}$-boundary consumer cannot replace the displayed source rows $Z,S,Q$ by an analytic-continuation source, a host zero locator, a quotient stream, or a completeness coordinate. The boundary source remains the finite $\BHist$ route carried through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. It identifies the supplied zero row, critical-strip row, and rational comparison ledger as the source side available to the root and downstream boundary.
+
+Use the root comparison ledger \autoref{thm:critical-line-witness-root-comparison-ledger}. The comparison source is attached to $M,R,Q$ and transported through $H,C,P,N$, so the boundary has no separate source coordinate outside the accepted packet.
+
+Now apply \autoref{thm:critical-line-witness-downstream-refusal-package}. The excluded requests are precisely the analytic source replacement, host zero search, quotient representative, host equality, and ambient completeness routes. Therefore the $\mathsf{RH}$ boundary cannot escape the finite $\BHist$ source surface displayed by $W$.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus refusal readback]
+\label{thm:critical-line-witness-modulus-refusal-readback}
+Every downstream modulus readback of an accepted $\CriticalLineWitnessUp$ packet is exhausted by the rows $M,R,Q,H,C,P,N$ over the displayed source rows $Z,S$. It may report the finite modulus, real-part, rational comparison, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, but it cannot report analytic continuation, a host zero, quotient equality, or a completeness witness.
+\end{theorem}
+\begin{proof}
+Read the modulus row from the carrier \autoref{def:critical-line-witness-carrier}. The modulus-facing coordinates are $M,R,Q,H,C,P,N$, and the source context retained by that read is $Z,S$.
+
+Apply the root comparison ledger \autoref{thm:critical-line-witness-root-comparison-ledger}. It forces each modulus and comparison read through the rational ledger and the displayed transport, continuation, package, and naming rows.
+
+Use the source-modulus refusal totality of \autoref{thm:critical-line-witness-source-modulus-refusal-totality}. The totality row places the modulus readback inside the same finite downstream refusal surface.
+
+Finally apply \autoref{thm:critical-line-witness-downstream-refusal-package}. It refuses analytic continuation, host zero data, quotient equality, and completeness witnesses as readback outputs, so the modulus readback is exactly the displayed finite packet route.
+\end{proof}

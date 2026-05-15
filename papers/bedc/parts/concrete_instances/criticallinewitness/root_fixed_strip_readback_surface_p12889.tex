@@ -1,0 +1,87 @@
+\begin{theorem}[CriticalLineWitness fixed-strip source readback totality]
+\label{thm:critical-line-witness-fixed-strip-source-readback-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted
+$\CriticalLineWitnessUp$ packet whose source is the fixed critical strip.
+Before any zeta-facing or $\mathsf{RH}$-facing consumer can inspect the
+packet, the read must pass through the displayed $\BHist$ source rows $Z,S$,
+the rational-height and modulus rows $R,Q,M$, the zero-strip localization
+row $Z$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ along
+the structural route $H,C,P$.
+\end{theorem}
+\begin{proof}
+Project the packet through the root obligation carrier of
+\autoref{def:critical-line-witness-root-obligation-carrier}. The carrier
+exposes only $Z,S,M,R,Q,H,C,P,N$, so the fixed-strip source is read as a
+displayed $\BHist$ row rather than as a host critical-line theorem.
+
+Apply \autoref{thm:critical-line-witness-root-classifier-stability}. The
+same $\hsame$ and $\Cont$ route keeps the source row, rational-height row,
+modulus row, and zero-strip localization row attached to the accepted packet
+before downstream inspection.
+
+Finally use the NameCert completion row
+\autoref{thm:critical-line-witness-root-namecert-obligation-completion} and
+the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link}.
+Together they force zeta and $\mathsf{RH}$ consumers to read the displayed
+source, modulus, zero-strip, provenance, and local naming rows before
+inspecting the witness surface.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zero-strip modulus separation]
+\label{thm:critical-line-witness-zero-strip-modulus-separation}
+For every accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, the zero-strip refusal row is separated from the
+positive analytic-continuation payload by the displayed modulus ledger
+$M,R,Q,H,C,P,N$ and by the $\hsame$-stable classifier of the root obligation
+surface. Transport along $H$ and replay along $C$ therefore cannot turn a
+refusal row into an analytic-zero witness.
+\end{theorem}
+\begin{proof}
+Start with the classifier stability row
+\autoref{thm:critical-line-witness-root-classifier-stability}. It keeps any
+root-facing classifier inside the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ route.
+
+Next apply the root ledger nonescape theorem
+\autoref{thm:critical-line-witness-root-ledger-nonescape}. The ledger has no
+coordinate for analytic continuation, host zero extraction, quotient
+representatives, or ambient completion, so its refusal row cannot be read as
+a positive analytic payload.
+
+It remains to separate downstream zeta reads from the refusal row. Use
+\autoref{thm:critical-line-witness-zeta-link} together with
+\autoref{thm:critical-line-witness-rh-refusal-readback-totality}. They place
+zeta and $\mathsf{RH}$ consumers behind the same finite modulus and
+zero-strip readback route, leaving transport and replay unable to manufacture
+an analytic-zero witness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH-refusal consumer nonescape]
+\label{thm:critical-line-witness-rh-refusal-consumer-nonescape}
+Every downstream $\mathsf{RH}$-boundary consumer of an accepted
+$\CriticalLineWitnessUp$ packet may cite the fixed-strip source row $S$, the
+zero-strip refusal row $Z$, the modulus ledger $M,R,Q$, the $\Cont$ route
+$C$, the $\Pkg$ provenance row $P$, and the local
+$\NameCert_{\CriticalLineWitnessUp}$ row $N$. Such a consumer cannot extract
+a host zero, an analytic continuation theorem, a classical contradiction, a
+quotient stream, or an ambient completeness datum from those rows.
+\end{theorem}
+\begin{proof}
+Read the consumer through the completed NameCert obligation
+\autoref{thm:critical-line-witness-root-namecert-obligation-completion}. It
+supplies the fixed-strip, zero-strip, modulus, transport, route, provenance,
+and naming rows as one finite local packet.
+
+Apply \autoref{thm:critical-line-witness-root-ledger-nonescape}. This removes
+analytic-continuation theorems, $\mathsf{RH}$ proofs, host-limit data,
+quotient representatives, and standard-bridge objects from the root-facing
+export.
+
+Finally combine the downstream counter-surface
+\autoref{thm:critical-line-witness-downstream-counter-surface} with the
+$\mathsf{RH}$-refusal readback totality row
+\autoref{thm:critical-line-witness-rh-refusal-readback-totality}. The
+consumer may cite the displayed rows, but every extraction request for a host
+zero, analytic theorem, classical contradiction, quotient stream, or ambient
+completeness datum stops at the finite refusal ledger.
+\end{proof}

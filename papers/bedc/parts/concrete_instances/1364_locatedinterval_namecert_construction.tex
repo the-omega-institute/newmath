@@ -399,6 +399,7 @@ Apply \autoref{thm:located-interval-endpoint-transport} to move endpoint compari
 
 The $\RealUp$ boundary is supplied by \autoref{thm:locatedinterval-real-seal-non-escape}. Since the carrier has no coordinate for a host interval order, selected endpoint, quotient real equality, or completeness principle, the endpoint order window is exhausted by the named finite rows.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedIntervalUp.LocatedIntervalPacket\_endpoint\_order\_window}
 
 \begin{theorem}[LocatedInterval rational cell coverage route]
 \label{thm:locatedinterval-rational-cell-coverage-route}
@@ -547,6 +548,28 @@ Use \autoref{thm:locatedinterval-located-real-window-coverage}. The lower and up
 Now apply \autoref{thm:located-interval-real-handoff}. Every $\RealUp$ or completion-facing consumer receives the endpoint-window rows, readback rows, seal rows, and package rows of the root obligation carrier, with rational and dyadic information available only through $I$ and $D$.
 
 Finally apply \autoref{thm:locatedinterval-endpoint-cell-refinement-completeness}. It rules out a second route through host intervals, selected endpoints, quotient real equality, or order completeness, so the rational-dyadic-real handoff is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[LocatedInterval window-cell seal unification]
+\label{thm:locatedinterval-window-cell-seal-unification}
+For every accepted $\LocatedIntervalUp$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+every downstream $\RealUp$ or completion-facing consumer that reads an endpoint window, rational or dyadic containment cell, dyadic refinement, and $\RealUp$ seal factors through the single route
+$$
+L,U \to S \to R \to I,D \to E \to H,C,P,N.
+$$
+No such consumer may replace this route by a host interval, selected endpoint, quotient-real equality, order-completeness principle, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Start with endpoint windows. By \autoref{thm:locatedinterval-located-real-window-coverage}, the lower and upper endpoint observations are exhausted by $L,U,S,R,E,H,C,P,N$, while rational and dyadic cell information remains visible only through $I$ and $D$.
+
+Next use \autoref{thm:locatedinterval-rational-cell-coverage-route}. It identifies rational containment reads with the finite cell route attached to the accepted packet, so a consumer cannot detach containment from the endpoint-window rows.
+
+For the seal-facing part, apply \autoref{thm:locatedinterval-dyadic-real-seal-handoff}. Dyadic refinement rows and $\RealUp$ seal rows are handed to downstream Real-facing readers as one packet-local surface, with no ambient completion coordinate.
+
+Finally use \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. It composes rational containment, dyadic refinement, and $\RealUp$ sealing into the displayed finite route. The sibling public surfaces in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicinterval-namecert}, and \autoref{ch:concrete-instances-real-namecert} supply the endpoint-window, readback, refinement, and Real-seal consumers, so none of them can introduce a second route through host intervals, selected endpoints, quotient-real equality, order completeness, or ambient completion.
 \end{proof}
 
 \begin{theorem}[LocatedInterval bridged public route]

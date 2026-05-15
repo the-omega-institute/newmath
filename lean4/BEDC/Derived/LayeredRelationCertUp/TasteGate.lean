@@ -212,4 +212,16 @@ def taste_gate : ChapterTasteGate LayeredRelationCertUp :=
   -- BEDC touchpoint anchor: BHist BMark
   layeredRelationCertChapterTasteGate
 
+theorem LayeredRelationCert_refused_row_concrete_boundary
+    {chainA chainB layerMap classifier preserved exactness failureBoundary strength transport
+      route provenance nameRow : BHist} :
+    LayeredRelationCertUp.mk chainA chainB layerMap classifier preserved BHist.Empty exactness
+        failureBoundary strength transport route provenance nameRow ≠
+      LayeredRelationCertUp.mk chainA chainB layerMap classifier preserved
+        (BHist.e0 BHist.Empty) exactness failureBoundary strength transport route provenance
+        nameRow := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.LayeredRelationCertUp
