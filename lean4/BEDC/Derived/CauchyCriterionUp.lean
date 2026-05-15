@@ -551,4 +551,41 @@ theorem CauchyCriterionCarrier_tail_budget_real_observation_lock [AskSetup] [Pac
       observationUnary, windowModulusTolerance, toleranceLedgerRegseq,
       ledgerRealSealObservation, endpointPkg, observationPkg⟩
 
+theorem CauchyCriterionCarrier_budgeted_shared_tail_seal_compatibility [AskSetup]
+    [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      streamWindow tailRadius sharedThreshold sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      UnaryHistory streamWindow ->
+        Cont window streamWindow tailRadius ->
+          Cont tailRadius ledger sharedThreshold ->
+            Cont sharedThreshold realSeal sealRead ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory window ∧ UnaryHistory streamWindow ∧ UnaryHistory tailRadius ∧
+                  UnaryHistory ledger ∧ UnaryHistory sharedThreshold ∧ UnaryHistory realSeal ∧
+                    UnaryHistory sealRead ∧ Cont window modulus tolerance ∧
+                      Cont window streamWindow tailRadius ∧
+                        Cont tailRadius ledger sharedThreshold ∧
+                          Cont sharedThreshold realSeal sealRead ∧ PkgSig bundle endpoint pkg ∧
+                            PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier streamWindowUnary windowStreamTail tailLedgerThreshold thresholdSealRead sealPkg
+  obtain ⟨windowUnary, _modulusUnary, _toleranceUnary, ledgerUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, windowModulusTolerance, _toleranceLedgerRegseq,
+    _regseqRealSealTransport, _transportLocalCertRoute, _routeProvenanceEndpoint,
+    endpointPkg⟩ := carrier
+  have tailRadiusUnary : UnaryHistory tailRadius :=
+    unary_cont_closed windowUnary streamWindowUnary windowStreamTail
+  have sharedThresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed tailRadiusUnary ledgerUnary tailLedgerThreshold
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed sharedThresholdUnary realSealUnary thresholdSealRead
+  exact
+    ⟨windowUnary, streamWindowUnary, tailRadiusUnary, ledgerUnary, sharedThresholdUnary,
+      realSealUnary, sealReadUnary, windowModulusTolerance, windowStreamTail,
+      tailLedgerThreshold, thresholdSealRead, endpointPkg, sealPkg⟩
+
 end BEDC.Derived.CauchyCriterionUp

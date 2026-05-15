@@ -1,0 +1,23 @@
+\begin{theorem}[RealUp RegSeqRat finite-request fusion]
+\label{thm:real-regseqrat-finite-request-fusion}
+Let $R$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $R$. Then the request factors through one finite $\BHist$ packet whose visible source rows are exactly the following data:
+\begin{enumerate}
+\item the $\StreamNameUp$ finite-window schedule row selected by the request;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite distance rows read at that schedule;
+\item the $\RegSeqRatUp$ classifier row and regularity rows that certify the accepted packet;
+\item the componentwise $\hsame$ transports tying the schedule, dyadic rows, regularity rows, and local seal row to the same request packet;
+\item the displayed $\Cont$ routes from the schedule through the dyadic and regularity rows to the seal read;
+\item the $\mathsf{Pkg}$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item the local $\NameCert_{\RealUp}$ row for the finite seal request.
+\end{enumerate}
+Every downstream consumer of the public seal request reads through this same packet. The fusion exports no quotient stream equality, no host real equality, no selected limit, no ambient completeness principle, no choice data, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-regseqrat-streamname-seal-common-window-fusion}. It places the public seal request on one common finite window with the displayed $\StreamNameUp$ schedule, transported $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ regularity spine, and local $\RealUp$ seal provenance.
+
+Next use \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The accepted $\RegSeqRatUp$ packet can reach the real seal only through the StreamName schedule rows, dyadic endpoint and radius ledgers, finite dyadic-distance rows, classifier rows, and regularity rows named by the same finite handoff.
+
+Now apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. The tail-budget window pulls the seal read back to the same finite rows, so later consumers cannot substitute an off-packet tail selector, host limit, or second seal coordinate.
+
+Finally use \autoref{thm:real-name-seal-source-factorization}. Repacking the common-window handoff, the RegSeqRat exactness route, and the tail-budget pullback gives one $\BHist$ source packet with exactly the schedule, dyadic, classifier, regularity, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows listed above. Since each cited boundary lacks quotient stream equality, host real equality, selected limits, ambient completeness, choice data, and duplicate Real-seal coordinates, the fused request exports none of them.
+\end{proof}
