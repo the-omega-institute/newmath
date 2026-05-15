@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root branch audit coupling]
+\label{thm:authorized-generator-recursor-root-branch-audit-coupling}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every public read of the output row $O$ couples the branch package $B$ to the audit row $A$ through the same signature, eliminator, motive, descent, transport, continuation, package, boundary, and local-name rows. No downstream recursor or generator-audit consumer can read $O$ from a branch package that is detached from the audit ledger.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier $R$. The branch row $B$ and audit row $A$ occur as coordinates of the same finite packet, with $I,E,M,D,O,H,C,P,G,N$ recording the surrounding admission, output, transport, route, provenance, boundary, and local naming rows.
+
+Apply \autoref{thm:authorized-generator-recursor-root-branch-package-coverage}. It forces every branch exposed to a consumer to pass through the accepted signature, emitted eliminator, checked motive, branch package, and structural-descent rows $I,E,M,B,D$ before $O$ is public.
+
+Now apply \autoref{thm:authorized-generator-recursor-root-audit-ledger-exactness}. That theorem attaches public output reads to $O,A,H,C,P,G,N$ after branch and descent admission. The TasteGate marker \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} is used only as the carrier alignment cited by the chapter, not as a replacement for this branch-audit obligation. Thus every public branch read remains coupled to the audit ledger of $R$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root descent output factorization]
+\label{thm:authorized-generator-recursor-root-descent-output-factorization}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+any output-facing recursive read factors through the checked motive row $M$ and structural-descent row $D$ before it reaches $O$, and then through $A,H,C,P,G,N$ before any downstream closed-normal or generator-audit consumer can cite the output. The factorization has no hidden proof generator, non-structural recursion channel, external axiom row, or off-packet naming certificate.
+\end{theorem}
+\begin{proof}
+Read $M,D,O$ as coordinates of the displayed packet $R$. The packet contains no second motive row, no detached descent row, and no output coordinate outside the same finite carrier.
+
+Apply \autoref{thm:authorized-generator-recursor-root-motive-descent-stability}. It keeps structural descent through $D$ tied to the checked motive row $M$ before output exposure, and it blocks a motive-free descent surface.
+
+Then apply \autoref{thm:authorized-generator-recursor-root-audit-ledger-exactness}. The output read continues through $A,H,C,P,G,N$ after branch and descent admission, so the public consumer receives an audited output route rather than a hidden generator route. The TasteGate marker \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} remains only the aligned-carrier witness; the paper-side descent and output factorization is carried by the cited root theorems.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root boundary ledger totality]
+\label{thm:authorized-generator-recursor-root-boundary-ledger-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the output boundary ledger visible to downstream recursor, closed-normal, generator-audit, and TasteGate consumers is exhausted by $I,E,M,B,D,O,A,H,C,P,G,N$. The boundary row $G$ and local name row $N$ do not expose a hidden generator, unaudited dependency route, external axiom channel, host-kernel completeness claim, or naming certificate outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from the full carrier $R$. The rows $I,E,M,B,D$ supply branch and descent admission, $O,A$ supply the output and audit ledger, and $H,C,P,G,N$ supply transport, continuation, provenance, boundary, and local naming.
+
+Use \autoref{thm:authorized-generator-recursor-root-branch-package-coverage} and \autoref{thm:authorized-generator-recursor-root-motive-descent-stability} to account for the admission side. Together they force branch coverage and descent stability to remain inside $I,E,M,B,D$ before public output is read.
+
+Use \autoref{thm:authorized-generator-recursor-root-audit-ledger-exactness} for the output side. It exhausts public output reads by $O,A,H,C,P,G,N$ after branch and descent admission. The TasteGate marker \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} only aligns this finite carrier with the chapter handoff, so it does not supply an additional boundary or ledger row. Hence the visible boundary ledger is total for exactly the displayed packet.
+\end{proof}
