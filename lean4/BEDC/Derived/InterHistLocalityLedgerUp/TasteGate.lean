@@ -270,4 +270,21 @@ theorem InterHistLocalityLedgerTasteGate_single_carrier_alignment :
         exact interHistLocalityLedgerToEventFlow_injective heq
       · rfl
 
+theorem InterHistLocalityLedger_symmetric_route_source_swap_separates :
+    FieldFaithful.fields
+        (InterHistLocalityLedgerUp.mk (BHist.e0 BHist.Empty) (BHist.e1 BHist.Empty)
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+      FieldFaithful.fields
+        (InterHistLocalityLedgerUp.mk (BHist.e1 BHist.Empty) (BHist.e0 BHist.Empty)
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  change
+    [BHist.e0 BHist.Empty, BHist.e1 BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] =
+      [BHist.e1 BHist.Empty, BHist.e0 BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] at h
+  injection h with hSourceLeft _hTail
+  cases hSourceLeft
+
 end BEDC.Derived.InterHistLocalityLedgerUp
