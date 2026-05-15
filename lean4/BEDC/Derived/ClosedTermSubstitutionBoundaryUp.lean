@@ -2,6 +2,8 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 /-!
@@ -339,8 +341,11 @@ end BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 
 namespace BEDC.Derived.ClosedtermsubstitutionboundaryUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def ClosedTermSubstitutionBoundaryClassifier
@@ -378,5 +383,40 @@ theorem ClosedTermSubstitutionBoundaryClassifier_component_transport
     ⟨⟨sourceUnary', valueUnary', depthUnary', shiftUnary', substitutionUnary',
         sourceValueShift', shiftDepthSubstitution'⟩,
       sameShift, sameSubstitution⟩
+
+theorem ClosedTermSubstitutionBoundaryConsumerBoundary [AskSetup] [PackageSetup]
+    {source value depth shift substitution ledger audit route consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      Cont shift substitution ledger ->
+        Cont substitution depth audit ->
+          Cont ledger audit route ->
+            Cont route audit consumer ->
+              PkgSig bundle consumer pkg ->
+                UnaryHistory source ∧ UnaryHistory value ∧ UnaryHistory depth ∧
+                  UnaryHistory shift ∧ UnaryHistory substitution ∧ UnaryHistory ledger ∧
+                    UnaryHistory audit ∧ UnaryHistory route ∧ UnaryHistory consumer ∧
+                      Cont source value shift ∧ Cont shift depth substitution ∧
+                        Cont shift substitution ledger ∧ Cont substitution depth audit ∧
+                          Cont ledger audit route ∧ Cont route audit consumer ∧
+                            PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro classifier shiftSubstitutionLedger substitutionDepthAudit ledgerAuditRoute
+    routeAuditConsumer consumerPkg
+  obtain ⟨sourceUnary, valueUnary, depthUnary, shiftUnary, substitutionUnary,
+    sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed shiftUnary substitutionUnary shiftSubstitutionLedger
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed substitutionUnary depthUnary substitutionDepthAudit
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ledgerUnary auditUnary ledgerAuditRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed routeUnary auditUnary routeAuditConsumer
+  exact
+    ⟨sourceUnary, valueUnary, depthUnary, shiftUnary, substitutionUnary, ledgerUnary,
+      auditUnary, routeUnary, consumerUnary, sourceValueShift, shiftDepthSubstitution,
+      shiftSubstitutionLedger, substitutionDepthAudit, ledgerAuditRoute, routeAuditConsumer,
+      consumerPkg⟩
 
 end BEDC.Derived.ClosedtermsubstitutionboundaryUp
