@@ -560,3 +560,54 @@ terminal endpoint comparison from branching through quotient streams, selected
 host limits, host equality, ambient completeness, arithmetic or order
 packages, or metric-completeness rows.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName four-face consumer boundary]
+\label{thm:real-regseq-streamname-four-face-consumer-boundary}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. Suppose the
+$\StreamNameUp$ finite-window faces, $\RegSeqRatUp$ readback faces,
+$\DyadicRatCoreUp$ ledger faces, $\RealUp$ seal faces, and the displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows agree componentwise between
+$X$ and $Y$.
+
+Then every current Phase Real and Completion consumer boundary over
+$\RealUp$, $\RegSeqRatUp$, completion-facing reads, or stream-facing reads is
+the same finite boundary packet
+$$
+(S,Q,D,R,H,C,P,N)\simeq(S',Q',D',R',H',C',P',N').
+$$
+The boundary exposes only the StreamName finite-window face, the RegSeqRat
+readback face, the DyadicRatCore ledger face, the RealUp seal face, and the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Quotient streams,
+host equality, selected limits, ambient completeness, arithmetic or order
+packages, and metric-completeness rows are not exported through this consumer
+boundary.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-regseq-streamname-current-phase-gate}. It says
+that the current Phase Real and Completion consumers can read only the open
+Real RegSeqRat StreamName interface and the displayed structural rows.
+
+Next use
+\autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
+componentwise agreement hypotheses are exactly the finite pullback
+coordinates of that interface, so Real-facing, completion-facing, and
+stream-facing reads receive one packet rather than separate witnesses.
+
+Apply \autoref{thm:real-l10-four-face-route-lock} to identify the available
+route as the four-face route through $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$. Then apply
+\autoref{thm:real-regseq-streamname-terminal-common-source-lock} to turn the
+four agreed faces and their displayed rows into the common terminal source.
+
+The exclusion clauses from those route-lock theorems remove every ambient
+coordinate outside the packet. Hence quotient streams, host equality,
+selected limits, ambient completeness, arithmetic and order packages, and
+metric-completeness rows cannot be observed by any current consumer boundary,
+which leaves exactly the finite boundary packet stated above.
+\end{proof}
