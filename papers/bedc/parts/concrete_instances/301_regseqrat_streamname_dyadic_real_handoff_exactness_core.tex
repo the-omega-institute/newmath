@@ -386,3 +386,103 @@ only surfaces exported to the seal are the four listed faces, and the
 excluded quotient, host equality, selected-limit, completeness, choice, and
 hidden-coordinate data have no row in the accepted route.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-cover Real seal gluing uniqueness]
+\label{thm:regseqrat-finite-cover-real-seal-gluing-uniqueness}
+Let $\mathcal{W}$ be a finite cover of $\StreamNameUp$ windows for an
+accepted public $\RegSeqRatUp$ read in Phase Real and Completion. Suppose
+that on every nonempty overlap the two local window routes agree on the
+displayed $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance ledgers,
+the displayed $\RegSeqRatUp$ classifier, regularity, and transport rows, and
+the displayed public $\RealUp$ seal rows, with the agreement witnessed by the
+same componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows in a
+finite $\BHist$ route.
+
+Then the finite family of local window routes glues to at most one
+Real-facing public seal route. Equivalently, any two finite $\BHist$ routes
+assembled from the same cover and the same overlap ledgers have the same
+public $\RealUp$ seal row and the same StreamName, DyadicRatCore, and
+RegSeqRat support rows. The glued seal exports no quotient stream, selected
+limit, host equality, countable-choice schedule, ambient completeness datum,
+or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. Each local
+window route has exactly the four displayed faces: the StreamName schedule
+and membership rows, the DyadicRatCore endpoint-radius-distance ledger, the
+RegSeqRat classifier-regularity-transport rows, and the public Real seal row.
+
+Next use
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence}. On an
+overlap, agreement of the endpoint and radius ledger, classifier and
+regularity rows, and seal row identifies the same finite $\BHist$ route
+through the remaining face. Thus adjacent windows in the cover cannot choose
+distinct Real-facing exit routes while keeping the displayed overlap data
+fixed.
+
+We now pass across the cover. Since $\mathcal{W}$ is finite, repeat the
+overlap identification along the finite adjacency chain inside the displayed
+route data. The result is a single compatible StreamName, DyadicRatCore,
+RegSeqRat, and RealUp four-face route, with no appeal to an infinite
+selection schedule or to an ambient completion object.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-real-dyadic-completion-face-boundary} and
+\autoref{thm:streamname-regseqrat-real-completion-face-nonescape}. The
+boundary theorem identifies the completion-facing exit with the same four
+finite faces, while the nonescape theorem excludes quotient streams, host
+real equality, selected limits, ambient completeness witnesses, extra seal
+coordinates, standard bridge rows, and aggregate verification tokens. Hence
+two glued Real-facing public seals built from the cover must be the same
+finite $\BHist$ route.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Real three-surface route determinacy]
+\label{thm:regseqrat-streamname-real-three-surface-route-determinacy}
+Let $R$ be an accepted public $\RegSeqRatUp$ read. Suppose two public
+presentations of $R$ display the same $\StreamNameUp$ schedule and membership
+rows, the same $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance
+ledger, and the same $\RegSeqRatUp$ classifier, regularity, and transport
+rows. Then the two presentations determine the same BEDC route to the
+$\RealUp$ seal exactly when they reach the same displayed public $\RealUp$
+seal row.
+
+Equivalently, the StreamName, DyadicRatCore, RegSeqRat, and RealUp faces are
+not four independent choices. Once the first three faces are fixed, the
+displayed public seal row is the whole remaining route coordinate, and two
+seal reads agree precisely by sharing that row in the same finite
+$\mathsf{BHist}$ route. The statement uses no quotient stream, host real
+equality, selected limit, ambient completeness object, choice schedule, or
+hidden seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It places
+each accepted presentation on the finite handoff route through the displayed
+StreamName schedule rows, dyadic endpoint-radius-distance ledger, RegSeqRat
+classifier and regularity rows, and public Real seal row.
+
+Next use
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence}.
+This identifies the source read and the seal read as the same public finite
+route. Therefore any agreement of the displayed seal row is agreement of the
+route endpoint reached by the fixed source rows.
+
+Now apply
+\autoref{thm:regseqrat-streamname-dyadic-real-triple-exactness} together with
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence}. The triple
+exactness theorem binds the shared StreamName, DyadicRatCore, and RegSeqRat
+faces, while the window-triple correspondence recovers the same route through
+the Real seal face. Thus the reverse direction also holds: if the two
+presentations determine the same BEDC route, the displayed public seal row is
+the same row of that route.
+
+Finally invoke
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. The saturated
+route has exactly the four public faces listed in the statement. There is no
+fifth coordinate from which quotient streams, host real equality, selected
+limits, ambient completeness, choice schedules, or hidden seal data could
+alter the route after the first three faces and the displayed seal row have
+been fixed.
+\end{proof}
