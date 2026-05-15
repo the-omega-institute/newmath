@@ -130,6 +130,7 @@ The synchronizer gives the seal-budget boundary. \autoref{thm:diagonal-limit-com
 
 Finally apply root-budget terminal route uniqueness from \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness}. Once the selector and synchronizer rows are not part of the request, the remaining requested coordinates would have to form a second terminal route through quotient identity, a selected host limit, host real equality, choice, hidden observation budget, independent seal budget, or ambient completeness. Terminal uniqueness excludes that second route, so the request is routed to the visible refusal boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_finite\_observation\_budget\_refusal\_exactness}
 
 \begin{theorem}[Diagonal-limit compatibility selector-synchronizer admission criterion]
 \label{thm:diagonal-limit-compatibility-selector-synchronizer-admission-criterion}
@@ -149,4 +150,22 @@ Uniqueness gives the terminal route. By \autoref{thm:diagonal-limit-compatibilit
 Conversely, suppose a $\RealUp$ or $\CompletionUp$ request does not factor through both displayed gates. The refusal exactness theorem \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-refusal-exactness} says that quotient stream identity, selected host limits, host real equality, countable-choice rows, hidden observation budgets, independent seal-budget routes, and ambient completeness are visible only at the refusal boundary unless the request first passes through the selector rows and synchronizer rows named above.
 
 Thus the admission test is exactly the joint factorization through the displayed $\FiniteObservationBudgetSelectorUp$ rows and $\CauchySealBudgetSynchronizerUp$ request, seal, and budget rows. Requests satisfying that test use the unique terminal route; all other completion-facing requests are refused.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility selector-synchronizer Real-seal scope]
+\label{thm:diagonal-limit-compatibility-selector-synchronizer-real-seal-scope}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ root-budget packet. For every $\RealUp$ or $\CompletionUp$ consumer admitted by the selector-synchronizer admission criterion, the Real seal scope of the consumer is exhausted by the dyadic ledger $D$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $L$, the $\FiniteObservationBudgetSelectorUp$ rows, the $\CauchySealBudgetSynchronizerUp$ request, seal, and budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. No quotient stream, selected host limit, host real equality, countable-choice row, hidden observation budget, independent seal-budget route, or ambient completeness coordinate remains in the Real seal scope.
+\end{theorem}
+\begin{proof}
+Begin with the finite observation-budget factorization. \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-factorization} places every admitted $\RealUp$ or $\CompletionUp$ consumer on the displayed route through $D$, $W$, $Q$, $L$, the selector rows, the synchronizer request, seal, and budget rows, transports, continuations, provenance, and local name.
+
+Next apply selector-synchronizer exactness. \autoref{thm:diagonal-limit-compatibility-root-budget-selector-synchronizer-exactness} identifies this displayed selector and synchronizer route as the terminal root-budget route, while \autoref{thm:diagonal-limit-compatibility-finite-observation-budget-refusal-exactness} routes every request outside the two displayed gates to the refusal boundary.
+
+The admission criterion then supplies the exact gate. By \autoref{thm:diagonal-limit-compatibility-selector-synchronizer-admission-criterion}, an admitted consumer is precisely one whose request factors through both the finite observation-budget selector rows and the synchronizer request, seal, and budget rows.
+
+Finally use Real-seal-budget non-escape and terminal route uniqueness. \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape} prevents the Real seal from acquiring a hidden budget coordinate, and \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness} leaves no second terminal route through quotient streams, selected host limits, host real equality, countable-choice rows, independent seal-budget routes, or ambient completeness. Thus the displayed rows exhaust the Real seal scope.
 \end{proof}

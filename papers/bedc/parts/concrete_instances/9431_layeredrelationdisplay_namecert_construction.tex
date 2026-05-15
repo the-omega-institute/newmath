@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LayeredRelationDisplayUp$}
+\label{ch:concrete-instances-layeredrelationdisplay-namecert}
+\origin{ai}
+
+The $\LayeredRelationDisplayUp$ packet realizes the relation-before-identity discipline of \autoref{ch:visions-layered-relation-certificate} as finite NameCert data. It sits after the relation-audit frame of \autoref{ch:concrete-instances-relationalframeaudit-namecert}, the licensed observer comparison of \autoref{ch:concrete-instances-observerlicensedcomparison-namecert}, the classifier transport of \autoref{ch:concrete-instances-classifiermorphism-namecert}, and the refusal boundary of \autoref{ch:concrete-instances-boundarygate-namecert}. Its public role is to display what a layered relation preserves, what it refuses to preserve, which exactness row is available, and where a failed relation request is routed.
+
+\begin{definition}[LayeredRelationDisplay carrier]
+\label{def:layered-relation-display-carrier}
+A $\LayeredRelationDisplayUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,S,K,M,R,U,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source-domain rows whose comparison is being displayed;
+\item $S$ is the finite source ledger naming the paper sites, histories, or certificate rows from which the comparison may be read;
+\item $K$ is the classifier row that decides which relation layer is being displayed;
+\item $M$ is the layer-map row from source coordinates to target coordinates;
+\item $R$ is the preserved-structure row;
+\item $U$ is the not-preserved row, recording the object content, identity claim, global frame, host semantics, or over-strong reading refused by the packet;
+\item $E$ is the exactness row, naming the available sameness strength for the displayed relation;
+\item $F$ is the failure-boundary row for requests that omit a required source, classifier, preserved, not-preserved, or exactness row;
+\item $H$ records componentwise $\hsame$ transports for $A,B,S,K,M,R,U,E,F$ together with package and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which readers inspect the source ledger, classifier, layer map, preservation row, refusal row, exactness row, and failure boundary;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-layered-relation-certificate}, \autoref{ch:concrete-instances-relationalframeaudit-namecert}, \autoref{ch:concrete-instances-observerlicensedcomparison-namecert}, \autoref{ch:concrete-instances-classifiermorphism-namecert}, \autoref{ch:concrete-instances-boundarygate-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LayeredRelationDisplayUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for object identity between $A$ and $B$, host equivalence, unlisted analogy, hidden classifier output, or relation strength beyond the exactness row $E$.
+\end{definition}
+\leandef{BEDC.Derived.LayeredRelationDisplayUp.LayeredRelationDisplayUp}
+\leanchecked{BEDC.Derived.LayeredRelationDisplayUp.LayeredRelationDisplayTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LayeredRelationDisplay NameCert surface]
+\label{thm:layered-relation-packet-namecert-surface}
+For every accepted $\LayeredRelationDisplayUp$ carrier $L=(A,B,S,K,M,R,U,E,F,H,C,P,N)$, the local $\NameCert_{\LayeredRelationDisplayUp}$ surface consists exactly of carrier exposure, source-ledger exposure, classifier exposure, layer-map exposure, preserved-row exposure, not-preserved-row exposure, exactness exposure, failure-boundary routing, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:layered-relation-display-carrier}. The tuple lists every row available to a relation-certificate reader.
+
+The source, classifier, layer-map, preservation, refusal, exactness, and failure rows are $S,K,M,R,U,E,F$. They are the finite relation-certificate fields required by \autoref{ch:visions-layered-relation-certificate}, and they are read through the relation-audit sibling of \autoref{ch:concrete-instances-relationalframeaudit-namecert}.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same displayed packet. Since no additional identity, host-equivalence, or hidden-strength coordinate appears in the carrier, those rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LayeredRelationDisplay preservation-refusal exactness]
+\label{thm:layered-relation-packet-preserve-refuse-exactness}
+Every accepted $\LayeredRelationDisplayUp$ packet exports a relation claim only when the preserved row $R$, the not-preserved row $U$, and the exactness row $E$ are all displayed in the same carrier. A request with an empty not-preserved row, a missing exactness row, or a classifier read outside $K,M$ is routed to the failure boundary $F$ and cannot be exported as identity, host equivalence, global-frame equivalence, or unchecked analogy.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The relation-facing rows are the classifier $K$, layer map $M$, preserved row $R$, not-preserved row $U$, exactness row $E$, and failure boundary $F$.
+
+Use \autoref{thm:layered-relation-packet-namecert-surface}. The local NameCert surface requires each of these rows before a public relation read can be exported, and it supplies only componentwise transport and displayed replay for them.
+
+For a complete request, $R,U,E$ are read together through $C$ and transported through $H$. This gives a relation certificate with a stated preservation claim, a stated refusal boundary, and a stated exactness strength.
+
+For an incomplete request, the missing not-preserved, exactness, or classifier-layer coordinate has no replacement row. The only displayed endpoint for that request is $F$, so the packet refuses identity, host equivalence, global-frame equivalence, and unchecked analogy.
+\end{proof}
+
+\falsifiablePrediction{Any accepted LayeredRelationDisplayUp packet with an empty notPreserved row fails the exported relation-certificate gate.}
+
+\independenceWitness{relationalframeaudit, observerlicensedcomparison, classifiermorphism, boundarygate: none is bijective because LayeredRelationDisplayUp carries preserved/notPreserved/exactness/failureBoundary rows as one displayed relation packet.}
+
+The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \LayeredRelationDisplayUp$ and $\mathsf{FieldFaithful}\ \LayeredRelationDisplayUp$ instances for the displayed rows $A,B,S,K,M,R,U,E,F,H,C,P,N$.
+
+\closureat{LayeredRelationDisplayUp}{seedStr}
+
+\begin{closurestatus}{\LayeredRelationDisplayUp}
+  \constructivestory{A $\LayeredRelationDisplayUp$ packet is generated from two source-domain rows, a source ledger, classifier, layer map, preserved row, not-preserved row, exactness row, failure boundary, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:layered-relation-display-carrier}, \autoref{thm:layered-relation-packet-namecert-surface}, and \autoref{thm:layered-relation-packet-preserve-refuse-exactness} bind layered relation display as a finite NameCert packet with explicit preservation, refusal, exactness, and failure-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, object identity between source domains, global-frame equivalence, host semantic equivalence, or unchecked analogy.}
+  \upgradepath{Obligation closure requires checked carrier admission and TasteGate-visible preservation, refusal, exactness, and failure-boundary rows for the same displayed relation packet.}
+\end{closurestatus}

@@ -135,6 +135,32 @@ theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
   exact ⟨startUnary, productionUnary, derivationUnary, readbackUnary, yieldUnary,
     finalYieldUnary, finalYieldRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_parse_tree_derivation_boundary [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint tree routeBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      UnaryHistory tree ->
+        Cont derivation tree routeBoundary ->
+          Cont routeBoundary readback endpoint ->
+            UnaryHistory routeBoundary ∧ UnaryHistory endpoint ∧
+              Cont derivation tree routeBoundary ∧ Cont routeBoundary readback endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet treeUnary derivationTreeBoundary routeBoundaryReadbackEndpoint
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _startRow, _productionRow, _routeRow, _nameRow,
+    _endpointRow, pkgSig⟩ := packet
+  have routeBoundaryUnary : UnaryHistory routeBoundary :=
+    unary_cont_closed derivationUnary treeUnary derivationTreeBoundary
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeBoundaryUnary readbackUnary routeBoundaryReadbackEndpoint
+  exact
+    ⟨routeBoundaryUnary, endpointUnary, derivationTreeBoundary,
+      routeBoundaryReadbackEndpoint, pkgSig⟩
+
 theorem ContextFreeGrammarPacket_consumer_boundary_determinacy [AskSetup] [PackageSetup]
     {terminal nonterminal start production yield derivation readback transport route provenance
       name endpoint terminal' nonterminal' start' production' yield' derivation' readback'
@@ -254,5 +280,36 @@ theorem ContextFreeGrammarPacket_regularlanguage_turingmachine_bridge_boundary [
       derivationUnary, readbackUnary, routeUnary, endpointUnary, consumerUnary,
       terminalNonterminalStart, productionYieldReadback, derivationTransportRoute,
       routeProvenanceName, endpointNameConsumer, endpointPkg, consumerPkg⟩
+
+theorem ContextFreeGrammarPacket_derivation_prefix_carrier [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint prefixRow suffix split prefixRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont start prefixRow split ->
+        Cont split suffix derivation ->
+          Cont prefixRow transport prefixRoute ->
+            PkgSig bundle prefixRoute pkg ->
+              UnaryHistory start ∧ UnaryHistory production ∧ UnaryHistory prefixRow ∧
+                UnaryHistory split ∧ UnaryHistory prefixRoute ∧ Cont start prefixRow split ∧
+                  Cont prefixRow transport prefixRoute ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle prefixRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet startPrefixSplit splitSuffixDerivation prefixTransportRoute prefixPkg
+  obtain ⟨_terminalUnary, _nonterminalUnary, startUnary, productionUnary, _yieldUnary,
+    derivationUnary, _readbackUnary, transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _terminalNonterminalStart, _productionYieldReadback,
+    _derivationTransportRoute, _routeProvenanceName, _nameEndpointEndpoint,
+    endpointPkg⟩ := packet
+  have splitUnary : UnaryHistory split :=
+    unary_cont_left_factor splitSuffixDerivation derivationUnary
+  have prefixUnary : UnaryHistory prefixRow :=
+    unary_cont_right_factor startPrefixSplit splitUnary
+  have prefixRouteUnary : UnaryHistory prefixRoute :=
+    unary_cont_closed prefixUnary transportUnary prefixTransportRoute
+  exact
+    ⟨startUnary, productionUnary, prefixUnary, splitUnary, prefixRouteUnary,
+      startPrefixSplit, prefixTransportRoute, endpointPkg, prefixPkg⟩
 
 end BEDC.Derived.ContextFreeGrammarUp
