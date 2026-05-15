@@ -296,4 +296,41 @@ theorem MaxCausalRatePacket_bridge_readback [AskSetup] [PackageSetup]
         witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
           provenanceNameConfiguration, comparisonBoundBridge, namePkg, bridgePkg⟩
 
+theorem MaxCausalRatePacket_bridge_consumer_surface [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert witnessRead publicRead bridgeRead surfaceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont witnesses bound witnessRead ->
+        Cont witnessRead routes publicRead ->
+          Cont publicRead bound bridgeRead ->
+            Cont bridgeRead nameCert surfaceRead ->
+              PkgSig bundle surfaceRead pkg ->
+                UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+                  UnaryHistory comparisons ∧ UnaryHistory witnessRead ∧
+                    UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧
+                      UnaryHistory surfaceRead ∧ Cont witnesses bound witnessRead ∧
+                        Cont witnessRead routes publicRead ∧ Cont publicRead bound bridgeRead ∧
+                          Cont bridgeRead nameCert surfaceRead ∧ PkgSig bundle nameCert pkg ∧
+                            PkgSig bundle surfaceRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet witnessRoute publicRoute bridgeRoute surfaceRoute surfacePkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, routesUnary, _provenanceUnary,
+    nameCertUnary, _witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, namePkg⟩ := packet
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed witnessesUnary boundUnary witnessRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed witnessReadUnary routesUnary publicRoute
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicReadUnary boundUnary bridgeRoute
+  have surfaceReadUnary : UnaryHistory surfaceRead :=
+    unary_cont_closed bridgeReadUnary nameCertUnary surfaceRoute
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, witnessReadUnary,
+      publicReadUnary, bridgeReadUnary, surfaceReadUnary, witnessRoute, publicRoute,
+        bridgeRoute, surfaceRoute, namePkg, surfacePkg⟩
+
 end BEDC.Derived.MaxCausalRateUp
