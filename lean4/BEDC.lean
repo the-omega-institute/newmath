@@ -201,6 +201,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
+import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorMeetNoninterference
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorNonemptyRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SharedThresholdTransport
@@ -2088,6 +2089,7 @@ import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
+import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetRealSeal
 import BEDC.Derived.FunctorUp.CompositionIdentityRespect
 import BEDC.Derived.FunctorUp.IdentityFunctor
