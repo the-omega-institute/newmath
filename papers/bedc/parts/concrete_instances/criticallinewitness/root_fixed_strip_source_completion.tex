@@ -1,0 +1,106 @@
+\begin{theorem}[Critical-line witness fixed-strip source totality]
+\label{thm:critical-line-witness-fixed-strip-source-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every fixed critical-strip source read of $W$ is total on the displayed
+source rows, zero-strip/source modulus rows, finite $\BHist$ observation
+windows, refusal ledger, transport, replay, provenance, and local naming
+surface
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The read may expose the supplied $\ZetaZerosUp$ zero row, the supplied
+$\CritStripUp$ strip row, the $\NatUp$ depth row, the $\RealUp$ real-part row,
+the $\RatUp$ rational comparison row, the displayed $\hsame$ transports,
+$\Cont$ replay, $\Pkg$ provenance, and the local
+$\NameCert_{\CriticalLineWitnessUp}$ handoff. It exposes no zero-producing
+search, analytic-continuation theorem, host equality, quotient
+representative, ambient completeness witness, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:critical-line-witness-carrier}. The visible coordinates are
+exactly the supplied zero row $Z$, strip row $S$, modulus row $M$, real-part
+row $R$, rational ledger $Q$, transport row $H$, continuation route $C$,
+provenance row $P$, and local naming row $N$.
+
+Next use the fixed-strip tuple exhaustion of
+\autoref{thm:critical-line-witness-fixed-strip-row-exhaustion} together with
+the root finite-budget source totality of
+\autoref{thm:critical-line-witness-root-finite-budget-source-totality}. These
+rows identify the source and modulus faces as the same finite observation
+window rather than as separate analytic inputs.
+
+Finally read the refusal side through
+\autoref{thm:critical-line-witness-zero-route-nonescape}. Since no other
+carrier coordinate is available, the displayed rows exhaust the fixed
+critical-strip source and the excluded analytic, host, quotient, completeness,
+and $\mathsf{RH}$ outputs have no route into the read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus refusal ledger exhaustion]
+\label{thm:critical-line-witness-modulus-refusal-ledger-exhaustion}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, every zero-strip/source modulus request is exhausted
+by the finite refusal ledger over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The ledger records the $\BHist$ observation window, $\hsame$ transport,
+$\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ handoff for the
+source and modulus rows. It cannot be extended by a hidden modulus source,
+analytic-continuation evidence, zero-free-strip evidence, a global zero
+classifier, a host numeric oracle, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the source totality of
+\autoref{thm:critical-line-witness-fixed-strip-source-totality}. It fixes the
+only readable source and modulus coordinates at $Z,S,M,R,Q,H,C,P,N$.
+
+Now apply the modulus refusal exhaustion row of
+\autoref{thm:critical-line-witness-modulus-refusal-exhaustion}. A
+zero-strip modulus request is routed through the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so the request remains a
+finite ledger entry rather than an analytic continuation claim.
+
+It remains to rule out alternate sources. The finite-budget ledger stability
+of \autoref{thm:critical-line-witness-root-finite-budget-ledger-stability}
+keeps the comparison row $Q$ on the same transported route, while
+\autoref{thm:critical-line-witness-rh-boundary-nonescape} removes
+zero-free-strip evidence, global classifiers, host numeric oracles, quotient
+equality, ambient completeness, and $\mathsf{RH}$ proof data from the packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH-boundary NameCert handoff]
+\label{thm:critical-line-witness-rh-boundary-namecert-handoff}
+Every downstream $\mathsf{RH}$-boundary consumer of an accepted
+$\CriticalLineWitnessUp$ packet receives only the local
+$\NameCert_{\CriticalLineWitnessUp}$ handoff for the fixed-strip source and
+modulus refusal ledger
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The handoff may cite finite source rows, finite observation windows,
+componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$
+provenance, and the refusal ledger. It does not deliver $\mathsf{RH}$,
+analytic continuation, zero production, host zero classification, quotient
+presentation, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First read the local handoff through
+\autoref{thm:critical-line-witness-namecert-obligations}. The five obligation
+rows admit the carrier, bind zero-strip compatibility, discipline the
+modulus, enforce non-escape, and exhaust the ledger through
+$Z,S,M,R,Q,H,C,P,N$.
+
+Next combine fixed-strip source totality with modulus refusal ledger
+exhaustion. The source face and the modulus face are the same finite packet
+as seen by the downstream consumer, and their transport, replay, provenance,
+and naming rows are already displayed.
+
+Finally use the RH consumer boundary
+\autoref{thm:critical-line-witness-rh-consumer-boundary}. The downstream
+consumer can receive only the finite BEDC witness boundary, so the NameCert
+handoff cannot become analytic continuation, zero production, host
+classification, quotient presentation, host equality, ambient completeness,
+or a proof of $\mathsf{RH}$.
+\end{proof}
