@@ -642,3 +642,31 @@ Now use the finite budget envelope. \autoref{thm:uniform-cauchy-criterion-real-c
 
 Finally apply \autoref{thm:real-completion-selector-seal-terminality}. The sibling selector-seal packet is terminal for the concrete selector-to-seal handoff, so a consumer has no coordinate from which to substitute quotient-stream equality, selected host limits, countable choice, a second tolerance ledger, or ambient completeness for the selector-seal row.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Phase Real route iff]
+\label{thm:uniform-cauchy-criterion-phase-real-route-iff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. A current Phase Real and Completion consumer through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ is admissible exactly when it preserves the ordered finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N,
+$$
+including the selector-seal row whenever that row is present. Equivalently, the consumer may read only the root budget package, the finite-window Real seal extraction, the StreamName--RegSeqRat synchronization rows, and the selector-seal synchronization rows displayed for $U$.
+
+This criterion exports no quotient streams, selected host limits, host equality, countable choice, second tolerance ledgers, open-cover compactness, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with the accepted packet. \autoref{thm:uniform-cauchy-criterion-root-budget-package} supplies the root budget package, so the consumer starts from the displayed finite schedule, tolerance ledger, transport, continuation, provenance, and local naming rows.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}. The Real-facing seal is extracted from the same finite window, with no extra stream carrier or host-limit coordinate.
+
+Now use \autoref{thm:uniform-cauchy-criterion-regseqrat-streamname-seal-synchronization}. It synchronizes the $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, and terminal $\RealUp$ seal on the ordered route $I,W,M,Q,T,E,H,C,P,N$.
+
+Finally, when the selector-seal row is present, apply \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization}. The selector-facing handoff is therefore part of the same finite route, not an additional consumer coordinate.
+
+For the reverse direction, suppose the consumer preserves exactly the displayed ordered route and the selector-seal row when present. The preserved root rows give the consumer surface accepted by \autoref{thm:uniform-cauchy-criterion-root-budget-package}; the preserved finite Real seal gives the surface accepted by \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}; and the preserved synchronization rows give the surfaces accepted by \autoref{thm:uniform-cauchy-criterion-regseqrat-streamname-seal-synchronization} and \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization}.
+
+These are exactly the current Phase Real and Completion consumer locks already available in the chapter. Since every displayed row is finite and packet-local, the reverse construction has no place to introduce quotient streams, selected host limits, host equality, countable choice, second tolerance ledgers, open-cover compactness, or ambient completeness.
+\end{proof}

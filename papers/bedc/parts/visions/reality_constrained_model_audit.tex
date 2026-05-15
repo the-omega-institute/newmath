@@ -1,0 +1,531 @@
+\section{A constructive research program for auditing physical models}
+\label{sec:constructive-model-audit}
+
+The preceding sections give the conceptual structure: finite observation, physical fit, approximation towers, relational objectivity, observation--reflection equivalence, and certificate-governed scientific methodology. The corresponding research question is concrete:
+$$
+\text{given a model }M\text{ of a system }R,\text{ what must be checked before }M\text{ is physical knowledge?}
+$$
+Data fit is only one field. A physically serious model must specify source traces, observation bundle, classifier, signature-preservation claim, stability domain, descent obligations, approximation tower, ledger, failure surface, and claim strength.
+
+This is the physical analogue of BEDC certificate discipline. A proposed derived interface is licensed by source, pattern, classifier, stability, and ledger fields. A visible package token without a gap ledger has no internal record of which histories were compressed into it. The physical research program adopts the same rule: a claim outside its certificate is not false by default, but it is unsupported until upgraded.
+
+\begin{definition}[Physical audit target]
+\label{def:physical-audit-target}
+A physical audit target is a triple
+$$
+\mathcal A=(M,R,\Pi),
+$$
+where $M$ is a mathematical, computational, or conceptual model, $R$ is a physical system, phenomenon, or class of systems, and $\Pi$ is an observation bundle through which $R$ is queried. A model without a specified system and bundle has no determinate physical claim.
+\end{definition}
+
+\begin{definition}[Audit claim]
+\label{def:audit-claim}
+An audit claim is a statement $\varphi(M,R;\Pi)$ asserting that $M$ has some physical status relative to $R$ under $\Pi$, such as finite fit, open fit, lawlike stability, explanation, prediction, or physical equivalence with another model. Every audit claim must specify the observation bundle, classifier, tower level, and intended scope.
+\end{definition}
+
+\begin{definition}[Physical audit certificate]
+\label{def:physical-audit-certificate}
+A physical audit certificate for $\mathcal A=(M,R,\Pi)$ is
+$$
+\operatorname{AuditCert}(M,R;\Pi)
+=
+(\operatorname{SourceSpec},
+\operatorname{PhenomenonSpec},
+\operatorname{SignatureSpec},
+\operatorname{ClassifierSpec},
+\operatorname{TowerSpec},
+\operatorname{StabilityCert},
+\operatorname{DescentCert},
+\operatorname{LedgerPolicy},
+\operatorname{FailureSurface},
+\operatorname{Strength}).
+$$
+The fields record source traces, target phenomenon, extracted signatures, fit classifier, approximation levels, licensed continuations, operation descent, hidden or idealized material, possible defeating observations, and present evidential strength.
+\end{definition}
+
+\begin{definition}[Physical acceptance gate]
+\label{def:physical-acceptance-gate}
+The physical acceptance gate for an audit claim is
+$$
+\operatorname{PhysAccept}(\varphi,M,R;\Pi,s)
+:=
+\operatorname{AuditCert}(M,R;\Pi,s)
+\wedge
+\operatorname{ClaimLicensed}(\varphi,\operatorname{AuditCert}).
+$$
+A physical claim is accepted only when licensed by the certificate fields at the declared strength.
+\end{definition}
+
+\begin{definition}[Audit strength]
+\label{def:audit-strength}
+Audit strength is ordered as
+$$
+\operatorname{ModelSeed}
+<
+\operatorname{PaperFit}
+<
+\operatorname{ReproducedFit}
+<
+\operatorname{BridgeFit}.
+$$
+$\operatorname{ModelSeed}$ states a model idea whose fields may remain open. $\operatorname{PaperFit}$ supplies all fields in prose or mathematical argument. $\operatorname{ReproducedFit}$ makes the source fit, classifier, and predictions independently reproducible. $\operatorname{BridgeFit}$ adds translation certificates to adjacent theories, instruments, or observational regimes without losing certified signatures.
+\end{definition}
+
+\begin{definition}[Audit ledger]
+\label{def:audit-ledger}
+An audit ledger records provenance and hidden content:
+$$
+\operatorname{AuditLedger}(M,R;\Pi)
+=
+(H_n,
+D_n,
+\mathcal T,
+\operatorname{Residue},
+\operatorname{Idealizations},
+\operatorname{TranslationMaps},
+\operatorname{FailureSurface}).
+$$
+It contains finite observation history, data representation, approximation tower, hidden physical content, smoothing or completion steps, model-to-model bridges, and possible defeats.
+\end{definition}
+
+\section{The model audit protocol}
+\label{sec:model-audit-protocol}
+
+\begin{definition}[Physical model audit]
+\label{def:physical-model-audit}
+A physical model audit for $\mathcal A=(M,R,\Pi)$ fills the following fields in order: source traces; target phenomenon; observed and model-generated signatures; classifier of fit; approximation tower from source to model; stability domain for reuse; descent obligations for every predictive or explanatory operation; ledger of hidden material; failure surface; and strongest justified audit strength.
+\end{definition}
+
+\begin{theorem}[Complete audit requires all fields]
+\label{thm:complete-audit-requires-all-fields}
+A physical model audit for $(M,R,\Pi)$ is complete at strength $s$ only if all fields of $\operatorname{AuditCert}(M,R;\Pi,s)$ are supplied.
+\end{theorem}
+
+\begin{proof}
+Each field blocks a distinct failure mode. Without source, the model is not tied to observation. Without phenomenon, the target is unclear. Without signatures, no reality-facing comparison is specified. Without classifier, there is no fit criterion. Without tower, the approximation path is hidden. Without stability, finite fit cannot be reused. Without descent, operations may not survive compression. Without ledger, hidden residue cannot be tracked. Without failure surface, the claim becomes oracle-like. Without strength, evidential status is ambiguous.
+\end{proof}
+
+\begin{corollary}[Audit failure is under-certification]
+\label{cor:audit-failure-undercertification}
+A model can fail audit without being false.
+\end{corollary}
+
+\begin{proof}
+An audit checks whether a claim is licensed by its certificate. If a required field is absent, the claim is unsupported at the declared strength, but the equation or idea may still become licit after additional certification.
+\end{proof}
+
+\begin{corollary}[Missing fields localize research tasks]
+\label{cor:missing-fields-localize-research}
+Audit incompleteness localizes research obligations.
+\end{corollary}
+
+\begin{proof}
+Each missing field names a specific obligation: collect source traces, specify signatures, refine classifiers, prove stability, prove descent, construct ledgers, state failure surfaces, reproduce the fit, or build translation bridges.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-reality-constrained-model-audit-namecert}{Physical model audits are realized as finite NameCert packets recording source traces, observation signatures, classifiers, tower ledgers, failure surfaces, and audit strength.}
+\concretizedIn{ch:concrete-instances-physical-model-audit-namecert}{The physical audit protocol is realized as a finite source-signature-classifier-tower-ledger NameCert packet.}
+
+\section{Source, signature, and classifier audit}
+\label{sec:source-signature-classifier-audit}
+
+\begin{definition}[Source-complete audit]
+\label{def:source-complete-audit}
+An audit is source-complete when it specifies
+$$
+(H_n,\mathcal I,\mathcal M,\mathcal E),
+$$
+where $H_n$ is the finite observation history, $\mathcal I$ is the instrumentation or interaction protocol, $\mathcal M$ is the measurement transformation from interaction to data, and $\mathcal E$ is the evidence ledger.
+\end{definition}
+
+\begin{definition}[Signature-complete audit]
+\label{def:signature-complete-audit}
+An audit is signature-complete when it specifies both
+$$
+\operatorname{ObsSig}_{\Pi}(R\mid H_n)
+$$
+and
+$$
+\operatorname{ModSig}_{\Pi}(M\mid H_n),
+$$
+together with the extraction procedures that produce them.
+\end{definition}
+
+\begin{definition}[Source leakage]
+\label{def:source-leakage}
+Source leakage occurs when a model claim uses information not recorded in the source ledger, such as unrecorded calibration assumptions, selection procedures, or features never measured under the stated bundle.
+\end{definition}
+
+\begin{theorem}[Source-completeness is necessary for fit]
+\label{thm:source-completeness-necessary-fit}
+If $\operatorname{Fit}_n(M,R;\Pi)$ is claimed, the audit must be source-complete.
+\end{theorem}
+
+\begin{proof}
+Finite fit compares model-generated signatures with observed signatures over a finite history. Without a specified source history and measurement protocol, there is no determinate observed signature and hence no object for comparison.
+\end{proof}
+
+\begin{corollary}[Data without provenance cannot certify]
+\label{cor:data-without-provenance-cannot-certify}
+A data table, image, or numerical output cannot certify a model unless its provenance is included in the source ledger.
+\end{corollary}
+
+\begin{proof}
+Data alone do not specify generation, calibration, filtering, transformation, or selection. These choices affect the observed signature required by \autoref{thm:source-completeness-necessary-fit}.
+\end{proof}
+
+\begin{theorem}[Signature-completeness is necessary for comparison]
+\label{thm:signature-completeness-necessary-comparison}
+Two models cannot be physically compared under $\Pi$ unless their induced signatures under $\Pi$ are specified.
+\end{theorem}
+
+\begin{proof}
+Physical comparison under $\Pi$ is comparison of physical signatures. If the signatures are absent, the classifier has no inputs.
+\end{proof}
+
+\begin{definition}[Physical classifier]
+\label{def:physical-classifier-audit}
+A physical classifier $\sim_{\Pi}$ is a relation on observed and model-generated signatures such that $S_1\sim_{\Pi}S_2$ means that $S_1$ and $S_2$ are not separated by the physical distinctions visible under $\Pi$.
+\end{definition}
+
+\begin{definition}[Classifier exactness]
+\label{def:classifier-exactness}
+A physical classifier is exact for an audit when it is sound for all signatures claimed by the audit, complete for those claimed signatures, and transport-stable for every certified operation used after classification.
+\end{definition}
+
+\begin{definition}[Classifier mismatch]
+\label{def:classifier-mismatch-audit}
+Classifier mismatch occurs when the classifier used to establish fit is weaker than the classifier required by a later explanation, prediction, or operation.
+\end{definition}
+
+\begin{theorem}[Classifier obligations precede promoted fit]
+\label{thm:classifier-obligations-promoted-fit}
+A claim cannot be promoted beyond $\operatorname{ModelSeed}$ unless its classifier exactness obligations are stated.
+\end{theorem}
+
+\begin{proof}
+Any stronger status claims determinate fit. Fit requires a classifier with stated soundness, completeness, and transport obligations. Without them the fit claim has no exact scope.
+\end{proof}
+
+\begin{corollary}[Coarse fit does not support fine conclusions]
+\label{cor:coarse-fit-not-fine-conclusions}
+A model fitted under a coarse classifier cannot be used for fine-grained predictions without an upgrade certificate.
+\end{corollary}
+
+\begin{proof}
+Fine-grained prediction requires a refined classifier or a transport proof from the coarse classifier. Without that upgrade, classifier mismatch occurs.
+\end{proof}
+
+\section{Tower, ledger, and stability audit}
+\label{sec:tower-ledger-stability-audit}
+
+\begin{definition}[Tower map]
+\label{def:tower-map-audit}
+A tower map for a model audit is a sequence
+$$
+\mathcal T(M,R):
+L_0
+\xrightarrow{C_0}
+L_1
+\xrightarrow{C_1}
+\cdots
+\xrightarrow{C_{n-1}}
+L_n,
+$$
+where $L_0$ contains the physical source or observation traces and $L_n$ contains the visible model.
+\end{definition}
+
+\begin{definition}[Ledger-complete tower]
+\label{def:ledger-complete-tower-audit}
+A tower is ledger-complete when every compression arrow $C_i$ carries a ledger and the composite ledger records the hidden material of all stages.
+\end{definition}
+
+\begin{definition}[Unledgered compression]
+\label{def:unledgered-compression-audit}
+An unledgered compression is a transition that hides, identifies, smooths, averages, samples, completes, or idealizes source material without recording what was hidden.
+\end{definition}
+
+\begin{theorem}[Unledgered compression blocks acceptance]
+\label{thm:unledgered-compression-blocks-acceptance}
+If a model audit contains an unledgered compression that may affect the claimed physical signature, the corresponding claim cannot pass the acceptance gate.
+\end{theorem}
+
+\begin{proof}
+Physical acceptance depends on signature preservation. If relevant source material is hidden without a ledger, the audit cannot determine whether that material affects fit, stability, or descent. Thus the acceptance gate lacks a required field.
+\end{proof}
+
+\begin{corollary}[Smooth endpoints require source ledgers]
+\label{cor:smooth-endpoints-source-ledgers}
+If rough, discrete, noisy, or singular source structure is replaced by a smooth endpoint, the audit must record the removed structure.
+\end{corollary}
+
+\begin{proof}
+Smoothing is a compression. Later operations such as differentiation, curvature extraction, stress analysis, or scattering prediction may depend on the removed structure. \autoref{thm:unledgered-compression-blocks-acceptance} blocks the claim unless the ledger is supplied.
+\end{proof}
+
+\begin{theorem}[Tower ledger is necessary for cross-level explanation]
+\label{thm:tower-ledger-necessary-cross-level-explanation}
+If an explanation uses a claim at one tower level to explain behaviour at another tower level, a tower ledger is necessary.
+\end{theorem}
+
+\begin{proof}
+Cross-level explanation transfers claims between levels. Such transfer depends on what each compression preserves and hides. Without a tower ledger, hidden residues and classifier changes between levels are unknown.
+\end{proof}
+
+\begin{definition}[Stability domain and basis]
+\label{def:stability-domain-basis}
+The stability domain $\mathcal C(M,R;\Pi)$ is the class of future histories, experimental conditions, scales, regimes, or perturbations over which the model is licensed to be reused. A stability basis is the evidence or argument supporting reuse over that domain, such as symmetry, conservation, controlled approximation, scale separation, repeated experiment, independent replication, or mechanistic derivation.
+\end{definition}
+
+\begin{definition}[Stability overreach]
+\label{def:stability-overreach}
+Stability overreach occurs when a model fitted over one stability domain is reused over a larger domain without an upgrade certificate.
+\end{definition}
+
+\begin{theorem}[Prediction requires stability domain]
+\label{thm:prediction-requires-stability-domain-audit}
+A model cannot make a licensed prediction unless its stability domain is specified.
+\end{theorem}
+
+\begin{proof}
+Prediction applies the model beyond the finite source trace. Reuse is meaningful only relative to a class of continuations over which the model is expected to remain valid.
+\end{proof}
+
+\begin{corollary}[Observed success does not define its own domain]
+\label{cor:observed-success-not-own-domain}
+Successful fit on observed data does not by itself determine the class of future situations over which the model may be reused.
+\end{corollary}
+
+\begin{proof}
+Observed fit is a prefix-level judgment. Many continuation classes can share the same prefix, so the reuse domain is an additional stability field.
+\end{proof}
+
+\section{Descent audit}
+\label{sec:descent-audit}
+
+\begin{definition}[Operation list]
+\label{def:operation-list-audit}
+The operation list $\mathcal O(M)=\{F_1,\ldots,F_k\}$ records the operations used to produce explanations or predictions from the model, including differentiation, integration, limiting, coarse-graining, renormalization, optimization, simulation stepping, or statistical inference.
+\end{definition}
+
+\begin{definition}[Descent obligation]
+\label{def:descent-obligation-audit}
+For an operation $F\in\mathcal O(M)$, the descent obligation is
+$$
+x\sim_i y
+\quad\Longrightarrow\quad
+F(x)\sim_j F(y),
+$$
+where $\sim_i$ is the classifier before applying $F$ and $\sim_j$ is the classifier after applying $F$.
+\end{definition}
+
+\begin{definition}[Non-descent failure]
+\label{def:non-descent-failure-audit}
+Non-descent failure occurs when $x\sim_i y$ but $F(x)\not\sim_j F(y)$. The operation then depends on information hidden by $\sim_i$.
+\end{definition}
+
+\begin{theorem}[Prediction operations must descend]
+\label{thm:prediction-operations-must-descend}
+If a model prediction uses an operation $F$, the audit must either prove that $F$ descends through the relevant classifier or record $F$ as a failure surface.
+\end{theorem}
+
+\begin{proof}
+If $F$ does not descend, classifier-same sources may produce classifier-different outputs. The prediction then depends on hidden representative choices rather than the visible model. Such dependence must be ruled out or exposed as a possible failure.
+\end{proof}
+
+\begin{corollary}[Differentiation is audit-sensitive]
+\label{cor:differentiation-audit-sensitive}
+A model fitted under a coarse geometric classifier cannot support derivative-sensitive predictions unless differentiation descends through that classifier.
+\end{corollary}
+
+\begin{proof}
+Differentiation may depend on local tangent or smoothness structure hidden by a coarse classifier. \autoref{thm:prediction-operations-must-descend} therefore requires a descent proof.
+\end{proof}
+
+\begin{corollary}[Simulation post-processing requires descent]
+\label{cor:simulation-post-processing-descent}
+Every post-processing operation applied to numerical simulation output must descend through the simulation's discretization and approximation classifiers.
+\end{corollary}
+
+\begin{proof}
+Post-processing may amplify hidden discretization artifacts or depend on suppressed source structure. Each such operation is covered by \autoref{thm:prediction-operations-must-descend}.
+\end{proof}
+
+\section{Failure certificates and upgrades}
+\label{sec:failure-certificates-upgrades}
+
+\begin{definition}[Physical failure certificate]
+\label{def:physical-failure-certificate-audit}
+A physical failure certificate for $\varphi(M,R;\Pi)$ is a typed witness that one required audit field fails. Canonical branches include missing source, missing phenomenon, missing signature, missing classifier, classifier not exact, tower unspecified, gap ledger absent, stability absent, operation non-descent, failure surface absent, bridge failure, and reproducibility failure.
+\end{definition}
+
+\begin{definition}[Physical cannot-claim entry]
+\label{def:physical-cannot-claim-entry}
+A physical cannot-claim entry is
+$$
+(\operatorname{ClaimText},
+\operatorname{Status},
+\operatorname{WhyNotClaimable},
+\operatorname{RequiredUpgrade}),
+$$
+where status is forbidden, deferred, or partial. A forbidden claim violates the framework in principle; a deferred claim may become licit after a specified upgrade; a partial claim is licensed only under a weaker bundle, level, or strength.
+\end{definition}
+
+\begin{definition}[Physical cannot-claim registry]
+\label{def:physical-cannot-claim-registry}
+A physical cannot-claim registry is the finite set of cannot-claim entries maintained by a theory, model family, or research program. It records what the theory currently refuses to assert.
+\end{definition}
+
+\begin{theorem}[Failure certificates block acceptance]
+\label{thm:failure-certificates-block-acceptance}
+If a physical failure certificate is exhibited for $\varphi(M,R;\Pi)$, then $\operatorname{PhysAccept}(\varphi,M,R;\Pi,s)$ does not hold at the declared strength.
+\end{theorem}
+
+\begin{proof}
+Physical acceptance requires the full audit certificate. A failure certificate identifies a required field that is absent or invalid, so the conjunction defining acceptance fails.
+\end{proof}
+
+\begin{corollary}[Negative knowledge is constructive]
+\label{cor:negative-knowledge-constructive-audit}
+A certified refusal to assert a claim is constructive knowledge of the missing obligation.
+\end{corollary}
+
+\begin{proof}
+The failure certificate states exactly which field fails and what must be supplied for reconsideration.
+\end{proof}
+
+\begin{definition}[Audit upgrade]
+\label{def:audit-upgrade}
+An audit upgrade is a transition from a weaker audit strength to a stronger one together with the additional certificate fields needed to justify the stronger status.
+\end{definition}
+
+\begin{definition}[Upgrade obligation]
+\label{def:upgrade-obligation}
+An upgrade obligation is a missing certificate component required for an audit upgrade, such as new source traces, classifier exactness proof, descent proof, reproducibility package, bridge to an adjacent theory, or ledger completion.
+\end{definition}
+
+\begin{theorem}[Audit upgrades are local under explicit reuse]
+\label{thm:audit-upgrades-local-explicit-reuse}
+If a model claim reuses previously accepted components through explicit reuse certificates, upgrading the claim requires discharging only the target claim's open obligations and the stated reuse obligations.
+\end{theorem}
+
+\begin{proof}
+Explicit reuse certificates record which components are imported and under which classifiers and stability conditions. Accepted reused components need not be re-established; the target claim must discharge its own open fields and any stated reuse conditions.
+\end{proof}
+
+\begin{corollary}[Composite strength is bounded by weakest dependency]
+\label{cor:composite-strength-weakest-dependency}
+A derived claim cannot exceed the weakest certified component it depends on unless it supplies independent certification.
+\end{corollary}
+
+\begin{proof}
+The derived claim depends on components through reuse, descent, and translation. A weak component bounds the composite unless new evidence discharges the relevant field independently.
+\end{proof}
+
+\section{Audit table and polygon--circle witness}
+\label{sec:audit-table-polygon-circle}
+
+\begin{definition}[Audit table]
+\label{def:audit-table}
+The audit table records, for each field, the corresponding question, failure mode, and upgrade: source asks what observations license the model; phenomenon asks what is modelled; signature asks what signatures are compared; classifier asks what counts as same; exactness asks whether intended distinctions are preserved; tower asks how source becomes model; ledger asks what was hidden; stability asks where reuse is licensed; descent asks whether operations survive compression; failure surface asks what defeats the claim; bridge asks whether adjacent regimes translate; reproducibility asks whether the fit can be repeated.
+\end{definition}
+
+\begin{theorem}[Audit table covers certificate-based claims]
+\label{thm:audit-table-covers-certificate-claims}
+Every certificate-based physical claim can be audited by some subset of the audit table fields, and every missing required field corresponds to a physical failure certificate.
+\end{theorem}
+
+\begin{proof}
+A certificate-based claim must specify source, phenomenon, signature, classifier, exactness, tower, ledger, stability, descent, failure surface, bridge, and reproducibility status as relevant. These are precisely the audit table fields. Missing required fields are exactly the failure branches of \autoref{def:physical-failure-certificate-audit}.
+\end{proof}
+
+\begin{corollary}[Audit tables make comparison explicit]
+\label{cor:audit-tables-comparison-explicit}
+Two models can be compared by comparing their audit fields.
+\end{corollary}
+
+\begin{proof}
+A model's physical status is determined by its certificate. Comparing models therefore requires comparing source coverage, classifiers, stability domains, ledgers, descent obligations, bridges, and failure surfaces.
+\end{proof}
+
+\begin{theorem}[Polygon--circle approximation is audit-relative]
+\label{thm:polygon-circle-audit-relative}
+The statement $P_N\approx C$ has no audit-independent physical truth value.
+\end{theorem}
+
+\begin{proof}
+Under a coarse visual bundle, a polygon and circle may be classifier-same when edges are below resolution. Under a smooth-boundary bundle, finite polygons have vertices while the circle has a smooth boundary. Under a stress-response bundle, hidden vertices may become physically active. The truth value therefore depends on observation bundle, classifier, tower ledger, and operation list.
+\end{proof}
+
+\begin{corollary}[Polygon becomes circle is audit collapse]
+\label{cor:polygon-becomes-circle-audit-collapse}
+The claim that a polygonal approximation becomes a physical circle is licensed only after specifying classifier, tower ledger, and descent obligations.
+\end{corollary}
+
+\begin{proof}
+The phrase suppresses the distinction between coarse visual fit, smooth-boundary fit, and physical-response fit. Treating them as one claim collapses the audit unless the relevant certificates are supplied.
+\end{proof}
+
+\section{Research workflow}
+\label{sec:model-audit-research-workflow}
+
+\begin{definition}[Research workflow for a new model]
+\label{def:research-workflow-new-model}
+The workflow for a new model is: state the target claim $\varphi(M,R;\Pi)$; assign provisional strength $\operatorname{ModelSeed}$; fill audit certificate fields; list missing fields as failure certificates; convert failures into upgrade obligations; discharge obligations in dependency order from source, signature, classifier, exactness, tower, ledger, stability, descent, and bridge; promote the claim only when the relevant gate is passed; record cannot-claim boundaries for unsupported extensions; update the ledger when new observations or failures occur; and repeat under refined bundles.
+\end{definition}
+
+\begin{theorem}[Workflow prevents unlicensed promotion]
+\label{thm:workflow-prevents-unlicensed-promotion}
+If the research workflow is followed, no model claim is promoted beyond its supplied certificate strength.
+\end{theorem}
+
+\begin{proof}
+The workflow begins at $\operatorname{ModelSeed}$, records missing fields as failure certificates, and promotes only after the corresponding upgrade obligations are discharged. Unsupported extensions are recorded as cannot-claim entries, so unlicensed promotion is blocked.
+\end{proof}
+
+\begin{corollary}[Progress is obligation discharge]
+\label{cor:progress-obligation-discharge}
+Scientific progress occurs by discharging upgrade obligations and refining ledgers, not merely by proposing new equations.
+\end{corollary}
+
+\begin{proof}
+Each discharged obligation strengthens the audit certificate. Each ledger refinement improves provenance and failure localization. Progress therefore accumulates as certificate strength.
+\end{proof}
+
+\begin{corollary}[Speculation and knowledge are separated]
+\label{cor:speculation-knowledge-separated}
+A speculative model may be valuable at $\operatorname{ModelSeed}$, but it becomes physical knowledge only by passing stronger audit gates.
+\end{corollary}
+
+\begin{proof}
+Speculation supplies a possible pattern. Physical knowledge requires source, classifier, stability, descent, ledger, and failure-surface certification. The strength index records this distinction.
+\end{proof}
+
+\begin{remark}[Compressed form]
+\label{rem:model-audit-compressed-form}
+The central audit object is:
+$$
+\operatorname{AuditCert}(M,R;\Pi)
+=
+\text{source}
++
+\text{phenomenon}
++
+\text{signature}
++
+\text{classifier}
++
+\text{tower}
++
+\text{stability}
++
+\text{descent}
++
+\text{ledger}
++
+\text{failure surface}
++
+\text{strength}.
+$$
+A physical model is accepted only relative to such a certificate. Missing fields are research obligations. Failure certificates are the negative face of scientific knowledge. Model strength is certificate strength, and progress is ledger refinement plus obligation discharge.
+\end{remark}
