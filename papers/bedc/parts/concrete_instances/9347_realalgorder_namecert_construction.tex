@@ -65,12 +65,34 @@ For nonnegative order, the consumer reads the comparison rows displayed in $D$ a
 Thus every metric, probability, measure, or algebra-facing consumer receives a finite order or separation row with visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. None of the excluded host principles is a carrier coordinate or a ledger row, so none can escape through this handoff.
 \end{proof}
 
+\begin{theorem}[RealAlgOrder constant-rational scoped certificate]
+\label{thm:real-alg-order-constant-rational-scoped-certificate}
+For constant rational $\RealUp$ endpoint rows, the $\RealAlgOrderUp$ packet of \autoref{def:real-alg-order-carrier} carries the scoped certificate obtained by transporting the endpoint and operation rows through the $\RatUp$ classifiers. Concretely, if $d,e,o$ are the displayed rational histories for the left endpoint, right endpoint, and operation row, and $d',e',o'$ are their classified transports, then the packet records $\mathsf{RealConstantHistoryCarrier}$ for each of $BHist.e1(d)$, $BHist.e1(d')$, $BHist.e1(e)$, $BHist.e1(e')$, $BHist.e1(o)$, and $BHist.e1(o')$; it records $\mathsf{RealConstantHistoryClassifier}$ for the three displayed constant rational comparisons $BHist.e1(d)\to BHist.e1(d')$, $BHist.e1(e)\to BHist.e1(e')$, and $BHist.e1(o)\to BHist.e1(o')$; and its order boundary records the transitive $\RatHistoryClassifier$ row from $d$ to $o$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:real-alg-order-carrier}. The endpoint family $E$ supplies the two constant rational $\RealUp$ endpoint rows, the ledger $O$ supplies the operation row, and the sibling $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\StreamNameUp$ rows named in the chapter introduction expose the rational histories and finite reads used by those rows.
+
+Apply the local obligations of \autoref{thm:real-alg-order-namecert-obligations}. Classifier transport moves the endpoint rows and the operation row componentwise through the stored $\hsame$ and $\Cont$ routes, while ledger exactness keeps the downstream read inside the displayed coordinates.
+
+The sibling $\RealUp$ and $\RatUp$ constant classifier interface identifies a rational classifier row with the corresponding constant real classifier on the $BHist.e1$ endpoint. Applying that interface to the three displayed rational comparisons gives the six $\mathsf{RealConstantHistoryCarrier}$ rows and the three $\mathsf{RealConstantHistoryClassifier}$ rows.
+
+Finally, the order boundary is the transitive rational classifier row. The two $\RatHistoryClassifier$ comparisons $d\to e$ and $e\to o$ compose to the displayed $d\to o$ row, so the scoped $\RealAlgOrderUp$ certificate contains exactly the constant-rational endpoint, operation, and boundary data described above, with no appeal to real trichotomy, quotient equality, or completeness.
+\end{proof}
+
+\closureat{RealAlgOrderUp}{seedStr}
+\closureat{RealAlgOrderUp}{obligationStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{scopedStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{publicStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+\closureat{RealAlgOrderUp}{bridgedStr}[BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate]
+
 \begin{closurestatus}{\RealAlgOrderUp}
   \constructivestory{A $\RealAlgOrderUp$ packet is generated from finite $\RealUp$ endpoint rows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ operation ledgers, $\StreamNameUp$ windows, optional $\ApartnessRealUp$ separation rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-alg-order-carrier}, \autoref{thm:real-alg-order-namecert-obligations}, and \autoref{thm:real-alg-order-apartness-nonescape} specify the finite carrier surface and the apartness/order non-escape boundary for displayed algebra and order rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:real-alg-order-carrier}, \autoref{thm:real-alg-order-namecert-obligations}, \autoref{thm:real-alg-order-apartness-nonescape}, and the constant-rational scoped certificate enumerate the carrier, NameCert obligation rows, apartness/order non-escape theorem, and constant rational $\RealUp$ rows covered by this obligation surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not reconstruct a full real algebra, an ordered-field structure, trichotomy, quotient real equality, ambient completeness, or a public standard bridge.}
-  \upgradepath{Scoped closure requires algebra and order obligations over the constant rational RealUp rows, with endpoint, readback, dyadic, window, apartness, and local ledger coverage.}
+  \upgradepath{Mature closure requires downstream examples and completeness over the same $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\ApartnessRealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}

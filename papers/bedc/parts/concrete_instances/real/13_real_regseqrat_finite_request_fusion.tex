@@ -36,6 +36,29 @@ Apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. The tail-budget 
 Finally apply \autoref{thm:real-name-seal-source-factorization}. The final $\RealUp$ seal source is the same finite source packet with its $\NameCert_{\RealUp}$ row, so completion-facing consumers inherit the listed $W$, $D$, $R$, $H$, $C$, $P$, and $N$ rows and gain no quotient stream equality, host real equality, selected limit, choice data, or ambient completeness row.
 \end{proof}
 
+\begin{theorem}[RealUp RegSeqRat finite-request triangle]
+\label{thm:real-regseqrat-finite-request-triangle}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. The following four displayed BEDC routes mutually determine one another:
+\begin{enumerate}
+\item $S$ is the $\RealUp$ finite-request fusion packet displayed by \autoref{thm:real-regseqrat-finite-request-fusion};
+\item $S$ lands in one $\StreamNameUp$ finite-window row carrying the scheduled unary observation read by the request;
+\item that same finite-window row carries the $\DyadicRatCoreUp$ endpoint, radius, finite-distance ledger, and the $\RegSeqRatUp$ classifier and readback row;
+\item the local $\NameCert_{\RealUp}$ seal read is reached only through those StreamName, dyadic-ledger, classifier, readback, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+\end{enumerate}
+Thus any one of the four route descriptions reconstructs the other three inside the same finite $\BHist$ packet. The triangle exports no quotient stream equality, no host real equality, no selected limit, no choice data, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the fusion packet route. By \autoref{thm:real-regseqrat-finite-request-fusion}, the public request is already repacked as one finite $\BHist$ packet whose visible rows include the $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ endpoint and radius family, the $\RegSeqRatUp$ classifier and regularity rows, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RealUp}$ row.
+
+The StreamName corner is determined by \autoref{thm:real-regseqrat-streamname-seal-common-window-fusion}. It places the seal request and the scheduled unary observation on a single common finite window, so the fusion packet determines the window route and the window route recovers the seal-facing source row of the packet.
+
+The dyadic and classifier corner is determined by \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The same finite handoff carries the dyadic endpoint, radius, finite-distance ledger, classifier row, and readback row, and the handoff admits no off-window replacement for those rows.
+
+It remains to identify the seal corner. Apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback} to pull the seal read back to the displayed window and ledger rows, then apply \autoref{thm:real-name-seal-source-factorization} to factor the local $\NameCert_{\RealUp}$ seal source through exactly that finite packet.
+
+Each direction of the triangle is therefore a repackaging of the same source rows: fusion packet, StreamName window, dyadic-RegSeqRat ledger, and local Real seal. Since the cited routes carry only finite $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance, the correspondence introduces no quotient stream equality, no host real equality, no selected limit, no choice data, and no ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[RealUp RegSeqRat completion-consumer section exactness]
 \label{thm:real-regseqrat-completion-consumer-section-exactness}
 Let $Q$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite request to a $\RealUp$ seal over $Q$, and let $(W,D,R,H,C,P,N)$ be the finite request section displayed by \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. A completion-facing or $\RealUp$-facing consumer of $S$ is accepted exactly when its visible rows factor through that section: $W$ is the $\StreamNameUp$ finite-window row, $D$ is the $\DyadicRatCoreUp$ endpoint, radius, and distance row family, $R$ is the $\RegSeqRatUp$ classifier and readback row family, $H$ is the componentwise $\hsame$ provenance, $C$ is the displayed $\Cont$ route, $P$ is the $\mathsf{Pkg}$ provenance, and $N$ is the local $\NameCert_{\RealUp}$ row. Thus the consumer boundary exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness principle, and no second $\RealUp$ seal coordinate.
@@ -48,4 +71,55 @@ Next apply \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-loc
 For the reverse direction, assume the visible rows of the completion-facing or $\RealUp$-facing consumer factor through $(W,D,R,H,C,P,N)$. Apply \autoref{thm:regseqrat-real-request-section-nonescape} to identify this section as the entire RegSeqRat source section seen by a Real seal, with no escaping source coordinate.
 
 Finally apply \autoref{thm:streamname-tail-compatible-window-terminality}. The StreamName finite-window row is terminal among accepted finite-window consumers with the same observation, tail-selector route, budget surface, pointwise handoff, and support rows. Repacking the terminal window with the dyadic, classifier, readback, transport, route, package, and local naming rows gives exactly the accepted finite section above, and the exclusions from the cited nonescape and terminality theorems rule out quotient stream equality, host real equality, selected limits, choice data, ambient completeness, and a second $\RealUp$ seal coordinate.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat finite-request four-face source exhaustion]
+\label{thm:real-regseqrat-finite-request-four-face-source-exhaustion}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Then $S$ is accepted exactly through the following four displayed source faces:
+\begin{enumerate}
+\item the $\StreamNameUp$ finite-window schedule face;
+\item the $\DyadicRatCoreUp$ endpoint, radius, and finite-distance face;
+\item the $\RegSeqRatUp$ classifier, readback, and regularity face;
+\item the local $\NameCert_{\RealUp}$ seal face.
+\end{enumerate}
+The only transport between these faces is the componentwise $\hsame$ family, the displayed $\Cont$ routes, and the $\mathsf{Pkg}$ provenance already present in the finite request section. Consequently the accepted source of $S$ is exhausted by those four faces, and no quotient stream equality, host real equality, selected limit, choice data, ambient completeness principle, or second $\RealUp$ seal coordinate is exported.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-regseqrat-finite-request-fusion}. It supplies the finite $\BHist$ packet whose visible rows are the StreamName schedule, DyadicRatCore endpoint, radius, and distance data, RegSeqRat classifier and regularity data, componentwise $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RealUp}$ seal row.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. The displayed finite request section is the unique section available to selector-budget and completion-facing consumers of the same seal request, so none of the four faces can be replaced by a second section.
+
+Apply \autoref{thm:real-regseqrat-finite-request-triangle}. The fusion packet, StreamName window, DyadicRatCore-RegSeqRat ledger, and local Real seal face mutually determine one another inside the same finite packet.
+
+Finally use \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Its accepted-consumer boundary says that every completion-facing or $\RealUp$-facing consumer is accepted precisely when its visible rows factor through this same section. The four displayed faces therefore give the complete accepted source for $S$, while the exclusions recorded by the cited results rule out quotient stream equality, host real equality, selected limits, choice data, ambient completeness, and a second Real seal coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real finite-request seal coherence]
+\label{thm:streamname-regseqrat-real-finite-request-seal-coherence}
+Let $W$ be a public $\StreamNameUp$ finite-window package, let $Q$ be an accepted $\RegSeqRatUp$ packet whose finite-window seal consumes the selected rows of $W$, and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Suppose the finite request displays the same $\StreamNameUp$ window, the same $\DyadicRatCoreUp$ endpoint, radius, and distance rows, the same $\RegSeqRatUp$ classifier and readback rows, the same componentwise $\hsame$ family, the same displayed $\Cont$ routes, the same $\mathsf{Pkg}$ provenance, and the same local $\NameCert_{\RealUp}$ rows. Then the StreamName-RegSeqRat seal-composition route and the $\RealUp$ four-face source-exhaustion route determine the same finite $\BHist$ packet. This coherence exports no quotient stream equality, no host real equality, no selected limit, no countable-choice schedule, no ambient completeness row, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-real-regseq-finite-window-handoff}. The public finite-window package $W$ supplies the StreamName source rows consumed by the accepted $\RegSeqRatUp$ packet, and those rows are the displayed window rows of the request.
+
+Next apply \autoref{thm:streamname-regseqrat-real-seal-composition}. The seal route from the StreamName window through the accepted RegSeqRat packet reaches the Real-facing seal only through the selected window rows, the RegSeqRat classifier and readback rows, and their displayed provenance.
+
+Now apply \autoref{thm:real-regseqrat-finite-request-fusion} and \autoref{thm:real-regseqrat-finite-request-triangle}. These results repack the displayed StreamName, dyadic, RegSeqRat, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local naming rows as one finite $\BHist$ packet, and they identify the StreamName window route, the dyadic-RegSeqRat ledger route, and the Real seal route as mutually determining faces of that packet.
+
+Finally use \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}. Its four-face source exhaustion says that the accepted source of $S$ has no visible face beyond the StreamName window, DyadicRatCore endpoint-radius-distance data, RegSeqRat classifier-readback data, and local $\NameCert_{\RealUp}$ seal row. Hence the StreamName-RegSeqRat seal-composition route and the RealUp four-face route name the same finite $\BHist$ packet, with none of the excluded quotient, host-real, selected-limit, countable-choice, completeness, or duplicate-seal data exported.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat finite-request section terminality]
+\label{thm:real-regseqrat-finite-request-section-terminality}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Suppose two accepted completion-facing or $\RealUp$-facing finite-request sections over $S$ display the same $\StreamNameUp$ finite-window row, the same $\DyadicRatCoreUp$ endpoint, radius, and finite-distance rows, the same $\RegSeqRatUp$ classifier and readback rows, the same componentwise $\hsame$ family, the same displayed $\Cont$ routes, the same $\mathsf{Pkg}$ provenance, and the same local $\NameCert_{\RealUp}$ rows. Then the two sections determine the same finite $\BHist$ packet. This terminal section exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness row, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-regseqrat-finite-request-fusion}. Each accepted finite request is represented by one finite $\BHist$ packet whose visible rows are exactly the StreamName window, dyadic endpoint-radius-distance data, RegSeqRat classifier-readback data, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert_{\RealUp}$ rows.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. A completion-facing or $\RealUp$-facing consumer of the same seal cannot replace the displayed window, dyadic, classifier, readback, transport, route, package, or local naming rows by a second selector-budget section.
+
+The StreamName coordinate is terminal by \autoref{thm:streamname-tail-compatible-window-terminality}. Since the two sections display the same finite window and the same compatible tail-budget surface, both StreamName faces collapse to the same window packet.
+
+Now use \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Acceptance of either completion-facing or $\RealUp$-facing section is exactly factorization through the displayed $(W,D,R,H,C,P,N)$ rows, so the two sections have no visible coordinate outside those rows.
+
+Finally apply \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}. The StreamName, DyadicRatCore, RegSeqRat, and local Real naming faces exhaust the accepted source of $S$. Since the two sections agree on all four faces and on the only permitted $\hsame$, $\Cont$, and $\mathsf{Pkg}$ transports between them, they determine the same finite $\BHist$ packet, and none of the excluded quotient, host-real, selected-limit, choice, completeness, or duplicate-seal data is exported.
 \end{proof}

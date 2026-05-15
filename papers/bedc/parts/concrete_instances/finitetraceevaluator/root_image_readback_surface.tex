@@ -1,0 +1,81 @@
+\begin{theorem}[FiniteTraceEvaluator root image row]
+\label{thm:finite-trace-evaluator-root-image-row}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, each accepted read exposes
+only the displayed image rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+The rows name the coded input, finite trace, accepted-result classifier,
+validation boundary, componentwise transport, displayed continuation, package
+provenance, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row. No accepted
+read adds a host validator, total truth predicate, total halting classifier,
+unbounded evaluator, or infinite trace to the root image.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:finite-trace-evaluator-carrier}. Its root
+surface is displayed by $I,T,A,V,H,C,P,N$ and no additional row.
+
+Apply \autoref{thm:finite-trace-evaluator-source-admission} to the
+accepted-result side and
+\autoref{thm:finite-trace-evaluator-ledger-exhaustion} to the dependency side.
+Together they place every accepted read on the displayed image rows.
+
+Finally use \autoref{thm:finite-trace-evaluator-root-exactness-scope}. Any root
+checkpoint read that reaches the image surface factors through the accepted
+result route or the validation and ledger route, so the excluded host rows
+remain outside the packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root readback exactness]
+\label{thm:finite-trace-evaluator-root-readback-exactness}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, checkpoint readback returns
+through
+$$
+I \to T \to A
+$$
+for accepted results, and through $V,H,C,P,N$ for validation boundary reads.
+These two readback routes share the same finite root packet and expose no host
+validation, total truth, total halting, unbounded evaluation, infinite trace, or
+second checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-root-trace-result-totality}. It
+sends accepted-result checkpoint reads through $I \to T \to A$ before the
+accepted-result classifier is consumed.
+
+Next use \autoref{thm:finite-trace-evaluator-root-validation-boundary}. It
+sends validation boundary reads to $V,H,C,P,N$ and prevents host validation,
+total truth, total halting, and unbounded evaluation from becoming readback
+coordinates.
+
+The checkpoint source lock,
+\autoref{thm:finite-trace-evaluator-checkpoint-source-lock}, ties both routes
+to the same finite source. Hence checkpoint readback is exact on the two
+displayed routes and does not create a second checkpoint source or infinite
+trace.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root ledger factorization]
+\label{thm:finite-trace-evaluator-root-ledger-factorization}
+Every downstream $\ReflectionRuntimeCheckpointUp$ consumer of an accepted
+$\FiniteTraceEvaluatorUp$ packet factors through the image row of
+\autoref{thm:finite-trace-evaluator-root-image-row} and the readback routes of
+\autoref{thm:finite-trace-evaluator-root-readback-exactness}. The factorization
+uses only $I,T,A,V,H,C,P,N$ and imports no host validation, total truth, total
+halting, unbounded evaluation, or infinite trace.
+\end{theorem}
+\begin{proof}
+First build the image surface with
+\autoref{thm:finite-trace-evaluator-root-image-row}. It gives the complete root
+row list visible to accepted reads.
+
+Then apply \autoref{thm:finite-trace-evaluator-root-readback-exactness}. The
+checkpoint consumer reads accepted results through $I \to T \to A$ and
+validation boundary rows through $V,H,C,P,N$.
+
+Finally attach \autoref{thm:finite-trace-evaluator-consumer-factorization} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. They force the
+runtime checkpoint consumer to remain on those image and readback rows, with no
+coordinate for host validation, total truth, total halting, unbounded
+evaluation, or an infinite trace.
+\end{proof}

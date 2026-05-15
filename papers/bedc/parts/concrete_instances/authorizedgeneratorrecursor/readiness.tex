@@ -99,6 +99,45 @@ downstream closed-normal and generator-audit consumers without granting any
 authority beyond the finite NameCert surface.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor obligation triad]
+\label{thm:authorized-generator-recursor-obligation-triad}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$R=(I,E,M,B,D,O,A,H,C,P,G,N)$, obligation closure is reached only through the
+triad of branch-package exhaustion over $I,E,B$, structural-descent locality
+over $M,D$, and audit-provenance factorization over $O,A,H,C,P,G,N$. No output
+row $O$ may be public when any one of these three components is absent from the
+same carrier packet.
+\end{theorem}
+\begin{proof}
+Read the packet coordinates from
+\autoref{def:authorized-generator-recursor-carrier}. The carrier presents one
+finite surface, so branch data, descent data, audit provenance, routes,
+package provenance, boundary rows, and the local certificate are consumed as
+coordinates of the same accepted packet.
+
+The first component is branch coverage. Apply
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} to force the
+public branch package to exhaust the constructors displayed by $I$ and the
+emitted eliminator row $E$.
+
+The second component is descent locality. Apply
+\autoref{thm:authorized-generator-recursor-structural-descent-locality} to
+keep recursive reads on the motive and structural-descent rows $M,D$, rather
+than on a detached generator route.
+
+The third component is audit provenance. Use
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization} and
+\autoref{thm:authorized-generator-recursor-audit-provenance-cover} to attach
+public exposure of $O$ to the audit, transport, continuation, provenance,
+boundary, and local naming rows $A,H,C,P,G,N$.
+
+Finally
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} transfers
+only this finite packet to the TasteGate handoff. If one triad component is
+missing, the handoff has no carrier coordinate licensing a public output row,
+so obligation closure cannot expose $O$.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
