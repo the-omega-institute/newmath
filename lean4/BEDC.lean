@@ -271,6 +271,7 @@ import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
+import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
@@ -352,6 +353,7 @@ import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
+import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
@@ -1069,6 +1071,8 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SourceLedger
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowPullbackUniqueness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
+import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudget
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteConsumerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSynchronizerCompletion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorLockSealRouteExhaustion
