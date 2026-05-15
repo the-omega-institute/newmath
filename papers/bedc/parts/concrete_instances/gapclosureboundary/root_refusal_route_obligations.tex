@@ -1,0 +1,41 @@
+\begin{theorem}[GapClosureBoundary refusal verdict totality]
+\label{thm:gap-closure-boundary-refusal-verdict-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the boundary exposes the source GAP row $G$, the unsupported request endpoint, the refusal verdict row $R$, and the refusal ledger carried by $H,C,P,N$ before any consumer can read a supported route. A supported consumer may later read $G \longrightarrow S$, but only after the refusal verdict surface has fixed how off-source requests are routed.
+\end{theorem}
+\begin{proof}
+Begin with the source/refusal decision surface of \autoref{thm:gap-closure-boundary-source-refusal-decision-surface}. It separates accepted reads of $G$ into the displayed source route $G \longrightarrow S$ and the displayed refusal route $G \longrightarrow R$.
+
+For the refusal side, apply the source-refusal consumer ledger, \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}. The unsupported request endpoint is accounted for by the refusal route through $R$ and by the same structural rows $H,C,P,N$.
+
+Now use the root totality handoff surface, \autoref{thm:gap-closure-boundary-root-consumer-handoff}. It requires downstream consumers to receive the displayed rows $G,S,R,H,C,P,N$ rather than a private boundary packet.
+
+Finally, the recognizer-facing dependency surface is already concrete: \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness} and \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction} place accepted evidence through a certificate gate and tuple readback before it reaches the boundary. Thus the refusal verdict and ledger are visible before a consumer can use the supported route.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary supported route exhaustion]
+\label{thm:gap-closure-boundary-supported-route-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every supported route is exhausted by the displayed $\BHist$ rows $G,S,R$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. No supported consumer route can use hidden closure supply, host equality, quotient data, or a boundary route outside these rows.
+\end{theorem}
+\begin{proof}
+First expose the scoped dependency inventory. By \autoref{thm:gap-closure-boundary-scoped-dependency-inventory}, the boundary displays the $\BHist$ carrier rows together with $H,C,P,N$ before any consumer reads it.
+
+For the supported branch, apply root source totality from \autoref{thm:gap-closure-boundary-root-source-totality}. A supported root read must pass through $G \longrightarrow S$ and then remain inside the componentwise transport, displayed continuation, provenance, and local naming surface.
+
+Next apply consumer route totality, \autoref{thm:gap-closure-boundary-consumer-route-totality}. It assigns each listed downstream read to the displayed source/refusal split and rules out a route bypassing both $S$ and $R$.
+
+The concrete sibling landing theorems close the only remaining import path. The certificate-gate exactness of \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness} and the field-faithful readback of \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction} make the recognizer and tuple surfaces feed the same displayed rows, so there is no hidden closure route beyond $G,S,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary NameCert consumer non-escape]
+\label{thm:gap-closure-boundary-namecert-consumer-nonescape}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any downstream consumer receives only the refusal-plus-supported-route packet named by $N$ and transported through $H,C,P$. The consumer receives no unregistered global closure, hidden exactness theorem, host quotient-like boundary, private source selector, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start from scoped consumer non-escape, \autoref{thm:gap-closure-boundary-scoped-consumer-nonescape}. It confines the listed sibling consumers to the scoped source/refusal surface of $G,S,R,H,C,P,N$.
+
+The supported side is governed by \autoref{thm:gap-closure-boundary-supported-route-exhaustion}. The source branch is the route $G \longrightarrow S$ carried by the displayed transport, continuation, package provenance, and local $\NameCert$ rows.
+
+The refusal side is governed by \autoref{thm:gap-closure-boundary-refusal-verdict-totality}. Unsupported requests are already placed on the refusal verdict row $R$ and its ledger before the supported route can be consumed.
+
+Finally use root consumer handoff and recognizer refusal stability, \autoref{thm:gap-closure-boundary-root-consumer-handoff} and \autoref{thm:gap-closure-boundary-recognizer-refusal-stability}. The first keeps every listed downstream consumer inside the displayed packet, and the second prevents failed recognizer landing from being reread as source evidence. Hence the local NameCert surface exports only the refusal-plus-supported-route packet and no unregistered global closure, hidden exactness theorem, quotient-like boundary, private selector, or off-packet continuation.
+\end{proof}
