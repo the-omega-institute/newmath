@@ -1,0 +1,74 @@
+\begin{definition}[MetaCIC normalization frontier public export surface]
+\label{def:metacic-normalization-frontier-public-export-surface}
+The public export surface of an accepted
+$\MetaCICNormalizationFrontierUp$ packet is the finite row package
+$$
+F_{\mathrm{pub}}=(C,K,E,N,S,H,R,P,L).
+$$
+Here $C$ is candidate evidence, $K$ is closed-candidate placement, $E$ is
+finished-normal evidence, $N$ is the normal endpoint, $S$ is the
+subject-reduction obstruction, $H$ is componentwise $\hsame$ transport, $R$
+is the displayed $\Cont$ replay surface, $P$ is $\Pkg$ provenance, and $L$ is
+the local $\NameCert$ row. A public read of the frontier packet is a read of
+this finite surface, not a read of an ambient normalization theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization frontier public export totality]
+\label{thm:metacic-normalization-frontier-public-export-totality}
+Every public $\MetaCICNormalizationFrontierUp$ consumer factors through one of
+the two displayed public routes:
+\begin{enumerate}
+\item the candidate surface $C,K,R,P,L$;
+\item the finished-normal surface $E,N,R,P,L$.
+\end{enumerate}
+In both cases the row $S$ is retained as subject-reduction obstruction data,
+and $H$ transports only the displayed components of the same finite public
+surface.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local certificate obligations. The carrier
+\autoref{def:metacic-normalization-frontier-carrier} supplies exactly the
+rows $C,K,E,N,S,H,R,P,L$, and
+\autoref{thm:metacic-normalization-frontier-namecert-obligations} assigns
+consumer reads to the candidate boundary, the finished-normal boundary, and
+the displayed handoff rows.
+
+The positive route is then exhausted by the existing route theorems. Use
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality} and
+\autoref{thm:metacic-normalization-frontier-evidence-choice-exhaustion}: a
+public consumer must choose $C,K$ or $E,N$, with replay, provenance, and local
+naming supplied by $R,P,L$.
+
+Finally use obstruction retention. The theorem
+\autoref{thm:metacic-normalization-frontier-obstruction-retention} keeps $S$
+visible under both choices, and non-escape prevents $H,R,P,L$ from becoming a
+third positive normalization route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier public export non-escape]
+\label{thm:metacic-normalization-frontier-public-export-nonescape}
+The public export surface of
+\autoref{def:metacic-normalization-frontier-public-export-surface} cannot be
+read as blanket strong normalization for all empty-context typed closed
+MetaCIC terms, full closed consistency, erased subject-reduction transport, or
+a third hidden normalization evidence route beyond $C,K,R,P,L$ and
+$E,N,R,P,L$.
+\end{theorem}
+\begin{proof}
+Project the public surface to the existing carrier. The definition of
+$F_{\mathrm{pub}}$ is only the displayed finite row package
+$C,K,E,N,S,H,R,P,L$, so any public read must stay inside the same carrier,
+transport, replay, package, and local naming coordinates.
+
+Apply the chapter's non-escape and evidence-choice results.
+\autoref{thm:metacic-normalization-frontier-nonescape} excludes blanket
+normalization, closed consistency, and erased subject-reduction transport,
+while \autoref{thm:metacic-normalization-frontier-evidence-choice-exhaustion}
+leaves only the candidate and finished-normal evidence choices.
+
+It remains to rule out a hidden route. Consumer-route totality gives no
+public path outside $C,K,R,P,L$ and $E,N,R,P,L$, and obstruction retention
+keeps $S$ as obstruction data rather than positive normalization evidence.
+Therefore the public export boundary is exactly the two-route surface with
+the obstruction row retained.
+\end{proof}
