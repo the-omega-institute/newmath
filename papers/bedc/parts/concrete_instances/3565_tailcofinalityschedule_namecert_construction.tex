@@ -582,6 +582,34 @@ selector-budget source from which a distinct completion-facing or
 selector-facing public read could be obtained.
 \end{proof}
 
+\begin{theorem}[Tail cofinality schedule window seal factorization]
+\label{thm:tail-cofinality-schedule-window-seal-factorization}
+Let
+$$
+T=(E,W,D,R,L,H,C,P,N)
+$$
+be an accepted $\TailCofinalityScheduleUp$ packet. Every completion-facing read of $T$ factors through
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
+$$
+and then through the structural rows $H,C,P,N$. The factorization is stable under the displayed $\hsame$ transports and cannot introduce quotient stream equality, host-selected limits, hidden tail oracles, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite window. Apply \autoref{thm:tail-cofinality-schedule-window-coverage}; every completion-facing read of the unary precision row $E$ reaches the displayed $\StreamNameUp$ window row $W$ before any seal consumer can read a later row.
+
+Next use \autoref{thm:tail-cofinality-schedule-threshold-sufficiency}. The finite window supplies the displayed dyadic ledger row $D$, so the route cannot branch into a hidden tail oracle or a host-selected cofinal schedule.
+
+Now apply \autoref{thm:tail-cofinality-schedule-real-seal-readback}. The $\RegSeqRatUp$ row $R$ and the $\RealUp$ seal row $L$ are read through the same finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L.
+$$
+The displayed $\hsame$ transports keep the structural rows $H,C,P,N$ attached to that route.
+
+Determinacy follows from \autoref{thm:tail-cofinality-schedule-streamname-regseqrat-real-window-determinacy}: after $E,W,D$ are fixed, the completion-facing consumer has the same $R$ and $L$ rows under the same transport, continuation, provenance, and local naming package.
+
+Finally invoke \autoref{thm:tail-cofinality-schedule-real-completion-selector-route}. The RealCompletionSelectorSeal route consumes the displayed readback and seal rows, so no quotient stream equality, host-selected limit, hidden tail oracle, or ambient completeness coordinate can be introduced downstream.
+\end{proof}
+
 \closureat{TailCofinalityScheduleUp}{seedStr}
 \closureat{TailCofinalityScheduleUp}{obligationStr}
 \closureat{TailCofinalityScheduleUp}{scopedStr}
