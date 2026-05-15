@@ -1,0 +1,48 @@
+\section{AuthorizedGeneratorRecursor displayed route surface}
+\label{sec:authorized-generator-recursor-displayed-route-surface}
+
+\begin{definition}[AuthorizedGeneratorRecursor displayed route]
+\label{def:authorized-generator-recursor-displayed-route}
+An $\AuthorizedGeneratorRecursorUp$ displayed route is a finite $\BHist$ packet
+$$
+R=(A,G,F,K,P,N)
+$$
+whose rows are:
+\begin{enumerate}
+\item $A$, the authorization row for the accepted generator signature;
+\item $G$, the generator row naming the generator whose recursor is being read;
+\item $F$, the recursion-fuel row bounding the displayed recursive descent;
+\item $K$, the continuation route that exposes each branch, recursive call, and output row through displayed $\Cont$ data;
+\item $P$, the package provenance over the accepted signature, generator row, fuel row, branch package, output route, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$, the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row for this displayed route.
+\end{enumerate}
+The route has no coordinate for an unrecorded host recursor, an unbounded recursion principle, an extra generator branch, or a detached output channel.
+\end{definition}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger exhaustion]
+\label{thm:authorized-generator-recursor-ledger-exhaustion}
+Every consumer read of an accepted $\AuthorizedGeneratorRecursorUp$ displayed route factors through the authorization row $A$, generator row $G$, recursion-fuel row $F$, continuation route $K$, package provenance $P$, and local naming row $N$. No consumer can import an unrecorded host recursor, bypass the displayed fuel row, or read a generator output detached from these rows.
+\end{theorem}
+\begin{proof}
+Project the displayed route of \autoref{def:authorized-generator-recursor-displayed-route}. Its only public coordinates are $A,G,F,K,P,N$, and the route contains no second recursor channel.
+
+The authorization and generator rows must be read first. They identify the accepted generator signature and the generator whose recursor output is public, so a consumer that lacks either row has no accepted root route to consume.
+
+The recursion-fuel and continuation rows then exhaust recursive access. Every branch, recursive call, and output exposure is routed through $F$ and $K$, with provenance and local naming supplied by $P,N$.
+
+Therefore an unrecorded host recursor, an unbounded recursion principle, or a detached output channel would require a coordinate outside $R$, and no such coordinate is present.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor NameCert route]
+\label{thm:authorized-generator-recursor-namecert-route}
+For an accepted $\AuthorizedGeneratorRecursorUp$ displayed route, the local $\NameCert$ obligation surface consists exactly of carrier exposure for $R=(A,G,F,K,P,N)$, classifier transport of these six rows by the displayed $\hsame$ data, route determinacy through $K$, ledger exhaustion through \autoref{thm:authorized-generator-recursor-ledger-exhaustion}, and non-escape from unrecorded host recursors or detached generator outputs.
+\end{theorem}
+\begin{proof}
+Carrier exposure is the finite route packet of \autoref{def:authorized-generator-recursor-displayed-route}. It displays the authorization, generator, fuel, continuation, provenance, and naming rows as one $\BHist$ surface.
+
+Classifier transport is componentwise: an accepted comparison preserves $A,G,F,K,P,N$ through the stored $\hsame$ rows and replays the same public reads through the displayed $\Cont$ route $K$.
+
+Route determinacy follows because $K$ is the only continuation coordinate. Once $A,G,F,P,N$ are fixed, every branch, recursive call, and output read must pass through that route.
+
+Ledger exhaustion and non-escape are exactly the content of \autoref{thm:authorized-generator-recursor-ledger-exhaustion}. The route therefore packages the carrier, classifier, deterministic continuation, exhaustive ledger, and refusal of unrecorded host recursors into the local $\NameCert$ surface.
+\end{proof}
