@@ -65,3 +65,29 @@ certificate, the mark-level ledger definition, the generic carrier-as-ledger
 implication, and the closed semantic certificate occupy separate roles. In each
 case $\BoolUp$ is derived from mark and history sameness, and is not primitive.
 \end{corollary}
+
+\begin{lemma}[Bool public endpoint forgetful projection boundary]
+\label{lem:bool-public-endpoint-forgetful-projection-boundary}
+The public constructor surface of \autoref{def:bool-public-endpoint-constructors} admits a BEDC-native forgetful projection. Start with a public constructor readback row and erase the constructor-row name, endpoint-table name, and public-surface annotation while retaining the displayed endpoint history. The retained target data are exactly
+$$
+\mathsf{BoolHistoryCarrier},\quad
+\mathsf{BoolHistoryClassifier},\quad
+\mathsf{BoolHistoryCarrier}\text{ as source, pattern, and ledger},\quad
+\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),
+$$
+together with the public semantic certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
+$$
+More concretely, each retained public read has a mark $v:\BMark$ and an endpoint witness $\hsame(h,\mathsf{BoolEndpoint}(v))$, unique up to $\msame$. For two retained reads $h,k$ with endpoint witnesses through $v,w:\BMark$, the projected classifier row $\mathsf{BoolHistoryClassifier}(h,k)$ holds exactly when $\msame(v,w)$ holds. The projection retains no constructor-row name, endpoint-table name, host proposition, decidable predicate, eliminator, truth-table-completeness datum, payload carrier, payload classifier, or option-packaging row.
+\end{lemma}
+\begin{proof}
+The public constructor rows are exactly the two endpoint rows displayed in \autoref{def:bool-public-endpoint-constructors}. Applying \autoref{thm:bool-public-constructor-case-readback} to a public read supplies a mark $v:\BMark$ and an endpoint witness $\hsame(h,\mathsf{BoolEndpoint}(v))$, and \autoref{thm:bool-endpoint-readback-determinism} makes the displayed mark unique up to $\msame$.
+
+The retained carrier coordinate is forced by \autoref{thm:bool-history-carrier-endpoint-coverage}: an endpoint witness against $\mathsf{BoolEndpoint}(v)$ repacks as $\mathsf{BoolHistoryCarrier}(h)$, and every Bool carrier row is covered by such an endpoint witness. Thus erasing the public constructor name leaves a history in the same target carrier rather than a separate codomain carrier.
+
+For the classifier coordinate, take two retained reads $h,k$ with endpoint witnesses through $v,w$. If $\msame(v,w)$ holds, the reverse direction of \autoref{thm:bool-history-classifier-mark-readback-exactness} rebuilds $\mathsf{BoolHistoryClassifier}(h,k)$ from the two endpoint witnesses and the mark comparison. Conversely, if $\mathsf{BoolHistoryClassifier}(h,k)$ holds, \autoref{thm:bool-history-classifier-mark-readback-exactness} supplies endpoint witnesses through marks $v',w'$ with $\msame(v',w')$. The readback determinism theorem compares $v$ with $v'$ and $w$ with $w'$, and transitivity of mark sameness gives $\msame(v,w)$. Hence the classifier retained by the projection is exactly the mark-level agreement already visible in the constructor readback.
+
+The certificate coordinates are fixed by \autoref{def:bool-history-semantic-fields}, \autoref{thm:concrete-bool-namecert}, and \autoref{thm:bool-concrete-semantic-namecert}. Source, pattern, and ledger are all the same predicate $\mathsf{BoolHistoryCarrier}$, the core name certificate is $\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier})$, and the public semantic certificate is the displayed carrier-self semantic certificate. Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} excludes host propositions, decidable predicates, eliminators, and truth-table completeness, while the Bool public surface contains no payload carrier, payload classifier, or option-packaging coordinate. Those named rows are therefore erased rather than transported by the forgetful projection.
+\end{proof}
