@@ -65,6 +65,7 @@ rows. The return route exports no quotient stream, selected limit, host real
 equality, countable-choice selector, ambient completeness principle, or second
 seal source.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_finite\_request\_section\_return}
 \begin{proof}
 First apply
 \autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}. It
@@ -201,4 +202,18 @@ Apply \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}. The Cau
 Use the StreamName finite-window request and coverage rows together with the shared Real-facing handoff. They make the selector rows total over the displayed finite windows rather than over an ambient completion object.
 
 Finally read the UniformCauchyCriterion shared-threshold transport and non-escape boundary. The uniform route contributes no detached threshold family or second seal, so the common packet gives the total synchronizer route claimed above.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion common selector refinement]
+\label{thm:cauchycriterion-common-selector-refinement}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the three packets share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and finite selector rows at the completion-facing boundary. Then the Cauchy selector route, the uniform shared-threshold route, and the diagonal root-formal route determine one common finite selector-refinement packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The refinement packet exposes no quotient stream, selected host limit, host real equality, detached threshold family, ambient completeness principle, or second completion seal.
+\end{theorem}
+\begin{proof}
+First assemble the pairwise selector boundary. The uniform selector-seal compatibility theorem, \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}, identifies the CauchyCriterion selector route and the UniformCauchyCriterion shared-threshold route inside one finite packet over the shared StreamName--RegSeqRat--DyadicRatCore--Real rows.
+
+Next pull the diagonal route back to the same boundary. The route-pullback theorem, \autoref{thm:cauchycriterion-selector-seal-route-pullback}, restricts the diagonal root-formal seal route along the displayed finite rows and prevents it from exposing a detached completion object.
+
+Finally apply synchronizer totality, \autoref{thm:cauchycriterion-selector-seal-synchronizer-totality}. Its synchronizer packet already carries the finite selector rows, $\BHist$ support, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows. The StreamName finite-window and diagonal root-formal references used above put all three routes on that same finite window, so repacking them gives the common selector-refinement packet and no excluded coordinate remains.
 \end{proof}

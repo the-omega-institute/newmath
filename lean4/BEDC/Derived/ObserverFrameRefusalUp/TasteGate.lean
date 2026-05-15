@@ -173,6 +173,9 @@ instance observerFrameRefusalChapterTasteGate : ChapterTasteGate ObserverFrameRe
     intro x y hxy heq
     exact hxy (observerFrameRefusalToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ObserverFrameRefusalUp :=
+  observerFrameRefusalChapterTasteGate
+
 instance observerFrameRefusalFieldFaithfulInstance : FieldFaithful ObserverFrameRefusalUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := observerFrameRefusalFields

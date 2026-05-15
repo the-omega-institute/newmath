@@ -1,0 +1,53 @@
+\begin{theorem}[$\ZNormalUp$ terminal-host root factorization]
+\label{thm:znormal-terminal-host-root-factorization}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+each terminal-host consumer factors through the carrier row of \autoref{def:znormal-carrier}, the local $\NameCert_{\ZNormalUp}$ obligations, the fuel-normality non-escape surface, terminal readback exactness, sibling normal-word handoff, and the root TasteGate field surface. The factorization reads $T,F,V,K,R,H,C,P,N$ as one finite $\BHist$ packet transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by $\NameCert$.
+
+No terminal-host consumer receives a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, global normalizer, or substrate-halting claim outside that displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:znormal-carrier}. The terminal-host surface is the finite tuple $T,F,V,K,R,H,C,P,N$, so the consumer has no row outside the displayed packet.
+
+Apply \autoref{thm:znormal-namecert-obligations} and \autoref{thm:znormal-fuel-normality-nonescape}. These rows bind carrier admission, finite fuel replay, terminal normality, continuation readback, transport, replay, package, and naming to the same finite route.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-root-tastegate-field-surface}. The terminal read, sibling normal-word row, and TasteGate-facing field surface all inspect the same tuple, so the terminal-host consumer factors through the displayed BEDC primitives.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel replay root exhaustion]
+\label{thm:znormal-fuel-replay-root-exhaustion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+fuel replay at the root is exhausted by the route from typed endpoint $T$ through finite fuel $F$, terminal-normality row $V$, and terminal readback $R$, with $H,C,P,N$ supplying the only transport, continuation, package, and naming rows. The row $K$ contributes only the sibling normal-word handoff surface already displayed in the packet.
+
+Thus a fuel-replay consumer cannot reread the packet as host conversion, quotient computation, divergence detection, unrestricted evaluation, global normalization, or substrate halting.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-fuel-normality-nonescape}. It places terminal normality behind the finite route $T \longmapsto F \longmapsto V \longmapsto R$ and keeps $K$ as sibling normal-word evidence.
+
+Next apply \autoref{thm:znormal-terminal-readback-exactness}. Terminal readback is exact only through $T,F,V,R,H,C,P,N$, so the replay cannot detach a host computation row from the accepted packet.
+
+Finally use \autoref{thm:znormal-root-tastegate-field-surface} together with the local NameCert obligations. The root field surface is exactly the displayed tuple $T,F,V,K,R,H,C,P,N$, and the excluded host-side objects have no carrier coordinate there.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-output root non-escape]
+\label{thm:znormal-normal-output-root-nonescape}
+Every normal-output read from an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+remains inside the terminal-host root surface: carrier admission through $T,F,V,K,R$, structural transport through $H$, continuation replay through $C$, package provenance through $P$, and local naming through $N$. The read may cite the sibling normal-word handoff and the root TasteGate field surface, but it exports no detached normal-output object beyond the displayed BEDC primitives.
+
+In particular, no normal-output consumer can obtain host conversion, quotient computation, divergence detection, unrestricted evaluation, global normalization, or substrate-halting evidence from the packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:znormal-normal-output-boundary}. Normal-output consumption is already confined to the finite carrier and the displayed normal-form rows.
+
+Apply \autoref{thm:znormal-sibling-normalword-handoff} and \autoref{thm:znormal-terminal-readback-exactness}. They identify the only sibling normal-word and terminal-readback routes available to the consumer.
+
+Finally combine \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, and \autoref{thm:znormal-root-tastegate-field-surface}. These rows bind the output read to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and no excluded host-side or substrate-halting object remains exportable.
+\end{proof}
