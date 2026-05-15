@@ -142,6 +142,27 @@ theorem HausdorffCompletionCarrier_separated_seal_boundary [AskSetup] [PackageSe
       sourceEntourageTransport, separatedHandoffRoute, transportRouteProvenance,
       separatedProvenanceSealConsumer, provenancePkg, sealConsumerPkg⟩
 
+theorem HausdorffCompletionCarrier_separated_reflector_route [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance publicRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont source handoff publicRoute ->
+        PkgSig bundle publicRoute pkg ->
+          UnaryHistory source ∧ UnaryHistory handoff ∧ UnaryHistory publicRoute ∧
+            Cont source handoff publicRoute ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle publicRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier sourceHandoffPublicRoute publicRoutePkg
+  obtain ⟨sourceUnary, _entourageUnary, _separatedUnary, handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _sourceEntourageTransport, _separatedHandoffRoute,
+    _transportRouteProvenance, provenancePkg⟩ := carrier
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed sourceUnary handoffUnary sourceHandoffPublicRoute
+  exact
+    ⟨sourceUnary, handoffUnary, publicRouteUnary, sourceHandoffPublicRoute, provenancePkg,
+      publicRoutePkg⟩
+
 theorem HausdorffCompletionCarrier_real_seal_ledger_scope [AskSetup] [PackageSetup]
     {source entourage separated handoff transport route provenance sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
