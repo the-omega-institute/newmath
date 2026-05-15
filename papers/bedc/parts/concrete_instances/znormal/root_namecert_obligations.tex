@@ -1,0 +1,41 @@
+\begin{definition}[$\ZNormalUp$ root carrier boundary]
+\label{def:znormal-root-carrier-boundary}
+The root carrier boundary for terminal normality is the finite packet
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+Here $T$ is the terminal typed endpoint row, $F$ is the bounded fuel row, $V$ is the terminal-normality row, $K$ is the total-host refusal row for host conversion, quotient normalization, divergence, unrestricted evaluation, and global normalization, $R$ is the displayed continuation readback row, $H$ is the componentwise $\hsame$ transport row, $C$ is the displayed $\Cont$ replay row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert_{\ZNormalUp}$ row. A root consumer reads terminal normality only through these rows of the $\BHist$ packet.
+\end{definition}
+
+\begin{theorem}[$\ZNormalUp$ NameCert root obligations]
+\label{thm:znormal-namecert-root-obligations}
+For the root boundary of \autoref{def:znormal-root-carrier-boundary}, the local $\NameCert_{\ZNormalUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly the finite packet $Z=(T,F,V,K,R,H,C,P,N)$;
+\item classifier exposure reads terminal normality from $V$ and its sibling normal-route evidence from $T,F,K,R$;
+\item terminal-normality evidence is accepted only after the bounded fuel row $F$ and the total-host refusal row $K$ are displayed;
+\item bounded-fuel replay is transported by $H$ and reread only through the displayed $\Cont$ row $C$;
+\item non-escape keeps $\Pkg$ provenance and local naming inside $P,N$ and exports no host conversion row, quotient normalization row, divergence oracle, unrestricted evaluator, or global-normalization coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the root boundary packet. The carrier obligation is the finite tuple $T,F,V,K,R,H,C,P,N$, so the classifier has no second row from which to read terminal normality.
+
+The classifier and terminal-normality obligations are the rows $V$ together with $T,F,K,R$. The row $F$ bounds the replay, $K$ records refusal of total-host escape routes, and $R$ keeps the terminal readback attached to the displayed continuation surface.
+
+Transport and replay are structural rows. The componentwise $\hsame$ row $H$ moves only the displayed coordinates, and the $\Cont$ row $C$ rereads only the same finite packet.
+
+Finally, $P$ and $N$ record provenance and local naming for the packet already exposed. Since no excluded host or quotient coordinate appears in the carrier, the non-escape obligation is discharged inside the displayed root surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root consumer readiness]
+\label{thm:znormal-root-consumer-readiness}
+Every downstream normal-route consumer that uses $\ZNormalUp$ must expose the root carrier boundary of \autoref{def:znormal-root-carrier-boundary} before citing terminal normality. In particular, it must display the terminal typed endpoint row $T$, bounded fuel row $F$, terminal-normality row $V$, total-host refusal row $K$, continuation readback row $R$, $\hsame$ transport row $H$, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\ZNormalUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with the boundary definition. A downstream consumer reaches $\ZNormalUp$ through the finite packet $Z=(T,F,V,K,R,H,C,P,N)$, and terminal normality is one row of that packet rather than an ambient host theorem.
+
+Apply \autoref{thm:znormal-namecert-root-obligations}. The root obligations require carrier admission, classifier exposure, terminal-normality evidence, bounded-fuel replay, and non-escape before the local name may be consumed.
+
+Thus a normal-route consumer is ready only after it has displayed all root rows. Any attempted citation that omits $F,K,R,H,C,P,N$ would either detach the terminal row from its bounded replay and total-host refusal surface or bypass the local $\NameCert_{\ZNormalUp}$ row, and so would not be an accepted $\ZNormalUp$ consumer.
+\end{proof}

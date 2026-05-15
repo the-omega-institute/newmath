@@ -473,4 +473,25 @@ theorem RegularCauchyTailFiberPacket_componentwise_transport [AskSetup] [Package
         pRoute, pPkg⟩,
       sameH, sameC, sameP⟩
 
+theorem RegularCauchyTailFiberPacket_seal_totality [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont t a sealRead →
+        PkgSig bundle sealRead pkg →
+          UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+            UnaryHistory d0 ∧ UnaryHistory d1 ∧ UnaryHistory t ∧ UnaryHistory a ∧
+              UnaryHistory sealRead ∧ Cont d0 d1 t ∧ Cont t a sealRead ∧
+                PkgSig bundle p pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet tailSealRoute sealPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _hRoute, _cRoute, tailRoute, _packetSealRoute,
+    packetPkg⟩ := packet
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tUnary aUnary tailSealRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
+      sealUnary, tailRoute, tailSealRoute, packetPkg, sealPkg⟩
+
 end BEDC.Derived.RegularCauchyTailFiberUp
