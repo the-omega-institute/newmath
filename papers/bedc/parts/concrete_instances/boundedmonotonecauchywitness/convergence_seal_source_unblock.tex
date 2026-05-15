@@ -225,3 +225,43 @@ Now use route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-convergenc
 
 It remains only to exhaust the coordinates of the accepted carrier. The source, handoff, stream, Cauchy witness, dyadic ledger, trap, Real seal, transport, continuation, package, and local naming rows are exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Hence every listed consumer pulls back to the same finite packet before it reaches the public completion route, and no excluded completion principle is exported.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness source-readback equalizer]
+\label{thm:bounded-monotone-cauchy-witness-source-readback-equalizer}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. The source totality row and the convergence-seal readback row determine the same finite source packet
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+
+for every seal-facing consumer. Thus a read that starts from the bounded source and a read that returns from $\BoundedMonotoneConvergenceSealUp$ are equalized before any completion-facing route is inspected.
+
+The equalizer has no branch for selected limits, quotient equality, host equality, trichotomy, open-cover compactness, ambient completeness, or choice-like selectors.
+\end{theorem}
+\begin{proof}
+First compare the forward source read with the reverse readback. Source totality, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source-totality}, exposes exactly the rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Convergence-seal readback, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback}, returns every consumer-side read to the same rows.
+
+Next lock the common route. Non-escape \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape} prevents a detour to external completion data, source lock \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source-lock} prevents replacement of the source packet, and route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion} lists the only completion-facing path.
+
+Finally use the root-window lock, \autoref{thm:bounded-monotone-cauchy-witness-root-window-convergence-seal-lock}. The scheduled root window $S,F,\sigma,\mu,\lambda$ remains inside the same packet as $I,Q,H,C,P,N$, so the source and readback rows form a single finite equalizer. Since the listed theorems provide no coordinate for selected limits, quotient equality, host equality, trichotomy, compactness, completeness, or selector data, those reads are ruled out.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness terminal source equalizer]
+\label{thm:bounded-monotone-cauchy-witness-terminal-source-equalizer}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. The source-readback equalizer composes with the diagonal terminal-source pullback, so every $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, or $\DiagonalLimitCompatibilityUp$ terminal consumer reads the same finite packet
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+
+before any seal-facing or terminal comparison route is available.
+
+No terminal consumer obtains a selected limit, quotient equality, host equality, trichotomy, open-cover compactness, ambient completeness, or choice-like selector from this comparison.
+\end{theorem}
+\begin{proof}
+Begin with the source-readback equalizer above. It identifies the forward source route and the reverse convergence-seal readback as the same finite packet, with no extra completion coordinate.
+
+Now compose with the terminal-source pullback, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-terminal-source-pullback}. That pullback already sends $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, and $\RealUp$ consumers through the same source packet before the public seal route.
+
+Finally attach the diagonal comparison. The diagonal readback theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-diagonal-readback} brings $\DiagonalLimitCompatibilityUp$ terminal reads to the same boundary after the root-window and route-exhaustion locks have fired. Therefore all four terminal consumers meet the identical finite source packet before reading any seal-facing route, and the excluded analytic or choice-like objects have no available row in the comparison.
+\end{proof}

@@ -322,6 +322,14 @@ _SIBLING_REF_RE = re.compile(
 _VISION_REF_RE = re.compile(
     r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}"
 )
+# Catch-all: any `\autoref{ch:<slug>}` referencing a chapter that is NOT the
+# own chapter (vision chapters historically use `ch:<slug>` not
+# `ch:visions-<slug>`, so the strict patterns above miss legitimate
+# cross-references). The orphan check accepts a match here as a valid
+# sibling/anchor reference.
+_GENERIC_CH_REF_RE = re.compile(
+    r"\\autoref\{ch:([a-z][a-z0-9\-]*)\}"
+)
 # Capture the full label tail (greedy). Self-ref classification is done by
 # walking the dashed parts and joining prefixes; the lazy regex used before
 # matched just the first character as the slug, causing every self-ref to
@@ -417,8 +425,17 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
         for label_tail in _LABEL_RE.findall(text):
             if not _label_is_self_ref(label_tail, own_slug_compact):
                 thm_def_refs.add(label_tail)
+        # Generic chapter cross-refs: accept any `\autoref{ch:X}` where X is
+        # not the own chapter slug. Covers vision chapters labeled as
+        # `\label{ch:<slug>}` (legacy style without `visions-` prefix).
+        generic_ch_refs: set[str] = set()
+        for slug in _GENERIC_CH_REF_RE.findall(text):
+            slug_norm = slug.replace("-", "").replace("_", "")
+            # exclude self-ref (own_slug_compact already drops underscores)
+            if slug_norm and own_slug_compact not in slug_norm and slug_norm not in own_slug_compact:
+                generic_ch_refs.add(slug_norm)
 
-        if not (sibling_refs or vision_refs or thm_def_refs):
+        if not (sibling_refs or vision_refs or thm_def_refs or generic_ch_refs):
             violations.append(
                 f"{rel}: ORPHAN — new NameCert chapter has zero cross-references "
                 f"to a sibling concrete-instances chapter or vision chapter. "

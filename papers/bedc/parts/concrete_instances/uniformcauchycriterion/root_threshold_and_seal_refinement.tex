@@ -620,3 +620,25 @@ Next use \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock}
 
 Finally apply \autoref{thm:uniform-cauchy-criterion-root-threshold-seal-roundtrip}. The outgoing selector route and returning root route display the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row under the $\UniformCauchyCriterionUp$ classifier. The synchronization row used by \autoref{thm:uniform-cauchy-criterion-phase-real-exit-consumer-exhaustion} is therefore exactly the displayed finite route $I,W,M,Q,T,E,H,C,P,N$.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion selector seal synchronization]
+\label{thm:uniform-cauchy-criterion-selector-seal-synchronization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ root threshold packet. The $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealCompletionSelectorSealUp$ route, and terminal $\RealUp$ seal are synchronized by the same finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+No consumer may replace the selector-seal row by quotient-stream equality, selected host limit, countable choice, a second tolerance ledger, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the stream and readback rows. \autoref{thm:uniform-cauchy-criterion-regseqrat-streamname-seal-synchronization} places the $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal on the same route $I,W,M,Q,T,E,H,C,P,N$.
+
+Next attach the selector-seal row. By \autoref{thm:uniform-cauchy-criterion-selector-seal-exact-pullback}, every selector-seal read from $U$ first passes through the same schedule, tolerance ledger, terminal seal, transport, continuation, provenance, and local naming rows.
+
+Now use the finite budget envelope. \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope} keeps the $\DyadicRatCoreUp$ tolerance ledger, $\CauchyLimitSealUp$ handoff, $\RealCompletionSelectorSealUp$ route, and terminal $\RealUp$ endpoint inside the displayed Phase Real and Completion route.
+
+Finally apply \autoref{thm:real-completion-selector-seal-terminality}. The sibling selector-seal packet is terminal for the concrete selector-to-seal handoff, so a consumer has no coordinate from which to substitute quotient-stream equality, selected host limits, countable choice, a second tolerance ledger, or ambient completeness for the selector-seal row.
+\end{proof}
