@@ -38,6 +38,54 @@ equality, host limits, countable choice, ambient completeness, host
 completion, or a direct seal bypass.
 \end{proof}
 
+\begin{theorem}[Real dyadic StreamName RegSeqRat budget exactness]
+\label{thm:real-dyadic-stream-regseq-budget-exactness}
+Let two accepted current Phase Real and Completion $\RealUp$ seal reads be
+presented on the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Suppose their finite observation budgets expose the same displayed
+$\DyadicRatCoreUp$ observations, $\StreamNameUp$ windows, $\RegSeqRatUp$
+readbacks, local $\RealUp$ seal rows, and structural $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows on their overlap. Then replacing one
+budget by the other, or refining either budget, changes only the displayed
+finite request rows. The accepted read remains the same four-face route from
+dyadic observations through finite stream windows and regular-rational
+readback to the local Real seal.
+
+In particular, this budget operation is not a quotient stream equality, host
+real equality, selected limit, countable-choice selector, ambient
+completeness principle, metric-completeness row, or direct $\RealUp$ seal
+bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-dyadic-stream-regseq-route}. Both accepted reads are
+already placed on the ordered finite route from $\DyadicRatCoreUp$ through
+$\StreamNameUp$ and $\RegSeqRatUp$ to $\RealUp$, and the only transport rows
+available on the route are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows.
+
+Next apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. It says that
+the current Phase Real and Completion interface has exactly the four visible
+faces listed in the statement. Since the two budgets agree on those faces and
+on the structural rows over their overlap, every common exposed request row
+projects to the same place in the L10 lattice.
+
+Finally use
+\autoref{thm:real-streamname-regseqrat-terminal-budget-stability}. Refining
+or replacing a finite observation budget changes the finite row display but
+does not add a new carrier, classifier, package row, or naming certificate.
+Row projection therefore preserves the same four-face acceptance route.
+
+The exclusion clause is the non-escape part of the same three inputs. None of
+the displayed route, interface-totality, or terminal-budget rows contains a
+coordinate for quotient stream equality, host real equality, selected limits,
+countable choice, ambient completeness, metric completeness, or a direct Real
+seal bypass, so a budget change cannot certify any of those routes.
+\end{proof}
+
 \begin{theorem}[Real Cauchy window transducer seal route]
 \label{thm:real-cauchy-window-transducer-seal-route}
 Any $\RealUp$ seal read exported by an accepted $\CauchyWindowTransducerUp$ packet factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $\RealUp$. The transducer rows $S,D,W,R,E,L,H,C,P,N$ provide only finite route replay, and they provide no direct seal bypass.
