@@ -230,6 +230,56 @@ either side. Thus the tail row and seal handoff have the same route provenance.
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_real\_seal\_tail\_coprovenance}
 
+\begin{theorem}[UniformCauchyCriterion finite-family tail-seal coprovenance lock]
+\label{thm:uniform-cauchy-criterion-finite-family-tail-seal-coprovenance-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any consumer preserving the
+finite index ledger $I$, shared window family $W$, threshold schedule $M$,
+dyadic tolerance row $Q$, tail ledger $T$, seal handoff $E$, componentwise
+$\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$,
+and local $\NameCert$ row $N$ must route both the $\RegSeqRatUp$ tail read and
+the $\RealUp$ seal read through the displayed path
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+No second $\StreamNameUp$ family, detached tail row, selected limit, quotient
+stream, host real equality, or ambient completeness route is available to that
+consumer.
+\end{theorem}
+\begin{proof}
+First read the finite-family seal obligation package,
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}.
+It exposes the rows $I,W,M,Q,T,E,H,C,P,N$ as the full public inventory of the
+accepted packet, so any preserved consumer surface has no coordinate beyond
+those displayed rows.
+
+Next apply the finite-family RegSeqRat--Real handoff,
+\autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff}. The
+handoff places the $\RegSeqRatUp$ tail read and the $\RealUp$ seal read on the
+same route from $I$ through $E$, with $H,C,P,N$ carrying the transports,
+continuation routes, provenance, and local NameCert row.
+
+The exclusions come from the nonescape ledger and window seal exhaustion,
+\autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} and
+\autoref{thm:uniform-cauchy-criterion-finite-family-window-seal-exhaustion}.
+These results remove selected limits, quotient streams, host real equality,
+ambient completeness routes, detached tail rows, and bypasses of the shared
+window or tail ledger from the packet surface.
+
+Finally compose shared seal-route determinacy, seal overlap determinacy, and
+the finite-family route lock:
+\autoref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy},
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy},
+and \autoref{thm:uniform-cauchy-criterion-finite-family-route-lock}.
+Determinacy fixes the displayed path for any consumer preserving
+$I,W,M,Q,T,E,H,C,P,N$, overlap determinacy prevents a repacking of the tail row
+or seal handoff, and route lock rules out a second completion-facing path. Thus
+the tail read and Real seal read have the same forced endpoint route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family tail cofinal seal reflector]
 \label{thm:uniform-cauchy-criterion-finite-family-tail-cofinal-seal-reflector}
 Let
