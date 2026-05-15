@@ -1,0 +1,51 @@
+\begin{theorem}[FiniteTraceEvaluator root runtime admission]
+\label{thm:finitetrace-evaluator-root-runtime-admission}
+Every accepted $\FiniteTraceEvaluatorUp$ packet enters the root runtime surface through the displayed rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+The coded input row $I$, finite trace row $T$, accepted-result classifier row $A$, validation boundary row $V$, componentwise transport row $H$, displayed continuation row $C$, provenance row $P$, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$ are the complete runtime admission rows for the packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-trace-evaluator-carrier}. The finite evaluator packet exposes the coded input, finite trace, accepted result, validation boundary, transport, continuation, provenance, and local naming rows as its root runtime surface.
+
+Apply \autoref{thm:finitetrace-evaluator-root-namecert-obligations}. The root NameCert obligations identify carrier admission, checkpoint acceptance, bounded replay, ledger exactness, and consumer non-escape over exactly the displayed rows $I,T,A,V,H,C,P,N$.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-budget-exhaustion} and \autoref{thm:finite-trace-evaluator-reflection-runtime-route}. They keep checkpoint-budget reads and reflection-runtime reads on the same finite evaluator route, so runtime admission has no row outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint route coverage]
+\label{thm:finitetrace-evaluator-checkpoint-route-coverage}
+Every checkpoint-facing consumer of an accepted $\FiniteTraceEvaluatorUp$ packet factors through the coded input row, finite trace row, accepted-result classifier, validation boundary, componentwise transport, displayed continuation, provenance row, and local NameCert row
+$$
+I,T,A,V,H,C,P,N.
+$$
+Thus checkpoint reads are covered by the root runtime route before any downstream result is consumed.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finitetrace-evaluator-root-runtime-admission}. It fixes the root runtime rows $I,T,A,V,H,C,P,N$ as the entry surface for accepted evaluator packets.
+
+Next use \autoref{thm:finite-trace-evaluator-checkpoint-runtime-acceptance-lock}. Checkpoint-facing reads are accepted only through the displayed input, finite trace, accepted-result, validation, transport, route, provenance, and local naming rows.
+
+Apply \autoref{thm:finite-trace-evaluator-checkpoint-budget-exhaustion}. The checkpoint budget is exhausted by the same finite route, and the result row cannot be read through a detached checkpoint source.
+
+Finally use \autoref{thm:finite-trace-evaluator-downstream-unblock-scope}. Downstream checkpoint consumers receive the accepted finite evaluator route through the same packet, so route coverage is shared by checkpoint and runtime-facing consumers.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime ledger non-escape]
+\label{thm:finitetrace-evaluator-runtime-ledger-nonescape}
+The runtime ledger of an accepted $\FiniteTraceEvaluatorUp$ packet exports only the displayed evaluator rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+It exports no host evaluator, hidden runtime acceptance predicate, total truth predicate, total halting classifier, unbounded evaluator, infinite trace, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finitetrace-evaluator-root-runtime-admission}. Runtime admission is already restricted to the displayed finite evaluator rows.
+
+Apply \autoref{thm:finitetrace-evaluator-checkpoint-route-coverage}. Every checkpoint-facing consumer factors through the same input, trace, accepted-result, validation, transport, continuation, provenance, and local naming route, so there is no second checkpoint source for the ledger to export.
+
+Use \autoref{thm:finite-trace-evaluator-runtime-route-coverage} and \autoref{thm:finite-trace-evaluator-validation-refusal-closure}. Runtime-facing reads pass through the reflection-runtime and candidate-boundary surfaces, while host validation, total truth, total halting, unbounded evaluation, and infinite traces are refused outside the displayed packet.
+
+Finally apply \autoref{thm:finitetrace-evaluator-ledger-nonescape}. The existing ledger non-escape row removes host evaluator state, unbounded trace semantics, unchecked compiler theorems, and second checkpoint sources from the exported root ledger; the runtime ledger therefore remains exactly $I,T,A,V,H,C,P,N$.
+\end{proof}

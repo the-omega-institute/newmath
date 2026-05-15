@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyIntervalSelectorUp$}
+\label{ch:concrete-instances-regular-cauchy-interval-selector-namecert}
+\origin{human}
+
+The $\RegularCauchyIntervalSelectorUp$ packet names the finite interval selector surface used when a regular Cauchy rational name is read through nested located intervals. In Bishop-style constructive analysis, nested rational or located intervals are data that can be inspected at any requested finite precision; the limiting real is never obtained by selecting a quotient representative or invoking an ambient completeness oracle. The packet therefore sits between the finite observation surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-locatedinterval-namecert}.
+
+\begin{definition}[Regular Cauchy interval selector carrier]
+\label{def:regular-cauchy-interval-selector-carrier}
+A $\RegularCauchyIntervalSelectorUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ denominator and radius ledger naming the requested precision;
+\item $S$ is the $\StreamNameUp$ schedule row that selects the finite observation windows inspected at that precision;
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected rational observations;
+\item $J$ is the finite $\LocatedIntervalUp$ nesting ledger whose cells contain the selected regular Cauchy observations and whose successive cells refine the previous visible cell;
+\item $E$ is the $\RealUp$ seal-facing row reached only after the selected schedule, regular-rational readback, and located-interval nesting ledger have been displayed;
+\item $H$ records componentwise $\hsame$ transports for denominator ledgers, schedules, regular-rational readbacks, located interval cells, the seal row, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ replay routes from $D$ to $S$, from $S$ to $R$, from $R$ to $J$, and from $J$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedIntervalUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyIntervalSelectorUp}$ row.
+\end{enumerate}
+The classifier compares packets only by these displayed rows and their componentwise transports. It has no coordinate for a selected completed real, quotient equality of Cauchy names, a detached interval limit, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy interval selector nesting extraction]
+\label{thm:regular-cauchy-interval-selector-nesting-extraction}
+For every accepted $\RegularCauchyIntervalSelectorUp$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N),
+$$
+the finite nesting route extracted for a precision request is exactly
+$$
+D \longmapsto S \longmapsto R \longmapsto J.
+$$
+The extracted route exposes the denominator and radius ledger, the selected $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, and the $\LocatedIntervalUp$ nesting ledger, all transported by the displayed $\hsame$ rows and replayed by the displayed $\Cont$ rows. No extracted object is a quotient real, a chosen limit point, or a host interval.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-interval-selector-carrier}. The first four rows are precisely the precision ledger $D$, the selected schedule $S$, the regular-rational readback $R$, and the located-interval nesting ledger $J$.
+
+Read the route in dependency order. The schedule row is available only after the precision ledger is displayed, the regular-rational readback is available only through the selected schedule, and the nesting ledger records only the located interval cells reached from that readback.
+
+Transport is componentwise. The rows in $H$ compare the four projected coordinates by $\hsame$, while the rows in $C$ replay the same finite route through $\Cont$. The package row $P$ and the local naming row $N$ record provenance for that route rather than supplying an additional interval object.
+
+The excluded objects are absent from the carrier. Since $Q$ contains no quotient-real coordinate, no chosen limit point, and no host interval coordinate, the extraction can return only the displayed finite nesting route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interval selector RealUp seal handoff]
+\label{thm:regular-cauchy-interval-selector-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyIntervalSelectorUp$ packet factors through the finite route
+$$
+D \longmapsto S \longmapsto R \longmapsto J \longmapsto E \longmapsto H,C,P,N.
+$$
+Thus the consumer may read the dyadic precision ledger, selected stream window, regular-rational readback, located interval nesting ledger, terminal $\RealUp$ seal row, componentwise transports, continuation replays, package provenance, and local $\NameCert$ row. It receives no quotient equality of regular Cauchy names, selected completed real, detached interval limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the nesting extraction of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction}. It fixes the only route from a precision request to a displayed located-interval nesting ledger as $D \mapsto S \mapsto R \mapsto J$.
+
+Now inspect the seal-facing coordinate of \autoref{def:regular-cauchy-interval-selector-carrier}. The row $E$ is reachable only after the selected schedule, regular-rational readback, and located-interval nesting ledger have been displayed. Hence a $\RealUp$ consumer reaches $E$ through the same finite route.
+
+The structural rows do not widen the route. The $\hsame$ rows in $H$ move the displayed coordinates componentwise, the $\Cont$ rows in $C$ replay the displayed route, the package row $P$ records provenance for that route, and $N$ names the local certificate surface.
+
+Finally, the carrier has no field for quotient equality of regular Cauchy names, a selected completed real, a detached interval limit, or an ambient completeness principle. A $\RealUp$ consumer therefore receives only the displayed selector-to-seal handoff.
+\end{proof}
+
+\closureat{RegularCauchyIntervalSelectorUp}{seedStr}
