@@ -73,6 +73,7 @@ F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
 $$
 the source seal is exposed to consumers only through the finite route $S \to M \to T$. In particular, a consumer can cite $S$ and $T$ as the displayed source and target $\CauchyLimitSealUp$ rows, and can cite $M$ as the finite transport-map row between them, but receives no detached source-target equality, host-level limit comparison, quotient stream equality, or second seal route outside the classifier of \autoref{def:cauchy-limit-functor-classifier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitFunctorUp.CauchyLimitFunctorCarrier\_source\_target\_seal\_exposure}
 \begin{proof}
 Use the carrier of \autoref{def:cauchy-limit-functor-carrier}. Its first three displayed rows are exactly the source seal $S$, the target seal $T$, and the transport-map row $M$.
 
@@ -93,6 +94,7 @@ W_0,W_1,R,D,K,E.
 $$
 The consumer may inspect the two stream windows, the regular-rational readback, the dyadic tolerance ledger, the completion-seal classifier row, and the terminal $\RealUp$ endpoint row. It receives no quotient stream equality, selected limit, countable-choice selector, host real equality, detached completion object, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitFunctorUp.CauchyLimitFunctorCarrier\_finite\_observation\_exposure}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-limit-functor-carrier}. The observation rows are the source and target windows $W_0,W_1$, the readback row $R$, the tolerance ledger $D$, the completion classifier $K$, and the endpoint row $E$.
 
@@ -261,6 +263,26 @@ Next use \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}, \autore
 Finally apply \autoref{thm:cauchy-limit-functor-real-completion-consumer}, \autoref{thm:cauchy-limit-functor-primitive-scope-package}, and \autoref{thm:cauchy-limit-functor-public-seal-export}. They keep Real-completion consumption inside the primitive-scoped public seal route. The bridge-scope coherence theorem then makes any standard-reflection read preserve that route without adding quotient equality, host real equality, selected limits, detached completion objects, ambient completeness, countable choice, or a second transport.
 \end{proof}
 
+\begin{theorem}[Cauchy limit functor terminal endpoint non-escape]
+\label{thm:cauchy-limit-functor-terminal-endpoint-nonescape}
+For any accepted $\CauchyLimitFunctorUp$ packet
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
+$$
+the terminal $\RealUp$ endpoint row $E$ is readable only after the target seal $T$, the transported windows $W_0,W_1$, the regular-rational readback $R$, the dyadic ledger $D$, the completion classifier $K$, and the structural rows $H,C,P,N$ have been displayed through the same finite route. No consumer may detach $E$ as host real equality, a selected limit, ambient completeness, a countable-choice selector, or a second Real-facing route.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-limit-functor-carrier}. The endpoint row $E$ appears only inside the packet
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
+$$
+so no terminal read exists before the surrounding seal, window, readback, ledger, classifier, and structural rows are present.
+
+Apply terminal-window fusion, \autoref{thm:cauchy-limit-functor-terminal-window-fusion}, and Real-seal naturality, \autoref{thm:cauchy-limit-functor-real-seal-naturality}. These keep the endpoint route tied to the transported windows, regular-rational readback, dyadic ledger, completion classifier, target seal, and structural replay rows.
+
+Finally use the standard-reflection bridge surface, \autoref{thm:cauchy-limit-functor-standard-reflection-bridge-surface}. Its non-escape boundary excludes quotient stream equality, host real equality, selected limits, detached completion objects, ambient completeness, countable choice, and any second Real-facing route, so the endpoint row remains a terminal packet coordinate rather than an external Real oracle.
+\end{proof}
+
 \begin{theorem}[Cauchy limit functor seal route totality]
 \label{thm:cauchy-limit-functor-seal-route-totality}
 Every accepted $\CauchyLimitFunctorUp$ packet with carrier
@@ -299,42 +321,6 @@ Use the Real-completion consumer boundary, \autoref{thm:cauchy-limit-functor-rea
 Next apply the public seal export, \autoref{thm:cauchy-limit-functor-public-seal-export}. It packages the same route with the structural transport, replay, provenance, and local NameCert rows, making those rows the only reusable surface for downstream consumers.
 
 Finally apply bridge-scope coherence, \autoref{thm:cauchy-limit-functor-bridge-scope-coherence}. Any terminal seal read must preserve the bridge-scoped route already exported by the public surface, so completion-facing exactness follows without adding a second completion route.
-\end{proof}
-
-\begin{theorem}[Cauchy limit functor endpoint compatibility]
-\label{thm:cauchy-limit-functor-source-target-endpoint-compatibility}
-Let two accepted $\CauchyLimitFunctorUp$ packets agree on the displayed source seal $S$, target seal $T$, transport map $M$, finite windows $W_0,W_1$, readback row $R$, dyadic tolerance row $D$, classifier row $K$, and structural rows $H,C,P,N$. Then their terminal $\RealUp$ endpoint row $E$ agrees under the displayed classifier.
-\end{theorem}
-\begin{proof}
-Project the classifier of \autoref{def:cauchy-limit-functor-classifier}. Agreement on $S,T,M,W_0,W_1,R,D,K,H,C,P,N$ leaves the terminal endpoint row as the only completion-facing coordinate still to be read by the packet classifier.
-
-Apply finite observation exposure, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}. The displayed windows, readback, dyadic ledger, and classifier row determine the finite observation route that reaches the terminal $\RealUp$ endpoint.
-
-Finally use the Real-completion consumer boundary, \autoref{thm:cauchy-limit-functor-real-completion-consumer}. A completion-facing read cannot introduce quotient stream equality, a selected limit, host real equality, or a detached completion object, so the terminal endpoint row must be the one reached by the displayed classifier route.
-\end{proof}
-
-\begin{theorem}[Cauchy limit functor window-map determinacy]
-\label{thm:cauchy-limit-functor-window-map-determinacy}
-Fix an accepted $\CauchyLimitFunctorUp$ packet's source seal $S$, transport map $M$, finite windows $W_0,W_1$, readback row $R$, dyadic tolerance row $D$, and classifier row $K$. Within the packet classifier, these rows determine the target seal $T$ and terminal endpoint $E$.
-\end{theorem}
-\begin{proof}
-Begin with source-target seal exposure, \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}. The source seal and transport map are the displayed route to the target seal row; no second target-seal coordinate is present in the carrier.
-
-Apply finite observation exposure. The fixed windows, readback, dyadic tolerance ledger, and classifier row give the same finite observation route toward the terminal endpoint.
-
-Now use completion consumer exactness, \autoref{thm:cauchy-limit-functor-completion-consumer-exactness}. A Real-facing or completion-facing consumer must pass through the source-target seal route and bridge-scope coherence before reading a terminal seal. Since all rows on that route are fixed, both $T$ and $E$ are determined within the accepted classifier.
-\end{proof}
-
-\begin{theorem}[Cauchy limit functor transport-map no-confusion]
-\label{thm:cauchy-limit-functor-transport-map-no-confusion}
-Two accepted $\CauchyLimitFunctorUp$ packets cannot be classifier-equal while disagreeing on the displayed transport-map row $M$. Equivalently, classifier equality of accepted packets projects to agreement of the transport map.
-\end{theorem}
-\begin{proof}
-Unpack the carrier of \autoref{def:cauchy-limit-functor-carrier}. The transport-map row $M$ is one of the displayed coordinates of the finite packet, not an inferred property of the endpoint.
-
-Use the classifier of \autoref{def:cauchy-limit-functor-classifier}. Classifier equality compares packet coordinates componentwise through the displayed transport rows, so equality cannot skip $M$ while preserving the surrounding source, target, window, readback, tolerance, endpoint, provenance, replay, and naming rows.
-
-Finally apply structural transport, \autoref{thm:cauchy-limit-functor-structural-transport}. The $\hsame$ and $\Cont$ rows replay the same displayed transport map through the consumer route. If two packets disagreed on $M$, that disagreement would be visible before any terminal $\RealUp$ endpoint is read, contradicting classifier equality.
 \end{proof}
 
 \begin{theorem}[Cauchy limit functor identity consumer]
