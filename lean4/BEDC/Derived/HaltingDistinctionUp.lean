@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -180,5 +182,86 @@ theorem HaltingDistinctionCarrier_provenance_purity_boundary [AskSetup] [Package
   exact
     ⟨provenanceUnary, certUnary, provenanceReadUnary, endpointUnary, provenanceCertRead,
       readRouteEndpoint, provenancePkg, endpointPkg⟩
+
+theorem HaltingDistinctionNameCertObligations [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg →
+      Cont cert provenance auditRead →
+        PkgSig bundle auditRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row cert ∧
+                  HaltingDistinctionCarrier question trace diagonal halt classifier route
+                    provenance cert bundle pkg)
+              (fun row : BHist =>
+                hsame row cert ∧ UnaryHistory question ∧ UnaryHistory trace ∧
+                  UnaryHistory diagonal)
+              (fun row : BHist => hsame row cert ∧ PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧
+              UnaryHistory halt ∧ UnaryHistory classifier ∧ UnaryHistory route ∧
+                UnaryHistory provenance ∧ UnaryHistory cert ∧ UnaryHistory auditRead ∧
+                  Cont question trace diagonal ∧ Cont diagonal halt classifier ∧
+                    Cont classifier route cert ∧ Cont cert provenance auditRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier certProvenanceAudit auditPkg
+  have carrierFull :
+      HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg :=
+    carrier
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, haltUnary, classifierUnary, routeUnary,
+    provenanceUnary, certUnary, questionTraceDiagonal, diagonalHaltClassifier,
+    classifierRouteCert, provenancePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed certUnary provenanceUnary certProvenanceAudit
+  have sourceAtCert :
+      hsame cert cert ∧
+        HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+          bundle pkg :=
+    And.intro (hsame_refl cert) carrierFull
+  have semanticCert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row cert ∧
+              HaltingDistinctionCarrier question trace diagonal halt classifier route provenance
+                cert bundle pkg)
+          (fun row : BHist =>
+            hsame row cert ∧ UnaryHistory question ∧ UnaryHistory trace ∧
+              UnaryHistory diagonal)
+          (fun row : BHist => hsame row cert ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cert sourceAtCert
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        constructor
+        · exact hsame_trans (hsame_symm sameRows) source.left
+        · exact source.right
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro source.left
+        (And.intro questionUnary (And.intro traceUnary diagonalUnary))
+    ledger_sound := by
+      intro row source
+      exact And.intro source.left provenancePkg
+  }
+  exact
+    ⟨semanticCert, questionUnary, traceUnary, diagonalUnary, haltUnary, classifierUnary,
+      routeUnary, provenanceUnary, certUnary, auditUnary, questionTraceDiagonal,
+      diagonalHaltClassifier, classifierRouteCert, certProvenanceAudit, provenancePkg,
+      auditPkg⟩
 
 end BEDC.Derived.HaltingDistinctionUp
