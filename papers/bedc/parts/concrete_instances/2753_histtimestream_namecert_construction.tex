@@ -367,6 +367,42 @@ Now transport along componentwise $\hsame$ using \autoref{thm:histtimestream-hsa
 Finally apply the observer-locality bridge route, \autoref{thm:histtimestream-observer-locality-bridge-route}. The sibling observer-history surfaces consume this packet only as a local stream, so ambient clock equality, temporal-rate data, and global synchronization remain outside the export.
 \end{proof}
 
+\begin{theorem}[HistTimeStream source observation totality]
+\label{thm:hist-time-stream-source-observation-totality}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Before any observer-history, observer-locality, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads $Q$, the packet exposes exactly the source row $H$, finite schedule $T$, start ledger $S$, and replay row $C$ through the displayed $\Cont$ prefix, with $L,P,N$ recording only componentwise transport, package provenance, and local naming for that same finite observation.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It displays $H,T,S,C,L,P,N$ as the whole accepted packet and places the source observation, finite schedule, start ledger, and replay row in explicit coordinates.
+
+Next apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. The consumer route is the finite prefix from $\emp$ to $H$ through $T,S,C,L,P,N$, so no observer can read a source observation before these rows have been exposed.
+
+Finally use the StreamName finite-window handoff and real-completion window nonescape, \autoref{thm:histtimestream-streamname-finite-window-handoff} and \autoref{thm:histtimestream-real-completion-window-nonescape}. These route every StreamName, RegSeqRat, and Real read through the same displayed finite window, so the source observation is total for all downstream consumers named in the statement.
+\end{proof}
+
+\begin{theorem}[HistTimeStream RegSeqRat reindex stability]
+\label{thm:hist-time-stream-regseq-reindex-stability}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport from $Q$ to $Q'$ preserves the finite window handed to $\StreamNameUp$ and therefore the regular rational sequence input read by $\RegSeqRatUp$. The reindexed consumer sees only the transported rows $H',T',S',C',L',P',N'$ and cannot acquire a quotient stream, selected host limit, ambient completeness witness, host-indexed time, or cross-Hist clock.
+\end{theorem}
+\begin{proof}
+First expose the finite window by Cont prefix exactness and the StreamName handoff, \autoref{thm:histtimestream-cont-prefix-exactness} and \autoref{thm:histtimestream-streamname-finite-window-handoff}. They identify the consumer-visible window as the displayed route through $H,T,S,C,L,P,N$ before StreamName naming is read.
+
+Now transport the packet componentwise. The hsame prefix transport theorem, \autoref{thm:histtimestream-hsame-prefix-transport}, carries the same finite route from $Q$ to $Q'$, so the StreamName surface receives the transported finite window rather than a newly chosen index source.
+
+Finally pass to the RegSeqRat consumer. The real-completion window nonescape theorem, \autoref{thm:histtimestream-real-completion-window-nonescape}, already routes RegSeqRat reads through HistTimeStream and StreamName; local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}, blocks the listed escape data. Hence reindexing by componentwise $\hsame$ is stable for the RegSeqRat input.
+\end{proof}
+
+\begin{theorem}[HistTimeStream Real readback ledger]
+\label{thm:hist-time-stream-real-readback-ledger}
+Any $\RealUp$ readback of an accepted $\HistTimeStreamUp$ packet factors through the HistTimeStream rows $H,T,S,C,L,P,N$, the $\StreamNameUp$ finite-window handoff, the $\RegSeqRatUp$ regular-sequence consumer, and the $\RealUp$ row. The readback ledger cannot add quotient streams, selected host limits, ambient completeness objects, host-indexed time, or cross-Hist clock data.
+\end{theorem}
+\begin{proof}
+Begin with source observation totality, \autoref{thm:hist-time-stream-source-observation-totality}. Every downstream read has already exposed the source row, finite schedule, start ledger, and replay row inside the displayed packet.
+
+Next use RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reindex-stability}. Componentwise $\hsame$ transport preserves the finite window handed to StreamName and then to RegSeqRat, so the regular-sequence input seen by a Real consumer remains tied to the HistTimeStream packet.
+
+Finally apply real-completion window nonescape, \autoref{thm:histtimestream-real-completion-window-nonescape}. It forces the Real readback through the HistTimeStream, StreamName, RegSeqRat, and Real rows named in the statement and excludes quotient streams, selected host limits, ambient completeness objects, host-indexed time, and cross-Hist clock data from the ledger.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
