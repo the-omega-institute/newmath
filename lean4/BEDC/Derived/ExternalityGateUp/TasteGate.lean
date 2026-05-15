@@ -203,6 +203,8 @@ instance externalityGateChapterTasteGate : ChapterTasteGate ExternalityGateUp wh
     intro x y hxy heq
     exact hxy (externalityGateToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ExternalityGateUp := externalityGateChapterTasteGate
+
 theorem ExternalityGateTasteGate_single_carrier_alignment :
     (∀ h : BHist, externalityGateDecodeBHist (externalityGateEncodeBHist h) = h) ∧
       (∀ x : ExternalityGateUp,

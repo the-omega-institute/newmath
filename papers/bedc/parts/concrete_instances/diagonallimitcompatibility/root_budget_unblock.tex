@@ -134,3 +134,25 @@ Next apply root consumer non-escape. It says that every downstream Real, complet
 
 Finally use root budget-seal factorization. The factorization composes the preceding routes into the consumer-facing tuple $R,T,S,D,W,Q,L,H,C,P,N$, and the tuple already contains the $\Pkg$ provenance row and local $\NameCert$ row as $P,N$. Therefore the accepted packet has no remaining route through host limits, quotient stream equality, choice data, host real equality, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility CauchyTailWitnessEnvelope factorization]
+\label{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ route consumed by an accepted $\CauchyTailWitnessEnvelopeUp$ packet. Then the terminal consumer route factors first through the displayed diagonal budget rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+and then through the envelope rows
+$$
+S,F,Q,A,R,H,C,P,N.
+$$
+The composite route introduces no quotient stream, selected host limit, host equality, choice datum, hidden tail oracle, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the diagonal budget side. The root budget source, root window route, and root seal boundary of \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary} place the terminal $\RealUp$ or $\CompletionUp$ read behind the displayed rows $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next use the consumer and provenance boundary. By \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}, no downstream consumer can leave the diagonal budget packet for a host limit, quotient stream, choice datum, host equality, or ambient completeness coordinate.
+
+Now attach the Cauchy tail witness envelope. The selector handoff of \autoref{thm:cauchy-tail-witness-envelope-selector-handoff} sends the consumed diagonal-tail route through the selected window $S$, finite-window envelope $F$, and tail-comparison row $Q$. The exactness results of \autoref{thm:cauchy-tail-witness-envelope-finite-window-exactness} and \autoref{thm:cauchy-tail-witness-envelope-tail-comparison-exactness} keep the selected window and endpoint ledger on the same finite envelope surface.
+
+Finally apply the Real-tail seal boundary and non-escape results of \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary} and \autoref{thm:cauchy-tail-witness-envelope-nonescape}. They force the envelope read to pass through $S,F,Q,A,R,H,C,P,N$ and exclude hidden tail oracles together with the same host, quotient, choice, and ambient-completeness bypasses.
+\end{proof}
