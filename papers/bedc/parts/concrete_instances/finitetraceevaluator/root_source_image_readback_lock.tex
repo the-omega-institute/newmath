@@ -1,0 +1,47 @@
+\begin{theorem}[FiniteTraceEvaluator root source image readback lock]
+\label{thm:finitetrace-evaluator-root-source-image-readback-lock}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+every root source image readback is locked to the coded input row $I$, finite trace row $T$, accepted-result row $A$, validation-boundary row $V$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local $\NameCert$ row $N$. The readback cannot replace this source image by a host validator, total truth predicate, total halting classifier, unbounded evaluator, infinite trace, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with the carrier, checkpoint source lock, and image row: \autoref{def:finite-trace-evaluator-carrier}, \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}, and \autoref{thm:finite-trace-evaluator-root-image-row}. They identify $I,T,A,V,H,C,P,N$ as the complete source image available to root-facing reads.
+
+Next apply root readback exactness from \autoref{thm:finite-trace-evaluator-root-readback-exactness}. Accepted results return through $I \to T \to A$, while validation-facing reads return through $V,H,C,P,N$.
+
+Finally use the ledger factorization of \autoref{thm:finite-trace-evaluator-root-ledger-factorization}. Since the checkpoint ledger is already cut to the displayed evaluator rows, no host validator, total truth row, halting classifier, unbounded evaluator, infinite trace, or second checkpoint source can be read back.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root checkpoint validation totality]
+\label{thm:finitetrace-evaluator-root-checkpoint-validation-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+every root checkpoint validation request is total only on the displayed evaluator route. It must first read the source image $I,T,A$, then the validation-boundary row $V$, and then the structural rows $H,C,P,N$; it does not produce host validation, total truth for $\mathrm{CIC}^{*}$ sentences, total halting, self-validation, unbounded evaluation, or a second validation ledger.
+\end{theorem}
+\begin{proof}
+Use the checkpoint source lock and validation nonescape totality from \autoref{thm:finite-trace-evaluator-checkpoint-source-lock} and \autoref{thm:finite-trace-evaluator-validation-nonescape-totality}. These separate the accepted-result source route $I \to T \to A$ from the validation-facing boundary $V,H,C,P,N$.
+
+Then apply root validation refusal and root readback exactness from \autoref{thm:finitetraceevaluator-root-validation-refusal} and \autoref{thm:finite-trace-evaluator-root-readback-exactness}. The validation request stops at the displayed boundary and cannot become a host-side judgment.
+
+Finally attach the root source image readback lock. It repacks source image, validation refusal, transport, continuation, provenance, and local naming into the same finite route, so checkpoint validation is total exactly on $I,T,A,V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root consumer nonescape exhaustion]
+\label{thm:finitetrace-evaluator-root-consumer-nonescape-exhaustion}
+Every root consumer of an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N)
+$$
+factors through the carrier, checkpoint source lock, source image readback lock, checkpoint validation totality, and ledger-cut surfaces before it can read a runtime checkpoint result. The exhausted consumer surface is $I,T,A,V,H,C,P,N$, not host evaluator validation, hidden runtime acceptance, total truth, total halting, unbounded evaluation, infinite trace semantics, or a second checkpoint route.
+\end{theorem}
+\begin{proof}
+First build the source-image route with \autoref{thm:finitetrace-evaluator-root-source-image-readback-lock}. It fixes the only image readback rows available to root consumers.
+
+Next use checkpoint validation totality from \autoref{thm:finitetrace-evaluator-root-checkpoint-validation-totality}. Any validation-facing request remains on the same finite evaluator route and cannot escape to a host judgment.
+
+Finally apply \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut} together with \autoref{thm:finite-trace-evaluator-consumer-factorization}. The ledger cut and consumer factorization exhaust runtime checkpoint reads at $I,T,A,V,H,C,P,N$, so no second route or off-carrier validation surface remains.
+\end{proof}
