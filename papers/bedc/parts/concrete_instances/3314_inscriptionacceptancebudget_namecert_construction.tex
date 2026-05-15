@@ -28,7 +28,6 @@ with the following displayed rows:
 \end{enumerate}
 The classifier for accepted carriers compares only $S,M,R,K,U,B,Q,H,C,P,N$. It has no coordinate for private intention, host trust, unbudgeted downstream use, unchecked route replay, hidden mutation, or a complete inscription-event ontology.
 \end{definition}
-\leanchecked{BEDC.Derived.InscriptionAcceptanceBudgetUp.InscriptionAcceptanceBudgetTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[InscriptionAcceptanceBudget check row exactness]
 \label{thm:inscription-acceptance-budget-check-row-exactness}
@@ -73,16 +72,58 @@ Check-row exactness is exactly \autoref{thm:inscription-acceptance-budget-check-
 For residue non-escape and route stability, inspect the remaining carrier inventory. The only residue coordinate is $Q$, and the only public comparison and consumer routes are the displayed rows $H$ and $C$ with provenance $P,N$.
 \end{proof}
 
+\begin{theorem}[InscriptionAcceptanceBudget GAP residue exposure]
+\label{thm:inscription-acceptance-budget-gap-residue-exposure}
+For every accepted $\InscriptionAcceptanceBudgetUp$ carrier $A=(S,M,R,K,U,B,Q,H,C,P,N)$, the $\mathsf{GAP}$ residue row $Q$ is the only residue coordinate exposed to downstream consumers. It cannot be replaced by private intention, hidden agency, raw byte identity, or host process trace.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-acceptance-budget-carrier}. The only displayed row whose role is remaining $\mathsf{GAP}$ residue is $Q$.
+
+The check-row exactness theorem, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, confines acceptance to $K$ over $S,R$, and $M$. The consumer boundary theorem, \autoref{thm:inscription-acceptance-budget-consumer-boundary}, lets downstream readers see residue only through the public packet and its displayed routes.
+
+Finally use \autoref{thm:inscription-acceptance-budget-namecert-obligations}. Its residue non-escape obligation states that private intention, hidden agency, raw byte identity, and host process trace are not replacement rows for $Q$.
+\end{proof}
+
+\begin{theorem}[InscriptionAcceptanceBudget route stability]
+\label{thm:inscription-acceptance-budget-route-stability}
+Accepted route reads of $S,M,R,K,U,B,Q$ are stable under the componentwise $H$ transports and the displayed $C$ routes. Thus any downstream comparison that preserves the $H$ $\hsame$ rows and follows the $C$ $\Cont$ routes reads the same accepted source, name, route witness, check row, consumer row, budget row, and residue row.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:inscription-acceptance-budget-carrier}. The rows $H$ and $C$ are part of the same finite packet as $S,M,R,K,U,B,Q$, so public transport and route reading are not external operations.
+
+Apply \autoref{thm:inscription-acceptance-budget-check-row-exactness}. It transports public comparisons of $S,M,R,K$ componentwise by $H$ and reads them through the displayed routes in $C$.
+
+Use \autoref{thm:inscription-acceptance-budget-consumer-boundary} for $U,B,Q$. Downstream reads of the consumer budget and residue pass through the same $H,C,P,N$ surface.
+
+The route-stability obligation in \autoref{thm:inscription-acceptance-budget-namecert-obligations} then covers the whole accepted tuple $S,M,R,K,U,B,Q$ over the same package and local naming rows.
+\end{proof}
+
+\begin{theorem}[InscriptionAcceptanceBudget budget-spend exactness]
+\label{thm:inscription-acceptance-budget-budget-spend-exactness}
+Every downstream read of an accepted $\InscriptionAcceptanceBudgetUp$ carrier spends only the finite consumer-budget row $B$ through the intended consumer row $U$ and the local package and naming rows $P,N$. The packet exports no unbudgeted consumer right, no hidden route replay, and no consumer authority outside the displayed $\Pkg$ and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:inscription-acceptance-budget-carrier}. The intended consumer row is $U$, the finite consumer-budget row is $B$, and the local package and naming rows are $P,N$.
+
+Apply \autoref{thm:inscription-acceptance-budget-consumer-boundary}. It states that every downstream use is bounded by $U$ and $B$, and that a theorem site, citation row, audit surface, or certificate consumer reads the accepted material only through $U,H,C,P,N$.
+
+The check-row exactness theorem, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, keeps admitted route use tied to the displayed row $K$ rather than to a hidden replay route. The NameCert obligations of \autoref{thm:inscription-acceptance-budget-namecert-obligations} then identify consumer-budget exhaustion as a local finite obligation.
+
+Therefore downstream consumption spends exactly the displayed budget row $B$ through $U$ and the local $P,N$ rows, with no additional consumer authority outside the packet.
+\end{proof}
+
 \closureat{InscriptionAcceptanceBudgetUp}{seedStr}
 \closureat{InscriptionAcceptanceBudgetUp}{obligationStr}[BEDC.Derived.InscriptionAcceptanceBudgetUp.InscriptionAcceptanceBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\InscriptionAcceptanceBudgetUp}
   \constructivestory{An $\InscriptionAcceptanceBudgetUp$ packet is generated from prior source state, a named public record, a route witness, an accepted check row, an intended consumer, a finite consumer-budget row, a GAP residue row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \leanchecked{BEDC.Derived.InscriptionAcceptanceBudgetUp.taste\_gate}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:inscription-acceptance-budget-carrier}, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, \autoref{thm:inscription-acceptance-budget-consumer-boundary}, \autoref{thm:inscription-acceptance-budget-namecert-obligations}, and \leanchecked{BEDC.Derived.InscriptionAcceptanceBudgetUp.taste\_gate} bind the carrier, check-row exactness, consumer boundary, and NameCert obligations of the accepted-check and downstream consumer-budget surface as one finite packet.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:inscription-acceptance-budget-carrier}, \autoref{thm:inscription-acceptance-budget-check-row-exactness}, \autoref{thm:inscription-acceptance-budget-consumer-boundary}, \autoref{thm:inscription-acceptance-budget-namecert-obligations}, \autoref{thm:inscription-acceptance-budget-gap-residue-exposure}, \autoref{thm:inscription-acceptance-budget-route-stability}, and \autoref{thm:inscription-acceptance-budget-budget-spend-exactness} bind the accepted-check, downstream consumer-budget, GAP residue, route-stability, and budget-spend surface of inscription as a finite NameCert packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.InscriptionAcceptanceBudgetUp.InscriptionAcceptanceBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close a Lean implementation, bridge checking, complete inscription-event ontology, private intention, hidden agency, unchecked route semantics, unbudgeted downstream consumption, or host process traces.}
-  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for accepted-check exactness, consumer-budget exhaustion, residue non-escape, and downstream route stability.}
+  \notclaimed{This chapter does not close bridge checking, complete inscription-event ontology, private intention, hidden agency, unchecked route semantics, unbudgeted downstream consumption, or host process traces.}
+  \upgradepath{Scoped closure requires paper-side closure over the same source, route, check, consumer-budget, GAP-residue, transport, continuation, provenance, and NameCert rows.}
 \end{closurestatus}

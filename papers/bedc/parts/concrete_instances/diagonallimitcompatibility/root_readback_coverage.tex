@@ -40,3 +40,19 @@ Use the readback exactness theorem above to identify those rows with the concret
 
 Finally apply transport replay. Any componentwise $\hsame$ movement and displayed $\Cont$ replay reaches the same root route, so every allowed consumer is already listed by the displayed rows. The excluded host-side objects are absent from the packet and cannot be recovered from the root readback surface.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root L10 spine exhaustion]
+\label{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion}
+Every accepted root route
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+whose consumer is $\RealUp$-facing or completion-facing is equivalent, as a displayed BEDC route, to the finite L10 spine through the $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\CauchyLimitSealUp$ boundary. The only structural rows available along the spine are $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by $K$. The route exports no quotient stream, selected limit, host real equality, ambient completeness, or second completion witness.
+\end{theorem}
+\begin{proof}
+First identify the displayed root readback. By \autoref{thm:diagonal-limit-compatibility-root-readback-exactness}, every root-budget readback passes through the StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal row, and CauchyLimitSeal boundary, with the structural rows $H,C,P,N$ attached to the same packet.
+
+Next use transport replay. \autoref{thm:diagonal-limit-compatibility-root-transport-replay} shows that componentwise $\hsame$ movement and displayed $\Cont$ replay preserve this route, so the displayed BEDC route is unchanged by the allowed structural comparisons.
+
+Finally apply consumer coverage. \autoref{thm:diagonal-limit-compatibility-root-consumer-coverage} exhausts every $\RealUp$-facing or completion-facing consumer by the same five sibling handoffs and the same structural rows. Since the carrier contains no quotient stream, selected limit, host real equality, ambient completeness, or second completion witness, every such consumer is equivalent to the finite L10 spine and nothing beyond it.
+\end{proof}

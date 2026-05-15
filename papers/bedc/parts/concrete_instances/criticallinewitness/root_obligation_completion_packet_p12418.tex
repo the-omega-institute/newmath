@@ -1,0 +1,102 @@
+\begin{definition}[CriticalLineWitness root obligation carrier]
+\label{def:critical-line-witness-root-obligation-carrier}
+For an accepted $\CriticalLineWitnessUp$ root packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the root obligation carrier is the finite displayed surface consisting of
+the $\BHist$ rows $Z,S,M,R,Q$, the componentwise $\hsame$ transport row
+$H$, the displayed $\Cont$ replay route $C$, the $\Pkg$ provenance row $P$,
+and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$. A root-facing
+read is carried by this surface exactly when it enters through those rows
+and no additional analytic-continuation, $\mathsf{RH}$, host-limit,
+quotient, or standard-bridge datum is supplied.
+\end{definition}
+
+\begin{theorem}[CriticalLineWitness root classifier stability]
+\label{thm:critical-line-witness-root-classifier-stability}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ root
+packet. Any classifier read that is admitted by the root obligation carrier
+of \autoref{def:critical-line-witness-root-obligation-carrier} is stable
+under the displayed route
+$$
+\BHist \xrightarrow{\ H\ } \hsame \xrightarrow{\ C\ } \Cont .
+$$
+The read therefore has the same root-facing classifier before and after the
+$\hsame$ transport and the $\Cont$ replay, and it remains attached to the
+same $\Pkg$ row $P$ and $\NameCert_{\CriticalLineWitnessUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:critical-line-witness-root-carrier-classifier-boundary}. It
+orders the displayed $\BHist$ rows and the $H,C,P,N$ route before any
+critical-line read of $M$ or $R$ is available.
+
+Next use \autoref{thm:critical-line-witness-root-carrier-projection}. The
+consumer sees only the same finite tuple $Z,S,M,R,Q,H,C,P,N$, so the
+classifier cannot be replaced by a detached host or quotient classifier.
+
+Finally apply the non-escape package
+\autoref{thm:critical-line-witness-root-nonescape-package}. Since the packet
+exports no analytic continuation, $\mathsf{RH}$ proof, host equality, or
+ambient completion route, transport by $H$ and replay by $C$ preserve the
+root-facing classifier inside the local $P,N$ certificate rows.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root NameCert obligation completion]
+\label{thm:critical-line-witness-root-namecert-obligation-completion}
+For every accepted $\CriticalLineWitnessUp$ root packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, the root obligation carrier supplies the complete
+local $\NameCert_{\CriticalLineWitnessUp}$ obligation packet for a
+root-facing consumer. The supplied packet contains the source rows $Z,S$, the
+pattern rows $M,R,Q$, the classifier route $H,C$, the stability attachment to
+$P,N$, and the ledger refusal rows needed to keep the read inside the finite
+BEDC packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier boundary
+\autoref{thm:critical-line-witness-root-carrier-classifier-boundary}. It
+places $Z,S,M,R,Q,H,C,P,N$ on one root-facing surface and requires any
+critical-line read to pass through the local carrier and NameCert rows.
+
+The classifier stability theorem
+\autoref{thm:critical-line-witness-root-classifier-stability} then binds the
+source and pattern rows to the route through $H$ and $C$. The same route keeps
+the provenance row $P$ and the local naming row $N$ attached to the accepted
+packet.
+
+It remains to record the refusal side. Apply the non-escape package
+\autoref{thm:critical-line-witness-root-nonescape-package} and the ledger
+refusal totality theorem
+\autoref{thm:critical-line-witness-root-ledger-refusal-totality}. Together
+they turn source, pattern, classifier, stability, and ledger obligations into
+one local $\NameCert_{\CriticalLineWitnessUp}$ packet with no external
+analytic or host-level witness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness root ledger nonescape]
+\label{thm:critical-line-witness-root-ledger-nonescape}
+Every root-facing read of the obligation carrier
+\autoref{def:critical-line-witness-root-obligation-carrier} is exhausted by
+the displayed packet rows $Z,S,M,R,Q,H,C,P,N$. The ledger exports no
+analytic-continuation theorem, no $\mathsf{RH}$ proof, no host-limit datum, no
+quotient representative, and no standard-bridge object.
+\end{theorem}
+\begin{proof}
+Read the packet through
+\autoref{thm:critical-line-witness-root-carrier-projection}. The carrier
+projection is exactly $Z,S,M,R,Q,H,C,P,N$, so a root-facing consumer receives
+no additional coordinate from which analytic or host-level data could be
+extracted.
+
+Next apply the non-escape package
+\autoref{thm:critical-line-witness-root-nonescape-package}. It identifies
+the root-facing export with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ route.
+
+Finally use
+\autoref{thm:critical-line-witness-root-ledger-refusal-totality}. The refusal
+ledger closes every request for analytic continuation, $\mathsf{RH}$ proof
+data, host limits, quotient representatives, or standard-bridge data at the
+local carrier boundary.
+\end{proof}

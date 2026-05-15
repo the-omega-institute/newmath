@@ -1,0 +1,96 @@
+\begin{theorem}[CriticalLineWitness critical-strip source surface]
+\label{thm:critical-line-witness-critical-strip-source}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted packet exposes the supplied critical-strip source row $S$,
+together with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$ routes, before any zero-line consumer,
+modulus consumer, or $\mathsf{RH}$-facing consumer row can read the witness.
+The exposed row is a packet source row, not a host critical-line theorem,
+analytic continuation primitive, quotient equality, or standard-model
+replacement.
+\end{theorem}
+\begin{proof}
+Project $W$ through the carrier description of
+\autoref{def:critical-line-witness-carrier}. The critical-strip coordinate
+$S$ is one of the displayed finite $\BHist$ rows, and the only structural
+routes attached to it are the local $H,C,P,N$ coordinates.
+
+Apply the root-strip source totality theorem
+\autoref{thm:critical-line-witness-root-strip-source-totality}. It places the
+$\CritStripUp$ source row on the visible source route before any
+critical-line-facing read is available.
+
+Use the RH source lock
+\autoref{thm:critical-line-witness-rh-source-lock} for downstream reads and
+the zero-strip compatibility obligation
+\autoref{thm:critical-line-witness-zero-strip-compatibility-obligation} for
+zero-line reads. These rows force the supplied strip source to be visible
+through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before any
+consumer reads the witness surface, and they leave no coordinate for a host
+critical-line theorem, analytic primitive, quotient equality, or
+standard-model replacement.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zero-refusal locality]
+\label{thm:critical-line-witness-zero-refusal-locality}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, every zero-refusal row is local to the displayed
+packet. The refusal is witnessed inside the finite $\BHist$ carrier, the
+componentwise $\hsame$ transport row, the displayed $\Cont$ replay row, the
+$\Pkg$ provenance row, and the local $\NameCert_{\CriticalLineWitnessUp}$
+row; it is not a claim about an analytic zero primitive, global zero
+classifier, host quotient equality, analytic-continuation theorem, or
+$\mathsf{RH}$ truth value.
+\end{theorem}
+\begin{proof}
+Start with the zero-strip refusal theorem
+\autoref{thm:critical-line-witness-zero-strip-refusal}. It reads refusal as a
+row of the accepted $\BHist$ packet and requires zero-strip consumers to pass
+through the displayed source, budget, modulus, readback, and refusal rows.
+
+Next apply the local transport obligation
+\autoref{thm:critical-line-witness-hsame-cont-ledger-obligation}. The
+componentwise $\hsame$ row, displayed $\Cont$ replay row, $\Pkg$ provenance,
+and local $\NameCert$ replay are bound to the same zero-strip-modulus ledger.
+
+Finally use the downstream refusal ledger
+\autoref{thm:critical-line-witness-downstream-refusal-ledger}. It excludes
+an analytic zero primitive, global zero classifier, quotient representative,
+analytic-continuation certificate, ambient completeness witness, and
+$\mathsf{RH}$ proof from downstream reads. The zero-refusal row is therefore
+local to $W$ and does not export an analytic or host-level replacement.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus budget totality]
+\label{thm:critical-line-witness-modulus-budget-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+The modulus budget rows $M,R,Q,H,C,P,N$, read together with the supplied
+source rows $Z,S$, exhaust every consumer read before any critical-line
+witness is exported. A consumer can receive only the finite packet route
+through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$; it cannot bypass that budget by
+requesting $\mathsf{RH}$ truth, analytic continuation, host equality,
+quotient representatives, or a standard-model replacement.
+\end{theorem}
+\begin{proof}
+Read the modulus coordinate through the modulus window exactness theorem
+\autoref{thm:critical-line-witness-modulus-window-exactness}. Each depth
+request is exhausted by the displayed $\NatUp$ depth input to $M$, the
+$\RealUp$ row $R$, the $\RatUp$ comparison ledger $Q$, and the replay route
+through $H,C,P,N$.
+
+Combine this with the modulus refusal exhaustion theorem
+\autoref{thm:critical-line-witness-modulus-refusal-exhaustion}. Zero-strip
+modulus requests remain inside the same finite route and cannot become
+analytic continuation evidence, zero-free-strip evidence, a global zero
+classifier, or a host numeric oracle.
+
+Finally apply the root bridge readback totality theorem
+\autoref{thm:critical-line-witness-root-bridge-readback-totality} and the
+root packet carrier theorem
+\autoref{thm:critical-line-witness-root-zero-modulus-carrier}. They exhaust
+public readback by the displayed packet rows $Z,S,M,R,Q,H,C,P,N$ before any
+critical-line witness can be exported, with no route to $\mathsf{RH}$ truth,
+host equality, quotient representatives, analytic continuation, or
+standard-model replacement.
+\end{proof}

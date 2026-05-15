@@ -1,0 +1,120 @@
+\begin{definition}[FiniteTraceEvaluator terminal root surface]
+\label{def:finite-trace-evaluator-terminal-root-surface}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the terminal root surface is
+the finite packet
+$$
+E=(I,T,A,V,H,C,P,N).
+$$
+The row $I$ is the coded input source, $T$ is the terminal finite trace row,
+$A$ is the accepted-result classifier, $V$ is the validation-boundary refusal
+row, $H$ records the componentwise $\hsame$ transports, $C$ records the
+displayed $\Cont$ replay routes, $P$ records $\Pkg$ provenance, and $N$ records
+the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row. This surface is the
+terminal read of the carrier in
+\autoref{def:finite-trace-evaluator-carrier}, the local NameCert obligations
+of \autoref{thm:finite-trace-evaluator-namecert-obligations}, the root
+exactness scope of \autoref{thm:finite-trace-evaluator-root-exactness-scope},
+and the checkpoint ledger cut of
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}; it is consumed by
+the runtime checkpoint packet of
+\autoref{ch:concrete-instances-reflection-runtime-checkpoint-namecert}.
+\end{definition}
+
+\begin{theorem}[FiniteTraceEvaluator terminal trace-source lock]
+\label{thm:finite-trace-evaluator-terminal-trace-source-lock}
+Every terminal root read of the surface
+$E=(I,T,A,V,H,C,P,N)$ in
+\autoref{def:finite-trace-evaluator-terminal-root-surface} keeps its source on
+the displayed route
+$$
+I \to T.
+$$
+No terminal read can replace $I$ by a host source, a second checkpoint source,
+an infinite trace source, or an unbounded evaluator source.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:finite-trace-evaluator-carrier}. It gives
+the terminal reader exactly one coded input row $I$ and exactly one finite
+trace row $T$ before any accepted-result or validation-facing row is exposed.
+
+Use \autoref{thm:finite-trace-evaluator-namecert-obligations}. The trace-step
+exposure clause binds terminal trace access to the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row, so every trace read remains a read
+from $I$ into the displayed finite row $T$.
+
+Finally apply \autoref{thm:finite-trace-evaluator-root-exactness-scope} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The exactness scope
+and ledger cut contain no coordinate for a host source, second checkpoint
+source, infinite trace source, or unbounded evaluator source, and the runtime
+checkpoint consumer of
+\autoref{ch:concrete-instances-reflection-runtime-checkpoint-namecert} receives
+only the displayed terminal packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal accepted-result readback]
+\label{thm:finite-trace-evaluator-terminal-accepted-result-readback}
+For the terminal root surface
+$E=(I,T,A,V,H,C,P,N)$, an accepted-result read can reach the classifier row $A$
+only after the finite trace row $T$ has been read from the coded input source
+$I$. The terminal readback route is therefore
+$$
+I \to T \to A,
+$$
+and no accepted-result read can bypass $T$ through validation, provenance,
+local naming, host runtime state, total truth, total halting, or an unbounded
+evaluator.
+\end{theorem}
+\begin{proof}
+Start with the terminal surface of
+\autoref{def:finite-trace-evaluator-terminal-root-surface}. Its accepted-result
+row is the classifier $A$, while the rows $V,H,C,P,N$ are validation,
+transport, replay, provenance, and local naming rows rather than result
+sources.
+
+Apply \autoref{thm:finite-trace-evaluator-namecert-obligations}. The
+accepted-result classifier clause exposes $A$ only through the finite
+trace-step exposure row, so the result read must pass through $I \to T$ before
+it reaches $A$.
+
+Now use \autoref{thm:finite-trace-evaluator-root-exactness-scope}. It separates
+the accepted-result route $I \to T \to A$ from the validation and ledger route
+$V,H,C,P,N$, preventing the two routes from being mixed into a hidden
+readback.
+
+The checkpoint ledger cut in
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut} removes the
+remaining bypasses. Host runtime state, total truth, total halting, unbounded
+evaluation, and a second source are not coordinates of $E$, and the sibling
+runtime checkpoint chapter consumes the same finite route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal validation nonescape]
+\label{thm:finite-trace-evaluator-terminal-validation-nonescape}
+In the terminal root surface
+$E=(I,T,A,V,H,C,P,N)$, the validation row $V$ remains a boundary refusal. It
+does not become host validation, total truth for $\mathrm{CIC}^{*}$ sentences,
+total halting, an unbounded evaluator, an infinite trace, or a second
+checkpoint source for the runtime checkpoint consumer.
+\end{theorem}
+\begin{proof}
+Read $V$ from \autoref{def:finite-trace-evaluator-terminal-root-surface}. The
+definition names it only as the validation-boundary refusal row of the terminal
+packet, with transport, replay, provenance, and local naming recorded
+separately by $H,C,P,N$.
+
+Use \autoref{thm:finite-trace-evaluator-namecert-obligations}. Its
+runtime-validation non-escape clause prevents a local finite evaluator
+certificate from turning the boundary row into a host validating judgment.
+
+Next apply \autoref{thm:finite-trace-evaluator-root-exactness-scope}. Any
+terminal validation-facing read factors through $V,H,C,P,N$ rather than
+through the accepted-result route $I \to T \to A$, so validation cannot become
+an accepted result or an alternate trace source.
+
+Finally use \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The
+ledger has no coordinate for host validation, total truth, total halting,
+unbounded evaluation, infinite traces, or second checkpoint sources. The
+runtime checkpoint packet of
+\autoref{ch:concrete-instances-reflection-runtime-checkpoint-namecert} can
+therefore read $V$ only as the displayed boundary refusal.
+\end{proof}
