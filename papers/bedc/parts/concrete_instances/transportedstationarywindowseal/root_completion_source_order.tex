@@ -1,0 +1,35 @@
+\begin{theorem}[Transported stationary window-seal root completion source order]
+\label{thm:transported-stationary-window-seal-root-completion-source-order}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet, and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. Every completion-facing root-obligation route for $T$ first fixes the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source triad $R,S,G,H,C,P,N$ of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, then fixes the tail schedule packet $Q$ of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}, and only then reads the finite envelope $W$ and the $\RealUp$ seal row $E$ of \autoref{ch:concrete-instances-real-namecert}. The order is a root-obligation package for completion consumers, not a proof of ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the completion-consumer boundary. By \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary}, every completion-facing consumer is forced through the displayed transported rows of $T$ before it can read a seal-facing row. The source rows are precisely the transported rational route, the finite stream-name route of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational seal route of \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+Next attach the schedule. The handoff theorem \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff} places the packet of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert} after the transported source triad and before the envelope-seal read.
+
+Finally use \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}. It identifies the $\RealUp$ row of \autoref{ch:concrete-instances-real-namecert} as sourced by the same transported $\RegSeqRatUp$ seal, so the finite envelope and real seal are downstream rows of the root package rather than a real-completeness principle.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal finite-window schedule coherence]
+\label{thm:transported-stationary-window-seal-finite-window-schedule-coherence}
+For accepted packets $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ as above, the tail schedule rows and finite envelope rows consume the same finite $\StreamNameUp$ window and the same $\RegSeqRatUp$ seal. Thus the completion-facing root-obligation route has one $\StreamNameUp$ window from \autoref{ch:concrete-instances-streamname-namecert}, one $\RegSeqRatUp$ seal from \autoref{ch:concrete-instances-regseqrat-namecert}, one $\TailCofinalityScheduleUp$ packet from \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}, and one $\RealUp$ seal-facing row from \autoref{ch:concrete-instances-real-namecert}, with no split between schedule and envelope budgets.
+\end{theorem}
+\begin{proof}
+Start with the shared source. The completion-consumer boundary \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary} keeps every accepted completion-facing read on the transported triad $R,S,G,H,C,P,N$, so the finite window is the one supplied by \autoref{ch:concrete-instances-streamname-namecert} and the seal row is the one supplied by \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+The schedule handoff then consumes exactly those rows. By \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}, the packet of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert} is attached to the same finite window and the same regular rational seal before the envelope is read.
+
+The real-facing source theorem \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality} sends the seal row of \autoref{ch:concrete-instances-real-namecert} back to that same transported $\RegSeqRatUp$ source. Hence the schedule and envelope rows are coherent over one finite window and one seal, with no second budget from a completion object.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real completion refusal cover]
+\label{thm:transported-stationary-window-seal-real-completion-refusal-cover}
+For accepted packets $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ as above, the completion-facing route determined by the transported source triad, the tail schedule, the finite envelope, and the $\RealUp$ seal refuses every off-packet route through quotient streams, selected host limits, choice, ambient completeness, or host equality. Its visible sources remain the $\StreamNameUp$ route of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ seal of \autoref{ch:concrete-instances-regseqrat-namecert}, the schedule packet of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}, and the $\RealUp$ row of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+First read the route boundary. The theorem \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary} excludes any completion-facing read that bypasses the displayed packet $T$, so quotient streams, host equality, selected limits, choice, and ambient completeness have no entry point at the root boundary.
+
+Next impose the tail schedule. By \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}, the schedule packet of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert} is inserted only after the finite $\StreamNameUp$ row of \autoref{ch:concrete-instances-streamname-namecert} and the $\RegSeqRatUp$ seal of \autoref{ch:concrete-instances-regseqrat-namecert} are fixed.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}. The $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert} is sourced by the transported regular-rational seal, so the route covers all completion-facing refusal clauses without asserting any host real-completeness theorem.
+\end{proof}
