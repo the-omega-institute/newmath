@@ -236,3 +236,33 @@ Then use terminality. By \autoref{thm:bounded-monotone-cauchy-witness-window-com
 
 Finally apply Real-seal modulus determinacy, \autoref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}. It states that componentwise agreement of the displayed packet determines the root-facing Real-seal readback, which gives the converse: reading the displayed window-seal packet supplies exactly the readiness surface used by the Real, limit-seal, and completion consumers.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness window readback stability]
+\label{thm:bounded-monotone-cauchy-witness-window-readback-stability}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ and $W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')$ be accepted $\BoundedMonotoneCauchyWitnessUp$ packets. Suppose the displayed rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ are preserved componentwise by $\hsame$ and that both packets replay the same displayed $\Cont$ window-seal route. Then every root-facing $\RealUp$, $\CauchyLimitSealUp$, or completion consumer reads the same window-seal readiness surface from $W$ and $W'$. The stability claim uses only the finite window-meet route, root window seal synchronizer, window Real-seal pullback, window completion pullback, terminality, and Real-seal modulus determinacy; it does not select limits, identify quotient reals, assert host equality, use trichotomy, invoke ambient completeness, appeal to open-cover compactness, or install choice-like tail services.
+\end{theorem}
+\begin{proof}
+First compose the shared window route. The window-meet route and root window seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, force both packets through the same displayed prefix and suffix under the assumed componentwise $\hsame$ transport and $\Cont$ replay.
+
+Next pull the read to the Real and completion boundaries. The window Real-seal pullback and window completion pullback, \autoref{thm:bounded-monotone-cauchy-witness-window-real-seal-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-window-completion-pullback}, make every root-facing $\RealUp$, $\CauchyLimitSealUp$, and completion consumer factor through the finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Finally apply terminality and Real-seal modulus determinacy. Theorem~\ref{thm:bounded-monotone-cauchy-witness-window-completion-terminality} leaves no completion-facing datum outside the displayed carrier, and Theorem~\ref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy} makes the componentwise-preserved window packet determine the Real-seal readback. The carrier has no coordinate for selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail services, so the readiness surface read from $W$ and $W'$ is the same.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness CauchyCriterion selector handoff]
+\label{thm:bounded-monotone-cauchy-witness-cauchycriterion-selector-handoff}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $K=(W_K,M,T,Q_K,E,H_K,C_K,P_K,N_K)$ be an accepted $\CauchyCriterionUp$ packet. Suppose the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows displayed by the two packets agree at the selector-seal boundary. Then every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, or completion-facing read of the bounded monotone window-seal packet factors through the same finite $\CauchyCriterionUp$ budget-selector surface
+$$
+M,\quad Q_K,\quad T,\quad W_K,\quad E,\quad H_K,\quad C_K,\quad P_K,\quad N_K
+$$
+before any $\RealUp$ seal is exposed. The handoff uses only the shared StreamName--RegSeqRat--DyadicRatCore--Real rows and the finite support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; it does not introduce quotient streams, selected limits, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selectors.
+\end{theorem}
+\begin{proof}
+First close the bounded monotone window packet. The window seal completeness and window readback stability theorems, \autoref{thm:bounded-monotone-cauchy-witness-window-seal-completeness} and \autoref{thm:bounded-monotone-cauchy-witness-window-readback-stability}, put every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, and completion-facing read of $W$ on the displayed finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next expose the selector surface. The CauchyCriterion StreamName Real budget-selector boundary, \autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}, makes every consumer sharing the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows read through $M,Q_K,T,W_K,E,H_K,C_K,P_K,N_K$ before selector output is exposed.
+
+Then use uniform selector-seal compatibility, \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}. It records that the selector-facing CauchyCriterion route and any matching seal route factor through the same finite StreamName--RegSeqRat--DyadicRatCore--Real surface with the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally match the shared boundary rows. By hypothesis the bounded monotone packet and the CauchyCriterion packet display the same four public rows at the selector-seal boundary, so the terminal window-seal read of $W$ must pass through the CauchyCriterion budget-selector packet before a $\RealUp$ seal is exposed. Neither accepted carrier has an extra completion coordinate, and the listed exclusions have no displayed row in either packet.
+\end{proof}
