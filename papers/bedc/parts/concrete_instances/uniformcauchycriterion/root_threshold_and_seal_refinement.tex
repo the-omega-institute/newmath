@@ -171,6 +171,28 @@ Finally use \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-e
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_root\_budget\_seal\_eligibility}
 
+\begin{theorem}[UniformCauchyCriterion threshold seal budget factorization]
+\label{thm:uniform-cauchy-threshold-seal-budget-factorization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, or $\RealUp$ consumer that exposes $\StreamNameUp$ and $\RegSeqRatUp$ finite-window data factors through the same displayed finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+Here $M$ is the unique threshold schedule certified by the root threshold row, and $Q,T$ are the exact dyadic tolerance ledger rows certified by the root tolerance ledger. The consumer receives no quotient stream, selected limit, host equality, open-cover compactness, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy} and \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}. These identify the threshold schedule $M$ and the dyadic tolerance rows $Q,T$ as determined finite data, not as choices made by the Real-facing consumer.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-budget-package}. It repacks $I,W,M,Q,T$ with the displayed $H,C,P,N$ provenance rows, so the consumer-facing surface is carried through $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance rather than through an ambient completion principle.
+
+Then combine \autoref{thm:uniform-cauchy-criterion-root-seal-consumer-nonescape}, \autoref{thm:uniform-cauchy-criterion-root-shared-tail-meet}, and \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}. The seal row $E$ can only be reached after the finite route, while the $\StreamNameUp$ and $\RegSeqRatUp$ windows are the shared tail-meet rows already exposed to Real-facing extraction.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility}. It is exactly the seal-consumer boundary for $\CauchyLimitSealUp$, $\RealCauchyCompletionUp$, and $\RealUp$ reads. Since none of the listed excluded objects has a row in $U$ or in the shared finite-window package, the consumer receives no quotient stream, selected limit, host equality, open-cover compactness, or ambient completeness data.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion Real-completion exit exhaustion]
 \label{thm:uniform-cauchy-criterion-root-real-completion-exit-exhaustion}
 Let
