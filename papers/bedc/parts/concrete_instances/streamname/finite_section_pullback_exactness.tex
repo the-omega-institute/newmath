@@ -36,3 +36,124 @@ It exhausts carrier, classifier, stability, ledger, and non-escape obligations
 by the same four faces and the displayed support rows, leaving no
 countable-choice row or standard bridge row to export.
 \end{proof}
+
+\begin{theorem}[StreamName finite-section classifier determinacy]
+\label{thm:streamname-finite-section-classifier-determinacy}
+Let $Q$ and $Q'$ be accepted finite request sections of a current L10 Phase
+Real and Completion $\StreamNameUp$ packet. Suppose that $Q$ and $Q'$ have the
+same $\StreamNameUp$ finite window, the same $\DyadicRatCoreUp$ ledger row, the
+same $\RegSeqRatUp$ readback row, and the same $\RealUp$ seal boundary. Then
+the carrier verdict and classifier verdict read at the terminal
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ four-face route are the
+same for $Q$ and $Q'$.
+
+The common route is supported only by the displayed $\BHist$ rows,
+componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ rows. It contains no quotient stream
+equality, selected limit, host sequence equality, ambient completeness row,
+countable-choice row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-section-pullback-exactness} first to
+$Q$ and then to $Q'$. Each accepted section is read through the same
+StreamName finite window, DyadicRatCore ledger, RegSeqRat readback row, RealUp
+seal boundary, and displayed support rows.
+
+Next use \autoref{thm:streamname-open-phase-four-face-terminality}. The shared
+four faces identify the terminal finite BEDC route for both sections, so a
+carrier or classifier verdict has no second terminal route on which to vary.
+
+Now apply \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}. The
+RealUp seal remains public over the finite route and cannot contribute a
+hidden quotient stream, selected limit, host sequence equality, or ambient
+completeness coordinate that would separate the two sections.
+
+Finally use \autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}.
+Carrier, classifier, stability, ledger, and non-escape obligations are
+exhausted by the shared four faces together with the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the two accepted
+sections have the same carrier and classifier verdicts at the terminal route,
+with no countable-choice or bridge row left outside that support.
+\end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq-Dyadic finite lock]
+\label{thm:streamname-finite-section-real-regseq-dyadic-lock}
+Let $Q$ be an accepted finite request section of a current L10 Phase Real and
+Completion $\StreamNameUp$ packet. Suppose that $Q$ exposes the same
+$\StreamNameUp$ finite window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$
+readback, and $\RealUp$ seal boundary as the terminal four-face route. Then
+every $\RealUp$-facing and completion-facing consumer reads the same finite
+lock through exactly those four faces and the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The lock contains no quotient stream, host sequence equality, selected limit,
+ambient Real completeness, metric-completeness datum, countable-choice row, or
+standard bridge row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-finite-section-pullback-exactness}. The
+accepted section $Q$ is already pulled back to the $\StreamNameUp$ finite
+window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the
+$\RealUp$ seal boundary, and the displayed support rows.
+
+Next apply \autoref{thm:streamname-finite-section-classifier-determinacy}.
+Any accepted request section exposing those same four faces has the same
+carrier and classifier verdict at the terminal route, so no Real-facing or
+completion-facing consumer can split the finite lock by rereading one face.
+
+Now use \autoref{thm:streamname-real-completion-four-object-terminal-pullback}.
+It identifies every downstream Real or completion read with the terminal
+finite pullback once the four faces and support rows agree.
+
+Finally combine this terminal pullback with
+\autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. The handoff
+exhausts carrier, classifier, stability, ledger, and non-escape obligations
+through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The excluded quotient, host-equality, limit-selection, completeness,
+countable-choice, and bridge coordinates therefore have no row from which a
+consumer could read them.
+\end{proof}
+
+\begin{theorem}[StreamName four-face terminal completeness]
+\label{thm:streamname-four-face-terminal-completeness}
+For a current L10 Phase Real and Completion terminal read of
+$\StreamNameUp$, completeness for the present open exit surface is exactly
+factorization through the four visible faces
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ together with the
+displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Conversely, any accepted read exposing those four faces and those support
+rows supplies the full carrier, classifier, stability, ledger, and
+non-escape surface available to the current Phase Real and Completion route.
+This completeness assertion excludes quotient streams, host sequence
+equality, selected limits, ambient Real completeness, metric-completeness
+data, countable choice, and standard bridge rows.
+\end{theorem}
+\begin{proof}
+For necessity, start with a complete terminal read of the current open exit
+surface. By
+\autoref{thm:streamname-finite-section-pullback-exactness}, its accepted
+finite section is pulled back to the StreamName finite window, the
+DyadicRatCore ledger, the RegSeqRat readback, the RealUp seal boundary, and
+the displayed support rows.
+
+Next apply \autoref{thm:streamname-finite-section-classifier-determinacy}
+and \autoref{thm:streamname-finite-section-real-regseq-dyadic-lock}. These
+results make the carrier and classifier verdicts determinate at the same
+four-face finite lock for every Real-facing or completion-facing consumer.
+
+For sufficiency, suppose an accepted read exposes the four visible faces and
+the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+Use \autoref{thm:streamname-real-completion-four-object-terminal-pullback} to
+identify that packet with the terminal finite pullback for the current Real
+and Completion boundary.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. The handoff
+fills exactly the carrier, classifier, stability, ledger, and non-escape
+obligations from those rows. Since the terminal pullback has no coordinate
+for quotient streams, host sequence equality, selected limits, ambient Real
+completeness, metric-completeness data, countable choice, or standard bridge
+data, those excluded surfaces are not part of the completeness claim.
+\end{proof}

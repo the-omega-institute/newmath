@@ -1,0 +1,300 @@
+\section{Certificate surface}
+\label{sec:dyadicratcore-certificate}
+
+\begin{theorem}[DyadicRatCore arithmetic-window stability]
+\label{thm:dyadicratcore-arithmetic-window-stability}
+Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets such that
+each $D_i$ is transported to $D'_i$ by displayed $\hsame$, $\Cont$, and
+$\Pkg$ rows. Any finite common-exponent window that reads $D_0+D_1$,
+$-D_0$, $D_0-D_1$, or $D_0D_1$ is stable under this transport: the
+transported window reads the corresponding operation on $D'_0,D'_1$ using
+only the displayed $\RatUp$ mantissa rows, $\UnaryHistory$ exponent rows,
+denominator ledgers, common-exponent scaling rows, $\hsame$ comparisons,
+$\Cont$ routes, and $\Pkg$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreArithmeticWindow\_transport\_stability}
+\begin{proof}
+Choose the displayed common exponent carried by the arithmetic window. The
+window first projects the two mantissas to that exponent through the visible
+denominator ledgers and then applies the corresponding $\RatUp$ row for sum,
+negation, difference, or product.
+
+Transport the mantissa, exponent, denominator, and provenance coordinates of
+each input packet along the supplied $\hsame$ rows. The same finite $\Cont$
+route transports the common-exponent scaling ledger, so the transported
+window has exactly the rows needed to repeat the arithmetic readback.
+
+No step identifies rational pairs by a quotient or by host equality. The
+operation row is therefore recovered by recomposing the transported mantissa
+row with the transported unary denominator ledger and the same $\Pkg$ source
+certificates.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore monotone-radius obligation]
+\label{thm:dyadicratcore-monotone-radius-obligation}
+For an accepted $\DyadicRatCoreUp$ packet $D=(m,e,\ell,P)$, the visible
+dyadic radius row $2^{-e}$ refines monotonically under any displayed unary
+extension $e \preceq E$. The refined radius row $2^{-E}$ is obtained by
+appending the finite denominator ledger entries from $e$ to $E$, transporting
+the mantissa observation through the same $\Cont$ route, and retaining the
+same $\Pkg$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_scoped\_source\_boundary}
+\begin{proof}
+Project the positive unary exponent row from the carrier. A displayed
+extension $e \preceq E$ is a finite unary-history continuation, so the
+additional denominator entries form a visible tail of the same ledger.
+
+Append that tail to the denominator ledger $\ell$. The resulting row displays
+$2^E$ and hence the radius row $2^{-E}$, with the original $2^{-e}$ radius as
+the coarser prefix read by the shorter window.
+
+The mantissa row is not changed; only the denominator window is refined.
+Transporting the readback through the appended $\Cont$ route shows monotone
+radius refinement entirely inside the displayed unary ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_monotone\_radius\_obligation}
+
+\begin{theorem}[DyadicRatCore arithmetic-monotone window package]
+\label{thm:dyadicratcore-arithmetic-monotone-window-package}
+Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets satisfying
+the arithmetic-window transport hypotheses of
+\autoref{thm:dyadicratcore-arithmetic-window-stability}, and suppose the
+visible radius rows of the transported packet are refined along displayed
+unary exponent extensions as in
+\autoref{thm:dyadicratcore-monotone-radius-obligation}. Then the transported
+arithmetic endpoint and the refined radius ledger repack into one public
+finite window consumed by $\RegSeqRat$ and $\RealUp$. This window reads only
+mantissa, exponent, denominator, common-exponent, distance and arithmetic,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, and it exposes
+no quotient rational, host equality, completion endpoint, or trichotomy row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicratcore-arithmetic-window-stability}. The
+transported arithmetic endpoint is read from the common-exponent scaling
+ledger, the displayed mantissas, the denominator rows, and the transported
+$\Pkg$ provenance.
+
+Next apply \autoref{thm:dyadicratcore-monotone-radius-obligation} to the
+visible unary extension of the radius row. The refined denominator ledger
+keeps the radius bound inside the same $\mathsf{BHist}$ and $\Cont$ surface.
+
+The two ledgers have the same public coordinates: mantissa, exponent,
+denominator, common exponent, arithmetic or distance readback, history
+comparison, continuation, and package provenance. Repack those coordinates as
+the shared finite-window surface required by the $\RegSeqRat$ and $\RealUp$
+consumers. Since neither input theorem exports quotient rational equality,
+host equality, a completion endpoint, or a trichotomy classifier, the combined
+window does not introduce any such row.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore common-exponent exactness]
+\label{thm:dyadicratcore-common-exponent-exactness}
+Suppose two classifier witnesses compare accepted packets $D$ and $D'$ by
+displayed common exponents $E$ and $F$. Then there is a displayed unary
+exponent $G$ extending both $E$ and $F$ such that transporting each witness to
+$G$ yields the same $\RatUp$ classifier row between the scaled mantissas of
+$D$ and $D'$. The exactness claim is a statement about the displayed scaling
+ledgers and not about host rational equality.
+\end{theorem}
+\begin{proof}
+Project the two classifier witnesses of
+\autoref{def:dyadicratcore-classifier}. Each witness consists of a common
+unary exponent, two finite scaling ledgers from the packet exponents, and a
+$\RatUp$ classifier row between the scaled mantissas.
+
+Take the displayed unary exponent obtained by appending the two finite
+extension ledgers to a shared exponent $G$. Transport the $E$-witness and the
+$F$-witness along their denominator-ledger continuations into the same
+exponent row.
+
+At $G$ both witnesses read the identical scaled mantissa rows through the
+same $\RatUp$ source certificate. Constructor inspection of the transported
+classifier rows therefore gives the same visible classifier row, with no
+appeal to quotient equality of dyadic pairs.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreClassifier\_common\_exponent\_e0\_exclusion}
+
+\begin{theorem}[DyadicRatCore real-phase source coverage]
+\label{thm:dyadicratcore-real-phase-source-coverage}
+Every $\StreamNameUp$, $\RegSeqRat$, or $\RealUp$ dyadic observation that
+consumes $\DyadicRatCoreUp$ data downstream reads through the mantissa,
+positive exponent, denominator ledger, common-exponent classifier,
+arithmetic-window, distance-window, monotone-radius, $\hsame$, $\Cont$, and
+$\Pkg$ rows listed in this chapter. The source boundary exports no quotient
+of dyadic pairs, host rational equality, or completed real endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_real\_phase\_source\_coverage}
+\begin{proof}
+Start with a downstream dyadic observation in one of the real-construction
+interfaces. Its input is an accepted $\DyadicRatCoreUp$ packet, so the only
+available source coordinates are the carrier rows of
+\autoref{def:dyadicratcore-carrier} and the classifier rows of
+\autoref{def:dyadicratcore-classifier}.
+
+Arithmetic and distance observations factor through
+\autoref{thm:dyadicratcore-arithmetic-window-stability} and
+\autoref{thm:dyadicratcore-distance-window-stability}. Radius observations
+factor through \autoref{thm:dyadicratcore-monotone-radius-obligation}, and
+classifier comparisons factor through
+\autoref{thm:dyadicratcore-common-exponent-exactness}.
+
+These projections exhaust the finite rows named by the downstream readback.
+Since no row in the packet carries a quotient class, a host rational equality,
+or a completed real endpoint, the real-phase consumer can only use the listed
+BEDC source rows.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore RegSeqRat window radius handoff]
+\label{thm:dyadicratcore-regseqrat-window-radius-handoff}
+Every downstream $\RegSeqRat$ finite-window handoff that consumes a
+$\DyadicRatCoreUp$ observation reads its radius premise through the displayed
+positive unary exponent, denominator ledger, monotone-radius refinement,
+distance-window stability, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the
+$\DyadicRatCoreUp$ public envelope. Consequently the handoff cannot introduce
+a quotient rational, host epsilon equality, or $\RealUp$ completion endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreRegSeqRatWindow\_radius\_handoff}
+\begin{proof}
+Start with the downstream handoff and apply
+\autoref{thm:dyadicratcore-real-phase-source-coverage}. The observation can
+only read the dyadic packet through the listed source rows and has no access to
+a quotient rational or completed real endpoint.
+
+Use \autoref{thm:dyadicratcore-monotone-radius-obligation} to identify the
+radius premise as a displayed positive-unary refinement over the denominator
+ledger. Use \autoref{thm:dyadicratcore-distance-window-stability} to keep the
+finite distance window stable under the same $\hsame$ transport.
+
+Finally apply \autoref{thm:dyadicratcore-public-readback-envelope}. Its public
+tuple supplies exactly the exponent, denominator, radius, distance, $\Cont$,
+and $\mathsf{Pkg}$ coordinates consumed by $\RegSeqRat$, so there is no
+remaining coordinate through which host epsilon equality or a $\RealUp$
+completion endpoint could enter the handoff.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore NameCert obligation surface]
+\label{thm:dyadicratcore-namecert-obligation-surface}
+The seed $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists of the
+signed mantissa carrier of \autoref{def:dyadicratcore-carrier}, the
+common-exponent scaling classifier of
+\autoref{def:dyadicratcore-classifier}, denominator ledger transport from
+\autoref{thm:dyadicratcore-denominator-ledger}, dyadic distance and
+absolute-value window stability from
+\autoref{thm:dyadicratcore-distance-window-stability}, arithmetic-window
+stability from
+\autoref{thm:dyadicratcore-arithmetic-window-stability}, monotone radius
+refinement from
+\autoref{thm:dyadicratcore-monotone-radius-obligation}, common-exponent
+exactness from
+\autoref{thm:dyadicratcore-common-exponent-exactness}, real-phase source
+coverage from
+\autoref{thm:dyadicratcore-real-phase-source-coverage}, and exactness of the
+visible mantissa, exponent, denominator, $\hsame$, $\Cont$, and $\Pkg$ rows.
+It supplies a named dyadic source surface for $\StreamNameUp$, $\RegSeqRat$,
+and $\RealUp$, but it supplies no standard bridge and no $\RealUp$
+completeness claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+The carrier and classifier clauses are exactly
+\autoref{def:dyadicratcore-carrier} and
+\autoref{def:dyadicratcore-classifier}. They determine which finite BEDC rows
+may be read as a dyadic packet and how two such packets are compared by
+common-exponent scaling.
+
+The ledger clause is
+\autoref{thm:dyadicratcore-denominator-ledger}; it keeps the positive unary
+denominator tower visible under $\hsame$ transport. The observation clause is
+\autoref{thm:dyadicratcore-distance-window-stability}; it keeps distance and
+absolute-value windows inside the displayed $\RatUp$ and unary ledger rows.
+
+The arithmetic, radius, common-exponent, and real-phase source clauses are
+\autoref{thm:dyadicratcore-arithmetic-window-stability},
+\autoref{thm:dyadicratcore-monotone-radius-obligation},
+\autoref{thm:dyadicratcore-common-exponent-exactness}, and
+\autoref{thm:dyadicratcore-real-phase-source-coverage}. Together they state
+which finite rows downstream real-construction chapters may consume and how
+those rows refine under displayed unary denominator extension.
+
+Exactness follows by inspection of the listed rows: every readable component
+of the dyadic source is one of the mantissa, exponent, denominator,
+provenance, transport, or continuation entries. Thus the surface is a seed
+source for later real-construction chapters and not a bridge to host rationals
+or completed reals.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore scoped source boundary]
+\label{thm:dyadicratcore-scoped-source-boundary}
+The scoped $\DyadicRatCoreUp$ source boundary is exactly the signed $\RatUp$
+mantissa row, the positive $\UnaryHistory$ exponent row, the denominator
+ledger, the common-exponent scaling classifier, the arithmetic-window and
+distance-window rows, monotone-radius refinement, common-exponent exactness,
+real-phase source coverage, $\mathsf{BHist}$ carrier data, $\hsame$
+transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance listed in this
+chapter. It exports no quotient of dyadic pairs, host rational equality,
+standard bridge, or completed $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+The carrier and classifier boundaries are the displayed rows of
+\autoref{def:dyadicratcore-carrier} and
+\autoref{def:dyadicratcore-classifier}. They supply the signed mantissa,
+positive unary exponent, denominator tower, $\mathsf{BHist}$ tuple, $\hsame$
+transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance that can be read
+from an accepted dyadic packet.
+
+The denominator, arithmetic, distance, radius, and common-exponent clauses are
+respectively \autoref{thm:dyadicratcore-denominator-ledger},
+\autoref{thm:dyadicratcore-arithmetic-window-stability},
+\autoref{thm:dyadicratcore-distance-window-stability},
+\autoref{thm:dyadicratcore-monotone-radius-obligation}, and
+\autoref{thm:dyadicratcore-common-exponent-exactness}. These rows say how the
+same visible packet supports finite dyadic computation under displayed unary
+denominator transport.
+
+The real-phase and NameCert clauses are
+\autoref{thm:dyadicratcore-real-phase-source-coverage} and
+\autoref{thm:dyadicratcore-namecert-obligation-surface}. They exhaust the
+downstream source rows consumed by $\StreamNameUp$, $\RegSeqRat$, and
+$\RealUp$ without adding a quotient class, a host-rational equality row, a
+standard bridge, or a completed real endpoint. Hence the listed primitives are
+precisely the scoped boundary exported by this chapter.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore public readback envelope]
+\label{thm:dyadicratcore-public-readback-envelope}
+The public $\DyadicRatCoreUp$ consumer interface is exactly the tuple
+consisting of the signed mantissa carrier, common-exponent classifier,
+denominator ledger transport, arithmetic-window stability, distance-window
+stability, monotone-radius refinement, common-exponent exactness, real-phase
+source coverage, $\mathsf{BHist}$ carrier rows, $\hsame$ transport, $\Cont$
+readback, and $\mathsf{Pkg}$ provenance. Every downstream $\StreamNameUp$,
+$\RegSeqRat$, or $\RealUp$ dyadic read factors through this envelope and cannot
+read a quotient rational, host rational equality, standard bridge, or completed
+real endpoint.
+\end{theorem}
+\begin{proof}
+Start with an arbitrary public consumer read of a $\DyadicRatCoreUp$ packet.
+By \autoref{def:dyadicratcore-carrier} and
+\autoref{def:dyadicratcore-classifier}, the only carrier and comparison rows
+available to that read are the signed mantissa, positive unary exponent,
+denominator ledger, common-exponent scaling witness, $\mathsf{BHist}$ data,
+$\hsame$ rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance.
+
+The finite denominator, arithmetic, distance, radius, and exactness reads are
+then forced through the named certificate rows. Use
+\autoref{thm:dyadicratcore-denominator-ledger},
+\autoref{thm:dyadicratcore-arithmetic-window-stability},
+\autoref{thm:dyadicratcore-distance-window-stability},
+\autoref{thm:dyadicratcore-monotone-radius-obligation}, and
+\autoref{thm:dyadicratcore-common-exponent-exactness} to identify the visible
+rows that remain available under transport and denominator refinement.
+
+Finally apply \autoref{thm:dyadicratcore-real-phase-source-coverage} and
+\autoref{thm:dyadicratcore-scoped-source-boundary}. They state that the
+downstream $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ reads consume exactly
+this dyadic source surface. Since the carrier inventory contains no quotient
+rational, host equality row, standard bridge, or completed real endpoint, none
+of those objects can be exported by the public consumer certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_public\_readback\_envelope}
