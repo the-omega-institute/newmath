@@ -415,4 +415,32 @@ theorem ObserverFilterBudgetSelectorBudgetRefinementNonescape_budget_field_not_e
   injection tail3 with hBudget _
   cases hBudget
 
+theorem ObserverFilterBudgetSelectorBridgeReadyRoute_support_fields_faithful
+    (filter identity selected omitted budget window dyadic handoff realSeal transport route
+      provenance name : BHist)
+    (hfields :
+      observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+            dyadic handoff realSeal transport route provenance name) =
+        observerFilterBudgetSelectorFields
+          (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+            dyadic handoff realSeal BHist.Empty BHist.Empty BHist.Empty BHist.Empty)) :
+    transport = BHist.Empty ∧ route = BHist.Empty ∧ provenance = BHist.Empty ∧
+      name = BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  injection hfields with _ tail0
+  injection tail0 with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with _ tail3
+  injection tail3 with _ tail4
+  injection tail4 with _ tail5
+  injection tail5 with _ tail6
+  injection tail6 with _ tail7
+  injection tail7 with _ tail8
+  injection tail8 with hTransport tail9
+  injection tail9 with hRoute tail10
+  injection tail10 with hProvenance tail11
+  injection tail11 with hName _
+  exact ⟨hTransport, hRoute, hProvenance, hName⟩
+
 end BEDC.Derived.ObserverFilterBudgetSelectorUp
