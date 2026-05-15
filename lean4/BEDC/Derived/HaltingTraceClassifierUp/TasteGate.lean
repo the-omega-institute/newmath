@@ -10,26 +10,25 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HaltingTraceClassifierUp : Type where
-  | mk (machine history finiteTrace positive refusal transport route provenance localName :
-      BHist) : HaltingTraceClassifierUp
+  | mk (machine history trace classifier refusal transport routes provenance name : BHist) :
+      HaltingTraceClassifierUp
   deriving DecidableEq
 
-def haltingTraceClassifierEncodeBHist : BHist → RawEvent
+private def haltingTraceClassifierEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: haltingTraceClassifierEncodeBHist h
   | BHist.e1 h => BMark.b1 :: haltingTraceClassifierEncodeBHist h
 
-def haltingTraceClassifierDecodeBHist : RawEvent → BHist
+private def haltingTraceClassifierDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (haltingTraceClassifierDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (haltingTraceClassifierDecodeBHist tail)
 
-private theorem haltingTraceClassifierDecode_encode_bhist :
+private theorem haltingTraceClassifier_decode_encode_bhist :
     ∀ h : BHist,
-      haltingTraceClassifierDecodeBHist
-        (haltingTraceClassifierEncodeBHist h) = h := by
+      haltingTraceClassifierDecodeBHist (haltingTraceClassifierEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,31 +39,47 @@ private theorem haltingTraceClassifierDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def haltingTraceClassifierToEventFlow : HaltingTraceClassifierUp → EventFlow
+private def haltingTraceClassifierToEventFlow : HaltingTraceClassifierUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | HaltingTraceClassifierUp.mk machine history finiteTrace positive refusal transport route provenance localName =>
+  | HaltingTraceClassifierUp.mk machine history trace classifier refusal transport routes
+      provenance name =>
       [[BMark.b0],
         haltingTraceClassifierEncodeBHist machine,
         [BMark.b1, BMark.b0],
         haltingTraceClassifierEncodeBHist history,
         [BMark.b1, BMark.b1, BMark.b0],
-        haltingTraceClassifierEncodeBHist finiteTrace,
+        haltingTraceClassifierEncodeBHist trace,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        haltingTraceClassifierEncodeBHist positive,
+        haltingTraceClassifierEncodeBHist classifier,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         haltingTraceClassifierEncodeBHist refusal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         haltingTraceClassifierEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        haltingTraceClassifierEncodeBHist route,
+        haltingTraceClassifierEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         haltingTraceClassifierEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        haltingTraceClassifierEncodeBHist localName]
+        haltingTraceClassifierEncodeBHist name]
 
-def haltingTraceClassifierFromEventFlow :
+private def haltingTraceClassifierDecodePacket
+    (machine history trace classifier refusal transport routes provenance name : RawEvent) :
+    HaltingTraceClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  HaltingTraceClassifierUp.mk
+    (haltingTraceClassifierDecodeBHist machine)
+    (haltingTraceClassifierDecodeBHist history)
+    (haltingTraceClassifierDecodeBHist trace)
+    (haltingTraceClassifierDecodeBHist classifier)
+    (haltingTraceClassifierDecodeBHist refusal)
+    (haltingTraceClassifierDecodeBHist transport)
+    (haltingTraceClassifierDecodeBHist routes)
+    (haltingTraceClassifierDecodeBHist provenance)
+    (haltingTraceClassifierDecodeBHist name)
+
+private def haltingTraceClassifierFromEventFlow :
     EventFlow → Option HaltingTraceClassifierUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
@@ -83,13 +98,13 @@ def haltingTraceClassifierFromEventFlow :
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | finiteTrace :: rest5 =>
+                      | trace :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | positive :: rest7 =>
+                              | classifier :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
@@ -107,7 +122,7 @@ def haltingTraceClassifierFromEventFlow :
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | route :: rest13 =>
+                                                      | routes :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -119,77 +134,58 @@ def haltingTraceClassifierFromEventFlow :
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | localName :: rest17 =>
+                                                                      | name :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
-                                                                                (HaltingTraceClassifierUp.mk
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    machine)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    history)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    finiteTrace)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    positive)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    refusal)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    transport)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    route)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    provenance)
-                                                                                  (haltingTraceClassifierDecodeBHist
-                                                                                    localName))
+                                                                                (haltingTraceClassifierDecodePacket
+                                                                                  machine
+                                                                                  history
+                                                                                  trace
+                                                                                  classifier
+                                                                                  refusal
+                                                                                  transport
+                                                                                  routes
+                                                                                  provenance
+                                                                                  name)
                                                                           | _ :: _ => none
 
 private theorem haltingTraceClassifier_round_trip :
     ∀ x : HaltingTraceClassifierUp,
-      haltingTraceClassifierFromEventFlow
-        (haltingTraceClassifierToEventFlow x) = some x := by
+      haltingTraceClassifierFromEventFlow (haltingTraceClassifierToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk machine history finiteTrace positive refusal transport route provenance localName =>
+  | mk machine history trace classifier refusal transport routes provenance name =>
       change
         some
-          (HaltingTraceClassifierUp.mk
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist machine))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist history))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist finiteTrace))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist positive))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist refusal))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist transport))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist route))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist provenance))
-            (haltingTraceClassifierDecodeBHist
-              (haltingTraceClassifierEncodeBHist localName))) =
+          (haltingTraceClassifierDecodePacket
+            (haltingTraceClassifierEncodeBHist machine)
+            (haltingTraceClassifierEncodeBHist history)
+            (haltingTraceClassifierEncodeBHist trace)
+            (haltingTraceClassifierEncodeBHist classifier)
+            (haltingTraceClassifierEncodeBHist refusal)
+            (haltingTraceClassifierEncodeBHist transport)
+            (haltingTraceClassifierEncodeBHist routes)
+            (haltingTraceClassifierEncodeBHist provenance)
+            (haltingTraceClassifierEncodeBHist name)) =
           some
-            (HaltingTraceClassifierUp.mk machine history finiteTrace positive refusal
-              transport route provenance localName)
-      rw [haltingTraceClassifierDecode_encode_bhist machine,
-        haltingTraceClassifierDecode_encode_bhist history,
-        haltingTraceClassifierDecode_encode_bhist finiteTrace,
-        haltingTraceClassifierDecode_encode_bhist positive,
-        haltingTraceClassifierDecode_encode_bhist refusal,
-        haltingTraceClassifierDecode_encode_bhist transport,
-        haltingTraceClassifierDecode_encode_bhist route,
-        haltingTraceClassifierDecode_encode_bhist provenance,
-        haltingTraceClassifierDecode_encode_bhist localName]
+            (HaltingTraceClassifierUp.mk machine history trace classifier refusal transport
+              routes provenance name)
+      unfold haltingTraceClassifierDecodePacket
+      rw [haltingTraceClassifier_decode_encode_bhist machine,
+        haltingTraceClassifier_decode_encode_bhist history,
+        haltingTraceClassifier_decode_encode_bhist trace,
+        haltingTraceClassifier_decode_encode_bhist classifier,
+        haltingTraceClassifier_decode_encode_bhist refusal,
+        haltingTraceClassifier_decode_encode_bhist transport,
+        haltingTraceClassifier_decode_encode_bhist routes,
+        haltingTraceClassifier_decode_encode_bhist provenance,
+        haltingTraceClassifier_decode_encode_bhist name]
 
 private theorem haltingTraceClassifierToEventFlow_injective
     {x y : HaltingTraceClassifierUp} :
-    haltingTraceClassifierToEventFlow x =
-      haltingTraceClassifierToEventFlow y → x = y := by
+    haltingTraceClassifierToEventFlow x = haltingTraceClassifierToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -199,6 +195,25 @@ private theorem haltingTraceClassifierToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (haltingTraceClassifier_round_trip x).symm
       (Eq.trans hread (haltingTraceClassifier_round_trip y)))
+
+private def haltingTraceClassifierFields : HaltingTraceClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | HaltingTraceClassifierUp.mk machine history trace classifier refusal transport routes
+      provenance name =>
+      [machine, history, trace, classifier, refusal, transport, routes, provenance, name]
+
+private theorem haltingTraceClassifier_field_faithful :
+    ∀ x y : HaltingTraceClassifierUp,
+      haltingTraceClassifierFields x = haltingTraceClassifierFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk machine history trace classifier refusal transport routes provenance name =>
+      cases y with
+      | mk machine' history' trace' classifier' refusal' transport' routes' provenance'
+          name' =>
+          cases hfields
+          rfl
 
 instance haltingTraceClassifierBHistCarrier :
     BHistCarrier HaltingTraceClassifierUp where
@@ -211,9 +226,7 @@ instance haltingTraceClassifierChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      haltingTraceClassifierFromEventFlow
-        (haltingTraceClassifierToEventFlow x) = some x
+    change haltingTraceClassifierFromEventFlow (haltingTraceClassifierToEventFlow x) = some x
     exact haltingTraceClassifier_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -222,30 +235,16 @@ instance haltingTraceClassifierChapterTasteGate :
 instance haltingTraceClassifierFieldFaithful :
     FieldFaithful HaltingTraceClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | HaltingTraceClassifierUp.mk machine history finiteTrace positive refusal transport
-        route provenance localName =>
-        [machine, history, finiteTrace, positive, refusal, transport, route, provenance,
-          localName]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk machine₁ history₁ finiteTrace₁ positive₁ refusal₁ transport₁ route₁
-        provenance₁ localName₁ =>
-        cases y with
-        | mk machine₂ history₂ finiteTrace₂ positive₂ refusal₂ transport₂ route₂
-            provenance₂ localName₂ =>
-            cases hfields
-            rfl
+  fields := haltingTraceClassifierFields
+  field_faithful := haltingTraceClassifier_field_faithful
 
 instance haltingTraceClassifierNontrivial :
     Nontrivial HaltingTraceClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨HaltingTraceClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      HaltingTraceClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨HaltingTraceClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      HaltingTraceClassifierUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
@@ -277,12 +276,23 @@ theorem HaltingTraceClassifierTasteGate_single_carrier_alignment :
     · constructor
       · exact ⟨haltingTraceClassifierNontrivial⟩
       · constructor
-        · exact haltingTraceClassifierDecode_encode_bhist
+        · exact haltingTraceClassifier_decode_encode_bhist
         · constructor
           · exact haltingTraceClassifier_round_trip
           · constructor
             · intro x y heq
               exact haltingTraceClassifierToEventFlow_injective heq
             · rfl
+
+theorem HaltingTraceClassifierUp_taste_gate_boundary :
+    (∀ x : HaltingTraceClassifierUp, ∃ e : EventFlow,
+      BHistCarrier.fromEventFlow e = some x) ∧
+      (∀ (x : HaltingTraceClassifierUp) (w : RawEvent) (m : BMark),
+        List.Mem w (BHistCarrier.toEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ChapterTasteGate.no_hidden_input
+  · exact ChapterTasteGate.conservativity
 
 end BEDC.Derived.HaltingTraceClassifierUp
