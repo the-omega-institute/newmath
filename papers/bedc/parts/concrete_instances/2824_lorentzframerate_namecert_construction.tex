@@ -241,6 +241,56 @@ Next read the classifier and support rows. Theorems~\ref{thm:frame-rate-observer
 Finally apply \autoref{thm:frame-rate-locality-nonescape}. It excludes metric tensors, synchronized clocks, host real-valued speed, global Lorentz frames, and Lorentz geometry, so the bridge-facing surface is exactly the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[LorentzFrameRate observer-clock refusal]
+\label{thm:lorentz-frame-rate-observer-clock-refusal}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the rows $M,X,R,S,H,C,P,N$ expose no synchronized clock and no global observer frame. Every public observer-facing read remains a finite $\BHist$-grounded read of the multi-Hist configuration, selected causal witnesses, maximum-rate row, observer-symmetry classifier, componentwise transport, continuation, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:lorentz-frame-rate-carrier}. Its displayed coordinates are the finite $\BHist$ rows $M,X,R,S,H,C,P,N$, with no clock row, frame row, metric tensor row, or host real-valued speed row.
+
+Use \autoref{thm:lorentz-frame-rate-upstream-row-coherence}. It binds the source side of the packet to $M,X,R$, so the maximum-rate read is inherited from the displayed configuration and causal-witness family rather than from an ambient observer frame.
+
+Apply \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}. The observer-symmetry classifier is routed through $S,H,C$ over the same upstream surface, so an observer-facing read cannot introduce a synchronized clock as classifier input.
+
+Finally invoke \autoref{thm:frame-rate-locality-nonescape}. The non-escape boundary excludes synchronized clocks, global frames, metric tensors, host real-valued speed, and Lorentz geometry; the support rows $P,N$ record only provenance and local naming for the same finite packet.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate rate-row ledger exhaustion]
+\label{thm:lorentz-frame-rate-rate-row-ledger-exhaustion}
+Every public rate read of an accepted $\LorentzFrameRateUp$ carrier exhausts its rate ledger at the rows $M,X,R$ with support from $S,H,C,P,N$. The packet has no remaining coordinate from which a second maximum-rate row, host speed value, metric witness, synchronized clock, or global observer frame can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier definition \autoref{def:lorentz-frame-rate-carrier}. The only displayed rate row is $R$, and it is packaged together with the configuration row $M$, the selected causal-witness family $X$, and the support rows $S,H,C,P,N$.
+
+Apply \autoref{thm:lorentz-frame-rate-upstream-row-coherence}. This forces any read of $R$ to remain over the same $M$ and $X$ rows, exhausting the upstream part of the ledger at the displayed triple.
+
+Use \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality} to account for the observer-facing support. The classifier row $S$, transport row $H$, and continuation row $C$ only transport and replay the displayed maximum-rate comparison; they do not add a second rate coordinate.
+
+Finally combine the support rows with \autoref{thm:frame-rate-locality-nonescape}. Provenance and local naming record $P,N$, while non-escape excludes host speed values, metric witnesses, synchronized clocks, and global observer frames. Therefore the public rate ledger is exhausted by $M,X,R$ with exactly the stated support.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate multi-Hist causal-rate handoff]
+\label{thm:lorentz-frame-rate-multihist-causal-rate-handoff}
+Every public rate read of an accepted $\LorentzFrameRateUp$ carrier consumes $\MultiHistConfigUp$, then $\CrossHistCausalUp$, then $\MaxCausalRateUp$ in that order. The handoff route is
+$$
+M \longmapsto X \longmapsto R \longmapsto S,H,C,P,N,
+$$
+and no consumer can read the maximum-rate row before the multi-Hist configuration and cross-Hist causal-witness rows have been consumed.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:lorentz-frame-rate-carrier}. It displays the source spine as $M,X,R$, followed by the observer-symmetry classifier, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:lorentz-frame-rate-upstream-row-coherence}. This theorem makes $R$ dependent on the same multi-Hist configuration $M$ and selected cross-Hist causal witnesses $X$, so the rate row cannot be consumed before those source rows.
+
+Use \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}. Every public observer-facing rate read then passes through $S,H,C$ over the already consumed $M,X,R$ surface.
+
+Finally combine the route with \autoref{thm:frame-rate-locality-nonescape}. Since the packet exports no global frame, synchronized clock, metric tensor, host real-valued speed, or Lorentz geometry, there is no alternate handoff path around the displayed $\MultiHistConfigUp$, $\CrossHistCausalUp$, and $\MaxCausalRateUp$ order.
+\end{proof}
+
 \begin{theorem}[LorentzFrameRate observer-symmetry bridge route]
 \label{thm:lorentz-frame-rate-observer-symmetry-bridge-route}
 Every observer-symmetric rate read of an accepted $\LorentzFrameRateUp$ packet
@@ -402,7 +452,7 @@ and through no additional ambient structure.
 \begin{closurestatus}{\LorentzFrameRateUp}
   \constructivestory{A $\LorentzFrameRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows, one $\MaxCausalRateUp$ maximum-rate row over the same configuration, an observer-symmetry classifier, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:lorentz-frame-rate-carrier}, \autoref{thm:lorentz-frame-rate-upstream-row-coherence}, \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}, \autoref{thm:lorentz-frame-rate-obligation-closure-package}, \autoref{thm:frame-rate-observer-symmetry-transport}, \autoref{thm:frame-rate-locality-nonescape}, \autoref{thm:lorentz-frame-rate-standard-bridge-surface}, \autoref{thm:lorentz-frame-rate-observer-symmetry-bridge-route}, \autoref{thm:lorentz-frame-rate-root-public-package}, and \autoref{thm:lorentz-frame-rate-mature-route-completeness} bind the finite observer-symmetric maximum-rate packet and its mature downstream route over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
+  \scopeclosed{\autoref{def:lorentz-frame-rate-carrier}, \autoref{thm:lorentz-frame-rate-upstream-row-coherence}, \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}, \autoref{thm:lorentz-frame-rate-obligation-closure-package}, \autoref{thm:frame-rate-observer-symmetry-transport}, \autoref{thm:frame-rate-locality-nonescape}, \autoref{thm:lorentz-frame-rate-standard-bridge-surface}, \autoref{thm:lorentz-frame-rate-observer-clock-refusal}, \autoref{thm:lorentz-frame-rate-rate-row-ledger-exhaustion}, \autoref{thm:lorentz-frame-rate-multihist-causal-rate-handoff}, \autoref{thm:lorentz-frame-rate-observer-symmetry-bridge-route}, \autoref{thm:lorentz-frame-rate-root-public-package}, and \autoref{thm:lorentz-frame-rate-mature-route-completeness} bind the finite observer-symmetric maximum-rate packet and its mature downstream route over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.LorentzFrameRateUp.taste\_gate}
   \bridgestatus{none}
