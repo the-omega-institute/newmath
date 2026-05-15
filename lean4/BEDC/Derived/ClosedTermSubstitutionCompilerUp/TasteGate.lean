@@ -221,6 +221,41 @@ instance closedTermSubstitutionCompilerChapterTasteGate :
     intro x y hxy heq
     exact hxy (closedTermSubstitutionCompilerToEventFlow_injective heq)
 
+instance closedTermSubstitutionCompilerFieldFaithful :
+    FieldFaithful ClosedTermSubstitutionCompilerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+        transport continuation provenance nameCert =>
+        [termGenerator, closedBoundary, operation, fixedWitness, transport, continuation,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk termGenerator₁ closedBoundary₁ operation₁ fixedWitness₁ transport₁ continuation₁
+        provenance₁ nameCert₁ =>
+        cases y with
+        | mk termGenerator₂ closedBoundary₂ operation₂ fixedWitness₂ transport₂ continuation₂
+            provenance₂ nameCert₂ =>
+            injection h with hTerm tail₁
+            injection tail₁ with hBoundary tail₂
+            injection tail₂ with hOperation tail₃
+            injection tail₃ with hWitness tail₄
+            injection tail₄ with hTransport tail₅
+            injection tail₅ with hContinuation tail₆
+            injection tail₆ with hProvenance tail₇
+            injection tail₇ with hNameCert _
+            subst hTerm
+            subst hBoundary
+            subst hOperation
+            subst hWitness
+            subst hTransport
+            subst hContinuation
+            subst hProvenance
+            subst hNameCert
+            rfl
+
 def taste_gate : ChapterTasteGate ClosedTermSubstitutionCompilerUp :=
   closedTermSubstitutionCompilerChapterTasteGate
 

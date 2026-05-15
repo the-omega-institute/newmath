@@ -126,6 +126,47 @@ theorem SignedDigitRealPacket_seal_ledger_exactness [AskSetup] [PackageSetup]
     ⟨enclosureUnary, locatedUnary, sealRowUnary, sealReadUnary, sealRoute, sealReadRoute,
       sealReadSame, certSig⟩
 
+theorem SignedDigitRealPacket_common_window_seal_determinacy [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert normalized stream'
+      window' enclosure' located' sealRow' transport' route' provenance' cert' normalized'
+      sealRead sealRead' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      SignedDigitRealPacket stream' window' enclosure' located' sealRow' transport' route'
+          provenance' cert' bundle' pkg' ->
+        Cont stream window normalized ->
+          Cont stream' window' normalized' ->
+            hsame stream stream' ->
+              hsame window window' ->
+                hsame normalized enclosure ->
+                  hsame normalized' enclosure' ->
+                    hsame located located' ->
+                      Cont enclosure located sealRead ->
+                        Cont enclosure' located' sealRead' ->
+                          hsame sealRead sealRow ->
+                            hsame sealRead' sealRow' ->
+                              hsame normalized normalized' ∧ hsame enclosure enclosure' ∧
+                                hsame sealRow sealRow' ∧ hsame sealRead sealRead' ∧
+                                  PkgSig bundle cert pkg ∧ PkgSig bundle' cert' pkg' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet packet' normalizationRow normalizationRow' sameStream sameWindow
+    sameNormalizedEnclosure sameNormalizedEnclosure' sameLocated sealReadRow sealReadRow'
+    sameSealRead sameSealRead'
+  have windowStable :=
+    SignedDigitRealPacket_window_classifier_stability packet packet' normalizationRow
+      normalizationRow' sameStream sameWindow sameNormalizedEnclosure sameNormalizedEnclosure'
+      sameLocated
+  have sameSealReadRows : hsame sealRead sealRead' :=
+    cont_respects_hsame windowStable.right.left sameLocated sealReadRow sealReadRow'
+  exact
+    ⟨windowStable.left,
+      windowStable.right.left,
+      windowStable.right.right.left,
+      sameSealReadRows,
+      windowStable.right.right.right.right.right.left,
+      windowStable.right.right.right.right.right.right⟩
+
 theorem SignedDigitRealPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {stream window enclosure located sealRow transport route provenance cert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
