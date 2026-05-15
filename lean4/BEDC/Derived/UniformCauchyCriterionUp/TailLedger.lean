@@ -51,4 +51,43 @@ theorem UniformCauchyCriterionPacket_tail_ledger_exactness [AskSetup] [PackageSe
       modulusToleranceTail, indexWindowsThreshold, modulusToleranceRead, thresholdToleranceTail,
       namePkg, thresholdPkg, tolerancePkg, tailPkg⟩
 
+theorem UniformCauchyCriterionPacket_single_member_restriction_exactness
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name subIndex subTail
+      subSealRow singletonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      hsame index subIndex ->
+        hsame tail subTail ->
+          hsame sealRow subSealRow ->
+            Cont subIndex windows modulus ->
+              Cont modulus tolerance subTail ->
+                Cont subIndex subTail singletonRead ->
+                  PkgSig bundle singletonRead pkg ->
+                    UniformCauchyCriterionPacket subIndex windows modulus tolerance subTail
+                          subSealRow transports routes provenance name bundle pkg ∧
+                      UnaryHistory subIndex ∧ UnaryHistory subTail ∧
+                        UnaryHistory subSealRow ∧ UnaryHistory singletonRead ∧
+                          Cont subIndex windows modulus ∧ Cont modulus tolerance subTail ∧
+                            Cont subIndex subTail singletonRead ∧
+                              PkgSig bundle singletonRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameIndex sameTail sameSealRow subIndexWindowsModulus modulusToleranceSubTail
+    subIndexSubTail singletonPkg
+  have restricted :
+      UniformCauchyCriterionPacket subIndex windows modulus tolerance subTail subSealRow
+            transports routes provenance name bundle pkg ∧
+        UnaryHistory subIndex ∧ UnaryHistory subTail ∧ UnaryHistory subSealRow ∧
+          Cont subIndex windows modulus ∧ Cont modulus tolerance subTail :=
+    UniformCauchyCriterionPacket_subfamily_restriction packet sameIndex sameTail sameSealRow
+      subIndexWindowsModulus modulusToleranceSubTail
+  have singletonUnary : UnaryHistory singletonRead :=
+    unary_cont_closed restricted.right.left restricted.right.right.left subIndexSubTail
+  exact
+    ⟨restricted.left, restricted.right.left, restricted.right.right.left,
+      restricted.right.right.right.left, singletonUnary,
+      restricted.right.right.right.right.left, restricted.right.right.right.right.right,
+      subIndexSubTail, singletonPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
