@@ -51,6 +51,47 @@ factorization before any selector output is exposed, and the excluded objects
 have no row in the resulting packet.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion finite-request section return]
+\label{thm:cauchycriterion-finite-request-section-return}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet whose
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$
+rows agree with a public finite request section. Then the selector-seal route
+of $K$ returns exactly the $\StreamNameUp$ finite-request section before any
+$\RealUp$ seal is exposed.
+
+Conversely, the displayed finite request section determines the
+$\CauchyCriterionUp$ selector budget surface over the same $M,Q,T,W,E,H,C,P,N$
+rows. The return route exports no quotient stream, selected limit, host real
+equality, countable-choice selector, ambient completeness principle, or second
+seal source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}. It
+places the selector-facing read on the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows before
+any selector output or $\RealUp$ seal can be consumed.
+
+Next use
+\autoref{thm:cauchycriterion-uniform-selector-seal-compatibility} and
+\autoref{thm:cauchycriterion-selector-seal-route-pullback}. These results put
+the selector route and its seal-facing pullback on the same finite structural
+surface carried by $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+For the return direction, read the StreamName and Real finite-request locks.
+The StreamName terminality rows identify the finite request section by the
+selected window, bundle membership, tail-selector route, pointwise
+$\RegSeqRatUp$ handoff, and support rows; the $\RealUp$ finite-request fusion
+and seal lock then force the seal-facing consumer to reuse that same section.
+
+Finally apply
+\autoref{thm:cauchycriterion-selector-seal-synchronizer-totality}. The
+synchronizer is total on the common finite packet, so the CauchyCriterion
+selector budget surface is determined by the displayed section and cannot
+escape to quotient streams, selected limits, host real equality, countable
+choice, ambient completeness, or a second seal source.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion uniform selector-seal compatibility]
 \label{thm:cauchycriterion-uniform-selector-seal-compatibility}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
