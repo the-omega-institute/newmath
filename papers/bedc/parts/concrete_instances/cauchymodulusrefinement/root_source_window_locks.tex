@@ -142,3 +142,37 @@ For $\RealUp$ and Completion consumers, use Real-seal root handoff, \autoref{thm
 
 For the converse, read any displayed route with rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$. Root window exhaustion, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion}, identifies that route with the complete selected-window, $\RealUp$, or Completion surface. Hence the displayed rows determine the same consumer.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement source-window comparison lock]
+\label{thm:cauchy-modulus-refinement-source-window-comparison-lock}
+Let two accepted $\CauchyModulusRefinementUp$ root reads agree on the source rows $M_0,M_1$, the shared meet row $U$, and the extraction row $V$ of \autoref{def:cauchy-modulus-refinement-carrier}. Then every selected-window, $\RealUp$, or Completion consumer comparison between those reads agrees on the source-window front before either comparison reads any of
+$$
+T,W,Q,E,H,C,P,N.
+$$
+Thus no later selector, selected-window ledger, Real seal, transport row, continuation row, package row, or local name row can distinguish the two reads by introducing another source-window front.
+\end{theorem}
+\begin{proof}
+Begin with source-window lock, \autoref{thm:cauchy-modulus-refinement-source-window-lock}. It places $M_0,M_1,U,V$ before every selected-window read, so a comparison cannot inspect $T,W,Q,E,H,C,P,N$ until the source front has already been exposed.
+
+Apply root-source meet determinacy, \autoref{thm:cauchy-modulus-refinement-root-source-meet-determinacy}. Since the two root reads agree on $M_0,M_1,U,V$, the displayed source-meet-extraction route is the same for both reads before any later row can be consumed.
+
+Finally use source-window totality, \autoref{thm:cauchy-modulus-refinement-source-window-totality}. Every selected-window, $\RealUp$, or Completion consumer is determined by first exposing the same source front and then reading the remaining displayed rows. Therefore any consumer comparison agrees on that front before it reaches the later packet rows.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real consumer nonescape]
+\label{thm:cauchy-modulus-refinement-real-consumer-nonescape}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root packet factors through
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The consumer has no route to quotient streams, selected host limits, host real equality, hidden selectors, second meet rows, ambient completeness, or detached completion witnesses outside that displayed BEDC packet.
+\end{theorem}
+\begin{proof}
+Start with Real-seal root handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-root-handoff}. It routes every $\RealUp$ or Completion handoff through the displayed source, meet, extraction, selector, selected-window, tolerance, seal, transport, continuation, package, and local-name rows.
+
+Use Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. The seal preserves the same $M_0,M_1,U,V$ source-meet-extraction route and cannot replace it by a quotient stream, selected limit, host real equality, hidden selector, second meet row, ambient completeness coordinate, or detached completion witness.
+
+Now apply root window exhaustion, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion}. It identifies every accepted $\RealUp$ or Completion selected-window consumer with the displayed finite route and rules out alternate route coordinates.
+
+Finally apply window consumer coverage, \autoref{thm:cauchy-modulus-refinement-window-consumer-coverage}. The selected-window portion of the consumer is exhausted by the carrier rows and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. Hence the Real or Completion consumer cannot escape the displayed finite packet.
+\end{proof}
