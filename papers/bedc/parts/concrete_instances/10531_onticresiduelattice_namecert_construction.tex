@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\OnticResidueLatticeUp$}
+\label{ch:concrete-instances-ontic-residue-lattice-namecert}
+\origin{ai}
+
+The $\OnticResidueLatticeUp$ packet realizes the residue-activation and refined-bundle direction of \autoref{ch:visions-reality-constrained-ontic-state} as a finite NameCert surface. It sits after the source packet $\OnticStateUp$ of \autoref{ch:concrete-instances-onticstate-namecert}, the model-audit packet $\PhysicalModelAuditUp$ of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the state-space carrier $\StateSpaceModelUp$ of \autoref{ch:concrete-instances-statespacemodel-namecert}, the support-and-budget packet $\ObserverBudgetSupportUp$ of \autoref{ch:concrete-instances-observer-budget-support-namecert}, and the observation handoff $\ObservationReflectionPacketUp$ of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}. Its role is to store which residue rows become active under which refined bundles before any consumer treats a model row, audit row, or observation route as ontically exhaustive.
+
+\begin{definition}[Ontic residue lattice carrier]
+\label{def:ontic-residue-lattice-carrier}
+An $\OnticResidueLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,A,M,S,B,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OnticStateUp$ source row carrying the reality-facing signature source and base residue ledger.
+\item $A$ is the $\PhysicalModelAuditUp$ row recording the audited model signatures, failure surface, strength, and audit ledger for the model under comparison.
+\item $M$ is the $\StateSpaceModelUp$ row naming the finite state-space presentation whose projections are being tested against residue activation.
+\item $S$ is the $\ObserverBudgetSupportUp$ row specifying which observer-local support and budget caps make the refined bundle admissible.
+\item $B$ is the $\ObservationReflectionPacketUp$ row recording the observation and reflection route through which the refined bundle is read.
+\item $R$ is the finite residue-activation lattice row. Its elements are pairs of a refined-bundle token and the residue rows activated by that token, ordered by inclusion of displayed activation evidence.
+\item $K$ is the classifier row comparing two packets by source status, audit comparison, model-state projection, budget support, observation route, and residue activation together.
+\item $H$ records componentwise $\hsame$ transport for $O,A,M,S,B,R,K,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through $O,A,M,S,B,R,K,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\OnticResidueLatticeUp$, $\OnticStateUp$, $\PhysicalModelAuditUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, $\ObservationReflectionPacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OnticResidueLatticeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a bare source state, model-only equivalence, audit-only comparison, unbudgeted observation route, quotient physical object, or host-level ontology. Residue activation is public only as the displayed lattice row $R$ transported with the refined-bundle rows.
+\end{definition}
+
+\begin{definition}[Ontic residue lattice classifier]
+\label{def:ontic-residue-lattice-classifier}
+The $\OnticResidueLatticeUp$ classifier identifies two accepted packets only when their $\OnticStateUp$ source rows, $\PhysicalModelAuditUp$ audit rows, $\StateSpaceModelUp$ projections, $\ObserverBudgetSupportUp$ support rows, $\ObservationReflectionPacketUp$ routes, and residue-activation lattice rows agree through the displayed componentwise $\hsame$ transport. Agreement of any proper sublist of those rows is not enough: the classifier is sensitive to which refined bundle activates which residue, not merely to source status, audit comparison, model state, observer support, or reflection routing in isolation.
+\end{definition}
+
+\begin{theorem}[Ontic residue lattice activation non-escape]
+\label{thm:ontic-residue-lattice-activation-nonescape}
+Let $L=(O,A,M,S,B,R,K,H,C,P,N)$ be an accepted $\OnticResidueLatticeUp$ carrier. Any public read that preserves the source row $O$, audit row $A$, model-state projection $M$, budget-support row $S$, and observation-reflection route $B$ but drops the residue-activation lattice row $R$ leaves the accepted classifier surface. Thus residue activation under refined bundles cannot be recovered from a bare $\OnticStateUp$, $\PhysicalModelAuditUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, or $\ObservationReflectionPacketUp$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ontic-residue-lattice-carrier}. The local name $N$ is reached only after the source, audit, model-state, support, observation-route, activation-lattice, classifier, transport, replay, and provenance rows have all been displayed.
+
+Apply the classifier of \autoref{def:ontic-residue-lattice-classifier}. It compares the refined-bundle activation row $R$ together with $O,A,M,S,B$; it does not classify by any one sibling row or by their subtuple without the activation lattice.
+
+Therefore a public read that drops $R$ has no displayed row recording which refined bundle activated which residue. Since the carrier has no quotient physical object, host ontology, hidden selector, or unbudgeted observation coordinate, no off-packet route can reconstruct that activation relation.
+\end{proof}
+
+\begin{theorem}[Ontic residue lattice NameCert obligation surface]
+\label{thm:ontic-residue-lattice-namecert-obligation-surface}
+For the carrier of \autoref{def:ontic-residue-lattice-carrier}, the local $\NameCert_{\OnticResidueLatticeUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $L=(O,A,M,S,B,R,K,H,C,P,N)$;
+\item refined-bundle exposure through the joint $\OnticStateUp$, $\PhysicalModelAuditUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, and $\ObservationReflectionPacketUp$ rows $O,A,M,S,B$;
+\item residue-activation classification through the lattice row $R$ and classifier row $K$;
+\item activation non-escape through componentwise transport and displayed replay along $H,C$;
+\item provenance and local naming through $P,N$, with no hidden model-state, audit-only, source-only, budget-only, observation-only, quotient-object, or host-ontology coordinate.
+\end{enumerate}
+These five rows are the complete public obligation surface for using $\OnticResidueLatticeUp$ as a residue-activation certificate under refined bundles.
+\end{theorem}
+\begin{proof}
+Carrier admission is the first projection from \autoref{def:ontic-residue-lattice-carrier}. Refined-bundle exposure is the joint visibility of $O,A,M,S,B$ inside the same finite packet.
+
+Residue-activation classification is \autoref{def:ontic-residue-lattice-classifier}: $R$ and $K$ record which residue rows are active under which displayed refined-bundle tokens. Activation non-escape follows from \autoref{thm:ontic-residue-lattice-activation-nonescape}, which rules out recovering that row from any single sibling surface or from the sibling subtuple without $R$.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same displayed packet. Since the carrier has no additional coordinate for a quotient physical object, host ontology, hidden selector, or unbudgeted observation route, the five listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticResidueLatticeUp/TasteGate.lean}. That file must provide explicit $\Nontrivial\ \OnticResidueLatticeUp$ and $\FieldFaithful\ \OnticResidueLatticeUp$ instances preserving $O,A,M,S,B,R,K,H,C,P,N$ as separate displayed fields, with the future target name $\mathsf{BEDC.Derived.OnticResidueLatticeUp.taste\_gate}$.
+
+\falsifiablePrediction{A model-state projection that drops the refined-bundle activation row cannot classify two OnticResidueLatticeUp packets as equivalent.}
+
+\independenceWitness{onticstate, physicalmodelaudit, statespacemodel, observerbudgetsupport, observationreflectionpacket: none is bijective because the lattice stores residue activation under refined bundles rather than only source status, audit comparison, model state, budget support, or reflection routing.}
+
+\closureat{OnticResidueLatticeUp}{seedStr}
+
+\begin{closurestatus}{\OnticResidueLatticeUp}
+  \constructivestory{An $\OnticResidueLatticeUp$ packet is generated from ontic-source, physical-model-audit, state-space-model, observer-budget-support, observation-reflection, residue-activation lattice, classifier, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ontic-residue-lattice-carrier}, \autoref{def:ontic-residue-lattice-classifier}, \autoref{thm:ontic-residue-lattice-activation-nonescape}, and \autoref{thm:ontic-residue-lattice-namecert-obligation-surface} bind the finite residue-lattice carrier, classifier, activation non-escape boundary, and public NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, total physical ontology, quotient physical objects, unbudgeted observation, model-state sufficiency, audit-only sufficiency, or source-only sufficiency.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, activation non-escape, TasteGate nontriviality, and field faithfulness for $O,A,M,S,B,R,K,H,C,P,N$.}
+\end{closurestatus}

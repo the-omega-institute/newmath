@@ -1,0 +1,93 @@
+\begin{theorem}[FiniteTraceEvaluator root checkpoint budget image exhaustion]
+\label{thm:finite-trace-evaluator-root-checkpoint-budget-image-exhaustion}
+For every accepted $\FiniteTraceEvaluatorUp$ root checkpoint packet
+$E=(I,T,A,V,H,C,P,N)$, each accepted checkpoint-budget read is exhausted by
+the displayed coded input row $I$, finite trace row $T$, accepted-result
+classifier row $A$, validation-boundary row $V$, componentwise $\hsame$ row
+$H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. The budget image has no
+additional coordinate for host validation, total truth, total halting,
+unbounded evaluation, infinite traces, or a second checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with the root image row,
+\autoref{thm:finite-trace-evaluator-root-image-row}. It identifies the
+accepted root image as the eight displayed rows $I,T,A,V,H,C,P,N$.
+
+Next apply root readback exactness and root ledger factorization,
+\autoref{thm:finite-trace-evaluator-root-readback-exactness} and
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization}. Accepted
+results pass through $I \to T \to A$, while validation-facing reads remain on
+$V,H,C,P,N$ and the downstream ledger reads no outside source.
+
+Finally use the scope commitment recorded in
+\autoref{thm:finite-trace-evaluator-root-exactness-scope} and the
+$\FiniteTraceEvaluatorUp$ closure status in
+\autoref{ch:concrete-instances-finitetraceevaluator-namecert}. These bind the
+same carrier, classifier, validation boundary, $\hsame$ transport, $\Cont$
+replay, $\Pkg$ provenance, local $\NameCert$ row, and TasteGate surface as the
+whole checkpoint-budget image, so the listed exclusions have no packet row to
+enter through.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root runtime readback non-escape]
+\label{thm:finite-trace-evaluator-root-runtime-readback-nonescape}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, runtime readback from the
+root checkpoint surface factors through the displayed image and readback rows
+of \autoref{thm:finite-trace-evaluator-root-image-row} and
+\autoref{thm:finite-trace-evaluator-root-readback-exactness}. It cannot import
+host validation, total truth, total halting, infinite traces, or an unbounded
+evaluator into the root runtime package.
+\end{theorem}
+\begin{proof}
+First read the packet through the root image row. The only root-facing runtime
+coordinates available to a consumer are $I,T,A,V,H,C,P,N$.
+
+Next use root readback exactness. The accepted-result side returns through
+$I \to T \to A$, and the validation-facing side returns through
+$V,H,C,P,N$; neither side exposes a host-side validation judgment or an
+unbounded evaluator coordinate.
+
+It remains to rule out hidden runtime imports. Apply root ledger factorization
+and root exactness scope,
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization} and
+\autoref{thm:finite-trace-evaluator-root-exactness-scope}. Since the ledger
+and exactness surface are exhausted by the same finite
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet, runtime readback has no route to
+total truth, total halting, infinite traces, or any evaluator beyond the
+displayed finite packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root downstream NameCert package]
+\label{thm:finite-trace-evaluator-root-namecert-downstream-package}
+The downstream $\NameCert_{\FiniteTraceEvaluatorUp}$ obligation surface for an
+accepted root checkpoint packet is the package consisting of the checkpoint
+budget image of
+\autoref{thm:finite-trace-evaluator-root-checkpoint-budget-image-exhaustion},
+the runtime readback non-escape row of
+\autoref{thm:finite-trace-evaluator-root-runtime-readback-nonescape}, and the
+root image, readback, ledger, and exactness surface of
+\autoref{thm:finite-trace-evaluator-root-image-row},
+\autoref{thm:finite-trace-evaluator-root-readback-exactness},
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization}, and
+\autoref{thm:finite-trace-evaluator-root-exactness-scope}. No downstream
+NameCert clause asks for host validation, total truth, total halting,
+unbounded evaluation, infinite traces, or a detached runtime evaluator.
+\end{theorem}
+\begin{proof}
+First assemble the two local rows. The checkpoint-budget image theorem gives
+the displayed root packet $I,T,A,V,H,C,P,N$, and the runtime readback
+non-escape theorem keeps runtime reads on that same packet.
+
+Next attach the existing root image and readback surface. The root image row
+lists the available coordinates, while root readback exactness separates
+accepted-result reads $I \to T \to A$ from validation-facing reads
+$V,H,C,P,N$.
+
+Finally add ledger factorization and root exactness scope. They make the
+downstream consumer factor through the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert_{\FiniteTraceEvaluatorUp}$ package and
+through no outside source. Thus the downstream NameCert obligation surface is
+exactly the named root image, readback, budget, runtime, ledger, and exactness
+package.
+\end{proof}
