@@ -1,0 +1,57 @@
+\begin{theorem}[$\ZNormalUp$ total-host readback display]
+\label{thm:znormal-total-host-readback-display}
+For every accepted $\ZNormalUp$ root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root-facing total-host readback surface exposes exactly the rows $T,F,V,K,R,H,C,P,N$. Here $T$ is the typed endpoint row, $F$ is the finite fuel row, $V$ is the terminal-normality row, $K$ is the finite ZeckendorfNormal and $\ZCarryUp$ normal-word evidence row, $R$ is the continuation readback row, and $H,C,P,N$ are the displayed transport, route, provenance, and local naming rows.
+
+No root consumer receives host conversion, quotient normalization, unrestricted evaluation, divergence, or global normalization data from this display.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier} and the root boundary of \autoref{def:znormal-root-carrier-boundary}. Both expose the same finite packet $T,F,V,K,R,H,C,P,N$ before any root-facing terminal claim can be read.
+
+Apply \autoref{thm:znormal-namecert-obligations} and \autoref{thm:znormal-namecert-root-obligations}. These obligations bind carrier admission, terminal-normality exposure, sibling evidence, bounded fuel, transport, replay, provenance, and local naming to the displayed root packet.
+
+The row list contains no host conversion, quotient normalization, unrestricted evaluator, divergence oracle, or global normalizer. Thus the total-host readback display is exactly the finite root surface $T,F,V,K,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal fuel route exhaustion]
+\label{thm:znormal-terminal-fuel-route-exhaustion}
+For every accepted $\ZNormalUp$ root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+any terminal-fuel consumer factors through the displayed finite route
+$$
+T \longmapsto F \longmapsto V \longmapsto R
+$$
+together with $H,C,P,N$. The sibling row $K$ may be read only as finite normal-word evidence attached to that route, and it cannot replace the finite fuel route by host conversion, quotient normalization, unrestricted evaluation, divergence, or global normalization.
+\end{theorem}
+\begin{proof}
+Begin with the total-host readback display of \autoref{thm:znormal-total-host-readback-display}. It exposes the root packet as a finite $\BHist$ surface and leaves no unbounded evaluator row outside the packet.
+
+Use \autoref{thm:znormal-terminal-fuel-readback-frontier} and \autoref{thm:znormal-terminal-fuel-route-admission}. They place every terminal fuel read behind the typed endpoint $T$, finite fuel $F$, terminal-normality row $V$, and continuation readback row $R$.
+
+Next apply \autoref{thm:znormal-terminal-boundary-nonescape}. The boundary keeps the read inside the displayed transport, replay, provenance, and local naming rows $H,C,P,N$.
+
+Finally inspect $K$. By \autoref{thm:znormal-sibling-normalword-handoff}, $K$ is finite sibling normal-word evidence only. It cannot supply host conversion, quotient normalization, unrestricted evaluation, divergence, or global normalization in place of the terminal fuel route.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ normal-word sibling separation]
+\label{thm:znormal-normal-word-sibling-separation}
+For every accepted $\ZNormalUp$ root packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the ZeckendorfNormal and $\ZCarryUp$ normal-word evidence carried by $K$ remains sibling evidence for the finite route $T,F,V,R,H,C,P,N$. It is separate from host conversion, quotient normalization, unrestricted evaluation, divergence, and global normalization, and no root consumer may identify those excluded host-side objects with the normal-word evidence row.
+\end{theorem}
+\begin{proof}
+Project $K$ from the accepted root packet. The carrier records $K$ beside $T,F,V,R,H,C,P,N$, so the normal-word evidence is a displayed sibling row rather than a replacement for the terminal route.
+
+Apply \autoref{thm:znormal-carry-normalization-obligation} and \autoref{thm:znormal-sibling-normalword-handoff}. These theorems read $K$ through the finite ZeckendorfNormal and $\ZCarryUp$ surfaces and attach it to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as the rest of the packet.
+
+Use \autoref{thm:znormal-total-host-frontier-lock} for the excluded host-side objects. The frontier refuses host conversion, quotient computation, unrestricted evaluation, divergence, and global normalization as exported reads.
+
+Therefore the $K$ row remains finite normal-word sibling evidence only. The terminal route remains $T,F,V,R,H,C,P,N$, and no accepted root consumer can turn $K$ into a host conversion, quotient normalization, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{proof}
