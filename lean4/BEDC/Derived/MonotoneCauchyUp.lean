@@ -480,4 +480,34 @@ theorem MonotoneCauchyCarrier_window_tail_cofinality_handoff [AskSetup] [Package
       scheduleModulusCommon, commonCofinalTail, intervalRealSealRead, tailSealPublic,
       transportRouteProvenance, nameRowPkg, publicPkg⟩
 
+theorem MonotoneCauchyCarrier_located_interval_cell_coherence [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      cellRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      Cont ledger interval cellRead ->
+        Cont cellRead realSeal sealRead ->
+          PkgSig bundle sealRead pkg ->
+            UnaryHistory ledger ∧ UnaryHistory interval ∧ UnaryHistory realSeal ∧
+              UnaryHistory cellRead ∧ UnaryHistory sealRead ∧
+                Cont modulus ledger interval ∧ Cont ledger interval cellRead ∧
+                  Cont cellRead realSeal sealRead ∧ Cont interval realSeal nameRow ∧
+                    Cont transportRow route provenance ∧ PkgSig bundle nameRow pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier ledgerIntervalCell cellRealSeal sealReadPkg
+  obtain ⟨_regularUnary, _scheduleUnary, _modulusUnary, ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have cellReadUnary : UnaryHistory cellRead :=
+    unary_cont_closed ledgerUnary intervalUnary ledgerIntervalCell
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed cellReadUnary realSealUnary cellRealSeal
+  exact
+    ⟨ledgerUnary, intervalUnary, realSealUnary, cellReadUnary, sealReadUnary,
+      modulusLedgerInterval, ledgerIntervalCell, cellRealSeal, intervalRealSealNameRow,
+      transportRouteProvenance, nameRowPkg, sealReadPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
