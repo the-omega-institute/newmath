@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root source]
+\label{thm:authorized-generator-recursor-root-source}
+Every accepted $\AuthorizedGeneratorRecursorUp$ recursor route exposes the generator source, authorization token, boundary row, displayed $\Cont$ route, $\Pkg$ provenance, ledger row, and local $\NameCert$ row before a consumer may read the output. Concretely, the route remains inside the finite $\BHist$ packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+where $I$ names the accepted source signature, $E$ names the emitted generator row, $B$ names the authorized branch package, $G$ names the boundary row, $C$ names the displayed continuation route, $P$ names package provenance, and $N$ names the local certificate.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{thm:authorized-generator-recursor-carrier-admission}. It identifies the accepted recursor route with the displayed finite $\BHist$ packet and leaves no separate generator-source coordinate.
+
+Use the route authorization surface of \autoref{thm:authorized-generator-recursor-route-authorization}. The source signature, emitted recursor, motive, branch package, descent row, output row, audit row, and local certificate are all read through the same accepted route.
+
+Finally apply the boundary and terminal output rows. Theorems~\ref{thm:authorized-generator-recursor-root-boundary-ledger-totality} and~\ref{thm:authorized-generator-recursor-terminal-authorized-output-cover} force any output-facing read to pass through $G,C,P,N$ together with the displayed ledger and package rows. Hence generator source, authorization token, boundary, continuation, provenance, ledger, and local naming are exposed before output consumption.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor boundary closure]
+\label{thm:authorized-generator-recursor-boundary-closure}
+Every closed substitution or generator-normalization consumer of an accepted $\AuthorizedGeneratorRecursorUp$ output must pass through the displayed source, authorization, boundary, $\Cont$, $\Pkg$, ledger, $\hsame$, and $\NameCert$ rows before reading $O$. The consumer may use the output only as a row of the packet $I,E,M,B,D,O,A,H,C,P,G,N$, not as a detached substitution rule or host generator.
+\end{theorem}
+\begin{proof}
+First use the closed-substitution handoff. \autoref{thm:authorized-generator-recursor-closed-substitution-handoff} requires every closed-substitution consumer to remain inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Next use terminal readiness. \autoref{thm:authorized-generator-recursor-output-readiness} states that $O$ is available only after the signature, emitted recursor, motive, branch package, descent, audit, transport, continuation, provenance, boundary, and local certificate rows have all been retained.
+
+The generator-normalization side is therefore not a separate host route. By \autoref{thm:authorized-generator-recursor-terminal-branch-ledger-lock}, every terminal branch read is locked to the closed-substitution and ground-compiler authorization rows already displayed by the packet. Thus closed substitution and generator normalization pass through the displayed boundary before reading the output.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger nonescape]
+\label{thm:authorized-generator-recursor-ledger-nonescape}
+No ledger of an accepted $\AuthorizedGeneratorRecursorUp$ packet can export an unlicensed generator, host recursion oracle, or hidden substitution step. Every ledger-facing read of generator source, authorization, boundary evidence, continuation replay, package provenance, componentwise $\hsame$ transport, or local naming data remains inside the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the root source theorem above. It exposes generator source, authorization, boundary, continuation, provenance, ledger, and local naming as displayed rows of one finite packet.
+
+Apply boundary closure. Any closed substitution or generator-normalization consumer that reaches $O$ has already passed through the displayed boundary, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+It remains to exclude hidden authority. Theorems~\ref{thm:authorized-generator-recursor-consumer-nonescape} and~\ref{thm:authorized-generator-recursor-terminal-reader-nonescape} rule out hidden generator state, host evaluation, unchecked recursion, and private audit routes. Therefore the ledger has no coordinate from which to export an unlicensed generator, host recursion oracle, or hidden substitution step.
+\end{proof}
