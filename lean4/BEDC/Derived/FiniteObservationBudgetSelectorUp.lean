@@ -172,4 +172,39 @@ theorem FiniteObservationBudgetSelectorCarrier_real_seal_handoff [AskSetup] [Pac
     ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryRealRead, routeW, routeR,
       realSeal, sameName, realReadPkg⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_tail_meet_seal_compatibility
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N tailMeetRead limitSealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E tailMeetRead ->
+        Cont R E limitSealRead ->
+          PkgSig bundle tailMeetRead pkg ->
+            PkgSig bundle limitSealRead pkg ->
+              UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory D ∧
+                UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory tailMeetRead ∧
+                  UnaryHistory limitSealRead ∧ Cont B S W ∧ Cont W D R ∧
+                    Cont R E tailMeetRead ∧ Cont R E limitSealRead ∧
+                      hsame tailMeetRead limitSealRead ∧
+                        PkgSig bundle tailMeetRead pkg ∧
+                          PkgSig bundle limitSealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier tailMeetSeal limitSeal tailMeetPkg limitSealPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+    _regularSeal, _sameName⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have unaryTailMeet : UnaryHistory tailMeetRead :=
+    unary_cont_closed unaryR unaryE tailMeetSeal
+  have unaryLimitSeal : UnaryHistory limitSealRead :=
+    unary_cont_closed unaryR unaryE limitSeal
+  have sameReads : hsame tailMeetRead limitSealRead :=
+    cont_deterministic tailMeetSeal limitSeal
+  exact
+    ⟨unaryB, unaryS, unaryW, unaryD, unaryR, unaryE, unaryTailMeet, unaryLimitSeal,
+      budgetSchedule, windowDyadic, tailMeetSeal, limitSeal, sameReads, tailMeetPkg,
+      limitSealPkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp
