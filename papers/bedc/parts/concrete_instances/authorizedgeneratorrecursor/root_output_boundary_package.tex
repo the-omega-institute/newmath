@@ -1,0 +1,56 @@
+\begin{definition}[AuthorizedGeneratorRecursor root output boundary package]
+\label{def:authorized-generator-recursor-root-output-boundary-package}
+The root output boundary package for an accepted $\AuthorizedGeneratorRecursorUp$ packet is the finite $\BHist$ carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+of \autoref{def:authorized-generator-recursor-carrier}, read with the following boundary roles. The rows $I,E,M,B,D$ form the signature, eliminator, motive, branch, and structural-descent admission surface. The row $O$ is the public output name. The rows $A,H,C,P,G,N$ form the audit provenance, componentwise transport, continuation, package provenance, host-boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ surface. The package admits $O$ only as a row of this displayed packet, after the branch package, descent locality, audit provenance, operational-membrane handoff, kernel-boundary exhaustion, and TasteGate carrier handoff have all been retained.
+\end{definition}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root branch output closed boundary]
+\label{thm:authorized-generator-recursor-root-branch-output-closed-boundary}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, public output reads from the root output boundary package of \autoref{def:authorized-generator-recursor-root-output-boundary-package} occur only after the accepted signature row $I$, emitted eliminator row $E$, checked motive row $M$, branch-package row $B$, and structural-descent row $D$ have been retained. No public read of $O$ can detach the output from the constructor signature, eliminator, motive, branch package, or structural descent rows.
+\end{theorem}
+\begin{proof}
+Project the carrier named by \autoref{def:authorized-generator-recursor-carrier}. The package of \autoref{def:authorized-generator-recursor-root-output-boundary-package} uses the same displayed tuple
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+
+Branch coverage is forced before any output read. Apply \autoref{thm:authorized-generator-recursor-branch-exhaustion}; the row $B$ contains exactly the branches associated with the accepted constructors displayed by $I$ and the eliminator named by $E$.
+
+Descent locality then binds the recursive read to the motive and descent rows. By \autoref{thm:authorized-generator-recursor-structural-descent-locality}, a public recursive read cannot pass through a generator route detached from $M$ and $D$.
+
+Finally use \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The TasteGate handoff consumes only the same finite carrier, so it cannot supply an output route that bypasses $I,E,M,B,D$. Therefore public access to $O$ is closed under the displayed branch and descent boundary.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root audit membrane source refusal]
+\label{thm:authorized-generator-recursor-root-audit-membrane-source-refusal}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the audit row $A$ of the root output boundary package consumes $\OperationalMembraneUp$ provenance, source-axiom refusal, and dependency refusal before the output row $O$ is public. Thus $O$ cannot be read as a public output through an audit route that omits operational provenance, source refusal, or transitive dependency refusal.
+\end{theorem}
+\begin{proof}
+Begin with the audit side of \autoref{def:authorized-generator-recursor-root-output-boundary-package}. The rows $O,A,H,C,P,G,N$ are retained together, and $A$ is the row that records the build check, source-axiom refusal, dependency refusal, and operational-membrane provenance.
+
+Apply \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}. It prevents $O$ from becoming public apart from $A,H,C,P,G,N$, so the output row cannot be read as an unaudited recursor result.
+
+Now apply \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}. The audit row must consume the $\OperationalMembraneUp$ provenance before public exposure of $O$, and the same row carries source-axiom and dependency refusal for the packet.
+
+The carrier alignment of \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} supplies no substitute audit channel. Hence a public output read must pass through operational provenance, source refusal, and dependency refusal before $O$ leaves the package boundary.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root host-boundary NameCert exhaustion]
+\label{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the host-boundary row $G$ of the root output boundary package is exhausted by the displayed $\NameCert_{\AuthorizedGeneratorRecursorUp}$ packet. At $G$ the packet cannot export a free induction principle, hidden branch source, external axiom, or proof generator outside
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Read the host-boundary row from \autoref{def:authorized-generator-recursor-root-output-boundary-package}. The row $G$ is not a second generator surface; it is one coordinate of the same finite carrier displayed in \autoref{def:authorized-generator-recursor-carrier}.
+
+Branch and descent escape are already excluded inside the packet. Use \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality} to keep every branch source and recursive call on $I,E,M,B,D$.
+
+Audit escape is excluded before the boundary row becomes useful to a consumer. By \autoref{thm:authorized-generator-recursor-audit-provenance-factorization} and \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}, public output remains attached to the audit provenance, operational membrane, source refusal, dependency refusal, transport, continuation, package, and local name rows.
+
+Finally apply \autoref{thm:authorized-generator-recursor-kernel-boundary-exhaustion} together with \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. The boundary row is exhausted by the displayed NameCert packet and the TasteGate carrier handoff adds no free induction principle, hidden branch source, external axiom, or proof generator.
+\end{proof}
