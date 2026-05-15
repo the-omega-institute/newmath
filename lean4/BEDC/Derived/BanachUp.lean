@@ -583,4 +583,22 @@ theorem BanachConcreteCarrier_singleton_empty_witness :
         (And.intro unary_empty
           (And.intro (cont_right_unit BHist.Empty) (hsame_refl BHist.Empty)))))
 
+theorem CompleteMetricNormSiblingRoute {h limit K Lambda : BHist} {s M : BHist -> BHist}
+    {T : BHist -> BHist} :
+    BanachSingletonCarrier h ->
+      CompleteMetricLimitWitness BanachSingletonCarrier s M limit ->
+        BanachSingletonBoundedLinearOperator T K Lambda ->
+          BanachSingletonClassifier h BHist.Empty ∧
+            CompleteMetricLimitWitness BanachSingletonCarrier s M limit ∧
+              BanachSingletonBoundedLinearOperator T K Lambda := by
+  intro carrierH completeMetricWitness boundedOperator
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have emptyCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  have classified : BanachSingletonClassifier h BHist.Empty :=
+    And.intro carrierH (And.intro emptyCarrier carrierH.left)
+  exact And.intro classified (And.intro completeMetricWitness boundedOperator)
+
 end BEDC.Derived.BanachUp
