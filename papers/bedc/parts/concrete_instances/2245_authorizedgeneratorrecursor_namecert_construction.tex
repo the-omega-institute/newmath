@@ -305,6 +305,93 @@ unlisted branch, detached output, external axiom, or hidden proof generator can
 cross the public boundary.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor root branch row totality]
+\label{thm:authorized-generator-recursor-root-branch-row-totality}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every branch row used by the recursor is exposed in the displayed branch
+packet $B$ before any output row $O$ is public. The public output cannot be
+supplied by a hidden generator, an omitted branch, or a route outside the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and
+\autoref{thm:authorized-generator-recursor-branch-exhaustion}. The accepted
+packet has one displayed constructor signature, emitted eliminator, checked
+motive, and complete branch package, so every recursive branch read is already
+accounted for in $B$.
+
+Apply \autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-output-audit-ledger}. These results
+place the output row behind the same signature, branch, descent, audit,
+transport, continuation, provenance, boundary, and local-name rows.
+
+Finally use
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} and
+\autoref{thm:authorized-generator-recursor-public-consumer-boundary}. They rule
+out a proof-producing generator or omitted branch coordinate outside the
+displayed packet, so $O$ can become public only after branch totality has been
+read through $B$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit descent row]
+\label{thm:authorized-generator-recursor-audit-descent-row}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$(I,E,M,B,D,O,A,H,C,P,G,N)$, the structural descent row $D$ and audit row $A$
+are read through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ packet. Audit provenance therefore cannot detach from the recursor
+branch route, and no descent certificate may be consumed without the displayed
+audit boundary.
+\end{theorem}
+\begin{proof}
+Use the carrier definition together with
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}. The
+descent row belongs to the same finite tuple as the signature, eliminator,
+motive, and branch package, and every recursive read stays on those displayed
+coordinates.
+
+Next apply \autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-output-audit-ledger}. The audit row
+is exposed only through the continuation, transport, package, boundary, and
+local naming data attached to the same packet.
+
+The non-detachment claim follows from
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} and
+\autoref{thm:authorized-generator-recursor-public-consumer-boundary}. Since no
+hidden generator, omitted branch, or outside output route can cross the public
+boundary, the audit row and descent row remain one packet-local route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor NameCert root unblock package]
+\label{thm:authorized-generator-recursor-namecert-root-unblock-package}
+The carrier row, branch-totality row, audit-descent row, hidden-generator
+exclusion, output audit ledger, and public consumer boundary form the root
+$\NameCert_{\AuthorizedGeneratorRecursorUp}$ obligation package for downstream
+consumers of the displayed packet
+$(I,E,M,B,D,O,A,H,C,P,G,N)$. A consumer may use the authorized recursor output
+only through that package.
+\end{theorem}
+\begin{proof}
+First combine the carrier definition with
+\autoref{thm:authorized-generator-recursor-root-branch-row-totality}. The root
+package begins with the displayed packet and the complete branch surface that
+precedes public output.
+
+Next use \autoref{thm:authorized-generator-recursor-audit-descent-row} and
+\autoref{thm:authorized-generator-recursor-output-audit-ledger}. These bind
+structural descent, audit provenance, output exposure, transport, route, and
+package provenance into one $\BHist$-local NameCert object.
+
+Finally apply
+\autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} and
+\autoref{thm:authorized-generator-recursor-public-consumer-boundary}. The
+downstream consumer receives exactly the displayed root package, with no
+unlisted branch, hidden generator, detached audit row, or outside public-output
+route.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
