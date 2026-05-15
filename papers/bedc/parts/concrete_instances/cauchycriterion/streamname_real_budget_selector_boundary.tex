@@ -1,0 +1,52 @@
+\begin{theorem}[CauchyCriterion StreamName Real budget-selector boundary]
+\label{thm:cauchycriterion-streamname-real-budget-selector-boundary}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Any
+$\RealUp$-completion consumer or finite-window budget selector sharing the
+displayed
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+rows must read through the CauchyCriterion route
+$$
+M,\quad Q,\quad T,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N
+$$
+before exposing a selector output. Conversely, a selector that displays this
+route has exactly the finite CauchyCriterion budget surface available for the
+shared StreamName--RegSeqRat--DyadicRatCore--Real read.
+
+The boundary exports no quotient stream, selected limit, host real equality,
+ambient completeness principle, unrecorded completion object, or selector
+choice independent of $M,Q,T,W,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the CauchyCriterion handoff
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff}. It places
+the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ source row, the
+$\DyadicRatCoreUp$ budget rows, and the $\RealUp$ seal on the displayed
+CauchyCriterion carrier rows.
+
+Next apply the completion boundary
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary}. It says
+that any $\CompletionUp$ or $\RealCauchyCompletionUp$ consumer sharing those
+four faces must factor through $M,Q,T,W,E,H,C,P,N$ before it can read a
+completion seal.
+
+Now use the finite-window selector surfaces from the StreamName and Real
+siblings. The request and coverage theorems
+\autoref{thm:streamname-tail-compatible-window-request} and
+\autoref{thm:streamname-tail-compatible-window-coverage} identify a
+finite-window selector by its selected observation, bundle membership,
+tail-selector route, finite budget surface, pointwise $\RegSeqRatUp$ handoff,
+and the support rows $\hsame,\Cont,\Pkg,\NameCert$. The budget handoff
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff} and the
+boundary \autoref{thm:streamname-realup-finite-window-seal-boundary} then
+force the $\RealUp$ read to use the same finite surface.
+
+Finally read the completion-facing exit through
+\autoref{thm:streamname-real-completion-four-object-exit-route}. Its four
+faces are exactly $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, with no fifth completion coordinate. Combining this exit route with
+the CauchyCriterion handoff and tail-budget boundary gives the stated
+factorization before any selector output is exposed, and the excluded objects
+have no row in the resulting packet.
+\end{proof}
