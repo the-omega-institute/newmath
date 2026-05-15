@@ -174,3 +174,49 @@ $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, so
 the tail comparison has no coordinate for quotient stream equality, host real
 equality, selected limits, completion data, or RealUp completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat constant dyadic finite-request exhaustion]
+\label{thm:regseqrat-constant-dyadic-request-exhaustion}
+Let $C$ be a $\RegSeqRatUp$ constant dyadic source packet over a displayed
+$\DyadicRatCoreUp$ endpoint $d$. Every finite $\RealUp$-facing request made of
+$C$ factors through exactly the following displayed rows: the constant
+$\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ endpoint row $d$, the
+requested dyadic-radius rows, the $\RegSeqRatUp$ regularity ledger, the
+$\RegSeqRatUp$ classifier ledger, the common cofinal finite window for the
+requested tails, the displayed $\hsame$ comparisons, the displayed $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.
+
+The request has no remaining coordinate for quotient stream equality, host
+real equality, selected limits, completion data, an embedding principle, or a
+$\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the source packet using
+\autoref{def:regseqrat-constant-dyadic-source}. Each finite request first sees
+the same constant $\StreamNameUp$ schedule and the same displayed
+$\DyadicRatCoreUp$ endpoint row $d$.
+
+For every requested finite window, apply
+\autoref{thm:regseqrat-constant-dyadic-regularity}. This supplies the
+requested radius rows, the equal-endpoint distance row, the regularity bound,
+the displayed $\hsame$ comparisons, the $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ provenance.
+
+Next apply
+\autoref{thm:regseqrat-constant-dyadic-classifier-reflection}. The classifier
+row read by the $\RealUp$ seal is therefore the finite dyadic-tolerance row
+already carried by the constant $\RegSeqRatUp$ packet.
+
+Use \autoref{thm:regseqrat-constant-tail-seal-invariance} for any requested
+tail reads. It replaces the tail requests by their common cofinal finite
+window while preserving the same schedule rows, endpoint row, regularity row,
+classifier row, transport rows, route rows, package row, and naming row.
+
+Finally close with
+\autoref{thm:regseqrat-constant-real-seal-handoff}. The handoff permits the
+constant packet to reach the $\RealUp$ seal only through the displayed
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+Consequently the finite request is exhausted by the listed BEDC rows and
+cannot export quotient stream equality, host real equality, selected limits,
+completion data, embedding principles, or $\RealUp$ completeness.
+\end{proof}

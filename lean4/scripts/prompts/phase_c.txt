@@ -74,7 +74,7 @@ instance <x>FieldFaithful : FieldFaithful <X>Up where
 
 For inductive carriers with multiple constructors, write a `match` over both constructors and prove field equality per constructor; the `fields` projection is a flat List BHist concatenated across the carrier's BHist sub-fields.
 
-`\origin{human}` chapters are EXEMPT from this gate (their nontriviality is attested by external mathematical record). When Phase Revise sets `\origin{ai}`, the resulting Lean TasteGate.lean must contain a `FieldFaithful <X>Up` instance — a paper-side gate detects missing instances and rejects the round.
+`\origin{human}` chapters are EXEMPT from this gate (their nontriviality is attested by external mathematical record). FieldFaithful is a Lean-side instance and a **R-side responsibility**: when your Phase C target involves an `\origin{ai}` chapter (whether the target adds, modifies, or merely formalizes a theorem in that chapter), you MUST ensure the `FieldFaithful <X>Up` instance exists in the chapter's `TasteGate.lean` before completing the round. If the chapter's Lean folder lacks a `TasteGate.lean` entirely, create it with `BHistCarrier` + `ChapterTasteGate` + `FieldFaithful` + `Nontrivial` instances. If FF cannot be satisfied (carrier admits two distinct `XUp` values with identical declared fields), revise the carrier design OR have the paper chapter revert its origin to `\origin{human}` in a subsequent P round — do NOT ship an `\origin{ai}` chapter without FF. The paper side does NOT enforce this; you are the gate.
 
 ## Environment
 
