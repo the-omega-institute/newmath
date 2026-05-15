@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for \AnchorStabilityCertificateUp}
+\label{ch:concrete-instances-anchor-stability-certificate-namecert}
+\origin{ai}
+
+The \AnchorStabilityCertificateUp{} packet realizes the anchor-stability coordinate of \autoref{sec:objectivity-without-privileged-observer} as a finite NameCert carrier. It sits behind the anchor-stability row consumed by \autoref{ch:concrete-instances-relational-objectivity-namecert}: $\RelationalObjectivityUp$ reads a relational claim only after this certificate has bound the invariant row, the anchor-change route, the classifier, the ledger, and the local naming row. Its sibling context is supplied by $\ObserverHistIdentityUp$ in \autoref{ch:concrete-instances-observerhistidentity-namecert}, $\MultiHistConfigUp$ in \autoref{ch:concrete-instances-multihistconfig-namecert}, $\CrossPerspectiveAlignmentUp$ in \autoref{ch:concrete-instances-crossperspectivealignment-namecert}, and $\LocalityCellUp$ in \autoref{ch:concrete-instances-localitycell-namecert}.
+
+\begin{definition}[Anchor-stability certificate carrier]
+\label{def:anchor-stability-certificate-carrier}
+An \AnchorStabilityCertificateUp{} carrier is a finite $\BHist$ packet
+$$
+A=(F,I,R,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the observer-family row read through $\MultiHistConfigUp$ and the relevant $\ObserverHistIdentityUp$ surfaces;
+\item $I$ is the invariant row whose claim is being transported across observer anchors;
+\item $R$ is the anchor-change route naming the source anchor, target anchor, and locality-cell boundary through which the comparison is allowed to move;
+\item $K$ is the classifier row that compares the transported invariant at the two anchors;
+\item $L$ is the ledger row recording the observations, transformations, and cross-perspective alignment facts used in the comparison;
+\item $H$ records componentwise $\hsame$ transports for the observer-family, invariant, route, classifier, ledger, package, and local naming rows;
+\item $C$ records displayed $\Cont$ routes from the observer-family surface to the anchor-change route, from the route to classifier comparison, and from the accepted certificate to downstream relational-objectivity consumers;
+\item $P$ is the $\Pkg$ provenance over \AnchorStabilityCertificateUp, \RelationalObjectivityUp, \ObserverHistIdentityUp, \MultiHistConfigUp, \CrossPerspectiveAlignmentUp, \LocalityCellUp, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AnchorStabilityCertificateUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares exactly $F,I,R,K,L,H,C,P,N$. It has no coordinate for a privileged observer, an unledgered anchor jump, a hidden invariant source, a global synchronization history, or host equality of observer descriptions.
+\end{definition}
+
+\begin{theorem}[Anchor-stability certificate NameCert obligations]
+\label{thm:anchor-stability-certificate-namecert-obligations}
+For every accepted \AnchorStabilityCertificateUp{} carrier $A=(F,I,R,K,L,H,C,P,N)$, the local $\NameCert_{\AnchorStabilityCertificateUp}$ surface consists exactly of observer-family exposure through $F$, invariant-row exposure through $I$, anchor-change routing through $R$, classifier comparison through $K$, observation-and-transformation ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The rows $F,I,R,K,L$ display the family, invariant, route, classifier, and ledger coordinates that make anchor stability inspectable.
+
+Read the structural rows next. The transport row $H$ compares the same displayed coordinates componentwise, the continuation row $C$ replays only the displayed route, and the package and local name rows $P,N$ locate the certificate inside the surrounding NameCert surface.
+
+The sibling chapters supply the required inputs but not the whole certificate. $\ObserverHistIdentityUp$ and $\MultiHistConfigUp$ supply observer-family structure, $\CrossPerspectiveAlignmentUp$ supplies alignment evidence, and $\LocalityCellUp$ supplies the local anchor boundary; the present packet is where those rows are stored together with the invariant row and classifier.
+\end{proof}
+
+\begin{theorem}[Anchor-stability certificate nonescape]
+\label{thm:anchor-stability-certificate-nonescape}
+Every accepted \AnchorStabilityCertificateUp{} consumer reads anchor stability through the displayed packet
+$$
+F,I,R,K,L,H,C,P,N.
+$$
+The consumer has no route to a privileged observer, unledgered anchor transport, hidden synchronization, detached invariant evidence, host-level equality of observers, or a relational-objectivity verdict outside that packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. Any accepted read must first expose the observer-family row $F$, invariant row $I$, anchor-change route $R$, classifier row $K$, and ledger row $L$.
+
+The transport and continuation rows preserve that exposed packet. They may move the displayed invariant along the recorded route and replay the classifier comparison, but they do not add a second route, hidden observer anchor, or host equality coordinate.
+
+Finally inspect the downstream use in $\RelationalObjectivityUp$. A relational-objectivity read can consume the certificate only as the anchor-stability row already displayed here. If the certificate is absent, detached from its ledger, or transported across anchors without $R,K,L,H,C,P,N$, the consumer leaves the accepted \AnchorStabilityCertificateUp{} surface.
+\end{proof}
+
+\falsifiablePrediction{A relational objectivity read fails whenever its invariant row is transported across observer anchors without the displayed anchor-stability certificate.}
+
+\independenceWitness{relationalobjectivity, observerhistidentity, multihistconfig, crossperspectivealignment, localitycell: none is bijective to AnchorStabilityCertificateUp because none stores the invariant row, anchor-change route, classifier, ledger, and local NameCert as one certificate.}
+
+The Lean file `TasteGate.lean` for $\mathsf{BEDC.Derived.AnchorStabilityCertificateUp}$ must provide $\mathsf{Nontrivial}\ \AnchorStabilityCertificateUp$ and $\mathsf{FieldFaithful}\ \AnchorStabilityCertificateUp$ instances for the displayed carrier $F,I,R,K,L,H,C,P,N$.
