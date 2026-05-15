@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary root request source totality]
+\label{thm:gap-closure-boundary-root-request-source-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every root consumer that receives supported source evidence does so through the displayed source route
+$$
+G \longrightarrow S
+$$
+and through no other source-bearing coordinate. The rows $H,C,P,N$ carry only transport, continuation, provenance, and local naming for that route; they do not create hidden closure supply, host equality, quotient data, private source selection, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:gap-closure-boundary-carrier}. Its root boundary coordinates are exactly the request row $G$, source row $S$, refusal row $R$, and the structural rows $H,C,P,N$.
+
+Apply source-route totality from \autoref{thm:gap-closure-boundary-source-route-totality}. A supported hard-problem consumer must expose $G \longrightarrow S$ before any structural row is read.
+
+Finally use structural row conservation from \autoref{thm:gap-closure-boundary-structural-row-conservation}. The rows $H,C,P,N$ preserve the already displayed source route as transport, continuation, provenance, and local naming, so no second source route or concealed closure coordinate is available.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root refusal consumer totality]
+\label{thm:gap-closure-boundary-root-refusal-consumer-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every root consumer whose closure request is not supported is exhausted by the displayed refusal route
+$$
+G \longrightarrow R
+$$
+with $H,C,P,N$ carrying only transport, continuation, provenance, and local naming. Such a consumer receives no source substitute, hidden closure row, hidden $\mathsf{T}$ supply, host equality, quotient data, private access row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the carrier boundary in \autoref{def:gap-closure-boundary-carrier}. The only off-source endpoint available to the root packet is the refusal row $R$.
+
+Use refusal route exactness and refusal ledger stability, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-ledger-stability}. They route unsupported closure requests through $G \longrightarrow R$ and preserve that refusal endpoint under transport and replay.
+
+Apply structural row conservation to close the alternatives. Since $H,C,P,N$ only transport, route, package, and name the same refusal endpoint, the unsupported consumer cannot obtain a third branch outside $G,S,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root structural NameCert exhaustion]
+\label{thm:gap-closure-boundary-root-structural-namecert-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, the root $\NameCert_{\GapClosureBoundaryUp}$ surface is exhausted by the source route $G \longrightarrow S$, the refusal route $G \longrightarrow R$, and the structural rows $H,C,P,N$. The structural rows carry only transport, continuation, provenance, and naming for those two routes, so the root consumer interface has no third source/refusal branch and no additional closure, equality, quotient, or off-packet resource.
+\end{theorem}
+\begin{proof}
+First expose the finite packet by \autoref{def:gap-closure-boundary-carrier}. The NameCert surface can only name the displayed request, source, refusal, transport, continuation, provenance, and local naming coordinates.
+
+The source side is exhausted by \autoref{thm:gap-closure-boundary-root-request-source-totality}. The refusal side is exhausted by \autoref{thm:gap-closure-boundary-root-refusal-consumer-totality}.
+
+It remains to account for the structural rows. Apply \autoref{thm:gap-closure-boundary-structural-row-conservation}: $H,C,P,N$ conserve the selected source or refusal branch instead of adding another coordinate. Thus the root structural NameCert surface is exactly the displayed two-route package.
+\end{proof}
