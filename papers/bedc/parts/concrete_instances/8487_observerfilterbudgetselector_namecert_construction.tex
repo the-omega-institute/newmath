@@ -104,6 +104,28 @@ The remaining excluded objects follow by coordinate exhaustion. The carrier has 
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorSelectedRowGate\_selected\_field\_not\_erased}
 
+\begin{theorem}[Observer-filter budget-selector budget refinement nonescape]
+\label{thm:observer-filter-budget-selector-budget-refinement-nonescape}
+Let
+$$
+G=(F,I,S,O,B,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\ObserverFilterBudgetSelectorUp$ packet. Any finite-budget refinement that replaces $B$ by a row $B^\sharp$ while preserving the selected $\ObserverFilterUp$ row $S$ and the $\StreamNameUp$ window family $W$ preserves the downstream route
+$$
+I \to F \to S \to B^\sharp \to W \to D \to R \to E.
+$$
+Such a refinement cannot turn omitted ledger data $O$ into a window, dyadic ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, quotient stream, host real equality row, hidden limit selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier definition for $G$. Its positive observation coordinates are the displayed rows $I,F,S,B,W,D,R,E$, while $O$ appears as an omitted ledger and $H,C,P,N$ provide boundary transport, continuation, provenance, and local naming.
+
+Apply \autoref{thm:observer-filter-budget-selector-selected-row-gate}. The gate forces any consumer of the finite budget row, window family, dyadic ledger, regular-sequence handoff, or Real seal to enter through $S$; replacing $B$ by a refinement that preserves $S$ and $W$ therefore leaves the consumer route through the selected row.
+
+Apply \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion}. The omitted ledger remains boundary-only data, so the refinement has no source from which to manufacture a consumer-facing row out of $O$.
+
+It remains to exhaust the coordinates before dyadic readback consumes $D$. The packet has no slot in which $O$ can become $W,D,R,E$, a quotient stream, a host real equality row, a hidden limit selector, or an ambient completeness row; hence the refined budget still feeds exactly the displayed route.
+\end{proof}
+
 \begin{theorem}[Observer-filter budget-selector dyadic readback exactness]
 \label{thm:observer-filter-budget-selector-dyadic-readback-exactness}
 Every accepted $\ObserverFilterBudgetSelectorUp$ packet reads the $\DyadicRatCoreUp$ row $D$ only after the selected $\ObserverFilterUp$ row $S$, finite budget row $B$, and $\StreamNameUp$ window family $W$ have been exposed in the displayed route
