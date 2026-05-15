@@ -71,6 +71,42 @@ Apply constructor-signature exactness and emitted-eliminator exactness from the 
 If either row is absent, the carrier no longer exposes the paired signature-plus-eliminator surface. The read may belong to a sibling acceptance packet, but it is not faithful to $\KernelInductiveAcceptanceUp$.
 \end{proof}
 
+\begin{theorem}[KernelInductiveAcceptance eliminator totality]
+\label{thm:kernel-inductive-acceptance-eliminator-totality}
+Every accepted recursor or induction-principle read of a $\KernelInductiveAcceptanceUp$ packet factors through the finite route $D,S,E,R,H,C,Q,N$. The consumer first reads the declaration candidate $D$, then the constructor-signature ledger $S$, then the emitted-eliminator ledger $E$, and only then exposes the recursion-discipline, transport, route, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:kernel-inductive-acceptance-carrier}. The rows $D,S,E,R,H,C,Q,N$ are displayed coordinates of the same finite $\BHist$ packet, so the recursor or induction-principle consumer has no carrier coordinate outside them.
+
+Apply the constructor-signature exactness and emitted-eliminator exactness clauses of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. They force each accepted eliminator read to pass through $S$ before $E$.
+
+Finally use the sibling anchors named in the chapter introduction. The accepted-declaration, trace, generator, type-classifier, and subject-reduction chapters consume the emitted route after $E$ is visible, but none of them inserts an extra kernel row between $S$ and $E$.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance positivity refusal]
+\label{thm:kernel-inductive-acceptance-positivity-refusal}
+Every constructor-signature candidate for $\KernelInductiveAcceptanceUp$ that fails the local positivity discipline lands in the refusal row $P$ and never enters the environment-entry route $D,S,E,R,H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row $P$ of \autoref{def:kernel-inductive-acceptance-carrier}. It is the displayed place for failed positivity candidates, distinct from the accepted constructor-signature ledger $S$ and emitted-eliminator ledger $E$.
+
+Apply the positivity-refusal stability clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. A failed signature is routed to $P$ rather than to the accepted environment-entry path.
+
+The nontrivial boundary of \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary} separates the accepted and refused sides of the TasteGate surface. Thus the failed candidate cannot be read by the accepted-declaration, trace, generator, type-classifier, or subject-reduction consumers as an entered inductive declaration.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance environment nonescape]
+\label{thm:kernel-inductive-acceptance-environment-nonescape}
+Downstream acceptance, trace, generator, type-classifier, and subject-reduction consumers of an accepted $\KernelInductiveAcceptanceUp$ packet read only the finite packet $D,S,E,P,R,H,C,Q,N$. No hidden kernel-correctness theorem, theorem-proof row, generic trace theorem, generator-closure theorem, type-membership theorem, or subject-reduction target row is exported beyond the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start from the carrier exclusion in \autoref{def:kernel-inductive-acceptance-carrier}. The packet displays the declaration, signature, eliminator, refusal, recursion, transport, route, provenance, and naming rows, and it explicitly omits the theorem rows claimed in the statement.
+
+Apply the environment-entry non-escape clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. It allows downstream consumers to read only $D,S,E,P,R,H,C,Q,N$ from this packet.
+
+Use \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary} for the faithful-read boundary. Dropping $S$ or $E$ leaves the $\KernelInductiveAcceptanceUp$ surface, while adding one of the sibling theorem rows belongs to the accepted-declaration, trace, generator, type-classifier, or subject-reduction chapters rather than to this carrier.
+\end{proof}
+
 \falsifiablePrediction{If the carrier is atomic, every accepted row exposes a constructor signature and emitted eliminator ledger; a packet lacking either row is rejected by the local classifier.}
 
 \independenceWitness{kernelacceptancewitness, kernelacceptancetrace, generatorclosure, typeclassifiermembership, subjectreduction: none is bijective because those siblings lack the paired constructor-signature plus emitted-eliminator ledger row, while this carrier lacks their theorem-proof, generic trace, generator-closure, or subject-reduction target rows.}
