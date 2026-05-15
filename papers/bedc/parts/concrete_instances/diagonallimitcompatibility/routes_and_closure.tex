@@ -359,6 +359,24 @@ Finally apply the non-escape clauses on both chapters. The diagonal packet has n
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityUniformWindowRealSealPullback}
 
+\begin{theorem}[Diagonal-limit compatibility selector-seal pullback]
+\label{thm:diagonal-limit-compatibility-selector-seal-pullback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose its displayed route reads a $\DiagonalTailSelectorUp$ source-schedule packet and a $\CauchyLimitSealUp$ observation-budget packet before any terminal $\RealUp$ consumer reads the seal row $L$. Then the selected finite windows, observation budget, $\RegSeqRatUp$ readback, and $\RealUp$ seal row pull back to the same $\RegSeqRatUp/\RealUp$-facing carrier surface
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Every terminal $\RealUp$ consumer factors first through the $\DiagonalTailSelectorUp$ source-schedule readback and the $\CauchyLimitSealUp$ observation-budget pullback, and only then through the completion-facing read of $Q$ and $L$.
+\end{theorem}
+\begin{proof}
+Begin with the uniform-window Real seal pullback of \autoref{thm:diagonal-limit-compatibility-uniform-window-real-seal-pullback}. It already identifies the finite window, regular readback, Real seal, displayed transport, continuation, provenance, and local naming rows as one finite consumer surface.
+
+Next read the selector side. The diagonal-tail selector handoff fixes the source schedule before the seal-facing route can reach $Q$ or $L$, so the selected windows cannot be replaced by a second host selector after the packet has been accepted.
+
+Now read the seal side. The $\CauchyLimitSealUp$ observation-budget and Real handoff routes force the budget row and seal row to travel through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Thus the selector readback and seal budget meet at the displayed $\RegSeqRatUp/\RealUp$ carrier surface.
+
+Finally inspect a terminal $\RealUp$ consumer. Since the packet exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate, the consumer must pass through the selector source-schedule readback and the seal-budget pullback before any completion-facing read of $Q$ and $L$ is available.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility completion consumer nonescape]
 \label{thm:diagonal-limit-compatibility-completion-consumer-nonescape}
 Every completion-facing or $\RealUp$ consumer of an accepted
@@ -564,6 +582,7 @@ Now apply seal consumer factorization, \autoref{thm:diagonal-limit-compatibility
 
 Finally apply Real seal non-escape, \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}. Since quotient streams, selected host limits, host equality, choice data, and ambient completeness are absent from the packet, the displayed public budget route is exhaustive.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_public\_budget\_route}
 
 \begin{theorem}[Diagonal-limit compatibility tail-selector consumer boundary]
 \label{thm:diagonal-limit-compatibility-tail-selector-consumer-boundary}

@@ -259,6 +259,7 @@ $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. The handoff exports no quotient
 stream equality, selected host limit, hidden tail selector, host real equality,
 choice datum, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_uniform\_cauchy\_terminal\_handoff}
 \begin{proof}
 First bind the diagonal terminal prefix. Apply
 \autoref{thm:diagonal-limit-compatibility-root-budget-source},
@@ -287,4 +288,52 @@ prefix is read first, and only then can the finite-family uniform Cauchy seal
 rows be consumed. Since neither side exposes hidden tail selectors, quotient
 streams, selected host limits, host real equality, choice data, or ambient
 completeness, the composite handoff exports none of them.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility uniform Cauchy three-way terminal comparison]
+\label{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal
+$\RealUp$ or $\CompletionUp$ consumer read, and suppose that this read is routed
+through one of the accepted terminal consumers $\CauchyTailWitnessEnvelopeUp$,
+$\CauchyModulusRefinementUp$, or $\UniformCauchyCriterionUp$. Then all three
+routes first factor through the same displayed diagonal budget prefix
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Only after this common prefix may the route enter the respective terminal
+surface: the envelope rows for $\CauchyTailWitnessEnvelopeUp$, the refinement
+rows for $\CauchyModulusRefinementUp$, or the uniform finite-family seal rows
+for $\UniformCauchyCriterionUp$. The comparison introduces no quotient stream
+equality, selected host limit, hidden tail oracle, hidden selector, host real
+equality, choice datum, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First bind the diagonal budget prefix. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These place the
+terminal $\RealUp$ or $\CompletionUp$ read behind the budget source, stream
+window, diagonal readback, Real seal, transport, continuation, package, and
+local-name rows.
+
+Next close the prefix against nonlocal exits. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape},
+\autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and
+\autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The
+consumer-facing boundary is therefore exactly $R,T,S,D,W,Q,L,H,C,P,N$, and the
+route has no access to host limits, quotient stream equality, choice data, host
+real equality, or ambient completeness before any terminal consumer row is
+entered.
+
+Now compare the three terminal consumers. The
+$\CauchyTailWitnessEnvelopeUp$ branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization};
+the $\CauchyModulusRefinementUp$ branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}; and
+the $\UniformCauchyCriterionUp$ branch is
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}.
+Each begins with the same diagonal prefix and only afterward enters its own
+envelope, refinement, or uniform finite-family rows. Thus the shared diagonal
+budget prefix is the common terminal-consumer boundary for the current
+$\RealUp$ and $\CompletionUp$ routes.
 \end{proof}
