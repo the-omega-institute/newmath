@@ -596,6 +596,24 @@ Next handle the named downstream consumers. The CauchyLimitSeal, UniformCauchyCr
 Finally apply terminal route no-branching, \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching}. Since any endpoint with the same displayed rows determines the same route $B \to S \to W \to D \to R \to E$, the endpoint is the displayed $E$ up to the recorded componentwise $\hsame$ transports, and no quotient, choice, hidden selector, side-channel completion, or ambient completeness coordinate can supply a different terminal endpoint.
 \end{proof}
 
+\begin{theorem}[Finite observation-budget selector Real-seal window saturation]
+\label{thm:finite-observation-budget-selector-real-seal-window-saturation}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Any Real-completion or diagonal consumer that reaches the same terminal row $E$ through the same budget, schedule, dyadic, regular, transport, continuation, provenance, and local naming rows $B,S,D,R,H,C,P,N$ must use the displayed finite $\StreamNameUp$ window family $W$. Adding or replacing a window without changing the budget or schedule is not a refinement of the same selector packet; it is a different accepted packet with a different window row.
+\end{theorem}
+\begin{proof}
+Start with the route into the terminal Real seal. By \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, every Real-facing read of $E$ is reached only after the finite budget, schedule, selected window family, dyadic ledger, and regular handoff have been exposed.
+
+Use window exhaustion for the lower observation segment. By \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, the dyadic observations in $D$ are already covered by the displayed finite windows $W$, so a diagonal or completion consumer has no independent dyadic source outside that family.
+
+Now apply route determinacy. The theorem \autoref{thm:finite-observation-budget-selector-budget-route-determinacy} fixes the displayed route from $B$ through $S,W,D,R$ to $E$ whenever the structural rows $H,C,P,N$ are preserved.
+
+Finally use the terminal theorems to exclude a hidden selector. By \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching} and \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}, a consumer reaching the same endpoint through the same displayed rows cannot pass through a second window source. A changed window family therefore changes the accepted selector packet rather than refining the original one.
+\end{proof}
+
 \closureat{FiniteObservationBudgetSelectorUp}{seedStr}
 \closureat{FiniteObservationBudgetSelectorUp}{obligationStr}
 \closureat{FiniteObservationBudgetSelectorUp}{scopedStr}
