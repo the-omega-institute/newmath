@@ -116,6 +116,47 @@ The carrier then exposes only the source relation rows $E$ and the replacement r
 The rows $H,C,P,N$ provide stability, locality, provenance, and naming for that same route. Apply \autoref{thm:quotient-soundness-boundary-non-escape} to remove the excluded quotient objects from the exported surface. Therefore the displayed $E,T,H,C,P,N$ route exhausts the surviving operation.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary core refusal host-quotient exclusion]
+\label{thm:quotient-soundness-boundary-core-refusal-host-quotient-exclusion}
+Let
+$$
+Q=(E,A,T,V,H,C,P,N)
+$$
+be an accepted $\QuotientSoundnessBoundaryUp$ packet whose surviving
+quotient-style route is exhausted by the displayed rows $E,T,H,C,P,N$ after
+the refusal pair $A,V$ has been read. The exported boundary cannot be reread
+as host quotient equality, representative selection, a quotient eliminator,
+erased derivation recovery, or $\mathsf{Quot.sound}$. Every downstream
+quotient-like consumer must cite the displayed $\psame$ route through
+$E,T,H,C,P,N$ or provide a separate audited certificate outside this packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition,
+\autoref{def:quotient-soundness-boundary-carrier}. The packet exposes only
+the relation rows, requested representative rows, $\psame$ transport
+replacement, refusal verdict, stability rows, continuation rows, provenance,
+and local naming certificate.
+
+Use refusal locality,
+\autoref{thm:quotient-soundness-boundary-refusal-locality}. It places every
+representative-selection demand in $A,V$ before the surviving transport route
+is consumed, so the later rows cannot be interpreted as an admitted host
+representative selector.
+
+Apply non-escape,
+\autoref{thm:quotient-soundness-boundary-non-escape}. It removes quotient
+carriers, representatives, quotient equality eliminators, erased derivation
+recovery maps, unrestricted quotient recursion, host-level selectors, and
+$\mathsf{Quot.sound}$ dependencies from the exported packet.
+
+Finally apply
+\autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion}. The
+positive survivor is exactly the classifier-respecting $\psame$ route through
+$E,T,H,C,P,N$. Hence any downstream quotient-like consumer either cites that
+displayed route or leaves the boundary by supplying a separate audited
+certificate.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary downstream audit package]
 \label{thm:quotient-soundness-boundary-downstream-audit-package}
 The refusal locality theorem, the $\psame$ transport exhaustion theorem, and the non-escape theorem assemble a downstream audit package for quotient-like BEDC chapters. A downstream chapter may consume the refusal verdict $A,V$ and the transport route $E,T,H,C,P,N$ as an auditable refusal-and-transport surface, but it receives no quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery map, unrestricted quotient-recursion principle, host-level class selector, or $\mathsf{Quot.sound}$ dependency from $\QuotientSoundnessBoundaryUp$.
