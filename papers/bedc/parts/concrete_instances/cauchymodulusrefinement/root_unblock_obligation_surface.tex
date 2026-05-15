@@ -183,3 +183,40 @@ displayed rows agree, componentwise $\hsame$ transport and displayed $\Cont$
 replay determine the accepted selector route, and the hidden completion data
 listed in the statement cannot distinguish another accepted completion route.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement diagonal-budget cofinality route]
+\label{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route}
+Let an accepted $\CauchyModulusRefinementUp$ route display
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Then the same route remains cofinal when it is read by a diagonal-budget
+consumer. The diagonal-budget consumer can read only the shared meet row $U$,
+the extraction row $V$, the selector-budget row $T$, the selected-window row
+$W$, the tolerance-readback row $Q$, the $\RealUp$ seal row $E$, and the
+structural rows $H,C,P,N$ already exposed by the root route. It cannot
+introduce a hidden selector, second meet, quotient stream, host equality,
+selected limit, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_diagonal\_budget\_cofinality\_route}
+\begin{proof}
+First apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. The
+source rows $M_0,M_1$ force every accepted read to pass through the same shared
+meet $U$ and extraction row $V$ before any selector-facing budget can be read.
+
+Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The
+diagonal-budget consumer reaches the selected-window and tolerance-readback
+rows only through the displayed selector-budget row $T$, so $W$ and $Q$ cannot
+come from a hidden selector.
+
+Apply \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. It
+exhausts every $\RealUp$ or Completion-facing root read at
+$M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, with no quotient stream, selected limit, host
+equality, second meet, hidden selector, or ambient completeness coordinate.
+
+Finally invoke
+\autoref{thm:cauchy-modulus-refinement-completion-consumer-route-determinacy}.
+Since completion consumers are determined by the same displayed route up to
+the visible $\hsame$ transport and $\Cont$ replay, a diagonal-budget read has
+no separate coordinate from which to select a different cofinal route.
+\end{proof}
