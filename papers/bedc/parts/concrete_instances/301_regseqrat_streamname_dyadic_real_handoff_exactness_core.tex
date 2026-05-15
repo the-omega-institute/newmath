@@ -534,3 +534,61 @@ limits, ambient completeness, choice schedules, or hidden seal data could
 alter the route after the first three faces and the displayed seal row have
 been fixed.
 \end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Dyadic Real budgeted request determinacy]
+\label{thm:regseqrat-streamname-dyadic-real-budgeted-request-determinacy}
+Let $R$ be an accepted public $\RegSeqRatUp$ read, and let
+$B=(E,W,D,Q,S,H,C,P,N)$ be an accepted $\RealObservationBudgetUp$ packet.
+Suppose $B$ presents the same finite $\StreamNameUp$ windows, the same
+$\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, the same
+$\RegSeqRatUp$ handoff row, and the same public $\RealUp$ seal row as the
+accepted read $R$. Then the budgeted request determines the same finite BEDC
+route as $R$ exactly when it agrees on the displayed rows
+$E,W,D,Q,S,H,C,P,N$.
+
+Equivalently, the packet rows are the whole request-side coordinate of the
+four-face route. Agreement on those rows fixes the StreamName window surface,
+the DyadicRatCore metric ledger, the RegSeqRat handoff, the RealUp seal, and
+the transport, continuation, provenance, and local naming rows. The budgeted
+request exports no quotient stream, host real equality, selected limit,
+ambient completeness witness, choice schedule, or hidden seal coordinate.
+\end{theorem}
+\begin{proof}
+First place the accepted read on the finite handoff route. Apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} to identify
+the StreamName window rows, the DyadicRatCore endpoint-radius-distance ledger,
+the RegSeqRat handoff, and the public Real seal row as one finite BEDC route.
+
+Next record that no smaller public surface can carry the same exit. By
+\autoref{thm:regseqrat-l10-four-face-necessity}, the L10 handoff needs the
+StreamName, DyadicRatCore, RegSeqRat, and RealUp faces together, and
+\autoref{thm:regseqrat-streamname-real-three-surface-route-determinacy} says
+that once the first three faces are fixed, agreement of the displayed Real
+seal row is exactly agreement of the route endpoint.
+
+Now attach the explicit observation packet. Apply
+\autoref{thm:real-observation-budget-l10-gate-handoff-exactness} to read the
+packet route through
+$$
+E \longmapsto W \longmapsto D \longmapsto Q \longmapsto S
+$$
+with the rows $H,C,P,N$ carried as transport, continuation, provenance, and
+local naming data. Then use
+\autoref{thm:real-observation-budget-finite-window-seal-lock} to lock every
+RealUp seal read admitted by $S$ behind the same finite StreamName windows,
+DyadicRatCore rows, and RegSeqRat handoff.
+
+The forward direction follows because agreement on $E,W,D,Q,S,H,C,P,N$
+therefore supplies exactly the packet rows needed to reproduce the finite
+four-face route already determined by $R$. The reverse direction follows
+because the same finite BEDC route has no extra packet coordinate: if the
+budgeted request and $R$ determine the same route, the displayed request,
+window, dyadic, handoff, seal, transport, continuation, provenance, and naming
+rows must be the rows of that route.
+
+The non-escape clauses in the cited handoff and budget theorems exclude
+quotient stream equality, host real equality, selected limits, ambient
+completeness, choice schedules, and hidden seal coordinates. Hence no
+additional analytic or ambient datum can distinguish two budgeted requests
+after the displayed rows agree.
+\end{proof}
