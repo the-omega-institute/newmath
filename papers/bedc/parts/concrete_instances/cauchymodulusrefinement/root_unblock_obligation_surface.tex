@@ -319,3 +319,21 @@ Apply \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route} a
 
 Finally invoke \autoref{thm:cauchy-modulus-refinement-cauchycriterion-selector-cofinality}. The CauchyCriterion consumer sees the same StreamName--RegSeqRat--DyadicRatCore--Real packet before exposing its output. Hence none of the excluded coordinates can provide just one of the RegSeqRat, StreamName, or Real projections while omitting the other two.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement RegSeqRat--Real selector lockstep]
+\label{thm:cauchy-modulus-refinement-regseq-real-selector-lockstep}
+For an accepted $\CauchyModulusRefinementUp$ route displaying
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N,
+$$
+the $\RegSeqRatUp$ tail projection, the $\StreamNameUp$ selected-window projection, and the $\RealUp$ seal projection are lockstep projections of the same selector route through $U,V,T,W,Q,E$. No hidden selector, second meet, quotient stream, detached seal, selected limit, host equality, or ambient completeness coordinate can alter one projection without altering the other two.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-modulus-refinement-root-source-binding} and \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. They bind the displayed route to the source rows $M_0,M_1$, the shared meet $U$, the extraction row $V$, and the selector-budget row $T$ before any of the three consumer projections can be read.
+
+Next use \autoref{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence}. It places the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ consumer surfaces on one budget-refinement route rather than on separate tail, stream, and seal routes.
+
+Apply \autoref{thm:cauchy-modulus-refinement-selector-nonempty-route}. The selected-window and tolerance-facing reads must expose the nonempty selector-budget route through $T,W,Q$ before a projected tail or seal can be consumed.
+
+Finally invoke \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-exactness}. Since the RegSeqRat tail read, StreamName selected-window read, and Real seal read are already exact projections of the same selector route through $U,V,T,W,Q,E$, changing one projection would change the shared route and therefore the other two projections as well.
+\end{proof}
