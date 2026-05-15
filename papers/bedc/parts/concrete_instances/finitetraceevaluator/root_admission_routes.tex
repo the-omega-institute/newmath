@@ -1,0 +1,46 @@
+\begin{theorem}[FiniteTraceEvaluator source admission]
+\label{thm:finite-trace-evaluator-source-admission}
+Every accepted-result read of an accepted $\FiniteTraceEvaluatorUp$ packet begins from the displayed input row $I$ and finite trace row $T$. The accepted-result classifier $A$ may be consumed only after the coded input has entered the bounded trace route, and the read does not import a host source, infinite trace, or second checkpoint ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its accepted-result surface is displayed by the rows $I,T,A$, with $I$ naming the coded input, $T$ naming the finite trace steps, and $A$ naming the accepted-result classifier.
+
+Apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. It forces every accepted result onto the bounded route from $I$ through $T$ before the classifier row can be read.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. The checkpoint-facing source remains locked to $I \to T \to A$, so no host source, infinite trace, or second checkpoint ledger is available to the consumer.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator ledger exhaustion]
+\label{thm:finite-trace-evaluator-ledger-exhaustion}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the provenance row $P$ and local naming row $N$ expose all dependency rows available to checkpoint consumers. The packet exposes no host validator, total truth predicate, total halting classifier, unbounded evaluator, or infinite trace beyond the finite rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:finite-trace-evaluator-carrier}. The dependency-carrying rows visible at the checkpoint boundary are $I,T,A,V,H,C,P,N$, with $P$ recording package provenance and $N$ recording the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row.
+
+Apply \autoref{thm:finite-trace-evaluator-validation-boundary-exhaustion}. It confines validation-facing reads to the displayed validation boundary and prevents a host validating judgment from becoming a packet coordinate.
+
+Next use \autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}. The accepted-result route, validation boundary, transport, continuation, provenance, and local naming rows account for the available ledger surface.
+
+Finally attach \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The checkpoint handoff exposes only $I,T,A,V,H,C,P,N$, excluding host validation, total truth, total halting, unbounded evaluation, and infinite traces.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator consumer factorization]
+\label{thm:finite-trace-evaluator-consumer-factorization}
+Every checkpoint consumer of an accepted $\FiniteTraceEvaluatorUp$ packet factors through
+$$
+I,T,A,V,H,C,P,N.
+$$
+The consumer receives a finite evaluator route: coded input, finite trace, accepted-result classifier, validation boundary, componentwise transport, displayed continuation, provenance, and local naming in that order of dependency.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. It identifies the checkpoint-facing route through the finite evaluator carrier and excludes an external evaluator from the consumer surface.
+
+Use \autoref{thm:finite-trace-evaluator-source-admission}. The accepted-result side of the consumer route must begin with $I$ and $T$ before $A$ can be consumed.
+
+Apply \autoref{thm:finite-trace-evaluator-ledger-exhaustion}. The validation boundary and dependency ledger are exhausted by $V,H,C,P,N$, with no host validator or infinite trace left outside the packet.
+
+Thus every checkpoint consumer factors through the displayed rows $I,T,A,V,H,C,P,N$ as one finite evaluator route.
+\end{proof}
