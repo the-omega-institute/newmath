@@ -1,0 +1,96 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-budget exhaustion]
+\label{thm:finite-trace-evaluator-checkpoint-budget-exhaustion}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, every checkpoint-budget read consumed by the
+$\ReflectionRuntimeCheckpointUp$ sibling surface is exhausted by the displayed
+finite evaluator rows: coded input $I$, finite trace $T$, accepted-result
+classifier $A$, validation-boundary row $V$, componentwise $\hsame$ transport
+$H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. The checkpoint budget exposes no
+host evaluator, hidden runtime acceptance predicate, total truth predicate,
+total halting classifier, unbounded evaluator, infinite trace, or second
+checkpoint source.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its
+public $\BHist$ packet has exactly the rows $I,T,A,V,H,C,P,N$; no further
+runtime row is part of the carrier.
+
+Apply the terminal root surface of
+\autoref{def:finite-trace-evaluator-terminal-root-surface}. It presents the
+same rows to the $\ReflectionRuntimeCheckpointUp$ consumer, with $I,T,A$ as the
+accepted-result spine and $V,H,C,P,N$ as the validation-boundary and structural
+surface.
+
+Finally use the root checkpoint saturation theorem,
+\autoref{thm:finite-trace-evaluator-root-checkpoint-namecert-saturation}. It
+exhausts checkpoint-state, result, validation-boundary, transport,
+continuation, provenance, and local naming reads at the same finite packet.
+Since none of the excluded runtime or truth objects is a displayed row, no
+checkpoint-budget read can escape the finite surface.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator reflection-runtime route]
+\label{thm:finite-trace-evaluator-reflection-runtime-route}
+Every $\ReflectionRuntimeCheckpointUp$ route reading an accepted
+$\FiniteTraceEvaluatorUp$ packet factors through
+$$
+I \to T \to A \to V \to H \to C \to P \to N.
+$$
+The first three rows form the accepted-result route, while the remaining rows
+record validation refusal, componentwise $\hsame$ transport, displayed
+$\Cont$ replay, $\Pkg$ provenance, and the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row. The route does not import a host
+runtime evaluator or a hidden runtime acceptance predicate.
+\end{theorem}
+\begin{proof}
+Begin with the checkpoint consumer route,
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. It already
+places every runtime checkpoint consumer on the displayed sequence from $I$
+through $N$.
+
+Next combine the terminal accepted-result readback with terminal validation
+nonescape,
+\autoref{thm:finite-trace-evaluator-terminal-accepted-result-readback} and
+\autoref{thm:finite-trace-evaluator-terminal-validation-nonescape}. The first
+result fixes access to $A$ behind $I \to T$, and the second keeps validation at
+the boundary row $V$ rather than at a host runtime predicate.
+
+The structural rows then carry only the same route. Componentwise $\hsame$
+transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local
+$\NameCert$ row expose the finite packet to the
+$\ReflectionRuntimeCheckpointUp$ surface without adding evaluator content.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator downstream-unblock scope]
+\label{thm:finite-trace-evaluator-downstream-unblock-scope}
+The finite evaluator package supplied to downstream reflection-runtime
+chapters is exactly the checkpoint-budget package
+$$
+I,T,A,V,H,C,P,N.
+$$
+It licenses downstream use of the displayed finite trace, accepted-result row,
+validation-boundary refusal, $\BHist$ packet identity, componentwise $\hsame$
+transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$
+row. It does not license host evaluator validation, hidden runtime acceptance,
+total truth for $\mathrm{CIC}^{*}$ sentences, total halting, unbounded
+evaluation, infinite trace semantics, or a second runtime checkpoint route.
+\end{theorem}
+\begin{proof}
+First combine
+\autoref{thm:finite-trace-evaluator-checkpoint-budget-exhaustion} with
+\autoref{thm:finite-trace-evaluator-reflection-runtime-route}. These two
+results identify the available budget rows and the only route by which the
+runtime checkpoint sibling can read them.
+
+Use \autoref{thm:finite-trace-evaluator-root-exactness-scope} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. They separate the
+accepted-result spine from the validation-boundary and structural rows, and
+they remove host validation, truth, halting, unbounded evaluation, infinite
+trace semantics, and alternate checkpoint sources from the ledger.
+
+Thus any downstream reflection-runtime chapter citing the evaluator receives a
+finite $\BHist$ packet with visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows. The cited package unblocks only finite checkpoint reads over those rows,
+so no hidden runtime acceptance predicate or host evaluator is exported.
+\end{proof}
