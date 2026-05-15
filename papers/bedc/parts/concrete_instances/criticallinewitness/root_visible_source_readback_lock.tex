@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness visible source readback lock]
+\label{thm:critical-line-witness-visible-source-readback-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every visible source read of $W$ is locked to the displayed zero-strip source triad and comparison ledger: the read must expose $Z,S,Q$ as the source side and $M,R,Q,H,C,P,N$ as the comparison and structural side before any downstream consumer can use the witness.
+\end{theorem}
+\begin{proof}
+Start with the visible source triad, \autoref{thm:critical-line-witness-visible-source-triad}. It places the critical-strip source row, rational modulus row, zero-strip refusal row, and local structural provenance on the consumer-visible surface.
+
+Use the root source triad, \autoref{thm:critical-line-witness-root-source-triad}, to identify the source side of the read as the displayed $Z,S,Q$ packet. Then use the root comparison ledger, \autoref{thm:critical-line-witness-root-comparison-ledger}, to route the comparison side through $M,R,Q,H,C,P,N$.
+
+Finally apply RH-refusal ledger completeness, \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It prevents the visible readback from replacing the displayed rows by an $\mathsf{RH}$ proof, a zero search, analytic continuation, quotient data, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip modulus totality]
+\label{thm:critical-line-witness-fixed-strip-modulus-totality}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every fixed-strip modulus consumer factors through the finite rows $Z,S,M,R,Q,H,C,P,N$. The consumer has no accepted access to a detached modulus oracle, analytic-continuation row, zero-location classifier, quotient representative, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-visible-source-readback-lock}. It binds fixed-strip source access to the same source triad and comparison ledger.
+
+Next use the downstream RH boundary refinement, \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement}. The refinement says that downstream consumers receive only the finite package routed through the displayed source, comparison, transport, replay, provenance, and local naming rows.
+
+The remaining possible escapes are removed by \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. Hence every fixed-strip modulus read is total over $Z,S,M,R,Q,H,C,P,N$ and cannot import a stronger analytic or host-side witness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH refusal export boundary]
+\label{thm:critical-line-witness-rh-refusal-export-boundary}
+Every $\mathsf{RH}$-facing export of an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ receives only the finite refusal package carried by $Z,S,M,R,Q,H,C,P,N$. It receives no $\mathsf{RH}$ proof, analytic-continuation certificate, zero-search result, quotient representative, host equality proof, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with fixed-strip modulus totality, \autoref{thm:critical-line-witness-fixed-strip-modulus-totality}. It forces every fixed-strip modulus consumer through the displayed packet rows.
+
+Now read the export boundary through \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement}. The downstream interface is the finite refusal package, not a host analytic conclusion.
+
+Finally apply RH-refusal ledger completeness, \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. Its exclusion clauses remove $\mathsf{RH}$ proof data, analytic continuation, zero search, quotient representatives, host equality, and ambient completeness from the export surface, so only the displayed refusal package remains.
+\end{proof}
