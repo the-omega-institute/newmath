@@ -1,0 +1,45 @@
+\begin{theorem}[GapClosureBoundary source-refusal decision surface]
+\label{thm:gap-closure-boundary-source-refusal-decision-surface}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every supported read factors through the displayed source route
+$$
+G \longrightarrow S,
+$$
+and every unsupported read factors through the displayed refusal route
+$$
+G \longrightarrow R.
+$$
+The decision surface is the concrete packet governed by \autoref{thm:gap-closure-boundary-source-route-totality}, \autoref{thm:gap-closure-boundary-refusal-route-exactness}, \autoref{thm:gap-closure-boundary-consumer-exactness-package}, and the TasteGate row recorded in the closure status for this chapter.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:gap-closure-boundary-carrier}. It exposes exactly the request row, source row, refusal row, transport row, continuation row, provenance row, and local naming row $G,S,R,H,C,P,N$.
+
+For the supported branch, apply \autoref{thm:gap-closure-boundary-source-route-totality}. The read reaches the boundary only after the route $G \longrightarrow S$ is displayed.
+
+For the unsupported branch, apply \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The same request row is sent to $R$ rather than to hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or an off-packet continuation.
+
+Finally use the consumer exactness package and the TasteGate status row. The package keeps downstream reads inside the same seven coordinates, and the TasteGate row requires the source/refusal split to be preserved by the named carrier surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer route factorization]
+\label{thm:gap-closure-boundary-consumer-route-factorization}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, each downstream consumer read by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ factors first through the decision surface of \autoref{thm:gap-closure-boundary-source-refusal-decision-surface}. Supported consumers then read $G \longrightarrow S$ with $H,C,P,N$, while unsupported consumers read $G \longrightarrow R$ with the same structural rows.
+\end{theorem}
+\begin{proof}
+Begin with the decision surface. It already separates every accepted read of $B$ into the supported route $G \longrightarrow S$ or the unsupported route $G \longrightarrow R$.
+
+Apply the consumer exactness package, \autoref{thm:gap-closure-boundary-consumer-exactness-package}. The listed hard-problem consumers receive the shared boundary packet and do not obtain a consumer-specific source, refusal, transport, continuation, provenance, or naming coordinate.
+
+The supported case is therefore routed by \autoref{thm:gap-closure-boundary-source-route-totality}. The unsupported case is routed by \autoref{thm:gap-closure-boundary-refusal-route-exactness}. Since both cases use the same structural rows $H,C,P,N$, the consumer route factors through the displayed decision surface before any downstream read is made.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary TasteGate field-faithful readback]
+\label{thm:gap-closure-boundary-tastegate-fieldfaithful-readback}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, every faithful readback of the TasteGate row recorded in the closure status preserves the displayed packet fields $G,S,R,H,C,P,N$. In particular, it preserves the supported branch $G \longrightarrow S$, the unsupported branch $G \longrightarrow R$, and the consumer factorization of \autoref{thm:gap-closure-boundary-consumer-route-factorization}.
+\end{theorem}
+\begin{proof}
+Read the TasteGate row through the carrier of \autoref{def:gap-closure-boundary-carrier}. The row is attached to the displayed $\GapClosureBoundaryUp$ packet, not to an ambient closure oracle.
+
+Use source-route totality and refusal-route exactness. A faithful readback must preserve which requests reach $S$ and which requests reach $R$, because changing either endpoint changes the public source/refusal decision.
+
+Finally apply consumer route factorization. The listed consumers see the decision only through $G,S,R,H,C,P,N$, so a field-faithful readback preserves all displayed packet fields and cannot replace them with hidden closure, private source access, host equality, quotient data, or an off-packet continuation.
+\end{proof}

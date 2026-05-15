@@ -587,6 +587,33 @@ Next use \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. T
 The route is bridge-facing because it exposes the same public certificate rows to the outside interface while preserving the BEDC non-escape boundary. No host interval primitive, selected endpoint value, quotient real equality, or order-completeness row is exported.
 \end{proof}
 
+\begin{theorem}[LocatedInterval real-stream bracket correspondence]
+\label{thm:located-interval-real-stream-bracket-correspondence}
+For every accepted $\LocatedIntervalUp$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+the following two finite BEDC reads are equivalent as reads of the same packet-local certificate.
+\begin{enumerate}
+\item The $\LocatedIntervalUp$ endpoint-cell read passes through the lower and upper endpoint rows, rational containment cells, dyadic refinement cells, endpoint-window rows, readback rows, real-seal rows, transports, continuations, package provenance, and local $\NameCert$ row of $J$.
+\item The $\RealUp$ stream-classifier read receives its finite endpoint windows from $\StreamNameUp$, its pointwise rational stream readbacks from $\RegSeqRatUp$, and its endpoint seal rows from the same $\RealUp$ rows carried by $J$.
+\end{enumerate}
+Thus rational and dyadic bracket containment for $J$ and the Real-facing stream-name substrate read determine one another only through the displayed finite rows
+$$
+L,U,I,D,S,R,E,H,C,P,N.
+$$
+The correspondence exports no host interval primitive, selected endpoint value, quotient-real equality, ambient order-completeness principle, or unrecorded completion object.
+\end{theorem}
+\begin{proof}
+First read the interval side through \autoref{thm:locatedinterval-public-consumer-route}. It makes every public consumer of $J$ pass through the displayed endpoint, rational cell, dyadic refinement, readback, seal, transport, continuation, package, and naming rows.
+
+Next apply \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. This identifies rational containment, dyadic refinement, and $\RealUp$ sealing as one packet-local finite route rather than as three independent host structures.
+
+For the stream-facing side, use the StreamName-RegSeqRat pointwise handoff together with the RegSeqRat real-seal handoff. The finite endpoint windows supplied by $\StreamNameUp$ and the pointwise rational readbacks supplied by $\RegSeqRatUp$ are therefore the same windows and readbacks already present in $S$ and $R$, and the Real rows seal them through $E$.
+
+Finally apply the RealStreamClassifier selected endpoint readback at the $\RealUp$ endpoint surface. Since the classifier reads only the finite windows and their Real seal rows, the two displayed reads are inverse descriptions of the same certificate route. No step introduces host intervals, selected endpoints, quotient-real equality, order completeness, or ambient completion.
+\end{proof}
+
 \closureat{LocatedIntervalUp}{obligationStr}
 \closureat{LocatedIntervalUp}{scopedStr}
 \closureat{LocatedIntervalUp}{bridgeStr}
