@@ -43,6 +43,7 @@ Read the positive route in order. The observer-history row $I$ is first consumed
 
 The omitted ledger is checked by coordinate exhaustion. It appears as $O$ and nowhere as $B$, $W$, $D$, $R$, or $E$. Since the carrier also omits quotient streams, host real equality, countable choice, hidden selectors, and ambient completeness, the listed rows exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorNameCertSurface\_omitted\_field\_empty\_reflects}
 
 \begin{theorem}[Observer-filter budget-selector StreamName handoff]
 \label{thm:observer-filter-budget-selector-streamname-handoff}
@@ -61,18 +62,53 @@ The remaining coordinates are the budget-selector continuation. The route from $
 
 Thus the public handoff is exactly the displayed finite route. Because $O$ is not a selected row or budget coordinate, no omitted row can become any of the named observation, completion, equality, or selector objects.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorStreamNameHandoff\_omitted\_boundary\_not\_erased}
+
+\begin{theorem}[Observer-filter budget-selector dyadic readback exactness]
+\label{thm:observer-filter-budget-selector-dyadic-readback-exactness}
+Every accepted $\ObserverFilterBudgetSelectorUp$ packet reads the $\DyadicRatCoreUp$ row $D$ only after the selected $\ObserverFilterUp$ row $S$, finite budget row $B$, and $\StreamNameUp$ window family $W$ have been exposed in the displayed route
+$$
+I \to F \to S \to B \to W \to D.
+$$
+The readback cannot replace $D$ by omitted-row data from $O$, quotient streams, host real equality, or hidden limit selectors.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $G=(F,I,S,O,B,W,D,R,E,H,C,P,N)$. The carrier definition places $D$ after $W$, and the StreamName handoff theorem places $W$ after the selected-row budget route through $S$ and $B$.
+
+Apply \autoref{thm:observer-filter-budget-selector-namecert-surface}. It identifies the $\DyadicRatCoreUp$ exposure as the named row $D$ and keeps the omitted ledger $O$ outside the positive observation route.
+
+Finally use coordinate exhaustion. The carrier has no coordinate for quotient streams, host real equality, or hidden limit selectors, so the only dyadic readback available to the packet is the displayed row reached through $I,F,S,B,W$.
+\end{proof}
+
+\begin{theorem}[Observer-filter budget-selector Real-seal terminality]
+\label{thm:observer-filter-budget-selector-real-seal-terminality}
+Every terminal $\RealUp$ seal read of an accepted $\ObserverFilterBudgetSelectorUp$ packet factors through
+$$
+I \to F \to S \to B \to W \to D \to R \to E,
+$$
+with the omitted row $O$ serving only as a boundary ledger. No terminal read may bypass the selected observer-filter budget route or use $O$ as a Real-seal source.
+\end{theorem}
+\begin{proof}
+The StreamName handoff theorem gives the positive route from $I$ through $F,S,B,W,D,R,E$. This already places the terminal Real seal after the finite budget windows and the dyadic and regular-sequence rows.
+
+The dyadic readback exactness theorem pins the $D$ row to the selected observer-filter budget route. Therefore the following $R$ and $E$ reads inherit the same selected-row dependency rather than a separate omitted-row or host-real source.
+
+The omitted ledger remains boundary data because it is listed only as $O$ and transported by $H,C,P,N$. Since the carrier excludes quotient streams, host real equality, selected host limits, and hidden limit selectors, every terminal Real-seal read factors through the displayed route.
+\end{proof}
 
 The Lean file \texttt{Derived/ObserverFilterBudgetSelectorUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \ObserverFilterBudgetSelectorUp$ and $\mathsf{FieldFaithful}\ \ObserverFilterBudgetSelectorUp$ instances over the displayed rows.
 
 \closureat{ObserverFilterBudgetSelectorUp}{seedStr}
+\closureat{ObserverFilterBudgetSelectorUp}{obligationStr}[BEDC.Derived.ObserverFilterBudgetSelectorUp.ObserverFilterBudgetSelectorTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ObserverFilterBudgetSelectorUp}
   \constructivestory{An $\ObserverFilterBudgetSelectorUp$ packet is generated from observer-history identity, observer-filter selected and omitted rows, a finite observation-budget selector, StreamName windows, DyadicRatCore observations, RegSeqRat handoff, Real seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-filter-budget-selector-carrier}, \autoref{thm:observer-filter-budget-selector-namecert-surface}, and \autoref{thm:observer-filter-budget-selector-streamname-handoff} bind the finite selected-row budget route over ObserverHistoryIdentityUp, ObserverFilterUp, StreamNameUp, FiniteObservationBudgetSelectorUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \leanchecked{BEDC.Derived.ObserverFilterBudgetSelectorUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-filter-budget-selector-carrier}, \autoref{thm:observer-filter-budget-selector-namecert-surface}, \autoref{thm:observer-filter-budget-selector-streamname-handoff}, \autoref{thm:observer-filter-budget-selector-dyadic-readback-exactness}, and \autoref{thm:observer-filter-budget-selector-real-seal-terminality} bind the finite selected-row budget route, dyadic readback exactness, and terminal Real-seal factorization over ObserverHistoryIdentityUp, ObserverFilterUp, StreamNameUp, FiniteObservationBudgetSelectorUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected host limits, countable choice, hidden limit selectors, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, selected-row budget admission, StreamName handoff, omitted-row non-escape, nontriviality, and field faithfulness for the same packet.}
+  \upgradepath{Scoped closure requires explicit dependency scope for ObserverHistoryIdentityUp, ObserverFilterUp, StreamNameUp, FiniteObservationBudgetSelectorUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert over the same selected-row budget packet.}
 \end{closurestatus}
