@@ -632,6 +632,7 @@ import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
+import BEDC.Derived.GammaZetaFactorSealUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
