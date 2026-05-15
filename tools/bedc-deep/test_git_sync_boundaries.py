@@ -156,6 +156,15 @@ def test_supervisor_runs_plain_review_research_lane() -> None:
     assert "does not write paper text directly" in text
 
 
+def test_board_spawn_has_deterministic_judge_fallback() -> None:
+    text = _text(SCRIPT_DIR / "board_spawn.py")
+    assert "DETERMINISTIC_FALLBACK_SOURCES" in text
+    assert "ANTI_PARAMETER_ECHO_RE" in text
+    assert "def _deterministic_fallback_judge" in text
+    assert "board_judge_unavailable" in text
+    assert "Deterministic BOARD fallback admitted" in text
+
+
 if __name__ == "__main__":
     test_supervisor_does_not_clear_stop_file()
     test_supervisor_runs_gated_dev_sync_resolver()
@@ -171,4 +180,5 @@ if __name__ == "__main__":
     test_candidate_inbox_holds_refinable_candidates()
     test_research_lane_recovers_held_candidates()
     test_supervisor_runs_plain_review_research_lane()
+    test_board_spawn_has_deterministic_judge_fallback()
     print("test_git_sync_boundaries: ok")

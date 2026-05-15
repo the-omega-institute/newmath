@@ -95,6 +95,23 @@ LOGIC_PACKET_FIELDS = (
     "rate_modulus_surface",
     "oracle_mode",
 )
+DETERMINISTIC_FALLBACK_SOURCES = {
+    "plain_math_review",
+    "research_lane:structural_relation_miner",
+    "research_lane:candidate_inbox",
+}
+ANTI_PARAMETER_ECHO_RE = re.compile(
+    r"local obligation row projection|parameter[- ]echo|"
+    r"displayed namecert obligation surface.*(?:contains|records).*displayed|"
+    r"merely restates|tautological re[- ]projection|"
+    r"generic per[- ]seal projection",
+    re.IGNORECASE,
+)
+DETERMINISTIC_ALLOWED_LANDING = {
+    "existing_chapter_lemma",
+    "existing_chapter_obligation",
+    "existing_chapter_ledger_row",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -556,6 +573,93 @@ def _logic_packet_rejection(candidate: dict) -> str:
     return "logic_packet_gate:" + ";".join(result.reasons)
 
 
+def _deterministic_fallback_rejection(
+    candidate: dict,
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> str:
+    """Conservative BOARD intake when both LLM judges are unavailable.
+
+    This is deliberately narrower than the normal board_judge.  It only admits
+    deterministic supply lanes whose packets already survived candidate_inbox,
+    have BEDC-local landing files, complete logic metadata, and no obvious
+    anti-parameter-echo shape.  New chapters and external-source packets still
+    require the normal judge.
+    """
+    source = str(candidate.get("source") or "").strip()
+    if source not in DETERMINISTIC_FALLBACK_SOURCES:
+        return f"deterministic_fallback_source_requires_llm_judge:{source or 'unknown'}"
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if landing_kind not in DETERMINISTIC_ALLOWED_LANDING:
+        return f"deterministic_fallback_landing_requires_llm_judge:{landing_kind or 'missing'}"
+    text = " ".join(
+        str(candidate.get(key) or "")
+        for key in ("title", "claim", "concrete_claim", "rationale")
+    )
+    if EXTERNAL_SIGNAL_RE.search(text):
+        return "deterministic_fallback_external_signal_requires_llm_judge"
+    if ANTI_PARAMETER_ECHO_RE.search(text):
+        return "deterministic_fallback_anti_parameter_echo"
+    inputs = candidate.get("local_inputs") or []
+    if not isinstance(inputs, list) or not inputs:
+        return "deterministic_fallback_missing_local_inputs"
+    for rel in inputs:
+        rel = str(rel or "").strip()
+        if not rel.startswith("papers/bedc/parts/"):
+            return f"deterministic_fallback_non_paper_input:{rel}"
+        if re.search(r"^papers/bedc/parts/(?:visions|conjectures)/", rel, re.I):
+            return f"deterministic_fallback_inspiration_only_input:{rel}"
+        if not (REPO_ROOT / rel).exists():
+            return f"deterministic_fallback_missing_input:{rel}"
+    landing_rejection = _post_judge_landing_rejection(candidate)
+    if landing_rejection:
+        return landing_rejection
+    logic_rejection = _logic_packet_rejection(candidate)
+    if logic_rejection:
+        return logic_rejection
+    try:
+        fit = int(candidate.get("fit_score", 0))
+        nov = int(candidate.get("novelty", 0))
+    except (TypeError, ValueError):
+        return "deterministic_fallback_non_int_score"
+    if fit < fit_threshold or nov < novelty_threshold:
+        return f"deterministic_fallback_below_threshold fit={fit} nov={nov}"
+    return ""
+
+
+def _deterministic_fallback_judge(
+    candidates: list[dict],
+    *,
+    fit_threshold: int,
+    novelty_threshold: int,
+) -> tuple[list[dict], list[dict]]:
+    accepted: list[dict] = []
+    rejected: list[dict] = []
+    for candidate in candidates:
+        reason = _deterministic_fallback_rejection(
+            candidate,
+            fit_threshold=fit_threshold,
+            novelty_threshold=novelty_threshold,
+        )
+        if reason:
+            rejected.append({**candidate, "reason": reason})
+            continue
+        accepted.append(
+            {
+                **candidate,
+                "source": str(candidate.get("source") or "deterministic_fallback"),
+                "rationale": (
+                    str(candidate.get("rationale") or "").strip()
+                    + " Deterministic BOARD fallback admitted this only after "
+                    "candidate_inbox, local-input, logic-packet, landing-kind, "
+                    "and anti-parameter-echo gates; final writeback gates still apply."
+                ).strip(),
+            }
+        )
+    return accepted, rejected
+
+
 def _rejection_match_keys(candidate: dict) -> list[tuple[str, str]]:
     keys: list[tuple[str, str]] = []
     for field_name in ("candidate_id", "title"):
@@ -675,6 +779,59 @@ def spawn_from_candidates(
     )
     rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
     if err:
+        error_kind = classify_judge_error(err)
+        if error_kind.startswith("board_judge_unavailable"):
+            accepted, deterministic_rejected = _deterministic_fallback_judge(
+                codex_alive + oracle_alive,
+                fit_threshold=fit_threshold,
+                novelty_threshold=novelty_threshold,
+            )
+            rejected = deterministic_rejected
+            if accepted:
+                print(
+                    "[board_spawn] LLM judge unavailable; using conservative "
+                    f"deterministic fallback accepted={len(accepted)} "
+                    f"rejected={len(rejected)}",
+                    flush=True,
+                )
+            else:
+                result = BoardSpawnResult(
+                    ok=False,
+                    error=err,
+                    error_kind=error_kind,
+                    rejected=cheap_drops + cheap_holds + rejected,
+                )
+                _write_latest_status(
+                    result=result,
+                    codex_input=codex_input,
+                    oracle_input=oracle_input,
+                    codex_alive=len(codex_alive),
+                    oracle_alive=len(oracle_alive),
+                    cheap_drop_count=len(cheap_drops) + len(cheap_holds),
+                )
+                return result
+        else:
+            result = BoardSpawnResult(
+                ok=False,
+                error=err,
+                error_kind=error_kind,
+                rejected=cheap_drops + cheap_holds + rejected,
+            )
+            _write_latest_status(
+                result=result,
+                codex_input=codex_input,
+                oracle_input=oracle_input,
+                codex_alive=len(codex_alive),
+                oracle_alive=len(oracle_alive),
+                cheap_drop_count=len(cheap_drops) + len(cheap_holds),
+            )
+            return result
+
+    if err and accepted:
+        # The deterministic fallback path above has already populated accepted
+        # and rejected.  Continue into the same defensive threshold/write path.
+        pass
+    elif err:
         result = BoardSpawnResult(
             ok=False,
             error=err,
