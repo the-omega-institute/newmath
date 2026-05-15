@@ -156,3 +156,25 @@ Now attach the Cauchy tail witness envelope. The selector handoff of \autoref{th
 
 Finally apply the Real-tail seal boundary and non-escape results of \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary} and \autoref{thm:cauchy-tail-witness-envelope-nonescape}. They force the envelope read to pass through $S,F,Q,A,R,H,C,P,N$ and exclude hidden tail oracles together with the same host, quotient, choice, and ambient-completeness bypasses.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility CauchyModulusRefinement route]
+\label{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ route consumed through an accepted $\CauchyModulusRefinementUp$ packet. Then the terminal consumer route factors first through the displayed diagonal rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+and then through the refinement rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The composite route exports no quotient stream, selected host limit, hidden selector, second meet row, host real equality, choice datum, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the diagonal root budget. The root budget source, root window route, and root seal boundary of \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary} place every terminal $\RealUp$ or $\CompletionUp$ read behind $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next use the diagonal consumer boundary. By \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}, the terminal read cannot leave the displayed diagonal route for a quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate.
+
+Now pass the terminal route into the refinement packet. The source-window lock of \autoref{thm:cauchy-modulus-refinement-source-window-lock} forces the consumed route to expose $M_0,M_1,U,V$ before any selected-window or tolerance-readback row is available.
+
+Finally apply root window exhaustion and Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion} and \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. These results place the refinement consumer on $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and exclude quotient streams, selected host limits, hidden selectors, second meet rows, host real equality, choice data, ambient completeness coordinates, and detached completion witnesses.
+\end{proof}
