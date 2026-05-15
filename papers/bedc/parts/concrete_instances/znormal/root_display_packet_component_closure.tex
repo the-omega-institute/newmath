@@ -54,3 +54,20 @@ The sibling packets remain inputs to the displayed rows only: \autoref{ch:concre
 
 Thus the local NameCert surface is exhausted by the carrier, classifier, transport, replay, provenance, and naming rows of $Z$, with no additional host conversion, divergence, or global-normalization component.
 \end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root display packet bridge readback exactness]\label{thm:znormal-root-display-packet-bridge-readback-exactness}
+For every accepted $\ZNormalUp$ root display packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+any accepted total-host or terminal-normal consumer read of $Z$ factors through exactly the displayed typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, Zeckendorf and carry-facing normal-word row $K$, terminal continuation-trace row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local name row $N$. The typed endpoint, normal-word, and continuation-trace sibling surfaces may be consumed only as displayed rows of this packet. No host conversion, divergence oracle, quotient computation, unrestricted evaluator, or global normalizer participates in the readback.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{def:znormal-root-display-packet}. The accepted root surface is the finite $\BHist$ display $T,F,V,K,R,H,C,P,N$, so a consumer read has no ambient coordinate apart from these rows.
+
+Apply \autoref{thm:znormal-root-total-host-bridge-components}. It identifies the typed endpoint read with $T$, the Zeckendorf and carry-facing normal read with $K$, the terminal continuation-trace read with $R$, and the local provenance and naming read with $P,N$, while keeping $F,V,H,C$ inside the same packet.
+
+Use \autoref{thm:znormal-root-cont-replay-closure} for the replay coordinate. This confines every accepted continuation replay to $C$ together with $R,H,P,N$, and it prevents the readback from exporting a host conversion, divergence oracle, or global-normalization procedure.
+
+Finally invoke \autoref{thm:znormal-root-namecert-component-exhaustion}. Its component list exhausts the local $\NameCert_{\ZNormalUp}$ surface by the carrier, classifier, transport, replay, provenance, and naming rows of $Z$. The sibling chapters \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} are therefore consumed only as displayed endpoint, normal-word, and continuation-trace surfaces, giving exact readback with no quotient computation, unrestricted evaluator, or global normalizer.
+\end{proof}
