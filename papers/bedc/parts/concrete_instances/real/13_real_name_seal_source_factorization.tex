@@ -35,6 +35,38 @@ The route is the local RealUp form of \autoref{thm:real-regseqrat-streamname-lat
 The RegularCauchyName seal results provide the readback discipline used by the same boundary. Apply \autoref{thm:regularcauchyname-real-seal-consumer-scope}, \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion}, and \autoref{thm:regularcauchyname-seal-readback-exhaustion}: a real-seal consumer is downstream of the displayed finite window, dyadic observation, regularity ledger, package provenance, and local NameCert rows. Repacking those rows as $D,S,Q,L,E,H,C,P,N$ gives the stated factorization.
 \end{proof}
 
+\begin{theorem}[Real name seal four-face coverage]
+\label{thm:real-name-seal-four-face-coverage}
+For every accepted $\RealUp$ name-seal packet
+$$
+R=(D,S,Q,L,E,H,C,P,N)
+$$
+of \autoref{def:real-name-seal-carrier}, all public seal reads are exhausted by exactly the four finite faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+The exhaustive route consists of the following displayed rows:
+\begin{enumerate}
+\item the $\BHist$ packet rows $D,S,Q,L,E$;
+\item the componentwise $\hsame$ transports in $H$;
+\item the $\Cont$ routes in $C$ from finite windows through dyadic observations and regular-rational rows to the local seal;
+\item the $\Pkg$ provenance row $P$ over the four faces and the structural rows;
+\item the local $\NameCert_{\RealUp}$ row $N$ for this packet.
+\end{enumerate}
+No public read through $R$ has a coordinate for quotient stream equality, selected host limits, host real equality, host sequence equality, ambient $\RealUp$ completeness, metric-completeness data, choice rows, or standard bridge rows.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:real-name-seal-carrier}. The carrier exposes exactly the dyadic observation row $D$, the finite-window row $S$, the regular-rational row $Q$, the finite ledger $L$, the local seal row $E$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:real-name-seal-source-factorization}. Every public seal read must pass through $S,D,Q,L \longmapsto E$, with only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+The lattice and consumer-scope results identify the four faces of that route. Use \autoref{thm:real-regseqrat-streamname-lattice-route} and \autoref{thm:regularcauchyname-real-seal-consumer-scope} to place the accepted read behind the StreamName, RegSeqRat, DyadicRatCore, and local Real surfaces.
+
+The face rows are the existing handoffs: \autoref{thm:streamname-public-finite-window-interface}, \autoref{thm:dyadicratcore-real-phase-source-coverage}, \autoref{thm:regseqrat-real-seal-handoff}, and \autoref{thm:real-stream-finite-prefix-exactness}. They account for the finite window, dyadic observation, regular-rational readback, and local seal faces.
+
+Since \autoref{def:real-name-seal-carrier} has no fifth analytic coordinate, the listed four faces exhaust the accepted seal route. The excluded quotient, host-limit, host-equality, completeness, metric-completeness, choice, and standard-bridge rows are therefore not public reads of $R$.
+\end{proof}
+
 \begin{theorem}[Real StreamName-RegSeqRat seal route]
 \label{thm:real-streamname-regseqrat-seal-route}
 Every accepted $\RealUp$ name-seal packet

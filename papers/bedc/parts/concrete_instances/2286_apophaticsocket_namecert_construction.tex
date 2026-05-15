@@ -173,6 +173,34 @@ Next apply the noninternalization boundary of \autoref{thm:apophatic-socket-noni
 Finally use the scoped supply ledger of \autoref{thm:apophatic-socket-scoped-supply-ledger} together with the kernel-scope obligation package of \autoref{thm:apophatic-socket-kernel-scope-obligation-package}. They exhaust every visible consumer route through $K,S_0,G,A,L,Q,P,N$, so no downstream consumer can reinterpret the visible boundary request as positive internal supply.
 \end{proof}
 
+\begin{theorem}[ApophaticSocket refusal ledger boundary]
+\label{thm:apophatic-socket-refusal-ledger-boundary}
+For an accepted $\ApophaticSocketUp$ packet with visible request rows
+$$
+K,S_0,G,A,L,Q,P,N,
+$$
+any socket request through those rows remains a refusal-ledger boundary row. It
+cannot be consumed as positive supply, anonymous import, theorem object, setup
+field, or constructor.
+\end{theorem}
+\begin{proof}
+Apply the gate correspondence of
+\autoref{thm:apophatic-socket-gate-correspondence}. The visible request is
+attached to the socket kind $K$, requested supply shape $S_0$, audit gate $G$,
+and site row $A$.
+
+Next use \autoref{thm:apophatic-socket-noninternalization-boundary} and
+\autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. These place
+the request in the boundary ledger and exclude an internal coordinate that
+could act as positive supply, anonymous import, theorem object, setup field, or
+constructor.
+
+Finally apply \autoref{thm:apophatic-socket-scoped-supply-ledger} and
+\autoref{thm:apophatic-socket-kernel-scope-obligation-package}. Every consumer
+of the request factors through $K,S_0,G,A,L,Q,P,N$, so the ledger row remains a
+visible refusal boundary rather than a consumable supply object.
+\end{proof}
+
 \closureat{ApophaticSocketUp}{obligationStr}
 \closureat{ApophaticSocketUp}{scopedStr}[BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_gated\_supply\_route\_exhaustion]
 \closureat{ApophaticSocketUp}{publicStr}[BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_consumer\_surface]
@@ -181,7 +209,7 @@ Finally use the scoped supply ledger of \autoref{thm:apophatic-socket-scoped-sup
 \begin{closurestatus}{\ApophaticSocketUp}
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The public export is the consumer surface and gated supply route over $K,S_0,G,A,L,Q,P,N$, as displayed by \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, with the carrier, NameCert rows, positive supply refusal, scoped supply ledger, and kernel-scope obligation package of \autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-positive-supply-refusal-scope}, \autoref{thm:apophatic-socket-scoped-supply-ledger}, and \autoref{thm:apophatic-socket-kernel-scope-obligation-package} fixing the same finite socket ledger.}
+  \scopeclosed{The public export is the consumer surface and gated supply route over $K,S_0,G,A,L,Q,P,N$, as displayed by \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, with the carrier, NameCert rows, positive supply refusal, refusal ledger boundary, scoped supply ledger, and kernel-scope obligation package of \autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-positive-supply-refusal-scope}, \autoref{thm:apophatic-socket-refusal-ledger-boundary}, \autoref{thm:apophatic-socket-scoped-supply-ledger}, and \autoref{thm:apophatic-socket-kernel-scope-obligation-package} fixing the same finite socket ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
