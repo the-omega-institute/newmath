@@ -1909,7 +1909,12 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] ORPHAN NEW CHAPTER: {v}")
         return False, new
 
-    # Gate FF — \origin{ai} chapter missing FieldFaithful instance.
+    # Gate FF — `\origin{ai}` chapter first-proposal missing FieldFaithful
+    # instance. Maintenance edits on chapters already `\origin{ai}` are
+    # exempted upstream in phase_paper_gates.detect_ai_chapter_missing_
+    # field_faithful (2026-05-15). FAIL on first-proposal is intentional:
+    # recovery consumer picks up the FAIL and dispatches codex to add the
+    # FF instance, then re-runs the round.
     ff_v = gate_results.get("ai-missing-fieldfaithful", [])
     if ff_v:
         for v in ff_v[:10]:
