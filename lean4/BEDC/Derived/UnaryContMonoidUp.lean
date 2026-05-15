@@ -153,4 +153,25 @@ theorem UnaryContMonoidCarrier_unit_bind_surface [AskSetup] [PackageSetup]
     ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryRightUnit, unaryUnitBindRead,
       productRoute, leftUnitRoute, rightUnitRoute, unitBindRoute, sameUnit, unitBindPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_operation_closure [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      UnaryHistory ab ∧ Cont a b ab ∧ Cont BHist.Empty a unitLeft ∧
+        Cont a BHist.Empty unitRight ∧ UnaryHistory unitLeft ∧
+          UnaryHistory unitRight ∧ hsame e BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨unaryA, unaryB, _unaryName, productRoute, leftUnitRoute, rightUnitRoute,
+    _ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryRightUnit : UnaryHistory unitRight :=
+    unary_cont_closed unaryA unary_empty rightUnitRoute
+  exact
+    ⟨unaryProduct, productRoute, leftUnitRoute, rightUnitRoute, unaryLeftUnit,
+      unaryRightUnit, sameUnit⟩
+
 end BEDC.Derived.UnaryContMonoidUp
