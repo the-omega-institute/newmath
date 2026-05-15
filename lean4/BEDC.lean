@@ -623,6 +623,7 @@ import BEDC.Derived.CauchyCriterionUp.QuotientRefusal
 import BEDC.Derived.CauchyCriterionUp.RealTailAgreementSealRoute
 import BEDC.Derived.CauchyCriterionUp.RegSeqRatRealRouteLock
 import BEDC.Derived.CauchyCriterionUp.RegSeqRatStreamNameRealUpHandoff
+import BEDC.Derived.CauchyCriterionUp.RealTailAgreementRouteCorrespondence
 import BEDC.Derived.CauchyCriterionUp.StreamNameRealBudgetSelectorBoundary
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyOscillationUp
