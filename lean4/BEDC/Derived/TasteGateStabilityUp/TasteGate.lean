@@ -203,7 +203,6 @@ instance tasteGateStabilityChapterTasteGate : ChapterTasteGate TasteGateStabilit
     exact hxy (tasteGateStabilityToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate TasteGateStabilityUp :=
-  -- BEDC touchpoint anchor: BHist BMark
   tasteGateStabilityChapterTasteGate
 
 theorem TasteGateStabilityTasteGate_single_carrier_alignment :

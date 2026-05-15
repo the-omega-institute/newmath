@@ -92,6 +92,7 @@ $K=(S,T,G,E,C,H,P,N)$; it does not export host compiler semantics, optimiser
 correctness, decompiler correctness, ambient program equality, or target
 behavior absent from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_downstream\_stage\_unblock\_package}
 \begin{proof}
 First build the endpoint part of the package. By
 \autoref{thm:certificate-compiler-target-endpoint-route}, every accepted
@@ -231,6 +232,20 @@ Finally use \autoref{thm:certificate-compiler-finite-route-non-escape}. Any
 cut that replaces a displayed row by host semantics, decompiler correctness,
 ambient equality, or unrecorded target behavior leaves the finite packet
 surface and is therefore unavailable to downstream consumers.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler endpoint decompiler handoff determinacy]
+\label{thm:certificate-compiler-endpoint-decompiler-handoff-determinacy}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ endpoint route. Once the displayed rows $S,G,E,H,C,P,N$ and the $\KernelMorphismUp$ graph-admission and classifier-lift rows are fixed, any $\DecompilerRightInverseUp$ consumer can read only the inverse-boundary rows already cited by \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}. The handoff cannot introduce host compiler semantics, optimiser correctness, ambient program equality, host decompiler functions, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+First use target endpoint determinacy, \autoref{thm:certificate-compiler-target-endpoint-determinacy}. With the source row, graph edge, landing row, classifier transport, continuation row, provenance, and local naming row fixed, the endpoint route is the displayed finite route through $S,G,E,H,C,P,N$.
+
+Next apply route composition exactness and ledger cut elimination, \autoref{thm:certificate-compiler-route-composition-exactness} and \autoref{thm:certificate-compiler-ledger-cut-elimination}. Identity, binary, and triple composites may be replayed only over the same displayed endpoint rows, and no intermediate cut can replace them by host semantics or unrecorded behavior.
+
+Now pass through the KernelMorphism route scope, \autoref{thm:certificate-compiler-kernelmorphism-route-scope}. The morphism leg contributes only the graph-admission and classifier-lift rows licensed by $\KernelMorphismUp$.
+
+Finally apply the KernelMorphism decompiler boundary, \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}, together with the decompiler right-inverse non-escape boundary of \autoref{thm:decompiler-right-inverse-non-escape-boundary}. A downstream inverse consumer therefore receives only the displayed compiler packet, the fixed KernelMorphism rows, and the inverse-boundary rows, with no coordinate for host compiler semantics, optimiser correctness, ambient equality, host decompiler functions, or unrecorded target behavior.
 \end{proof}
 
 \begin{theorem}[CertificateCompiler endpoint-composite determinacy]

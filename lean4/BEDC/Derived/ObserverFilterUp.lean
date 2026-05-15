@@ -353,4 +353,69 @@ theorem ObserverFilterCarrier_streamname_selected_subhistory_nonescape [AskSetup
     ⟨cert, selectedUnary, streamUnary, sourceSelected, selectedLocalName, provenancePkg,
       streamPkg⟩
 
+theorem ObserverFilterCarrier_budget_selector_l10_handoff [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName budgetSchedule
+      budgetWindows budgetRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      UnaryHistory budgetSchedule →
+      Cont selected budgetSchedule budgetWindows →
+        Cont budgetWindows localName budgetRoute →
+          PkgSig bundle budgetRoute pkg →
+            UnaryHistory selected ∧ UnaryHistory budgetSchedule ∧
+              UnaryHistory budgetWindows ∧ UnaryHistory budgetRoute ∧
+                Cont source selected ledger ∧
+                  Cont selected budgetSchedule budgetWindows ∧
+                    Cont budgetWindows localName budgetRoute ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle budgetRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier budgetScheduleUnary selectedBudget budgetLocalName budgetPkg
+  obtain ⟨_sourceUnary, selectedUnary, _omittedUnary, _ledgerUnary, _routesUnary,
+    _provenanceUnary, localNameUnary, sourceSelected, _ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have budgetWindowsUnary : UnaryHistory budgetWindows :=
+    unary_cont_closed selectedUnary budgetScheduleUnary selectedBudget
+  have budgetRouteUnary : UnaryHistory budgetRoute :=
+    unary_cont_closed budgetWindowsUnary localNameUnary budgetLocalName
+  exact
+    ⟨selectedUnary, budgetScheduleUnary, budgetWindowsUnary, budgetRouteUnary,
+      sourceSelected, selectedBudget, budgetLocalName, provenancePkg, budgetPkg⟩
+
+theorem ObserverFilterCarrier_real_window_budget_exhaustion [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName budgetSchedule
+      budgetWindows budgetRoute realWindow realRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      UnaryHistory budgetSchedule →
+        UnaryHistory realWindow →
+      Cont selected budgetSchedule budgetWindows →
+        Cont budgetWindows realWindow budgetRoute →
+          Cont budgetRoute localName realRoute →
+            PkgSig bundle realRoute pkg →
+              UnaryHistory source ∧ UnaryHistory selected ∧ UnaryHistory omitted ∧
+                UnaryHistory budgetWindows ∧ UnaryHistory realRoute ∧
+                  Cont source selected ledger ∧ Cont ledger omitted routes ∧
+                    Cont selected budgetSchedule budgetWindows ∧
+                      Cont budgetWindows realWindow budgetRoute ∧
+                        Cont budgetRoute localName realRoute ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle realRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier budgetScheduleUnary realWindowUnary selectedBudget budgetRealWindow budgetLocalName
+    realRoutePkg
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, _ledgerUnary, _routesUnary,
+    _provenanceUnary, localNameUnary, sourceSelected, ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have budgetWindowsUnary : UnaryHistory budgetWindows :=
+    unary_cont_closed selectedUnary budgetScheduleUnary selectedBudget
+  have budgetRouteUnary : UnaryHistory budgetRoute :=
+    unary_cont_closed budgetWindowsUnary realWindowUnary budgetRealWindow
+  have realRouteUnary : UnaryHistory realRoute :=
+    unary_cont_closed budgetRouteUnary localNameUnary budgetLocalName
+  exact
+    ⟨sourceUnary, selectedUnary, omittedUnary, budgetWindowsUnary, realRouteUnary,
+      sourceSelected, ledgerOmitted, selectedBudget, budgetRealWindow, budgetLocalName,
+      provenancePkg, realRoutePkg⟩
+
 end BEDC.Derived.ObserverFilterUp

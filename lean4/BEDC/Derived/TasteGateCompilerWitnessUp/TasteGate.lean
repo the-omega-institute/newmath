@@ -268,7 +268,6 @@ instance tasteGateCompilerWitnessChapterTasteGate :
     exact hxy (tasteGateCompilerWitnessToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate TasteGateCompilerWitnessUp :=
-  -- BEDC touchpoint anchor: BHist BMark
   tasteGateCompilerWitnessChapterTasteGate
 
 theorem TasteGateCompilerWitnessTasteGate_single_carrier_alignment :

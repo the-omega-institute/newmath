@@ -58,4 +58,55 @@ theorem UniformCauchyCriterionPacket_late_overlap_exhaustion [AskSetup] [Package
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right familySealConsumer hostReturn)⟩
 
+theorem UniformCauchyCriterionPacket_tail_overlap_budget_exhaustion
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name leftTail
+      rightTail leftSeal rightSeal overlapRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail leftTail ->
+        Cont index tail rightTail ->
+          Cont tail sealRow leftSeal ->
+            Cont tail sealRow rightSeal ->
+              Cont leftTail leftSeal overlapRead ->
+                PkgSig bundle leftTail pkg ->
+                  PkgSig bundle rightTail pkg ->
+                    PkgSig bundle overlapRead pkg ->
+                      UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+                        UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory leftTail ∧
+                          UnaryHistory rightTail ∧ UnaryHistory leftSeal ∧
+                            UnaryHistory rightSeal ∧ UnaryHistory overlapRead ∧
+                              hsame leftTail rightTail ∧ hsame leftSeal rightSeal ∧
+                                Cont index tail leftTail ∧ Cont index tail rightTail ∧
+                                  Cont tail sealRow leftSeal ∧ Cont tail sealRow rightSeal ∧
+                                    Cont leftTail leftSeal overlapRead ∧ PkgSig bundle name pkg ∧
+                                      PkgSig bundle overlapRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet leftTailRoute rightTailRoute leftSealRoute rightSealRoute overlapRoute
+    _leftTailPkg _rightTailPkg overlapPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _indexWindowsModulus,
+    _modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+      packet
+  have leftTailUnary : UnaryHistory leftTail :=
+    unary_cont_closed indexUnary tailUnary leftTailRoute
+  have rightTailUnary : UnaryHistory rightTail :=
+    unary_cont_closed indexUnary tailUnary rightTailRoute
+  have leftSealUnary : UnaryHistory leftSeal :=
+    unary_cont_closed tailUnary sealRowUnary leftSealRoute
+  have rightSealUnary : UnaryHistory rightSeal :=
+    unary_cont_closed tailUnary sealRowUnary rightSealRoute
+  have overlapUnary : UnaryHistory overlapRead :=
+    unary_cont_closed leftTailUnary leftSealUnary overlapRoute
+  have sameTail : hsame leftTail rightTail :=
+    cont_deterministic leftTailRoute rightTailRoute
+  have sameSeal : hsame leftSeal rightSeal :=
+    cont_deterministic leftSealRoute rightSealRoute
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, leftTailUnary,
+      rightTailUnary, leftSealUnary, rightSealUnary, overlapUnary, sameTail, sameSeal,
+      leftTailRoute, rightTailRoute, leftSealRoute, rightSealRoute, overlapRoute, namePkg,
+      overlapPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
