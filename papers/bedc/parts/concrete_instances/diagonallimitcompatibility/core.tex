@@ -107,6 +107,28 @@ Apply the NameCert obligation theorem \autoref{thm:diagonal-limit-compatibility-
 Finally use the non-escape clause of the same obligation theorem. Since no quotient stream, host limit, choice datum, or ambient completeness principle is a coordinate of $K$, a terminal $\RealUp$ seal read cannot leave the displayed chain.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit terminal selector Real seal pullback]
+\label{thm:diagonal-limit-compatibility-terminal-selector-real-seal-pullback}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+any terminal $\RealUp$ seal read mediated by a $\FiniteObservationBudgetSelectorUp$ row factors through the same displayed window family $W$, dyadic ledger $D$, regular readback $Q$, seal row $S$, and terminal Real row $L$ of $K$. Conversely, preserving $W,D,Q,S,L$ together with the displayed $H,C,P,N$ rows preserves the selector-mediated terminal seal route.
+
+Thus the selector route and the terminal $\RealUp$ seal form one pullback packet over the displayed $\BHist$ carrier rows. The packet exports no quotient stream, selected host limit, host real equality, choice datum, hidden selector, or ambient completeness coordinate outside $K$ and the finite selector boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:diagonal-limit-compatibility-carrier}. The rows $W,D,Q,S,L$ are displayed coordinates of $K$, and the structural rows $H,C,P,N$ are the only transport, route, provenance, and local naming rows available to the terminal read.
+
+Apply \autoref{thm:diagonal-limit-compatibility-terminal-real-route}. It forces every terminal $\RealUp$ seal read of $K$ through $R,T,S,D,W,Q,L,H,C,P,N$, so a selector-mediated read cannot skip the shared window, dyadic, readback, seal, or terminal Real rows.
+
+Now use the finite selector boundary of \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}. A diagonal-limit or Real-completion consumer using a $\FiniteObservationBudgetSelectorUp$ packet must read the finite route through its displayed budget, schedule, window, dyadic, regular, and seal-facing rows before reaching the completion-facing endpoint.
+
+The two routes meet on $W,D,Q,S,L$ and their displayed $H,C,P,N$ transports. Therefore preservation of these rows preserves the selector-mediated terminal seal route, while any accepted selector-mediated terminal seal read factors through the same pullback packet.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-non-escape} together with the non-escape clause of the finite selector boundary. Neither side exports quotient streams, selected host limits, host real equality, choice data, hidden selectors, or ambient completeness; hence no external coordinate can witness another terminal seal route.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit triangle selector alignment]
 \label{thm:diagonal-limit-compatibility-triangle-selector-alignment}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
@@ -610,6 +632,7 @@ K=(R,T,S,D,W,Q,L,H,C,P,N)
 $$
 must read the same triad $(D,W,Q)$ before the terminal seal row $L$ is available. Here $W$ is the $\StreamNameUp$ finite-window surface, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, and $Q$ is the $\RegSeqRatUp$ readback row. The three rows form one shared route through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface; no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness principle can supply a second triad.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_window\_budget\_triad\_lock}
 \begin{proof}
 Project the accepted packet from \autoref{def:diagonal-limit-compatibility-carrier}. The rows $D,W,Q$ occur as named coordinates of the same finite packet as the terminal seal row $L$.
 

@@ -1,0 +1,42 @@
+\begin{theorem}[Closed-term substitution boundary route determinacy]
+\label{thm:closed-term-substitution-boundary-route-determinacy}
+Let $S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N)$ be an accepted $\ClosedTermSubstitutionBoundaryUp$ packet. If two downstream closed-boundary reads agree on the displayed carrier rows and on the continuation row $C$, then they reach the same closed shift row $Q$ and the same substitute-closed row $R$. The determined route is the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, not a separate host substitution semantics.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They make $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ the only accepted packet rows, so agreement on the carrier rows already fixes the visible source, value, depth, closedness, ledger, audit, transport, provenance, and local naming data.
+
+Next use \autoref{thm:closed-term-substitution-boundary-root-operation-readback-lock}. Once the closed-boundary read has the same displayed rows and the same continuation row $C$, the operation readback cannot choose a different source/value convention or an unregistered operation coordinate.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-root-route-lock}. The downstream route must pass through the displayed packet before any self-compilation consumer can read it. Hence two such reads with the same carrier rows and continuation row reach the same $Q$ and $R$, and no host substitution semantics is available to split the route.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary context stack non-escape]
+\label{thm:closed-term-substitution-boundary-context-stack-nonescape}
+Every recognizer, tuple, and formal-readiness route for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet recovers only
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The route cannot add an open-term coordinate, host syntax quotient, hidden evaluator, compiler correctness theorem, or subject-reduction theorem to the context stack.
+\end{theorem}
+\begin{proof}
+Read the recognizer side through \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}. The recognizer route reaches the boundary only after acceptance, generated recognition, tuple-image landing, and readback of the displayed packet rows.
+
+The tuple and substitution readback restrictions are then supplied by \autoref{thm:closed-term-substitution-boundary-finite-tuple-readback} and \autoref{thm:closed-term-substitution-boundary-substitution-recognizer-nonescape}. They keep the closed-substitution read inside the finite tuple image and exclude open-term coordinates, free-variable leaks, host syntax quotients, unchecked evaluator state, compiler correctness, and ambient subject reduction.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-lean-target-readiness} and \autoref{thm:closed-term-substitution-boundary-formal-surface-exhaustion}. The formal-readiness surface is exactly the same finite packet for the cited closed-term substitution boundary target, so the context stack has no coordinate outside $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary substitution-order exhaustion]
+\label{thm:closed-term-substitution-boundary-substitution-order-exhaustion}
+Every substitution-row consumer for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must read the source closedness row $C_{\mathsf{src}}$, value closedness row $C_{\mathsf{val}}$, ledger row $L$, and audit row $A$ before consuming $R$. After those rows are visible, the route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:closed-term-substitution-boundary-root-closedness-budget-exhaustion}. It places every root substitution read behind the source and value closedness witnesses, so $R$ cannot be consumed before $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$.
+
+Next use \autoref{thm:closed-term-substitution-boundary-root-shift-substitution-totality} and \autoref{thm:closed-term-substitution-boundary-root-operation-totality}. These rows force the substitute-closed request through $Q,R,L,A,H,C,P,N$ and make both operation rows total only over the displayed root operation surface.
+
+Finally combine the ledger side with \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger and audit rows block escape to host substitution semantics, hidden evaluator state, compiler state, or subject reduction. Therefore the remaining substitution-order route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+\end{proof}

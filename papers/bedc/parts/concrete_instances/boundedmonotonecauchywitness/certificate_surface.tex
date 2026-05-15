@@ -185,28 +185,7 @@ For the seal and transport parts, apply \autoref{thm:bounded-monotone-cauchy-wit
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since every public read is already exhausted by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the excluded completion and compactness coordinates cannot be projected from the accepted packet.
 \end{proof}
 
-\begin{theorem}[Bounded monotone Cauchy witness convergence-seal factorization]
-\label{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}
-Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any completion-facing consumer using a $\BoundedMonotoneConvergenceSealUp$ packet whose witness coordinate is $W$ must first factor through the accepted witness rows
-$$
-S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
-$$
-and then through the convergence-seal rows
-$$
-W,M,K,F',\sigma',D,L,R,H',C',P',N'.
-$$
-
-Thus the completion-facing route is a two-stage BEDC package. The first stage is the local bounded monotone Cauchy witness certificate, and the second stage is the convergence-seal certificate consuming that witness row. No consumer can skip directly from the witness coordinate to a completion object, selected limit, quotient stream equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or detached tail oracle.
-\end{theorem}
-\begin{proof}
-Start with the witness carrier. By \autoref{def:bounded-monotone-cauchy-witness-carrier}, the accepted witness packet exposes exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as its public rows.
-
-The local NameCert obligations and closure theorem bind those rows before the witness can be exported. Apply \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations} and \autoref{thm:bounded-monotone-cauchy-witness-obligation-closure}; they force source reads, window requests, Cauchy witness reads, dyadic ledgers, located traps, seal reads, transports, continuations, provenance, and local naming to stay inside the displayed witness packet. The Real seal handoff of \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff} supplies the last local route to $Q$.
-
-Now read the convergence-seal packet. \autoref{thm:bounded-monotone-convergence-seal-witness-consumption} makes the witness row $W$ the first consumed row before the seal packet may read $M,K,F',\sigma',D,L,R,H',C',P',N'$. \autoref{thm:bounded-monotone-convergence-seal-criterion-route} then routes tolerance-facing reads through the monotone-tail and Cauchy-criterion rows before the finite regular, stream, dyadic, and CauchyLimitSeal rows are reached.
-
-Finally apply \autoref{thm:bounded-monotone-convergence-seal-obligation-package}. It packages the second-stage rows as the displayed convergence-seal obligation surface. Since both stages have exhausted their public ledgers, the combined route has no remaining coordinate for any excluded completion, equality, order, compactness, or choice-selected tail.
-\end{proof}
+\input{parts/concrete_instances/boundedmonotonecauchywitness/shared_budget_meet}
 
 \begin{theorem}[Bounded monotone Cauchy witness convergence-seal selector synchronization]
 \label{thm:bounded-monotone-cauchy-witness-convergence-seal-selector-synchronization}
@@ -753,6 +732,7 @@ before it can read the convergence-seal rows. In particular, the terminal tail s
 
 The synchronized route exports no selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_terminal\_synchronization}
 \begin{proof}
 First use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}. It gives the two-stage route from the bounded monotone witness through the finite tail service and only then to the convergence-seal rows.
 
