@@ -75,3 +75,41 @@ $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the two accepted
 sections have the same carrier and classifier verdicts at the terminal route,
 with no countable-choice or bridge row left outside that support.
 \end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq-Dyadic finite lock]
+\label{thm:streamname-finite-section-real-regseq-dyadic-lock}
+Let $Q$ be an accepted finite request section of a current L10 Phase Real and
+Completion $\StreamNameUp$ packet. Suppose that $Q$ exposes the same
+$\StreamNameUp$ finite window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$
+readback, and $\RealUp$ seal boundary as the terminal four-face route. Then
+every $\RealUp$-facing and completion-facing consumer reads the same finite
+lock through exactly those four faces and the displayed $\BHist$,
+componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The lock contains no quotient stream, host sequence equality, selected limit,
+ambient Real completeness, metric-completeness datum, countable-choice row, or
+standard bridge row.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-finite-section-pullback-exactness}. The
+accepted section $Q$ is already pulled back to the $\StreamNameUp$ finite
+window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback, the
+$\RealUp$ seal boundary, and the displayed support rows.
+
+Next apply \autoref{thm:streamname-finite-section-classifier-determinacy}.
+Any accepted request section exposing those same four faces has the same
+carrier and classifier verdict at the terminal route, so no Real-facing or
+completion-facing consumer can split the finite lock by rereading one face.
+
+Now use \autoref{thm:streamname-real-completion-four-object-terminal-pullback}.
+It identifies every downstream Real or completion read with the terminal
+finite pullback once the four faces and support rows agree.
+
+Finally combine this terminal pullback with
+\autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. The handoff
+exhausts carrier, classifier, stability, ledger, and non-escape obligations
+through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The excluded quotient, host-equality, limit-selection, completeness,
+countable-choice, and bridge coordinates therefore have no row from which a
+consumer could read them.
+\end{proof}

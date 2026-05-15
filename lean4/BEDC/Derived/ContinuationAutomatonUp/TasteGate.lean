@@ -379,4 +379,60 @@ theorem ContinuationAutomatonCarrier_transition_determinacy [AskSetup] [PackageS
             (And.intro transitionsRoutesProvenance
               (And.intro acceptingBehaviourTransport namePkg)))))
 
+theorem ContinuationAutomatonCarrier_ledger_factorization [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont provenance nameCert consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              ContinuationAutomatonCarrier states initial accepting transitions behaviour
+                transport routes provenance nameCert bundle pkg ∧ hsame row consumer)
+            (fun row : BHist =>
+              Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+                Cont provenance nameCert consumer ∧ hsame row consumer)
+            (fun row : BHist =>
+              UnaryHistory row ∧ PkgSig bundle nameCert pkg ∧ PkgSig bundle consumer pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier provenanceNameConsumer consumerPkg
+  have carrierWitness := carrier
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, _transitionsUnary, _behaviourUnary,
+    _transportUnary, _routesUnary, provenanceUnary, nameCertUnary, initialTransitionsBehaviour,
+    transitionsRoutesProvenance, _acceptingBehaviourTransport, _provenanceNameStates,
+    nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary nameCertUnary provenanceNameConsumer
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro consumer
+        (And.intro carrierWitness (hsame_refl consumer))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨initialTransitionsBehaviour, transitionsRoutesProvenance, provenanceNameConsumer,
+          sourceRow.right⟩
+    ledger_sound := by
+      intro row sourceRow
+      have rowUnary : UnaryHistory row :=
+        unary_transport consumerUnary (hsame_symm sourceRow.right)
+      exact ⟨rowUnary, nameCertPkg, consumerPkg⟩
+  }
+
 end BEDC.Derived.ContinuationAutomatonUp
