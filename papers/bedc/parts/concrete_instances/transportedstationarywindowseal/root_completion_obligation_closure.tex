@@ -1,0 +1,47 @@
+\begin{theorem}[Transported stationary window-seal root carrier admission]
+\label{thm:transported-stationary-window-seal-root-carrier-admission}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The root Real and Completion handoff route admits exactly the displayed carrier rows $R,S,G,W,E,H,C,P,N$: the transported $\RatUp$ classifier $R$, constant $\StreamNameUp$ window $S$, $\RegSeqRatUp$ seal row $G$, finite envelope $W$, $\RealUp$ seal row $E$, transport row $H$, route row $C$, provenance row $P$, and local naming row $N$. This admission is the carrier and $\NameCert$ obligation surface of \autoref{def:transported-stationary-window-seal-carrier} and \autoref{thm:transported-stationary-window-seal-namecert-obligations}, read through the L10 handoff basis of \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The carrier definition supplies exactly the nine visible rows $R,S,G,W,E,H,C,P,N$, and the NameCert obligation theorem identifies the transport, continuity, package, and local naming obligations attached to them.
+
+Next apply the L10 handoff basis. It orders the same rows through the transported $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$ route, so the Real and Completion handoff has no row outside the displayed packet.
+
+Thus carrier admission for the root route is precisely the projection of $T$ together with its displayed $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal window envelope readback]
+\label{thm:transported-stationary-window-seal-window-envelope-readback}
+For accepted packets $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ sharing the displayed finite window and seal rows, the finite envelope $W$ and the $\RealUp$ seal row $E$ are readable only after the transported $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and tail-schedule rows have been fixed. Equivalently, the readback order is the root completion source order of \autoref{thm:transported-stationary-window-seal-root-completion-source-order} together with the finite-window schedule coherence of \autoref{thm:transported-stationary-window-seal-finite-window-schedule-coherence}.
+\end{theorem}
+\begin{proof}
+Begin with the source order. The root completion source theorem fixes the transported rational source, the finite stream-name window, and the regular rational seal before any envelope or Real-facing row is read.
+
+Attach the dyadic and schedule rows using the L10 handoff basis and the tail handoff theorem. These place the dyadic ledger and tail-schedule packet between the source triad and the envelope-seal boundary.
+
+Finally use finite-window schedule coherence. Since the schedule and envelope consume the same finite $\StreamNameUp$ window and the same $\RegSeqRatUp$ seal, $W$ and $E$ cannot be read from a separate window budget or from an earlier Real-facing source.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion consumer exhaustion]
+\label{thm:transported-stationary-window-seal-completion-consumer-exhaustion}
+Every $\RealUp$ or $\CompletionUp$ consumer accepted by a $\TransportedStationaryWindowSealUp$ packet factors through the displayed route
+$$
+\begin{aligned}
+  R,S,G
+  \longrightarrow
+  Q
+  \longrightarrow
+  W,E
+  \longrightarrow
+  H,C,P,N .
+\end{aligned}
+$$
+No such consumer can import quotient streams, host equality, selected limits, choice, ambient completeness, or an independent completion carrier.
+\end{theorem}
+\begin{proof}
+First use the carrier admission theorem above. It gives the consumer only the displayed packet rows and their $\NameCert$ obligations.
+
+Next combine the root completion source order with the window envelope readback theorem. The source triad, tail schedule, finite envelope, and Real seal form one ordered route; every Real-facing or Completion-facing read must pass through it.
+
+The refusal clauses then follow from the completion-consumer boundary and the Real completion refusal cover. Quotient streams, host equality, selected limits, choice, ambient completeness, and an independent completion carrier are not coordinates of the packet and are not supplied by any sibling handoff row.
+\end{proof}
