@@ -1,0 +1,106 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-runtime triad]
+\label{thm:finite-trace-evaluator-checkpoint-runtime-triad}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the checkpoint row, runtime
+row, and image/readback row form one displayed triad
+$$
+I,T,A,V,H,C,P,N.
+$$
+The checkpoint side reads the finite $\BHist$ trace through $T$ and the
+accepted-result route through $I \to T \to A$; the runtime side reads the same
+route through $\hsame$ transports $H$ and displayed $\Cont$ replay routes $C$;
+the package and local naming side is recorded by $\Pkg$ provenance $P$ and the
+local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$.
+
+No checkpoint-runtime consumer receives a host evaluator, hidden runtime
+state, unbounded trace source, second checkpoint source, or unchecked compiler
+theorem.
+\end{theorem}
+\begin{proof}
+Begin with checkpoint readiness. The totality and readiness rows of
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality} and
+\autoref{thm:finitetraceevaluator-root-consumer-readiness} place every root
+checkpoint read on $I,T,A,V,H,C,P,N$ before any downstream runtime consumer can
+inspect the packet.
+
+Next use runtime totality. By
+\autoref{thm:finitetraceevaluator-root-runtime-totality}, the runtime row has
+the same finite surface and does not add a host evaluator or an unbounded
+runtime coordinate.
+
+Finally attach image readback, result factorization, and terminal route
+completion. The image and readback rows of
+\autoref{thm:finite-trace-evaluator-root-image-row} and
+\autoref{thm:finite-trace-evaluator-root-readback-exactness} identify the
+visible rows, while
+\autoref{thm:finite-trace-evaluator-checkpoint-result-totality} and
+\autoref{thm:finitetrace-evaluator-terminal-route-totality} keep the accepted
+result on the same finite route. Thus the checkpoint, runtime, and readback
+rows form one triad.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint image readback]
+\label{thm:finite-trace-evaluator-checkpoint-image-readback}
+Every checkpoint image of an accepted $\FiniteTraceEvaluatorUp$ packet reads
+back through the finite route
+$$
+I \to T \to A
+$$
+for accepted results and through $V,H,C,P,N$ for validation-facing reads. The
+readback uses the displayed $\BHist$ trace, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row, and it exposes no host validation,
+total truth predicate, total halting classifier, unbounded evaluator, infinite
+trace, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+First expose the checkpoint image. Apply
+\autoref{thm:finite-trace-evaluator-root-image-row}; it lists exactly
+$I,T,A,V,H,C,P,N$ as the image rows visible to accepted reads.
+
+Then read back the accepted-result and validation routes. The exactness result
+\autoref{thm:finite-trace-evaluator-root-readback-exactness} sends accepted
+results through $I \to T \to A$ and validation-facing reads through
+$V,H,C,P,N$.
+
+Finally combine result factorization with terminal route completion.
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization} and
+\autoref{thm:finitetrace-evaluator-terminal-ledger-exhaustion} show that the
+downstream runtime checkpoint consumer receives the same finite packet. Since
+the ledger has no host or unbounded coordinate, checkpoint readback cannot
+escape the displayed image.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal runtime nonescape]
+\label{thm:finite-trace-evaluator-terminal-runtime-nonescape}
+The terminal runtime route of an accepted $\FiniteTraceEvaluatorUp$ packet is
+confined to the finite checkpoint-runtime packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+Its $\BHist$ trace row, $\hsame$ transport rows, $\Cont$ replay rows, $\Pkg$
+provenance row, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row are the
+only routes available to terminal runtime consumers. It exports no host
+evaluator, hidden runtime state, total truth predicate, total halting
+classifier, unbounded evaluator, infinite trace semantics, or alternate
+checkpoint route.
+\end{theorem}
+\begin{proof}
+Start from the checkpoint-runtime triad of
+\autoref{thm:finite-trace-evaluator-checkpoint-runtime-triad}. It identifies
+the checkpoint, runtime, and image/readback rows as one finite packet.
+
+Next apply the terminal route results. The terminal route totality and source
+stability rows,
+\autoref{thm:finitetrace-evaluator-terminal-route-totality} and
+\autoref{thm:finitetrace-evaluator-terminal-source-stability}, keep terminal
+runtime reads on $I \to T \to A$ under displayed $\hsame$ and $\Cont$
+transport.
+
+Finally use terminal ledger exhaustion together with checkpoint image
+readback. By
+\autoref{thm:finitetrace-evaluator-terminal-ledger-exhaustion} and
+\autoref{thm:finite-trace-evaluator-checkpoint-image-readback}, the terminal
+consumer receives only $I,T,A,V,H,C,P,N$. Hence none of the excluded host,
+truth, halting, unbounded, infinite-trace, or alternate checkpoint coordinates
+can be exported.
+\end{proof}
