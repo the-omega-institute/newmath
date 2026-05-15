@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness visible source triad]
+\label{thm:critical-line-witness-visible-source-triad}
+For every accepted $\CriticalLineWitnessUp$ root witness read, the consumer-visible surface exposes the critical-strip source row, the rational modulus row, the zero-strip refusal row, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance before the witness can be used downstream.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:critical-line-witness-carrier}. The source, modulus, refusal, transport, continuation, provenance, and local naming rows are all displayed coordinates of the same finite witness carrier.
+
+Apply the root source obligation triad of \autoref{thm:critical-line-witness-root-source-obligation-triad}. It forces every root consumer to read the supplied source through the displayed zero-strip or critical-strip row and through the modulus row before the consumer-facing boundary is reached.
+
+Use the local transport obligation \autoref{thm:critical-line-witness-hsame-cont-ledger-obligation}. It carries the source and modulus rows through the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so no downstream read can bypass the visible provenance.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus refusal scope]
+\label{thm:critical-line-witness-modulus-refusal-scope}
+For every accepted $\CriticalLineWitnessUp$ root witness read, the rational modulus row is a finite refusal-scoped ledger. It cannot be promoted to a zeta-zero locator, analytic-continuation oracle, or host complex equality.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-visible-source-triad}. The modulus row is displayed only beside the source, refusal, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:critical-line-witness-root-modulus-classifier-exhaustion}. It exhausts the modulus-facing classifier by the finite packet rows and rejects hidden numeric or analytic classifiers.
+
+Finally use the RH-refusal boundary rows of \autoref{thm:critical-line-witness-rh-boundary-refusal-totality}. They classify requests for zero location, analytic continuation, and host equality as outside the accepted witness packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH consumer handoff]
+\label{thm:critical-line-witness-rh-consumer-handoff}
+Every $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ root witness receives only the displayed source row, rational modulus row, zero-strip refusal row, transport rows, continuation rows, provenance rows, and local naming rows before using the witness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:critical-line-witness-visible-source-triad}. It exposes the exact source, modulus, refusal, and local provenance rows that any root witness read must traverse.
+
+Use \autoref{thm:critical-line-witness-modulus-refusal-scope}. The modulus row remains a refusal-scoped finite ledger and does not become a zero locator, analytic-continuation oracle, or host equality.
+
+Then apply \autoref{thm:critical-line-witness-root-rh-consumer-boundary}. It bounds every RH-facing consumer by the displayed source, modulus, transport, replay, provenance, and local naming rows. Therefore the handoff is a finite BEDC readback package, not an analytic conclusion about $\mathsf{RH}$.
+\end{proof}
