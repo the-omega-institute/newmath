@@ -278,6 +278,18 @@ Next apply selector-budget totality and $\RegSeqRatUp$ readback exactness. These
 Finally combine terminal consumer exhaustion, terminality, the two-step $\Cont$ boundary, and structural-row nonpromotion. The terminal endpoint is read through the displayed $B,W,R,L,E$ route, while $H,C,P,N$ only transport, replay, record provenance for, and name that route. This gives a finite bridge-ready handoff without claiming a standard bridge.
 \end{proof}
 
+\begin{theorem}[Real completion selector-seal obligation scope]
+\label{thm:real-completion-selector-seal-obligation-scope}
+Every accepted $\RealCompletionSelectorSealUp$ packet exposes exactly the selector-budget row $B$, selected finite-window row $W$, limit-seal handoff $L$, terminal endpoint route $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, together with the $\RegSeqRatUp$ readback row $R$ on the displayed handoff. It exports no countable-choice selector, quotient stream, host real equality, ambient completeness, or hidden limit oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-selector-seal-carrier}. Its displayed packet is exactly $S=(B,W,R,L,E,H,C,P,N)$, so the selector budget, selected window, regular-rational readback, limit seal, endpoint, transport, continuation, provenance, and local naming rows are the only available coordinates.
+
+Use the existing readback and handoff theorems in order. Selector-budget totality exposes $B$ before $W,R,L,E,H,C,P,N$; $\RegSeqRatUp$ readback exactness fixes $R$ after $B$ and $W$; terminal consumer exhaustion and terminality carry the route through $L$ and $E$.
+
+Finally apply Cont spine compatibility, structural row nonpromotion, and bridge readiness. They keep $H,C,P,N$ as transport, replay, provenance, and naming rows for the same displayed handoff, so no countable-choice selector, quotient stream, host equality, ambient completeness principle, or hidden limit oracle is exported.
+\end{proof}
+
 \begin{theorem}[Real completion selector-seal TasteGate grounding]
 \label{thm:real-completion-selector-seal-tastegate-grounding}
 The checked Lean target \texttt{BEDC.Derived.RealCompletionSelectorSealUp.RealCompletionSelectorSealCarrier\_namecert\_obligations} grounds the carrier and $\NameCert$ obligation row for $\RealCompletionSelectorSealUp$. The remaining \texttt{Nontrivial RealCompletionSelectorSealUp} and \texttt{FieldFaithful RealCompletionSelectorSealUp} instances are the later TasteGate obligations and are not closed by this chapter.
