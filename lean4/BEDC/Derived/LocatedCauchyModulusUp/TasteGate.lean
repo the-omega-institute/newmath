@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LocatedCauchyModulusUp : Type where
-  | mk :
-      (stream readback radius tailModulus limitSeal realSeal transport routes provenance
-        name : BHist) →
-      LocatedCauchyModulusUp
+  | mk : (S R D T L E H C P N : BHist) → LocatedCauchyModulusUp
   deriving DecidableEq
 
 def locatedCauchyModulusEncodeBHist : BHist → RawEvent
@@ -28,10 +25,9 @@ def locatedCauchyModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (locatedCauchyModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedCauchyModulusDecodeBHist tail)
 
-private theorem locatedCauchyModulusDecodeEncode :
+private theorem locatedCauchyModulusDecodeEncodeBHist :
     ∀ h : BHist,
-      locatedCauchyModulusDecodeBHist
-        (locatedCauchyModulusEncodeBHist h) = h := by
+      locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -45,10 +41,8 @@ private theorem locatedCauchyModulusDecodeEncode :
 def locatedCauchyModulusFields :
     LocatedCauchyModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | LocatedCauchyModulusUp.mk stream readback radius tailModulus limitSeal realSeal
-      transport routes provenance name =>
-      [stream, readback, radius, tailModulus, limitSeal, realSeal, transport, routes,
-        provenance, name]
+  | LocatedCauchyModulusUp.mk S R D T L E H C P N =>
+      [S, R, D, T, L, E, H, C, P, N]
 
 def locatedCauchyModulusToEventFlow :
     LocatedCauchyModulusUp → EventFlow
@@ -59,95 +53,82 @@ def locatedCauchyModulusFromEventFlow :
     EventFlow → Option LocatedCauchyModulusUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | stream :: rest0 =>
+  | S :: rest0 =>
       match rest0 with
       | [] => none
-      | readback :: rest1 =>
+      | R :: rest1 =>
           match rest1 with
           | [] => none
-          | radius :: rest2 =>
+          | D :: rest2 =>
               match rest2 with
               | [] => none
-              | tailModulus :: rest3 =>
+              | T :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | limitSeal :: rest4 =>
+                  | L :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | realSeal :: rest5 =>
+                      | E :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | transport :: rest6 =>
+                          | H :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | routes :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | provenance :: rest8 =>
-                                      match rest8 with
+                                  | C :: rest7 =>
+                                      match rest7 with
                                       | [] => none
-                                      | name :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (LocatedCauchyModulusUp.mk
-                                                  (locatedCauchyModulusDecodeBHist stream)
-                                                  (locatedCauchyModulusDecodeBHist readback)
-                                                  (locatedCauchyModulusDecodeBHist radius)
-                                                  (locatedCauchyModulusDecodeBHist tailModulus)
-                                                  (locatedCauchyModulusDecodeBHist limitSeal)
-                                                  (locatedCauchyModulusDecodeBHist realSeal)
-                                                  (locatedCauchyModulusDecodeBHist transport)
-                                                  (locatedCauchyModulusDecodeBHist routes)
-                                                  (locatedCauchyModulusDecodeBHist provenance)
-                                                  (locatedCauchyModulusDecodeBHist name))
-                                          | _ :: _ => none
+                                      | P :: rest8 =>
+                                          match rest8 with
+                                          | [] => none
+                                          | N :: rest9 =>
+                                              match rest9 with
+                                              | [] =>
+                                                  some
+                                                    (LocatedCauchyModulusUp.mk
+                                                      (locatedCauchyModulusDecodeBHist S)
+                                                      (locatedCauchyModulusDecodeBHist R)
+                                                      (locatedCauchyModulusDecodeBHist D)
+                                                  (locatedCauchyModulusDecodeBHist T)
+                                                  (locatedCauchyModulusDecodeBHist L)
+                                                  (locatedCauchyModulusDecodeBHist E)
+                                                  (locatedCauchyModulusDecodeBHist H)
+                                                  (locatedCauchyModulusDecodeBHist C)
+                                                  (locatedCauchyModulusDecodeBHist P)
+                                                      (locatedCauchyModulusDecodeBHist N))
+                                              | _ :: _ => none
 
-private theorem locatedCauchyModulusRoundTrip :
+private theorem locatedCauchyModulus_round_trip :
     ∀ x : LocatedCauchyModulusUp,
       locatedCauchyModulusFromEventFlow
         (locatedCauchyModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk stream readback radius tailModulus limitSeal realSeal transport routes provenance
-      name =>
+  | mk S R D T L E H C P N =>
       change
         some
           (LocatedCauchyModulusUp.mk
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist stream))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist readback))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist radius))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist tailModulus))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist limitSeal))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist realSeal))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist transport))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist routes))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist provenance))
-            (locatedCauchyModulusDecodeBHist
-              (locatedCauchyModulusEncodeBHist name))) =
-          some
-            (LocatedCauchyModulusUp.mk stream readback radius tailModulus limitSeal
-              realSeal transport routes provenance name)
-      rw [locatedCauchyModulusDecodeEncode stream,
-        locatedCauchyModulusDecodeEncode readback,
-        locatedCauchyModulusDecodeEncode radius,
-        locatedCauchyModulusDecodeEncode tailModulus,
-        locatedCauchyModulusDecodeEncode limitSeal,
-        locatedCauchyModulusDecodeEncode realSeal,
-        locatedCauchyModulusDecodeEncode transport,
-        locatedCauchyModulusDecodeEncode routes,
-        locatedCauchyModulusDecodeEncode provenance,
-        locatedCauchyModulusDecodeEncode name]
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist S))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist R))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist D))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist T))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist L))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist E))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist H))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist C))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist P))
+            (locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist N))) =
+          some (LocatedCauchyModulusUp.mk S R D T L E H C P N)
+      rw [locatedCauchyModulusDecodeEncodeBHist S,
+        locatedCauchyModulusDecodeEncodeBHist R,
+        locatedCauchyModulusDecodeEncodeBHist D,
+        locatedCauchyModulusDecodeEncodeBHist T,
+        locatedCauchyModulusDecodeEncodeBHist L,
+        locatedCauchyModulusDecodeEncodeBHist E,
+        locatedCauchyModulusDecodeEncodeBHist H,
+        locatedCauchyModulusDecodeEncodeBHist C,
+        locatedCauchyModulusDecodeEncodeBHist P,
+        locatedCauchyModulusDecodeEncodeBHist N]
 
 private theorem locatedCauchyModulusToEventFlow_injective
     {x y : LocatedCauchyModulusUp} :
@@ -162,40 +143,38 @@ private theorem locatedCauchyModulusToEventFlow_injective
           (locatedCauchyModulusToEventFlow y) :=
     congrArg locatedCauchyModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (locatedCauchyModulusRoundTrip x).symm
-      (Eq.trans hread (locatedCauchyModulusRoundTrip y)))
+    (Eq.trans (locatedCauchyModulus_round_trip x).symm
+      (Eq.trans hread (locatedCauchyModulus_round_trip y)))
 
-private theorem locatedCauchyModulusFieldFaithful :
+private theorem locatedCauchyModulus_fields_faithful :
     ∀ x y : LocatedCauchyModulusUp,
       locatedCauchyModulusFields x = locatedCauchyModulusFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
+  intro x y hfields
   cases x with
-  | mk stream₁ readback₁ radius₁ tailModulus₁ limitSeal₁ realSeal₁ transport₁ routes₁
-      provenance₁ name₁ =>
+  | mk S₁ R₁ D₁ T₁ L₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk stream₂ readback₂ radius₂ tailModulus₂ limitSeal₂ realSeal₂ transport₂ routes₂
-          provenance₂ name₂ =>
-          injection h with hStream hRest₁
-          injection hRest₁ with hReadback hRest₂
-          injection hRest₂ with hRadius hRest₃
-          injection hRest₃ with hTailModulus hRest₄
-          injection hRest₄ with hLimitSeal hRest₅
-          injection hRest₅ with hRealSeal hRest₆
-          injection hRest₆ with hTransport hRest₇
-          injection hRest₇ with hRoutes hRest₈
-          injection hRest₈ with hProvenance hRest₉
-          injection hRest₉ with hName _
-          subst hStream
-          subst hReadback
-          subst hRadius
-          subst hTailModulus
-          subst hLimitSeal
-          subst hRealSeal
-          subst hTransport
-          subst hRoutes
-          subst hProvenance
-          subst hName
+      | mk S₂ R₂ D₂ T₂ L₂ E₂ H₂ C₂ P₂ N₂ =>
+          injection hfields with hS tailS
+          injection tailS with hR tailR
+          injection tailR with hD tailD
+          injection tailD with hT tailT
+          injection tailT with hL tailL
+          injection tailL with hE tailE
+          injection tailE with hH tailH
+          injection tailH with hC tailC
+          injection tailC with hP tailP
+          injection tailP with hN _
+          subst hS
+          subst hR
+          subst hD
+          subst hT
+          subst hL
+          subst hE
+          subst hH
+          subst hC
+          subst hP
+          subst hN
           rfl
 
 instance locatedCauchyModulusBHistCarrier :
@@ -209,19 +188,18 @@ instance locatedCauchyModulusChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      locatedCauchyModulusFromEventFlow
-        (locatedCauchyModulusToEventFlow x) = some x
-    exact locatedCauchyModulusRoundTrip x
+    change locatedCauchyModulusFromEventFlow
+      (locatedCauchyModulusToEventFlow x) = some x
+    exact locatedCauchyModulus_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (locatedCauchyModulusToEventFlow_injective heq)
 
-instance locatedCauchyModulusFieldFaithfulInstance :
+instance locatedCauchyModulusFieldFaithful :
     FieldFaithful LocatedCauchyModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := locatedCauchyModulusFields
-  field_faithful := locatedCauchyModulusFieldFaithful
+  field_faithful := locatedCauchyModulus_fields_faithful
 
 instance locatedCauchyModulusNontrivial :
     Nontrivial LocatedCauchyModulusUp where
@@ -233,49 +211,57 @@ instance locatedCauchyModulusNontrivial :
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty,
       by
+        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate LocatedCauchyModulusUp :=
+def taste_gate : ChapterTasteGate LocatedCauchyModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
-  locatedCauchyModulusChapterTasteGate
+  round_trip := by
+    intro x
+    change locatedCauchyModulusFromEventFlow
+      (locatedCauchyModulusToEventFlow x) = some x
+    exact locatedCauchyModulus_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (locatedCauchyModulusToEventFlow_injective heq)
 
 theorem LocatedCauchyModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      locatedCauchyModulusDecodeBHist
-        (locatedCauchyModulusEncodeBHist h) = h) ∧
+      locatedCauchyModulusDecodeBHist (locatedCauchyModulusEncodeBHist h) = h) ∧
       (∀ x : LocatedCauchyModulusUp,
-        locatedCauchyModulusFromEventFlow
-          (locatedCauchyModulusToEventFlow x) = some x) ∧
+        locatedCauchyModulusFromEventFlow (locatedCauchyModulusToEventFlow x) = some x) ∧
         (∀ x y : LocatedCauchyModulusUp,
-          locatedCauchyModulusToEventFlow x =
-            locatedCauchyModulusToEventFlow y → x = y) ∧
-          locatedCauchyModulusEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : LocatedCauchyModulusUp,
-              locatedCauchyModulusFields x = locatedCauchyModulusFields y → x = y) ∧
-              (∃ x y : LocatedCauchyModulusUp, x ≠ y) := by
+          locatedCauchyModulusToEventFlow x = locatedCauchyModulusToEventFlow y → x = y) ∧
+          (∀ x y : LocatedCauchyModulusUp,
+            locatedCauchyModulusFields x = locatedCauchyModulusFields y → x = y) ∧
+            locatedCauchyModulusEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+              locatedCauchyModulusEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+                (∃ x y : LocatedCauchyModulusUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact locatedCauchyModulusDecodeEncode
+  · exact locatedCauchyModulusDecodeEncodeBHist
   · constructor
-    · exact locatedCauchyModulusRoundTrip
+    · exact locatedCauchyModulus_round_trip
     · constructor
       · intro x y heq
         exact locatedCauchyModulusToEventFlow_injective heq
       · constructor
-        · rfl
+        · exact locatedCauchyModulus_fields_faithful
         · constructor
-          · exact locatedCauchyModulusFieldFaithful
-          · exact
-              Exists.intro
-                (LocatedCauchyModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
-                (Exists.intro
-                  (LocatedCauchyModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                    BHist.Empty)
-                  (by
-                    intro h
-                    cases h))
+          · rfl
+          · constructor
+            · rfl
+            · exact
+                Exists.intro
+                  (LocatedCauchyModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+                  (Exists.intro
+                    (LocatedCauchyModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                      BHist.Empty)
+                    (by
+                      intro h
+                      cases h))
 
 end BEDC.Derived.LocatedCauchyModulusUp
