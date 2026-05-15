@@ -159,6 +159,61 @@ Use \autoref{thm:transported-stationary-window-seal-seed-window-readback} to ide
 Finally apply carrier admission and ledger non-escape. The admitted route has only $R,S,G,W,E,H,C,P,N$, so no consumer can reach a $\RealUp$ seal by skipping $W$ or by importing quotient streams, host equality, selected limits, choice, or real-completeness data.
 \end{proof}
 
+\begin{theorem}[Transported stationary window-seal root RegSeqRat window ownership]
+\label{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ seal row $G$ is owned by the same transported $\RatUp$ row $R$ and the same constant $\StreamNameUp$ window row $S$. A root consumer may read $G$ only as the finite-window seal attached to the route
+$$
+\begin{aligned}
+  R \longmapsto S \longmapsto G
+\end{aligned}
+$$
+through the displayed rows $H,C,P,N$; it cannot detach $G$ as an independent regular-rational source.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{thm:transported-stationary-window-seal-carrier-obligation}. The admitted carrier contains $R$, $S$, and $G$ as visible rows of one finite transported window-seal packet, together with the same transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Apply \autoref{thm:transported-stationary-window-seal-seed-window-readback}. It identifies the transported rational seed row, the constant stream window, and the regular-rational seal as one public readback route inside the finite NameCert surface.
+
+Finally use \autoref{thm:transported-stationary-window-seal-readback-determinacy}. Since agreement at $R$ fixes both $S$ and $G$ at the public boundary, the seal row $G$ has no separate owner beyond the displayed $R,S,H,C,P,N$ route.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root Real seal non-escape]
+\label{thm:transported-stationary-window-seal-root-real-seal-nonescape}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+every root-facing $\RealUp$ seal read must pass through the finite rows $R,S,G,W,E,H,C,P,N$. The read first uses the owned regular-rational window route $R,S,G$, then the $\FiniteWindowEnvelopeUp$ row $W$, then the $\RealUp$ seal row $E$, with $H,C,P,N$ carrying only displayed transport, continuation, package, and naming data. It cannot import quotient streams, host equality, selected limits, choice, or real-completeness data.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-real-factorization}. Every $\RealUp$ read exposed by the accepted packet factors through the finite envelope $W$ and the same regular-rational seal row $G$.
+
+Use \autoref{thm:transported-stationary-window-seal-real-seal-route} to name the complete public route. It places the transported seed, constant window, regular-rational seal, envelope, real-facing row, and structural rows in the finite order $R,S,G,W,E,H,C,P,N$.
+
+The non-escape boundary is then \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Quotient streams, host equality, selected host limits, choice, and real-completeness data are not coordinates of the packet, so no root-facing Real seal read can enter through them.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root downstream handoff package]
+\label{thm:transported-stationary-window-seal-root-downstream-handoff-package}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the downstream root handoff package consumed by completion-facing chapters consists exactly of the finite window ownership row and the Real seal non-escape row:
+\begin{enumerate}
+\item $G$ is the $\RegSeqRatUp$ seal owned by the transported $\RatUp$ row $R$ and the constant $\StreamNameUp$ window row $S$ through $H,C,P,N$;
+\item every root-facing $\RealUp$ seal read factors through $R,S,G,W,E,H,C,P,N$ and has no quotient-stream, host-equality, selected-limit, choice, or real-completeness input.
+\end{enumerate}
+Thus a downstream consumer receives a finite BEDC packet over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not an ambient completion object.
+\end{theorem}
+\begin{proof}
+The first row is \autoref{thm:transported-stationary-window-seal-root-regseqrat-window-ownership}. It binds the regular-rational seal row to the transported rational seed and the constant stream window before any envelope or Real-facing consumer reads the packet.
+
+The second row is \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape}. It forces every Real seal read through the displayed finite packet and excludes all hidden quotient, equality, limit, choice, and completeness inputs.
+
+Package these two rows with \autoref{thm:transported-stationary-window-seal-real-seal-route}. The result is the finite downstream handoff surface: consumers may reuse $R,S,G,W,E,H,C,P,N$, but they do not receive any object outside the displayed BEDC carrier.
+\end{proof}
+
 \begin{theorem}[Transported stationary window-seal classifier obligation]
 \label{thm:transported-stationary-window-seal-classifier-obligation}
 Let $T=(R,S,G,W,E,H,C,P,N)$ and $T'=(R',S',G',W',E',H',C',P',N')$ be accepted $\TransportedStationaryWindowSealUp$ packets. Any classifier comparison between them is componentwise across the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$ rows: $R$ compares with $R'$, $S$ with $S'$, $G$ with $G'$, $W$ with $W'$, and $E$ with $E'$ only through the $\hsame$ rows, $\Cont$ routes, provenance rows, and local naming rows carried by $H,H',C,C',P,P',N,N'$.
@@ -438,6 +493,36 @@ Now read the schedule packet on the same window and seal row. The real-seal read
 For completion-facing consumers, use \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-route}. It places the completion seal read after the same scheduled route, and \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization} keeps the shared finite window and tail budget as the unique displayed factorization for the participating Real and Completion rows.
 
 Finally combine the schedule exclusions with \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Neither packet contains a coordinate for quotient-stream equality, selected host limits, host real equality, choice, hidden tail oracles, ambient completeness, or another completion route. Thus every completion-facing or real-facing consumer must pass through the transported triad, the schedule rows, and then the finite envelope and seal row in the order stated.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root envelope exhaustion]
+\label{thm:transported-stationary-window-seal-root-envelope-exhaustion}
+Every root consumer read of an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N)
+$$
+passes first through the transported seed route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N,
+\end{aligned}
+$$
+then through the finite envelope row $W$, and then through the $\RealUp$-facing seal row $E$. Any $\CompletionUp$-facing or tail-cofinality consumer that accepts the packet must reuse this same envelope route:
+$$
+\begin{aligned}
+  (R,S,G,H,C,P,N) \longrightarrow W \longrightarrow E .
+\end{aligned}
+$$
+It cannot introduce quotient streams, host equality, selected limits, choice, hidden tail oracles, real-completeness data, or a second completion route.
+\end{theorem}
+\begin{proof}
+Start with the transported seed. By \autoref{thm:transported-stationary-window-seal-constant-window-triad}, the rows $R,S,G$ form one constant-window triad carried only by the displayed transport, continuation, package, and local naming rows $H,C,P,N$.
+
+Next read the finite envelope. Apply \autoref{thm:transported-stationary-window-seal-envelope-window-exactness}; it places $W$ downstream from the transported triad and upstream from the $\RealUp$ seal row $E$. The root read therefore reaches $E$ only after the same finite envelope has been fixed.
+
+For completion-facing consumers, use \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary}. It forces each completion-facing or real-facing route to factor through $R,S,G,W,E,H,C,P,N$, with $W$ between the source triad and the seal row. For tail-cofinality consumers, \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff} keeps the schedule rows downstream of the transported triad and upstream of the same envelope and seal rows.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Since quotient streams, host equality, selected limits, choice, hidden tail oracles, real-completeness data, and second completion routes are not packet coordinates, every root consumer read is exhausted by the displayed route.
 \end{proof}
 
 \closureat{TransportedStationaryWindowSealUp}{seedStr}

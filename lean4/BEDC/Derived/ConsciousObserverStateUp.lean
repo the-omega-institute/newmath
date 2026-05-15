@@ -131,6 +131,32 @@ theorem ConsciousObserverStateCarrier_gap_ledger_nonescape [AskSetup] [PackageSe
     unary_transport gapUnary (hsame_symm consumerSame)
   exact ⟨consumerUnary, recognitionLedgerGap, observerRouteEndpoint, endpointPkg⟩
 
+theorem ConsciousObserverStateCarrier_current_ledger_route [AskSetup] [PackageSetup]
+    {observer state recognition ledger gap transport route provenance name endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConsciousObserverStateCarrier observer state recognition ledger gap transport route provenance
+        name endpoint bundle pkg ->
+      hsame consumer ledger ->
+        UnaryHistory consumer ∧ Cont observer route endpoint ∧ Cont state route endpoint ∧
+          Cont recognition ledger gap ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig hsame
+  intro carrier consumerSameLedger
+  have ledgerUnary : UnaryHistory ledger := carrier.right.right.right.left
+  have observerRouteEndpoint : Cont observer route endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have stateRouteEndpoint : Cont state route endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have recognitionLedgerGap : Cont recognition ledger gap :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have endpointPkg : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport_symm ledgerUnary consumerSameLedger
+  exact
+    ⟨consumerUnary, observerRouteEndpoint, stateRouteEndpoint, recognitionLedgerGap,
+      endpointPkg⟩
+
 /-- Finite current-state observer packet with the nine displayed BEDC rows. -/
 inductive ConsciousObserverStateUp : Type where
   | mk :
