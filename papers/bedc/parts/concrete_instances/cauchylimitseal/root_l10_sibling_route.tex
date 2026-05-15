@@ -111,3 +111,21 @@ The tail boundary is supplied by \autoref{thm:cauchy-tail-witness-envelope-real-
 
 Finally apply the no-unbudgeted-limit theorem \autoref{thm:cauchy-limit-seal-no-unbudgeted-limit}. The joined route contains only the displayed packet rows, so it cannot export a quotient stream, selected limit, host real equality, hidden family limit, hidden tail oracle, independent completion endpoint, or ambient completeness coordinate.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal selector-seal compatibility]
+\label{thm:cauchy-limit-seal-selector-seal-compatibility}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier, and let $Q=(B,W,R,L',E',H,C,P',N')$ be an accepted $\RealCompletionSelectorSealUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ readback row, the $\CauchyLimitSealUp$ handoff row, and the terminal $\RealUp$ endpoint row, so that $W$ is the displayed window of $S$, $R$ is the displayed regular readback through $D$, $L'=L$, and $E'=E$.
+
+Then the selector-seal public route of $Q$ factors through the public route packet of $L$. The consumer reads one displayed L10 handoff
+$$
+\StreamNameUp \to \RegSeqRatUp \to \CauchyLimitSealUp \to \RealUp
+$$
+together with the shared finite-window, dyadic-ledger, transport, continuation, provenance, and local naming rows. It exposes no second completion route, quotient stream, host real equality, hidden selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First fix the CauchyLimitSeal route. By \autoref{thm:cauchy-limit-seal-root-sibling-route-exactness}, the accepted root route for $L$ is exactly the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, and $\RealUp$ packet, followed only by the transport, provenance, and local naming rows.
+
+Next join the visible budget and tail reads. The budget-tail root join theorem, \autoref{thm:cauchy-limit-seal-budget-tail-root-join}, says that reads using the same finite window and the same dyadic ledger meet on one displayed L10 packet. Hence the shared $W,R,L',E'$ rows of $Q$ do not open an independent completion surface.
+
+Finally identify the selector-seal route. The public route export theorem, \autoref{thm:real-completion-selector-seal-public-route-export}, gives the route $B \to W \to R \to L' \to E'$, while \autoref{thm:real-completion-selector-seal-l10-handoff-scope} places that route inside the same L10 Real and Completion handoff. Since $L'=L$ and $E'=E$, the selector-seal consumer factors through the CauchyLimitSeal packet fixed in the first step, and the excluded coordinates are absent from both displayed carrier surfaces.
+\end{proof}

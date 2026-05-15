@@ -108,3 +108,40 @@ Use \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The Real s
 Finally invoke \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. Since every accepted Real or Completion-facing root read is exhausted by $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, two reads with those rows displayed have no remaining public coordinate on which they can differ.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_shared\_selector\_determinacy}
+
+\begin{theorem}[Cauchy modulus refinement selector-meet noninterference]
+\label{thm:cauchy-modulus-refinement-selector-meet-noninterference}
+For an accepted $\CauchyModulusRefinementUp$ packet whose root route displays
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N,
+$$
+any consumer request for a hidden selector, second meet, quotient stream,
+selected limit, host equality, or ambient completeness row cannot alter the
+accepted selector route. Every accepted read remains determined by the shared
+meet $U$, extraction row $V$, selector-budget row $T$, selected-window row
+$W$, tolerance-readback row $Q$, Real-seal row $E$, and structural rows
+$H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. The
+accepted root route must begin with the source rows $M_0,M_1$, the shared meet
+$U$, and the extraction row $V$, so a hidden second meet has no source position
+from which to change the selector route.
+
+Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The
+selector-facing rows $T,W,Q$ are read only after the source-meet-extraction
+route has been displayed, and their readback is tied to the same
+selector-budget row $T$.
+
+Apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape} and
+\autoref{thm:cauchy-modulus-refinement-root-route-completeness}. They keep the
+Real seal and structural rows on the displayed route while excluding quotient
+streams, selected limits, host equalities, hidden selectors, second meets, and
+ambient completeness rows from the exported packet.
+
+Finally invoke \autoref{thm:cauchy-modulus-refinement-shared-selector-determinacy}.
+Once the displayed rows agree up to componentwise $\hsame$ transport and
+displayed $\Cont$ replay, no remaining root-facing coordinate can distinguish
+another accepted selector route. The requested hidden data are therefore
+noninterfering with the accepted route.
+\end{proof}
