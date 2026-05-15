@@ -494,4 +494,28 @@ theorem RegularCauchyTailFiberPacket_seal_totality [AskSetup] [PackageSetup]
     ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
       sealUnary, tailRoute, tailSealRoute, packetPkg, sealPkg⟩
 
+theorem RegularCauchyTailFiberPacket_shared_window_seal_determinacy [AskSetup]
+    [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n sealRead0 sealRead1 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont t a sealRead0 →
+        Cont t a sealRead1 →
+          PkgSig bundle sealRead0 pkg →
+            PkgSig bundle sealRead1 pkg →
+              UnaryHistory sealRead0 ∧ UnaryHistory sealRead1 ∧ hsame sealRead0 sealRead1 ∧
+                Cont t a sealRead0 ∧ Cont t a sealRead1 ∧
+                  PkgSig bundle sealRead0 pkg ∧ PkgSig bundle sealRead1 pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sealRoute0 sealRoute1 sealPkg0 sealPkg1
+  obtain ⟨_r0Unary, _r1Unary, _w0Unary, _w1Unary, _d0Unary, _d1Unary, tUnary,
+    aUnary, _hUnary, _cUnary, _pUnary, _nUnary, _hRoute, _cRoute, _tailRoute,
+    _packetSealRoute, _packetPkg⟩ := packet
+  have sealUnary0 : UnaryHistory sealRead0 := unary_cont_closed tUnary aUnary sealRoute0
+  have sealUnary1 : UnaryHistory sealRead1 := unary_cont_closed tUnary aUnary sealRoute1
+  have sameSeal : hsame sealRead0 sealRead1 :=
+    cont_deterministic sealRoute0 sealRoute1
+  exact
+    ⟨sealUnary0, sealUnary1, sameSeal, sealRoute0, sealRoute1, sealPkg0, sealPkg1⟩
+
 end BEDC.Derived.RegularCauchyTailFiberUp
