@@ -65,6 +65,8 @@ DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0
 DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES = 20.0
 DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
+DEFAULT_DEV_SYNC_TIMEOUT_SECONDS = 600
+STARTUP_DEV_SYNC_TIMEOUT_SECONDS = 120
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY = False
@@ -622,26 +624,48 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
-def git_sync_dev() -> bool:
+def git_sync_dev(*, timeout_seconds: int = DEFAULT_DEV_SYNC_TIMEOUT_SECONDS, label: str = "") -> bool:
     """Synchronize BEDC with the shared auto-dev integration branch.
 
     Sync is required so this branch does not duplicate work already produced
     by auto-dev/loning.  Safety lives in dev_sync_resolver's path protection,
     conflict handling, and post-merge gates, not in disabling sync.
     """
-    proc = subprocess.run(
+    proc = subprocess.Popen(
         ["python3", str(DEV_SYNC_RESOLVER)],
         cwd=str(REPO_ROOT),
         text=True,
-        capture_output=True,
-        timeout=2400,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
     )
-    output = (proc.stdout or proc.stderr or "").strip()
+    try:
+        stdout, stderr = proc.communicate(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGTERM)
+        except (ProcessLookupError, PermissionError):
+            pass
+        try:
+            stdout, stderr = proc.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                pass
+            stdout, stderr = "", ""
+        suffix = f" ({label})" if label else ""
+        supervisor_log(
+            f"git_sync_dev{suffix}: timeout after {timeout_seconds}s; deferred to next supervisor tick"
+        )
+        return False
+    output = (stdout or stderr or "").strip()
     summary = " ".join(output.split())[:500]
+    suffix = f" ({label})" if label else ""
     if proc.returncode == 0:
-        supervisor_log(f"git_sync_dev: ok {summary}")
+        supervisor_log(f"git_sync_dev{suffix}: ok {summary}")
         return True
-    supervisor_log(f"git_sync_dev: blocked rc={proc.returncode} {summary}")
+    supervisor_log(f"git_sync_dev{suffix}: blocked rc={proc.returncode} {summary}")
     return False
 
 
@@ -1281,7 +1305,7 @@ def main() -> int:
 
     if dev_sync_enabled:
         try:
-            git_sync_dev()
+            git_sync_dev(timeout_seconds=STARTUP_DEV_SYNC_TIMEOUT_SECONDS, label="startup")
         except Exception as exc:
             supervisor_log(f"git_sync_dev startup error: {exc}")
 

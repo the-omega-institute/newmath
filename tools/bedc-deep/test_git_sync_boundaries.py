@@ -22,12 +22,14 @@ def test_supervisor_does_not_clear_stop_file() -> None:
 
 def test_supervisor_runs_gated_dev_sync_resolver() -> None:
     text = _text(SUPERVISOR)
-    start = text.index("def git_sync_dev()")
+    start = text.index("def git_sync_dev(")
     end = text.index("\ndef trigger_probe", start)
     body = text[start:end]
     assert "origin/auto-dev" in body or "dev_sync_resolver" in body
     assert "DEV_SYNC_RESOLVER" in body
-    assert "subprocess.run" in body
+    assert "subprocess.Popen" in body
+    assert "communicate(timeout=timeout_seconds)" in body
+    assert "deferred to next supervisor tick" in body
     assert '["python3", str(DEV_SYNC_RESOLVER)]' in body
     assert "Safety lives in dev_sync_resolver's path protection" in body
 
@@ -53,7 +55,8 @@ def test_supervisor_defaults_to_continuous_auto_dev_sync() -> None:
     text = _text(SUPERVISOR)
     assert "DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15" in text
     assert "dev_sync_enabled = not bool(args.no_dev_sync)" in text
-    assert "git_sync_dev()" in text
+    assert "git_sync_dev(" in text
+    assert "STARTUP_DEV_SYNC_TIMEOUT_SECONDS" in text
     assert "--no-dev-sync" in text
     assert "Disable BEDC sync from origin/auto-dev" in text
 
