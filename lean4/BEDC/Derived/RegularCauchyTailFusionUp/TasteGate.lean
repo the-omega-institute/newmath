@@ -283,6 +283,23 @@ instance regularCauchyTailFusionChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyTailFusionToEventFlow_injective heq)
 
+instance regularCauchyTailFusionFieldFaithful :
+    FieldFaithful RegularCauchyTailFusionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RegularCauchyTailFusionUp.mk Q X W D T M R L H C P N =>
+        [Q, X, W, D, T, M, R, L, H, C, P, N]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk Q1 X1 W1 D1 T1 M1 R1 L1 H1 C1 P1 N1 =>
+        cases y with
+        | mk Q2 X2 W2 D2 T2 M2 R2 L2 H2 C2 P2 N2 =>
+            simp only [] at h
+            cases h
+            rfl
+
 def taste_gate : ChapterTasteGate RegularCauchyTailFusionUp :=
   inferInstance
 

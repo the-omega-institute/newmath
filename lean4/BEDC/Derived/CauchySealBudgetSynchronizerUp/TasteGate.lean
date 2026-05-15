@@ -23,15 +23,17 @@ theorem CauchySealBudgetSynchronizerTasteGate_obligation_surface
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · rfl
-  · exact
-      ChapterTasteGate.layer_separation
-        (CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
-        (CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty)
-        (by
-          intro h
-          cases h)
+  · intro heq
+    change
+      cauchySealBudgetSynchronizerToEventFlow
+          (CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        cauchySealBudgetSynchronizerToEventFlow
+          (CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty) at heq
+    injection heq with _ hTail
+    injection hTail with hRequest _
+    cases hRequest
 
 end BEDC.Derived.CauchySealBudgetSynchronizerUp
