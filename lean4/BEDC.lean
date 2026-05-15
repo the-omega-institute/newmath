@@ -194,6 +194,7 @@ import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyLimitFunctorUp
 import BEDC.Derived.CauchyModulusRefinementUp
+import BEDC.Derived.CauchyModulusRefinementUp.BudgetNaturality
 import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
@@ -589,6 +590,7 @@ import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.CompletionReadback
 import BEDC.Derived.CauchyCriterionUp.DiagonalBudgetReadback
+import BEDC.Derived.CauchyCriterionUp.FiniteRequestSectionReturn
 import BEDC.Derived.CauchyCriterionUp.QuotientRefusal
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyOscillationUp

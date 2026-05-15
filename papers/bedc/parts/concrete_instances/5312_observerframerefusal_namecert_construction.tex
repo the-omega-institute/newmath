@@ -62,21 +62,20 @@ The carrier has separate rows for observer identity, local coordinate use, local
 
 Field faithfulness is the projection discipline for the displayed tuple. Each row of $F=(O,Q,L,R,G,H,C,P,N)$ has a distinct role, and the refusal ledger $G$ must remain distinguishable from the local coordinate-frame row $Q$ and the causal-rate row $R$.
 \end{proof}
-\leanchecked{BEDC.Derived.ObserverFrameRefusalUp.ObserverFrameRefusalTasteGate\_single\_carrier\_alignment}
 
 \falsifiablePrediction{An accepted $\ObserverFrameRefusalUp$ packet admits no consumer route that reads a synchronized clock or privileged observer-frame row unless that row is displayed as a refused external coordinate.}
 
 \independenceWitness{observerhistidentity, observercoordinateframe, observerlocalitycell, histtimestream, crosshistcausalrate: $\ObserverFrameRefusalUp$ carries an explicit refusal ledger for privileged frame and synchronization imports; identity-only, coordinate-frame, locality-cell, time-stream, and rate packets do not have the same refusal surface.}
 
-\closureat{ObserverFrameRefusalUp}{seedStr}
+\closureat{ObserverFrameRefusalUp}{obligationStr}
 
 \begin{closurestatus}{\ObserverFrameRefusalUp}
   \constructivestory{An $\ObserverFrameRefusalUp$ packet is generated from observer-history identity, local coordinate-frame, locality-cell, cross-Hist causal-rate, refusal-ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-frame-refusal-carrier}, \autoref{thm:observer-frame-refusal-namecert-obligations}, \autoref{thm:observer-frame-refusal-no-global-sync-boundary}, and \autoref{thm:observer-frame-refusal-tastegate-obligation} specify the finite refusal packet for no-global-frame observer rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-frame-refusal-carrier}, \autoref{thm:observer-frame-refusal-namecert-obligations}, \autoref{thm:observer-frame-refusal-no-global-sync-boundary}, \autoref{thm:observer-frame-refusal-tastegate-obligation}, and \leanchecked{BEDC.Derived.ObserverFrameRefusalUp.taste\_gate} specify the finite refusal packet for no-global-frame observer rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not derive synchronized clocks, privileged observer frames, global coordinates, metric tensors, quotient observer identity, host equality of histories, Lean verification, or bridge checking for $\ObserverFrameRefusalUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, refusal-ledger exactness, consumer-route exhaustion, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Scoped closure requires checked carrier admission, refusal-ledger exactness, consumer-route exhaustion, and TasteGate nontriviality with field faithfulness.}
 \end{closurestatus}
