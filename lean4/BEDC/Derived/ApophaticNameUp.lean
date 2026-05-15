@@ -555,4 +555,31 @@ theorem ApophaticNameCarrier_root_unblock_public_citation_surface [AskSetup] [Pa
       exact ⟨provenancePkg, source.right, routeProvenancePublic⟩
   exact ⟨cert, publicUnary, provenancePkg, publicPkg⟩
 
+theorem ApophaticNameCarrier_root_bridge_counter_surface [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow bridgeRead counterRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg →
+      Cont ledger nameRow bridgeRead →
+        PkgSig bundle bridgeRead pkg →
+          Cont bridgeRead provenance counterRead →
+            PkgSig bundle counterRead pkg →
+              UnaryHistory bridgeRead ∧ UnaryHistory counterRead ∧
+                Cont ledger nameRow bridgeRead ∧ Cont bridgeRead provenance counterRead ∧
+                  hsame ledger (append request gate) ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle bridgeRead pkg ∧ PkgSig bundle counterRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier ledgerNameBridge bridgePkg bridgeProvenanceCounter counterPkg
+  obtain ⟨_socketUnary, _requestUnary, _gateUnary, ledgerUnary, _transportUnary,
+    _routeUnary, provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameBridge
+  have counterUnary : UnaryHistory counterRead :=
+    unary_cont_closed bridgeUnary provenanceUnary bridgeProvenanceCounter
+  exact
+    ⟨bridgeUnary, counterUnary, ledgerNameBridge, bridgeProvenanceCounter,
+      ledgerSameRequestGate, provenancePkg, bridgePkg, counterPkg⟩
+
 end BEDC.Derived.ApophaticNameUp

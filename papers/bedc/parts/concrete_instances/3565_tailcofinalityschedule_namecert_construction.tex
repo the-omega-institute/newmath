@@ -190,6 +190,22 @@ Finally combine \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-
 The sibling completion chapter \autoref{ch:concrete-instances-real-cauchy-completion-namecert} supplies the corresponding completion-facing diagonal route. Since the schedule carrier and the completion route contain no coordinate for quotient-stream equality, selected host limits, countable choice, host real equality, ambient completeness, hidden tail oracles, unbounded schedules, or a second budget source, the public seal can be reached only through the displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[Tail cofinality schedule completion-budget non-escape]
+\label{thm:tail-cofinality-schedule-completion-budget-nonescape}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ packet. Every completion-facing consumer of $T$ factors through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
+$$
+together with the $\RegularCauchyTailMeetUp$ shared-threshold row and the $\RealTailAgreementSealUp$ agreement rows before any $\RealCauchyCompletionUp$ seal read is available. The accepted packet exports no quotient-stream equality, selected host limit, host real equality, ambient completeness, hidden tail oracle, unbounded schedule, countable choice, or second budget source.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:tail-cofinality-schedule-real-completion-diagonal-route}. It places every completion-facing diagonal read on the displayed schedule route through $E$, $W$, $D$, $R$, and $L$, with the structural rows $H,C,P,N$ carrying only transport, route replay, provenance, and local naming.
+
+Next apply \autoref{thm:tail-cofinality-schedule-shared-tail-budget-factorization}. The shared threshold supplied by $\RegularCauchyTailMeetUp$ and the agreement rows supplied by $\RealTailAgreementSealUp$ are consumed on that same finite route before the completion seal can be inspected.
+
+Finally project the carrier in \autoref{def:tail-cofinality-schedule-carrier}. Its coordinates are exhausted by $E,W,D,R,L,H,C,P,N$, so none of the excluded analytic or choice data is available as an exported route or as a second source for the completion-facing budget.
+\end{proof}
+
 \begin{theorem}[Tail cofinality schedule diagonal-tail-selector factorization]
 \label{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}
 Every accepted $\TailCofinalityScheduleUp$ packet consumed by an accepted
@@ -267,6 +283,58 @@ $(E,W,D,R,L,H,C,P,N)$. Since the schedule, selector, and completion carriers
 contain no coordinate for the excluded host or oracle data, no second endpoint
 or budget source can separate the selector-facing and completion-facing
 public surfaces.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule selector-seal pullback]
+\label{thm:tail-cofinality-schedule-selector-seal-pullback}
+Let $T=(Q,W,D,R,E_T,H_T,C_T,P_T,N_T)$ be an accepted
+$\TailCofinalityScheduleUp$ packet, and let
+$S=(B,W,R,L,E_S,H_S,C_S,P_S,N_S)$ be an accepted
+$\RealCompletionSelectorSealUp$ packet. Suppose the selected
+$\StreamNameUp$ window and $\RegSeqRatUp$ readback rows exposed by the two
+packets are the same displayed rows $W$ and $R$. Then the
+schedule-facing completion read and the selector-facing seal read pull back
+to one finite public surface
+$$
+B,\ Q,\ W,\ D,\ R,\ L,\ E_T,\ E_S,\ H,\ C,\ P,\ N.
+$$
+Here $B$ is the selector budget, $Q$ is the precision row, $D$ is the dyadic
+ledger, $L$ is the $\CauchyLimitSealUp$ handoff row, $E_T,E_S$ are the
+terminal $\RealUp$ rows, and $H,C,P,N$ denote the structural transport,
+continuation, provenance, and naming rows read componentwise from
+$H_T,H_S,C_T,C_S,P_T,P_S,N_T,N_S$. The pullback uses no quotient stream
+equality, host real equality, countable choice, detached limit, hidden
+selector row, ambient completeness principle, or second completion route.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:tail-cofinality-schedule-selector-completion-pullback}. It
+places the schedule-facing completion read on the finite route from the
+precision row through the common window, dyadic ledger, readback, terminal
+Real row, and structural rows. Thus the schedule side contributes only
+$Q,W,D,R,E_T,H_T,C_T,P_T,N_T$.
+
+Next apply
+\autoref{thm:real-completion-selector-seal-l10-handoff-scope} and
+\autoref{thm:real-completion-selector-seal-window-tolerance-lock}. The
+selector-seal packet reaches the L10 handoff through the ordered surface
+$B,W,R,L,E_S$ and locks the selected window and readback to the displayed
+rows $W$ and $R$, so its selector-facing read meets the schedule-facing read
+on the same two handoff rows.
+
+Finally use
+\autoref{thm:real-completion-selector-seal-terminality} and
+\autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}. The
+terminal selector-seal route has no remaining completion endpoint beyond the
+displayed $L$ and $E_S$ rows, and $H_S,C_S,P_S,N_S$ only package that route.
+Together with the schedule pullback, the common public surface is exactly
+$B,Q,W,D,R,L,E_T,E_S,H,C,P,N$.
+
+The excluded objects are absent from both carriers and from the cited
+terminality and nonpromotion results. Hence quotient stream equality, host
+real equality, countable choice, detached limits, hidden selector rows,
+ambient completeness, and a second completion route cannot distinguish the
+two completion reads.
 \end{proof}
 
 \closureat{TailCofinalityScheduleUp}{seedStr}

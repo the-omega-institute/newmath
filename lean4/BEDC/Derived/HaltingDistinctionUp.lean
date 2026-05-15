@@ -101,4 +101,58 @@ theorem HaltingDistinctionCarrier_consumer_non_escape [AskSetup] [PackageSetup]
       diagonalHaltClassifier, classifierRouteCert, classifierRouteConsumerRead, provenancePkg,
       consumerReadPkg⟩
 
+theorem HaltingDistinctionPairClassifierTransport [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert pairRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg →
+      Cont question trace pairRead →
+        Cont pairRead classifier endpoint →
+          PkgSig bundle endpoint pkg →
+            UnaryHistory pairRead ∧ UnaryHistory endpoint ∧ Cont question trace pairRead ∧
+              Cont pairRead classifier endpoint ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier questionTracePair pairClassifierEndpoint endpointPkg
+  obtain ⟨questionUnary, traceUnary, _diagonalUnary, _haltUnary, classifierUnary,
+    _routeUnary, _provenanceUnary, _certUnary, _questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have pairUnary : UnaryHistory pairRead :=
+    unary_cont_closed questionUnary traceUnary questionTracePair
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed pairUnary classifierUnary pairClassifierEndpoint
+  exact
+    ⟨pairUnary, endpointUnary, questionTracePair, pairClassifierEndpoint, provenancePkg,
+      endpointPkg⟩
+
+theorem HaltingDistinctionFiniteTraceInversion [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert traceRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg →
+      Cont trace route traceRead →
+        Cont traceRead classifier endpoint →
+          PkgSig bundle endpoint pkg →
+            UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧
+              UnaryHistory halt ∧ UnaryHistory classifier ∧ UnaryHistory route ∧
+                UnaryHistory provenance ∧ UnaryHistory cert ∧ UnaryHistory traceRead ∧
+                  UnaryHistory endpoint ∧ Cont question trace diagonal ∧
+                    Cont diagonal halt classifier ∧ Cont classifier route cert ∧
+                      Cont trace route traceRead ∧ Cont traceRead classifier endpoint ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier traceRouteRead readClassifierEndpoint endpointPkg
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, haltUnary, classifierUnary,
+    routeUnary, provenanceUnary, certUnary, questionTraceDiagonal, diagonalHaltClassifier,
+    classifierRouteCert, provenancePkg⟩ := carrier
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary traceRouteRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceReadUnary classifierUnary readClassifierEndpoint
+  exact
+    ⟨questionUnary, traceUnary, diagonalUnary, haltUnary, classifierUnary, routeUnary,
+      provenanceUnary, certUnary, traceReadUnary, endpointUnary, questionTraceDiagonal,
+      diagonalHaltClassifier, classifierRouteCert, traceRouteRead, readClassifierEndpoint,
+      provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp
