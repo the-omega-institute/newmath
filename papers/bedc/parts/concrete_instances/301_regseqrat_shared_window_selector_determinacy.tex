@@ -1,0 +1,42 @@
+\begin{definition}[RegSeqRat shared-window selector surface]
+\label{def:regseqrat-shared-window-selector-surface}
+For an accepted $\RegSeqRatUp$ packet $P$, the shared-window selector surface is the finite $\BHist$ surface consisting of the following displayed rows:
+\begin{enumerate}
+\item $\StreamNameUp$ schedule rows selecting the public finite windows read by the request;
+\item $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows attached to those windows;
+\item $\RegSeqRatUp$ classifier, regularity, and tail-budget rows for the same selected windows;
+\item componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ row;
+\item the terminal $\RealUp$ seal row consuming the displayed regular-rational source surface.
+\end{enumerate}
+The surface contains only the rows visible in the $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ handoff. It has no quotient stream equality, host real equality, selected limit, completion point, ambient completeness datum, hidden selector, or second seal coordinate.
+\end{definition}
+
+\begin{theorem}[RegSeqRat shared-window selector determinacy]
+\label{thm:regseqrat-shared-window-selector-determinacy}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ and $T$ be accepted finite requests whose displayed selector surfaces are the shared-window surface of \autoref{def:regseqrat-shared-window-selector-surface}. If $S$ and $T$ display the same $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ rows, $\Pkg$ provenance, local $\NameCert$ row, and terminal $\RealUp$ seal row, then $S$ and $T$ determine the same RegSeqRat tail-window route up to the displayed $\hsame$ transport and $\Cont$ replay.
+
+The determinacy is internal to the shared-window surface. It does not identify quotient streams, host real values, selected limits, completion points, ambient completeness data, hidden selector choices, or any seal outside the displayed $\RealUp$ row.
+\end{theorem}
+\begin{proof}
+First use the scope triad of \autoref{thm:regseqrat-streamname-real-scope-triad}. It places every public $\RealUp$ seal read behind the visible StreamName schedule, the dyadic endpoint and radius rows, and the RegSeqRat classifier surface before the seal row is consumed.
+
+Next apply the finite request source section of \autoref{thm:regseqrat-finite-request-source-section}. The two finite requests have the same displayed source rows, so their schedule, dyadic ledger, classifier, regularity, transport, continuation, package, and naming coordinates are one public source section.
+
+Now use the tail-selector RealUp seal exhaustion theorem, \autoref{thm:regseqrat-tail-selector-real-seal-exhaustion}. It prevents either request from using a quotient stream, hidden selector, selected limit, completion point, or second seal to distinguish a separate tail-window route.
+
+Finally cite the StreamName-Dyadic-Real handoff exactness of \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. Transport through $\hsame$ and replay through $\Cont$ preserve the same handoff rows, so the two accepted requests reach the same RegSeqRat tail-window route and then the same displayed $\RealUp$ seal row.
+\end{proof}
+
+\begin{theorem}[RegSeqRat Real seal selector non-escape]
+\label{thm:regseqrat-real-seal-selector-nonescape}
+A $\RealUp$ seal consumer of the RegSeqRat shared-window selector surface receives only the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint, radius, and distance rows, $\RegSeqRatUp$ classifier and tail-budget rows, componentwise $\hsame$ rows, displayed $\Cont$ replay rows, $\Pkg$ provenance, local $\NameCert$ provenance, and the terminal $\RealUp$ seal row. The consumer receives no quotient stream, host real equality, selected limit, hidden selector, detached completeness row, or second $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regseqrat-tail-selector-real-seal-exhaustion}. It exhausts a selector-facing seal read by the finite StreamName, DyadicRatCore, RegSeqRat, and RealUp rows of the accepted packet.
+
+Apply the finite request Real seal correspondence of \autoref{thm:regseqrat-finite-request-real-seal-correspondence}. A finite request reaches the seal only through its displayed source section, not through an external real equality or selected limit.
+
+Use the terminal tail-budget seal theorem \autoref{thm:regseqrat-tail-budget-terminal-real-seal}. It keeps the tail budget and seal route on the same finite dyadic ledger and removes detached completion and completeness coordinates from the consumer inventory.
+
+The handoff exactness theorem \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} supplies the remaining source-lock: the StreamName schedule and dyadic rows travel together into the Real-facing seal. Since the shared-window selector surface has no row for the excluded objects, the consumer cannot export any of them.
+\end{proof}
