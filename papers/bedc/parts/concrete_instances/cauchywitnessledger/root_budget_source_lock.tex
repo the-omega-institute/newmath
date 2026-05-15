@@ -83,6 +83,26 @@ It remains to account for every read not carried by that route. \autoref{thm:cau
 Finally apply \autoref{thm:cauchy-witness-ledger-root-consumer-exhaustion}. Downstream $\RealUp$-completion consumers have no coordinate outside the displayed ledger, so a classifier read is either the accepted route above or a refused request, with no third exported surface.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger root diagnostic refusal dichotomy]
+\label{thm:cauchy-witness-ledger-root-diagnostic-refusal-dichotomy}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Every root diagnostic read or completion-facing consumer read of $L$ is exactly one of the following:
+\begin{enumerate}
+\item it follows the displayed route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+over the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces exposed by the ledger;
+\item it is refused at the displayed root boundary and exports no quotient stream, selected limit, host equality, countable-choice row, ambient completeness coordinate, hidden tail, alternate seal, or standard bridge row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First fix the source boundary. The root source lock of \autoref{thm:cauchy-witness-ledger-root-source-lock} and the source-window route lock of \autoref{thm:cauchy-witness-ledger-root-source-window-route-lock} place every accepted root read on the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ source route through $Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Next classify diagnostic reads. Apply \autoref{thm:cauchy-witness-ledger-root-budget-classifier-dichotomy}; the classifier side has only the accepted displayed route or the refusal branch.
+
+Finally attach the consumer boundary. The refusal boundary of \autoref{thm:cauchy-witness-ledger-root-budget-refusal-boundary} blocks the excluded quotient, limit, host-equality, countable-choice, ambient-completeness, tail, seal, and bridge rows, while \autoref{thm:cauchy-witness-ledger-root-consumer-exhaustion} says completion-facing consumers have no coordinate outside the displayed ledger. Thus the root diagnostic surface has no third export case.
+\end{proof}
+
 \begin{theorem}[Cauchy witness ledger root consumer exhaustion]
 \label{thm:cauchy-witness-ledger-root-consumer-exhaustion}
 Every downstream $\RealUp$-completion consumer of an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$ factors through

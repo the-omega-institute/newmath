@@ -1,0 +1,105 @@
+\section{StreamName finite-request section pullback}
+\label{sec:streamname-finite-request-section-pullback}
+
+\begin{theorem}[StreamName finite-request section pullback]
+\label{thm:streamname-finite-request-section-pullback}
+Every finite request section that faces $\RealUp$ through the
+$\RegSeqRatUp$-to-$\RealUp$ seal pulls back to the same displayed
+$\StreamNameUp$ section schedule, the same $\DyadicRatCoreUp$ endpoint and
+radius ledger, the same $\RegSeqRatUp$ regularity and readback surface, the
+same componentwise $\hsame$ rows, the same displayed $\Cont$ routes, the same
+$\Pkg$ provenance, and the same local $\NameCert$ rows. Thus a RealUp-facing
+request has no route around the displayed $\StreamNameUp$,
+$\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows.
+\end{theorem}
+\begin{proof}
+Start with the finite endpoint section of
+\autoref{thm:streamname-real-endpoint-finite-request-section}. It reads the
+RealUp-facing request as a finite $\StreamNameUp$ section whose visible
+coordinates are the endpoint, certified observation, support, and local naming
+rows.
+
+Next apply \autoref{thm:streamname-regseqrat-window-budget-section}. The
+$\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ budget rows consumed by the same
+request are not independent rows; they are the window-budget face of the same
+finite section.
+
+Now use
+\autoref{thm:streamname-finite-request-section-real-seal-lock} and
+\autoref{thm:streamname-finite-request-real-seal-totality}. The
+$\RegSeqRatUp$-to-$\RealUp$ seal is exhausted by the displayed StreamName
+schedule, DyadicRatCore endpoint-radius ledger, RegSeqRat regularity/readback
+surface, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+Finally compare with the Real-side route. Apply
+\autoref{thm:real-regseqrat-finite-request-fusion} to repack the RealUp-facing
+request as the same finite packet, and apply
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion} to rule out a second
+terminal-budget face. The pullback is therefore the displayed StreamName,
+DyadicRatCore, RegSeqRat, and support-row section already named above.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real finite-request section lock]
+\label{thm:streamname-regseqrat-real-finite-request-section-lock}
+Let $\mathcal{R}$ and $\mathcal{S}$ be two presentations of a
+$\RegSeqRatUp$-to-$\RealUp$ seal over the same finite request. The
+presentations agree exactly when their displayed section rows agree: the
+$\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ endpoint and radius ledger,
+the $\RegSeqRatUp$ regularity and readback surface, componentwise $\hsame$,
+displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows. No further
+RealUp-facing coordinate can distinguish the two presentations.
+\end{theorem}
+\begin{proof}
+For the forward direction, read both presentations through
+\autoref{thm:streamname-finite-request-section-pullback}. Since the finite
+request is the same, the pullback exposes the same StreamName schedule,
+DyadicRatCore ledger, RegSeqRat surface, and BEDC support rows for both
+presentations.
+
+For the reverse direction, suppose the displayed section rows agree. Apply
+\autoref{thm:streamname-open-phase-request-handoff} to each presentation. Both
+seal presentations are then the same local handoff through $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+It remains to see that the Real-facing seal cannot add a separating row. Use
+\autoref{thm:streamname-finite-request-section-real-seal-lock} to place each
+presentation behind the same finite section, and use
+\autoref{thm:streamname-finite-request-real-seal-totality} together with
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion} to exhaust the terminal
+seal surface by those rows. Hence agreement of the displayed section rows is
+both necessary and sufficient.
+\end{proof}
+
+\begin{theorem}[StreamName finite-request section nonescape]
+\label{thm:streamname-finite-request-section-nonescape}
+The finite-request section pullback of
+\autoref{thm:streamname-finite-request-section-pullback} exports no quotient
+stream equality, no host sequence equality, no selected limit, no host real
+equality, no countable-choice row, no ambient completion, no
+metric-completeness row, and no $\RealUp$ completeness datum. Its public
+surface is only the displayed $\StreamNameUp$ schedule, $\DyadicRatCoreUp$
+endpoint-radius ledger, $\RegSeqRatUp$ regularity/readback surface, and the
+support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-request-section-pullback}. The
+RealUp-facing request has already been pulled back to the displayed
+StreamName, DyadicRatCore, RegSeqRat, and support-row section.
+
+Next apply \autoref{thm:streamname-finite-request-section-real-seal-lock}. The
+seal lock blocks quotient stream equality, host real equality, ambient
+completion points, and RealUp completeness data from the seal presentation.
+
+Now use \autoref{thm:streamname-finite-request-real-seal-totality} and
+\autoref{thm:streamname-open-phase-request-handoff}. These results exhaust the
+open-phase handoff by the four displayed faces and the support rows, leaving no
+coordinate for host sequence equality, selected limits, countable choice, or a
+metric-completeness row.
+
+Finally apply the Real-side finite-request route
+\autoref{thm:real-regseqrat-finite-request-fusion} and the terminal-budget
+exhaustion of \autoref{thm:real-regseqrat-terminal-budget-exhaustion}. They
+confirm that any RealUp-facing consumer reads the same finite packet rather
+than an ambient completion or completeness datum.
+\end{proof}
