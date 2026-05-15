@@ -21,3 +21,17 @@ Now apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. The tail-bud
 
 Finally use \autoref{thm:real-name-seal-source-factorization}. Repacking the common-window handoff, the RegSeqRat exactness route, and the tail-budget pullback gives one $\BHist$ source packet with exactly the schedule, dyadic, classifier, regularity, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows listed above. Since each cited boundary lacks quotient stream equality, host real equality, selected limits, ambient completeness, choice data, and duplicate Real-seal coordinates, the fused request exports none of them.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat finite-request selector-budget lock]
+\label{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Suppose the finite request fusion is displayed over the rows $(W,D,R,H,C,P,N)$, where $W$ is the $\StreamNameUp$ finite-window row, $D$ is the $\DyadicRatCoreUp$ endpoint and radius row family, $R$ is the $\RegSeqRatUp$ classifier and readback row, $H$ is the componentwise $\hsame$ provenance, $C$ is the displayed $\Cont$ route, $P$ is the $\mathsf{Pkg}$ provenance, and $N$ is the local $\NameCert_{\RealUp}$ row. Then any downstream selector-budget consumer or completion-facing consumer of the same $\RealUp$ seal must reuse exactly these rows. In particular it cannot introduce a second selector budget, an off-packet tail selector, quotient stream equality, host real equality, a selected limit, choice data, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-regseqrat-finite-request-fusion}. The public finite request has already been repacked into one $\BHist$ packet whose displayed rows are the window row $W$, the dyadic endpoint and radius rows $D$, the classifier and readback row $R$, and the provenance rows $H$, $C$, $P$, and $N$.
+
+Apply \autoref{thm:real-regseqrat-streamname-seal-common-window-fusion}. This identifies every seal read in the packet with the same $\StreamNameUp$ finite-window row, so a later selector-budget consumer has no second window coordinate through which to read the seal.
+
+Apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. The tail-budget route is pulled back to the displayed finite window and its dyadic and regularity rows, ruling out an off-packet tail selector or a second selector budget.
+
+Finally apply \autoref{thm:real-name-seal-source-factorization}. The final $\RealUp$ seal source is the same finite source packet with its $\NameCert_{\RealUp}$ row, so completion-facing consumers inherit the listed $W$, $D$, $R$, $H$, $C$, $P$, and $N$ rows and gain no quotient stream equality, host real equality, selected limit, choice data, or ambient completeness row.
+\end{proof}
