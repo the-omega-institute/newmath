@@ -158,4 +158,51 @@ theorem ApophaticGateQuestionCarrier_namecert_obligations [AskSetup] [PackageSet
     ⟨cert, socketUnary, questionUnary, refusalUnary, readbackUnary,
       socketQuestionReadback, provenancePkg⟩
 
+theorem ApophaticGateQuestionCarrier_refusal_transport_scope [AskSetup] [PackageSetup]
+    {socket question refusal readback transport route provenance nameRow socket' question'
+      refusal' readback' transport' route' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticGateQuestionCarrier socket question refusal readback transport route provenance
+        nameRow bundle pkg →
+      hsame socket socket' →
+        hsame question question' →
+          hsame refusal refusal' →
+            hsame readback readback' →
+              hsame transport transport' →
+                hsame route route' →
+                  hsame provenance provenance' →
+                    hsame nameRow nameRow' →
+                      PkgSig bundle provenance' pkg →
+                        ApophaticGateQuestionCarrier socket' question' refusal' readback'
+                            transport' route' provenance' nameRow' bundle pkg ∧
+                          hsame readback' (append socket' question') ∧
+                            Cont question' refusal' route' ∧
+                              Cont refusal' readback' transport' ∧
+                                Cont readback' route' nameRow' ∧
+                                  PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameSocket sameQuestion sameRefusal sameReadback sameTransport sameRoute
+    sameProvenance sameNameRow provenancePkg'
+  obtain ⟨socketUnary, questionUnary, refusalUnary, readbackUnary, transportUnary,
+    routeUnary, provenanceUnary, nameRowUnary, socketQuestionReadback, questionRefusalRoute,
+    refusalReadbackTransport, readbackRouteNameRow, readbackSameSourceQuestion,
+    _provenancePkg⟩ := carrier
+  cases sameSocket
+  cases sameQuestion
+  cases sameRefusal
+  cases sameReadback
+  cases sameTransport
+  cases sameRoute
+  cases sameProvenance
+  cases sameNameRow
+  constructor
+  · exact
+      ⟨socketUnary, questionUnary, refusalUnary, readbackUnary, transportUnary, routeUnary,
+        provenanceUnary, nameRowUnary, socketQuestionReadback, questionRefusalRoute,
+        refusalReadbackTransport, readbackRouteNameRow, readbackSameSourceQuestion,
+        provenancePkg'⟩
+  · exact
+      ⟨readbackSameSourceQuestion, questionRefusalRoute, refusalReadbackTransport,
+        readbackRouteNameRow, provenancePkg'⟩
+
 end BEDC.Derived.ApophaticGateQuestionUp
