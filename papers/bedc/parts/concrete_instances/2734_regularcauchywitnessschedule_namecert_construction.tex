@@ -524,6 +524,34 @@ Now use budget pullback exactness for the compatible $\RealObservationBudgetUp$ 
 The remaining rows $X,H,C,P,N$ supply the source, transport, continuation, provenance, and local naming data attached to the already identified route. Since the budget non-escape clause supplies no additional request, window, dyadic, or seal coordinate, the selector and the witness schedule consume the same finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule budget tail-agreement pullback]
+\label{thm:regular-cauchy-witness-schedule-budget-tail-agreement-pullback}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Let
+$$
+B=(E,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be a compatible $\RealObservationBudgetUp$ route whose precision request, finite window, dyadic ledger, regular-source handoff, and real-seal rows agree componentwise with $\mu,W,D,R,T$ after the displayed transports and continuations are replayed. Suppose that this synchronized budget route is then consumed by a paired-tail route through $\RealTailAgreementSealUp$.
+
+Then the consumer-visible route for the scheduled side pulls back exactly to the finite row surface
+$$
+X,\mu,W,D,R,T,H,C,P,N
+$$
+and the paired-tail route may add only the second-source row and the agreement row required by the $\RealTailAgreementSealUp$ carrier. It exports no quotient stream, selected completed limit, host real equality, ambient completeness principle, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First apply budget pullback exactness, \autoref{thm:regular-cauchy-witness-schedule-budget-pullback-exactness}. The observation-budget request, window, ledger, handoff, and seal rows are transported onto $\mu,W,D,R,T$, so the budget consumer has the same scheduled-side route through $X,\mu,W,D,R,T,H,C,P,N$.
+
+Next apply budget selector compatibility, \autoref{thm:regular-cauchy-witness-schedule-budget-selector-compatibility}. The selector has no second request, alternate window, hidden dyadic ledger, or seal row outside the displayed packet, so the completion-facing budget surface is already spent before the paired-tail route is entered.
+
+Now use the tail-agreement consumer theorem, \autoref{thm:regular-cauchy-witness-schedule-tail-agreement-consumer}. After the scheduled-side rows have been read, the $\RealTailAgreementSealUp$ route can contribute only the second source and the displayed agreement row from \autoref{def:real-tail-agreement-seal-carrier}.
+
+Finally use non-escape on both packets. The witness schedule has no coordinate for quotient streams, selected completed limits, host equality, completeness, or choice-selected tails, and the observation budget has no hidden route outside its displayed request, window, ledger, handoff, seal, transport, continuation, provenance, and naming rows. The combined consumer route is therefore exactly the finite scheduled surface together with the paired source and agreement rows.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy witness schedule tail budget exhaustion]
 \label{thm:regular-cauchy-witness-schedule-tail-budget-exhaustion}
 Let
