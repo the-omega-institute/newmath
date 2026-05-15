@@ -262,6 +262,58 @@ completeness, trichotomy, metric structure, topology, or a standard bridge.
 \end{proof}
 \leanvariant{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
 
+\begin{theorem}[RealAlgOrder constant rational audit exactness]
+\label{thm:realalgorder-constant-rational-audit-exactness}
+For constant-rational endpoints $\Eone(d)$, $\Eone(e)$, and $\Eone(o)$, every
+accepted $\RealAlgOrder$ carrier, classifier, algebra, nonnegative, and
+apartness read factors through the constant rational route:
+$$
+\begin{gathered}
+\mathsf{RatHistoryCarrier},\quad
+\mathsf{RatHistoryClassifier},\quad
+\text{the displayed RatUp operation and order rows},\\
+\mathsf{RealConstantHistoryCarrier},\quad
+\mathsf{RealConstantHistoryClassifier},\quad
+\mathsf{BHist},\quad
+\hsame .
+\end{gathered}
+$$
+The only cross-layer certificates used by the route are
+\autoref{thm:real-constant-rational-embedding-certificate} and
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. Thus the
+constant-rational interface does not project full non-constant real
+arithmetic, trichotomy, least-upper-bound completeness, Cauchy completeness,
+metric or topology rows, quotient equality, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory supplied by
+\autoref{thm:realalgorder-constant-carrier-classifier-obligations}. Its public
+RealUp endpoints are exactly the e-one constants $\Eone(d)$, $\Eone(e)$, and
+$\Eone(o)$ whose hidden witnesses are RatUp histories. The carrier and
+classifier rows therefore pass through $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, $\mathsf{RealConstantHistoryCarrier}$, and
+$\mathsf{RealConstantHistoryClassifier}$.
+
+Next apply the row inventories. The algebra rows are those of
+\autoref{thm:realalgorder-constant-algebra-row-obligations}; the nonnegative
+and apartness rows are those of
+\autoref{thm:realalgorder-constant-order-apartness-obligations}; and their
+constant-rational boundary is
+\autoref{thm:realalgorder-constant-rational-order-boundary}. Each row is read
+by taking the RatUp operation or order witness first and then embedding its
+output as a RealUp constant endpoint.
+
+Finally compose the scoped certificate of
+\autoref{thm:realalgorder-constant-rational-scoped-certificate} with the two
+RealUp constant readback certificates. The embedding certificate supplies the
+forward route from rational histories to e-one RealUp constants, and the
+classifier readback certificate returns any displayed Real constant classifier
+move to the RatUp classifier. Since this inventory contains no row for
+non-constant real operations, trichotomy, completeness, metric or topological
+structure, quotient equality, or a standard bridge, no accepted read can escape
+the constant rational route.
+\end{proof}
+
 The intended Lean target shape for this certificate is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
 
