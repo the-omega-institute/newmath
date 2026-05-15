@@ -369,6 +369,7 @@ import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
 import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
+import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
