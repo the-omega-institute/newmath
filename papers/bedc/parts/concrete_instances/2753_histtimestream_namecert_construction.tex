@@ -90,6 +90,7 @@ Transport is componentwise through $L$. Each transported schedule entry remains 
 
 The no-global-clock clause in \autoref{thm:histtimestream-namecert-obligation-sketch} blocks the only possible escape route: importing the local stream into a second Hist as a synchronizing clock. Thus the transported classifier preserves the finite schedule and cannot acquire a host-indexed time row.
 \end{proof}
+\leanchecked{BEDC.Derived.HistTimeStreamUp.HistTimeStreamCarrier\_schedule\_classifier\_stability}
 
 \begin{theorem}[HistTimeStream NameCert ledger exhaustion]
 \label{thm:histtimestream-namecert-ledger-exhaustion}
@@ -139,6 +140,46 @@ Use the observation carrier theorem, \autoref{thm:histtimestream-observation-car
 Next apply ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. It forces every public $\NameCert_{\HistTimeStreamUp}$ read through the same carrier, schedule, replay, transport, package, and naming rows.
 
 Finally use the observer-locality lattice link, \autoref{thm:histtimestream-observer-locality-lattice-link}. The downstream observer-history surfaces consume the packet as one local stream, so the public export is precisely the displayed local-time stream surface and no inter-Hist synchronization or hidden route is available.
+\end{proof}
+
+\begin{theorem}[HistTimeStream window habitation]
+\label{thm:hist-time-stream-window-habitation}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Any finite window accepted by the local $\NameCert_{\HistTimeStreamUp}$ surface is inhabited only by the displayed rows
+$$
+H,T,S,C,L,P,N
+$$
+and its source route begins at $\emp$. The window has no additional row for a host time index, ambient clock coordinate, sibling Hist source, or hidden pre-start segment.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It presents the accepted packet as exactly the seven rows $H,T,S,C,L,P,N$, with $S$ recording that the finite route begins at $\emp$ and reaches only the displayed source history.
+
+Next apply the NameCert obligation sketch, \autoref{thm:histtimestream-namecert-obligation-sketch}. Its carrier-admission and start-ledger clauses make the finite window a local packet window rather than an ambient time interval, and its route-stability clause reads the window only through the displayed $\Cont$ rows.
+
+Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Every public read of the window must pass through the same carrier, schedule, replay, transport, package, and naming rows, so no host index, sibling source, or hidden pre-start row can inhabit the accepted window.
+\end{proof}
+
+\begin{theorem}[HistTimeStream transport lock]
+\label{thm:hist-time-stream-transport-lock}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport from $Q$ to $Q'$ preserves the finite schedule rows and the displayed $\Cont$ replay rows. The transported packet may replay the local window through $H',T',S',C',L',P',N'$, but it cannot add a host time index, shared clock coordinate, or external rate row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. The transport row $L$ is componentwise transport for the displayed packet rows, not a map into an external clock carrier.
+
+Apply schedule classifier stability, \autoref{thm:histtimestream-schedule-classifier-stability}. It keeps the finite $\Eone/\Ezero$ schedule, the start-at-empty ledger, and the replay row stable under componentwise $\hsame$ transport, so the transported consumer sees the corresponding rows of $Q'$.
+
+Use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}, to close the transport surface. Since every public read remains inside the same carrier, schedule, replay, transport, package, and naming inventory, there is no coordinate where a host time index, shared clock, or external rate can be inserted.
+\end{proof}
+
+\begin{theorem}[HistTimeStream clock refusal obligation]
+\label{thm:hist-time-stream-clock-refusal}
+No accepted consumer of a $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$ can read a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate from the packet. Every accepted time-facing read is confined to the finite local window displayed by $H,T,S,C,L,P,N$ and to componentwise $\hsame$ transport of that same window.
+\end{theorem}
+\begin{proof}
+First expose the accepted packet through \autoref{def:histtimestream-namecert-carrier}. The carrier lists the source history, finite schedule, start ledger, replay row, transport row, provenance row, and local naming row, and it has no coordinate reserved for a shared clock or rate.
+
+Next apply the NameCert obligation sketch and schedule classifier stability, \autoref{thm:histtimestream-namecert-obligation-sketch} and \autoref{thm:histtimestream-schedule-classifier-stability}. These keep the local stream tied to the displayed finite schedule and block componentwise transport from becoming a host-indexed global time classifier.
+
+Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. The public NameCert read is exhausted by the displayed local rows and their transport ledger, so an accepted consumer has no path to a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate.
 \end{proof}
 
 \begin{theorem}[HistTimeStream observer-locality consumption bridge]
@@ -437,6 +478,86 @@ Begin with source observation totality, \autoref{thm:hist-time-stream-source-obs
 Next use RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reindex-stability}. Componentwise $\hsame$ transport preserves the finite window handed to StreamName and then to RegSeqRat, so the regular-sequence input seen by a Real consumer remains tied to the HistTimeStream packet.
 
 Finally apply real-completion window nonescape, \autoref{thm:histtimestream-real-completion-window-nonescape}. It forces the Real readback through the HistTimeStream, StreamName, RegSeqRat, and Real rows named in the statement and excludes quotient streams, selected host limits, ambient completeness objects, host-indexed time, and cross-Hist clock data from the ledger.
+\end{proof}
+
+\begin{theorem}[HistTimeStream StreamName window totality]
+\label{thm:histtimestream-streamname-window-totality}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every $\StreamNameUp$-facing consumer of $Q$ reads exactly the displayed finite window rows $H,T,S,C,L,P,N$ through the carrier, the finite $\Cont$ prefix, and the StreamName finite-window handoff. Such a consumer cannot obtain a quotient stream, host-indexed clock, hidden route, selected host limit, ambient completeness witness, or cross-Hist clock from the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It displays $Q$ as precisely the seven rows $H,T,S,C,L,P,N$, with no coordinate for a quotient stream, hidden route, host-indexed clock, selected limit, or ambient completeness witness.
+
+Next apply the StreamName finite-window handoff, \autoref{thm:histtimestream-streamname-finite-window-handoff}. It identifies the consumer-visible naming input as the bounded window induced by the displayed $\Cont$ prefix before any StreamName consumer reads the stream.
+
+Finally use prefix transport exhaustion, \autoref{thm:histtimestream-prefix-transport-exhaustion}. Every observer-facing or naming-facing read has already passed through the finite prefix and componentwise $\hsame$ transport, and every attempted nonlocal time read is refused unless it preserves the displayed rows. Hence the StreamName-facing window is total and admits no hidden quotient, clock, route, limit, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[HistTimeStream RegSeqRat Real window route]
+\label{thm:histtimestream-regseq-real-window-route}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every $\RegSeqRatUp$ or $\RealUp$ read of the packet factors through $\HistTimeStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ in that order. The route reads only the finite window rows displayed by $Q$ and cannot select a host limit, ambient completeness coordinate, quotient stream, host-indexed time, or cross-Hist clock.
+\end{theorem}
+\begin{proof}
+First apply StreamName window totality, \autoref{thm:histtimestream-streamname-window-totality}. It fixes the StreamName-facing input as the displayed finite window $H,T,S,C,L,P,N$ and excludes hidden quotient, route, clock, limit, and completeness coordinates at the naming boundary.
+
+Next use RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reindex-stability}. The regular rational sequence consumer receives only the transported finite window handed through StreamName, so reindexing cannot choose a host limit or add an ambient completeness coordinate.
+
+Finally apply real-completion window nonescape, \autoref{thm:histtimestream-real-completion-window-nonescape}. It places each Real read after the HistTimeStream, StreamName, and RegSeqRat rows and blocks all listed escape data from the Real-facing route.
+\end{proof}
+
+\begin{theorem}[HistTimeStream finite-window readback exhaustion]
+\label{thm:histtimestream-finite-window-readback-exhaustion}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, the local source rows, StreamName window, RegSeqRat reindex stability, and Real readback ledger exhaust the finite-window readback obligations on the Real and Completion path. No further readback obligation remains outside the displayed local source rows, the StreamName window totality surface, the RegSeqRat route, and the Real ledger.
+\end{theorem}
+\begin{proof}
+Begin with StreamName window totality, \autoref{thm:histtimestream-streamname-window-totality}. It turns the local source rows of $Q$ into the whole naming window available to a StreamName-facing consumer.
+
+Next apply the RegSeqRat Real window route, \autoref{thm:histtimestream-regseq-real-window-route}. This routes every RegSeqRat or Real read through HistTimeStream, StreamName, RegSeqRat, and Real in order, while preserving the finite window and excluding nonlocal escape data.
+
+Finally use the Real readback ledger, \autoref{thm:hist-time-stream-real-readback-ledger}. The ledger records the same source rows, StreamName handoff, RegSeqRat input, and Real readback as the complete path, so the finite-window readback obligations for the Real and Completion path are exhausted by the three named surfaces.
+\end{proof}
+
+\begin{theorem}[HistTimeStream NameCert root-unblock package]
+\label{thm:histtimestream-namecert-root-unblock-package}
+The $\HistTimeStreamUp$ carrier exposure, finite schedule stability, $\Cont$-prefix exactness, local-clock refusal, $\StreamNameUp$ finite-window handoff, $\RegSeqRatUp$ reindex stability, and $\RealUp$ readback ledger form the root-unblock package for every downstream finite-window consumer of an accepted packet $Q=(H,T,S,C,L,P,N)$. The package exposes only the displayed local rows, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it exports no quotient stream, selected host limit, ambient completeness witness, host-indexed time, or cross-Hist clock.
+\end{theorem}
+\begin{proof}
+Project the packet through the carrier, \autoref{def:histtimestream-namecert-carrier}. The rows $H,T,S,C,L,P,N$ are the whole accepted surface, so the root consumer starts from the displayed source row, finite schedule, continuation routes, package row, and local naming row.
+
+Next combine schedule stability, prefix exactness, and local-clock refusal. The stability and prefix theorems, \autoref{thm:histtimestream-schedule-classifier-stability} and \autoref{thm:histtimestream-cont-prefix-exactness}, make the finite route from $\emp$ through $H,T,S,C,L,P,N$ the only consumer-visible prefix; \autoref{thm:histtimestream-local-clock-refusal} blocks any host-indexed or cross-Hist clock read.
+
+Finally attach the downstream readback surfaces. The StreamName handoff, RegSeqRat stability, and Real ledger, \autoref{thm:histtimestream-streamname-finite-window-handoff}, \autoref{thm:hist-time-stream-regseq-reindex-stability}, and \autoref{thm:hist-time-stream-real-readback-ledger}, consume the same finite window in order. Hence the listed rows are exactly the root-unblock package for finite-window consumers and no excluded host or quotient data is introduced.
+\end{proof}
+
+\begin{theorem}[HistTimeStream local stream-prefix factorization]
+\label{thm:histtimestream-local-stream-prefix-factorization}
+Every accepted $\HistTimeStreamUp$ consumer route factors first through the local prefix
+$$
+H,T,S,C,L,P,N
+$$
+before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ read is available. The prefix is the displayed $\Cont$ route of the packet, not a hidden stream quotient, host clock, selected limit, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Read the route from the carrier of \autoref{def:histtimestream-namecert-carrier}. The carrier has no coordinate outside the seven displayed rows, so any accepted consumer must begin by projecting those rows.
+
+Apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. It identifies the consumer path as the finite prefix ending in the displayed packet rows before a naming, sequence, or real-facing consumer can read the packet.
+
+Use StreamName window totality and the RegSeqRat Real window route, \autoref{thm:histtimestream-streamname-window-totality} and \autoref{thm:histtimestream-regseq-real-window-route}. They place StreamName, RegSeqRat, and Real reads strictly after the local prefix and preserve the same rows throughout the downstream route. The absence of extra carrier coordinates gives the stated exclusions.
+\end{proof}
+
+\begin{theorem}[HistTimeStream StreamName Real consumer route]
+\label{thm:histtimestream-streamname-real-consumer-route}
+The ordered downstream route
+$$
+\HistTimeStreamUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+preserves the no-global-clock ledger for the packet $Q=(H,T,S,C,L,P,N)$. Along this route every read is through the local prefix, StreamName finite-window handoff, RegSeqRat reindex surface, and Real readback ledger, and the route excludes quotient streams, selected host limits, ambient completeness witnesses, host-indexed time, and cross-Hist clocks.
+\end{theorem}
+\begin{proof}
+First factor the consumer through the local prefix by \autoref{thm:histtimestream-local-stream-prefix-factorization}. The route has already exposed the finite HistTimeStream rows before any downstream naming or readback surface is used.
+
+Next pass through StreamName and RegSeqRat. StreamName window totality, \autoref{thm:histtimestream-streamname-window-totality}, fixes the naming input as the same finite rows, and RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reindex-stability}, keeps the regular rational sequence consumer tied to componentwise $\hsame$ transport of those rows.
+
+Finally apply local-clock refusal and the Real readback ledger, \autoref{thm:histtimestream-local-clock-refusal} and \autoref{thm:hist-time-stream-real-readback-ledger}. The refusal theorem preserves the no-global-clock ledger, while the Real ledger records the ordered HistTimeStream, StreamName, RegSeqRat, Real route and rules out every listed nonlocal or quotient datum.
 \end{proof}
 
 \closureat{HistTimeStreamUp}{seedStr}

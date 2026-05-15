@@ -193,6 +193,60 @@ Apply \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}. Every se
 Use \autoref{thm:monotone-cauchy-real-seal-boundary} for the final handoff. The boundary reads only the displayed located interval and the seal row, and \autoref{thm:monotone-cauchy-ledger-exhaustion} rules out any additional hidden coordinate for the excluded analytic objects.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy located interval cell coherence]
+\label{thm:monotone-cauchy-located-interval-cell-coherence}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ packet. Every located interval cell read in
+$I$ is coherent with the same finite $\StreamNameUp$ window selected by
+$\sigma$ and $\mu$, the same $\RegSeqRatUp$ observations in $F$, and the same
+dyadic ledger $\lambda$ before the $\RealUp$ seal row $Q$ is read. The lower
+and upper endpoint rows of the located interval, the rational or dyadic cell
+row being inspected, and the seal-facing route therefore form one finite
+window:
+$$
+(F,\sigma,\mu,\lambda)
+\quad\hbox{then}\quad
+I
+\quad\hbox{then}\quad
+Q .
+$$
+
+The coherence statement uses only the displayed $\BHist$ surface, the
+componentwise $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the
+$\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$. It does not
+invoke a quotient real, selected representative, host real order, trichotomy,
+ambient completeness principle, or choice row.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:monotone-cauchy-carrier}. The only
+tail-window rows visible before the interval and seal stages are
+$F,\sigma,\mu,\lambda$ together with their displayed transport, continuation,
+provenance, and naming rows.
+
+Apply \autoref{thm:monotone-cauchy-located-trap-certificate}. It binds the
+located interval row $I$ to the regular rational observations in $F$, the
+finite window selected by $\sigma$ and $\mu$, and the monotone dyadic ledger
+$\lambda$ before any $\RealUp$ seal row is available.
+
+Use \autoref{thm:located-interval-stream-real-cell-synchronization} for the
+endpoint-cell step. The lower endpoint row, upper endpoint row, rational or
+dyadic cell ledger, endpoint windows, regular readbacks, and seal-facing rows
+of the located interval remain a single finite route, so a cell read in $I$
+cannot detach from the displayed endpoint rows.
+
+Finally apply
+\autoref{thm:monotone-cauchy-tail-window-real-seal-certificate}. The seal row
+$Q$ consumes the same located trap and the same modulus-selected finite window,
+so the interval cell, endpoint rows, regular observations, dyadic ledger, and
+Real seal are read from one carrier surface. Since the carrier has no
+coordinate for quotient reals, selected representatives, host real order,
+trichotomy, ambient completeness, or choice, none of those objects can enter
+the coherence route.
+\end{proof}
+
 \begin{theorem}[Monotone Cauchy CauchyCriterion seal handoff]
 \label{thm:monotone-cauchy-cauchycriterion-seal-handoff}
 Let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\MonotoneCauchyUp$ packet. Suppose the $\RealUp$ seal row $Q$ is consumed by an accepted $\CauchyCriterionUp$ packet through the same displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Then every such consumer route factors through the finite Monotone Cauchy tail-window certificate and then through the CauchyCriterion finite criterion route
@@ -550,6 +604,57 @@ coordinate has already appeared in the displayed rows
 $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the bounded-witness consumer has no
 remaining route to a quotient real, host equality, trichotomy row, ambient
 completeness coordinate, or selected limiting representative.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy diagonal terminal pullback handoff]
+\label{thm:monotone-cauchy-diagonal-terminal-pullback-handoff}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ packet whose public $\RealUp$ seal is
+consumed by an accepted $\DiagonalLimitCompatibilityUp$ terminal packet. Then
+every completion-facing classifier read and every $\RealUp$ seal-facing
+classifier read of $M$ factors through the same terminal finite pullback over
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, the monotone
+tail-window rows $F,\sigma,\mu,\lambda$, the located-interval row $I$, and the
+displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows in $H,C,P,N$.
+
+The handoff exports no quotient stream, host real equality, selected limit,
+trichotomy row, ambient completeness principle, metric-completeness datum,
+bridge row, or choice datum.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:monotone-cauchy-public-route-classifier-handoff}. The public
+completion-facing classifier and the $\RealUp$ seal-facing classifier of $M$
+already read the same located interval trap, monotone tail-window certificate,
+$\RegSeqRatUp$ row, $\CauchyModulusUp$ tail-stability row, $\RealUp$ seal row,
+and support rows.
+
+Next use
+\autoref{thm:monotone-cauchy-bounded-witness-tail-factorization}. It keeps the
+bounded tail-window and located-interval reads downstream of the same
+$F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ surface, so the monotone source cannot
+contribute a second consumer route through a quotient real, trichotomy row, or
+selected limiting representative.
+
+Now compose that surface with the diagonal terminal packet by applying
+\autoref{thm:diagonal-limit-compatibility-monotone-cauchy-seal-handoff}. The
+consumer hypothesis identifies the public $\RealUp$ seal of $M$ with the
+terminal $\RealUp$ read exported by the diagonal packet, so the two packets
+share one finite seal handoff over the displayed support rows.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-terminal-route-completeness} and
+\autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The
+diagonal terminal route is complete exactly through its finite terminal route,
+and the L10 exit boundary identifies all completion-facing and
+Real-seal-facing reads with the terminal pullback over $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and the displayed support rows.
+The cited non-escape clauses exclude quotient streams, host real equality,
+selected limits, trichotomy, ambient completeness, metric-completeness data,
+bridge rows, and choice.
 \end{proof}
 
 \closureat{MonotoneCauchyUp}{seedStr}
