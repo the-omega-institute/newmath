@@ -150,4 +150,25 @@ theorem CauchyLimitFunctorCarrier_public_seal_export [AskSetup] [PackageSetup]
       publicReadUnary, sourceTransportTarget, sourceTargetReadback, readbackToleranceClassifier,
       classifierEndpointCarrier, targetEndpointPublic, carrierEndpointPkg, publicPkg⟩
 
+theorem CauchyLimitFunctorCarrier_source_target_seal_exposure [AskSetup] [PackageSetup]
+    {sourceSeal targetSeal transportMap sourceWindow targetWindow readback tolerance classifier
+      endpoint hsameRows routes provenance nameCert carrierEndpoint sourceSealPrime
+      transportMapPrime targetSealPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitFunctorCarrier sourceSeal targetSeal transportMap sourceWindow targetWindow
+        readback tolerance classifier endpoint hsameRows routes provenance nameCert
+        carrierEndpoint bundle pkg ->
+      hsame sourceSeal sourceSealPrime ->
+        hsame transportMap transportMapPrime ->
+          Cont sourceSealPrime transportMapPrime targetSealPrime ->
+            hsame targetSeal targetSealPrime := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier sameSource sameTransport transportedRoute
+  obtain ⟨_sourceSealUnary, _targetSealUnary, _transportMapUnary, _sourceWindowUnary,
+    _targetWindowUnary, _readbackUnary, _toleranceUnary, _classifierUnary, _endpointUnary,
+    _hsameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary, _carrierEndpointUnary,
+    sourceTransportTarget, _sourceTargetReadback, _readbackToleranceClassifier,
+    _classifierEndpointCarrier, _hsameRowsRoutesProvenance, _carrierEndpointPkg⟩ := carrier
+  exact cont_respects_hsame sameSource sameTransport sourceTransportTarget transportedRoute
+
 end BEDC.Derived.CauchyLimitFunctorUp
