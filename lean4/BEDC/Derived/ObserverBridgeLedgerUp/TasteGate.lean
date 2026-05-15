@@ -285,4 +285,26 @@ theorem ObserverBridgeLedgerTasteGate_single_carrier_alignment :
             decodeRound pkg, decodeRound name]
     · rfl
 
+theorem ObserverBridgeLedger_sibling_route_row_separates :
+    FieldFaithful.fields
+        (ObserverBridgeLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+      FieldFaithful.fields
+        (ObserverBridgeLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  change
+    [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.e0 BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] =
+      [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.e1 BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] at h
+  injection h with _hState hTail0
+  injection hTail0 with _hBoundary hTail1
+  injection hTail1 with _hMulti hTail2
+  injection hTail2 with _hIdentity hTail3
+  injection hTail3 with _hLocality hTail4
+  injection hTail4 with hRoute _hTail5
+  cases hRoute
+
 end BEDC.Derived.ObserverBridgeLedgerUp
