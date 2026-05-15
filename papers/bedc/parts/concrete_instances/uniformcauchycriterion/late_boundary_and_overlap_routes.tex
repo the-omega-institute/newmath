@@ -148,6 +148,28 @@ Next pass from the joined family request to the tail read. Use \autoref{thm:unif
 Finally send the overlap to the consumers. Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion} to exhaust the RegSeqRat side by $I,W,M,Q,T,E,H,C,P,N$, and apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the Real seal side downstream of the same package. The non-escape boundary then rules out a second budget, quotient stream family, selected limit, host real equality, or ambient completeness row.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion RegSeqRat--Real seal overlap]
+\label{thm:uniform-cauchy-criterion-regseqrat-real-seal-overlap}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any overlap of two finite subfamily tail requests that reaches a $\RegSeqRatUp$-facing consumer and then a $\RealUp$ seal factors through the same route
+$$
+I,W,M,Q,T,E,H,C,P,N.
+$$
+The overlap cannot introduce a second RegSeqRat classifier, quotient stream family, selected family limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First place the two subfamily requests on the common window. Apply \autoref{thm:uniform-cauchy-criterion-shared-window-threshold-meet} to identify the shared window and threshold rows $W,M$ before either request reaches its tolerance or tail data.
+
+Next pass to the finite family-tail overlap. Apply \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}. The common tail evidence is the displayed intersection inside the finite ledger $I$ and the same dyadic tolerance and tail rows $Q,T$.
+
+Now read the RegSeqRat-facing consumer. By \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, the consumer is exhausted by $I,W,M,Q,T,E,H,C,P,N$, so it has no coordinate for a second RegSeqRat classifier or quotient stream family.
+
+Finally attach the Real seal. Use \autoref{thm:uniform-cauchy-criterion-shared-schedule-real-seal-inheritance} and \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the seal read downstream of the same $E,H,C,P,N$ rows. The non-escape boundary then rules out selected family limits, host real equality, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion shared-tail subfamily pullback]
 \label{thm:uniform-cauchy-criterion-shared-tail-subfamily-pullback}
 For every accepted $\UniformCauchyCriterionUp$ packet $U=(I,W,M,Q,T,E,H,C,P,N)$, any downstream $\RegSeqRatUp$ or $\RealUp$ consumer of a displayed subfamily pullback reads the same shared tail route through the finite index ledger. Such a consumer cannot introduce an indexwise modulus family or detach the pullback from the rows $I,W,M,Q,T,E,H,C,P,N$.
