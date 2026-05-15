@@ -99,6 +99,46 @@ Next read the $\CauchyLimitFunctorUp$ surface. The NameCert obligations of \auto
 Finally insert the functor packet into the terminal route. Root-budget terminal-route uniqueness from \autoref{thm:diagonal-limit-compatibility-root-budget-terminal-route-uniqueness} identifies every Real- or Completion-facing read that preserves the displayed packet rows, and selector-synchronizer exactness in \autoref{thm:diagonal-limit-compatibility-root-budget-selector-synchronizer-exactness} keeps the finite observation surface on the same route. Since the functor preserves the displayed source seal and its terminal Real endpoint, it is consumed on that route rather than opening an independent completion endpoint.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility carrier finite observation-budget factorization]
+\label{thm:diagonal-limit-compatibility-carrier-finite-observation-budget-factorization}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ carrier as in
+\autoref{def:diagonal-limit-compatibility-carrier}. Suppose the displayed
+$\Cont$ rows factor through
+$$
+\begin{gathered}
+R \to W \to \text{selector} \to D \to \text{synchronizer} \to Q\\
+\to \text{request} \to L \to \text{budget} \to N \to \text{terminal}
+\end{gathered}
+$$
+and suppose the terminal row is carried by the same $\Pkg$ bundle as the
+carrier provenance. Then the carrier exposes unary histories for the selector,
+synchronizer, request, budget, and terminal rows, preserves each displayed
+continuation in the chain, and carries both the provenance package row and the
+terminal package row.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_finite\_observation\_budget\_factorization}
+\begin{proof}
+Project the accepted carrier of
+\autoref{def:diagonal-limit-compatibility-carrier}. Its displayed rows give
+unary histories for the diagonal source, dyadic ledger, window family,
+readback row, $\RealUp$ seal, certificate row, and provenance package.
+
+Apply unary closure for $\Cont$ along the displayed route. The row
+$R \to W \to \text{selector}$ gives a unary selector history; the row from the
+selector through $D$ gives a unary synchronizer history; the row from the
+synchronizer through $Q$ gives a unary request history; the row from the
+request through $L$ gives a unary budget history; and the row from the budget
+through $N$ gives a unary terminal history.
+
+Finally repack the data in carrier order. Keep the five continuation rows
+unchanged, keep the provenance $\Pkg$ row projected from the carrier, and keep
+the terminal $\Pkg$ row supplied at the terminal endpoint.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility finite observation-budget factorization]
 \label{thm:diagonal-limit-compatibility-finite-observation-budget-factorization}
 Let
