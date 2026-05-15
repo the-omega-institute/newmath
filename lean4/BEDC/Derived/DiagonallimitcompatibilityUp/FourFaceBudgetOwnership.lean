@@ -41,4 +41,34 @@ theorem DiagonalLimitCompatibility_four_face_budget_ownership [AskSetup] [Packag
       diagonalWindowsStreamFace, dyadicReadbackRegFace, streamRegRealFace, provenancePkg,
       realFacePkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_four_face_budget_ownership
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      fourFace : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont sealRow windows fourFace ->
+        PkgSig bundle fourFace pkg ->
+          UnaryHistory sealRow ∧ UnaryHistory windows ∧ UnaryHistory dyadic ∧
+            UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory cert ∧
+                UnaryHistory fourFace ∧ Cont sealRow windows fourFace ∧
+                  Cont dyadic windows readback ∧ Cont readback realSeal route ∧
+                    Cont route cert transport ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle fourFace pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier sealRowWindowsFourFace fourFacePkg
+  obtain ⟨_diagonalUnary, _triangleUnary, sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, transportUnary, routeUnary, provenanceUnary, certUnary,
+    _diagonalTriangleSeal, dyadicWindowsReadback, readbackRealSealRoute,
+    routeCertTransport, provenancePkg⟩ := carrier
+  have fourFaceUnary : UnaryHistory fourFace :=
+    unary_cont_closed sealRowUnary windowsUnary sealRowWindowsFourFace
+  exact
+    ⟨sealRowUnary, windowsUnary, dyadicUnary, readbackUnary, realSealUnary,
+      transportUnary, routeUnary, provenanceUnary, certUnary, fourFaceUnary,
+      sealRowWindowsFourFace, dyadicWindowsReadback, readbackRealSealRoute,
+      routeCertTransport, provenancePkg, fourFacePkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
