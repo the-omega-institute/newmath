@@ -771,6 +771,7 @@ import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
+import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LQRUp
 import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
@@ -1165,6 +1166,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
+import BEDC.Derived.DiagonallimitcompatibilityUp.NameCertObligations
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetObligationRows
@@ -1205,6 +1207,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SynchronizerTailSelectorRealRou
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSharedTailNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailBudgetObservationLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailMeetRefinementSealRoute
+import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalReadbackDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.TriangleReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowBudgetTriadLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.WindowLedgerExactness
