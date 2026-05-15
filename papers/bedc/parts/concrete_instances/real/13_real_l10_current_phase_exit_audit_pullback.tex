@@ -50,3 +50,33 @@ stream, no selected limit, no Real completeness row, no metric-completeness
 row, and no aggregate bridge coordinate, the exit packet cannot contribute any
 additional audit datum.
 \end{proof}
+
+\begin{theorem}[Real L10 face status non-collapse]
+\label{thm:real-l10-face-status-noncollapse}
+Any current Phase Real and Completion audit read through the four faces
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ preserves
+the four local closure records as separate face reports. No conjunction of
+those records can be read as a new formalstatus token, a $\bridgeCheckedV$
+aggregate, a $\RealUp$ completeness claim, or a standard bridge for the
+composite exit route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-l10-current-phase-exit-audit-pullback}. It identifies
+the current exit audit as the product of the four local face records and
+states that the exit packet contributes no fifth formal token or aggregate
+bridge.
+
+The two-axis convention of
+\autoref{sec:roadmap-closure-and-verification-axes} reads closure and
+verification status locally. A face report can therefore be cited as a face
+report, but the conjunction of face reports is not itself a further
+formalstatus entry.
+
+Finally use the exactness and non-escape inputs named in the pullback proof:
+\autoref{thm:real-l10-source-route-nonescape},
+\autoref{thm:real-l10-dependency-lattice-interface-totality},
+\autoref{thm:real-l10-four-face-exactness}, and
+\autoref{thm:real-l10-streamname-exit-route-correspondence}. They keep the
+composite exit route on the four displayed faces and provide no row for
+RealUp completeness or for a standard bridge over the product.
+\end{proof}

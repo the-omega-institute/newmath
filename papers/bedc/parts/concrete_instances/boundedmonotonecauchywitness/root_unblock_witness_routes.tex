@@ -369,3 +369,33 @@ Now attach the UniformCauchyCriterion packet. By \autoref{thm:uniform-cauchy-cri
 
 Finally bind the StreamName and regular-real handoff rows. The StreamName finite-window handoff of \autoref{thm:streamname-real-regseq-finite-window-handoff} keeps the finite observation window and $\RegSeqRatUp$ seed rows visible, while the bounded monotone root seal route and Real-seal consumer exhaustion keep the $I,Q$ suffix tied to the same regular-source and seal route. Since neither side contributes quotient streams, selected limits, host real equality, countable choice, ambient completeness, open-cover compactness, or a direct $\RealUp$ bypass, their composite handoff is exactly the finite chain displayed above.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness observation-budget grid pullback]
+\label{thm:bounded-monotone-cauchy-witness-observation-budget-grid-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Let
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)
+$$
+be an accepted $\RealCauchyWitnessGridUp$ packet, let
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let
+$$
+O=(E_O,W_O,D_O,R_O,S_O,H_O,C_O,P_O,N_O)
+$$
+be an accepted $\RealObservationBudgetUp$ packet reading the same finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ regular readbacks, and $\RealUp$ seal rows used by the root route of $W$, the grid packet $G$, and the uniform criterion packet $U$. Then the bounded-source route, grid-budget route, uniform-criterion route, and observation-budget route determine one pullback surface before any $\RealUp$ seal is public:
+$$
+S,F,\sigma,\mu,\lambda,I,Q,B,L,K,T,S_G,R_G,E_G,I_U,W_U,M_U,Q_U,T_U,E_U,E_O,W_O,D_O,R_O,S_O,H,H_G,H_U,H_O,C,C_G,C_U,C_O,P,P_G,P_U,P_O,N,N_G,N_U,N_O.
+$$
+Every consumer of this surface first reads the root source and tail-window rows of $W$, then the grid budget rows of $G$, then the uniform-criterion rows of $U$, and finally the finite observation-budget rows that name the same windows, dyadic ledgers, regular readbacks, and seal boundary. The surface exports no quotient stream, selected host limit, host real equality, countable-choice selector, ambient completeness theorem, open-cover compactness principle, hidden family limit, or direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+First project the bounded-source route. Root extraction confines all reads of $W$ to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, and schedule factorization records $\sigma,\mu,\lambda$ as finite $\BHist$ rows transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$.
+
+Next attach the grid side. The grid-budget precedence theorem places $B,L,K,T$ before the seal row $Q$ on the same root route, while the grid readback rows $S_G,R_G,E_G$ sit on the same $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. Thus the grid packet contributes budget rows to the same surface rather than a second completion route.
+
+Now attach the uniform criterion. The uniform-criterion handoff sends the family-test packet $U$ through the already displayed finite windows, dyadic tolerance ledger, regular readback, and seal handoff. Its rows $I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U$ therefore meet the bounded-source and grid rows along the shared L10 faces.
+
+Finally read the observation-budget route. By \autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, and \autoref{thm:real-observation-budget-nonescape}, the observation-budget consumer exposes only its finite request, window, dyadic, regular-handoff, seal, transport, continuation, provenance, and naming rows. Since those rows are assumed to be the same finite windows, ledgers, readbacks, and seal rows already displayed by $W$, $G$, and $U$, the four routes share exactly the pullback surface above before any $\RealUp$ seal can be public.
+\end{proof}

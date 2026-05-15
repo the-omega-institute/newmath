@@ -318,6 +318,30 @@ Finally bind the named handoff positions by \autoref{thm:streamname-real-complet
 Reading the result through the roadmap two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}, the factorization reports only the current closure and verification records already attached to the four faces. Since choice rows, selected limits, quotient stream equality, host sequence equality, metric-completeness data, and standard bridge rows are absent from that boundary, each such attempted row is outside the packet.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion failure localization]
+\label{thm:streamname-real-completion-failure-localization}
+Let a current Phase Real and Completion exit read be presented through the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Assume the read cannot be accepted as the public four-face boundary. Then the obstruction is localized to failure of at least one displayed face record or at least one displayed support row
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, the failed read has no fifth completion object in which the obstruction can be stored.
+
+In particular, the obstruction is not quotient stream equality, selected limit data, an ambient $\RealUp$ completeness theorem, a metric-completeness datum, a countable-choice row, a standard bridge row, or any hidden fifth face.
+\end{theorem}
+\begin{proof}
+Begin with dependency exactness, \autoref{thm:streamname-real-completion-dependency-exactness}. Acceptance is exactly exposure of the four finite dependency faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ together with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Now apply terminal pullback, \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. When those faces and rows are present, every accepted downstream read factors through the same finite boundary. Therefore a read that cannot be accepted must fail before this terminal pullback is available, at one of the listed face records or support rows.
+
+Next use no-choice route factorization, \autoref{thm:streamname-real-completion-route-no-choice-factorization}. The factorization has no coordinate for countable choice, selected limits, quotient stream equality, host sequence equality, metric-completeness data, or standard bridge rows, so none of those rows can serve as the missing obstruction carrier.
+
+Finally apply exit-axis separation, \autoref{thm:streamname-real-completion-exit-axis-separation}. Axis separation blocks an ambient $\RealUp$ completeness theorem or verification upgrade from becoming an extra paper-side face. The only remaining obstruction sites are the four displayed face records and the five displayed support rows, so the failed read has no hidden fifth object.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion budget-selector lock]
 \label{thm:streamname-real-completion-budget-selector-lock}
 Let a current Phase Real and Completion consumer take only finite observations mediated by an accepted $\RealObservationBudgetUp$ request. Then the consumer still factors through exactly the four Real-completion boundary faces
