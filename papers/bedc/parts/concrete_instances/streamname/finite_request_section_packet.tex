@@ -67,6 +67,47 @@ streams, host sequence equality, selected limits, second dyadic sources, and
 ambient completion data from the packet.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section budget exactness]
+\label{thm:streamname-finite-request-section-budget-exactness}
+Every finite $\StreamNameUp$ request consumed by a $\RegSeqRatUp$ readback and
+then by a public $\RealUp$ seal uses one displayed budget section. Its rows
+are precisely the $\StreamNameUp$ finite-window rows, the
+$\DyadicRatCoreUp$ endpoint and radius budget rows, the $\RegSeqRatUp$
+regularity and readback rows, the $\RealUp$ seal rows, componentwise
+$\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert$ rows. Hence
+two Real-facing presentations over the same finite request cannot be
+distinguished by a second dyadic budget, a second regular-sequence source,
+quotient stream equality, a selected limit, host real equality, or any ambient
+completion coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-endpoint-finite-request-section}. This reads the
+Real-facing endpoint as a finite $\StreamNameUp$ section whose visible rows
+already include the endpoint, readback, budget, support, package, and naming
+coordinates.
+
+Next apply \autoref{thm:streamname-regseqrat-window-budget-section} to the
+same request. The $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ budget rows
+are not parallel witnesses; they are the readback and budget faces of the
+same displayed section packet.
+
+Now compose with
+\autoref{thm:streamname-regseqrat-real-budget-route-exactness}. The composed
+route identifies the four public faces $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ together with the same componentwise $\hsame$,
+displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. Thus the Real-facing
+presentation is determined by that single finite budget section.
+
+Finally close the boundary with
+\autoref{thm:streamname-tail-compatible-window-nonescape} and
+\autoref{thm:streamname-regseqrat-real-budget-nonescape}. These non-escape
+clauses remove second budget sources, second regular-sequence sources,
+quotient stream equality, selected limits, host real equality, and ambient
+completion coordinates from the observation packet, so none can separate two
+presentations over the same finite request.
+\end{proof}
+
 \begin{theorem}[StreamName Real seal request section nonescape]
 \label{thm:streamname-real-seal-request-section-nonescape}
 Every finite StreamName request that reaches a $\RealUp$ seal through

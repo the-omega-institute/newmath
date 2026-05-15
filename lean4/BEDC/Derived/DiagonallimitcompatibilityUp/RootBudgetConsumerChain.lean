@@ -57,4 +57,52 @@ theorem DiagonalLimitCompatibilityRootBudgetConsumerChain [AskSetup] [PackageSet
       budgetReadRealSealBudgetSeal, budgetSealRoutePublicRead, routeCertTransport,
       provenancePkg, publicReadPkg⟩
 
+theorem DiagonalLimitCompatibility_budget_coherence_terminal_lock [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      rootBudget rootWindow rootReadback rootSeal terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic rootBudget ->
+        Cont rootBudget windows rootWindow ->
+          Cont rootWindow readback rootReadback ->
+            Cont rootReadback realSeal rootSeal ->
+              Cont rootSeal cert terminal ->
+                PkgSig bundle terminal pkg ->
+                  UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory windows ∧
+                    UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory cert ∧
+                      UnaryHistory rootBudget ∧ UnaryHistory rootWindow ∧
+                        UnaryHistory rootReadback ∧ UnaryHistory rootSeal ∧
+                          UnaryHistory terminal ∧ Cont diagonal dyadic rootBudget ∧
+                            Cont rootBudget windows rootWindow ∧
+                              Cont rootWindow readback rootReadback ∧
+                                Cont rootReadback realSeal rootSeal ∧
+                                  Cont rootSeal cert terminal ∧ Cont route cert transport ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory
+  intro carrier diagonalDyadicRootBudget rootBudgetWindowsRootWindow
+    rootWindowReadbackRootReadback rootReadbackRealSealRootSeal rootSealCertTerminal
+    terminalPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    routeCertTransport, provenancePkg⟩ := carrier
+  have rootBudgetUnary : UnaryHistory rootBudget :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicRootBudget
+  have rootWindowUnary : UnaryHistory rootWindow :=
+    unary_cont_closed rootBudgetUnary windowsUnary rootBudgetWindowsRootWindow
+  have rootReadbackUnary : UnaryHistory rootReadback :=
+    unary_cont_closed rootWindowUnary readbackUnary rootWindowReadbackRootReadback
+  have rootSealUnary : UnaryHistory rootSeal :=
+    unary_cont_closed rootReadbackUnary realSealUnary rootReadbackRealSealRootSeal
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed rootSealUnary certUnary rootSealCertTerminal
+  exact
+    ⟨diagonalUnary, dyadicUnary, windowsUnary, readbackUnary, realSealUnary, certUnary,
+      rootBudgetUnary, rootWindowUnary, rootReadbackUnary, rootSealUnary, terminalUnary,
+      diagonalDyadicRootBudget, rootBudgetWindowsRootWindow, rootWindowReadbackRootReadback,
+      rootReadbackRealSealRootSeal, rootSealCertTerminal, routeCertTransport,
+      provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
