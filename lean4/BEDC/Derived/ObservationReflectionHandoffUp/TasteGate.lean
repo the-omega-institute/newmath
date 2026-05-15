@@ -7,26 +7,24 @@ namespace BEDC.Derived.ObservationReflectionHandoffUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
-open BEDC.GroundCompiler.MainTheorems
 open BEDC.Meta.TasteGate
 
 inductive ObservationReflectionHandoffUp : Type where
-  | mk : (O S R B L K C T M E P N : BHist) → ObservationReflectionHandoffUp
+  | mk (observation streamName realBudget selector limiter kernelSieve classifier transport
+      memory externalRead provenance nameCert : BHist) : ObservationReflectionHandoffUp
   deriving DecidableEq
 
-private def observationReflectionHandoffEncodeBHist : BHist → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
+def observationReflectionHandoffEncodeBHist : BHist → RawEvent
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: observationReflectionHandoffEncodeBHist h
   | BHist.e1 h => BMark.b1 :: observationReflectionHandoffEncodeBHist h
 
-private def observationReflectionHandoffDecodeBHist : RawEvent → BHist
-  -- BEDC touchpoint anchor: BHist BMark
+def observationReflectionHandoffDecodeBHist : RawEvent → BHist
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (observationReflectionHandoffDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (observationReflectionHandoffDecodeBHist tail)
 
-private theorem observationReflectionHandoffDecode_encode_bhist :
+private theorem observationReflectionHandoff_decode_encode_bhist :
     ∀ h : BHist,
       observationReflectionHandoffDecodeBHist
         (observationReflectionHandoffEncodeBHist h) = h := by
@@ -40,230 +38,178 @@ private theorem observationReflectionHandoffDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def observationReflectionHandoffToEventFlow :
+def observationReflectionHandoffFields :
+    ObservationReflectionHandoffUp → List BHist
+  | ObservationReflectionHandoffUp.mk observation streamName realBudget selector limiter
+      kernelSieve classifier transport memory externalRead provenance nameCert =>
+      [observation, streamName, realBudget, selector, limiter, kernelSieve, classifier,
+        transport, memory, externalRead, provenance, nameCert]
+
+def observationReflectionHandoffToEventFlow :
     ObservationReflectionHandoffUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ObservationReflectionHandoffUp.mk O S R B L K C T M E P N =>
-      [[BMark.b0],
-        observationReflectionHandoffEncodeBHist O,
-        [BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist B,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist L,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist K,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        observationReflectionHandoffEncodeBHist T,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist E,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observationReflectionHandoffEncodeBHist N]
+  | ObservationReflectionHandoffUp.mk observation streamName realBudget selector limiter
+      kernelSieve classifier transport memory externalRead provenance nameCert =>
+      [observationReflectionHandoffEncodeBHist observation,
+        observationReflectionHandoffEncodeBHist streamName,
+        observationReflectionHandoffEncodeBHist realBudget,
+        observationReflectionHandoffEncodeBHist selector,
+        observationReflectionHandoffEncodeBHist limiter,
+        observationReflectionHandoffEncodeBHist kernelSieve,
+        observationReflectionHandoffEncodeBHist classifier,
+        observationReflectionHandoffEncodeBHist transport,
+        observationReflectionHandoffEncodeBHist memory,
+        observationReflectionHandoffEncodeBHist externalRead,
+        observationReflectionHandoffEncodeBHist provenance,
+        observationReflectionHandoffEncodeBHist nameCert]
 
-private def observationReflectionHandoffFromEventFlow :
+def observationReflectionHandoffFromEventFlow :
     EventFlow → Option ObservationReflectionHandoffUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | _tag0 :: rest0 =>
+  | observation :: rest0 =>
       match rest0 with
       | [] => none
-      | O :: rest1 =>
+      | streamName :: rest1 =>
           match rest1 with
           | [] => none
-          | _tag1 :: rest2 =>
+          | realBudget :: rest2 =>
               match rest2 with
               | [] => none
-              | S :: rest3 =>
+              | selector :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | _tag2 :: rest4 =>
+                  | limiter :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | R :: rest5 =>
+                      | kernelSieve :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | _tag3 :: rest6 =>
+                          | classifier :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | B :: rest7 =>
+                              | transport :: rest7 =>
                                   match rest7 with
                                   | [] => none
-                                  | _tag4 :: rest8 =>
+                                  | memory :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | L :: rest9 =>
+                                      | externalRead :: rest9 =>
                                           match rest9 with
                                           | [] => none
-                                          | _tag5 :: rest10 =>
+                                          | provenance :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | K :: rest11 =>
+                                              | nameCert :: rest11 =>
                                                   match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | C :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | T :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | M :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 :: rest18 =>
-                                                                              match rest18 with
-                                                                              | [] => none
-                                                                              | E :: rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] => none
-                                                                                  | _tag10 :: rest20 =>
-                                                                                      match rest20 with
-                                                                                      | [] => none
-                                                                                      | P :: rest21 =>
-                                                                                          match rest21 with
-                                                                                          | [] => none
-                                                                                          | _tag11 :: rest22 =>
-                                                                                              match rest22 with
-                                                                                              | [] => none
-                                                                                              | N :: rest23 =>
-                                                                                                  match rest23 with
-                                                                                                  | [] =>
-                                                                                                      some
-                                                                                                        (ObservationReflectionHandoffUp.mk
-                                                                                                          (observationReflectionHandoffDecodeBHist O)
-                                                                                                          (observationReflectionHandoffDecodeBHist S)
-                                                                                                          (observationReflectionHandoffDecodeBHist R)
-                                                                                                          (observationReflectionHandoffDecodeBHist B)
-                                                                                                          (observationReflectionHandoffDecodeBHist L)
-                                                                                                          (observationReflectionHandoffDecodeBHist K)
-                                                                                                          (observationReflectionHandoffDecodeBHist C)
-                                                                                                          (observationReflectionHandoffDecodeBHist T)
-                                                                                                          (observationReflectionHandoffDecodeBHist M)
-                                                                                                          (observationReflectionHandoffDecodeBHist E)
-                                                                                                          (observationReflectionHandoffDecodeBHist P)
-                                                                                                          (observationReflectionHandoffDecodeBHist N))
-                                                                                                  | _ :: _ => none
+                                                  | [] =>
+                                                      some
+                                                        (ObservationReflectionHandoffUp.mk
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            observation)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            streamName)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            realBudget)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            selector)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            limiter)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            kernelSieve)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            classifier)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            transport)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            memory)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            externalRead)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            provenance)
+                                                          (observationReflectionHandoffDecodeBHist
+                                                            nameCert))
+                                                  | _ :: _ => none
 
-theorem ObservationReflectionHandoffUp_taste_gate_boundary_mk_congr
-    {O O' S S' R R' B B' L L' K K' C C' T T' M M' E E' P P' N N' : BHist}
-    (hO : O' = O)
-    (hS : S' = S)
-    (hR : R' = R)
-    (hB : B' = B)
-    (hL : L' = L)
-    (hK : K' = K)
-    (hC : C' = C)
-    (hT : T' = T)
-    (hM : M' = M)
-    (hE : E' = E)
-    (hP : P' = P)
-    (hN : N' = N) :
-    ObservationReflectionHandoffUp.mk O' S' R' B' L' K' C' T' M' E' P' N' =
-      ObservationReflectionHandoffUp.mk O S R B L K C T M E P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hO
-  cases hS
-  cases hR
-  cases hB
-  cases hL
-  cases hK
-  cases hC
-  cases hT
-  cases hM
-  cases hE
-  cases hP
-  cases hN
-  rfl
-
-theorem ObservationReflectionHandoffUp_taste_gate_boundary_round_trip :
+private theorem observationReflectionHandoff_round_trip :
     ∀ x : ObservationReflectionHandoffUp,
       observationReflectionHandoffFromEventFlow
         (observationReflectionHandoffToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk O S R B L K C T M E P N =>
+  | mk observation streamName realBudget selector limiter kernelSieve classifier transport
+      memory externalRead provenance nameCert =>
       change
         some
           (ObservationReflectionHandoffUp.mk
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist O))
+              (observationReflectionHandoffEncodeBHist observation))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist S))
+              (observationReflectionHandoffEncodeBHist streamName))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist R))
+              (observationReflectionHandoffEncodeBHist realBudget))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist B))
+              (observationReflectionHandoffEncodeBHist selector))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist L))
+              (observationReflectionHandoffEncodeBHist limiter))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist K))
+              (observationReflectionHandoffEncodeBHist kernelSieve))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist C))
+              (observationReflectionHandoffEncodeBHist classifier))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist T))
+              (observationReflectionHandoffEncodeBHist transport))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist M))
+              (observationReflectionHandoffEncodeBHist memory))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist E))
+              (observationReflectionHandoffEncodeBHist externalRead))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist P))
+              (observationReflectionHandoffEncodeBHist provenance))
             (observationReflectionHandoffDecodeBHist
-              (observationReflectionHandoffEncodeBHist N))) =
-          some (ObservationReflectionHandoffUp.mk O S R B L K C T M E P N)
-      have hO := observationReflectionHandoffDecode_encode_bhist O
-      have hS := observationReflectionHandoffDecode_encode_bhist S
-      have hR := observationReflectionHandoffDecode_encode_bhist R
-      have hB := observationReflectionHandoffDecode_encode_bhist B
-      have hL := observationReflectionHandoffDecode_encode_bhist L
-      have hK := observationReflectionHandoffDecode_encode_bhist K
-      have hC := observationReflectionHandoffDecode_encode_bhist C
-      have hT := observationReflectionHandoffDecode_encode_bhist T
-      have hM := observationReflectionHandoffDecode_encode_bhist M
-      have hE := observationReflectionHandoffDecode_encode_bhist E
-      have hP := observationReflectionHandoffDecode_encode_bhist P
-      have hN := observationReflectionHandoffDecode_encode_bhist N
-      exact congrArg some
-        (ObservationReflectionHandoffUp_taste_gate_boundary_mk_congr hO hS hR hB hL hK hC hT
-          hM hE hP hN)
+              (observationReflectionHandoffEncodeBHist nameCert))) =
+          some
+            (ObservationReflectionHandoffUp.mk observation streamName realBudget selector
+              limiter kernelSieve classifier transport memory externalRead provenance nameCert)
+      rw [observationReflectionHandoff_decode_encode_bhist observation,
+        observationReflectionHandoff_decode_encode_bhist streamName,
+        observationReflectionHandoff_decode_encode_bhist realBudget,
+        observationReflectionHandoff_decode_encode_bhist selector,
+        observationReflectionHandoff_decode_encode_bhist limiter,
+        observationReflectionHandoff_decode_encode_bhist kernelSieve,
+        observationReflectionHandoff_decode_encode_bhist classifier,
+        observationReflectionHandoff_decode_encode_bhist transport,
+        observationReflectionHandoff_decode_encode_bhist memory,
+        observationReflectionHandoff_decode_encode_bhist externalRead,
+        observationReflectionHandoff_decode_encode_bhist provenance,
+        observationReflectionHandoff_decode_encode_bhist nameCert]
 
 private theorem observationReflectionHandoffToEventFlow_injective
     {x y : ObservationReflectionHandoffUp} :
-    observationReflectionHandoffToEventFlow x =
-      observationReflectionHandoffToEventFlow y → x = y := by
+    observationReflectionHandoffToEventFlow x = observationReflectionHandoffToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      observationReflectionHandoffFromEventFlow
-          (observationReflectionHandoffToEventFlow x) =
-        observationReflectionHandoffFromEventFlow
-          (observationReflectionHandoffToEventFlow y) :=
+      observationReflectionHandoffFromEventFlow (observationReflectionHandoffToEventFlow x) =
+        observationReflectionHandoffFromEventFlow (observationReflectionHandoffToEventFlow y) :=
     congrArg observationReflectionHandoffFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (ObservationReflectionHandoffUp_taste_gate_boundary_round_trip x).symm
-      (Eq.trans hread (ObservationReflectionHandoffUp_taste_gate_boundary_round_trip y)))
+    (Eq.trans (observationReflectionHandoff_round_trip x).symm
+      (Eq.trans hread (observationReflectionHandoff_round_trip y)))
+
+private theorem observationReflectionHandoff_field_faithful :
+    ∀ x y : ObservationReflectionHandoffUp,
+      observationReflectionHandoffFields x = observationReflectionHandoffFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk observation streamName realBudget selector limiter kernelSieve classifier transport
+      memory externalRead provenance nameCert =>
+      cases y with
+      | mk observation' streamName' realBudget' selector' limiter' kernelSieve' classifier'
+          transport' memory' externalRead' provenance' nameCert' =>
+          cases hfields
+          rfl
 
 instance observationReflectionHandoffBHistCarrier :
     BHistCarrier ObservationReflectionHandoffUp where
@@ -279,7 +225,7 @@ instance observationReflectionHandoffChapterTasteGate :
     change
       observationReflectionHandoffFromEventFlow
         (observationReflectionHandoffToEventFlow x) = some x
-    exact ObservationReflectionHandoffUp_taste_gate_boundary_round_trip x
+    exact observationReflectionHandoff_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (observationReflectionHandoffToEventFlow_injective heq)
@@ -287,28 +233,18 @@ instance observationReflectionHandoffChapterTasteGate :
 instance observationReflectionHandoffFieldFaithful :
     FieldFaithful ObservationReflectionHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | ObservationReflectionHandoffUp.mk O S R B L K C T M E P N =>
-        [O, S, R, B, L, K, C, T, M, E, P, N]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk O₁ S₁ R₁ B₁ L₁ K₁ C₁ T₁ M₁ E₁ P₁ N₁ =>
-        cases y with
-        | mk O₂ S₂ R₂ B₂ L₂ K₂ C₂ T₂ M₂ E₂ P₂ N₂ =>
-            cases h
-            rfl
+  fields := observationReflectionHandoffFields
+  field_faithful := observationReflectionHandoff_field_faithful
 
 instance observationReflectionHandoffNontrivial :
     Nontrivial ObservationReflectionHandoffUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ObservationReflectionHandoffUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨ObservationReflectionHandoffUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      ObservationReflectionHandoffUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      ObservationReflectionHandoffUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty,
       by
         intro h
@@ -327,9 +263,42 @@ theorem ObservationReflectionHandoffUp_taste_gate_boundary :
   -- BEDC touchpoint anchor: BHist BMark EventFlow
   constructor
   · intro x
-    exact ⟨observationReflectionHandoffToEventFlow x,
-      ObservationReflectionHandoffUp_taste_gate_boundary_round_trip x⟩
-  · intro x w m hw hm
-    exact BMark_generated_cases m
+    exact ⟨observationReflectionHandoffToEventFlow x, observationReflectionHandoff_round_trip x⟩
+  · intro _x _w m _hw _hm
+    cases m with
+    | b0 => exact Or.inl rfl
+    | b1 => exact Or.inr rfl
+
+theorem ObservationReflectionHandoffTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      observationReflectionHandoffDecodeBHist (observationReflectionHandoffEncodeBHist h) =
+        h) ∧
+      (∀ x : ObservationReflectionHandoffUp,
+        observationReflectionHandoffFromEventFlow (observationReflectionHandoffToEventFlow x) =
+          some x) ∧
+        (∀ x y : ObservationReflectionHandoffUp,
+          observationReflectionHandoffToEventFlow x = observationReflectionHandoffToEventFlow y ->
+            x = y) ∧
+          observationReflectionHandoffEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : ObservationReflectionHandoffUp,
+              observationReflectionHandoffFields x = observationReflectionHandoffFields y ->
+                x = y) ∧
+              (∃ x y : ObservationReflectionHandoffUp, x ≠ y) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨observationReflectionHandoff_decode_encode_bhist,
+      observationReflectionHandoff_round_trip,
+      fun _x _y heq => observationReflectionHandoffToEventFlow_injective heq,
+      rfl,
+      observationReflectionHandoff_field_faithful,
+      ⟨ObservationReflectionHandoffUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty,
+        ObservationReflectionHandoffUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩⟩
 
 end BEDC.Derived.ObservationReflectionHandoffUp
