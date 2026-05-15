@@ -60,3 +60,47 @@ Next exclude off-packet seal sources. The non-escape theorem \autoref{thm:diagon
 
 Finally apply readback determinacy. Once the displayed source rows $B,T,W,R,L$ have been fixed, \autoref{thm:diagonal-limit-compatibility-root-readback-determinacy} identifies the subsequent $H,C,P,N$ readback as the one determined by those rows. Thus every Real or completion-facing seal read factors through $B,T,W,R,L$ before the local diagonal-compatibility rows are consumed.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility root formal Lean-target boundary]
+\label{thm:diagonal-limit-compatibility-root-formal-lean-target-boundary}
+Every Lean target that formalizes the $\DiagonalLimitCompatibilityUp$ root formal handoff must expose exactly the finite rows
+$$
+B,T,W,R,L,H,C,P,N
+$$
+from \autoref{def:diagonal-limit-compatibility-root-formal-source}. The target may project these rows and prove route, non-escape, readback determinacy, or seal factorization over them, but it may not add a quotient stream row, host limit row, countable choice row, ambient completeness row, or any second source row outside the displayed tuple.
+\end{theorem}
+\begin{proof}
+Project the source tuple. The route theorem \autoref{thm:diagonal-limit-compatibility-root-formal-route} already forces every accepted root formal consumer through $B,T,W,R,L,H,C,P,N$.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-root-formal-nonescape}. The excluded quotient, host-limit, choice, and completeness coordinates are not carried by the tuple, so they cannot become formal target rows.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-root-readback-determinacy} and \autoref{thm:diagonal-limit-compatibility-root-formal-seal-factorization}. They show that the displayed rows are sufficient for readback and seal-facing consumers, leaving no remaining source coordinate for the formal boundary.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility root formal kernel scope]
+\label{thm:diagonal-limit-compatibility-root-formal-kernel-scope}
+In the root formal handoff for $\DiagonalLimitCompatibilityUp$, the row $B$ is the $\CauchyDiagonalBudgetUp$ row, $T$ is the $\DiagonalTailSelectorUp$ row, $W$ is the $\StreamNameUp$ row, $R$ is the $\RegSeqRatUp$ row, $L$ is the $\RealUp$ seal row, $H$ is the displayed $\hsame$ transport row, $C$ is the displayed $\Cont$ route row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert$ row. Together these rows form the finite $\BHist$ kernel scope for the handoff, and no root formal target for this site may replace them by a host sequence, host real, external selector family, quotient stream, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Read \autoref{def:diagonal-limit-compatibility-root-formal-source} componentwise. It assigns the five source rows to $\CauchyDiagonalBudgetUp$, $\DiagonalTailSelectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and assigns the support rows to $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The route theorem \autoref{thm:diagonal-limit-compatibility-root-formal-route} then places those rows inside the accepted root formal consumer route. The seal factorization theorem \autoref{thm:diagonal-limit-compatibility-root-formal-seal-factorization} identifies the same order before the local support rows are consumed.
+
+Apply non-escape from \autoref{thm:diagonal-limit-compatibility-root-formal-nonescape}. Since host sequences, host reals, external selector families, quotient streams, and ambient completeness principles are absent from the $\BHist$ tuple, the kernel scope is exactly the displayed row list.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility root formal audit handoff]
+\label{thm:diagonal-limit-compatibility-root-formal-audit-handoff}
+An audit consumer for the $\DiagonalLimitCompatibilityUp$ root formal handoff may accept only the finite route
+$$
+B \longrightarrow T \longrightarrow W \longrightarrow R \longrightarrow L \longrightarrow H,C,P,N
+$$
+over the source tuple of \autoref{def:diagonal-limit-compatibility-root-formal-source}. The audit surface rejects quotient streams, host limits, countable choice, ambient completeness, and any consumer route whose seal or readback bypasses one of the displayed rows.
+\end{theorem}
+\begin{proof}
+Begin with the accepted route. By \autoref{thm:diagonal-limit-compatibility-root-formal-route}, an audit read that belongs to this root handoff must pass through the displayed tuple.
+
+Seal-facing reads are handled by \autoref{thm:diagonal-limit-compatibility-root-formal-seal-factorization}. They pass through $B,T,W,R,L$ before the local $H,C,P,N$ rows are consumed, so a bypassing seal route is not an accepted route for this site.
+
+Readback-facing reads are handled by \autoref{thm:diagonal-limit-compatibility-root-readback-determinacy}. Once the displayed rows are fixed, the local readback is fixed as well. The non-escape theorem \autoref{thm:diagonal-limit-compatibility-root-formal-nonescape} removes quotient streams, host limits, countable choice, and ambient completeness from the audit handoff.
+\end{proof}

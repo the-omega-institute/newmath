@@ -92,6 +92,22 @@ classes, selected limits, host real equality, and ambient completion outside
 the accepted handoff.
 \end{proof}
 
+\begin{theorem}[StreamName tail-compatible window packet]
+\label{thm:streamname-tail-compatible-window-packet}
+The tail-compatible finite-window packet is exactly the tuple consisting of the unary index row, the bundle-membership row, the tail-selector route, the finite-window budget surface, the pointwise $\RegSeqRatUp$ handoff, and the support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Any accepted downstream $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal read is classified by equality of these displayed rows and by no additional stream-level coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-tail-compatible-window-request}. It identifies the request by the certified unary observation, membership in the finite bundle, the selected tail route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$ handoff.
+
+Apply \autoref{thm:streamname-tail-compatible-window-coverage}. Every admitted downstream finite-window consumer route factors through that request together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally use the pointwise transport and budget handoff rows, \autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness} and \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. These rows leave no second stream source, quotient stream class, selected limit, host real equality, metric-completeness datum, or ambient completion coordinate, so equality of the displayed tuple is exactly packet equality for downstream reads.
+\end{proof}
+
 \begin{theorem}[StreamName tail-compatible window nonescape]
 \label{thm:streamname-tail-compatible-window-nonescape}
 The tail-compatible finite-window packet exported from $\StreamNameUp$ to
@@ -116,4 +132,94 @@ DyadicRatCore, RegSeqRat, and RealUp faces without adding quotient stream
 equality, host sequence equality, selected limits, metric-completeness data,
 countable choice, standard bridges, or ambient completeness. Hence the
 tail-compatible packet has no escaping coordinate of the listed kinds.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible window terminality]
+\label{thm:streamname-tail-compatible-window-terminality}
+Every accepted finite-window handoff from $\StreamNameUp$ to a $\RegSeqRatUp$
+readback or to a finite-window $\RealUp$ seal factors terminally through the
+request rows of \autoref{thm:streamname-tail-compatible-window-request} and
+the support rows of \autoref{thm:streamname-tail-compatible-window-coverage}.
+
+If two accepted finite-window consumers expose the same finite observation,
+tail-selector route, budget surface, pointwise handoff, and support rows, then
+they classify through the same tail-compatible window route. The terminal
+packet exports no quotient stream equality, selected limit, host real equality,
+metric-completeness datum, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the request theorem. By
+\autoref{thm:streamname-tail-compatible-window-request}, the finite-window
+request is determined by the certified observation row, the tail-selector
+route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$
+handoff row.
+
+Next add the shared support. Apply
+\autoref{thm:streamname-tail-compatible-window-coverage}; every accepted
+handoff to a $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal factors
+through the same request together with the displayed $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Now compare two consumers with the same visible inventory. The request rows
+agree by the first step, and the support rows agree by the second step, so the
+two consumers replay the same finite StreamName window route into the
+downstream readback or seal.
+
+Finally use \autoref{thm:streamname-tail-compatible-window-nonescape}. It
+excludes quotient stream equality, selected limits, host real equality,
+metric-completeness data, and ambient $\RealUp$ completeness from the packet.
+Thus the displayed request and support rows are terminal for finite-window
+consumers.
+\end{proof}
+
+\begin{theorem}[StreamName tail-compatible cofinal bundle lock]
+\label{thm:streamname-tail-compatible-window-cofinal-bundle-lock}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$ rational
+stream rows, let $\mathcal P:\mathsf{ProbeBundle}$ be a finite bundle of
+certified unary observation requests, and suppose one StreamName tail-selector
+route serves every bundled request $n$ equipped with
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$. Every finite
+family of bundled downstream reads into a $\RegSeqRatUp$ readback or a
+finite-window $\RealUp$ seal factors through one displayed packet consisting
+of exactly the following rows:
+\begin{enumerate}
+\item the bundled unary index rows $n$, their $\mathsf{UnaryHistory}(n)$
+certificates, and their $\mathsf{InBundle}(n,\mathcal P)$ witnesses;
+\item the shared tail-selector route serving the bundle;
+\item the shared finite-window budget surface for $\mathcal P$;
+\item the pointwise $\RegSeqRatUp$ handoff rows
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ for the bundled indices; and
+\item the support rows $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The packet is a finite cofinal lock for the bundled reads: any accepted
+downstream read through the same tail-compatible route is classified by its
+displayed bundle row and the shared support rows. The lock contains no
+quotient stream equality, no selected limit, no host real equality, no
+metric-completeness datum, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-tail-compatible-window-request} to each
+bundled request. For every certified index in $\mathcal P$, the request row
+is the unary observation, its membership witness, the shared tail route, the
+finite-window budget surface, and the corresponding pointwise
+$\RegSeqRatUp$ handoff.
+
+Next apply \autoref{thm:streamname-tail-compatible-window-coverage} to every
+accepted downstream handoff in the finite family. The same support rows
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route each admitted read through
+the request rows just displayed.
+
+Use \autoref{thm:streamname-tail-compatible-window-packet} to identify the
+common finite packet. Since the bundle is finite, collecting the unary rows,
+membership witnesses, pointwise handoffs, the shared route, the shared
+budget surface, and the shared support rows produces one displayed packet
+rather than a separate hidden route for each consumer.
+
+Finally combine
+\autoref{thm:streamname-tail-compatible-window-terminality} with
+\autoref{thm:streamname-tail-compatible-window-nonescape}. Terminality makes
+the displayed packet the unique route for consumers with the same visible
+inventory, and nonescape excludes quotient stream equality, selected limits,
+host real equality, metric-completeness data, and ambient $\RealUp$
+completeness from the bundle lock.
 \end{proof}
