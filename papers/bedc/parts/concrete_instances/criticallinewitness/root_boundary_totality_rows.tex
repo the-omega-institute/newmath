@@ -1,0 +1,97 @@
+\begin{theorem}[Critical-line witness root source coverage]
+\label{thm:critical-line-witness-root-source-coverage}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted source read exposed by $W$ is covered by the supplied
+$\ZetaZerosUp$ row $Z$, the $\CritStripUp$ row $S$, the $\NatUp$ depth row $M$,
+the $\RealUp$ real-part row $R$, the $\RatUp$ comparison row $Q$, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\CriticalLineWitnessUp}$ structure carried by $H,C,P,N$. No source
+read adds an analytic-continuation certificate, quotient representative, host
+equality, ambient completeness row, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier surface. The root source triad
+of \autoref{thm:critical-line-witness-root-source-triad} exposes the supplied
+zero row, critical-strip row, and source-facing rational comparison row as
+finite data before any downstream consumer reads $W$.
+
+Next attach the remaining carrier projections. The root comparison ledger
+\autoref{thm:critical-line-witness-root-comparison-ledger} accounts for
+$M,R,Q,H,C,P,N$, while the zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link} places the zeta-facing source row
+on the existing $\ZetaZerosUp$ boundary rather than on a new analytic object.
+
+The structural rows are therefore exactly the visible $\BHist$ carrier,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and local $\NameCert$ row. The root refusal route then removes analytic
+continuation, quotient representatives, host equality, ambient completeness,
+and $\mathsf{RH}$ proof content from the source surface.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus-comparison transport stability]
+\label{thm:critical-line-witness-modulus-comparison-transport-stability}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, every modulus or rational-comparison route remains
+stable under componentwise $\hsame$ transport through the displayed
+$H,C,P,N$ rows. The transported route still reads only the $\NatUp$ depth row,
+the $\RealUp$ real-part row, the $\RatUp$ comparison ledger, the finite
+$\BHist$ carrier, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert$ row; it cannot import an external modulus source, analytic
+estimate, quotient equality, host equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the root comparison ledger
+\autoref{thm:critical-line-witness-root-comparison-ledger}. It places every
+comparison read on $M,R,Q,H,C,P,N$, so the comparison has no coordinate outside
+the accepted packet.
+
+Now apply the root modulus ledger scope
+\autoref{thm:critical-line-witness-root-modulus-ledger-scope}. This fixes the
+modulus and rational-comparison surface as the complete root-facing ledger
+before any transport is replayed by $\Cont$ or recorded by $\Pkg$ and
+$\NameCert$.
+
+Finally use the finite-budget ledger stability row
+\autoref{thm:critical-line-witness-root-finite-budget-ledger-stability}. It
+identifies componentwise $\hsame$ transport as preservation of the same
+displayed finite ledger, while the refusal ledger excludes analytic estimates,
+quotient equality, host equality, ambient completeness, and any off-packet
+modulus source.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root refusal-boundary totality]
+\label{thm:critical-line-witness-root-refusal-boundary-totality}
+Every $\mathsf{RH}$-facing or zeta-facing consumer of the source and transport
+surface of an accepted $\CriticalLineWitnessUp$ packet receives only the finite
+refusal boundary over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer may read the supplied $\ZetaZerosUp$ and $\CritStripUp$ rows, the
+$\NatUp$, $\RealUp$, and $\RatUp$ comparison surface, and the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ structure. It receives no proof of
+$\mathsf{RH}$, global zero classifier, analytic-continuation theorem, quotient
+representative, host equality, ambient completeness row, or external zeta
+object.
+\end{theorem}
+\begin{proof}
+Begin with RH-refusal ledger completeness,
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It already
+classifies requests for $\mathsf{RH}$ proof data, global zero classification,
+analytic continuation, quotient representatives, host equality, and ambient
+completeness as refusal-side reads of the displayed packet.
+
+Use the root RH-boundary refusal
+\autoref{thm:critical-line-witness-root-rh-boundary-refusal} together with the
+zeta-consumer non-escape row
+\autoref{thm:critical-line-witness-zeta-consumer-nonescape}. The first keeps
+RH-facing requests on the finite refusal boundary, and the second prevents
+zeta-facing consumers from replacing the displayed packet by completed zeta
+data or an analytic continuation route.
+
+Finally apply the RH-boundary refusal exhaustion row
+\autoref{thm:critical-line-witness-rh-boundary-refusal-exhaustion}. The source
+coverage and transport stability rows above account for every positive
+coordinate still readable by the consumer, so all remaining RH- or zeta-facing
+demands are total as refusals on $Z,S,M,R,Q,H,C,P,N$ and nowhere else.
+\end{proof}
