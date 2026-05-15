@@ -174,6 +174,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceLock
 import BEDC.Derived.CauchyWitnessLedgerUp.CompletionConsumerFactorization
+import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
