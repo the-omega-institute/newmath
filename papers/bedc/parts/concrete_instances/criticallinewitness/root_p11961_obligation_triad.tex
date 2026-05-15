@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness root-route exposure]
+\label{thm:critical-line-witness-p11961-root-route-exposure}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet whose root-line surface is exposed by \autoref{thm:critical-line-witness-root-line-row-exposure}. Then every root-facing consumer of $W$ must enter through the displayed $\BHist$ rows, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$ before it reads any critical-line conclusion.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:critical-line-witness-root-line-row-exposure}. The rows $Z,S,M,R,Q,H,C,P,N$ are the whole exposed packet, with $H,C,P,N$ carrying transport, route replay, provenance, and local naming for the same finite object.
+
+Next use \autoref{thm:critical-line-witness-zero-strip-route-factorization}. It forces the zero-strip side of the consumer through the displayed route before any later modulus or root-facing row is read.
+
+Thus a root-facing consumer reaches the critical-line surface only through the packet route already certified by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus ledger separation]
+\label{thm:critical-line-witness-p11961-modulus-ledger-separation}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The modulus row $M$ and comparison ledger $Q$ are consumed only after the supplied zero row $Z$, critical-strip row $S$, transport row $H$, continuation row $C$, provenance row $P$, and local $\NameCert$ row $N$ have exposed the zero-strip route of \autoref{thm:critical-line-witness-zero-strip-route-factorization}.
+\end{theorem}
+\begin{proof}
+Start with the zero-strip factorization theorem. It places every zero-strip consumer on the route through $Z,S,H,C,P,N$ before the modulus row or any $\mathsf{RH}$-facing row is readable.
+
+The rows $M,R,Q$ are therefore ledger data downstream from the displayed carrier route, not detached analytic coordinates. The componentwise $\hsame$ row and displayed $\Cont$ row preserve the same packet while $P$ and $N$ record provenance and local naming.
+
+Combining this with root-line row exposure gives the stated separation between the root route and the modulus-comparison ledger.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH refusal boundary]
+\label{thm:critical-line-witness-p11961-rh-refusal-boundary}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Any consumer request for analytic continuation, an $\mathsf{RH}$ proof, global zero classification, quotient representatives, host equality, or ambient completeness is refused at the displayed boundary formed by the root-line row exposure, zero-strip route factorization, and analytic-continuation nonescape rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:critical-line-witness-analytic-continuation-nonescape}. It states that the accepted packet exports none of the analytic, quotient, host-equality, or ambient-completeness objects named in the statement.
+
+The root-line row exposure and zero-strip route factorization identify the only route a consumer may use: the finite carrier through $Z,S,M,R,Q,H,C,P,N$, with $\BHist$ data transported by $\hsame$, replayed by $\Cont$, recorded by $\Pkg$, and named by the local $\NameCert$ row.
+
+Every request outside that finite route is therefore a refusal request rather than an exported witness of the packet.
+\end{proof}
