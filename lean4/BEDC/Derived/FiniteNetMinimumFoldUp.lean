@@ -244,6 +244,70 @@ theorem FiniteNetMinimumFoldPacket_uniform_modulus_handoff [AskSetup] [PackageSe
     ⟨accumulatorUnary, lowerUnary, handoffUnary, accumulatorLowerHandoff,
       accumulatorLowerTransport, handoffSame, handoffPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_modulus_consumer_exactness
+    [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow folded lowerExport
+      uniformOutput handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      hsame uniformOutput accumulator →
+        Cont folded lower lowerExport →
+          Cont accumulator lower handoff →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle lowerExport pkg →
+                PkgSig bundle handoff pkg →
+                  SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row uniformOutput ∧ UnaryHistory row ∧
+                        PkgSig bundle handoff pkg)
+                    (fun row : BHist => hsame row accumulator ∧
+                      Cont accumulator lower handoff)
+                    (fun _row : BHist =>
+                      Cont folded lower lowerExport ∧
+                        Cont transport nameRow provenance ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle lowerExport pkg ∧ PkgSig bundle handoff pkg)
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg SemanticNameCert
+  intro packet outputSame foldedLowerExport accumulatorLowerHandoff provenancePkg
+    lowerExportPkg handoffPkg
+  obtain ⟨_bundleRowUnary, _radiusUnary, accumulatorUnary, _lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have uniformOutputUnary : UnaryHistory uniformOutput :=
+    unary_transport_symm accumulatorUnary outputSame
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro uniformOutput
+          ⟨hsame_refl uniformOutput, uniformOutputUnary, handoffPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right.left same, source.right.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨hsame_trans source.left outputSame, accumulatorLowerHandoff⟩
+    ledger_sound := by
+      intro _row _source
+      exact
+        ⟨foldedLowerExport, transportNameProvenance, provenancePkg, lowerExportPkg,
+          handoffPkg⟩
+  }
+
 theorem FiniteNetMinimumFoldPacket_compactmetric_probe_consumption
     [AskSetup] [PackageSetup]
     {bundleRow radius accumulator lower transport route provenance nameRow compactInput folded
