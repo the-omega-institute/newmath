@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\OnticResidueLedgerUp$}
+\label{ch:concrete-instances-ontic-residue-ledger-namecert}
+\origin{ai}
+
+The $\OnticResidueLedgerUp$ packet realizes the representation-ledger boundary of \autoref{def:representation-ledger} as a finite NameCert carrier. It sits after the ontic-source surface of \autoref{ch:concrete-instances-onticstate-namecert}, the audit rows of \autoref{ch:concrete-instances-physicalmodelaudit-namecert}, the finite model-state carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the observer-access support row of \autoref{ch:concrete-instances-observer-budget-support-namecert}, and the current observer-state row of \autoref{ch:concrete-instances-consciousobserverstate-namecert}. Its role is to store signature exposure, observer access, model comparison, residue, transport, route replay, provenance, and local naming before any consumer treats a model packet as exhausting the ontic source.
+
+\begin{definition}[Ontic residue ledger carrier]
+\label{def:ontic-residue-ledger-carrier}
+An $\OnticResidueLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,M,S,A,C,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the accepted $\OnticStateUp$ source row whose reality-facing signature content is being read.
+\item $M$ is the accepted $\PhysicalModelAuditUp$ row carrying the audited model signatures, source traces, classifier, failure surface, and strength rows.
+\item $S$ is the accepted $\StateSpaceModelUp$ row naming the finite model-state packet offered as a representation.
+\item $A$ is the observer-access row, read through $\ObserverBudgetSupportUp$ and $\ConsciousObserverStateUp$, that records which observer-local support surface may inspect the source and model signatures.
+\item $C$ is the signature classifier row comparing the exposed ontic signatures from $O$ with the model-state and model-audit signatures from $S$ and $M$.
+\item $R$ is the residue row recording source content, observer-access limits, failed model signatures, and audit-visible gaps not represented by $S$.
+\item $H$ records componentwise $\hsame$ transport for $O,M,S,A,C,R,T,P,N$.
+\item $T$ records displayed $\Cont$ routes from the ontic source to observer access, from observer access to model comparison, and from the accepted ledger to downstream adequacy or audit consumers.
+\item $P$ is the $\Pkg$ provenance over $\OnticResidueLedgerUp$, $\OnticStateUp$, $\PhysicalModelAuditUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, $\ConsciousObserverStateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OnticResidueLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for model-state exhaustion, host-level reality access, unbounded observation, detached observer authority, quotienting away residue, or audit acceptance outside the displayed packet.
+\end{definition}
+
+\begin{definition}[Ontic residue ledger classifier]
+\label{def:ontic-residue-ledger-classifier}
+The $\OnticResidueLedgerUp$ classifier compares two accepted carriers only by the displayed rows $O,M,S,A,C,R,H,T,P,N$. It requires the ontic source row, model-audit row, model-state row, observer-access row, signature classifier row, and residue row to remain separately visible under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Two carriers are therefore classified together only when they expose the same source signatures, the same audited model comparison surface, the same finite state-space representation, the same observer-access budget and current-state support, and the same residue ledger. Agreement of the model-state row alone is not enough.
+\end{definition}
+
+\begin{theorem}[Ontic residue ledger NameCert obligations]
+\label{thm:ontic-residue-ledger-namecert-obligations}
+For the carrier of \autoref{def:ontic-residue-ledger-carrier}, the local $\NameCert_{\OnticResidueLedgerUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for the packet $L=(O,M,S,A,C,R,H,T,P,N)$;
+\item source-and-audit exposure through $O$ and $M$;
+\item model-state and observer-access exposure through $S$ and $A$;
+\item signature exactness and residue visibility through $C$ and $R$;
+\item non-escape from model-state exhaustion, unbounded observation, detached observer authority, quotienting away residue, host-level reality access, and audit acceptance outside $H,T,P,N$.
+\end{enumerate}
+Thus the ledger is accepted only as a finite source, audit, model, observer-access, classifier, residue, transport, route, provenance, and local-name packet.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed tuple in \autoref{def:ontic-residue-ledger-carrier}. The rows $O,M,S,A,C,R$ supply the source, audit, model-state, observer-access, classifier, and residue coordinates, while $H,T,P,N$ supply transport, route replay, provenance, and local naming.
+
+The source-and-audit obligation is read from $O$ and $M$. The model-state and observer-access obligation is read from $S$ and $A$, so a consumer cannot inspect the model representation without also recording the observer-local support surface that performs the inspection.
+
+Signature exactness and residue visibility are then separated. The classifier row $C$ records the admitted comparison between exposed source signatures and model signatures; the residue row $R$ records what the state-space model and audit rows do not represent.
+
+The final obligation follows by inspecting the remaining structural rows. Componentwise transport, route replay, provenance, and local naming can replay only the displayed packet, so they cannot add model-state exhaustion, unbounded observation, detached observer authority, host reality access, or a route that erases the residue row.
+\end{proof}
+
+\begin{theorem}[Ontic residue ledger signature exactness]
+\label{thm:ontic-residue-ledger-signature-exactness}
+Every accepted $\OnticResidueLedgerUp$ packet reads signature exactness through the triple $(O,M,C)$ together with the model-state row $S$ and observer-access row $A$. The exactness claim is not a bare equality between the ontic source and $\StateSpaceModelUp$; it is a ledgered comparison whose residue row $R$ remains part of the accepted packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $L=(O,M,S,A,C,R,H,T,P,N)$. The row $O$ supplies the ontic source signatures, $M$ supplies the audited model signatures and failure surface, and $S$ supplies the finite state-space model offered as representation.
+
+The observer-access row $A$ records how those signatures may be inspected from $\ObserverBudgetSupportUp$ and $\ConsciousObserverStateUp$ surfaces. The classifier $C$ can therefore compare only signatures that have passed through the displayed source, audit, model, and observer-access rows.
+
+The residue row $R$ remains visible after the comparison. Consequently the exactness claim never collapses into source-model identity; it is the accepted comparison plus the displayed account of what the model row does not represent.
+\end{proof}
+
+\begin{theorem}[Ontic residue ledger nonescape]
+\label{thm:ontic-residue-ledger-nonescape}
+An accepted $\OnticResidueLedgerUp$ packet cannot be reduced to $\StateSpaceModelUp$ or to $\PhysicalModelAuditUp$ without losing either the observer-access row $A$ or the residue row $R$. Every consumer-visible read of the ledger factors through
+$$
+O,M,S,A,C,R,H,T,P,N.
+$$
+\end{theorem}
+\begin{proof}
+The state-space row $S$ records only the finite model-state representation. It does not contain the ontic source row $O$, the observer-access row $A$, the signature classifier row $C$, or the residue row $R$.
+
+The physical audit row $M$ records finite audit evidence for a candidate model. It does not itself supply the full observer-access support row or the local ledger that keeps represented and unrepresented source content apart.
+
+The remaining rows $H,T,P,N$ preserve the same displayed packet under transport, replay, provenance, and local naming. Since no row outside $O,M,S,A,C,R,H,T,P,N$ is exported, any reduction that forgets $A$ or $R$ leaves the accepted $\OnticResidueLedgerUp$ surface.
+\end{proof}
+
+The Lean follow-up \texttt{lean4/BEDC/Derived/OnticResidueLedgerUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OnticResidueLedgerUp$ and $\mathsf{FieldFaithful}\ \OnticResidueLedgerUp$ instances preserving $O,M,S,A,C,R,H,T,P,N$ as separate displayed fields.
+
+\falsifiablePrediction{An accepted \OnticResidueLedgerUp packet cannot be reduced to \StateSpaceModelUp without losing either the observer-access row or the residue row.}
+
+\independenceWitness{onticstate, physicalmodelaudit, statespacemodel, observerbudgetsupport, consciousobserverstate: none is bijective to $\OnticResidueLedgerUp$ because the ledger stores source signatures, audited model comparison, finite model-state representation, observer-local access, residue, transport, route, provenance, and local NameCert rows as one packet.}
+
+\closureat{OnticResidueLedgerUp}{seedStr}
+
+\begin{closurestatus}{\OnticResidueLedgerUp}
+  \constructivestory{An $\OnticResidueLedgerUp$ packet is generated from an ontic source row, physical model audit row, finite state-space model row, observer-access row, signature classifier, residue ledger, componentwise hsame transport, displayed Cont routes, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ontic-residue-ledger-carrier}, \autoref{def:ontic-residue-ledger-classifier}, \autoref{thm:ontic-residue-ledger-namecert-obligations}, \autoref{thm:ontic-residue-ledger-signature-exactness}, and \autoref{thm:ontic-residue-ledger-nonescape} bind the finite source, audit, model-state, observer-access, classifier, residue, transport, route, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, total ontology, state-space exhaustion, host-level reality access, unbounded observation, detached observer authority, or quotienting away residue.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier exactness, signature exactness, residue nonescape, TasteGate nontriviality, and field faithfulness for $O,M,S,A,C,R,H,T,P,N$.}
+\end{closurestatus}
