@@ -711,4 +711,52 @@ boundary, and the reverse direction factors every public read through precisely
 the displayed rows.
 \end{proof}
 
+\begin{theorem}[StreamName-RegSeqRat-RealUp seal pullback uniqueness]
+\label{thm:streamname-regseqrat-realup-seal-pullback-uniqueness}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window. Suppose
+two finite-window $\RealUp$ seal reads over $W$ arise from the same StreamName
+window rows, the same accepted $\RegSeqRat$ pointwise seal rows, the same
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership rows, the same
+$\mathsf{UnaryHistory}$ observations, the same finite $\Cont$ ledger, the same
+$\hsame$ transports, and the same $\Pkg$ provenance. Then the two reads
+determine the same $\RealUp$ finite-window seal boundary.
+
+Conversely, any equality of $\RealUp$ finite-window seal boundaries arising
+from $W$ factors back through that displayed StreamName--$\RegSeqRat$ source
+surface: the common boundary is witnessed by the same StreamName window rows,
+the same accepted pointwise seal rows, the same bundle-membership rows, the
+same unary observations, the same finite ledger, the same $\hsame$ transport
+surface, and the same provenance. This pullback uses no quotient stream,
+selected host limit, host index equality, completion witness, or ambient
+completeness assumption.
+\end{theorem}
+\begin{proof}
+First expose the source surface for each read. Apply
+\autoref{thm:streamname-real-regseq-finite-window-handoff} to both
+finite-window handoffs. The common StreamName window rows, unary observations,
+finite $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance give the same
+public source packet.
+
+Next exhaust the rational scheduled seal. By
+\autoref{thm:streamname-regseqrat-scheduled-seal-exhaustion}, each handoff has
+only the displayed accepted $\RegSeqRat$ pointwise seal rows, the same
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership rows, and the same
+finite ledger available to it.
+
+The three seal surfaces now compare over a single packet. Use
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover} to identify the
+StreamName window surface, the $\RegSeqRat$ scheduled seal, and the $\RealUp$
+readback surface. Then
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal} prevents any
+nested finite subwindow from changing that packet.
+
+It remains to read off the boundary. Apply
+\autoref{thm:streamname-realup-seal-boundary}. The forward direction gives
+equality of the two $\RealUp$ finite-window seal boundaries. The converse
+direction says that any such equality is already a factorization through the
+same StreamName--$\RegSeqRat$ source rows, so no quotient stream, selected host
+limit, host index equality, completion witness, or ambient completeness datum
+can enter the pullback.
+\end{proof}
+
 \input{parts/concrete_instances/streamname/finite_window_route_factorization}
