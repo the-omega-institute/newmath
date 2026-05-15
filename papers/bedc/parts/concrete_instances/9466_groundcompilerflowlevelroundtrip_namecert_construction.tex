@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerFlowLevelRoundTripUp$}
+\label{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}
+\origin{ai}
+
+The $\GroundCompilerFlowLevelRoundTripUp$ packet isolates the flow-level theorem family in the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map}. It sits beside the verdict packet of \autoref{ch:concrete-instances-groundcompilerauditverdict-namecert}, the event-flow packet of \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, and the event-flow route packet of \autoref{ch:concrete-instances-groundcompilereventflowauditroute-namecert}: those chapters expose aggregate verdict, event-flow, and routed audit surfaces, while this chapter fixes the local row where a displayed flow encoding decodes back to the same flow level.
+
+\begin{definition}[GroundCompiler flow-level round-trip carrier]
+\label{def:groundcompiler-flow-level-round-trip-carrier}
+A $\GroundCompilerFlowLevelRoundTripUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,E,D,L,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the GroundCompiler event-flow level row being encoded;
+\item $E$ is the finite $\mathsf{FlowEncoding}(S)$ row;
+\item $D$ is the decoder row witnessing $\mathsf{Decode}(E)=\mathsf{some}(S)$;
+\item $L$ is the legal-stream row certifying that $E$ is a legal channel stream before any decoder read is accepted;
+\item $T$ is the transport row tying the flow-level readback to the source-channel and event-flow audit surfaces;
+\item $R$ is the route row exposing the round-trip to the GroundCompiler audit map without identifying it with verdict, frontier, obstruction, or report data;
+\item $H$ records componentwise $\hsame$ transports for the flow level, encoding, decoder, legal stream, transport, route, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes from $S$ to $E$, from $E$ through $L$ to $D$, and from the decoded row back to the audit-map consumer;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerFlowLevelRoundTripUp}$ row.
+\end{enumerate}
+The carrier records a finite flow-level encoding and decoder readback. It has no coordinate for compiler verdicts, event-flow aggregate audits, routed certificate gates, audit-map frontier packets, obstruction sockets, report evidence, motif evidence, metric evidence, or host compiler state.
+\end{definition}
+
+\begin{theorem}[GroundCompiler flow-level round-trip NameCert obligations]
+\label{thm:groundcompiler-flow-level-round-trip-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-flow-level-round-trip-carrier}, the local $\NameCert_{\GroundCompilerFlowLevelRoundTripUp}$ surface consists exactly of six obligation rows: flow-level exposure through $S$, finite flow encoding through $E$, legal-stream admission through $L$, decoder readback through $D$ with $\mathsf{Decode}(\mathsf{FlowEncoding}(S))=\mathsf{some}(S)$, audit-map transport through $T,R$, and provenance-preserving naming through $H,C,P,N$.
+
+In particular, an accepted packet exposes the checked GroundCompiler round-trip row only when the legal-stream row and the decoder row are both displayed.
+\end{theorem}
+\leanvariant{BEDC.GroundCompiler.ChannelEncoding.flow\_level\_round\_trip}
+\begin{proof}
+Project the finite packet $F=(S,E,D,L,T,R,H,C,P,N)$. The rows $S,E,D,L$ are the whole flow-level encoding and decoding surface, while $T,R,H,C,P,N$ transport, route, locate, and name that same surface.
+
+Legal-stream admission comes before decoder readback. The route from $S$ to $D$ first records $E=\mathsf{FlowEncoding}(S)$ and the legal-stream row $L$, and only then records the decoder equation $\mathsf{Decode}(E)=\mathsf{some}(S)$.
+
+The checked Lean theorem \texttt{BEDC.GroundCompiler.ChannelEncoding.flow\_level\_round\_trip} supplies the kernel-side readback row for the displayed flow level. The local NameCert obligations add the paper-side carrier boundary: every use of that readback must pass through the visible encoding, legal-stream, decoder, transport, route, provenance, and naming coordinates.
+\end{proof}
+
+\begin{theorem}[GroundCompiler flow-level round-trip non-escape]
+\label{thm:groundcompiler-flow-level-round-trip-nonescape}
+Every accepted $\GroundCompilerFlowLevelRoundTripUp$ packet exports only the displayed rows
+$$
+S,E,D,L,T,R,H,C,P,N.
+$$
+It cannot export a $\GroundCompilerAuditVerdictUp$ verdict row, a $\GroundCompilerEventFlowAuditUp$ aggregate audit row, a $\GroundCompilerEventFlowAuditRouteUp$ certificate-gate route, an $\AuditMapFrontierPacketUp$ frontier row, an $\AuditMapObstructionSocketUp$ obstruction row, report evidence, motif identity, metric evidence, source text, carried metadata, or host compiler state.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:groundcompiler-flow-level-round-trip-carrier}. The packet displays a single flow level, its finite encoding, the legal-stream row, the decoder readback, and the structural rows used to transport and route that readback.
+
+Apply the obligation surface of \autoref{thm:groundcompiler-flow-level-round-trip-namecert-obligations}. Any consumer of the round-trip must read the legal stream and decoder row before it receives $\mathsf{Decode}(\mathsf{FlowEncoding}(S))=\mathsf{some}(S)$.
+
+The sibling packets named in the chapter opening have different carrier coordinates. The verdict packet contains query, forbidden-row, and verdict data; the event-flow and route packets contain aggregate audit and certificate-gate rows; the frontier and obstruction packets contain audit-map boundary rows. None is bijective to the round-trip carrier, because none has exactly the displayed legal-stream plus decoder row as its determining coordinate pair, and this carrier has no coordinate storing their verdict, gate, frontier, or obstruction rows.
+\end{proof}
+
+\independenceWitness{groundcompilerauditverdict, groundcompilereventflowaudit, groundcompilereventflowauditroute, auditmapfrontierpacket, auditmapobstructionsocket: the $\GroundCompilerFlowLevelRoundTripUp$ carrier is determined by the displayed flow level, finite encoding, legal-stream row, decoder readback, route, and provenance. It is not bijective to the verdict, event-flow aggregate, event-flow route, frontier, or obstruction carriers, since those packets respectively carry verdict comparison, aggregate audit, certificate-gate routing, frontier, and obstruction rows that this carrier neither stores nor reconstructs.}
+
+\falsifiablePrediction{If a packet exposes Decode(FlowEncoding S)=some S but omits the displayed legal-stream or decoder row, then it fails the local NameCert obligations.}
+
+Lean follow-up for this surface must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/GroundCompilerFlowLevelRoundTripUp/TasteGate.lean}.

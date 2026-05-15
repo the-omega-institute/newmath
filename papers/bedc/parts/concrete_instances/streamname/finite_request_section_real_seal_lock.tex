@@ -41,3 +41,158 @@ endpoint-radius ledger, RegSeqRat regularity ledger, $\hsame$, $\Cont$,
 $\Pkg$, and $\NameCert$, it cannot export quotient streams, host real
 equality, ambient completion points, or RealUp completeness data.
 \end{proof}
+
+\begin{theorem}[StreamName finite request Real seal totality]
+\label{thm:streamname-finite-request-real-seal-totality}
+Every finite $\StreamNameUp$ request consumed by the
+$\RegSeqRatUp$-to-$\RealUp$ seal is exhausted by the displayed
+$\StreamNameUp$ schedule rows, the $\DyadicRatCoreUp$ endpoint and radius
+rows, the $\RegSeqRatUp$ regularity and readback rows, the $\RealUp$ seal row,
+and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+There is no additional request coordinate outside these rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-request-section-real-seal-lock}. It
+already factors the accepted finite request section through the StreamName
+schedule rows, the DyadicRatCore endpoint-radius ledger, the RegSeqRat
+regularity ledger, componentwise $\hsame$ transport, $\Cont$, $\Pkg$, and
+local $\NameCert$.
+
+It remains only to name the terminal seal face. The same theorem places the
+accepted request behind the $\RegSeqRatUp$-to-$\RealUp$ seal, while
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion} identifies that seal
+read with the four displayed object faces and the same support rows.
+Therefore the finite request has no coordinate beyond the schedule, endpoint,
+radius, regularity, readback, seal, and support rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[StreamName request section non-escape boundary]
+\label{thm:streamname-request-section-nonescape}
+The finite request section of
+\autoref{thm:streamname-finite-request-section-real-seal-lock} does not read a
+quotient stream, host sequence equality, selected limit, host real equality,
+ambient completion point, countable-choice row, metric-completeness row, or
+$\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-finite-request-real-seal-totality}. The visible packet
+is exhausted by the finite StreamName schedule, DyadicRatCore endpoint-radius
+rows, RegSeqRat regularity and readback rows, the RealUp seal row, and the
+support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Now use
+\autoref{thm:streamname-real-seal-request-section-nonescape}. That boundary
+excludes quotient streams, host equalities, selected limits, ambient completion
+points, and RealUp completeness data from the request section. The totality
+packet has no row for countable choice or metric completeness either, so those
+rows cannot be read from the section.
+\end{proof}
+
+\begin{theorem}[StreamName open-phase request handoff]
+\label{thm:streamname-open-phase-request-handoff}
+The finite request section is precisely the local handoff from
+$\StreamNameUp$ through $\DyadicRatCoreUp$ and $\RegSeqRatUp$ to $\RealUp$: its
+terminal packet is the four-face route with $\StreamNameUp$ schedule,
+$\DyadicRatCoreUp$ endpoint-radius ledger, $\RegSeqRatUp$ regularity and
+readback, the $\RealUp$ seal, and the support rows $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:streamname-finite-request-section-real-seal-lock}. It places the
+finite request inside the local $\StreamNameUp$ section consumed by the
+$\RegSeqRatUp$-to-$\RealUp$ seal. Then use
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion} to read that seal as a
+terminal four-face packet.
+
+Next apply
+\autoref{thm:streamname-real-completion-four-object-exit-route}. The four
+faces are exactly $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, and the only support rows are $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$.
+
+Finally apply
+\autoref{thm:streamname-real-seal-request-section-nonescape}. It prevents the
+handoff from carrying quotient streams, selected limits, host real equality,
+ambient completion points, countable choice, metric completeness, or a RealUp
+completeness datum. Hence the section is exactly the local open-phase handoff
+through the displayed four faces and support rows.
+\end{proof}
+
+\begin{theorem}[StreamName finite request Real seal classifier exactness]
+\label{thm:streamname-finite-request-real-seal-classifier-exactness}
+For a finite request section consumed by the
+$\RegSeqRatUp$-to-$\RealUp$ seal, acceptance by the seal-facing classifier is
+necessary and sufficient for factorization through exactly the visible
+$\StreamNameUp$ schedule rows, the $\DyadicRatCoreUp$ endpoint and radius
+rows, the $\RegSeqRatUp$ regularity and readback rows, the $\RealUp$ seal row,
+and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The classifier accepts no quotient stream equality, host real equality,
+selected limit, choice datum, ambient completion, metric-completeness row, or
+second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For necessity, start from an accepted seal-facing request. Apply
+\autoref{thm:streamname-finite-request-section-real-seal-lock} to factor the
+request through the finite StreamName section consumed by the Real seal, and
+then apply \autoref{thm:streamname-finite-request-real-seal-totality}. The
+accepted coordinates are exhausted by the schedule, endpoint, radius,
+regularity, readback, seal, and displayed support rows.
+
+For sufficiency, suppose a finite section already factors through exactly
+those rows. Use \autoref{thm:streamname-open-phase-request-handoff} to read the
+packet as the local handoff from $\StreamNameUp$ through $\DyadicRatCoreUp$ and
+$\RegSeqRatUp$ to $\RealUp$. Then
+\autoref{thm:streamname-real-completion-four-object-exit-route} identifies the
+same packet as the four-object Real-completion exit route, so the
+seal-facing classifier accepts it.
+
+Finally apply \autoref{thm:streamname-request-section-nonescape}. The
+non-escape boundary rules out quotient stream equality, host real equality,
+selected limits, choice data, ambient completion, metric-completeness rows, and
+any second $\RealUp$ seal coordinate. Thus the displayed four faces and support
+rows are not merely sufficient witnesses for acceptance; they are the exact
+classifier surface.
+\end{proof}
+
+\begin{theorem}[StreamName finite request Real seal common-refinement lock]
+\label{thm:streamname-finite-request-real-seal-common-refinement-lock}
+Let $\mathcal{R}$ and $\mathcal{S}$ be two finite request sections consumed by
+the $\RegSeqRatUp$-to-$\RealUp$ seal and accepted by the seal-facing
+classifier. Suppose that their displayed rows agree on the $\StreamNameUp$
+schedule, the $\DyadicRatCoreUp$ endpoint and radius rows, the $\RegSeqRatUp$
+regularity and readback rows, the $\RealUp$ seal row, the componentwise
+$\hsame$ rows, the displayed $\Cont$ routes, $\Pkg$ provenance, and the local
+$\NameCert$ rows. Then $\mathcal{R}$ and $\mathcal{S}$ determine the same
+finite seal-facing packet. No quotient stream, selected limit, choice datum,
+ambient completion, metric-completeness row, or second $\RealUp$ seal
+coordinate can separate the two accepted requests.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-request-real-seal-classifier-exactness} to
+$\mathcal{R}$ and to $\mathcal{S}$. Since both requests are accepted, each
+factors through exactly the displayed StreamName schedule rows, DyadicRatCore
+endpoint-radius rows, RegSeqRat regularity and readback rows, the RealUp seal
+row, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+Next use \autoref{thm:streamname-open-phase-request-handoff} for each
+section. Both presentations are therefore the same four-object route through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ once the
+displayed rows in the hypothesis are identified.
+
+Apply \autoref{thm:streamname-finite-request-terminal-coherence} to the two
+presentations, and then apply
+\autoref{thm:streamname-finite-request-cover-gluing} to the finite two-member
+cover $\{\mathcal{R},\mathcal{S}\}$. The common displayed rows are precisely
+the overlap data required by the gluing theorem, so the two accepted sections
+collapse to one terminal seal-facing packet.
+
+Finally apply \autoref{thm:streamname-request-section-nonescape}. The common
+packet has no row for quotient streams, selected limits, choice data, ambient
+completion, metric completeness, or a second RealUp seal coordinate. Hence no
+non-displayed coordinate can distinguish the two accepted seal-facing
+requests.
+\end{proof}
