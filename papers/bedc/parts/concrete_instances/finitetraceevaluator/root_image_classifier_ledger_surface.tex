@@ -1,0 +1,51 @@
+\begin{theorem}[FiniteTraceEvaluator root image admission]
+\label{thm:finite-trace-evaluator-root-image-admission}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, the root image projected from \autoref{def:finite-trace-evaluator-carrier} is exactly the displayed finite $\BHist$ row
+$$
+E=(I,T,A,V,H,C,P,N).
+$$
+The input row $I$, finite trace row $T$, accepted-result row $A$, validation-boundary row $V$, componentwise transport row $H$, continuation row $C$, package provenance row $P$, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$ are admitted as the complete root image. No host evaluator, hidden runtime state, infinite trace, or unchecked compiler theorem is an admitted root-image coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. Its finite packet lists exactly $I,T,A,V,H,C,P,N$, and each listed row has a fixed carrier role.
+
+The existing root image row and root NameCert obligations, \autoref{thm:finite-trace-evaluator-root-image-row} and \autoref{thm:finitetrace-evaluator-root-namecert-obligations}, read the same packet as a $\BHist/\hsame/\Cont/\Pkg/\NameCert$ surface.
+
+The excluded objects have no carrier coordinate and no continuation route from $C$. Thus root-image admission is exhausted by the eight displayed rows.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root classifier transport]
+\label{thm:finite-trace-evaluator-root-classifier-transport}
+Let $E=(I,T,A,V,H,C,P,N)$ and $E'=(I',T',A',V',H',C',P',N')$ be accepted $\FiniteTraceEvaluatorUp$ packets. If the componentwise $\hsame$ rows transport $I,T,A,V,C,P,N$ to $I',T',A',V',C',P',N'$, then the input, finite-trace, accepted-result, and validation route remains the displayed route
+$$
+I \to T \to A \to V
+$$
+and transports to
+$$
+I' \to T' \to A' \to V'.
+$$
+The transport cannot move the classifier to a host evaluator, detached runtime state, infinite trace, or unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+First read the source route through \autoref{thm:finite-trace-evaluator-root-image-admission}. The only classifier-bearing route starts with the coded input row, proceeds through the finite trace, reaches the accepted-result classifier, and then records the validation boundary.
+
+Next apply acceptance row stability and checkpoint determinacy, \autoref{thm:finitetrace-evaluator-acceptance-row-stability} and \autoref{thm:finite-trace-evaluator-checkpoint-determinacy}. They keep accepted-result reads on the same $I \to T \to A$ path under componentwise $\hsame$ transport and displayed continuation replay.
+
+Finally attach the validation boundary and provenance rows using \autoref{thm:finitetraceevaluator-root-validation-refusal} and \autoref{thm:finitetrace-evaluator-ledger-nonescape}. The row $V$ stays a boundary row and the ledger has no alternate classifier coordinate, so the transported packet keeps the displayed route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root ledger totality]
+\label{thm:finite-trace-evaluator-root-ledger-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every public root consumer is exhausted by the finite ledger
+$$
+I,T,A,V,H,C,P,N.
+$$
+The ledger exposes the input, finite trace, accepted result, validation boundary, componentwise transport, displayed continuation, package provenance, and local naming rows, and it exposes no host evaluator, hidden runtime state, infinite trace, total truth predicate, total halting classifier, or unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+Begin with root image admission and root classifier transport. They identify the accepted root image and show that componentwise transport cannot leave the route $I \to T \to A \to V$.
+
+Use route totality and ledger non-escape, \autoref{thm:finite-trace-evaluator-route-totality} and \autoref{thm:finitetrace-evaluator-ledger-nonescape}. These theorems account for the consumer-facing rows $H,C,P,N$ and remove host evaluators, infinite traces, and unchecked compiler theorems from the public ledger.
+
+The remaining excluded objects are also absent from the carrier of \autoref{def:finite-trace-evaluator-carrier}. Since no row outside $I,T,A,V,H,C,P,N$ is admitted, every public root consumer is total on that displayed finite ledger.
+\end{proof}

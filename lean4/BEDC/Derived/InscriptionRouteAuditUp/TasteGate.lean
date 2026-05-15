@@ -279,3 +279,10 @@ theorem InscriptionRouteAuditTasteGate_single_carrier_alignment :
       ⟨inscriptionRouteAuditNontrivial⟩, rfl⟩
 
 end BEDC.Derived.InscriptionRouteAuditUp.TasteGate
+
+namespace BEDC.Derived.InscriptionRouteAuditUp
+
+def taste_gate : BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.InscriptionRouteAuditUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.InscriptionRouteAuditUp
