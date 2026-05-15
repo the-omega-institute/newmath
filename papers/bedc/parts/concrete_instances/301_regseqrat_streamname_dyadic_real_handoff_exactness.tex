@@ -351,3 +351,245 @@ only surfaces exported to the seal are the four listed faces, and the
 excluded quotient, host equality, selected-limit, completeness, choice, and
 hidden-coordinate data have no row in the accepted route.
 \end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Dyadic Real Lean anchor audit surface]
+\label{thm:regseqrat-streamname-dyadic-real-lean-anchor-audit-surface}
+For an accepted $\RegSeqRatUp$ carrier whose public seal route is saturated by
+the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, the Lean-facing anchors
+\texttt{RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff},
+\texttt{DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness}, and
+\texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff} expose exactly the same
+finite audit surface. Concretely, they expose the StreamName finite-window
+membership surface, the DyadicRatCore endpoint, radius, and distance handoff
+surface, and the RegSeqRat-to-Real public seal handoff surface. No additional
+audit coordinate is supplied by a quotient stream, host real equality, selected
+limit, ambient completeness witness, choice datum, or hidden seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence}. It
+identifies the accepted carrier's finite source route with the public seal
+route and already names the three Lean-facing anchors as the route from
+finite-window rows to dyadic rows, from dyadic rows to the RegSeqRat
+classifier, and from that classifier to the public Real seal.
+
+Next use \autoref{thm:regseqrat-l10-four-face-necessity}. It shows that a
+Phase Real and Completion exit read requires exactly the StreamName schedule,
+DyadicRatCore ledger, RegSeqRat classifier, and Real seal faces for the L10
+route. Thus the first two anchors cover the first-three-face passage through
+StreamName, DyadicRatCore, and RegSeqRat, while the third anchor covers the
+terminal seal passage into $\RealUp$.
+
+Finally apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. The saturated
+route has no fifth face, and the excluded quotient stream, host real equality,
+selected limit, ambient completeness, choice datum, and hidden seal coordinate
+have no displayed row. Therefore the three named anchors are exactly the
+finite audit surface that remains to be formalized for the four-face route.
+\end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-cover gluing]
+\label{thm:regseqrat-real-seal-finite-cover-gluing}
+Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
+$\RegSeqRatUp$ reads whose members exit as $\RealUp$ seals. Suppose each
+$\mathcal{S}_i$ is saturated by exactly the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose also that every displayed pairwise overlap agrees on the shared
+$\mathsf{BHist}$, componentwise $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+dyadic-ledger, classifier, regularity, and seal rows. Then the finite family
+glues to one finite four-face L10 packet over the finite union of the
+requests, with the same four faces and only the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+The glued packet contains no quotient stream equality, no host real equality,
+no selected limit, no ambient or metric-completeness datum, no choice data,
+and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For each family member, apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. This places the
+member on one finite L10 exit route whose only faces are the StreamName
+schedule, DyadicRatCore ledger, RegSeqRat classifier and regularity surface,
+and Real seal row.
+
+Glue the StreamName windows first. The overlap hypotheses identify the
+displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic,
+RegSeqRat, and Real rows seen from adjacent members, so
+\autoref{thm:streamname-finite-request-cover-gluing} gives one finite
+StreamName-side request packet over the finite union.
+
+Next keep the Real consumer on that same finite section. Use
+\autoref{thm:real-regseqrat-finite-request-fusion} to repack each seal request
+through the displayed finite $\mathsf{BHist}$ packet, and use
+\autoref{thm:real-regseqrat-completion-consumer-section-exactness} to force
+every completion-facing or $\RealUp$-facing consumer to factor through that
+section.
+
+It remains to identify the dyadic and RegSeqRat faces on overlaps. Apply
+\autoref{thm:regseqrat-common-dyadic-tail-ledger} to keep common cofinal
+dyadic refinements on the same endpoint, radius, distance, classifier,
+regularity, transport, continuation, provenance, and local naming ledger.
+Then apply
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence} to recover each
+of the four faces from the other three inside the same finite route.
+
+Finish by finite induction over the request family. The empty cover gives the
+empty displayed packet, and adjoining one saturated member uses the pairwise
+overlap agreement above to attach it to the packet already built. At each
+step the cited saturation, StreamName gluing, Real fusion, and consumer
+section theorems export only the four displayed faces and their support rows,
+so quotient stream equality, host real equality, selected limits, ambient or
+metric completeness, choice data, and a second seal coordinate remain absent.
+\end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-cover associativity]
+\label{thm:regseqrat-real-seal-finite-cover-associativity}
+Let $\mathcal{A}$, $\mathcal{B}$, and $\mathcal{C}$ be finite families of
+accepted public $\RegSeqRatUp$ reads whose members exit as $\RealUp$ seals.
+Assume that every member is saturated by the same four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+and that every pairwise overlap among the three families satisfies the
+four-face agreement used in
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing}. Then gluing
+$\mathcal{A}\cup\mathcal{B}$ first and then gluing with $\mathcal{C}$ displays
+the same finite four-face L10 packet as gluing $\mathcal{B}\cup\mathcal{C}$
+first and then gluing with $\mathcal{A}$.
+
+The common packet has exactly the StreamName schedule and membership face, the
+DyadicRatCore endpoint, radius, and distance face, the RegSeqRat classifier,
+regularity, and transport face, and the RealUp seal face, with the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It
+contains no quotient stream equality, no host real equality, no selected limit,
+no ambient or metric-completeness datum, no choice data, and no second
+$\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to
+$\mathcal{A}\cup\mathcal{B}$ and then to
+$(\mathcal{A}\cup\mathcal{B})\cup\mathcal{C}$. Apply the same theorem to
+$\mathcal{B}\cup\mathcal{C}$ and then to
+$\mathcal{A}\cup(\mathcal{B}\cup\mathcal{C})$. The overlap hypotheses are
+exactly the hypotheses of the binary gluing theorem for each of these steps.
+
+For every member used in either parenthesization, apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. This identifies
+the member with the same StreamName schedule and membership row, DyadicRatCore
+endpoint, radius, and distance row, RegSeqRat classifier, regularity, and
+transport row, and Real seal row.
+
+The only remaining issue is overlap agreement after the intermediate gluing
+step. Use
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence} to read any
+three of the four faces as the same fourth face inside the finite route, and
+use \autoref{thm:regseqrat-common-dyadic-tail-ledger} to keep the dyadic and
+RegSeqRat ledger fixed on common cofinal tails. Thus both intermediate packets
+present the same finite $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert$, endpoint, radius, distance, classifier, regularity, transport,
+and seal rows on every overlap.
+
+Conclude by finite induction over the members of $\mathcal{C}$ after the first
+parenthesization, and symmetrically over the members of $\mathcal{A}$ after
+the second parenthesization. The base case is the already glued binary packet.
+The adjoining step attaches one saturated member along the overlap rows just
+identified, so it cannot introduce a new face or a different support row. Hence
+both parenthesizations expose the same finite BEDC rows and no extra route.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Dyadic Real audit-clean exit readiness]
+\label{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}
+For any accepted public L10 exit read of a $\RegSeqRatUp$ carrier, audit-clean
+readiness for the Phase Real and Completion quartet is exactly the finite
+four-face route through the $\StreamNameUp$ finite schedules, the
+$\DyadicRatCoreUp$ dyadic endpoint, radius, and distance ledgers, the
+$\RegSeqRatUp$ classifier, regularity, and transport rows, and the public
+$\RealUp$ seal row.
+
+The readiness surface contains only the displayed $\mathsf{BHist}$,
+componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ support
+rows for those four faces. It contains no Real completeness theorem, no quotient
+representative, no host sequence equality, no trichotomy principle, no
+open-cover compactness object, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. It routes the
+accepted public seal read through the StreamName schedule face, the DyadicRatCore
+ledger face, the RegSeqRat classifier and regularity face, and the public Real
+seal face while preserving the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows.
+
+Next apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-single-source-lock} and
+\autoref{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence}. The
+single-source lock prevents a second completion source, and the correspondence
+identifies the finite source read with the public seal read in both directions.
+Thus the exit criterion can read only the same finite rows from either side.
+
+Use \autoref{thm:regseqrat-l10-four-face-necessity} together with
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. These results say
+that all four faces are required and that no fifth face is available to an
+accepted Phase Real and Completion exit read.
+
+Finally apply \autoref{thm:regseqrat-real-seal-finite-cover-gluing} and
+\autoref{thm:regseqrat-real-seal-finite-cover-associativity}. Finite families of
+accepted reads glue and reassociate without changing the StreamName,
+DyadicRatCore, RegSeqRat, or Real seal rows, so audit-clean Lean work should
+target this finite route. Stronger off-table claims about Real completeness,
+quotient representatives, host sequence equality, trichotomy, open-cover
+compactness, or a second Real seal coordinate are not part of the exit-readiness
+surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real observation interface]
+\label{thm:streamname-regseqrat-real-observation-interface}
+For any accepted public L10 exit read of a $\RegSeqRatUp$ carrier, the
+$\StreamNameUp$--$\RealUp$ finite-window seal boundary of
+\autoref{thm:streamname-realup-finite-window-seal-boundary} is exactly the
+input face of the four-face route through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ recorded by
+\autoref{thm:regseqrat-real-seal-finite-window-saturation} and
+\autoref{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}.
+Thus the public observation interface consumed by the RegSeqRat-to-Real exit is
+the finite StreamName window package: the $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, finite-window classifier rows,
+endpoint readbacks in $\RatUp$, empty-window boundary, and constant/reindexing
+stability rows.
+
+This identification introduces no quotient stream, host real equality, selected
+limit, ambient completeness witness, choice datum, or second $\RealUp$ seal
+coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName boundary theorem,
+\autoref{thm:streamname-realup-finite-window-seal-boundary}. It names exactly
+the finite observation rows exposed by the $\StreamNameUp$ public interface and
+states that those rows are available to later $\RealUp$ and $\RegSeqRat$ seal
+sites without carrying regularity or completion data.
+
+Next apply the RegSeqRat handoff exactness theorem,
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The handoff
+uses the same finite StreamName schedules as its first face before it reads the
+DyadicRatCore ledger, the RegSeqRat classifier and regularity rows, and the
+public Real seal row.
+
+The four-face necessity and saturation results,
+\autoref{thm:regseqrat-l10-four-face-necessity} and
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}, then force that
+first face to be precisely the public finite-window observation interface. A
+different StreamName input would either omit a required face or add a fifth
+face, both excluded by the saturated finite route.
+
+Finally use the Real sibling lattice summary,
+\autoref{thm:real-regseqrat-streamname-lattice-route}, together with the
+audit-clean exit readiness theorem
+\autoref{thm:regseqrat-streamname-dyadic-real-audit-clean-exit-readiness}. They
+place the Real-facing exit on the same horizontal lattice edge and preserve the
+negative boundary: no quotient stream, host real equality, selected limit,
+ambient completeness witness, choice datum, or second $\RealUp$ seal coordinate
+is introduced.
+\end{proof}

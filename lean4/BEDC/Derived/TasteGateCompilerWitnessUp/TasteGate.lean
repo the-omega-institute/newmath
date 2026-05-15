@@ -267,6 +267,9 @@ instance tasteGateCompilerWitnessChapterTasteGate :
     intro x y hxy heq
     exact hxy (tasteGateCompilerWitnessToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate TasteGateCompilerWitnessUp :=
+  tasteGateCompilerWitnessChapterTasteGate
+
 theorem TasteGateCompilerWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist, tasteGateCompilerWitnessDecodeBHist
         (tasteGateCompilerWitnessEncodeBHist h) = h) ∧
