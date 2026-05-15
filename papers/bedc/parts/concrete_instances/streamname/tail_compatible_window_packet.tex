@@ -223,3 +223,43 @@ inventory, and nonescape excludes quotient stream equality, selected limits,
 host real equality, metric-completeness data, and ambient $\RealUp$
 completeness from the bundle lock.
 \end{proof}
+
+\begin{theorem}[StreamName tail-compatible cofinal exhaustion]
+\label{thm:streamname-tail-compatible-window-cofinal-exhaustion}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$ rational
+stream rows, and let $\mathcal P:\mathsf{ProbeBundle}$ be the finite packet of
+certified unary observations served by the shared tail-compatible selector of
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock}. Every
+finite family of accepted downstream reads from that same bundled packet into a
+$\RegSeqRatUp$ readback or a finite-window $\RealUp$ seal is terminally
+exhausted by the bundled unary rows, their $\mathsf{InBundle}$ witnesses, the
+shared tail selector, the shared budget surface, the pointwise
+$\mathsf{RatHistoryClassifier}$ handoff rows, and the support rows
+$\hsame,\Cont,\Pkg,\NameCert$.
+
+Equality of these rows is exactly equality of the consumer route. No quotient
+stream equality, selected limit, host real equality, metric-completeness datum,
+or ambient $\RealUp$ completeness coordinate remains available to distinguish
+two accepted finite-window consumers over the packet.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock}. It collects
+the bundled unary rows, their membership witnesses, the shared tail selector,
+the shared budget surface, pointwise rational-history classifier rows, and the
+support rows into one finite packet for the family of downstream reads.
+
+Next apply \autoref{thm:streamname-tail-compatible-window-coverage}. Each
+accepted $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal route factors
+through that packet, so the consumer has no source coordinate beyond the
+displayed rows.
+
+Then apply \autoref{thm:streamname-tail-compatible-window-terminality}. If two
+accepted consumers expose the same bundled rows and support rows, terminality
+identifies their finite-window route through the same packet.
+
+Finally use \autoref{thm:streamname-tail-compatible-window-nonescape}. The
+excluded quotient, limit, host-real, metric-completeness, and ambient-completion
+coordinates are not packet rows, so no remaining downstream distinction can be
+read after the displayed finite inventory agrees.
+\end{proof}
