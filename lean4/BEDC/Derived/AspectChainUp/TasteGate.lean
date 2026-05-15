@@ -202,6 +202,9 @@ instance aspectChainChapterTasteGate : ChapterTasteGate AspectChainUp where
     intro x y hxy heq
     exact hxy (aspectChainToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate AspectChainUp :=
+  aspectChainChapterTasteGate
+
 theorem AspectChainTasteGate_single_carrier_alignment :
     (∀ h : BHist, aspectChainDecodeBHist (aspectChainEncodeBHist h) = h) ∧
       (∀ x : AspectChainUp, aspectChainFromEventFlow (aspectChainToEventFlow x) = some x) ∧

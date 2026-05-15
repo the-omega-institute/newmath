@@ -250,6 +250,25 @@ instance observationReflectionHandoffNontrivial :
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate ObservationReflectionHandoffUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  observationReflectionHandoffChapterTasteGate
+
+theorem ObservationReflectionHandoffUp_taste_gate_boundary :
+    (∀ x : ObservationReflectionHandoffUp,
+      ∃ e : EventFlow, observationReflectionHandoffFromEventFlow e = some x) ∧
+      (∀ (x : ObservationReflectionHandoffUp) (w : RawEvent) (m : BMark),
+        List.Mem w (observationReflectionHandoffToEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow
+  constructor
+  · intro x
+    exact ⟨observationReflectionHandoffToEventFlow x, observationReflectionHandoff_round_trip x⟩
+  · intro _x _w m _hw _hm
+    cases m with
+    | b0 => exact Or.inl rfl
+    | b1 => exact Or.inr rfl
+
 theorem ObservationReflectionHandoffTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       observationReflectionHandoffDecodeBHist (observationReflectionHandoffEncodeBHist h) =
