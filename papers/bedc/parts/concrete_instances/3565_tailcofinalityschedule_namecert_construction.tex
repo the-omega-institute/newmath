@@ -400,6 +400,53 @@ root or completion consumer can factor through such data instead of the
 displayed route and apartness row.
 \end{proof}
 
+\begin{theorem}[Tail cofinality schedule selector-residue exhaustion]
+\label{thm:tail-cofinality-schedule-selector-residue-exhaustion}
+Let $T$ be an accepted $\TailCofinalityScheduleUp$ packet consumed through
+$\DiagonalTailSelectorUp$, $\RealCompletionSelectorSealUp$,
+$\RealTailAgreementSealUp$, and $\RealCauchyCompletionUp$. Then every remaining
+selector-facing, completion-facing, and real-seal-facing public read is
+exhausted by the finite rows
+$$
+E,W,D,R,L,H,C,P,N
+$$
+of the schedule carrier, together with the selector budget row, the agreement
+rows, and the selector-seal handoff rows named in the preceding pullback
+theorems. No residual row supplies quotient stream equality, selected host
+limits, countable choice, detached limits, hidden selector rows, ambient
+completeness, hidden tail oracles, or a second completion route.
+\end{theorem}
+\begin{proof}
+First place the selector read on the schedule route. Apply
+\autoref{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}.
+It sends the accepted selector consumer through the displayed tail schedule,
+with the selector contributing only its public budget row, $\ProbeBundle$
+support, $\Pkg$ provenance, $\hsame$ transport, and $\Cont$ replay.
+
+Next identify the completion-facing route. Use
+\autoref{thm:tail-cofinality-schedule-selector-completion-pullback}. The
+selector-facing read and the $\RealCauchyCompletionUp$ read meet on the same
+finite surface $E,W,D,R,L,H,C,P,N$, with no independent completion endpoint or
+second budget source.
+
+Now attach the selector-seal handoff. By
+\autoref{thm:tail-cofinality-schedule-selector-seal-pullback}, the
+$\RealCompletionSelectorSealUp$ read and the schedule-facing completion read
+share the displayed selector budget, precision row, window row, dyadic ledger,
+readback row, limit handoff, terminal $\RealUp$ rows, and structural
+transport, continuation, provenance, and naming rows.
+
+Finally use the terminality and structural-row nonpromotion results for the
+selector seal,
+\autoref{thm:real-completion-selector-seal-terminality} and
+\autoref{thm:real-completion-selector-seal-structural-row-nonpromotion}. They
+prevent the handoff rows and the structural rows from becoming an additional
+limit source, hidden selector surface, ambient completeness witness, or second
+completion route. The $\RealTailAgreementSealUp$ agreement rows therefore add
+only the displayed finite agreement handoff already used by the pullback
+surface, and every public read is exhausted by the named L10 rows.
+\end{proof}
+
 \closureat{TailCofinalityScheduleUp}{seedStr}
 \closureat{TailCofinalityScheduleUp}{obligationStr}
 \closureat{TailCofinalityScheduleUp}{scopedStr}

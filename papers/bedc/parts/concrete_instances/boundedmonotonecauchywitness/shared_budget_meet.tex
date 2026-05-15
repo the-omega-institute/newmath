@@ -1,0 +1,46 @@
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal factorization]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-factorization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any completion-facing consumer using a $\BoundedMonotoneConvergenceSealUp$ packet whose witness coordinate is $W$ must first factor through the accepted witness rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+and then through the convergence-seal rows
+$$
+W,M,K,F',\sigma',D,L,R,H',C',P',N'.
+$$
+
+Thus the completion-facing route is a two-stage BEDC package. The first stage is the local bounded monotone Cauchy witness certificate, and the second stage is the convergence-seal certificate consuming that witness row. No consumer can skip directly from the witness coordinate to a completion object, selected limit, quotient stream equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or detached tail oracle.
+\end{theorem}
+\begin{proof}
+Start with the witness carrier. By \autoref{def:bounded-monotone-cauchy-witness-carrier}, the accepted witness packet exposes exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as its public rows.
+
+The local NameCert obligations and closure theorem bind those rows before the witness can be exported. Apply \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations} and \autoref{thm:bounded-monotone-cauchy-witness-obligation-closure}; they force source reads, window requests, Cauchy witness reads, dyadic ledgers, located traps, seal reads, transports, continuations, provenance, and local naming to stay inside the displayed witness packet. The Real seal handoff of \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff} supplies the last local route to $Q$.
+
+Now read the convergence-seal packet. \autoref{thm:bounded-monotone-convergence-seal-witness-consumption} makes the witness row $W$ the first consumed row before the seal packet may read $M,K,F',\sigma',D,L,R,H',C',P',N'$. \autoref{thm:bounded-monotone-convergence-seal-criterion-route} then routes tolerance-facing reads through the monotone-tail and Cauchy-criterion rows before the finite regular, stream, dyadic, and CauchyLimitSeal rows are reached.
+
+Finally apply \autoref{thm:bounded-monotone-convergence-seal-obligation-package}. It packages the second-stage rows as the displayed convergence-seal obligation surface. Since both stages have exhausted their public ledgers, the combined route has no remaining coordinate for any excluded completion, equality, order, compactness, or choice-selected tail.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness shared budget meet]
+\label{thm:bounded-monotone-cauchy-witness-shared-budget-meet}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose $W$ is consumed by a $\CauchySealBudgetSynchronizerUp$ budget handoff and by either a tail-schedule route or a real-tail-agreement route. Then every $\RealUp$ seal read on the combined route factors through the same finite rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+together with the synchronizer budget row before any downstream seal is readable.
+
+Consequently the witness row, synchronizer row, and tail schedule share one finite budget route. The route exports no second tail budget, selected limit, quotient-stream equality, host real equality, ambient completeness, trichotomy, or hidden tail oracle.
+\end{theorem}
+\begin{proof}
+First use the local convergence-seal factorization above. It forces every convergence-facing read to consume the bounded monotone Cauchy witness rows before the downstream seal rows are available, so the witness cannot be replaced by a completion object or by an independently selected tail.
+
+Next attach the schedule and agreement handoffs. The tail-window service and Real observation-budget handoff force tolerance requests and finite Real-facing reads through $S,F,\sigma,\mu,\lambda$ before the located trap and $\RealUp$ seal are reached. The root synchronizer handoff then places every $\CauchySealBudgetSynchronizerUp$ consumer on the same displayed route through $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ rather than on a separate budget coordinate.
+
+The sibling root-tail and completion routes keep the two consumers aligned. Root tail-budget exactness binds the $\CauchyModulusExtractionUp$, $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, and $\RealCauchyWitnessGridUp$ rows to the same source, tail, trap, seal, transport, continuation, provenance, and naming rows. Completion-consumer non-escape and the public seal handoff then send each Real-facing continuation through the public envelope, finite observation route, regular handoff, located trap, and seal row of $W$.
+
+Finally apply ledger exhaustion. Since the accepted packet has no public coordinate beyond $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and the displayed synchronizer budget row, a downstream seal read has no second route from which it could obtain another tail budget, selected limit, quotient-stream equality, host real equality, ambient completeness, trichotomy split, or hidden tail oracle.
+\end{proof}

@@ -178,6 +178,46 @@ Use the fixed classifier theorem. It keeps every accepted comparison inside $E,A
 Finally apply the root request triad and kernel non-escape. The triad exhausts the root request by $E,A,V$, and non-escape excludes hidden representative selectors, erased derivation recovery, host quotient eliminators, and $\mathsf{Quot.sound}$.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary carrier exposure]
+\label{thm:quotient-soundness-boundary-carrier-exposure}
+Every accepted $\QuotientSoundnessBoundaryUp$ packet exposes exactly the quotient-refusal carrier rows
+$$
+(E,A,T,V,H,C,P,N).
+$$
+Here $E$ is the visible relation evidence, $A$ is the representative-demand surface, $T$ is the surviving $\psame$ transport row, $V$ is the refusal verdict, $H$ is the componentwise stability row, $C$ is the displayed consumer route, $P$ is package provenance, and $N$ is the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-soundness-boundary-carrier}. Its displayed tuple is the finite row list $E,A,T,V,H,C,P,N$.
+
+Use \autoref{thm:quotient-soundness-boundary-namecert-obligations}. The local certificate accounts for those rows as relation exposure, representative-request refusal, classifier-respecting transport, verdict accounting, componentwise stability, continuation, provenance, and naming.
+
+No further quotient carrier row is present in the tuple. Thus every accepted packet exposes exactly the listed quotient-refusal carrier rows.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary refusal ledger]
+\label{thm:quotient-soundness-boundary-refusal-ledger}
+Every representative-selection request accepted by a $\QuotientSoundnessBoundaryUp$ packet is ledgered by the rows $A,V$ before the $\psame$ transport row $T$ is available to a consumer.
+\end{theorem}
+\begin{proof}
+Use refusal locality, \autoref{thm:quotient-soundness-boundary-refusal-locality}. It keeps the requested representative surface inside the local refusal rows rather than in a host quotient selector.
+
+Apply fixed classifier and the root request triad, \autoref{thm:quotient-soundness-boundary-fixed-classifier} and \autoref{thm:quotient-soundness-boundary-root-request-triad}. They place the demand in $A$ and the negative verdict in $V$ as part of the root request surface.
+
+Only after that surface is visible can the transport replacement theorem supply the surviving $\psame$ row $T$. Hence the request is ledgered by $A,V$ before $T$ is consumed.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream nonescape]
+\label{thm:quotient-soundness-boundary-downstream-nonescape}
+Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet receives only $E,T,H,C,P,N$ after refusal has been accounted for. It receives no $\mathsf{Quot.sound}$, host quotient eliminator, representative selector, or erased derivation recovery route.
+\end{theorem}
+\begin{proof}
+Begin with the refusal ledger above. The rows $A,V$ account for the refused representative request before any surviving downstream route is used.
+
+Use psame transport exhaustion, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion}. After refusal, the positive movement available to a quotient-like consumer is exhausted by the $\psame$ transport row $T$ together with stability, continuation, provenance, and naming.
+
+Finally apply kernel non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. It excludes $\mathsf{Quot.sound}$, host quotient eliminators, representative selectors, and erased derivation recovery, so the downstream surface is only $E,T,H,C,P,N$ once refusal has been recorded.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary root request accountability]
 \label{thm:quotient-soundness-boundary-root-request-accountability}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, relation rows $E$, representative-request rows $A$, and refusal verdict rows $V$ are accountable before any replacement by the transport row $T$. A downstream quotient-style consumer therefore sees the requested relation evidence, the demanded representative surface, and the refusal verdict before it can use $T,H,C,P,N$ as the surviving audit route.
@@ -713,6 +753,42 @@ Apply the representative request frontier to account for the refusal ledger $E,A
 Apply psame consumer closure to account for the positive ledger $E,T,H,C,P,N$. The downstream route that survives the refusal is the classifier-respecting $\psame$ route over the displayed packet.
 
 Finally use Quot.sound refusal exactness. Since $\mathsf{Quot.sound}$ is refused exactly at the visible boundary and the surviving route is already exhausted by the packet rows, $P,N$ are total for the finite ledger and cannot export any additional quotient primitive.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame request determinacy]
+\label{thm:quotient-soundness-boundary-psame-request-determinacy}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, a representative-side request is deterministically routed to the visible refusal rows $E,A,V$ before the admitted $\psame$ route through $E,T,H,C,P,N$ is readable. Thus a downstream consumer can read either the recorded refusal frontier or the surviving classifier-respecting $\psame$ transport, but it receives no ambiguous branch between representative access and positive transport.
+\end{theorem}
+\begin{proof}
+Apply the representative request frontier, \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. It sends every representative, selector, erased-derivation, host-quotient, and $\mathsf{Quot.sound}$ demand to $E,A,V$ before $T$ is exposed.
+
+Next use psame consumer closure, \autoref{thm:quotient-soundness-boundary-psame-consumer-closure}. After the refusal frontier is recorded, the only surviving positive consumer is the classifier-respecting $\psame$ route through $E,T,H,C,P,N$.
+
+The two surfaces are separated by Quot.sound refusal exactness, \autoref{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}. Hence the packet presents a determined refusal surface first and a determined $\psame$ surface second, with no hidden branch that can choose a representative route.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary NameCert refusal totality]
+\label{thm:quotient-soundness-boundary-namecert-refusal-totality}
+For every accepted $\QuotientSoundnessBoundaryUp$ packet, the package row $P$ and NameCert row $N$ are total for the refusal-plus-transport ledger consisting of the visible refusal rows $E,A,V$ and the admitted transport rows $E,T,H,C,P,N$. The certified export exposes no $\mathsf{Quot.sound}$ primitive, representative selector, erased-derivation recovery coordinate, or host quotient recursion coordinate.
+\end{theorem}
+\begin{proof}
+First apply psame request determinacy above. It fixes the order in which $E,A,V$ are readable as refusal rows and $E,T,H,C,P,N$ are readable as the positive $\psame$ route.
+
+Use Cont route locality, \autoref{thm:quotient-soundness-boundary-cont-route-locality}, to keep continuation consumers inside that displayed route. The continuation row cannot bypass $A,V$ or reinterpret $T$ as a quotient eliminator.
+
+Finally apply Pkg NameCert ledger totality, \autoref{thm:quotient-soundness-boundary-pkg-namecert-ledger-totality}. Since $P,N$ already certify the entire finite ledger and expose no excluded quotient primitive, the NameCert surface is total for exactly the refusal-plus-transport ledger stated here.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream representative non-escape]
+\label{thm:quotient-soundness-boundary-downstream-representative-nonescape}
+Every downstream consumer of the $\QuotientSoundnessBoundaryUp$ chapter factors through the deterministic refusal surface of \autoref{thm:quotient-soundness-boundary-psame-request-determinacy} and the total NameCert surface of \autoref{thm:quotient-soundness-boundary-namecert-refusal-totality}. Consequently the surviving $\psame$ route through $E,T,H,C,P,N$ cannot be reinterpreted as a quotient eliminator, representative selector, erased-derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ witness.
+\end{theorem}
+\begin{proof}
+Apply psame request determinacy to determine the public request boundary. A downstream consumer first sees the visible refusal rows $E,A,V$ and only then the classifier-respecting $\psame$ route through $E,T,H,C,P,N$.
+
+Apply NameCert refusal totality above. The certified export is the finite refusal-plus-transport ledger, so its public rows expose no representative selector, recovery coordinate, host quotient recursion coordinate, or $\mathsf{Quot.sound}$ primitive.
+
+Use Cont route locality and Pkg NameCert ledger totality, \autoref{thm:quotient-soundness-boundary-cont-route-locality} and \autoref{thm:quotient-soundness-boundary-pkg-namecert-ledger-totality}. They force every continuation and package read to stay inside the same finite ledger, so the surviving $\psame$ route is a consumer closure route rather than a quotient eliminator.
 \end{proof}
 
 \input{parts/concrete_instances/quotientsoundnessboundary/root_transport_audit}

@@ -23,6 +23,7 @@ A=(S,R,G,L,H,C,P,N),
 $$
 every boundary request for the named externality must expose the request row $R$ before it exposes the refusal gate row $G$. The accepted route then continues through the refusal ledger $L$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$; it cannot bypass $R$ by reading a generated witness, host object, quotient representative, hidden theorem, supplied dependency, assumed proposition, or closure principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_boundary\_request\_totality}
 \begin{proof}
 Begin with visible request factorization, \autoref{thm:apophatic-name-visible-request-factorization}. It sends every visible socket request through the displayed request row $R$ as part of the packet $S,R,G,L,H,C,P,N$.
 
@@ -85,4 +86,24 @@ First collect the three base rows. Apply \autoref{thm:apophatic-name-root-citati
 Next add the two export rows. The root source citation export of \autoref{thm:apophatic-name-root-source-citation-export} keeps downstream citations on the visible packet, and the refusal-gate readback of \autoref{thm:apophatic-name-root-refusal-gate-readback} fixes the required $R$ before $G$ order for gate reads.
 
 Finally use \autoref{thm:apophatic-name-public-boundary-package} and \autoref{thm:apophatic-name-downstream-named-externality-refusal}. They identify the downstream boundary with this finite refusal packet and leave no consumer-facing route outside the displayed ledger package.
+\end{proof}
+
+\begin{theorem}[ApophaticName root citation readback package]
+\label{thm:apophatic-name-root-citation-readback-package}
+For every accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+every root citation readback factors through exactly the finite socket, request, refusal-gate, refusal-ledger, transport, continuation, provenance, and local naming rows $S,R,G,L,H,C,P,N$. The readback exposes the request row $R$ before the refusal gate row $G$, and after the gate it reads only $L,H,C,P,N$.
+
+This package contains no generated witness, host object, quotient representative, hidden theorem, supplied dependency, assumed proposition, or closure principle outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First apply root citation safety, \autoref{thm:apophatic-name-root-citation-safety}. It confines every root citation to the visible finite packet $S,R,G,L,H,C,P,N$ and excludes off-packet witnesses or host-side objects.
+
+Next use boundary request totality and refusal route exhaustion, \autoref{thm:apophatic-name-boundary-request-totality} and \autoref{thm:apophatic-name-refusal-route-exhaustion}. These place the request row $R$ before the refusal gate row $G$ and exhaust the post-gate route by $L,H,C,P,N$.
+
+Then add root source citation export and root refusal-gate readback, \autoref{thm:apophatic-name-root-source-citation-export} and \autoref{thm:apophatic-name-root-refusal-gate-readback}. The export row keeps the cited source on the same visible packet, while the readback row records the required $R$ before $G$ order.
+
+Finally collect the rows with \autoref{thm:apophatic-name-root-boundary-ledger-package}. The boundary ledger package is exactly the finite readback surface, so no generated witness, host object, quotient representative, hidden theorem, supplied dependency, assumed proposition, or closure principle can be added afterward.
 \end{proof}
