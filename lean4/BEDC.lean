@@ -197,6 +197,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowMeetRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowCompletionPullback
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowReadbackStability
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
@@ -231,6 +232,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
+import BEDC.Derived.CauchyModulusRefinementUp.RealSealConsumerExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorMeetNoninterference
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorBudgetDependency
@@ -717,6 +719,7 @@ import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
+import BEDC.Derived.ObservationReflectionHandoffUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
 import BEDC.Derived.ObservationBudgetLimiterUp.TasteGate
 import BEDC.Derived.ObservationBudgetLimiterUp.SealOrdering
@@ -943,6 +946,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatTailEquivalence
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatConsumerPackage
 import BEDC.Derived.UniformCauchyCriterionUp.SealRouteUniqueness
 import BEDC.Derived.UniformCauchyCriterionUp.LateOverlap
+import BEDC.Derived.UniformCauchyCriterionUp.PublicExportSurface
 import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
 import BEDC.Derived.UniformCauchyCriterionUp.SharedSealRouteDeterminacy
 import BEDC.Derived.UniformCauchyCriterionUp.SharedScheduleRealSealInheritance
