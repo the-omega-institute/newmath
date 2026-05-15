@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root branch row exposure]
+\label{thm:authorized-generator-recursor-root-branch-row-exposure}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the root branch row $B$ is exposed before any downstream closed-normal or generator-audit consumer may read the output row $O$. The exposure is a projection of the carrier of \autoref{def:authorized-generator-recursor-carrier} through the local NameCert surface of \autoref{thm:authorized-generator-recursor-namecert-surface}, and it is exhaustive by \autoref{thm:authorized-generator-recursor-branch-exhaustion}.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ from \autoref{def:authorized-generator-recursor-carrier}. The branch row $B$ is one of its public coordinates, not a hidden generator source.
+
+Apply the local NameCert surface. It exposes the output only together with the accepted signature, emitted eliminator, checked motive, branch package, structural descent, audit, transport, route, provenance, boundary, and local name rows.
+
+Finally use branch exhaustion. The branch row contains exactly the public branch surface for the constructors displayed in $I$, so a downstream consumer cannot read $O$ while bypassing $B$ or inventing an additional branch row.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root descent row exposure]
+\label{thm:authorized-generator-recursor-root-descent-row-exposure}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the structural-descent row $D$ is exposed on every root-facing recursive read. The exposure is a projection of \autoref{def:authorized-generator-recursor-carrier} through \autoref{thm:authorized-generator-recursor-namecert-surface}, and the locality of that row is forced by \autoref{thm:authorized-generator-recursor-structural-descent-locality}.
+\end{theorem}
+\begin{proof}
+Read the carrier row $D$ from $R=(I,E,M,B,D,O,A,H,C,P,G,N)$. It is displayed beside the accepted signature, emitted eliminator, checked motive, branch package, output name, audit row, and structural rows.
+
+Use the NameCert surface to keep $D$ attached to every public recursive read. The surface does not expose a recursive route whose descent evidence is absent from the packet.
+
+Apply structural descent locality. It confines public recursion to the displayed signature, eliminator, motive, branch package, and descent row, so closed-normal and generator-audit consumers receive $D$ before they can use $O$ as an authorized recursor output.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root audit boundary exposure]
+\label{thm:authorized-generator-recursor-root-audit-boundary-exposure}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the audit-boundary rows $A,H,C,P,G,N$ are exposed before any root consumer reads $O$ as a recursor-authorized output. The exposure is a projection of \autoref{def:authorized-generator-recursor-carrier} through \autoref{thm:authorized-generator-recursor-namecert-surface}, and it factors through \autoref{thm:authorized-generator-recursor-audit-provenance-factorization} together with the audit boundary of \autoref{thm:authorized-generator-recursor-audit-boundary}.
+\end{theorem}
+\begin{proof}
+Project $A,H,C,P,G,N$ from the displayed packet. These rows carry audit provenance, componentwise transport, displayed continuation routes, package provenance, the $\mathsf{GAP}$ boundary, and the local name row.
+
+Apply the NameCert surface. It exposes the output row only inside the same finite carrier as the branch, descent, audit, transport, route, provenance, boundary, and naming rows.
+
+Use the audit boundary and audit provenance factorization. They place public output behind the accepted signature, emitted eliminator, checked motive, complete branch package, structural descent, audit provenance, continuation route, package row, boundary row, and local certificate, so no root consumer receives an unaudited recursor result.
+\end{proof}
