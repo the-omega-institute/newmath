@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\NoGlobalSynchronizationLedgerUp$}
+\label{ch:concrete-instances-no-global-synchronization-ledger-namecert}
+\origin{ai}
+
+The $\NoGlobalSynchronizationLedgerUp$ packet realizes the no-global-synchronization premise of \autoref{def:no-global-sync} as a positive finite ledger row. It is downstream of $\NoGlobalSyncBoundaryUp$ but not the same object: the boundary records that a global synchronization object is refused, while the ledger records the accepted local rows that consume that refusal in inter-Hist locality, causal-rate, and observer-transport chapters.
+
+\falsifiablePrediction{Any accepted inter-Hist consumer that reads a shared synchronization Hist or global clock row refutes the ledger packet.}
+
+\independenceWitness{Nearest siblings: noglobalsyncboundary, localitycell, observerlocalitytransport, interhistinvariant, crosshistcausal. None is bijective because the ledger has a positive no-global-sync refusal row consumed by locality and rate chapters, while the siblings either record a boundary, a locality cell, an invariant, or a causal route without this carrier row.}
+
+\begin{definition}[NoGlobalSynchronizationLedger carrier]
+\label{def:no-global-synchronization-ledger-carrier}
+A $\NoGlobalSynchronizationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(H_0,H_1,R,B,O,I,K,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ and $H_1$ are the two source history rows whose local reads are compared;
+\item $R$ is the positive no-global-synchronization refusal row, recording that no shared synchronization $\BHist$, global clock, privileged frame, total observer order, or selected all-observer map is admitted;
+\item $B$ is the $\NoGlobalSyncBoundaryUp$ boundary row whose refusal surface is being consumed;
+\item $O$ is the $\LocalityCellUp$ row that binds the two local read sites before a causal or rate consumer can read them;
+\item $I$ is the $\InterHistInvariantUp$ row that receives the displayed local comparison without adding a global frame;
+\item $K$ is the downstream consumer row for $\CrossHistCausalUp$, $\ObserverLocalityTransportUp$, or $\MaxCausalRateUp$;
+\item $S$ records componentwise $\hsame$ transport for the histories, refusal row, boundary row, locality cell, invariant row, consumer row, routes, provenance, and local name;
+\item $C$ records displayed $\Cont$ replay for reading exactly those rows;
+\item $P$ is the $\Pkg$ provenance over $\NoGlobalSynchronizationLedgerUp$, $\NoGlobalSyncBoundaryUp$, $\LocalityCellUp$, $\ObserverLocalityTransportUp$, $\InterHistInvariantUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\NoGlobalSynchronizationLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a shared synchronization history, global clock, privileged host frame, total observer order, quotient of histories, metric spacetime, host equality oracle, or selected limit.
+\end{definition}
+
+\begin{theorem}[NoGlobalSynchronizationLedger NameCert obligations]
+\label{thm:no-global-synchronization-ledger-namecert-obligations}
+For the carrier of \autoref{def:no-global-synchronization-ledger-carrier}, the local $\NameCert_{\NoGlobalSynchronizationLedgerUp}$ surface consists of carrier admission for
+$$
+L=(H_0,H_1,R,B,O,I,K,S,C,P,N),
+$$
+refusal exactness through $R$, boundary consumption through $B$, observer-locality exposure through $O$, invariant readback through $I$, downstream handoff through $K$, componentwise $\hsame$ transport through $S$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:no-global-synchronization-ledger-carrier}. The rows $H_0,H_1,R,B,O,I,K,S,C,P,N$ are exactly the histories, refusal row, boundary row, locality row, invariant row, consumer row, transport, replay, provenance, and naming surface.
+
+The refusal and boundary obligations are separate. The row $R$ is the positive ledger coordinate saying which global synchronization data are absent from the accepted packet, while $B$ records the boundary packet from which that refusal is inherited.
+
+The locality, invariant, and consumer obligations then read $O,I,K$ after the two source histories and the refusal row have been displayed. The structural rows $S,C,P,N$ transport, replay, package, and name the same finite packet, so no further NameCert obligation remains outside the listed coordinates.
+\end{proof}
+
+\begin{theorem}[NoGlobalSynchronizationLedger consumer non-escape]
+\label{thm:no-global-synchronization-ledger-consumer-nonescape}
+Every accepted $\NoGlobalSynchronizationLedgerUp$ consumer route factors through
+$$
+H_0,H_1,R,B,O,I,K,S,C,P,N.
+$$
+It may read the two source histories, the positive no-global-synchronization refusal row, the boundary row, the locality cell, the invariant row, the downstream causal or rate consumer row, displayed $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no shared synchronization $\BHist$, global clock, privileged frame, total observer order, metric spacetime, quotient history, host equality oracle, or selected limit.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:no-global-synchronization-ledger-carrier}. The only positive rows are $H_0,H_1,O,I,K$ together with the structural rows $S,C,P,N$.
+
+The row $R$ is not a hidden synchronization object; it is the refusal ledger. The row $B$ is the boundary source for the same refusal. Thus a consumer can cite global synchronization only as excluded data and only through the displayed refusal route.
+
+No coordinate of the packet is a shared synchronization $\BHist$, global clock, privileged frame, total observer order, metric spacetime, quotient history, host equality oracle, or selected limit. Therefore any consumer exporting such a coordinate has left the accepted ledger packet.
+\end{proof}
+
+\begin{theorem}[NoGlobalSynchronizationLedger inter-Hist handoff]
+\label{thm:no-global-synchronization-ledger-inter-hist-handoff}
+Every accepted $\NoGlobalSynchronizationLedgerUp$ packet supplies the no-global-frame premise required by $\CrossHistCausalUp$, $\ObserverLocalityTransportUp$, and $\MaxCausalRateUp$ consumers. The handoff is the displayed route from the two source histories through the refusal row $R$, the boundary row $B$, the locality cell $O$, the invariant readback $I$, and the consumer row $K$, transported by $S$ and replayed by $C$.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert surface of \autoref{thm:no-global-synchronization-ledger-namecert-obligations}. It exposes $R$ and $B$ before any locality, invariant, causal, transport, or rate consumer can read the packet.
+
+Next read the locality and invariant rows. The locality cell $O$ binds the two source histories as local sites, and the invariant row $I$ receives their comparison without inserting a global frame.
+
+Finally project the consumer row $K$ and the structural rows $S,C,P,N$. These rows make the same refusal ledger available to $\CrossHistCausalUp$, $\ObserverLocalityTransportUp$, and $\MaxCausalRateUp$ consumers, while \autoref{thm:no-global-synchronization-ledger-consumer-nonescape} excludes shared clocks, global frames, metric spacetime, quotient histories, and host equality as alternate handoff data.
+\end{proof}
+
+\begin{theorem}[NoGlobalSynchronizationLedger TasteGate obligation]
+\label{thm:no-global-synchronization-ledger-tastegate-obligation}
+The later Lean site \texttt{lean4/BEDC/Derived/NoGlobalSynchronizationLedgerUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \NoGlobalSynchronizationLedgerUp$ and $\mathsf{FieldFaithful}\ \NoGlobalSynchronizationLedgerUp$ instances. These instances must keep the two source histories, the positive refusal row, boundary row, locality cell, invariant row, downstream consumer row, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row as distinguishable fields.
+\end{theorem}
+\begin{proof}
+The carrier separates the source histories $H_0,H_1$ from the refusal row $R$, boundary row $B$, locality row $O$, invariant row $I$, and consumer row $K$. A trivial collapse would identify refusal data with the local histories or with the consumer handoff, erasing the no-global-synchronization premise needed downstream.
+
+Field faithfulness is the projection discipline for $L=(H_0,H_1,R,B,O,I,K,S,C,P,N)$. Each coordinate has a distinct consumer role, so a later TasteGate witness must preserve those projections before any locality, causal-rate, or transport chapter consumes the ledger.
+\end{proof}
+
+\closureat{NoGlobalSynchronizationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\NoGlobalSynchronizationLedgerUp}
+  \constructivestory{A $\NoGlobalSynchronizationLedgerUp$ packet is generated from two source histories, a positive no-global-synchronization refusal row, a NoGlobalSyncBoundary row, a locality cell, an inter-Hist invariant readback row, a causal or rate consumer row, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:no-global-synchronization-ledger-carrier}, \autoref{thm:no-global-synchronization-ledger-namecert-obligations}, \autoref{thm:no-global-synchronization-ledger-consumer-nonescape}, and \autoref{thm:no-global-synchronization-ledger-inter-hist-handoff} specify the finite no-global-synchronization ledger consumed by inter-Hist locality, causal, transport, and rate chapters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not construct a shared synchronization history, global clock, privileged frame, total observer order, metric spacetime, quotient history, Lean proof, or bridge checking for $\NoGlobalSynchronizationLedgerUp$.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, consumer non-escape theorem, inter-Hist handoff theorem, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
