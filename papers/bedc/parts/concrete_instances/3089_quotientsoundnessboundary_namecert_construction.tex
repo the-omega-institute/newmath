@@ -608,6 +608,46 @@ Next use kernel non-escape and psame transport exhaustion, \autoref{thm:quotient
 Finally apply \autoref{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}. Once $\mathsf{Quot.sound}$ is refused at the visible boundary, the positive consumer route is exactly $E,T,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary root psame source admission]
+\label{thm:quotient-soundness-boundary-root-psame-source-admission}
+Every root quotient-style operation accepted by a $\QuotientSoundnessBoundaryUp$ packet exposes the source relation rows $E$ before the $\psame$ transport row $T$ is readable. Thus the positive route $E,T,H,C,P,N$ is admitted only after the relation source has been displayed, and no representative, erased derivation, host quotient witness, or $\mathsf{Quot.sound}$ token can stand in for that source admission.
+\end{theorem}
+\begin{proof}
+Begin with the root request triad and root relation row exposure, \autoref{thm:quotient-soundness-boundary-root-request-triad} and \autoref{thm:quotient-soundness-boundary-root-relation-row-exposure}. They make the source relation rows $E$ visible at the root boundary before any consumer reads a surviving transport.
+
+Next apply root transport verdict order, \autoref{thm:quotient-soundness-boundary-root-transport-verdict-order}. The refusal verdict is fixed before the positive route is consumed, so the later $\psame$ transport cannot create its own source relation.
+
+Finally use psame transport exhaustion and non-escape, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion} and \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The only surviving transport route is the displayed $E,T,H,C,P,N$ route, and the excluded quotient primitives have no source-admission coordinate.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary root representative refusal totality]
+\label{thm:quotient-soundness-boundary-root-representative-refusal-totality}
+Every root request for a representative, section, equality token, erased derivation, host quotient witness, or $\mathsf{Quot.sound}$ dependency is exhausted by the representative-request row $A$ and refusal-verdict row $V$ before any positive transport route is consumed. After $A,V$ are read, the only admitted consumer route is the classifier-respecting $\psame$ route through $E,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the root request triad, \autoref{thm:quotient-soundness-boundary-root-request-triad}. It sends representative-style demands to the visible request and refusal rows $A,V$ while keeping the relation source row $E$ explicit.
+
+Apply root transport verdict order and the representative request frontier, \autoref{thm:quotient-soundness-boundary-root-transport-verdict-order} and \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. Together they place the refusal verdict before the transport row is available to a downstream consumer.
+
+Then use psame transport exhaustion and non-escape, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion} and \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. They leave only the classifier-respecting route $E,T,H,C,P,N$ after the refused request has been exhausted by $A,V$.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary root Quot.sound exclusion]
+\label{thm:quotient-soundness-boundary-root-quotsound-exclusion}
+The combined root packet
+$$
+E,A,T,V,H,C,P,N
+$$
+has no coordinate for $\mathsf{Quot.sound}$, quotient eliminators, host class selectors, representative recovery, erased derivation recovery, or hidden section choices. Relation exposure is recorded by $E$, representative-style refusal is recorded by $A,V$, and the only positive transport route is the displayed $\psame$ route $E,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First combine the root source and refusal boundaries. By \autoref{thm:quotient-soundness-boundary-root-psame-source-admission} and \autoref{thm:quotient-soundness-boundary-root-representative-refusal-totality}, the packet exposes $E$ before transport and exhausts representative-style requests by $A,V$.
+
+Next apply the root psame route totality, \autoref{thm:quotient-soundness-boundary-root-psame-route-totality}. Every surviving root operation after refusal factors through the displayed $E,T,H,C,P,N$ route.
+
+Finally use psame transport exhaustion and kernel non-escape, \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion} and \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. The packet contains only the displayed source, refusal, transport, stability, continuation, provenance, and naming rows, so $\mathsf{Quot.sound}$ and the other quotient primitives are excluded from the public surface.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary refusal before transport]
 \label{thm:quotient-soundness-boundary-refusal-before-transport}
 In every accepted $\QuotientSoundnessBoundaryUp$ packet, the representative-request row $A$ and refusal-verdict row $V$ are read before the positive $\psame$ transport row $T$. Thus no surviving use of $T$ can retroactively supply a representative selector, erased derivation, quotient equality eliminator, host quotient recursion, or $\mathsf{Quot.sound}$ witness.
