@@ -128,3 +128,35 @@ $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. The case readback theorem \autoref{t
 
 The certificate side contributes no extra public row. The semantic certificate in \autoref{thm:bool-concrete-semantic-namecert} records the Bool carrier, classifier, and ledger discipline over the same history carrier. Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} states that the public surface does not expose a host proposition, decidable predicate, eliminator, or truth-table completeness row. Hence the boundary transports exactly the two constructor readback rows and their $\msame$ classifier comparison, retains only the semantic certificate ledger rows, and forgets the non-public rows listed above.
 \end{proof}
+
+\begin{lemma}[Bool public constructor target-source mirror boundary]
+\label{lem:bool-public-constructor-target-source-mirror-boundary}
+For the public Bool constructor surface of \autoref{def:bool-public-endpoint-constructors}, the target-facing constructor read and the source-facing carrier read are the same finite endpoint packet viewed in opposite directions. Concretely, a public target read through either displayed constructor row
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ or
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$ has a source mirror consisting exactly of the same mark $v:\BMark$, an endpoint history witness $e_v:\BHist$ satisfying
+$((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp)))$, the same readback observation row $\hsame(h,e_v)$, the same classifier comparison row $\msame(v,w)$ when another constructor read is compared through a mark $w:\BMark$ and endpoint history witness $e_w:\BHist$ satisfying
+$((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp)))$, and the same semantic certificate rows
+$$
+\mathsf{BoolHistoryCarrier},\quad
+\mathsf{BoolHistoryClassifier},\quad
+\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),\quad
+\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
+$$
+Thus the source side is obtained by renaming the displayed target endpoint packet back to its carrier readback packet. The boundary is negative for any larger mirror: there is no separate source-side constructor carrier, result row, termination row, host proposition row, decidable predicate row, eliminator row, truth-table-completeness row, payload carrier row, payload classifier row, or option-packaging row.
+\end{lemma}
+\begin{proof}
+Start with a public target read. By \autoref{def:bool-public-endpoint-constructors}, the only target constructor rows are
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. The case readback theorem \autoref{thm:bool-public-constructor-case-readback} therefore supplies a displayed mark $v:\BMark$ and an endpoint history witness $e_v:\BHist$ with
+$((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp)))$, and identifies the read with the endpoint readback row $\hsame(h,e_v)$. Its agreement clause, together with \autoref{thm:bool-endpoint-readback-determinism} and \autoref{thm:bool-endpoint-bridge-exactness}, says that any comparison between two such reads is exactly the mark comparison $\msame(v,w)$.
+
+The source mirror is forced by endpoint coverage. The reverse direction of \autoref{thm:bool-history-carrier-endpoint-coverage} repacks the readback row $\hsame(h,e_v)$, for an endpoint witness $e_v$ satisfying
+$((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp)))$, as the source carrier row $\mathsf{BoolHistoryCarrier}(h)$, while the forward direction says that every source carrier row used by this Bool surface is covered by such an endpoint readback. Hence the target row and source row do not form two independent constructors; they are the same displayed history endpoint read as target endpoint or as source carrier.
+
+For compared reads $h,k$, \autoref{thm:bool-history-classifier-mark-readback-exactness} identifies the source-side classifier row $\mathsf{BoolHistoryClassifier}(h,k)$ with the two endpoint readbacks through marks $v,w$, endpoint history witnesses $e_v,e_w:\BHist$ satisfying
+$((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp)))$ and
+$((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp)))$, and the same comparison row $\msame(v,w)$. The source-qualified form in \autoref{thm:bool-source-qualified-classifier-readback-exactness} adds only the already displayed source qualification of those two finite marks, so it does not introduce a further target or source coordinate.
+
+The certificate rows are exactly the rows already named by \autoref{def:bool-history-semantic-fields}, \autoref{thm:concrete-bool-namecert}, and \autoref{thm:bool-concrete-semantic-namecert}: source, pattern, and ledger are all read as $\mathsf{BoolHistoryCarrier}$, and the classifier is $\mathsf{BoolHistoryClassifier}$. Finally, \autoref{thm:bool-public-surface-no-hidden-leakage}, \autoref{lem:bool-public-endpoint-forgetful-projection-boundary}, and \autoref{lem:bool-public-endpoint-constructor-classifier-alignment-boundary} rule out the larger mirror coordinates listed in the statement. The target-source mirror therefore closes exactly at the finite endpoint packet and its Bool semantic certificate rows.
+\end{proof}
