@@ -26,7 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier accepts a local observer time step only as the displayed Hist source, distinction tag, Cont step, transport row, no-global-clock ledger, package provenance, and local naming row together.
 \end{definition}
-\leanchecked{BEDC.Derived.ObserverTimeStepUp.TasteGate.ObserverTimeStepTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.ObserverTimeStepUp.ObserverTimeStepUp}
 
 \begin{theorem}[Observer time-step NameCert obligations]
 \label{thm:observer-time-step-namecert-obligations}
@@ -56,7 +56,7 @@ The Cont row $C$ is the only route from the source row $H$ and distinction tag $
 The refusal ledger $L$ excludes the external clock and synchronized-frame alternatives, while $R,P,N$ only transport, package, and name the same displayed rows. Hence every accepted consumer remains inside the finite route $H,D,C,R,L,P,N$.
 \end{proof}
 
-The later Lean namespace \texttt{BEDC.Derived.ObserverTimeStepUp.TasteGate} must provide explicit $\mathsf{Nontrivial}\ \ObserverTimeStepUp$ and $\mathsf{FieldFaithful}\ \ObserverTimeStepUp$ instances over the displayed source-Hist, distinction-tag, Cont-step, $\hsame$-transport, no-global-clock, $\Pkg$, and $\NameCert$ fields.
+The Lean namespace \texttt{BEDC.Derived.ObserverTimeStepUp.TasteGate} provides explicit $\mathsf{Nontrivial}\ \ObserverTimeStepUp$ and $\mathsf{FieldFaithful}\ \ObserverTimeStepUp$ instances over the displayed source-Hist, distinction-tag, Cont-step, $\hsame$-transport, no-global-clock, $\Pkg$, and $\NameCert$ fields.
 
 \closureat{ObserverTimeStepUp}{seedStr}
 
