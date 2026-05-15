@@ -246,3 +246,19 @@ Now attach the decompiler boundary. The KernelMorphism decompiler boundary, \aut
 
 Finally use target endpoint determinacy, route composition exactness, and ledger cut elimination, \autoref{thm:certificate-compiler-target-endpoint-determinacy}, \autoref{thm:certificate-compiler-route-composition-exactness}, and \autoref{thm:certificate-compiler-ledger-cut-elimination}. These identify all endpoint and composite reads after the listed rows are fixed, so every downstream morphism or decompiler route is determined by $S,G,E,H,C,P,N$ plus the relevant composite rows, with no remaining semantic coordinate available.
 \end{proof}
+
+\begin{theorem}[CertificateCompiler endpoint KernelMorphism roundtrip]
+\label{thm:certificate-compiler-endpoint-kernelmorphism-roundtrip}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted finite $\CertificateCompilerUp$ endpoint route. If the source and target endpoint reads agree under \autoref{thm:certificate-compiler-target-endpoint-determinacy}, then the route factors through the $\KernelMorphismUp$ graph-admission and classifier-lift scope and returns through the $\DecompilerRightInverseUp$ boundary on the same displayed compiler rows.
+
+The roundtrip uses only $S,G,E,H,C,P,N$, the relevant identity, binary, or triple composite rows, the $\KernelMorphismUp$ graph-admission and classifier-lift rows, and the $\DecompilerRightInverseUp$ inverse-boundary rows. It adds no hidden host compiler semantics, optimiser correctness theorem, decompiler correctness theorem, ambient program equality, total decompiler, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+First apply target endpoint determinacy, \autoref{thm:certificate-compiler-target-endpoint-determinacy}. Agreement of the source and target endpoint reads fixes the displayed finite endpoint route through $S,G,E,H,C,P,N$.
+
+Next pass through the morphism surface using \autoref{thm:certificate-compiler-kernelmorphism-route-scope}. A downstream $\KernelMorphismUp$ consumer can read only the graph-admission and classifier-lift rows attached to the same compiler packet, so the route has no host compiler coordinate at the morphism stage.
+
+Now return through the decompiler side by \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}. The decompiler-facing consumer remains on the displayed compiler packet together with the inverse-boundary rows, rather than importing host decompiler behavior or total decompiler data.
+
+Finally compose the route and remove intermediate package cuts. The composition exactness theorem, \autoref{thm:certificate-compiler-route-composition-exactness}, keeps identity, binary, and triple composites on the displayed rows, while ledger cut elimination, \autoref{thm:certificate-compiler-ledger-cut-elimination}, permits only cuts preserving those endpoint and composite rows. Thus the endpoint, KernelMorphism, and decompiler legs form a finite roundtrip with no hidden host compiler semantics.
+\end{proof}
