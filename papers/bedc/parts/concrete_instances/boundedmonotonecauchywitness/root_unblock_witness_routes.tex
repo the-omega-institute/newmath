@@ -303,3 +303,23 @@ If the root route consumes a grid packet, use grid budget precedence. The rows $
 
 Finally apply the synchronizer handoff and route tightening. They exhaust the Real-seal, synchronizer, and observation-budget consumers by the displayed witness and grid rows, so none of the excluded selected-limit, host-equality, completeness, compactness, trichotomy, choice, or hidden-selector data can be imported.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness four-face budget correspondence]
+\label{thm:bounded-monotone-cauchy-witness-four-face-budget-correspondence}
+Every accepted bounded monotone Cauchy witness consumed by the Real-seal route factors through exactly the four licensed L10 faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, the $\StreamNameUp$ face is the finite observation schedule $\sigma$, the $\DyadicRatCoreUp$ face is the dyadic tolerance and upper-bound ledger $\lambda$ together with the grid selector budget when a $\RealCauchyWitnessGridUp$ packet is consumed, the $\RegSeqRatUp$ face is the regular rational readback row $F$ together with the grid readback rows, and the $\RealUp$ face is the seal row $Q$.
+
+The correspondence is exhausted by displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It has no coordinate for quotient streams, selected host limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First confine the consumer to the witness packet. By \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-monotone-bound-route}, every root-facing read stays inside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, with the bounded source and regular rational readback before the scheduled tail service.
+
+Next identify the licensed faces. Theorems~\ref{thm:bounded-monotone-cauchy-witness-root-tail-window-totality} and~\ref{thm:bounded-monotone-cauchy-witness-schedule-factorization} make $\sigma,\mu,\lambda$ unavoidable before a seal read and read those rows as finite $\BHist$ data transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$.
+
+Now attach the budget side. The grid-budget theorem \autoref{thm:bounded-monotone-cauchy-witness-grid-budget-precedes-seal} places the selector budget, witness ledger, completion-seal classifier, and tail envelope before $Q$ whenever a grid packet is present, and \autoref{thm:bounded-monotone-cauchy-witness-route-tightening} keeps those rows on the same Real-facing chain rather than on a parallel completion route.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-root-synchronizer-handoff} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-consumer-exhaustion}. These keep observation-budget and seal-budget consumers on the same finite surface and list all rows available to the downstream consumer. Therefore the four faces above are the entire budget correspondence, and the excluded quotient-stream, selected-limit, choice, and ambient-completeness data have no displayed carrier row from which to be read.
+\end{proof}
