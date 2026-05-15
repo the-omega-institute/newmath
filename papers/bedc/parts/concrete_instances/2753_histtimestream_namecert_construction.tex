@@ -291,6 +291,42 @@ Now transport the prefix componentwise. Theorem~\ref{thm:histtimestream-hsame-pr
 Finally apply local clock refusal. Theorem~\ref{thm:histtimestream-local-clock-refusal} rejects global-clock, rate, and nonlocal time reads unless they have already passed through and preserved the displayed packet rows. Thus the four cited theorems assemble one consumer-facing exhaustion route.
 \end{proof}
 
+\begin{theorem}[HistTimeStream start-ledger totality]
+\label{thm:histtimestream-start-ledger-totality}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. The local stream starts at $\emp$, reaches only the displayed source row $H$ through the finite schedule $T$ and start ledger $S$, and reads no external time index.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It exposes $H,T,S,C,L,P,N$ as the whole packet and places the start-at-empty ledger inside $S$.
+
+Apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. The displayed prefix runs from $\emp$ to the source $\Hist$ row $H$ through the finite schedule and replay rows, so no outside time index is available along the route.
+
+Finally use the observer-locality bridge route, \autoref{thm:histtimestream-observer-locality-bridge-route}. Downstream observer-history consumers receive the same local stream only after the displayed rows have been read, which preserves start-ledger totality for $Q$.
+\end{proof}
+
+\begin{theorem}[HistTimeStream Cont replay determinacy]
+\label{thm:histtimestream-cont-replay-determinacy}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, the schedule row $T$ and replay row $C$ determine the local prefix route up to componentwise $\hsame$. Under componentwise $\hsame$ transport from $Q$ to $Q'$, the replayed prefix remains the displayed route from $\emp$ to the transported source row and cannot branch through a hidden clock row.
+\end{theorem}
+\begin{proof}
+Begin with Cont prefix exactness. Theorem~\ref{thm:histtimestream-cont-prefix-exactness} makes the local prefix a route determined by the displayed schedule, start ledger, replay row, locality row, provenance row, and local name.
+
+Next apply hsame prefix transport, \autoref{thm:histtimestream-hsame-prefix-transport}. Componentwise $\hsame$ carries the displayed prefix from $Q$ to $Q'$ while preserving the local replay route.
+
+Finally use the observer-locality bridge route. Since downstream observer-history and observer-locality consumers read only the transported local stream, the schedule and replay rows determine the consumer-facing prefix without adding an inter-Hist clock or hidden global time coordinate.
+\end{proof}
+
+\begin{theorem}[HistTimeStream no-global-clock nonescape]
+\label{thm:histtimestream-no-global-clock-nonescape}
+Every observer-history consumer of an accepted $\HistTimeStreamUp$ packet may read the displayed local stream $H,T,S,C,L,P,N$, but it cannot obtain inter-Hist synchronization, ambient clock equality, temporal-rate data, or a host time index from that packet.
+\end{theorem}
+\begin{proof}
+First expose the local stream through the carrier definition and Cont prefix exactness. These identify the observer-facing data as the finite prefix from $\emp$ to $H$ with schedule, replay, locality, provenance, and naming rows.
+
+Now transport along componentwise $\hsame$ using \autoref{thm:histtimestream-hsame-prefix-transport}. The transported prefix remains local and does not create a host-indexed time coordinate or inter-Hist clock.
+
+Finally apply the observer-locality bridge route, \autoref{thm:histtimestream-observer-locality-bridge-route}. The sibling observer-history surfaces consume this packet only as a local stream, so ambient clock equality, temporal-rate data, and global synchronization remain outside the export.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
