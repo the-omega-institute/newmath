@@ -376,6 +376,78 @@ theorem LocatedIntervalPacket_endpoint_cell_seal_factorization [AskSetup] [Packa
     ⟨endpointUnary, cellUnary, readbackUnary, sealUnary, endpointRoute, endpointCellRoute,
       readbackRoute, routesRoute, sealRoute, endpointPkg, cellPkg, readbackPkg, sealPkg⟩
 
+theorem LocatedIntervalPacket_rational_dyadic_cell_chain [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint endpointPrime cell : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont rationalCells dyadicRefinements endpointPrime ->
+        Cont endpointPrime streamWindows cell ->
+          PkgSig bundle endpointPrime pkg ->
+            PkgSig bundle cell pkg ->
+              UnaryHistory rationalCells ∧ UnaryHistory dyadicRefinements ∧
+                UnaryHistory endpointPrime ∧ UnaryHistory cell ∧
+                  Cont rationalCells dyadicRefinements endpointPrime ∧
+                    Cont endpointPrime streamWindows cell ∧ hsame endpoint endpointPrime ∧
+                      PkgSig bundle endpointPrime pkg ∧ PkgSig bundle cell pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory LocatedIntervalPacket
+  intro packet endpointPrimeRoute cellRoute endpointPrimePkg cellPkg
+  obtain ⟨_lowerUnary, _upperUnary, rationalCellsUnary, dyadicUnary, streamWindowsUnary,
+    _readbacksUnary, _sealsUnary, _nameCertUnary, _rationalCellsRoute, endpointRoute,
+    _transportRoute, _routesRoute, _provenanceRoute, _endpointPkg⟩ := packet
+  have endpointPrimeUnary : UnaryHistory endpointPrime :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointPrimeRoute
+  have cellUnary : UnaryHistory cell :=
+    unary_cont_closed endpointPrimeUnary streamWindowsUnary cellRoute
+  have sameEndpoint : hsame endpoint endpointPrime :=
+    cont_respects_hsame (hsame_refl rationalCells) (hsame_refl dyadicRefinements)
+      endpointRoute endpointPrimeRoute
+  exact
+    ⟨rationalCellsUnary, dyadicUnary, endpointPrimeUnary, cellUnary, endpointPrimeRoute,
+      cellRoute, sameEndpoint, endpointPrimePkg, cellPkg⟩
+
+theorem LocatedIntervalPacket_dyadic_real_seal_handoff [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint endpointPrime readback sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont rationalCells dyadicRefinements endpointPrime ->
+        Cont streamWindows readbacks readback ->
+          Cont seals routes sealRead ->
+            PkgSig bundle endpointPrime pkg ->
+              PkgSig bundle readback pkg ->
+                PkgSig bundle sealRead pkg ->
+                  UnaryHistory endpointPrime ∧ UnaryHistory readback ∧
+                    UnaryHistory sealRead ∧ Cont rationalCells dyadicRefinements endpointPrime ∧
+                      Cont streamWindows readbacks readback ∧ Cont transport seals routes ∧
+                        Cont seals routes sealRead ∧ hsame endpoint endpointPrime ∧
+                          PkgSig bundle endpointPrime pkg ∧ PkgSig bundle readback pkg ∧
+                            PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory LocatedIntervalPacket
+  intro packet endpointPrimeRoute readbackRoute sealReadRoute endpointPrimePkg readbackPkg
+    sealReadPkg
+  obtain ⟨_lowerUnary, _upperUnary, rationalCellsUnary, dyadicUnary, streamWindowsUnary,
+    readbacksUnary, sealsUnary, _nameCertUnary, _rationalCellsRoute, endpointRoute,
+    transportRoute, routesRoute, _provenanceRoute, _endpointPkg⟩ := packet
+  have endpointPrimeUnary : UnaryHistory endpointPrime :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointPrimeRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed streamWindowsUnary readbacksUnary readbackRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed streamWindowsUnary readbacksUnary transportRoute
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed transportUnary sealsUnary routesRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed sealsUnary routesUnary sealReadRoute
+  have sameEndpoint : hsame endpoint endpointPrime :=
+    cont_respects_hsame (hsame_refl rationalCells) (hsame_refl dyadicRefinements)
+      endpointRoute endpointPrimeRoute
+  exact
+    ⟨endpointPrimeUnary, readbackUnary, sealReadUnary, endpointPrimeRoute, readbackRoute,
+      routesRoute, sealReadRoute, sameEndpoint, endpointPrimePkg, readbackPkg, sealReadPkg⟩
+
 theorem LocatedIntervalPacket_kernel_scope_package [AskSetup] [PackageSetup]
     {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
       provenance nameCert endpoint lower' upper' rationalCells' endpoint' readback
