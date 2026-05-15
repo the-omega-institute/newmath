@@ -331,6 +331,7 @@ schedule, tolerance, transport, continuation, provenance, and local naming
 surface of $U$. The readback supplies no quotient stream, selected limit, host
 equality, countable choice, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_root\_threshold\_synchronizer\_readback}
 \begin{proof}
 Begin with
 \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy}.
@@ -538,4 +539,62 @@ Next apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-e
 Now use \autoref{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback} and \autoref{thm:uniform-cauchy-criterion-selector-seal-exact-pullback}. The diagonal selector route and the selector-seal route pull back to the same displayed selector surface, and exactness preserves the schedule, tolerance ledger, terminal seal, componentwise $\hsame$ rows, $\Cont$ route, $\Pkg$ row, and local $\NameCert$ row.
 
 Finally return to the root threshold synchronizer. \autoref{thm:uniform-cauchy-criterion-root-threshold-synchronizer-readback} supplies the root readback for the displayed threshold window, and \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock} makes that readback deterministic on the shared finite tail. Since the outgoing selector read and the returning root read are forced through the same finite rows, they expose the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row under the chapter classifier. The excluded host-level and completeness coordinates remain outside the finite packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion common-window diagonal-selector coherence]
+\label{thm:uniform-cauchy-criterion-common-window-diagonal-selector-coherence}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose its root threshold seal factors through a $\DiagonalTailSelectorUp$ source schedule and through a $\CauchyModulusRefinementUp$ shared-window route, with the displayed common window, diagonal selector row, and refined modulus row all read from the same finite route of $U$.
+
+Then the common window, the diagonal selector row, and the refined modulus row determine the same $\RealUp$ seal budget. The resulting consumer surface exports no additional selector row, no second tolerance ledger, no host-level selected limit, no quotient-stream equality, no countable-choice row, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:uniform-cauchy-criterion-common-window-exhaustion}. The accepted packet exposes the common window, readback, tolerance ledger, terminal seal, componentwise $\hsame$ route, $\Cont$ route, $\Pkg$ row, and local $\NameCert$ row as one finite surface.
+
+Next use \autoref{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback}. The diagonal selector route can reach the terminal seal only through the displayed selector pullback surface, so it cannot detach a selector from the common window.
+
+Now apply the $\CauchyModulusRefinementUp$ shared-window route, using \autoref{thm:cauchy-modulus-refinement-bridged-route-determinacy} and \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape}. The refined modulus row keeps the selected window, tolerance readback, and $\RealUp$ seal on the same public handoff route.
+
+Finally invoke \autoref{thm:uniform-cauchy-criterion-root-threshold-seal-roundtrip}. The root threshold route returns to the same UniformCauchyCriterion root rows after the selector-seal handoff. Hence the common window, diagonal selector row, and refined modulus row determine one $\RealUp$ seal budget, while all detached selector, choice, quotient, selected-limit, and ambient-completeness coordinates remain outside the exported packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion current Phase Real exit consumer exhaustion]
+\label{thm:uniform-cauchy-criterion-phase-real-exit-consumer-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ root threshold packet. Every current Phase Real and Completion consumer route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ factors through the finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The exported surface is the root budget package, the finite-window Real seal extraction, the selector-seal exact pullback, and the Real completion finite-budget envelope displayed in this chapter. It exports no quotient stream, selected host limit, countable choice, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First assemble the root budget package. By \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the accepted packet exposes only the finite schedule, tolerance ledger, transport, continuation, provenance, and local naming rows $I,W,M,Q,T,H,C,P,N$ before any Real-facing seal read occurs.
+
+Next apply finite-window Real seal extraction and the StreamName--RegSeqRat window lock. \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction} and \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock} place the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal row on the same displayed route ending at $E$.
+
+Now use the selector-seal exact pullback. \autoref{thm:uniform-cauchy-criterion-selector-seal-exact-pullback} keeps the selector-facing read on the same schedule, tolerance ledger, terminal seal, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope} and the roundtrip theorem above. Every Phase Real and Completion consumer is exhausted by the finite route through $I,W,M,Q,T,E,H,C,P,N$ and the named sibling selector-seal packet, leaving no coordinate for quotient streams, selected host limits, countable choice, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion StreamName RegSeqRat seal synchronization]
+\label{thm:uniform-cauchy-criterion-regseqrat-streamname-seal-synchronization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ root threshold packet. The $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal row used by any current Phase Real and Completion consumer are synchronized by the same finite route $I,W,M,Q,T,E,H,C,P,N$. No consumer can replace one of these rows by a second stream source, second regular readback, selected host limit, quotient-stream equality, host equality, countable choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock}. It identifies the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RealUp$ seal row as one completion-facing window-lock surface.
+
+Next use \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock}. The root synchronizer ties that window-lock surface to the shared finite tail and prevents a second stream or readback source from entering the route.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-root-threshold-seal-roundtrip}. The outgoing selector route and returning root route display the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row under the $\UniformCauchyCriterionUp$ classifier. The synchronization row used by \autoref{thm:uniform-cauchy-criterion-phase-real-exit-consumer-exhaustion} is therefore exactly the displayed finite route $I,W,M,Q,T,E,H,C,P,N$.
 \end{proof}

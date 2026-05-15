@@ -106,6 +106,52 @@ Apply \autoref{thm:finite-reflection-tuple-namecert-obligations}. The local cert
 
 It remains to rule out extra image and request data. The carrier definition excludes a second tuple image and a detached request, while \autoref{thm:finite-reflection-tuple-image-readback-exactness} and \autoref{thm:finite-reflection-tuple-request-exhaustion} force public image reads and bridge-facing requests through the displayed $I$, $R$, and $Q$ rows. Componentwise transport therefore preserves exactly the named rows.
 \end{proof}
+
+\begin{theorem}[FiniteReflectionTuple public projection route]
+\label{thm:finite-reflection-tuple-public-projection-route}
+For every accepted $\FiniteReflectionTupleUp$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+every public projection from $F$ factors through the displayed image/readback pair $I,R$. Candidate identity, stability input, admission input, compiler-witness input, transport, replay, provenance, request, and local naming are first exposed as fields of the finite image $I$ and then recovered through the readback row $R$.
+
+There is no public projection from $F$ that bypasses $I,R$, reads a second image, or recovers a component from host-side reflection state.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:finite-reflection-tuple-carrier}. The tuple has exactly one displayed image row $I$ and exactly one readback row $R$.
+
+Apply \autoref{thm:finite-reflection-tuple-image-readback-exactness}. It forces public field reads of the candidate, consumed TasteGate packets, replay, provenance, request, and local naming through the same image/readback pair.
+
+Finally apply \autoref{thm:finite-reflection-tuple-componentwise-transport}. Componentwise $\hsame$ and $\NameCert$ transport preserve exactly the displayed rows and do not introduce a second image or detached request. Hence every public projection factors through $I,R$.
+\end{proof}
+
+\begin{theorem}[FiniteReflectionTuple dependency ledger totality]
+\label{thm:finite-reflection-tuple-dependency-ledger-totality}
+For every accepted $\FiniteReflectionTupleUp$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+the dependency ledger is exactly the three sibling TasteGate rows $\TasteGateStabilityUp$, $\TasteGateAdmissionUp$, and $\TasteGateCompilerWitnessUp$, together with the BEDC support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ displayed by $H,C,P,N$. No hidden dependency, host approval row, oracle taste row, or unlisted compiler theorem is part of the ledger.
+\end{theorem}
+\begin{proof}
+Read the carrier row by row. The fields $S$, $A$, and $W$ are precisely the consumed TasteGateStability, TasteGateAdmission, and TasteGateCompilerWitness packets, while $H,C,P,N$ record the transport, replay, provenance, and naming support.
+
+Use \autoref{thm:finite-reflection-tuple-namecert-obligations}. It lists the local certificate surface and names no dependency other than the three sibling packets and the displayed BEDC rows.
+
+The request exhaustion theorem, \autoref{thm:finite-reflection-tuple-request-exhaustion}, keeps the bridge-facing request attached to the same $I,R,H,C,P,N$ packet. Thus the ledger is total for this public route and has no projection point for a hidden dependency.
+\end{proof}
+
+\begin{theorem}[FiniteReflectionTuple audit-result nonescape]
+\label{thm:finite-reflection-tuple-audit-result-nonescape}
+An audit-result read of an accepted $\FiniteReflectionTupleUp$ packet can inspect only the displayed tuple image, readback, componentwise transport, replay, provenance, request, local naming, and the three listed TasteGate sibling inputs. It cannot import hidden prompt state, oracle taste, host approval, a detached reflection request, a second image/readback surface, or an unlisted compiler theorem.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finite-reflection-tuple-public-projection-route}. Any public read of the tuple, including an audit-result read, factors through $I,R$.
+
+Next apply \autoref{thm:finite-reflection-tuple-dependency-ledger-totality}. The only dependency inputs available to that read are the three sibling TasteGate rows and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally use \autoref{thm:finite-reflection-tuple-componentwise-transport} and \autoref{thm:finite-reflection-tuple-request-exhaustion}. They keep transport and bridge-facing requests inside the same finite packet. Since the excluded objects have no carrier coordinate, no image row, no readback row, and no request row, an audit-result read cannot escape to them.
+\end{proof}
 \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment}
 
 \falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
@@ -118,7 +164,7 @@ Lean development for this route must provide Nontrivial $\FiniteReflectionTupleU
 
 \begin{closurestatus}{\FiniteReflectionTupleUp}
   \constructivestory{A $\FiniteReflectionTupleUp$ packet is generated from a candidate chapter identity row, consumed $\TasteGateStabilityUp$, $\TasteGateAdmissionUp$, and $\TasteGateCompilerWitnessUp$ packets, a displayed tuple image, a readback row, componentwise $\hsame$ and $\NameCert$ transports, continuation routes, provenance, a reflection-request row, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.taste\_gate}
   \scopeclosed{\autoref{def:finite-reflection-tuple-carrier}, \autoref{thm:finite-reflection-tuple-namecert-obligations}, \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}, \autoref{thm:finite-reflection-tuple-image-readback-exactness}, \autoref{thm:finite-reflection-tuple-request-exhaustion}, \autoref{thm:finite-reflection-tuple-componentwise-transport}, the falsifiable prediction, and the independence witness bind the carrier, tuple image, readback, componentwise transports, reflection request, and the three TasteGate sibling dependencies.}
   \formalstatus{\unformalizedV}

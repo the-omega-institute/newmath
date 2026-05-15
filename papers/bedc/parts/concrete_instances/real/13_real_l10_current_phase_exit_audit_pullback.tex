@@ -1,0 +1,52 @@
+\section{Real L10 current phase exit audit pullback}
+\label{sec:real-l10-current-phase-exit-audit-pullback}
+
+\begin{theorem}[Real L10 current phase exit audit pullback]
+\label{thm:real-l10-current-phase-exit-audit-pullback}
+For any accepted current Phase Real and Completion exit read through the four
+faces
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+of the $\RealUp$ L10 dependency lattice, the audit boundary is exactly the
+product of the four local face records. The $\DyadicRatCoreUp$ and
+$\RegSeqRatUp$ faces contribute their $\axiomCleanV$ BEDC-side finite-route
+records; the $\StreamNameUp$ and $\RealUp$ faces contribute their
+$\bridgeCheckedV$ records.
+
+The exit packet contributes no fifth formal token, no aggregate bridge, no
+$\RealUp$ completeness claim, no quotient stream, no selected limit, and no
+metric-completeness datum. Its only admissible audit read is the displayed
+four-face product, with each status entry imported by reference from the
+corresponding local closure record.
+\end{theorem}
+\begin{proof}
+The four faces are the faces named by
+\autoref{def:real-l10-dependency-lattice}. Apply
+\autoref{thm:real-l10-source-route-nonescape} and
+\autoref{thm:real-l10-dependency-lattice-interface-totality} to confine every
+accepted current Phase Real and Completion interface read to the displayed
+DyadicRatCore, StreamName, RegSeqRat, and local Real rows.
+
+Next apply \autoref{thm:real-l10-four-face-exactness}. It identifies
+acceptance with the finite packet over exactly those four faces, carried only
+by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+coordinates. The StreamName exit correspondence,
+\autoref{thm:real-l10-streamname-exit-route-correspondence}, names the same
+packet as the current Phase Real and Completion exit route.
+
+It remains to read the audit status. The DyadicRatCore closure record reports
+$\matureClosure$ with $\axiomCleanV$ formal status; the StreamName closure
+record reports $\matureClosure$ with $\bridgeCheckedV$ formal status; the
+RegSeqRat closure record reports $\matureClosure$ with $\axiomCleanV$ formal
+status; and the RealUp closure record reports $\matureClosure$ with
+$\bridgeCheckedV$ formal status. By the two-axis convention of
+\autoref{sec:roadmap-closure-and-verification-axes}, these entries are read as
+local reports and are not fused into a new formal token.
+
+Therefore the exit audit is the product of the four cited local records. Since
+the exactness and correspondence theorems export no fifth face, no quotient
+stream, no selected limit, no Real completeness row, no metric-completeness
+row, and no aggregate bridge coordinate, the exit packet cannot contribute any
+additional audit datum.
+\end{proof}

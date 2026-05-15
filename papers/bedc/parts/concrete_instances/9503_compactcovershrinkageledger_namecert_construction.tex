@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\CompactCoverShrinkageLedgerUp$}
+\label{ch:concrete-instances-compact-cover-shrinkage-ledger-namecert}
+\origin{ai}
+
+The $\CompactCoverShrinkageLedgerUp$ packet isolates the finite cover-shrinkage boundary inside \autoref{ch:visions-compact-uniform-continuity}. It sits after the compact-net selector of \autoref{ch:concrete-instances-compactnetmodulusselector-namecert}, the finite lower-bound fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, and the metric and rational source rows of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-rat-namecert}; it feeds the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert} for continuous-map packets of \autoref{ch:concrete-instances-continuousmap-namecert}.
+
+\begin{definition}[Compact cover shrinkage ledger carrier]
+\label{def:compact-cover-shrinkage-ledger-carrier}
+A $\CompactCoverShrinkageLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,U,F,M,Q,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-net selector row, exposing the finite $\ProbeBundle$ of centers and the local pointwise-modulus rows selected from the compact source;
+\item $U$ is the $\UniformModulusUp$ consumer row, recording the tolerance history, the selected precision history, and the consumer packet that will read the uniform modulus;
+\item $F$ is the finite lower-bound fold row, obtained by primitive recursion over the displayed bundle and carrying the readback that the selected precision is below every shrinkage radius;
+\item $M$ is the metric row, displaying the source and target distance witnesses, symmetry, and triangle coordinates needed to move from local balls to a uniform estimate;
+\item $Q$ is the $\RatUp$ positivity and comparison row for the tolerance, shrinkage radii, half-radius comparisons, and finite-fold accumulator;
+\item $C$ is the cover-shrinkage route, binding the compact cover, pointwise modulus rows, half-radius shrinkage, and finite fold before any uniform-modulus read is accepted;
+\item $H$ records componentwise $\hsame$ transports for $K,U,F,M,Q,C,P,N$;
+\item $P$ is the $\Pkg$ provenance over compact-net selector, uniform-modulus consumer, finite-fold, metric, $\RatUp$, cover-shrinkage, transport, continuation, and naming rows;
+\item $N$ is the local $\NameCert_{\CompactCoverShrinkageLedgerUp}$ row.
+\end{enumerate}
+The packet has no coordinate for a direct pointwise-to-uniform selector, ambient compactness oracle, host-side minimum, quotient metric equality, or choice-based radius selection.
+\end{definition}
+
+\begin{theorem}[Compact cover shrinkage ledger NameCert obligations]
+\label{thm:compact-cover-shrinkage-ledger-namecert-obligations}
+For every accepted $\CompactCoverShrinkageLedgerUp$ packet
+$$
+L=(K,U,F,M,Q,C,H,P,N),
+$$
+the local $\NameCert_{\CompactCoverShrinkageLedgerUp}$ surface consists exactly of compact-net selector exposure through $K$, uniform-modulus consumer exposure through $U$, finite lower-bound fold readback through $F$, metric and $\RatUp$ comparison exposure through $M$ and $Q$, cover-shrinkage routing through $C$, componentwise transport through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-cover-shrinkage-ledger-carrier}. Its coordinates are exactly $K,U,F,M,Q,C,H,P,N$, with $K$ supplying the compact finite-net selector, $F$ supplying the fold readback, and $U$ naming the consumer precision row.
+
+The metric and rational rows $M$ and $Q$ are the only comparison surface. They provide source and target distance witnesses, half-radius comparisons, positivity, and fold comparisons before the shrinkage route can be read.
+
+The route row $C$ orders the handoff. It records that compact cover selection and pointwise-modulus shrinkage precede the finite lower-bound fold, and that the uniform-modulus consumer reads only after this fold has produced the displayed precision history.
+
+Finally $H,P,N$ transport, package, and name the same finite surface. Since the carrier has no coordinate for a direct selector, ambient compactness oracle, host minimum, quotient metric equality, or choice-based radius selection, no such object can be part of the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact cover shrinkage ledger uniform-modulus handoff]
+\label{thm:compact-cover-shrinkage-ledger-uniform-modulus-handoff}
+Every accepted $\CompactCoverShrinkageLedgerUp$ consumer that reads a $\UniformModulusUp$ precision row factors through the displayed compact-net selector $K$, cover-shrinkage route $C$, finite lower-bound fold $F$, metric row $M$, and $\RatUp$ positivity row $Q$. In particular, a consumer cannot pass directly from pointwise modulus rows to $\UniformModulusUp$ without the finite shrinkage ledger.
+\end{theorem}
+\begin{proof}
+Begin with the compact-net selector row $K$. It displays the finite $\ProbeBundle$ of centers and the pointwise-modulus rows used by the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}.
+
+Use the cover-shrinkage route $C$ to attach the half-radius rows to those centers. This route is the only coordinate that binds the compact cover, local pointwise modulus, and shrinkage comparison before a consumer can inspect a uniform precision.
+
+Run primitive recursion over the displayed $\ProbeBundle$ in $F$. At the empty boundary the packet carries the nonempty selector witness from $K$; at each successor step the $\RatUp$ row $Q$ compares the accumulator with the next shrinkage radius and keeps a certified lower-bound history.
+
+The metric row $M$ then supplies the source triangle, symmetry, and target triangle reads needed to turn the lower-bound history into the consumer estimate recorded in $U$. The structural rows $H,P,N$ only transport, package, and name this route, so they cannot introduce a direct pointwise-to-uniform handoff.
+\end{proof}
+
+\falsifiablePrediction{If the shrinkage ledger is atomic, every accepted uniform-modulus handoff factors through the displayed compact-net selector and finite lower-bound fold rows; a direct handoff from pointwise moduli to UniformModulusUp without those rows refutes the chapter.}
+
+\independenceWitness{Nearest siblings: compactnetmodulusselector, uniformmodulus, finitenetminimumfold, compactmoduluscover, subordinatemoduluscover. It is not bijective to any one sibling because it simultaneously records the cover-shrinkage route, the fold-readback row, and the consumer precision row; each sibling lacks at least one of those rows.}
+
+Lean follow-up for this surface must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/CompactCoverShrinkageLedgerUp/TasteGate.lean}.
