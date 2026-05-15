@@ -156,6 +156,7 @@ Now attach the Cauchy tail witness envelope. The selector handoff of \autoref{th
 
 Finally apply the Real-tail seal boundary and non-escape results of \autoref{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary} and \autoref{thm:cauchy-tail-witness-envelope-nonescape}. They force the envelope read to pass through $S,F,Q,A,R,H,C,P,N$ and exclude hidden tail oracles together with the same host, quotient, choice, and ambient-completeness bypasses.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_cauchy\_tail\_envelope\_factorization}
 
 \begin{theorem}[DiagonalLimitCompatibility CauchyModulusRefinement route]
 \label{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}
@@ -177,4 +178,30 @@ Next use the diagonal consumer boundary. By \autoref{thm:diagonal-limit-compatib
 Now pass the terminal route into the refinement packet. The source-window lock of \autoref{thm:cauchy-modulus-refinement-source-window-lock} forces the consumed route to expose $M_0,M_1,U,V$ before any selected-window or tolerance-readback row is available.
 
 Finally apply root window exhaustion and Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion} and \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. These results place the refinement consumer on $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and exclude quotient streams, selected host limits, hidden selectors, second meet rows, host real equality, choice data, ambient completeness coordinates, and detached completion witnesses.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility terminal budget readback]
+\label{thm:diagonal-limit-compatibility-terminal-budget-readback}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ consumer read, and suppose that this read is later consumed by either an accepted $\CauchyTailWitnessEnvelopeUp$ packet or an accepted $\CauchyModulusRefinementUp$ packet. Then the terminal read first factors through the same displayed diagonal budget prefix
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Only after this prefix may the route branch: the envelope case proceeds through
+$$
+S,F,Q,A,R,H,C,P,N,
+$$
+while the refinement case proceeds through
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The common readback exports no quotient stream equality, selected host limit, hidden tail oracle, hidden selector, host real equality, choice datum, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First build the common diagonal prefix. Apply \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary} to place the terminal $\RealUp$ or $\CompletionUp$ read behind the root budget, window, seal, transport, route, provenance, and local-name rows.
+
+Next close the prefix against escape. Use \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. These identify the reusable consumer-facing tuple as $R,T,S,D,W,Q,L,H,C,P,N$ and rule out quotient stream equality, selected host limits, host real equality, choice data, and ambient completeness before any downstream branch is inspected.
+
+Now split by the downstream consumer. If the read is consumed by $\CauchyTailWitnessEnvelopeUp$, apply \autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}; the remaining route is exactly $S,F,Q,A,R,H,C,P,N$, and hidden tail oracles are excluded.
+
+If the read is consumed by $\CauchyModulusRefinementUp$, apply \autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}; the remaining route is exactly $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, and hidden selectors are excluded. Thus both terminal branches share the same diagonal budget readback boundary before they diverge.
 \end{proof}
