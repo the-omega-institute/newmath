@@ -1,0 +1,45 @@
+\begin{theorem}[Critical-line witness root route exposure]
+\label{thm:critical-line-witness-root-route-exposure}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every accepted route that can feed a downstream zeta or $\mathsf{RH}$ consumer first exposes the critical-strip source, the zero-strip source and modulus row, the refusal ledger, the $\BHist$ carrier, the $\hsame$ transport row, the $\Cont$ replay row, the $\Pkg$ provenance row, and the local $\NameCert_{\CriticalLineWitnessUp}$ row. The route has no accepted read before the displayed source/modulus/refusal surface is present.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:critical-line-witness-carrier}. Its displayed rows are the source rows $Z,S$, the modulus and comparison rows $M,R,Q$, and the structural rows $H,C,P,N$.
+
+Apply the root source triad \autoref{thm:critical-line-witness-root-source-triad} and the zero-strip source totality row \autoref{thm:critical-line-witness-zero-strip-source-totality}. These rows expose the critical-strip and zero-strip source side as finite $\BHist$ data before any downstream read occurs.
+
+Next use \autoref{thm:critical-line-witness-root-source-modulus-admission} and \autoref{thm:critical-line-witness-source-modulus-refusal-totality}. They attach the zero-strip modulus and refusal ledger to the same displayed package, carried through $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
+
+Finally apply \autoref{thm:critical-line-witness-route-readback-exhaustion}. Every downstream zeta or $\mathsf{RH}$ readback is exhausted by this displayed package, so no accepted route can bypass the exposed source/modulus/refusal surface.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip modulus refusal]
+\label{thm:critical-line-witness-zero-strip-modulus-refusal}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. If a zero-strip modulus read is absent from the displayed route or mismatches the displayed modulus row $M$, the read is routed to the visible refusal ledger of $W$. It is not reinterpreted as a hidden $\mathsf{RH}$ coordinate, an analytic-continuation coordinate, a host zero classifier, a quotient representative, or an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-root-route-exposure}. Any accepted route has already exposed the zero-strip source, the modulus row, the refusal ledger, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use the zero-strip source totality theorem \autoref{thm:critical-line-witness-zero-strip-source-totality}. It keeps the zero-strip source read inside the displayed finite route, rather than opening an analytic or host-level coordinate.
+
+Apply \autoref{thm:critical-line-witness-modulus-refusal-readback} and \autoref{thm:critical-line-witness-source-modulus-refusal-totality}. A modulus readback that is missing or mismatched has only the displayed refusal side available, because the carrier exports no second modulus or hidden analytic continuation coordinate.
+
+Finally use the downstream refusal package \autoref{thm:critical-line-witness-downstream-refusal-package}. The excluded $\mathsf{RH}$ proof, analytic-continuation certificate, host zero classifier, quotient representative, and ambient completeness witness are refusal-side requests, so the failed modulus read lands in the visible ledger.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream readback exhaustion]
+\label{thm:critical-line-witness-downstream-readback-exhaustion}
+Every downstream $\ZetaZerosUp$, $\CritStripUp$, zeta-boundary, or $\mathsf{RH}$ consumer of an accepted $\CriticalLineWitnessUp$ packet reads only the displayed source-modulus-refusal package
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer cannot draw source, modulus, refusal, transport, continuation, package, or local naming data from a hidden analytic-continuation route, a host equality, a global zero classifier, a quotient representative, a selected completion coordinate, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-root-route-exposure}. It places the critical-strip source, zero-strip source, modulus, refusal ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on the route before any downstream consumer reads the packet.
+
+Next use the root $\mathsf{RH}$ boundary row \autoref{thm:critical-line-witness-root-source-lock}. This keeps the downstream boundary attached to the finite source/modulus surface instead of replacing it by an $\mathsf{RH}$ truth value or host analytic datum.
+
+Apply \autoref{thm:critical-line-witness-zero-strip-modulus-refusal}. Missing or mismatched modulus requests are sent to the visible refusal ledger, so they cannot produce an alternate source for downstream zeta or $\mathsf{RH}$ consumers.
+
+Finally invoke \autoref{thm:critical-line-witness-route-readback-exhaustion} and \autoref{thm:critical-line-witness-source-modulus-refusal-totality}. These rows exhaust downstream readback at the displayed source-modulus-refusal package, leaving no hidden coordinate from which another consumer route can be read.
+\end{proof}
