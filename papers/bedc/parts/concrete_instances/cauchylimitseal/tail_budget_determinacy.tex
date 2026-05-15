@@ -1,0 +1,29 @@
+\begin{theorem}[CauchyLimitSeal tail-budget handoff determinacy]
+\label{thm:cauchy-limit-seal-tail-budget-handoff-determinacy}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. A $\CauchyLimitSealUp$ consumer that reads the displayed $\StreamNameUp$ window rows, $\RegSeqRatUp$ tail-budget rows, $\DyadicRatCoreUp$ ledger rows, and local seal rows $G,E,T,P,N$ receives a single displayed handoff route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Any two accepted reads with those same displayed rows agree up to the componentwise $\hsame$ transport and displayed $\Cont$ replay of $T$.
+
+The handoff route is only the finite L10 completion seal route. It does not identify quotient streams, selected host limits, host real equality, hidden selectors, independent completion endpoints, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Start with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It forces every sealed-limit read through the scheduled finite window before the local seal row is consumed.
+
+Next apply the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet}. The selector-facing read, observation-budget read, and completion-facing read meet on the same precision request, stream window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and naming rows.
+
+Use the regular-tail selector sibling link, \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}. It places compatible selector reads before the StreamName, DyadicRatCore, RegSeqRat, Real, and observation-budget rows and prevents the selector side from becoming a detached support surface.
+
+Finally apply the root L10 sibling route of \autoref{thm:cauchy-limit-seal-root-l10-sibling-route}. The route through StreamName, RegSeqRat, DyadicRatCore, and RealUp is therefore the single displayed handoff route, with all equality of accepted reads mediated only by $\hsame$ transport and $\Cont$ replay.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal StreamName non-escape]
+\label{thm:cauchy-limit-seal-streamname-nonescape}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, the StreamName-facing completion seal route cannot import quotient stream equality, selected limit choice, ambient $\RealUp$ completeness, or a second tail selector outside the displayed $S,X,D,G,E,T,P,N$ rows. Every public consumer receives only the scheduled $\StreamNameUp$ window, the $\RegSeqRatUp$ tail-budget handoff, the $\DyadicRatCoreUp$ ledger, the diagonal and Real seal rows, componentwise transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-cauchy-limit-seal-dependency}. The StreamName row is a required dependency of the sealed-limit read, so a consumer cannot reach $E$ before passing through the scheduled window row $S$.
+
+Apply the tail-budget consumer normal form of \autoref{thm:cauchy-limit-seal-tail-budget-consumer-normal-form}. It lists the exact budget, handoff, seal, transport, continuation, package, and naming rows available to a RealUp or completion consumer.
+
+Use the regular-tail selector non-escape theorem \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. It removes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness from selector-compatible seal reads.
+
+Finally use the root sibling route exactness of \autoref{thm:cauchy-limit-seal-root-sibling-route-exactness}. The accepted root route has no coordinate for a second tail selector or an independent completion endpoint, so the StreamName-facing consumer remains inside the displayed finite route.
+\end{proof}

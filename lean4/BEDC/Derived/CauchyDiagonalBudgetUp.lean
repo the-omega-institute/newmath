@@ -370,4 +370,54 @@ theorem CauchyDiagonalBudgetCarrier_seal_consumer_coverage [AskSetup] [PackageSe
     ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, routeUnary, sealUnary,
       finalUnary, routeStep, sealRoute, finalRoute, pPkg⟩
 
+theorem CauchyDiagonalBudgetCarrier_route_determinacy [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name route0 route1 dyadic0 dyadic1 compare0 compare1 seal0
+      seal1 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ->
+      Cont epsilon m route0 ->
+        Cont epsilon m route1 ->
+          Cont route0 d dyadic0 ->
+            Cont route1 d dyadic1 ->
+              Cont dyadic0 k compare0 ->
+                Cont dyadic1 k compare1 ->
+                  Cont compare0 s seal0 ->
+                    Cont compare1 s seal1 ->
+                      PkgSig bundle seal0 pkg ->
+                        PkgSig bundle seal1 pkg ->
+                          hsame route0 route1 ∧ hsame dyadic0 dyadic1 ∧
+                            hsame compare0 compare1 ∧ hsame seal0 seal1 ∧
+                              UnaryHistory seal0 ∧ UnaryHistory seal1 ∧
+                                PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig UnaryHistory
+  intro carrier routeStep0 routeStep1 routeDyadic0 routeDyadic1 dyadicCompare0
+    dyadicCompare1 compareSeal0 compareSeal1 _sealPkg0 _sealPkg1
+  obtain ⟨epsilonUnary, mUnary, _wUnary, dUnary, kUnary, sUnary, _hUnary, _cUnary,
+    _pUnary, _nameUnary, _epsilonMW, _wDK, _kSH, _hCP, _cPName, pPkg⟩ := carrier
+  have routeSame : hsame route0 route1 :=
+    cont_deterministic routeStep0 routeStep1
+  have routeUnary0 : UnaryHistory route0 :=
+    unary_cont_closed epsilonUnary mUnary routeStep0
+  have routeUnary1 : UnaryHistory route1 :=
+    unary_cont_closed epsilonUnary mUnary routeStep1
+  have dyadicSame : hsame dyadic0 dyadic1 :=
+    cont_respects_hsame routeSame (hsame_refl d) routeDyadic0 routeDyadic1
+  have dyadicUnary0 : UnaryHistory dyadic0 :=
+    unary_cont_closed routeUnary0 dUnary routeDyadic0
+  have dyadicUnary1 : UnaryHistory dyadic1 :=
+    unary_cont_closed routeUnary1 dUnary routeDyadic1
+  have compareSame : hsame compare0 compare1 :=
+    cont_respects_hsame dyadicSame (hsame_refl k) dyadicCompare0 dyadicCompare1
+  have compareUnary0 : UnaryHistory compare0 :=
+    unary_cont_closed dyadicUnary0 kUnary dyadicCompare0
+  have compareUnary1 : UnaryHistory compare1 :=
+    unary_cont_closed dyadicUnary1 kUnary dyadicCompare1
+  have sealSame : hsame seal0 seal1 :=
+    cont_respects_hsame compareSame (hsame_refl s) compareSeal0 compareSeal1
+  have sealUnary0 : UnaryHistory seal0 :=
+    unary_cont_closed compareUnary0 sUnary compareSeal0
+  have sealUnary1 : UnaryHistory seal1 :=
+    unary_cont_closed compareUnary1 sUnary compareSeal1
+  exact ⟨routeSame, dyadicSame, compareSame, sealSame, sealUnary0, sealUnary1, pPkg⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp
