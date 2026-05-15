@@ -214,4 +214,36 @@ theorem OnticStateTasteGate_single_carrier_alignment :
         exact onticStateToEventFlow_injective heq
       · rfl
 
+theorem onticStateTasteGate_single_carrier_alignment :
+    (∀ h : BHist, onticStateDecodeBHist (onticStateEncodeBHist h) = h) ∧
+      (∀ x : OnticStateUp,
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+        (∀ x y : OnticStateUp,
+          BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) ∧
+          BHistCarrier.toEventFlow
+              (OnticStateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty) ≠
+            BHistCarrier.toEventFlow
+              (OnticStateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact onticStateDecode_encode_bhist
+  constructor
+  · intro x
+    change onticStateFromEventFlow (onticStateToEventFlow x) = some x
+    exact onticState_round_trip x
+  constructor
+  · intro x y heq
+    change onticStateToEventFlow x = onticStateToEventFlow y at heq
+    exact onticStateToEventFlow_injective heq
+  · intro heq
+    change onticStateToEventFlow
+          (OnticStateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty) =
+        onticStateToEventFlow
+          (OnticStateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty) at heq
+    cases heq
+
 end BEDC.Derived.OnticStateUp
