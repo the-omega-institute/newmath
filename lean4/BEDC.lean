@@ -190,6 +190,8 @@ import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceLock
 import BEDC.Derived.CauchyWitnessLedgerUp.CompletionConsumerFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.RootDiagnosticBudgetTotality
+import BEDC.Derived.CauchyWitnessLedgerUp.RootDiagnosticBudgetTransport
+import BEDC.Derived.CauchyWitnessLedgerUp.SourceSiblingReadback
 import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessLedgerUp.RegularRealDependencyScope
