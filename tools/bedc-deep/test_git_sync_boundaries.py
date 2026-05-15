@@ -149,10 +149,14 @@ def test_supervisor_runs_plain_review_research_lane() -> None:
     assert "PLAIN_MATH_REVIEW" in text
     assert "RESEARCH_CANDIDATE_LANE" in text
     assert "DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0" in text
+    assert "DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES" in text
     assert "def trigger_research_lane_refinement()" in text
+    assert "def candidate_inbox_has_refinement_backlog" in text
     assert "plain_math_review + research_candidate_lane" in text
     assert "--research-lane-cooldown-hours" in text
+    assert "--oracle-refill-research-grace-minutes" in text
     assert "research_lane_refinement" in text
+    assert "deferred oracle_board_refill" in text
     assert "does not write paper text directly" in text
 
 
@@ -163,6 +167,24 @@ def test_board_spawn_has_deterministic_judge_fallback() -> None:
     assert "def _deterministic_fallback_judge" in text
     assert "board_judge_unavailable" in text
     assert "Deterministic BOARD fallback admitted" in text
+
+
+def test_research_lane_retries_soft_candidate_failures() -> None:
+    text = _text(SCRIPT_DIR / "research_candidate_lane.py")
+    assert "INBOX_SOFT_REJECT_SOURCES" in text
+    assert "SOFT_RECOVERABLE_REASON_RE" in text
+    assert "def _soft_recoverable_reject" in text
+    assert "soft rejected inputs are re-read as" in text
+    assert "plain BEDC-native obligations" in text
+    assert "SOURCE_MARKER_RE" in text
+    assert "source_marker_in_claim" in text
+
+
+def test_structural_relation_miner_does_not_embed_source_excerpts() -> None:
+    text = _text(SCRIPT_DIR / "structural_relation_miner.py")
+    assert "must re-read those rows rather than trust a copied source excerpt" in text
+    assert "Local evidence: {snippet}" not in text
+    assert "_snippet_for" not in text
 
 
 if __name__ == "__main__":
@@ -181,4 +203,6 @@ if __name__ == "__main__":
     test_research_lane_recovers_held_candidates()
     test_supervisor_runs_plain_review_research_lane()
     test_board_spawn_has_deterministic_judge_fallback()
+    test_research_lane_retries_soft_candidate_failures()
+    test_structural_relation_miner_does_not_embed_source_excerpts()
     print("test_git_sync_boundaries: ok")

@@ -63,6 +63,7 @@ DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0
+DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES = 20.0
 DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
@@ -287,6 +288,24 @@ def candidate_inbox_health() -> dict:
         return candidate_inbox.stats(since_hours=2)
     except Exception as exc:
         return {"error": str(exc)}
+
+
+def candidate_inbox_has_refinement_backlog(inbox_health: dict) -> bool:
+    """True when local candidate supply still has material to re-read.
+
+    A low-water supervisor should first spend this backlog through
+    plain_math_review/research_candidate_lane before asking the oracle for a
+    fresh BOARD refill. This is a scheduling preference only; final BOARD
+    admission still goes through board_spawn and writeback gates.
+    """
+    by_event = inbox_health.get("by_event") or {}
+    for key in ("pre_gate_hold", "held_for_refinement"):
+        try:
+            if int(by_event.get(key) or 0) > 0:
+                return True
+        except (TypeError, ValueError):
+            continue
+    return False
 
 
 def candidate_inbox_source_age_summary(inbox_health: dict) -> str:
@@ -1205,6 +1224,11 @@ def main() -> int:
     parser.add_argument("--research-lane-cooldown-hours", type=float, default=DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS,
                         help="Cooldown between local plain-review + research-candidate refinement runs. "
                              "This wide-in/strict-out lane does not write paper text directly.")
+    parser.add_argument("--oracle-refill-research-grace-minutes", type=float,
+                        default=DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES,
+                        help="When BOARD is low-water, defer oracle_board_refill for this many minutes after "
+                             "a local research-lane run if the candidate inbox still has refinement backlog. "
+                             "This keeps the pipeline reasoning over existing candidates before requesting more.")
     parser.add_argument("--dev-sync-cooldown-minutes", type=float, default=DEFAULT_DEV_SYNC_COOLDOWN_MINUTES,
                         help="Cooldown between BEDC sync attempts from origin/auto-dev through dev_sync_resolver.")
     parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
@@ -1285,6 +1309,7 @@ def main() -> int:
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
         "research_lane_cooldown_hours": args.research_lane_cooldown_hours,
+        "oracle_refill_research_grace_minutes": args.oracle_refill_research_grace_minutes,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
         "allow_lean_adjacent_discovery": args.allow_lean_adjacent_discovery,
@@ -1336,6 +1361,8 @@ def main() -> int:
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             since_research_lane_h = (_now() - last_research_lane_ts) / 3600.0
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
+            inbox_health = candidate_inbox_health()
+            research_lane_triggered = False
             allow_lean_adjacent_discovery = bool(
                 supervisor_state.get("allow_lean_adjacent_discovery", False)
             )
@@ -1362,18 +1389,36 @@ def main() -> int:
                         "discovery"
                     )
                 last_curriculum_ts = _now()
-            if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
-                trigger_paper_review(no_dev_sync=no_dev_sync)
-                last_paper_review_ts = _now()
             if unfinished < args.low_water and since_research_lane_h > supervisor_state["research_lane_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → research_lane_refinement")
                 trigger_research_lane_refinement()
                 last_research_lane_ts = _now()
+                research_lane_triggered = True
+            if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
+                trigger_paper_review(no_dev_sync=no_dev_sync)
+                last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
-                trigger_oracle_board_refill()
-                last_oracle_refill_ts = _now()
+                grace_minutes = float(supervisor_state.get("oracle_refill_research_grace_minutes", args.oracle_refill_research_grace_minutes))
+                since_research_lane_m = (_now() - last_research_lane_ts) / 60.0 if last_research_lane_ts else 999999.0
+                if research_lane_triggered:
+                    supervisor_log(
+                        f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
+                        "local research lane triggered first"
+                    )
+                elif (
+                    candidate_inbox_has_refinement_backlog(inbox_health)
+                    and since_research_lane_m < grace_minutes
+                ):
+                    supervisor_log(
+                        f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
+                        f"candidate refinement backlog present and research_lane ran {since_research_lane_m:.1f}m ago "
+                        f"(grace={grace_minutes:.1f}m)"
+                    )
+                else:
+                    supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
+                    trigger_oracle_board_refill()
+                    last_oracle_refill_ts = _now()
 
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
@@ -1418,7 +1463,6 @@ def main() -> int:
                 )
                 last_zero_extract_alert_ts = _now()
 
-            inbox_health = candidate_inbox_health()
             latest_age = inbox_health.get("latest_event_age_seconds")
             try:
                 latest_age_s = int(latest_age)

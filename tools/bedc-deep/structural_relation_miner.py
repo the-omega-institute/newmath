@@ -23,7 +23,6 @@ from dispatch_bedc_target import REPO_ROOT
 
 MAX_FILE_LINES = 720
 TITLE_MAX = 88
-SNIPPET_MAX = 420
 SKIP_BASENAMES = {
     "_index_files.tex",
     "00_concrete_instance_macros.tex",
@@ -178,16 +177,6 @@ def _has_label(item: dict[str, Any], pattern: re.Pattern[str]) -> bool:
     return bool(pattern.search(_label_haystack(item)))
 
 
-def _snippet_for(text: str, pattern: re.Pattern[str]) -> str:
-    match = pattern.search(text)
-    if not match:
-        return ""
-    start = max(0, match.start() - 120)
-    end = min(len(text), match.end() + 260)
-    snippet = re.sub(r"\s+", " ", text[start:end]).strip()
-    return snippet[:SNIPPET_MAX]
-
-
 def _rate_surface(text: str) -> str:
     if not COMPLETION_RE.search(text):
         return ""
@@ -203,14 +192,15 @@ def _forgetful_hit(rel: str, obj: str, item: dict[str, Any], text: str) -> Relat
         return None
     if _has_label(item, FORGETFUL_LABEL_RE):
         return None
-    snippet = _snippet_for(text, FORGETFUL_RE)
     claim = (
         f"{obj} should expose a BEDC-native forgetful projection lemma: the "
         "richer displayed carrier can be read by dropping named rows and "
         "retaining only the target carrier, classifier, ledger, and NameCert "
         "coordinates already present in the chapter. The candidate is not a "
         "new object; it asks the gate to test whether the projection is a "
-        f"small existing-chapter lemma. Local evidence: {snippet}"
+        "small existing-chapter lemma. Local evidence is the listed chapter's "
+        "displayed rows; the receiving gate must re-read those rows rather "
+        "than trust a copied source excerpt."
     )
     return RelationHit(
         rel,
@@ -234,14 +224,15 @@ def _equivalence_hit(rel: str, obj: str, item: dict[str, Any], text: str) -> Rel
         return None
     if not MISSING_REVERSE_RE.search(text):
         return None
-    snippet = _snippet_for(text, EQUIVALENCE_RE)
     claim = (
         f"{obj} should be checked for an equivalence-completion lemma: every "
         "displayed forward classifier/readback implication named in the local "
         "chapter must either have the reverse implication on the same visible "
         "rows or be recorded as a one-way interpretation boundary. This is a "
         "candidate for closing the two-sided surface without importing a host "
-        f"equivalence object. Local evidence: {snippet}"
+        "equivalence object. Local evidence is the listed chapter's displayed "
+        "rows; the receiving gate must re-read those rows rather than trust a "
+        "copied source excerpt."
     )
     return RelationHit(
         rel,
@@ -295,14 +286,14 @@ def _bridge_cut_hit(rel: str, obj: str, item: dict[str, Any], text: str) -> Rela
         return None
     if _has_label(item, CUT_LABEL_RE):
         return None
-    snippet = _snippet_for(text, BRIDGE_RE)
     claim = (
         f"{obj} should expose a bridge cut-elimination boundary: every named "
         "route, handoff, readback, continuation, or intermediate carrier in "
         "the local chapter must be either projected away from the final "
         "consumer surface or declared noneliminable. The candidate is a small "
         "existing-chapter obligation over the displayed route rows only. "
-        f"Local evidence: {snippet}"
+        "Local evidence is the listed chapter's displayed rows; the receiving "
+        "gate must re-read those rows rather than trust a copied source excerpt."
     )
     return RelationHit(
         rel,
@@ -323,14 +314,14 @@ def _substrate_hit(rel: str, obj: str, item: dict[str, Any], text: str) -> Relat
         return None
     if _has_label(item, re.compile(r"(bisim|substrate.*mirror|row.*embedding)", re.I)):
         return None
-    snippet = _snippet_for(text, SUBSTRATE_RE)
     claim = (
         f"{obj} should declare its substrate relation kind: any Rule110, "
         "cellular, binary, FKernel, or BHist substrate reading must be stated "
         "as bisimulation, row embedding, or substrate mirror rather than "
         "definitional equality. The candidate asks the receiving gate for the "
         "smallest local relation certificate on the displayed rows. Local "
-        f"evidence: {snippet}"
+        "evidence is the listed chapter's displayed rows; the receiving gate "
+        "must re-read those rows rather than trust a copied source excerpt."
     )
     return RelationHit(
         rel,
@@ -351,13 +342,14 @@ def _classifier_hit(rel: str, obj: str, item: dict[str, Any], text: str) -> Rela
         return None
     if _has_label(item, re.compile(r"(pullback|reindex|classifier.*align|fiberwise)", re.I)):
         return None
-    snippet = _snippet_for(text, CLASSIFIER_RE)
     claim = (
         f"{obj} should be checked for a classifier-alignment lemma: the local "
         "classifier, fiberwise certificate, pullback, or reindexing surface "
         "must say exactly which displayed rows are transported and which rows "
         "are forgotten. The candidate is an existing-chapter ledger/obligation "
-        f"rather than a new chapter. Local evidence: {snippet}"
+        "rather than a new chapter. Local evidence is the listed chapter's "
+        "displayed rows; the receiving gate must re-read those rows rather "
+        "than trust a copied source excerpt."
     )
     return RelationHit(
         rel,

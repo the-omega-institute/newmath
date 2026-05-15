@@ -66,15 +66,33 @@ INBOX_RECOVER_EVENTS = {
     "held_for_refinement",
 }
 INBOX_HARD_REJECT_EVENTS = {"pre_gate_reject", "rejected"}
+INBOX_SOFT_REJECT_SOURCES = {
+    "oracle",
+    "oracle_board_refill",
+    "paper_review",
+    "paper_gap_scanner",
+    "research_lane:paper_gap_scanner",
+}
 BLOCKED_LANDING_PATH_RE = re.compile(
     r"^papers/bedc/parts/(?:conjectures|visions)/",
     re.IGNORECASE,
 )
 PROSE_TITLE_RE = re.compile(r"[.;:]\s*$|\\(?:label|begin|chapter|section)\b", re.IGNORECASE)
+SOURCE_MARKER_RE = re.compile(
+    r"\\(?:begin|end|label|input|include|leanchecked|leantarget|leanvariant|leandef)\b",
+    re.IGNORECASE,
+)
 UNRECOVERABLE_REASON_RE = re.compile(
     r"already_in_paper|duplicate_title|forbidden_axis|out_of_scope|"
+    r"predicted_label_collision|conjecture_fallback",
+    re.IGNORECASE,
+)
+SOFT_RECOVERABLE_REASON_RE = re.compile(
     r"below_fit_threshold|below_novelty_threshold|too_weak|"
-    r"non_paper_local_input",
+    r"logic_packet_gate:|missing_logic_budget|missing_local_input|"
+    r"missing_local_inputs|hub_only_landing|no_indexed_safe_landing|"
+    r"predicted_line_cap_overflow|non_paper_local_input|"
+    r"external_signal_missing_landing_kind|external_signal_missing_chapter_worthiness",
     re.IGNORECASE,
 )
 
@@ -230,6 +248,10 @@ def _packet(candidate: dict[str, Any], *, source: str, files: dict[str, dict[str
         reasons.append("duplicate_title_in_board_or_archive")
     if PROSE_TITLE_RE.search(title):
         reasons.append("prose_or_structural_title")
+    if SOURCE_MARKER_RE.search(str(enriched.get("claim") or "")):
+        reasons.append("source_marker_in_claim")
+    if SOURCE_MARKER_RE.search(str(enriched.get("concrete_claim") or "")):
+        reasons.append("source_marker_in_concrete_claim")
     if any(BLOCKED_LANDING_PATH_RE.search(rel) for rel in inputs):
         reasons.append("review_lane_input_not_board_landing")
     if _score(enriched, "fit_score") < DEFAULT_FIT_THRESHOLD:
@@ -315,7 +337,9 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
             rec = json.loads(line)
         except json.JSONDecodeError:
             continue
-        if rec.get("event") not in INBOX_RECOVER_EVENTS:
+        event = str(rec.get("event") or "")
+        reason = str(rec.get("reason") or "")
+        if event not in INBOX_RECOVER_EVENTS and not _soft_recoverable_reject(rec):
             continue
         title = str(rec.get("title") or "").strip()
         claim = str(rec.get("claim") or "").strip()
@@ -324,9 +348,9 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
         key = title.lower()
         if key in seen or key in blocked_titles:
             continue
-        if _score(rec, "fit_score") < DEFAULT_FIT_THRESHOLD:
+        if _score(rec, "fit_score") < DEFAULT_FIT_THRESHOLD and not _soft_recoverable_reject(rec):
             continue
-        if _score(rec, "novelty") < DEFAULT_NOVELTY_THRESHOLD:
+        if _score(rec, "novelty") < DEFAULT_NOVELTY_THRESHOLD and not _soft_recoverable_reject(rec):
             continue
         seen.add(key)
         candidate = {
@@ -357,17 +381,47 @@ def _candidate_inbox_candidates(limit: int) -> list[dict[str, Any]]:
                 "selection_rank",
             )
         }
+        if _soft_recoverable_reject(rec):
+            candidate["fit_score"] = max(_score(candidate, "fit_score"), DEFAULT_FIT_THRESHOLD)
+            candidate["novelty"] = max(_score(candidate, "novelty"), DEFAULT_NOVELTY_THRESHOLD)
+            candidate["landing_kind"] = candidate.get("landing_kind") or "existing_chapter_obligation"
+            candidate["tastegate_mode"] = candidate.get("tastegate_mode") or "existing_chapter"
         candidate["source"] = "research_lane:candidate_inbox"
         candidate["rationale"] = (
-            f"Recovered from candidate_inbox event={rec.get('event')} "
-            f"source={rec.get('source')} at {rec.get('ts')}. "
+            f"Recovered from candidate_inbox event={event} "
+            f"source={rec.get('source')} reason={reason or 'none'} at {rec.get('ts')}. "
             "Research lane revalidates local_inputs and logic packet fields "
-            "before any BOARD intake."
+            "before any BOARD intake; soft rejected inputs are re-read as "
+            "plain BEDC-native obligations rather than accepted as-is."
         )
         rows.append(candidate)
         if len(rows) >= limit:
             break
     return rows
+
+
+def _soft_recoverable_reject(rec: dict[str, Any]) -> bool:
+    event = str(rec.get("event") or "")
+    if event not in INBOX_HARD_REJECT_EVENTS:
+        return False
+    source = str(rec.get("source") or "")
+    if source not in INBOX_SOFT_REJECT_SOURCES:
+        return False
+    reason = str(rec.get("reason") or "")
+    if not reason or UNRECOVERABLE_REASON_RE.search(reason):
+        return False
+    if not SOFT_RECOVERABLE_REASON_RE.search(reason):
+        return False
+    if "below_fit_threshold:0" in reason and source not in {"oracle", "oracle_board_refill", "paper_review"}:
+        return False
+    title = str(rec.get("title") or "").strip()
+    claim = str(rec.get("claim") or "").strip()
+    inputs = _as_list(rec.get("local_inputs"))
+    if len(title) < 8 or len(claim) < 40:
+        return False
+    if not any(rel.startswith("papers/bedc/parts/") for rel in inputs):
+        return False
+    return True
 
 
 def _score(candidate: dict[str, Any], key: str) -> int:
@@ -391,6 +445,8 @@ def _blocked_inbox_titles(lines: list[str]) -> set[str]:
                 blocked.add(title)
             continue
         if event not in INBOX_HARD_REJECT_EVENTS:
+            continue
+        if _soft_recoverable_reject(rec):
             continue
         reason = str(rec.get("reason") or "")
         if not UNRECOVERABLE_REASON_RE.search(reason):
