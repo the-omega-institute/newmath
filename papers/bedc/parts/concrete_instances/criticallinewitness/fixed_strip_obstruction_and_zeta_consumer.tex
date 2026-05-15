@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness fixed-strip obstruction exactness]
+\label{thm:critical-line-witness-fixed-strip-obstruction-exactness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every fixed-strip obstruction read of $W$ factors only through the finite source-modulus row, the supplied zero-strip row, the signature-gap readback, the $\BHist$ carrier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CriticalLineWitnessUp}$ row:
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The read cannot be supplied by analytic continuation, host real equality, a hidden zero classifier, quotient presentation, ambient completeness, or an unrecorded fixed-strip witness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:critical-line-witness-carrier}. The only rows available to a fixed-strip obstruction read are the displayed source rows $Z,S$, the modulus and comparison rows $M,R,Q$, and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:critical-line-witness-source-normalization-interface}, \autoref{thm:critical-line-witness-root-source-modulus-admission}, and \autoref{thm:critical-line-witness-root-zero-strip-route}. These rows identify the source-modulus and zero-strip inputs as finite $\BHist$ data before the obstruction is read.
+
+Next apply \autoref{thm:critical-line-witness-fixed-strip-source-totality} and \autoref{thm:critical-line-witness-signature-gap-exactness}. The fixed-strip source and the signature-gap readback are the same finite carrier surface, transported only through $H$ and replayed only through $C$.
+
+Finally use the route exposure package \autoref{thm:critical-line-witness-root-route-exposure} together with the RH non-escape package \autoref{thm:critical-line-witness-rh-nonescape-package}. Since the exposed route contains no analytic-continuation, host-equality, quotient, completeness, hidden-classifier, or extra witness coordinate, the fixed-strip obstruction is exact for the displayed source-modulus package.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zeta-consumer non-escape]
+\label{thm:critical-line-witness-zeta-consumer-nonescape}
+Every zeta-facing or $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet that uses the fixed-strip obstruction must factor through the same finite readback
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+Such a consumer may read the source-modulus row, zero-strip row, signature-gap carrier, $\BHist$ history, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It cannot import analytic continuation, a completed zeta function, host real equality, or a standard bridge row for the composite route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-fixed-strip-obstruction-exactness}. Any consumer using the fixed-strip obstruction has already been confined to the displayed finite readback.
+
+The downstream route is then controlled by \autoref{thm:critical-line-witness-root-route-exposure} and \autoref{thm:critical-line-witness-downstream-readback-exhaustion}. These theorems force zeta-facing and $\mathsf{RH}$-facing reads through the source, modulus, refusal, transport, replay, provenance, and naming rows already present in $W$.
+
+Use the zero-strip and RH-boundary rows \autoref{thm:critical-line-witness-zero-strip-modulus-refusal}, \autoref{thm:critical-line-witness-supplied-zero-strip-route}, and \autoref{thm:critical-line-witness-rh-nonescape-package}. They route failed or excessive zeta requests to the visible refusal side instead of to analytic continuation, completed zeta data, host equality, or proof content.
+
+Finally apply \autoref{thm:critical-line-witness-signature-gap-nonescape}. The signature-gap carrier exports no standard bridge row for the composite route, so a downstream consumer receives exactly the finite BEDC witness boundary and no analytic or bridge-level escape.
+\end{proof}
