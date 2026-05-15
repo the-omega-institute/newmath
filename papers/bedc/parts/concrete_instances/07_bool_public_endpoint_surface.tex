@@ -91,3 +91,40 @@ For the classifier coordinate, take two retained reads $h,k$ with endpoint witne
 
 The certificate coordinates are fixed by \autoref{def:bool-history-semantic-fields}, \autoref{thm:concrete-bool-namecert}, and \autoref{thm:bool-concrete-semantic-namecert}. Source, pattern, and ledger are all the same predicate $\mathsf{BoolHistoryCarrier}$, the core name certificate is $\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier})$, and the public semantic certificate is the displayed carrier-self semantic certificate. Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} excludes host propositions, decidable predicates, eliminators, and truth-table completeness, while the Bool public surface contains no payload carrier, payload classifier, or option-packaging coordinate. Those named rows are therefore erased rather than transported by the forgetful projection.
 \end{proof}
+
+\begin{lemma}[Bool public endpoint constructor classifier alignment boundary]
+\label{lem:bool-public-endpoint-constructor-classifier-alignment-boundary}
+For histories $h,k:\BHist$, the public Bool endpoint surface aligns its classifier boundary exactly with the two displayed constructor endpoint rows:
+$$
+\begin{aligned}
+&\mathsf{BoolHistoryClassifier}(h,k) \\
+&\quad\Longleftrightarrow\quad
+  \exists v,w:\BMark,\ e_v,e_w:\BHist,\
+    \mathsf{BoolSourceSpec}(v)
+    \land
+    \mathsf{BoolSourceSpec}(w)
+    \land
+    \bigl((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp))\bigr)
+    \land
+    \bigl((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp))\bigr)
+    \land
+    \hsame(h,e_v)
+    \land
+    \hsame(k,e_w)
+    \land
+    \msame(v,w).
+\end{aligned}
+$$
+Under this equivalence, the transported public rows are exactly the two endpoint readback rows against the endpoint histories $e_v$ and $e_w$ determined by $\mathsf{BoolEndpoint}(v)$ and $\mathsf{BoolEndpoint}(w)$, together with the mark-comparison row $\msame(v,w)$. The retained certificate rows are the carrier, classifier, and semantic ledger rows named by the Bool semantic certificate. Rows for host propositions, decidable predicates, eliminators, and truth-table completeness are forgotten by the public endpoint classifier boundary.
+\end{lemma}
+\begin{proof}
+The displayed equivalence is \autoref{thm:bool-source-qualified-classifier-readback-exactness} read through the explicit endpoint-history witnesses supplied by \autoref{def:bool-public-endpoint-constructors}. Its forward direction says that a classifier comparison between $h$ and $k$ exposes only source-qualified marks $v,w$, endpoint histories $e_v,e_w$ with the displayed constructor equations, the two endpoint readback rows
+$\hsame(h,e_v)$ and
+$\hsame(k,e_w)$, and the mark-comparison row $\msame(v,w)$. Its reverse direction says that precisely those rows rebuild the Bool history classifier comparison, so no further classifier coordinate is being transported.
+
+By \autoref{def:bool-public-endpoint-constructors}, the public constructors are only
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. The case readback theorem \autoref{thm:bool-public-constructor-case-readback} therefore identifies every public endpoint read with exactly one of those two rows, and \autoref{thm:bool-endpoint-readback-determinism} makes the chosen mark unique up to $\msame$. The endpoint bridge exactness of \autoref{thm:bool-endpoint-bridge-exactness} then makes the row comparison a mark comparison rather than a host-logical comparison.
+
+The certificate side contributes no extra public row. The semantic certificate in \autoref{thm:bool-concrete-semantic-namecert} records the Bool carrier, classifier, and ledger discipline over the same history carrier. Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} states that the public surface does not expose a host proposition, decidable predicate, eliminator, or truth-table completeness row. Hence the boundary transports exactly the two constructor readback rows and their $\msame$ classifier comparison, retains only the semantic certificate ledger rows, and forgets the non-public rows listed above.
+\end{proof}
