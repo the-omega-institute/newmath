@@ -137,13 +137,29 @@ Next use \autoref{thm:finite-witness-route-regular-readback-admission}. The read
 The seal row $s$ is therefore downstream of $q,w,r,d$, and the remaining rows $h,c,p,n$ preserve, replay, package, and name the same route. Hence the accepting consumer factors through the displayed dependency order.
 \end{proof}
 
+\begin{theorem}[Finite witness-route selected-window seal uniqueness]
+\label{thm:finite-witness-route-selected-window-seal-uniqueness}
+Let
+$$
+R=(q,w,r,d,s,h,c,p,n)
+$$
+be an accepted $\FiniteWitnessRouteUp$ packet. Any Real-and-Completion consumer route that reads the seal row $s$ must use the same request row $q$, selected $\StreamNameUp$ window $w$, $\RegSeqRatUp$ readback $r$, and $\DyadicRatCoreUp$ ledger $d$. Inside the packet there is no second selected window, readback, dyadic ledger, or seal handoff available for that consumer route.
+\end{theorem}
+\begin{proof}
+The request-window admission theorem fixes the route entrance. By \autoref{thm:finite-witness-route-request-window-admission}, every accepted read of the finite witness demand opens the request row $q$ and the selected window row $w$.
+
+The regular readback admission theorem then fixes the observation rows below that window. By \autoref{thm:finite-witness-route-regular-readback-admission}, the readback and dyadic comparison data are exactly the displayed rows $r$ and $d$, and the packet imports neither quotient stream equality nor a selected real value.
+
+Finally apply \autoref{thm:finite-witness-route-consumer-route-exactness}. The consumer route reaches the seal row $s$ only after $q,w,r,d$ have been exposed in that dependency order. The non-escape boundary of \autoref{thm:finite-witness-route-non-escape} excludes an external equality, selected real, or route ledger that could furnish a second handoff, so the seal read is unique to the displayed packet rows.
+\end{proof}
+
 \closureat{FiniteWitnessRouteUp}{seedStr}
 \closureat{FiniteWitnessRouteUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteWitnessRouteUp}
   \constructivestory{A $\FiniteWitnessRouteUp$ packet is generated from a finite witness request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\CauchyLimitSealUp$ or $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, and \autoref{thm:finite-witness-route-consumer-route-exactness} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, and Real-and-Completion seal consumption.}
+  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, \autoref{thm:finite-witness-route-consumer-route-exactness}, and \autoref{thm:finite-witness-route-selected-window-seal-uniqueness} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, and Real-and-Completion seal consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
