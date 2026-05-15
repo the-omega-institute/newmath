@@ -102,7 +102,14 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 8   # lowered 2026-05-14 from 20: push-race analysis showed
+LEAN_MAX = 16  # raised 2026-05-15: push race solved by cross-process file lock
+               # (tools/repo_push_lock.py + daemon restart), so the 8-cap from
+               # 2026-05-14 is no longer warranted. critical_path currently
+               # reports 462 formal_axis_top + 50 unformalized_top targets;
+               # demand-driven autotune wants higher. 16 leaves headroom while
+               # the lock floor (which serializes pushes) keeps ff-rejection
+               # rate near zero.
+LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
                # R + P orchestrators + sync daemon all pushing to the same
@@ -191,16 +198,27 @@ def read_system_metrics() -> dict:
         metrics["load_15min"] = load15
     except OSError:
         pass
-    # vm_stat: free + inactive pages, page size 4096
+    # vm_stat: free + inactive pages. Page size is 16384 on arm64 Macs
+    # (Apple Silicon) and 4096 on Intel. Parse the first line of vm_stat
+    # which reports `Mach Virtual Memory Statistics: (page size of N bytes)`.
+    # Previously hard-coded 4096 under-reported memory by 4× on arm64,
+    # falsely triggering RAM_LOW_GB pressure cut (real 2.5GB inactive read
+    # as 0.6GB → lean 8→4 cap, halving R-side throughput silently for days).
     try:
         r = subprocess.run(["vm_stat"], capture_output=True, text=True, timeout=5)
         free = inactive = 0
+        page_size = 4096
+        import re as _vm_re
         for line in r.stdout.splitlines():
+            m = _vm_re.search(r"page size of (\d+) bytes", line)
+            if m:
+                page_size = int(m.group(1))
+                continue
             if line.startswith("Pages free:"):
                 free = int(line.rsplit(":", 1)[1].strip().rstrip("."))
             elif line.startswith("Pages inactive:"):
                 inactive = int(line.rsplit(":", 1)[1].strip().rstrip("."))
-        metrics["mem_avail_gb"] = (free + inactive) * 4096 / (1024 ** 3)
+        metrics["mem_avail_gb"] = (free + inactive) * page_size / (1024 ** 3)
     except Exception:
         pass
     try:
