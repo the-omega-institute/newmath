@@ -117,52 +117,6 @@ _active_targets_lock = threading.Lock()
 _active_targets: dict[int, set[str]] = {}
 
 
-_FF_GAP_QUEUE = Path("/tmp/ff_gap_pending.json")
-_FF_GAP_LOCK = threading.Lock()
-_FF_GAP_CHAPTER_RE = re.compile(
-    r"`lean4/BEDC/Derived/([A-Za-z0-9_]+Up)/`|`lean4/BEDC/Derived/<X>Up/TasteGate\.lean` folder"
-)
-
-
-def _enqueue_ff_gap(violations: list[str]) -> None:
-    """Append chapter names of first-proposal FF gaps to a shared queue
-    file. Read by R-side critical_path.py to boost demand. Best-effort:
-    queue corruption is non-fatal (cleared on next write).
-    """
-    chapters: list[str] = []
-    for v in violations:
-        m = _FF_GAP_CHAPTER_RE.search(v)
-        if m and m.group(1):
-            chapters.append(m.group(1))
-        else:
-            # Folder-missing case: extract chapter slug from `rel`
-            # (e.g., `papers/bedc/parts/concrete_instances/9431_foo_namecert_construction.tex`)
-            m2 = re.search(
-                r"concrete_instances/\d+_([a-z0-9_]+)_namecert_construction\.tex",
-                v,
-            )
-            if m2:
-                slug = m2.group(1).replace("_", "")
-                chapters.append(f"{slug[:1].upper()}{slug[1:]}Up")
-    if not chapters:
-        return
-    with _FF_GAP_LOCK:
-        try:
-            existing = (
-                set(json.loads(_FF_GAP_QUEUE.read_text()))
-                if _FF_GAP_QUEUE.exists() else set()
-            )
-        except Exception:
-            existing = set()
-        existing.update(chapters)
-        if len(existing) > 500:
-            existing = set(sorted(existing)[-500:])
-        try:
-            _FF_GAP_QUEUE.write_text(json.dumps(sorted(existing)))
-        except OSError:
-            pass
-
-
 def _target_id(t: dict) -> str:
     files = tuple(sorted(t.get("paper_files") or []))
     anchor = (t.get("anchor") or t.get("section_label") or "").strip()
@@ -1958,18 +1912,14 @@ def verify_worktree_commits(
     # Gate FF — `\origin{ai}` chapter first-proposal missing FieldFaithful
     # instance. Maintenance edits on chapters already `\origin{ai}` are
     # exempted upstream in phase_paper_gates.detect_ai_chapter_missing_
-    # field_faithful (added 2026-05-15). First-proposal violations are
-    # logged as WARNING and queued for R via /tmp/ff_gap_pending.json;
-    # the P round is ALLOWED to merge (the chapter ships in
-    # `pending_field_faithful` transitional status; R critical_path
-    # picks up the gap and a follow-up R round adds the instance).
+    # field_faithful (2026-05-15). FAIL on first-proposal is intentional:
+    # recovery consumer picks up the FAIL and dispatches codex to add the
+    # FF instance, then re-runs the round.
     ff_v = gate_results.get("ai-missing-fieldfaithful", [])
     if ff_v:
-        _enqueue_ff_gap(ff_v)
         for v in ff_v[:10]:
-            logger.warning(
-                f"[P{wt.round_number}] AI FF GAP (first-proposal, queued for R): {v}"
-            )
+            logger.error(f"[P{wt.round_number}] AI MISSING FIELDFAITHFUL: {v}")
+        return False, new
 
     # Gate FP — \origin{ai} chapter missing \falsifiablePrediction.
     fp_v = gate_results.get("ai-missing-falsifiable", [])
