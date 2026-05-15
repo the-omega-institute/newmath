@@ -114,4 +114,72 @@ theorem HistTimeStreamCarrier_observation_carrier [AskSetup] [PackageSetup]
       nameUnary, observationUnary, scheduleStartReplay, sourceReplayObservation,
       provenanceReplay, provenancePkg, namePkg, observationPkg⟩
 
+theorem HistTimeStreamCarrier_schedule_classifier_stability [AskSetup] [PackageSetup]
+    {source schedule start replay transport provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ->
+      Cont schedule start replay ->
+        Cont source replay endpoint ->
+          PkgSig bundle endpoint pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  HistTimeStreamCarrier source schedule start replay transport provenance name
+                    bundle pkg ∧ hsame row endpoint)
+                (fun row : BHist => Cont schedule start replay ∧ hsame row replay)
+                (fun row : BHist => PkgSig bundle endpoint pkg ∧ hsame row provenance)
+                hsame ∧
+              UnaryHistory endpoint ∧ hsame endpoint provenance := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier scheduleReplay endpointRoute endpointPkg
+  have carrierWitness := carrier
+  obtain ⟨sourceUnary, _scheduleUnary, _startUnary, replayUnary, _transportUnary,
+    _provenanceUnary, _nameUnary, _scheduleStartReplay, sourceReplayProvenance,
+    provenanceReplay, _provenancePkg, _namePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceUnary replayUnary endpointRoute
+  have endpointSameProvenance : hsame endpoint provenance :=
+    cont_deterministic endpointRoute sourceReplayProvenance
+  have endpointSameReplay : hsame endpoint replay :=
+    hsame_trans endpointSameProvenance provenanceReplay
+  have certCore :
+      NameCert
+        (fun row : BHist =>
+          HistTimeStreamCarrier source schedule start replay transport provenance name bundle pkg ∧
+            hsame row endpoint)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro endpoint
+        (And.intro carrierWitness (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist =>
+            HistTimeStreamCarrier source schedule start replay transport provenance name
+              bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist => Cont schedule start replay ∧ hsame row replay)
+          (fun row : BHist => PkgSig bundle endpoint pkg ∧ hsame row provenance)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row sourceRow
+        exact And.intro scheduleReplay (hsame_trans sourceRow.right endpointSameReplay)
+      ledger_sound := by
+        intro _row sourceRow
+        exact And.intro endpointPkg (hsame_trans sourceRow.right endpointSameProvenance)
+    }
+  exact And.intro semantic (And.intro endpointUnary endpointSameProvenance)
+
 end BEDC.Derived.HistTimeStreamUp
