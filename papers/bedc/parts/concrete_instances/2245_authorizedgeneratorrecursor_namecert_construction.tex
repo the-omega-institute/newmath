@@ -611,6 +611,145 @@ stable output name, hidden generator, or host-kernel handoff from bypassing the
 audited dependency surface.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor branch-ledger disjointness]
+\label{thm:authorized-generator-recursor-branch-ledger-disjointness}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, a row consumed as
+branch data in $B$ cannot also be consumed as an audit row in $A$ or as a
+structural-descent row in $D$. The public recursor surface keeps branch
+coverage, descent reads, and audit provenance as disjoint displayed ledger
+roles inside the single carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier
+$(I,E,M,B,D,O,A,H,C,P,G,N)$ of
+\autoref{def:authorized-generator-recursor-carrier}. The branch, descent, and
+audit coordinates are separately named rows of the finite packet, and their
+consumer roles are introduced by the local $\NameCert$ surface rather than by a
+shared ambient row.
+
+Use \autoref{thm:authorized-generator-recursor-branch-exhaustion} for the
+branch side and
+\autoref{thm:authorized-generator-recursor-structural-descent-locality} for
+the descent side. These theorems confine branch coverage to the accepted
+constructor and motive rows, while descent reads remain tied to the displayed
+structural-decrease row.
+
+For the audit side, apply
+\autoref{thm:authorized-generator-recursor-audit-boundary} and
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization}.
+They expose $A$ only as the provenance and refusal surface behind public
+output, not as branch payload or recursive descent data.
+
+Finally
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the
+same separated carrier coordinates at the TasteGate handoff. Thus no public
+consumer can reclassify a branch row as audit or descent while retaining an
+accepted $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor descent-output lock]
+\label{thm:authorized-generator-recursor-descent-output-lock}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the public output
+row $O$ remains locked to the displayed structural-descent row $D$. A consumer
+may expose $O$ only through the same finite descent ledger that licensed the
+recursive reads used by the packet.
+\end{theorem}
+\begin{proof}
+Read $O$ and $D$ from the carrier of
+\autoref{def:authorized-generator-recursor-carrier}. The output row is not a
+detached result name: it is packaged with the accepted signature, motive,
+branch data, structural descent, audit surface, transports, routes,
+provenance, and local certificate.
+
+Apply
+\autoref{thm:authorized-generator-recursor-structural-descent-locality}. Every
+recursive read used by the packet is confined to the displayed structural
+descent row $D$.
+
+Next combine
+\autoref{thm:authorized-generator-recursor-branch-descent-totality} with
+\autoref{thm:authorized-generator-recursor-output-name-stability}. Branch
+coverage supplies public output only together with its descent obligations,
+and the output name loses stability if the supporting descent row is detached.
+
+The audit boundary and ground-compiler handoff preserve the same lock.
+\autoref{thm:authorized-generator-recursor-audit-boundary} keeps public
+exposure behind the finite packet, and
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} transfers
+only that packet to the TasteGate surface. Hence $O$ cannot be exposed apart
+from the structural descent row $D$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit-provenance cover]
+\label{thm:authorized-generator-recursor-audit-provenance-cover}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, each public
+exposure of the output row $O$ consumes the audit provenance rows already
+listed in the carrier. No output exposure may cite an external audit source or
+omit the displayed provenance factorization.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory in
+\autoref{def:authorized-generator-recursor-carrier}. The audit row $A$ and
+provenance row $P$ are displayed before any public route exposes $O$, and the
+local certificate names them as part of the same finite packet.
+
+Apply \autoref{thm:authorized-generator-recursor-audit-boundary}. Public
+output exposure is behind the audit boundary, so it must pass through the
+displayed audit surface.
+
+Use
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization} to
+resolve that surface into the provenance rows already carried by $P$ and $A$.
+The operational route of
+\autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}
+then presents the same provenance to the consumer side.
+
+Finally
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} permits
+the ground compiler to read only the finite carrier packet. Therefore every
+public exposure of $O$ consumes the listed audit provenance rows and cannot
+draw authority from an external audit channel.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor obligation triad]
+\label{thm:authorized-generator-recursor-obligation-triad}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$R=(I,E,M,B,D,O,A,H,C,P,G,N)$, obligation closure is reached only through the
+triad of branch-package exhaustion over $I,E,B$, structural-descent locality
+over $M,D$, and audit-provenance factorization over $O,A,H,C,P,G,N$. No output
+row $O$ may be public when any one of these three components is absent from the
+same carrier packet.
+\end{theorem}
+\begin{proof}
+Read the packet coordinates from
+\autoref{def:authorized-generator-recursor-carrier}. The carrier presents one
+finite surface, so branch data, descent data, audit provenance, routes,
+package provenance, boundary rows, and the local certificate are consumed as
+coordinates of the same accepted packet.
+
+The first component is branch coverage. Apply
+\autoref{thm:authorized-generator-recursor-branch-exhaustion} to force the
+public branch package to exhaust the constructors displayed by $I$ and the
+emitted eliminator row $E$.
+
+The second component is descent locality. Apply
+\autoref{thm:authorized-generator-recursor-structural-descent-locality} to
+keep recursive reads on the motive and structural-descent rows $M,D$, rather
+than on a detached generator route.
+
+The third component is audit provenance. Use
+\autoref{thm:authorized-generator-recursor-audit-provenance-factorization} and
+\autoref{thm:authorized-generator-recursor-audit-provenance-cover} to attach
+public exposure of $O$ to the audit, transport, continuation, provenance,
+boundary, and local naming rows $A,H,C,P,G,N$.
+
+Finally
+\autoref{thm:authorized-generator-recursor-ground-compiler-handoff} transfers
+only this finite packet to the TasteGate handoff. If one triad component is
+missing, the handoff has no carrier coordinate licensing a public output row,
+so obligation closure cannot expose $O$.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]
