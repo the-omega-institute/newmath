@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\AxisCarryDiamondRouteUp$}
+\label{ch:concrete-instances-axis-carry-diamond-route-namecert}
+\origin{ai}
+
+The $\AxisCarryDiamondRouteUp$ packet names the two-route diamond that compares displayed Zeckendorf carry-normalization paths. It is adjacent to the finite confluence surface of \autoref{ch:concrete-instances-axis-carry-confluence-namecert}, but its local role is the route certificate itself: two source carry windows, two route rows, one shared normal target row, value ledgers, non-$\hsame$ boundary rows, componentwise transports, continuation replay, provenance, and a local naming row are carried together as a finite packet.
+
+\falsifiablePrediction{Two accepted diamond packets with the same two displayed source carry windows and same shared target row cannot expose two different target-normality ledgers.}
+
+\independenceWitness{zeckendorfcarryclassifier, zeckendorfcarrynormalization, zcarry, zeckendorfcarryvalue, axiszeckendorfcarrybudget: the diamond carrier has two route rows and a shared-target ledger absent from each sibling, while each sibling lacks at least one of the paired-route or shared-normal-target coordinates.}
+
+The packet consumes $\ZCarryUp$ edges from \autoref{ch:concrete-instances-zcarry-namecert}, the normalization handoff of \autoref{ch:concrete-instances-zeckendorf-carry-normalization-namecert}, the value row of \autoref{ch:concrete-instances-zeckendorf-carry-value-namecert}, and the finite budget surface of \autoref{ch:concrete-instances-axiszeckendorfcarrybudget-namecert}. It does not identify the carry sources by $\hsame$ and does not promote the diamond to a kernel rewrite.
+
+\begin{definition}[Axis carry diamond-route carrier]
+\label{def:axis-carry-diamond-route-carrier}
+An $\AxisCarryDiamondRouteUp$ carrier is a finite $\BHist$ packet
+$$
+D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $a$ is the displayed overlap source row for the diamond;
+\item $b$ and $c$ are the two displayed carry-successor source windows;
+\item $n$ is the shared normal target row admitted by $\ZeckendorfCarryNormalizationUp$;
+\item $\rho_0$ is the first route row, consisting of a $\ZCarryUp$ edge from $a$ to $b$ and a $\ZeckendorfCarryNormalizationUp$ handoff from $b$ to $n$;
+\item $\rho_1$ is the second route row, consisting of a $\ZCarryUp$ edge from $a$ to $c$ and a $\ZeckendorfCarryNormalizationUp$ handoff from $c$ to $n$;
+\item $\nu_0$ and $\nu_1$ are the displayed finite value ledgers for the two routes;
+\item $\eta$ is the shared target-normality ledger for $n$;
+\item $H$ records the non-$\hsame$ carry boundaries together with componentwise transports for all displayed route, value, target, continuation, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ routes for replaying the two route rows, both value ledgers, the shared target-normality row, and the local naming row;
+\item $P$ records $\Pkg$ provenance over $\ZCarryUp$, $\ZeckendorfCarryNormalizationUp$, $\ZeckendorfCarryValueUp$, $\AxisZeckendorfCarryBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AxisCarryDiamondRouteUp}$ row.
+\end{enumerate}
+The carrier exports only this finite two-route packet. It contains no source-target $\hsame$ proof, no host arithmetic quotient, no global confluence theorem, no hidden normalizer, and no kernel rewrite rule.
+\end{definition}
+
+\begin{theorem}[Axis carry diamond routes name two-step confluence]
+\label{thm:axis-carry-diamond-route-names-two-step-confluence}
+For an accepted $\AxisCarryDiamondRouteUp$ carrier $D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N)$, the route rows $\rho_0$ and $\rho_1$ name two displayed carry-normalization paths from the same overlap source row $a$ to the same normal target row $n$. The shared target-normality ledger $\eta$ is read only after both route rows and both value ledgers have been exposed, so any diamond consumer receives a finite two-step confluence packet rather than two unrelated carry edges.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $\rho_0$ and $\rho_1$ are the only route coordinates, and their endpoints are fixed by the displayed rows $a,b,c,n$.
+
+Read the normal target and value rows next. The target coordinate $n$ is shared, while $\nu_0$ and $\nu_1$ record the finite value ledgers along the two displayed paths.
+
+Finally replay the support rows. The continuation and provenance rows expose the two routes and the shared target ledger as one packet, and the local $\NameCert$ row names that packet before a consumer may cite the diamond.
+\end{proof}
+
+\begin{theorem}[Axis carry diamond-route non-escape]
+\label{thm:axis-carry-diamond-route-nonescape}
+Every accepted $\AxisCarryDiamondRouteUp$ read factors through the displayed packet
+$$
+D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N).
+$$
+It can expose the two carry-normalization route rows, the shared normal target row, the two value ledgers, the shared target-normality ledger, non-$\hsame$ carry boundaries, componentwise transports, route replay, provenance, and local naming. It cannot expose source-target $\hsame$, host arithmetic equality, a quotient normal form, an unbounded normalizer, a global confluence theorem, or a kernel rewrite.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:axis-carry-diamond-route-carrier}. The displayed tuple lists every coordinate available to an accepted read, and none of the excluded objects is a coordinate.
+
+The route coordinates are finite. Each route row is assembled from the $\ZCarryUp$ and $\ZeckendorfCarryNormalizationUp$ sibling surfaces, while the value and target ledgers are displayed as $\nu_0,\nu_1,\eta$ rather than as host arithmetic or quotient data.
+
+The support rows $H,C,P,N$ preserve and replay only those displayed coordinates. Since the carrier contains no hidden normalizer, global confluence row, source-target $\hsame$ proof, or kernel rewrite rule, no accepted projection can escape the finite diamond-route packet.
+\end{proof}
+
+The Lean taste-gate file for this carrier should provide explicit \texttt{Nontrivial AxisCarryDiamondRouteUp} and \texttt{FieldFaithful AxisCarryDiamondRouteUp} instances for the displayed row inventory.
+
+\closureat{AxisCarryDiamondRouteUp}{seedStr}
+
+\begin{closurestatus}{\AxisCarryDiamondRouteUp}
+  \constructivestory{An $\AxisCarryDiamondRouteUp$ packet is generated from an overlap source row, two carry-successor rows, a shared normal target, two carry-normalization route rows, two value ledgers, a shared target-normality ledger, non-$\hsame$ boundary rows, componentwise transports, continuation routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, and \autoref{thm:axis-carry-diamond-route-nonescape} specify the finite two-route diamond carrier, shared target ledger, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary carry confluence, host arithmetic quotienting, global normalization, source-target $\hsame$, or kernel rewriting.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
