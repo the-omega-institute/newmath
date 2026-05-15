@@ -75,3 +75,51 @@ quotient stream equality, host sequence equality, selected limits, ambient
 completeness, metric-completeness data, choice data, or a second Real seal
 coordinate, the consumed section cannot export any such datum.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-request Real seal correspondence]
+\label{thm:regseqrat-finite-request-real-seal-correspondence}
+Let $R$ be an accepted $\RegSeqRatUp$ packet, and let $S$ be a public finite
+request to $R$ that is consumed by a $\RealUp$ seal. The finite request source
+section of \autoref{thm:regseqrat-finite-request-source-section} determines
+the seal-visible source section of
+\autoref{thm:regseqrat-real-request-section-nonescape}: its rows restrict
+exactly to the StreamName schedule, the $\DyadicRatCoreUp$ endpoint, radius,
+and dyadic-distance rows, the $\RegSeqRatUp$ classifier and regularity rows,
+the componentwise $\hsame$ rows, the displayed $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ rows.
+Conversely any seal-visible section for the same request restricts to exactly
+those rows of the finite request source section. The correspondence carries no
+quotient stream equality, host sequence equality, selected limits, ambient
+completeness, metric-completeness data, choice data, or second seal coordinate.
+\end{theorem}
+\begin{proof}
+First build the finite source packet with
+\autoref{thm:regseqrat-finite-request-source-section}. This gives the unique
+displayed request section whose visible rows are the StreamName schedule rows,
+the dyadic endpoint, radius, and finite distance rows, the RegSeqRat classifier
+and regularity rows, and the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+local $\NameCert$ rows.
+
+Next route the same public request to the Real consumer by
+\autoref{thm:real-regseqrat-finite-request-fusion}. The fusion theorem forces
+the seal to read through the finite $\BHist$ packet already named by the
+request, so the consumer has no independent source packet from which additional
+rows could be drawn.
+
+The common visible rows are then fixed by
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} and
+\autoref{thm:regseqrat-common-dyadic-tail-ledger}. These theorems identify the
+schedule, dyadic, classifier, regularity, $\hsame$, $\Cont$, package, and
+naming rows on both sides of the handoff, giving the restriction from the
+finite source section to the seal-visible section.
+
+For the converse, start with a seal-visible section for the same request and
+apply \autoref{thm:regseqrat-real-request-section-nonescape}. Nonescape says
+that the seal-visible section is already the displayed RegSeqRat finite source
+section, so restricting it back along the request recovers exactly the same
+StreamName schedule, dyadic endpoint, radius, distance, classifier,
+regularity, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows.
+The excluded rows are absent on both sides, so the correspondence introduces
+no quotient stream equality, host sequence equality, selected limit, ambient or
+metric completeness, choice datum, or second seal coordinate.
+\end{proof}
