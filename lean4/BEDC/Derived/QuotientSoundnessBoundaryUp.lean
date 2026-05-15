@@ -312,4 +312,36 @@ theorem QuotientSoundnessBoundary_pkg_namecert_ledger_totality [AskSetup] [Packa
     _eAV, eTH, _hCN, pPkg, nPkg, hN⟩ := carrier
   exact ⟨pPkg, nPkg, consumerPkg, eTH, hCConsumer, hN⟩
 
+theorem QuotientSoundnessBoundary_root_nonimport_ledger [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead transportRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont e a v ->
+        Cont v t refusalRead ->
+          Cont t h transportRead ->
+            Cont transportRead n ledgerRead ->
+              PkgSig bundle refusalRead pkg ->
+                PkgSig bundle ledgerRead pkg ->
+                  UnaryHistory e ∧ UnaryHistory a ∧ UnaryHistory t ∧ UnaryHistory v ∧
+                    UnaryHistory h ∧ UnaryHistory n ∧ UnaryHistory refusalRead ∧
+                      UnaryHistory transportRead ∧ UnaryHistory ledgerRead ∧ Cont e a v ∧
+                        Cont e t h ∧ Cont v t refusalRead ∧ Cont t h transportRead ∧
+                          Cont transportRead n ledgerRead ∧ PkgSig bundle p pkg ∧
+                            PkgSig bundle n pkg ∧ PkgSig bundle refusalRead pkg ∧
+                              PkgSig bundle ledgerRead pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier eAV vTRefusal tHTransport transportNLedger refusalPkg ledgerPkg
+  obtain ⟨eUnary, aUnary, tUnary, vUnary, hUnary, _cUnary, _pUnary, nUnary,
+    _carrierEAV, eTH, _hCN, pPkg, nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary tUnary vTRefusal
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed tUnary hUnary tHTransport
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed transportUnary nUnary transportNLedger
+  exact
+    ⟨eUnary, aUnary, tUnary, vUnary, hUnary, nUnary, refusalUnary, transportUnary,
+      ledgerUnary, eAV, eTH, vTRefusal, tHTransport, transportNLedger, pPkg, nPkg,
+      refusalPkg, ledgerPkg, hN⟩
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
