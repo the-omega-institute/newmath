@@ -35,3 +35,17 @@ Apply \autoref{thm:regseqrat-tail-budget-window-seal-pullback}. The tail-budget 
 
 Finally apply \autoref{thm:real-name-seal-source-factorization}. The final $\RealUp$ seal source is the same finite source packet with its $\NameCert_{\RealUp}$ row, so completion-facing consumers inherit the listed $W$, $D$, $R$, $H$, $C$, $P$, and $N$ rows and gain no quotient stream equality, host real equality, selected limit, choice data, or ambient completeness row.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat completion-consumer section exactness]
+\label{thm:real-regseqrat-completion-consumer-section-exactness}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet, let $S$ be a public finite request to a $\RealUp$ seal over $Q$, and let $(W,D,R,H,C,P,N)$ be the finite request section displayed by \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. A completion-facing or $\RealUp$-facing consumer of $S$ is accepted exactly when its visible rows factor through that section: $W$ is the $\StreamNameUp$ finite-window row, $D$ is the $\DyadicRatCoreUp$ endpoint, radius, and distance row family, $R$ is the $\RegSeqRatUp$ classifier and readback row family, $H$ is the componentwise $\hsame$ provenance, $C$ is the displayed $\Cont$ route, $P$ is the $\mathsf{Pkg}$ provenance, and $N$ is the local $\NameCert_{\RealUp}$ row. Thus the consumer boundary exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness principle, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:real-regseqrat-finite-request-fusion}. The accepted seal request is represented by one finite $\BHist$ packet whose visible rows are the StreamName window, dyadic endpoint, radius, and distance rows, RegSeqRat classifier and readback rows, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert_{\RealUp}$ row.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. Any completion-facing or selector-budget consumer of the same seal must reuse the displayed $(W,D,R,H,C,P,N)$ rows, so an accepted consumer has no remaining visible coordinate outside the finite section.
+
+For the reverse direction, assume the visible rows of the completion-facing or $\RealUp$-facing consumer factor through $(W,D,R,H,C,P,N)$. Apply \autoref{thm:regseqrat-real-request-section-nonescape} to identify this section as the entire RegSeqRat source section seen by a Real seal, with no escaping source coordinate.
+
+Finally apply \autoref{thm:streamname-tail-compatible-window-terminality}. The StreamName finite-window row is terminal among accepted finite-window consumers with the same observation, tail-selector route, budget surface, pointwise handoff, and support rows. Repacking the terminal window with the dyadic, classifier, readback, transport, route, package, and local naming rows gives exactly the accepted finite section above, and the exclusions from the cited nonescape and terminality theorems rule out quotient stream equality, host real equality, selected limits, choice data, ambient completeness, and a second $\RealUp$ seal coordinate.
+\end{proof}
