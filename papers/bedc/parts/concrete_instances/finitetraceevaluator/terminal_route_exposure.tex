@@ -1,0 +1,114 @@
+\begin{definition}[FiniteTraceEvaluator terminal route carrier]
+\label{def:finite-trace-evaluator-terminal-route-carrier}
+A $\FiniteTraceEvaluatorUp$ terminal route carrier is a finite packet
+$$
+E=(T,Q,R,X,H,C,P,N)
+$$
+whose rows have the following roles. The row $T$ is the finite $\BHist$ trace
+row of the evaluator. The row $Q$ is the checkpoint row that reads the trace
+as a checkpoint source. The row $R$ is the runtime row exposed to downstream
+runtime consumers. The row $X$ is the image and readback row recording the
+accepted-result image and the checkpoint readback boundary. The row $H$
+records componentwise $\hsame$ transport between the trace, checkpoint,
+runtime, and readback rows. The row $C$ is the displayed $\Cont$ replay route.
+The row $P$ is the $\Pkg$ provenance row. The row $N$ is the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row. The carrier has no coordinate for
+host validation, hidden runtime state, unbounded evaluation, an infinite trace,
+or an unchecked compiler theorem.
+\end{definition}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint-runtime factorization]
+\label{thm:finite-trace-evaluator-checkpoint-runtime-factorization}
+For every accepted $\FiniteTraceEvaluatorUp$ terminal route carrier
+$E=(T,Q,R,X,H,C,P,N)$, checkpoint-facing and runtime-facing reads factor
+through the same finite route
+$$
+T \to Q \to R.
+$$
+The factorization is transported componentwise by $H$, replayed by $C$,
+packaged by $P$, named by $N$, and read back through $X$. It imports no host
+evaluator, no hidden runtime row, and no second checkpoint source.
+\end{theorem}
+\begin{proof}
+First expose the checkpoint side with
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality} and
+\autoref{thm:finitetraceevaluator-root-checkpoint-admission-totality}. These
+statements place checkpoint admission on the finite evaluator rows and force
+the checkpoint source to be a displayed $\BHist$ route.
+
+Next expose the runtime side with
+\autoref{thm:finitetraceevaluator-root-runtime-totality} and
+\autoref{thm:finitetrace-evaluator-root-runtime-admission}. Runtime consumers
+read the same finite packet through displayed transport, continuation,
+provenance, and local naming rows, not through a host evaluator.
+
+Finally attach the checkpoint-runtime surface of
+\autoref{thm:finite-trace-evaluator-checkpoint-row-exposure} and
+\autoref{thm:finite-trace-evaluator-runtime-route-totality}. It identifies the
+checkpoint row and the runtime row as two views of the same finite route, so
+the carrier factors through $T \to Q \to R$ with $X,H,C,P,N$ as readback,
+transport, replay, provenance, and naming data.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal route exposure]
+\label{thm:finite-trace-evaluator-terminal-route-exposure}
+Every terminal consumer of an accepted $\FiniteTraceEvaluatorUp$ route carrier
+receives exactly the finite surface
+$$
+T,Q,R,X,H,C,P,N.
+$$
+The trace row $T$, checkpoint row $Q$, runtime row $R$, image and readback row
+$X$, componentwise $\hsame$ row $H$, $\Cont$ replay row $C$, $\Pkg$
+provenance row $P$, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$
+are the whole terminal exposure. The consumer cannot recover host validation,
+hidden runtime state, unbounded evaluation, an infinite trace, or an unchecked
+compiler theorem from the packet.
+\end{theorem}
+\begin{proof}
+Start from the terminal checkpoint surface,
+\autoref{thm:finite-trace-evaluator-terminal-checkpoint-accountability}. It
+binds terminal checkpoint reads to the finite trace route and keeps validation,
+transport, continuation, provenance, and naming inside the displayed packet.
+
+Use the checkpoint-runtime factorization above. It aligns the checkpoint row
+with the runtime row through the same finite carrier and leaves image readback
+as the row $X$ rather than as a hidden runtime coordinate.
+
+Now apply root image readback,
+\autoref{thm:finite-trace-evaluator-root-image-row} and
+\autoref{thm:finite-trace-evaluator-root-readback-exactness}. Accepted reads
+and checkpoint readback are confined to the displayed image and readback row,
+so the terminal consumer sees precisely $T,Q,R,X,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator NameCert terminal obligation surface]
+\label{thm:finite-trace-evaluator-namecert-terminal-obligation-surface}
+The local $\NameCert_{\FiniteTraceEvaluatorUp}$ obligation surface of a
+terminal route carrier $E=(T,Q,R,X,H,C,P,N)$ is exhausted by the following
+finite obligations: trace finiteness for $T$, checkpoint admission for $Q$,
+runtime totality for $R$, image and readback exactness for $X$, componentwise
+$\hsame$ transport for $H$, displayed $\Cont$ replay for $C$, $\Pkg$
+provenance for $P$, and local naming for $N$. No NameCert clause asks for host
+validation, total truth, total halting, unbounded evaluation, an infinite
+trace, or an unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+First read the local naming row from
+\autoref{thm:finite-trace-evaluator-namecert-obligations}. The carrier rows
+are exactly the rows that the local $\NameCert_{\FiniteTraceEvaluatorUp}$
+surface can certify.
+
+Next combine root checkpoint readiness, root runtime totality, and root image
+readback exactness. Theorems
+\autoref{thm:finitetraceevaluator-root-consumer-readiness},
+\autoref{thm:finitetraceevaluator-root-runtime-totality}, and
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization} provide the
+checkpoint, runtime, image, and readback obligations on the same finite
+packet.
+
+Finally use terminal route exposure above together with
+\autoref{thm:finite-trace-evaluator-checkpoint-route-nonescape}. Since every
+terminal consumer is confined to $T,Q,R,X,H,C,P,N$, the local NameCert terminal
+surface is exhausted by those displayed obligations and has no remaining host
+or unbounded evaluator clause.
+\end{proof}
