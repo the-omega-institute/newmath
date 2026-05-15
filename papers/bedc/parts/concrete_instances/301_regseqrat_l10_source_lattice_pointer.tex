@@ -85,3 +85,95 @@ equality, selected limits, completion witnesses, and ambient completeness, and
 since the exact handoff introduces no extra owner, adding a choice datum or any
 other off-route owner would require a row absent from the displayed packet.
 \end{proof}
+
+\begin{theorem}[RegSeqRat L10 row owner noncollapse]
+\label{thm:regseqrat-l10-row-owner-noncollapse}
+Every accepted L10 handoff from $\StreamNameUp$ and $\DyadicRatCoreUp$ through
+$\RegSeqRatUp$ to the public $\RealUp$ seal has four pairwise noncollapsible
+row owners. The schedule rows belong to $\StreamNameUp$; the endpoint,
+radius, and finite dyadic-distance ledgers belong to $\DyadicRatCoreUp$; the
+regularity, classifier, and transport rows belong to $\RegSeqRatUp$; and the
+terminal seal row belongs to $\RealUp$.
+
+Removing any owner, or identifying any owner with another, breaks the accepted
+finite route or introduces one of the excluded coordinates: quotient streams,
+host real equality, selected limits, completion witnesses, ambient
+completeness data, or choice data.
+\end{theorem}
+\begin{proof}
+The source lattice pointer
+\autoref{thm:regseqrat-l10-source-lattice-pointer} fixes the visible route
+from $\StreamNameUp$ and $\DyadicRatCoreUp$ through $\RegSeqRatUp$ to
+$\RealUp$. The source lattice exhaustion theorem
+\autoref{thm:regseqrat-l10-source-lattice-exhaustion} assigns the route rows
+to exactly these four owners and excludes off-route owners.
+
+The exact StreamName--dyadic--Real handoff
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness} then reads
+the schedule rows, dyadic endpoint and radius rows, dyadic-distance ledgers,
+regularity rows, classifier rows, transport rows, and public seal row as one
+finite route. Thus the four owners are not alternative names for one store:
+each contributes a different face of the displayed packet.
+
+Apply the four-face necessity theorem
+\autoref{thm:regseqrat-l10-four-face-necessity}. If the schedule owner is
+removed, there is no finite source index; if the dyadic owner is removed,
+there are no endpoint, radius, or distance ledgers; if the RegSeqRat owner is
+removed, the classifier and regularity rows disappear; and if the Real owner
+is removed, the public seal has no terminal row. Identifying any two owners
+therefore erases one of these required faces rather than preserving the same
+accepted route.
+
+Finally use finite-window saturation,
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. It says that the
+accepted Real seal exit is already saturated by the four displayed finite
+faces. A collapse of owners can only be repaired by importing an off-route
+coordinate, and those coordinates are precisely the quotient streams, host
+real equality, selected limits, completion witnesses, ambient completeness
+data, and choice data excluded by the handoff.
+\end{proof}
+
+\begin{theorem}[RegSeqRat L10 owner touchpoint coverage]
+\label{thm:regseqrat-l10-owner-touchpoint-coverage}
+On the L10 route from $\StreamNameUp$ and $\DyadicRatCoreUp$ through
+$\RegSeqRatUp$ to the public $\RealUp$ seal, the Lean-facing handoff
+touchpoints
+$\texttt{RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff}$,
+$\texttt{DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness}$, and
+$\texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff}$ cover exactly the
+finite StreamName schedule rows, the DyadicRatCore endpoint, radius, and
+finite dyadic-distance rows, the RegSeqRat regularity and classifier rows,
+and the RealUp terminal seal row.
+
+They do not supply quotient streams, host equality, selected limits, ambient
+completeness, choice data, standard bridge data, or any upgrade of the
+verification axis.
+\end{theorem}
+\begin{proof}
+The source lattice pointer
+\autoref{thm:regseqrat-l10-source-lattice-pointer} fixes the public route as
+$$
+\StreamNameUp,\ \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+It lists the finite schedules, dyadic rows, regularity rows, classifier rows,
+and seal rows as the visible packet consumed by the handoff.
+
+The StreamName--Real handoff exhaustion theorem
+\autoref{thm:regseqrat-streamname-real-handoff-exhaustion} identifies the same
+packet as exhausted by the four row owners. The row-owner noncollapse theorem
+\autoref{thm:regseqrat-l10-row-owner-noncollapse} then prevents any two owners
+from being read as alternative names for the same source.
+
+The three Lean-facing touchpoints are the schedule component, the dyadic
+bridge component, and the terminal seal component of this packet. The
+StreamName touchpoint supplies the finite schedule rows, the DyadicRatCore
+touchpoint supplies endpoint, radius, and finite dyadic-distance rows, and the
+RegSeqRat-to-Real touchpoint supplies the regularity, classifier, and terminal
+seal passage read by the public seal.
+
+The roadmap discipline keeps the theory and verification axes separate. Thus
+these touchpoints report the Lean-facing handoff surface for the four-owner
+route, but they do not create quotient streams, host equality, selected
+limits, ambient completeness, choice data, standard bridges, or any stronger
+verification-axis status.
+\end{proof}

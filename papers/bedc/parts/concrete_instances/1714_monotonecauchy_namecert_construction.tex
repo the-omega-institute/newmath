@@ -379,6 +379,49 @@ $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so both consumers share the same
 tail-window surface.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy public route classifier handoff]
+\label{thm:monotone-cauchy-public-route-classifier-handoff}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ packet. Every public completion-facing
+classifier read and every $\RealUp$ seal-facing classifier read of $M$ factors
+through the same ordered surface: the located interval trap $I$, the monotone
+tail-window certificate over $\lambda$, the $\RegSeqRatUp$ readback row $F$,
+the $\CauchyModulusUp$ tail-stability row $\mu$, and the $\RealUp$ seal row
+$Q$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows in $H,C,P,N$. No public route may replace this surface by a
+quotient stream, host sequence equality, selected limit, ambient completeness
+principle, trichotomy row, or choice datum.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:monotone-cauchy-carrier}. It displays
+$F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as the only regular sequence, schedule,
+modulus, located ledger, interval, seal, transport, continuation, provenance,
+and naming rows available to a public classifier.
+
+Apply \autoref{thm:monotone-cauchy-located-interval-handoff} and
+\autoref{thm:monotone-cauchy-modulus-tail-stability}. The located interval row
+$I$ is reached only after the regular sequence, scheduled window, modulus row,
+monotone dyadic ledger, componentwise $\hsame$ transport, continuation routes,
+package row, and local naming row have been displayed; the Cauchy and monotone
+tail rows remain attached to that same window.
+
+Next use \autoref{thm:monotone-cauchy-real-seal-factorization-obligation} and
+\autoref{thm:monotone-cauchy-bridge-facing-certificate}. Seal-facing and
+completion-facing consumers therefore read the same ordered surface before
+reaching $Q$, and the bounded witness route restricts to the
+$\MonotoneCauchyUp$ rows without changing the tail-window classifier.
+
+Finally apply \autoref{thm:monotone-cauchy-ledger-exhaustion} and the scope
+package of \autoref{thm:monotone-cauchy-scoped-tail-window-package}. Every
+public coordinate has already appeared in the displayed ledger
+$F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so no unlisted quotient stream, host
+sequence equality, selected limit, ambient completeness principle, trichotomy
+row, or choice datum can serve as a replacement route.
+\end{proof}
+
 \begin{theorem}[Monotone Cauchy mature route summary]
 \label{thm:monotone-cauchy-mature-route-summary}
 For an accepted $\MonotoneCauchyUp$ packet
