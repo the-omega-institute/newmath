@@ -1,0 +1,19 @@
+\begin{theorem}[RealUp RealCompleteness exit route]
+\label{thm:real-realcompleteness-exit-route}
+Let $S$ be an accepted $\RealUp$ seal consumed as a Phase Real and Completion endpoint, and suppose the endpoint read is supplied by an accepted $\RealCompletenessUp$ diagonal packet
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N).
+$$
+Every completion-facing read of $S$ factors through exactly the displayed $\RealCompletenessUp$ diagonal packet, the $\StreamNameUp$ finite-window rows $W$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the BEDC support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ carried by $H,C,P,N$.
+
+The route exports no quotient stream, host real equality, selected external limit, countable-choice row, ambient completeness theorem, standard bridge row, or completion-facing coordinate outside that finite packet.
+\end{theorem}
+\begin{proof}
+Start with the $\RealCompletenessUp$ public seal export. Theorem~\ref{thm:real-completeness-public-seal-export} identifies the endpoint consumed by $\RealUp$ and completion-facing readers with the seal row $S$ reached through the displayed rows $D,W,Q,H,C,P,N$ of the accepted diagonal packet.
+
+Next apply the diagonal-limit candidate theorem and the non-escape boundary from \autoref{ch:concrete-instances-realcompleteness-namecert}. The diagonal-limit candidate theorem routes the candidate through the explicit selector, the dyadic ledger, the StreamName windows, the RegSeqRat readback row, and the support rows, while the non-escape boundary rules out quotient streams, selected host limits, countable choice, host real equality, and ambient completeness as exported coordinates.
+
+Now compare this packet with the local $\RealUp$ terminal route. By \autoref{thm:real-regseqrat-terminal-budget-exhaustion}, a terminal-budget Real read is exhausted by the ordered four-face packet over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. By \autoref{thm:real-open-phase-four-object-terminal-route}, the same four faces determine the Phase Real and Completion endpoint route.
+
+Finally use the consumer-side consistency check \autoref{thm:diagonal-limit-compatibility-four-face-budget-ownership}. It pins the completion-facing consumer to the same four-face budget surface, so the $\RealCompletenessUp$ diagonal packet and the local $\RealUp$ seal read have one finite exit route. Since all cited boundaries expose only the listed rows, no quotient stream, host equality, selected external limit, countable-choice row, ambient completeness theorem, standard bridge row, or separate completion-facing coordinate can be read from the endpoint.
+\end{proof}
