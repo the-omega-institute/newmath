@@ -40,6 +40,7 @@ The provenance and naming clauses are $P$ and $N$. Since the carrier has no coor
 \label{thm:inter-hist-locality-ledger-symmetric-route}
 Let $L=(A,B,H,C,O,I,P,N)$ be an accepted $\InterHistLocalityLedgerUp$ carrier. Swapping the source-history rows $A$ and $B$ yields the same public locality ledger after replaying the symmetric $\hsame$ transport in $H$ and the displayed $\Cont$ routes in $C$; the observer-locality cell and inter-Hist invariant rows are read through the same finite packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.InterHistLocalityLedgerUp.InterHistLocalityLedger\_symmetric\_route\_source\_swap\_separates}
 \begin{proof}
 Project the accepted carrier. The only source-history coordinates are $A$ and $B$, and the only transport coordinate relating their presentations is $H$.
 
@@ -77,6 +78,10 @@ Apply non-escape for the boundary. Since $L$ has no coordinate for cross-Hist ca
 \end{proof}
 
 \closureat{InterHistLocalityLedgerUp}{seedStr}
+
+\falsifiablePrediction{Removing either the symmetric transport row or the observer-locality handoff row leaves a packet that can still name two histories but cannot certify a local two-history ledger.}
+
+\independenceWitness{Nearest siblings: observerlocalitycell, interhistinvariant, crosshistcausalrate, inscriptionevent, and localselfcenterinscriptionseal. ObserverLocalityCellUp records a cell rather than the ledger route; InterHistInvariantUp records invariant readback without the two-history locality ledger; CrossHistCausalRateUp records rate data rather than symmetric locality transport; InscriptionEventUp records an event packet rather than inter-history ledger routing; LocalSelfCenterInscriptionSealUp records a local self-center seal rather than a two-observer handoff. No bijection preserving carrier rows, symmetric hsame transport, observer-locality handoff, invariant readback, provenance, and local naming can identify these packets.}
 
 \begin{closurestatus}{\InterHistLocalityLedgerUp}
   \constructivestory{An $\InterHistLocalityLedgerUp$ packet is generated from two source histories, symmetric transport, displayed route replay, an observer-locality cell, an inter-Hist invariant row, package provenance, and a local $\NameCert$ row.}
