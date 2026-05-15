@@ -120,6 +120,24 @@ Next apply \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \aut
 Finally apply \autoref{thm:regseq-observation-budget-real-seal-handoff}. The RealUp seal row is reached only as the terminal handoff of the displayed route. The Lean TasteGate names \texttt{RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment} and \texttt{taste\_gate} witness that the same singleton carrier boundary supplies nontriviality and field faithfulness, so the paper scope and kernel TasteGate evidence refer to the same finite packet.
 \end{proof}
 
+\begin{theorem}[Regular observer-budget public consumer export]
+\label{thm:regseq-observation-budget-public-consumer-export}
+Every public $\RealUp$, $\DiagonalLimitStabilityUp$, or $\CauchyDiagonalBudgetUp$ consumer of an accepted $\RegSeqObservationBudgetUp$ packet receives exactly the displayed finite route
+$$
+W,R,\epsilon,D,E,H,C,P,N.
+$$
+The exported route reads the $\StreamNameUp$ window $W$ before $\RegSeqRatUp$ readback $R$, reads the dyadic tolerance row $\epsilon$ and diagonal selector row $D$ before $\RealUp$ budget exposure $E$, and then replays only the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. The export contains no quotient stream equality, host real equality, hidden selector, unbounded schedule, detached seal read, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First expose the public entry row. Theorem~\ref{thm:regseq-observation-budget-window-admission} forces every accepted route to display the StreamName window $W$ before it may read $R$, $\epsilon$, $D$, or $E$.
+
+Next preserve the finite tail budget. Theorem~\ref{thm:regseq-observation-budget-tail-monotonicity} keeps componentwise $\hsame$ transport and displayed $\Cont$ replay on the same rows $W,R,\epsilon,D,E,H,C,P,N$, so public $\DiagonalLimitStabilityUp$ and $\CauchyDiagonalBudgetUp$ consumers cannot replace the selector or schedule by an unshown coordinate.
+
+Then apply the Real seal handoff. Theorem~\ref{thm:regseq-observation-budget-real-seal-handoff} reaches the RealUp budget row $E$ only after the window, readback, dyadic tolerance, and diagonal selector have been displayed. Thus a public $\RealUp$ consumer receives the same finite route rather than a detached seal read.
+
+Finally use \autoref{thm:regseq-observation-budget-scoped-closure}. The scoped closure binds the carrier, NameCert obligations, non-escape theorem, window admission, tail monotonicity, and Real seal handoff to the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The accepted carrier has no coordinate for quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, or ambient completeness, so the displayed route is the whole public export surface.
+\end{proof}
+
 \closureat{RegSeqObservationBudgetUp}{obligationStr}
 \closureat{RegSeqObservationBudgetUp}{scopedStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
 
