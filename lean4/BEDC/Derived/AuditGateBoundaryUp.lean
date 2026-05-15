@@ -386,4 +386,74 @@ theorem AuditGateBoundaryCarrier_origin_import_replay_exactness [AskSetup] [Pack
     unary_cont_closed originUnary transportUnary originRoute
   exact ⟨cert, originUnary, transportUnary, originConsumerUnary, originRoute, originPkg⟩
 
+theorem AuditGateBoundaryCarrier_dependency_forbidden_set [AskSetup] [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert dependencyConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      Cont dependencyReport route dependencyConsumer ->
+        PkgSig bundle dependencyConsumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution
+                originLedger transport route provenance gap nameCert bundle pkg ∧
+                hsame row dependencyReport)
+            (fun row : BHist =>
+              hsame row gap ∧ UnaryHistory row ∧
+                Cont dependencyReport route dependencyConsumer)
+            (fun row : BHist => PkgSig bundle dependencyConsumer pkg ∧
+              hsame row dependencyReport)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert
+  intro carrier dependencyRoute dependencyPkg
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, dependencyUnary, _markerUnary, _originUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _gapUnary, _nameUnary, dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have sourceDependency :
+      (fun row : BHist =>
+        AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+          transport route provenance gap nameCert bundle pkg ∧ hsame row dependencyReport)
+        dependencyReport := by
+    exact And.intro carrierWitness (hsame_refl dependencyReport)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+            transport route provenance gap nameCert bundle pkg ∧ hsame row dependencyReport)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro dependencyReport sourceDependency
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowDependency : hsame row dependencyReport := sourceRow.right
+        have sameOtherDependency : hsame other dependencyReport :=
+          hsame_trans (hsame_symm same) sameRowDependency
+        exact And.intro sourceRow.left sameOtherDependency
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro row sourceRow
+      have rowGap : hsame row gap :=
+        hsame_trans sourceRow.right dependencyGap
+      have rowUnary : UnaryHistory row :=
+        unary_transport dependencyUnary (hsame_symm sourceRow.right)
+      exact ⟨rowGap, rowUnary, dependencyRoute⟩
+    ledger_sound := by
+      intro row sourceRow
+      exact And.intro dependencyPkg sourceRow.right
+  }
+
 end BEDC.Derived.AuditGateBoundaryUp

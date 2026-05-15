@@ -138,6 +138,20 @@ Next read the completion-facing route. \autoref{thm:real-observation-budget-real
 Combine these routes with transport stability and non-escape. The transported package keeps the same finite rows, and \autoref{thm:real-observation-budget-nonescape} blocks any consumer from reading quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule outside the package.
 \end{proof}
 
+\begin{theorem}[Real observation budget StreamName--RegSeq--Real exit]
+\label{thm:real-observation-budget-streamname-regseq-real-exit}
+Every completion-facing consumer of an accepted $\RealObservationBudgetUp$ packet reaches the $\RealUp$ seal only through the finite chain consisting of the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, and displayed seal rows. Along this route the consumer receives the packet coordinates $E,W,D,R,S,H,C,P,N$ and introduces no quotient stream equality, host real equality, hidden limit selector, or unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start with the finite packet of \autoref{def:real-observation-budget-carrier}. The $\StreamNameUp$ dependency is the selected window family $W$, and \autoref{thm:real-observation-budget-window-coverage} binds every $\DyadicRatCoreUp$ readback and displayed radius in $D$ to one of those finite windows selected by the precision row $E$.
+
+Next pass through the rational handoff. \autoref{thm:real-observation-budget-regseq-handoff} sends every $\RegSeqRatUp$ consumer row through the already displayed $E,W,D$ route together with the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Now read the completion boundary. \autoref{thm:real-observation-budget-real-seal-boundary} makes the seal rows $S$ the only $\RealUp$ boundary reachable by a completion-facing consumer, and those rows may read only the finite observation and handoff surface already exposed by $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$.
+
+Finally apply non-escape. \autoref{thm:real-observation-budget-nonescape} exhausts the downstream consumer surface by $E,W,D,R,S,H,C,P,N$, so the exit route cannot import quotient stream equality, host real equality, hidden limit selection, or an unbounded observation schedule from outside the displayed packet.
+\end{proof}
+
 \begin{theorem}[Real observation budget request totality]
 \label{thm:real-observation-budget-request-totality}
 Every accepted $\RealObservationBudgetUp$ budget request carries a finite unary precision row $E$, a finite selected $\StreamNameUp$ window family $W$, and matching $\DyadicRatCoreUp$ readback and radius rows $D$. These rows are routed by the displayed $\Cont$ coordinate $C$, so each accepted request exposes a finite path
