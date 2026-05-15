@@ -457,6 +457,36 @@ theorem UnaryDirectionBridgeCarrier_kernel_axis_composition [AskSetup] [PackageS
       bridgeKernelBoundary, kernelAxisCont, axisAddCont, provenancePkg, namePkg,
       kernelAxisPkg, axisAddPkg⟩
 
+theorem UnaryDirectionBridgeCarrier_public_axis_readback [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name axisRead
+      additiveRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont axisRow bridge axisRead ->
+        Cont axisRead boundary additiveRead ->
+          PkgSig bundle axisRead pkg ->
+            PkgSig bundle additiveRead pkg ->
+              UnaryHistory natRow ∧ UnaryHistory axisRow ∧ UnaryHistory axisRead ∧
+                UnaryHistory additiveRead ∧ Cont natRow axisRow bridge ∧
+                  Cont axisRow bridge axisRead ∧ Cont axisRead boundary additiveRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle axisRead pkg ∧ PkgSig bundle additiveRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier axisBridgeRead axisReadBoundaryAdditive axisReadPkg additiveReadPkg
+  obtain ⟨natUnary, axisUnary, bridgeUnary, _kernelUnary, boundaryUnary, _ledgerUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, natAxisBridge,
+    _bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have axisReadUnary : UnaryHistory axisRead :=
+    unary_cont_closed axisUnary bridgeUnary axisBridgeRead
+  have additiveReadUnary : UnaryHistory additiveRead :=
+    unary_cont_closed axisReadUnary boundaryUnary axisReadBoundaryAdditive
+  exact
+    ⟨natUnary, axisUnary, axisReadUnary, additiveReadUnary, natAxisBridge,
+      axisBridgeRead, axisReadBoundaryAdditive, provenancePkg, namePkg, axisReadPkg,
+      additiveReadPkg⟩
+
 theorem UnaryDirectionBridgeCarrier_standard_boundary_consumer_factorization
     [AskSetup] [PackageSetup]
     {natRow axisRow bridge kernel boundary ledger transports routes provenance name boundaryRead

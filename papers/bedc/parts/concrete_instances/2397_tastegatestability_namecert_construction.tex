@@ -27,6 +27,7 @@ with the following displayed rows:
 The packet contains no hidden prompt state, no host-side theory approval, no oracle classifier, no unlisted compiler theorem, and no global horizon admission rule outside the displayed rows.
 \end{definition}
 \leandef{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityUp}
+\leanchecked{BEDC.Derived.TasteGateStabilityUp.taste\_gate}
 \leanchecked{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[TasteGateStability NameCert obligations]
@@ -74,15 +75,49 @@ The transport and continuation rows preserve exactly those coordinates. They can
 Therefore the forbidden objects have no projection target in the packet. Any consumer read seeking one of them has to leave the displayed rows, so it is not a read of the accepted $\TasteGateStabilityUp$ carrier.
 \end{proof}
 
+\begin{theorem}[TasteGateStability carrier field obligation]
+\label{thm:taste-gate-stability-carrier-field-obligation}
+Every accepted $\TasteGateStabilityUp$ packet exposes candidate identity, candidate $\NameCert$ carrier, $\ChapterTasteGate$ row, ground-compiler witness row, admission ledger, componentwise transports, replay routes, package provenance, and local naming as fields of the same finite carrier
+$$
+S=(X,K,T,W,A,H,C,P,N).
+$$
+The TasteGate carrier-alignment marker applies to this single carrier surface; it does not authorize a separate prompt state, host-side approval channel, oracle classifier, unlisted compiler theorem, or global horizon-admission row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:taste-gate-stability-carrier}. Its coordinates are exactly $X,K,T,W,A,H,C,P,N$, with $X$ carrying candidate identity, $K$ carrying the candidate $\NameCert$ surface, $T$ carrying $\ChapterTasteGate$, $W$ carrying ground-compiler witnesses, $A$ carrying the admission ledger, and $H,C,P,N$ carrying transport, replay, provenance, and naming.
+
+Apply \autoref{thm:taste-gate-stability-namecert-obligations}. The local NameCert surface reads those coordinates as one accepted packet rather than as independent chapter-side records.
+
+The ground-compiler witness route of \autoref{thm:taste-gate-stability-ground-compiler-witness-route} binds the TasteGate row $T$ to the witness row $W$ and the replay routes $C$. The checked TasteGate carrier-alignment marker records the same single-carrier alignment for the displayed surface.
+
+Finally use \autoref{thm:taste-gate-stability-non-escape-boundary}. Since the carrier has no coordinate for hidden prompt state, host approval, oracle classification, unlisted compiler facts, or global horizon admission, the listed fields are the full carrier-field obligation surface.
+\end{proof}
+
+\begin{theorem}[TasteGateStability admission ledger obligation]
+\label{thm:taste-gate-stability-admission-ledger-obligation}
+For every accepted $\TasteGateStabilityUp$ packet $S=(X,K,T,W,A,H,C,P,N)$, the admission ledger row $A$ records accepted and refused $\ChapterTasteGate$ reads for the displayed candidate surface. The ledger is read through the same carrier, witness, transport, replay, provenance, and naming rows, and it never becomes host-side theory approval, semantic certification of the candidate chapter, bridge checking, or global horizon admission.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The row $A$ is one field of the accepted packet, and its role is admission-ledger accounting for the same candidate identity $X$, candidate carrier $K$, TasteGate row $T$, and compiler witness row $W$.
+
+Apply \autoref{thm:taste-gate-stability-namecert-obligations}. It includes admission-ledger accounting through $A$ in the local NameCert surface, together with the transports $H$, replay routes $C$, provenance $P$, and local naming row $N$.
+
+Next use \autoref{thm:taste-gate-stability-ground-compiler-witness-route}. Accepted or refused reads of $T$ are tied to the ground-compiler witness row $W$ and to the displayed replay routes, so the ledger records TasteGate access to that finite evidence rather than a host semantic judgment.
+
+The checked TasteGate carrier-alignment marker and \autoref{thm:taste-gate-stability-non-escape-boundary} close the boundary. The marker aligns TasteGate with the same finite carrier, and the non-escape theorem blocks host approval, hidden prompt state, oracle classifiers, unlisted compiler theorems, and global horizon admission from entering through $A$.
+\end{proof}
+
 \closureat{TasteGateStabilityUp}{seedStr}
+\closureat{TasteGateStabilityUp}{obligationStr}[BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\TasteGateStabilityUp}
   \constructivestory{A $\TasteGateStabilityUp$ packet is generated from a candidate chapter identity row, candidate NameCert carrier row, ChapterTasteGate row, ground-compiler witness row, admission ledger, componentwise transports, replay routes, package provenance, and local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:taste-gate-stability-carrier}, \autoref{thm:taste-gate-stability-namecert-obligations}, \autoref{thm:taste-gate-stability-ground-compiler-witness-route}, and \autoref{thm:taste-gate-stability-non-escape-boundary} bind the seed carrier, local NameCert surface, compiler-witness route, and non-escape boundary for AI-origin TasteGate stability.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:taste-gate-stability-carrier}, \autoref{thm:taste-gate-stability-namecert-obligations}, \autoref{thm:taste-gate-stability-ground-compiler-witness-route}, \autoref{thm:taste-gate-stability-non-escape-boundary}, \autoref{thm:taste-gate-stability-carrier-field-obligation}, \autoref{thm:taste-gate-stability-admission-ledger-obligation}, and \leanchecked{BEDC.Derived.TasteGateStabilityUp.taste\_gate} bind the obligation surface for AI-origin TasteGate stability.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.TasteGateStabilityUp.TasteGateStabilityTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify host semantics, close bridge checking, or provide Lean verification for the TasteGateStability packet.}
-  \upgradepath{Obligation closure requires checked carrier, NameCert-surface, ground-compiler-witness, admission-ledger, and non-escape theorems for the same finite stability packet.}
+  \upgradepath{Scoped closure requires kernel scope for the carrier-field and admission-ledger obligation rows, including their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ChapterTasteGate$, and ground-compiler witness dependencies.}
 \end{closurestatus}

@@ -402,4 +402,33 @@ theorem FiniteNetMinimumFoldPacket_compact_uniform_modulus_consumption
       compactAccumulatorFolded, foldedLowerExport, accumulatorLowerHandoff,
       accumulatorLowerTransport, handoffSame, lowerExportPkg, handoffPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_selector_totality [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow consumed selected :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius consumed →
+        Cont consumed accumulator lower →
+          Cont accumulator lower selected →
+            PkgSig bundle selected pkg →
+              UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory accumulator ∧
+                UnaryHistory lower ∧ UnaryHistory consumed ∧ UnaryHistory selected ∧
+                  Cont bundleRow radius consumed ∧ Cont consumed accumulator lower ∧
+                    Cont accumulator lower selected ∧ PkgSig bundle selected pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet bundleRadiusConsumed consumedAccumulatorLower accumulatorLowerSelected
+    selectedPkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _provenancePkg⟩ := packet
+  have consumedUnary : UnaryHistory consumed :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusConsumed
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed accumulatorUnary lowerUnary accumulatorLowerSelected
+  exact
+    ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, consumedUnary, selectedUnary,
+      bundleRadiusConsumed, consumedAccumulatorLower, accumulatorLowerSelected, selectedPkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp

@@ -89,7 +89,26 @@ theorem QuotientSoundnessBoundary_root_representative_refusal_totality
       (And.intro vUnary
         (And.intro refusalUnary
           (And.intro eAV
-            (And.intro vHRefusal
-              (And.intro pPkg (And.intro refusalPkg hN)))))))
+              (And.intro vHRefusal
+                (And.intro pPkg (And.intro refusalPkg hN)))))))
+
+theorem QuotientSoundnessBoundary_cont_route_locality [AskSetup] [PackageSetup]
+    {e a t v h c p n consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont h c consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory e ∧ UnaryHistory a ∧ UnaryHistory t ∧ UnaryHistory v ∧
+            UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory consumer ∧ Cont e a v ∧
+              Cont e t h ∧ Cont h c consumer ∧ PkgSig bundle n pkg ∧
+                PkgSig bundle consumer pkg ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier hCConsumer consumerPkg
+  obtain ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, _pUnary, _nUnary, eAV, eTH,
+    _hCN, _pPkg, nPkg, hN⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hUnary cUnary hCConsumer
+  exact
+    ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, consumerUnary, eAV, eTH,
+      hCConsumer, nPkg, consumerPkg, hN⟩
 
 end BEDC.Derived.QuotientSoundnessBoundaryUp

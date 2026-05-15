@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ContinuationAutomatonUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -221,5 +233,63 @@ theorem ContinuationAutomatonTasteGate_single_carrier_alignment :
       · intro x y heq
         exact continuationAutomatonToEventFlow_injective heq
       · rfl
+
+def ContinuationAutomatonCarrier [AskSetup] [PackageSetup]
+    (states initial accepting transitions behaviour transport routes provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory states ∧ UnaryHistory initial ∧ UnaryHistory accepting ∧
+    UnaryHistory transitions ∧ UnaryHistory behaviour ∧ UnaryHistory transport ∧
+      UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+        Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+          Cont accepting behaviour transport ∧ Cont provenance nameCert states ∧
+            PkgSig bundle nameCert pkg
+
+theorem ContinuationAutomatonCarrier_behaviour_classifier_stability [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      behaviourRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      hsame behaviourRead behaviour ->
+        SemanticNameCert
+          (fun row : BHist =>
+            ContinuationAutomatonCarrier states initial accepting transitions behaviour transport
+              routes provenance nameCert bundle pkg ∧ hsame row behaviour)
+          (fun row : BHist =>
+            Cont initial transitions behaviour ∧ hsame row behaviour ∧
+              PkgSig bundle nameCert pkg)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle nameCert pkg) hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier sameRead
+  have carrierWitness := carrier
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, _transitionsUnary, behaviourUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    initialTransitionsBehaviour, _transitionsRoutesProvenance, _acceptingBehaviourTransport,
+    _provenanceNameStates, namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro behaviourRead (And.intro carrierWitness sameRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro initialTransitionsBehaviour (And.intro source.right namePkg)
+    ledger_sound := by
+      intro row source
+      have rowUnary : UnaryHistory row :=
+        unary_transport behaviourUnary (hsame_symm source.right)
+      exact And.intro rowUnary namePkg
+  }
 
 end BEDC.Derived.ContinuationAutomatonUp

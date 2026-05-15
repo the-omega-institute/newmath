@@ -230,4 +230,70 @@ theorem MaxCausalRatePacket_public_unary_bound_export [AskSetup] [PackageSetup]
     ⟨boundUnary, witnessReadUnary, publicReadUnary, witnessRoute, publicRoute, namePkg,
       publicPkg⟩
 
+theorem MaxCausalRatePacket_unary_bound_consumer_bridge [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert witnessRead publicRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont witnesses bound witnessRead ->
+        Cont witnessRead routes publicRead ->
+          Cont publicRead bound bridgeRead ->
+            PkgSig bundle publicRead pkg ->
+              PkgSig bundle bridgeRead pkg ->
+                UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+                  UnaryHistory comparisons ∧ UnaryHistory witnessRead ∧
+                    UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧
+                      Cont witnesses bound witnessRead ∧ Cont witnessRead routes publicRead ∧
+                        Cont publicRead bound bridgeRead ∧ PkgSig bundle nameCert pkg ∧
+                          PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet witnessRoute publicRoute bridgeRoute _publicPkg bridgePkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, routesUnary, _provenanceUnary,
+    _nameCertUnary, _witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, namePkg⟩ := packet
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed witnessesUnary boundUnary witnessRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed witnessReadUnary routesUnary publicRoute
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicReadUnary boundUnary bridgeRoute
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, witnessReadUnary,
+      publicReadUnary, bridgeReadUnary, witnessRoute, publicRoute, bridgeRoute, namePkg,
+      bridgePkg⟩
+
+theorem MaxCausalRatePacket_bridge_readback [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont comparisons bound bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+            UnaryHistory comparisons ∧ UnaryHistory hsameTransport ∧
+              UnaryHistory psameStability ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+                UnaryHistory nameCert ∧ UnaryHistory bridgeRead ∧
+                  Cont witnesses bound comparisons ∧
+                    Cont comparisons hsameTransport psameStability ∧
+                      Cont psameStability routes provenance ∧
+                        Cont provenance nameCert configuration ∧
+                          Cont comparisons bound bridgeRead ∧ PkgSig bundle nameCert pkg ∧
+                            PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet comparisonBoundBridge bridgePkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    hsameTransportUnary, psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary,
+    witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
+    provenanceNameConfiguration, namePkg⟩ := packet
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed comparisonsUnary boundUnary comparisonBoundBridge
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, hsameTransportUnary,
+      psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary, bridgeReadUnary,
+        witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
+          provenanceNameConfiguration, comparisonBoundBridge, namePkg, bridgePkg⟩
+
 end BEDC.Derived.MaxCausalRateUp
