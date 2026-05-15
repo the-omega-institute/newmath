@@ -481,6 +481,19 @@ distinguish two consumers that display the same $I,W,M,Q,T$ rows and the same
 seal handoff through $E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion endpoint budget reflector]
+\label{thm:uniform-cauchy-criterion-endpoint-budget-reflector}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted $\UniformCauchyCriterionUp$ packet. Any downstream endpoint-budget request on the Real-facing route reflects back to the same finite family ledger $I$, shared window family $W$, modulus schedule $M$, dyadic tolerance row $Q$, and tail ledger $T$ before the seal row $E$ is read. The reflected endpoint budget has no quotient stream, selected family limit, host real equality, ambient completeness object, or choice schedule.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_endpoint\_budget\_reflector}
+\begin{proof}
+Begin with the finite-family Real seal route determinacy theorem, \autoref{thm:uniform-cauchy-criterion-finite-family-real-seal-route-determinacy}. It identifies the route to the seal from the displayed rows $I,W,M,Q,T$ and no external analytic coordinate.
+
+Now use tail-ledger exactness, \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. Any endpoint-budget request that reaches the Real-facing seal must first pass through the same tail comparison ledger and dyadic tolerance row.
+
+Finally apply the public non-escape export, \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}. Since quotient streams, selected family limits, host real equality, ambient completeness, and choice schedules are absent from the public packet, the reflected endpoint budget can only be the finite $I,W,M,Q,T$ readback before $E$.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion public non-escape export]
 \label{thm:uniform-cauchy-criterion-public-non-escape-export}
 The public export surface of $\UniformCauchyCriterionUp$ is finite and non-escaping: it exports exactly $I,W,M,Q,T,E,H,C,P,N$ and excludes quotient stream families, host real equality, selected family limits, and ambient completeness. Any downstream consumer that claims one of the excluded objects is outside the public package.

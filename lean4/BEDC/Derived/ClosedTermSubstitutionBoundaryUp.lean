@@ -1,5 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 /-!
@@ -334,3 +336,47 @@ theorem ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment :
     · exact ClosedTermSubstitutionBoundaryPacket_single_carrier_alignment_round
 
 end BEDC.Derived.ClosedTermSubstitutionBoundaryUp
+
+namespace BEDC.Derived.ClosedtermsubstitutionboundaryUp
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
+
+def ClosedTermSubstitutionBoundaryClassifier
+    (source value depth shift substitution : BHist) : Prop :=
+  UnaryHistory source ∧ UnaryHistory value ∧ UnaryHistory depth ∧ UnaryHistory shift ∧
+    UnaryHistory substitution ∧ Cont source value shift ∧ Cont shift depth substitution
+
+theorem ClosedTermSubstitutionBoundaryClassifier_component_transport
+    {source source' value value' depth depth' shift shift' substitution substitution' : BHist} :
+    ClosedTermSubstitutionBoundaryClassifier source value depth shift substitution ->
+      hsame source source' ->
+        hsame value value' ->
+          hsame depth depth' ->
+            Cont source' value' shift' ->
+              Cont shift' depth' substitution' ->
+                ClosedTermSubstitutionBoundaryClassifier source' value' depth' shift'
+                    substitution' ∧
+                  hsame shift shift' ∧ hsame substitution substitution' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro classifier sameSource sameValue sameDepth sourceValueShift' shiftDepthSubstitution'
+  obtain ⟨sourceUnary, valueUnary, depthUnary, _shiftUnary, _substitutionUnary,
+    sourceValueShift, shiftDepthSubstitution⟩ := classifier
+  have sameShift : hsame shift shift' :=
+    cont_respects_hsame sameSource sameValue sourceValueShift sourceValueShift'
+  have sameSubstitution : hsame substitution substitution' :=
+    cont_respects_hsame sameShift sameDepth shiftDepthSubstitution shiftDepthSubstitution'
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have valueUnary' : UnaryHistory value' := unary_transport valueUnary sameValue
+  have depthUnary' : UnaryHistory depth' := unary_transport depthUnary sameDepth
+  have shiftUnary' : UnaryHistory shift' :=
+    unary_cont_closed sourceUnary' valueUnary' sourceValueShift'
+  have substitutionUnary' : UnaryHistory substitution' :=
+    unary_cont_closed shiftUnary' depthUnary' shiftDepthSubstitution'
+  exact
+    ⟨⟨sourceUnary', valueUnary', depthUnary', shiftUnary', substitutionUnary',
+        sourceValueShift', shiftDepthSubstitution'⟩,
+      sameShift, sameSubstitution⟩
+
+end BEDC.Derived.ClosedtermsubstitutionboundaryUp
