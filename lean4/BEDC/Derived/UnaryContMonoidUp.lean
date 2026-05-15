@@ -248,4 +248,73 @@ theorem UnaryContMonoidCarrier_namecert_obligations [AskSetup] [PackageSetup]
       unaryName, unaryObligation, productRoute, leftUnitRoute, rightUnitRoute,
       ledgerRoute, obligationRoute, sameUnit, ledgerPkg, obligationPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_scoped_grounding [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont unitLeft ledger scopedRead ->
+        PkgSig bundle scopedRead pkg ->
+          UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory ab ∧ UnaryHistory unitLeft ∧
+            UnaryHistory ledger ∧ UnaryHistory scopedRead ∧ Cont a b ab ∧
+              Cont BHist.Empty a unitLeft ∧ Cont ab name ledger ∧
+                Cont unitLeft ledger scopedRead ∧ hsame e BHist.Empty ∧
+                  PkgSig bundle scopedRead pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        Cont unitLeft ledger row ∧ hsame e BHist.Empty)
+                      (fun row : BHist =>
+                        hsame row scopedRead ∧ PkgSig bundle scopedRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier scopedRoute scopedPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, leftUnitRoute, _rightUnitRoute,
+    ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryLedger : UnaryHistory ledger :=
+    unary_cont_closed unaryProduct unaryName ledgerRoute
+  have unaryScoped : UnaryHistory scopedRead :=
+    unary_cont_closed unaryLeftUnit unaryLedger scopedRoute
+  have sourceScoped :
+      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row) scopedRead := by
+    exact ⟨hsame_refl scopedRead, unaryScoped⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+        (fun row : BHist => Cont unitLeft ledger row ∧ hsame e BHist.Empty)
+        (fun row : BHist => hsame row scopedRead ∧ PkgSig bundle scopedRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro scopedRead sourceScoped
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨cont_result_hsame_transport scopedRoute (hsame_symm source.left),
+            sameUnit⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, scopedPkg⟩
+    }
+  exact
+    ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryLedger, unaryScoped,
+      productRoute, leftUnitRoute, ledgerRoute, scopedRoute, sameUnit, scopedPkg, cert⟩
+
 end BEDC.Derived.UnaryContMonoidUp
