@@ -227,4 +227,49 @@ theorem ZetaContinuationWitnessPacket_eta_pole_functional_readiness [AskSetup] [
     ⟨analyticSame, transportsSame, gammaSame, exportUnary, routesNameExport, namePkg,
       provenancePkg⟩
 
+theorem ZetaContinuationWitnessPacket_root_readiness_lock [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
+      analytic' transports' provenance' zeroLedger' gamma' rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+      routes provenance name bundle pkg →
+      Cont basic eta' analytic' →
+      Cont analytic' functional transports' →
+      Cont transports' routes provenance' →
+      Cont pole zeroLedger' gamma' →
+      PkgSig bundle provenance' pkg →
+      hsame eta eta' →
+      hsame zeroLedger zeroLedger' →
+      UnaryHistory routes →
+      UnaryHistory name →
+      Cont routes name rootRead →
+      hsame analytic analytic' ∧ hsame transports transports' ∧ hsame provenance provenance' ∧
+        hsame gamma gamma' ∧ UnaryHistory rootRead ∧ hsame rootRead (append routes name) ∧
+          PkgSig bundle name pkg ∧ PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet basicRoute functionalRoute provenanceRoute gammaRoute provenancePkg etaSame
+    zeroLedgerSame routesUnary nameUnary routesNameRootRead
+  have ledger :=
+    ZetaContinuationWitnessPacket_dependency_ledger
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (eta' := eta') (analytic' := analytic')
+      (transports' := transports') (provenance' := provenance') (bundle := bundle)
+      (pkg := pkg) packet basicRoute functionalRoute provenanceRoute provenancePkg etaSame
+  obtain ⟨analyticSame, transportsSame, provenanceSame, namePkg, provenancePkg'⟩ := ledger
+  have gammaBoundary :=
+    ZetaContinuationWitnessPacket_gamma_boundary
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (zeroLedger' := zeroLedger') (gamma' := gamma')
+      (bundle := bundle) (pkg := pkg) packet gammaRoute zeroLedgerSame
+  obtain ⟨gammaSame, _namePkgGamma, _provenancePkgGamma⟩ := gammaBoundary
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed routesUnary nameUnary routesNameRootRead
+  exact
+    ⟨analyticSame, transportsSame, provenanceSame, gammaSame, rootReadUnary,
+      routesNameRootRead, namePkg, provenancePkg'⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp
