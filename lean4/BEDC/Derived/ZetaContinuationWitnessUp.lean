@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -296,5 +298,84 @@ theorem ZetaContinuationWitnessPacket_public_root_export [AskSetup] [PackageSetu
   exact
     ⟨rootReadUnary, routesNameRootRead, basicEtaAnalytic, analyticFunctionalTransports,
       poleZeroLedgerGamma, transportsRoutesProvenance, namePkg, provenancePkg, rootReadPkg⟩
+
+theorem ZetaContinuationWitnessPacket_critical_strip_root_handoff [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
+      analytic' transports' provenance' zeroLedger' gamma' publicRoot : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+        routes provenance name bundle pkg ->
+      Cont basic eta' analytic' ->
+        Cont analytic' functional transports' ->
+          Cont transports' routes provenance' ->
+            Cont pole zeroLedger' gamma' ->
+              PkgSig bundle provenance' pkg ->
+                hsame eta eta' ->
+                  hsame zeroLedger zeroLedger' ->
+                    UnaryHistory routes ->
+                      UnaryHistory name ->
+                        Cont routes name publicRoot ->
+                          PkgSig bundle publicRoot pkg ->
+                            SemanticNameCert
+                              (fun row : BHist =>
+                                ZetaContinuationWitnessPacket basic eta analytic pole
+                                  functional zeroLedger gamma transports routes provenance name
+                                  bundle pkg /\ hsame row gamma)
+                              (fun row : BHist => hsame row gamma /\ UnaryHistory publicRoot)
+                              (fun row : BHist =>
+                                PkgSig bundle provenance' pkg /\
+                                  PkgSig bundle publicRoot pkg /\ hsame row gamma /\
+                                    Cont pole zeroLedger' gamma')
+                              hsame /\
+                            hsame analytic analytic' /\ hsame transports transports' /\
+                              hsame provenance provenance' /\ hsame gamma gamma' /\
+                                UnaryHistory publicRoot /\
+                                  hsame publicRoot (append routes name) /\
+                                    PkgSig bundle name pkg /\
+                                      PkgSig bundle provenance' pkg /\
+                                        PkgSig bundle publicRoot pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro packet basicRoute functionalRoute provenanceRoute gammaRoute provenancePkg etaSame
+    zeroLedgerSame routesUnary nameUnary routesNamePublic publicRootPkg
+  have readiness :=
+    ZetaContinuationWitnessPacket_root_readiness_lock
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (eta' := eta') (analytic' := analytic')
+      (transports' := transports') (provenance' := provenance')
+      (zeroLedger' := zeroLedger') (gamma' := gamma') (rootRead := publicRoot)
+      (bundle := bundle) (pkg := pkg) packet basicRoute functionalRoute provenanceRoute
+      gammaRoute provenancePkg etaSame zeroLedgerSame routesUnary nameUnary routesNamePublic
+  obtain ⟨analyticSame, transportsSame, provenanceSame, gammaSame, publicRootUnary,
+    publicRootSame, namePkg, provenancePkg'⟩ := readiness
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+            transports routes provenance name bundle pkg /\ hsame row gamma)
+        (fun row : BHist => hsame row gamma /\ UnaryHistory publicRoot)
+        (fun row : BHist =>
+          PkgSig bundle provenance' pkg /\ PkgSig bundle publicRoot pkg /\
+            hsame row gamma /\ Cont pole zeroLedger' gamma')
+        hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro gamma ⟨packet, hsame_refl gamma⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      exact ⟨source.right, publicRootUnary⟩
+    · intro row source
+      exact ⟨provenancePkg', publicRootPkg, source.right, gammaRoute⟩
+  exact
+    ⟨cert, analyticSame, transportsSame, provenanceSame, gammaSame, publicRootUnary,
+      publicRootSame, namePkg, provenancePkg', publicRootPkg⟩
 
 end BEDC.Derived.ZetaContinuationWitnessUp
