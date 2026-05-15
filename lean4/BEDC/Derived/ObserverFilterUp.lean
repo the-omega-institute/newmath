@@ -448,4 +448,70 @@ theorem ObserverFilter_observerhistoryidentity_streamname_lattice_route
       observerReadUnary, streamReadUnary, sourceSelected, ledgerOmitted,
       sourceOmittedObserverRead, selectedLocalNameStreamRead, provenancePkg, streamReadPkg⟩
 
+theorem ObserverFilterCarrier_real_window_synchronizer_handoff [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName budgetSchedule
+      budgetWindows synchronizerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg ->
+      UnaryHistory budgetSchedule ->
+        UnaryHistory synchronizerRead ->
+          Cont selected budgetSchedule budgetWindows ->
+            Cont budgetWindows localName synchronizerRead ->
+              PkgSig bundle synchronizerRead pkg ->
+                SemanticNameCert
+                  (fun row : BHist =>
+                    ObserverFilterCarrier source selected omitted transport ledger routes
+                        provenance localName bundle pkg ∧
+                      hsame row budgetWindows)
+                  (fun row : BHist =>
+                    Cont selected budgetSchedule budgetWindows ∧
+                      Cont budgetWindows localName synchronizerRead ∧
+                        hsame row budgetWindows ∧ PkgSig bundle synchronizerRead pkg)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle synchronizerRead pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro carrier budgetScheduleUnary _synchronizerUnary selectedBudget budgetLocalName
+    synchronizerPkg
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+    provenanceUnary, localNameUnary, sourceSelected, ledgerOmitted, routesLocalName,
+    provenancePkg⟩ := carrier
+  have budgetWindowsUnary : UnaryHistory budgetWindows :=
+    unary_cont_closed selectedUnary budgetScheduleUnary selectedBudget
+  have carrierWitness :
+      ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+          bundle pkg :=
+    ⟨sourceUnary, selectedUnary, omittedUnary, ledgerUnary, routesUnary, provenanceUnary,
+      localNameUnary, sourceSelected, ledgerOmitted, routesLocalName, provenancePkg⟩
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro budgetWindows
+          (And.intro carrierWitness (hsame_refl budgetWindows))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceData
+        exact And.intro sourceData.left
+          (hsame_trans (hsame_symm sameRows) sourceData.right)
+    }
+    pattern_sound := by
+      intro row sourceData
+      exact ⟨selectedBudget, budgetLocalName, sourceData.right, synchronizerPkg⟩
+    ledger_sound := by
+      intro row sourceData
+      exact
+        ⟨unary_transport budgetWindowsUnary (hsame_symm sourceData.right), provenancePkg,
+          synchronizerPkg⟩
+  }
+
 end BEDC.Derived.ObserverFilterUp

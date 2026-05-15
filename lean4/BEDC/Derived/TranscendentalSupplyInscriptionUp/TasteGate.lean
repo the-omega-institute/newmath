@@ -233,6 +233,9 @@ instance transcendentalSupplyInscriptionChapterTasteGate :
     intro x y hxy heq
     exact hxy (transcendentalSupplyInscriptionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate TranscendentalSupplyInscriptionUp :=
+  transcendentalSupplyInscriptionChapterTasteGate
+
 theorem TranscendentalSupplyInscriptionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       transcendentalSupplyInscriptionDecodeBHist
