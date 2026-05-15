@@ -209,6 +209,60 @@ host real equality, ambient or metric-completeness datum, countable-choice row,
 Classical row, or standard bridge row is introduced by the finite cover.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request subcover terminal invariance]
+\label{thm:streamname-finite-request-subcover-terminal-invariance}
+Let $\{\mathcal{R}_i\}_{i\in I}$ be a finite family of $\StreamNameUp$
+requests satisfying the hypotheses of
+\autoref{thm:streamname-finite-request-cover-gluing}. Let $J\subseteq I$ be a
+finite subfamily such that every request in $I\setminus J$ has the same
+terminal four-face packet as the retained subfamily on every displayed
+overlap. Then deleting the requests indexed by $I\setminus J$ leaves the same
+terminal packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over the retained finite request cover, with the same displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The retained terminal packet still contains no quotient stream equality, no
+quotient equality of Cauchy presentations, no host sequence equality, no
+selected limit, no host real equality, no ambient or metric-completeness
+datum, no countable-choice row, no Classical row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-request-cover-gluing} to the full finite
+family. This produces one terminal four-face packet over $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with only the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+On each displayed overlap between a discarded request and the retained
+subfamily, apply
+\autoref{thm:streamname-finite-request-terminal-coherence}. The overlap has
+the same StreamName, DyadicRatCore, RegSeqRat, RealUp, and displayed support
+rows on both sides, so the discarded request and the retained cover land on
+the same terminal public row.
+
+It remains to see that the order of deletion is irrelevant. For any three
+requests meeting on a displayed overlap, use
+\autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle} for the
+shared StreamName source surface and
+\autoref{thm:realup-streamname-regseqrat-triple-window-cocycle} for the RealUp
+finite-window consumer surface. These cocycles are the same compatibility
+data used in \autoref{thm:streamname-finite-request-cover-gluing}, so removing
+discarded requests in any finite order preserves the boundary row already
+seen by the retained subfamily.
+
+The remaining finite cover is therefore pasted with the same terminal packet
+as the full cover. Its exclusion surface is inherited from the non-escape
+clause of \autoref{thm:streamname-finite-request-terminal-coherence} and from
+\autoref{thm:streamname-finite-request-cover-gluing}: every step reads only
+the displayed finite BEDC rows. Thus no quotient stream equality, quotient
+Cauchy-presentation equality, host sequence equality, selected limit, host
+real equality, ambient or metric-completeness datum, countable-choice row,
+Classical row, or standard bridge row appears after the subcover is retained.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request cover CauchyLimitSeal stability]
 \label{thm:streamname-finite-request-cover-cauchy-limit-seal-stability}
 Let $\{\mathcal{R}_i\}_{i\in I}$ be a finite family of $\StreamNameUp$
