@@ -439,6 +439,42 @@ Next use RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reind
 Finally apply real-completion window nonescape, \autoref{thm:histtimestream-real-completion-window-nonescape}. It forces the Real readback through the HistTimeStream, StreamName, RegSeqRat, and Real rows named in the statement and excludes quotient streams, selected host limits, ambient completeness objects, host-indexed time, and cross-Hist clock data from the ledger.
 \end{proof}
 
+\begin{theorem}[HistTimeStream StreamName window totality]
+\label{thm:histtimestream-streamname-window-totality}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every $\StreamNameUp$-facing consumer of $Q$ reads exactly the displayed finite window rows $H,T,S,C,L,P,N$ through the carrier, the finite $\Cont$ prefix, and the StreamName finite-window handoff. Such a consumer cannot obtain a quotient stream, host-indexed clock, hidden route, selected host limit, ambient completeness witness, or cross-Hist clock from the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It displays $Q$ as precisely the seven rows $H,T,S,C,L,P,N$, with no coordinate for a quotient stream, hidden route, host-indexed clock, selected limit, or ambient completeness witness.
+
+Next apply the StreamName finite-window handoff, \autoref{thm:histtimestream-streamname-finite-window-handoff}. It identifies the consumer-visible naming input as the bounded window induced by the displayed $\Cont$ prefix before any StreamName consumer reads the stream.
+
+Finally use prefix transport exhaustion, \autoref{thm:histtimestream-prefix-transport-exhaustion}. Every observer-facing or naming-facing read has already passed through the finite prefix and componentwise $\hsame$ transport, and every attempted nonlocal time read is refused unless it preserves the displayed rows. Hence the StreamName-facing window is total and admits no hidden quotient, clock, route, limit, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[HistTimeStream RegSeqRat Real window route]
+\label{thm:histtimestream-regseq-real-window-route}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every $\RegSeqRatUp$ or $\RealUp$ read of the packet factors through $\HistTimeStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ in that order. The route reads only the finite window rows displayed by $Q$ and cannot select a host limit, ambient completeness coordinate, quotient stream, host-indexed time, or cross-Hist clock.
+\end{theorem}
+\begin{proof}
+First apply StreamName window totality, \autoref{thm:histtimestream-streamname-window-totality}. It fixes the StreamName-facing input as the displayed finite window $H,T,S,C,L,P,N$ and excludes hidden quotient, route, clock, limit, and completeness coordinates at the naming boundary.
+
+Next use RegSeqRat reindex stability, \autoref{thm:hist-time-stream-regseq-reindex-stability}. The regular rational sequence consumer receives only the transported finite window handed through StreamName, so reindexing cannot choose a host limit or add an ambient completeness coordinate.
+
+Finally apply real-completion window nonescape, \autoref{thm:histtimestream-real-completion-window-nonescape}. It places each Real read after the HistTimeStream, StreamName, and RegSeqRat rows and blocks all listed escape data from the Real-facing route.
+\end{proof}
+
+\begin{theorem}[HistTimeStream finite-window readback exhaustion]
+\label{thm:histtimestream-finite-window-readback-exhaustion}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, the local source rows, StreamName window, RegSeqRat reindex stability, and Real readback ledger exhaust the finite-window readback obligations on the Real and Completion path. No further readback obligation remains outside the displayed local source rows, the StreamName window totality surface, the RegSeqRat route, and the Real ledger.
+\end{theorem}
+\begin{proof}
+Begin with StreamName window totality, \autoref{thm:histtimestream-streamname-window-totality}. It turns the local source rows of $Q$ into the whole naming window available to a StreamName-facing consumer.
+
+Next apply the RegSeqRat Real window route, \autoref{thm:histtimestream-regseq-real-window-route}. This routes every RegSeqRat or Real read through HistTimeStream, StreamName, RegSeqRat, and Real in order, while preserving the finite window and excluding nonlocal escape data.
+
+Finally use the Real readback ledger, \autoref{thm:hist-time-stream-real-readback-ledger}. The ledger records the same source rows, StreamName handoff, RegSeqRat input, and Real readback as the complete path, so the finite-window readback obligations for the Real and Completion path are exhausted by the three named surfaces.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
