@@ -159,6 +159,42 @@ Apply \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}. Th
 It remains to separate failed positivity candidates. By \autoref{thm:kernel-inductive-acceptance-refusal-nonescape}, such candidates land in $P$ and remain outside accepted declaration, trace, generator, type-classifier, and subject-reduction paths. The obligation closure package and the existing TasteGate anchor recorded by this chapter therefore leave subject reduction with only the displayed accepted route and no hidden theorem-proof row.
 \end{proof}
 
+\begin{theorem}[KernelInductiveAcceptance environment-entry determinacy]
+\label{thm:kernel-inductive-acceptance-environment-entry-determinacy}
+For the carrier $I=(D,S,E,P,R,H,C,Q,N)$ of \autoref{def:kernel-inductive-acceptance-carrier}, every accepted environment-entry read is determined by the displayed route $D,S,E,R,H,C,Q,N$. If two accepted reads preserve the declaration candidate, constructor-signature ledger, emitted-eliminator ledger, recursion-discipline row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, then they present the same environment-entry surface for $\KernelInductiveAcceptanceUp$. The positivity-refusal row $P$ remains outside the accepted entry surface.
+\end{theorem}
+\begin{proof}
+Project the NameCert obligation surface of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. Carrier admission, constructor-signature exactness, emitted-eliminator exactness, and environment-entry non-escape identify the accepted side as the displayed $D,S,E,R,H,C,Q,N$ route.
+
+Use constructor-ledger exhaustion and eliminator-ledger exhaustion, \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion} and \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}. These prevent a second constructor or emitted-eliminator source from distinguishing two accepted environment entries with the same displayed rows.
+
+Finally apply the accepted declaration route theorem \autoref{thm:kernel-inductive-acceptance-accepted-declaration-route}. It gives downstream consumers no accepted-declaration certificate outside the displayed route, while refusal nonescape keeps $P$ separate from the accepted entry.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance emitted-eliminator consumer coverage]
+\label{thm:kernel-inductive-acceptance-emitted-eliminator-consumer-coverage}
+Once the constructor signatures in $S$ are visible, every recursor consumer, induction-principle consumer, and computation-row consumer of an accepted $\KernelInductiveAcceptanceUp$ packet is covered by the emitted-eliminator ledger $E$ together with $D,S,R,H,C,Q,N$. No such consumer reads an eliminator outside $E$, a theorem-proof row, a generic trace theorem, or an off-carrier generator certificate.
+\end{theorem}
+\begin{proof}
+Begin with the emitted-eliminator exactness clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. It requires every recursor, induction-principle, and computation read to pass through $E$ after the constructor-signature ledger $S$ is visible.
+
+Apply \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}. The consumer route has no carrier coordinate outside $D,S,E,R,H,C,Q,N$, and the ledger $E$ is the only emitted-eliminator inventory available to the read.
+
+Use the generator closure route and subject reduction route, \autoref{thm:kernel-inductive-acceptance-generator-closure-route} and \autoref{thm:kernel-inductive-acceptance-subject-reduction-route}. Generator and preservation consumers are downstream of the same emitted ledger, so their coverage is exhausted by $E$ and the displayed route rows rather than by a hidden theorem or trace certificate.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance positivity-refusal classifier stability]
+\label{thm:kernel-inductive-acceptance-positivity-refusal-classifier-stability}
+Every constructor-signature candidate that fails the local positivity classifier remains in the refusal row $P$ under componentwise classifier transport. Such a candidate cannot be transported into the accepted route $D,S,E,R,H,C,Q,N$, cannot acquire an emitted eliminator in $E$, and cannot become a subject-reduction or generator-closure consumer row.
+\end{theorem}
+\begin{proof}
+Start with the positivity-refusal stability clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. A failed positivity candidate is routed to $P$ rather than to the accepted constructor-signature ledger $S$.
+
+Apply the refusal nonescape theorem \autoref{thm:kernel-inductive-acceptance-refusal-nonescape}. It separates $P$ from accepted declaration, trace, generator, type-classifier, and subject-reduction paths, so classifier transport cannot turn a refused candidate into an accepted environment entry.
+
+Finally combine the accepted declaration route, generator closure route, and subject reduction route. Theorems~\ref{thm:kernel-inductive-acceptance-accepted-declaration-route},~\ref{thm:kernel-inductive-acceptance-generator-closure-route}, and~\ref{thm:kernel-inductive-acceptance-subject-reduction-route} all consume only the displayed accepted route after $S$ and $E$ are visible. Since a refused candidate remains in $P$, it cannot enter any of those consumer rows.
+\end{proof}
+
 \begin{theorem}[KernelInductiveAcceptance continuation route totality]
 \label{thm:kernel-inductive-acceptance-cont-route-totality}
 For the carrier $I=(D,S,E,P,R,H,C,Q,N)$ of \autoref{def:kernel-inductive-acceptance-carrier}, every accepted declaration route, constructor-signature route, emitted-eliminator route, positivity-refusal route, generator-closure consumer route, and subject-reduction consumer route factors through the displayed $\Cont$ row $C$. No consumer of $\KernelInductiveAcceptanceUp$ may read a declaration, constructor, eliminator, refusal, generator boundary, or preservation boundary through a route outside $C$.

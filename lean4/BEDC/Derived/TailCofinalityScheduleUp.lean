@@ -179,4 +179,39 @@ theorem TailCofinalityScheduleCarrier_real_seal_readback [AskSetup] [PackageSetu
       routeUnary, provenanceUnary, localCertUnary, endpointUnary, sealReadUnary,
       precisionWindowDyadic, dyadicRegseqSeal, regseqSealRead, endpointPkg, sealReadPkg⟩
 
+theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [PackageSetup]
+    {precision budget window dyadic regseq sealRow transport route provenance localCert endpoint
+      selectorRead sealRead pullback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory budget →
+        Cont budget window selectorRead →
+          Cont selectorRead regseq sealRead →
+            Cont sealRead endpoint pullback →
+              PkgSig bundle pullback pkg →
+                UnaryHistory precision ∧ UnaryHistory budget ∧ UnaryHistory window ∧
+                  UnaryHistory regseq ∧ UnaryHistory selectorRead ∧ UnaryHistory sealRead ∧
+                    UnaryHistory pullback ∧ Cont precision window dyadic ∧
+                      Cont dyadic regseq sealRow ∧ Cont budget window selectorRead ∧
+                        Cont selectorRead regseq sealRead ∧ Cont sealRead endpoint pullback ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle pullback pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier budgetUnary budgetWindowSelector selectorRegseqSeal sealEndpointPullback
+    pullbackPkg
+  obtain ⟨precisionUnary, windowUnary, _dyadicUnary, regseqUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed budgetUnary windowUnary budgetWindowSelector
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectorUnary regseqUnary selectorRegseqSeal
+  have pullbackUnary : UnaryHistory pullback :=
+    unary_cont_closed sealReadUnary endpointUnary sealEndpointPullback
+  exact
+    ⟨precisionUnary, budgetUnary, windowUnary, regseqUnary, selectorUnary, sealReadUnary,
+      pullbackUnary, precisionWindowDyadic, dyadicRegseqSeal, budgetWindowSelector,
+      selectorRegseqSeal, sealEndpointPullback, endpointPkg, pullbackPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
