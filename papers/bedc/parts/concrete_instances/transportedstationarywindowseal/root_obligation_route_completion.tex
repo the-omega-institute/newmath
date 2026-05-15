@@ -1,0 +1,63 @@
+\begin{theorem}[Transported stationary window-seal tail route totality]
+\label{thm:transported-stationary-window-seal-tail-route-totality}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. Every accepted completion-facing route that preserves the transported source rows of $T$ and the schedule rows of $Q$ is total over the displayed route
+$$
+\begin{aligned}
+  (R,S,G,H,C,P,N)
+  \longrightarrow
+  (E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)
+  \longrightarrow
+  W
+  \longrightarrow
+  E .
+\end{aligned}
+$$
+It has no additional tail oracle, second $\StreamNameUp$ window, second $\RegSeqRatUp$ seal, quotient-stream equality, selected host limit, choice principle, ambient real-completeness witness, or independent $\CompletionUp$ carrier.
+\end{theorem}
+\begin{proof}
+First fix the transported source route. The carrier obligation and \autoref{thm:transported-stationary-window-seal-constant-window-triad} identify $R,S,G$ as one transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ route under $H,C,P,N$.
+
+Next attach the schedule. Apply \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}; it places the TailCofinalitySchedule packet on the same finite window and seal row and routes completion-facing consumers through $E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T$ after the transported triad.
+
+Now read the envelope and seal. The completion-consumer boundary and \autoref{thm:transported-stationary-window-seal-root-envelope-exhaustion} force the finite envelope $W$ and the $\RealUp$ seal row $E$ to be read after the transported source and schedule rows.
+
+Finally use \autoref{thm:transported-stationary-window-seal-shared-window-budget-exhaustion} and \autoref{thm:transported-stationary-window-seal-completion-route-uniqueness}. The shared budget has no remaining coordinate for another source, schedule, envelope, completion carrier, or real-completeness datum, so the displayed completion-facing route is total.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real observation budget coherence]
+\label{thm:transported-stationary-window-seal-real-observation-budget-coherence}
+For accepted packets $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ as above, the $\RealUp$ observation budget exported by $T$ is coherent with the tail schedule budget of $Q$. Every $\RealUp$-facing read of $E$ uses the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source route $R,S,G,H,C,P,N$, the scheduled tail rows $E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T$, and the finite envelope row $W$ before it reaches $E$.
+
+In particular, no accepted $\RealUp$ observer can split the observation budget into an envelope-only real row, a schedule-only real row, a selected host limit, quotient-stream equality, host real equality, choice, ambient completeness, or a second completion source.
+\end{theorem}
+\begin{proof}
+Begin with the Real factorization. By \autoref{thm:transported-stationary-window-seal-real-factorization} and \autoref{thm:transported-stationary-window-seal-root-real-factorization}, every $\RealUp$ read of $E$ factors through the same $\RegSeqRatUp$ seal row $G$ and the finite envelope $W$.
+
+The tail schedule is attached to exactly that window and seal row. Use \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff} to place $Q$ between the transported source triad and the envelope-seal pair, and use \autoref{thm:transported-stationary-window-seal-tail-schedule-envelope-order} to keep the schedule rows upstream of $W$ and $E$.
+
+The budget comparison is then forced by \autoref{thm:transported-stationary-window-seal-shared-window-budget-exhaustion}. It states that the shared $\StreamNameUp$ and $\RegSeqRatUp$ budget is exhausted by the transported rows, the schedule rows, and the envelope-seal rows.
+
+Finally apply ledger non-escape and completion-route uniqueness. Since neither packet exposes quotient streams, selected limits, host real equality, choice, ambient completeness, or another completion source, every $\RealUp$ observation budget is the single coherent budget displayed above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal stationary window ledger exhaustion]
+\label{thm:transported-stationary-window-seal-stationary-window-ledger-exhaustion}
+Let $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be accepted packets as above. The stationary window ledger available to $\TransportedStationaryWindowSealUp$ and its tail schedule consumer is exhausted by
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N,
+  E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T,
+  W,E .
+\end{aligned}
+$$
+Every accepted NameCert route preserving the same transported source, schedule, finite envelope, and $\RealUp$ seal is the route of \autoref{thm:transported-stationary-window-seal-completion-route-uniqueness}; there is no unused stationary-window coordinate for another tail schedule, another finite envelope, another real seal, or an independent completion route.
+\end{theorem}
+\begin{proof}
+First account for the root ledger. The carrier obligation, root source lock, and root ledger exhaustion theorems identify the available transported window rows as $R,S,G,W,E,H,C,P,N$ and exclude all off-packet real and completion data.
+
+Next account for the schedule-facing ledger. The tail-cofinality handoff consumes the accepted packet $Q$ on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row, and the shared-window budget exhaustion theorem records the exact schedule rows available to the combined route.
+
+Now combine the two inventories. The tail route totality theorem above places the transported source rows, schedule rows, finite envelope, and real seal into one completion-facing route, while Real observation budget coherence keeps the $\RealUp$ read on that same route.
+
+Finally apply NameCert route exhaustion and completion-route uniqueness. Any accepted route preserving the displayed rows has no coordinate left for another schedule, envelope, seal, or completion object, so the stationary window ledger is exhausted by the stated finite packet.
+\end{proof}
