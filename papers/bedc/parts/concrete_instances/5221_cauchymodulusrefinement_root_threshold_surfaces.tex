@@ -170,6 +170,7 @@ M_0,M_1,U,V,T,
 $$
 no public consumer can read a second meet, quotient stream, host equality, selected limit, hidden selector, or ambient completeness datum from that route. All later reads are confined to the selected-window row $W$, tolerance and regular-readback row $Q$, Real seal row $E$, and structural rows $H,C,P,N$ of the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_meet\_threshold\_nonescape}
 \begin{proof}
 Read the deterministic route of \autoref{thm:cauchy-modulus-refinement-root-route-determinacy}. The meet-threshold route has the displayed source schedules, shared meet, extraction witness, and selector budget, and no alternate meet coordinate.
 
@@ -192,6 +193,22 @@ Begin with root budget stability and meet-threshold nonescape, \autoref{thm:cauc
 Use the sibling concrete-instance surfaces as the public handoff language. The $\StreamNameUp$ chapter names the finite window row, $\DyadicRatCoreUp$ names dyadic readback, $\RegSeqRatUp$ names the regular sequence handoff, and $\RealUp$ names the seal consumed after those rows.
 
 Finally apply root budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. These theorems already cover every Real or Completion consumer of the root packet, so the Real seal is reached only through the displayed budget rows and never through quotient equality, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement diagonal route pullback]
+\label{thm:cauchy-modulus-refinement-diagonal-route-pullback}
+For every accepted finite $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+whose source rows name a $\StreamNameUp$ window $W$, a $\RegSeqRat$ readback row $Q$, and a $\RealUp$ seal row $E$, every diagonal-limit consumer route compatible with \autoref{ch:concrete-instances-diagonal-limit-compatibility-namecert} pulls back to the same finite dyadic threshold $T$ and the same shared-window ledger $W,Q$ used by $R$. The pulled-back route is a $\BHist$ route transported by $\hsame$ through $H$, replayed by $\Cont$ through $C$, and registered by the same $\Pkg$ and local $\NameCert$ rows $P,N$; it introduces no host quotient, no choice principle, and no extra completion witness.
+\end{theorem}
+\begin{proof}
+Begin with the Real seal handoff, \autoref{thm:cauchy-modulus-refinement-real-seal-handoff}. It places every Real or Completion consumer of $R$ after the displayed finite route $M_0,M_1,U,V,T,W,Q,E$ and identifies $W,Q,E$ as the StreamName window, regular readback, and Real seal surface read by the consumer.
+
+Next apply root-window Real seal determinacy, \autoref{thm:cauchy-modulus-refinement-root-window-real-seal-determinacy}. If a diagonal-limit-compatible consumer reads the same window and readback rows, then its terminal Real seal is classified through the same root route, so changing only the downstream diagonal presentation cannot produce a second seal or a different threshold.
+
+Finally use L10 handoff sufficiency, \autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency}. The rows $U,T,W,Q,E,H,C,P,N$ already suffice for the finite handoff to $\RealUp$, and the nonescape exclusions in that handoff leave no coordinate for a host quotient, selected limit, choice principle, or additional completion witness. Hence every diagonal-limit consumer route pulls back to the same dyadic threshold and shared-window ledger carried by the original refinement packet.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement open-phase exit spine]

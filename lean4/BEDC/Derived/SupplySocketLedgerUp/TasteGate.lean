@@ -188,6 +188,24 @@ private theorem supplySocketLedgerToEventFlow_injective {x y : SupplySocketLedge
     (Eq.trans (supplySocketLedger_round_trip x).symm
       (Eq.trans hread (supplySocketLedger_round_trip y)))
 
+private def supplySocketLedgerFields : SupplySocketLedgerUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | SupplySocketLedgerUp.mk gapTag supplyKind socketSite auditGate consumptionRoute
+      provenance nameCert =>
+      [gapTag, supplyKind, socketSite, auditGate, consumptionRoute, provenance, nameCert]
+
+private theorem supplySocketLedger_field_faithful :
+    ∀ x y : SupplySocketLedgerUp,
+      supplySocketLedgerFields x = supplySocketLedgerFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk gapTag supplyKind socketSite auditGate consumptionRoute provenance nameCert =>
+      cases y with
+      | mk gapTag' supplyKind' socketSite' auditGate' consumptionRoute' provenance' nameCert' =>
+          cases hfields
+          rfl
+
 instance supplySocketLedgerBHistCarrier : BHistCarrier SupplySocketLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := supplySocketLedgerToEventFlow
@@ -202,6 +220,11 @@ instance supplySocketLedgerChapterTasteGate : ChapterTasteGate SupplySocketLedge
   layer_separation := by
     intro x y hxy heq
     exact hxy (supplySocketLedgerToEventFlow_injective heq)
+
+instance supplySocketLedgerFieldFaithful : FieldFaithful SupplySocketLedgerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := supplySocketLedgerFields
+  field_faithful := supplySocketLedger_field_faithful
 
 def taste_gate : ChapterTasteGate SupplySocketLedgerUp :=
   supplySocketLedgerChapterTasteGate

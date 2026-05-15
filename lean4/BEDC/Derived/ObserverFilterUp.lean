@@ -252,4 +252,105 @@ theorem ObserverFilterCarrier_selected_row_totality [AskSetup] [PackageSetup]
       localNameUnary, selectedReadUnary, sourceSelected, selectedLedger,
       routesLocalName, provenancePkg, selectedPkg⟩
 
+theorem ObserverFilterCarrier_omitted_row_boundary_exhaustion [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName omittedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      Cont ledger omitted omittedRead →
+        PkgSig bundle omittedRead pkg →
+          UnaryHistory source ∧ UnaryHistory omitted ∧ UnaryHistory ledger ∧
+            UnaryHistory routes ∧ UnaryHistory omittedRead ∧ Cont source selected ledger ∧
+              Cont ledger omitted routes ∧ Cont ledger omitted omittedRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle omittedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier ledgerOmittedRead omittedReadPkg
+  obtain ⟨sourceUnary, _selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+    _provenanceUnary, _localNameUnary, sourceSelected, ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have omittedReadUnary : UnaryHistory omittedRead :=
+    unary_cont_closed ledgerUnary omittedUnary ledgerOmittedRead
+  exact
+    ⟨sourceUnary, omittedUnary, ledgerUnary, routesUnary, omittedReadUnary, sourceSelected,
+      ledgerOmitted, ledgerOmittedRead, provenancePkg, omittedReadPkg⟩
+
+theorem ObserverFilterCarrier_streamname_selected_subhistory_nonescape [AskSetup]
+    [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName streamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      Cont selected localName streamRead →
+        PkgSig bundle streamRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                ObserverFilterCarrier source selected omitted transport ledger routes provenance
+                    localName bundle pkg ∧
+                  hsame row selected)
+              (fun row : BHist =>
+                Cont selected localName streamRead ∧ hsame row selected ∧
+                  PkgSig bundle streamRead pkg)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle streamRead pkg)
+              hsame ∧
+            UnaryHistory selected ∧ UnaryHistory streamRead ∧
+              Cont source selected ledger ∧ Cont selected localName streamRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle streamRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro carrier selectedLocalName streamPkg
+  have carrierWitness :
+      ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg := carrier
+  obtain ⟨_sourceUnary, selectedUnary, _omittedUnary, _ledgerUnary, _routesUnary,
+    _provenanceUnary, localNameUnary, sourceSelected, _ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed selectedUnary localNameUnary selectedLocalName
+  have sourceAtSelected :
+      ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+          bundle pkg ∧
+        hsame selected selected :=
+    And.intro carrierWitness (hsame_refl selected)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ObserverFilterCarrier source selected omitted transport ledger routes provenance
+              localName bundle pkg ∧
+            hsame row selected)
+        (fun row : BHist =>
+          Cont selected localName streamRead ∧ hsame row selected ∧
+            PkgSig bundle streamRead pkg)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle streamRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro selected sourceAtSelected
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceData
+        exact And.intro sourceData.left
+          (hsame_trans (hsame_symm sameRows) sourceData.right)
+    }
+    pattern_sound := by
+      intro row sourceData
+      exact ⟨selectedLocalName, sourceData.right, streamPkg⟩
+    ledger_sound := by
+      intro row sourceData
+      exact
+        ⟨unary_transport selectedUnary (hsame_symm sourceData.right), provenancePkg,
+          streamPkg⟩
+  }
+  exact
+    ⟨cert, selectedUnary, streamUnary, sourceSelected, selectedLocalName, provenancePkg,
+      streamPkg⟩
+
 end BEDC.Derived.ObserverFilterUp
