@@ -278,12 +278,131 @@ theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
             cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
               cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
   constructor
-  · exact cauchyLimitWitnessLedgerDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact cauchyLimitWitnessLedger_round_trip
+    · intro x
+      cases x with
+      | mk D T S W G R H C P N A =>
+          change
+            some
+              (CauchyLimitWitnessLedgerUp.mk
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist D))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist T))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist S))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist W))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist G))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist R))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist H))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist C))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist P))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist N))
+                (cauchyLimitWitnessLedgerDecodeBHist
+                  (cauchyLimitWitnessLedgerEncodeBHist A))) =
+              some (CauchyLimitWitnessLedgerUp.mk D T S W G R H C P N A)
+          exact
+            congrArg some
+              (cauchyLimitWitnessLedger_mk_congr
+                (cauchyLimitWitnessLedgerDecode_encode_bhist D)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist T)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist S)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist W)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist G)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist R)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist H)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist C)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist P)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist N)
+                (cauchyLimitWitnessLedgerDecode_encode_bhist A))
     · constructor
       · intro x y heq
-        exact cauchyLimitWitnessLedgerToEventFlow_injective heq
+        cases x with
+        | mk D T S W G R H C P N A =>
+            cases y with
+            | mk D' T' S' W' G' R' H' C' P' N' A' =>
+                injection heq with hD htail0
+                injection htail0 with hT htail1
+                injection htail1 with hS htail2
+                injection htail2 with hW htail3
+                injection htail3 with hG htail4
+                injection htail4 with hR htail5
+                injection htail5 with hH htail6
+                injection htail6 with hC htail7
+                injection htail7 with hP htail8
+                injection htail8 with hN htail9
+                injection htail9 with hA _hNil
+                have eD : D = D' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist D).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hD)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist D'))
+                have eT : T = T' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist T).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hT)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist T'))
+                have eS : S = S' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist S).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hS)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist S'))
+                have eW : W = W' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist W).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hW)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist W'))
+                have eG : G = G' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist G).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hG)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist G'))
+                have eR : R = R' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist R).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hR)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist R'))
+                have eH : H = H' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist H).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hH)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist H'))
+                have eC : C = C' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist C).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hC)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist C'))
+                have eP : P = P' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist P).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hP)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist P'))
+                have eN : N = N' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist N).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hN)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist N'))
+                have eA : A = A' := by
+                  exact Eq.trans (cauchyLimitWitnessLedgerDecode_encode_bhist A).symm
+                    (Eq.trans (congrArg cauchyLimitWitnessLedgerDecodeBHist hA)
+                      (cauchyLimitWitnessLedgerDecode_encode_bhist A'))
+                cases eD
+                cases eT
+                cases eS
+                cases eW
+                cases eG
+                cases eR
+                cases eH
+                cases eC
+                cases eP
+                cases eN
+                cases eA
+                rfl
       · constructor
         · rfl
         · constructor
