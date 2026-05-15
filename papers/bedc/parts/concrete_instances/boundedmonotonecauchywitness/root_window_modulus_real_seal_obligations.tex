@@ -220,6 +220,22 @@ Coordinate exhaustion of \autoref{def:bounded-monotone-cauchy-witness-carrier} c
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_real\_seal\_modulus\_determinacy}
 
+\begin{theorem}[Bounded monotone Cauchy witness monotone-source seal bridge]
+\label{thm:bounded-monotone-cauchy-witness-monotone-source-seal-bridge}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be the accepted $\MonotoneCauchyUp$ monotone source component read by $W$. Every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer of $W$ factors first through the monotone-source finite tail-window and cofinality handoff of $M$, then through the bounded-witness root window seal synchronizer for $W$, and finally through the bounded-witness Real-seal modulus determinacy route. The composed bridge is the displayed finite packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,
+$$
+with the monotone-source window rows $F,\sigma,\mu,\lambda,I,Q$ read before the bounded source row $S$ is allowed to expose any root-facing seal consumption. The bridge supplies no quotient real equality, selected representative, trichotomy, open-cover compactness, ambient completeness, host real equality, or choice-like tail selector.
+\end{theorem}
+\begin{proof}
+First read the monotone source through $M$. Theorem~\ref{thm:monotone-cauchy-window-tail-cofinality-handoff} forces any $\RealUp$ seal consumer using the monotone Cauchy source and a cofinal tail schedule through $F,\sigma,\mu,\lambda,I,Q$ before the seal row is readable, and it excludes quotient equality, selected representatives, host real order, ambient completeness, open-cover compactness, and choice.
+
+Next attach the bounded-witness root row. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer} synchronizes the bounded source prefix $S,F,\sigma,\mu,\lambda$ with the seal suffix $I,Q,H,C,P,N$ as one finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ route.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}. Once the monotone-source handoff and bounded-witness synchronizer have displayed the same rows, the tail-modulus packet uniquely determines the root-facing Real-seal readback. The accepted packets contain no additional coordinate for quotient real equality, selected representatives, trichotomy, open-cover compactness, ambient completeness, host real equality, or choice-like tail selection, so every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through exactly the composed finite bridge.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness window seal completeness]
 \label{thm:bounded-monotone-cauchy-witness-window-seal-completeness}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$ consumer, root-facing $\CauchyLimitSealUp$ consumer, or completion consumer that uses the synchronized window route factors through exactly the finite packet
