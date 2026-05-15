@@ -167,7 +167,7 @@ Combining the two routes gives the terminal handoff from the RegularCauchyName f
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
 Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests. For every request $n$ bundled in $Q$, the consumer read factors through the displayed row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the corresponding $\DyadicRatCoreUp$ observation ledger.
 
-Moreover, the whole bundled family repacks as a single finite consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This surface contains no quotient stream, no selected host limit, no host real equality, and no ambient completeness object.
+Moreover, the whole bundled family repacks as a single finite consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The assembled surface carries the local $\mathsf{SemanticNameCert}$ whose carrier is the bundled row satisfying $\hsame$ with the surface, $\UnaryHistory$, and $\PkgSig$, whose pattern forgets only the $\PkgSig$ row, whose ledger records $\PkgSig$ together with $\hsame$, and whose classifier is $\hsame$. This surface contains no quotient stream, no selected host limit, no host real equality, and no ambient completeness object.
 \end{theorem}
 \begin{proof}
 Project the carrier by \autoref{def:real-cauchy-completion-carrier}. For each bundled precision request $n$, apply \autoref{thm:real-cauchy-completion-diagonal-handoff} to obtain the route through $\mu(n)$, the diagonal packet $D$, the finite stream window, the regular-sequence readback row, and the dyadic observation ledger.
@@ -175,6 +175,8 @@ Project the carrier by \autoref{def:real-cauchy-completion-carrier}. For each bu
 The selected row is the same row identified by \autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}. Thus the bundled requests do not create separate hidden completion data; they reuse the displayed diagonal rows attached to the unary modulus.
 
 Finally, apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope} to the family of reads. Since $Q$ is finite, the pointwise routes assemble into one finite $\mathsf{BHist}$ consumer surface with the recorded $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and the same non-escape boundary is preserved for the bundle.
+
+The checked Lean target supplies exactly this certificate row: its source predicate requires $\hsame$ with the bundle surface, $\UnaryHistory$, and $\PkgSig$; its pattern drops only $\PkgSig$; its ledger keeps $\PkgSig$ and $\hsame$; and its classifier is the same $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_probe\_bundle\_window\_coverage}
 
@@ -581,6 +583,20 @@ Start with the accepted $\RealCauchyCompletionUp$ carrier. The public real-name 
 Now read the accepted $\CauchyWitnessLedgerUp$ packet. The Real-completion handoff \autoref{thm:cauchy-witness-ledger-real-completion-handoff} places every Real-facing ledger consumer on the displayed completion route. The synchronizer-classifier lock \autoref{thm:cauchy-witness-ledger-synchronizer-classifier-lock} orders that route as $Q \longmapsto B \longmapsto S \longmapsto K$, and the ledger-exhaustion theorem \autoref{thm:cauchy-witness-ledger-ledger-exhaustion} removes any public coordinate outside $Q,B,S,K,H,C,P,N$ and the structural rows.
 
 Finally identify the two consumer paths at the shared classifier row $K$. The RealCauchyCompletion path supplies the completion-facing public $\RealUp$ seal, while the witness ledger supplies the same finite budget, observation, synchronizer, and classifier route. Since both cited chapters expose only the displayed BEDC rows, the combined consumer cannot export quotient stream equality, host real equality, a selected external limit, a countable-choice row, or an ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion witness-ledger uniform seal route]
+\label{thm:real-cauchy-completion-witness-ledger-uniform-seal-route}
+Every accepted $\RealCauchyCompletionUp$ carrier whose completion-facing route is also read through an accepted $\CauchyWitnessLedgerUp$ packet and an accepted $\UniformCauchyCriterionUp$ packet factors through one finite seal route. The route consists exactly of the regular-family row, unary modulus, diagonal packet, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\CauchyWitnessLedgerUp$ budget, synchronizer, and classifier rows, $\UniformCauchyCriterionUp$ shared-threshold rows, the public $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The combined route exports no quotient stream, selected host limit, host real equality, countable-choice row, second family-limit route, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the completion-facing seal. The uniform criterion seal factorization theorem \autoref{thm:real-cauchy-completion-uniform-criterion-seal-factorization} places the accepted $\RealCauchyCompletionUp$ carrier on the finite regular-family, unary-modulus, diagonal-packet, window, readback, dyadic-ledger, transport, continuation, package, naming, and public $\RealUp$ seal route.
+
+Next read the witness-ledger side. The witness-ledger classifier lock \autoref{thm:real-cauchy-completion-witness-ledger-classifier-lock} identifies the completion-seal classifier with the shared finite route through the ledger budget, observation, synchronizer, and classifier rows, and \autoref{thm:cauchy-witness-ledger-root-consumer-exhaustion} exhausts downstream completion consumers at those displayed ledger rows.
+
+Finally attach the uniform criterion consumer surface. The downstream Real consumer export \autoref{thm:uniform-cauchy-criterion-downstream-real-consumer-export} and the Real-completion budget lock \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock} keep every $\RealCauchyCompletionUp$ read behind the same shared-threshold and finite-window rows. Intersecting the three non-escape clauses leaves no coordinate for quotient streams, selected host limits, host real equality, countable choice, a second family-limit route, or ambient $\RealUp$ completeness, so the sole exposed route is the finite BEDC packet named in the statement.
 \end{proof}
 
 \begin{theorem}[RealCauchyCompletion shared-tail modulus consumer route]

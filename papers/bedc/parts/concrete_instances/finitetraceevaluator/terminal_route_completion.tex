@@ -1,0 +1,114 @@
+\begin{theorem}[FiniteTraceEvaluator terminal route totality]
+\label{thm:finitetrace-evaluator-terminal-route-totality}
+Every terminal route of an accepted $\FiniteTraceEvaluatorUp$ surface
+$$
+E=(I,T,A,V,H,C,P,N)
+$$
+from \autoref{def:finite-trace-evaluator-terminal-root-surface} factors
+through the accepted-result spine
+$$
+I \to T \to A.
+$$
+The rows $V,H,C,P,N$ may then supply validation-boundary refusal,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ naming, but no
+terminal route begins from a host evaluator, hidden runtime state, total truth
+predicate, total halting classifier, unbounded evaluator, or second checkpoint
+source.
+\end{theorem}
+\begin{proof}
+Start with the terminal surface definition. It displays exactly the packet
+$E=(I,T,A,V,H,C,P,N)$ and identifies $I$ as the coded input row, $T$ as the
+terminal finite trace row, and $A$ as the accepted-result classifier.
+
+Apply the terminal trace-source lock and terminal accepted-result readback,
+\autoref{thm:finite-trace-evaluator-terminal-trace-source-lock} and
+\autoref{thm:finite-trace-evaluator-terminal-accepted-result-readback}. These
+place the terminal source on $I \to T$ and make access to $A$ pass through the
+same finite route.
+
+It remains to exclude alternate terminal sources. Use terminal validation
+nonescape, root exactness scope, and the checkpoint ledger cut,
+\autoref{thm:finite-trace-evaluator-terminal-validation-nonescape},
+\autoref{thm:finite-trace-evaluator-root-exactness-scope}, and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. The sibling
+runtime checkpoint chapter then consumes the displayed packet rather than a
+hidden evaluator or second checkpoint source.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal source stability]
+\label{thm:finitetrace-evaluator-terminal-source-stability}
+Let two terminal reads of accepted $\FiniteTraceEvaluatorUp$ surfaces display
+the same packet
+$$
+E=(I,T,A,V,H,C,P,N)
+$$
+up to the componentwise $\hsame$ transports recorded in $H$ and the displayed
+$\Cont$ replay routes recorded in $C$. Then both reads preserve the same
+terminal source route
+$$
+I \to T \to A.
+$$
+Transport may replay validation, provenance, and naming access through
+$V,H,C,P,N$, but it cannot move the terminal source to a host evaluator,
+hidden runtime state, total truth predicate, total halting classifier,
+unbounded evaluator, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+First expose the common terminal packet through
+\autoref{def:finite-trace-evaluator-terminal-root-surface}. The only source,
+trace, and accepted-result rows of the packet are $I$, $T$, and $A$.
+
+Use \autoref{thm:finitetrace-evaluator-terminal-route-totality}. Each terminal
+read already factors through $I \to T \to A$ before the validation,
+transport, replay, provenance, and naming rows are consumed.
+
+Now apply the bounded replay stability and acceptance row stability results,
+\autoref{thm:finite-trace-evaluator-bounded-replay-stability} and
+\autoref{thm:finitetrace-evaluator-acceptance-row-stability}. Componentwise
+$\hsame$ transport and displayed $\Cont$ replay preserve the finite trace row
+and the accepted-result row of the same route.
+
+Finally combine terminal validation nonescape with the checkpoint ledger cut,
+\autoref{thm:finite-trace-evaluator-terminal-validation-nonescape} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. Since the ledger
+contains no alternate source coordinate, transport cannot create one for the
+runtime checkpoint consumer.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator terminal ledger exhaustion]
+\label{thm:finitetrace-evaluator-terminal-ledger-exhaustion}
+The terminal ledger exported by an accepted $\FiniteTraceEvaluatorUp$ surface
+is exhausted by the displayed packet
+$$
+E=(I,T,A,V,H,C,P,N).
+$$
+It exports no host evaluator, hidden runtime state, total truth predicate,
+total halting classifier, unbounded evaluator, or second checkpoint source.
+Every downstream runtime checkpoint read therefore receives the terminal
+route $I \to T \to A$ together with the boundary, transport, continuation,
+provenance, and naming rows $V,H,C,P,N$, and receives no further evaluator
+coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:finite-trace-evaluator-terminal-root-surface}. The
+terminal ledger has exactly the eight displayed rows of $E$.
+
+Apply terminal route totality and terminal source stability,
+\autoref{thm:finitetrace-evaluator-terminal-route-totality} and
+\autoref{thm:finitetrace-evaluator-terminal-source-stability}. The
+accepted-result side is fixed at $I \to T \to A$, and componentwise transport
+keeps terminal reads on that route.
+
+Use root exactness scope and checkpoint ledger cut,
+\autoref{thm:finite-trace-evaluator-root-exactness-scope} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. These results
+separate the accepted-result spine from $V,H,C,P,N$ and remove host
+validation, total truth, total halting, unbounded evaluation, infinite traces,
+and second checkpoint sources from the ledger.
+
+Finally read the handoff through the runtime checkpoint sibling chapter,
+\autoref{ch:concrete-instances-reflection-runtime-checkpoint-namecert}. Its
+root carrier and ledger exactness rows consume the finite checkpoint packet
+without importing hidden runtime state or an additional evaluator coordinate.
+\end{proof}

@@ -351,3 +351,58 @@ only surfaces exported to the seal are the four listed faces, and the
 excluded quotient, host equality, selected-limit, completeness, choice, and
 hidden-coordinate data have no row in the accepted route.
 \end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-cover gluing]
+\label{thm:regseqrat-real-seal-finite-cover-gluing}
+Let $\{\mathcal{S}_i\}_{i\in I}$ be a finite family of accepted public
+$\RegSeqRatUp$ reads whose members exit as $\RealUp$ seals. Suppose each
+$\mathcal{S}_i$ is saturated by exactly the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Suppose also that every displayed pairwise overlap agrees on the shared
+$\mathsf{BHist}$, componentwise $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+dyadic-ledger, classifier, regularity, and seal rows. Then the finite family
+glues to one finite four-face L10 packet over the finite union of the
+requests, with the same four faces and only the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+The glued packet contains no quotient stream equality, no host real equality,
+no selected limit, no ambient or metric-completeness datum, no choice data,
+and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+For each family member, apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. This places the
+member on one finite L10 exit route whose only faces are the StreamName
+schedule, DyadicRatCore ledger, RegSeqRat classifier and regularity surface,
+and Real seal row.
+
+Glue the StreamName windows first. The overlap hypotheses identify the
+displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic,
+RegSeqRat, and Real rows seen from adjacent members, so
+\autoref{thm:streamname-finite-request-cover-gluing} gives one finite
+StreamName-side request packet over the finite union.
+
+Next keep the Real consumer on that same finite section. Use
+\autoref{thm:real-regseqrat-finite-request-fusion} to repack each seal request
+through the displayed finite $\mathsf{BHist}$ packet, and use
+\autoref{thm:real-regseqrat-completion-consumer-section-exactness} to force
+every completion-facing or $\RealUp$-facing consumer to factor through that
+section.
+
+It remains to identify the dyadic and RegSeqRat faces on overlaps. Apply
+\autoref{thm:regseqrat-common-dyadic-tail-ledger} to keep common cofinal
+dyadic refinements on the same endpoint, radius, distance, classifier,
+regularity, transport, continuation, provenance, and local naming ledger.
+Then apply
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence} to recover each
+of the four faces from the other three inside the same finite route.
+
+Finish by finite induction over the request family. The empty cover gives the
+empty displayed packet, and adjoining one saturated member uses the pairwise
+overlap agreement above to attach it to the packet already built. At each
+step the cited saturation, StreamName gluing, Real fusion, and consumer
+section theorems export only the four displayed faces and their support rows,
+so quotient stream equality, host real equality, selected limits, ambient or
+metric completeness, choice data, and a second seal coordinate remain absent.
+\end{proof}
