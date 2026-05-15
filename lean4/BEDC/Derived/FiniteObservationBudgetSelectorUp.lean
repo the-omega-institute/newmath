@@ -295,4 +295,136 @@ theorem FiniteObservationBudgetSelectorCarrier_window_seal_commutation
   exact
     ⟨sameWindowSeal, windowUnary, routeUnary, windowRoute, routeRoute, windowPkg, routePkg⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_diagonal_consumer_boundary
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E diagonalRead ->
+        PkgSig bundle diagonalRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+                hsame row diagonalRead)
+            (fun row : BHist => hsame row diagonalRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle diagonalRead pkg ∧ hsame row diagonalRead ∧
+                Cont B S W ∧ Cont W D R)
+            hsame ∧ Cont B S W ∧ Cont W D R ∧ Cont R E diagonalRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier diagonalRoute diagonalPkg
+  have carrierWitness := carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, routeW, routeR, _routeC, _sameName⟩ :=
+    carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS routeW
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD routeR
+  have unaryDiagonalRead : UnaryHistory diagonalRead :=
+    unary_cont_closed unaryR unaryE diagonalRoute
+  have sourceDiagonal :
+      (fun row : BHist =>
+        FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+          hsame row diagonalRead) diagonalRead := by
+    exact And.intro carrierWitness (hsame_refl diagonalRead)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+            hsame row diagonalRead)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro diagonalRead sourceDiagonal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowDiagonal : hsame row diagonalRead := sourceRow.right
+        have sameOtherDiagonal : hsame other diagonalRead :=
+          hsame_trans (hsame_symm same) sameRowDiagonal
+        exact And.intro sourceRow.left sameOtherDiagonal
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+            hsame row diagonalRead)
+        (fun row : BHist => hsame row diagonalRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          PkgSig bundle diagonalRead pkg ∧ hsame row diagonalRead ∧
+            Cont B S W ∧ Cont W D R)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport unaryDiagonalRead (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact ⟨diagonalPkg, sourceRow.right, routeW, routeR⟩
+    }
+  exact ⟨cert, routeW, routeR, diagonalRoute⟩
+
+theorem FiniteObservationBudgetSelectorCarrier_nonescape
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N →
+      Cont R E sealRead →
+        PkgSig bundle sealRead pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+                hsame row sealRead)
+            (fun _row : BHist =>
+              Cont B S W ∧ Cont W D R ∧ Cont R E sealRead ∧ hsame N E)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealRead pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier sealRoute sealPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+    regularSeal, sameEndpoint⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have unarySealRead : UnaryHistory sealRead :=
+    unary_cont_closed unaryR unaryE sealRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead (And.intro
+          ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic, regularSeal,
+            sameEndpoint⟩
+          (hsame_refl sealRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨budgetSchedule, windowDyadic, sealRoute, sameEndpoint⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport unarySealRead (hsame_symm source.right), sealPkg⟩
+  }
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

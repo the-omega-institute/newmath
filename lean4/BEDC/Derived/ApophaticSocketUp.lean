@@ -382,4 +382,86 @@ theorem ApophaticSocketCarrier_gated_supply_route_exhaustion [AskSetup] [Package
     }
   exact ⟨cert, kindSupplyGate, gateSiteReplay, supplyReplay⟩
 
+theorem ApophaticSocketCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {socketKind supplyShape auditGate site transport replay provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay provenance
+        nameCert bundle pkg ->
+      Cont replay provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+                provenance nameCert bundle pkg ∧ hsame row consumer)
+            (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+            (fun row : BHist =>
+              PkgSig bundle consumer pkg ∧ hsame row consumer ∧
+                Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+                  Cont replay provenance consumer)
+            hsame ∧ Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+              Cont replay provenance consumer := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier replayProvenanceConsumer consumerPkg
+  have carrierWitness := carrier
+  obtain ⟨_socketKindUnary, _supplyShapeUnary, _auditGateUnary, _siteUnary,
+    _transportUnary, replayUnary, provenanceUnary, _nameCertUnary, _nameCertAuditGate,
+    kindSupplyGate, gateSiteReplay, _replayProvenanceNameCert, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenanceConsumer
+  have sourceConsumer :
+      (fun row : BHist =>
+        ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+          provenance nameCert bundle pkg ∧ hsame row consumer) consumer := by
+    exact And.intro carrierWitness (hsame_refl consumer)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg ∧ hsame row consumer)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro consumer sourceConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowConsumer : hsame row consumer := sourceRow.right
+        have sameOtherConsumer : hsame other consumer :=
+          hsame_trans (hsame_symm same) sameRowConsumer
+        exact And.intro sourceRow.left sameOtherConsumer
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg ∧ hsame row consumer)
+        (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+        (fun row : BHist =>
+          PkgSig bundle consumer pkg ∧ hsame row consumer ∧
+            Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+              Cont replay provenance consumer)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport consumerUnary (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact
+          ⟨consumerPkg, sourceRow.right, kindSupplyGate, gateSiteReplay,
+            replayProvenanceConsumer⟩
+    }
+  exact ⟨cert, kindSupplyGate, gateSiteReplay, replayProvenanceConsumer⟩
+
 end BEDC.Derived.ApophaticSocketUp

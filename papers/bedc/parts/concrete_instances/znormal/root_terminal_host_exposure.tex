@@ -1,0 +1,105 @@
+\begin{theorem}[$\ZNormalUp$ terminal normality carrier exposure]
+\label{thm:znormal-terminal-normality-carrier-exposure}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+terminal normality is exposed only through the displayed typed endpoint row
+$T$, finite fuel row $F$, terminal-normality row $V$, terminal read row $R$,
+componentwise transport row $H$, continuation replay row $C$, package row $P$,
+and local naming row $N$. The row $K$ contributes only finite sibling
+normal-word evidence, and no accepted carrier can reread $K$ as host
+conversion, quotient computation, an unrestricted evaluator, a divergence
+oracle, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:znormal-carrier}. Its accepted packet is
+the finite row list $T,F,V,K,R,H,C,P,N$, with $V$ singled out as the
+terminal-normality coordinate and $K$ listed separately as sibling
+normal-word evidence.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local
+$\NameCert_{\ZNormalUp}$ obligations bind carrier admission, typed endpoint,
+finite fuel, terminal normality, finite normal-word comparison, terminal
+readback, transport, replay, provenance, and local naming to this same packet.
+
+Use \autoref{thm:znormal-fuel-normality-nonescape} and
+\autoref{thm:znormal-terminal-readback-exactness}. These theorems route every
+terminal read through $T,F,V,R,H,C,P,N$ and keep the normal-word coordinate
+$K$ outside the terminal-read source.
+
+Finally apply \autoref{thm:znormal-sibling-normalword-handoff}. The $K$ row
+is finite sibling evidence only, so terminal normality remains exposed through
+the displayed carrier rows and cannot become any excluded host-side or
+global-normalization object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host fuel replay boundary]
+\label{thm:znormal-total-host-fuel-replay-boundary}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+total-host fuel replay is the finite route from typed endpoint $T$ through
+fuel $F$ to terminal row $V$ and terminal continuation read $R$. The route is
+transported by $H$, replayed by $C$, packaged by $P$, and named by $N$; it
+does not export a host conversion row, quotient computation, unrestricted
+evaluator, divergence oracle, substrate halting claim, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:znormal-carrier}. The carrier displays the endpoint,
+fuel, terminal normality, sibling normal-word, continuation read, transport,
+replay, package, and naming rows as the single finite packet
+$T,F,V,K,R,H,C,P,N$.
+
+Apply \autoref{thm:znormal-namecert-obligations} to read the same rows as the
+local certificate surface. The fuel coordinate $F$ and terminal-normality
+coordinate $V$ are therefore packet rows, not ambient host computation
+relations.
+
+Next use \autoref{thm:znormal-fuel-normality-nonescape} and
+\autoref{thm:znormal-terminal-readback-exactness}. They force terminal fuel
+replay along $T,F,V,R$ before any consumer can read the terminal continuation
+surface.
+
+The structural route is then exactly $H,C,P,N$. By
+\autoref{thm:znormal-sibling-normalword-handoff}, the sibling row $K$ remains
+finite evidence beside that route, so the fuel replay boundary cannot escape
+to any excluded host, quotient, divergence, substrate-halting, or
+global-normalization row.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ consumer divergence-oracle nonescape]
+\label{thm:znormal-consumer-divergence-oracle-nonescape}
+Every downstream consumer of an accepted $\ZNormalUp$ packet factors through
+the displayed rows
+$$
+T,F,V,K,R,H,C,P,N.
+$$
+Such a consumer may use typed endpoint evidence, finite fuel replay, terminal
+normality, finite sibling normal-word evidence, terminal continuation read,
+transport, replay, package provenance, and local naming, but it cannot obtain
+a divergence oracle, host conversion row, quotient computation, unrestricted
+evaluator, global normalizer, or substrate halting claim.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:znormal-carrier}. The consumer
+surface is the finite packet $T,F,V,K,R,H,C,P,N$, and there is no second
+consumer coordinate outside that packet.
+
+Use \autoref{thm:znormal-namecert-obligations}. It identifies the permitted
+reads as carrier admission, typed endpoint, finite fuel, terminal normality,
+sibling normal-word comparison, continuation read, transport, replay,
+provenance, and local naming.
+
+Apply \autoref{thm:znormal-fuel-normality-nonescape} and
+\autoref{thm:znormal-terminal-readback-exactness}. These route terminal
+normal-form consumption through $T,F,V,R,H,C,P,N$ and prevent the consumer from
+detaching a host computation or unbounded evaluator from the finite replay.
+
+Finally apply \autoref{thm:znormal-sibling-normalword-handoff}. The remaining
+row $K$ is finite sibling evidence only. Hence every downstream consumer
+factors through the displayed packet and has no route to divergence detection,
+host conversion, quotient computation, unrestricted evaluation, global
+normalization, or substrate-halting evidence.
+\end{proof}
