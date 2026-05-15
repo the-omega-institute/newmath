@@ -181,6 +181,22 @@ Now pass the terminal route into the refinement packet. The source-window lock o
 Finally apply root window exhaustion and Real-seal source conservation, \autoref{thm:cauchy-modulus-refinement-root-window-exhaustion} and \autoref{thm:cauchy-modulus-refinement-real-seal-source-conservation}. These results place the refinement consumer on $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ and exclude quotient streams, selected host limits, hidden selectors, second meet rows, host real equality, choice data, ambient completeness coordinates, and detached completion witnesses.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility shared terminal consumer comparison]
+\label{thm:diagonal-limit-compatibility-shared-terminal-consumer-comparison}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ consumer routed through either an accepted $\CauchyTailWitnessEnvelopeUp$ packet or an accepted $\CauchyModulusRefinementUp$ packet. In both cases the terminal consumer first reads the same diagonal budget, window, readback, seal, transport, route, provenance, and local-name boundary
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+Only after this shared boundary do the two routes differ: the $\CauchyTailWitnessEnvelopeUp$ route continues through its envelope rows, while the $\CauchyModulusRefinementUp$ route continues through its refinement rows. The comparison introduces no quotient stream equality, selected host limit, hidden tail oracle, hidden selector, host real equality, choice datum, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First form the shared diagonal boundary. Apply \autoref{thm:diagonal-limit-compatibility-root-budget-source}, \autoref{thm:diagonal-limit-compatibility-root-window-route}, and \autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These force every terminal $\RealUp$ or $\CompletionUp$ read to pass through the diagonal budget, stream window, regular readback, Real seal, transport, continuation, package, and local-name rows.
+
+Next close that boundary against escape. Use \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The reusable consumer-facing tuple is therefore exactly $R,T,S,D,W,Q,L,H,C,P,N$, with no route to host limits, quotient stream equality, choice data, host real equality, or ambient completeness.
+
+Now compare the two terminal consumers. The $\CauchyTailWitnessEnvelopeUp$ case follows from \autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}, which begins with the same diagonal tuple before entering the envelope rows. The $\CauchyModulusRefinementUp$ case follows from \autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}, which begins with that same tuple before entering the refinement rows. Thus the routes differ only after the shared diagonal terminal-consumer boundary has been read.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility terminal budget readback]
 \label{thm:diagonal-limit-compatibility-terminal-budget-readback}
 Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ consumer read, and suppose that this read is later consumed by either an accepted $\CauchyTailWitnessEnvelopeUp$ packet or an accepted $\CauchyModulusRefinementUp$ packet. Then the terminal read first factors through the same displayed diagonal budget prefix
