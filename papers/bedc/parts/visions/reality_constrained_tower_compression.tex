@@ -1,0 +1,336 @@
+\section{Approximation towers and ledgered compression}
+\label{sec:approximation-towers-ledgered-compression}
+
+Physical modelling does not proceed by a single act of representation. It proceeds through a tower of approximations:
+$$
+R
+\longrightarrow
+H_n
+\longrightarrow
+D_n
+\longrightarrow
+M_{\mathrm{disc}}
+\longrightarrow
+M_{\mathrm{cont}}
+\longrightarrow
+M_{\mathrm{smooth}}
+\longrightarrow
+M_{\mathrm{ideal}}.
+$$
+Here $R$ is the physical system, $H_n$ is a finite observation history, $D_n$ is finite data, and the later terms are discrete, continuous, smooth, and ideal representation layers. Each arrow selects features, hides others, and licenses a new visible object. The endpoint may be useful, predictive, and mathematically elegant, but it is not identical to the source. It is the endpoint of certified compression.
+
+\begin{definition}[Approximation level]
+\label{def:approximation-level}
+An approximation level is a pair $L_i=(X_i,\Pi_i)$, where $X_i$ is a domain of systems, traces, data, or representations, and $\Pi_i$ is the observation or classifier bundle determining which distinctions are visible at that level. A level is therefore a domain together with a visibility rule.
+\end{definition}
+
+\begin{definition}[Compression arrow]
+\label{def:compression-arrow}
+A compression arrow
+$$
+C_i:L_i\rightsquigarrow L_{i+1}
+$$
+is a certified transition from one approximation level to the next. It carries source, pattern, classifier, stability, and ledger fields:
+$$
+C_i
+=
+(\operatorname{Source}_i,
+\operatorname{Pattern}_i,
+\operatorname{Classifier}_i,
+\operatorname{Stability}_i,
+\operatorname{Ledger}_i).
+$$
+\end{definition}
+
+The fields mirror the naming-certificate template: source material, extracted behaviour, grouping relation, reuse certificate, and record of hidden or compressed material. A compression arrow is therefore not a quotient by fiat; it is a ledgered transition.
+
+\begin{definition}[Physical approximation tower]
+\label{def:physical-approximation-tower}
+A physical approximation tower is a finite or extendable sequence
+$$
+\mathcal T:
+L_0
+\xrightarrow{C_0}
+L_1
+\xrightarrow{C_1}
+\cdots
+\xrightarrow{C_{n-1}}
+L_n
+$$
+whose initial level is rooted in a physical system or observation process. It is physically grounded when every mathematical level remains connected to the physical source through the composite ledger.
+\end{definition}
+
+\begin{definition}[Visible endpoint]
+\label{def:visible-endpoint}
+The visible endpoint of a tower $\mathcal T$ is the object, package, model, or representation appearing at the final level $L_n$:
+$$
+\operatorname{End}(\mathcal T)\in L_n.
+$$
+The visible endpoint is the current terminal package of the compression chain, not the source itself.
+\end{definition}
+
+\begin{definition}[Tower ledger]
+\label{def:tower-ledger}
+The tower ledger of $\mathcal T$ is the composite record
+$$
+\operatorname{Ledger}(\mathcal T)
+=
+\operatorname{Ledger}_0
++
+C_0^{*}\operatorname{Ledger}_1
++
+\cdots
++
+(C_{n-2}\circ\cdots\circ C_0)^{*}\operatorname{Ledger}_{n-1}.
+$$
+It records not only what the last compression hides, but also what every earlier compression hid.
+\end{definition}
+
+\begin{definition}[Tower-complete representation]
+\label{def:tower-complete-representation}
+A representation $M=\operatorname{End}(\mathcal T)$ is tower-complete for a physical system $R$ relative to a family of observation bundles $\mathcal P$ when $M$ is the endpoint of a physically grounded tower, every compression arrow carries a ledger, every endpoint operation descends through the relevant classifiers, and the endpoint preserves the physical signatures required by $\mathcal P$.
+\end{definition}
+
+\section{Endpoint and composite ledger}
+\label{sec:endpoint-composite-ledger}
+
+\begin{theorem}[Endpoint is not source]
+\label{thm:endpoint-is-not-source}
+Let
+$$
+\mathcal T:
+L_0
+\xrightarrow{C_0}
+L_1
+\xrightarrow{C_1}
+\cdots
+\xrightarrow{C_{n-1}}
+L_n
+$$
+be an approximation tower with $n\geq 1$. Then $\operatorname{End}(\mathcal T)$ is not identical to the source object in $L_0$ merely by being produced from it.
+\end{theorem}
+
+\begin{proof}
+Each compression arrow maps source material into a visible object according to a classifier. A classifier preserves selected distinctions and hides others. Unless the classifier preserves every distinction and the ledger is trivial, the transition is not identity. Since the tower contains at least one compression arrow, the endpoint is produced through selection, packaging, regularization, or idealization. Treating it as source-equivalent requires a separate certificate showing that the relevant physical signatures have been preserved.
+\end{proof}
+
+\begin{corollary}[Model as terminal package]
+\label{cor:model-as-terminal-package}
+If $M=\operatorname{End}(\mathcal T)$, then $M$ is the terminal visible package of a modelling tower, not the physical system itself.
+\end{corollary}
+
+\begin{proof}
+This is immediate from \autoref{thm:endpoint-is-not-source}: generation through a tower licenses representation, not identity with the source.
+\end{proof}
+
+\begin{theorem}[Tower induces composite compression]
+\label{thm:tower-induces-composite-compression}
+Every finite approximation tower induces a composite compression
+$$
+C_{\mathcal T}
+=
+C_{n-1}\circ\cdots\circ C_1\circ C_0
+:
+L_0\rightsquigarrow L_n.
+$$
+\end{theorem}
+
+\begin{proof}
+For one arrow, the composite is that arrow. If the first $n$ arrows compose to $C_{0:n}:L_0\rightsquigarrow L_n$, then composing with $C_n:L_n\rightsquigarrow L_{n+1}$ gives $C_n\circ C_{0:n}:L_0\rightsquigarrow L_{n+1}$. Induction on tower length gives the result.
+\end{proof}
+
+\begin{theorem}[Tower ledger is composite]
+\label{thm:tower-ledger-is-composite}
+The ledger of the composite compression induced by a tower is the tower ledger of \autoref{def:tower-ledger}, not merely the ledger of the final arrow.
+\end{theorem}
+
+\begin{proof}
+For two arrows $L_0\xrightarrow{C_0}L_1\xrightarrow{C_1}L_2$, the composite ledger must record which $L_0$ sources lie behind each $L_1$ visible item and which $L_1$ visible items lie behind each $L_2$ visible item. Thus it contains the first ledger together with the pullback of the second ledger along the first visible interface. Longer towers are obtained by repeating this two-stage construction, pulling each later ledger back along the already-composed interface.
+\end{proof}
+
+\begin{corollary}[Endpoint alone is epistemically insufficient]
+\label{cor:endpoint-alone-insufficient}
+The endpoint $M=\operatorname{End}(\mathcal T)$ is insufficient to determine the modelling claim unless the tower ledger is also specified.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:tower-ledger-is-composite}, the endpoint hides the sequence of source histories, measurements, classifiers, and idealizations that produced it. Without the tower ledger, those dependencies cannot be audited.
+\end{proof}
+
+\section{Layer-relative validity}
+\label{sec:layer-relative-validity}
+
+\begin{definition}[Level-relative fit]
+\label{def:level-relative-fit}
+Let $M_i\in L_i$ and $M_j\in L_j$ be representations at different levels of a tower. The later representation has level-relative fit to the earlier one, written
+$$
+\operatorname{Fit}_{i\to j}(M_i,M_j;\Pi_j),
+$$
+when the compression chain from $L_i$ to $L_j$ preserves the signatures required by $\Pi_j$.
+\end{definition}
+
+\begin{definition}[Tower-valid claim]
+\label{def:tower-valid-claim}
+A claim $\varphi$ made at the endpoint of a tower is tower-valid when
+$$
+\operatorname{End}(\mathcal T)\models\varphi
+$$
+and every operation used to establish $\varphi$ descends through the tower classifiers on which the claim depends.
+\end{definition}
+
+\begin{theorem}[Endpoint truth does not imply source truth]
+\label{thm:endpoint-truth-not-source-truth}
+Let $\varphi$ be true at the visible endpoint $L_n$ of a tower. Then $\varphi$ does not automatically hold at the source level $L_0$.
+\end{theorem}
+
+\begin{proof}
+A claim true at $L_n$ is evaluated using the classifier, operations, and visible structure available at $L_n$. The source level may contain distinctions hidden by the compression chain. If $\varphi$ depends on structure introduced by smoothing, completion, or idealization, the source need not satisfy it. Transfer from endpoint truth to source truth requires a descent or reflection certificate.
+\end{proof}
+
+\begin{corollary}[Smooth endpoint behaviour need not describe rough source behaviour]
+\label{cor:smooth-endpoint-not-rough-source}
+If a smooth ideal model satisfies a differentiability claim, the original physical or discrete source need not satisfy that differentiability claim.
+\end{corollary}
+
+\begin{proof}
+Differentiability may be introduced by smoothing, interpolation, completion, or idealization. By \autoref{thm:endpoint-truth-not-source-truth}, endpoint smoothness does not transfer to the source without a descent certificate.
+\end{proof}
+
+\begin{corollary}[Coarse success does not license refined prediction]
+\label{cor:coarse-success-not-refined-prediction}
+If a model fits observations under a coarse bundle $\Pi$, it does not follow that it fits observations under a refined bundle $\Pi'\supseteq\Pi$.
+\end{corollary}
+
+\begin{proof}
+A coarse bundle may ignore distinctions exposed by a refined bundle. Fit under $\Pi$ establishes agreement only at the coarse level. Refined prediction requires an additional stability certificate.
+\end{proof}
+
+\section{Hidden structure and tower collapse}
+\label{sec:hidden-structure-tower-collapse}
+
+\begin{definition}[Hidden structure]
+\label{def:tower-hidden-structure}
+For a compression arrow $C_i:L_i\rightsquigarrow L_{i+1}$, the hidden structure of $C_i$ is the source material recorded in $\operatorname{Ledger}_i$ but not visible in the compressed object at $L_{i+1}$. Schematically,
+$$
+\operatorname{Hidden}(C_i)
+:=
+\operatorname{Ledger}_i
+\setminus
+\operatorname{Visible}(L_{i+1}).
+$$
+\end{definition}
+
+\begin{definition}[Reactivation of hidden structure]
+\label{def:reactivation-hidden-structure}
+Hidden structure is reactivated when a later operation, observation bundle, or physical question depends on material hidden by an earlier compression. A later claim reactivates $C_i$'s hidden structure when its truth cannot be determined from the visible endpoint alone and requires inspection of $\operatorname{Ledger}_i$.
+\end{definition}
+
+\begin{theorem}[Hidden structure can become active under later operations]
+\label{thm:tower-hidden-structure-active-later}
+Let $\mathcal T$ be an approximation tower, and suppose $C_i$ hides source structure $S_i$. If a later operation $F$ depends on $S_i$, then $F$ is not well defined on the endpoint unless the ledger for $S_i$ is available or a descent certificate shows that $S_i$ is irrelevant.
+\end{theorem}
+
+\begin{proof}
+If $F$ depends on $S_i$, two sources that agree at the visible endpoint but differ in $S_i$ may yield different values under $F$. Thus $F$ cannot be evaluated from the endpoint alone. Well-definedness is restored either by inspecting the ledger or by proving that all variations in $S_i$ produce equivalent outputs under $F$.
+\end{proof}
+
+\begin{corollary}[Singularities can return]
+\label{cor:singularities-can-return}
+A singularity removed by smoothing may remain physically relevant if later operations depend on the removed singular structure.
+\end{corollary}
+
+\begin{proof}
+The removed singularity is hidden structure. If curvature extraction, stress analysis, scattering prediction, or boundary-condition evaluation depends on it, \autoref{thm:tower-hidden-structure-active-later} applies.
+\end{proof}
+
+\begin{definition}[Tower collapse]
+\label{def:tower-collapse}
+Tower collapse occurs when a claim valid at level $L_j$ is asserted at level $L_i$ with $i<j$ without a certificate showing that the claim descends through the compression chain
+$$
+L_i\longrightarrow L_{i+1}\longrightarrow\cdots\longrightarrow L_j.
+$$
+\end{definition}
+
+\begin{theorem}[Tower collapse is invalid without descent]
+\label{thm:tower-collapse-invalid-without-descent}
+If a claim $\varphi$ at level $L_j$ is asserted at a lower level $L_i$ without a descent certificate through the chain from $L_i$ to $L_j$, then the assertion is not licensed.
+\end{theorem}
+
+\begin{proof}
+A claim at $L_j$ is evaluated using the visible structure of $L_j$. The lower level may contain distinctions hidden in the transition to $L_j$. If $\varphi$ is sensitive to those distinctions, it may fail at $L_i$ although it holds at $L_j$. A descent certificate is exactly the proof that $\varphi$ is insensitive to the hidden distinctions.
+\end{proof}
+
+\begin{corollary}[Effective theories are tower-local]
+\label{cor:effective-theories-tower-local}
+An effective physical theory is valid only within the tower region for which its source, classifier, stability, and ledger certificates hold.
+\end{corollary}
+
+\begin{proof}
+An effective theory compresses lower-level structure into higher-level variables and laws. By \autoref{thm:tower-collapse-invalid-without-descent}, its claims cannot be transferred beyond the certified compression region without descent.
+\end{proof}
+
+\section{Polygon-circle tower and tower equivalence}
+\label{sec:polygon-circle-tower-equivalence}
+
+The polygon-circle example can be read as a tower:
+$$
+R
+\longrightarrow
+H_n
+\longrightarrow
+\text{pixel data}
+\longrightarrow
+P_N
+\longrightarrow
+C
+\longrightarrow
+C^\infty\text{-circle}.
+$$
+At the pixel or coarse-shape level, a high-sided polygon may be indistinguishable from a circle. At the smooth-boundary level, every finite polygon retains vertices, while the smooth circle does not. The assertion $P_N\sim C$ is therefore meaningful only after the level and classifier have been specified.
+
+\begin{theorem}[Polygonal approximation is tower-relative]
+\label{thm:polygonal-approximation-tower-relative}
+Let $P_N$ be a polygonal representation and $C$ a smooth circle representation. The claim $P_N\approx C$ is meaningful only relative to a specified approximation level and classifier.
+\end{theorem}
+
+\begin{proof}
+At a coarse level, the classifier may compare area, perimeter, or finite-resolution outline; under such a classifier, $P_N$ may approximate $C$. At a smooth-boundary level, the classifier compares tangent existence, tangent continuity, or curvature distribution; under that classifier, $P_N$ and $C$ differ because $P_N$ has vertices and $C$ has a smooth boundary. The same approximation claim therefore changes content with the tower level.
+\end{proof}
+
+\begin{corollary}[Differentiation detects tower collapse]
+\label{cor:differentiation-detects-tower-collapse}
+Differentiation can expose an illicit tower collapse because it may depend on structure hidden by coarse approximation.
+\end{corollary}
+
+\begin{proof}
+Coarse approximation may hide vertices. Differentiation depends on local tangent behaviour, which vertices disrupt. Applying differentiation after treating $P_N$ and $C$ as identical can therefore expose a mismatch between the visible endpoint and the hidden source.
+\end{proof}
+
+\begin{definition}[Tower equivalence]
+\label{def:tower-equivalence}
+Two towers $\mathcal T$ and $\mathcal T'$ are tower-equivalent relative to $\Pi$ when their endpoints are equivalent under $\Pi$, their ledgers record equivalent source histories and hidden structures, and every operation used under $\Pi$ descends through both towers in compatible ways.
+\end{definition}
+
+\begin{theorem}[Endpoint equivalence does not imply tower equivalence]
+\label{thm:endpoint-equivalence-not-tower-equivalence}
+Endpoint equivalence
+$$
+\operatorname{End}(\mathcal T)
+\sim_{\Pi}
+\operatorname{End}(\mathcal T')
+$$
+does not imply tower equivalence.
+\end{theorem}
+
+\begin{proof}
+Endpoint equivalence compares only final visible objects. It ignores source histories, intermediate classifiers, hidden residues, and stability certificates. Two towers may therefore have equivalent endpoints while having different ledgers or different descent behaviour for later operations. Tower equivalence requires those additional data.
+\end{proof}
+
+\begin{corollary}[Agreement now can diverge later]
+\label{cor:agreement-now-diverge-later}
+Two models may produce the same current predictions and nevertheless diverge under refined observation or new operations.
+\end{corollary}
+
+\begin{proof}
+Current prediction agreement is endpoint equivalence under the present bundle. By \autoref{thm:endpoint-equivalence-not-tower-equivalence}, this does not imply tower equivalence. Different hidden residues or descent certificates may be exposed by later refinements.
+\end{proof}

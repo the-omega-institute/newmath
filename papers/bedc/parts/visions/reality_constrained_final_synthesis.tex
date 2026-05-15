@@ -1,0 +1,477 @@
+\section{Final synthesis: physical truth as certified open fit}
+\label{sec:reality-constrained-synthesis}
+
+The chapter replaces the flat schema
+$$
+M=R
+$$
+with a layered form:
+$$
+R
+\to
+H_n
+\to
+\operatorname{ObsSig}_{\Pi}
+\to
+\operatorname{FitCert}
+\to
+\operatorname{LawCert}
+\to
+\operatorname{Ledger}
+\to
+\operatorname{OpenFit}.
+$$
+This is not a retreat from realism. It is a stricter account of how realism is possible under finite observation. A model becomes physically truth-bearing when it preserves reality-facing signatures under specified classifiers, supports stable reuse under certified continuations, records the approximations by which it was produced, and remains open to future defeat.
+
+The final thesis is:
+$$
+\text{physical truth}
+\neq
+\text{model--reality identity},
+$$
+but rather
+$$
+\text{physical truth}
+=
+\text{open, ledgered, stability-certified, observer-invariant fit}.
+$$
+This formulation preserves finiteness, because empirical claims begin from finite traces; realism, because reality constrains signatures and can defeat models; objectivity, because objective content is invariant across observer histories; and openness, because no internal final-fit oracle closes all possible continuations.
+
+\begin{definition}[Physical truth claim]
+\label{def:physical-truth-claim}
+A physical truth claim is a claim
+$$
+\varphi(M,R;\Pi,\mathcal T,\mathcal C),
+$$
+where $M$ is a model or representation, $R$ is a physical system or phenomenon, $\Pi$ is an observation bundle, $\mathcal T$ is an approximation tower connecting $R$ to $M$, and $\mathcal C$ is a continuation class over which the claim is reused. A physical truth claim is therefore indexed by observation, tower, and continuation data.
+\end{definition}
+
+\begin{definition}[Certified physical truth]
+\label{def:certified-physical-truth}
+A physical truth claim is certified when it carries
+$$
+\operatorname{TruthCert}(\varphi)
+=
+(\operatorname{SourceSpec},
+\operatorname{SignatureSpec},
+\operatorname{ClassifierSpec},
+\operatorname{TowerSpec},
+\operatorname{StabilityCert},
+\operatorname{DescentCert},
+\operatorname{InvariantCert},
+\operatorname{LedgerPolicy},
+\operatorname{FailureSurface}).
+$$
+The fields record finite observational source, reality-facing signatures, sameness classifier, tower levels, reuse domain, valid operations through compression, observer-anchor stability, hidden residue and provenance, and possible defeat conditions.
+\end{definition}
+
+\begin{definition}[Open, ledgered, stability-certified, observer-invariant truth]
+\label{def:open-ledgered-stability-observer-truth}
+A certified physical truth claim is open when it includes a failure surface and does not assert final validity over all possible future observations, refinements, or observer histories. It is ledgered when every compression, idealization, smoothing, completion, discretization, or packaging step records what was hidden. It is stability-certified when finite fit is accompanied by a certificate
+$$
+\operatorname{Fit}_n(M,R;\Pi)
+\leadsto
+\operatorname{PredFit}_{\mathcal C}(M,R;\Pi).
+$$
+It is observer-invariant when, for admissible observer histories $h_i,h_j$,
+$$
+\varphi^{h_i}
+\sim
+\varphi^{h_j}.
+$$
+\end{definition}
+
+\section{The master decomposition}
+\label{sec:master-decomposition}
+
+\begin{theorem}[Physical truth decomposes into certificate fields]
+\label{thm:physical-truth-decomposes}
+A certified physical truth claim requires fit, stability, descent, invariance, ledger, and failure surface.
+\end{theorem}
+
+\begin{proof}
+A physical truth claim concerns a model as a representation of a physical system. Since the system is accessed through finite observation, the claim must establish finite fit between model-generated and reality-generated signatures. If the claim is reused beyond the finite source trace, it requires a stability certificate over a continuation class. If it uses operations such as differentiation, limiting, smoothing, simulation, coarse-graining, or inference, those operations must descend through the approximations that produced the model. If the claim is objective rather than private to one observer history, it must be invariant under changes of observer anchor. If the model is produced by compression, idealization, or packaging, the hidden source material must be ledgered. Finally, since no internal final-fit oracle is available, the claim must retain a failure surface.
+\end{proof}
+
+\begin{corollary}[Identity is the wrong primitive truth schema]
+\label{cor:identity-wrong-truth-schema}
+The schema $M=R$ is too strong because it asserts identity where finite inquiry supplies certified fit, and too weak because it omits the certificate fields needed for physical truth.
+\end{corollary}
+
+\begin{proof}
+Finite observation, tower compression, and open continuation do not justify literal model--reality identity. At the same time, the identity expression does not specify source traces, observation bundle, classifier, stability domain, descent obligations, ledger, invariant certificate, or failure surface.
+\end{proof}
+
+\begin{corollary}[Certified open fit replaces identity]
+\label{cor:certified-open-fit-replaces-identity}
+The proper replacement for $M=R$ is certified open fit:
+$$
+\operatorname{OpenFit}(M,R;\Pi,\mathcal T,\mathcal C)
+$$
+together with a truth certificate.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:physical-truth-decomposes} requires fit, stability, descent, invariance, ledger, and failure surface. These are precisely the fields encoded by open fit together with its certificate.
+\end{proof}
+
+\section{Truth without finality}
+\label{sec:truth-without-finality}
+
+The framework separates truth from finality. Without this separation, one is forced into a false choice between final truth and mere instrumentality. The available middle form is certified, objective, non-final truth.
+
+\begin{definition}[Finality and domain truth]
+\label{def:finality-domain-truth}
+A physical truth claim is final when it asserts validity over all possible observation bundles, future histories, tower refinements, and observer configurations. A claim is domain-true when it is certified over a specified domain
+$$
+D=(\Pi,\mathcal T,\mathcal C,\mathcal H).
+$$
+We write $\operatorname{Truth}_D(\varphi)$ for truth inside such a certified domain.
+\end{definition}
+
+\begin{theorem}[Domain truth does not imply final truth]
+\label{thm:domain-truth-not-final-truth}
+If $\operatorname{Truth}_D(\varphi)$ holds, it does not follow that $\varphi$ is finally true.
+\end{theorem}
+
+\begin{proof}
+Domain truth is indexed by a specified observation bundle, tower, continuation class, and observer configuration. Final truth quantifies over all possible bundles, towers, continuations, and observer configurations. The certified domain may be strictly smaller than that total range.
+\end{proof}
+
+\begin{corollary}[Non-final truth is not relativism]
+\label{cor:non-final-truth-not-relativism}
+The fact that a claim is domain-indexed does not make it arbitrary.
+\end{corollary}
+
+\begin{proof}
+A domain-true claim is constrained by source observations, signature comparison, classifier exactness, stability, descent, invariant certificates, and ledger data. These constraints can be satisfied or violated.
+\end{proof}
+
+\begin{corollary}[Objectivity and revisability are compatible]
+\label{cor:objectivity-revisability-compatible}
+A claim can be objective within a certified domain while remaining revisable under later refinement.
+\end{corollary}
+
+\begin{proof}
+Objectivity requires invariant stability across observer histories inside the domain. Revisability concerns possible extensions beyond that domain. These are different conditions.
+\end{proof}
+
+\section{Reality constraint and tower knowledge}
+\label{sec:reality-constraint-tower-knowledge}
+
+\begin{definition}[Reality constraint and reality defeat]
+\label{def:reality-constraint-defeat}
+The reality constraint on a model $M$ of $R$ under $\Pi$ is
+$$
+\operatorname{ModSig}_{\Pi}(M)
+\sim_{\Pi}
+\operatorname{ObsSig}_{\Pi}(R).
+$$
+A reality defeat is a finite trace $H_n$ such that
+$$
+\operatorname{ModSig}_{\Pi}(M\mid H_n)
+\not\sim_{\Pi}
+\operatorname{ObsSig}_{\Pi}(R\mid H_n).
+$$
+Such a defeat is finite, local, and decisive relative to its bundle.
+\end{definition}
+
+\begin{theorem}[Certified physical truth is reality-constrained]
+\label{thm:certified-physical-truth-reality-constrained}
+If a claim is certified as physically true, then it is constrained by reality-generated signatures.
+\end{theorem}
+
+\begin{proof}
+Certified physical truth requires finite fit, and finite fit compares model-generated and reality-generated signatures. If the reality-generated signature separates from the model-generated signature, the fit certificate fails.
+\end{proof}
+
+\begin{corollary}[The framework is realist but not syntax realist]
+\label{cor:realist-not-syntax-realist}
+The framework is realist because reality can constrain, correct, and defeat models; it is not syntax realist because it does not identify successful mathematical syntax with reality itself.
+\end{corollary}
+
+\begin{proof}
+Reality defeat shows that model validity is constrained by reality-generated signatures. But certified truth requires signature preservation, not syntactic identity. Different syntactic representations may preserve the same signatures, and exact syntax may fail physically.
+\end{proof}
+
+\begin{definition}[Knowledge tower]
+\label{def:knowledge-tower}
+A knowledge tower is an approximation tower whose endpoint supports certified physical truth claims. It consists of
+$$
+(\mathcal T,\operatorname{TruthCert},\operatorname{Ledger},\operatorname{FailureSurface}).
+$$
+A claim is tower knowledge when it is certified at a specified level of such a tower and its transfer to other levels is governed by descent certificates.
+\end{definition}
+
+\begin{theorem}[Physical knowledge is tower knowledge]
+\label{thm:physical-knowledge-tower-knowledge}
+Every certified physical truth claim is tower knowledge.
+\end{theorem}
+
+\begin{proof}
+A certified physical truth claim begins from finite observation, passes through signature extraction, classifier comparison, and model formation, and uses stability, descent, ledger, invariant, and failure-surface data. These are precisely the components of a knowledge tower.
+\end{proof}
+
+\begin{corollary}[Theory is not flat]
+\label{cor:theory-not-flat}
+A scientific theory is not merely a set of propositions or equations; it is a structured tower of traces, models, classifiers, certificates, ledgers, and failure surfaces.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:physical-knowledge-tower-knowledge}, physical knowledge is tower knowledge. A theory organizing such knowledge must organize the tower structure that certifies it.
+\end{proof}
+
+\section{Reflective physical knowledge}
+\label{sec:reflective-physical-knowledge}
+
+\begin{definition}[Reflective physical knowledge]
+\label{def:reflective-physical-knowledge}
+Reflective physical knowledge is physical knowledge that explicitly records the conditions under which it was generated:
+$$
+\operatorname{ReflectivePhysKnow}
+=
+(\operatorname{Observation},
+\operatorname{Signature},
+\operatorname{Classifier},
+\operatorname{Certificate},
+\operatorname{Ledger},
+\operatorname{OpenContinuation}).
+$$
+\end{definition}
+
+\begin{theorem}[Physical knowledge is reflective]
+\label{thm:physical-knowledge-reflective}
+Every certified physical truth claim is reflective physical knowledge.
+\end{theorem}
+
+\begin{proof}
+Certified physical truth requires source traces, signature extraction, classifier specification, stability certificates, descent certificates, invariant certificates, ledgers, and failure surfaces. These are the conditions of its own generation and reuse. The claim is therefore not only about the world; it also records how the world became accessible to the model.
+\end{proof}
+
+\begin{corollary}[Reflection is not subjectivism]
+\label{cor:reflection-not-subjectivism}
+Physical knowledge is reflective because it records its access conditions, but it remains objective when the resulting content is observer-invariant and reality-constrained.
+\end{corollary}
+
+\begin{proof}
+Reflection records observational and certificatory conditions. Subjectivism would make the claim depend on private perspective alone. Certified physical truth requires reality-generated signatures and observer-invariant stability.
+\end{proof}
+
+\begin{corollary}[MetaCIC-like structure is the form of finite science]
+\label{cor:metacic-like-form-finite-science}
+Finite science is MetaCIC-like because it builds certified packages from finite histories while refusing final meta-closure.
+\end{corollary}
+
+\begin{proof}
+Both physical inquiry and MetaCIC self-study proceed by finite histories, signatures, classifiers, certificates, ledgers, and open continuation. This is the formal shape of finite inquiry.
+\end{proof}
+
+\section{Certified physical truth schema}
+\label{sec:certified-physical-truth-schema}
+
+\begin{definition}[Certified physical truth schema]
+\label{def:certified-physical-truth-schema}
+For a domain $D$, the certified physical truth schema is
+$$
+\operatorname{PhysTruth}_D(\varphi)
+:=
+\operatorname{Source}_D(\varphi)
+\wedge
+\operatorname{SigFit}_D(\varphi)
+\wedge
+\operatorname{ClassifierExact}_D(\varphi)
+\wedge
+\operatorname{TowerLedger}_D(\varphi)
+\wedge
+\operatorname{Stability}_D(\varphi)
+\wedge
+\operatorname{Descent}_D(\varphi)
+\wedge
+\operatorname{Invariant}_D(\varphi)
+\wedge
+\operatorname{FailureSurface}_D(\varphi).
+$$
+\end{definition}
+
+\begin{theorem}[Certified schema is sufficient for domain truth]
+\label{thm:certified-schema-sufficient-domain-truth}
+If all components of $\operatorname{PhysTruth}_D(\varphi)$ hold, then $\varphi$ is domain-true.
+\end{theorem}
+
+\begin{proof}
+The source component grounds the claim in finite observation. Signature fit connects model and reality. Classifier exactness determines agreement. The tower ledger records hidden approximations. Stability licenses reuse. Descent licenses operations. Invariance establishes objectivity across observer histories. The failure surface preserves openness. Together these fields supply the conditions for certified truth inside $D$.
+\end{proof}
+
+\begin{theorem}[Certified schema is necessary for non-oracular physical truth]
+\label{thm:certified-schema-necessary-non-oracular}
+If $\varphi$ is asserted as non-oracular physical truth, then the components of the certified physical truth schema must be supplied or explicitly bounded.
+\end{theorem}
+
+\begin{proof}
+A non-oracular physical truth claim cannot appeal to a final external guarantee. It must show how it is grounded, compared, stabilized, operated upon, objectified, ledgered, and left open to failure. These requirements are exactly the components of \autoref{def:certified-physical-truth-schema}.
+\end{proof}
+
+\begin{corollary}[Physical truth is certificate truth]
+\label{cor:physical-truth-certificate-truth}
+Within finite inquiry, physical truth is truth by certificate, not truth by final oracle.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:certified-schema-sufficient-domain-truth} gives sufficiency for domain truth, and \autoref{thm:certified-schema-necessary-non-oracular} gives necessity for non-oracular physical truth.
+\end{proof}
+
+\section{Non-erasure discipline}
+\label{sec:non-erasure-discipline}
+
+\begin{theorem}[Unsafe truth moves erase certificates]
+\label{thm:unsafe-truth-moves-erase-certificates}
+Bare identity, unledgered idealization, free transfer of operations, final-fit oracles, God's-eye objectivity, and syntax realism each erase at least one required certificate field.
+\end{theorem}
+
+\begin{proof}
+Bare identity erases source, classifier, tower, and failure-surface data. Unledgered idealization erases provenance. Free transfer of operations erases descent. Final-fit oracles erase openness. God's-eye objectivity erases observer-history structure. Syntax realism erases signature and certificate dependence.
+\end{proof}
+
+\begin{corollary}[The framework is a discipline of non-erasure]
+\label{cor:framework-non-erasure}
+The central methodological principle is to not erase the conditions that license the claim.
+\end{corollary}
+
+\begin{proof}
+The major errors arise by erasing source, classifier, tower, descent, ledger, observer, or failure data. Avoiding erasure is therefore the unifying discipline.
+\end{proof}
+
+\begin{theorem}[Realism, objectivity, and revisability are preserved together]
+\label{thm:realism-objectivity-revisability-preserved}
+The framework supports realist, objective, and revisable physical knowledge.
+\end{theorem}
+
+\begin{proof}
+It supports realism because reality-generated signatures constrain and can defeat models. It supports objectivity because physical content is stabilized by inter-observer invariants. It supports revisability because every claim retains a failure surface and remains open to future refinement.
+\end{proof}
+
+\begin{corollary}[Revisability is not anti-realist]
+\label{cor:revisability-not-anti-realist}
+The possibility of later correction does not undermine realism.
+\end{corollary}
+
+\begin{proof}
+Realism attaches to reality-constrained signature preservation. Later correction shows that a prior certificate was domain-limited or incomplete, not that reality failed to constrain inquiry.
+\end{proof}
+
+\begin{corollary}[Objectivity is not finality]
+\label{cor:objectivity-not-finality}
+Objective claims need not be final claims.
+\end{corollary}
+
+\begin{proof}
+Objectivity requires invariant stability across observer histories. Finality requires validity across all possible refinements and continuations. The first does not imply the second.
+\end{proof}
+
+\section{Closing thesis}
+\label{sec:closing-thesis}
+
+\begin{principle}[Physical truth as certified open fit]
+\label{prin:physical-truth-certified-open-fit}
+Physical truth, as available to finite observers inside reality, is certified open fit:
+$$
+\operatorname{PhysTruth}_D(\varphi)
+=
+\operatorname{finite\ source}
++
+\operatorname{signature\ fit}
++
+\operatorname{classifier\ exactness}
++
+\operatorname{tower\ ledger}
++
+\operatorname{stability}
++
+\operatorname{descent}
++
+\operatorname{observer\ invariance}
++
+\operatorname{failure\ surface}.
+$$
+This is the strongest non-oracular form of physical truth.
+\end{principle}
+
+\begin{principle}[Science as ledgered reflection]
+\label{prin:science-ledgered-reflection}
+Scientific inquiry is a ledgered reflective process by which finite observers inside reality construct stable, invariant, certificate-governed signatures of reality:
+$$
+\text{reality}
+\to
+\text{finite traces}
+\to
+\text{signatures}
+\to
+\text{classifiers}
+\to
+\text{models}
+\to
+\text{certificates}
+\to
+\text{open continuation}.
+$$
+\end{principle}
+
+\begin{principle}[Approximation tower as condition of knowledge]
+\label{prin:approximation-tower-condition-knowledge}
+Physical inquiry does not escape approximation towers. It inhabits them. This is not a defect; it is the structure that makes physical knowledge possible. The task is not to eliminate approximation but to certify it.
+\end{principle}
+
+\begin{remark}[Closing]
+\label{rem:reality-constrained-closing}
+The chapter's final replacements are:
+$$
+M=R
+\quad\leadsto\quad
+\operatorname{OpenFit}(M,R;\Pi,\mathcal T,\mathcal C),
+$$
+$$
+\text{truth from nowhere}
+\quad\leadsto\quad
+\text{observer-invariant certified truth},
+$$
+$$
+\text{ideal object as ontology}
+\quad\leadsto\quad
+\text{ideal object as ledgered tower endpoint},
+$$
+$$
+\text{physical law as equation}
+\quad\leadsto\quad
+\text{physical law as stability certificate},
+$$
+$$
+\text{scientific progress as replacement}
+\quad\leadsto\quad
+\text{scientific progress as ledger refinement},
+$$
+and
+$$
+\text{final confirmation}
+\quad\leadsto\quad
+\text{open confirmation with failure surface}.
+$$
+In compressed form:
+$$
+\text{physical knowledge}
+=
+\text{finite observation}
++
+\text{reality-facing signatures}
++
+\text{certified classifiers}
++
+\text{ledgered approximation towers}
++
+\text{stability-certified induction}
++
+\text{observer-invariant objectivity}
++
+\text{open continuation}.
+$$
+The framework does not deny physical reality, mathematical modelling, scientific laws, or objectivity. It reconstructs them under the conditions available to finite inquiry: source traces, signatures, classifiers, certificates, ledgers, invariants, and openness.
+\end{remark}
