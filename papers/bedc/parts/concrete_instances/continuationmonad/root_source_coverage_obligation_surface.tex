@@ -10,6 +10,18 @@ Next use \autoref{thm:continuation-monad-root-continuation-rule-coverage}. Unit 
 Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separation}. This excludes host functions, quotient Kleisli arrows, ambient hom sets, independent category carriers, and unlisted continuation generators from the root source route, so coverage is exactly the displayed packet.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad root source triad exactness]
+\label{thm:continuation-monad-root-source-triad-exactness}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every root consumer route is exactly the joint surface obtained from source exposure, continuation-rule coverage, and downstream consumer separation. The route consists of the displayed source histories $A,B,C$, continuation tails $f,g,u$, route row, transport row, ledger row, package provenance, and local naming row of $Z$; it contains no host function, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuation-monad-root-route-source-exposure}. It identifies the root route source with the displayed packet $Z=(A,B,C,f,g,u,H,K,L,N)$ and supplies no external source coordinate.
+
+Next use \autoref{thm:continuation-monad-root-continuation-rule-coverage}. The unit and bind laws are readable only through the displayed histories, tails, route row, transport row, ledger row, and local name.
+
+Finally apply \autoref{thm:continuation-monad-root-downstream-consumer-separation}. Downstream consumers cannot receive host functions, quotient Kleisli arrows, ambient hom sets, or unlisted continuation generators, so the three component surfaces exhaust the root consumer route exactly.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad root generator consumer lock]
 \label{thm:continuation-monad-root-generator-consumer-lock}
 For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every generator-facing root consumer is locked to the generator closure surface of \autoref{ch:concrete-instances-generatorclosure-namecert} and to the existing generator-boundary refusal of $Z$. A consumer may read only the displayed source histories, continuation tails, transport rows, route rows, ledger rows, package rows, and local name rows; it may not introduce host functions, quotient Kleisli arrows, ambient hom sets, or continuation generators not listed in the packet.

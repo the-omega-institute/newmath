@@ -111,4 +111,42 @@ theorem ZetaContinuationWitnessPacket_public_source_lock_handoff [AskSetup] [Pac
   exact
     ⟨analyticSame, transportsSame, provenanceSame, exportSame, namePkg, provenancePkg'⟩
 
+theorem ZetaContinuationWitnessPacket_source_boundary [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
+      analytic' transports' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+      routes provenance name bundle pkg →
+      Cont basic eta' analytic' →
+      Cont analytic' functional transports' →
+      hsame eta eta' →
+      hsame analytic analytic' ∧ hsame transports transports' ∧ PkgSig bundle name pkg ∧
+        PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet basicRoute functionalRoute etaSame
+  obtain ⟨basicAnalytic, analyticTransport, _poleGamma, _transportProvenance, namePkg,
+    provenancePkg⟩ := packet
+  have analyticSame : hsame analytic analytic' :=
+    cont_respects_hsame (hsame_refl basic) etaSame basicAnalytic basicRoute
+  have transportsSame : hsame transports transports' :=
+    cont_respects_hsame analyticSame (hsame_refl functional) analyticTransport functionalRoute
+  exact ⟨analyticSame, transportsSame, namePkg, provenancePkg⟩
+
+theorem ZetaContinuationWitnessPacket_gamma_boundary [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name
+      zeroLedger' gamma' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma transports
+      routes provenance name bundle pkg →
+      Cont pole zeroLedger' gamma' →
+      hsame zeroLedger zeroLedger' →
+      hsame gamma gamma' ∧ PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet gammaRoute zeroLedgerSame
+  obtain ⟨_basicAnalytic, _analyticTransport, poleGamma, _transportProvenance, namePkg,
+    provenancePkg⟩ := packet
+  have gammaSame : hsame gamma gamma' :=
+    cont_respects_hsame (hsame_refl pole) zeroLedgerSame poleGamma gammaRoute
+  exact ⟨gammaSame, namePkg, provenancePkg⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp

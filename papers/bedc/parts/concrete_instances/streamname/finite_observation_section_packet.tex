@@ -98,3 +98,89 @@ the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
 rows. Thus the section and constant-seed packets are precisely the
 StreamName-side finite observation handoff into that exit surface.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat tail-budget section lock]
+\label{thm:streamname-finite-observation-regseqrat-tail-budget-section-lock}
+Every finite $\StreamNameUp$ observation section consumed by a
+$\RegSeqRatUp$ tail-budget read and then by a finite $\RealUp$ seal factors
+through the same displayed section packet. The packet consists of the
+$\mathsf{ProbeBundle}$ membership row, the $\mathsf{InBundle}$ membership row,
+the $\mathsf{UnaryHistory}$ observation row, the
+$\mathsf{RatHistoryClassifier}$ endpoint row, the $\DyadicRatCoreUp$ tolerance
+ledger, the $\RegSeqRatUp$ regularity and classifier rows, the displayed
+$\hsame$ transports, the $\Cont$ routes, $\Pkg$ provenance, and the local
+$\NameCert$ rows. It exports no quotient stream equality, host sequence
+equality, selected limit, ambient $\RealUp$ completeness, metric-completeness
+datum, or second dyadic source.
+\end{theorem}
+\begin{proof}
+The local section inventory is fixed by
+\autoref{thm:streamname-finite-observation-section}. A certified finite
+observation section exposes exactly the bundle membership, in-bundle
+membership, unary-history, rational-history classifier, $\hsame$, $\Cont$,
+$\Pkg$, and local $\NameCert$ rows listed there.
+
+The handoff to the Phase Real and Completion exit surface is the one in
+\autoref{thm:streamname-finite-observation-real-exit-handoff}. It says that the
+StreamName contribution to the four-object route is precisely the finite
+observation packet before the downstream DyadicRatCore, RegSeqRat, and Real
+rows are read.
+
+Now route the consumer through
+\autoref{thm:regseqrat-tail-budget-meet-handoff}. A tail-budget read is ordered
+through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and then
+$\RealUp$, so the dyadic tolerance ledger and the RegSeqRat regularity and
+classifier rows consume the same finite StreamName section rather than a
+separate source.
+
+Finally use
+\autoref{thm:streamname-real-regseq-shared-tail-budget-route}. The shared-tail
+consumer keeps the RegSeqRat readback and the finite Real seal on the same
+public finite-window route. Since the cited packets contain no fields for a
+quotient stream equality, host sequence equality, selected limit, ambient Real
+completeness principle, metric-completeness datum, or second dyadic source,
+none of those objects can be inserted between the section packet and its
+tail-budget or seal consumers.
+\end{proof}
+
+\begin{theorem}[StreamName finite-observation section reindex coverage]
+\label{thm:streamname-finite-observation-section-reindex-coverage}
+Every certified reindexing of a finite $\StreamNameUp$ observation section
+preserves the same displayed section packet and the same Phase Real and
+Completion exit route through $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$. The reindexed consumer receives only the
+transported finite observation rows, the constant scheduled-subwindow
+coherence when the source is constant, the downstream tail-budget rows, and
+the finite $\RealUp$ seal rows; it receives no quotient stream equality,
+host-index equality, selected limit, second dyadic source, or ambient
+completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the local finite observation packet from
+\autoref{thm:streamname-finite-observation-section}. It identifies the
+displayed section solely by the bundle membership, unary-history,
+rational-history classifier, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ rows, with no quotient, host-index, limit, or completeness field
+available to transport.
+
+Apply \autoref{thm:rat-stream-name-reindexing-composition-law}. Certified
+window reindexing composes inside the StreamName certificate surface, so the
+consumer reads the reindexed section through the same public observation
+packet rather than through a second stream source or a host-index equality.
+
+For constant scheduled subwindows, use
+\autoref{thm:streamname-scheduled-subwindow-constant-observation-coherence}.
+The scheduled window and the reindexed window expose the same constant
+observation row, so reindexing does not add a selected limit or a second
+dyadic source before the downstream consumer sees the packet.
+
+Finally combine
+\autoref{thm:streamname-finite-observation-real-exit-handoff} with
+\autoref{thm:streamname-finite-observation-regseqrat-tail-budget-section-lock}.
+The first theorem fixes the four-object Phase Real and Completion route
+through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$;
+the second keeps the RegSeqRat tail-budget read and the finite Real seal on
+that same finite section. Thus certified reindexing preserves coverage of the
+section packet without opening any quotient stream, host-index, selected
+limit, second-source, or ambient-completeness row.
+\end{proof}
