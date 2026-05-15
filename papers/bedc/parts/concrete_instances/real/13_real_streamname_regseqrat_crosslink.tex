@@ -125,6 +125,58 @@ Now apply \autoref{thm:streamname-common-refinement-terminal-real-seal}. The com
 The assembled route therefore reaches the Real classifier only through the common-refinement packet, the RegSeqRat readback, and the DyadicRatCore observation row. None of the cited packets contains a coordinate for quotient-real equality, host sequence equality, selected host limits, ambient Real completeness, independent Real carrier rows, or metric-completeness data, so no terminal consumer can read one from this handoff.
 \end{proof}
 
+\begin{theorem}[Real StreamName RegSeqRat terminal pullback separation]
+\label{thm:real-streamname-regseqrat-terminal-pullback-separation}
+Let $C_0$ and $C_1$ be terminal $\RealUp$ seal-facing consumers whose
+sources are common-refinement $\StreamNameUp$ windows and whose readbacks are
+$\RegSeqRatUp$ rows. Suppose that $C_0$ and $C_1$ share the same
+common-refinement $\StreamNameUp$ window, the same $\RegSeqRatUp$ readback
+row, the same $\DyadicRatCoreUp$ observation row, and the same local
+$\mathsf{RealUnaryStreamClassifier}$ row, with the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support carried by those four
+faces. Then $C_0$ and $C_1$ determine the same terminal finite $\RealUp$ seal
+route.
+
+Conversely, any equality of terminal finite $\RealUp$ seal routes between
+such consumers factors back through those four faces: the common-refinement
+StreamName window, the RegSeqRat readback row, the DyadicRatCore observation
+row, and the local Real classifier row with its displayed history,
+continuity, package, and local-name support. The separation statement asserts
+only this terminal finite route. It does not identify quotient-real
+equalities, host sequence equalities, selected host limits, ambient
+completeness rows, independent Real carrier rows, metric-completeness data,
+or standard-bridge rows.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-streamname-regseqrat-terminal-seal-exhaustion} to each
+consumer. This sends both terminal reads through the four displayed faces
+before the local $\NameCert_{\RealUp}$ row is inspected, so the two consumers
+have no terminal seal coordinate outside the StreamName, RegSeqRat,
+DyadicRatCore, and local Real classifier surfaces.
+
+Next use \autoref{thm:streamname-common-refinement-terminal-real-seal}. The
+shared common-refinement StreamName window supplies the same finite terminal
+packet for both consumers, including the visible history rows, transports,
+package provenance, and local names that feed the downstream Real seal.
+
+Then apply \autoref{thm:streamname-real-regseq-terminal-common-window-lock}
+and \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. These two
+results lock the RegSeqRat readback, the DyadicRatCore observation row, and
+the Real seal route to the same common-refinement pullback. Hence equality at
+the terminal Real seal boundary is witnessed by equality on the four displayed
+faces, and every equality of such terminal finite seal routes pulls back to
+those faces.
+
+Finally apply
+\autoref{thm:real-streamname-regseqrat-common-refinement-consumer-lock}. It
+rules out bypass coordinates for quotient-real equality, host sequence
+equality, selected host limits, ambient completeness, independent Real carrier
+rows, metric-completeness data, or standard-bridge rows. The terminal
+pullback therefore separates precisely the finite Real seal route and nothing
+outside the displayed handoff.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp finite-window factorization]
 \label{thm:streamname-regseqrat-realup-finite-window-factorization}
 Every accepted $\RealUp$ L10 finite-window seal read whose source is a

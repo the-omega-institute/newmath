@@ -1,0 +1,87 @@
+\begin{theorem}[$\ZNormalUp$ root terminal-host route classifier exhaustion]
+\label{thm:znormal-root-terminal-host-route-classifier-exhaustion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root terminal-host route classifier is exhausted by the displayed
+terminal normality row $V$, finite fuel replay row $F$, total-host refusal
+ledger implicit in the accepted packet, componentwise $\BHist$ and $\hsame$
+rows $T,H$, displayed $\Cont$ replay row $C$, package row $P$, and local
+$\NameCert$ row $N$. The classifier may also read the sibling normal-word row
+$K$ and terminal readback row $R$ only as rows of the same packet; it exports
+no divergence oracle, host conversion row, quotient computation, unrestricted
+evaluator, substrate-halting row, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start from the terminal normality carrier exposure,
+\autoref{thm:znormal-terminal-normality-carrier-exposure}. It identifies the
+accepted carrier with the finite rows $T,F,V,K,R,H,C,P,N$ and places terminal
+normality on the displayed row $V$ rather than on host computation.
+
+Use the total-host fuel replay boundary,
+\autoref{thm:znormal-total-host-fuel-replay-boundary}. The root route reaches
+terminal normality through $T,F,V,R$ and then reads transport, replay,
+package, and local naming only through $H,C,P,N$.
+
+Finally apply the consumer non-escape theorem,
+\autoref{thm:znormal-consumer-divergence-oracle-nonescape}. Since no
+downstream consumer can obtain a divergence oracle, host conversion, quotient
+computation, unrestricted evaluator, substrate-halting row, or global
+normalizer, the terminal-host classifier is exhausted by the displayed packet
+rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root total-host consumer readback lock]
+\label{thm:znormal-root-total-host-consumer-readback-lock}
+Every total-host consumer of an accepted $\ZNormalUp$ packet reads the same
+terminal-host lock
+$$
+T,F,V,K,R,H,C,P,N.
+$$
+The typed endpoint, finite fuel replay, terminal normality, sibling
+normal-word evidence, terminal readback, $\BHist$ support, componentwise
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert$ rows are the only rows available to that consumer.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:znormal-terminal-normality-carrier-exposure}. It fixes
+the consumer surface as the finite packet $T,F,V,K,R,H,C,P,N$.
+
+Next use \autoref{thm:znormal-total-host-fuel-replay-boundary}. Fuel replay
+and terminal readback remain locked to $T,F,V,R$ and cannot detach a separate
+host conversion or evaluator row.
+
+Now invoke \autoref{thm:znormal-root-terminal-host-route-classifier-exhaustion}.
+The classifier surface for a terminal-host route is already exhausted by the
+same displayed rows.
+
+The non-escape row \autoref{thm:znormal-consumer-divergence-oracle-nonescape}
+then rules out every external total-host read. Hence all total-host consumers
+read the same finite lock and no unlisted row remains available.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root NameCert terminal route readiness]
+\label{thm:znormal-root-namecert-terminal-route-readiness}
+The local $\NameCert_{\ZNormalUp}$ row of an accepted packet is ready for
+terminal-route consumption exactly when the displayed terminal normality row,
+finite fuel replay row, total-host refusal ledger, $\BHist$ support,
+$\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming rows
+are read as the single packet $T,F,V,K,R,H,C,P,N$. This readiness does not
+add a host conversion row, quotient computation, divergence oracle,
+unrestricted evaluator, substrate-halting row, or global normalizer.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-terminal-normality-carrier-exposure}. The
+carrier exposes terminal normality and the supporting rows only as the
+accepted finite packet.
+
+Use \autoref{thm:znormal-root-total-host-consumer-readback-lock}. It fixes the
+readback lock for every total-host consumer to the same rows
+$T,F,V,K,R,H,C,P,N$.
+
+Finally use \autoref{thm:znormal-consumer-divergence-oracle-nonescape}. The
+local $\NameCert$ row can certify readiness for the displayed terminal route,
+but it has no coordinate from which to provide any excluded host-side or
+global-normalization object.
+\end{proof}
