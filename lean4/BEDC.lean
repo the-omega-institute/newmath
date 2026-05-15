@@ -135,6 +135,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailServiceSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowMeetRoute
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
@@ -307,6 +308,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
+import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.ForbiddenAxiomAncestryUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -474,6 +476,7 @@ import BEDC.Derived.CauchyLimitSealUp.SourceScheduleLedger
 import BEDC.Derived.CauchyLimitSealUp.StreamNameDependency
 import BEDC.Derived.CauchyLimitSealUp.StreamNameLatticeOrphanLink
 import BEDC.Derived.CauchyLimitSealUp.StreamNameRegularNameLattice
+import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
@@ -614,7 +617,6 @@ import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HaltingDistinctionTraceUp
-import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
