@@ -578,4 +578,22 @@ theorem CauchyModulusRefinementCarrier_shared_budget_pullback [AskSetup] [Packag
     ⟨selectedUnary, readbackUnary, m0m1u, uvt, tWSelected, selectedQReadback, pPkg,
       hn⟩
 
+theorem CauchyModulusRefinementCarrier_real_seal_route [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n sealRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont q e sealRead -> PkgSig bundle sealRead pkg ->
+        UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory u ∧ UnaryHistory v ∧
+          UnaryHistory t ∧ UnaryHistory w ∧ UnaryHistory q ∧ UnaryHistory e ∧
+            UnaryHistory sealRead ∧ Cont m0 m1 u ∧ Cont u v t ∧ Cont t w q ∧
+              Cont q e sealRead ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier sealRoute sealPkg
+  rcases carrier with
+    ⟨m0U, m1U, uU, vU, tU, wU, qU, eU, _hU, _cU, _pU, _nU, m0m1u, uvt, twq,
+      _qeh, _pPkg, _hn⟩
+  exact
+    ⟨m0U, m1U, uU, vU, tU, wU, qU, eU, unary_cont_closed qU eU sealRoute,
+      m0m1u, uvt, twq, sealRoute, sealPkg⟩
+
 end BEDC.Derived.CauchyModulusRefinementUp
