@@ -217,6 +217,7 @@ Now apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-m
 
 Finally use tail-budget seal uniqueness, \autoref{thm:cauchy-modulus-refinement-tail-budget-seal-uniqueness}. A second route with the same selector budget, selected window, dyadic tolerance, and seal collapses to the same tail-budget seal surface. The excluded quotient stream, hidden selector, second meet row, host real equality, and ambient completeness rows are not packet coordinates, so none can bypass the shared-tail meet route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_selector\_budget\_tail\_meet\_nonescape}
 
 \begin{theorem}[Cauchy modulus refinement terminal selector-seal correspondence]
 \label{thm:cauchy-modulus-refinement-terminal-selector-seal-correspondence}
@@ -304,6 +305,7 @@ through the shared meet, selector-budget, selected-window, readback, seal, trans
 
 No quotient stream, hidden selector, second meet row, host real equality, selected host limit, side-channel completion row, or ambient completeness coordinate contributes an additional terminal seal route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_terminal\_real\_seal\_pullback\_exhaustion}
 \begin{proof}
 First force the shared meet and selector route. The shared-meet RegSeqRat route, \autoref{thm:cauchy-modulus-refinement-shared-meet-regseqrat-route}, places every $\RegSeqRatUp$ and $\RealUp$ consumer behind $U,V,T$, and the tail-budget selector lock, \autoref{thm:cauchy-modulus-refinement-tail-budget-selector-lock}, prevents a second selector surface once $T,W,Q,E,H,C,P,N$ are read.
 
@@ -312,4 +314,22 @@ Next pass through the finite sibling handoff. The shared-budget pullback handoff
 For the converse direction, assume the consumer exposes the same $U,V,T,W,Q,E,H,C,P,N$ rows. Terminal selector-seal correspondence, \autoref{thm:cauchy-modulus-refinement-terminal-selector-seal-correspondence}, identifies agreement on the selector-budget, selected-window, dyadic-tolerance, readback, seal, transport, replay, provenance, and local naming rows with agreement on the terminal selector surface and its $\RealUp$ seal.
 
 Finally apply the exclusion clauses supplied by tail-budget selector lock and shared-budget pullback handoff. Quotient streams, hidden selectors, second meet rows, host real equality, selected host limits, side-channel completion rows, and ambient completeness coordinates are absent from the accepted packet, so none of them can supply a separate terminal pullback. Hence the displayed row agreement is exactly the consumer boundary for the terminal $\RealUp$ seal.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement terminal pullback consumer uniqueness]
+\label{thm:cauchy-modulus-refinement-terminal-pullback-consumer-uniqueness}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose two $\RealUp$ or Completion consumers of $R$ expose the same shared-budget pullback rows
+$$
+U,V,T,W,Q,E,H,C,P,N.
+$$
+Then the two consumers expose the same terminal $\RealUp$ seal consumer surface. No quotient stream, hidden selector, second meet row, host real equality, selected host limit, side-channel completion row, or ambient completeness coordinate can distinguish the two terminal consumers.
+\end{theorem}
+\begin{proof}
+First lock the selector boundary. Tail-budget selector lock, \autoref{thm:cauchy-modulus-refinement-tail-budget-selector-lock}, makes the displayed selector-budget route the only accepted route from the tail budget to the selected-window and tolerance rows.
+
+Next read both consumers through the shared meet. The shared-meet RegSeqRat route, \autoref{thm:cauchy-modulus-refinement-shared-meet-regseqrat-route}, forces every $\RegSeqRatUp$, $\RealUp$, or Completion-facing read behind the same $U,V,T$ spine before $W,Q,E$ can be consumed.
+
+Now pass through the pullback handoff. By \autoref{thm:cauchy-modulus-refinement-shared-budget-pullback-handoff}, agreement on $U,V,T,W,Q,E,H,C,P,N$ is agreement on the finite handoff across the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces.
+
+Finally apply terminal Real-seal pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-terminal-real-seal-pullback-exhaustion}. Since the two consumers expose the same displayed pullback rows, their terminal seal surfaces are the same, and the excluded off-route coordinates have no accepted slot from which to separate them.
 \end{proof}

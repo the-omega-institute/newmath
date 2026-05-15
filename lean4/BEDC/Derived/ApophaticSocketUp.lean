@@ -464,4 +464,35 @@ theorem ApophaticSocketCarrier_obligation_closure_package [AskSetup] [PackageSet
     }
   exact ⟨cert, kindSupplyGate, gateSiteReplay, replayProvenanceConsumer⟩
 
+theorem ApophaticSocketCarrier_positive_supply_refusal_scope [AskSetup] [PackageSetup]
+    {socketKind supplyShape supplyShape' auditGate site transport replay replay' provenance
+      nameCert request request' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay provenance
+        nameCert bundle pkg →
+      Cont supplyShape replay request →
+        hsame supplyShape supplyShape' →
+          hsame replay replay' →
+            Cont supplyShape' replay' request' →
+              PkgSig bundle request pkg →
+                hsame request request' ∧ UnaryHistory request ∧ UnaryHistory request' ∧
+                  Cont socketKind supplyShape auditGate ∧ Cont auditGate site replay ∧
+                    Cont supplyShape replay request ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle request pkg ∧ hsame nameCert auditGate := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier supplyReplay sameSupply sameReplay transportedReplay requestPkg
+  obtain ⟨_socketKindUnary, supplyShapeUnary, _auditGateUnary, _siteUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _nameCertUnary, nameCertAuditGate,
+    kindSupplyGate, gateSiteReplay, _replayProvenanceNameCert, provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have sameRequest : hsame request request' :=
+    cont_respects_hsame sameSupply sameReplay supplyReplay transportedReplay
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed supplyShapeUnary replayUnary supplyReplay
+  have requestUnary' : UnaryHistory request' :=
+    unary_transport requestUnary sameRequest
+  exact
+    ⟨sameRequest, requestUnary, requestUnary', kindSupplyGate, gateSiteReplay,
+      supplyReplay, provenancePkg, requestPkg, nameCertAuditGate⟩
+
 end BEDC.Derived.ApophaticSocketUp

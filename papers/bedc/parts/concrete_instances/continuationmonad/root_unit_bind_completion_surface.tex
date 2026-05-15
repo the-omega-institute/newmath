@@ -98,3 +98,35 @@ Apply the terminal route theorem \autoref{thm:continuation-monad-unit-bind-termi
 
 Finally invoke completion nonescape, \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. Host function composition, quotient Kleisli equality, ambient monad completion, and external evaluators are not coordinates of $A,B,C,f,g,u,H,K,L,N$, so the KernelMorphism and CertificateCompiler consumers preserve the displayed terminal route.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root bind completion classifier]
+\label{thm:continuationmonad-root-bind-completion-classifier}
+For every completion-facing root read of an accepted $\ContinuationMonadUp$
+packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+the classifier surface is the same as the displayed unit-bind terminal route:
+histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise
+$\hsame$ row $H$, displayed $\Cont$ row $K$, ledger $L$, local $\NameCert$
+row $N$, and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings.
+No completion-facing root consumer can reread the packet as host function
+composition, quotient Kleisli equality, ambient monad completion, or an
+external evaluator.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:continuation-monad-unit-bind-terminal-route}. It fixes
+the unit-bind terminal route as the rows $A,B,C,f,g,u,H,K,L,N$ together with
+the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings.
+
+Next apply \autoref{thm:continuation-monad-unit-bind-completion-nonescape}.
+Any completion-facing root read that tried to use host composition, quotient
+Kleisli equality, ambient monad completion, or an external evaluator would
+require a coordinate outside the displayed packet.
+
+Finally use
+\autoref{thm:continuation-monad-unit-bind-kernelmorphism-compiler-coherence}.
+KernelMorphism and CertificateCompiler consumers preserve the same finite
+terminal route, so the completion-facing classifier surface is exactly the
+displayed unit-bind packet and the attached category and Kleisli readings.
+\end{proof}

@@ -203,18 +203,20 @@ The public exhaustion theorem, \autoref{thm:cauchy-modulus-refinement-root-thres
 
 \begin{theorem}[Cauchy modulus refinement Real seal handoff]
 \label{thm:cauchy-modulus-refinement-real-seal-handoff}
-Every $\RealUp$ or Completion consumer of an accepted $\CauchyModulusRefinementUp$ root packet receives the handoff only after the displayed budget route
+Every accepted $\CauchyModulusRefinementUp$ root packet whose structural rows include a displayed endpoint read $Z$ with $\Cont(H,C,Z)$ and $\PkgSig(B,Z,P)$ over the same package row $P$ presents the completion boundary as a $\mathsf{SemanticNameCert}$ endpoint carrier. The source predicate is the accepted packet together with the componentwise $\hsame$ transport to $Z$, the displayed pattern rows are the route
 $$
-M_0,M_1,U,V,T,W,Q,E.
+M_0,M_1 \to U \to V \to T \to W \to Q \to E \to H \to C \to Z,
 $$
-The handoff passes through the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic readback discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-sequence handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}; it does not supply quotient equality, selected limits, host real equality, or ambient completeness.
+and the ledger row is $\UnaryHistory(Z)$ together with the package signature. The handoff names the completion endpoint carried by the displayed continuation and package rows; it does not prove Real completeness, quotient equality, selected limits, host real equality, or ambient completeness.
 \end{theorem}
 \begin{proof}
-Begin with root budget stability and meet-threshold nonescape, \autoref{thm:cauchy-modulus-refinement-root-budget-stability} and \autoref{thm:cauchy-modulus-refinement-meet-threshold-nonescape}. They place every downstream read after the shared meet, classifier-stable selector budget, and displayed window-readback route.
+Begin with root route determinacy and root budget stability, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy} and \autoref{thm:cauchy-modulus-refinement-root-budget-stability}. They place the accepted packet on the single displayed route from the source schedules through the shared meet, extraction witness, selector budget, finite window, readback rows, and Real seal.
 
-Use the sibling concrete-instance surfaces as the public handoff language. The $\StreamNameUp$ chapter names the finite window row, $\DyadicRatCoreUp$ names dyadic readback, $\RegSeqRatUp$ names the regular sequence handoff, and $\RealUp$ names the seal consumed after those rows.
+Next apply Real seal factorization, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. The seal row $E$ is reached only after $W$ and $Q$, and the componentwise $\hsame$ row carries the same endpoint read $Z$ rather than a second seal source.
 
-Finally apply root budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. These theorems already cover every Real or Completion consumer of the root packet, so the Real seal is reached only through the displayed budget rows and never through quotient equality, selected limits, host real equality, or ambient completeness.
+Now use root budget consumer exhaustion and public exhaustion, \autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion} and \autoref{thm:cauchy-modulus-refinement-root-threshold-public-exhaustion}. Every Real or Completion consumer is confined to $W,Q,E,H,C,P,N$ after the budget row, so a completion endpoint can be read only through the displayed continuation and package rows.
+
+Finally attach the provenance rows. The assumptions $\Cont(H,C,Z)$ and $\PkgSig(B,Z,P)$ over the same package row, together with $\UnaryHistory(Z)$, are exactly the endpoint carrier data required for the $\mathsf{SemanticNameCert}$ handoff. Since the packet supplies no ambient completeness coordinate, the result is a handoff certificate naming the completion boundary, not a proof that the Real seal is complete.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement diagonal route pullback]

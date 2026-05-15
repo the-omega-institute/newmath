@@ -1,0 +1,14 @@
+\section{StreamName and RegSeqRat dependency route}
+\label{sec:real-streamname-regseqrat-dependency-route}
+
+\begin{theorem}[Real seal StreamName-RegSeqRat dependency route]
+\label{thm:real-streamname-regseqrat-dependency-route}
+Every $\RealUp$ seal read consumes the finite $\StreamNameUp$ window rows of \autoref{ch:concrete-instances-streamname-namecert} before it reads the regularity and seal rows supplied by \autoref{ch:concrete-instances-regseqrat-namecert}. Thus the real-name carrier is routed through finite scheduled observations and regular rational-source ledgers before any completion-facing consumer can use the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+The Real carrier of \autoref{def:real-carrier} is specified as a sealed regular rational stream name. Its observations are StreamName rows, and its regularity certificate is exposed through the RegSeqRat source surface.
+
+Project the StreamName surface first. A finite observation request fixes the scheduled window through \autoref{ch:concrete-instances-streamname-namecert}, so the later seal read cannot introduce an unnamed observation stream.
+
+Then project the RegSeqRat surface. The regularity and classifier rows of \autoref{ch:concrete-instances-regseqrat-namecert} supply the rational-source ledger consumed by the Real seal, so a completion-facing Real read is downstream of both sibling packets.
+\end{proof}
