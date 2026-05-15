@@ -122,6 +122,7 @@ import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionEnvelopeDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionObservationRoute
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
@@ -1035,6 +1036,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealBudgetNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowRefinement
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudget
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalAuditHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetObligationRows
