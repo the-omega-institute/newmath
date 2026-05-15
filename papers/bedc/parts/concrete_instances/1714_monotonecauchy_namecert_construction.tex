@@ -193,6 +193,60 @@ Apply \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}. Every se
 Use \autoref{thm:monotone-cauchy-real-seal-boundary} for the final handoff. The boundary reads only the displayed located interval and the seal row, and \autoref{thm:monotone-cauchy-ledger-exhaustion} rules out any additional hidden coordinate for the excluded analytic objects.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy located interval cell coherence]
+\label{thm:monotone-cauchy-located-interval-cell-coherence}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ packet. Every located interval cell read in
+$I$ is coherent with the same finite $\StreamNameUp$ window selected by
+$\sigma$ and $\mu$, the same $\RegSeqRatUp$ observations in $F$, and the same
+dyadic ledger $\lambda$ before the $\RealUp$ seal row $Q$ is read. The lower
+and upper endpoint rows of the located interval, the rational or dyadic cell
+row being inspected, and the seal-facing route therefore form one finite
+window:
+$$
+(F,\sigma,\mu,\lambda)
+\quad\hbox{then}\quad
+I
+\quad\hbox{then}\quad
+Q .
+$$
+
+The coherence statement uses only the displayed $\BHist$ surface, the
+componentwise $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the
+$\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$. It does not
+invoke a quotient real, selected representative, host real order, trichotomy,
+ambient completeness principle, or choice row.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:monotone-cauchy-carrier}. The only
+tail-window rows visible before the interval and seal stages are
+$F,\sigma,\mu,\lambda$ together with their displayed transport, continuation,
+provenance, and naming rows.
+
+Apply \autoref{thm:monotone-cauchy-located-trap-certificate}. It binds the
+located interval row $I$ to the regular rational observations in $F$, the
+finite window selected by $\sigma$ and $\mu$, and the monotone dyadic ledger
+$\lambda$ before any $\RealUp$ seal row is available.
+
+Use \autoref{thm:located-interval-stream-real-cell-synchronization} for the
+endpoint-cell step. The lower endpoint row, upper endpoint row, rational or
+dyadic cell ledger, endpoint windows, regular readbacks, and seal-facing rows
+of the located interval remain a single finite route, so a cell read in $I$
+cannot detach from the displayed endpoint rows.
+
+Finally apply
+\autoref{thm:monotone-cauchy-tail-window-real-seal-certificate}. The seal row
+$Q$ consumes the same located trap and the same modulus-selected finite window,
+so the interval cell, endpoint rows, regular observations, dyadic ledger, and
+Real seal are read from one carrier surface. Since the carrier has no
+coordinate for quotient reals, selected representatives, host real order,
+trichotomy, ambient completeness, or choice, none of those objects can enter
+the coherence route.
+\end{proof}
+
 \begin{theorem}[Monotone Cauchy CauchyCriterion seal handoff]
 \label{thm:monotone-cauchy-cauchycriterion-seal-handoff}
 Let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\MonotoneCauchyUp$ packet. Suppose the $\RealUp$ seal row $Q$ is consumed by an accepted $\CauchyCriterionUp$ packet through the same displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Then every such consumer route factors through the finite Monotone Cauchy tail-window certificate and then through the CauchyCriterion finite criterion route

@@ -1,0 +1,38 @@
+\begin{definition}[$\ZNormalUp$ terminal readback route carrier]
+\label{def:znormal-terminal-readback-route-carrier}
+The $\ZNormalUp$ terminal readback route carrier is the finite packet
+$$
+Q=(T,F,V,K,R,H,C,P,N)
+$$
+read from an accepted $\ZNormalUp$ carrier as follows: $T$ is the typed endpoint row, $F$ is the bounded fuel replay row, $V$ is the terminal-normality row, $K$ is the finite normal-word comparison row, $R$ is the continuation readback row, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\ZNormalUp}$ row.
+
+The route carrier is terminal only when the readback passes through the rows displayed in \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. It has no coordinate for a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, global normalizer, or substrate-halting certificate.
+\end{definition}
+
+\begin{theorem}[$\ZNormalUp$ terminal readback route exhaustion]
+\label{thm:znormal-terminal-readback-route-exhaustion}
+Every downstream read of an accepted $\ZNormalUp$ terminal readback route carrier $Q=(T,F,V,K,R,H,C,P,N)$ factors through terminal normality $V$, bounded fuel replay $F$, continuation readback $R$, componentwise transport $H$, displayed replay $C$, provenance $P$, the local naming row $N$, and the sibling finite normal-word row $K$. The factorization is through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ZNormalUp}$ only.
+
+Consequently no downstream normal-route consumer can obtain a detached host conversion, quotient computation, divergence oracle, unrestricted evaluator, global normalization procedure, or substrate-halting theorem from this route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:znormal-terminal-readback-route-carrier}. The route carrier lists only $T,F,V,K,R,H,C,P,N$, so every downstream read begins inside the same finite packet.
+
+Apply the carrier and obligation rows of \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They identify typed endpoint readback, bounded fuel replay, terminal normality, normal-word comparison, continuation readback, transport, replay, provenance, and local naming as one $\NameCert_{\ZNormalUp}$ surface.
+
+Next use \autoref{thm:znormal-terminal-host-root-factorization}, \autoref{thm:znormal-fuel-replay-root-exhaustion}, and \autoref{thm:znormal-normal-output-root-nonescape}. These root rows keep terminal-host consumption, fuel replay, and normal-output reads inside the displayed packet.
+
+Finally apply \autoref{thm:znormal-root-total-host-readback-triad} and \autoref{thm:znormal-root-downstream-normal-form-readiness}. The typed endpoint, Zeckendorf normal-word, and continuation trace references already present in the chapter index supply the sibling readback boundaries, while the terminal-host rows exclude host conversion, quotient computation, unrestricted evaluation, divergence detection, global normalization, and substrate halting.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host refusal nonescape]
+\label{thm:znormal-total-host-refusal-nonescape}
+For every accepted $\ZNormalUp$ terminal readback route carrier $Q=(T,F,V,K,R,H,C,P,N)$, the total-host refusal surface is exhausted by terminal normality, bounded fuel replay, continuation readback, componentwise transport, displayed replay, provenance, and local $\NameCert$ rows. The packet exports no divergence oracle, host conversion row, global normalization procedure, quotient computation, unrestricted evaluator, or substrate-halting certificate.
+\end{theorem}
+\begin{proof}
+Project the route carrier of \autoref{def:znormal-terminal-readback-route-carrier}. The rows $T,F,V,K,R,H,C,P,N$ expose a finite terminal readback route, not a host evaluator or global normalizer.
+
+Use \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-terminal-readback-exactness}, and \autoref{thm:znormal-root-fuel-route-nonescape}. These theorems place every terminal read behind bounded fuel and remove divergence detection, host conversion, quotient computation, unrestricted evaluation, global normalization, and substrate halting from the fuel route.
+
+Finally combine \autoref{thm:znormal-terminal-host-root-factorization}, \autoref{thm:znormal-root-downstream-normal-form-readiness}, and \autoref{thm:znormal-terminal-readback-route-exhaustion}. The resulting route is a finite $\BHist$ packet transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by $\NameCert_{\ZNormalUp}$, so the listed host-side objects have no remaining export coordinate.
+\end{proof}

@@ -169,6 +169,7 @@ A=(S,D,L,O,H,C,P,G,N),
 $$
 strict axiom-purity replay is the joint read of the source-token row $S$ and forbidden-dependency row $D$ through $H,C,P,G,N$. The replay exposes the finite source-token refusal, the inspected theorem names, their reported proof ancestry, and the forbidden-dependency classifier for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$, with no hidden host-kernel completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_strict\_axiom\_purity\_replay}
 \begin{proof}
 Project the rows $S$ and $D$ from the accepted packet. The source-token row records file and token refusal data, while the dependency row records theorem names, ancestry, and forbidden dependency classification.
 
@@ -417,14 +418,18 @@ visible verdict is exhausted by the displayed packet alone.
 
 \begin{theorem}[AuditGateBoundary formal-axis refusal]
 \label{thm:audit-gate-boundary-formal-axis-refusal}
-An $\AuditGateBoundaryUp$ mature paper packet exports only the displayed audit-gate carrier, classifier, refusal, transport, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not create a $\formalTargetV$, $\theoremCheckedV$, $\auditCleanV$, $\axiomCleanV$, or $\bridgeCheckedV$ claim unless the verification-axis marker names an existing Lean declaration.
+An $\AuditGateBoundaryUp$ mature paper packet exports only the displayed audit-gate carrier, classifier, refusal, transport, $\Cont$, $\Pkg$, and $\NameCert$ rows, together with the named Lean theorem target
+$$
+\texttt{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_axiom\_purity\_soundness}.
+$$
+This supports a $\theoremCheckedV$ verification-axis row for that declaration alone. It does not create an $\auditCleanV$, $\axiomCleanV$, or $\bridgeCheckedV$ claim.
 \end{theorem}
 \begin{proof}
 First read the mature paper surface through the chapter theorems. The carrier, NameCert obligations, source-token refusal, forbidden-dependency scope, marker-resolution boundary, origin-import replay, standard bridge row, non-escape row, and visible verdict exhaustion theorem all operate on the displayed packet rows.
 
 Next apply the two-axis discipline of \autoref{ch:closure-and-verification-discipline}. The theory-axis grade records what this paper packet closes, while the formal verification axis is supplied only by Lean markers and closurestatus targets that resolve to real declarations.
 
-The current closurestatus block has no $\leantarget$ row. Therefore the mature paper packet remains a mature paper export only; it refuses any formal-axis promotion to formal target, checked theorem, audit-clean, axiom-clean, or checked bridge status.
+The closurestatus target names the existing Lean declaration for axiom-purity soundness of the carrier. Therefore the packet may report the corresponding checked-theorem row, while audit-clean, axiom-clean, and checked-bridge status remain separate verification-axis claims.
 \end{proof}
 
 \closureat{AuditGateBoundaryUp}{seedStr}
@@ -438,9 +443,10 @@ The current closurestatus block has no $\leantarget$ row. Therefore the mature p
   \constructivestory{An $\AuditGateBoundaryUp$ packet is generated from a source-token scan, an axiom-purity dependency report, a paper-Lean target audit, an origin/import separation ledger, finite $\hsame$ transport, visible $\Cont$ routes, package provenance, a GAP boundary row, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The public packet binds the carrier, NameCert obligations, source-token refusal, forbidden-dependency scope, marker-resolution non-escape, origin-import replay exactness, replay ledger, \autoref{thm:audit-gate-boundary-verdict-scope}, \autoref{thm:audit-gate-boundary-standard-bridge}, \autoref{thm:audit-gate-boundary-visible-verdict-exhaustion}, and the replay and non-escape rows to one finite audit-boundary surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_axiom\_purity\_soundness}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close host-kernel completeness, semantic conservativity for arbitrary imports, theorem inventory completeness, or Lean-side verification.}
+  \notclaimed{This chapter does not close host-kernel completeness, semantic conservativity for arbitrary imports, theorem inventory completeness, audit-clean verification, axiom-clean verification, or bridge checking.}
   \upgradepath{No further paper-axis mature-treatment step remains; Lean verification and bridge checking remain separate verification-axis obligations.}
 \end{closurestatus}
