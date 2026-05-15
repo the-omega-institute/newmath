@@ -1,0 +1,43 @@
+\begin{theorem}[FiniteTraceEvaluator root runtime totality]
+\label{thm:finitetraceevaluator-root-runtime-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every root runtime read factors through the finite surface
+$$
+I,T,A,V,H,C,P,N.
+$$
+The runtime consumer reads coded input $I$, finite trace $T$, accepted-result row $A$, validation boundary $V$, componentwise transports $H$, displayed continuations $C$, provenance $P$, and the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$ as one bounded evaluator packet, and it receives no host evaluator or unbounded runtime coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier} and the local obligations of \autoref{thm:finite-trace-evaluator-namecert-obligations}. They expose exactly the input, finite trace, accepted-result, validation, transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:finitetraceevaluator-root-checkpoint-totality}. It already forces root checkpoint consumers through the same displayed packet $I,T,A,V,H,C,P,N$ before any runtime-facing handoff can inspect the accepted result.
+
+Finally attach \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The handoff exposes only the source-locked evaluator rows, so every root runtime read factors through the displayed packet and cannot import a host evaluator or unbounded runtime coordinate.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator bounded replay ledger exhaustion]
+\label{thm:finitetraceevaluator-bounded-replay-ledger-exhaustion}
+Bounded replay of an accepted $\FiniteTraceEvaluatorUp$ packet exposes only the coded input, finite trace, accepted result, validation boundary, componentwise transports, displayed continuations, provenance, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ rows. Its root ledger is exhausted by
+$$
+I,T,A,V,H,C,P,N,
+$$
+and no hidden runtime state, host validation row, unbounded trace semantics, or unchecked compiler theorem is present in the replay surface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-trace-evaluator-bounded-replay-stability}. Bounded replay preserves the route through $I \to T \to A$, the validation boundary $V$, and the continuation rows $C$ under the displayed componentwise transports $H$.
+
+Next use \autoref{def:finite-trace-evaluator-root-exactness-surface} and \autoref{thm:finite-trace-evaluator-root-exactness-scope}. The exactness surface cuts every root checkpoint read at $I,T,A,V,H,C,P,N$ and blocks host validation, total truth, total halting, unbounded evaluation, infinite traces, and second checkpoint sources.
+
+The ledger factorization is then \autoref{thm:finite-trace-evaluator-namecert-root-ledger-factorization}. It repacks the replay, refusal, provenance, and local naming rows into the same finite root ledger, so the bounded replay surface has no hidden runtime state or unchecked compiler theorem.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint consumer nonescape]
+\label{thm:finitetraceevaluator-checkpoint-consumer-nonescape}
+Every checkpoint consumer of the root runtime surface in \autoref{thm:finitetraceevaluator-root-runtime-totality} receives only the finite evaluator packet $I,T,A,V,H,C,P,N$. It receives no host evaluator, total truth predicate, total halting classifier, infinite trace, unchecked compiler theorem, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finitetraceevaluator-root-validation-refusal}. Validation-facing requests stop at $V,H,C,P,N$ and do not become host validation, total truth, total halting, or unbounded evaluation evidence.
+
+Next combine \autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut} with \autoref{thm:finitetraceevaluator-bounded-replay-ledger-exhaustion}. The checkpoint ledger and bounded replay ledger expose the same finite packet and no infinite trace, hidden runtime state, unchecked compiler theorem, or second checkpoint source.
+
+Finally use \autoref{thm:finitetraceevaluator-root-consumer-readiness}. Downstream reflection-runtime consumers receive the exact finite package $I,T,A,V,H,C,P,N$, so checkpoint consumption cannot escape the displayed root runtime surface.
+\end{proof}
