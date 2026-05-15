@@ -113,7 +113,6 @@ import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthoredRecordBoundaryUp.TasteGate
-import BEDC.Derived.AxisCarryDiamondRouteUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
@@ -168,6 +167,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LimitSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneBoundRoute
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.PublicLedgerExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealRouteNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SealRouteMinimality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
@@ -221,6 +221,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
 import BEDC.Derived.CauchyModulusRefinementUp.MeetThresholdNonescape
+import BEDC.Derived.CauchyModulusRefinementUp.RealSealRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.SelectorMeetNoninterference
@@ -259,7 +260,6 @@ import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.RootBudgetCoherence
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RouteReplayExactness
-import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionAuditUp.TasteGate
 import BEDC.Derived.InterHistSymmetryBudgetUp.TasteGate
@@ -462,8 +462,6 @@ import BEDC.Derived.InterHistLocalityLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
-import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
-import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetFactorization
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
@@ -811,7 +809,6 @@ import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
-import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LQRUp
 import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
@@ -1203,6 +1200,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.ConsumerTransport
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetOwnership
+import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceBudgetDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteObservationBudgetRefusalExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealBudgetNonescape
@@ -1214,6 +1212,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSource
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalLeanTargetBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalKernelScope
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootReadbackDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.NameCertObligations
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootFormalSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
