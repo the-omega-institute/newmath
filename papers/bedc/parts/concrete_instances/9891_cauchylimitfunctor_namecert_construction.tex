@@ -223,6 +223,46 @@ Next use \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}, \autore
 Finally apply \autoref{thm:cauchy-limit-functor-real-completion-consumer}, \autoref{thm:cauchy-limit-functor-primitive-scope-package}, and \autoref{thm:cauchy-limit-functor-public-seal-export}. They keep Real-completion consumption inside the primitive-scoped public seal route. The bridge-scope coherence theorem then makes any standard-reflection read preserve that route without adding quotient equality, host real equality, selected limits, detached completion objects, ambient completeness, countable choice, or a second transport.
 \end{proof}
 
+\begin{theorem}[Cauchy limit functor seal route totality]
+\label{thm:cauchy-limit-functor-seal-route-totality}
+Every accepted $\CauchyLimitFunctorUp$ packet with carrier
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N)
+$$
+exposes its public route only through the displayed source seal $S$, target seal $T$, map row $M$, $\StreamNameUp$ finite-window rows $W_0,W_1$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ tolerance row $D$, $\RealUp$ endpoint row $E$, the provenance row $\Pkg$, the replay row $\Cont$, the componentwise transport row $\hsame$, and the local row $\NameCert_{\CauchyLimitFunctorUp}$. No accepted packet admits a public route through quotient stream equality, host real equality, selected limits, detached completion objects, ambient completeness, countable choice, or any second transport row.
+\end{theorem}
+\begin{proof}
+Start with the source-target seal exposure of \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}. It makes $S$, $M$, and $T$ the displayed route from the source $\CauchyLimitSealUp$ side to the target seal side.
+
+Next apply finite observation exposure, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}. This inserts the $\StreamNameUp$ windows $W_0,W_1$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance row $D$, the classifier row $K$, and the terminal $\RealUp$ endpoint $E$ into the same route.
+
+Finally use the primitive scope package, \autoref{thm:cauchy-limit-functor-primitive-scope-package}, together with the carrier and classifier definitions. The remaining visible rows are exactly the structural transport, displayed replay, provenance, and local naming rows $H,C,P,N$, so every public route is exhausted by the listed $\Pkg$, $\Cont$, $\hsame$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[Cauchy limit functor finite-window naturality]
+\label{thm:cauchy-limit-functor-finite-window-naturality}
+Let two accepted $\CauchyLimitFunctorUp$ packets share the same source seal row, target seal row, and map row inside the displayed carrier. If their $\StreamNameUp$ finite windows are $\hsame$-compatible and are transported by that same map row, then the two packets induce the same $\RegSeqRatUp$ readback route and the same $\RealUp$ terminal seal route through the displayed rows $S,T,M,W_0,W_1,R,D,K,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with structural transport, \autoref{thm:cauchy-limit-functor-structural-transport}. The shared map row $M$ and the $\hsame$ row $H$ make the two finite-window reads componentwise compatible inside the carrier.
+
+Apply finite observation exposure. Since the windows are transported by the same map row, the readback row $R$ and tolerance row $D$ are read from the same finite observation surface, and the classifier row $K$ sees no additional coordinate.
+
+The source-target seal exposure then carries this common finite observation route to the same target seal row and terminal $\RealUp$ endpoint. Carrier-coordinate exhaustion rules out a second route, so the induced $\RegSeqRatUp$ and $\RealUp$ seal routes agree.
+\end{proof}
+
+\begin{theorem}[Cauchy limit functor completion consumer exactness]
+\label{thm:cauchy-limit-functor-completion-consumer-exactness}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyLimitFunctorUp$ output factors through the source-target seal route and the bridge-scope coherence route before reading any terminal seal. Such a consumer may read $S,T,M,W_0,W_1,R,D,K,E,H,C,P,N$, but it cannot bypass the public seal route by introducing quotient stream equality, host real equality, a selected limit, a detached completion object, ambient completeness, countable choice, or an alternate completion transport.
+\end{theorem}
+\begin{proof}
+Use the Real-completion consumer boundary, \autoref{thm:cauchy-limit-functor-real-completion-consumer}. It confines every $\RealUp$ or completion-facing read to the finite route through the source seal, target seal, map row, finite windows, readback, tolerance ledger, classifier row, and terminal endpoint.
+
+Next apply the public seal export, \autoref{thm:cauchy-limit-functor-public-seal-export}. It packages the same route with the structural transport, replay, provenance, and local NameCert rows, making those rows the only reusable surface for downstream consumers.
+
+Finally apply bridge-scope coherence, \autoref{thm:cauchy-limit-functor-bridge-scope-coherence}. Any terminal seal read must preserve the bridge-scoped route already exported by the public surface, so completion-facing exactness follows without adding a second completion route.
+\end{proof}
+
 \closureat{CauchyLimitFunctorUp}{seedStr}
 \closureat{CauchyLimitFunctorUp}{obligationStr}
 \closureat{CauchyLimitFunctorUp}{scopedStr}
@@ -232,7 +272,7 @@ Finally apply \autoref{thm:cauchy-limit-functor-real-completion-consumer}, \auto
 \begin{closurestatus}{\CauchyLimitFunctorUp}
   \constructivestory{A $\CauchyLimitFunctorUp$ packet is generated from source and target CauchyLimitSeal rows, a finite transport-map row, source and target StreamName windows, a RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealCompletionSealClassifier row, a terminal RealUp endpoint, componentwise transports, displayed replay, provenance, and a local NameCert row.}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:cauchy-limit-functor-carrier}, \autoref{def:cauchy-limit-functor-classifier}, \autoref{thm:cauchy-limit-functor-namecert-obligations}, \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}, \autoref{thm:cauchy-limit-functor-structural-transport}, \autoref{thm:cauchy-limit-functor-real-completion-consumer}, \autoref{thm:cauchy-limit-functor-primitive-scope-package}, \autoref{thm:cauchy-limit-functor-public-seal-export}, \autoref{thm:cauchy-limit-functor-bridge-scope-coherence}, and \autoref{thm:cauchy-limit-functor-standard-reflection-bridge-surface} bind the finite transport carrier, classifier, five NameCert obligation rows, separate seal-route exposure, finite observation exposure, structural transport, Real-completion consumer boundary, primitive scope package, reusable public transport surface, bridge-scope route coherence, and standard-reflection bridge surface.}
+  \scopeclosed{\autoref{def:cauchy-limit-functor-carrier}, \autoref{def:cauchy-limit-functor-classifier}, \autoref{thm:cauchy-limit-functor-namecert-obligations}, \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}, \autoref{thm:cauchy-limit-functor-structural-transport}, \autoref{thm:cauchy-limit-functor-real-completion-consumer}, \autoref{thm:cauchy-limit-functor-primitive-scope-package}, \autoref{thm:cauchy-limit-functor-public-seal-export}, \autoref{thm:cauchy-limit-functor-bridge-scope-coherence}, \autoref{thm:cauchy-limit-functor-standard-reflection-bridge-surface}, \autoref{thm:cauchy-limit-functor-seal-route-totality}, \autoref{thm:cauchy-limit-functor-finite-window-naturality}, and \autoref{thm:cauchy-limit-functor-completion-consumer-exactness} bind the finite transport carrier, classifier, five NameCert obligation rows, separate seal-route exposure, finite observation exposure, structural transport, Real-completion consumer boundary, primitive scope package, reusable public transport surface, bridge-scope route coherence, standard-reflection bridge surface, seal-route totality, finite-window naturality, and completion consumer exactness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
