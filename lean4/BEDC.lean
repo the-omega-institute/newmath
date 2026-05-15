@@ -322,6 +322,7 @@ import BEDC.Derived.ObserverAccumulationClockUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
+import BEDC.Derived.ProofTermErasureAuditRouteUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -342,6 +343,7 @@ import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GapClosureBoundaryUp.TasteGate
+import BEDC.Derived.GapClosureBoundaryUp.RefusalLedgerTransport
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
