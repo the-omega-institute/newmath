@@ -64,21 +64,88 @@ private def observerBridgeLedgerToEventFlow : ObserverBridgeLedgerUp → EventFl
 
 private def observerBridgeLedgerFromEventFlow : EventFlow → Option ObserverBridgeLedgerUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag0, state, _tag1, boundary, _tag2, multi, _tag3, identity, _tag4, locality,
-      _tag5, route, _tag6, transport, _tag7, cont, _tag8, pkg, _tag9, name] =>
-      some
-        (ObserverBridgeLedgerUp.mk
-          (observerBridgeLedgerDecodeBHist state)
-          (observerBridgeLedgerDecodeBHist boundary)
-          (observerBridgeLedgerDecodeBHist multi)
-          (observerBridgeLedgerDecodeBHist identity)
-          (observerBridgeLedgerDecodeBHist locality)
-          (observerBridgeLedgerDecodeBHist route)
-          (observerBridgeLedgerDecodeBHist transport)
-          (observerBridgeLedgerDecodeBHist cont)
-          (observerBridgeLedgerDecodeBHist pkg)
-          (observerBridgeLedgerDecodeBHist name))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | state :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | boundary :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | multi :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | identity :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | locality :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | route :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | cont :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | pkg :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match
+                                                                                rest18
+                                                                              with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | name ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (ObserverBridgeLedgerUp.mk
+                                                                                          (observerBridgeLedgerDecodeBHist state)
+                                                                                          (observerBridgeLedgerDecodeBHist boundary)
+                                                                                          (observerBridgeLedgerDecodeBHist multi)
+                                                                                          (observerBridgeLedgerDecodeBHist identity)
+                                                                                          (observerBridgeLedgerDecodeBHist locality)
+                                                                                          (observerBridgeLedgerDecodeBHist route)
+                                                                                          (observerBridgeLedgerDecodeBHist transport)
+                                                                                          (observerBridgeLedgerDecodeBHist cont)
+                                                                                          (observerBridgeLedgerDecodeBHist pkg)
+                                                                                          (observerBridgeLedgerDecodeBHist name))
+                                                                                  | _ :: _ =>
+                                                                                      none
 
 private theorem observerBridgeLedger_round_trip :
     ∀ x : ObserverBridgeLedgerUp,
@@ -177,5 +244,45 @@ instance observerBridgeLedgerNontrivial : Nontrivial ObserverBridgeLedgerUp wher
 def taste_gate : ChapterTasteGate ObserverBridgeLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   observerBridgeLedgerChapterTasteGate
+
+theorem ObserverBridgeLedgerTasteGate_single_carrier_alignment :
+    (∀ h : BHist, observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist h) = h) ∧
+      (∀ x : ObserverBridgeLedgerUp,
+        observerBridgeLedgerFromEventFlow (observerBridgeLedgerToEventFlow x) = some x) ∧
+          observerBridgeLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have decodeRound :
+      ∀ h : BHist, observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  constructor
+  · exact decodeRound
+  · constructor
+    · intro x
+      cases x with
+      | mk state boundary multi identity locality route transport cont pkg name =>
+          change
+            some
+              (ObserverBridgeLedgerUp.mk
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist state))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist boundary))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist multi))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist identity))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist locality))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist route))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist transport))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist cont))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist pkg))
+                (observerBridgeLedgerDecodeBHist (observerBridgeLedgerEncodeBHist name))) =
+              some
+                (ObserverBridgeLedgerUp.mk state boundary multi identity locality route transport
+                  cont pkg name)
+          rw [decodeRound state, decodeRound boundary, decodeRound multi, decodeRound identity,
+            decodeRound locality, decodeRound route, decodeRound transport, decodeRound cont,
+            decodeRound pkg, decodeRound name]
+    · rfl
 
 end BEDC.Derived.ObserverBridgeLedgerUp
