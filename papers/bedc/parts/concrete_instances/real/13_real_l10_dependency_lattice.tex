@@ -189,6 +189,50 @@ completeness, arithmetic or order package, or metric-completeness coordinate,
 the comparison is exhausted by the four displayed faces.
 \end{proof}
 
+\begin{theorem}[Real L10 metric boundary non-escape]
+\label{thm:real-l10-metric-boundary-nonescape}
+Every accepted current Phase Real or Completion consumer of a $\RealUp$ L10
+packet factors through the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+before any $\MetricUp$ consumer or metric-completeness consumer can read the
+packet. The visible route consists only of the DyadicRatCore observation face,
+the StreamName finite-window face, the RegSeqRat regular-rational classifier
+face, the local $\RealUp$ seal face, and the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+The route exports no \texttt{MetricDistanceWitness}, separatedness row,
+completeness row, Cauchy-limit selector, metric triangle row, or ambient
+metric-completeness coordinate. Any $\MetricUp$-facing read is therefore an
+external consumer boundary for an already sealed $\RealUp$ packet, not an
+input row used to construct the Real seal.
+\end{theorem}
+\begin{proof}
+First apply the terminal comparison exhaustion theorem,
+\autoref{thm:real-l10-terminal-comparison-exhaustion}. It keeps every
+completion-facing comparison between accepted terminal reads on the same
+four-face surface, using only the common $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ coordinates.
+
+Next apply the four-face canonical route,
+\autoref{thm:real-l10-four-face-canonical-route}. It says that every current
+Phase Real or Completion consumer of the $\RealUp$ packet must pass through
+the ordered DyadicRatCore, StreamName, RegSeqRat, and local Real faces before
+the consumer surface is available.
+
+The finite overlap of those faces is the pullback surface of
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. Thus the
+StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real seal
+boundary are read as one displayed route.
+
+Finally view the $\MetricUp$ public interface only as a downstream consumer
+boundary. Because the cited Real route exports no metric distance witness,
+separatedness row, completeness row, Cauchy-limit selector, metric triangle
+row, or ambient metric-completeness coordinate, no metric consumer can supply
+an input used by the $\RealUp$ L10 seal.
+\end{proof}
+
 \begin{theorem}[Real L10 four-face canonical route]
 \label{thm:real-l10-four-face-canonical-route}
 Every accepted current Phase Real or Completion consumer of a $\RealUp$ L10
