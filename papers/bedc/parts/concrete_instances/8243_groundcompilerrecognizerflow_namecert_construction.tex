@@ -66,6 +66,47 @@ Use certificate-gate exactness. Any route to accepted GroundCompiler evidence ha
 The remaining rows $H,C,P,N$ preserve and replay displayed coordinates. They do not add a constructor from non-evidence to event flow, channel readback, generated recognition, certificate evidence, or proof evidence, so the refusal row is stable under every public consumer read.
 \end{proof}
 
+\begin{theorem}[GroundCompiler recognizer-flow TasteGate carrier readback]
+\label{thm:groundcompiler-recognizer-flow-tastegate-carrier-readback}
+For every displayed $\GroundCompilerRecognizerFlowUp$ packet
+$$
+G=(E,S,R,Q,B,H,C,P,N),
+$$
+the TasteGate row for $\mathsf{BEDC.Derived.GroundCompilerRecognizerFlowUp}$ reads the single carrier through exactly the same event-flow, source-channel, generated-recognizer, certificate-gate, non-evidence, transport, continuation, provenance, and local naming coordinates. A TasteGate consumer cannot replace $G$ by a hidden compiler input, raw recognizer quotient, proof text, metric report, motif report, or unmediated generated export.
+\end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerRecognizerFlowUp.taste\_gate}
+\begin{proof}
+Start from the carrier definition. The packet has exactly the displayed rows $E,S,R,Q,B,H,C,P,N$, and the classifier compares only those rows.
+
+Apply the existing single-carrier TasteGate alignment named by the Lean surface. It makes the TasteGate entry a readback of the same finite carrier rather than a second carrier with extra compiler-facing coordinates.
+
+Finally use the non-evidence refusal row. Objects such as proof text, reports, motifs, raw quotients, and unmediated exports are recorded only at $B$, so the TasteGate read cannot promote them into the positive carrier route.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognizer-flow field-faithful row projection]
+\label{thm:groundcompiler-recognizer-flow-field-faithful-readback}
+For every accepted $\GroundCompilerRecognizerFlowUp$ packet $G=(E,S,R,Q,B,H,C,P,N)$, the field-faithful projection of the TasteGate surface is componentwise: $E$ remains the event-flow row, $S$ the source-channel row, $R$ the generated-recognizer row, $Q$ the certificate-gate row, $B$ the non-evidence row, $H$ the $\hsame$ transport row, $C$ the $\Cont$ replay row, $P$ the $\Pkg$ provenance row, and $N$ the local $\NameCert_{\GroundCompilerRecognizerFlowUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and keep the row order fixed. Field faithfulness can only report the fields already exposed by the carrier and by the NameCert obligation surface.
+
+The positive route rows $E,S,R,Q$ are separated from the refusal row $B$, while $H,C,P,N$ are structural rows attached to the same carrier. No projection step has a coordinate from which to synthesize a compiler proof, hidden recognizer state, or report-like witness.
+
+Thus the TasteGate field readback is exactly componentwise over $E,S,R,Q,B,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognizer-flow nontrivial witness boundary]
+\label{thm:groundcompiler-recognizer-flow-nontrivial-witness-boundary}
+The nontrivial witness for $\GroundCompilerRecognizerFlowUp$ separates an accepted recognizer-flow packet from every packet that omits one of $E,S,R,Q,B,H,C,P,N$ or tries to identify the non-evidence row $B$ with event-flow, source-channel, generated-recognizer, certificate-gate, or proof-evidence data. The separation is witnessed inside the finite carrier rows and does not assert compiler correctness, self-hosting, or proof reconstruction.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory to compare two candidate packets. A packet missing any one of the displayed coordinates cannot satisfy the same row-by-row classifier as $G$.
+
+For the positive evidence route, apply certificate-gate exactness. Accepted evidence must pass through $E,S,R,Q$, and none of the structural rows replaces a missing generated-recognizer or certificate-gate coordinate.
+
+For the boundary side, apply non-evidence refusal. The row $B$ is stable under transport, continuation, provenance, and local naming, so it remains separated from evidence and proof rows. This gives a finite nontrivial witness boundary without importing compiler correctness or proof reconstruction.
+\end{proof}
+
 \falsifiablePrediction{A compiler export that omits the generated recognizer row cannot pass the certificate gate as accepted GroundCompiler evidence.}
 
 \independenceWitness{groundcompilereventflowaudit, groundcompilerauditmap, auditmapfamily, auditmapcoverageledger, namecertgenerated: event-flow audit lacks generated-recognizer mediation, audit-map packets lack the certificate-gate row, audit families lack source-channel lossless routing, coverage ledgers lack the non-evidence refusal row, and NameCert-generated surfaces do not carry the compiler recognizer flow as a single packet.}
@@ -73,14 +114,15 @@ The remaining rows $H,C,P,N$ preserve and replay displayed coordinates. They do 
 The Lean TasteGate follow-up for $\mathsf{BEDC.Derived.GroundCompilerRecognizerFlowUp}$ must provide $\mathsf{Nontrivial}\ \GroundCompilerRecognizerFlowUp$ and $\mathsf{FieldFaithful}\ \GroundCompilerRecognizerFlowUp$ instances for the displayed carrier $E,S,R,Q,B,H,C,P,N$.
 
 \closureat{GroundCompilerRecognizerFlowUp}{seedStr}
+\closureat{GroundCompilerRecognizerFlowUp}{obligationStr}
 
 \begin{closurestatus}{\GroundCompilerRecognizerFlowUp}
-  \constructivestory{A $\GroundCompilerRecognizerFlowUp$ packet is generated from event-flow, source-channel, generated-recognizer, certificate-gate, non-evidence, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:groundcompiler-recognizer-flow-carrier}, \autoref{thm:groundcompiler-recognizer-flow-namecert-obligations}, \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness}, and \autoref{thm:groundcompiler-recognizer-flow-non-evidence-refusal} bind the finite GroundCompiler recognizer-flow carrier, certificate-gate exactness, and non-evidence refusal.}
+  \constructivestory{A $\GroundCompilerRecognizerFlowUp$ packet is generated from event-flow, source-channel, generated-recognizer, certificate-gate, non-evidence, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows; the TasteGate row is recorded at BEDC.Derived.GroundCompilerRecognizerFlowUp.taste\_gate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:groundcompiler-recognizer-flow-carrier}, \autoref{thm:groundcompiler-recognizer-flow-namecert-obligations}, \autoref{thm:groundcompiler-recognizer-flow-certificate-gate-exactness}, \autoref{thm:groundcompiler-recognizer-flow-non-evidence-refusal}, \autoref{thm:groundcompiler-recognizer-flow-tastegate-carrier-readback}, \autoref{thm:groundcompiler-recognizer-flow-field-faithful-readback}, and \autoref{thm:groundcompiler-recognizer-flow-nontrivial-witness-boundary} bind the finite GroundCompiler recognizer-flow carrier, TasteGate carrier readback, field-faithful projection, nontrivial witness boundary, certificate-gate exactness, and non-evidence refusal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close compiler correctness, self-hosting coverage, proof reconstruction from source text, metric evidence, motif evidence, report evidence, Lean verification, audit cleanliness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, source-channel losslessness, generated-recognizer mediation, certificate-gate exactness, non-evidence refusal, transport, continuation, provenance, naming, and TasteGate field faithfulness for the same finite packet.}
+  \upgradepath{Scoped closure requires checked carrier, certificate-gate, non-evidence refusal, transport, continuation, and provenance rows, together with source-channel losslessness, generated-recognizer mediation, naming, and TasteGate field faithfulness for the same finite packet.}
 \end{closurestatus}

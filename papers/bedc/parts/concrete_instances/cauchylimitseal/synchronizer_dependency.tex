@@ -158,3 +158,17 @@ Next apply the witness-ledger synchronizer handoff of \autoref{thm:cauchy-limit-
 
 Finally use the budget factorization of \autoref{thm:cauchy-witness-ledger-budget-factorization}. The public output can read only $Q,B,S,K,H,C,P,N$ together with the underlying $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure already traversed by the seal route. Since quotient stream equality, selected host limits, host real equality, countable choice, ambient completeness, and a second seal edge are absent from those coordinates, the witness-ledger route is final for the synchronized read.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal synchronizer witness-ledger scope]
+\label{thm:cauchy-limit-seal-synchronizer-witness-ledger-scope}
+Every completion-facing output produced after a synchronizer-facing $\CauchyLimitSealUp$ read and a $\CauchyWitnessLedgerUp$ handoff is scoped exactly by the displayed $\StreamNameUp$ window, $\RegularCauchyNameUp$ row, $\RegSeqRatUp$ source row, $\RealObservationBudgetUp$ rows, $\CauchySealBudgetSynchronizerUp$ route, local $\CauchyLimitSealUp$ rows, $\RealCompletionSealClassifierUp$ row, and witness-ledger rows $Q,B,S,K,H,C,P,N$. The output has no coordinate for quotient-stream equality, selected host limits, host real equality, countable choice, ambient completeness, or a second seal edge.
+\end{theorem}
+\begin{proof}
+First compose synchronizer route factorization with observer-real seal factorization, using \autoref{thm:cauchy-limit-seal-synchronizer-route-factorization} and \autoref{thm:cauchy-limit-seal-synchronizer-observer-real-seal-factorization}. The synchronizer-facing read is thereby placed on the finite stream-name window, regular-Cauchy-name row, rational-sequence source row, observation-budget rows, synchronizer route, local seal rows, and Real classifier route before any completion-facing output is public.
+
+Next attach the witness-ledger synchronizer handoff from \autoref{thm:cauchy-limit-seal-witness-ledger-synchronizer-handoff}. The handoff sends the synchronized read through the displayed ledger path $Q,B,S,K$ with structural rows $H,C,P,N$, so the completion-facing consumer reads the ledger and the classifier as one finite route.
+
+Finally apply witness-ledger finality, \autoref{thm:cauchy-limit-seal-synchronizer-witness-ledger-finality}. Its final route is the same synchronizer, classifier, and witness-ledger surface just assembled, so no completion-facing output can be scoped by a larger packet.
+
+Carrier-coordinate exhaustion gives the exclusions. The displayed route contains the $\StreamNameUp$, $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, local $\CauchyLimitSealUp$, $\RealCompletionSealClassifierUp$, and witness-ledger rows, and it contains no quotient stream, selected host limit, host real equality, countable-choice, ambient-completeness, or second-seal coordinate.
+\end{proof}

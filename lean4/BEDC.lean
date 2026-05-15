@@ -138,6 +138,7 @@ import BEDC.Derived.GroundCompilerRecognizerBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionEnvelopeDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionObservationRoute
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealRouteNaturality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealSourceTotality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.ConvergenceSealTerminalSynchronization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.CompletionRouteExhaustion
@@ -176,10 +177,12 @@ import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.BridgeConsumerRouteExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.CommonWindowSelectorExtraction
+import BEDC.Derived.CauchyModulusRefinementUp.CompletionConsumerRouteDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.RootRealSealNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RootConsumerPackage
 import BEDC.Derived.CauchyModulusRefinementUp.RootLedgerNonescapeTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SharedSelectorDeterminacy
+import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowFrontTotality
 import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
 import BEDC.Derived.CauchyModulusRefinementUp.TailMeetBudgetRouteUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.DiagonalBudgetCofinalityRoute
@@ -190,6 +193,7 @@ import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
+import BEDC.Derived.CookFrontierWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
@@ -289,6 +293,7 @@ import BEDC.Derived.RelationalFrameAuditUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.DigestFiberLedgerUp.TasteGate
+import BEDC.Derived.DigestLoopRefusalUp.TasteGate
 import BEDC.Derived.CauchyLimitSealUp.RealTailAgreementHandoff
 import BEDC.Derived.CauchyLimitSealUp.CompletionConsumerReplay
 import BEDC.Derived.DyadicEmbeddingUp
@@ -475,6 +480,7 @@ import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.ContinuationMonadUp.RootPublicObligationTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalRouteSaturation
+import BEDC.Derived.ContinuationMonadUp.RootUnitBindCoverage
 import BEDC.Derived.ContinuationMonadUp.GeneratorCategoryTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalNameCertHandoff
 import BEDC.Derived.ContinuationBigStepUp
@@ -568,6 +574,7 @@ import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.InterHistInvariantUp.TasteGate
+import BEDC.Derived.ForceInterHistRelationUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
 import BEDC.Derived.CauchyTailComparisonUp
@@ -692,6 +699,7 @@ import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
+import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
@@ -1131,6 +1139,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteConsumerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealWindowLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSourceExhaustion
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootSealBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSynchronizerCompletion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorLockSealRouteExhaustion
