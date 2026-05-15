@@ -1,0 +1,49 @@
+\begin{theorem}[Closed-term substitution boundary Lean target readiness]
+\label{thm:closed-term-substitution-boundary-lean-target-readiness}
+The scoped finite packet for $\ClosedTermSubstitutionBoundaryUp$ is the paper-side readiness surface for the Lean target $\mathsf{BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedTermSubstitutionBoundaryPacket\_single\_carrier\_alignment}$. Its readable object is exactly the displayed packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+where the carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, audit-boundary factorization, and root $\NameCert$ handoff already identify the same finite BEDC surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They display the term, value, depth, closedness, operation, ledger, audit, transport, continuation, provenance, and naming rows as one finite packet.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. These rows force the local naming obligations, closed operation reads, and downstream consumers to stay inside that packet.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The audit route and root naming handoff repack the same rows for the cited Lean target, so the paper-side readiness surface is the scoped finite packet and not an additional host object.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary formal surface exhaustion]
+\label{thm:closed-term-substitution-boundary-formal-surface-exhaustion}
+Every formal consumer of the scoped $\ClosedTermSubstitutionBoundaryUp$ packet may read only
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The consumer receives no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, unchecked compiler state, or unregistered operation row outside the displayed carrier, ledger, audit, transport, route, provenance, and local $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Read the formal consumer through the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. Those definitions expose exactly the displayed rows and no host-level substitution relation.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-consumer-boundary}, and \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. The ledger blocks operation escape, the consumer boundary blocks detached downstream reads, and the audit factorization keeps each admissible read inside $L,A,H,C,P,N$.
+
+The excluded alternatives are therefore outside the formal surface. A subject reduction theorem, host syntax quotient, hidden evaluator, unchecked compiler state, or unregistered operation row would add a coordinate not present in $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary downstream root handoff]
+\label{thm:closed-term-substitution-boundary-downstream-root-handoff}
+The downstream roots $\BinderBudgetSealUp$, $\ClosedTermSubstitutionCompilerUp$, $\RecursorGeneratorUp$, $\AuthorizedGeneratorRecursorUp$, and $\MetaCICNormalizationFrontierUp$ consume the accepted $\ClosedTermSubstitutionBoundaryUp$ packet only through the displayed carrier, ledger, audit, transport, route, provenance, and local $\NameCert$ rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Their common handoff is the root $\NameCert$ packet produced by the carrier, classifier, local obligations, ledger non-escape, consumer boundary, audit-boundary factorization, root route locks, and root transport accountability rows; it exports no separate substitution semantics or compiler state.
+\end{theorem}
+\begin{proof}
+First collect the base packet. By \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}, the finite rows are displayed as one carrier surface, and \autoref{thm:closed-term-substitution-boundary-namecert-obligations} keeps the same local naming surface attached to them.
+
+Next collect the binder and compiler restrictions. Use \autoref{thm:closed-term-substitution-boundary-binder-seal-factorization} and \autoref{thm:closed-term-substitution-boundary-compiler-factorization} to route $\BinderBudgetSealUp$ and $\ClosedTermSubstitutionCompilerUp$ through the closed-boundary packet.
+
+The recursor and normalization roots use the same packet. Apply \autoref{thm:closed-term-substitution-boundary-recursor-handoff}, \autoref{thm:closed-term-substitution-boundary-authorized-recursor-audit-route}, and \autoref{thm:closed-term-substitution-boundary-normalization-frontier-handoff} to keep $\RecursorGeneratorUp$, $\AuthorizedGeneratorRecursorUp$, and $\MetaCICNormalizationFrontierUp$ on the displayed route.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-root-route-lock}, \autoref{thm:closed-term-substitution-boundary-root-transport-accountability}, and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. These root rows package the shared carrier, ledger, audit, transport, route, provenance, and local naming data as the only handoff surface for the downstream roots.
+\end{proof}
