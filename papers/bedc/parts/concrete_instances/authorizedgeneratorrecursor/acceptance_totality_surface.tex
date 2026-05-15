@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor acceptance totality]
+\label{thm:authorized-generator-recursor-acceptance-totality}
+Every accepted $\AuthorizedGeneratorRecursorUp$ carrier exposes its branch, descent, audit, output, and local $\NameCert$ rows through the finite route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The branch row $B$, descent row $D$, audit row $A$, output row $O$, displayed $\BHist$ carrier, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, ground boundary row $G$, and local $\NameCert$ row $N$ are all available from the accepted packet and no consumer may read a detached recursor surface before these rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:authorized-generator-recursor-carrier}. Its accepted packet lists exactly the signature, emitted recursor, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and naming rows.
+
+Apply \autoref{thm:authorized-generator-recursor-root-carrier-route}. It places every closed-substitution-facing read inside the same finite route and makes the branch, descent, audit, and output rows visible only as packet coordinates.
+
+The naming and replay coordinates are supplied by \autoref{thm:authorized-generator-recursor-root-namecert-consumer-readiness} and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. These identify $H,C,P,G,N$ as the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support for the same accepted carrier.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output stability]
+\label{thm:authorized-generator-recursor-output-stability}
+For two accepted $\AuthorizedGeneratorRecursorUp$ packets whose displayed branch, descent, audit, transport, continuation, provenance, boundary, and local naming rows are related by the shown $\hsame$ and $\Cont$ routes, every output read of $O$ is stable along those routes. The output cannot be separated from the branch package $B$, descent row $D$, audit row $A$, $\Pkg$ provenance $P$, ground boundary $G$, and local $\NameCert$ row $N$ that present it.
+\end{theorem}
+\begin{proof}
+First expose the output through \autoref{thm:authorized-generator-recursor-acceptance-totality}. The read of $O$ begins only after the branch, descent, audit, transport, continuation, provenance, boundary, and naming rows have been displayed in the same finite packet.
+
+Next apply \autoref{thm:authorized-generator-recursor-output-audit-nonescape}. It prevents an output consumer from detaching $O$ from $A,G,N$ or from replacing the accepted audit route with a host-side read.
+
+The displayed $\hsame$ and $\Cont$ rows then transport the same packet surface componentwise. Since no off-packet generator coordinate is exported, any output read along those routes is the same accepted output read carried by $B,D,A,P,G,N$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger separation]
+\label{thm:authorized-generator-recursor-ledger-separation}
+Audit-ledger reads of an accepted $\AuthorizedGeneratorRecursorUp$ packet do not import host recursion, hidden generators, or closed-substitution facts not already present in
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Every audit read factors through the displayed branch, descent, output, transport, continuation, provenance, ground-boundary, and local $\NameCert$ rows of the packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-audit-ledger-nonescape}. The audit ledger has no independent source for hidden generators, host induction, external axioms, unaudited dependencies, or off-packet substitution channels.
+
+Use \autoref{thm:authorized-generator-recursor-closed-substitution-gate}. Closed-substitution-facing reads reach the output only after the accepted signature, branch, descent, audit, transport, continuation, provenance, boundary, and naming rows have been carried together.
+
+Finally apply \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}. The ground-compiler consumer reads the same finite packet, so the audit ledger cannot import a recursion principle or substitution fact absent from $I,E,M,B,D,O,A,H,C,P,G,N$.
+\end{proof}
