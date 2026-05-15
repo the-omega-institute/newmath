@@ -1,0 +1,54 @@
+\begin{theorem}[StreamNameUp L10 architectural gate stability surface]
+\label{thm:streamname-l10-architectural-gate-stability-surface}
+The L10 countable-name gateway of $\StreamNameUp$ is exactly the union of the
+public countable-name interface of
+\autoref{thm:streamname-public-countable-name-interface}, the public
+finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}, the public reindexing
+obligation of \autoref{def:streamname-public-reindexing-obligation}, the public
+constant obligation of \autoref{thm:streamname-public-constant-obligation}, the
+public transport obligation of \autoref{thm:streamname-public-transport-obligation},
+the public finite-ledger obligation of
+\autoref{thm:streamname-public-ledger-obligation}, and the downstream
+$\RegSeqRatUp/\RealUp$ handoff boundary of
+\autoref{thm:streamname-public-real-handoff-obligation}.
+
+Consequently every L10 consumer receives only the displayed
+$\StreamNameUp$ carrier rows, certified unary observation rows, pointwise
+$\RatUp$ classifier rows, finite $\mathsf{ProbeBundle}$ windows,
+$\mathsf{InBundle}$ membership, componentwise $\hsame$ comparisons, displayed
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows. The
+gateway supplies no $\RegSeqRatUp$ regularity witness, $\RealUp$ completion row,
+quotient representative, host $\mathsf{Nat}$ stream, hidden limit selector, or
+standard bridge.
+\end{theorem}
+\begin{proof}
+Unpack the countable-name interface through
+\autoref{thm:streamname-public-countable-name-interface}. Its carrier and
+classifier are the displayed $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, read pointwise as $\RatUp$ data over
+certified unary observations in $\mathsf{BHist}$.
+
+Restrict those rows through the public finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}. A
+$\mathsf{ProbeBundle}$ selects only finitely many certified observations, and
+the finite-window classifier adds only bundle membership, endpoint, stability,
+and empty-window boundary rows already listed by that interface.
+
+Next apply the reindexing, constant, transport, and finite-ledger obligations:
+\autoref{def:streamname-public-reindexing-obligation},
+\autoref{thm:streamname-public-constant-obligation},
+\autoref{thm:streamname-public-transport-obligation}, and
+\autoref{thm:streamname-public-ledger-obligation}. These clauses respectively
+repack certified unary reindexing, constant point rows, displayed
+$\hsame/\Cont/\Pkg$ transport, and the finite observation ledger without adding
+any off-ledger source.
+
+Finally use the downstream handoff boundary
+\autoref{thm:streamname-public-real-handoff-obligation}. It is precisely the
+interface consumed by later $\RegSeqRatUp$ and $\RealUp$ chapters, and it states
+that regularity, completion, quotient, limit-selection, host-stream, and
+standard-bridge data must be supplied downstream rather than by $\StreamNameUp$.
+Thus the L10 gateway is exactly the listed union and has the stated non-escape
+boundary.
+\end{proof}
