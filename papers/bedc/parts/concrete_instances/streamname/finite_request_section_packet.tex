@@ -98,3 +98,113 @@ Cauchy-presentation equality, selected limits, host real equality,
 metric-completeness data, or ambient completion. The finite-request section
 therefore reaches the Real seal only through the displayed rows.
 \end{proof}
+
+\begin{theorem}[StreamName finite-request terminal coherence]
+\label{thm:streamname-finite-request-terminal-coherence}
+Any finite $\StreamNameUp$ request that is read both as a $\RealUp$ endpoint
+finite-request section and as a $\RegSeqRatUp$ window-budget section
+determines a unique terminal public row. That row is the four-face
+Real-and-Completion packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with only the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The same packet is therefore the terminal exit route for the request, and it
+contains no quotient stream equality, no quotient equality of Cauchy
+presentations, no host sequence equality, no selected limit, no host real
+equality, no ambient or metric-completeness datum, no countable-choice row, no
+Classical row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-endpoint-finite-request-section}. The endpoint
+reading fixes the finite request as a $\RealUp$ section with the StreamName
+window, RegSeqRat readback, DyadicRatCore budget, RealUp seal, and the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-regseqrat-window-budget-section}. The
+RegSeqRat window-budget reading uses the same finite section packet, so the
+readback and budget faces are not second routes parallel to the endpoint
+section.
+
+Now compose with
+\autoref{thm:streamname-real-seal-request-section-nonescape}. It removes every
+Real-seal escape coordinate outside the displayed section rows. Invoke
+\autoref{thm:streamname-real-completion-four-object-exit-route} to identify
+those rows with the four-object Real-and-Completion exit packet.
+
+Finally use \autoref{thm:streamname-open-phase-four-face-terminality}. Once
+the StreamName window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal,
+and displayed support rows agree, there is only one terminal finite BEDC route
+for the request. The exclusions are exactly the non-escape exclusions of
+\autoref{thm:streamname-regseqrat-real-budget-nonescape}, so no quotient,
+selected-limit, ambient-completeness, choice, Classical, or bridge coordinate
+can replace the terminal four-face packet.
+\end{proof}
+
+\begin{theorem}[StreamName finite-request cover gluing]
+\label{thm:streamname-finite-request-cover-gluing}
+Let $\{\mathcal{R}_i\}_{i\in I}$ be a finite family of $\StreamNameUp$
+requests. Suppose each $\mathcal{R}_i$ reads both as a $\RealUp$ endpoint
+finite-request section and as a $\RegSeqRatUp$ window-budget section. Suppose
+also that every displayed pairwise overlap agrees on the rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert,\quad
+\DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Then the finite cover glues to one terminal four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+over the finite union of the requests, together with only the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. The glued
+packet contains no quotient stream equality, no quotient equality of Cauchy
+presentations, no host sequence equality, no selected limit, no host real
+equality, no ambient or metric-completeness datum, no countable-choice row, no
+Classical row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+For each member of the finite family, apply
+\autoref{thm:streamname-real-endpoint-finite-request-section} to read it as a
+Real endpoint finite-request section. Apply
+\autoref{thm:streamname-regseqrat-window-budget-section} to the same member to
+read it as the RegSeqRat window-budget section using the same StreamName,
+DyadicRatCore, RegSeqRat, RealUp, and displayed support rows.
+
+On a displayed pairwise overlap, the hypotheses identify the $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, $\NameCert$, DyadicRatCore, RegSeqRat, and RealUp
+rows seen from the two requests. Apply
+\autoref{thm:streamname-finite-request-terminal-coherence} to each side of the
+overlap. The two readings therefore land on the same terminal public row,
+namely the four-face packet
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+Now pass from pairwise agreement to finite-cover compatibility. On every
+triple overlap, use
+\autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle} to identify
+the shared StreamName source surface, and use
+\autoref{thm:realup-streamname-regseqrat-triple-window-cocycle} for the
+corresponding RealUp finite-window consumer surface. Thus the pairwise
+terminal rows satisfy the cocycle condition needed to paste a finite cover.
+
+Finally paste the finite family by finite induction over the request
+inventory. The singleton case is the terminal packet just constructed. In the
+induction step, glue the next request along its displayed overlaps; the
+pairwise terminal coherence gives the common boundary row, and the
+triple-overlap cocycles make this boundary independent of the order in which
+overlaps are consumed.
+
+The exclusion surface is inherited from
+\autoref{thm:streamname-real-seal-request-section-nonescape} and from the
+non-escape clause of
+\autoref{thm:streamname-finite-request-terminal-coherence}. Since every
+gluing step reads only displayed finite rows, no quotient stream equality,
+quotient Cauchy-presentation equality, host sequence equality, selected limit,
+host real equality, ambient or metric-completeness datum, countable-choice row,
+Classical row, or standard bridge row is introduced by the finite cover.
+\end{proof}
