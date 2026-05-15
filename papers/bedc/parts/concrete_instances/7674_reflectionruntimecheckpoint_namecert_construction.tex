@@ -556,10 +556,62 @@ Use the NameCert obligations and the validation non-escape route, \autoref{thm:r
 Finally invoke \autoref{thm:reflection-runtime-checkpoint-root-consumer-exhaustion}. Since downstream root consumers receive no row beyond $K$, the listed trace, validation, transport, route, provenance, and naming data exhaust every root ledger read.
 \end{proof}
 
+\begin{theorem}[ReflectionRuntimeCheckpoint scoped carrier exposure]
+\label{thm:reflection-runtime-checkpoint-scoped-carrier-exposure}
+Every scoped downstream root consumer of $\ReflectionRuntimeCheckpointUp$ first exposes the displayed finite carrier
+$$
+K=(I,S,T,V,H,C,P,N)
+$$
+before reading any runtime-candidate, checkpoint-state, trace, validation, transport, continuation, provenance, or naming data. The first consumer-visible object is therefore the same eight-row packet recorded by the carrier, the local $\NameCert$ obligations, the root-unblock package, and the TasteGate carrier row; no scoped root consumer begins from a hidden evaluator, host-validation row, total-truth row, or detached name.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local certificate obligations, \autoref{def:reflection-runtime-checkpoint-carrier} and \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. They display $K=(I,S,T,V,H,C,P,N)$ and make carrier admission the first local obligation.
+
+Apply the root-unblock package together with root consumer exhaustion, \autoref{thm:reflection-runtime-checkpoint-root-unblock-package} and \autoref{thm:reflection-runtime-checkpoint-root-consumer-exhaustion}. These results route downstream consumers through the same finite checkpoint surface and deny any extra host-validation, total-truth, unbounded-evaluator, or detached-validation coordinate.
+
+Finally use root carrier totality and the TasteGate row, \autoref{thm:reflection-runtime-checkpoint-root-carrier-totality} and \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}. Field-faithful carrier alignment keeps the root consumer's first exposure equal to the displayed packet $K$.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint scoped validation boundary]
+\label{thm:reflection-runtime-checkpoint-scoped-validation-boundary}
+Every validation-facing read of a scoped downstream root consumer of $\ReflectionRuntimeCheckpointUp$ passes through the validation-boundary row $V$ of
+$$
+K=(I,S,T,V,H,C,P,N).
+$$
+The checkpoint-state row $S$ and trace-evidence row $T$ may expose the displayed state and bounded evidence, but neither row can replace $V$ as the validation boundary, and neither row exports a host-valid runtime judgment.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations, \autoref{def:reflection-runtime-checkpoint-carrier} and \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. They separate checkpoint state, bounded trace evidence, and validation boundary into the distinct rows $S,T,V$.
+
+Use the root-unblock package and root carrier totality, \autoref{thm:reflection-runtime-checkpoint-root-unblock-package} and \autoref{thm:reflection-runtime-checkpoint-root-carrier-totality}. A scoped root consumer must therefore read the displayed carrier before any validation-facing access is available.
+
+Now apply the root validator boundary and root ledger exactness, \autoref{thm:reflection-runtime-checkpoint-root-validator-boundary} and \autoref{thm:reflection-runtime-checkpoint-root-ledger-exactness}. They force validation-facing access through $V$ and keep $T,H,C,P,N$ as trace, transport, route, provenance, and naming ledger data.
+
+Finally invoke the TasteGate row, \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}. Field faithfulness prevents $S$ or $T$ from being identified with $V$, so the validation boundary remains the separate row required by the scoped packet.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint scoped ledger exhaustion]
+\label{thm:reflection-runtime-checkpoint-scoped-ledger-exhaustion}
+Every ledger read of a scoped downstream root consumer of $\ReflectionRuntimeCheckpointUp$ is exhausted by
+$$
+T,V,H,C,P,N
+$$
+together with the runtime-candidate boundary, finite trace evaluator, finite trace gap socket, and reflection-limit boundary cited by the provenance row $P$. The ledger therefore has no ninth coordinate for host validation, total truth, an unbounded evaluator, or validation outside the displayed checkpoint packet.
+\end{theorem}
+\begin{proof}
+First expose the carrier and its certificate surface, \autoref{def:reflection-runtime-checkpoint-carrier} and \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. The packet supplies $T,V,H,C,P,N$ as the trace, validation, transport, route, provenance, and naming rows available for ledger reads.
+
+Next use the root-unblock package and root consumer exhaustion, \autoref{thm:reflection-runtime-checkpoint-root-unblock-package} and \autoref{thm:reflection-runtime-checkpoint-root-consumer-exhaustion}. They keep downstream root consumers inside the finite checkpoint packet and remove any detached ledger coordinate.
+
+Apply root carrier totality, root validator boundary, and root ledger exactness, \autoref{thm:reflection-runtime-checkpoint-root-carrier-totality}, \autoref{thm:reflection-runtime-checkpoint-root-validator-boundary}, and \autoref{thm:reflection-runtime-checkpoint-root-ledger-exactness}. These results identify $T$ as bounded evidence, $V$ as the validation boundary, and $H,C,P,N$ as the exact structural ledger rows.
+
+Finally read the provenance citations through the TasteGate row, \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}. The cited runtime-candidate, finite-trace, finite-gap, and reflection-limit sibling rows are exactly the sources named by $P$, so the ledger is exhausted by the displayed scoped surface.
+\end{proof}
+
 \begin{closurestatus}{\ReflectionRuntimeCheckpointUp}
   \constructivestory{A $\ReflectionRuntimeCheckpointUp$ packet is generated from a runtime-candidate input row, checkpoint-state row, trace-evidence row, validation-boundary row, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:reflection-runtime-checkpoint-carrier}, \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}, \autoref{thm:reflection-runtime-checkpoint-input-state-exposure}, \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}, \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route}, \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation}, and \leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.taste\_gate} specify the finite runtime checkpoint packet and its exposed obligation routes for reflection-limit validation boundaries.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:reflection-runtime-checkpoint-scoped-carrier-exposure}, \autoref{thm:reflection-runtime-checkpoint-scoped-validation-boundary}, and \autoref{thm:reflection-runtime-checkpoint-scoped-ledger-exhaustion} bind scoped root consumers to the displayed carrier, validation boundary, and exact ledger surface, while \autoref{def:reflection-runtime-checkpoint-carrier}, \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}, \autoref{thm:reflection-runtime-checkpoint-root-unblock-package}, \autoref{thm:reflection-runtime-checkpoint-root-consumer-exhaustion}, \autoref{thm:reflection-runtime-checkpoint-root-carrier-totality}, \autoref{thm:reflection-runtime-checkpoint-root-validator-boundary}, \autoref{thm:reflection-runtime-checkpoint-root-ledger-exactness}, and \leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.taste\_gate} provide the finite runtime-checkpoint carrier and TasteGate grounding.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}

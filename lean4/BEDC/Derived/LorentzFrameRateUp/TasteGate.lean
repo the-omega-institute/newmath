@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LorentzFrameRateUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -232,6 +236,31 @@ theorem LorentzFrameRateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact lorentzFrameRateToEventFlow_injective heq
       · rfl
+
+theorem LorentzFrameRateUpstreamRowCoherence
+    {multiConfig causalWitness maxRate symmetry transport route provenance name upstream :
+      BHist} :
+    Cont multiConfig causalWitness upstream →
+      Cont upstream maxRate route →
+        UnaryHistory multiConfig →
+          UnaryHistory causalWitness →
+            UnaryHistory maxRate →
+              UnaryHistory upstream ∧ UnaryHistory route ∧
+                Cont multiConfig causalWitness upstream ∧ Cont upstream maxRate route ∧
+                  (fun x : LorentzFrameRateUp =>
+                    match x with
+                    | LorentzFrameRateUp.mk m x r _ _ _ _ _ =>
+                        m = multiConfig ∧ x = causalWitness ∧ r = maxRate)
+                    (LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport
+                      route provenance name) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro multiCausalUpstream upstreamMaxRoute multiUnary causalUnary maxUnary
+  have upstreamUnary : UnaryHistory upstream :=
+    unary_cont_closed multiUnary causalUnary multiCausalUpstream
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed upstreamUnary maxUnary upstreamMaxRoute
+  exact
+    ⟨upstreamUnary, routeUnary, multiCausalUpstream, upstreamMaxRoute, rfl, rfl, rfl⟩
 
 def taste_gate : ChapterTasteGate LorentzFrameRateUp :=
   lorentzFrameRateChapterTasteGate
