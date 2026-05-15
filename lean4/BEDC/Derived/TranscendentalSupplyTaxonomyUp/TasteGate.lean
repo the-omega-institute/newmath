@@ -326,4 +326,22 @@ theorem TranscendentalSupplyTaxonomyBoundaryExhaustion
       gapAuditSiteRoute, siteRouteSiteTransport, transportRouteBoundary, rfl, rfl, rfl, rfl,
       rfl, rfl, rfl, rfl, rfl⟩
 
+instance transcendentalSupplyTaxonomyFieldFaithful :
+    FieldFaithful TranscendentalSupplyTaxonomyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | TranscendentalSupplyTaxonomyUp.mk socketKind requestedSupply gap auditGate site transport
+        route provenance name =>
+        [socketKind, requestedSupply, gap, auditGate, site, transport, route, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk socketKind₁ requestedSupply₁ gap₁ auditGate₁ site₁ transport₁ route₁ provenance₁ name₁ =>
+        cases y with
+        | mk socketKind₂ requestedSupply₂ gap₂ auditGate₂ site₂ transport₂ route₂ provenance₂
+            name₂ =>
+            cases h
+            rfl
+
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp

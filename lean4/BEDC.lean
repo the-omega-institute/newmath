@@ -57,9 +57,11 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApophaticGateQuestionUp
+import BEDC.Derived.ApophaticGateQuestionUp.QuestionExactnessRoute
 import BEDC.Derived.ApophaticKernelBoundaryUp.TasteGate
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestTotality
+import BEDC.Derived.ApophaticNameUp.RootBridgeTupleRows
 import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.RootDownstreamSocketNonescape
 import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
