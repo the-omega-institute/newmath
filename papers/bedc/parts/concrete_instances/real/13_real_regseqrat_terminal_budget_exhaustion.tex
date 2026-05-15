@@ -1,0 +1,21 @@
+\begin{theorem}[Real RegSeqRat terminal budget exhaustion]
+\label{thm:real-regseqrat-terminal-budget-exhaustion}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a finite RegSeqRat request accepted by the $\RealUp$ seal over $Q$. A terminal-budget consumer of $S$ is accepted exactly when its visible rows factor through the ordered four-face packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The packet consists of the $\DyadicRatCoreUp$ endpoint, radius, and distance ledgers; the $\StreamNameUp$ finite schedules; the $\RegSeqRatUp$ regularity, classifier, and provenance rows; and the local $\RealUp$ terminal seal row, all transported by the displayed $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Conversely, any packet with exactly these four faces and exactly these support rows repacks as the accepted $\RealUp$ terminal-budget read of $S$. The exhaustion exports no quotient stream equality, host real equality, selected limit, countable-choice selector, ambient completeness principle, arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with an accepted terminal-budget consumer of the finite RegSeqRat request. Apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} to place the request on its finite terminal-budget section, with the RegSeqRat classifier, regularity, readback, and provenance rows already tied to a finite source packet.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-fusion-selector-budget-lock}. The $\RealUp$ seal over the accepted RegSeqRat packet must reuse the same finite request section, so the StreamName schedule, DyadicRatCore endpoint, radius, and distance ledgers, RegSeqRat rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\RealUp}$ row cannot be replaced by a second terminal-budget surface.
+
+Now use \autoref{thm:real-l10-four-face-exactness}. It identifies the visible rows of the accepted terminal $\RealUp$ read with the finite four-face packet over DyadicRatCore, StreamName, RegSeqRat, and the local Real seal. Thus the terminal-budget consumer has no visible coordinate outside the ordered packet in the statement.
+
+For the reverse direction, suppose the displayed DyadicRatCore ledgers, StreamName schedules, RegSeqRat regularity and classifier rows, and local $\RealUp$ terminal seal row are already present with the listed support coordinates. Apply \autoref{thm:real-l10-terminal-four-face-correspondence} to repack those rows as the terminal $\RealUp$ read.
+
+It remains to match that terminal read with the original finite request. The finite-request factorization and selector-budget lock identify the RegSeqRat source section and the $\RealUp$ seal section as the same packet, so the repacked four-face read is exactly the accepted terminal-budget read of $S$. Since the cited routes do not export quotient stream equality, host real equality, selected limits, countable-choice selectors, ambient completeness, arithmetic or order packages, or metric-completeness rows, none of those data are available through this exhaustion.
+\end{proof}
