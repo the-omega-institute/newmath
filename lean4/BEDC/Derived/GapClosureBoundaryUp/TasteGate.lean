@@ -60,12 +60,14 @@ private def fromEventFlow : EventFlow → Option GapClosureBoundaryUp
   | _ => none
 
 instance bHistCarrier : BHistCarrier GapClosureBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := toEventFlow
   fromEventFlow := fromEventFlow
 
 private theorem round_trip :
     ∀ x : GapClosureBoundaryUp,
       BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk gap source refusal transport continuation provenance name =>
@@ -74,6 +76,7 @@ private theorem round_trip :
 
 private theorem toEventFlow_injective :
     ∀ x y : GapClosureBoundaryUp, toEventFlow x = toEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x y heq
   have hx : fromEventFlow (toEventFlow x) = some x := by
     exact round_trip x
@@ -84,7 +87,25 @@ private theorem toEventFlow_injective :
   cases hxy
   rfl
 
+instance gapClosureBoundaryFieldFaithful : FieldFaithful GapClosureBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | GapClosureBoundaryUp.mk gap source refusal transport continuation provenance name =>
+        [gap, source, refusal, transport, continuation, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk gap₁ source₁ refusal₁ transport₁ continuation₁ provenance₁ name₁ =>
+      cases y with
+      | mk gap₂ source₂ refusal₂ transport₂ continuation₂ provenance₂ name₂ =>
+        simp only [] at h
+        cases h
+        rfl
+
 def taste_gate : ChapterTasteGate GapClosureBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := round_trip
   layer_separation := by
     intro x y hxy heq

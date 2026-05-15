@@ -123,3 +123,17 @@ Now use \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Acce
 
 Finally apply \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}. The StreamName, DyadicRatCore, RegSeqRat, and local Real naming faces exhaust the accepted source of $S$. Since the two sections agree on all four faces and on the only permitted $\hsame$, $\Cont$, and $\mathsf{Pkg}$ transports between them, they determine the same finite $\BHist$ packet, and none of the excluded quotient, host-real, selected-limit, choice, completeness, or duplicate-seal data is exported.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat finite-request pullback determinacy]
+\label{thm:real-regseqrat-finite-request-determinacy}
+Let $Q$ be an accepted $\RegSeqRatUp$ packet and let $S$ be a public finite request to a $\RealUp$ seal over $Q$. Suppose two accepted completion-facing or $\RealUp$-facing finite-request sections over $S$ display the same $\StreamNameUp$ finite-section pullback, the same $\DyadicRatCoreUp$ endpoint, radius, and finite-distance rows, the same $\RegSeqRatUp$ classifier and readback rows, the same local $\RealUp$ seal row, and the same $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ support rows. Then the two sections determine the same finite $\BHist$ Real seal packet. This determinacy exports no quotient stream equality, no host real equality, no selected limit, no choice data, no ambient completeness row, and no second $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-finite-section-pullback-exactness}. The shared $\StreamNameUp$ finite-section pullback identifies the StreamName-facing part of both accepted sections with the same finite four-face route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Next apply \autoref{thm:real-regseqrat-finite-request-four-face-source-exhaustion}. Once the StreamName pullback is fixed, the accepted source of the request has only the StreamName schedule face, the DyadicRatCore endpoint-radius-distance face, the RegSeqRat classifier-readback face, and the local Real naming face.
+
+Now use \autoref{thm:real-regseqrat-completion-consumer-section-exactness}. Each accepted completion-facing or $\RealUp$-facing section must factor through those visible rows together with the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ support rows, so neither section has an additional consumer coordinate.
+
+Finally apply \autoref{thm:real-regseqrat-finite-request-section-terminality}. The two sections agree on the StreamName pullback and on every visible dyadic, classifier, readback, local seal, transport, route, package, and naming row; terminality therefore identifies the displayed finite $\BHist$ Real seal packet. The cited boundaries keep quotient stream equality, host real equality, selected limits, choice data, ambient completeness, and a second Real seal coordinate outside the packet.
+\end{proof}

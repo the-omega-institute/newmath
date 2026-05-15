@@ -1,0 +1,89 @@
+\begin{theorem}[Closed-term substitution boundary root compiler non-escape]
+\label{thm:closed-term-substitution-boundary-root-compiler-nonescape}
+Any compiler-facing root read may cite $\ClosedTermSubstitutionCompilerUp$ only after the accepted $\ClosedTermSubstitutionBoundaryUp$ packet has exposed the displayed boundary rows
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+The citation exports no subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or host substitution semantics beyond the displayed closed shift and closed substitution boundary rows.
+\end{theorem}
+\begin{proof}
+Read the compiler-facing consumer through \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. It allows a downstream consumer to see closed shift and substitute-closed rows only through the accepted finite packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. Together they force the operation boundary through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ before any compiler-facing citation can be formed.
+
+The remaining coordinates are closed by \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. The compiler citation is therefore a read of the boundary packet, not an exported subject-reduction proof, host syntax quotient, hidden evaluator, hidden compiler state, or host substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root NameCert handoff]
+\label{thm:closed-term-substitution-boundary-root-namecert-handoff}
+The root audit totality row of \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, the root compiler non-escape row of \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}, and the scoped closure surface of $\ClosedTermSubstitutionBoundaryUp$ form the root-unblock handoff for downstream self-compilation consumers. The handoff is the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, not a host substitution semantics or hidden compiler object.
+\end{theorem}
+\begin{proof}
+First package the audit side. By \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, every root audit consumer factors through $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Next package the compiler side. By \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}, a compiler-facing root read can cite the compiler only after the same closed shift and substitution boundary rows are visible.
+
+Finally combine these rows with the scoped closure packet recorded below. The downstream self-compilation consumer receives one finite handoff over the displayed carrier, classifier, ledger, audit, transport, route, provenance, and local naming rows; no subject reduction theorem, host syntax quotient, hidden evaluator, or hidden compiler state is exported.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root audit replay totality]
+\label{thm:closed-term-substitution-boundary-root-audit-replay-totality}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, each root audit replay read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is total on the displayed finite rows
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+The replay may inspect carrier rows, classifier rows, ledger non-escape rows, root audit totality rows, and root compiler non-escape rows, but it exports no host substitution semantics, subject-reduction theorem, host syntax quotient, hidden evaluator state, or hidden compiler state.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They give the replay a finite packet over term rows, closed-value rows, depth, closedness witnesses, operation rows, ledger rows, audit rows, transports, continuations, package provenance, and naming.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger row prevents an audit replay from leaving the displayed packet for unregistered free variables, host equality, unchecked compiler state, or ambient subject reduction.
+
+Use \autoref{thm:closed-term-substitution-boundary-root-audit-totality} to make the root replay total. Every root audit consumer is already routed through the same $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ coordinates.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Compiler-facing citations are allowed only after the same boundary rows are visible, so the replay remains a $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ read of the accepted packet.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root substitution route exactness]
+\label{thm:closed-term-substitution-boundary-root-substitution-route-exactness}
+In an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, a root read of closed substitution is exact precisely when it factors through the carrier, classifier, closedness ledger, substitution row $R$, audit row $A$, componentwise $\hsame$ transport rows $H$, displayed $\Cont$ routes $C$, package row $P$, and local $\NameCert$ row $N$. The exact route is
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+No root substitution route may be replaced by host substitution semantics, an ambient compiler theorem, a subject-reduction package, a host syntax quotient, or an untracked evaluator state.
+\end{theorem}
+\begin{proof}
+Read the operation surface through \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. It locks the closed shift and substitute-closed rows to $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ before any root consumer can export them.
+
+Next use \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. A downstream consumer sees the substitution boundary only as an accepted packet read through the carrier and classifier, not as an external substitution relation.
+
+Apply \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The handoff packages the audit and compiler sides as one finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+The route is exact by \autoref{thm:closed-term-substitution-boundary-root-audit-replay-totality}: every admissible replay has the displayed rows, and ledger non-escape blocks every unlisted host or compiler coordinate.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root ledger readiness]
+\label{thm:closed-term-substitution-boundary-root-ledger-readiness}
+The root ledger of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is ready for downstream self-compilation consumers exactly when the carrier, classifier, ledger non-escape, root audit replay totality, root substitution route exactness, root audit totality, and root compiler non-escape rows are all read through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+This readiness row exports a finite closed-term substitution route only; it does not export host substitution semantics, full compiler correctness, subject reduction, a host syntax quotient, hidden evaluator state, or hidden compiler state.
+\end{theorem}
+\begin{proof}
+First assemble the base packet from the carrier, classifier, and local $\NameCert$ obligations. These rows determine the displayed closed-source, closed-value, operation, ledger, audit, transport, continuation, package, and naming coordinates.
+
+Next add non-escape through \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger cannot gain a hidden free-variable row, host equality row, compiler-state row, or subject-reduction row.
+
+Use \autoref{thm:closed-term-substitution-boundary-root-audit-replay-totality} and \autoref{thm:closed-term-substitution-boundary-root-substitution-route-exactness}. The first makes the root audit replay total on the packet, and the second fixes closed substitution to the same finite route.
+
+Finally combine the original root audit and compiler rows, \autoref{thm:closed-term-substitution-boundary-root-audit-totality} and \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}. Downstream self-compilation consumers therefore receive one ready ledger packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no ambient compiler semantics attached.
+\end{proof}
