@@ -1,0 +1,39 @@
+\begin{theorem}[GapClosureBoundary root source-classifier totality]
+\label{thm:gap-closure-boundary-root-source-classifier-totality}
+For every accepted $\GapClosureBoundaryUp$ source-classifier read of a carrier $B=(G,S,R,H,C,P,N)$, the read factors through the finite packet rows $G,S,R,H,C,P,N$. If the read is supported, its displayed route is $G \longrightarrow S$; if it is unsupported as a closure request, its displayed route is $G \longrightarrow R$. No accepted source-classifier read has a third route outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Begin with the source packet of \autoref{thm:gap-closure-boundary-source-packet}. It exposes the finite rows $G,S,R,H,C,P,N$ as the whole root packet and states that no accepted consumer reads a source, refusal, transport, provenance, or local naming coordinate outside those rows.
+
+For supported reads, apply \autoref{thm:gap-closure-boundary-source-route-totality}. The source-classifier must expose the displayed route $G \longrightarrow S$ before any listed hard-problem sibling consumes $H,C,P,N$.
+
+For unsupported closure requests, apply \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The request is routed through $G \longrightarrow R$ with the same structural rows, and the excluded closure and hidden $\mathsf{T}$ coordinates are not exported.
+
+Finally use classifier stability, \autoref{thm:gap-closure-boundary-classifier-stability}. Componentwise $\hsame$ transport and the displayed $\Cont$ routes preserve the source/refusal split, so the two displayed routes exhaust the accepted source-classifier reads.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal-ledger route totality]
+\label{thm:gap-closure-boundary-refusal-ledger-route-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, unsupported closure requests are exhausted by the refusal-ledger route $G \longrightarrow R$ over $H,C,P,N$. Such a request cannot become hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the unsupported side of \autoref{thm:gap-closure-boundary-root-source-classifier-totality}. Once the displayed source route is absent, the only accepted classifier route is the refusal route $G \longrightarrow R$.
+
+Apply \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-ledger-stability}. These results keep the unsupported request at the ledger endpoint $R$ under the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+The remaining exclusions come from \autoref{thm:gap-closure-boundary-classifier-stability}. The transported refusal route cannot introduce hidden host refusal, hidden $\mathsf{T}$ supply, private source selection, unrecorded consumer authority, or an off-packet continuation; hence it also cannot supply host equality or quotient data not present in $G,S,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer NameCert readiness]
+\label{thm:gap-closure-boundary-consumer-namecert-readiness}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the source-classifier route totality and refusal-ledger route totality supply the $\NameCert_{\GapClosureBoundaryUp}$ readiness surface consumed by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$. Each listed consumer receives exactly the displayed source/refusal packet with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, and receives no off-packet closure resource.
+\end{theorem}
+\begin{proof}
+Read the local obligation surface in \autoref{thm:gap-closure-boundary-namecert-obligation-surface}. Its five obligations require carrier exposure, source-route admission, refusal-ledger exactness, consumer-boundary exhaustion, and non-escape of host or global refusal data.
+
+The source-classifier route is supplied by \autoref{thm:gap-closure-boundary-root-source-classifier-totality}. It gives the supported route $G \longrightarrow S$ and the unsupported route $G \longrightarrow R$ inside the same finite packet.
+
+The refusal side is supplied by \autoref{thm:gap-closure-boundary-refusal-ledger-route-totality}. Unsupported closure requests remain ledger entries and cannot become hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or off-packet continuation.
+
+Therefore the listed consumers read exactly the readiness surface named by the local $\NameCert_{\GapClosureBoundaryUp}$ row: the displayed $\BHist$ packet, its $\hsame$ transports, its $\Cont$ routes, and its $\Pkg$ provenance. No stronger closure resource is exported to any hard-problem sibling.
+\end{proof}
