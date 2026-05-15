@@ -146,4 +146,45 @@ theorem DiagonalLimitCompatibilityRootBudget_terminal_route_uniqueness
     unary_cont_closed readbackUnary realSealUnary readbackRealSealTerminal1
   exact ⟨sameTerminal, terminal0Unary, terminal1Unary, terminal0Pkg, terminal1Pkg⟩
 
+theorem DiagonalLimitCompatibility_root_budget_selector_synchronizer_exactness
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector locked sync completion0 completion1 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal windows selector ->
+        Cont selector readback locked ->
+          Cont locked realSeal sync ->
+            Cont sync cert completion0 ->
+              Cont sync cert completion1 ->
+                PkgSig bundle completion0 pkg ->
+                  PkgSig bundle completion1 pkg ->
+                    hsame completion0 completion1 ∧ UnaryHistory selector ∧
+                      UnaryHistory locked ∧ UnaryHistory sync ∧ UnaryHistory completion0 ∧
+                        UnaryHistory completion1 ∧ PkgSig bundle completion0 pkg ∧
+                          PkgSig bundle completion1 pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle PkgSig
+  intro carrier diagonalWindowsSelector selectorReadbackLocked lockedRealSealSync
+    syncCertCompletion0 syncCertCompletion1 completion0Pkg completion1Pkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealRowUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, _provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindowsSelector
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed selectorUnary readbackUnary selectorReadbackLocked
+  have syncUnary : UnaryHistory sync :=
+    unary_cont_closed lockedUnary realSealUnary lockedRealSealSync
+  have completion0Unary : UnaryHistory completion0 :=
+    unary_cont_closed syncUnary certUnary syncCertCompletion0
+  have completion1Unary : UnaryHistory completion1 :=
+    unary_cont_closed syncUnary certUnary syncCertCompletion1
+  have sameCompletions : hsame completion0 completion1 :=
+    cont_deterministic syncCertCompletion0 syncCertCompletion1
+  exact
+    ⟨sameCompletions, selectorUnary, lockedUnary, syncUnary, completion0Unary,
+      completion1Unary, completion0Pkg, completion1Pkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

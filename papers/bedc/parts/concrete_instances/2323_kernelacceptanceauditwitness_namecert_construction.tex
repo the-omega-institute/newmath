@@ -171,6 +171,24 @@ Next combine the terminal accepted-row surface with route determinacy. The rows 
 Finally use the public obligation surface. It includes all finite rows of the packet but still withholds dependency cleanliness unless $Q$ is read, so every axiom query is accounted for by the displayed query ledger.
 \end{proof}
 
+\begin{theorem}[KernelAcceptanceAuditWitness source-query route exhaustion]
+\label{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+every public source-facing audit route from the generated row $G$ to dependency classification passes through the kernel-candidate row $K$, accepted-declaration row $A$, environment-ledger row $L$, build-replay row $R$, axiom-query row $Q$, displayed continuation row $C$, and local $\NameCert$ row $N$ in that order of displayed obligations. No audit consumer may infer kernel correctness, replay success, or dependency cleanliness from $G,K,A,L,H,P,N$ without the replay row $R$ and the query row $Q$.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It lists exactly the rows $G,K,A,L,Q,R,H,C,P,N$, so a public source-facing route has no coordinate outside the generated row, kernel candidate, accepted declaration, ledger row, query boundary, replay row, transport, continuation, provenance, and local name.
+
+Apply the source gate to the entry side. Source-facing material can enter the witness only through $G,K,A,L$, which fixes the passage from generated row to kernel candidate, accepted declaration, and environment ledger before any dependency classification is read.
+
+Use query-ledger totality for the audit side. Every query is accounted for by the ledgered route through $A,L,Q,R,C,N$, while the displayed obligations require the build replay row $R$ and axiom-query row $Q$ before the route can be consumed by $C$ and named by $N$.
+
+Finally apply replay/query non-escape. The finite packet exports no row for kernel correctness, replay success without $R$, or dependency cleanliness without $Q$, so the source-to-query route is exhausted by the displayed rows and cannot be replaced by $G,K,A,L,H,P,N$ alone.
+\end{proof}
+
 \begin{theorem}[KernelAcceptanceAuditWitness query replay interface]
 \label{thm:kernel-acceptance-audit-witness-query-replay-interface}
 For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
@@ -341,7 +359,7 @@ The closure block therefore keeps the formal status at $\unformalizedV$ while ra
 \begin{closurestatus}{\KernelAcceptanceAuditWitnessUp}
   \constructivestory{A $\KernelAcceptanceAuditWitnessUp$ packet is generated from an elaborated term, kernel candidate, accepted declaration, environment ledger, axiom-query row, build-replay row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:kernel-acceptance-audit-witness-carrier}, \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape}, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}, \autoref{def:kernel-acceptance-audit-witness-terminal-row}, \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}, \autoref{thm:kernel-acceptance-audit-witness-nonescape}, \autoref{thm:kernel-acceptance-audit-witness-obligation-surface}, \autoref{thm:kernel-acceptance-audit-witness-source-gate}, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality}, \autoref{thm:kernel-acceptance-audit-witness-acceptance-boundary}, \autoref{thm:kernel-acceptance-audit-witness-build-replay-coverage}, \autoref{thm:kernel-acceptance-audit-witness-public-bridge-boundary}, \autoref{thm:kernel-acceptance-audit-witness-dependency-query-exhaustion}, \autoref{thm:kernel-acceptance-audit-witness-marker-consumer-boundary}, \autoref{thm:kernel-acceptance-audit-witness-public-export}, \autoref{thm:kernel-acceptance-audit-witness-accepted-row-consumer-boundary}, and \autoref{thm:kernel-acceptance-audit-witness-formal-axis-separation} bind the finite audit-witness carrier, local naming surface, terminal accepted-row endpoint, ledger route, replay route, deterministic query route, dependency-query boundary, public obligation surface, source gate, query-ledger totality, acceptance boundary, build replay coverage, public bridge boundary, dependency-query exhaustion, marker consumer boundary, public export, accepted-row consumer boundary, and verification-axis separation.}
+  \scopeclosed{\autoref{def:kernel-acceptance-audit-witness-carrier}, \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape}, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}, \autoref{def:kernel-acceptance-audit-witness-terminal-row}, \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}, \autoref{thm:kernel-acceptance-audit-witness-nonescape}, \autoref{thm:kernel-acceptance-audit-witness-obligation-surface}, \autoref{thm:kernel-acceptance-audit-witness-source-gate}, \autoref{thm:kernel-acceptance-audit-witness-query-ledger-totality}, \autoref{thm:kernel-acceptance-audit-witness-source-query-route-exhaustion}, \autoref{thm:kernel-acceptance-audit-witness-acceptance-boundary}, \autoref{thm:kernel-acceptance-audit-witness-build-replay-coverage}, \autoref{thm:kernel-acceptance-audit-witness-public-bridge-boundary}, \autoref{thm:kernel-acceptance-audit-witness-dependency-query-exhaustion}, \autoref{thm:kernel-acceptance-audit-witness-marker-consumer-boundary}, \autoref{thm:kernel-acceptance-audit-witness-public-export}, \autoref{thm:kernel-acceptance-audit-witness-accepted-row-consumer-boundary}, and \autoref{thm:kernel-acceptance-audit-witness-formal-axis-separation} bind the finite audit-witness carrier, local naming surface, terminal accepted-row endpoint, ledger route, replay route, deterministic query route, dependency-query boundary, public obligation surface, source gate, query-ledger totality, source-query route exhaustion, acceptance boundary, build replay coverage, public bridge boundary, dependency-query exhaustion, marker consumer boundary, public export, accepted-row consumer boundary, and verification-axis separation.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

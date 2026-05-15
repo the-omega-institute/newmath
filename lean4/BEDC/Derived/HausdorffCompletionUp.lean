@@ -142,6 +142,62 @@ theorem HausdorffCompletionCarrier_separated_seal_boundary [AskSetup] [PackageSe
       sourceEntourageTransport, separatedHandoffRoute, transportRouteProvenance,
       separatedProvenanceSealConsumer, provenancePkg, sealConsumerPkg⟩
 
+theorem HausdorffCompletionCarrier_real_seal_ledger_scope [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont separated provenance sealRead ->
+        PkgSig bundle sealRead pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row sealRead ∧ UnaryHistory row ∧
+              PkgSig bundle row pkg)
+            (fun row : BHist =>
+              Cont separated provenance row ∧
+                HausdorffCompletionCarrier source entourage separated handoff transport route
+                  provenance bundle pkg)
+            (fun _row : BHist => PkgSig bundle sealRead pkg ∧
+              Cont separated provenance sealRead)
+            (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier separatedProvenanceSealRead sealReadPkg
+  have acceptedCarrier :
+      HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg := carrier
+  obtain ⟨_sourceUnary, _entourageUnary, separatedUnary, _handoffUnary, _transportUnary,
+    _routeUnary, provenanceUnary, _sourceEntourageTransport, _separatedHandoffRoute,
+    _transportRouteProvenance, _provenancePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed separatedUnary provenanceUnary separatedProvenanceSealRead
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead ⟨hsame_refl sealRead, sealReadUnary, sealReadPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨cont_result_hsame_transport separatedProvenanceSealRead
+            (hsame_symm sourceRow.left),
+          acceptedCarrier⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact ⟨sealReadPkg, separatedProvenanceSealRead⟩
+  }
+
 theorem HausdorffCompletionCarrier_ledger_exactness [AskSetup] [PackageSetup]
     {source entourage separated handoff transport route provenance ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
