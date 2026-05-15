@@ -202,6 +202,9 @@ instance inscriptionAuditTraceChapterTasteGate :
     intro x y hxy heq
     exact hxy (inscriptionAuditTraceToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionAuditTraceUp :=
+  inferInstance
+
 theorem InscriptionAuditTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionAuditTraceDecodeBHist
         (inscriptionAuditTraceEncodeBHist h) = h) ∧
