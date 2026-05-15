@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor terminal authorized output cover]
+\label{thm:authorized-generator-recursor-terminal-authorized-output-cover}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, terminal authorized output is exposed only through the displayed generator, branch, output, audit, route, provenance, and local $\NameCert$ rows. More precisely, any terminal consumer of the output row $O$ must remain inside the finite $\BHist$ carrier
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+with componentwise $\hsame$ transport at $H$, displayed $\Cont$ replay at $C$, package provenance at $\Pkg$ on $P$, audit provenance at $A$, boundary exposure at $G$, and local naming evidence at $N$.
+\end{theorem}
+\begin{proof}
+Start from terminal generator admission. By \autoref{thm:authorized-generator-recursor-terminal-generator-admission}, every terminal generator-facing consumer route is admitted only through the displayed packet rows, and the output row is not available as detached generator authority.
+
+Next attach the ground compiler surface. \autoref{thm:authorized-generator-recursor-ground-compiler-authorization} forces any ground-compiler consumer of $O$ to retain the signature, eliminator, motive, branch, descent, audit, $\BHist$, $\Cont$, $\Pkg$, boundary, and local $\NameCert$ rows in the same route.
+
+Finally use the existing audit and terminal nonescape facts. \autoref{thm:authorized-generator-recursor-output-audit-nonescape} binds $O$ to audit provenance, boundary exposure, and local certification, while \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape} keeps terminal output consumption on the displayed audit, boundary, package, and naming rows. Thus terminal authorized output is covered exactly by the displayed rows listed above.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor terminal branch ledger lock]
+\label{thm:authorized-generator-recursor-terminal-branch-ledger-lock}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the terminal branch ledger is locked to the closed-substitution and ground-compiler authorization rows already displayed by the chapter. A terminal consumer may read a branch, recursive call, or output-facing generator result only through the branch row $B$, descent row $D$, audit row $A$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package provenance row $P$, ground-boundary row $G$, and local $\NameCert$ row $N$ carried by the same finite packet.
+\end{theorem}
+\begin{proof}
+First read the branch ledger through the terminal branch exactness result. \autoref{thm:authorized-generator-recursor-terminal-branch-descent-exactness} requires every terminal branch consumption that reaches $O$ to pass through $B$ and $D$ inside the displayed packet.
+
+Next lock this branch route to closed substitution. By \autoref{thm:authorized-generator-recursor-closed-substitution-gate}, a sibling closed-substitution consumer reaches $O$ only after the signature, branch, descent, audit, transport, continuation, package, boundary, and local naming rows have all been carried in one finite route.
+
+The ground-compiler side supplies the same authorization surface. \autoref{thm:authorized-generator-recursor-ground-compiler-authorization} allows the consumer to reach $O$ only after those displayed rows have been retained. Therefore the terminal branch ledger has no independent branch authority beyond the closed-substitution and ground-compiler rows already exposed by the packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor terminal reader nonescape]
+\label{thm:authorized-generator-recursor-terminal-reader-nonescape}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, terminal consumers cannot read hidden generator state, host evaluation, unchecked recursion, or private audit routes. Every terminal read of generator output, branch evidence, descent evidence, audit provenance, continuation replay, package provenance, or local naming data remains inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet.
+\end{theorem}
+\begin{proof}
+Begin with the finite route surface. \autoref{thm:authorized-generator-recursor-finite-route-exposure} exhausts public routes by
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Hence a terminal reader has no carrier coordinate for hidden generator state or host evaluation outside the displayed packet.
+
+Now use the audit ledger and terminal generator facts. \autoref{thm:authorized-generator-recursor-audit-ledger-nonescape} blocks hidden generators, host induction principles, external axioms, unaudited dependency routes, and off-packet substitution channels, while \autoref{thm:authorized-generator-recursor-terminal-generator-admission} keeps terminal generator-facing routes on the displayed carrier.
+
+It remains to exclude private terminal audit routes. \autoref{thm:authorized-generator-recursor-terminal-audit-namecert-nonescape} attaches terminal output consumption to the audit, boundary, package, and local $\NameCert$ rows, and \autoref{thm:authorized-generator-recursor-closed-substitution-gate} keeps closed-substitution reads behind $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Thus terminal consumers cannot escape to hidden generator state, host evaluation, unchecked recursion, or private audit routes.
+\end{proof}
