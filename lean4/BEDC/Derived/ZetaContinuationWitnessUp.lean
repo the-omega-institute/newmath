@@ -78,4 +78,37 @@ theorem ZetaContinuationWitnessPacket_public_export [AskSetup] [PackageSetup]
     unary_cont_closed routesUnary nameUnary routesNameExport
   exact ⟨exportUnary, routesNameExport, namePkg, provenancePkg⟩
 
+theorem ZetaContinuationWitnessPacket_public_source_lock_handoff [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional zeroLedger gamma transports routes provenance name eta'
+      analytic' transports' provenance' exportRow exportRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationWitnessPacket basic eta analytic pole functional zeroLedger gamma
+        transports routes provenance name bundle pkg →
+      Cont basic eta' analytic' →
+        Cont analytic' functional transports' →
+          Cont transports' routes provenance' →
+            Cont routes name exportRow →
+              Cont routes name exportRow' →
+                PkgSig bundle provenance' pkg →
+                  hsame eta eta' →
+                    hsame analytic analytic' ∧ hsame transports transports' ∧
+                      hsame provenance provenance' ∧ hsame exportRow exportRow' ∧
+                        PkgSig bundle name pkg ∧ PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet basicRoute functionalRoute provenanceRoute exportRoute exportRoute'
+    provenancePkg etaSame
+  have ledger :=
+    ZetaContinuationWitnessPacket_dependency_ledger
+      (basic := basic) (eta := eta) (analytic := analytic) (pole := pole)
+      (functional := functional) (zeroLedger := zeroLedger) (gamma := gamma)
+      (transports := transports) (routes := routes) (provenance := provenance)
+      (name := name) (eta' := eta') (analytic' := analytic')
+      (transports' := transports') (provenance' := provenance') (bundle := bundle)
+      (pkg := pkg) packet basicRoute functionalRoute provenanceRoute provenancePkg etaSame
+  obtain ⟨analyticSame, transportsSame, provenanceSame, namePkg, provenancePkg'⟩ := ledger
+  have exportSame : hsame exportRow exportRow' :=
+    cont_respects_hsame (hsame_refl routes) (hsame_refl name) exportRoute exportRoute'
+  exact
+    ⟨analyticSame, transportsSame, provenanceSame, exportSame, namePkg, provenancePkg'⟩
+
 end BEDC.Derived.ZetaContinuationWitnessUp

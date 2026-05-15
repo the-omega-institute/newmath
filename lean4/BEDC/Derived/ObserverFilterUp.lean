@@ -228,4 +228,50 @@ theorem ObserverFilter_streamname_handoff [AskSetup] [PackageSetup]
     ⟨selectedUnary, ledgerUnary, routesUnary, provenanceUnary, localNameUnary,
       streamReadUnary, sourceSelected, routesLocalName, selectedLocalName, pkgSig⟩
 
+theorem ObserverFilterCarrier_selected_row_totality [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName selectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      Cont selected ledger selectedRead →
+        PkgSig bundle selectedRead pkg →
+          UnaryHistory source ∧ UnaryHistory selected ∧ UnaryHistory ledger ∧
+            UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+              UnaryHistory selectedRead ∧ Cont source selected ledger ∧
+                Cont selected ledger selectedRead ∧ Cont routes localName provenance ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle selectedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectedLedger selectedPkg
+  obtain ⟨sourceUnary, selectedUnary, _omittedUnary, ledgerUnary, routesUnary,
+    provenanceUnary, localNameUnary, sourceSelected, _ledgerOmitted, routesLocalName,
+    provenancePkg⟩ := carrier
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed selectedUnary ledgerUnary selectedLedger
+  exact
+    ⟨sourceUnary, selectedUnary, ledgerUnary, routesUnary, provenanceUnary,
+      localNameUnary, selectedReadUnary, sourceSelected, selectedLedger,
+      routesLocalName, provenancePkg, selectedPkg⟩
+
+theorem ObserverFilterCarrier_omitted_row_boundary_exhaustion [AskSetup] [PackageSetup]
+    {source selected omitted transport ledger routes provenance localName omittedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport ledger routes provenance localName
+        bundle pkg →
+      Cont ledger omitted omittedRead →
+        PkgSig bundle omittedRead pkg →
+          UnaryHistory source ∧ UnaryHistory omitted ∧ UnaryHistory ledger ∧
+            UnaryHistory routes ∧ UnaryHistory omittedRead ∧ Cont source selected ledger ∧
+              Cont ledger omitted routes ∧ Cont ledger omitted omittedRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle omittedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier ledgerOmittedRead omittedReadPkg
+  obtain ⟨sourceUnary, _selectedUnary, omittedUnary, ledgerUnary, routesUnary,
+    _provenanceUnary, _localNameUnary, sourceSelected, ledgerOmitted, _routesLocalName,
+    provenancePkg⟩ := carrier
+  have omittedReadUnary : UnaryHistory omittedRead :=
+    unary_cont_closed ledgerUnary omittedUnary ledgerOmittedRead
+  exact
+    ⟨sourceUnary, omittedUnary, ledgerUnary, routesUnary, omittedReadUnary, sourceSelected,
+      ledgerOmitted, ledgerOmittedRead, provenancePkg, omittedReadPkg⟩
+
 end BEDC.Derived.ObserverFilterUp
