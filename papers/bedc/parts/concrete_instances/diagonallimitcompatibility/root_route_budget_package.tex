@@ -43,6 +43,7 @@ Next apply \autoref{thm:diagonal-limit-compatibility-finite-window-handoff-bound
 
 It remains to identify the exact consumer surface. Apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate}; every $\RealUp$ or $\CompletionUp$ read factors through the budget-source and seal-budget routes, so the listed rows are exactly the root-route consumer package.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootRouteConsumerExactness}
 
 \begin{theorem}[Diagonal-limit compatibility root-route non-escape]
 \label{thm:diagonal-limit-compatibility-root-route-nonescape}
@@ -185,6 +186,7 @@ The excluded coordinates are ruled out by \autoref{thm:diagonal-limit-compatibil
 \label{thm:diagonal-limit-compatibility-root-route-seal-factorization}
 Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any seal-facing public route that exports the Real seal row $L$ factors first through the selector lock of \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock} and then through the completion readback of \autoref{thm:diagonal-limit-compatibility-root-route-completion-readback}. Hence the exported Real seal row is a public factor of the same root-route package, not a host-selected limit or quotient-stream read.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootRouteSealFactorization}
 \begin{proof}
 Begin with \autoref{thm:diagonal-limit-compatibility-root-route-selector-lock}. It fixes the source, mesh, triangle, and window selector rows before any $Q$, $S$, or $L$ coordinate is available.
 
@@ -221,4 +223,22 @@ Then use \autoref{thm:diagonal-limit-compatibility-terminal-budget-factorization
 For the reverse direction, a read that factors through the displayed ordered route has already consumed every row made available by the accepted packet. The package theorem and the completion readback theorem show that no additional terminal $\RealUp$ or $\CompletionUp$ coordinate remains outside the listed route.
 
 Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. It excludes quotient streams, host-selected limits, host real equality, choice data, hidden tail oracles, and ambient completeness coordinates from the exported surface, so completeness of the terminal read is exactly completeness of the displayed finite factorization.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility open-phase exit synchronization]
+\label{thm:diagonal-limit-compatibility-open-phase-exit-synchronization}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet whose terminal route reads the $\CauchyModulusRefinementUp$ diagonal pullback surface and the $\UniformCauchyCriterionUp$ Real-completion exit surface. Then every terminal $\RealUp$ or $\CompletionUp$ read synchronizes exactly the four finite exit faces
+$$
+\StreamNameUp(W),\qquad \DyadicRatCoreUp(T),\qquad \RegSeqRatUp(Q),\qquad \RealUp(L)
+$$
+through the displayed $\BHist$ row $H$, componentwise $\hsame$ transport, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row $N$. The synchronized exit exports no quotient stream, host real equality, host-selected limit, choice datum, ambient completeness coordinate, metric-completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+Start with terminal route completeness, \autoref{thm:diagonal-limit-compatibility-terminal-route-completeness}. It places any terminal $\RealUp$ or $\CompletionUp$ read of $K$ on the displayed ordered route and identifies the available terminal rows as the stream window $W$, dyadic budget row $T$, regular readback $Q$, Real seal $L$, and the support rows $H,C,P,N$.
+
+Next apply the diagonal pullback theorem \autoref{thm:cauchy-modulus-refinement-diagonal-route-pullback}. The $\CauchyModulusRefinementUp$ surface pulls every compatible diagonal-limit consumer back to the same finite dyadic threshold and the same shared-window ledger, transported by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rather than by quotient or choice data.
+
+The open-phase spine is supplied by \autoref{thm:cauchy-modulus-refinement-open-phase-exit-spine}. It names the four exit faces as the $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ dyadic ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal, and it orders them as the Phase Real and Completion route consumed by the terminal read.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-root-real-completion-exit-exhaustion}. Its Real-completion exit exhaustion leaves no additional consumer coordinate beyond the finite window, tolerance ledger, regular readback, Real seal, sibling root route, and displayed support rows. Together with the non-escape clause in terminal route completeness, this rules out quotient streams, host real equality, host-selected limits, choice data, ambient or metric-completeness data, and bridge rows, so the terminal read synchronizes exactly the four finite exit faces.
 \end{proof}

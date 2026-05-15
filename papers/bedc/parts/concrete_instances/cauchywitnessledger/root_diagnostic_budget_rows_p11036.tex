@@ -19,6 +19,7 @@ Q \longmapsto B \longmapsto S
 $$
 has been displayed. A consumer cannot read $K$ as a detached classifier row before the diagonal-budget row, observation-budget row, and seal-synchronizer row have been consumed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_root\_seal\_classifier\_lock}
 \begin{proof}
 First read the carrier in \autoref{def:cauchy-witness-ledger-carrier}. The row $K$ is one coordinate of the same finite packet as $Q,B,S,H,C,P,N$, not a separate classifier object.
 
@@ -71,4 +72,24 @@ Apply \autoref{thm:cauchy-witness-ledger-root-diagnostic-budget-totality}. It pl
 Next use \autoref{thm:cauchy-witness-ledger-root-seal-classifier-lock}. The classifier $K$ is not a detached object: it is read only after $Q \longmapsto B \longmapsto S$ and remains tied to the same local packet.
 
 Finally apply \autoref{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet}. Since quotient stream equality, host real equality, selected external limits, countable choice, ambient completeness, and detached classifiers are not root coordinates, the terminal route is exactly the displayed finite ledger surface.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root diagnostic budget transport]
+\label{thm:cauchy-witness-ledger-root-diagnostic-budget-transport}
+Let $L=(Q,B,S,K,H,C,P,N)$ and $L'=(Q',B',S',K',H',C',P',N')$ be accepted $\CauchyWitnessLedgerUp$ packets. Suppose the displayed budget route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+is transported componentwise through the displayed $H,H'$ rows and through the displayed continuation rows $C,C'$, with the history comparison governed by the stated $hsame$ rows and the continuation comparison governed by the stated $\Cont$ rows. Then root diagnostic reads and completion-facing terminal reads are stable along that transport: the transported route reads the same root budget, synchronizer, route-bound classifier, structural transport, continuation, provenance, and local NameCert rows.
+
+Moreover, this transport does not introduce quotient stream equality, host real equality, a selected external limit, a countable-choice row, an ambient completeness coordinate, or a detached classifier.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-witness-ledger-root-diagnostic-budget-totality} to both accepted packets. The only rows visible to a root diagnostic read are the finite packet rows $Q,B,S,K,H,C,P,N$ and $Q',B',S',K',H',C',P',N'$.
+
+Use \autoref{thm:cauchy-witness-ledger-root-seal-classifier-lock} to read the order of the route. The classifier rows $K$ and $K'$ are available only after their displayed routes through $Q \longmapsto B \longmapsto S$ and $Q' \longmapsto B' \longmapsto S'$, so componentwise transport cannot detach the classifier from the budget and synchronizer rows.
+
+Now apply \autoref{thm:cauchy-witness-ledger-root-budget-classifier-determinacy}. Since the transport is through the displayed $H,H'$ and $C,C'$ rows, with the comparison confined to the stated $hsame$ and $\Cont$ rows, the classifier read on the transported public route is the route-bound read already named by $K$ and $K'$.
+
+It remains to identify the terminal surface. Apply \autoref{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet} and \autoref{thm:cauchy-witness-ledger-root-terminal-route-exhaustion}. The terminal completion-facing read is exhausted by the same finite ledger surface, and none of the forbidden coordinates can be supplied by transport through $H,H'$ or $C,C'$.
 \end{proof}

@@ -273,9 +273,11 @@ theorem PrefixObserverTasteGate_single_carrier_alignment :
           prefixObserverToEventFlow x = prefixObserverToEventFlow y → x = y) ∧
           prefixObserverEncodeBHist BHist.Empty = ([] : List BMark) := by
   constructor
-  · exact prefixObserverDecode_encode_bhist
+  · intro h
+    exact prefixObserverDecode_encode_bhist h
   · constructor
-    · exact prefixObserver_round_trip
+    · intro x
+      exact prefixObserver_round_trip x
     · constructor
       · intro x y heq
         exact prefixObserverToEventFlow_injective heq

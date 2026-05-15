@@ -207,4 +207,63 @@ theorem FiniteObservationBudgetSelectorCarrier_tail_meet_seal_compatibility
       budgetSchedule, windowDyadic, tailMeetSeal, limitSeal, sameReads, tailMeetPkg,
       limitSealPkg⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_dyadic_window_exhaustion
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N dyadicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont W D dyadicRead ->
+        PkgSig bundle dyadicRead pkg ->
+          UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory dyadicRead ∧
+            Cont W D dyadicRead ∧ hsame R dyadicRead ∧
+              PkgSig bundle dyadicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier windowDyadicRead dyadicPkg
+  obtain ⟨unaryB, unaryS, unaryD, _unaryE, budgetSchedule, windowDyadic,
+    _regularSeal, _sameName⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have unaryDyadicRead : UnaryHistory dyadicRead :=
+    unary_cont_closed unaryW unaryD windowDyadicRead
+  have sameRead : hsame R dyadicRead :=
+    cont_respects_hsame (hsame_refl W) (hsame_refl D) windowDyadic windowDyadicRead
+  exact ⟨unaryW, unaryD, unaryDyadicRead, windowDyadicRead, sameRead, dyadicPkg⟩
+
+theorem FiniteObservationBudgetSelectorCarrier_budget_choice_freeness
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N budgetRead windowRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont B S budgetRead ->
+        Cont budgetRead D windowRead ->
+          Cont windowRead E sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory B ∧ UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory E ∧
+                UnaryHistory budgetRead ∧ UnaryHistory windowRead ∧
+                  UnaryHistory sealRead ∧ Cont B S budgetRead ∧
+                    Cont budgetRead D windowRead ∧ Cont windowRead E sealRead ∧
+                      hsame W budgetRead ∧ hsame R windowRead ∧ hsame C sealRead ∧
+                        PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier budgetRoute windowRoute sealRoute sealPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, carrierBudget, carrierWindow, carrierSeal,
+    _sameName⟩ := carrier
+  have unaryBudgetRead : UnaryHistory budgetRead :=
+    unary_cont_closed unaryB unaryS budgetRoute
+  have unaryWindowRead : UnaryHistory windowRead :=
+    unary_cont_closed unaryBudgetRead unaryD windowRoute
+  have unarySealRead : UnaryHistory sealRead :=
+    unary_cont_closed unaryWindowRead unaryE sealRoute
+  have sameBudget : hsame W budgetRead :=
+    cont_respects_hsame (hsame_refl B) (hsame_refl S) carrierBudget budgetRoute
+  have sameWindow : hsame R windowRead :=
+    cont_respects_hsame sameBudget (hsame_refl D) carrierWindow windowRoute
+  have sameSeal : hsame C sealRead :=
+    cont_respects_hsame sameWindow (hsame_refl E) carrierSeal sealRoute
+  exact
+    ⟨unaryB, unaryS, unaryD, unaryE, unaryBudgetRead, unaryWindowRead, unarySealRead,
+      budgetRoute, windowRoute, sealRoute, sameBudget, sameWindow, sameSeal, sealPkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp
