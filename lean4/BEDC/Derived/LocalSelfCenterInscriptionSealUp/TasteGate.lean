@@ -241,6 +241,21 @@ def taste_gate : ChapterTasteGate LocalSelfCenterInscriptionSealUp where
     exact hxy
       (LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_injective heq)
 
+theorem LocalSelfCenterInscriptionSealUp_taste_gate_boundary :
+    (∀ x : LocalSelfCenterInscriptionSealUp,
+      ∃ e : EventFlow, localSelfCenterInscriptionSealFromEventFlow e = some x) ∧
+      (∀ (x : LocalSelfCenterInscriptionSealUp) (w : RawEvent) (m : BMark),
+        List.Mem w (localSelfCenterInscriptionSealToEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    exact
+      ⟨localSelfCenterInscriptionSealToEventFlow x,
+        LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment_round x⟩
+  · intro x w m hw hm
+    exact event_flow_conservativity (S := localSelfCenterInscriptionSealToEventFlow x) hw hm
+
 theorem LocalSelfCenterInscriptionSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         localSelfCenterInscriptionSealDecodeBHist
