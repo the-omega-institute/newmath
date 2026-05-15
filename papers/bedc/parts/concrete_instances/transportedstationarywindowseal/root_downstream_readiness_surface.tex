@@ -1,0 +1,59 @@
+\begin{theorem}[Transported stationary window-seal root envelope readback totality]
+\label{thm:transported-stationary-window-seal-root-envelope-readback-totality}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet, and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite window and regular-rational seal. Then every $\CompletionUp$-facing or $\RealUp$-facing readback of the root packet is total only along the ordered finite route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T
+  \longrightarrow
+  W
+  \longrightarrow
+  E .
+\end{aligned}
+$$
+In particular, the readback cannot bypass the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows, cannot read the finite envelope before the tail schedule rows, and cannot read the $\RealUp$ seal row before the shared-window budget has been exhausted.
+\end{theorem}
+\begin{proof}
+Start with the root carrier admission and the L10 handoff basis. These expose exactly the transported source rows $R,S,G$, the transport-package-name rows $H,C,P,N$, and the sibling route through $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, $\TailCofinalityScheduleUp$, and $\RealUp$.
+
+Next attach the readback order. The root completion source order fixes the source triad before any envelope read, and the tail-cofinality handoff places the schedule packet between the transported source and the finite envelope.
+
+Finally use envelope exhaustion and shared-window budget exhaustion. They force the route to pass through $W$ and then $E$, while excluding a second window family, second seal budget, hidden tail oracle, or off-route readback source.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion seal lock]
+\label{thm:transported-stationary-window-seal-completion-seal-lock}
+For accepted packets $T$ and $Q$ as in \autoref{thm:transported-stationary-window-seal-root-envelope-readback-totality}, the completion-facing seal exposed by $T$ is locked to the same finite route. Any consumer that reaches the $\CompletionUp$ boundary through $T$ and preserves the displayed rows determines the completion route of \autoref{thm:transported-stationary-window-seal-completion-route-uniqueness}; it has no second completion route, no quotient-stream carrier, no host equality carrier, no selected limit, no choice datum, and no ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First read the seal through the deterministic schedule-envelope order. The consumer must pass from the transported source and naming rows through the tail schedule rows before it can reach $W$ and $E$.
+
+The Real RegSeqRat source totality theorem then identifies the $\RealUp$ seal source with the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ triad, rather than with a host-real or quotient-stream source.
+
+The completion route uniqueness theorem supplies the lock. Since shared-window budget exhaustion has already consumed the only finite window and seal budget available to the packet, there is no coordinate left for another completion carrier or a second route to the same seal.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal downstream route readiness]
+\label{thm:transported-stationary-window-seal-downstream-route-readiness}
+The $\TransportedStationaryWindowSealUp$ root surface is ready for every downstream $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\TailCofinalityScheduleUp$, and $\CompletionUp$ consumer that preserves the accepted packet rows. Such a consumer must use the single finite BEDC route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T
+  \longrightarrow
+  W
+  \longrightarrow
+  E ,
+\end{aligned}
+$$
+and the $\NameCert$ route surface is exhausted by exactly these rows. No downstream consumer receives quotient streams, host equality, selected limits, choice, ambient completeness, hidden tail oracles, or an independent completion route from this root chapter.
+\end{theorem}
+\begin{proof}
+Combine root envelope readback totality with completion seal lock. The first theorem gives the only admissible order from the transported source and naming rows through the tail schedule, finite envelope, and Real seal; the second theorem locks any completion-facing read to that same route.
+
+Now apply NameCert route exhaustion. The displayed rows already account for the carrier, classifier, transport, continuity, package, local naming, tail schedule, finite envelope, and seal obligations.
+
+It remains only to identify the downstream surface. The named downstream chapters consume precisely those rows as finite BEDC inputs, so preserving the packet rows preserves the route. Since the route surface is exhausted, none of the refused host or quotient data can be supplied by the root packet.
+\end{proof}
