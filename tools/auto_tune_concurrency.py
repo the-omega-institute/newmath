@@ -102,13 +102,12 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 16  # raised 2026-05-15: push race solved by cross-process file lock
-               # (tools/repo_push_lock.py + daemon restart), so the 8-cap from
-               # 2026-05-14 is no longer warranted. critical_path currently
-               # reports 462 formal_axis_top + 50 unformalized_top targets;
-               # demand-driven autotune wants higher. 16 leaves headroom while
-               # the lock floor (which serializes pushes) keeps ff-rejection
-               # rate near zero.
+LEAN_MAX = 12  # lowered 2026-05-15 (later): push lock starvation observed —
+               # R6327 held lock 1076s for codex_resolve_conflicts (which
+               # runs INSIDE the lock). With 16+ contenders, flock unfairness
+               # starves P workers >600s → cooldown cascades. Cap at 12
+               # reduces waiter pool. Structural fix (move codex_resolve
+               # outside lock) deferred to next orchestrator restart.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
@@ -122,14 +121,19 @@ LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # cuts ff-rejection rate dramatically.
 
 PAPER_BUFFER = 4
-PAPER_MIN = 18  # raised 2026-05-12 from 12: P-side discovery channels
+PAPER_MIN = 6   # lowered 2026-05-15 (later): with PAPER_MAX=10 due to push-
+                # lock starvation, MIN must be ≤ MAX. 6 still keeps discovery
+                # channels warm. Restore once codex_resolve moves out of lock.
+PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # (vision/automath/human_chapter_extension) need a warm
                 # pool of workers ready to consume new discovery candidates
                 # as soon as Phase Review emits them; PAPER_MIN=12 was
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 25  # raised 2026-05-12 from 20 by user directive
+PAPER_MAX = 10  # lowered 2026-05-15 (later): same push-lock starvation —
+                # P workers wait >600s when R holds lock for codex_resolve.
+                # Cut from 25 → 10 reduces concurrent push contenders.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
