@@ -186,6 +186,9 @@ instance inscriptionCommitmentSealChapterTasteGate :
     intro x y hxy heq
     exact hxy (inscriptionCommitmentSealToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionCommitmentSealUp :=
+  inferInstance
+
 instance inscriptionCommitmentSealFieldFaithful :
     FieldFaithful InscriptionCommitmentSealUp where
   -- BEDC touchpoint anchor: BHist BMark
