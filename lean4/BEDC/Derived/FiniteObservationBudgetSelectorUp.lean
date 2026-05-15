@@ -266,4 +266,33 @@ theorem FiniteObservationBudgetSelectorCarrier_budget_choice_freeness
     ⟨unaryB, unaryS, unaryD, unaryE, unaryBudgetRead, unaryWindowRead, unarySealRead,
       budgetRoute, windowRoute, sealRoute, sameBudget, sameWindow, sameSeal, sealPkg⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_window_seal_commutation
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N windowFirst routeFirst sealFirst : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont W E windowFirst ->
+        Cont B E routeFirst ->
+          Cont W E sealFirst ->
+            PkgSig bundle windowFirst pkg ->
+              PkgSig bundle routeFirst pkg ->
+                hsame windowFirst sealFirst ∧ UnaryHistory windowFirst ∧
+                  UnaryHistory routeFirst ∧ Cont W E windowFirst ∧ Cont B E routeFirst ∧
+                    PkgSig bundle windowFirst pkg ∧
+                      PkgSig bundle routeFirst pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier windowRoute routeRoute sealRoute windowPkg routePkg
+  obtain ⟨unaryB, unaryS, _unaryD, unaryE, budgetSchedule, _windowDyadic,
+    _regularSeal, _sameName⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have windowUnary : UnaryHistory windowFirst :=
+    unary_cont_closed unaryW unaryE windowRoute
+  have routeUnary : UnaryHistory routeFirst :=
+    unary_cont_closed unaryB unaryE routeRoute
+  have sameWindowSeal : hsame windowFirst sealFirst :=
+    cont_deterministic windowRoute sealRoute
+  exact
+    ⟨sameWindowSeal, windowUnary, routeUnary, windowRoute, routeRoute, windowPkg, routePkg⟩
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp

@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor output readiness]
+\label{thm:authorized-generator-recursor-output-readiness}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the output row $O$ is ready for downstream closed-substitution and generator-audit consumers only after the accepted signature $I$, emitted recursor $E$, checked motive $M$, branch package $B$, structural-descent row $D$, audit row $A$, componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, host-boundary row $G$, and local $\NameCert$ row $N$ have all been retained in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. It exposes $O$ only as a coordinate of the finite tuple $R$, not as a detached generator result.
+
+Use the root output boundary package and root boundary ledger totality. The packet of \autoref{def:authorized-generator-recursor-root-output-boundary-package} and the theorem \autoref{thm:authorized-generator-recursor-root-boundary-ledger-totality} keep $O$ tied to the branch, descent, audit, transport, continuation, provenance, boundary, and naming rows.
+
+Finally compare with the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} and the recursor generator of \autoref{ch:concrete-instances-recursorgenerator-namecert}. They may consume the output surface only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, so readiness is exactly the retained carrier $R$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor branch audit ledger]
+\label{thm:authorized-generator-recursor-branch-audit-ledger}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the branch package $B$ and audit row $A$ form one branch-audit ledger over the same $\BHist$ carrier. A public branch read that reaches $O$ must pass through $I,E,M,B,D$ and then through $A,H,C,P,G,N$; it cannot cite the closed-substitution boundary, recursor generator, or authorization row through a branch table detached from the audit ledger.
+\end{theorem}
+\begin{proof}
+Start with the root branch audit coupling theorem. Theorem~\ref{thm:authorized-generator-recursor-root-branch-audit-coupling} already couples $B$ and $A$ through the same displayed carrier before $O$ is public.
+
+Read the authorization side next. The root authorization obligations and displayed route surface keep accepted signatures, generator rows, branch packages, and local naming inside the same $\NameCert_{\AuthorizedGeneratorRecursorUp}$ packet.
+
+The closed-substitution handoff is therefore ledgered rather than ambient. Any route from a branch to a closed-substitution consumer must replay the same $\Cont$ row $C$ and provenance row $P$ while preserving componentwise $\hsame$ through $H$. A detached branch table has no carrier coordinate from which to export $O$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor closed substitution handoff]
+\label{thm:authorized-generator-recursor-closed-substitution-handoff}
+Every accepted $\AuthorizedGeneratorRecursorUp$ packet hands its output row $O$ to a $\ClosedSubstitutionBoundaryUp$, $\ClosedTermSubstitutionUp$, or generator-audit consumer only through the displayed finite route
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The handoff preserves the closed-term substitution boundary, recursor generator, and authorization rows as finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, and it exports no unrestricted substitution calculus, subject-reduction theorem, proof generator, external axiom channel, host equality, or off-packet recursor certificate.
+\end{theorem}
+\begin{proof}
+First use output readiness. The output row is not public until all rows of $R$ have been retained, so a closed-substitution consumer begins from the same accepted carrier as any generator-audit consumer.
+
+Next use the branch audit ledger. It ties the branch package and audit row together before the handoff, preventing a consumer from reading branch output apart from authorization, motive checking, structural descent, and audit provenance.
+
+Finally apply root host-boundary NameCert exhaustion and the closed-substitution boundary sibling. The boundary row $G$ exports only the displayed NameCert packet, while $\ClosedSubstitutionBoundaryUp$ and $\ClosedTermSubstitutionUp$ consume closed substitution as finite boundary rows rather than as a general substitution theorem. Hence the handoff remains inside $I,E,M,B,D,O,A,H,C,P,G,N$ and none of the excluded external principles is exported.
+\end{proof}
