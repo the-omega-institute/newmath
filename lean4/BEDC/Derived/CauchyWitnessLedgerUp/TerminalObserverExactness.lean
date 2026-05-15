@@ -67,4 +67,66 @@ theorem CauchyWitnessLedgerCarrier_terminal_observer_exactness [AskSetup] [Packa
       exact ⟨source.left, terminalPkg⟩
   }
 
+theorem CauchyWitnessLedgerCarrier_terminal_selector_observer_uniqueness [AskSetup]
+    [PackageSetup]
+    {Q B S K H C P N observerWindow observerRead selectorRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont Q B observerWindow →
+      Cont observerWindow S K →
+        Cont K N observerRead →
+          Cont observerRead C selectorRead →
+            Cont selectorRead P terminalRead →
+              hsame H observerWindow →
+                hsame C observerRead →
+                  hsame P selectorRead →
+                    PkgSig bundle terminalRead pkg →
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row terminalRead ∧
+                            ∃ packet : CauchyWitnessLedgerUp,
+                              packet = CauchyWitnessLedgerUp.mk Q B S K H C P N)
+                        (fun row : BHist =>
+                          Cont Q B observerWindow ∧
+                            Cont observerWindow S K ∧
+                              Cont K N observerRead ∧
+                                Cont observerRead C selectorRead ∧
+                                  Cont selectorRead P terminalRead ∧
+                                    hsame row terminalRead)
+                        (fun row : BHist =>
+                          hsame row terminalRead ∧ PkgSig bundle terminalRead pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro routeObserverWindow routeObserver routeObserverRead routeSelector
+    routeTerminal _sameWindow _sameRead _sameSelector terminalPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro terminalRead
+          ⟨hsame_refl terminalRead,
+            Exists.intro (CauchyWitnessLedgerUp.mk Q B S K H C P N) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨routeObserverWindow, routeObserver, routeObserverRead, routeSelector,
+          routeTerminal, source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, terminalPkg⟩
+  }
+
 end BEDC.Derived.CauchyWitnessLedgerUp
