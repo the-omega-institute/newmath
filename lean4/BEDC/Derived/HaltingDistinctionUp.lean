@@ -264,4 +264,38 @@ theorem HaltingDistinctionNameCertObligations [AskSetup] [PackageSetup]
       diagonalHaltClassifier, classifierRouteCert, certProvenanceAudit, provenancePkg,
       auditPkg⟩
 
+theorem HaltingDistinctionNormalFormRouteConsumption [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert traceRead normalForm endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont trace route traceRead ->
+        Cont traceRead classifier normalForm ->
+          Cont normalForm diagonal endpoint ->
+            PkgSig bundle endpoint pkg ->
+              UnaryHistory question ∧ UnaryHistory trace ∧ UnaryHistory diagonal ∧
+                UnaryHistory classifier ∧ UnaryHistory route ∧ UnaryHistory traceRead ∧
+                  UnaryHistory normalForm ∧ UnaryHistory endpoint ∧
+                    Cont question trace diagonal ∧ Cont trace route traceRead ∧
+                      Cont traceRead classifier normalForm ∧
+                        Cont normalForm diagonal endpoint ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier traceRouteRead traceReadClassifierNormalForm normalFormDiagonalEndpoint
+    endpointPkg
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, _haltUnary, classifierUnary,
+    routeUnary, _provenanceUnary, _certUnary, questionTraceDiagonal,
+    _diagonalHaltClassifier, _classifierRouteCert, provenancePkg⟩ := carrier
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary traceRouteRead
+  have normalFormUnary : UnaryHistory normalForm :=
+    unary_cont_closed traceReadUnary classifierUnary traceReadClassifierNormalForm
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed normalFormUnary diagonalUnary normalFormDiagonalEndpoint
+  exact
+    ⟨questionUnary, traceUnary, diagonalUnary, classifierUnary, routeUnary, traceReadUnary,
+      normalFormUnary, endpointUnary, questionTraceDiagonal, traceRouteRead,
+      traceReadClassifierNormalForm, normalFormDiagonalEndpoint, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp

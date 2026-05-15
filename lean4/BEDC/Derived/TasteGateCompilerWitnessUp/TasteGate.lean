@@ -291,4 +291,16 @@ theorem TasteGateCompilerWitnessTasteGate_single_carrier_alignment :
         exact tasteGateCompilerWitnessToEventFlow_injective heq
       · rfl
 
+theorem taste_gate :
+    (∀ h : BHist, tasteGateCompilerWitnessDecodeBHist
+        (tasteGateCompilerWitnessEncodeBHist h) = h) ∧
+      (∀ x : TasteGateCompilerWitnessUp,
+        tasteGateCompilerWitnessFromEventFlow (tasteGateCompilerWitnessToEventFlow x) =
+          some x) ∧
+        (∀ x y : TasteGateCompilerWitnessUp,
+          tasteGateCompilerWitnessToEventFlow x = tasteGateCompilerWitnessToEventFlow y →
+            x = y) ∧
+          tasteGateCompilerWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  exact TasteGateCompilerWitnessTasteGate_single_carrier_alignment
+
 end BEDC.Derived.TasteGateCompilerWitnessUp
