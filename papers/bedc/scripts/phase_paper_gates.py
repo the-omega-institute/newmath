@@ -438,14 +438,23 @@ _FIELD_FAITHFUL_INSTANCE_RE = re.compile(
 
 
 def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -> list[str]:
-    """Reject newly-added or newly-marked `\\origin{ai}` chapters whose
-    Lean-side `TasteGate.lean` does not contain a `FieldFaithful <X>Up`
-    instance. Background: TasteGate `round_trip` + `layer_separation`
-    forces injectivity on inhabitants but not field-level faithfulness
-    — a chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass
-    those gates while `toEventFlow` only encodes 2 of the 9 fields.
-    `FieldFaithful` closes that loophole; `\\origin{ai}` chapters MUST
-    inhabit it. `\\origin{human}` chapters are exempt.
+    """Reject FIRST-PROPOSAL `\\origin{ai}` chapter commits whose Lean-side
+    `TasteGate.lean` does not contain a `FieldFaithful <X>Up` instance.
+
+    "First proposal" means EITHER the .tex file is newly added in this
+    round, OR this round's diff added a `\\origin{ai}` line (transition
+    from `\\origin{human}` or no origin marker). Maintenance edits on
+    chapters that were ALREADY `\\origin{ai}` in `base_sha` are exempt —
+    the FF backfill is R-side responsibility tracked via critical_path,
+    not a per-P-commit gate (the old behavior retroactively penalized
+    chapters predating the 2026-05-13 TasteGate stage C upgrade).
+
+    Background: TasteGate `round_trip` + `layer_separation` forces
+    injectivity on inhabitants but not field-level faithfulness — a
+    chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass those
+    gates while `toEventFlow` only encodes 2 of the 9 fields.
+    `FieldFaithful` closes that loophole. `\\origin{human}` chapters
+    are exempt entirely.
     """
     if not base_sha:
         return []
@@ -457,6 +466,33 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     changed = [p for p in changed if p.endswith(".tex")]
     if not changed:
         return []
+
+    # First-proposal classifier: union of (a) newly-added .tex files and
+    # (b) files where `\origin{ai}` is present in HEAD but was NOT in
+    # the base_sha version (genuine human→ai or none→ai transition).
+    # Do NOT use `_added_lines_per_file` here: a file rewrite shows every
+    # existing line as both deleted+added, which would mis-classify
+    # routine maintenance commits as first-proposal.
+    added_files = set(_changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/",
+        diff_filter="A",
+    ))
+    first_proposal: set[str] = set(added_files)
+    for rel in changed:
+        if rel in first_proposal:
+            continue
+        # File existed in base_sha. Check if `\origin{ai}` was already
+        # present there. If yes → maintenance. If no → transition.
+        try:
+            base_text = _git(
+                ["show", f"{base_sha}:{rel}"], cwd=worktree
+            )
+        except Exception:
+            base_text = ""
+        if _ORIGIN_AI_RE.search(base_text):
+            continue  # already ai in base — maintenance edit
+        first_proposal.add(rel)
 
     violations: list[str] = []
     for rel in changed:
@@ -474,6 +510,14 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
         if not _ORIGIN_AI_RE.search(text):
             continue  # `\origin{human}` or no origin — exempt
 
+        if rel not in first_proposal:
+            # Maintenance edit on chapter that was already `\origin{ai}`
+            # before this round. FF backfill is R-side responsibility,
+            # tracked via critical_path FF-gap signal; not a per-commit
+            # gate. This prevents retroactive penalty on chapters
+            # predating the 2026-05-13 TasteGate stage C upgrade.
+            continue
+
         # Locate the chapter's TasteGate.lean. Convention: PascalCase the
         # compact slug then append `Up/TasteGate.lean`. e.g.
         # `dyadicprecision` → `DyadicPrecisionUp/TasteGate.lean`. Walk
@@ -490,22 +534,15 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
                 target_folder = child
                 break
         if target_folder is None:
-            # Chapter's Lean folder not created yet. For newly-added
-            # AI chapters this is a violation (the round adding the
-            # paper chapter must also add the Lean scaffold). For
-            # chapters merely re-marked `\origin{ai}`, skip — the
-            # operator may be backfilling.
-            if rel in _changed_files(
-                worktree=worktree, base_sha=base_sha,
-                prefix="papers/bedc/parts/concrete_instances/",
-                diff_filter="A",
-            ):
-                violations.append(
-                    f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
-                    f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
-                    f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
-                    f"instance must be created alongside the paper chapter."
-                )
+            # First-proposal AI chapter without Lean scaffold — violation.
+            # (We already filtered out maintenance edits above, so reaching
+            # here means rel is a first-proposal.)
+            violations.append(
+                f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
+                f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
+                f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
+                f"instance must be created alongside the paper chapter."
+            )
             continue
 
         taste_file = target_folder / "TasteGate.lean"
@@ -652,7 +689,11 @@ GATE_DISPATCH = {
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
-    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    # FieldFaithful is a Lean-side instance; checking it from P is a layer
+    # violation. R phase_c.txt enforces the FF HARD GATE on its own side
+    # when formalizing `\origin{ai}` chapters. If R cannot satisfy FF,
+    # R revises (carrier design, or relabels chapter origin) — not P.
+    # "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
     "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
     "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }

@@ -202,6 +202,44 @@ instance inscriptionAuditTraceChapterTasteGate :
     intro x y hxy heq
     exact hxy (inscriptionAuditTraceToEventFlow_injective heq)
 
+def inscriptionAuditTraceFields : InscriptionAuditTraceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | InscriptionAuditTraceUp.mk S M R K U Q H C P N =>
+      [S, M, R, K, U, Q, H, C, P, N]
+
+private theorem inscriptionAuditTrace_fields_faithful :
+    ∀ x y : InscriptionAuditTraceUp,
+      inscriptionAuditTraceFields x = inscriptionAuditTraceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S M R K U Q H C P N =>
+      cases y with
+      | mk S' M' R' K' U' Q' H' C' P' N' =>
+          cases hfields
+          rfl
+
+instance inscriptionAuditTraceFieldFaithful :
+    FieldFaithful InscriptionAuditTraceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := inscriptionAuditTraceFields
+  field_faithful := inscriptionAuditTrace_fields_faithful
+
+instance inscriptionAuditTraceNontrivial :
+    Nontrivial InscriptionAuditTraceUp where
+  witness_pair :=
+    ⟨InscriptionAuditTraceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      InscriptionAuditTraceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        -- BEDC touchpoint anchor: BHist BMark
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate InscriptionAuditTraceUp :=
+  inferInstance
+
 theorem InscriptionAuditTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionAuditTraceDecodeBHist
         (inscriptionAuditTraceEncodeBHist h) = h) ∧
