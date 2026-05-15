@@ -1,0 +1,43 @@
+\begin{theorem}[Closed-term substitution boundary closed-source budget surface]
+\label{thm:closed-term-substitution-boundary-closed-source-budget-surface}
+Every accepted $\ClosedTermSubstitutionBoundaryUp$ packet exposes the finite rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The source closedness row $C_{\mathsf{src}}$ and the value closedness row $C_{\mathsf{val}}$ are read before any closed shift budget $Q$ or closed substitution budget $R$ is consumed. Thus the operation budget is a closed-source and closed-value surface over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a host substitution semantics or hidden evaluator route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:closed-term-substitution-boundary-carrier} and the classifier from \autoref{def:closed-term-substitution-boundary-classifier}. The displayed packet already separates the term row $T$, value row $V$, depth row $d$, source closedness row $C_{\mathsf{src}}$, value closedness row $C_{\mathsf{val}}$, shift row $Q$, substitution row $R$, ledger row $L$, audit row $A$, transport row $H$, route row $C$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Its carrier exposure and classifier obligations force every public read to begin from the same finite packet, so no consumer can acquire $Q$ or $R$ from an unlisted operation source.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. The ledger lock places $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ before the shift and substitution rows in the public operation budget, and \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} rules out a hidden source for closedness or operation state.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary substitution budget totality]
+\label{thm:closed-term-substitution-boundary-substitution-budget-totality}
+Every substitution consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through source closedness, value closedness, the closed shift row, the closed substitution row, the finite ledger, the audit row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. Equivalently, the consumer route is exhausted by
+$$
+C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+inside the carrier over $T,V,d$, and it receives no subject reduction theorem, host syntax quotient, hidden compiler state, or host substitution semantics.
+\end{theorem}
+\begin{proof}
+Start with the closed-source budget surface of \autoref{thm:closed-term-substitution-boundary-closed-source-budget-surface}. It provides the entry condition: $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ are exposed before the operation rows $Q$ and $R$ can be spent.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. It forces downstream consumers to read the closed shift and substitution boundary through the displayed carrier, transports, routes, provenance, and local naming row.
+
+The audit and ledger rows close the remaining path. By \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}, the finite ledger and audit row exhaust the operation budget; by \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}, the exported surface is exactly $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary consumer audit triad]
+\label{thm:closed-term-substitution-boundary-consumer-audit-triad}
+For $\ClosedTermSubstitutionBoundaryUp$, the closed-source budget surface of \autoref{thm:closed-term-substitution-boundary-closed-source-budget-surface}, the substitution budget totality row of \autoref{thm:closed-term-substitution-boundary-substitution-budget-totality}, and the non-escape audit rows of the chapter assemble the consumer-facing triad. The triad says that every substitution-facing consumer first reads closedness, then spends only the displayed operation boundary, and finally remains audit-visible through $L,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First take closedness as the entry surface. The closed-source budget theorem exposes $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ before any operation row is consumed.
+
+Second take operation totality as the consumer boundary. The substitution budget theorem factors every consumer through $Q,R,L,A,H,C,P,N$ over the same $T,V,d$ carrier rows.
+
+Third attach the audit witness. Apply \autoref{thm:closed-term-substitution-boundary-audit-route-coverage}, \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}, and \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. These rows keep the consumer inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet and prevent escape to host substitution semantics, hidden compiler state, or an untracked audit route.
+\end{proof}
