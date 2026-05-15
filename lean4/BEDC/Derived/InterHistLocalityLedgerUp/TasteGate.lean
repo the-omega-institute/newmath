@@ -249,6 +249,10 @@ instance interHistLocalityLedgerFieldFaithful :
             cases hLocalName
             rfl
 
+def taste_gate : ChapterTasteGate InterHistLocalityLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  interHistLocalityLedgerChapterTasteGate
+
 theorem InterHistLocalityLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       interHistLocalityLedgerDecodeBHist

@@ -1,0 +1,43 @@
+\begin{theorem}[Critical-line witness window modulus exhaustion]
+\label{thm:critical-line-witness-window-modulus-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every accepted source-window read of $W$ that can feed a downstream zero-location consumer factors through the displayed finite route
+$$
+Z,S,M,R,Q,H,C,P,N
+$$
+over the zero-strip source, rational-height modulus, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\CriticalLineWitnessUp}$ rows. No downstream consumer can use the read before these source-window, modulus, package, and naming rows have been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. The accepted packet exposes exactly the source rows $Z,S$, the modulus and real rows $M,R$, the rational comparison row $Q$, and the structural rows $H,C,P,N$.
+
+Apply the source-window separation row \autoref{thm:critical-line-witness-zero-strip-separation} and the source-modulus refusal totality row \autoref{thm:critical-line-witness-source-modulus-refusal-totality}. Together they place the source-window read behind the displayed zero-strip source and the rational-height modulus route.
+
+Finally use the fixed-strip readback surface \autoref{thm:critical-line-witness-fixed-strip-source-readback-totality}. It forces any zero-location consumer to pass through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row before reading the strip. Hence the downstream consumer sees only the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip refusal totality]
+\label{thm:critical-line-witness-zero-strip-refusal-totality}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the zero-strip carrier and modulus route jointly refuse every request for an $\mathsf{RH}$ proof, analytic-continuation certificate, or host zero-location claim outside the finite displayed packet. The refusal is total for downstream zero-strip consumers whose reads pass through $Z,S,M,R,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:critical-line-witness-window-modulus-exhaustion}. It places each downstream zero-location read behind the zero-strip source, rational-height modulus, transport, continuation, package, and naming rows of the accepted packet.
+
+Apply the root RH source lock \autoref{thm:critical-line-witness-rh-source-lock} and the downstream refusal package \autoref{thm:critical-line-witness-downstream-refusal-package}. These rows classify proof-of-$\mathsf{RH}$ requests, analytic-continuation requests, and host zero-location requests as refusal-side requests rather than carrier coordinates.
+
+Use the zero-strip consumer boundary \autoref{thm:critical-line-witness-zero-strip-consumer-boundary}. Since the consumer receives only the displayed zero-strip witness package, no outside proof, analytic certificate, or host zero-location claim remains available.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH source ledger closure]
+\label{thm:critical-line-witness-rh-source-ledger-closure}
+Every $\mathsf{RH}$-facing downstream consumer of an accepted $\CriticalLineWitnessUp$ packet receives only the source, modulus, and refusal ledger carried by
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer receives no proof of $\mathsf{RH}$, no zero-free strip theorem, and no analytic-continuation primitive. Its public read is the finite source/modulus/refusal ledger over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$.
+\end{theorem}
+\begin{proof}
+First use the window-modulus exhaustion theorem \autoref{thm:critical-line-witness-window-modulus-exhaustion}. It gives the source and modulus side of the ledger before any downstream zero-location consumer can read the packet.
+
+Next apply the zero-strip refusal totality theorem \autoref{thm:critical-line-witness-zero-strip-refusal-totality}. It removes $\mathsf{RH}$ proofs, analytic-continuation certificates, and host zero-location claims from the downstream zero-strip interface.
+
+Finally compose these rows with the zeta dependency lattice \autoref{thm:critical-line-witness-zeta-link} and the downstream refusal package \autoref{thm:critical-line-witness-downstream-refusal-package}. The lattice supplies only dependency information over the existing zeta and RH boundary surfaces, while the refusal package blocks the proof, zero-free strip, and analytic-continuation outputs. Therefore the $\mathsf{RH}$-facing consumer receives exactly the finite source/modulus/refusal ledger.
+\end{proof}
