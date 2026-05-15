@@ -145,3 +145,41 @@ displayed $\Cont$ replay, no remaining root-facing coordinate can distinguish
 another accepted selector route. The requested hidden data are therefore
 noninterfering with the accepted route.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement completion consumer route determinacy]
+\label{thm:cauchy-modulus-refinement-completion-consumer-route-determinacy}
+Suppose two accepted $\CauchyModulusRefinementUp$ completion-facing reads
+display the same rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Then every $\RealUp$ or Completion consumer reaches the same selector route up
+to the displayed $\hsame$ transport and $\Cont$ replay. No hidden selector,
+second meet, quotient stream, selected limit, host equality, ambient
+completeness coordinate, or detached completion seal can distinguish a second
+accepted completion route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. The shared
+rows $M_0,M_1,U,V$ bind both completion-facing reads to the same source,
+shared-meet, and extraction spine before any selector-facing row is available.
+
+Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The
+displayed rows $T,W,Q$ are read back only through the selector-budget route
+$T$, so the selected-window and tolerance-readback consumers have no separate
+selector route to follow.
+
+Apply \autoref{thm:cauchy-modulus-refinement-root-real-seal-nonescape} and
+\autoref{thm:cauchy-modulus-refinement-root-route-completeness}. They keep the
+Real seal and the structural rows $E,H,C,P,N$ on the same displayed route for
+every $\RealUp$ or Completion consumer, while excluding quotient streams,
+selected limits, host equalities, ambient completeness coordinates, and
+detached completion seals from the exported packet.
+
+Finally invoke
+\autoref{thm:cauchy-modulus-refinement-shared-selector-determinacy} and
+\autoref{thm:cauchy-modulus-refinement-selector-meet-noninterference}. Once the
+displayed rows agree, componentwise $\hsame$ transport and displayed $\Cont$
+replay determine the accepted selector route, and the hidden completion data
+listed in the statement cannot distinguish another accepted completion route.
+\end{proof}
