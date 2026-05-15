@@ -309,6 +309,7 @@ The Real-facing component is bounded by \autoref{thm:locatedinterval-real-seal-n
 \label{thm:locatedinterval-public-consumer-route}
 Every downstream $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalUp$, or $\DyadicIntervalUp$ consumer of an accepted $\LocatedIntervalUp$ packet factors through the public export packet of \autoref{thm:locatedinterval-public-export-packet}. The consumer route is only the displayed carrier, endpoint transport, containment exactness, dyadic refinement, seal non-escape, and scoped seal ledger over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedIntervalUp.LocatedIntervalPacket\_public\_consumer\_route}
 \begin{proof}
 For endpoint-window and readback consumers, apply \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}. Their reads pass through the endpoint rows $L,U$, StreamName windows $S$, RegSeqRat readbacks $R$, and the same transport and continuation rows.
 
@@ -321,6 +322,7 @@ For Real-facing consumers, apply \autoref{thm:locatedinterval-scoped-real-seal-s
 \label{thm:locatedinterval-real-comparison-boundary}
 Any $\RealUp$ or $\RegSeqRatUp$ comparison that uses a public $\LocatedIntervalUp$ packet is bounded by the endpoint windows, readbacks, rational cells, dyadic refinements, seal rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ row named in \autoref{thm:locatedinterval-public-export-packet}. It cannot read a host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedIntervalUp.LocatedIntervalPacket\_real\_comparison\_boundary}
 \begin{proof}
 The comparison first enters through the public consumer route of \autoref{thm:locatedinterval-public-consumer-route}. Thus every $\RealUp$ or $\RegSeqRatUp$ read has already been restricted to $\mathcal{I}_{\LocatedIntervalUp}$.
 
