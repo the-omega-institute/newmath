@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor route totality lock]
+\label{thm:authorized-generator-recursor-route-totality-lock}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every accepted recursor route factors through exactly the displayed signature row $I$, eliminator row $E$, motive row $M$, branch package $B$, descent row $D$, output row $O$, audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, closed host-boundary row $G$, and local $\NameCert$ row $N$. No accepted route has a second eliminator, branch table, descent proof, output channel, audit packet, transport row, continuation, provenance row, or naming certificate outside this finite surface.
+\end{theorem}
+\begin{proof}
+Start from the displayed NameCert route, \autoref{thm:authorized-generator-recursor-namecert-route}. It identifies the public recursor route with the carrier rows $I,E,M,B,D,O,A,H,C,P,G,N$ and gives no detached route coordinate.
+
+Apply the closed-substitution handoff, \autoref{thm:authorized-generator-recursor-closed-substitution-handoff}. Any consumer that reaches the generated output must still pass through the same output, audit, transport, continuation, provenance, boundary, and naming rows.
+
+Finally use root host-boundary NameCert exhaustion, \autoref{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}. The boundary row $G$ exports only the local certificate surface of the accepted packet, so the route is total exactly over the displayed rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor closed substitution budget lock]
+\label{thm:authorized-generator-recursor-closed-substitution-budget-lock}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the closed-substitution handoff consumes $\ClosedTermSubstitutionBoundaryUp$ only through the displayed finite boundary rows $G,H,C,P,N$ together with the authorized generator rows $I,E,M,B,D,O,A$. The handoff cannot import an unrestricted substitution calculus, subject-reduction theorem, semantic evaluator state, proof generator, host equality, or off-packet certificate as a boundary budget.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:authorized-generator-recursor-closed-substitution-handoff}. It places every $\ClosedSubstitutionBoundaryUp$ or $\ClosedTermSubstitutionUp$ consumer on the finite route $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+Use \autoref{thm:authorized-generator-recursor-route-totality-lock} to lock that route before the boundary is consumed. The accepted recursor route has no auxiliary boundary channel beyond $G$ and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Root host-boundary NameCert exhaustion then prevents any boundary budget from being read as host equality, subject reduction, or evaluator state. The consumed budget is precisely the displayed finite boundary surface.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output route audit cover]
+\label{thm:authorized-generator-recursor-output-route-audit-cover}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every generated output row $O$ is covered by the audit and provenance rows $A,H,C,P,G,N$ before any downstream consumer reads it. An output route cannot bypass audit, provenance, closed-boundary naming, or componentwise transport, and it cannot import host equality, hidden evaluator state, subject reduction, an unrestricted substitution theorem, or an off-packet generator certificate.
+\end{theorem}
+\begin{proof}
+Begin with the route totality lock. It keeps every accepted recursor route inside $I,E,M,B,D,O,A,H,C,P,G,N$, so an output read begins with the packet's own audit and provenance coordinates.
+
+Apply the closed-substitution handoff. It shows that output consumers, including closed-substitution and generator-audit consumers, receive $O$ only through the displayed handoff route.
+
+Finally use root host-boundary NameCert exhaustion. The boundary row exports no host equality, hidden evaluator state, subject-reduction theorem, or off-packet certificate, so the audit cover is exactly the packet-local $A,H,C,P,G,N$ surface.
+\end{proof}

@@ -237,17 +237,19 @@ private theorem metaCICSubjectReductionBoundary_round_trip :
           some
             (MetaCICSubjectReductionBoundaryUp.mk beta app lam pi preservation obstruction
               audit transport route provenance name)
-      rw [metaCICSubjectReductionBoundaryDecode_encode_bhist beta,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist app,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist lam,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist pi,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist preservation,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist obstruction,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist audit,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist transport,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist route,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist provenance,
-        metaCICSubjectReductionBoundaryDecode_encode_bhist name]
+      exact congrArg some
+        (metaCICSubjectReductionBoundary_mk_congr
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist beta)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist app)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist lam)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist pi)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist preservation)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist obstruction)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist audit)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist transport)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist route)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist provenance)
+          (metaCICSubjectReductionBoundaryDecode_encode_bhist name))
 
 private theorem metaCICSubjectReductionBoundaryToEventFlow_injective
     {x y : MetaCICSubjectReductionBoundaryUp} :
