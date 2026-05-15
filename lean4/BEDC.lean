@@ -135,6 +135,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridRouteCompatibility
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCompletionSourceFactorization
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealObservationSealFactorization
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealPublicRouteExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RealSealModulusDeterminacy
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootRealSealNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootTailWindowTotality
@@ -233,6 +234,7 @@ import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealCompletionSelectorSealUp
+import BEDC.Derived.RealCompletionSelectorSealUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
@@ -424,6 +426,7 @@ import BEDC.Derived.ContinuationMonadUp.RootGeneratorBindCoverage
 import BEDC.Derived.ContinuationMonadUp.RootPublicSourceLock
 import BEDC.Derived.ContinuationMonadUp.BridgePackage
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorHomRouteExhaustion
+import BEDC.Derived.ContinuationMonadUp.RootCategoryHomConsumerTotality
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
@@ -884,6 +887,7 @@ import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
+import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
