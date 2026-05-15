@@ -42,6 +42,35 @@ private theorem layeredRelationFailureBoundary_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem layeredRelationFailureBoundary_mk_congr
+    {relation₁ relation₂ exactness₁ exactness₂ failureBoundary₁ failureBoundary₂
+      weakening₁ weakening₂ gate₁ gate₂ transport₁ transport₂ route₁ route₂ provenance₁
+      provenance₂ name₁ name₂ : BHist}
+    (hRelation : relation₁ = relation₂)
+    (hExactness : exactness₁ = exactness₂)
+    (hFailureBoundary : failureBoundary₁ = failureBoundary₂)
+    (hWeakening : weakening₁ = weakening₂)
+    (hGate : gate₁ = gate₂)
+    (hTransport : transport₁ = transport₂)
+    (hRoute : route₁ = route₂)
+    (hProvenance : provenance₁ = provenance₂)
+    (hName : name₁ = name₂) :
+    LayeredRelationFailureBoundaryUp.mk relation₁ exactness₁ failureBoundary₁ weakening₁
+        gate₁ transport₁ route₁ provenance₁ name₁ =
+      LayeredRelationFailureBoundaryUp.mk relation₂ exactness₂ failureBoundary₂ weakening₂
+        gate₂ transport₂ route₂ provenance₂ name₂ := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hRelation
+  cases hExactness
+  cases hFailureBoundary
+  cases hWeakening
+  cases hGate
+  cases hTransport
+  cases hRoute
+  cases hProvenance
+  cases hName
+  rfl
+
 private def layeredRelationFailureBoundaryDecodePacket
     (relation exactness failureBoundary weakening gate transport route provenance name :
       RawEvent) :
@@ -57,6 +86,13 @@ private def layeredRelationFailureBoundaryDecodePacket
     (layeredRelationFailureBoundaryDecodeBHist route)
     (layeredRelationFailureBoundaryDecodeBHist provenance)
     (layeredRelationFailureBoundaryDecodeBHist name)
+
+private def layeredRelationFailureBoundaryEventAtDefault : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => layeredRelationFailureBoundaryEventAtDefault index rest
 
 def layeredRelationFailureBoundaryToEventFlow :
     LayeredRelationFailureBoundaryUp → EventFlow
@@ -74,48 +110,48 @@ def layeredRelationFailureBoundaryToEventFlow :
         layeredRelationFailureBoundaryEncodeBHist name]
 
 def layeredRelationFailureBoundaryFromEventFlow :
-    EventFlow → Option LayeredRelationFailureBoundaryUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | relation :: exactness :: failureBoundary :: weakening :: gate :: transport :: route ::
-      provenance :: name :: [] =>
-      some
-        (layeredRelationFailureBoundaryDecodePacket relation exactness failureBoundary weakening
-          gate transport route provenance name)
-  | _ => none
+    EventFlow → Option LayeredRelationFailureBoundaryUp :=
+  fun ef =>
+    -- BEDC touchpoint anchor: BHist BMark
+    some
+      (LayeredRelationFailureBoundaryUp.mk
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 0 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 1 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 2 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 3 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 4 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 5 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 6 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 7 ef))
+        (layeredRelationFailureBoundaryDecodeBHist
+          (layeredRelationFailureBoundaryEventAtDefault 8 ef)))
 
 private theorem layeredRelationFailureBoundary_round_trip :
     ∀ x : LayeredRelationFailureBoundaryUp,
       layeredRelationFailureBoundaryFromEventFlow
-        (layeredRelationFailureBoundaryToEventFlow x) = some x := by
+        (layeredRelationFailureBoundaryToEventFlow x) = some x
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk relation exactness failureBoundary weakening gate transport route provenance name =>
-      change
-        some
-            (layeredRelationFailureBoundaryDecodePacket
-              (layeredRelationFailureBoundaryEncodeBHist relation)
-              (layeredRelationFailureBoundaryEncodeBHist exactness)
-              (layeredRelationFailureBoundaryEncodeBHist failureBoundary)
-              (layeredRelationFailureBoundaryEncodeBHist weakening)
-              (layeredRelationFailureBoundaryEncodeBHist gate)
-              (layeredRelationFailureBoundaryEncodeBHist transport)
-              (layeredRelationFailureBoundaryEncodeBHist route)
-              (layeredRelationFailureBoundaryEncodeBHist provenance)
-              (layeredRelationFailureBoundaryEncodeBHist name)) =
-          some
-            (LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary weakening
-              gate transport route provenance name)
-      unfold layeredRelationFailureBoundaryDecodePacket
-      rw [layeredRelationFailureBoundary_decode_encode_bhist relation,
-        layeredRelationFailureBoundary_decode_encode_bhist exactness,
-        layeredRelationFailureBoundary_decode_encode_bhist failureBoundary,
-        layeredRelationFailureBoundary_decode_encode_bhist weakening,
-        layeredRelationFailureBoundary_decode_encode_bhist gate,
-        layeredRelationFailureBoundary_decode_encode_bhist transport,
-        layeredRelationFailureBoundary_decode_encode_bhist route,
-        layeredRelationFailureBoundary_decode_encode_bhist provenance,
-        layeredRelationFailureBoundary_decode_encode_bhist name]
+  | LayeredRelationFailureBoundaryUp.mk relation exactness failureBoundary weakening gate transport route
+      provenance name =>
+      congrArg some
+        (layeredRelationFailureBoundary_mk_congr
+          (layeredRelationFailureBoundary_decode_encode_bhist relation)
+          (layeredRelationFailureBoundary_decode_encode_bhist exactness)
+          (layeredRelationFailureBoundary_decode_encode_bhist failureBoundary)
+          (layeredRelationFailureBoundary_decode_encode_bhist weakening)
+          (layeredRelationFailureBoundary_decode_encode_bhist gate)
+          (layeredRelationFailureBoundary_decode_encode_bhist transport)
+          (layeredRelationFailureBoundary_decode_encode_bhist route)
+          (layeredRelationFailureBoundary_decode_encode_bhist provenance)
+          (layeredRelationFailureBoundary_decode_encode_bhist name))
 
 private theorem layeredRelationFailureBoundaryToEventFlow_injective
     {x y : LayeredRelationFailureBoundaryUp} :
@@ -212,5 +248,25 @@ instance layeredRelationFailureBoundaryNontrivial :
 def taste_gate : ChapterTasteGate LayeredRelationFailureBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   layeredRelationFailureBoundaryChapterTasteGate
+
+theorem LayeredRelationFailureBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      layeredRelationFailureBoundaryDecodeBHist
+        (layeredRelationFailureBoundaryEncodeBHist h) = h) ∧
+      (∀ x : LayeredRelationFailureBoundaryUp,
+        layeredRelationFailureBoundaryFromEventFlow
+          (layeredRelationFailureBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : LayeredRelationFailureBoundaryUp,
+          layeredRelationFailureBoundaryToEventFlow x =
+            layeredRelationFailureBoundaryToEventFlow y → x = y) ∧
+          layeredRelationFailureBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact And.intro layeredRelationFailureBoundary_decode_encode_bhist
+    (And.intro layeredRelationFailureBoundary_round_trip
+      (And.intro
+        (by
+          intro x y heq
+          exact layeredRelationFailureBoundaryToEventFlow_injective heq)
+        rfl))
 
 end BEDC.Derived.LayeredRelationFailureBoundaryUp
