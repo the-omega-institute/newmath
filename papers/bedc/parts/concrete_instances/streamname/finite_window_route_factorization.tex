@@ -1,0 +1,104 @@
+\begin{theorem}[StreamName-RegSeqRat finite-window cover refinement exhaustion]
+\label{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}
+Let $\mathcal{W}$ be a finite cover of public $\StreamNameUp$ rational
+observation windows feeding a common $\RegSeqRat$ consumer and a common
+finite-window $\RealUp$ seal. Suppose that each window in $\mathcal{W}$ carries
+the displayed $\mathsf{RatStreamNameCarrier}$ and
+$\mathsf{RatStreamNameClassifier}$ rows, $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership, $\mathsf{UnaryHistory}$ observations,
+$\hsame$ transports, a finite $\Cont$ ledger, accepted
+$\mathsf{DyadicRatCore}$ ledger entries, accepted $\RegSeqRat$ pointwise seal
+rows, and shared $\Pkg$ provenance.
+
+Let $\mathcal{W}'$ be any certified finite refinement cover of
+$\mathcal{W}$ whose refined subwindows have the same pointwise StreamName
+carrier and classifier rows, the same bundle-membership rows, the same unary
+observations, the same $\hsame$ transports, the same finite $\Cont$ ledger,
+the same $\mathsf{DyadicRatCore}$ ledger entries, and the same $\Pkg$
+provenance as their parent windows. Then $\mathcal{W}$ and $\mathcal{W}'$
+determine the same exhausted $\RegSeqRat$ consumer surface and the same
+finite-window $\RealUp$ seal boundary.
+
+The common exhausted surface consists only of those displayed StreamName
+source rows, bundle-membership rows, unary observations, $\hsame$ transports,
+finite $\Cont$ ledger entries, $\mathsf{DyadicRatCore}$ ledger entries,
+$\Pkg$ provenance rows, the accepted $\RegSeqRat$ pointwise seal rows, and
+the $\RealUp$ endpoint seal row. It contains no quotient representative,
+completion object, host index equality, off-ledger regularity row,
+Classical datum, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First exhaust the original finite cover. Apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. It
+identifies all windows in $\mathcal{W}$ with one finite consumer surface
+because their StreamName rows, bundle memberships, unary observations,
+$\hsame$ transports, finite ledger entries, accepted dyadic entries, and
+provenance rows agree on every displayed overlap.
+
+Next compare each refined subwindow with its parent window. Use
+\autoref{thm:streamname-regseqrat-nested-window-handoff}. The certified
+subwindow contributes no new carrier, classifier, membership, observation,
+transport, ledger, dyadic, or provenance row; it restricts the already
+exhausted parent surface to the smaller public window.
+
+Now identify the seal rows seen by the common consumer. Apply
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal} to the original
+cover and to the refined cover. The accepted $\RegSeqRat$ pointwise seal rows
+and the finite-window $\RealUp$ endpoint readback are the same finite packet in
+both presentations because the refinement keeps the same displayed ledger and
+source rows.
+
+Finally use \autoref{thm:streamname-realup-seal-boundary} and
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. The first
+theorem fixes the $\RealUp$ boundary from the accepted $\RegSeqRat$ seal rows,
+and the second theorem exhausts the consumer surface to exactly the listed
+public rows. Hence the original cover and every certified finite refinement
+cover determine the same exhausted surface, with no quotient, completion,
+host-index, off-ledger regularity, Classical, or standard-bridge datum.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-Real finite-window route factorization]
+\label{thm:streamname-regseqrat-real-finite-window-route-factorization}
+Every public finite-window $\RealUp$ seal read accepted through the
+$\StreamNameUp$--$\RegSeqRat$ handoff factors uniquely through the displayed
+$\mathsf{RatStreamNameCarrier}$ source rows, the
+$\mathsf{RatStreamNameClassifier}$ rows, the $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ rows, the $\mathsf{UnaryHistory}$ observations, the
+$\hsame$ transports, the finite $\Cont$ ledger, the
+$\mathsf{DyadicRatCore}$ tolerance ledger, the accepted $\RegSeqRat$
+pointwise seal rows, the shared $\Pkg$ provenance, and the $\RealUp$ endpoint
+seal row.
+
+The factorization is unique at the public boundary: any two accepted reads with
+the same displayed rows determine the same exhausted $\RegSeqRat$ consumer
+surface and the same finite-window $\RealUp$ seal boundary. No quotient
+representative, completion object, host index equality, Classical datum, or
+standard-bridge datum participates in the route.
+\end{theorem}
+\begin{proof}
+First identify the finite cover surface. Apply
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. It binds
+the StreamName source rows, bundle-membership rows, unary observations,
+$\hsame$ transports, finite continuation ledger, dyadic tolerance entries,
+and provenance rows into one public finite-window consumer surface.
+
+Next seal the rational side uniformly. Use
+\autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. The accepted
+$\RegSeqRat$ pointwise rows are therefore read through the same finite ledger
+on every nested public window, so no second route can be obtained by changing
+the window presentation.
+
+Then pass to the endpoint boundary. Apply
+\autoref{thm:streamname-realup-seal-boundary}. The $\RealUp$ readback is fixed
+by the accepted $\RegSeqRat$ seal rows and the displayed endpoint row, not by a
+completion object or a quotient representative.
+
+Finally use
+\autoref{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}.
+It compares every certified finite refinement with the original cover and
+leaves the same exhausted consumer surface and the same endpoint seal. Thus
+each public finite-window $\RealUp$ read factors through exactly the listed
+StreamName, bundle, observation, transport, ledger, seal, provenance, and
+endpoint rows, with no host index equality, Classical datum, or standard-bridge
+datum outside the displayed route.
+\end{proof}
