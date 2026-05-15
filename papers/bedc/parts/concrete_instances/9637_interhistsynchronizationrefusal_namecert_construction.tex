@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\InterHistSynchronizationRefusalUp$}
+\label{ch:concrete-instances-inter-hist-synchronization-refusal-namecert}
+\origin{ai}
+
+The $\InterHistSynchronizationRefusalUp$ packet realizes the no-global-clock boundary of \autoref{ch:visions-observer-hist-identity} as a finite two-stream certificate. It consumes the local stream carrier of \autoref{ch:concrete-instances-histtimestream-namecert}, the observer-Hist identity carrier of \autoref{ch:concrete-instances-observerhistidentity-namecert}, and the locality-transport carrier of \autoref{ch:concrete-instances-observer-locality-transport-namecert}. Its role is to name the refusal of a proposed synchronization token without replacing the two local $\Hist$ streams by a shared clock, host time index, quotient stream, or real-completion timing oracle.
+
+\begin{definition}[InterHistSynchronizationRefusal carrier]
+\label{def:inter-hist-synchronization-refusal-carrier}
+An $\InterHistSynchronizationRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,B,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the first local $\HistTimeStreamUp$ row, read as a finite $\BHist$ stream with its own $\Cont$-step ledger;
+\item $B$ is the second local $\HistTimeStreamUp$ row, read as a finite $\BHist$ stream with its own $\Cont$-step ledger;
+\item $T$ is the proposed synchronization token whose admission is refused by this packet;
+\item $R$ is the refusal ledger recording that $T$ is not a shared clock, host time index, quotient stream, global synchronization row, or real-completion timing oracle;
+\item $H$ records componentwise $\hsame$ transport for the two local streams, token row, refusal ledger, route rows, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ replay for reading $A$, $B$, $T$, $R$, $H$, $P$, and $N$;
+\item $P$ is the $\Pkg$ provenance over $\InterHistSynchronizationRefusalUp$, $\HistTimeStreamUp$, $\ObserverHistIdentityUp$, $\ObserverLocalityTransportUp$, $\ObserverFrameRefusalUp$, $\ObserverFilterUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InterHistSynchronizationRefusalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a common clock value, common index set, host-time comparison, quotient of the two streams, synchronized observer frame, or real-number completion time.
+\end{definition}
+
+\begin{theorem}[InterHistSynchronizationRefusal NameCert obligations]
+\label{thm:inter-hist-synchronization-refusal-namecert-obligations}
+For the carrier of \autoref{def:inter-hist-synchronization-refusal-carrier}, the local $\NameCert_{\InterHistSynchronizationRefusalUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item carrier admission for $S=(A,B,T,R,H,C,P,N)$;
+\item two local-stream readbacks, one through $A$ and one through $B$;
+\item refusal-ledger exactness for the proposed synchronization token $T$ through $R$;
+\item componentwise $\hsame$ stability through $H$ and displayed $\Cont$ replay through $C$;
+\item no-global-clock non-escape through $P$ and $N$, which keeps every consumer inside the two local streams and the refusal ledger.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:inter-hist-synchronization-refusal-carrier}. The packet lists the two local stream rows, the proposed synchronization token, the refusal ledger, transport, replay, provenance, and local naming row.
+
+The two positive readbacks are $A$ and $B$. The negative readback is $R$, which records the exact status of $T$ as refused synchronization data rather than an admitted clock coordinate.
+
+The structural rows $H,C,P,N$ preserve that split. Transport and replay act componentwise on the displayed rows, while provenance and local naming certify that the consumer has not inserted a shared clock outside the packet.
+\end{proof}
+
+\begin{theorem}[InterHistSynchronizationRefusal no-global-clock boundary]
+\label{thm:inter-hist-synchronization-refusal-no-global-clock-boundary}
+Any consumer of an accepted $\InterHistSynchronizationRefusalUp$ packet may read only the two local streams $A$ and $B$, the proposed synchronization token $T$ as refused data, the refusal ledger $R$, the componentwise $\hsame$ transport $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. The consumer never receives a shared clock, host time index, quotient stream, global synchronization row, synchronized observer frame, or real-completion timing oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inter-hist-synchronization-refusal-carrier}. Its rows are exactly $A,B,T,R,H,C,P,N$, with $A$ and $B$ giving the local streams and $R$ giving the refusal status of $T$.
+
+Apply the NameCert obligations of \autoref{thm:inter-hist-synchronization-refusal-namecert-obligations}. The admissible reads are the two local-stream readbacks, refusal-ledger exactness, componentwise transport, displayed replay, provenance, and local naming.
+
+No displayed row is a shared clock, host time index, quotient stream, global synchronization row, synchronized observer frame, or real-completion timing oracle. A consumer that exports one of those objects has introduced data not present in the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{If the refusal row is removed while the two local streams remain, the packet can still name two HistTimeStream rows but cannot block a consumer from treating them as synchronized.}
+
+\independenceWitness{Nearest siblings: histtimestream, observerhistidentity, observerlocalitytransport, observerframerefusal, and observerfilter. HistTimeStreamUp names one local stream rather than a two-stream refusal; ObserverHistIdentityUp identifies observer with Hist but does not carry a synchronization token; ObserverLocalityTransportUp transports locality rows but does not reject a shared clock; ObserverFrameRefusalUp rejects a frame but not the two-stream synchronization token; ObserverFilterUp selects observation rows without naming a clock-refusal carrier. No bijection preserving two local streams, refusal token, refusal ledger, hsame transport, Cont replay, provenance, and local naming identifies these packets.}
+
+The Lean site \texttt{lean4/BEDC/Derived/InterHistSynchronizationRefusalUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \InterHistSynchronizationRefusalUp$ and $\mathsf{FieldFaithful}\ \InterHistSynchronizationRefusalUp$ instances. These instances must preserve the two local streams, proposed synchronization token, refusal ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming row as distinguishable fields.
