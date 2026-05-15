@@ -57,6 +57,39 @@ The residue ledger $R$ is a content row of the carrier. It records what is not c
 Replacing $R$ by any one sibling would delete the ledger coordinate that distinguishes ontic source from model interface. Such a replacement has no row in $O$, so it is outside the accepted packet.
 \end{proof}
 
+\begin{definition}[OnticState access route]
+\label{def:onticstate-access-route}
+The admitted observer-access route row $A$ of an $\OnticStateUp$ packet is the finite route through the observer-local state surface of $\ConsciousObserverStateUp$ and the support-and-budget surface of $\ObserverBudgetSupportUp$ before any source signature in $S$ is public. It records which observer-facing read may inspect the signature source, which budget support makes the read admissible, and how that read remains tied to the classifier row $K$, residue ledger $R$, transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert_{\OnticStateUp}$ row $N$.
+\end{definition}
+
+\begin{theorem}[OnticState model-residue noncollapse]
+\label{thm:onticstate-model-residue-noncollapse}
+No $\StateSpaceModelUp$ row or $\QuantumStateUp$ row can replace the residue ledger $R$ of an accepted $\OnticStateUp$ carrier while preserving the $\OnticStateUp$ classifier. Any such replacement loses the record of hidden or unqueried reality-facing content required by the classifier and by residue-ledger exactness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:onticstate-carrier}. The row $R$ is displayed as a residue ledger distinct from the model-state and quantum-state sibling rows.
+
+The classifier of \autoref{def:onticstate-classifier} reads equality through the joint rows $S,A,K,R$. Replacing $R$ by a model row or a quantum row changes the packet read by the classifier, so the resulting tuple is outside the same accepted classifier surface.
+
+Finally apply \autoref{thm:onticstate-residue-ledger-exactness}. It states that every public read factors through $R$ and cannot replace it by a bare $\StateSpaceModelUp$ or $\QuantumStateUp$ row. The claimed collapse therefore deletes a required ledger coordinate.
+\end{proof}
+
+\begin{theorem}[OnticState observer-support factorization]
+\label{thm:onticstate-observer-support-factorization}
+Every observer-facing public read of an accepted $\OnticStateUp$ packet factors through
+$$
+A,K,R,H,C,P,N
+$$
+after the signature source $S$ is displayed and before any model adequacy claim can be made. A read that reaches a $\StateSpaceModelUp$ or $\QuantumStateUp$ adequacy judgment without this access, classifier, residue, transport, replay, provenance, and naming route is outside the accepted $\OnticStateUp$ public surface.
+\end{theorem}
+\begin{proof}
+Begin with the access route of \autoref{def:onticstate-access-route}. It forces every observer-facing read through $\ConsciousObserverStateUp$ and $\ObserverBudgetSupportUp$ before the source signature is treated as public.
+
+Apply \autoref{thm:onticstate-signature-stability}. The source row is stable only when the observer-access row and classifier row are transported with it.
+
+Use \autoref{thm:onticstate-residue-ledger-exactness} and \autoref{thm:onticstate-model-residue-noncollapse}. The public route keeps the residue ledger before any model or quantum adequacy claim is considered, so the read factors through $A,K,R,H,C,P,N$ rather than through a detached model surface.
+\end{proof}
+
 \begin{theorem}[OnticState NameCert obligation surface]
 \label{thm:onticstate-namecert-obligation-surface}
 For the carrier of \autoref{def:onticstate-carrier}, the local $\NameCert_{\OnticStateUp}$ surface consists exactly of five rows:
