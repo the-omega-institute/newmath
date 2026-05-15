@@ -219,3 +219,48 @@ The four public sibling packets are precisely the subject-reduction obstruction 
 
 The two boundary theorems preserve this reading. \autoref{thm:metacic-critical-path-consistency-handoff} keeps the consistency route attached to the normalization and normal false exclusion rows, and \autoref{thm:metacic-critical-path-obstruction-boundary} keeps the obstruction route attached to the subject-reduction boundary. Consequently $P$ and $L$ preserve the cited public provenance and local name exactly, with no extra provenance source exported by the chapter.
 \end{proof}
+
+\begin{definition}[MetaCIC critical-path frontier-rank carrier]
+\label{def:metacic-critical-path-frontier-rank-carrier}
+A frontier-rank read of $\MetaCICCriticalPathUp$ is a finite packet
+$$
+Q=(O,R,D,B,C,P,N)
+$$
+whose rows are an open-node row $O$, a dependency-ready row $R$, a downstream-rank row $D$, an obstruction ledger $B$, a replay route $C$, package provenance $P$, and a local $\NameCert_{\MetaCICCriticalPathUp}$ row $N$. The open-node row names the still-visible frontier node, the dependency-ready row records which cited packet rows are already available, the downstream-rank row records the finite consumer rank, the obstruction ledger records the subject-reduction socket and blocked theorem exports, the replay route stores the $\Cont$ paths used by scheduler-facing consumers, and the provenance row ties the read to the public packet of \autoref{def:metacic-critical-path-packet}.
+\end{definition}
+
+\begin{theorem}[MetaCIC critical-path open-node exhaustion]
+\label{thm:metacic-critical-path-open-node-exhaustion}
+Every accepted open-node read of $\MetaCICCriticalPathUp$ factors through a frontier-rank packet $Q=(O,R,D,B,C,P,N)$. The read may expose the node, its dependency-ready rows, its downstream rank, its obstruction ledger, replay route, provenance, and local name, but it has no additional coordinate for a hidden frontier node or an unranked scheduling obligation.
+\end{theorem}
+\begin{proof}
+Project the accepted frontier-rank carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. The open-node coordinate is $O$, and every scheduler-facing dependency is recorded by one of $R,D,B,C,P,N$.
+
+The underlying critical-path packet of \autoref{def:metacic-critical-path-packet} already exhausts the mathematical rows used by this read. The frontier-rank carrier only records which of those rows are open, ready, ranked, obstructed, replayed, and named.
+
+Inspect the excluded coordinates. Since $Q$ contains no hidden frontier node and no unranked scheduling obligation, every accepted open-node read factors through the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path dependency-route nonescape]
+\label{thm:metacic-critical-path-dependency-route-nonescape}
+For every accepted frontier-rank packet $Q=(O,R,D,B,C,P,N)$, dependency routing is exhausted by the displayed rows $R,B,C,P,N$. It cannot appeal to hidden scheduler state, host graph reachability, or an unledgered dependency edge outside the obstruction ledger and replay route.
+\end{theorem}
+\begin{proof}
+Read the dependency-ready row $R$, obstruction ledger $B$, replay route $C$, provenance row $P$, and local naming row $N$ from \autoref{def:metacic-critical-path-frontier-rank-carrier}. These are the only coordinates that can justify a dependency route.
+
+The obstruction ledger records the blocked subject-reduction socket and theorem exports, while the replay route records the displayed $\Cont$ paths available to consumers. Provenance attaches those rows to the public critical-path packet rather than to a host-side graph.
+
+No coordinate of $Q$ stores hidden scheduler state, host graph reachability, or an unledgered dependency edge. Thus every dependency route remains inside the finite ledgered packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path Lean handoff surface]
+\label{thm:metacic-critical-path-lean-handoff-surface}
+The paper frontier-rank packet $Q=(O,R,D,B,C,P,N)$ is the exact surface for a later Lean formalization of the $\MetaCICCriticalPathUp$ root-unblock obligation. A Lean target should expose the open-node row, dependency-ready row, downstream-rank row, obstruction ledger, replay route, package provenance, and local NameCert row, and should not add scheduler state, host reachability, or unledgered dependency edges.
+\end{theorem}
+\begin{proof}
+The carrier definition gives the full handoff surface: $O$ for the open node, $R$ for dependency readiness, $D$ for downstream rank, $B$ for the obstruction ledger, $C$ for replay, $P$ for provenance, and $N$ for local naming.
+
+Open-node exhaustion shows that every accepted open-node read factors through these rows. Dependency-route nonescape shows that routing cannot leave these rows for hidden scheduler state, host graph reachability, or unledgered edges.
+
+Therefore the Lean-facing obligation is coordinatewise exact. A formal target with precisely these rows verifies the same paper surface, while any extra scheduling coordinate would certify a different object.
+\end{proof}
