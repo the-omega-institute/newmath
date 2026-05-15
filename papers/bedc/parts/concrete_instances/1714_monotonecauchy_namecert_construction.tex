@@ -193,6 +193,31 @@ Apply \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}. Every se
 Use \autoref{thm:monotone-cauchy-real-seal-boundary} for the final handoff. The boundary reads only the displayed located interval and the seal row, and \autoref{thm:monotone-cauchy-ledger-exhaustion} rules out any additional hidden coordinate for the excluded analytic objects.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy CauchyCriterion seal handoff]
+\label{thm:monotone-cauchy-cauchycriterion-seal-handoff}
+Let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\MonotoneCauchyUp$ packet. Suppose the $\RealUp$ seal row $Q$ is consumed by an accepted $\CauchyCriterionUp$ packet through the same displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Then every such consumer route factors through the finite Monotone Cauchy tail-window certificate and then through the CauchyCriterion finite criterion route
+$$
+\StreamNameUp
+\longrightarrow
+\CauchyModulusUp
+\longrightarrow
+\DyadicRatCoreUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\RealUp .
+$$
+
+The handoff remains on the same finite $\BHist$ surface, with the displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It cannot introduce quotient equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, or any separate completion oracle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:monotone-cauchy-tail-window-real-seal-certificate}. It forces each $\RealUp$ seal read of $Q$ through the located trap, the modulus-selected tail window, and the displayed StreamName, dyadic, regular rational, transport, continuation, provenance, and naming rows of $M$.
+
+Next use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. A CauchyCriterion consumer can read a regular rational source and the $\RealUp$ seal only through its displayed source window, modulus threshold, dyadic tolerance, tail ledger, and seal row. The shared-row hypothesis identifies those rows with the route already exposed by the Monotone Cauchy certificate.
+
+Finally apply \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. The StreamName presentation, dyadic tail coverage, regular shared threshold, and seal row remain one finite shared-tail route, so repacking through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserves the same seal surface. None of the participating carriers contains a coordinate for quotient equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, or an independent completion oracle.
+\end{proof}
+
 \begin{theorem}[Monotone Cauchy public seal window determinacy]
 \label{thm:monotone-cauchy-public-seal-window-determinacy}
 Let
@@ -453,6 +478,49 @@ Apply \autoref{thm:monotone-cauchy-common-window-classifier} and \autoref{thm:mo
 Next use \autoref{thm:monotone-cauchy-located-interval-handoff} and \autoref{thm:monotone-cauchy-real-seal-boundary}. The located interval row $I$ and the seal row $Q$ are therefore read only after the finite tail-window and dyadic ledger have been displayed.
 
 Finally apply \autoref{thm:monotone-cauchy-public-tail-window-certificate} and \autoref{thm:monotone-cauchy-bridge-facing-certificate}. These certificates package the same finite surface for public and bridge-facing consumers and exclude quotient reals, selected representatives, host real equality, trichotomy, open-cover compactness, ambient completeness, and choice.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy bounded-witness tail factorization]
+\label{thm:monotone-cauchy-bounded-witness-tail-factorization}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ packet. If an accepted
+$\BoundedMonotoneCauchyWitnessUp$ packet consumes the tail-window rows,
+located interval rows, and $\RealUp$ seal rows of $M$, then every
+bounded-witness public tail read factors through the $\MonotoneCauchyUp$
+common-window classifier, the located-interval handoff, the $\RealUp$ seal
+boundary, and the ledger-exhaustion rows before it reaches the bounded-witness
+surface.
+
+Thus the bounded witness receives the displayed rows
+$F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as a finite tail-window route, not as a
+quotient real, host equality, trichotomy row, ambient completeness coordinate,
+or selected limiting representative.
+\end{theorem}
+\begin{proof}
+First expose the tail window by applying
+\autoref{thm:monotone-cauchy-common-window-classifier}. The scheduled
+observations $F,\sigma$ and the modulus row $\mu$ determine the finite window
+through which any accepted bounded-witness tail read can inspect $M$.
+
+Next apply \autoref{thm:monotone-cauchy-located-interval-handoff}. The located
+interval row $I$ is reached only after the regular sequence, scheduled window,
+modulus, dyadic ledger, transports, continuations, package row, and local
+certificate have already been displayed.
+
+For the seal side, use \autoref{thm:monotone-cauchy-real-seal-boundary} and the
+bounded-witness handoff surface cited in
+\autoref{thm:monotone-cauchy-bridge-facing-certificate}. The seal row $Q$ is
+therefore consumed through the same tail-window and located-interval route that
+the bounded-witness packet reads.
+
+Finally apply \autoref{thm:monotone-cauchy-ledger-exhaustion}. Every public
+coordinate has already appeared in the displayed rows
+$F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so the bounded-witness consumer has no
+remaining route to a quotient real, host equality, trichotomy row, ambient
+completeness coordinate, or selected limiting representative.
 \end{proof}
 
 \closureat{MonotoneCauchyUp}{seedStr}
