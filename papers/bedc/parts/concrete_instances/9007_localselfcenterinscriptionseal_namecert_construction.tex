@@ -68,19 +68,58 @@ $\TranscendentalSupplyInscriptionUp$ supplies supply-inscription provenance, $\O
 Thus a row-preserving bijection would have to erase or synthesize part of the seal. Erasure loses an obligation, while synthesis changes the sibling carrier; neither operation preserves the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Local self-center inscription seal transport exactness]
+\label{thm:local-self-center-inscription-seal-transport-exactness}
+For every accepted $\LocalSelfCenterInscriptionSealUp$ carrier $L=(H,I,S,A,V,R,C,P,N)$, the transport row $R$ is componentwise $\hsame$ transport for the local history row $H$, inscription-point row $I$, self-center reading row $S$, apophatic socket row $A$, nonidentity verdict row $V$, displayed route row $C$, provenance row $P$, and local naming row $N$. No accepted transport identifies $S$ with $A$ or replaces the verdict row $V$ by a hidden equality coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed tuple gives $H,I,S,A,V,R,C,P,N$ as the only seal rows, and $R$ is the named transport row for that tuple.
+
+Apply the NameCert obligations of \autoref{thm:local-self-center-inscription-seal-namecert-obligations}. They require componentwise transport for the carrier rows and local name rather than a separate equality source.
+
+Finally use the nonidentity boundary of \autoref{thm:local-self-center-inscription-seal-nonidentity-boundary}. Since an identification of $S$ with the far-end row of $A$ fails $V$, exact transport preserves the verdict boundary instead of collapsing it.
+\end{proof}
+
+\begin{theorem}[Local self-center inscription seal provenance exhaustion]
+\label{thm:local-self-center-inscription-seal-provenance-exhaustion}
+For every accepted $\LocalSelfCenterInscriptionSealUp$ carrier $L=(H,I,S,A,V,R,C,P,N)$, the provenance row $P$ is exhausted by $\InscriptionPointUp$, $\ApophaticSocketUp$, $\TranscendentalSupplyInscriptionUp$, $\ObserverHistIdentityUp$, $\InscriptionEventUp$, and the kernel rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no subject behind $H$, no internal object for the apophatic far end, and no sibling row outside those named surfaces.
+\end{theorem}
+\begin{proof}
+Read $P$ from the carrier definition. Its provenance list is exactly the five sibling surfaces together with the displayed kernel rows.
+
+Use the sibling separation theorem \autoref{thm:local-self-center-inscription-seal-sibling-separation}. Each sibling supplies only its named role and omits at least one of the simultaneous local history, inscription-point, self-center reading, apophatic socket, and verdict rows.
+
+The provenance row therefore accounts for all admissible inputs to the seal without adding an extra subject, far-end object, or hidden sibling coordinate.
+\end{proof}
+
+\begin{theorem}[Local self-center inscription seal carrier transport]
+\label{thm:local-self-center-inscription-seal-carrier-transport}
+Any accepted carrier transport of a $\LocalSelfCenterInscriptionSealUp$ packet preserves the nonidentity verdict row. If $L=(H,I,S,A,V,R,C,P,N)$ is accepted and the carrier is transported through the displayed $\hsame$ row $R$, then the transported packet still reads $S$ as the local self-center row, $A$ as the apophatic socket row, and $V$ as the verdict refusing their object-level identification.
+\end{theorem}
+\begin{proof}
+Begin with transport exactness. The row $R$ transports the displayed components of $L$ componentwise, including $S$, $A$, and $V$.
+
+Apply the nonidentity boundary. A packet that identifies the local self-center row with the apophatic far-end row is not accepted as this seal.
+
+Thus an accepted carrier transport must preserve the verdict row. Otherwise the transported packet would erase the boundary required by the NameCert obligations and would fail acceptance.
+\end{proof}
+
 \falsifiablePrediction{A packet that identifies the local self-center row with the apophatic far-end row fails the nonidentity verdict row.}
 
 \independenceWitness{InscriptionPoint, ApophaticSocket, TranscendentalSupplyInscription, ObserverHistIdentity, and InscriptionEvent: none carries the simultaneous self-center reading, apophatic socket, and nonidentity verdict rows.}
 
 The later Lean TasteGate file must provide explicit \texttt{Nontrivial LocalSelfCenterInscriptionSealUp} and \texttt{FieldFaithful LocalSelfCenterInscriptionSealUp} instances in \texttt{lean4/BEDC/Derived/LocalSelfCenterInscriptionSealUp/TasteGate.lean}.
 
+\closureat{LocalSelfCenterInscriptionSealUp}{obligationStr}[BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealTasteGate\_single\_carrier\_alignment]
+\closureat{LocalSelfCenterInscriptionSealUp}{scopedStr}[BEDC.Derived.LocalSelfCenterInscriptionSealUp.LocalSelfCenterInscriptionSealTasteGate\_single\_carrier\_alignment]
+
 \begin{closurestatus}{\LocalSelfCenterInscriptionSealUp}
   \constructivestory{A $\LocalSelfCenterInscriptionSealUp$ packet is generated from local history, inscription point, self-center reading, apophatic socket, nonidentity verdict, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:local-self-center-inscription-seal-carrier}, \autoref{thm:local-self-center-inscription-seal-namecert-obligations}, \autoref{thm:local-self-center-inscription-seal-nonidentity-boundary}, and \autoref{thm:local-self-center-inscription-seal-sibling-separation} bind the carrier, NameCert obligations, nonidentity boundary, sibling separation, falsifiable prediction, and independence witness for the finite local seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:local-self-center-inscription-seal-carrier}, \autoref{thm:local-self-center-inscription-seal-namecert-obligations}, \autoref{thm:local-self-center-inscription-seal-nonidentity-boundary}, \autoref{thm:local-self-center-inscription-seal-sibling-separation}, \autoref{thm:local-self-center-inscription-seal-transport-exactness}, \autoref{thm:local-self-center-inscription-seal-provenance-exhaustion}, \autoref{thm:local-self-center-inscription-seal-carrier-transport}, and \leanchecked{BEDC.Derived.LocalSelfCenterInscriptionSealUp.taste\_gate} bind the carrier, NameCert obligations, nonidentity boundary, sibling separation, transport, provenance, carrier-transport, and TasteGate rows for the finite local seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not claim Lean verification, a standard bridge, identity with the apophatic far end, or any local-state reading of the apophatic far end.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, nonidentity verdict, sibling separation, transport, continuation, provenance, naming, and TasteGate field faithfulness for the same finite packet.}
+  \upgradepath{Public closure would require a public-object surface for the local seal beyond the present scoped carrier, transport, and TasteGate rows.}
 \end{closurestatus}
