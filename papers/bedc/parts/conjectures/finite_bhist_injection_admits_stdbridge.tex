@@ -292,6 +292,18 @@ The recognizer-flow rows are exactly recognizer acceptance, generated-recognizer
 Therefore the admissible test surface has no further row beyond those seven displayed rows. This exhausts the finite BEDC-kernel test while leaving the construction of a full recognizer-to-carrier map outside the conclusion.
 \end{proof}
 
+\begin{proposition}[Finite BHist recognizer closed landing test]
+\label{prop:finite-bhist-injection-recognizer-closed-landing-test}
+The weakened recognizer-side test for \autoref{conj:finite-bhist-injection-recognizer-to-carrier} is exactly the seven rows of \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}: recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, component readback, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. Passing this landing test asserts no $\StdBridge$ theorem, no recognizer-to-carrier map, and no arbitrary regular-language carrier construction.
+\end{proposition}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}. It states that every admissible recognizer-to-carrier test is exhausted by the seven displayed rows.
+
+The first three rows place the recognizer input on the existing $\GroundCompilerRecognizerFlowUp$ surface. The last four rows place the resulting tuple on the existing $\FiniteReflectionTupleUp$ and $\ChapterTasteGate$ surface.
+
+Thus the test is closed as a finite landing surface only. The theorem explicitly leaves the full carrier map outside the conclusion, and the fixed tuple bridge results do not add a $\StdBridge$ theorem or a regular-language carrier construction here.
+\end{proof}
+
 \paragraph{Refutation route (if false).}
 Find a chapter satisfying the displayed finite tuple, image, readback,
 fixed-tuple, and $\ChapterTasteGate$ premises for which a
