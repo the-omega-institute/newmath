@@ -219,18 +219,28 @@ instance cauchySealBudgetSynchronizerChapterTasteGate :
 def taste_gate : ChapterTasteGate CauchySealBudgetSynchronizerUp :=
   cauchySealBudgetSynchronizerChapterTasteGate
 
+private def cauchySealBudgetSynchronizer_nontrivial_witness :
+    Σ' (x : CauchySealBudgetSynchronizerUp) (y : CauchySealBudgetSynchronizerUp),
+      x ≠ y :=
+  ⟨CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty,
+    CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty,
+    by
+      intro h
+      cases h⟩
+
+private theorem cauchySealBudgetSynchronizer_nontrivial_concrete :
+    ∃ x y : CauchySealBudgetSynchronizerUp, x ≠ y :=
+  ⟨cauchySealBudgetSynchronizer_nontrivial_witness.1,
+    cauchySealBudgetSynchronizer_nontrivial_witness.2.1,
+    cauchySealBudgetSynchronizer_nontrivial_witness.2.2⟩
+
 instance cauchySealBudgetSynchronizerNontrivial :
     Nontrivial CauchySealBudgetSynchronizerUp where
-  witness_pair :=
-    ⟨CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  witness_pair := cauchySealBudgetSynchronizer_nontrivial_witness
 
 def cauchySealBudgetSynchronizerFields :
     CauchySealBudgetSynchronizerUp → List BHist
@@ -307,15 +317,6 @@ theorem CauchySealBudgetSynchronizerTasteGate_single_carrier_alignment :
         exact cauchySealBudgetSynchronizerToEventFlow_injective heq
       · constructor
         · exact cauchySealBudgetSynchronizer_field_faithful_concrete
-        · exact
-            ⟨CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty,
-              CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty,
-              by
-                intro h
-                cases h⟩
+        · exact cauchySealBudgetSynchronizer_nontrivial_concrete
 
 end BEDC.Derived.CauchySealBudgetSynchronizerUp

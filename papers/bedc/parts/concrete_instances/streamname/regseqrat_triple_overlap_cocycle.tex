@@ -1,0 +1,131 @@
+\begin{theorem}[StreamName RegSeqRat triple-overlap source cocycle]
+\label{thm:streamname-regseqrat-triple-overlap-source-cocycle}
+Let $\mathcal{W}_0,\mathcal{W}_1,\mathcal{W}_2$ be certified finite
+$\StreamNameUp$ windows. Suppose each pair carries a certified finite overlap,
+the three pairwise restrictions agree on every certified unary observation,
+selected $\mathsf{RatHistoryClassifier}$ row, $\mathsf{ProbeBundle}$ ledger
+row, $\mathsf{InBundle}$ membership row, and displayed $\hsame$ row, and the
+three overlaps have a certified common triple overlap $K_{012}$. Then the three
+induced $\RegSeqRat$ handoff packages, and the three induced finite-window
+$\RealUp$ handoff packages, determine one StreamName source surface on
+$K_{012}$.
+
+The triple source surface consists only of the restricted StreamName
+finite-window rows on $K_{012}$. It excludes completion data, quotient data,
+host index equality, every $\RegSeqRat$ regularity row, every $\RealUp$ seal
+classifier row, and every $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First restrict the three windows to the common triple overlap $K_{012}$. Each
+restricted pair is a certified finite overlap with the same displayed unary
+observations, classifier rows, bundle rows, membership rows, and $\hsame$
+comparisons.
+
+Apply \autoref{thm:streamname-real-regseq-overlap-unique-source} to
+$(\mathcal{W}_0,\mathcal{W}_1)$ on $K_{012}$ and again to
+$(\mathcal{W}_1,\mathcal{W}_2)$ on $K_{012}$. The first application identifies
+the source surface of $\mathcal{W}_0$ with that of $\mathcal{W}_1$; the second
+identifies the source surface of $\mathcal{W}_1$ with that of
+$\mathcal{W}_2$.
+
+The displayed $\hsame$ rows compose through the common middle restriction, so
+the two identifications give a single source surface for all three windows on
+the triple overlap. The optional third pair
+$(\mathcal{W}_0,\mathcal{W}_2)$ reads the same restricted rows and therefore
+lands on that same surface.
+
+Finally use the exclusion clause in
+\autoref{thm:streamname-real-regseq-overlap-unique-source}. The cocycle is a
+statement about the public StreamName finite-window source only; no completion,
+quotient, host-index, RegSeqRat regularity, RealUp seal, or RealUp completeness
+row is part of the source surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat triple-overlap seal cocycle]
+\label{thm:streamname-regseqrat-triple-overlap-seal-cocycle}
+Let $\mathcal{W}_0,\mathcal{W}_1,\mathcal{W}_2$ be certified finite
+$\StreamNameUp$ windows with pairwise certified overlaps and a certified common
+triple overlap $K_{012}$. Suppose the source hypotheses of
+\autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle} hold, and
+suppose the three induced $\RegSeqRat$ handoff packages consume one shared
+$\DyadicRatCoreUp$ finite ledger on every restriction to $K_{012}$. Then the
+$\RealUp$ seal classifier rows induced from the three handoffs agree on
+$K_{012}$.
+
+This agreement is only the finite-window seal row agreement produced from the
+shared StreamName source and shared DyadicRatCore ledger. It does not include
+completion data, quotient data, host index equality, or a $\RealUp$
+completeness row.
+\end{theorem}
+\begin{proof}
+First fix the source. By
+\autoref{thm:streamname-regseqrat-triple-overlap-source-cocycle}, the three
+windows expose one StreamName source surface on $K_{012}$ for their induced
+RegSeqRat and finite-window RealUp handoffs.
+
+Next compare the first two seal rows. Apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} to
+$(\mathcal{W}_0,\mathcal{W}_1)$ after restricting to $K_{012}$. The source rows
+are the common rows just fixed, and the DyadicRatCore finite ledger is shared by
+hypothesis, so the induced RealUp seal classifier rows agree pointwise there.
+
+Compare the second and third seal rows in the same way. The pair
+$(\mathcal{W}_1,\mathcal{W}_2)$ has the same restricted source and the same
+consumed dyadic ledger, so pointwise seal stability identifies their induced
+classifier rows on $K_{012}$.
+
+These two pointwise agreements have the same middle classifier row. Hence the
+three induced RealUp seal classifier rows form one row on the triple overlap.
+The construction never asks for completion, quotient, host-index, or RealUp
+completeness data, because pointwise seal stability only reads the finite
+StreamName source and the shared dyadic ledger.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-cover pasted source exhaustion]
+\label{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion}
+Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows. Suppose every pair has a certified finite overlap,
+all pairwise restrictions agree on the displayed StreamName source rows, every
+triple overlap satisfies the source and seal cocycle hypotheses above, and all
+induced $\RegSeqRat$ handoff packages consume the same DyadicRatCore finite
+ledger on their displayed overlaps. Then the family pastes to one
+$\RegSeqRat$ and finite-window $\RealUp$ source surface over the finite union
+of the windows.
+
+The pasted surface is exhausted by the public StreamName finite-window rows,
+the displayed $\hsame$ comparisons, and the shared DyadicRatCore ledger rows.
+It has no completion data, quotient data, host index equality, or $\RealUp$
+completeness row.
+\end{theorem}
+\begin{proof}
+Proceed by finite $\mathsf{ProbeBundle}$ induction over the cover inventory.
+The empty inventory has no exposed source row, and the singleton inventory is
+the certified source surface of its one StreamName window.
+
+For the induction step, assume a finite subcover has already pasted to one
+RegSeqRat and finite-window RealUp source surface. Let $\mathcal{W}_j$ be the
+next certified window. On each overlap between $\mathcal{W}_j$ and a member of
+the subcover, apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to obtain the same
+source rows, and apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability} to stabilize the
+induced RealUp seal classifier rows over the shared dyadic ledger.
+
+Now paste the new window to the existing subcover surface. Use
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} on each displayed
+overlap, and use
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity} to see that the
+order of adjoining the finitely many overlap rows does not change the pasted
+classifier surface.
+
+The triple-overlap source and seal cocycles supply the compatibility needed
+when two old windows and the new window meet. They identify the common source
+and seal rows on each triple intersection, so no additional choice of a source
+or classifier row is introduced by the induction step.
+
+Finally exhaust the pasted finite union. Every row inserted during the
+induction is either a public StreamName finite-window row, a displayed
+$\hsame$ comparison, or a shared DyadicRatCore ledger row used by the RegSeqRat
+handoff. Completion data, quotient data, host index equality, and RealUp
+completeness rows have no carrier coordinate in this finite pasted source.
+\end{proof}

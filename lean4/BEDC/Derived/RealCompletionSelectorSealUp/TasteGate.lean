@@ -6,7 +6,7 @@ open BEDC.FKernel.Hist
 open BEDC.Meta.TasteGate
 
 instance realCompletionSelectorSealFieldFaithful : FieldFaithful RealCompletionSelectorSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist FieldFaithful
   fields := fun x =>
     match x with
     | RealCompletionSelectorSealUp.mk budget window readback limit endpoint transport continuation
