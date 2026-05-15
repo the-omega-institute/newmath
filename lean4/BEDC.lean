@@ -78,6 +78,7 @@ import BEDC.Derived.ApophaticNameUp.RootBoundaryLedgerPackage
 import BEDC.Derived.ApophaticNameUp.RootReflectionAxisRefusal
 import BEDC.Derived.ApophaticNameUp.RefusalReadbackRow
 import BEDC.Derived.ApophaticNameUp.RootBridgeTupleNoninternalization
+import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -193,6 +194,7 @@ import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyLimitFunctorUp
+import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BudgetNaturality
 import BEDC.Derived.CauchyModulusRefinementUp.BridgedRouteDeterminacy
@@ -1216,6 +1218,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootL10SpineExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceScope
 import BEDC.Derived.DiagonallimitcompatibilityUp.ConsumerThreshold
+import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyLimitFunctorHandoff
 import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyTailEnvelopeFactorization
 import BEDC.Derived.DiagonallimitcompatibilityUp.SourceLedger
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorLock
@@ -1563,6 +1566,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.HolomorphicUp
