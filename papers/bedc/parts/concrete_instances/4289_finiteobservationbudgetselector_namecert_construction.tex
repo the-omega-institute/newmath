@@ -678,6 +678,30 @@ $$
 Finally identify that route with the existing four-face finite-section pullback. By \autoref{thm:streamname-finite-section-pullback-exactness}, agreement of the finite $\StreamNameUp$ windows with the $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and current $\RealUp$ seal determines exactly the same terminal section and exports none of the excluded quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, or ambient-completeness coordinates.
 \end{proof}
 
+\begin{theorem}[Finite observation-budget selector terminal section pullback uniqueness]
+\label{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}
+Let
+$$
+F_0=(B,S,W,D,R,E,H,C,P,N)
+$$
+and
+$$
+F_1=(B,S,W,D,R,E,H,C,P,N)
+$$
+be accepted $\FiniteObservationBudgetSelectorUp$ packets with the same displayed budget, schedule, window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and local naming rows. Suppose that the terminal sections of $F_0$ and $F_1$ both satisfy the finite-section pullback along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Then the two terminal sections determine the same budget-to-seal route
+$$
+B \to S \to W \to D \to R \to E
+$$
+and the same $\RealUp$ seal up to the recorded componentwise $\hsame$ transports. No quotient stream, host real equality, choice row, hidden selector, metric-completeness row, or ambient-completeness oracle can distinguish the two terminal sections.
+\end{theorem}
+\begin{proof}
+First apply terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}, to each accepted packet. Since both displayed rows are $B,S,W,D,R,E,H,C,P,N$, both terminal sections are the finite section pulled back through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+
+Next identify the endpoint route. Terminal route endpoint exactness, \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}, fixes the endpoint at the displayed seal $E$, while terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}, keeps every route segment attached to the same rows $B,S,W,D,R,E,H,C,P,N$.
+
+Finally use the four-face pullback exactness \autoref{thm:streamname-finite-section-pullback-exactness}. The shared finite windows, dyadic ledger, regular readback, and Real seal determine one pulled-back section, so the two terminal sections induce the same displayed chain and the same $\RealUp$ seal under the componentwise $\hsame$ transports. The non-escape clauses in the cited exactness and minimality theorems exclude quotient streams, host equalities, choice rows, hidden selectors, metric-completeness rows, and ambient-completeness oracles as possible distinguishing data.
+\end{proof}
+
 \closureat{FiniteObservationBudgetSelectorUp}{seedStr}
 \closureat{FiniteObservationBudgetSelectorUp}{obligationStr}
 \closureat{FiniteObservationBudgetSelectorUp}{scopedStr}

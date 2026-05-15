@@ -1,0 +1,35 @@
+\begin{theorem}[Transported stationary window-seal completion source triad closure]
+\label{thm:transported-stationary-window-seal-completion-source-triad-closure}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet, and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. Before any finite-envelope read of $W$ or $\RealUp$ seal read of $E$, the transported $\RatUp$ row $R$, the constant $\StreamNameUp$ window $S$, and the $\RegSeqRatUp$ seal row $G$ form the closed source triad for the route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-root-envelope-readback-totality}. It orders every completion-facing or Real-facing readback through the transported rows before the tail schedule, finite envelope, and seal rows can be reached.
+
+Now apply \autoref{thm:transported-stationary-window-seal-completion-seal-lock}. The lock prevents a completion consumer from choosing another completion carrier, quotient stream, host equality row, selected limit, choice datum, or ambient completeness witness before reading the seal.
+
+The accepted schedule packet $Q$ is therefore downstream of the already fixed source rows. Since the schedule is consumed on the same finite window and regular-rational seal, the triad $R,S,G$ is closed as the source surface before $W$ or $E$ is read.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal envelope Real row totality]
+\label{thm:transported-stationary-window-seal-envelope-real-row-totality}
+Let $T$ and $Q$ be as in \autoref{thm:transported-stationary-window-seal-completion-source-triad-closure}. Every $\FiniteWindowEnvelopeUp$ read and every $\RealUp$-facing read factors first through the closed source triad $R,S,G$ and then through the schedule rows $E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T$ before reaching $W$ and $E$. No such read receives a quotient stream, host equality, selected limit, choice principle, ambient completeness principle, or independent completion carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:transported-stationary-window-seal-root-envelope-readback-totality} to fix the route order. The theorem places the transported source triad before the schedule rows, the schedule rows before the finite envelope, and the finite envelope before the Real seal row.
+
+Next use \autoref{thm:transported-stationary-window-seal-completion-seal-lock}. It identifies the completion-facing seal with that same finite route, so a completion consumer cannot supply a separate carrier or host-level equality source while preserving the accepted packet rows.
+
+Finally invoke \autoref{thm:transported-stationary-window-seal-downstream-route-readiness}. The downstream surface already lists the permitted StreamName, RegSeqRat, FiniteWindowEnvelope, Real, TailCofinalitySchedule, and Completion consumers. Thus every envelope or Real read is total through the displayed triad and schedule rows before it reaches $W$ and $E$.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal downstream obligation basis]
+\label{thm:transported-stationary-window-seal-downstream-obligation-basis}
+For accepted packets $T$ and $Q$ as above, the downstream obligation basis consumed by $\CompletionUp$ and $\RealUp$ routes is exactly the pair of rows supplied by \autoref{thm:transported-stationary-window-seal-completion-source-triad-closure} and \autoref{thm:transported-stationary-window-seal-envelope-real-row-totality}: the closed transported source triad $R,S,G$, followed by the accepted schedule rows and then by $W,E$. This basis is a finite BEDC obligation surface, not a quotient stream, host real equality, selected limit, choice principle, ambient completeness principle, or independent completion object.
+\end{theorem}
+\begin{proof}
+First take the source part from \autoref{thm:transported-stationary-window-seal-completion-source-triad-closure}. It supplies the transported $\RatUp$, constant $\StreamNameUp$, and $\RegSeqRatUp$ rows before any envelope or Real seal read.
+
+Next take the envelope and seal part from \autoref{thm:transported-stationary-window-seal-envelope-real-row-totality}. It routes every $\FiniteWindowEnvelopeUp$ and $\RealUp$ read through the accepted schedule rows before reaching $W$ and $E$.
+
+The downstream route theorem \autoref{thm:transported-stationary-window-seal-downstream-route-readiness} packages these rows as the consumer surface. Hence Completion and Real routes consume precisely this finite obligation basis, and no off-route completion or host-real datum is added.
+\end{proof}
