@@ -235,6 +235,20 @@ Next use hsame prefix transport. Theorem~\ref{thm:histtimestream-hsame-prefix-tr
 Finally apply observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. Since observer-locality consumers receive only the displayed local stream and its no-global-clock ledger, every nonlocal clock read is refused unless it has already factored through $H,T,S,C,L,P,N$.
 \end{proof}
 
+\begin{theorem}[HistTimeStream prefix transport exhaustion]
+\label{thm:histtimestream-prefix-transport-exhaustion}
+For any accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, every consumer read through $\ObserverHistoryIdentityUp$ or $\ObserverLocalityTransportUp$ first factors through the $\Cont$-prefix route of \autoref{thm:histtimestream-cont-prefix-exactness}, then through the componentwise $\hsame$ transport of \autoref{thm:histtimestream-hsame-prefix-transport}. Any attempted global-clock, host-indexed time, inter-Hist synchronization, or temporal-rate read is refused by \autoref{thm:histtimestream-local-clock-refusal} unless it preserves the displayed rows $H,T,S,C,L,P,N$ and the observer-locality boundary of \autoref{thm:histtimestream-observer-locality-transport}.
+\end{theorem}
+\begin{proof}
+Begin with observer-locality transport. Theorem~\ref{thm:histtimestream-observer-locality-transport} says that observer-history and observer-locality consumers receive exactly the displayed local-time rows $H,T,S,C,L,P,N$.
+
+Next expose the prefix route. Theorem~\ref{thm:histtimestream-cont-prefix-exactness} identifies that consumer surface as the displayed $\Cont$ prefix from $\emp$ to the source $\Hist$ row $H$ through the schedule, start ledger, replay, transport, provenance, and local naming rows.
+
+Now transport the prefix componentwise. Theorem~\ref{thm:histtimestream-hsame-prefix-transport} preserves the same prefix across accepted packets and cannot create a host-indexed time coordinate, inter-Hist clock, or global synchronization row.
+
+Finally apply local clock refusal. Theorem~\ref{thm:histtimestream-local-clock-refusal} rejects global-clock, rate, and nonlocal time reads unless they have already passed through and preserved the displayed packet rows. Thus the four cited theorems assemble one consumer-facing exhaustion route.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 \closureat{HistTimeStreamUp}{scopedStr}
