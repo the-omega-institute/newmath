@@ -270,6 +270,55 @@ Root budget consumer exhaustion, \autoref{thm:cauchy-modulus-refinement-root-bud
 Finally apply window-meet seal unicity, \autoref{thm:cauchy-modulus-refinement-window-meet-seal-unicity}. It says that a consumer already reading $U,T,W,Q,E$ has no alternate seal route through a second meet, hidden selector, quotient stream, host real equality, selected limit, or ambient completeness row. Therefore the displayed L10 rows are sufficient for the handoff alone, without asserting completeness of $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement finite-observation-budget selector handoff]
+\label{thm:cauchy-modulus-refinement-finite-observation-budget-selector-handoff}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+whose public route reaches the displayed rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$,
+if the selected finite-window route is consumed by a
+$\FiniteObservationBudgetSelectorUp$ packet, then the consumer first factors
+through the finite selector path
+$$
+B \to S \to W \to D \to R \to E
+$$
+before the L10 spine
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp
+$$
+is read. The handoff exposes no quotient stream, host real equality, countable
+choice, hidden selector, selected host limit, ambient completeness row, or
+completeness proof for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the accepted $\CauchyModulusRefinementUp$ route. Root route
+determinacy, \autoref{thm:cauchy-modulus-refinement-root-route-determinacy},
+places every public read on $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, and root budget
+consumer exhaustion,
+\autoref{thm:cauchy-modulus-refinement-root-budget-consumer-exhaustion},
+confines the finite-window consumer to the selected budget and window rows.
+
+Next attach the finite selector packet. Finite-observation-budget selector route
+determinacy,
+\autoref{thm:finite-observation-budget-selector-budget-route-determinacy},
+identifies the selector path $B \to S \to W \to D \to R \to E$ for every
+accepted selected-window read. The selector Real-seal handoff,
+\autoref{thm:finite-observation-budget-selector-real-seal-handoff}, carries
+that same finite path to the Real-facing seal row without importing a host
+limit.
+
+Finally combine the two exits. The selector diagonal consumer boundary,
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary},
+keeps diagonal reads on the finite selector path, while L10 handoff sufficiency,
+\autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency}, reads the
+resulting window through
+$\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp$. The
+exclusion clauses in the Cauchy and selector handoffs leave no coordinate for a
+quotient stream, host real equality, countable choice, hidden selector, selected
+host limit, ambient completeness row, or Real completeness proof.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement shared-window seal transitivity]
 \label{thm:cauchy-modulus-refinement-shared-window-seal-transitivity}
 Let
