@@ -295,4 +295,57 @@ theorem FiniteObservationBudgetSelectorCarrier_window_seal_commutation
   exact
     ⟨sameWindowSeal, windowUnary, routeUnary, windowRoute, routeRoute, windowPkg, routePkg⟩
 
+theorem FiniteObservationBudgetSelectorCarrier_nonescape
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N →
+      Cont R E sealRead →
+        PkgSig bundle sealRead pkg →
+          SemanticNameCert
+            (fun row : BHist =>
+              FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+                hsame row sealRead)
+            (fun _row : BHist =>
+              Cont B S W ∧ Cont W D R ∧ Cont R E sealRead ∧ hsame N E)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle sealRead pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier sealRoute sealPkg
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+    regularSeal, sameEndpoint⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have unarySealRead : UnaryHistory sealRead :=
+    unary_cont_closed unaryR unaryE sealRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead (And.intro
+          ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic, regularSeal,
+            sameEndpoint⟩
+          (hsame_refl sealRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact ⟨budgetSchedule, windowDyadic, sealRoute, sameEndpoint⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport unarySealRead (hsame_symm source.right), sealPkg⟩
+  }
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp
