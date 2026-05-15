@@ -138,4 +138,24 @@ theorem ClassifierMorphismPacket_source_target_route_lock [AskSetup] [PackageSet
     ⟨sourceUnary, targetUnary, graphUnary, extUnary, sigUnary, contUnary, publicUnary,
       contRow, transportSame, provenanceSame, nameSame, pkgRow⟩
 
+theorem ClassifierMorphismPacket_type_membership_dependency [AskSetup] [PackageSetup]
+    {source target graph extPreservation sigPreservation contPreservation transport
+      provenance nameCert : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert mark bundle pkg →
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+        Ext source mark extPreservation ∧ SigRel bundle target sigPreservation ∧
+          Cont extPreservation sigPreservation contPreservation ∧
+            hsame transport contPreservation ∧ hsame provenance contPreservation ∧
+              hsame nameCert contPreservation ∧ PkgSig bundle contPreservation pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext SigRel Cont hsame UnaryHistory
+  intro packet
+  obtain ⟨sourceUnary, targetUnary, graphUnary, _extUnary, _sigUnary, _contUnary,
+    _transportUnary, _provenanceUnary, _nameUnary, extRow, sigRow, contRow, transportSame,
+    provenanceSame, nameSame, pkgRow⟩ := packet
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, extRow, sigRow, contRow, transportSame,
+      provenanceSame, nameSame, pkgRow⟩
+
 end BEDC.Derived.ClassifierMorphismUp

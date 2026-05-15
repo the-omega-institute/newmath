@@ -179,6 +179,58 @@ theorem QuotientSoundnessBoundaryCarrier_transport_replacement [AskSetup] [Packa
     ⟨eUnary, tUnary, hUnary, cUnary, replacementUnary, eTH, replacementRoute,
       replacementPkg, hN⟩
 
+theorem QuotientSoundnessBoundary_root_transport_verdict_order [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead transportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont v t refusalRead ->
+        Cont t h transportRead ->
+          PkgSig bundle refusalRead pkg ->
+            PkgSig bundle transportRead pkg ->
+              UnaryHistory refusalRead ∧ UnaryHistory transportRead ∧ Cont e a v ∧
+                Cont e t h ∧ Cont v t refusalRead ∧ Cont t h transportRead ∧
+                  PkgSig bundle refusalRead pkg ∧ PkgSig bundle transportRead pkg ∧
+                    hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier vTRefusal tHTransport refusalPkg transportPkg
+  obtain ⟨eUnary, _aUnary, tUnary, vUnary, hUnary, _cUnary, _pUnary, _nUnary, eAV,
+    eTH, _hCN, _pPkg, _nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary tUnary vTRefusal
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed tUnary hUnary tHTransport
+  exact
+    ⟨refusalUnary, transportUnary, eAV, eTH, vTRefusal, tHTransport, refusalPkg,
+      transportPkg, hN⟩
+
+theorem QuotientSoundnessBoundary_consumer_ledger_coverage [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont v h refusalRead ->
+        Cont h c consumer ->
+          PkgSig bundle refusalRead pkg ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory e ∧ UnaryHistory a ∧ UnaryHistory t ∧ UnaryHistory v ∧
+                UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory n ∧
+                  UnaryHistory refusalRead ∧ UnaryHistory consumer ∧ Cont e a v ∧
+                    Cont e t h ∧ Cont v h refusalRead ∧ Cont h c consumer ∧
+                      PkgSig bundle p pkg ∧ PkgSig bundle n pkg ∧
+                        PkgSig bundle refusalRead pkg ∧ PkgSig bundle consumer pkg ∧
+                          hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier vHRefusal hCConsumer refusalPkg consumerPkg
+  obtain ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, pUnary, nUnary, eAV, eTH,
+    _hCN, pPkg, nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary hUnary vHRefusal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed hUnary cUnary hCConsumer
+  exact
+    ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, pUnary, nUnary, refusalUnary,
+      consumerUnary, eAV, eTH, vHRefusal, hCConsumer, pPkg, nPkg, refusalPkg,
+      consumerPkg, hN⟩
+
 theorem QuotientSoundnessBoundary_consumer_route_certificate [AskSetup] [PackageSetup]
     {e a t v h c p n consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
@@ -225,5 +277,18 @@ theorem QuotientSoundnessBoundary_consumer_route_certificate [AskSetup] [Package
       intro row source
       exact And.intro (unary_transport consumerUnary (hsame_symm source.right)) consumerPkg
   }
+
+theorem QuotientSoundnessBoundary_pkg_namecert_ledger_totality [AskSetup] [PackageSetup]
+    {e a t v h c p n consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont h c consumer ->
+        PkgSig bundle consumer pkg ->
+          PkgSig bundle p pkg ∧ PkgSig bundle n pkg ∧ PkgSig bundle consumer pkg ∧
+            Cont e t h ∧ Cont h c consumer ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier hCConsumer consumerPkg
+  obtain ⟨_eUnary, _aUnary, _tUnary, _vUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _eAV, eTH, _hCN, pPkg, nPkg, hN⟩ := carrier
+  exact ⟨pPkg, nPkg, consumerPkg, eTH, hCConsumer, hN⟩
 
 end BEDC.Derived.QuotientSoundnessBoundaryUp
