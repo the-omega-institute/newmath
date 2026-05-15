@@ -180,6 +180,7 @@ import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicTailRadiusLedgerUp
 import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
+import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicRoundingUp
@@ -305,6 +306,7 @@ import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
@@ -617,6 +619,8 @@ import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionUp
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HaltingDistinctionTraceUp
+import BEDC.Derived.HaltingFiniteBoundaryUp.TasteGate
+import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
 import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
@@ -1007,6 +1011,7 @@ import BEDC.Derived.DiagonalModulusUp
 import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
+import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSourceReadbackTotality
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.CompletionConsumerGate
 import BEDC.Derived.DiagonallimitcompatibilityUp.RealSealNonescape
@@ -1029,6 +1034,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorWindowPullbackUniqu
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSynchronizerCompletion
+import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorLockSealRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.DiagonallimitcompatibilityUp.SynchronizedBudgetTerminality
 import BEDC.Derived.DiagonallimitcompatibilityUp.TailScheduleReadback
