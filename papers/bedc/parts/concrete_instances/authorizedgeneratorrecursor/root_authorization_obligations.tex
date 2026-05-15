@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor carrier admission]
+\label{thm:authorized-generator-recursor-carrier-admission}
+Every accepted $\AuthorizedGeneratorRecursorUp$ root packet is admitted only as the finite $\BHist$ row
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+of \autoref{def:authorized-generator-recursor-carrier}. The rows $I,E,M,B,D,O,A$ display the accepted signature, emitted recursor, motive, branch package, structural descent, output name, and audit provenance, while $H,C,P,G,N$ supply the componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, visible boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. It lists exactly the rows $I,E,M,B,D,O,A,H,C,P,G,N$ and admits no additional source for an authorized generator or recursor call.
+
+Apply \autoref{thm:authorized-generator-recursor-namecert-surface}. The local NameCert surface reads the accepted signature, emitted eliminator, checked motive, complete branch package, structural descent, output row, and audit row only inside the same finite packet.
+
+The remaining rows are structural rather than generative. The $\hsame$, $\Cont$, $\Pkg$, boundary, and local NameCert rows record transport, replay, provenance, the visible host boundary, and naming for the displayed carrier, so carrier admission is exhausted by the finite $\BHist$ row.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger descent]
+\label{thm:authorized-generator-recursor-ledger-descent}
+Every public ledger read of an accepted $\AuthorizedGeneratorRecursorUp$ root packet descends through the displayed generator and recursor rows
+$$
+I \to E \to M \to B \to D \to O \to A
+$$
+before it may reach the componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ row $P$, boundary row $G$, or local $\NameCert$ row $N$. The descent cannot be replaced by an unregistered branch ledger, hidden output source, or external recursor certificate.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{thm:authorized-generator-recursor-carrier-admission}. The admitted $\BHist$ packet exposes the accepted signature and emitted recursor before motive checking, branch coverage, structural descent, output naming, and audit provenance.
+
+Use \autoref{thm:authorized-generator-recursor-structural-descent-locality} and \autoref{thm:authorized-generator-recursor-branch-descent-totality}. These rows force branch consumption through the structural descent coordinate $D$ and keep the output row attached to the displayed branch package rather than to an external ledger.
+
+Finally apply the NameCert surface. The rows $H,C,P,G,N$ only transport, replay, package, bound, and name the same route, so no hidden branch ledger or external recursor certificate can replace the displayed descent chain.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor consumer nonescape]
+\label{thm:authorized-generator-recursor-consumer-nonescape}
+No downstream consumer of an accepted $\AuthorizedGeneratorRecursorUp$ root packet can demand an unregistered recursion principle, hidden host induction, unchecked generator row, or proof-producing branch source outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Every consumer-facing read must factor through carrier admission and ledger descent for $R=(I,E,M,B,D,O,A,H,C,P,G,N)$.
+\end{theorem}
+\begin{proof}
+First use carrier admission to identify the finite packet and ledger descent to identify the only route by which the accepted generator and recursor rows reach the output and audit rows.
+
+Next apply \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}. It rules out a hidden generator source beyond the accepted constructor signature, emitted eliminator, motive, complete branch package, descent row, output row, audit row, and local certificate.
+
+It remains to account for consumers. The public consumer boundary of \autoref{thm:authorized-generator-recursor-public-consumer-boundary} and the root consumer factorization of \autoref{thm:authorized-generator-recursor-root-consumer-factorization} keep every downstream read inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. Hence an unregistered recursion principle or hidden host induction has no coordinate through which to enter the packet.
+\end{proof}

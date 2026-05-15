@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CompilerClassifierRouteUp$}
+\label{ch:concrete-instances-compilerclassifierroute-namecert}
+\origin{ai}
+
+The $\CompilerClassifierRouteUp$ surface turns the compiler-as-NameCert-morphism vision of \autoref{ch:visions-compilation-as-namecert-morphism} into one concrete route object. It joins classifier membership from \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, classifier morphism from \autoref{ch:concrete-instances-classifiermorphism-namecert}, NameCert morphism from \autoref{ch:concrete-instances-namecertmorphism-namecert}, compiler graph replay from \autoref{ch:concrete-instances-certificatecompiler-namecert}, and trace faithfulness from \autoref{ch:concrete-instances-compilertracefaithfulness-namecert}. A consumer therefore reads one finite route rather than coordinating five adjacent certificate packets.
+
+\falsifiablePrediction{A compiler-classifier route is rejected whenever Ext preservation, SigRel preservation, Cont replay, and hsame trace faithfulness do not land on the same displayed graph row.}
+
+\independenceWitness{namecertmorphism, certificatecompiler, classifiermorphism, typeclassifiermembership, compilertracefaithfulness: none is bijective because this packet stores the single route joining all five surfaces.}
+
+\begin{definition}[CompilerClassifierRoute carrier]
+\label{def:compiler-classifier-route-carrier}
+A $\CompilerClassifierRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,A,M,K,G,E,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row whose classifier admits source histories;
+\item $T$ is the target $\NameCert$ row whose classifier receives transported histories;
+\item $A$ is the $\TypeClassifierMembershipUp$ row exposing the source classifier-membership surface consumed by the route;
+\item $M$ is the $\ClassifierMorphismUp$ row recording classifier preservation between source and target classifier rows;
+\item $K$ is the $\NameCertMorphismUp$ row recording carrier and naming-certificate preservation;
+\item $G$ is the $\CertificateCompilerUp$ compiler graph row whose displayed edges are read by both the classifier morphism and the NameCert morphism;
+\item $E$ is the $\Ext$-preservation row, stating that accepted source histories land as accepted target histories along the graph row $G$;
+\item $Q$ is the $\SigRel$-preservation row, stating that the route preserves the displayed source and target signature relation rows;
+\item $L$ is the $\CompilerTraceFaithfulnessUp$ row transporting source classifier agreement and source $\hsame$ to target classifier agreement and target $\hsame$ through the same graph row;
+\item $H$ records componentwise $\hsame$ transport for $S,T,A,M,K,G,E,Q,L,C,P,N$;
+\item $C$ records the displayed $\Cont$ replay for reading source membership, graph edges, target landing, classifier transport, NameCert transport, and trace faithfulness through one route;
+\item $P$ names the dependency surface $\BHist$, $\Ext$, $\SigRel$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\TypeClassifierMembershipUp$, $\ClassifierMorphismUp$, $\NameCertMorphismUp$, $\CertificateCompilerUp$, and $\CompilerTraceFaithfulnessUp$;
+\item $N$ is the local $\NameCert_{\CompilerClassifierRouteUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through these displayed rows and never through host compiler semantics, quotient program equality, hidden target objects, or an undisplayed graph.
+\end{definition}
+
+\begin{theorem}[CompilerClassifierRoute NameCert obligations]
+\label{thm:compiler-classifier-route-namecert-obligations}
+For the carrier of \autoref{def:compiler-classifier-route-carrier}, the local $\NameCert_{\CompilerClassifierRouteUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier exposure: the accepted object is the finite packet $R=(S,T,A,M,K,G,E,Q,L,H,C,P,N)$;
+\item classifier membership admission: the source row $A$ is the only source of accepted classifier membership, and every route read of that membership is replayed through $C$;
+\item shared graph alignment: $\Ext$ preservation, $\SigRel$ preservation, classifier morphism, NameCert morphism, compiler graph replay, and trace faithfulness all cite the same displayed graph row $G$;
+\item trace transport: source classifier agreement and source $\hsame$ are transported to target classifier agreement and target $\hsame$ only through $L,H,C$;
+\item non-escape: no host compiler semantics, quotient program equality, hidden target object, second graph, or undeclared optimization row is exported by the route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite tuple. The rows $S,T,A,M,K,G,E,Q,L,H,C,P,N$ are the complete public inventory available to the local classifier.
+
+Classifier membership admission is inherited from \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. The route does not introduce another membership predicate; it replays the accepted membership row $A$ through the continuation row $C$.
+
+Shared graph alignment is the defining route condition. The classifier morphism, NameCert morphism, certificate compiler graph, $\Ext$ row, $\SigRel$ row, and trace-faithfulness row are admissible only when their graph coordinate is the same displayed $G$.
+
+Trace transport then follows through $L,H,C$. Since $L$ is the trace-faithfulness row and $H,C$ preserve the same componentwise route, target agreement can be read only after the source membership and shared graph rows have been displayed.
+
+Finally $P$ and $N$ name the provenance and local certificate without adding semantic content. The absence of any other coordinate rules out host compiler semantics, quotient equality, hidden target objects, a second graph, and optimization data.
+\end{proof}
+
+\begin{theorem}[CompilerClassifierRoute shared-row rejection]
+\label{thm:compiler-classifier-route-shared-row-rejection}
+An accepted $\CompilerClassifierRouteUp$ packet must place $\Ext$ preservation, $\SigRel$ preservation, $\Cont$ replay, and $\hsame$ trace faithfulness on the same displayed graph row $G$. If any of those rows lands on a different graph, or if one of the rows is absent, the packet is not accepted as a compiler-classifier route.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to read the single graph coordinate $G$. Every row that claims source-to-target transport is listed beside that coordinate in the same packet.
+
+Apply the NameCert obligations. Shared graph alignment makes $G$ the common endpoint for $\Ext$, $\SigRel$, classifier morphism, NameCert morphism, compiler replay, and trace faithfulness, while trace transport forces $\hsame$ preservation through $L,H,C$ over that same coordinate.
+
+If a row uses another graph, the shared graph obligation has no witness. If a row is absent, one of the five obligation rows cannot be read. In either case the displayed packet may still contain a compiler graph or classifier morphism sibling, but it does not contain the joined compiler-classifier route.
+\end{proof}
+
+\begin{theorem}[CompilerClassifierRoute downstream target]
+\label{thm:compiler-classifier-route-downstream-target}
+The Lean-facing downstream surface for $\CompilerClassifierRouteUp$ is the packet family to be recorded under $\mathsf{Derived/CompilerClassifierRouteUp/TasteGate.lean}$ with explicit $\Nontrivial\ \CompilerClassifierRouteUp$ and $\FieldFaithful\ \CompilerClassifierRouteUp$ instances. The gate must recover the shared graph row $G$, the preservation rows $E,Q$, the trace-faithfulness row $L$, and the replay rows $H,C,P,N$ before admitting the route.
+\end{theorem}
+\begin{proof}
+The carrier and obligation surface name the rows the gate must inspect. A nontrivial instance requires a packet with a displayed source certificate, target certificate, classifier-membership row, classifier morphism, NameCert morphism, compiler graph, preservation rows, trace-faithfulness row, replay rows, provenance, and local naming.
+
+Field faithfulness requires those rows to remain recoverable from the admitted route. The shared-row rejection theorem gives the test: the gate reads $G,E,Q,L,H,C,P,N$ and accepts only when the preservation and trace-faithfulness rows land on the same displayed graph row.
+
+No additional Lean object is part of this downstream target. The paper packet fixes the finite row inventory that later formalization must preserve.
+\end{proof}

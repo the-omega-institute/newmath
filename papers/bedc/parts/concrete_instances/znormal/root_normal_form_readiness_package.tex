@@ -1,0 +1,102 @@
+\begin{theorem}[$\ZNormalUp$ root normal-form readiness]
+\label{thm:znormal-root-normal-form-readiness}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root normal-form consumer reads terminal normality only through the finite
+packet displayed by \autoref{def:znormal-carrier}. The packet first exposes
+the carrier and local obligations, then routes terminal readback, sibling
+normal-word evidence, and the root visible source package through the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The readiness boundary exports no host conversion, quotient computation,
+unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier and local naming surface using \autoref{def:znormal-carrier}
+and \autoref{thm:znormal-namecert-obligations}. These rows display exactly
+$T,F,V,K,R,H,C,P,N$ and bind them to the finite $\NameCert_{\ZNormalUp}$
+packet.
+
+Next apply \autoref{thm:znormal-terminal-readback-exactness}. Terminal
+readback is routed through $T,F,V,R,H,C,P,N$, so terminal normality remains a
+finite row rather than a host-side conversion judgment.
+
+Now use \autoref{thm:znormal-sibling-normalword-handoff} and
+\autoref{thm:znormal-root-visible-source-package}. The sibling normal-word row
+$K$ is finite evidence attached to the same packet, and the visible root
+source exposes all normal-output reads only after $T,F,V,K,R,H,C,P,N$ have
+been displayed.
+
+The omitted host objects have no coordinate in that packet. Hence root
+normal-form readiness is a finite BEDC boundary over $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows only.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host ledger exhaustion]
+\label{thm:znormal-total-host-ledger-exhaustion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the total-host ledger is exhausted by the typed endpoint row $T$, finite fuel
+row $F$, terminal-normality row $V$, sibling normal-word row $K$, terminal
+readback row $R$, componentwise transport row $H$, displayed continuation row
+$C$, provenance row $P$, and local name row $N$. Every total-host consumer of
+the packet factors through those rows and cannot add host conversion, quotient
+computation, unrestricted evaluation, divergence detection, or a global
+normalization procedure.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:znormal-carrier}. The ledger-readable carrier is the
+finite tuple $T,F,V,K,R,H,C,P,N$ and has no additional total-host coordinate.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local certificate reads
+carrier admission, finite fuel, terminal normality, sibling normal-word
+evidence, terminal readback, transport, replay, provenance, and naming as one
+packet.
+
+Use \autoref{thm:znormal-terminal-readback-exactness} and
+\autoref{thm:znormal-sibling-normalword-handoff}. Terminal readback and
+sibling normal-word evidence stay inside the displayed finite rows before any
+consumer can claim a normal-form output.
+
+Finally apply \autoref{thm:znormal-root-visible-source-package}. The visible
+source package is already the whole total-host surface, so host conversion,
+quotient computation, unrestricted evaluation, divergence detection, and
+global normalization have no route through the accepted ledger.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ terminal fuel consumer package]
+\label{thm:znormal-terminal-fuel-consumer-package}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the terminal fuel consumer package is the route from the typed endpoint $T$
+through finite fuel $F$, terminal normality $V$, sibling normal-word evidence
+$K$, terminal readback $R$, and the support rows $H,C,P,N$. The route is a
+finite $\BHist$ package with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support;
+it is not a host evaluator, quotient normalizer, divergence oracle,
+unrestricted conversion service, or global normalizer.
+\end{theorem}
+\begin{proof}
+Read $Z$ through \autoref{def:znormal-carrier} and
+\autoref{thm:znormal-namecert-obligations}. The finite fuel row, terminal
+normality row, sibling normal-word row, terminal readback row, and structural
+support rows are all part of the same accepted packet.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. The terminal
+consumer reaches readback only through $T,F,V,R,H,C,P,N$, so the fuel row is a
+required part of the route and not an optional host computation step.
+
+Then use \autoref{thm:znormal-sibling-normalword-handoff}. The row $K$
+supplies only finite sibling normal-word evidence and remains attached to the
+same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply \autoref{thm:znormal-root-visible-source-package}. Since the
+root visible source package exhausts the normal-output route, the terminal fuel
+consumer package cannot expose host conversion, quotient computation,
+unrestricted evaluation, divergence detection, or global normalization.
+\end{proof}

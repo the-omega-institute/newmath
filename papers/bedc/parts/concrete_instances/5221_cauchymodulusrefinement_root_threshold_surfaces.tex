@@ -342,6 +342,61 @@ quotient stream, host real equality, countable choice, hidden selector, selected
 host limit, ambient completeness row, or Real completeness proof.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement selector-spine route completeness]
+\label{thm:cauchy-modulus-refinement-selector-spine-route-completeness}
+For every accepted $\CauchyModulusRefinementUp$ public route
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+whose selected finite-window surface is consumed by
+$\FiniteObservationBudgetSelectorUp$, the complete public route factors first
+through the finite selector path
+$$
+B \to S \to W \to D \to R \to E
+$$
+and then through the L10 exit spine
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+Every read on the route is confined to the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows carried by the Cauchy packet and by the
+finite selector packet. The factorization exposes no quotient stream, host real
+equality, countable choice, hidden selector, selected limit, ambient
+completeness row, or Real completeness proof.
+\end{theorem}
+\begin{proof}
+First form the finite selector handoff. The Cauchy finite-observation-budget
+selector handoff,
+\autoref{thm:cauchy-modulus-refinement-finite-observation-budget-selector-handoff},
+places every accepted selected-window consumer on
+$B \to S \to W \to D \to R \to E$ before any Real-facing exit is read. The
+finite-observation selector route determinacy and Real-seal handoff theorems,
+\autoref{thm:finite-observation-budget-selector-budget-route-determinacy} and
+\autoref{thm:finite-observation-budget-selector-real-seal-handoff}, identify
+that path as the displayed selector path and keep its seal attached to the same
+finite packet.
+
+Next attach the L10 spine. L10 handoff sufficiency,
+\autoref{thm:cauchy-modulus-refinement-l10-handoff-sufficiency}, sends the
+selected window, dyadic readback, regular readback, and Real seal through
+$$
+\StreamNameUp \to \DyadicRatCoreUp \to \RegSeqRatUp \to \RealUp.
+$$
+The selector diagonal consumer boundary,
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary},
+keeps diagonal reads on the finite selector path while that spine is consumed.
+
+Finally seal the route against alternate exits. Window-meet seal unicity,
+\autoref{thm:cauchy-modulus-refinement-window-meet-seal-unicity}, says that a
+consumer already reading the shared meet, selector budget, finite window,
+readback, and Real seal rows has no second seal route through a hidden selector
+or ambient completion coordinate. Thus the composed public route is complete
+through the selector path and the L10 spine, and all reads remain on the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows with none of
+the excluded quotient, host equality, selected-limit, countable-choice, ambient
+completeness, or Real-completeness data.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement shared-window seal transitivity]
 \label{thm:cauchy-modulus-refinement-shared-window-seal-transitivity}
 Let

@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary source route completeness]
+\label{thm:gap-closure-boundary-source-route-completeness}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every supported downstream consumer route for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ factors through the displayed source row $S$ and the concrete rows $G,H,C,P,N$. The consumer may read the branch only as
+$$
+G \longrightarrow S
+$$
+transported, replayed, packaged, and named by $H,C,P,N$; it receives no separate source carrier, private host witness, or consumer-specific route outside the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and NameCert obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They expose the packet $G,S,R,H,C,P,N$ before any hard-problem consumer reads the boundary.
+
+Apply source route totality, \autoref{thm:gap-closure-boundary-source-route-totality}. A supported read reaches the consumer surface only after the displayed route $G \longrightarrow S$ is available.
+
+Finally use source observation totality and structural row conservation, \autoref{thm:gap-closure-boundary-source-observation-totality} and \autoref{thm:gap-closure-boundary-structural-row-conservation}. These keep $H,C,P,N$ as transport, replay, package, and local naming rows for the same source route, so the supported consumer factors through the concrete packet and not through an extra carrier.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal branch determinacy]
+\label{thm:gap-closure-boundary-refusal-branch-determinacy}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every off-source closure request by a listed downstream consumer has the unique refusal endpoint $R$. The request is routed through $G$ and the structural rows $H,C,P,N$ to the refusal branch
+$$
+G \longrightarrow R
+$$
+and cannot split into hidden $\mathsf{T}$ supply, internal closure, private access, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with refusal route determinacy, \autoref{thm:gap-closure-boundary-refusal-route-determinacy}. When the displayed source route is absent, the public boundary sends the request to the refusal row $R$.
+
+Use refusal route exactness and refusal non-escape, \autoref{thm:gap-closure-boundary-refusal-route-exactness} and \autoref{thm:gap-closure-boundary-refusal-nonescape}. They identify $G \longrightarrow R$ as the accepted endpoint and remove hidden closure, hidden $\mathsf{T}$ supply, private access, and off-packet continuation as exits.
+
+The structural rows are then fixed by structural row conservation, \autoref{thm:gap-closure-boundary-structural-row-conservation}. Since $H,C,P,N$ only preserve, replay, package, and name the displayed branch, the refusal endpoint cannot split into another source or an internal closure witness.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary NameCert consumer totality]
+\label{thm:gap-closure-boundary-namecert-consumer-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the concrete $\NameCert$ consumer packet for the listed downstream hard-problem chapters is total over the two displayed branches. Each consumer route is exhausted by either the source branch $G \longrightarrow S$ of \autoref{thm:gap-closure-boundary-source-route-completeness} or the refusal branch $G \longrightarrow R$ of \autoref{thm:gap-closure-boundary-refusal-branch-determinacy}, with $H,C,P,N$ as the only transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First assemble the source side. By \autoref{thm:gap-closure-boundary-source-route-completeness}, every supported consumer factors through the concrete source row $S$ and the rows $G,H,C,P,N$.
+
+Next assemble the refusal side. By \autoref{thm:gap-closure-boundary-refusal-branch-determinacy}, every off-source closure request reaches the unique refusal endpoint $R$ through the same structural rows.
+
+It remains to show that these two branches exhaust the NameCert packet. Apply the carrier obligations of \autoref{thm:gap-closure-boundary-namecert-obligations} and the non-escape content of \autoref{thm:gap-closure-boundary-refusal-nonescape}. The first fixes the consumer surface to $G,S,R,H,C,P,N$, and the second removes hidden closure, hidden $\mathsf{T}$ supply, and off-packet continuation. Thus every listed consumer route is accounted for by the displayed source branch or the displayed refusal branch.
+\end{proof}

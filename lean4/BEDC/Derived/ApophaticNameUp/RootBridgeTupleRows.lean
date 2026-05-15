@@ -79,4 +79,29 @@ theorem ApophaticNameCarrier_boundary_request_image_row [AskSetup] [PackageSetup
     ⟨cert, socketUnary, requestUnary, imageUnary, socketRequestImage,
       ledgerSameRequestGate, imagePkg⟩
 
+theorem ApophaticNameCarrier_root_bridge_tuple_ledger [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow downstreamRead handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg ->
+      Cont ledger nameRow downstreamRead ->
+        Cont downstreamRead route handoff ->
+          PkgSig bundle handoff pkg ->
+            UnaryHistory ledger ∧ UnaryHistory downstreamRead ∧ UnaryHistory handoff ∧
+              hsame ledger (append request gate) ∧ Cont ledger nameRow downstreamRead ∧
+                Cont downstreamRead route handoff ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle PkgSig
+  intro carrier ledgerNameRowDownstream downstreamRouteHandoff handoffPkg
+  obtain ⟨_socketUnary, _requestUnary, _gateUnary, ledgerUnary, _transportUnary,
+    routeUnary, provenanceUnary, nameRowUnary, _socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameRowDownstream
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed downstreamUnary routeUnary downstreamRouteHandoff
+  exact
+    ⟨ledgerUnary, downstreamUnary, handoffUnary, ledgerSameRequestGate,
+      ledgerNameRowDownstream, downstreamRouteHandoff, provenancePkg, handoffPkg⟩
+
 end BEDC.Derived.ApophaticNameUp
