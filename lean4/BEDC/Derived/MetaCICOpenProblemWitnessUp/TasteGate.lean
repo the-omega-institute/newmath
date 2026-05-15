@@ -165,7 +165,7 @@ instance metaCICOpenProblemWitnessBHistCarrier :
   toEventFlow := metaCICOpenProblemWitnessToEventFlow
   fromEventFlow := metaCICOpenProblemWitnessFromEventFlow
 
-instance taste_gate :
+instance metaCICOpenProblemWitnessChapterTasteGate :
     ChapterTasteGate MetaCICOpenProblemWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -178,6 +178,10 @@ instance taste_gate :
     intro x y hxy heq
     exact hxy (metaCICOpenProblemWitnessToEventFlow_injective heq)
 
+instance taste_gate :
+    ChapterTasteGate MetaCICOpenProblemWitnessUp :=
+  metaCICOpenProblemWitnessChapterTasteGate
+
 instance metaCICOpenProblemWitnessFieldFaithful :
     FieldFaithful MetaCICOpenProblemWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -186,14 +190,33 @@ instance metaCICOpenProblemWitnessFieldFaithful :
 
 instance metaCICOpenProblemWitnessNontrivial :
     Nontrivial MetaCICOpenProblemWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨MetaCICOpenProblemWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       MetaCICOpenProblemWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
-        -- BEDC touchpoint anchor: BHist BMark
         intro h
         cases h⟩
+
+theorem MetaCICOpenProblemWitnessTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        metaCICOpenProblemWitnessDecodeBHist (metaCICOpenProblemWitnessEncodeBHist h) = h) ∧
+      (∀ x : MetaCICOpenProblemWitnessUp,
+        metaCICOpenProblemWitnessFromEventFlow (metaCICOpenProblemWitnessToEventFlow x) =
+          some x) ∧
+        (∀ x y : MetaCICOpenProblemWitnessUp,
+          metaCICOpenProblemWitnessToEventFlow x = metaCICOpenProblemWitnessToEventFlow y →
+            x = y) ∧
+          metaCICOpenProblemWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨metaCICOpenProblemWitness_decode_encode_bhist,
+      metaCICOpenProblemWitness_round_trip,
+      (by
+        intro x y heq
+        exact metaCICOpenProblemWitnessToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.MetaCICOpenProblemWitnessUp
