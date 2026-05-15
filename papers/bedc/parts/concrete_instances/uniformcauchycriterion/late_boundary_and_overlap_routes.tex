@@ -71,6 +71,7 @@ I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
 $$
 The inherited route may restrict or pair displayed family entries, but it cannot introduce a new Cauchy schedule, selected family limit, quotient stream family, host real equality, or ambient completeness object.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_shared\_schedule\_real\_seal\_inheritance}
 \begin{proof}
 Begin with the real-facing consumer read. By \autoref{thm:uniform-cauchy-criterion-real-seal-handoff}, every such read reaches $E$ only after passing through $I,W,M,Q,T$.
 
@@ -146,6 +147,28 @@ First combine the paired-family union ledger with the shared-window threshold me
 Next pass from the joined family request to the tail read. Use \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}: the common tail is an intersection of the displayed family ledger with $W,M,Q,T$. Thus the dyadic tolerance row and tail ledger row are inherited from $U$ rather than rebuilt for the overlap.
 
 Finally send the overlap to the consumers. Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion} to exhaust the RegSeqRat side by $I,W,M,Q,T,E,H,C,P,N$, and apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the Real seal side downstream of the same package. The non-escape boundary then rules out a second budget, quotient stream family, selected limit, host real equality, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion RegSeqRat--Real seal overlap]
+\label{thm:uniform-cauchy-criterion-regseqrat-real-seal-overlap}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any overlap of two finite subfamily tail requests that reaches a $\RegSeqRatUp$-facing consumer and then a $\RealUp$ seal factors through the same route
+$$
+I,W,M,Q,T,E,H,C,P,N.
+$$
+The overlap cannot introduce a second RegSeqRat classifier, quotient stream family, selected family limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First place the two subfamily requests on the common window. Apply \autoref{thm:uniform-cauchy-criterion-shared-window-threshold-meet} to identify the shared window and threshold rows $W,M$ before either request reaches its tolerance or tail data.
+
+Next pass to the finite family-tail overlap. Apply \autoref{thm:uniform-cauchy-criterion-family-tail-intersection}. The common tail evidence is the displayed intersection inside the finite ledger $I$ and the same dyadic tolerance and tail rows $Q,T$.
+
+Now read the RegSeqRat-facing consumer. By \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, the consumer is exhausted by $I,W,M,Q,T,E,H,C,P,N$, so it has no coordinate for a second RegSeqRat classifier or quotient stream family.
+
+Finally attach the Real seal. Use \autoref{thm:uniform-cauchy-criterion-shared-schedule-real-seal-inheritance} and \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} to keep the seal read downstream of the same $E,H,C,P,N$ rows. The non-escape boundary then rules out selected family limits, host real equality, and ambient completeness.
 \end{proof}
 
 \begin{theorem}[UniformCauchyCriterion shared-tail subfamily pullback]

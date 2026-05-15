@@ -37,3 +37,17 @@ that surface has no projection for host real equality or an additional seal
 coordinate, the tail-selector consumer is exhausted by the displayed schedule,
 ledger, regularity, classifier, and local seal-provenance rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-selector window-seal lock]
+\label{thm:regseqrat-tail-selector-window-seal-lock}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let a $\RealUp$ seal consumer use the RegSeqRat tail selector carried by $P$. The consumer must read, in order, the selected finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ radius ledger, the RegSeqRat tail-budget handoff, and the local $\RealUp$ seal row. It cannot replace the selected window by quotient-stream equality, host real equality, a selected limit, a completion point, or an ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start from tail-selector RealUp seal exhaustion in \autoref{thm:regseqrat-tail-selector-real-seal-exhaustion}. It places the consumer on the finite $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegSeqRatUp$--$\RealUp$ route and excludes any detached seal coordinate.
+
+Apply the tail-budget meet handoff of \autoref{thm:regseqrat-tail-budget-meet-handoff}. The selected window is not optional data; it is the finite readout through which the tail-budget route reaches the regular-rational meet surface.
+
+Next use \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The StreamName window and dyadic radius ledger travel together into the Real-facing handoff, so a consumer cannot keep the seal while substituting a quotient stream, host equality, selected limit, or completion point for the selected finite window.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The Real seal consumes exactly the preceding finite handoff surface, and therefore the local lock is the ordered route through the selected window, dyadic ledger, tail-budget handoff, and Real seal row.
+\end{proof}
