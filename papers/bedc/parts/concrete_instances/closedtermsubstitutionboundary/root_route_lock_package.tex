@@ -1,0 +1,49 @@
+\begin{theorem}[Closed-term substitution boundary root route lock]
+\label{thm:closed-term-substitution-boundary-root-route-lock}
+Every downstream self-compilation route that consumes an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must pass through the displayed finite packet
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The route may cite the carrier, classifier, local $\NameCert$ obligations, ledger non-escape row, consumer boundary, audit totality row, compiler non-escape row, and root $\NameCert$ handoff, but it exports no host substitution semantics, subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or additional operation coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They display the term rows, depth row, closedness witnesses, closed shift and substitute-closed rows, ledger, audit, transport, continuation, provenance, and local naming data as the only coordinates of the accepted packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. These rows force every operation read through the same closedness witnesses and ledger boundary before any downstream consumer can see $Q$ or $R$.
+
+Finally use \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}, and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The audit, compiler-facing, and naming handoff surfaces all factor through the displayed packet, so the root route has no coordinate outside $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root operation export lock]
+\label{thm:closed-term-substitution-boundary-root-operation-export-lock}
+For an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the closed shift row $Q$ and substitute-closed row $R$ are exportable to a root consumer only as rows of
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The export is locked by the carrier, local $\NameCert$ obligations, ledger non-escape, consumer boundary, root audit totality, root compiler non-escape, and root $\NameCert$ handoff; it does not expose a host substitution relation, subject reduction proof, evaluator, compiler state, or unregistered source/value convention.
+\end{theorem}
+\begin{proof}
+Read $Q$ and $R$ from the carrier. The carrier places both operation rows beside $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}}$, so neither row is available apart from the displayed closedness and depth data.
+
+The local $\NameCert$ obligations and ledger non-escape theorem then supply the export order. A consumer must see the source and value closedness witnesses, pass through $L$, and remain inside the audit-visible packet before the operation rows can be used.
+
+Now apply the consumer boundary together with the root audit totality and root compiler non-escape rows. They make any root operation export a packet read through $A,H,C,P,N$ and prevent replacement by host substitution semantics, subject reduction, evaluator state, compiler state, or an unregistered convention.
+
+The root $\NameCert$ handoff repacks the same route for downstream self-compilation consumers. Hence the operation export is locked to the finite packet and nowhere else.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root self-compile handoff readiness]
+\label{thm:closed-term-substitution-boundary-root-self-compile-handoff-readiness}
+The root route lock of \autoref{thm:closed-term-substitution-boundary-root-route-lock} and the root operation export lock of \autoref{thm:closed-term-substitution-boundary-root-operation-export-lock} make $\ClosedTermSubstitutionBoundaryUp$ ready for downstream self-compilation handoff exactly through
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The ready handoff is the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet witnessed by the carrier, local obligations, ledger non-escape, consumer boundary, audit totality, compiler non-escape, and root naming rows, not a host-level substitution or compiler-correctness object.
+\end{theorem}
+\begin{proof}
+First collect the route side. By \autoref{thm:closed-term-substitution-boundary-root-route-lock}, every downstream self-compilation route is already confined to the displayed carrier, classifier, ledger, audit, transport, continuation, provenance, and naming rows.
+
+Next collect the operation side. By \autoref{thm:closed-term-substitution-boundary-root-operation-export-lock}, the closed shift and substitute-closed rows reach a root consumer only after the closedness, ledger, audit, compiler-facing, and $\NameCert$ handoff rows have been exposed.
+
+Finally combine these two rows with \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The downstream consumer receives one finite handoff packet over $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$, and no host substitution semantics, subject reduction theorem, hidden evaluator, hidden compiler state, or compiler-correctness object is added.
+\end{proof}
