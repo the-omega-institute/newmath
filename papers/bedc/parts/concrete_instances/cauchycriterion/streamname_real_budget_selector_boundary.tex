@@ -50,3 +50,52 @@ the CauchyCriterion handoff and tail-budget boundary gives the stated
 factorization before any selector output is exposed, and the excluded objects
 have no row in the resulting packet.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion uniform selector-seal compatibility]
+\label{thm:cauchycriterion-uniform-selector-seal-compatibility}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
+let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted
+$\UniformCauchyCriterionUp$ packet. Suppose the two presentations display the
+same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ finite
+rows at the completion-facing boundary. Then the budget-selector output of the
+$\CauchyCriterionUp$ route and the shared-threshold seal output of the
+$\UniformCauchyCriterionUp$ route factor through the same finite packet before
+any $\RealUp$ seal is exposed.
+
+The common packet is the displayed StreamName--RegSeqRat--DyadicRatCore--Real
+surface with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support
+rows. It contains no quotient stream, selected limit, host real equality,
+detached family threshold, ambient completeness principle, or second
+completion seal.
+\end{theorem}
+\begin{proof}
+Begin with the CauchyCriterion side. Apply
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff} and
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary}. These
+place the selector-facing read on the displayed $M,Q,T,W,E,H,C,P,N$ packet
+before any Real or Completion seal can be consumed.
+
+Next expose the StreamName exit route. The finite-window request and coverage
+rows, together with
+\autoref{thm:streamname-real-regseq-finite-window-budget-handoff},
+\autoref{thm:streamname-realup-finite-window-seal-boundary}, and
+\autoref{thm:streamname-real-completion-four-object-exit-route}, identify the
+four public faces as $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ with no fifth completion coordinate.
+
+Now read the uniform presentation. Apply
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. The family
+threshold request is transported as one finite route through the displayed
+window, threshold, tolerance, and tail rows, with the support rows supplied by
+$H_U,C_U,P_U,N_U$.
+
+Finally apply
+\autoref{thm:uniform-cauchy-criterion-real-seal-handoff},
+\autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}, and
+\autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. The uniform seal
+is downstream of the same finite packet, and the non-escape boundary removes
+quotient streams, selected limits, host equality, detached thresholds, ambient
+completeness, and any second completion seal. Hence the selector route and the
+shared-threshold seal route agree on the finite packet before the $\RealUp$
+seal is exposed.
+\end{proof}
