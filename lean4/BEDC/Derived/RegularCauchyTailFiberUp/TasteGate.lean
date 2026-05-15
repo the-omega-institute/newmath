@@ -518,4 +518,56 @@ theorem RegularCauchyTailFiberPacket_shared_window_seal_determinacy [AskSetup]
   exact
     ⟨sealUnary0, sealUnary1, sameSeal, sealRoute0, sealRoute1, sealPkg0, sealPkg1⟩
 
+theorem RegularCauchyTailFiberPacket_source_seal_ledger_totality [AskSetup]
+    [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont t a handoff →
+        PkgSig bundle handoff pkg →
+          UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+            UnaryHistory d0 ∧ UnaryHistory d1 ∧ UnaryHistory t ∧ UnaryHistory a ∧
+              UnaryHistory n ∧ UnaryHistory handoff ∧ Cont r0 w0 h ∧ Cont r1 w1 c ∧
+                Cont d0 d1 t ∧ Cont t a p ∧ Cont t a handoff ∧ PkgSig bundle p pkg ∧
+                  PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet handoffRoute handoffPkg
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, nUnary, hRoute, cRoute, tailRoute, sealRoute,
+    packetPkg⟩ := packet
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed tUnary aUnary handoffRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, tUnary, aUnary, nUnary,
+      handoffUnary, hRoute, cRoute, tailRoute, sealRoute, handoffRoute, packetPkg,
+      handoffPkg⟩
+
+theorem RegularCauchyTailFiberPacket_meet_route [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 d0 d1 t a h c p n leftMeet rightMeet meet sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailFiberPacket r0 r1 w0 w1 d0 d1 t a h c p n bundle pkg →
+      Cont w0 d0 leftMeet →
+        Cont w1 d1 rightMeet →
+          Cont leftMeet rightMeet meet →
+            Cont meet a sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory leftMeet ∧ UnaryHistory rightMeet ∧ UnaryHistory meet ∧
+                  UnaryHistory sealRead ∧ hsame sealRead sealRead ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro packet leftRoute rightRoute meetRoute sealRoute sealPkg
+  obtain ⟨_r0Unary, _r1Unary, w0Unary, w1Unary, d0Unary, d1Unary, _tUnary, aUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _sourceRoute, _classifierRoute, _tailRoute,
+    _packetSealRoute, _packetPkg⟩ := packet
+  have leftUnary : UnaryHistory leftMeet :=
+    unary_cont_closed w0Unary d0Unary leftRoute
+  have rightUnary : UnaryHistory rightMeet :=
+    unary_cont_closed w1Unary d1Unary rightRoute
+  have meetUnary : UnaryHistory meet :=
+    unary_cont_closed leftUnary rightUnary meetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed meetUnary aUnary sealRoute
+  exact
+    ⟨leftUnary, rightUnary, meetUnary, sealUnary, hsame_refl sealRead, sealPkg⟩
+
 end BEDC.Derived.RegularCauchyTailFiberUp
