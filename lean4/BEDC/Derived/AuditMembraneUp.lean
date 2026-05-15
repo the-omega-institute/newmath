@@ -91,4 +91,29 @@ theorem AuditMembraneCarrier_namecert_obligations {G B R D H P N : BHist} :
       exact ⟨source.right, sameAuditFace⟩
   exact ⟨cert, closure.left, unaryN, sameAuditFace⟩
 
+theorem AuditMembraneCarrier_consumer_boundary {G B R D H P N consumer : BHist} :
+    AuditMembraneCarrier G B R D H P N →
+      Cont N P consumer →
+        UnaryHistory G ∧ UnaryHistory B ∧ UnaryHistory R ∧ UnaryHistory D ∧
+          UnaryHistory P ∧ UnaryHistory N ∧ UnaryHistory consumer ∧
+            hsame H (append G B) ∧ Cont G B R ∧ Cont R D N ∧
+              Cont N P consumer := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet consumerRoute
+  have closure := AuditMembraneCarrier_refusal_replay_closure packet
+  have unaryG : UnaryHistory G := packet.left
+  have unaryB : UnaryHistory B := packet.right.left
+  have unaryD : UnaryHistory D := packet.right.right.left
+  have unaryP : UnaryHistory P := packet.right.right.right.left
+  have sameAuditFace : hsame H (append G B) := closure.right.right
+  have refusalRoute : Cont G B R := packet.right.right.right.right.right.left
+  have replayRoute : Cont R D N := packet.right.right.right.right.right.right
+  have unaryR : UnaryHistory R := closure.left
+  have unaryN : UnaryHistory N := closure.right.left
+  have unaryConsumer : UnaryHistory consumer :=
+    unary_cont_closed unaryN unaryP consumerRoute
+  exact
+    ⟨unaryG, unaryB, unaryR, unaryD, unaryP, unaryN, unaryConsumer, sameAuditFace,
+      refusalRoute, replayRoute, consumerRoute⟩
+
 end BEDC.Derived.AuditMembraneUp
