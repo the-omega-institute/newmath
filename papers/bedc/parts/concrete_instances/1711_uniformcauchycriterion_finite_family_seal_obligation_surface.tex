@@ -191,6 +191,62 @@ provide a second route.
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_route\_lock}
 
+\begin{theorem}[UniformCauchyCriterion CauchyLimitFunctor terminal handoff]
+\label{thm:uniform-cauchy-criterion-cauchy-limit-functor-handoff}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family
+seal obligation surface. Suppose an accepted $\CauchyLimitFunctorUp$ packet
+preserves the same source seal, $\StreamNameUp$ windows, $\RegSeqRatUp$
+readback, $\DyadicRatCoreUp$ tolerance ledger,
+$\RealCompletionSealClassifierUp$ row, and terminal $\RealUp$ endpoint used by
+the finite-family $\RegSeqRatUp$--$\RealUp$ handoff for $U$. Then every
+$\RegSeqRatUp$, $\RealUp$, and Completion consumer of the pair factors through
+the finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+followed by the displayed functor packet rows. The terminal handoff introduces
+no quotient stream, selected host limit, host real equality, countable-choice
+row, detached completion object, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the finite-family side. The seal obligation package and the
+$\RegSeqRatUp$--$\RealUp$ handoff,
+\autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}
+and \autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff},
+place all tail and seal reads of $U$ on the displayed path from $I$ through
+$E$.
+
+Next apply nonescape and route locking inside $\UniformCauchyCriterionUp$.
+\autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} removes
+selected limits, quotient streams, host real equality, detached tail data, and
+ambient completeness from the finite-family surface, while
+\autoref{thm:uniform-cauchy-criterion-finite-family-route-lock} prevents a
+consumer preserving $I,W,M,Q,T,E,H,C,P,N$ from using a second tail or seal
+route.
+
+Now consume the accepted $\CauchyLimitFunctorUp$ packet. Its NameCert
+obligations, finite observation exposure, structural transport, and
+Real-completion consumer boundary are supplied by
+\autoref{thm:cauchy-limit-functor-namecert-obligations},
+\autoref{thm:cauchy-limit-functor-finite-observation-exposure},
+\autoref{thm:cauchy-limit-functor-structural-transport}, and
+\autoref{thm:cauchy-limit-functor-real-completion-consumer}. These results
+make the functor packet read only the preserved source seal, stream windows,
+regular-rational readback, dyadic tolerance ledger, classifier row, terminal
+endpoint, and structural rows.
+
+Finally compose the two boundaries. The finite-family route supplies the
+source tail-to-seal handoff, and the functor packet transports exactly that
+source through its displayed rows. Since both packets exclude quotient stream
+equality, selected host limits, host real equality, countable choice, detached
+completion objects, ambient completeness, and second routes, the combined
+consumer has the single terminal route stated above.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family real seal tail coprovenance]
 \label{thm:uniform-cauchy-criterion-finite-family-real-seal-tail-coprovenance}
 Let
