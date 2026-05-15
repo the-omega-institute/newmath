@@ -274,6 +274,9 @@ instance inscriptionAcceptanceBudgetChapterTasteGate :
     intro x y hxy heq
     exact hxy (inscriptionAcceptanceBudgetToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionAcceptanceBudgetUp :=
+  inscriptionAcceptanceBudgetChapterTasteGate
+
 theorem InscriptionAcceptanceBudgetTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       inscriptionAcceptanceBudgetDecodeBHist

@@ -54,14 +54,36 @@ the root read has the unique displayed route
 $$
 M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
 $$
+For any selected window read $S$, readback read $B$, seal read $A$, and endpoint read $Z$ on that root route, the route package records the carried history rows
+$$
+\UnaryHistory(M_0),\UnaryHistory(M_1),\UnaryHistory(U),\UnaryHistory(V),
+\UnaryHistory(T),\UnaryHistory(W),\UnaryHistory(Q),\UnaryHistory(E),
+\UnaryHistory(H),\UnaryHistory(C),\UnaryHistory(P),\UnaryHistory(N),
+\UnaryHistory(S),\UnaryHistory(B),\UnaryHistory(A),\UnaryHistory(Z),
+$$
+the carrier and selected-read continuation links
+$$
+\Cont(M_0,M_1,U),\quad
+\Cont(U,V,T),\quad
+\Cont(T,W,Q),\quad
+\Cont(Q,E,H),\quad
+\Cont(T,W,S),\quad
+\Cont(S,Q,B),\quad
+\Cont(B,E,A),\quad
+\Cont(A,H,Z),
+$$
+the package rows $\PkgSig(\Omega,P,\pi)$ and $\PkgSig(\Omega,Z,\pi)$ for the same probe bundle $\Omega$ and package $\pi$, and the terminal classifier row $\hsame(H,N)$.
+
 The rows $H,C,P,N$ respectively carry the componentwise $\hsame$ transports, displayed $\Cont$ route, local $\Pkg$ provenance, and local $\NameCert$ authentication for that route. No accepted root read may substitute a second meet, hidden selector, quotient stream, host real equality, or ambient completeness row for any coordinate of the displayed route.
 \end{theorem}
 \begin{proof}
-First read the root carrier threshold admission and classifier transport exactness theorems, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They place the accepted carrier and its componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on the same displayed finite packet.
+First read the root carrier threshold admission and classifier transport exactness theorems, \autoref{thm:cauchy-modulus-refinement-root-carrier-threshold-admission} and \autoref{thm:cauchy-modulus-refinement-root-classifier-transport-exactness}. They place the accepted carrier and its componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows on the same displayed finite packet, and they expose the carrier histories for $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$.
 
-Next bind the source and selected-window parts of the route. Source-meet exactness and selector-budget totality, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness} and \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, force every accepted read from $M_0,M_1$ through $U,V,T$ before any selected finite-window row can be read.
+Next bind the source and selected-window parts of the route. Source-meet exactness and selector-budget totality, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness} and \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, force every accepted read from $M_0,M_1$ through $U,V,T$ before any selected finite-window row can be read. The selected-read links $\Cont(T,W,S)$ and $\Cont(S,Q,B)$ then keep the selected window and readback rows as descendants of the selector budget and displayed window.
 
-Finally use Real seal factorization together with root ledger non-escape, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization} and \autoref{thm:cauchy-modulus-refinement-root-ledger-nonescape-totality}. The seal is reached only after $W,Q$, and the ledger contains no second meet, hidden selector, quotient stream, host real equality, or ambient completeness coordinate. Hence the displayed route is the unique root route.
+Use window-tolerance exactness and Real seal factorization, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness} and \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}. These give the readback-to-seal and seal-to-endpoint replay links, so the rows $S,B,A,Z$ inherit $\UnaryHistory$ closure and the endpoint package row stays over the same probe bundle and package as the carrier provenance row.
+
+Finally use root ledger non-escape, \autoref{thm:cauchy-modulus-refinement-root-ledger-nonescape-totality}. The seal and endpoint are reached only after $W,Q$, and the ledger contains no second meet, hidden selector, quotient stream, host real equality, or ambient completeness coordinate. Hence the displayed route is the complete root route, with both package rows and the terminal classifier row still attached to the same finite packet.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus refinement root budget consumer exhaustion]
