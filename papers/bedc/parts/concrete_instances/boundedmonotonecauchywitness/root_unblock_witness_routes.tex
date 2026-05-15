@@ -249,3 +249,55 @@ Now place this order at the Real threshold. \autoref{thm:bounded-monotone-cauchy
 
 Finally apply tail-seal nesting, \autoref{thm:bounded-monotone-cauchy-witness-root-tail-seal-nesting}. It nests the route as a single finite chain ending in $Q$ and then $H,C,P,N$, so the grid budget rows cannot be exposed on a separate completion route after the seal. The same route therefore reads $B,L,K,T$ before exposing $Q$, and none of the excluded completion principles is exported.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness route tightening]
+\label{thm:bounded-monotone-cauchy-witness-route-tightening}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let its root route consume an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. The accepted witness route factors through the monotone-bound rows, the tail-window rows, the grid-budget rows, and the $\RealUp$ seal row in the finite order
+$$
+S,F \longrightarrow \sigma,\mu,\lambda \longrightarrow B,L,K,T \longrightarrow I \longrightarrow Q \longrightarrow H,C,P,N.
+$$
+The route is therefore a tightening of the displayed $\BHist$ packet: every Real-seal read is preceded by bounded-source data, scheduled Cauchy-modulus data, selector-budget and witness-ledger data, and the located trap. It does not import a selected limit, host real equality, quotient real equality, completeness, compactness, trichotomy, or choice data.
+\end{theorem}
+\begin{proof}
+First apply root extraction and the monotone-bound route. Theorems~\ref{thm:bounded-monotone-cauchy-witness-root-extraction} and~\ref{thm:bounded-monotone-cauchy-witness-monotone-bound-route} confine the accepted carrier to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and place the bounded-source rows before the scheduled tail service.
+
+Next use root tail-window totality. It makes $\sigma,\mu,\lambda$ unavoidable before any located-trap or Real-seal row can be consumed, so the Cauchy-modulus route is already finite inside the displayed packet.
+
+Now attach the grid side by grid budget precedence. The theorem \autoref{thm:bounded-monotone-cauchy-witness-grid-budget-precedes-seal} places $B,L,K,T$ before $Q$ on the same root route, not on a parallel completion route.
+
+Finally use the limit-seal handoff and synchronizer handoff. These hand the resulting finite route to $\CauchyLimitSealUp$, $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, and $\RealUp$ consumers through $H,C,P,N$, leaving no carrier coordinate for the excluded completion or choice principles.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness schedule factorization]
+\label{thm:bounded-monotone-cauchy-witness-schedule-factorization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Before any downstream $\RealUp$ seal read from $W$, the schedule row $\sigma$, the Cauchy-modulus witness row $\mu$, and the dyadic tolerance ledger $\lambda$ appear as finite $\BHist$ rows of the same accepted packet, transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$.
+
+Consequently the Real-seal consumer receives finite schedule and modulus data rather than a selected tail, host sequence equality, ambient Cauchy-completeness principle, or choice-like modulus selector.
+\end{theorem}
+\begin{proof}
+Start from root extraction. It identifies $\sigma,\mu,\lambda$ as visible carrier rows and leaves no separate schedule service outside $W$.
+
+Use root tail-window totality to force the order. Every convergence-seal, limit-seal, synchronizer, observation-budget, or Real-seal consumer must consume $\sigma,\mu,\lambda$ before the located-trap and seal rows.
+
+Apply route tightening to the resulting packet. The tightened route keeps the schedule, modulus, dyadic ledger, grid-budget rows, located trap, and seal row on one finite $\BHist$ route.
+
+The limit-seal handoff and synchronizer handoff then move that finite route through $H,C,P,N$. Since those are the only transport, continuation, package, and naming rows, no selected tail, host sequence equality, completeness principle, or choice-like modulus selector is available to the Real-seal consumer.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness Real-seal consumer exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-real-seal-consumer-exhaustion}
+Every downstream $\RealUp$-seal consumer of an accepted $\BoundedMonotoneCauchyWitnessUp$ packet $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, together with any accepted $\RealCauchyWitnessGridUp$ packet consumed on its root route, is exhausted by the displayed rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+and by the grid-budget rows $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$ when such a grid packet is present. No downstream Real-seal consumer can import selected limits, host real equality, quotient real equality, real completeness, compactness, trichotomy, countable choice, hidden grid selector state, or choice-like tail data.
+\end{theorem}
+\begin{proof}
+First confine the witness route by root extraction and limit-seal handoff. These theorems identify the finite rows of $W$ and make every $\CauchyLimitSealUp$ or $\RealUp$ read pass through them.
+
+Next apply schedule factorization. It records that $\sigma,\mu,\lambda$ are finite $\BHist$ rows before the Real-seal read, with $H,C,P,N$ carrying only displayed transport, route replay, provenance, and naming.
+
+If the root route consumes a grid packet, use grid budget precedence. The rows $B,L,K,T$ are read before $Q$, and the remaining grid rows are exactly the carrier, handoff, transport, continuation, provenance, and naming rows already listed by the grid package.
+
+Finally apply the synchronizer handoff and route tightening. They exhaust the Real-seal, synchronizer, and observation-budget consumers by the displayed witness and grid rows, so none of the excluded selected-limit, host-equality, completeness, compactness, trichotomy, choice, or hidden-selector data can be imported.
+\end{proof}
