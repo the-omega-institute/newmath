@@ -77,15 +77,53 @@ Apply \autoref{thm:closed-term-substitution-boundary-inertness} and \autoref{thm
 The sibling closure-preservation, beta-substitution, and subject-reduction chapters consume this packet through their own provenance rows. Their additional rows record closure-preservation and typing-route context downstream; they do not enlarge $Q$ with open-term semantics, evaluator truth, host truth, or a new free-variable source.
 \end{proof}
 
+\begin{theorem}[Closed substitution source boundary]
+\label{thm:closed-substitution-source-boundary}
+Every accepted $\ClosedTermSubstitutionUp$ carrier $Q=(T,d,V,S,H,C,P,N)$ exposes only the displayed MetaCIC term row, the closedness boundary row, the value payload row, the substitution and shift witness row, the $\hsame$ transport row, the $\Cont$ read routes, the $\Pkg$ provenance row, and the local $\NameCert_{\ClosedTermSubstitutionUp}$ row. No other source row is public from this carrier.
+\end{theorem}
+\begin{proof}
+Project $Q$ through \autoref{def:closed-term-substitution-carrier}. The eight coordinates are exactly the displayed term, boundary, value, witness, transport, route, provenance, and naming rows.
+
+The source boundary is the one imported from \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. That chapter supplies the boundary law consumed here, while this carrier only specializes the law to the inert value-payload route.
+
+The excluded sources are therefore absent by coordinate inspection. An accepted read may expose $T,d,V,S,H,C,P,N$, but it has no coordinate from which to extract an open-term theorem, evaluator semantics, host truth predicate, future binder budget, or unregistered variable source.
+\end{proof}
+
+\begin{theorem}[Closed substitution ledger exhaustion]
+\label{thm:closed-substitution-substitution-ledger-exhaustion}
+Every public substitution read from an accepted $\ClosedTermSubstitutionUp$ carrier factors through $S$, $H$, $C$, and $P$. Consequently the ledger records exactly boundary inertness together with substitution and shift witness accountability, and no further substitution authority is exported.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:closed-term-substitution-boundary-inertness}. The only boundary equation made public for substitution is the equation stored in the witness row $S$, together with the companion shift equation at the same boundary.
+
+Apply \autoref{thm:closed-term-substitution-namecert-obligations}. Public access to the witness row is routed through the displayed continuation row $C$, stabilized through the componentwise $\hsame$ row $H$, and sourced through the package provenance row $P$.
+
+Thus a substitution consumer exhausts the ledger by reading $S$, transporting through $H$, following $C$, and citing $P$. No additional row remains from which to read a second substitution law, a semantic evaluator claim, or a host-level truth predicate.
+\end{proof}
+
+\begin{theorem}[Closed substitution binder-scope nonescape]
+\label{thm:closed-substitution-binder-scope-nonescape}
+For every accepted $\ClosedTermSubstitutionUp$ carrier $Q=(T,d,V,S,H,C,P,N)$, binder depth, value payload, and continuation reads cannot export open-term subject reduction, evaluator correctness, host CIC truth, or an unregistered variable source.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The boundary coordinate $d$ records only the local de Bruijn depth at which closedness is certified, and the value coordinate $V$ is displayed payload data rather than a consumed variable of $T$.
+
+The continuation coordinate $C$ records routes that expose the term, boundary, value, witness row, and returned term equality. By \autoref{thm:closed-term-substitution-namecert-obligations}, those routes do not add a further generator.
+
+The non-escape clauses stated in the carrier and NameCert rows exclude open-term subject reduction, evaluator correctness, host CIC truth, future binder budgets, and unregistered free variables. Since none of those objects is a coordinate of $Q$, the binder scope and payload reads cannot export them.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionUp}{seedStr}
+\closureat{ClosedTermSubstitutionUp}{obligationStr}[BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ClosedTermSubstitutionUp}
   \constructivestory{A $\ClosedTermSubstitutionUp$ packet is generated from a MetaCIC term row, a closedness boundary row, a displayed substitution value, substitution and shift witness rows, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closed-term-substitution-carrier}, \autoref{thm:closed-term-substitution-boundary-inertness}, and \autoref{thm:closed-term-substitution-namecert-obligations} bind the finite carrier, boundary-inert substitution read, and local NameCert obligations.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-carrier}, \autoref{thm:closed-term-substitution-boundary-inertness}, \autoref{thm:closed-term-substitution-namecert-obligations}, \autoref{thm:closed-substitution-source-boundary}, \autoref{thm:closed-substitution-substitution-ledger-exhaustion}, \autoref{thm:closed-substitution-binder-scope-nonescape}, and \leanchecked{BEDC.Derived.ClosedTermSubstitutionUp.taste\_gate} bind the carrier, boundary inertness, NameCert obligations, source boundary, ledger exhaustion, binder-scope nonescape, and TasteGate marker to the obligation surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close open-term subject reduction, semantic evaluator correctness, host CIC truth, future binder allocation, or a complete self-compilation theorem.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for boundary inertness, displayed read locality, and NameCert non-escape.}
+  \upgradepath{Scoped closure requires binding the recorded obligations to their exact $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
 \end{closurestatus}
