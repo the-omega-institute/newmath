@@ -577,4 +577,24 @@ theorem BoundedMonotoneCauchyWitnessCarrier_root_located_real_seal_route
       realUnary, trapLedgerLocated, locatedWitnessTolerance, toleranceSealReal, provenancePkg,
       realPkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      source' regular' schedule' witness' ledger' trap' sealRow' transport' route' provenance'
+      localCert' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg ->
+      BoundedMonotoneCauchyWitnessCarrier source' regular' schedule' witness' ledger' trap'
+        sealRow' transport' route' provenance' localCert' bundle pkg -> hsame source source' ->
+        hsame schedule schedule' -> hsame witness witness' -> hsame sealRow sealRow' ->
+          hsame regular regular' ∧ hsame trap trap' ∧ hsame route route' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro left right sameSource sameSchedule sameWitness sameSeal
+  obtain ⟨_, _, _, _, _, _, _, _, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
+    _, _, _⟩ := left
+  obtain ⟨_, _, _, _, _, _, _, _, sourceScheduleRegular', regularWitnessTrap',
+    trapSealRoute', _, _, _⟩ := right
+  have sameRegular := cont_respects_hsame sameSource sameSchedule sourceScheduleRegular sourceScheduleRegular'
+  have sameTrap := cont_respects_hsame sameRegular sameWitness regularWitnessTrap regularWitnessTrap'
+  exact ⟨sameRegular, sameTrap, cont_respects_hsame sameTrap sameSeal trapSealRoute trapSealRoute'⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
