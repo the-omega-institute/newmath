@@ -1,0 +1,49 @@
+\begin{theorem}[$\ZNormalUp$ root carrier exposure]
+\label{thm:znormal-root-carrier-exposure}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root carrier exposure available to downstream normal-form consumers is exactly the finite row list displayed by \autoref{def:znormal-carrier}. The rows expose the typed endpoint $T$, finite fuel $F$, terminal-normality coordinate $V$, sibling normal-word evidence $K$, terminal readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+No accepted root consumer receives a second carrier row outside this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:znormal-carrier}. Its displayed tuple is $T,F,V,K,R,H,C,P,N$, with each coordinate named as a finite BEDC row before any terminal-normality or total-host claim can be read.
+
+Apply \autoref{thm:znormal-namecert-obligations} and \autoref{thm:znormal-namecert-root-obligations}. These obligations bind carrier admission, typed endpoint, finite fuel, terminal normality, sibling normal-word evidence, terminal readback, transport, replay, provenance, and local naming to the same accepted packet.
+
+Use the total-host readback display of \autoref{thm:znormal-total-host-readback-display}. It exposes the same row list on the root-facing surface and supplies no independent carrier coordinate. Hence the root carrier exposure is exactly the finite packet already used by the carrier definition.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root ledger nonescape]
+\label{thm:znormal-root-ledger-nonescape}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root ledger can export only the displayed finite carrier, terminal-normality, sibling normal-word, terminal readback, transport, replay, provenance, and naming rows. It cannot export a divergence oracle, host conversion row, unrestricted evaluator, quotient normalizer, or global normalization procedure.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-root-carrier-exposure}. The root ledger-readable surface has the same finite coordinates $T,F,V,K,R,H,C,P,N$ as the carrier exposure.
+
+Next apply \autoref{thm:znormal-total-host-ledger-nonescape} and \autoref{thm:znormal-root-unblock-nonescape-ledger}. Both ledger boundaries exhaust the available reads through the displayed terminal-normality, fuel, normal-word, continuation, transport, replay, provenance, and naming rows.
+
+Finally use \autoref{thm:znormal-finite-host-boundary-refusal} and \autoref{thm:znormal-total-host-frontier-lock}. These refusal theorems block divergence detection, host conversion, unrestricted evaluation, quotient normalization, substrate halting, and global normalization from any route not carried by the finite packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root readback exhaustion]
+\label{thm:znormal-root-readback-exhaustion}
+Every terminal readback accepted by a $\ZNormalUp$ root consumer factors through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The readback first exposes the typed endpoint, fuel, terminal-normality, sibling normal-word, and terminal-read rows, then transports and packages them through $H,C,P,N$. It has no replacement route through host conversion, quotient computation, unrestricted evaluation, divergence detection, or global normalization.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-root-carrier-exposure}. It fixes the readable root packet as $T,F,V,K,R,H,C,P,N$ and identifies the displayed $\BHist$ source rows before any terminal readback is consumed.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-terminal-fuel-route-exhaustion}, and \autoref{thm:znormal-root-terminal-readback-ledger-totality}. These results place terminal readback on the route from $T$ through $F,V,K,R$ and keep the terminal read inside the finite ledger.
+
+Apply \autoref{thm:znormal-root-ledger-nonescape}. The only remaining structural rows are the componentwise $\hsame$ transport $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. Therefore every terminal readback factors through the displayed BEDC rows and cannot be replaced by an excluded host-side route.
+\end{proof}

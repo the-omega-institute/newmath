@@ -360,4 +360,24 @@ theorem ObserverFilterBudgetSelectorRealSealTerminality_terminal_field_not_erase
   injection tail7 with hSeal _
   cases hSeal
 
+theorem ObserverFilterBudgetSelectorDyadicReadbackExactness_dyadic_field_not_erased
+    (filter identity selected omitted budget window handoff realSeal transport route provenance
+      name : BHist) :
+    observerFilterBudgetSelectorToEventFlow
+        (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+          (BHist.e0 BHist.Empty) handoff realSeal transport route provenance name) ≠
+      observerFilterBudgetSelectorToEventFlow
+        (ObserverFilterBudgetSelectorUp.mk filter identity selected omitted budget window
+          BHist.Empty handoff realSeal transport route provenance name) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  injection heq with _ tail0
+  injection tail0 with _ tail1
+  injection tail1 with _ tail2
+  injection tail2 with _ tail3
+  injection tail3 with _ tail4
+  injection tail4 with _ tail5
+  injection tail5 with hDyadic _
+  cases hDyadic
+
 end BEDC.Derived.ObserverFilterBudgetSelectorUp
