@@ -420,4 +420,29 @@ theorem CauchyDiagonalBudgetCarrier_route_determinacy [AskSetup] [PackageSetup]
     unary_cont_closed compareUnary1 sUnary compareSeal1
   exact ⟨routeSame, dyadicSame, compareSame, sealSame, sealUnary0, sealUnary1, pPkg⟩
 
+theorem CauchyDiagonalBudgetCarrier_regseq_real_route_lock [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name window comparison sealRead boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ->
+      Cont epsilon m window -> Cont window d comparison -> Cont comparison s sealRead ->
+        Cont h c boundary -> PkgSig bundle boundary pkg ->
+          hsame w window ∧ hsame k comparison ∧ hsame h sealRead ∧ UnaryHistory window ∧
+            UnaryHistory comparison ∧ UnaryHistory sealRead ∧ UnaryHistory boundary ∧
+              PkgSig bundle p pkg ∧ PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier epsilonMWindow windowDComparison comparisonSSeal hCBoundary boundaryPkg
+  obtain ⟨epsilonUnary, mUnary, _wUnary, dUnary, _kUnary, sUnary, hUnary, cUnary,
+    _pUnary, _nameUnary, epsilonMW, wDK, kSH, _hCP, _cPName, pPkg⟩ := carrier
+  have sameWindow : hsame w window := cont_deterministic epsilonMW epsilonMWindow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed (unary_cont_closed epsilonUnary mUnary epsilonMWindow) dUnary
+      windowDComparison
+  have sameComparison : hsame k comparison :=
+    cont_respects_hsame sameWindow (hsame_refl d) wDK windowDComparison
+  have sealUnary : UnaryHistory sealRead := unary_cont_closed comparisonUnary sUnary comparisonSSeal
+  exact ⟨sameWindow, sameComparison,
+    cont_respects_hsame sameComparison (hsame_refl s) kSH comparisonSSeal,
+    unary_cont_closed epsilonUnary mUnary epsilonMWindow, comparisonUnary, sealUnary,
+    unary_cont_closed hUnary cUnary hCBoundary, pPkg, boundaryPkg⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp
