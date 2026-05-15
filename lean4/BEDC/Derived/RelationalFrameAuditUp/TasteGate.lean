@@ -241,4 +241,15 @@ theorem RelationalFrameAuditTasteGate_single_carrier_alignment :
       rfl,
       rfl⟩
 
+theorem RelationalFrameAudit_refusal_row_concrete_boundary
+    {multiHist observerA observerB request symmetry causal rate transport continuation provenance
+      name : BHist} :
+    RelationalFrameAuditUp.mk multiHist observerA observerB request symmetry causal rate
+        BHist.Empty transport continuation provenance name ≠
+      RelationalFrameAuditUp.mk multiHist observerA observerB request symmetry causal rate
+        (BHist.e0 BHist.Empty) transport continuation provenance name := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  cases h
+
 end BEDC.Derived.RelationalFrameAuditUp
