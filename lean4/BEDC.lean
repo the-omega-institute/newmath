@@ -2182,6 +2182,7 @@ import BEDC.Derived.CompactUp.TwoStepFactor
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
+import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
@@ -2207,6 +2208,7 @@ import BEDC.Derived.FieldUp.FieldCertificateObligations
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
+import BEDC.Derived.ObserverBudgetSupportUp.TasteGate
 import BEDC.Reflection
 import BEDC.MetaCIC
 import BEDC.GroundCompiler.AuditReexport
