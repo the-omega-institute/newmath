@@ -1,0 +1,105 @@
+\begin{theorem}[FiniteTraceEvaluator checkpoint-state exposure]
+\label{thm:finite-trace-evaluator-checkpoint-state-exposure}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every
+$\ReflectionRuntimeCheckpointUp$ checkpoint-state read first factors through
+the finite accepted-result route
+$$
+I \to T \to A
+$$
+and then through the validation boundary, componentwise transport, displayed
+continuation, provenance, and local naming rows
+$$
+V,H,C,P,N.
+$$
+The state surface exposes result rows and validation rows only through this
+finite packet and has no coordinate for host validation, total truth,
+self-validation, total halting, unbounded evaluation, or an infinite trace.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. The
+available evaluator coordinates are the coded input $I$, finite trace $T$,
+accepted-result classifier $A$, validation row $V$, componentwise transports
+$H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage} and
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. They place
+every checkpoint-state read behind the finite trace and require the
+accepted-result part of the read to pass through $I \to T \to A$ before the
+checkpoint consumer can use it.
+
+Next use \autoref{thm:finite-trace-evaluator-root-trace-result-totality}. The
+root-facing result row is total only for the displayed finite route, so the
+state exposure cannot move the result coordinate to a host validator or to an
+unbounded evaluator.
+
+Finally attach \autoref{thm:finite-trace-evaluator-root-boundary-package}. It
+adds $V,H,C,P,N$ as the only validation-facing, transport, continuation,
+provenance, and naming rows available to the root checkpoint packet, excluding
+host validation, total truth, self-validation, total halting, unbounded
+evaluation, and infinite traces from the exposed state surface.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator validation-boundary consumer totality]
+\label{thm:finite-trace-evaluator-validation-boundary-consumer-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, every validation-facing
+$\ReflectionRuntimeCheckpointUp$ consumer is exhausted by the boundary row
+$V$, the transport row $H$, the continuation row $C$, the provenance row $P$,
+and the local naming row $N$. Such a consumer cannot export host validation,
+total truth, self-validation, total halting, unbounded evaluation, an infinite
+trace, or a second checkpoint-state source.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:finite-trace-evaluator-namecert-obligations}. The
+local certificate names the validation non-escape, provenance, and local
+naming rows as obligations of the finite evaluator packet rather than as host
+judgments.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. A
+validation-facing checkpoint consumer receives the same finite carrier route
+as the accepted-result consumer, but its validation requests are routed to
+$V,H,C,P,N$ rather than to a host validation predicate.
+
+Apply \autoref{thm:finite-trace-evaluator-root-boundary-package}. The root
+boundary package makes $V,H,C,P,N$ the complete consumer-facing validation
+surface, with no exported row for total truth, self-validation, total halting,
+unbounded evaluation, infinite trace semantics, or an alternate checkpoint
+source.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root checkpoint NameCert saturation]
+\label{thm:finite-trace-evaluator-root-checkpoint-namecert-saturation}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the root checkpoint
+$\NameCert_{\FiniteTraceEvaluatorUp}$ surface is saturated by the finite
+packet
+$$
+I,T,A,V,H,C,P,N.
+$$
+Every checkpoint-state, result, validation-boundary, transport, continuation,
+provenance, and local naming read is supplied by these rows, and the root
+surface exports no host validation, total truth, self-validation, total
+halting, unbounded evaluation, infinite trace, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:finite-trace-evaluator-checkpoint-state-exposure}
+with
+\autoref{thm:finite-trace-evaluator-validation-boundary-consumer-totality}.
+The first theorem exposes the checkpoint-state and result rows through
+$I \to T \to A$ and then through $V,H,C,P,N$; the second theorem exhausts the
+validation-facing consumers at $V,H,C,P,N$.
+
+Next attach \autoref{thm:finite-trace-evaluator-namecert-obligations}. Its
+carrier, trace-step exposure, accepted-result classification, validation
+non-escape, provenance, and local naming clauses are exactly the local
+certificate obligations for the displayed finite evaluator packet.
+
+Use \autoref{thm:finite-trace-evaluator-root-trace-result-totality} and
+\autoref{thm:finite-trace-evaluator-root-boundary-package}. They identify the
+root result and validation-boundary rows consumed by checkpoint readers as
+the same finite root package.
+
+Finally apply \autoref{thm:finite-trace-evaluator-bounded-trace-coverage} and
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. No read
+outside $I,T,A,V,H,C,P,N$ is produced by the bounded trace or by the
+checkpoint consumer route, so the root checkpoint NameCert surface is
+saturated by the accepted finite packet.
+\end{proof}
