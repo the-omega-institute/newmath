@@ -64,6 +64,58 @@ Now inspect the observation rows. The source and target windows $W_0,W_1$, the r
 Finally the rows $H,C,P,N$ transport, replay, record provenance for, and name the same packet. Since the carrier and classifier contain no further coordinates, a consumer that bypasses any one of the five obligation rows leaves the $\CauchyLimitFunctorUp$ surface.
 \end{proof}
 
+\begin{theorem}[Cauchy limit functor source-target seal exposure]
+\label{thm:cauchy-limit-functor-source-target-seal-exposure}
+For every accepted $\CauchyLimitFunctorUp$ packet with carrier
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
+$$
+the source seal is exposed to consumers only through the finite route $S \to M \to T$. In particular, a consumer can cite $S$ and $T$ as the displayed source and target $\CauchyLimitSealUp$ rows, and can cite $M$ as the finite transport-map row between them, but receives no detached source-target equality, host-level limit comparison, quotient stream equality, or second seal route outside the classifier of \autoref{def:cauchy-limit-functor-classifier}.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:cauchy-limit-functor-carrier}. Its first three displayed rows are exactly the source seal $S$, the target seal $T$, and the transport-map row $M$.
+
+Apply the classifier of \autoref{def:cauchy-limit-functor-classifier}. It compares the seal data through the listed coordinates $S,T,M,W_0,W_1,R,D,K,E,H,C,P,N$ and has no coordinate for a detached source-target equality or an alternate route.
+
+Finally apply the NameCert obligation surface of \autoref{thm:cauchy-limit-functor-namecert-obligations}. The second obligation row is precisely source-to-target seal exposure through $S \to M \to T$, so any accepted packet exposes the seal only by that displayed finite route.
+\end{proof}
+
+\begin{theorem}[Cauchy limit functor finite observation exposure]
+\label{thm:cauchy-limit-functor-finite-observation-exposure}
+For every accepted $\CauchyLimitFunctorUp$ packet with carrier
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
+$$
+the observation side available to a consumer is exactly
+$$
+W_0,W_1,R,D,K,E.
+$$
+The consumer may inspect the two stream windows, the regular-rational readback, the dyadic tolerance ledger, the completion-seal classifier row, and the terminal $\RealUp$ endpoint row. It receives no quotient stream equality, selected limit, countable-choice selector, host real equality, detached completion object, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-limit-functor-carrier}. The observation rows are the source and target windows $W_0,W_1$, the readback row $R$, the tolerance ledger $D$, the completion classifier $K$, and the endpoint row $E$.
+
+Use the classifier of \autoref{def:cauchy-limit-functor-classifier}. It allows comparison only along the displayed carrier coordinates, so there is no classifier coordinate for quotient stream equality, a selected limit, countable choice, host real equality, or an ambient completion theorem.
+
+The NameCert obligations of \autoref{thm:cauchy-limit-functor-namecert-obligations} split the observation surface into finite observation exposure through $W_0,W_1,R,D$ and completion-consumer exposure through $K,E$. These two rows give exactly the displayed observation side and nothing outside it.
+\end{proof}
+
+\begin{theorem}[Cauchy limit functor structural transport]
+\label{thm:cauchy-limit-functor-structural-transport}
+For every accepted $\CauchyLimitFunctorUp$ packet with carrier
+$$
+F=(S,T,M,W_0,W_1,R,D,K,E,H,C,P,N),
+$$
+the only structural transport, continuation replay, provenance, and local naming rows available to consumers are $H,C,P,N$. Thus all componentwise $\hsame$ transport is carried by $H$, all displayed replay is carried by $C$, all dependency provenance is carried by $P$, and the local certificate name is carried by $N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:cauchy-limit-functor-carrier}. Its final four rows are $H,C,P,N$, respectively recording componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchyLimitFunctorUp}$ row.
+
+Read those rows through the classifier of \autoref{def:cauchy-limit-functor-classifier}. Since the classifier compares only the displayed coordinates, it cannot supply any additional transport object, replay path, provenance row, or local name beyond $H,C,P,N$.
+
+Apply the fifth obligation row of \autoref{thm:cauchy-limit-functor-namecert-obligations}. Structural exposure is exactly componentwise transport $H$, displayed continuation replay $C$, provenance $P$, and local naming $N$, so every consumer is confined to those structural rows.
+\end{proof}
+
 \begin{theorem}[Cauchy limit functor Real-completion consumer boundary]
 \label{thm:cauchy-limit-functor-real-completion-consumer}
 Every Real and Completion consumer that cites an accepted $\CauchyLimitFunctorUp$ packet factors through the finite route
@@ -81,14 +133,15 @@ Finally follow the route displayed in the carrier. The source seal $S$ is transp
 \end{proof}
 
 \closureat{CauchyLimitFunctorUp}{seedStr}
+\closureat{CauchyLimitFunctorUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyLimitFunctorUp}
   \constructivestory{A $\CauchyLimitFunctorUp$ packet is generated from source and target CauchyLimitSeal rows, a finite transport-map row, source and target StreamName windows, a RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealCompletionSealClassifier row, a terminal RealUp endpoint, componentwise transports, displayed replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-limit-functor-carrier}, \autoref{def:cauchy-limit-functor-classifier}, \autoref{thm:cauchy-limit-functor-namecert-obligations}, and \autoref{thm:cauchy-limit-functor-real-completion-consumer} bind the finite transport carrier, classifier, five NameCert obligation rows, and Real-completion consumer boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-limit-functor-carrier}, \autoref{def:cauchy-limit-functor-classifier}, \autoref{thm:cauchy-limit-functor-namecert-obligations}, \autoref{thm:cauchy-limit-functor-source-target-seal-exposure}, \autoref{thm:cauchy-limit-functor-finite-observation-exposure}, \autoref{thm:cauchy-limit-functor-structural-transport}, and \autoref{thm:cauchy-limit-functor-real-completion-consumer} bind the finite transport carrier, classifier, five NameCert obligation rows, separate seal-route exposure, finite observation exposure, structural transport, and Real-completion consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, host real equality, selected limits, ambient completeness, countable choice, or a universal completion functor.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, source-to-target seal exposure, finite observation exposure, completion-consumer exposure, and structural transport for the same finite packet.}
+  \upgradepath{Scoped closure requires binding the carrier row $F$, classifier coordinates $S,T,M,W_0,W_1,R,D,K,E,H,C,P,N$, seal route $S \to M \to T$, observation rows $W_0,W_1,R,D,K,E$, structural rows $H,C,P,N$, and Real-completion consumer boundary to the precise BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}

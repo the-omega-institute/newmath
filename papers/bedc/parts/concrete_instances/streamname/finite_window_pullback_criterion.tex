@@ -51,3 +51,41 @@ index equality, off-ledger $\RealUp$ classifier rows, arithmetic or order
 packages, or metric-completeness rows, so these data are not part of the
 criterion.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp pullback stability]
+\label{thm:streamname-regseqrat-realup-pullback-stability}
+Let $S$ and $T$ be two finite-window handoff packets addressed to the same
+class of $\RegSeqRat$ seal consumers and finite-window $\RealUp$ consumers.
+Suppose the packet comparison transports componentwise the public
+$\StreamNameUp$ finite-window rows, accepted $\RegSeqRat$ finite-window seal
+rows, DyadicRatCore endpoint ledgers, displayed $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ rows, $\mathsf{UnaryHistory}$ observations, finite
+$\Cont$ ledgers, displayed $\hsame$ endpoint transports, and $\Pkg$ provenance
+rows. Then $S$ and $T$ determine the same consumer-visible finite pullback
+packet for every $\RegSeqRat$ consumer and for every finite-window $\RealUp$
+consumer.
+
+This stability statement has no coordinate for completion rows, quotient
+rows, host index equality, off-ledger $\RealUp$ classifiers,
+arithmetic packages, order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}.
+The criterion reduces equality of the consumer-visible finite pullback packet
+to equality of the finite source rows listed in its eight public families.
+
+The hypotheses supply exactly those identifications. The transported public
+$\StreamNameUp$ rows identify the visible finite window; the accepted
+$\RegSeqRat$ rows and DyadicRatCore endpoint ledgers identify the regular
+rational seal boundary; the displayed bundle, unary-history, continuation,
+endpoint-transport, and provenance rows identify the remaining finite
+gluing data.
+
+It remains only to exclude extra consumer coordinates. The exclusion clause
+of the same criterion states that completion data, quotient representatives,
+host index equality, off-ledger $\RealUp$ classifier rows, arithmetic or order
+packages, and metric-completeness rows are not exported by the finite pullback
+packet. Hence no additional row can distinguish the two transported packets
+for a $\RegSeqRat$ or finite-window $\RealUp$ consumer.
+\end{proof}

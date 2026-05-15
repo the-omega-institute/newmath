@@ -11,19 +11,19 @@ open BEDC.Meta.TasteGate
 
 inductive MetaCICNormalizationCertificateRouterUp : Type where
   | mk :
-      (auditAnchor candidateEvidence strongNormalization piAdequacy closedProjection
-        authorizedGenerator compilerRecognizer kernelAcceptance transport route provenance
-        name : BHist) →
+      (auditMap candidateEvidence strongNormalization piAppAdequacy closedProjection
+        authorizedGenerator compilerRecognizer kernelAcceptance transport routeReplay
+        provenance localName : BHist) →
       MetaCICNormalizationCertificateRouterUp
   deriving DecidableEq
 
-def metaCICNormalizationCertificateRouterEncodeBHist : BHist → RawEvent
+private def metaCICNormalizationCertificateRouterEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: metaCICNormalizationCertificateRouterEncodeBHist h
   | BHist.e1 h => BMark.b1 :: metaCICNormalizationCertificateRouterEncodeBHist h
 
-def metaCICNormalizationCertificateRouterDecodeBHist : RawEvent → BHist
+private def metaCICNormalizationCertificateRouterDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (metaCICNormalizationCertificateRouterDecodeBHist tail)
@@ -45,128 +45,87 @@ private theorem metaCICNormalizationCertificateRouter_decode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 private theorem metaCICNormalizationCertificateRouter_mk_congr
-    {auditAnchor auditAnchor' candidateEvidence candidateEvidence' strongNormalization
-      strongNormalization' piAdequacy piAdequacy' closedProjection closedProjection'
-      authorizedGenerator authorizedGenerator' compilerRecognizer compilerRecognizer'
-      kernelAcceptance kernelAcceptance' transport transport' route route' provenance
-      provenance' name name' : BHist}
-    (hAuditAnchor : auditAnchor' = auditAnchor)
+    {auditMap auditMap' candidateEvidence candidateEvidence'
+      strongNormalization strongNormalization' piAppAdequacy piAppAdequacy'
+      closedProjection closedProjection' authorizedGenerator authorizedGenerator'
+      compilerRecognizer compilerRecognizer' kernelAcceptance kernelAcceptance'
+      transport transport' routeReplay routeReplay' provenance provenance'
+      localName localName' : BHist}
+    (hAuditMap : auditMap' = auditMap)
     (hCandidateEvidence : candidateEvidence' = candidateEvidence)
     (hStrongNormalization : strongNormalization' = strongNormalization)
-    (hPiAdequacy : piAdequacy' = piAdequacy)
+    (hPiAppAdequacy : piAppAdequacy' = piAppAdequacy)
     (hClosedProjection : closedProjection' = closedProjection)
     (hAuthorizedGenerator : authorizedGenerator' = authorizedGenerator)
     (hCompilerRecognizer : compilerRecognizer' = compilerRecognizer)
     (hKernelAcceptance : kernelAcceptance' = kernelAcceptance)
     (hTransport : transport' = transport)
-    (hRoute : route' = route)
+    (hRouteReplay : routeReplay' = routeReplay)
     (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    MetaCICNormalizationCertificateRouterUp.mk auditAnchor' candidateEvidence'
-        strongNormalization' piAdequacy' closedProjection' authorizedGenerator'
-        compilerRecognizer' kernelAcceptance' transport' route' provenance' name' =
-      MetaCICNormalizationCertificateRouterUp.mk auditAnchor candidateEvidence
-        strongNormalization piAdequacy closedProjection authorizedGenerator compilerRecognizer
-        kernelAcceptance transport route provenance name := by
+    (hLocalName : localName' = localName) :
+    MetaCICNormalizationCertificateRouterUp.mk auditMap' candidateEvidence'
+        strongNormalization' piAppAdequacy' closedProjection' authorizedGenerator'
+        compilerRecognizer' kernelAcceptance' transport' routeReplay' provenance'
+        localName' =
+      MetaCICNormalizationCertificateRouterUp.mk auditMap candidateEvidence
+        strongNormalization piAppAdequacy closedProjection authorizedGenerator
+        compilerRecognizer kernelAcceptance transport routeReplay provenance localName := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases hAuditAnchor
+  cases hAuditMap
   cases hCandidateEvidence
   cases hStrongNormalization
-  cases hPiAdequacy
+  cases hPiAppAdequacy
   cases hClosedProjection
   cases hAuthorizedGenerator
   cases hCompilerRecognizer
   cases hKernelAcceptance
   cases hTransport
-  cases hRoute
+  cases hRouteReplay
   cases hProvenance
-  cases hName
+  cases hLocalName
   rfl
 
-def metaCICNormalizationCertificateRouterFields :
-    MetaCICNormalizationCertificateRouterUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | MetaCICNormalizationCertificateRouterUp.mk auditAnchor candidateEvidence
-      strongNormalization piAdequacy closedProjection authorizedGenerator compilerRecognizer
-      kernelAcceptance transport route provenance name =>
-      [auditAnchor, candidateEvidence, strongNormalization, piAdequacy, closedProjection,
-        authorizedGenerator, compilerRecognizer, kernelAcceptance, transport, route, provenance,
-        name]
-
-def metaCICNormalizationCertificateRouterToEventFlow :
+private def metaCICNormalizationCertificateRouterToEventFlow :
     MetaCICNormalizationCertificateRouterUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (metaCICNormalizationCertificateRouterFields x).map
-        metaCICNormalizationCertificateRouterEncodeBHist
+  | MetaCICNormalizationCertificateRouterUp.mk auditMap candidateEvidence
+      strongNormalization piAppAdequacy closedProjection authorizedGenerator
+      compilerRecognizer kernelAcceptance transport routeReplay provenance localName =>
+      [[BMark.b0],
+        metaCICNormalizationCertificateRouterEncodeBHist auditMap,
+        metaCICNormalizationCertificateRouterEncodeBHist candidateEvidence,
+        metaCICNormalizationCertificateRouterEncodeBHist strongNormalization,
+        metaCICNormalizationCertificateRouterEncodeBHist piAppAdequacy,
+        metaCICNormalizationCertificateRouterEncodeBHist closedProjection,
+        metaCICNormalizationCertificateRouterEncodeBHist authorizedGenerator,
+        metaCICNormalizationCertificateRouterEncodeBHist compilerRecognizer,
+        metaCICNormalizationCertificateRouterEncodeBHist kernelAcceptance,
+        metaCICNormalizationCertificateRouterEncodeBHist transport,
+        metaCICNormalizationCertificateRouterEncodeBHist routeReplay,
+        metaCICNormalizationCertificateRouterEncodeBHist provenance,
+        metaCICNormalizationCertificateRouterEncodeBHist localName]
 
-def metaCICNormalizationCertificateRouterFromEventFlow :
+private def metaCICNormalizationCertificateRouterFromEventFlow :
     EventFlow → Option MetaCICNormalizationCertificateRouterUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | auditAnchor :: rest0 =>
-      match rest0 with
-      | [] => none
-      | candidateEvidence :: rest1 =>
-          match rest1 with
-          | [] => none
-          | strongNormalization :: rest2 =>
-              match rest2 with
-              | [] => none
-              | piAdequacy :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | closedProjection :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | authorizedGenerator :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | compilerRecognizer :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | kernelAcceptance :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | transport :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | route :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | provenance :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | name :: rest11 =>
-                                                  match rest11 with
-                                                  | [] =>
-                                                      some
-                                                        (MetaCICNormalizationCertificateRouterUp.mk
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            auditAnchor)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            candidateEvidence)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            strongNormalization)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            piAdequacy)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            closedProjection)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            authorizedGenerator)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            compilerRecognizer)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            kernelAcceptance)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            transport)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            route)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            provenance)
-                                                          (metaCICNormalizationCertificateRouterDecodeBHist
-                                                            name))
-                                                  | _ :: _ => none
+  | _tag :: auditMap :: candidateEvidence :: strongNormalization :: piAppAdequacy ::
+      closedProjection :: authorizedGenerator :: compilerRecognizer :: kernelAcceptance ::
+      transport :: routeReplay :: provenance :: localName :: [] =>
+      some
+        (MetaCICNormalizationCertificateRouterUp.mk
+          (metaCICNormalizationCertificateRouterDecodeBHist auditMap)
+          (metaCICNormalizationCertificateRouterDecodeBHist candidateEvidence)
+          (metaCICNormalizationCertificateRouterDecodeBHist strongNormalization)
+          (metaCICNormalizationCertificateRouterDecodeBHist piAppAdequacy)
+          (metaCICNormalizationCertificateRouterDecodeBHist closedProjection)
+          (metaCICNormalizationCertificateRouterDecodeBHist authorizedGenerator)
+          (metaCICNormalizationCertificateRouterDecodeBHist compilerRecognizer)
+          (metaCICNormalizationCertificateRouterDecodeBHist kernelAcceptance)
+          (metaCICNormalizationCertificateRouterDecodeBHist transport)
+          (metaCICNormalizationCertificateRouterDecodeBHist routeReplay)
+          (metaCICNormalizationCertificateRouterDecodeBHist provenance)
+          (metaCICNormalizationCertificateRouterDecodeBHist localName))
+  | _ => none
 
 private theorem metaCICNormalizationCertificateRouter_round_trip :
     ∀ x : MetaCICNormalizationCertificateRouterUp,
@@ -176,23 +135,55 @@ private theorem metaCICNormalizationCertificateRouter_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk auditAnchor candidateEvidence strongNormalization piAdequacy closedProjection
-      authorizedGenerator compilerRecognizer kernelAcceptance transport route provenance name =>
+  | mk auditMap candidateEvidence strongNormalization piAppAdequacy closedProjection
+      authorizedGenerator compilerRecognizer kernelAcceptance transport routeReplay provenance
+      localName =>
+      change
+        some
+          (MetaCICNormalizationCertificateRouterUp.mk
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist auditMap))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist candidateEvidence))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist strongNormalization))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist piAppAdequacy))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist closedProjection))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist authorizedGenerator))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist compilerRecognizer))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist kernelAcceptance))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist transport))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist routeReplay))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist provenance))
+            (metaCICNormalizationCertificateRouterDecodeBHist
+              (metaCICNormalizationCertificateRouterEncodeBHist localName))) =
+          some
+            (MetaCICNormalizationCertificateRouterUp.mk auditMap candidateEvidence
+              strongNormalization piAppAdequacy closedProjection authorizedGenerator
+              compilerRecognizer kernelAcceptance transport routeReplay provenance localName)
       exact
         congrArg some
           (metaCICNormalizationCertificateRouter_mk_congr
-            (metaCICNormalizationCertificateRouter_decode_encode_bhist auditAnchor)
+            (metaCICNormalizationCertificateRouter_decode_encode_bhist auditMap)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist candidateEvidence)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist strongNormalization)
-            (metaCICNormalizationCertificateRouter_decode_encode_bhist piAdequacy)
+            (metaCICNormalizationCertificateRouter_decode_encode_bhist piAppAdequacy)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist closedProjection)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist authorizedGenerator)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist compilerRecognizer)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist kernelAcceptance)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist transport)
-            (metaCICNormalizationCertificateRouter_decode_encode_bhist route)
+            (metaCICNormalizationCertificateRouter_decode_encode_bhist routeReplay)
             (metaCICNormalizationCertificateRouter_decode_encode_bhist provenance)
-            (metaCICNormalizationCertificateRouter_decode_encode_bhist name))
+            (metaCICNormalizationCertificateRouter_decode_encode_bhist localName))
 
 private theorem metaCICNormalizationCertificateRouterToEventFlow_injective
     {x y : MetaCICNormalizationCertificateRouterUp} :
@@ -211,30 +202,13 @@ private theorem metaCICNormalizationCertificateRouterToEventFlow_injective
     (Eq.trans (metaCICNormalizationCertificateRouter_round_trip x).symm
       (Eq.trans hread (metaCICNormalizationCertificateRouter_round_trip y)))
 
-private theorem metaCICNormalizationCertificateRouter_field_faithful :
-    ∀ x y : MetaCICNormalizationCertificateRouterUp,
-      metaCICNormalizationCertificateRouterFields x =
-          metaCICNormalizationCertificateRouterFields y →
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk auditAnchor candidateEvidence strongNormalization piAdequacy closedProjection
-      authorizedGenerator compilerRecognizer kernelAcceptance transport route provenance name =>
-      cases y with
-      | mk auditAnchor' candidateEvidence' strongNormalization' piAdequacy' closedProjection'
-          authorizedGenerator' compilerRecognizer' kernelAcceptance' transport' route'
-          provenance' name' =>
-          cases hfields
-          rfl
-
 instance metaCICNormalizationCertificateRouterBHistCarrier :
     BHistCarrier MetaCICNormalizationCertificateRouterUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := metaCICNormalizationCertificateRouterToEventFlow
   fromEventFlow := metaCICNormalizationCertificateRouterFromEventFlow
 
-instance taste_gate :
+instance metaCICNormalizationCertificateRouterChapterTasteGate :
     ChapterTasteGate MetaCICNormalizationCertificateRouterUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -251,8 +225,26 @@ instance taste_gate :
 instance metaCICNormalizationCertificateRouterFieldFaithful :
     FieldFaithful MetaCICNormalizationCertificateRouterUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := metaCICNormalizationCertificateRouterFields
-  field_faithful := metaCICNormalizationCertificateRouter_field_faithful
+  fields := fun x =>
+    match x with
+    | MetaCICNormalizationCertificateRouterUp.mk auditMap candidateEvidence
+        strongNormalization piAppAdequacy closedProjection authorizedGenerator
+        compilerRecognizer kernelAcceptance transport routeReplay provenance localName =>
+        [auditMap, candidateEvidence, strongNormalization, piAppAdequacy, closedProjection,
+          authorizedGenerator, compilerRecognizer, kernelAcceptance, transport, routeReplay,
+          provenance, localName]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk auditMap candidateEvidence strongNormalization piAppAdequacy closedProjection
+        authorizedGenerator compilerRecognizer kernelAcceptance transport routeReplay provenance
+        localName =>
+        cases y with
+        | mk auditMap' candidateEvidence' strongNormalization' piAppAdequacy'
+            closedProjection' authorizedGenerator' compilerRecognizer' kernelAcceptance'
+            transport' routeReplay' provenance' localName' =>
+            cases hfields
+            rfl
 
 instance metaCICNormalizationCertificateRouterNontrivial :
     Nontrivial MetaCICNormalizationCertificateRouterUp where
@@ -268,28 +260,50 @@ instance metaCICNormalizationCertificateRouterNontrivial :
         intro h
         cases h⟩
 
-theorem MetaCICNormalizationCertificateRouterTasteGate_single_carrier_alignment :
+theorem MetaCICNormalizationCertificateRouterUp_single_carrier_alignment :
     (∀ h : BHist,
       metaCICNormalizationCertificateRouterDecodeBHist
           (metaCICNormalizationCertificateRouterEncodeBHist h) =
         h) ∧
-      (∀ x : MetaCICNormalizationCertificateRouterUp,
-        metaCICNormalizationCertificateRouterFromEventFlow
-            (metaCICNormalizationCertificateRouterToEventFlow x) =
-          some x) ∧
-        (∀ x y : MetaCICNormalizationCertificateRouterUp,
-          metaCICNormalizationCertificateRouterToEventFlow x =
-              metaCICNormalizationCertificateRouterToEventFlow y →
-            x = y) ∧
-          metaCICNormalizationCertificateRouterEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ auditMap candidateEvidence strongNormalization piAppAdequacy closedProjection
+          authorizedGenerator compilerRecognizer kernelAcceptance transport routeReplay
+          provenance localName : BHist,
+        metaCICNormalizationCertificateRouterToEventFlow
+            (MetaCICNormalizationCertificateRouterUp.mk auditMap candidateEvidence
+              strongNormalization piAppAdequacy closedProjection authorizedGenerator
+              compilerRecognizer kernelAcceptance transport routeReplay provenance localName) =
+          [[BMark.b0],
+            metaCICNormalizationCertificateRouterEncodeBHist auditMap,
+            metaCICNormalizationCertificateRouterEncodeBHist candidateEvidence,
+            metaCICNormalizationCertificateRouterEncodeBHist strongNormalization,
+            metaCICNormalizationCertificateRouterEncodeBHist piAppAdequacy,
+            metaCICNormalizationCertificateRouterEncodeBHist closedProjection,
+            metaCICNormalizationCertificateRouterEncodeBHist authorizedGenerator,
+            metaCICNormalizationCertificateRouterEncodeBHist compilerRecognizer,
+            metaCICNormalizationCertificateRouterEncodeBHist kernelAcceptance,
+            metaCICNormalizationCertificateRouterEncodeBHist transport,
+            metaCICNormalizationCertificateRouterEncodeBHist routeReplay,
+            metaCICNormalizationCertificateRouterEncodeBHist provenance,
+            metaCICNormalizationCertificateRouterEncodeBHist localName]) ∧
+        (∃ x y : MetaCICNormalizationCertificateRouterUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact metaCICNormalizationCertificateRouter_decode_encode_bhist
+  · intro h
+    exact metaCICNormalizationCertificateRouter_decode_encode_bhist h
   · constructor
-    · exact metaCICNormalizationCertificateRouter_round_trip
-    · constructor
-      · intro x y heq
-        exact metaCICNormalizationCertificateRouterToEventFlow_injective heq
-      · rfl
+    · intro auditMap candidateEvidence strongNormalization piAppAdequacy closedProjection
+        authorizedGenerator compilerRecognizer kernelAcceptance transport routeReplay provenance
+        localName
+      rfl
+    · exact
+        ⟨MetaCICNormalizationCertificateRouterUp.mk BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty,
+          MetaCICNormalizationCertificateRouterUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty,
+          by
+            intro h
+            cases h⟩
 
 end BEDC.Derived.MetaCICNormalizationCertificateRouterUp
