@@ -291,6 +291,46 @@ Now transport the prefix componentwise. Theorem~\ref{thm:histtimestream-hsame-pr
 Finally apply local clock refusal. Theorem~\ref{thm:histtimestream-local-clock-refusal} rejects global-clock, rate, and nonlocal time reads unless they have already passed through and preserved the displayed packet rows. Thus the four cited theorems assemble one consumer-facing exhaustion route.
 \end{proof}
 
+\begin{theorem}[HistTimeStream StreamName finite-window handoff]
+\label{thm:histtimestream-streamname-finite-window-handoff}
+Let
+$$
+Q=(H,T,S,C,L,P,N)
+$$
+be an accepted $\HistTimeStreamUp$ packet. The displayed $\Cont$-prefix route of $Q$ induces the finite $\StreamNameUp$ window read by \autoref{ch:concrete-instances-streamname-namecert}: the source row $H$, finite schedule $T$, start ledger $S$, replay row $C$, componentwise $\hsame$ ledger $L$, package row $P$, and local name row $N$ are passed as one bounded naming packet before any countable-name consumer may read the stream. The handoff carries no quotient stream, no selected host limit, no ambient completeness witness, and no host-indexed time coordinate.
+\end{theorem}
+\begin{proof}
+Start from Cont-prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. It identifies the local stream as the finite route from $\emp$ to the displayed source row $H$ through $T,S,C,L,P,N$.
+
+Next apply hsame prefix transport, \autoref{thm:histtimestream-hsame-prefix-transport}. The transport keeps the same displayed finite route when the packet is replayed componentwise, so the $\StreamNameUp$ consumer of \autoref{ch:concrete-instances-streamname-namecert} receives a finite window rather than an ambient clock.
+
+Finally use local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}. Since every nonlocal time read must already factor through $H,T,S,C,L,P,N$, the handoff to the StreamName surface cannot add a quotient stream, chosen limit, completeness witness, or host-indexed time row.
+\end{proof}
+
+\begin{theorem}[HistTimeStream StreamName schedule classifier boundary]
+\label{thm:histtimestream-streamname-schedule-classifier-boundary}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport preserves the finite schedule and replay classifier before any $\StreamNameUp$ read. The transported classifier remains the displayed boundary over $T,S,C,L,P,N$ and cannot add a global clock, host-indexed time, inter-Hist synchronization row, or temporal-rate coordinate.
+\end{theorem}
+\begin{proof}
+First expose the finite classifier boundary. By \autoref{thm:histtimestream-cont-prefix-exactness}, the only route available to a consumer is the displayed $\Cont$ prefix through the schedule, start ledger, replay row, transport ledger, package row, and local name.
+
+Now transport the packet. Theorem~\ref{thm:histtimestream-hsame-prefix-transport} preserves that prefix componentwise from $Q$ to $Q'$, so the schedule observed by \autoref{ch:concrete-instances-streamname-namecert} is still the finite schedule carried by the HistTimeStream packet.
+
+Finally apply local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}. A global clock or host-indexed time row would have to appear before the StreamName read, but the refusal theorem permits only rows that already factor through the displayed local tuple. Therefore the schedule classifier boundary is stable under componentwise transport.
+\end{proof}
+
+\begin{theorem}[HistTimeStream real-completion window nonescape]
+\label{thm:histtimestream-real-completion-window-nonescape}
+Any $\RegSeqRatUp$ or $\RealUp$ consumer of the finite window induced by an accepted $\HistTimeStreamUp$ packet factors through the $\HistTimeStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows of \autoref{ch:concrete-instances-histtimestream-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The consumer receives only the displayed finite window and no quotient stream, selected host limit, ambient completeness object, host-indexed time, or cross-Hist clock.
+\end{theorem}
+\begin{proof}
+Begin with the HistTimeStream window. Theorem~\ref{thm:histtimestream-cont-prefix-exactness} supplies the finite $\Cont$ prefix, and \autoref{thm:histtimestream-streamname-finite-window-handoff} identifies it as the window handed to the StreamName naming surface.
+
+Next pass through the downstream rows. The StreamName chapter, \autoref{ch:concrete-instances-streamname-namecert}, supplies the countable-name surface; the RegSeqRat chapter, \autoref{ch:concrete-instances-regseqrat-namecert}, consumes such naming data as regular rational sequence input; and the Real chapter, \autoref{ch:concrete-instances-real-namecert}, reads the resulting real-number surface only after those rows have been traversed.
+
+It remains to exclude escape data. The hsame prefix transport theorem, \autoref{thm:histtimestream-hsame-prefix-transport}, keeps the window componentwise local, while local clock refusal, \autoref{thm:histtimestream-local-clock-refusal}, blocks quotient streams, selected host limits, ambient completeness witnesses, host-indexed time, and cross-Hist clocks unless they already appear in $H,T,S,C,L,P,N$. They do not appear there, so the real-completion consumer remains inside the four displayed rows.
+\end{proof}
+
 \begin{theorem}[HistTimeStream start-ledger totality]
 \label{thm:histtimestream-start-ledger-totality}
 Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. The local stream starts at $\emp$, reaches only the displayed source row $H$ through the finite schedule $T$ and start ledger $S$, and reads no external time index.
