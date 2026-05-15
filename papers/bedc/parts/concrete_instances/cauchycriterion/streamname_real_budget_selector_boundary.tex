@@ -100,6 +100,51 @@ shared-threshold seal route agree on the finite packet before the $\RealUp$
 seal is exposed.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion selector-seal route pullback]
+\label{thm:cauchycriterion-selector-seal-route-pullback}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
+let $D=(B_D,T_D,W_D,R_D,L_D,H_D,C_D,P_D,N_D)$ be an accepted
+$\DiagonalLimitCompatibilityUp$ root formal source. Suppose the two packets
+share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and
+$\RealUp$ rows at the selector-seal boundary. Then the
+$\CauchyCriterionUp$ selector-seal route is the pullback of the diagonal root
+formal route along the structural rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+
+The resulting route is exactly the common StreamName--RegSeqRat--DyadicRatCore--Real
+surface with its structural support rows. It exports no quotient stream,
+selected limit, host real equality, countable-choice selector, ambient
+completeness principle, or second seal source.
+\end{theorem}
+\begin{proof}
+Begin with the CauchyCriterion boundary
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}. It
+forces every selector-facing read through the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows before
+any selector output is exposed.
+
+Next use the uniform selector-seal compatibility of
+\autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}. This places
+the selector route on the same finite structural surface carried by
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no extra completion-facing
+coordinate.
+
+Now read the diagonal root formal source through
+\autoref{def:diagonal-limit-compatibility-root-formal-source} and
+\autoref{thm:diagonal-limit-compatibility-root-formal-route}. The root route
+displays the finite source rows and consumes its support rows in the same
+structural order.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-root-formal-seal-factorization}.
+The diagonal seal-facing route has no source outside its displayed finite
+tuple, so restricting it along the shared StreamName--RegSeqRat--DyadicRatCore--Real
+rows gives precisely the CauchyCriterion selector-seal route. The excluded
+objects have no coordinate in either accepted packet.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion selector-seal synchronizer totality]
 \label{thm:cauchycriterion-selector-seal-synchronizer-totality}
 Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let $U=(I,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and finite-window selector rows at the completion-facing boundary. Then there is a total synchronizer route between the CauchyCriterion budget-selector surface and the UniformCauchyCriterion shared-threshold surface before any $\RealUp$ seal is consumed.
