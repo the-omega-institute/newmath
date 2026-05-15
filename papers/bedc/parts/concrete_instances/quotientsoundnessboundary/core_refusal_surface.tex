@@ -220,6 +220,19 @@ Use psame transport exhaustion, \autoref{thm:quotient-soundness-boundary-psame-t
 Finally apply kernel non-escape, \autoref{thm:quotient-soundness-boundary-kernel-nonescape}. It excludes $\mathsf{Quot.sound}$, host quotient eliminators, representative selectors, and erased derivation recovery, so the downstream surface is only $E,T,H,C,P,N$ once refusal has been recorded.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary consumer route certificate]
+\label{thm:quotient-soundness-boundary-consumer-route-certificate}
+After the representative-selection refusal has been accounted for, any consumer route through the displayed rows $H,C$ and package row $P$ carries a $\mathsf{SemanticNameCert}$ surface for the surviving $\psame$ replacement. The certificate reads only the quotient-refusal carrier, the displayed relation row $E$, the replacement transport row $T$, componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, and the consumer row. It exports no representative selector, quotient eliminator, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_consumer\_route\_certificate}
+\begin{proof}
+Begin with the refusal ledger and downstream nonescape theorem above. They account for the negative request through $A,V$ and leave the surviving consumer surface at $E,T,H,C,P,N$ rather than at a representative selector or host quotient eliminator.
+
+Next use the displayed route rows. The $\Cont$ route through $H,C$ and the package row $P$ are exactly the inputs of the checked consumer route certificate, while the carrier supplies the visible relation evidence and the surviving $\psame$ replacement row.
+
+The checked Lean target then packages this route as a $\mathsf{SemanticNameCert}$ surface for the consumer row. Its fields use classifier-respecting transport, continuation replay, package provenance, and unary ledger soundness, so no quotient recursion, erased derivation recovery, representative selection, quotient eliminator, or $\mathsf{Quot.sound}$ dependency is imported.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary root request accountability]
 \label{thm:quotient-soundness-boundary-root-request-accountability}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, relation rows $E$, representative-request rows $A$, and refusal verdict rows $V$ are accountable before any replacement by the transport row $T$. A downstream quotient-style consumer therefore sees the requested relation evidence, the demanded representative surface, and the refusal verdict before it can use $T,H,C,P,N$ as the surviving audit route.
@@ -260,6 +273,7 @@ Close with kernel non-escape. Since the carrier has no coordinate for $\mathsf{Q
 \label{thm:quotient-soundness-boundary-root-transport-verdict-order}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, the refusal verdict row $V$ must be read before any positive $\psame$ transport row $T$ is used by a quotient-like consumer. The transport row is therefore a replacement after refusal, not evidence that a representative selector or quotient equality eliminator has been admitted.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_root\_transport\_verdict\_order}
 \begin{proof}
 Begin with refusal locality. It localizes every representative-selection demand to $A$ and the refusal verdict $V$ before the transport replacement is consumed.
 

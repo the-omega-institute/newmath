@@ -179,6 +179,30 @@ The readback theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-se
 Finally combine non-escape \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape} with route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}. Non-escape rules out any branch to an external completion principle, and route exhaustion lists the only public path through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. The convergence-seal consumer is therefore locked to the scheduled root window and its refusal boundary.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness convergence-seal diagonal readback]
+\label{thm:bounded-monotone-cauchy-witness-convergence-seal-diagonal-readback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ route. Any $\BoundedMonotoneConvergenceSealUp$ or $\RealUp$ consumer of $W$ whose terminal read is compared through $\DiagonalLimitCompatibilityUp$ first factors through the same finite witness rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,
+$$
+then through
+$$
+\MonotoneCauchyUp,\CauchyCriterionUp,\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\CauchyLimitSealUp,\RealUp,
+$$
+and finally through the diagonal terminal-consumer rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The comparison exports no selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+First lock the source side. Apply source totality \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source-totality}, convergence-seal readback \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback}, and convergence-seal non-escape \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape}. These results keep the consumer read inside the finite witness rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next attach the public seal route. The source lock \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source-lock}, route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}, and root-window lock \autoref{thm:bounded-monotone-cauchy-witness-root-window-convergence-seal-lock} force the read through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ before any terminal comparison is available.
+
+Finally compare the terminal consumer through $\DiagonalLimitCompatibilityUp$. By \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, every diagonal Real or completion-seal read passes through $R,T,S,D,W,Q,L,H,C,P,N$; by \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}, this route is exhausted by the displayed diagonal rows, $\Pkg$ provenance, and local $\NameCert$ row. Therefore the bounded-monotone convergence seal and the diagonal-limit terminal consumer meet at the stated finite boundary without importing any excluded analytic or choice-like coordinate.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness convergence-seal terminal source pullback]
 \label{thm:bounded-monotone-cauchy-witness-convergence-seal-terminal-source-pullback}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, or $\RealUp$ consumer that reaches the convergence-seal source factors through the same finite source pullback

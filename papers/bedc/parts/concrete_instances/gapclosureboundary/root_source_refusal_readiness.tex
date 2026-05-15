@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary finite source/refusal classifier]
+\label{thm:gap-closure-boundary-finite-source-refusal-classifier}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ of \autoref{def:gap-closure-boundary-carrier}, the public root classifier exposes exactly the two routes
+$$
+G \longrightarrow S
+$$
+and
+$$
+G \longrightarrow R
+$$
+over the structural rows $H,C,P,N$. The first route is the supported source route, the second route is the unsupported refusal route, and the accepted classifier exports no third public route, hidden closure branch, private source row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure and local obligations, \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. They identify the public root packet with the rows $G,S,R,H,C,P,N$ before any consumer reads the boundary.
+
+Use source/refusal orthogonality, \autoref{thm:gap-closure-boundary-source-refusal-orthogonality}. The supported side has to display the source row as $G \longrightarrow S$, while the unsupported side is routed to the refusal row as $G \longrightarrow R$.
+
+Finally apply the consumer totality surface of \autoref{thm:gap-closure-boundary-namecert-consumer-totality}. Since every listed consumer route is exhausted by one of these two branches with $H,C,P,N$ as structural support, the classifier has no remaining public branch to expose.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer source/refusal readiness]
+\label{thm:gap-closure-boundary-consumer-source-refusal-readiness}
+Every listed hard-problem consumer of an accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$ is ready only after the same source/refusal split of \autoref{thm:gap-closure-boundary-finite-source-refusal-classifier} has been displayed. A supported consumer reads the source route $G \longrightarrow S$, an unsupported closure request reads the refusal route $G \longrightarrow R$, and no consumer receives an off-packet closure row, private witness row, hidden $\mathsf{T}$ supply, quotient row, or sibling-specific carrier.
+\end{theorem}
+\begin{proof}
+First factor the downstream surface by \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization}. The causal, finite-refutation, other-minds, aspect-chain, and solipsism-refusal consumers are recorded through the same packet $G,S,R,H,C,P,N$ rather than through independent consumer carriers.
+
+Next use \autoref{thm:gap-closure-boundary-finite-source-refusal-classifier}. It gives the only two public routes available to those consumers: the supported source route and the unsupported refusal route.
+
+The readiness claim follows from consumer readiness exhaustion, \autoref{thm:gap-closure-boundary-consumer-readiness-exhaustion}. That theorem removes off-packet closure resources from the consumer interface, so each listed consumer is ready precisely at the displayed source/refusal split.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root refusal NameCert exhaustion]
+\label{thm:gap-closure-boundary-root-refusal-namecert-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the local root $\NameCert$ surface is exhausted by carrier exposure, supported source routing, unsupported refusal routing, and the structural transport, provenance, replay, and naming rows $H,C,P,N$. Thus the root certificate has no additional local obligation beyond exposing $G,S,R,H,C,P,N$, routing supported requests through $G \longrightarrow S$, routing unsupported requests through $G \longrightarrow R$, and transporting, packaging, replaying, and naming those routes.
+\end{theorem}
+\begin{proof}
+Read the local surface from \autoref{def:gap-closure-boundary-carrier} and \autoref{thm:gap-closure-boundary-namecert-obligations}. These anchors provide the carrier row and the certificate duties for source routing, refusal routing, transport, provenance, replay, and local naming.
+
+Apply source/refusal orthogonality together with the finite classifier, \autoref{thm:gap-closure-boundary-source-refusal-orthogonality} and \autoref{thm:gap-closure-boundary-finite-source-refusal-classifier}. They separate the supported source route from the unsupported refusal route and show that both routes remain inside the same public packet.
+
+It remains to account for consumers. Use hard-problem consumer factorization and consumer readiness exhaustion, \autoref{thm:gap-closure-boundary-hard-problem-consumer-factorization} and \autoref{thm:gap-closure-boundary-consumer-readiness-exhaustion}. These close the local surface by assigning all listed consumer reads to the displayed source/refusal packet and by excluding off-packet closure rows.
+\end{proof}

@@ -37,6 +37,7 @@ For the carrier of \autoref{def:observer-filter-bhist-carrier}, the local $\Name
 \item non-escape from host equality of histories, quotient streams, hidden observer state, and unledgered deletion.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilterCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:observer-filter-bhist-carrier}. The packet displays the source history, selected subhistory, omitted-row ledger, transports, observer ledger, continuation routes, provenance, and local naming row before any classifier read is available.
 
@@ -156,6 +157,7 @@ Next apply \autoref{thm:observer-filter-ledger-exactness}. The selected and omit
 
 Finally apply \autoref{thm:observer-filter-streamname-selected-subhistory-nonescape}. It identifies the StreamName handoff with the selected subhistory route and keeps omitted rows at the boundary. Thus no omitted row becomes stream data, hidden observer state, or quotient history identity.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilter\_observerhistoryidentity\_streamname\_lattice\_route}
 
 \begin{theorem}[ObserverFilter budget-selector L10 handoff]
 \label{thm:observer-filter-budget-selector-l10-handoff}
@@ -184,6 +186,7 @@ $$
 $$
 The synchronizer route cannot read omitted rows in $O$, quotient streams, host real equality, hidden observer state, selected external limits, or ambient completeness outside the displayed finite window source.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilterCarrier\_real\_window\_synchronizer\_handoff}
 \begin{proof}
 First build the observer side. Apply \autoref{thm:observer-filter-observer-history-factorization} to expose the source history $H$, selected row $S$, omitted boundary row $O$, transports $R$, ledger $L$, routes $C$, provenance $P$, and local name $N$.
 
@@ -226,9 +229,10 @@ It remains to exclude every omitted-row escape. The carriers named above contain
   \constructivestory{An $\ObserverFilterUp$ packet is generated from a source BHist row, selected subhistory row, omitted-row ledger, componentwise hsame transports, observer ledger, displayed Cont routes, package provenance, and local NameCert row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:observer-filter-bhist-carrier}, \autoref{thm:observer-filter-namecert-obligations}, \autoref{thm:observer-filter-identity-stability}, \autoref{thm:observer-filter-streamname-handoff}, \autoref{thm:observer-filter-observer-history-factorization}, \autoref{thm:observer-filter-ledger-exactness}, \autoref{thm:observer-filter-selected-row-totality}, \autoref{thm:observer-filter-omitted-row-boundary-exhaustion}, and \autoref{thm:observer-filter-streamname-selected-subhistory-nonescape} specify the public BHist filter surface, selected-row totality, omitted-row boundary exhaustion, StreamName selected-subhistory non-escape, hsame transport, Cont route, Pkg provenance, and local NameCert rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ObserverFilterUp.ObserverFilterCarrier\_streamname\_handoff}
   \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close hidden observer state, quotient identity, unledgered deletion, Lean verification, or bridge checking for $\ObserverFilterUp$.}
+  \notclaimed{This chapter does not close hidden observer state, quotient identity, unledgered deletion, or bridge checking for $\ObserverFilterUp$.}
   \upgradepath{The next paper-side step is mature closure examples, or a machine-checked bridge for the displayed ObserverFilter surface.}
 \end{closurestatus}
