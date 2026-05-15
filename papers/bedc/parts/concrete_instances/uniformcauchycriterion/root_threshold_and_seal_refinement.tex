@@ -221,6 +221,28 @@ Next specialize the consumer to $\RealCauchyCompletionUp$. The specialization ch
 Finally combine \autoref{thm:uniform-cauchy-criterion-regular-tail-fusion-factorization} with \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility}. The Real completion consumer is locked to the finite package and seal route, so any claim of Real completeness, quotient-stream equality, selected limits, host equality, countable choice, or ambient completeness lies outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion selector-seal handoff lock]
+\label{thm:uniform-cauchy-criterion-selector-seal-handoff-lock}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any $\RealUp$ or $\RealCauchyCompletionUp$ consumer that exposes a selector-seal packet must first traverse the finite budget package of \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the shared-tail sibling of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, and the $\RealCompletionSelectorSealUp$ route
+$$
+B \longmapsto W \longmapsto R \longmapsto L \longmapsto E
+$$
+from \autoref{ch:concrete-instances-realcompletionselectorseal-namecert}. The handoff surface refuses quotient-stream equality, selected limits, host equality, countable choice, ambient completeness, and open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with the root budget package. By \autoref{thm:uniform-cauchy-criterion-root-budget-package}, the accepted packet exposes only the finite rows $I,W,M,Q,T,H,C,P,N$ before any Real or Completion consumer can read a terminal seal.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility} and \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock}. These results place the seal-facing read after the same finite budget package and after the shared-tail sibling of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
+
+Now use \autoref{thm:real-completion-selector-seal-terminality}. A consumer that exposes a selector-seal packet is exhausted by the concrete route $B,W,R,L,E,H,C,P,N$, with $B\mapsto W\mapsto R\mapsto L\mapsto E$ as the terminal Real and Completion handoff.
+
+The displayed rows are therefore exhausted by the UniformCauchyCriterion root budget, the regular shared-tail sibling, and the selector-seal packet. None of those rows carries quotient-stream equality, selected limits, host equality, countable choice, ambient completeness, or open-cover compactness, so no consumer can export such data from the handoff.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion tail-cofinality schedule handoff]
 \label{thm:uniform-cauchy-criterion-tail-cofinality-schedule-handoff}
 Let
@@ -398,4 +420,66 @@ Next apply \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock}. A
 Now combine \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock} with \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock}. These results identify the shared-tail meet, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance ledger, and the $\CauchyLimitSealUp$ route with the same finite window that ends at the $\RealUp$ seal row $E$.
 
 The carrier coordinates of $U$ are therefore exhausted by $I,W,M,Q,T,E,H,C,P,N$ and by the displayed sibling routes already attached to those rows. None of those coordinates carries quotient-stream equality, a selected host limit, host equality, countable choice, a second tolerance ledger, open-cover compactness, or ambient completeness, so no Phase Real or Completion consumer can export such data from the packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real completion finite budget envelope]
+\label{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every Phase Real and Completion consumer that reads the UniformCauchyCriterion root route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and the final $\RealUp$ seal must factor through the concrete $\RealCompletionSelectorSealUp$ selector-seal packet of \autoref{ch:concrete-instances-realcompletionselectorseal-namecert} before any terminal completion-facing read.
+
+The finite envelope is the root budget package, the regular shared-tail sibling, the selected $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\CauchyLimitSealUp$ handoff, the $\RealCompletionSelectorSealUp$ route, and the final $\RealUp$ seal row. It exports no quotient-stream equality, selected host limit, host equality, countable choice, second tolerance ledger, open-cover compactness, detached selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite root package. \autoref{thm:uniform-cauchy-criterion-root-budget-package} displays the rows $I,W,M,Q,T,H,C,P,N$, and \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock} places every Real completion read after that package, the regular shared-tail sibling, and the seal row $E$.
+
+Next use \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock}. It identifies the Phase Real and Completion read with the same $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, and final $\RealUp$ seal route. \autoref{thm:uniform-cauchy-criterion-real-seal-frontier-lock} then adds the $\CauchyLimitSealUp$ handoff and confirms that this is the whole completion-facing frontier exported by $U$.
+
+Finally apply \autoref{thm:real-completion-selector-seal-terminality}. The selector-seal packet is terminal for the concrete Real and Completion handoff through the selector budget, selected window, readback, limit seal, terminal Real endpoint, and structural rows. Therefore any terminal completion-facing read of the UniformCauchyCriterion root route factors through that packet, and the packet acts as the terminal concrete handoff rather than as an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion diagonal selector seal pullback]
+\label{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted $\DiagonalLimitCompatibilityUp$ root-selector read. Suppose the two reads display the same $\StreamNameUp$ window, the same $\RegSeqRatUp$ readback, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\CauchyLimitSealUp$ handoff, and the same terminal $\RealUp$ seal row. Then every Phase Real and Completion terminal read factors through the same $\RealCompletionSelectorSealUp$ selector-seal packet.
+
+Thus the UniformCauchyCriterion route and the diagonal selector route have one terminal pullback surface. No quotient stream, selected host limit, host equality, countable choice, second tolerance ledger, detached selector, or ambient completeness coordinate can distinguish the two routes.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope}. The UniformCauchyCriterion terminal read is forced through the finite root budget package, the selected $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\CauchyLimitSealUp$ handoff, the terminal $\RealUp$ row, and the concrete $\RealCompletionSelectorSealUp$ packet.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. Since $U$ and $D$ share the displayed window, readback, ledger, handoff, and terminal seal rows, the diagonal root-selector read pulls back to the same completion-facing selector surface.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-selector-budget-lock-exactness}. The selector budget is exactly the displayed finite route, so the diagonal read cannot replace the shared rows by a detached selector, a second tolerance ledger, a quotient stream, or a selected host limit.
+
+Finally invoke \autoref{thm:real-completion-selector-seal-terminality}. The $\RealCompletionSelectorSealUp$ packet is terminal for the selector-to-seal handoff, so both routes factor through the same terminal selector-seal packet before any Phase Real or Completion terminal read is available. Host equality, countable choice, and ambient completeness remain outside that packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion selector seal exact pullback]
+\label{thm:uniform-cauchy-criterion-selector-seal-exact-pullback}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every Phase Real and Completion consumer that reads the $\RealCompletionSelectorSealUp$ selector-seal row of \autoref{ch:concrete-instances-realcompletionselectorseal-namecert} from $U$ factors first through the finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+and then through that sibling selector-seal packet.
+
+The pullback is exact on the displayed schedule, tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ rows, the $\Cont$ route, the $\Pkg$ row, and the local $\NameCert$ row. It therefore exports no quotient-stream equality, selected limit, host equality, countable choice, detached selector, or ambient Real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the finite root package. \autoref{thm:uniform-cauchy-criterion-root-budget-package} exposes $I,W,M,Q,T,H,C,P,N$ as the only schedule, tolerance, history, continuation, provenance, and local-name rows available to a consumer of $U$.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-selector-seal-handoff-lock} and \autoref{thm:uniform-cauchy-criterion-real-completion-budget-lock}. These locks place the selector-seal handoff and every Real completion read after the same root budget package and after the seal row $E$.
+
+Now use \autoref{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback}. The diagonal selector route and the UniformCauchyCriterion route share one terminal selector-seal pullback surface whenever the window, readback, tolerance ledger, handoff, and terminal seal rows are the displayed rows of $U$.
+
+Finally invoke the sibling carrier of \autoref{ch:concrete-instances-realcompletionselectorseal-namecert}, using \autoref{thm:real-completion-selector-seal-terminality}. The sibling consumes exactly the same finite selector-to-seal row, so the pullback preserves the schedule, tolerance ledger, Real seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows without introducing quotient-stream equality, selected limits, host equality, countable choice, detached selectors, or ambient Real completeness.
 \end{proof}

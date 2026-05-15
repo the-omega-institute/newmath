@@ -117,6 +117,7 @@ Apply ledger exactness from \autoref{thm:observer-filter-ledger-exactness}. A se
 
 The consumer read then factors through $R,C,P,N$. Since the carrier contains no hidden observer-state row and no quotient identity coordinate, the selected row has no alternate source.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverFilterUp.ObserverFilterCarrier\_selected\_row\_totality}
 
 \begin{theorem}[ObserverFilter omitted-row boundary exhaustion]
 \label{thm:observer-filter-omitted-row-boundary-exhaustion}
@@ -188,6 +189,26 @@ Next use ledger exactness and StreamName non-escape. By \autoref{thm:observer-fi
 Now pass through the budget selector. Apply \autoref{thm:observer-filter-budget-selector-l10-handoff}. It turns the selected StreamName row into the finite observation schedule carried by $B$ and excludes omitted rows, quotient streams, host real equality, and hidden limit selection from the L10 route.
 
 Finally read the synchronizer carrier and obligations from \autoref{def:real-window-synchronizer-carrier} and \autoref{thm:real-window-synchronizer-obligation-closure-package}. The accepted $\RealWindowSynchronizerUp$ packet can consume only the displayed StreamName and RegSeqRat finite-window source that it receives from the same schedule carried by $B$. Since neither the budget selector nor the synchronizer carrier contains a coordinate for omitted rows, quotient streams, host real equality, hidden observer state, selected external limits, or ambient completeness, every Real-completion-facing read factors through the displayed route and nowhere else.
+\end{proof}
+
+\begin{theorem}[ObserverFilter Real-window budget exhaustion]
+\label{thm:observer-filter-real-window-budget-exhaustion}
+Let $F=(H,S,O,R,L,C,P,N)$ be an accepted $\ObserverFilterUp$ packet, let $B=(B_0,S_B,W,D,R_B,E,H_B,C_B,P_B,N_B)$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet whose selected schedule row $S_B$ reads its finite $\StreamNameUp$ windows from the selected subhistory row $S$, and let $Z$ be an accepted $\RealWindowSynchronizerUp$ packet whose $\StreamNameUp$ and $\RegSeqRatUp$ windows are read from the same selected subhistory route through $B$. Then every Real-completion-facing consumer factors through
+$$
+\ObserverHistoryIdentityUp \to \ObserverFilterUp \to \StreamNameUp \to \FiniteObservationBudgetSelectorUp \to \RealWindowSynchronizerUp.
+$$
+Omitted rows in $O$ cannot become finite budget windows, $\RegSeqRatUp$ readback, $\RealUp$ seal data, quotient streams, host equality, or hidden limit-selection data.
+\end{theorem}
+\begin{proof}
+First expose the observer source. Apply \autoref{thm:observer-filter-ledger-exactness} to the accepted packet $F$. The source history rows are exhausted by the selected subhistory $S$ and the omitted boundary ledger $O$.
+
+Next identify the selected StreamName route. By \autoref{thm:observer-filter-streamname-selected-subhistory-nonescape}, every $\StreamNameUp$ read exported by $F$ is read from $S$ together with $L,R,C,P,N$. The omitted ledger remains a boundary witness and has no stream, quotient, or hidden observer coordinate.
+
+Now pass from StreamName to the finite budget selector. Apply \autoref{thm:observer-filter-budget-selector-l10-handoff}. Since $S_B$ reads its finite windows from $S$, the budget packet $B$ supplies only the displayed rows $W,D,R_B,E,H_B,C_B,P_B,N_B$ to the L10 route.
+
+Finally consume the schedule through the synchronizer. Apply \autoref{thm:observer-filter-real-window-synchronizer-handoff} to the same $F$, $B$, and $Z$. The synchronizer can read only the displayed StreamName and RegSeqRat finite-window source carried through $B$.
+
+It remains to exclude every omitted-row escape. The carriers named above contain coordinates for the observer source, selected subhistory, omitted boundary ledger, StreamName route, finite budget schedule, RegSeqRat readback, synchronizer route, provenance, continuations, and local names. None contains a coordinate by which an element of $O$ becomes a budget window, Real seal datum, quotient stream, host equality row, or hidden limit selector. Carrier-coordinate exhaustion therefore forces every Real-completion-facing consumer through the displayed route.
 \end{proof}
 
 \closureat{ObserverFilterUp}{seedStr}

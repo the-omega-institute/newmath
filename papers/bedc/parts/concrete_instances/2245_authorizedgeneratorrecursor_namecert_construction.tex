@@ -385,6 +385,42 @@ the public refusal boundary for external axioms, hidden generators,
 non-structural recursion, and branch escape.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor output boundary non-escape]
+\label{thm:authorized-generator-recursor-output-boundary-nonescape}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet, the output row $O$ cannot be read apart from the accepted signature $I$, emitted eliminator $E$, checked motive $M$, branch package $B$, structural-descent row $D$, audit row $A$, transports $H$, routes $C$, provenance $P$, boundary row $G$, and local name $N$. The packet exports no detached output, hidden generator, external proof term, or output route outside these displayed rows.
+\end{theorem}
+\begin{proof}
+Start from branch exhaustion and the local NameCert surface. \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-namecert-surface} force the output read to retain the accepted signature, eliminator, motive, complete branch package, descent row, output naming row, audit provenance, routes, package provenance, boundary row, and local certificate.
+
+Next use audit boundary, audit provenance, and output-name stability. \autoref{thm:authorized-generator-recursor-audit-boundary}, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, and \autoref{thm:authorized-generator-recursor-output-name-stability} keep $O$ attached to $A,H,C,P,G,N$ before it is exposed.
+
+Finally apply audit-row completeness, branch descent totality, hidden-generator exclusion, and the TasteGate handoff. \autoref{thm:authorized-generator-recursor-audit-row-completeness}, \autoref{thm:authorized-generator-recursor-branch-descent-totality}, \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} leave no coordinate for a detached output or proof-producing generator.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor GAP boundary totality]
+\label{thm:authorized-generator-recursor-gap-boundary-totality}
+Every host-kernel handoff through the boundary row $G$ of an accepted $\AuthorizedGeneratorRecursorUp$ packet is preceded by the signature row $I$, branch package $B$, structural-descent row $D$, audit row $A$, displayed route row $C$, package row $P$, and local $\NameCert$ row $N$. The $\mathsf{GAP}$ boundary receives only the displayed recursor packet and never receives a hidden branch source, unchecked descent claim, unaudited dependency channel, or proof-producing generator outside the packet.
+\end{theorem}
+\begin{proof}
+Begin with the host-kernel boundary rows. \autoref{thm:authorized-generator-recursor-host-kernel-handoff} sends any $G$-read through the branch, descent, audit, route, and local certificate rows, while \autoref{thm:authorized-generator-recursor-signature-route-totality} attaches the signature route to the same packet.
+
+Use the audit and branch synchronization supplied by the chapter. \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, \autoref{thm:authorized-generator-recursor-audit-row-completeness}, and \autoref{thm:authorized-generator-recursor-branch-descent-totality} place the audit, package, branch, and descent rows before any boundary exposure.
+
+Finally use hidden-generator exclusion and the TasteGate handoff. \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion} blocks external generators, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} reads the checked carrier alignment only as the finite packet handoff. Thus the $G$ boundary is total for the displayed signature, branch, descent, audit, route, package, and naming rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit branch synchronization]
+\label{thm:authorized-generator-recursor-audit-branch-synchronization}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, branch exhaustion and audit provenance are synchronized before any public output exposure. A consumer that reads $O$ must first read the complete branch package $B$, structural-descent row $D$, audit row $A$, operational audit handoff, output-name row, transports, routes, provenance, boundary row, and local name together, and it cannot separate the audit ledger from the public branch descent route.
+\end{theorem}
+\begin{proof}
+First synchronize the branch rows. \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-branch-descent-totality} exhaust public recursive reads through the accepted branch package and structural descent row.
+
+Next synchronize the audit rows. \autoref{thm:authorized-generator-recursor-audit-boundary}, \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, \autoref{thm:authorized-generator-recursor-audit-row-completeness}, and \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff} place audit provenance before public exposure of $O$.
+
+Finally attach output naming and the public handoff. \autoref{thm:authorized-generator-recursor-output-name-stability}, \autoref{thm:authorized-generator-recursor-hidden-generator-exclusion}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff} prevent a detached output name, hidden generator, or carrier-alignment read from bypassing the synchronized branch and audit rows.
+\end{proof}
+
 \closureat{AuthorizedGeneratorRecursorUp}{seedStr}
 \closureat{AuthorizedGeneratorRecursorUp}{obligationStr}
 \closureat{AuthorizedGeneratorRecursorUp}{scopedStr}[BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorTasteGate\_single\_carrier\_alignment]

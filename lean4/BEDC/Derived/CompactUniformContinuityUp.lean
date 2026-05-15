@@ -539,4 +539,41 @@ theorem CompactUniformContinuityPacket_root_namecert_unblock_package
       precisionTargetRead, precisionNameMetric, metricTransportReal, radiusRowsFoldRadiusRead,
       precisionPkg, sourceReadPkg, targetReadPkg, realReadPkg, radiusReadPkg⟩
 
+theorem CompactUniformContinuityPacket_root_rational_fold_route [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow radiusRead precisionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont radiusRows fold radiusRead ->
+        hsame precisionRead precision ->
+          PkgSig bundle radiusRead pkg ->
+            UnaryHistory precision ∧ UnaryHistory radiusRows ∧ UnaryHistory fold ∧
+              UnaryHistory radiusRead ∧ UnaryHistory precisionRead ∧
+                Cont modulusRows radiusRows fold ∧ Cont radiusRows fold radiusRead ∧
+                  hsame precisionRead precision ∧ PkgSig bundle precision pkg ∧
+                    PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro packet radiusRowsFoldRadiusRead precisionReadSame radiusReadPkg
+  obtain ⟨_sourceUnary, _targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, transportUnary, nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed foldUnary transportUnary foldTransportRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed routeUnary nameRowUnary routeNamePrecision
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusRowsUnary foldUnary radiusRowsFoldRadiusRead
+  have precisionReadUnary : UnaryHistory precisionRead :=
+    unary_transport_symm precisionUnary precisionReadSame
+  exact
+    ⟨precisionUnary, radiusRowsUnary, foldUnary, radiusReadUnary, precisionReadUnary,
+      modulusRowsRadiusRowsFold, radiusRowsFoldRadiusRead, precisionReadSame, precisionPkg,
+      radiusReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp

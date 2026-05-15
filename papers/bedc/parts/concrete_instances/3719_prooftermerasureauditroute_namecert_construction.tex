@@ -99,12 +99,28 @@ Next use erased Cont replay. The erased row $E$ is exposed only along $C$ and on
 Finally apply the non-escape ledger. The audit stamp $S$ records local proof consumption, while the public package contains no coordinate for the source proof object as exported evidence and no coordinate for host type checking. Hence the downstream consumer package is exactly the displayed finite audit surface.
 \end{proof}
 
+\begin{theorem}[Proof-term erasure audit route erased replay determinacy]
+\label{thm:proof-term-erasure-audit-route-erased-replay-determinacy}
+Let $A$ and $A'$ be accepted $\ProofTermErasureAuditRouteUp$ packets. Suppose the two erased replay reads have the same proof-term membership row, erased-term readback row, $\Ext$ typing membership row, subject-reduction compatibility row, componentwise $\hsame$ transport, erased $\Cont$ replay route, $\Pkg$ provenance, and local $\NameCert$ row. Then every downstream classifier consumer reads the same erased replay surface from $A$ and $A'$.
+
+The determined surface is the finite packet of proof-term membership, erased readback, typing membership, erased replay, subject-reduction compatibility, transport, provenance, and local naming rows. It exports no proof object, proof irrelevance principle, quotient syntax equality, host conversion relation, ambient normalization oracle, or host type-checking replacement.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:proofterm-erasure-audit-route-ext-membership-preservation}. The downstream consumer's membership read is forced to be the displayed typing row attached to the proof-term membership row, transported through the shared $\hsame$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:proofterm-erasure-audit-route-erased-cont-replay}. Since the two packets have the same erased readback, erased $\Cont$ replay route, and subject-reduction compatibility row, their public erased replay reaches the same consumer-visible row.
+
+Use \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger} to exclude off-packet witnesses. The audit route has no coordinate for a proof object, proof irrelevance, quotient syntax equality, host conversion, ambient normalization, or host type checking, so no downstream classifier can separate the two reads by such data.
+
+Finally repack with \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package}. That package is exactly the shared erased row, typing row, erasure route, compatibility row, audit stamp, transports, provenance, and local naming boundary. Therefore every downstream classifier consumer sees the same erased replay surface.
+\end{proof}
+
 \closureat{ProofTermErasureAuditRouteUp}{seedStr}
 
 \begin{closurestatus}{\ProofTermErasureAuditRouteUp}
   \constructivestory{A $\ProofTermErasureAuditRouteUp$ packet is generated from proof-term, erased-term, Ext typing, erasure Cont, subject-reduction compatibility, audit-stamp, hsame transport, Pkg provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:proofterm-erasure-audit-route-carrier}, \autoref{thm:proofterm-erasure-audit-route-namecert-obligations}, \autoref{thm:proofterm-erasure-audit-route-ext-membership-preservation}, \autoref{thm:proofterm-erasure-audit-route-erased-cont-replay}, \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger}, and \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package} define the finite audit-route surface.}
+  \scopeclosed{\autoref{def:proofterm-erasure-audit-route-carrier}, \autoref{thm:proofterm-erasure-audit-route-namecert-obligations}, \autoref{thm:proofterm-erasure-audit-route-ext-membership-preservation}, \autoref{thm:proofterm-erasure-audit-route-erased-cont-replay}, \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger}, \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package}, and \autoref{thm:proof-term-erasure-audit-route-erased-replay-determinacy} define the finite audit-route surface and the downstream erased-replay determinacy boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
