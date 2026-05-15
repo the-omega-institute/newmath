@@ -348,20 +348,64 @@ it remains finite because no coordinate outside the carrier participates in
 the package.
 \end{proof}
 
+\begin{theorem}[LorentzFrameRate mature route completeness]
+\label{thm:lorentz-frame-rate-mature-route-completeness}
+Every downstream mature read of an accepted $\LorentzFrameRateUp$ packet
+factors through the displayed rows
+$$
+M,X,R,S,H,C,P,N.
+$$
+The only admissible route is the one assembled from the
+$\MultiHistConfigUp$ source row, the $\CrossHistCausalUp$ witness surface,
+the $\MaxCausalRateUp$ maximum-rate row, the observer-symmetry classifier,
+the $\hsame$ transport row, the $\Cont$ replay row, package provenance, the
+local $\NameCert$ row, and the public root package of
+\autoref{thm:lorentz-frame-rate-root-public-package}. In particular, a
+mature consumer obtains no global frame, synchronized clock, metric tensor,
+host real-valued speed, Lorentz geometry, or Lean-side bridge check from this
+packet.
+\end{theorem}
+\begin{proof}
+First fix the row spine. The carrier of
+\autoref{def:lorentz-frame-rate-carrier} supplies the rows
+$M,X,R,S,H,C,P,N$, and
+\autoref{thm:lorentz-frame-rate-upstream-row-coherence} binds the
+$M,X,R$ rows as one upstream surface rather than three independent sources.
+
+Next route every observer read. Apply
+\autoref{thm:lorentz-frame-rate-symmetry-classifier-totality} to force the
+observer-symmetry classifier through the displayed configuration, witness,
+and maximum-rate rows, and apply
+\autoref{thm:lorentz-frame-rate-root-route-totality} to pass that classifier
+through the transport, replay, provenance, and local naming rows.
+
+The excluded coordinates are accounted for by
+\autoref{thm:lorentz-frame-rate-root-nonescape-ledger}. It rules out global
+frames, synchronized clocks, metric tensors, host real-valued speed, and
+Lorentz geometry along the same public route, while Lean-side bridge checking
+is not a carrier coordinate.
+
+Finally use \autoref{thm:lorentz-frame-rate-root-public-package}. The public
+package is exactly the finite root surface made from the preceding rows, so
+any downstream mature read of an accepted packet factors through that surface
+and through no additional ambient structure.
+\end{proof}
+
 \closureat{LorentzFrameRateUp}{seedStr}
 \closureat{LorentzFrameRateUp}{obligationStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
 \closureat{LorentzFrameRateUp}{scopedStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
 \closureat{LorentzFrameRateUp}{publicStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
 \closureat{LorentzFrameRateUp}{bridgedStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
+\closureat{LorentzFrameRateUp}{matureStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LorentzFrameRateUp}
   \constructivestory{A $\LorentzFrameRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows, one $\MaxCausalRateUp$ maximum-rate row over the same configuration, an observer-symmetry classifier, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:lorentz-frame-rate-carrier}, \autoref{thm:lorentz-frame-rate-upstream-row-coherence}, \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}, \autoref{thm:lorentz-frame-rate-obligation-closure-package}, \autoref{thm:frame-rate-observer-symmetry-transport}, \autoref{thm:frame-rate-locality-nonescape}, \autoref{thm:lorentz-frame-rate-standard-bridge-surface}, \autoref{thm:lorentz-frame-rate-observer-symmetry-bridge-route}, and \autoref{thm:lorentz-frame-rate-root-public-package} bind the finite observer-symmetric maximum-rate packet and its bridge-facing public consumer theorem over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:lorentz-frame-rate-carrier}, \autoref{thm:lorentz-frame-rate-upstream-row-coherence}, \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}, \autoref{thm:lorentz-frame-rate-obligation-closure-package}, \autoref{thm:frame-rate-observer-symmetry-transport}, \autoref{thm:frame-rate-locality-nonescape}, \autoref{thm:lorentz-frame-rate-standard-bridge-surface}, \autoref{thm:lorentz-frame-rate-observer-symmetry-bridge-route}, \autoref{thm:lorentz-frame-rate-root-public-package}, and \autoref{thm:lorentz-frame-rate-mature-route-completeness} bind the finite observer-symmetric maximum-rate packet and its mature downstream route over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.LorentzFrameRateUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lorentz geometry, metric tensors, light-cone distance, synchronized clocks, global frames, host real-valued speed, curved spacetime, or Lean-side verification.}
-  \upgradepath{Mature closure requires examples or completeness-style downstream treatment for the same displayed finite frame-rate packet.}
+  \upgradepath{No further paper-side theory closure grade remains for the finite Lorentz frame-rate route; verification and bridge checking remain separate axes.}
 \end{closurestatus}
