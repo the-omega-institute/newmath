@@ -153,4 +153,99 @@ theorem UnaryContMonoidCarrier_unit_bind_surface [AskSetup] [PackageSetup]
     ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryRightUnit, unaryUnitBindRead,
       productRoute, leftUnitRoute, rightUnitRoute, unitBindRoute, sameUnit, unitBindPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_operation_closure [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      UnaryHistory ab ∧ Cont a b ab ∧ Cont BHist.Empty a unitLeft ∧
+        Cont a BHist.Empty unitRight ∧ UnaryHistory unitLeft ∧
+          UnaryHistory unitRight ∧ hsame e BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨unaryA, unaryB, _unaryName, productRoute, leftUnitRoute, rightUnitRoute,
+    _ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryRightUnit : UnaryHistory unitRight :=
+    unary_cont_closed unaryA unary_empty rightUnitRoute
+  exact
+    ⟨unaryProduct, productRoute, leftUnitRoute, rightUnitRoute, unaryLeftUnit,
+      unaryRightUnit, sameUnit⟩
+
+theorem UnaryContMonoidCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name obligationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont ledger name obligationRead ->
+        PkgSig bundle obligationRead pkg ->
+          UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory ab ∧ UnaryHistory unitLeft ∧
+            UnaryHistory unitRight ∧ UnaryHistory ledger ∧ UnaryHistory name ∧
+              UnaryHistory obligationRead ∧ Cont a b ab ∧
+                Cont BHist.Empty a unitLeft ∧ Cont a BHist.Empty unitRight ∧
+                  Cont ab name ledger ∧ Cont ledger name obligationRead ∧
+                    hsame e BHist.Empty ∧ PkgSig bundle ledger pkg ∧
+                      PkgSig bundle obligationRead pkg ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            Cont ledger name row ∧ hsame e BHist.Empty)
+                          (fun row : BHist =>
+                            hsame row obligationRead ∧ PkgSig bundle obligationRead pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier obligationRoute obligationPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, leftUnitRoute, rightUnitRoute,
+    ledgerRoute, ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryRightUnit : UnaryHistory unitRight :=
+    unary_cont_closed unaryA unary_empty rightUnitRoute
+  have unaryLedger : UnaryHistory ledger :=
+    unary_cont_closed unaryProduct unaryName ledgerRoute
+  have unaryObligation : UnaryHistory obligationRead :=
+    unary_cont_closed unaryLedger unaryName obligationRoute
+  have sourceObligation :
+      (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row) obligationRead := by
+    exact ⟨hsame_refl obligationRead, unaryObligation⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+        (fun row : BHist => Cont ledger name row ∧ hsame e BHist.Empty)
+        (fun row : BHist => hsame row obligationRead ∧ PkgSig bundle obligationRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro obligationRead sourceObligation
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨cont_result_hsame_transport obligationRoute (hsame_symm source.left),
+            sameUnit⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, obligationPkg⟩
+    }
+  exact
+    ⟨unaryA, unaryB, unaryProduct, unaryLeftUnit, unaryRightUnit, unaryLedger,
+      unaryName, unaryObligation, productRoute, leftUnitRoute, rightUnitRoute,
+      ledgerRoute, obligationRoute, sameUnit, ledgerPkg, obligationPkg, cert⟩
+
 end BEDC.Derived.UnaryContMonoidUp

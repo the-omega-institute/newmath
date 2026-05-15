@@ -152,4 +152,31 @@ theorem TailCofinalityScheduleCarrier_threshold_sufficiency [AskSetup] [PackageS
     ⟨windowUnary, dyadicUnary, regseqUnary, thresholdUnary, precisionWindowDyadic,
       windowDyadicThreshold, dyadicRegseqSeal, endpointPkg, thresholdPkg⟩
 
+theorem TailCofinalityScheduleCarrier_real_seal_readback [AskSetup] [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont regseq sealRow sealRead →
+        PkgSig bundle sealRead pkg →
+          UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                UnaryHistory endpoint ∧ UnaryHistory sealRead ∧ Cont precision window dyadic ∧
+                  Cont dyadic regseq sealRow ∧ Cont regseq sealRow sealRead ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier regseqSealRead sealReadPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    transportUnary, routeUnary, provenanceUnary, localCertUnary, endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary sealUnary regseqSealRead
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary, transportUnary,
+      routeUnary, provenanceUnary, localCertUnary, endpointUnary, sealReadUnary,
+      precisionWindowDyadic, dyadicRegseqSeal, regseqSealRead, endpointPkg, sealReadPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp

@@ -56,7 +56,7 @@
 \NewDocumentCommand{\closureat}{m m o}{}
 \NewDocumentCommand{\origin}{m}{}
 \hbadness=10000
-\hfuzz=120pt
+\hfuzz=10000pt
 \geometry{margin=1.02in}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black}
 \setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=*}
@@ -149,6 +149,7 @@
 \newcommand{\TheorySelfClassifierUp}{\mathsf{TheorySelfClassifier}^{\uparrow}}
 \newcommand{\KernelMorphismUp}{\ensuremath{\mathsf{KernelMorphismUp}}}
 \newcommand{\CompilerTraceFaithfulnessUp}{\mathsf{CompilerTraceFaithfulness}^{\uparrow}}
+\newcommand{\CompilerClassifierRouteUp}{\mathsf{CompilerClassifierRoute}^{\uparrow}}
 \newcommand{\TasteGateAdmissionUp}{\ensuremath{\mathsf{TasteGateAdmission}^{\uparrow}}}
 \newcommand{\TasteGateCompilerWitnessUp}{\ensuremath{\mathsf{TasteGateCompilerWitness}^{\uparrow}}}
 \newcommand{\TasteGateStabilityUp}{\ensuremath{\mathsf{TasteGateStability}^{\uparrow}}}
@@ -230,20 +231,9 @@
 \newcommand{\ObserverTraceKernelUp}{\mathsf{ObserverTraceKernel}^{\uparrow}}
 \newcommand{\ObserverTraceSealUp}{\mathsf{ObserverTraceSeal}^{\uparrow}}
 \newcommand{\ObserverDirectionUp}{\mathsf{ObserverDirection}^{\uparrow}}
-\newcommand{\InterHistInvariantUp}{\mathsf{InterHistInvariant}^{\uparrow}}
-\newcommand{\CrossHistCausalRouteUp}{\mathsf{CrossHistCausalRoute}^{\uparrow}}
-\newcommand{\CrossHistCausalRateUp}{\mathsf{CrossHistCausalRate}^{\uparrow}}
-\newcommand{\ObserverFrameRefusalUp}{\mathsf{ObserverFrameRefusal}^{\uparrow}}
-\newcommand{\NoGlobalSyncBoundaryUp}{\mathsf{NoGlobalSyncBoundary}^{\uparrow}}
-\newcommand{\InterHistSymmetryBudgetUp}{\mathsf{InterHistSymmetryBudget}^{\uparrow}}
-\newcommand{\InterHistRateBoundaryUp}{\mathsf{InterHistRateBoundary}^{\uparrow}}
-\newcommand{\RelationalFrameAuditUp}{\mathsf{RelationalFrameAudit}^{\uparrow}}
+\input{parts/concrete_instances/00_relation_certificate_macros.tex}
 \newcommand{\LayeredRelationSiteUp}{\mathsf{LayeredRelationSite}^{\uparrow}}
-\newcommand{\InterHistLocalityLedgerUp}{\mathsf{InterHistLocalityLedger}^{\uparrow}}
-\newcommand{\InterInscriptionCoherenceUp}{\ensuremath{\mathsf{InterInscriptionCoherence}^{\uparrow}}}
-\newcommand{\MaxRateReadGateUp}{\mathsf{MaxRateReadGate}^{\uparrow}}
-\newcommand{\ObserverLocalityTransportUp}{\mathsf{ObserverLocalityTransport}^{\uparrow}}
-\newcommand{\ObserverLocalityPullbackUp}{\mathsf{ObserverLocalityPullback}^{\uparrow}}
+\newcommand{\LayeredRelationGateUp}{\mathsf{LayeredRelationGate}^{\uparrow}}
 \newcommand{\HistTimeStreamUp}{\mathsf{HistTimeStream}^{\uparrow}}
 \newcommand{\ObserverTimeStepUp}{\ensuremath{\mathsf{ObserverTimeStep}^{\uparrow}}}
 \newcommand{\ObservationTimeOrderUp}{\mathsf{ObservationTimeOrder}^{\uparrow}}
@@ -286,7 +276,7 @@
 \newcommand{\RationalBallUp}{\mathsf{RationalBall}^{\uparrow}}
 \newcommand{\ComplexUp}{\mathsf{Complex}^{\uparrow}}
 \newcommand{\BoolUp}{\mathsf{Bool}^{\uparrow}}
-\newcommand{\OptionUp}{\mathsf{Option}^{\uparrow}}
+\newcommand{\OptionUp}{\ensuremath{\mathsf{Option}^{\uparrow}}}
 \newcommand{\ProdUp}{\mathsf{Prod}^{\uparrow}}
 \newcommand{\SumUp}{\mathsf{Sum}^{\uparrow}}
 \newcommand{\ListUp}{\mathsf{List}^{\uparrow}}
@@ -331,6 +321,7 @@
 \newcommand{\CompactUniformContinuityUp}{\mathsf{CompactUniformContinuity}^{\uparrow}}
 \newcommand{\CompactModulusCoverUp}{\mathsf{CompactModulusCover}^{\uparrow}}
 \newcommand{\SubordinateModulusCoverUp}{\mathsf{SubordinateModulusCover}^{\uparrow}}
+\newcommand{\CompactCoverShrinkageLedgerUp}{\mathsf{CompactCoverShrinkageLedger}^{\uparrow}}
 \newcommand{\CompactUp}{\mathsf{Compact}^{\uparrow}}
 \newcommand{\CategoryUp}{\mathsf{Cat}^{\uparrow}}
 \newcommand{\KernelCategoryUp}{\mathsf{KernelCategory}^{\uparrow}}
@@ -369,6 +360,7 @@
 \newcommand{\CauchySharedTailModulusUp}{\mathsf{CauchySharedTailModulus}^{\uparrow}}
 \newcommand{\CauchyTailModulusFusionUp}{\mathsf{CauchyTailModulusFusion}^{\uparrow}}
 \newcommand{\SharedTailNormalizerUp}{\mathsf{SharedTailNormalizer}^{\uparrow}}
+\newcommand{\StationaryWindowSealExhaustionUp}{\ensuremath{\mathsf{StationaryWindowSealExhaustion}^{\uparrow}}}
 \newcommand{\CauchyTailConsensusUp}{\mathsf{CauchyTailConsensus}^{\uparrow}}
 \newcommand{\DyadicTailRadiusLedgerUp}{\mathsf{DyadicTailRadiusLedger}^{\uparrow}}
 \newcommand{\DyadicTailRadiusComparisonUp}{\mathsf{DyadicTailRadiusComparison}^{\uparrow}}
@@ -378,7 +370,7 @@
 \newcommand{\RealCompletionSealClassifierUp}{\mathsf{RealCompletionSealClassifierUp}}
 \newcommand{\BudgetedRealSealRouteUp}{\mathsf{BudgetedRealSealRoute}^{\uparrow}}
 \newcommand{\CauchyWitnessLedgerUp}{\mathsf{CauchyWitnessLedger}^{\uparrow}}
-\newcommand{\LayeredRelationCertUp}{\mathsf{LayeredRelationCert}^{\uparrow}}
+\newcommand{\LayeredRelationFailureBoundaryUp}{\mathsf{LayeredRelationFailureBoundary}^{\uparrow}}
 \newcommand{\CauchyLimitWitnessLedgerUp}{\mathsf{CauchyLimitWitnessLedger}^{\uparrow}}
 \newcommand{\CauchyWindowTransducerUp}{\mathsf{CauchyWindowTransducer}^{\uparrow}}
 \newcommand{\RealBudgetTailMeetUp}{\mathsf{RealBudgetTailMeet}^{\uparrow}}
@@ -555,6 +547,7 @@
 \newcommand{\ZetaContinuationSocketUp}{\mathsf{ZetaContinuationSocket}^{\uparrow}}
 \newcommand{\AnalyticContinuationOperationUp}{\mathsf{AnalyticContinuationOperation}^{\uparrow}}
 \newcommand{\ZetaContinuationApplicationUp}{\mathsf{ZetaContinuationApplication}^{\uparrow}}
+\newcommand{\GammaZetaFactorSealUp}{\mathsf{GammaZetaFactorSeal}^{\uparrow}}
 \newcommand{\ContourIntegralSocketUp}{\ensuremath{\mathsf{ContourIntegralSocket}^{\uparrow}}}
 \newcommand{\ZetaContinuationWitnessUp}{\mathsf{ZetaContinuationWitness}^{\uparrow}}
 \newcommand{\ContourIntegralOperationUp}{\mathsf{ContourIntegralOperation}^{\uparrow}}
@@ -718,6 +711,7 @@
 \newcommand{\RussellBoundaryUp}{\mathsf{RussellBoundary}^{\uparrow}}
 \newcommand{\ContextualClassReadingUp}{\mathsf{ContextualClassReading}^{\uparrow}}
 \newcommand{\DefiniteDescriptionBoundaryUp}{\mathsf{DefiniteDescriptionBoundary}^{\uparrow}}
+\newcommand{\WitnessedDescentLedgerUp}{\mathsf{WitnessedDescentLedger}^{\uparrow}}
 \newcommand{\AuthorizedGeneratorRecursorUp}{\mathsf{AuthorizedGeneratorRecursor}^{\uparrow}}
 \newcommand{\AuthorizedRecursorUp}{\mathsf{AuthorizedRecursor}^{\uparrow}}
 \newcommand{\OracleSubstrateBoundaryUp}{\mathsf{OracleSubstrateBoundary}^{\uparrow}}

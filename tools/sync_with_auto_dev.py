@@ -202,7 +202,13 @@ def push_branch(branch: str, *, set_upstream: bool = False,
     from contextlib import nullcontext
     try:
         from repo_push_lock import acquire_push_lock as _pl  # tools/ is on sys.path
-        push_lock_cm = lambda: _pl(branch, timeout=300)
+        # 900s timeout: R/P merge+ff+push sequences hold the lock for
+        # 60-180s typical, up to 400s under heavy contention. 300s was
+        # too tight and starved the sync daemon (observed 2026-05-15:
+        # consecutive 300s timeouts blocked auto-dev sync, leaving
+        # codex-auto-dev ahead by 100+ commits). 900s = 15min gives
+        # the daemon a full contention burst to clear.
+        push_lock_cm = lambda: _pl(branch, timeout=900)
     except Exception:
         push_lock_cm = lambda: nullcontext()
     env = os.environ.copy()
