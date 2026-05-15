@@ -61,6 +61,8 @@ import BEDC.Derived.ApophaticKernelBoundaryUp.TasteGate
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.RootDownstreamSocketNonescape
+import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
+import BEDC.Derived.ApophaticNameUp.SupplyShapeNoninternalization
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
