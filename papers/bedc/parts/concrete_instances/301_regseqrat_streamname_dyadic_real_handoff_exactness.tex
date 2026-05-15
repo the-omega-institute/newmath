@@ -406,3 +406,59 @@ section theorems export only the four displayed faces and their support rows,
 so quotient stream equality, host real equality, selected limits, ambient or
 metric completeness, choice data, and a second seal coordinate remain absent.
 \end{proof}
+
+\begin{theorem}[RegSeqRat Real seal finite-cover associativity]
+\label{thm:regseqrat-real-seal-finite-cover-associativity}
+Let $\mathcal{A}$, $\mathcal{B}$, and $\mathcal{C}$ be finite families of
+accepted public $\RegSeqRatUp$ reads whose members exit as $\RealUp$ seals.
+Assume that every member is saturated by the same four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+and that every pairwise overlap among the three families satisfies the
+four-face agreement used in
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing}. Then gluing
+$\mathcal{A}\cup\mathcal{B}$ first and then gluing with $\mathcal{C}$ displays
+the same finite four-face L10 packet as gluing $\mathcal{B}\cup\mathcal{C}$
+first and then gluing with $\mathcal{A}$.
+
+The common packet has exactly the StreamName schedule and membership face, the
+DyadicRatCore endpoint, radius, and distance face, the RegSeqRat classifier,
+regularity, and transport face, and the RealUp seal face, with the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It
+contains no quotient stream equality, no host real equality, no selected limit,
+no ambient or metric-completeness datum, no choice data, and no second
+$\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:regseqrat-real-seal-finite-cover-gluing} to
+$\mathcal{A}\cup\mathcal{B}$ and then to
+$(\mathcal{A}\cup\mathcal{B})\cup\mathcal{C}$. Apply the same theorem to
+$\mathcal{B}\cup\mathcal{C}$ and then to
+$\mathcal{A}\cup(\mathcal{B}\cup\mathcal{C})$. The overlap hypotheses are
+exactly the hypotheses of the binary gluing theorem for each of these steps.
+
+For every member used in either parenthesization, apply
+\autoref{thm:regseqrat-real-seal-finite-window-saturation}. This identifies
+the member with the same StreamName schedule and membership row, DyadicRatCore
+endpoint, radius, and distance row, RegSeqRat classifier, regularity, and
+transport row, and Real seal row.
+
+The only remaining issue is overlap agreement after the intermediate gluing
+step. Use
+\autoref{thm:regseqrat-real-seal-window-triple-correspondence} to read any
+three of the four faces as the same fourth face inside the finite route, and
+use \autoref{thm:regseqrat-common-dyadic-tail-ledger} to keep the dyadic and
+RegSeqRat ledger fixed on common cofinal tails. Thus both intermediate packets
+present the same finite $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$,
+$\NameCert$, endpoint, radius, distance, classifier, regularity, transport,
+and seal rows on every overlap.
+
+Conclude by finite induction over the members of $\mathcal{C}$ after the first
+parenthesization, and symmetrically over the members of $\mathcal{A}$ after
+the second parenthesization. The base case is the already glued binary packet.
+The adjoining step attaches one saturated member along the overlap rows just
+identified, so it cannot introduce a new face or a different support row. Hence
+both parenthesizations expose the same finite BEDC rows and no extra route.
+\end{proof}
