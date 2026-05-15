@@ -63,6 +63,7 @@ import BEDC.Derived.ApophaticNameUp.RootRefusalLedgerExhaustion
 import BEDC.Derived.ApophaticNameUp.RootDownstreamSocketNonescape
 import BEDC.Derived.ApophaticNameUp.RootRefusalBoundaryExhaustion
 import BEDC.Derived.ApophaticNameUp.SupplyShapeNoninternalization
+import BEDC.Derived.ApophaticNameUp.RootPublicCitationSelectorExclusion
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -190,6 +191,8 @@ import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
 import BEDC.Derived.CauchyWitnessLedgerUp.RootSourceLock
 import BEDC.Derived.CauchyWitnessLedgerUp.CompletionConsumerFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.RootDiagnosticBudgetTotality
+import BEDC.Derived.CauchyWitnessLedgerUp.RootDiagnosticBudgetTransport
+import BEDC.Derived.CauchyWitnessLedgerUp.SourceSiblingReadback
 import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessLedgerUp.RegularRealDependencyScope
@@ -450,6 +453,8 @@ import BEDC.Derived.ContinuationMonadUp.RootConsumerStandardRow
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.ContinuationMonadUp.RootPublicObligationTriad
 import BEDC.Derived.ContinuationMonadUp.RootFormalRouteSaturation
+import BEDC.Derived.ContinuationMonadUp.GeneratorCategoryTriad
+import BEDC.Derived.ContinuationMonadUp.RootFormalNameCertHandoff
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
