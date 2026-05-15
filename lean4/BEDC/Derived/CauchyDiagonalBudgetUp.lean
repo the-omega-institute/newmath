@@ -445,4 +445,27 @@ theorem CauchyDiagonalBudgetCarrier_regseq_real_route_lock [AskSetup] [PackageSe
     unary_cont_closed epsilonUnary mUnary epsilonMWindow, comparisonUnary, sealUnary,
     unary_cont_closed hUnary cUnary hCBoundary, pPkg, boundaryPkg⟩
 
+theorem CauchyDiagonalBudgetCarrier_nonescape [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name externalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg ->
+      Cont h c externalRead -> PkgSig bundle p pkg ->
+        UnaryHistory epsilon ∧ UnaryHistory m ∧ UnaryHistory w ∧ UnaryHistory d ∧
+          UnaryHistory k ∧ UnaryHistory s ∧ UnaryHistory h ∧ UnaryHistory c ∧
+            UnaryHistory p ∧ UnaryHistory name ∧ UnaryHistory externalRead ∧
+              Cont h c externalRead ∧ PkgSig bundle p pkg ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row p ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row p)
+                  (fun row : BHist => hsame row p ∧ PkgSig bundle p pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier externalRoute pPkg
+  rcases CauchyDiagonalBudgetCarrier_namecert_obligations carrier with
+    ⟨epsilonU, mU, wU, dU, kU, sU, hU, cU, pU, nameU, _epsilonMW, _wDK, _kSH,
+      _hCP, _cPName, _carrierPkg, cert⟩
+  exact
+    ⟨epsilonU, mU, wU, dU, kU, sU, hU, cU, pU, nameU,
+      unary_cont_closed hU cU externalRoute, externalRoute, pPkg, cert⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp
