@@ -150,14 +150,27 @@ inversion shows that no nondeterministic, randomised, oracle, average-case, or
 class-separation coordinate is present.
 \end{proof}
 
+\begin{theorem}[ComplexityClassUp deterministic resource bridge]
+\label{thm:complexityclass-deterministic-resource-bridge}
+The deterministic bounded-resource certificate of $\ComplexityClassUp$ bridges to the standard finite resource-class schema exactly through the $\NatUp$ unary input-length row, the $\TuringMachineUp$ deterministic trace row, the $\ComputableUp$ bounded verdict row, the monotone unary resource modulus, and $\hsame$ transport. The bridge exports no nondeterministic, randomized, oracle, average-case, interactive-proof, or $\mathsf{P}$-versus-$\mathsf{NP}$ row.
+\end{theorem}
+\begin{proof}
+Begin with the bounded acceptance carrier of \autoref{thm:complexityclass-bounded-acceptance-carrier}. It supplies the unary length row, deterministic machine trace, bounded simulation verdict, modulus value, and classifier transport needed by the finite resource-class schema.
+
+Next compose resource-modulus monotonicity with bounded simulation soundness. By \autoref{thm:complexityclass-resource-modulus-monotonicity} and \autoref{thm:complexityclass-bounded-simulation-soundness}, enlarging the unary input bound uses only the monotone modulus row, and the accepted verdict remains the displayed deterministic bounded computation after $\hsame$ transport.
+
+Finally apply resource-ledger exactness and the NameCert obligation surface, \autoref{thm:complexityclass-resource-ledger-exactness} and \autoref{thm:complexityclass-namecert-obligation-surface}. These identify the accepted resource row with the public finite ledger and exclude every nondeterministic, randomized, oracle, average-case, interactive-proof, or class-separation coordinate.
+\end{proof}
+
 \closureat{ComplexityClassUp}{publicStr}[BEDC.Derived.ComplexityClassUp.ComplexityClassNameCertObligationSurface\_public\_rows]
+\closureat{ComplexityClassUp}{bridgedStr}
 
 \begin{closurestatus}{\ComplexityClassUp}
   \constructivestory{A $\ComplexityClassUp$ token names a deterministic $\TuringMachineUp$ acceptor together with a displayed unary modulus $\beta$ and a resource-type tag (time, space, or alternation depth). The carrier accepts an input history $h$ when the bounded simulation of the acceptor on $h$, in the sense of $\NameCert_{\ComputableUp}$, halts in an accepting configuration within $\beta(|h|)$ trace rows; the resource-type tag selects whether $\beta$ bounds trace length, head-cell footprint, or alternation depth. The classifier is $\hsame$ on input histories of the same unary length; the source covers unary input lengths, modulus values, configuration-trace lengths, head-cell footprints, and alternation rows; the pattern records halted-acceptance, modulus monotonicity, footprint admissibility, and alternation-depth admissibility rows; the ledger keeps the modulus $\beta(|h|)$, the realised trace length or footprint, the alternation depth, and the halting verdict visible. The five name-certificate obligations are supplied by the bounded-simulation certificate of $\NameCert_{\ComputableUp}$ together with monotonicity of $\beta$: the inhabited identity certificate is the trivial accepter at $\beta\equiv 0$; classifier stability is reflexive, symmetric, and transitive $\hsame$ on inputs of fixed length; transport repacks bounded simulations through input transport; ledger exactness identifies the accepted row with the bounded-simulation verdict; the extension boundary fixes monotonicity of $\beta$ in the unary input length. A history $h$ lies in the signature gap of a $\ComplexityClassUp$ token $p$ when the source-domain accepts the bounded-resource simulation, the signature relation pairs it with the halting verdict, and token introduction names that verdict as $p$. The chapter registers this resource-bounded surface under the name $\ComplexityClassUp$; it is a deterministic-resource-class object with no nondeterministic, randomised, average-case, oracle, or interactive-proof bridge.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The obligation scope binds the bounded acceptance carrier, resource-modulus monotonicity, bounded-simulation soundness, resource-ledger exactness, and the public $\NameCert_{\ComplexityClassUp}$ obligation surface of \autoref{thm:complexityclass-bounded-acceptance-carrier}, \autoref{thm:complexityclass-resource-modulus-monotonicity}, \autoref{thm:complexityclass-bounded-simulation-soundness}, \autoref{thm:complexityclass-resource-ledger-exactness}, and \autoref{thm:complexityclass-namecert-obligation-surface}. Nondeterministic, probabilistic, and oracle resources are excluded.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The obligation scope binds the bounded acceptance carrier, resource-modulus monotonicity, bounded-simulation soundness, resource-ledger exactness, public $\NameCert_{\ComplexityClassUp}$ obligation surface, and deterministic resource bridge of \autoref{thm:complexityclass-bounded-acceptance-carrier}, \autoref{thm:complexityclass-resource-modulus-monotonicity}, \autoref{thm:complexityclass-bounded-simulation-soundness}, \autoref{thm:complexityclass-resource-ledger-exactness}, \autoref{thm:complexityclass-namecert-obligation-surface}, and \autoref{thm:complexityclass-deterministic-resource-bridge}. Nondeterministic, probabilistic, and oracle resources are excluded.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close $\mathsf{P}$-versus-$\mathsf{NP}$, randomised classes, oracle separations, average-case complexity, or interactive-proof systems.}
-  \upgradepath{The next paper-axis step is a bridge theorem from the deterministic bounded-resource certificate to the standard finite resource-class schema.}
+  \upgradepath{A checked standard bridge remains a separate formal-axis target for the deterministic finite resource-class schema.}
 \end{closurestatus}
