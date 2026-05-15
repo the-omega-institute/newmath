@@ -1,0 +1,95 @@
+\begin{theorem}[FiniteTraceEvaluator terminal checkpoint exactness]
+\label{thm:finitetrace-evaluator-terminal-checkpoint-exactness}
+For every accepted $\FiniteTraceEvaluatorUp$ terminal checkpoint packet
+$E=(T,Q,R,X,H,C,P,N)$, any terminal checkpoint consumer reads exactly the
+finite trace row $T$, checkpoint row $Q$, runtime row $R$, readback row $X$,
+componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance
+row $P$, and local $\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. The consumer
+does not obtain host validation, a hidden runtime state, an unbounded evaluator,
+an infinite trace source, a total truth classifier, a total halting classifier,
+or a second checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with terminal runtime consumer factorization,
+\autoref{thm:finite-trace-evaluator-terminal-runtime-consumer-factorization}.
+It sends every terminal runtime consumer through the displayed packet
+$T,Q,R,X,H,C,P,N$ and through the
+$\RuntimeCandidateBoundaryUp/\ReflectionRuntimeCheckpointUp$ consumer surface
+before any evaluator result is read.
+
+Next apply terminal NameCert exhaustion,
+\autoref{thm:finite-trace-evaluator-terminal-namecert-exhaustion}. The local
+certificate obligations are exactly trace finiteness, checkpoint admission,
+runtime totality, readback exactness, componentwise transport, displayed
+replay, provenance, and local naming over the same rows.
+
+Finally use terminal source lock,
+\autoref{thm:finite-trace-evaluator-terminal-source-lock}. Since every
+terminal source is locked to $T,Q,R,X,H,C,P,N$ and the named sibling consumer
+surfaces, no host validator, hidden runtime state, unbounded evaluator,
+infinite trace source, total truth classifier, total halting classifier, or
+second checkpoint source can be read by the checkpoint consumer.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime image totality]
+\label{thm:finitetrace-evaluator-runtime-image-totality}
+For every accepted $\FiniteTraceEvaluatorUp$ root packet
+$E=(I,T,A,V,H,C,P,N)$, each runtime-facing image or readback route factors
+through the displayed finite rows
+$$
+I \to T \to A \to V \to H \to C \to P \to N
+$$
+and through the $\ReflectionRuntimeCheckpointUp$ consumer surface. Terminal
+runtime consumers read the corresponding terminal packet $T,Q,R,X,H,C,P,N$;
+no runtime image is detached from these finite packet rows.
+\end{theorem}
+\begin{proof}
+First apply root runtime admission,
+\autoref{thm:finitetrace-evaluator-root-runtime-admission}. It fixes the
+runtime entry surface of an accepted packet as the coded input, finite trace,
+accepted-result, validation-boundary, transport, continuation, provenance, and
+local naming rows $I,T,A,V,H,C,P,N$.
+
+Next use checkpoint route coverage,
+\autoref{thm:finitetrace-evaluator-checkpoint-route-coverage}. It makes every
+checkpoint-facing consumer pass through the same root rows before a downstream
+runtime result is consumed, so the image and readback route has no detached
+checkpoint coordinate.
+
+Finally attach terminal runtime consumer factorization,
+\autoref{thm:finite-trace-evaluator-terminal-runtime-consumer-factorization}.
+The terminal consumer is forced through the
+$\ReflectionRuntimeCheckpointUp$ surface and then through $T,Q,R,X,H,C,P,N$,
+which is precisely the terminal reading of the same finite route. Hence every
+runtime-facing image or readback factors through the displayed rows.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root readback non-escape]
+\label{thm:finitetrace-evaluator-root-readback-nonescape}
+Root readback for an accepted $\FiniteTraceEvaluatorUp$ packet exports only
+the root rows $I,T,A,V,H,C,P,N$ or the terminal rows $T,Q,R,X,H,C,P,N$ visible
+at the $\ReflectionRuntimeCheckpointUp$ surface. It excludes a host evaluator,
+total truth classifier, total halting classifier, infinite trace source,
+unchecked compiler theorem, and detached runtime state.
+\end{theorem}
+\begin{proof}
+Start from the root NameCert obligations,
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations}. They place
+carrier admission, checkpoint acceptance, bounded replay, ledger exactness,
+and consumer non-escape on the displayed root packet
+$I,T,A,V,H,C,P,N$.
+
+Use runtime ledger non-escape,
+\autoref{thm:finitetrace-evaluator-runtime-ledger-nonescape}. The runtime
+ledger exports no host evaluator, hidden runtime acceptance predicate, total
+truth predicate, total halting classifier, unbounded evaluator, infinite trace,
+or second checkpoint source outside the same root rows.
+
+It remains to account for terminal readback. Terminal source lock,
+\autoref{thm:finite-trace-evaluator-terminal-source-lock}, restricts every
+terminal runtime source to $T,Q,R,X,H,C,P,N$ and to the sibling runtime and
+reflection checkpoint surfaces named by provenance. Therefore root readback
+can export only the root or terminal finite rows and cannot escape to host
+evaluation, total truth, total halting, infinite traces, unchecked compiler
+theorems, or detached runtime state.
+\end{proof}
