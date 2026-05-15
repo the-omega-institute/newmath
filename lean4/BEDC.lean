@@ -135,6 +135,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailServiceSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailWindowLock
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowMeetRoute
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowModulus
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
