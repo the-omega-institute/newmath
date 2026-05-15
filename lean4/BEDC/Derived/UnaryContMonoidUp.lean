@@ -248,4 +248,75 @@ theorem UnaryContMonoidCarrier_namecert_obligations [AskSetup] [PackageSetup]
       unaryName, unaryObligation, productRoute, leftUnitRoute, rightUnitRoute,
       ledgerRoute, obligationRoute, sameUnit, ledgerPkg, obligationPkg, cert⟩
 
+theorem UnaryContMonoidCarrier_cont_associativity [AskSetup] [PackageSetup]
+    {a b c ab bc abc abc' e unitLeft unitRight ledger name assocRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      UnaryHistory c ->
+        Cont b c bc ->
+          Cont ab c abc ->
+            Cont a bc abc' ->
+              Cont abc name assocRead ->
+                PkgSig bundle assocRead pkg ->
+                  hsame abc abc' ∧ UnaryHistory bc ∧ UnaryHistory abc ∧
+                    UnaryHistory abc' ∧ UnaryHistory assocRead ∧
+                      PkgSig bundle assocRead pkg ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row assocRead ∧ UnaryHistory row)
+                          (fun row : BHist => Cont abc name row ∧ hsame abc abc')
+                          (fun row : BHist =>
+                            hsame row assocRead ∧ PkgSig bundle assocRead pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier unaryC routeBC routeABC routeABC' routeAssoc assocPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, _leftUnitRoute, _rightUnitRoute,
+    _ledgerRoute, _ledgerPkg, _sameUnit⟩ := carrier
+  have assocSame : hsame abc abc' :=
+    cont_assoc_hsame productRoute routeABC routeBC routeABC'
+  have unaryBC : UnaryHistory bc :=
+    unary_cont_closed unaryB unaryC routeBC
+  have unaryABC : UnaryHistory abc :=
+    unary_cont_closed (unary_cont_closed unaryA unaryB productRoute) unaryC routeABC
+  have unaryABC' : UnaryHistory abc' :=
+    unary_cont_closed unaryA unaryBC routeABC'
+  have unaryAssocRead : UnaryHistory assocRead :=
+    unary_cont_closed unaryABC unaryName routeAssoc
+  have sourceAssoc :
+      (fun row : BHist => hsame row assocRead ∧ UnaryHistory row) assocRead := by
+    exact ⟨hsame_refl assocRead, unaryAssocRead⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row assocRead ∧ UnaryHistory row)
+        (fun row : BHist => Cont abc name row ∧ hsame abc abc')
+        (fun row : BHist => hsame row assocRead ∧ PkgSig bundle assocRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro assocRead sourceAssoc
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨cont_result_hsame_transport routeAssoc (hsame_symm source.left),
+            assocSame⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, assocPkg⟩
+    }
+  exact
+    ⟨assocSame, unaryBC, unaryABC, unaryABC', unaryAssocRead, assocPkg, cert⟩
+
 end BEDC.Derived.UnaryContMonoidUp
