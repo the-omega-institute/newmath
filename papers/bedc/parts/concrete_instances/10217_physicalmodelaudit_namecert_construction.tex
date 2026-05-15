@@ -1,11 +1,12 @@
 \chapter{A Concrete Naming Certificate for $\PhysicalModelAuditUp$}
 \label{ch:concrete-instances-physical-model-audit-namecert}
+\label{ch:concrete-instances-physicalmodelaudit-namecert}
 \origin{ai}
 
-The $\PhysicalModelAuditUp$ packet realizes the audit protocol of \autoref{def:physical-audit-certificate} as one finite BEDC naming certificate. It is adjacent to the audit-channel surface of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, the context-audit surface of \autoref{ch:concrete-instances-largemodelcontextaudit-namecert}, the state-space model surface of \autoref{ch:concrete-instances-statespacemodel-namecert}, the observer-budget support surface of \autoref{ch:concrete-instances-observer-budget-support-namecert}, the ontic-state surface of \autoref{ch:concrete-instances-onticstate-namecert}, and the reality-constrained audit packet of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}. Its role is to bind source traces, target phenomenon, observed and model signatures, classifier, tower, stability and descent rows, ledger, failure surface, strength, transports, routes, provenance, and local NameCert before a physical claim is read as accepted.
+The $\PhysicalModelAuditUp$ packet realizes the audit protocol of \autoref{def:physical-audit-certificate} as one finite BEDC naming certificate. It is adjacent to the audit-channel surface of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, the trace-storage surface of \autoref{ch:concrete-instances-modeltrace-namecert}, the state-space model surface of \autoref{ch:concrete-instances-statespacemodel-namecert}, the ontic-state surface of \autoref{ch:concrete-instances-onticstate-namecert}, and the observation-reflection routing surface of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}. Its role is to bind source traces, target phenomenon, observed and model signatures, classifier, tower, stability and descent rows, ledger, failure surface, strength, transports, routes, provenance, and local NameCert before a physical claim is read as accepted.
 
 \begin{definition}[PhysicalModelAudit carrier]
-\label{def:physical-model-audit-carrier}
+\label{def:physical-model-audit-bhist-carrier}
 A $\PhysicalModelAuditUp$ carrier is a finite $\BHist$ packet
 $$
 A=(Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N)
@@ -44,21 +45,20 @@ the predicate $\mathsf{PhysicalModelAuditClassifier}(A,A')$ holds when $H$ and $
 Classifier agreement is therefore stronger than model-syntax agreement and weaker than host-level physical truth. It is the finite assertion that the same audit comparison is read through the same displayed source-signature-classifier-tower-ledger packet.
 \end{definition}
 
-\begin{theorem}[PhysicalModelAudit field exhaustion]
-\label{thm:physical-model-audit-field-exhaustion}
-For the carrier of \autoref{def:physical-model-audit-carrier}, the local $\NameCert_{\PhysicalModelAuditUp}$ surface is exhausted by the following six rows:
+\begin{theorem}[PhysicalModelAudit NameCert obligation surface]
+\label{thm:physical-model-audit-namecert-obligation-surface}
+For the carrier of \autoref{def:physical-model-audit-bhist-carrier}, the local $\NameCert_{\PhysicalModelAuditUp}$ surface is exhausted by the following five obligation rows:
 \begin{enumerate}
-\item carrier admission for $A=(Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N)$;
-\item source and target admission through $Q$ and $R$;
-\item signature and classifier admission through $O,M,C$;
-\item tower, stability, and descent admission through $T,Y,D$;
-\item ledger, failure-surface, and strength admission through $L,F,S$;
-\item componentwise transport, displayed routes, provenance, and local naming through $H,U,P,N$.
+\item source admission: $Q$ and $R$ are the only source-trace and target-phenomenon rows licensed for the audit;
+\item signature admission: $O$ and $M$ are the observed and model-signature rows read by the packet;
+\item classifier admission: $C$ is the finite comparison row relating $O$ and $M$ at the declared fit level;
+\item tower, stability, and descent admission: $T,Y,D$ are the displayed approximation, reuse, and operation-survival rows;
+\item ledger, failure, and strength admission: $L,F,S$ record provenance material, defeating observations, and the evidential grade before the local name is accepted.
 \end{enumerate}
 No accepted physical-audit claim through this packet can read a field outside these rows.
 \end{theorem}
 \begin{proof}
-Carrier admission is the projection of the displayed tuple in \autoref{def:physical-model-audit-carrier}. The packet lists the source row, target row, signature rows, classifier row, tower row, stability row, descent row, ledger row, failure row, strength row, and the structural transport, route, provenance, and naming rows.
+Carrier admission is the projection of the displayed tuple in \autoref{def:physical-model-audit-bhist-carrier}. The packet lists the source row, target row, signature rows, classifier row, tower row, stability row, descent row, ledger row, failure row, strength row, and the structural transport, route, provenance, and naming rows.
 
 The classifier of \autoref{def:physical-model-audit-classifier} reads only those rows. Its comparison is not a separate model oracle; it is the relation between observed and model signatures as transported and replayed inside the same packet.
 
@@ -67,12 +67,12 @@ The ledger and failure-surface rows close the remaining escape points. Any compr
 Thus the local $\NameCert$ has no further coordinate to expose. A consumer that asks for another source, signature, classifier, tower, ledger, failure surface, or strength row has left the accepted $\PhysicalModelAuditUp$ carrier.
 \end{proof}
 
-\begin{theorem}[PhysicalModelAudit real-route non-escape]
-\label{thm:physical-model-audit-real-route-nonescape}
+\begin{theorem}[PhysicalModelAudit acceptance non-escape]
+\label{thm:physical-model-audit-acceptance-nonescape}
 An accepted $\PhysicalModelAuditUp$ route cannot turn a model-signature comparison into a physical acceptance claim unless the source-trace row, target-phenomenon row, observed-signature row, model-signature row, classifier row, tower row, stability row, descent row, ledger row, failure-surface row, and strength row are all present in the same finite packet.
 \end{theorem}
 \begin{proof}
-Start with field exhaustion in \autoref{thm:physical-model-audit-field-exhaustion}. The accepted route factors through the displayed tuple
+Start with the obligation surface in \autoref{thm:physical-model-audit-namecert-obligation-surface}. The accepted route factors through the displayed tuple
 $$
 Q,R,O,M,C,T,Y,D,L,F,S,H,U,P,N.
 $$
@@ -84,6 +84,6 @@ If any one of those rows is absent, the route can still describe syntax or a par
 
 The Lean follow-up path \texttt{lean4/BEDC/Derived/PhysicalModelAuditUp/TasteGate.lean} must provide explicit $\Nontrivial\ \PhysicalModelAuditUp$ and $\FieldFaithful\ \PhysicalModelAuditUp$ instances. These instances must distinguish source traces, target phenomenon, observed and model signatures, classifier, tower, stability, descent, ledger, failure surface, strength, transports, routes, provenance, and local NameCert as separate fields.
 
-\falsifiablePrediction{Removing either the source-trace row or the failure-surface row breaks audit acceptance while leaving model syntax and finite signature comparison readable.}
+\falsifiablePrediction{If the checker or failure-surface row is absent, an accepted PhysicalModelAuditUp packet cannot promote finite fit beyond ModelSeed.}
 
-\independenceWitness{largemodelauditchannel, largemodelcontextaudit, statespacemodel, observerbudgetsupport, onticstate: none is bijective because PhysicalModelAuditUp stores source traces, observed/model signatures, classifier, tower, stability/descent, ledger, failure surface, and audit strength in one packet.}
+\independenceWitness{largemodelauditchannel, modeltrace, statespacemodel, onticstate, observationreflectionpacket: none is bijective because PhysicalModelAuditUp carries system-relative observation bundle, fit classifier, tower, stability/descent, failure, and strength rows together rather than only output auditing, trace storage, state-space presentation, ontic-source status, or observation-reflection routing.}
