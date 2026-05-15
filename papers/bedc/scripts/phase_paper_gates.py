@@ -689,7 +689,11 @@ GATE_DISPATCH = {
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
-    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    # FieldFaithful is a Lean-side instance; checking it from P is a layer
+    # violation. R phase_c.txt enforces the FF HARD GATE on its own side
+    # when formalizing `\origin{ai}` chapters. If R cannot satisfy FF,
+    # R revises (carrier design, or relabels chapter origin) — not P.
+    # "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
     "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
     "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }
