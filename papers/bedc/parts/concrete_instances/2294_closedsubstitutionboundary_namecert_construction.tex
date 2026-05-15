@@ -61,15 +61,53 @@ For compound rows, the route follows the constructor tree of $T$. The binder cas
 Transport through $H$ and consumer reading through $C$ preserve that same route. Thus the public substitute read is inert on the \texttt{ClosedAt} slice and does not export an unregistered free variable, a second payload access channel, or a host-level semantic substitution claim.
 \end{proof}
 
+\begin{theorem}[ClosedSubstitutionBoundary public nonescape]
+\label{thm:closed-substitution-boundary-public-nonescape}
+For an accepted $\ClosedSubstitutionBoundaryUp$ carrier $S=(T,D,V,K,R,Q,H,C,P,N)$, every public consumer of the packet reads only the displayed rows $T,D,V,K,R,Q,H,C,P,N$ and their registered $\Cont$ projections. In particular, the public surface cannot export arbitrary open-term substitution, evaluator subject reduction, host syntax quotient equality, or ambient metatheoretic truth.
+\end{theorem}
+\begin{proof}
+Start with the carrier coordinates of \autoref{def:closed-substitution-boundary-carrier}. The only admitted rows are the term row, boundary row, payload row, \texttt{ClosedAt} classifier, \texttt{shift} and \texttt{substitute} routes, componentwise transport, continuation routes, provenance, and local naming row.
+
+Now read a public consumer through $C$. Each continuation has a named source coordinate in $S$, so the consumer can project the displayed term, boundary, payload, classifier, operation route, transport route, provenance, or certificate, but no additional semantic object.
+
+The excluded claims have no carrier coordinate and no continuation route. Thus arbitrary open substitution, evaluator subject reduction, quotient equality for host syntax, and ambient truth cannot be reached from an accepted packet.
+\end{proof}
+
+\begin{theorem}[ClosedSubstitutionBoundary closed-slice transport]
+\label{thm:closed-substitution-boundary-closed-slice-transport}
+Let $S=(T,D,V,K,R,Q,H,C,P,N)$ and $S'=(T',D',V',K',R',Q',H',C',P',N')$ be accepted $\ClosedSubstitutionBoundaryUp$ carriers. If the componentwise $\hsame$ row $H$ transports $T,D,V,K,R,Q,C,P,N$ to $T',D',V',K',R',Q',C',P',N'$ and preserves the displayed \texttt{ClosedAt} row, then the inert \texttt{substitute} route on the closed slice transports from $Q$ to $Q'$.
+\end{theorem}
+\begin{proof}
+First transport the boundary data. The $\hsame$ row identifies the term row, depth row, payload row, and \texttt{ClosedAt} classifier row with their primed counterparts while keeping the classifier attached to the same closed-slice reading.
+
+Next apply \autoref{thm:closed-substitution-boundary-substitute-inertness-route} to the source packet. The substitute route $Q$ is inert precisely because each public read factors through $K$ at boundary $D$.
+
+Transport the operation row along $H$. Since the \texttt{ClosedAt} row is preserved, the same boundary-blocking argument applies after transport, and the primed route $Q'$ remains inert on the transported closed slice.
+\end{proof}
+
+\begin{theorem}[ClosedSubstitutionBoundary consumer exhaustion]
+\label{thm:closed-substitution-boundary-consumer-exhaustion}
+The carrier of \autoref{def:closed-substitution-boundary-carrier}, the NameCert obligations of \autoref{thm:closed-substitution-boundary-namecert-obligations}, the inert substitute route of \autoref{thm:closed-substitution-boundary-substitute-inertness-route}, the public nonescape theorem of \autoref{thm:closed-substitution-boundary-public-nonescape}, and the closed-slice transport theorem of \autoref{thm:closed-substitution-boundary-closed-slice-transport} jointly give the consumer-exhaustion surface used by the sibling closed-term substitution boundary.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert obligations provide the finite packet and its admissible obligations. They account for the displayed term, boundary, payload, classifier, operation, transport, continuation, provenance, and naming rows.
+
+The inertness theorem fixes the only substitute route available to consumers on the closed slice. The transport theorem shows that componentwise $\hsame$ movement cannot change that route into an open-substitution surface.
+
+Finally apply public nonescape. Since every consumer is exhausted by the displayed rows and their continuations, the sibling closed-term substitution boundary receives exactly the finite closed-substitution packet and no ambient substitution theorem, evaluator theorem, syntax quotient equality, or metatheoretic truth object.
+\end{proof}
+
 \closureat{ClosedSubstitutionBoundaryUp}{seedStr}
+\closureat{ClosedSubstitutionBoundaryUp}{obligationStr}
 
 \begin{closurestatus}{\ClosedSubstitutionBoundaryUp}
   \constructivestory{A $\ClosedSubstitutionBoundaryUp$ packet is generated from a MetaCIC \texttt{Term} row, a boundary depth row, a payload term row, a \texttt{ClosedAt} classifier row, \texttt{shift} and \texttt{substitute} operation rows, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface identifies the finite carrier and the inert substitute route for the \texttt{ClosedAt} boundary slice.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface binds the finite carrier, NameCert obligations, inert substitute route, public nonescape theorem, closed-slice transport, and consumer-exhaustion handoff for the \texttt{ClosedAt} boundary slice.}
+  \leanchecked{BEDC.Derived.ClosedSubstitutionBoundaryUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close arbitrary open-term substitution, evaluator subject reduction, host syntax quotient equality, semantic preservation for all compiler passes, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier obligations and a public non-escape surface for the displayed closed-substitution boundary packet.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier obligations, transport row, consumer exhaustion, and public nonescape surface for the displayed closed-substitution boundary packet.}
 \end{closurestatus}

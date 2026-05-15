@@ -142,6 +142,46 @@ Next apply ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaus
 Finally use the observer-locality lattice link, \autoref{thm:histtimestream-observer-locality-lattice-link}. The downstream observer-history surfaces consume the packet as one local stream, so the public export is precisely the displayed local-time stream surface and no inter-Hist synchronization or hidden route is available.
 \end{proof}
 
+\begin{theorem}[HistTimeStream window habitation]
+\label{thm:hist-time-stream-window-habitation}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Any finite window accepted by the local $\NameCert_{\HistTimeStreamUp}$ surface is inhabited only by the displayed rows
+$$
+H,T,S,C,L,P,N
+$$
+and its source route begins at $\emp$. The window has no additional row for a host time index, ambient clock coordinate, sibling Hist source, or hidden pre-start segment.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition, \autoref{def:histtimestream-namecert-carrier}. It presents the accepted packet as exactly the seven rows $H,T,S,C,L,P,N$, with $S$ recording that the finite route begins at $\emp$ and reaches only the displayed source history.
+
+Next apply the NameCert obligation sketch, \autoref{thm:histtimestream-namecert-obligation-sketch}. Its carrier-admission and start-ledger clauses make the finite window a local packet window rather than an ambient time interval, and its route-stability clause reads the window only through the displayed $\Cont$ rows.
+
+Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Every public read of the window must pass through the same carrier, schedule, replay, transport, package, and naming rows, so no host index, sibling source, or hidden pre-start row can inhabit the accepted window.
+\end{proof}
+
+\begin{theorem}[HistTimeStream transport lock]
+\label{thm:hist-time-stream-transport-lock}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport from $Q$ to $Q'$ preserves the finite schedule rows and the displayed $\Cont$ replay rows. The transported packet may replay the local window through $H',T',S',C',L',P',N'$, but it cannot add a host time index, shared clock coordinate, or external rate row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition, \autoref{def:histtimestream-namecert-carrier}. The transport row $L$ is componentwise transport for the displayed packet rows, not a map into an external clock carrier.
+
+Apply schedule classifier stability, \autoref{thm:histtimestream-schedule-classifier-stability}. It keeps the finite $\Eone/\Ezero$ schedule, the start-at-empty ledger, and the replay row stable under componentwise $\hsame$ transport, so the transported consumer sees the corresponding rows of $Q'$.
+
+Use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}, to close the transport surface. Since every public read remains inside the same carrier, schedule, replay, transport, package, and naming inventory, there is no coordinate where a host time index, shared clock, or external rate can be inserted.
+\end{proof}
+
+\begin{theorem}[HistTimeStream clock refusal obligation]
+\label{thm:hist-time-stream-clock-refusal}
+No accepted consumer of a $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$ can read a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate from the packet. Every accepted time-facing read is confined to the finite local window displayed by $H,T,S,C,L,P,N$ and to componentwise $\hsame$ transport of that same window.
+\end{theorem}
+\begin{proof}
+First expose the accepted packet through \autoref{def:histtimestream-namecert-carrier}. The carrier lists the source history, finite schedule, start ledger, replay row, transport row, provenance row, and local naming row, and it has no coordinate reserved for a shared clock or rate.
+
+Next apply the NameCert obligation sketch and schedule classifier stability, \autoref{thm:histtimestream-namecert-obligation-sketch} and \autoref{thm:histtimestream-schedule-classifier-stability}. These keep the local stream tied to the displayed finite schedule and block componentwise transport from becoming a host-indexed global time classifier.
+
+Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. The public NameCert read is exhausted by the displayed local rows and their transport ledger, so an accepted consumer has no path to a shared inter-Hist clock, synchronized external time, or temporal-rate coordinate.
+\end{proof}
+
 \begin{theorem}[HistTimeStream observer-locality consumption bridge]
 \label{thm:histtimestream-observer-locality-consumption-bridge}
 Any observer-locality or observer-history-identity consumer of an accepted $\HistTimeStreamUp$ packet factors through the displayed local stream rows

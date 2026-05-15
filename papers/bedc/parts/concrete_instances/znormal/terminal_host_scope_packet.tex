@@ -1,0 +1,59 @@
+\begin{theorem}[$\ZNormalUp$ total-host scope triad]
+\label{thm:znormal-total-host-scope-triad}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every terminal-host use factors through the same displayed tuple. The typed route reads $T,F,V$ through \autoref{ch:concrete-instances-typedreductionnormalform-namecert}; the finite normal-word route reads $K$ through \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert}; and the continuation route reads $R$ through \autoref{ch:concrete-instances-continuationtracenormalform-namecert}.
+
+The structural rows $H,C,P,N$ are the only componentwise transport, replay, package, and local naming rows available to those three routes.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:znormal-carrier}. It exposes the single finite tuple $T,F,V,K,R,H,C,P,N$ and gives no separate terminal-host source row.
+
+Use \autoref{thm:znormal-namecert-obligations}. The local certificate binds the typed endpoint, fuel, terminal-normality, sibling normal-word, continuation readback, transport, replay, package, and naming rows to the same accepted packet.
+
+Apply \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-terminal-readback-exactness}, and \autoref{thm:znormal-sibling-normalword-handoff}. These identify the typed, continuation, and sibling normal-word reads as the three visible routes of the packet.
+
+Finally use \autoref{thm:znormal-route-transport} and \autoref{thm:znormal-root-tastegate-field-surface}. They keep the three routes on the TasteGate-facing field surface and leave $H,C,P,N$ as the only transport, replay, package, and naming rows.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel replay exactness]
+\label{thm:znormal-fuel-replay-exactness}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+bounded fuel replay reaches terminal normality only along the route
+$$
+T \longmapsto F \longmapsto V \longmapsto R.
+$$
+The route is transported by $H$, replayed by $C$, packaged by $P$, and named by $N$; the sibling row $K$ can be consumed only as finite normal-word evidence already attached to the same packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:znormal-fuel-normality-nonescape}. It places terminal normality behind finite fuel and excludes any read that bypasses the displayed route from $T$ through $F$ to $V$.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}. Terminal readback reaches $R$ only after the typed endpoint, finite fuel, and terminal-normality rows have already been exposed.
+
+Apply \autoref{thm:znormal-sibling-normalword-handoff}. The sibling route $K$ supplies finite normal-word evidence for the same packet and does not replace the fuel replay route.
+
+Finally combine \autoref{thm:znormal-route-transport} with \autoref{thm:znormal-namecert-obligations}. Transport, replay, package provenance, and local naming are exactly the rows $H,C,P,N$, so bounded fuel replay has no detached terminal-normality witness outside $Z$.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ divergence-oracle exclusion]
+\label{thm:znormal-divergence-oracle-exclusion}
+No accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+exports a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, substrate-halting row, or global normalizer. Every terminal-host read remains a read of $T,F,V,K,R,H,C,P,N$ through the carrier, the local $\NameCert_{\ZNormalUp}$ obligations, the fuel and readback exactness rows, the sibling normal-word handoff, route transport, and the TasteGate-facing field surface.
+\end{theorem}
+\begin{proof}
+Read the carrier by \autoref{def:znormal-carrier}. The accepted packet contains only the typed endpoint, finite fuel, terminal-normality, sibling normal-word, continuation readback, transport, replay, package, and naming rows.
+
+Apply \autoref{thm:znormal-namecert-obligations} and \autoref{thm:znormal-fuel-normality-nonescape}. The local certificate and finite-fuel boundary prevent terminal normality from being reread as a host-side computation object.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-route-transport}. Terminal readback, sibling normal-word evidence, and movement between rows all stay inside the finite BEDC packet.
+
+Finally apply \autoref{thm:znormal-root-tastegate-field-surface}. The TasteGate-facing field surface exposes no coordinate for divergence detection, host conversion, quotient computation, unrestricted evaluation, substrate halting, or global normalization; therefore none can be read from the accepted packet.
+\end{proof}

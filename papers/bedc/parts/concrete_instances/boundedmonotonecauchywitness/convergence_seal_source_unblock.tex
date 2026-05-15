@@ -134,6 +134,7 @@ Next use \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-readback}
 
 Finally invoke \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-nonescape}. The non-escape result keeps the consumer inside the finite route through $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$. Since the route has no coordinate for the excluded analytic or choice-like objects, no downstream consumer can substitute such an object for the source supplied by $W$.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_source\_lock}
 
 \begin{theorem}[Bounded monotone Cauchy witness convergence-seal route exhaustion]
 \label{thm:bounded-monotone-cauchy-witness-convergence-seal-route-exhaustion}
@@ -313,4 +314,24 @@ Begin with the source-readback equalizer above. It identifies the forward source
 Now compose with the terminal-source pullback, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-terminal-source-pullback}. That pullback already sends $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, and $\RealUp$ consumers through the same source packet before the public seal route.
 
 Finally attach the diagonal comparison. The diagonal readback theorem \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-diagonal-readback} brings $\DiagonalLimitCompatibilityUp$ terminal reads to the same boundary after the root-window and route-exhaustion locks have fired. Therefore all four terminal consumers meet the identical finite source packet before reading any seal-facing route, and the excluded analytic or choice-like objects have no available row in the comparison.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness terminal located trap preservation]
+\label{thm:bounded-monotone-cauchy-witness-terminal-located-trap-preservation}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, or $\DiagonalLimitCompatibilityUp$ terminal consumer that preserves the convergence-seal source also preserves the located trap row $I$ as part of the finite packet
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+
+before any seal-facing or terminal comparison route is available.
+
+No terminal route may replace $I$ by a selected limit, quotient equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+First identify the source packet. Source totality, readback, non-escape, and source lock give the same finite carrier rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ for every convergence-seal source read and provide no external completion coordinate.
+
+Next preserve the root window and the terminal route. The root-window lock keeps $S,F,\sigma,\mu,\lambda$ attached to the same accepted packet, while the terminal-source pullback and terminal-source equalizer force $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, $\RealUp$, and $\DiagonalLimitCompatibilityUp$ consumers to read that packet before any public completion comparison.
+
+It remains to isolate the trap row. Since $I$ is a displayed row of the packet equalized by \autoref{thm:bounded-monotone-cauchy-witness-terminal-source-equalizer}, a consumer that preserves the convergence-seal source preserves $I$ along with $Q,H,C,P,N$. The excluded analytic and choice-like objects have no row in the equalized packet, so they cannot replace the located trap.
 \end{proof}
