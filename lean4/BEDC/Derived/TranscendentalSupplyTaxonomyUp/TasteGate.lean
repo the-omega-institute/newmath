@@ -1,5 +1,7 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 /-!
@@ -10,6 +12,8 @@ namespace BEDC.Derived.TranscendentalSupplyTaxonomyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -276,5 +280,50 @@ theorem TranscendentalSupplyTaxonomyTasteGate_single_carrier_alignment :
             (transcendentalSupplyTaxonomyToEventFlow x) =
           some x
       exact TranscendentalSupplyTaxonomyTasteGate_single_carrier_alignment_round x
+
+theorem TranscendentalSupplyTaxonomyBoundaryExhaustion
+    {socketKind requestedSupply gap auditGate site transport route provenance name siteRoute
+      boundary : BHist} :
+    Cont socketKind requestedSupply gap →
+      Cont gap auditGate siteRoute →
+        Cont siteRoute site transport →
+          Cont transport route boundary →
+            UnaryHistory socketKind →
+              UnaryHistory requestedSupply →
+                UnaryHistory auditGate →
+                  UnaryHistory site →
+                    UnaryHistory route →
+                      UnaryHistory provenance →
+                        UnaryHistory name →
+                          UnaryHistory gap ∧ UnaryHistory siteRoute ∧
+                            UnaryHistory transport ∧ UnaryHistory boundary ∧
+                              Cont socketKind requestedSupply gap ∧
+                                Cont gap auditGate siteRoute ∧
+                                  Cont siteRoute site transport ∧
+                                    Cont transport route boundary ∧
+                                      (fun x : TranscendentalSupplyTaxonomyUp =>
+                                        match x with
+                                        | TranscendentalSupplyTaxonomyUp.mk k s g a l h c p n =>
+                                            k = socketKind ∧ s = requestedSupply ∧ g = gap ∧
+                                              a = auditGate ∧ l = site ∧ h = transport ∧
+                                                c = route ∧ p = provenance ∧ n = name)
+                                      (TranscendentalSupplyTaxonomyUp.mk socketKind
+                                        requestedSupply gap auditGate site transport route
+                                        provenance name) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro socketRequestedGap gapAuditSiteRoute siteRouteSiteTransport transportRouteBoundary
+    socketUnary requestedUnary auditUnary siteUnary routeUnary _provenanceUnary _nameUnary
+  have gapUnary : UnaryHistory gap :=
+    unary_cont_closed socketUnary requestedUnary socketRequestedGap
+  have siteRouteUnary : UnaryHistory siteRoute :=
+    unary_cont_closed gapUnary auditUnary gapAuditSiteRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed siteRouteUnary siteUnary siteRouteSiteTransport
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed transportUnary routeUnary transportRouteBoundary
+  exact
+    ⟨gapUnary, siteRouteUnary, transportUnary, boundaryUnary, socketRequestedGap,
+      gapAuditSiteRoute, siteRouteSiteTransport, transportRouteBoundary, rfl, rfl, rfl, rfl,
+      rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.TranscendentalSupplyTaxonomyUp
