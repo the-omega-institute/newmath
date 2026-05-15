@@ -333,4 +333,44 @@ theorem MaxCausalRatePacket_bridge_consumer_surface [AskSetup] [PackageSetup]
       publicReadUnary, bridgeReadUnary, surfaceReadUnary, witnessRoute, publicRoute,
         bridgeRoute, surfaceRoute, namePkg, surfacePkg⟩
 
+theorem MaxCausalRatePacket_obligation_closure_package [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert witnessRead downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont witnesses bound witnessRead ->
+        Cont routes provenance downstream ->
+          PkgSig bundle witnessRead pkg ->
+            PkgSig bundle downstream pkg ->
+              UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+                UnaryHistory comparisons ∧ UnaryHistory hsameTransport ∧
+                  UnaryHistory psameStability ∧ UnaryHistory routes ∧
+                    UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+                      UnaryHistory witnessRead ∧ UnaryHistory downstream ∧
+                        Cont witnesses bound comparisons ∧
+                          Cont comparisons hsameTransport psameStability ∧
+                            Cont psameStability routes provenance ∧
+                              Cont witnesses bound witnessRead ∧
+                                Cont routes provenance downstream ∧
+                                  PkgSig bundle nameCert pkg ∧
+                                    PkgSig bundle witnessRead pkg ∧
+                                      PkgSig bundle downstream pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet witnessRoute downstreamRoute witnessPkg downstreamPkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    hsameTransportUnary, psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary,
+    witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
+    _provenanceNameConfiguration, namePkg⟩ := packet
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed witnessesUnary boundUnary witnessRoute
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed routesUnary provenanceUnary downstreamRoute
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, hsameTransportUnary,
+      psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary, witnessReadUnary,
+        downstreamUnary, witnessBoundComparison, comparisonTransportStability,
+          stabilityRouteProvenance, witnessRoute, downstreamRoute, namePkg, witnessPkg,
+            downstreamPkg⟩
+
 end BEDC.Derived.MaxCausalRateUp
