@@ -439,3 +439,23 @@ Next use \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-
 
 Finally apply \autoref{thm:real-completion-selector-seal-terminality}. The selector-seal packet is terminal for the concrete Real and Completion handoff through the selector budget, selected window, readback, limit seal, terminal Real endpoint, and structural rows. Therefore any terminal completion-facing read of the UniformCauchyCriterion root route factors through that packet, and the packet acts as the terminal concrete handoff rather than as an ambient completeness principle.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion diagonal selector seal pullback]
+\label{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let $D$ be an accepted $\DiagonalLimitCompatibilityUp$ root-selector read. Suppose the two reads display the same $\StreamNameUp$ window, the same $\RegSeqRatUp$ readback, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\CauchyLimitSealUp$ handoff, and the same terminal $\RealUp$ seal row. Then every Phase Real and Completion terminal read factors through the same $\RealCompletionSelectorSealUp$ selector-seal packet.
+
+Thus the UniformCauchyCriterion route and the diagonal selector route have one terminal pullback surface. No quotient stream, selected host limit, host equality, countable choice, second tolerance ledger, detached selector, or ambient completeness coordinate can distinguish the two routes.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope}. The UniformCauchyCriterion terminal read is forced through the finite root budget package, the selected $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\CauchyLimitSealUp$ handoff, the terminal $\RealUp$ row, and the concrete $\RealCompletionSelectorSealUp$ packet.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. Since $U$ and $D$ share the displayed window, readback, ledger, handoff, and terminal seal rows, the diagonal root-selector read pulls back to the same completion-facing selector surface.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-selector-budget-lock-exactness}. The selector budget is exactly the displayed finite route, so the diagonal read cannot replace the shared rows by a detached selector, a second tolerance ledger, a quotient stream, or a selected host limit.
+
+Finally invoke \autoref{thm:real-completion-selector-seal-terminality}. The $\RealCompletionSelectorSealUp$ packet is terminal for the selector-to-seal handoff, so both routes factor through the same terminal selector-seal packet before any Phase Real or Completion terminal read is available. Host equality, countable choice, and ambient completeness remain outside that packet.
+\end{proof}
