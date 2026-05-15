@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\KernelInductiveEliminatorUp$}
+\label{ch:concrete-instances-kernelinductiveeliminator-namecert}
+\origin{ai}
+
+The $\KernelInductiveEliminatorUp$ packet realizes the eliminator side of the kernel-acceptance witness of \autoref{ch:visions-kernel-acceptance-as-audit-witness} as finite $\NameCert$ data. It sits beside the inductive-declaration packet of \autoref{ch:concrete-instances-kernelinductiveacceptance-namecert}, the accepted-declaration witness of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the generator-closure surface of \autoref{ch:concrete-instances-generatorclosure-namecert}, the type-classifier membership surface of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the subject-reduction boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}. Those siblings record declaration acceptance, generator closure, type membership, and preservation-facing rows; this packet records the emitted case-analysis rule rows that must be displayed before any eliminator consumer reads them.
+
+\begin{definition}[KernelInductiveEliminator carrier]
+\label{def:kernel-inductive-eliminator-carrier}
+A $\KernelInductiveEliminatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,S,L,M,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the accepted inductive declaration row already named by $\KernelInductiveAcceptanceUp$;
+\item $S$ is the constructor-signature row whose finite constructor inventory determines the available case branches;
+\item $L$ is the emitted eliminator-name row, including the recursor, induction-principle, motive, minor-premise, and computation-rule names emitted for $D$;
+\item $M$ is the motive-and-branch arity row, recording the finite arity match between constructor signatures and eliminator minor premises;
+\item $R$ is the emitted-rule ledger, listing exactly the case-analysis and computation rows that may be read by downstream consumers;
+\item $B$ is the boundary row that refuses a consumer asking for a host eliminator primitive not displayed in $R$;
+\item $H$ records componentwise $\hsame$ transports for $D,S,L,M,R,B,P,N$;
+\item $C$ records the displayed $\Cont$ routes from accepted declaration to constructor signatures, from signatures to emitted eliminator rows, from eliminator rows to motive-and-branch arity, and from emitted rules to consumers;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-kernel-acceptance-as-audit-witness}, \autoref{ch:concrete-instances-kernelinductiveacceptance-namecert}, \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, \autoref{ch:concrete-instances-generatorclosure-namecert}, \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, \autoref{ch:concrete-instances-subjectreduction-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\KernelInductiveEliminatorUp}$ row.
+\end{enumerate}
+The carrier contains no hidden host recursor, no unlisted computation rule, no ambient induction theorem, and no subject-reduction proof beyond the displayed emitted-rule surface.
+\end{definition}
+
+\begin{theorem}[KernelInductiveEliminator NameCert obligations]
+\label{thm:kernel-inductive-eliminator-namecert-obligations}
+For the carrier of \autoref{def:kernel-inductive-eliminator-carrier}, the local $\NameCert_{\KernelInductiveEliminatorUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for the packet $E=(D,S,L,M,R,B,H,C,P,N)$;
+\item declaration handoff, requiring the row $D$ to be consumed from the accepted inductive declaration surface of $\KernelInductiveAcceptanceUp$;
+\item branch arity exactness, requiring the eliminator motive and minor-premise rows in $L,M$ to match the constructor-signature row $S$;
+\item emitted-rule ledger exactness, requiring every case-analysis or computation read to be one of the displayed entries of $R$;
+\item primitive non-escape, requiring any attempted host eliminator primitive outside $R$ to land in the refusal boundary $B$ rather than in a consumer route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed $\BHist$ packet. The accepted declaration, constructor signature, eliminator names, motive-and-branch arities, emitted-rule ledger, refusal boundary, transport, route, provenance, and local name are coordinates of one finite object.
+
+The declaration handoff reads $D$ through \autoref{ch:concrete-instances-kernelinductiveacceptance-namecert}. That chapter records the accepted inductive declaration and constructor-signature ledger, while the present packet starts only after those rows are available.
+
+Branch arity exactness is the local comparison between $S$ and $M$. Each constructor listed in $S$ has exactly the minor-premise row recorded in $M$, and the eliminator names in $L$ are public only through that finite comparison.
+
+Finally, emitted-rule exactness and primitive non-escape are read from $R$ and $B$. A downstream generator, type-classifier, or subject-reduction consumer may consume a displayed emitted rule, but a request for an unrecorded host primitive has no coordinate in $E$ and is routed to the refusal boundary.
+\end{proof}
+
+\begin{theorem}[KernelInductiveEliminator nontrivial boundary]
+\label{thm:kernel-inductive-eliminator-nontrivial-boundary}
+The $\KernelInductiveEliminatorUp$ packet has a nontrivial boundary for TasteGate: an accepted packet displays at least one emitted-rule row through $D,S,L,M,R,H,C,P,N$, while a consumer asking for an eliminator primitive absent from $R$ lands in $B$ and is not accepted as a displayed eliminator read. The Lean file \texttt{lean4/BEDC/Derived/KernelInductiveEliminatorUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \KernelInductiveEliminatorUp$ for this finite carrier.
+\end{theorem}
+\begin{proof}
+The accepted side is visible because the carrier exposes an emitted-rule ledger $R$ after the declaration, constructor-signature, eliminator-name, and arity rows have been displayed.
+
+The refused side is visible because $B$ is a separate row. A request for an eliminator primitive not listed in $R$ cannot be reclassified as an emitted-rule read without adding a coordinate absent from the carrier.
+
+Thus the boundary has two distinguishable finite outcomes: displayed emitted-rule consumption and refusal of an unrecorded primitive.
+\end{proof}
+
+\begin{theorem}[KernelInductiveEliminator field-faithful boundary]
+\label{thm:kernel-inductive-eliminator-field-faithful-boundary}
+The $\KernelInductiveEliminatorUp$ packet is field-faithful for TasteGate: any accepted read that preserves $D,S,L,M,R,B,H,C,P,N$ componentwise preserves the emitted eliminator surface, and any read that drops $L$, $M$, or $R$ is not a faithful read of this carrier. The Lean file \texttt{lean4/BEDC/Derived/KernelInductiveEliminatorUp/TasteGate.lean} must provide $\mathsf{FieldFaithful}\ \KernelInductiveEliminatorUp$ for this finite carrier.
+\end{theorem}
+\begin{proof}
+Start with two accepted reads related by the displayed $\hsame$ rows. Componentwise transport preserves the accepted declaration, constructor signature, eliminator names, arity ledger, emitted-rule ledger, refusal boundary, route, provenance, and local name together.
+
+The fields $L$, $M$, and $R$ distinguish this carrier from the surrounding acceptance packets. $\KernelInductiveAcceptanceUp$ can expose accepted declarations and constructor signatures, but it does not by itself expose the full emitted-rule consumer surface isolated here.
+
+If any of $L$, $M$, or $R$ is absent, the read may still be a declaration-acceptance read, a generator-closure read, a type-membership read, or a subject-reduction boundary read. It is not a faithful read of $\KernelInductiveEliminatorUp$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KernelInductiveEliminatorUp$ packet cannot export a host eliminator primitive unless the requested primitive appears as a displayed emitted-rule row in $R$.}
+
+\independenceWitness{KernelInductiveAcceptance, KernelAcceptanceWitness, GeneratorClosure, TypeClassifierMembership, SubjectReduction: declaration acceptance, accepted-declaration witnessing, generator closure, type membership, and preservation rows are not bijective to emitted eliminator discharge because none of the five sibling surfaces simultaneously records eliminator names, motive-and-branch arity, emitted computation rows, and refusal of host primitives as the packet $E=(D,S,L,M,R,B,H,C,P,N)$ does.}
+
+\closureat{KernelInductiveEliminatorUp}{seedStr}
