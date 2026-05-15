@@ -1,0 +1,47 @@
+\begin{theorem}[Transported stationary window-seal window envelope source lock]
+\label{thm:transported-stationary-window-seal-window-envelope-source-lock}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The $\FiniteWindowEnvelopeUp$ row $W$ is source-locked to the transported $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $G$ inside the finite $\BHist$ carrier of $T$: every envelope-facing read must pass through the displayed $\hsame$ rows, $\Cont$ transports, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ before it reaches $W$. No accepted read of $W$ supplies an independent stream window, regular-rational seal, host equality, quotient stream, selected limit, choice datum, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the local obligation theorem for $T$. It exposes the accepted packet only through $R,S,G,W,E,H,C,P,N$, with the finite $\BHist$ carrier, displayed $\hsame$ and $\Cont$ rows, package provenance, and local naming already fixed.
+
+Next apply the window-source and envelope-window exactness theorems. They identify the constant stream window and the regular-rational seal as the only source rows from which the finite envelope can be read.
+
+Finally use root consumer nonescape. Since the $\Pkg$ and $\NameCert$ rows name only the displayed BEDC sources, an envelope-facing consumer has no coordinate from which to read a second window, a second seal, or any host-level completion datum.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real completion route totality]
+\label{thm:transported-stationary-window-seal-real-completion-route-totality}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every $\RealUp$-facing or completion-facing consumer preserving $T$ has the total finite route
+$$
+\begin{aligned}
+  \BHist,\StreamNameUp,\RegSeqRatUp
+  \longrightarrow
+  \FiniteWindowEnvelopeUp
+  \longrightarrow
+  \RealUp
+  \longrightarrow
+  \hsame,\Cont,\Pkg,\NameCert ,
+\end{aligned}
+$$
+instantiated by the rows $S,G,W,E,H,C,P,N$ of $T$. The route is total for these consumers because each read either factors through the finite envelope $W$ before the $\RealUp$ row $E$, or is refused as outside the accepted packet surface.
+\end{theorem}
+\begin{proof}
+First use the window envelope source lock. It fixes the only admissible source for $W$ as the transported StreamName and RegSeqRat rows carried by $T$.
+
+Next apply the root envelope readback totality and downstream route readiness theorems. Together they place every Real-facing and completion-facing consumer on the displayed finite route from the source rows through $W$ and then to $E$.
+
+The final step is the completion seal lock. It makes refusal of all off-route host data part of the same route, so totality is not supplied by quotient streams, host equality, selected limits, choice, or ambient completeness. It is supplied by the accepted rows of $T$.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal route provenance nonescape]
+\label{thm:transported-stationary-window-seal-route-provenance-nonescape}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The route provenance carried by $P$ and named by $N$ is nonescaping: any $\RealUp$ or completion consumer that preserves the $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $T$ receives exactly the finite route through $S,G,W,E,H,C,P,N$. It receives no external real-completion source and no route provenance not named by the accepted packet.
+\end{theorem}
+\begin{proof}
+Use the public export certificate to collect the packet rows over the displayed BEDC sources. The package row $P$ and naming row $N$ are part of the same finite carrier, so provenance is read from inside $T$ rather than from a host object.
+
+Now apply the Real completion route totality theorem. It identifies the complete consumer route through $S,G,W,E,H,C,P,N$, with the envelope and Real rows reached only after the source rows and transports have been fixed.
+
+Finally apply ledger nonescape and route exhaustion. The accepted packet has no additional coordinate for a second route provenance row, an external completion carrier, or an unlisted real source. Thus provenance is confined to the displayed rows.
+\end{proof}

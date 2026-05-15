@@ -97,3 +97,87 @@ The subject-reduction side is bounded by \autoref{thm:metacic-critical-path-obst
 
 It remains only to check exhaustion. The carrier definition supplies no tenth coordinate for closed subject reduction, no coordinate for full closed consistency, no global beta-conversion decision procedure, and no quotient over MetaCIC terms. Hence every local $\NameCert_{\MetaCICCriticalPathUp}$ obligation is one of the displayed row obligations above, and the two excluded theorem exports remain outside the packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path transport row stability]
+\label{thm:metacic-critical-path-transport-row-stability}
+For every accepted $\MetaCICCriticalPathUp$ carrier
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+componentwise transport through $H$ preserves the visible rows $S,N,O,U,D,C,P,L$. In particular, transport cannot erase the obstruction row $O$, cannot identify it with the discharge socket $D$, and cannot turn the displayed route from $S$ to $N$ into either closed subject reduction or full closed consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:metacic-critical-path-packet}. The row $H$ is declared as componentwise $\hsame$ transport for $S,N,O,U,D,P,L$, while $C$ records only the displayed continuation routes among the same finite rows.
+
+The obstruction boundary in \autoref{thm:metacic-critical-path-obstruction-boundary} fixes the critical point: $O$ remains visible under the handoff row $U$ and under all transports in $H$. Hence a transported packet still has an obstruction row and still has a separate discharge socket $D$.
+
+The consistency handoff in \autoref{thm:metacic-critical-path-consistency-handoff} and the obligation surface in \autoref{thm:metacic-critical-path-namecert-obligation-surface} keep the route from $S$ to $N$ inside $H,C,P,L$. Therefore transport stabilizes the displayed rows without exporting either excluded theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path provenance nonescape]
+\label{thm:metacic-critical-path-provenance-nonescape}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the provenance row $P$ records provenance only over the MetaCIC audit synthesis chapter and the cited sibling packets for subject-reduction obstruction, normalization audit, decidability boundary, and normal false exclusion. It exports neither closed subject reduction nor full closed consistency.
+\end{theorem}
+\begin{proof}
+Project the row $P$ from \autoref{def:metacic-critical-path-packet}. Its declared source is the $\Pkg$ provenance over the MetaCIC audit synthesis chapter and the four sibling concrete packets named in the chapter opening.
+
+The consistency-facing handoff of \autoref{thm:metacic-critical-path-consistency-handoff} uses this provenance only to read the path from $S$ to the normal-form row $N$. The socket $D$ remains separate, so provenance does not close the gap to full closed consistency.
+
+The obstruction boundary of \autoref{thm:metacic-critical-path-obstruction-boundary} keeps $O$ visible and prevents the handoff row from filling $D$. Together with the exact obligation list in \autoref{thm:metacic-critical-path-namecert-obligation-surface}, this shows that $P$ records the cited packet origins and has no escape route to the two excluded theorem exports.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path local naming exhaustion]
+\label{thm:metacic-critical-path-local-naming-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ carrier
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the local $\NameCert_{\MetaCICCriticalPathUp}$ row $L$ names exactly the finite packet coordinates $S,N,O,U,D,H,C,P,L$. It adds no hidden theorem coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or a quotient over MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Project the local naming row from \autoref{def:metacic-critical-path-packet}. The displayed carrier has exactly the tuple coordinates $S,N,O,U,D,H,C,P,L$, and $L$ is declared as the local $\NameCert_{\MetaCICCriticalPathUp}$ row for that packet.
+
+The obligation surface in \autoref{thm:metacic-critical-path-namecert-obligation-surface} exhausts the local surface by the nine row obligations. Its final exclusion rules out a tenth coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or a quotient over MetaCIC terms.
+
+The two boundary theorems preserve the same exhaustion. \autoref{thm:metacic-critical-path-consistency-handoff} keeps the consistency read at the normal-form endpoint, and \autoref{thm:metacic-critical-path-obstruction-boundary} keeps the obstruction row and discharge socket distinct. Thus $L$ names exactly the displayed finite coordinates and no hidden theorem coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path carrier admission]
+\label{thm:metacic-critical-path-carrier-admission}
+For every accepted $\MetaCICCriticalPathUp$ carrier
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+carrier admission exposes exactly the nine finite $\BHist$ rows displayed in \autoref{def:metacic-critical-path-packet}: the closed-strong-normalization route $S$, the normal-form consistency row $N$, the subject-reduction obstruction row $O$, the substitution, confluence, and decidability handoff row $U$, the discharge-bundle socket $D$, the componentwise transport row $H$, the continuation row $C$, the provenance row $P$, and the local naming row $L$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:metacic-critical-path-packet}. The carrier is introduced as the finite tuple $K=(S,N,O,U,D,H,C,P,L)$, and the definition assigns one $\BHist$ role to each coordinate.
+
+The first five projections give the visible mathematical rows: $S$ for closed strong normalization, $N$ for the normal-form consistency endpoint, $O$ for the subject-reduction obstruction, $U$ for the substitution, confluence, and decidability handoff, and $D$ for the discharge-bundle socket.
+
+The remaining projections give the certificate infrastructure: $H$ stores the componentwise transports, $C$ stores the displayed continuations, $P$ records provenance, and $L$ records the local $\NameCert_{\MetaCICCriticalPathUp}$ row. Since the same definition explicitly excludes any coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or a quotient over MetaCIC terms, carrier admission has exactly the nine listed rows and no hidden row.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path route replay]
+\label{thm:metacic-critical-path-route-replay}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the continuation coordinate $C$ replays only the displayed route from $S$ to $N$, the displayed handoff route from $U$ to the checker and confluence boundaries, and the displayed route from $O$ to the discharge socket $D$. It cannot synthesize closed subject reduction and cannot turn the normal-form consistency endpoint into full closed consistency.
+\end{theorem}
+\begin{proof}
+Read the continuation coordinate from \autoref{def:metacic-critical-path-packet}. Its declared routes are the route from the strong-normalization row to the normal-form row, the route from the handoff row to the checker and confluence boundaries, and the route from the obstruction row to the discharge socket.
+
+The consistency-facing route is already bounded by \autoref{thm:metacic-critical-path-consistency-handoff}. It lets a consumer pass from $S$ to $N$ through the displayed route rows, but it leaves $D$ as a separate socket and therefore does not export full closed consistency.
+
+The obstruction-facing route is bounded by \autoref{thm:metacic-critical-path-obstruction-boundary}. The row $O$ remains present under the handoff row $U$ and under componentwise transport, so route replay cannot erase the obstruction or fill the discharge socket. Thus $C$ replays only the displayed routes and supplies no closed subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path provenance naming]
+\label{thm:metacic-critical-path-provenance-naming}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the provenance row $P$ and the local naming row $L$ preserve exactly the public NameCert provenance cited by this chapter: the subject-reduction obstruction packet, the normalization audit packet, the decidability boundary packet, and the normal false exclusion packet, together with the local $\MetaCICCriticalPathUp$ name. They introduce no additional public provenance source.
+\end{theorem}
+\begin{proof}
+Project the provenance and naming coordinates in \autoref{def:metacic-critical-path-packet}. The row $P$ is declared as the $\Pkg$ provenance over the MetaCIC audit synthesis chapter and the four sibling concrete packets cited in the chapter opening, while $L$ is declared as the local $\NameCert_{\MetaCICCriticalPathUp}$ row.
+
+The four public sibling packets are precisely the subject-reduction obstruction packet, the normalization audit packet, the decidability boundary packet, and the normal false exclusion packet. The carrier definition uses these rows to name the critical path and does not add another public packet coordinate.
+
+The two boundary theorems preserve this reading. \autoref{thm:metacic-critical-path-consistency-handoff} keeps the consistency route attached to the normalization and normal false exclusion rows, and \autoref{thm:metacic-critical-path-obstruction-boundary} keeps the obstruction route attached to the subject-reduction boundary. Consequently $P$ and $L$ preserve the cited public provenance and local name exactly, with no extra provenance source exported by the chapter.
+\end{proof}
