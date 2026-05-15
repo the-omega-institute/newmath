@@ -167,7 +167,7 @@ Combining the two routes gives the terminal handoff from the RegularCauchyName f
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
 Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests. For every request $n$ bundled in $Q$, the consumer read factors through the displayed row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the corresponding $\DyadicRatCoreUp$ observation ledger.
 
-Moreover, the whole bundled family repacks as a single finite consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This surface contains no quotient stream, no selected host limit, no host real equality, and no ambient completeness object.
+Moreover, the whole bundled family repacks as a single finite consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The assembled surface carries the local $\mathsf{SemanticNameCert}$ whose carrier is the bundled row satisfying $\hsame$ with the surface, $\UnaryHistory$, and $\PkgSig$, whose pattern forgets only the $\PkgSig$ row, whose ledger records $\PkgSig$ together with $\hsame$, and whose classifier is $\hsame$. This surface contains no quotient stream, no selected host limit, no host real equality, and no ambient completeness object.
 \end{theorem}
 \begin{proof}
 Project the carrier by \autoref{def:real-cauchy-completion-carrier}. For each bundled precision request $n$, apply \autoref{thm:real-cauchy-completion-diagonal-handoff} to obtain the route through $\mu(n)$, the diagonal packet $D$, the finite stream window, the regular-sequence readback row, and the dyadic observation ledger.
@@ -175,6 +175,8 @@ Project the carrier by \autoref{def:real-cauchy-completion-carrier}. For each bu
 The selected row is the same row identified by \autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}. Thus the bundled requests do not create separate hidden completion data; they reuse the displayed diagonal rows attached to the unary modulus.
 
 Finally, apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope} to the family of reads. Since $Q$ is finite, the pointwise routes assemble into one finite $\mathsf{BHist}$ consumer surface with the recorded $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and the same non-escape boundary is preserved for the bundle.
+
+The checked Lean target supplies exactly this certificate row: its source predicate requires $\hsame$ with the bundle surface, $\UnaryHistory$, and $\PkgSig$; its pattern drops only $\PkgSig$; its ledger keeps $\PkgSig$ and $\hsame$; and its classifier is the same $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_probe\_bundle\_window\_coverage}
 
