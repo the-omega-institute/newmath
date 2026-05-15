@@ -136,6 +136,24 @@ which to build an alternate route.
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_window\_route\_lock}
 
+\begin{theorem}[Diagonal-limit terminal selector non-escape]
+\label{thm:diagonal-limit-compatibility-terminal-selector-nonescape}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every terminal $\CauchyLimitSealUp$ or $\RealUp$ selector read of $K$ passes through the same diagonal route $R$, triangle row $T$, dyadic ledger $D$, stream-window row $W$, readback row $Q$, seal row $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The terminal read cannot introduce a second selector, quotient stream, host limit, choice datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the window route lock, \autoref{thm:diagonal-limit-compatibility-window-route-lock}. It fixes the stream-window row $W$ before any terminal seal or $\RealUp$ read is consumed.
+
+Next use tolerance ledger handoff, \autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}. The dyadic ledger $D$ and the window row $W$ remain the same rows named by the diagonal route and triangle row.
+
+Apply seal consumer factorization, \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}. It routes every $\CauchyLimitSealUp$ or $\RealUp$ read through $R,T,D,W,Q,L,H,C,P,N$ rather than through a detached terminal selector.
+
+Finally use the completion boundary, \autoref{thm:diagonal-limit-compatibility-completion-boundary}. Since the packet exposes no quotient stream, host limit, choice datum, or ambient completeness coordinate, the terminal selector cannot escape the displayed diagonal route.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit seal readback exactness]
 \label{thm:diagonal-limit-compatibility-seal-readback-exactness}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet

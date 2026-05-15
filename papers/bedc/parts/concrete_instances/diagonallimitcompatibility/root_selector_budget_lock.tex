@@ -315,3 +315,64 @@ Apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-un
 
 Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. The exported consumer package is exactly $R,T,S,D,W,Q,L,H,C,P,N$, and the package inventory omits quotient streams, selected host limits, host equality, countable choice, and ambient completeness. Therefore the tail rebase has no public coordinate by which to change the terminal package.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility selector-budget terminal classifier]
+\label{thm:diagonal-limit-compatibility-selector-budget-terminal-classifier}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ root-selector read. The terminal classifier exported to $\RealUp$, $\CompletionUp$, and $\CauchyLimitSealUp$ consumers is the single displayed package whose source is the selector-budget row $R$, whose finite window is the $\StreamNameUp$ row $S$, whose rational readback is the $\RegSeqRatUp$ row $T$, whose dyadic ledger is the $\DyadicRatCoreUp$ row $D$, whose synchronizer handoff is the $\CauchySealBudgetSynchronizerUp$ row $Q$, and whose seal-facing endpoint is the $\RealUp$ row $L$. No terminal consumer may read these rows as independent classifier coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-refinement}. It places the selector-budget source, finite stream window, regular rational readback, dyadic ledger, synchronizer handoff, and Real seal on one root-selector route.
+
+Next use \autoref{thm:diagonal-limit-compatibility-selector-budget-lock-exactness}. The classifier equality is equality of the displayed finite rows, so the terminal classifier cannot split $R,T,S,D,Q,L$ into unrelated coordinates.
+
+Apply \autoref{thm:diagonal-limit-compatibility-terminal-readback-determinacy}. The terminal readback for $\RealUp$, $\CompletionUp$, and $\CauchyLimitSealUp$ consumers is already the package $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. It exports the same finite package to completion-facing readers, so the terminal classifier is the displayed selector-budget package rather than a host-side limit selector.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility Real completion route non-escape]
+\label{thm:diagonal-limit-compatibility-real-completion-route-nonescape}
+Every $\DiagonalLimitCompatibilityUp$ route from a selector-budget root read to a $\RealUp$ or $\CompletionUp$ consumer factors through the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchySealBudgetSynchronizerUp$, and $\CauchyLimitSealUp$ rows displayed in
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N).
+$$
+The route has no coordinate for a host-selected real limit, quotient stream equality, countable-choice data, ambient completeness, or a completion consumer that bypasses the selector-budget classifier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-limit-compatibility-selector-budget-terminal-classifier}. The terminal classifier presented to the Real and completion consumers is the single finite selector-budget package.
+
+Use \autoref{thm:diagonal-limit-compatibility-terminal-tail-rebase-exactness}. A tail rebase preserves the same finite package and does not create quotient streams, selected host limits, host real equality, countable-choice data, or ambient completeness.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-selector-lock-seal-route-exhaustion}. The seal-facing route is exhausted by the displayed stream, rational, dyadic, synchronizer, limit-seal, and Real rows.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-completion-consumer-package}. Completion consumers receive only the displayed package, so any route bypassing the selector-budget classifier is outside the accepted $\DiagonalLimitCompatibilityUp$ surface.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility tail-seal synchronizer pullback]
+\label{thm:diagonal-limit-compatibility-tail-seal-synchronizer-pullback}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ root-selector reads whose terminal classifiers agree on selector budget, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\CauchySealBudgetSynchronizerUp$ handoff, $\CauchyLimitSealUp$ boundary, $\RealUp$ seal, and structural rows. Then their tail-seal synchronizer reads pull back to the same finite selector-budget package, so every $\CauchySealBudgetSynchronizerUp$ and $\RealUp$ consumer reads the same terminal package
+$$
+R,T,S,D,W,Q,L,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-limit-compatibility-selector-budget-terminal-classifier}. Agreement of the terminal classifiers is agreement of the displayed selector-budget, stream, rational, dyadic, synchronizer, limit-seal, Real, and structural rows.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-selector-window-pullback-uniqueness}. The common $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal pull both reads back to one root-selector surface.
+
+Next invoke \autoref{thm:diagonal-limit-compatibility-terminal-readback-determinacy}. The terminal readback is determined by that shared finite package for Real, completion, and limit-seal consumers.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-terminal-tail-rebase-exactness}. Tail rebase preserves the terminal package, so the synchronizer handoff and seal read cannot diverge after the pullback.
+\end{proof}

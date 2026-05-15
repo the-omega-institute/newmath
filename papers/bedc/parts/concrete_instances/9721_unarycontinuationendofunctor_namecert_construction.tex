@@ -1,0 +1,133 @@
+\chapter{A Concrete Naming Certificate for $\UnaryContinuationEndofunctorUp$}
+\label{ch:concrete-instances-unary-continuation-endofunctor-namecert}
+\origin{human}
+
+The $\UnaryContinuationEndofunctorUp$ packet is the BEDC-native endofunctor
+surface on the unary-continuation category. In the standard category-theoretic
+account, as in Mac Lane's treatment of functors, an endofunctor preserves
+objects, arrows, identities, and composition inside one category. Here the one
+category is the unary-continuation reading of $\BHist$ from
+\autoref{ch:visions-kernel-as-category}, so the carrier is finite packet data
+rather than a host functor object.
+
+The packet consumes the sibling categorical surfaces
+\autoref{ch:concrete-instances-kernel-category-namecert},
+\autoref{ch:concrete-instances-finitekernelcategory-namecert},
+\autoref{ch:concrete-instances-functor-namecert}, and
+\autoref{ch:concrete-instances-nattrans-namecert}. Its object and hom rows are
+unary $\BHist$ rows, its preservation rows are displayed $\Cont$ ledgers, and
+its transport, provenance, and local naming rows are the same
+$\hsame/\Pkg/\NameCert$ surface used by the unary-continuation category.
+
+\begin{definition}[Unary-continuation endofunctor carrier]
+\label{def:unary-continuation-endofunctor-carrier}
+A $\UnaryContinuationEndofunctorUp$ carrier is a finite packet
+$$
+E=(O,H,F,I,M,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the unary object row, accepting only unary $\BHist$ object
+histories from the unary-continuation category.
+\item $H$ is the displayed hom row, accepting only
+$\mathsf{CategoryHomCarrier}(a,b,f)$ rows between unary object histories.
+\item $F$ records the object and hom action rows of the endofunctor, sending
+unary objects to unary objects and displayed hom histories to displayed hom
+histories over the transported endpoints.
+\item $I$ records identity preservation: the image of an empty-tail identity
+row is classified with the empty-tail identity row at the image object.
+\item $M$ records composition preservation: the image of a displayed composite
+hom row is classified with the displayed composite of the two image hom rows.
+\item $T$ records componentwise $\hsame$ transport for object rows, hom rows,
+identity-preservation rows, and composition-preservation rows.
+\item $C$ stores the displayed $\Cont$ routes used to read the object action,
+hom action, identity preservation, and composition preservation.
+\item $P$ is the $\Pkg$ provenance row over $\KernelCategoryUp$,
+$\FiniteKernelCategoryUp$, $\FunctorUp$, and $\NatTransUp$.
+\item $N$ is the local $\NameCert_{\UnaryContinuationEndofunctorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host functor category, quotient morphism
+class, external naturality object, or equality outside the displayed
+$\mathsf{BHist}$ rows.
+\end{definition}
+
+\begin{theorem}[Unary-continuation endofunctor NameCert obligations]
+\label{thm:unary-continuation-endofunctor-namecert-obligations}
+The local $\NameCert_{\UnaryContinuationEndofunctorUp}$ obligation surface for
+the carrier of \autoref{def:unary-continuation-endofunctor-carrier} consists
+of five rows:
+\begin{enumerate}
+\item carrier admission by the finite packet $E=(O,H,F,I,M,T,C,P,N)$;
+\item object and hom classifier transport by componentwise $\hsame$;
+\item identity preservation through the empty-tail identity rows of the
+unary-continuation category;
+\item composition preservation through the displayed $\Cont$ composition rows
+of the unary-continuation category;
+\item non-escape from host functor categories, quotient morphisms, external
+natural transformation objects, and host equality of arrows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is a projection of
+\autoref{def:unary-continuation-endofunctor-carrier}. The object, hom, action,
+identity, composition, transport, route, provenance, and local naming rows are
+all finite $\mathsf{BHist}$ data.
+
+For classifier transport, use the sibling $\KernelCategoryUp$ and
+$\FiniteKernelCategoryUp$ packets. They identify the public object and hom
+surfaces as unary histories, displayed $\mathsf{CategoryHomCarrier}$ rows, and
+componentwise $\hsame$ transports.
+
+Identity and composition preservation are the $\FunctorUp$ rows restricted to
+this single unary-continuation category. The identity row $I$ reads empty-tail
+continuation ledgers, while the composition row $M$ reads displayed $\Cont$
+composition ledgers before repacking the result as a displayed hom row.
+
+The $\NatTransUp$ sibling is consumed only as a downstream compatibility
+surface: it can compare components built from the same endofunctor packet, but
+it does not add a host naturality object. Since $E$ has no host functor
+category, quotient morphism, or host arrow equality coordinate, every public
+read remains inside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Unary-continuation endofunctor composition stability]
+\label{thm:unary-continuation-endofunctor-composition-stability}
+Let $E=(O,H,F,I,M,T,C,P,N)$ be an accepted
+$\UnaryContinuationEndofunctorUp$ carrier. If $f:a\to b$ and $g:b\to c$ are
+displayed unary-continuation hom rows and $fg$ is their displayed $\Cont$
+composite, then the image of $fg$ under $F$ is classified with the displayed
+$\Cont$ composite of the image of $f$ and the image of $g$. The comparison is
+routed only through $H,M,T,C,P,N$ and exports no quotient morphism, host
+function composition, host arrow equality, or external functor law.
+\end{theorem}
+\begin{proof}
+Start with the hom rows. The carrier reads $f$, $g$, and $fg$ through
+$\mathsf{CategoryHomCarrier}$ over unary endpoints, and the route $C$ records
+the displayed $\Cont$ composition producing $fg$.
+
+Next apply the endofunctor action row $F$. It sends the three displayed hom
+rows to displayed hom rows over the transported endpoints, and $T$ supplies
+the componentwise $\hsame$ comparisons needed to keep endpoints and hom tails
+aligned.
+
+Now use the composition preservation row $M$. It states that the image of the
+displayed composite is classified with the displayed composite of the two
+image hom rows, all inside the same unary-continuation category surface.
+
+Finally repack the comparison with $P$ and $N$. Because the packet contains no
+quotient morphism class, host function-composition coordinate, host arrow
+equality, or external functor-law object, the stability claim is exactly the
+finite BEDC route through $H,M,T,C,P,N$.
+\end{proof}
+
+\closureat{UnaryContinuationEndofunctorUp}{seedStr}
+
+\begin{closurestatus}{\UnaryContinuationEndofunctorUp}
+  \constructivestory{A $\UnaryContinuationEndofunctorUp$ packet is generated from unary object histories, displayed $\mathsf{CategoryHomCarrier}$ hom rows, object and hom action rows, identity-preservation rows, composition-preservation rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the concrete BEDC carrier rows for unary-continuation endofunctors over objects, homs, identity preservation, composition preservation, transport, route, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Lean namespace, host functor categories, quotient morphisms, external naturality objects, arbitrary functor categories, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, classifier transport, identity preservation, composition preservation, and non-escape over the displayed unary-continuation rows.}
+\end{closurestatus}
