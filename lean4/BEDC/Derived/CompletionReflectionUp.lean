@@ -189,4 +189,41 @@ theorem CompletionReflectionPacket_public_export [AskSetup] [PackageSetup]
     ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary, sealUnary,
       reflectedUnary, extensionUnary, packageRow, reflectedRow, extensionRow, certSig⟩
 
+theorem CompletionReflectionPacket_stream_regseq_real_factor [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance
+      cert reflected extension audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              Cont route provenance audit ->
+                PkgSig bundle audit pkg ->
+                  UnaryHistory diagonal ∧ UnaryHistory regular ∧ UnaryHistory reflected ∧
+                    UnaryHistory sealRow ∧ UnaryHistory extension ∧ UnaryHistory route ∧
+                      UnaryHistory provenance ∧ UnaryHistory audit ∧
+                        Cont diagonal regular reflected ∧ Cont universal completion extension ∧
+                          Cont route provenance audit ∧ hsame reflected sealRow ∧
+                            hsame extension package ∧ PkgSig bundle cert pkg ∧
+                              PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet reflectedRow reflectedSame extensionRow extensionSame auditRow auditPkg
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, routeUnary, _packageUnary, provenanceUnary, _certUnary,
+    _packageRow, _provenanceRow, certPkg⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_transport reflectedUnary reflectedSame
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed routeUnary provenanceUnary auditRow
+  exact
+    ⟨diagonalUnary, regularUnary, reflectedUnary, sealUnary, extensionUnary, routeUnary,
+      provenanceUnary, auditUnary, reflectedRow, extensionRow, auditRow, reflectedSame,
+      extensionSame, certPkg, auditPkg⟩
+
 end BEDC.Derived.CompletionReflectionUp
