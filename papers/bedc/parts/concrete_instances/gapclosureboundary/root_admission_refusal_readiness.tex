@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary admission route totality]
+\label{thm:gap-closure-boundary-admission-route-totality}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every accepted source admission for the root boundary enters through the displayed source route $G \longrightarrow S$ with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows carried by $G,S,H,C,P,N$. The admission cannot use hidden closure supply, host equality, quotient data, private source selection, or any off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the source packet of \autoref{thm:gap-closure-boundary-source-packet}. It exposes the accepted root inventory as the finite rows $G,S,R,H,C,P,N$ and states that no source, refusal, transport, provenance, or local naming coordinate is available outside that packet.
+
+For the admission branch, apply \autoref{thm:gap-closure-boundary-root-source-classifier-totality}. A supported source-classifier read is routed through $G \longrightarrow S$ and not through a third carrier coordinate.
+
+Finally use classifier stability, \autoref{thm:gap-closure-boundary-classifier-stability}. Componentwise $\hsame$ transport and the displayed $\Cont$ routes preserve the source/refusal split, so the structural rows can carry the admitted route but cannot manufacture hidden closure supply, host equality, quotient data, private source selection, or an off-packet continuation.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal route stability]
+\label{thm:gap-closure-boundary-refusal-route-stability}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, every unsupported closure request remains on the displayed refusal ledger route $G \longrightarrow R$ under the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Transport, replay, package, and local naming may preserve that refusal endpoint, but they cannot convert it into source admission, hidden closure supply, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with refusal route exactness, \autoref{thm:gap-closure-boundary-refusal-route-exactness}. Once the source route is absent, the unsupported request is routed through $G \longrightarrow R$ with the same structural rows $H,C,P,N$.
+
+Apply refusal-ledger stability, \autoref{thm:gap-closure-boundary-refusal-ledger-stability}. Replay along $C$ and transport along $H$ preserve the endpoint $R$, while $P$ and $N$ package and name that endpoint rather than replacing it with another route.
+
+The remaining exclusions follow from classifier stability. The transported refusal route remains a refusal ledger entry under the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so it cannot become source admission, hidden closure supply, host equality, quotient data, or an off-packet continuation.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary consumer readiness exhaustion]
+\label{thm:gap-closure-boundary-consumer-readiness-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the hard-problem consumers $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$ receive only the admitted source/refusal packet carried by $G,S,R,H,C,P,N$. A supported consumer receives the admitted source route, an unsupported closure request receives the refusal route, and no consumer receives an off-packet closure resource.
+\end{theorem}
+\begin{proof}
+First assemble the packet boundary. \autoref{thm:gap-closure-boundary-root-source-classifier-totality} exhausts accepted source-classifier reads by the displayed source and refusal routes, and \autoref{thm:gap-closure-boundary-admission-route-totality} fixes the supported admission side as $G \longrightarrow S$.
+
+Next account for unsupported consumers. \autoref{thm:gap-closure-boundary-refusal-route-stability} keeps each unsupported closure request on $G \longrightarrow R$ under the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally apply consumer NameCert readiness, \autoref{thm:gap-closure-boundary-consumer-namecert-readiness}. The listed hard-problem consumers read exactly the displayed $\BHist$ packet and its structural rows, so the source/refusal packet is exhausted and no off-packet closure resource is exported.
+\end{proof}

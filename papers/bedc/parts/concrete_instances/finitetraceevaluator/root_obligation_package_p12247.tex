@@ -1,0 +1,104 @@
+\begin{theorem}[FiniteTraceEvaluator root obligation package]
+\label{thm:finite-trace-evaluator-root-obligation-package}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$$
+E=(I,T,A,V,H,C,P,N),
+$$
+the root package exposes exactly carrier admission, checkpoint acceptance,
+bounded replay, ledger exactness, and consumer non-escape over the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. Its readable surface is the coded
+input row $I$, finite trace row $T$, accepted-result classifier row $A$,
+validation row $V$, componentwise transport row $H$, continuation row $C$,
+provenance row $P$, and local naming row $N$; it exports no host evaluator,
+hidden runtime state, unbounded trace, unchecked compiler theorem, or second
+root source.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:finite-trace-evaluator-carrier}. The accepted packet is the
+displayed finite tuple $I,T,A,V,H,C,P,N$, and the carrier contains no further
+root coordinate.
+
+Checkpoint acceptance is supplied by
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality} and
+\autoref{thm:finite-trace-evaluator-checkpoint-result-totality}. These force
+checkpoint-facing reads through the finite input, trace, accepted-result, and
+validation rows before any consumer can inspect the package.
+
+Bounded replay and ledger exactness come from
+\autoref{thm:finite-trace-evaluator-bounded-replay-stability} and
+\autoref{thm:finite-trace-evaluator-root-exactness-scope}. The route remains
+inside $I,T,A,V,H,C,P,N$ under the displayed $\hsame$ transports and $\Cont$
+replay.
+
+Finally apply \autoref{thm:finitetraceevaluator-root-validation-refusal} and
+\autoref{thm:finite-trace-evaluator-checkpoint-ledger-cut}. They exclude host
+validation, hidden runtime state, unbounded evaluation, infinite traces, and
+unchecked compiler theorems, so the five listed obligations exhaust the root
+package.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator checkpoint route totality]
+\label{thm:finite-trace-evaluator-checkpoint-route-totality}
+Every checkpoint-facing consumer route for an accepted
+$\FiniteTraceEvaluatorUp$ packet must expose the same rows
+$$
+I,T,A,V,H,C,P,N.
+$$
+The route may read the coded input, finite trace, accepted-result classifier,
+validation boundary, componentwise transports, continuation replay, package
+provenance, and local naming row only through that packet. It cannot read a
+host evaluator, hidden runtime state, unbounded trace, unchecked compiler
+theorem, or second checkpoint source.
+\end{theorem}
+\begin{proof}
+Start with the checkpoint source lock of
+\autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. It fixes the
+checkpoint-facing source route at the displayed input, trace, and
+accepted-result rows.
+
+Use \autoref{thm:finite-trace-evaluator-checkpoint-consumer-route}. A
+consumer-facing checkpoint read must pass through the finite evaluator carrier,
+the validation boundary, the continuation replay, package provenance, and the
+local naming row.
+
+Finally invoke
+\autoref{thm:finite-trace-evaluator-root-obligation-package}. The root package
+already lists carrier admission, checkpoint acceptance, bounded replay, ledger
+exactness, and consumer non-escape over $I,T,A,V,H,C,P,N$, so no outside
+evaluator, hidden state, unbounded trace, unchecked theorem, or second source
+is available to the route.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator result factorization non-escape]
+\label{thm:finite-trace-evaluator-result-factorization-nonescape}
+For every accepted $\FiniteTraceEvaluatorUp$ packet, accepted-result
+classification reaches $A$ only through the finite route
+$$
+I \to T \to A.
+$$
+Validation remains at $V$, while the ledger and consumer rows $H,C,P,N$ expose
+only transported replay and local package provenance. The package exports no
+total truth predicate, total halting classifier, infinite trace, host
+validator, hidden runtime state, or unchecked compiler theorem.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:finite-trace-evaluator-bounded-trace-coverage}. It
+places every accepted result behind the coded input row $I$ and finite trace
+row $T$ before the classifier row $A$ can be read.
+
+Next apply \autoref{thm:finite-trace-evaluator-accepted-result-ledger-exhaustion}.
+The accepted-result ledger is exhausted by the displayed result route,
+validation boundary, componentwise transport, continuation replay, package
+provenance, and local naming row.
+
+Use \autoref{thm:finite-trace-evaluator-runtime-boundary-handoff}. The runtime
+boundary receives the finite evaluator rows as a handoff packet rather than a
+host validator or hidden runtime state.
+
+Finally combine the handoff with
+\autoref{thm:finitetrace-evaluator-ledger-nonescape}. The root ledger
+does not contain total truth, total halting, infinite trace, host validation,
+or unchecked compiler coordinates, so accepted-result classification cannot
+escape the route $I \to T \to A$ while validation remains at $V$.
+\end{proof}
