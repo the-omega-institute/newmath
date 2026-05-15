@@ -153,13 +153,68 @@ The regular readback admission theorem then fixes the observation rows below tha
 Finally apply \autoref{thm:finite-witness-route-consumer-route-exactness}. The consumer route reaches the seal row $s$ only after $q,w,r,d$ have been exposed in that dependency order. The non-escape boundary of \autoref{thm:finite-witness-route-non-escape} excludes an external equality, selected real, or route ledger that could furnish a second handoff, so the seal read is unique to the displayed packet rows.
 \end{proof}
 
+\begin{theorem}[Finite witness-route scoped support rows]
+\label{thm:finite-witness-route-scoped-support-rows}
+For every accepted $\FiniteWitnessRouteUp$ packet
+$$
+R=(q,w,r,d,s,h,c,p,n),
+$$
+the support scope is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows together with the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and $\RealUp$ faces read by $w,r,d,s$. The scope contains no host-level infinite trace, quotient stream equality, selected real value, ambient Real completeness, metric completeness, countable choice, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:finite-witness-route-carrier}. Its coordinates are the request row $q$, selected window $w$, regular rational readback $r$, dyadic ledger $d$, seal row $s$, transports $h$, routes $c$, provenance $p$, and local certificate $n$.
+
+Apply \autoref{thm:finite-witness-route-namecert-obligations}. The certificate surface accounts for carrier admission, request exposure, selected-window admission, readback admission, ledger admission, seal handoff, transport, route replay, package provenance, and the local naming row.
+
+The sibling faces are the ones named by those coordinates: $\StreamNameUp$ through $w$, $\RegSeqRatUp$ through $r$, $\DyadicRatCoreUp$ through $d$, and $\CauchyLimitSealUp$ or $\RealUp$ through $s$. Apply \autoref{thm:finite-witness-route-transport-stability} to keep those rows attached under the componentwise $\hsame$ transports.
+
+Finally use \autoref{thm:finite-witness-route-non-escape}. It removes host infinite traces, quotient stream equality, selected real values, unrecorded limits, and bypass routes; the same packet has no coordinate for ambient Real completeness, metric completeness, countable choice, or a standard bridge row. The displayed rows therefore give the whole scoped support.
+\end{proof}
+
+\begin{theorem}[Finite witness-route Real and Completion scope]
+\label{thm:finite-witness-route-real-completion-scope}
+Every Phase Real or Completion consumer read that accepts a $\FiniteWitnessRouteUp$ packet factors through the finite route
+$$
+q,w,r,d,s,h,c,p,n.
+$$
+The read may use the named $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, and $\RealUp$ faces carried by those rows, but it receives no independent real value, limit object, completeness principle, metric completion row, quotient stream equality, countable-choice selector, or standard bridge route.
+\end{theorem}
+\begin{proof}
+Start with the consumer factorization theorem, \autoref{thm:finite-witness-route-consumer-factorization}. It sends every accepting $\CauchyLimitSealUp$ or $\RealUp$ consumer through the selected window, readback, ledger, seal, transport, continuation, provenance, and local naming rows.
+
+The request and observation side is fixed by \autoref{thm:finite-witness-route-request-window-admission} and \autoref{thm:finite-witness-route-regular-readback-admission}. Thus the consumer first reads $q,w$ and then the regular rational and dyadic rows $r,d$.
+
+The seal side is fixed by \autoref{thm:finite-witness-route-consumer-route-exactness}. The consumer reaches $s$ only after $q,w,r,d$, and the remaining rows $h,c,p,n$ preserve, replay, package, and name that same finite route.
+
+Apply \autoref{thm:finite-witness-route-scoped-support-rows} for the scope boundary. Since the accepted packet has only the displayed support rows and sibling faces, no Phase Real or Completion read can acquire an independent real value, limit object, completeness principle, metric completion row, quotient equality, countable-choice selector, or standard bridge route.
+\end{proof}
+
+\begin{theorem}[Finite witness-route seal boundary scope]
+\label{thm:finite-witness-route-seal-boundary-scope}
+For every accepted $\FiniteWitnessRouteUp$ packet
+$$
+R=(q,w,r,d,s,h,c,p,n),
+$$
+the seal row $s$ is downstream of the request row $q$, selected $\StreamNameUp$ window $w$, regular $\RegSeqRatUp$ readback $r$, dyadic $\DyadicRatCoreUp$ ledger $d$, componentwise transport row $h$, continuation row $c$, package provenance $p$, and local naming row $n$. No Real or Completion consumer may read $s$ as a boundary supplied by host traces, quotient equality, selected real values, ambient completeness, metric completeness, countable choice, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+The route entrance is determined by \autoref{thm:finite-witness-route-request-window-admission}. Any accepted finite witness demand read opens the request row $q$ and the selected window row $w$.
+
+The observation data below the window is determined by \autoref{thm:finite-witness-route-regular-readback-admission}. The readback row is $r$, the comparison ledger is $d$, and neither quotient stream equality nor a selected real value is imported into the packet.
+
+The consumer dependency order is determined by \autoref{thm:finite-witness-route-consumer-route-exactness} together with \autoref{thm:finite-witness-route-selected-window-seal-uniqueness}. The seal row $s$ is read only after $q,w,r,d$, and there is no second selected window, readback, dyadic ledger, or seal handoff inside the carrier.
+
+Finally apply \autoref{thm:finite-witness-route-real-completion-scope}. The remaining rows $h,c,p,n$ are the only transport, continuation, provenance, and naming rows available to the seal consumer, and the excluded host, quotient, completeness, choice, and bridge coordinates have no public entry point.
+\end{proof}
+
 \closureat{FiniteWitnessRouteUp}{seedStr}
 \closureat{FiniteWitnessRouteUp}{obligationStr}
+\closureat{FiniteWitnessRouteUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteWitnessRouteUp}
   \constructivestory{A $\FiniteWitnessRouteUp$ packet is generated from a finite witness request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\CauchyLimitSealUp$ or $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, \autoref{thm:finite-witness-route-consumer-route-exactness}, and \autoref{thm:finite-witness-route-selected-window-seal-uniqueness} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, and Real-and-Completion seal consumption.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, \autoref{thm:finite-witness-route-consumer-factorization}, \autoref{thm:finite-witness-route-request-window-admission}, \autoref{thm:finite-witness-route-regular-readback-admission}, \autoref{thm:finite-witness-route-consumer-route-exactness}, \autoref{thm:finite-witness-route-selected-window-seal-uniqueness}, \autoref{thm:finite-witness-route-scoped-support-rows}, \autoref{thm:finite-witness-route-real-completion-scope}, and \autoref{thm:finite-witness-route-seal-boundary-scope} bind the finite route packet from request exposure through selected-window readback, dyadic ledger admission, scoped support, Real-and-Completion consumer factorization, and seal-boundary consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

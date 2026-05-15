@@ -171,6 +171,26 @@ Finally use \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-e
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_root\_budget\_seal\_eligibility}
 
+\begin{theorem}[UniformCauchyCriterion Real-completion exit exhaustion]
+\label{thm:uniform-cauchy-criterion-root-real-completion-exit-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any current Phase Real and Completion consumer route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ factors through the finite root route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+through the sibling $\RegularCauchyTailMeetUp$ packet, and through the displayed $H,C,P,N$ rows. The exit surface exports no quotient stream, selected limit, host equality, countable choice, open-cover compactness, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy} and \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}. These fix the threshold schedule and dyadic tolerance ledger as the initial finite root route $I,W,M,Q,T$.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}. It places every Real-facing finite-window read at the seal row $E$ after the same route and ties the stream and regular sequence surfaces to the sibling packet of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
+
+Finally combine \autoref{thm:uniform-cauchy-criterion-root-budget-seal-eligibility} with \autoref{thm:uniform-cauchy-criterion-completion-functor-budget-handoff}. The completion consumer receives only the finite route, the sibling shared-tail packet, and the $H,C,P,N$ rows, so quotient streams, selected limits, host equality, countable choice, open-cover compactness, and ambient completeness remain outside the accepted packet.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion completion-functor budget handoff]
 \label{thm:uniform-cauchy-criterion-completion-functor-budget-handoff}
 Let
@@ -482,4 +502,24 @@ Next apply \autoref{thm:uniform-cauchy-criterion-selector-seal-handoff-lock} and
 Now use \autoref{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback}. The diagonal selector route and the UniformCauchyCriterion route share one terminal selector-seal pullback surface whenever the window, readback, tolerance ledger, handoff, and terminal seal rows are the displayed rows of $U$.
 
 Finally invoke the sibling carrier of \autoref{ch:concrete-instances-realcompletionselectorseal-namecert}, using \autoref{thm:real-completion-selector-seal-terminality}. The sibling consumes exactly the same finite selector-to-seal row, so the pullback preserves the schedule, tolerance ledger, Real seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows without introducing quotient-stream equality, selected limits, host equality, countable choice, detached selectors, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root threshold seal roundtrip]
+\label{thm:uniform-cauchy-criterion-root-threshold-seal-roundtrip}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ root threshold packet. Suppose a finite Phase Real and Completion read of $U$ passes through the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\RealUp$ endpoint seal, the $\RealCompletionSelectorSealUp$ finite budget envelope, the diagonal selector seal pullback, and the selector-seal exact pullback displayed in this chapter.
+
+Then the route that reads from the UniformCauchyCriterion root threshold into the $\RealCompletionSelectorSealUp$ selector seal and back to the UniformCauchyCriterion root is a finite threshold-seal roundtrip. The outgoing selector route and the returning root route display the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row under the $\UniformCauchyCriterionUp$ classifier. No quotient-stream equality, selected host limit, host equality, countable choice, detached selector, second tolerance ledger, open-cover compactness, or ambient completeness coordinate is created by the roundtrip.
+\end{theorem}
+\begin{proof}
+First bind the three visible endpoint names. \autoref{thm:uniform-cauchy-criterion-streamname-regseqrat-real-window-lock} identifies the finite $\StreamNameUp$ window, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal row exported by $U$ as one displayed Phase Real and Completion window.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-real-completion-finite-budget-envelope}. Any completion-facing read of the root route must pass through the finite root budget package, the regular shared-tail sibling, the selected window, the readback row, the $\CauchyLimitSealUp$ handoff, the $\RealCompletionSelectorSealUp$ selector-seal packet, and the terminal $\RealUp$ endpoint row. This fixes the finite budget row used by both directions of the route.
+
+Now use \autoref{thm:uniform-cauchy-criterion-diagonal-selector-seal-pullback} and \autoref{thm:uniform-cauchy-criterion-selector-seal-exact-pullback}. The diagonal selector route and the selector-seal route pull back to the same displayed selector surface, and exactness preserves the schedule, tolerance ledger, terminal seal, componentwise $\hsame$ rows, $\Cont$ route, $\Pkg$ row, and local $\NameCert$ row.
+
+Finally return to the root threshold synchronizer. \autoref{thm:uniform-cauchy-criterion-root-threshold-synchronizer-readback} supplies the root readback for the displayed threshold window, and \autoref{thm:uniform-cauchy-criterion-root-synchronizer-tail-meet-lock} makes that readback deterministic on the shared finite tail. Since the outgoing selector read and the returning root read are forced through the same finite rows, they expose the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row under the chapter classifier. The excluded host-level and completeness coordinates remain outside the finite packet.
 \end{proof}

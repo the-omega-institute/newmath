@@ -64,4 +64,18 @@ theorem CriticalLineWitnessCarrier_modulus_depth_route_determinacy
     unary_cont_closed unaryQp unaryH routeCp
   exact ⟨sameQp, unaryQp, unaryCp, sameH⟩
 
+theorem CriticalLineWitnessCarrier_root_source_triad {Z S M R Q H C P N : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N →
+      UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory Q ∧ hsame H (append Z S) ∧
+        Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  exact
+    ⟨packet.left, packet.right.left, routeClosure.left, routeClosure.right.right.right,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
