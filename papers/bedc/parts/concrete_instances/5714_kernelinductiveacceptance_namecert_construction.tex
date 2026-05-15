@@ -71,8 +71,56 @@ Apply constructor-signature exactness and emitted-eliminator exactness from the 
 If either row is absent, the carrier no longer exposes the paired signature-plus-eliminator surface. The read may belong to a sibling acceptance packet, but it is not faithful to $\KernelInductiveAcceptanceUp$.
 \end{proof}
 
+\begin{theorem}[KernelInductiveAcceptance constructor ledger exhaustion]
+\label{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion}
+Every accepted constructor read of a $\KernelInductiveAcceptanceUp$ packet is exhausted by the displayed declaration row $D$, constructor-signature ledger $S$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $Q$, and local $\NameCert$ row $N$. No accepted constructor consumer can read a constructor signature outside the finite ledger $S$.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:kernel-inductive-acceptance-carrier}. The declaration candidate $D$, constructor-signature ledger $S$, transports $H$, routes $C$, provenance $Q$, and naming row $N$ are displayed coordinates of the same finite $\BHist$ packet.
+
+Apply the constructor-signature exactness clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. It requires every accepted constructor read to be one of the displayed entries of $S$, with its declaration source and route recorded by the surrounding rows.
+
+The TasteGate commitments are preserved because the read is still through the paired inductive-declaration surface. A consumer that drops $S$ or replaces it by a hidden theorem-proof row leaves the field-faithful boundary of \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance eliminator ledger exhaustion]
+\label{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}
+Every recursor, induction-principle, or computation read of an accepted $\KernelInductiveAcceptanceUp$ packet factors through the constructor-signature ledger $S$ before entering the emitted-eliminator ledger $E$. No eliminator consumer may read a hidden theorem-proof row or bypass $S$ on the way to $E$.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:kernel-inductive-acceptance-carrier}. The rows $D,S,E,R,H,C,Q,N$ are displayed coordinates of the same finite $\BHist$ packet, so a recursor or induction-principle consumer has no carrier coordinate outside them.
+
+Apply the constructor-signature exactness and emitted-eliminator exactness clauses of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. They force each accepted eliminator read to expose $S$ before $E$.
+
+Finally use the sibling anchors named in the chapter introduction. The accepted-declaration, trace, generator, type-classifier, and subject-reduction chapters consume the emitted route after $E$ is visible, but none of them inserts an extra theorem-proof row between $S$ and $E$.
+\end{proof}
+
+\begin{theorem}[KernelInductiveAcceptance refusal nonescape]
+\label{thm:kernel-inductive-acceptance-refusal-nonescape}
+Every constructor-signature candidate for $\KernelInductiveAcceptanceUp$ that fails the local positivity row lands in the refusal row $P$ and cannot be transported into the accepted environment-entry route $D,S,E,R,H,C,Q,N$. The failed candidate remains outside the accepted declaration, trace, generator, type-classifier, and subject-reduction consumer paths.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row $P$ of \autoref{def:kernel-inductive-acceptance-carrier}. It is the displayed place for failed positivity candidates, distinct from the accepted constructor-signature ledger $S$ and emitted-eliminator ledger $E$.
+
+Apply the positivity-refusal stability clause of \autoref{thm:kernel-inductive-acceptance-namecert-obligations}. A failed signature is routed to $P$ rather than to the accepted environment-entry path.
+
+The nontrivial boundary of \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary} separates the accepted and refused sides of the TasteGate surface. Thus the failed candidate cannot be read by the accepted-declaration, trace, generator, type-classifier, or subject-reduction consumers as an entered inductive declaration.
+\end{proof}
+
 \falsifiablePrediction{If the carrier is atomic, every accepted row exposes a constructor signature and emitted eliminator ledger; a packet lacking either row is rejected by the local classifier.}
 
 \independenceWitness{kernelacceptancewitness, kernelacceptancetrace, generatorclosure, typeclassifiermembership, subjectreduction: none is bijective because those siblings lack the paired constructor-signature plus emitted-eliminator ledger row, while this carrier lacks their theorem-proof, generic trace, generator-closure, or subject-reduction target rows.}
 
 \closureat{KernelInductiveAcceptanceUp}{seedStr}
+
+\begin{closurestatus}{\KernelInductiveAcceptanceUp}
+  \constructivestory{A $\KernelInductiveAcceptanceUp$ packet is generated from an inductive declaration candidate, constructor-signature ledger, emitted-eliminator ledger, positivity-refusal row, recursion-discipline row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-inductive-acceptance-carrier}, \autoref{thm:kernel-inductive-acceptance-namecert-obligations}, \autoref{thm:kernel-inductive-acceptance-nontrivial-boundary}, \autoref{thm:kernel-inductive-acceptance-field-faithful-boundary}, \autoref{thm:kernel-inductive-acceptance-constructor-ledger-exhaustion}, \autoref{thm:kernel-inductive-acceptance-eliminator-ledger-exhaustion}, and \autoref{thm:kernel-inductive-acceptance-refusal-nonescape} name the carrier, local NameCert obligation, nontrivial boundary, field-faithful boundary, eliminator totality, positivity refusal, and environment nonescape rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.KernelInductiveAcceptanceUp.KernelInductiveAcceptanceTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove full kernel correctness, subject reduction, theorem-proof soundness, generic trace completeness, generic theorem proof rows, or any bridge theorem.}
+  \upgradepath{Obligation closure requires the paper-side obligation surface to be read as a closed package with the TasteGate target cited on the verification axis.}
+\end{closurestatus}
