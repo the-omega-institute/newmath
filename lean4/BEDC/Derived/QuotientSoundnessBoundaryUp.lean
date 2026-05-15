@@ -278,4 +278,17 @@ theorem QuotientSoundnessBoundary_consumer_route_certificate [AskSetup] [Package
       exact And.intro (unary_transport consumerUnary (hsame_symm source.right)) consumerPkg
   }
 
+theorem QuotientSoundnessBoundary_pkg_namecert_ledger_totality [AskSetup] [PackageSetup]
+    {e a t v h c p n consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont h c consumer ->
+        PkgSig bundle consumer pkg ->
+          PkgSig bundle p pkg ∧ PkgSig bundle n pkg ∧ PkgSig bundle consumer pkg ∧
+            Cont e t h ∧ Cont h c consumer ∧ hsame h n := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier hCConsumer consumerPkg
+  obtain ⟨_eUnary, _aUnary, _tUnary, _vUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _eAV, eTH, _hCN, pPkg, nPkg, hN⟩ := carrier
+  exact ⟨pPkg, nPkg, consumerPkg, eTH, hCConsumer, hN⟩
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
