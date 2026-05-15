@@ -1,0 +1,87 @@
+\begin{theorem}[FiniteTraceEvaluator ground checkpoint readback totality]
+\label{thm:finite-trace-evaluator-ground-checkpoint-readback-totality}
+For an accepted $\FiniteTraceEvaluatorUp$ packet
+$E=(I,T,A,V,H,C,P,N)$, every ground checkpoint readback exposed to a
+$\ReflectionRuntimeCheckpointUp$ consumer is total along the displayed finite
+rows
+$$
+I \to T \to A \to V \to H \to C \to P \to N.
+$$
+The readback is a finite $\BHist$ trace read, transported by the componentwise
+$\hsame$ row $H$, replayed by the displayed $\Cont$ route $C$, packaged by
+$P$, and named by $N$. It has no coordinate for a host evaluator, hidden
+runtime acceptance predicate, total truth classifier, unbounded runtime, or
+infinite trace.
+\end{theorem}
+\begin{proof}
+Project the finite evaluator carrier. Its public checkpoint surface displays
+the coded input $I$, finite trace $T$, accepted-result row $A$, validation
+boundary $V$, componentwise transport $H$, continuation route $C$, provenance
+row $P$, and local $\NameCert$ row $N$.
+
+Apply checkpoint-budget exhaustion and the reflection-runtime route. These
+results force every checkpoint readback through the same finite
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet and prevent the runtime consumer
+from asking for any row outside the displayed route.
+
+Finally use checkpoint-source locking. Since the source is already the finite
+packet $I,T,A,V,H,C,P,N$, the readback is total exactly on that packet and has
+no second runtime source from which to import host validation, total truth,
+unbounded evaluation, or an infinite trace.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator runtime image route determinacy]
+\label{thm:finite-trace-evaluator-runtime-image-route-determinacy}
+Let $E=(I,T,A,V,H,C,P,N)$ be an accepted $\FiniteTraceEvaluatorUp$ packet.
+Every runtime image of $E$ visible at the
+$\ReflectionRuntimeCheckpointUp$ surface is determined by the single route
+$$
+I \to T \to A \to V \to H \to C \to P \to N.
+$$
+Two checkpoint consumers preserving these rows therefore read the same finite
+trace image, the same accepted-result image, the same validation-boundary
+image, and the same $\BHist/\hsame/\Cont/\Pkg/\NameCert$ exposure. They cannot
+split the image through a second checkpoint source or a host runtime image.
+\end{theorem}
+\begin{proof}
+Start from the checkpoint consumer route. It places each runtime-facing
+consumer on the route from the coded input and finite trace through the
+accepted-result and validation-boundary rows.
+
+Next attach the structural exposure rows. The componentwise $\hsame$ transport
+row $H$ and displayed $\Cont$ replay row $C$ preserve the same finite
+$\BHist$ image, while $P$ and $N$ add only package provenance and local naming.
+
+Use root checkpoint readback totality above to compare two consumers. Since
+both consumers preserve $I,T,A,V,H,C,P,N$, their runtime images are read from
+the same finite packet, so there is no remaining coordinate on which a second
+checkpoint source or host runtime image could differ.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator validation ledger exhaustion]
+\label{thm:finite-trace-evaluator-validation-ledger-exhaustion}
+For an accepted $\FiniteTraceEvaluatorUp$ packet $E=(I,T,A,V,H,C,P,N)$, the
+validation ledger visible to checkpoint-runtime consumers is exhausted by
+$V,H,C,P,N$ over the finite trace source $I,T,A$. The ledger records
+validation-boundary refusal, componentwise $\hsame$ transport, displayed
+$\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It does not
+export host validation, total truth for runtime sentences, total halting,
+unbounded evaluation, infinite trace semantics, or a second validation ledger.
+\end{theorem}
+\begin{proof}
+First separate the accepted-result spine from the validation boundary. The
+finite trace rows $I,T,A$ supply the source image, while $V$ is the only
+validation row exposed by the evaluator packet.
+
+Next read the structural ledger. The rows $H,C,P,N$ transport, replay,
+package, and name the finite validation boundary without adding evaluator
+content, so every visible validation claim remains inside the displayed
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ packet.
+
+Finally combine runtime image route determinacy with the existing validation
+nonescape boundary. The runtime image has only the route displayed above, and
+the nonescape boundary removes host validation, total truth, total halting,
+unbounded evaluation, infinite traces, and alternate validation ledgers from
+the checkpoint surface. Thus the validation ledger is exhausted by the stated
+rows.
+\end{proof}
