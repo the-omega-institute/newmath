@@ -65,3 +65,27 @@ Finally apply \autoref{thm:real-completion-selector-seal-nonescape}. Non-escape 
 
 Coordinate exhaustion over the shared finite faces therefore leaves only one selector-observer route. It is simultaneously the terminal observer route read from $L_{\mathrm{cw}}$, the selected observer-filter route read from $G$, and the selector-seal route read from $T$.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger terminal selector-observer support exhaustion]
+\label{thm:cauchy-witness-ledger-terminal-selector-observer-support-exhaustion}
+Let $L_{\mathrm{cw}}=(Q,B_{\mathrm{cw}},S,K,H_{\mathrm{cw}},C_{\mathrm{cw}},P_{\mathrm{cw}},N_{\mathrm{cw}})$ be an accepted $\CauchyWitnessLedgerUp$ packet, let
+$$
+G=(F,I,S_{\mathrm{obs}},O,B_{\mathrm{obs}},W,D,R_{\mathrm{obs}},E_{\mathrm{obs}},H_{\mathrm{obs}},C_{\mathrm{obs}},P_{\mathrm{obs}},N_{\mathrm{obs}})
+$$
+be an accepted $\ObserverFilterBudgetSelectorUp$ packet, and let
+$$
+T=(B,W,R,L,E,H,C,P,N)
+$$
+be an accepted $\RealCompletionSelectorSealUp$ packet. Suppose these three packets agree on the selected $\StreamNameUp$ window family, the $\DyadicRatCoreUp$ ledger face, the $\RegSeqRatUp$ readback face, the $\RealUp$ seal face, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then every terminal selector-observer read exposed by these packets is exhausted by exactly those four shared faces and the displayed support rows.
+
+No quotient stream, selected limit, host equality, ambient completeness principle, metric-completeness datum, countable-choice row, second completion route, standard bridge row, or extra support row remains after the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ inventory is fixed.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-witness-ledger-terminal-observer-exactness}. It reduces every terminal observer read from the accepted Cauchy witness ledger packet to the four displayed terminal faces together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:cauchy-witness-ledger-observer-filter-budget-selector-lock}. The observer-filter budget selector cannot expose an omitted observation row as a completion coordinate; every selected finite observation must pass through the shared stream window, dyadic ledger, regular-rational readback, and Real seal.
+
+Then use \autoref{thm:cauchy-witness-ledger-terminal-selector-observer-uniqueness}. The ledger route, observer-filter route, and selector-seal route determine the same finite selector-observer route, so their support inventories cannot split into competing terminal reads.
+
+Finally apply \autoref{thm:real-completion-selector-seal-nonescape}. Non-escape removes the possible residual rows named in the statement from the accepted selector-seal carrier. The only remaining readable surface is therefore the shared $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{proof}
