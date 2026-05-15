@@ -237,6 +237,42 @@ Next apply schedule classifier stability and ledger exhaustion. Theorem~\ref{thm
 Finally use the observer-locality lattice link, public export, and bridge route. Theorems~\ref{thm:histtimestream-observer-locality-lattice-link}, \ref{thm:histtimestream-public-export}, and \ref{thm:histtimestream-observer-locality-bridge-route} show that observer-facing consumers receive only the local packet before any sibling route is available. Thus totality holds on $H,T,S,C,L,P,N$ and all nonlocal time reads are excluded.
 \end{proof}
 
+\begin{theorem}[HistTimeStream start-ledger uniqueness]
+\label{thm:histtimestream-start-ledger-uniqueness}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. The start-at-empty ledger $S$ determines the displayed finite schedule endpoint $H$ inside $Q$ through the schedule row $T$ and replay row $C$. No accepted read of $Q$ carries a second start row, a second endpoint row, or a host-indexed clock coordinate from which another start ledger can be recovered.
+\end{theorem}
+\begin{proof}
+Start with the carrier and observation carrier. The definition \autoref{def:histtimestream-namecert-carrier} fixes $Q$ as the displayed tuple $H,T,S,C,L,P,N$, and \autoref{thm:histtimestream-observation-carrier} identifies the observed prefix rows as $H,T,S,C$.
+
+Next apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. The replay route starts at $\emp$, passes through the finite schedule and start ledger, and ends at the displayed source row $H$.
+
+Finally use ledger exhaustion, \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Since the local NameCert surface has no additional start or endpoint coordinate, the start ledger determines the schedule endpoint inside $Q$ and admits no second start row.
+\end{proof}
+
+\begin{theorem}[HistTimeStream Cont-step coverage]
+\label{thm:histtimestream-cont-step-coverage}
+Let $Q=(H,T,S,C,L,P,N)$ be an accepted $\HistTimeStreamUp$ packet. Every public local-time step read from $Q$ is one of the displayed $\Eone/\Ezero$ schedule entries in $T$ replayed by $C$. The packet exposes no step outside the finite schedule, no temporal-rate coordinate, and no hidden continuation branch.
+\end{theorem}
+\begin{proof}
+First read the schedule classifier. By \autoref{thm:histtimestream-schedule-classifier-stability}, the finite $\Eone/\Ezero$ schedule is the classifier-stable step surface carried by $T$.
+
+Next apply Cont prefix exactness, \autoref{thm:histtimestream-cont-prefix-exactness}. The continuation route $C$ replays the displayed prefix from $\emp$ to $H$ through the schedule and start ledger, so every public step read is already a row of $T$.
+
+Finally use public export and ledger exhaustion, \autoref{thm:histtimestream-public-export} and \autoref{thm:histtimestream-namecert-ledger-exhaustion}. They confine public consumers to the displayed packet and leave no coordinate for an extra step, rate, or hidden continuation branch.
+\end{proof}
+
+\begin{theorem}[HistTimeStream hsame schedule endpoint transport]
+\label{thm:histtimestream-hsame-schedule-endpoint-transport}
+For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport through $L$ preserves the finite schedule endpoint and the no-global-clock ledger. Thus transporting $Q$ to $Q'$ carries the endpoint determined by $S,T,C$ to the endpoint determined by $S',T',C'$ without adding a global clock, inter-Hist synchronization row, or host time index.
+\end{theorem}
+\begin{proof}
+Begin with hsame prefix transport, \autoref{thm:histtimestream-hsame-prefix-transport}. It preserves the displayed $\Cont$-prefix route componentwise and cannot create a host-indexed time coordinate, inter-Hist clock, or global synchronization row.
+
+Use start-ledger uniqueness and Cont-step coverage next. Theorems~\ref{thm:histtimestream-start-ledger-uniqueness} and \ref{thm:histtimestream-cont-step-coverage} identify the endpoint from the start ledger, finite schedule, and replay row, and place every step in the displayed $\Eone/\Ezero$ schedule.
+
+Finally apply observer-locality transport, \autoref{thm:histtimestream-observer-locality-transport}. Observer-facing transport reads only the local packet and its no-global-clock ledger, so the endpoint is preserved by componentwise $\hsame$ and no nonlocal time coordinate appears.
+\end{proof}
+
 \begin{theorem}[HistTimeStream local transport exhaustion]
 \label{thm:hist-time-stream-local-transport-exhaustion}
 For accepted $\HistTimeStreamUp$ packets $Q=(H,T,S,C,L,P,N)$ and $Q'=(H',T',S',C',L',P',N')$, componentwise $\hsame$ transport preserves the local $\Cont$ prefix of $Q$ as the local $\Cont$ prefix of $Q'$. The transport exhausts the displayed local rows and does not add a global clock, a host time index, an inter-Hist synchronization coordinate, or a temporal-rate row.
