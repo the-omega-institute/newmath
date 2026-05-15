@@ -605,6 +605,7 @@ import BEDC.Derived.IntUp.ZeroRepresentative
 import BEDC.Derived.IntUp.StdBridge
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.EmptyUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EntanglementUp
@@ -1094,6 +1095,8 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudget
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteConsumerExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealFactorization
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSealWindowLock
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteSourceExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorBudgetSynchronizerCompletion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorLockSealRouteExhaustion
