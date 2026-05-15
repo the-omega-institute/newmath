@@ -440,6 +440,36 @@ For completion-facing consumers, use \autoref{thm:tail-cofinality-schedule-regul
 Finally combine the schedule exclusions with \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Neither packet contains a coordinate for quotient-stream equality, selected host limits, host real equality, choice, hidden tail oracles, ambient completeness, or another completion route. Thus every completion-facing or real-facing consumer must pass through the transported triad, the schedule rows, and then the finite envelope and seal row in the order stated.
 \end{proof}
 
+\begin{theorem}[Transported stationary window-seal root envelope exhaustion]
+\label{thm:transported-stationary-window-seal-root-envelope-exhaustion}
+Every root consumer read of an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N)
+$$
+passes first through the transported seed route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N,
+\end{aligned}
+$$
+then through the finite envelope row $W$, and then through the $\RealUp$-facing seal row $E$. Any $\CompletionUp$-facing or tail-cofinality consumer that accepts the packet must reuse this same envelope route:
+$$
+\begin{aligned}
+  (R,S,G,H,C,P,N) \longrightarrow W \longrightarrow E .
+\end{aligned}
+$$
+It cannot introduce quotient streams, host equality, selected limits, choice, hidden tail oracles, real-completeness data, or a second completion route.
+\end{theorem}
+\begin{proof}
+Start with the transported seed. By \autoref{thm:transported-stationary-window-seal-constant-window-triad}, the rows $R,S,G$ form one constant-window triad carried only by the displayed transport, continuation, package, and local naming rows $H,C,P,N$.
+
+Next read the finite envelope. Apply \autoref{thm:transported-stationary-window-seal-envelope-window-exactness}; it places $W$ downstream from the transported triad and upstream from the $\RealUp$ seal row $E$. The root read therefore reaches $E$ only after the same finite envelope has been fixed.
+
+For completion-facing consumers, use \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary}. It forces each completion-facing or real-facing route to factor through $R,S,G,W,E,H,C,P,N$, with $W$ between the source triad and the seal row. For tail-cofinality consumers, \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff} keeps the schedule rows downstream of the transported triad and upstream of the same envelope and seal rows.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Since quotient streams, host equality, selected limits, choice, hidden tail oracles, real-completeness data, and second completion routes are not packet coordinates, every root consumer read is exhausted by the displayed route.
+\end{proof}
+
 \closureat{TransportedStationaryWindowSealUp}{seedStr}
 
 \begin{closurestatus}{\TransportedStationaryWindowSealUp}
