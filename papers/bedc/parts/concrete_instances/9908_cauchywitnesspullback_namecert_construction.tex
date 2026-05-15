@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyWitnessPullbackUp$}
+\label{ch:concrete-instances-cauchy-witness-pullback-namecert}
+\origin{ai}
+
+The $\CauchyWitnessPullbackUp$ packet realizes the inverse readback side of the Real-completion witness route of \autoref{ch:visions-real-completeness}. It is paired with the forward gluing packet of \autoref{ch:concrete-instances-cauchy-witness-gluing-namecert} and reads back through the witness ledger of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, the tail-witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}, the seal-budget synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the Real-completion seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}. The packet also records the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows needed by a completion-facing consumer that must recover which witness ledger supported a glued seal.
+
+\begin{definition}[CauchyWitnessPullback carrier]
+\label{def:cauchy-witness-pullback-carrier}
+A $\CauchyWitnessPullbackUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(G,K,R,L,T,S,U,V,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the accepted $\CauchyWitnessGluingUp$ row whose Real-facing seal is being read back;
+\item $K$ is the $\RealCompletionSealClassifierUp$ row that recognizes the glued completion seal;
+\item $R$ is the terminal $\RealUp$ seal row served by the glued packet;
+\item $L$ is the recovered $\CauchyWitnessLedgerUp$ row;
+\item $T$ is the recovered $\CauchyTailWitnessEnvelopeUp$ row;
+\item $S$ is the recovered $\CauchySealBudgetSynchronizerUp$ row;
+\item $U$ is the $\StreamNameUp$ row visible at the recovered tail window;
+\item $V$ is the $\RegSeqRatUp$ row reached by reading the recovered stream window;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the recovered stream and regular-sequence rows;
+\item $A$ is the pullback agreement row saying that $G,K,R$ determine the displayed $L,T,S,U,V,D$ readback packet;
+\item $H$ records componentwise $\hsame$ transports for all displayed rows;
+\item $C$ records the $\Cont$ routes from the glued seal to the classifier, from the classifier to the recovered ledger, from the ledger through tail and synchronizer rows, and from the stream and dyadic rows to the regular-sequence handoff;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-cauchy-witness-gluing-namecert}, \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}, \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchyWitnessPullbackUp}$ row.
+\end{enumerate}
+The carrier exports no quotient stream equality, host real equality, detached external limit, countable-choice row, ambient completeness principle, or untracked witness replacement beyond the displayed pullback packet.
+\end{definition}
+
+\begin{theorem}[CauchyWitnessPullback NameCert obligations]
+\label{thm:cauchy-witness-pullback-namecert-obligations}
+Let
+$$
+Q=(G,K,R,L,T,S,U,V,D,A,H,C,P,N)
+$$
+be an accepted $\CauchyWitnessPullbackUp$ packet. Every consumer that preserves the glued seal $G$, completion classifier $K$, Real seal $R$, recovered ledger $L$, tail envelope $T$, synchronizer $S$, stream row $U$, regular-sequence row $V$, dyadic ledger $D$, pullback agreement $A$, transports $H$, continuations $C$, provenance $P$, and local name $N$ preserves the same witness-readback packet. A consumer that preserves $G,K,R$ but changes $L$ is not a preservation of this carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-witness-pullback-carrier}. The displayed rows are the whole finite packet, and the agreement row $A$ is the coordinate that binds the glued seal to the recovered witness side.
+
+The readback first passes through $G,K,R$. These rows identify the Real-facing seal and the classifier that accepts it, so a consumer cannot choose a second completion-seal source without changing the packet.
+
+The readback then reaches $L,T,S,U,V,D$. These rows record which witness ledger, tail envelope, synchronizer, stream window, regular-sequence handoff, and dyadic tolerance ledger support the accepted seal.
+
+Finally $H,C,P,N$ make the readback a NameCert surface rather than an ambient equality assertion. Thus preserving all displayed rows preserves the packet, while changing $L$ changes the coordinate that the agreement row recovers from the glued seal.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessPullback Real seal factorization]
+\label{thm:cauchy-witness-pullback-real-seal-factorization}
+Every completion-facing read of an accepted $\CauchyWitnessPullbackUp$ packet factors through
+$$
+G \to K \to R \to A \to (L,T,S,U,D,V)
+$$
+with $H,C,P,N$ visible as structural rows. No consumer can preserve the glued seal while replacing the recovered witness-ledger row, tail-envelope row, synchronizer row, StreamName row, RegSeqRat row, DyadicRatCore row, or RealUp seal row.
+\end{theorem}
+\begin{proof}
+Start with the Real-facing side. The rows $G,K,R$ present the accepted glued packet, the classifier that recognizes its completion seal, and the terminal $\RealUp$ seal.
+
+Apply the pullback agreement row $A$. It records the inverse readback from that glued seal to the displayed witness-side packet, so the recovered rows are not optional annotations.
+
+Read the recovered side. The ledger $L$, tail envelope $T$, synchronizer $S$, stream row $U$, dyadic ledger $D$, and regular-sequence row $V$ are the displayed coordinates through which the Real seal is supported.
+
+The structural rows $H,C,P,N$ then repack these coordinates into the local NameCert surface. Replacing any recovered coordinate while keeping only the glued seal fixed therefore gives a different candidate packet, not the same $\CauchyWitnessPullbackUp$ factorization.
+\end{proof}
+
+The Lean TasteGate development will need explicit $\mathsf{Nontrivial}\ \CauchyWitnessPullbackUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessPullbackUp$ instances in $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.TasteGate}$, with the single-carrier alignment target named $\mathsf{BEDC.Derived.CauchyWitnessPullbackUp.CauchyWitnessPullbackTasteGate\_single\_carrier\_alignment}$.
+
+\falsifiablePrediction{If the pullback packet is accepted, a Real-completion consumer preserving the glued seal but changing the witness-ledger row is rejected by the classifier.}
+
+\independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: no bijection preserves all pullback rows because the pullback packet carries the glued seal, classifier, Real seal, recovered ledger, recovered tail, recovered synchronizer, StreamName, RegSeqRat, DyadicRatCore, agreement, transport, continuation, provenance, and local NameCert rows together, while each sibling exposes only one direction or one face of that readback.}
+
+\closureat{CauchyWitnessPullbackUp}{seedStr}

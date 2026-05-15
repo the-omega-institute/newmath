@@ -1,0 +1,39 @@
+\begin{theorem}[Closed-term substitution boundary primitive ledger scope]
+\label{thm:closed-term-substitution-boundary-primitive-ledger-scope}
+Every accepted $\ClosedTermSubstitutionBoundaryUp$ read that exposes closed shift or closed substitution binds its primitive ledger scope to the displayed $\mathsf{Term}$ rows, $\mathsf{ClosedAt}$ rows, $\mathsf{shift}$ row, $\mathsf{substitute}$ row, $\BHist$ packet, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. No accepted read obtains a closed substitution boundary from host syntax, host equality, unchecked compiler state, subject reduction, quotient representation, hidden evaluator state, or an operation row outside that primitive ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. They display the source term, closed value, inspected depth, closedness rows, closed shift, closed substitution, ledger, audit row, transport rows, continuation routes, package provenance, and local naming row as one finite packet.
+
+Apply the NameCert obligations and ledger non-escape theorem. The closedness rows must be read before the operation rows, and the ledger has no projection for host substitution semantics, hidden equality, unchecked compiler state, or subject reduction.
+
+Finally use the root route exhaustion package. Every root read is already routed through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so the primitive ledger scope is exactly the listed boundary tuple.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary downstream factorization triad]
+\label{thm:closed-term-substitution-boundary-downstream-factorization-triad}
+Every downstream consumer in $\BinderBudgetSealUp$, $\ClosedTermSubstitutionCompilerUp$, and $\RecursorGeneratorUp$ that reads closed-term substitution factors through the same finite $\ClosedTermSubstitutionBoundaryUp$ tuple
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+before it may cite a substitution row. The binder-budget, compiler-schedule, and recursor-output routes may repack that tuple for their own local certificates, but none of them receives an independent substitution semantics, hidden binder convention, compiler theorem, evaluator state, or subject-reduction package.
+\end{theorem}
+\begin{proof}
+First use the BinderBudgetSeal factorization theorem. It forces every binder-budget shift or substitution read through the displayed closedness witnesses, operation rows, ledger, audit row, transport, route, provenance, and local naming row.
+
+Next use the ClosedTermSubstitutionCompiler factorization theorem. The compiler schedule sees a closed substitution row only after the same boundary packet has exposed the source and value closedness rows together with $Q,R,L,A,H,C,P,N$.
+
+Finally use the RecursorGenerator handoff theorem. The generated branch output may consume closed substitution only through the displayed continuation route, so the three downstream consumers share the same finite boundary tuple before any substitution read is visible.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary NameCert threshold package]
+\label{thm:closed-term-substitution-boundary-namecert-threshold-package}
+The primitive ledger scope of \autoref{thm:closed-term-substitution-boundary-primitive-ledger-scope}, downstream factorization triad of \autoref{thm:closed-term-substitution-boundary-downstream-factorization-triad}, consumer boundary of \autoref{thm:closed-term-substitution-boundary-consumer-boundary}, and ledger non-escape theorem of \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} assemble the $\ClosedTermSubstitutionBoundaryUp$ root threshold package. The package exports the finite $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route required by downstream self-compilation consumers, and it exports no hidden host substitution, compiler theorem, quotient representative, evaluator state, free-variable coordinate, or subject-reduction row.
+\end{theorem}
+\begin{proof}
+Begin with primitive ledger scope. It identifies the accepted closed-boundary read with the BEDC primitive rows that can be projected from the finite packet.
+
+Add the consumer boundary and ledger non-escape rows. They require every downstream closed substitution read to remain inside the displayed packet and rule out escape to host syntax, compiler state, subject reduction, or unregistered free variables.
+
+Finally compose the downstream factorization triad. Since the binder-budget, compiler-schedule, and recursor-output consumers all pass through the same boundary tuple, the four rows form the root threshold package counted by downstream self-compilation consumers.
+\end{proof}
