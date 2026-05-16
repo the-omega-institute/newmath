@@ -177,6 +177,24 @@ Finally use budget-seal factorization and root provenance exhaustion, \autoref{t
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_root\_window\_selector\_exhaustion}
 
+\begin{theorem}[Diagonal-limit compatibility selector-budget common refinement]
+\label{thm:diagonal-limit-compatibility-selector-budget-common-refinement}
+Every accepted $\DiagonalLimitCompatibilityUp$ packet whose terminal route is consumed by a $\RegularCauchySelectorBudgetUp$ route, a $\CauchyModulusRefinementUp$ selector route, and a $\RealUp$ or $\CompletionUp$ seal route factors all three reads through the same displayed finite rows
+
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+
+before any selector or seal consumer can inspect the route. The shared route first exposes the diagonal root budget, stream-name window, regular-rational readback, dyadic ledger, Real seal boundary, componentwise transport, continuation replay, package provenance, and local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row. It admits no hidden selector budget, no quotient stream equality, no selected host limit, no host real equality, no choice datum, and no ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the root budget source, root window route, and root seal boundary. Theorems~\ref{thm:diagonal-limit-compatibility-root-budget-source}, \ref{thm:diagonal-limit-compatibility-root-window-route}, and \ref{thm:diagonal-limit-compatibility-root-seal-boundary} identify the diagonal source, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row, dyadic ledger, and $\RealUp$ or $\CompletionUp$ seal boundary as one displayed packet.
+
+Next attach the selector-facing consumers. The root-window selector exhaustion theorem, \autoref{thm:diagonal-limit-compatibility-root-window-selector-exhaustion}, forces every selector-budget read to pass through the same $R,T,S,D,W,Q,L,H,C,P,N$ rows before any regular, Real, or completion-seal route is visible.
+
+Finally close the route against escape. Root consumer non-escape, budget-seal factorization, and root provenance exhaustion, \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}, keep $\Pkg$ provenance and the local $\NameCert$ row attached to the same carrier. Thus the $\RegularCauchySelectorBudgetUp$, $\CauchyModulusRefinementUp$, and $\RealUp$ or $\CompletionUp$ consumers share the common refinement before any selector or seal consumer inspects the route.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility CauchyTailWitnessEnvelope factorization]
 \label{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}
 Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ route consumed by an accepted $\CauchyTailWitnessEnvelopeUp$ packet. Then the terminal consumer route factors first through the displayed diagonal budget rows
