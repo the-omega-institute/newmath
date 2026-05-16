@@ -1006,6 +1006,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.QuotSoundRefusalExactness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestTriad
 import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
+import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
@@ -1106,6 +1107,7 @@ import BEDC.Derived.FactorUp
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
+import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteObservationBudgetSelectorUp
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.BudgetApproximationPullback
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.PrimitiveScope
