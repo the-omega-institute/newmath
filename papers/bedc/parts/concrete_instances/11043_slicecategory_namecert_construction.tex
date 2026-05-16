@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\SliceCategoryUp$}
+\label{ch:concrete-instances-slicecategory-namecert}
+\origin{human}
+
+The classical slice category over a fixed base object is the mathematical precedent for $\SliceCategoryUp$: its objects are arrows into the base, and its morphisms are triangles over the base. In BEDC this reading is finite and displayed. The base object is a unary-continuation history, every displayed object row is a $\BHist$ row, every arrow-to-base row is a $\mathsf{CategoryHomCarrier}$ entry, and every triangle witness is a replayable $\Cont$ and $\hsame$ ledger rather than an external categorical diagram.
+
+This chapter turns the kernel-as-category reading of \autoref{ch:visions-kernel-as-category} into a concrete fiber packet. It depends on the kernel-category carrier of \autoref{ch:concrete-instances-kernelcategory-namecert}, the unary-continuation category packet of \autoref{ch:concrete-instances-unary-continuation-category-namecert}, the generic category certificate of \autoref{ch:concrete-instances-category-namecert}, and the categorical consumers represented by \autoref{ch:concrete-instances-yoneda-namecert}. The packet supplies a base-fixed surface that later functorial and representable constructions can read without importing a host slice category.
+
+\begin{definition}[Slice category NameCert carrier]
+\label{def:slice-category-namecert-carrier}
+A $\SliceCategoryUp$ carrier over a fixed unary-continuation base object is a finite $\BHist$ packet
+$$
+S=(B,X,A,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the fixed base unary object row, admitted through the checked unary-continuation $\CategoryUp$ packet;
+\item $X$ is the displayed object row of the fiber;
+\item $A$ is the arrow-to-base row, recorded as a $\mathsf{CategoryHomCarrier}(X,B,A)$ entry;
+\item $F$ records the fiber condition, namely that the displayed object is accepted only together with its arrow into the same base row $B$;
+\item $H$ records componentwise $\hsame$ transport preserving both $B$ and the arrow-to-base row $A$;
+\item $C$ records the $\Cont$ replay rows used by morphisms in the fiber and by the commutative-triangle readback to the fixed base;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\CategoryUp$, $\KernelCategoryUp$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, and the local certificate rows;
+\item $N$ is the local $\NameCert_{\SliceCategoryUp}$ row.
+\end{enumerate}
+The classifier for accepted packets compares only the displayed rows $B,X,A,F,H,C,P,N$. It has no coordinate for a host slice object, quotient arrow class, external triangle equality, or a second base object.
+\end{definition}
+
+\begin{theorem}[Slice-category kernel fiber obligation]
+\label{thm:slice-category-kernel-fiber-obligation}
+Every accepted $\SliceCategoryUp$ packet keeps the base object fixed and reads arrow data only through the displayed $\mathsf{CategoryHomCarrier}$ row of its own fiber packet. In particular, a public read of $S=(B,X,A,F,H,C,P,N)$ may expose $B$, $X$, the arrow-to-base row $A:X\to B$, componentwise $\hsame$ transport preserving $B$ and $A$, and replayable $\Cont$ routes, but it cannot change the base object or inspect an arrow outside the displayed row $A$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:slice-category-namecert-carrier}. The base coordinate is the single row $B$, and the fiber condition $F$ admits $X$ only together with the arrow-to-base row $A$ into that same $B$.
+
+The arrow read is therefore forced through $\mathsf{CategoryHomCarrier}(X,B,A)$. The obligations inherited from the kernel-as-category chapter identify this row with unary endpoints, a displayed continuation morphism, and $\hsame$ transport of the displayed tail; no additional arrow table appears in $S$.
+
+Now apply the componentwise transport row $H$. Its source and target clauses preserve $B$ and the displayed arrow-to-base row $A$, so transport can move the representation of the same fiber object but cannot replace the base coordinate. The $\Cont$ replay row $C$ can replay only the routes already named by $A$ and by the fiber condition $F$.
+
+Finally inspect the package and naming rows $P$ and $N$. They name only $\BHist$, $\CategoryUp$, $\KernelCategoryUp$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, and local certificate data. Since neither an alternate base object nor an external arrow store is a coordinate of the packet, no public read can project one.
+\end{proof}
+
+\begin{theorem}[Slice-category NameCert obligation surface]
+\label{thm:slice-category-namecert-obligation-surface}
+The local $\NameCert_{\SliceCategoryUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the packet $S=(B,X,A,F,H,C,P,N)$;
+\item base fixation, requiring every accepted object and morphism read to preserve the same unary-continuation base row $B$;
+\item arrow-to-base classification, requiring every displayed object row $X$ to be paired with the row $\mathsf{CategoryHomCarrier}(X,B,A)$;
+\item stability and transport, requiring componentwise $\hsame$ transport of $X$ and $A$ while preserving $B$ and replaying only the named $\Cont$ routes;
+\item ledger non-escape, requiring all public reads to pass through $\BHist$, $\CategoryUp$, $\KernelCategoryUp$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{enumerate}
+Thus $\SliceCategoryUp$ is a concrete BEDC fiber over the unary-continuation category, not a primitive host category construction.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection from \autoref{def:slice-category-namecert-carrier}. It exposes exactly $B,X,A,F,H,C,P,N$.
+
+Base fixation is the single-base clause of $F$. Since every object row enters the packet as a pair $(X,A)$ over $B$, the accepted fiber has no operation that changes the codomain of the displayed arrow.
+
+Arrow-to-base classification is the $\mathsf{CategoryHomCarrier}(X,B,A)$ row. The kernel-as-category obligations supply its endpoint, continuation, and displayed-tail laws; the slice packet only restricts their codomain endpoint to the fixed base row.
+
+Stability follows by applying $H$ and replaying $C$. These rows transport $X$ and $A$ componentwise and replay the named continuation routes, while the base coordinate remains the same $B$.
+
+Ledger non-escape follows from $P$ and $N$. The package provenance names only BEDC history, category, hom-carrier, transport, continuation, package, and local naming rows, so a host slice category, quotient arrow equality, or unlisted triangle witness is outside the certificate surface.
+\end{proof}
+
+\closureat{SliceCategoryUp}{seedStr}
+
+\begin{closurestatus}{\SliceCategoryUp}
+  \constructivestory{A $\SliceCategoryUp$ packet is generated from a fixed unary-continuation base history, a displayed object history, a displayed $\mathsf{CategoryHomCarrier}$ arrow into the base, a fiber condition, componentwise $\hsame$ transport preserving the base and arrow rows, replayable $\Cont$ routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:slice-category-namecert-carrier}, \autoref{thm:slice-category-kernel-fiber-obligation}, and \autoref{thm:slice-category-namecert-obligation-surface} bind the finite carrier, base-fixation obligation, and local NameCert surface for the unary-continuation slice packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host slice categories, quotient arrow equality, external triangle diagrams, arbitrary pullbacks, comma categories, functor categories, Yoneda representability, or checked Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, base fixation, arrow-to-base classification, componentwise transport stability, continuation replay, ledger provenance, and public non-escape for the same finite packet.}
+\end{closurestatus}
