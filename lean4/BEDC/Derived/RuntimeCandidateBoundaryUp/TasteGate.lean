@@ -228,6 +228,9 @@ instance runtimeCandidateBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (runtimeCandidateBoundaryToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RuntimeCandidateBoundaryUp :=
+  runtimeCandidateBoundaryChapterTasteGate
+
 instance runtimeCandidateBoundaryFieldFaithful :
     FieldFaithful RuntimeCandidateBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
