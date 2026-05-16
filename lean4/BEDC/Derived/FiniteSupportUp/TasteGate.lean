@@ -198,6 +198,9 @@ instance finiteSupportChapterTasteGate : ChapterTasteGate FiniteSupportUp where
     intro x y hxy heq
     exact hxy (finiteSupportToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate FiniteSupportUp :=
+  finiteSupportChapterTasteGate
+
 instance finiteSupportFieldFaithful : FieldFaithful FiniteSupportUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

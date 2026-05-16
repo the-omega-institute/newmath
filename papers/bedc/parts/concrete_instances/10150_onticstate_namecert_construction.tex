@@ -155,6 +155,44 @@ The access-residue boundary is fixed by \autoref{def:onticstate-access-residue-b
 The Lean follow-up file named below supplies the TasteGate-facing nontrivial and field-faithful rows for the same finite packet. Together these clauses cover the carrier, classifier, source transport, access-residue boundary, noncollapse, and downstream TasteGate obligations named by the $\OnticStateUp$ NameCert surface.
 \end{proof}
 
+\begin{theorem}[OnticState componentwise transport scope]
+\label{thm:onticstate-componentwise-transport-scope}
+Let $O=(S,A,K,R,H,C,P,N)$ be an accepted $\OnticStateUp$ carrier. Any accepted public read of $O$ that preserves the source signature $S$ transports the full packet componentwise: the observer-access route $A$, classifier row $K$, residue ledger $R$, transport history $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\OnticStateUp}$ row $N$ remain the coordinates of the same packet. The transport is read through the $\hsame$ rows in $H$, the displayed $\Cont$ replay, the $\Pkg$ provenance row, and the local $\NameCert_{\OnticStateUp}$ witness; it is not a public read of $S$ alone.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:onticstate-carrier}. The tuple stores $S,A,K,R,H,C,P,N$ as one finite public packet, so a public read preserving $S$ is still evaluated against that tuple.
+
+Apply \autoref{thm:onticstate-signature-stability} to the source-preserving read. Its stability clause requires the signature source, observer-access route, classifier row, componentwise $\hsame$ transport, displayed replay, provenance, and local naming row to remain aligned.
+
+Apply \autoref{thm:onticstate-access-residue-coupling} for the exposed access and residue coordinates. The residue ledger and observer-access route are preserved as packet coordinates, not as independent sibling rows. Hence every accepted source-preserving read transports the eight displayed fields componentwise through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[OnticState TasteGate field scope]
+\label{thm:onticstate-tastegate-field-scope}
+The TasteGate-facing nontrivial and field-faithful rows for $\OnticStateUp$ are scoped to the same eight-field packet $(S,A,K,R,H,C,P,N)$. They cannot be discharged by a sibling-only surface among $\ConsciousObserverStateUp$, $\StateSpaceModelUp$, $\ObserverBudgetSupportUp$, $\ObserverHistIdentityUp$, or $\QuantumStateUp$, because each such surface omits at least one of the signature source, observer access, classifier, residue ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert_{\OnticStateUp}$ row.
+\end{theorem}
+\begin{proof}
+The TasteGate rows named for this chapter are attached to $\OnticStateUp$, whose carrier is the packet of \autoref{def:onticstate-carrier}. The nontrivial witness separates two accepted packets inside that carrier, and field faithfulness reads the same packet coordinates.
+
+By \autoref{thm:onticstate-sibling-noncollapse}, no listed sibling exposes all eight coordinates of the ontic-state carrier. A sibling-only surface therefore lacks the public boundary required by \autoref{def:onticstate-access-residue-boundary}.
+
+The TasteGate rows must consequently be interpreted over the full $\OnticStateUp$ packet, with the source, access, classifier, residue, transport, replay, provenance, and local name rows kept together.
+\end{proof}
+
+\begin{theorem}[OnticState scoped-closure package]
+\label{thm:onticstate-scoped-closure-package}
+The $\OnticStateUp$ paper-side boundary is scoped closed by the carrier, classifier, residue exactness, access-residue coupling, sibling noncollapse, componentwise transport scope, and TasteGate field scope. Thus every accepted public use of $\OnticStateUp$ must remain inside the single packet $(S,A,K,R,H,C,P,N)$, preserve source transport through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\OnticStateUp}$ rows, and reject any sibling-only substitute for the ontic-state packet.
+\end{theorem}
+\begin{proof}
+Carrier admission and classifier exposure are fixed by \autoref{def:onticstate-carrier} and \autoref{def:onticstate-classifier}. Residue exactness is supplied by \autoref{thm:onticstate-residue-ledger-exactness}.
+
+Access and residue remain coupled under source preservation by \autoref{thm:onticstate-access-residue-coupling}. Sibling replacement is excluded by \autoref{thm:onticstate-sibling-noncollapse}.
+
+The transport boundary is \autoref{thm:onticstate-componentwise-transport-scope}, which keeps all eight coordinates inside the same packet. The TasteGate obligations are scoped to that packet by \autoref{thm:onticstate-tastegate-field-scope}.
+
+Combining these clauses gives the public boundary claimed here: accepted uses preserve the complete ontic-state packet and cannot discharge the chapter through a model, observer, support, history-identity, or quantum-state sibling alone.
+\end{proof}
+
 The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticStateUp/TasteGate.lean}. That file must provide explicit $\Nontrivial\ \OnticStateUp$ and $\FieldFaithful\ \OnticStateUp$ instances preserving the signature source, observer-access route, classifier, residue ledger, componentwise transport, displayed replay, provenance, and local naming rows.
 
 \falsifiablePrediction{An accepted $\OnticStateUp$ packet cannot be reduced to $\StateSpaceModelUp$ without losing either the residue-ledger row or the observer-access route.}
@@ -166,9 +204,10 @@ The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticStateUp/TasteGate.lea
 \begin{closurestatus}{\OnticStateUp}
   \constructivestory{An $\OnticStateUp$ packet is generated from a finite reality-facing signature source, observer-access route, classifier row, residue ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.OnticStateUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:onticstate-carrier}, \autoref{def:onticstate-classifier}, \autoref{thm:onticstate-signature-stability}, \autoref{thm:onticstate-residue-ledger-exactness}, \autoref{thm:onticstate-namecert-obligation-surface}, \autoref{def:onticstate-access-residue-boundary}, \autoref{thm:onticstate-access-residue-coupling}, \autoref{thm:onticstate-sibling-noncollapse}, and \autoref{thm:onticstate-obligation-closure-package} bind the finite ontic-state carrier, classifier, stability row, residue ledger, access-residue boundary, sibling noncollapse, and public obligation package.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:onticstate-carrier}, \autoref{def:onticstate-classifier}, \autoref{thm:onticstate-signature-stability}, \autoref{thm:onticstate-residue-ledger-exactness}, \autoref{thm:onticstate-namecert-obligation-surface}, \autoref{def:onticstate-access-residue-boundary}, \autoref{thm:onticstate-access-residue-coupling}, \autoref{thm:onticstate-sibling-noncollapse}, \autoref{thm:onticstate-obligation-closure-package}, \autoref{thm:onticstate-componentwise-transport-scope}, \autoref{thm:onticstate-tastegate-field-scope}, and \autoref{thm:onticstate-scoped-closure-package} bind the finite ontic-state carrier, classifier, stability row, residue ledger, access-residue boundary, sibling noncollapse, public obligation package, componentwise transport scope, TasteGate field scope, and scoped public boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.OnticStateUp.OnticStateTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total physical ontology, global observer access, model-state sufficiency, quotient observer identity, or host quantum-state equality.}
