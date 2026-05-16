@@ -322,4 +322,86 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_normalizer_tail_commutation [As
   exact
     ⟨normalizerSame, dyadicSame, normalizerUnary', dyadicUnary', normalizerTailDyadic'⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_completion_seal_handoff_totality
+    [AskSetup] [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        Cont endpoint route completionRead ->
+          PkgSig bundle endpoint pkg ->
+            PkgSig bundle completionRead pkg ->
+              SemanticNameCert
+                (fun row : BHist =>
+                  RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail
+                      dyadic readback sealRow transport route provenance name bundle pkg ∧
+                    hsame row completionRead)
+                (fun row : BHist =>
+                  Cont witness window normalizer ∧ Cont normalizer tail dyadic ∧
+                    Cont dyadic readback sealRow ∧ Cont sealRow transport endpoint ∧
+                      Cont endpoint route row ∧ PkgSig bundle completionRead pkg)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle completionRead pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier sealTransportEndpoint endpointRouteCompletion _endpointPkg completionPkg
+  have carrierWitness :
+      RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg :=
+    carrier
+  obtain ⟨_sourceUnary, witnessUnary, windowUnary, _normalizerUnary, tailUnary,
+    _dyadicUnary, readbackUnary, _sealUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _transportEmpty, witnessWindowNormalizer,
+    normalizerTailDyadic, dyadicReadbackSeal, _transportRouteProvenance, _routeSeal,
+    provenancePkg, namePkg⟩ := carrier
+  have det :=
+    RegularCauchyModulusWitnessLedgerCarrier_seal_route_determinacy
+      (source := source) (witness := witness) (window := window)
+      (normalizer := normalizer) (tail := tail) (dyadic := dyadic)
+      (readback := readback) (sealRow := sealRow) (transport := transport)
+      (route := route) (provenance := provenance) (name := name)
+      (bundle := bundle) (pkg := pkg) (endpoint := endpoint) carrierWitness
+      sealTransportEndpoint
+  have normalizerUnary : UnaryHistory normalizer :=
+    unary_cont_closed witnessUnary windowUnary witnessWindowNormalizer
+  have dyadicUnary : UnaryHistory dyadic :=
+    unary_cont_closed normalizerUnary tailUnary normalizerTailDyadic
+  have _sealUnaryFromRoute : UnaryHistory sealRow :=
+    unary_cont_closed dyadicUnary readbackUnary dyadicReadbackSeal
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed det.right routeUnary endpointRouteCompletion
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro completionRead
+        (And.intro carrierWitness (hsame_refl completionRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal,
+          sealTransportEndpoint,
+          cont_result_hsame_transport endpointRouteCompletion (hsame_symm source.right),
+          completionPkg⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨unary_transport completionUnary (hsame_symm source.right), provenancePkg, namePkg,
+          completionPkg⟩
+  }
+
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
