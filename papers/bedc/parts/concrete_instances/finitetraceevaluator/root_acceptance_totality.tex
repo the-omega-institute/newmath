@@ -1,0 +1,88 @@
+\begin{theorem}[FiniteTraceEvaluator root acceptance totality]
+\label{thm:finite-trace-evaluator-root-acceptance-totality}
+For every accepted $\FiniteTraceEvaluatorUp$ root read of the packet
+$E=(I,T,A,V,H,C,P,N)$, the read factors through the coded input row $I$, the
+finite trace row $T$, the accepted-result classifier row $A$, the
+validation-boundary row $V$, the componentwise $\hsame$ row $H$, the displayed
+$\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local
+$\NameCert_{\FiniteTraceEvaluatorUp}$ row $N$. No accepted root read reaches
+host validation, total truth, total halting, unbounded evaluation, infinite
+trace evidence, or a second checkpoint source.
+\end{theorem}
+\begin{proof}
+Start with the root trace-result totality route,
+\autoref{thm:finite-trace-evaluator-root-trace-result-totality}. It forces
+accepted-result reads through $I \to T \to A$ before any downstream consumer
+can inspect the accepted classifier row.
+
+Next attach the validation boundary and image rows,
+\autoref{thm:finite-trace-evaluator-root-validation-boundary} and
+\autoref{thm:finite-trace-evaluator-root-image-row}. These identify the
+validation-facing side as $V,H,C,P,N$ and list the whole accepted root packet
+as $I,T,A,V,H,C,P,N$.
+
+Finally use root readback exactness and root NameCert obligations,
+\autoref{thm:finite-trace-evaluator-root-readback-exactness} and
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations}. The readback
+surface separates accepted-result data from validation-facing data, while the
+local naming row closes the same $\BHist/\hsame/\Cont/\Pkg/\NameCert$ route.
+Thus every accepted root read is exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root boundary completion]
+\label{thm:finite-trace-evaluator-root-boundary-completion}
+The root boundary of an accepted $\FiniteTraceEvaluatorUp$ packet is exhausted
+by the carrier of \autoref{def:finite-trace-evaluator-carrier}, bounded-trace
+coverage, host-validation refusal, checkpoint routing, root NameCert
+obligations, ledger non-escape, and route totality. Equivalently, every root
+boundary consumer factors through the packet rows $I,T,A,V,H,C,P,N$ and has no
+additional boundary clause outside that finite route.
+\end{theorem}
+\begin{proof}
+First project the carrier and bounded trace coverage. The carrier displays the
+packet rows $I,T,A,V,H,C,P,N$, and
+\autoref{thm:finite-trace-evaluator-bounded-trace-coverage} keeps accepted
+trace evidence finite.
+
+Next add host-validation refusal and checkpoint routing by
+\autoref{thm:finitetraceevaluator-root-validation-refusal} and
+\autoref{thm:finitetraceevaluator-root-checkpoint-totality}. The validation
+side stops at the displayed boundary rows, and the checkpoint side reads the
+same finite packet.
+
+It remains to close the naming and ledger surface. Apply
+\autoref{thm:finitetrace-evaluator-root-namecert-obligations},
+\autoref{thm:finite-trace-evaluator-root-ledger-factorization}, and
+\autoref{thm:finitetraceevaluator-route-totality}. The local NameCert row,
+ledger factorization, and route totality give the same finite
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ package, so no root boundary clause
+remains outside $I,T,A,V,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator root consumer readiness lock]
+\label{thm:finite-trace-evaluator-root-consumer-readiness-lock}
+Every downstream $\ReflectionRuntimeCheckpointUp$ consumer that reads an
+accepted $\FiniteTraceEvaluatorUp$ packet can read it only through the
+completed root route of
+\autoref{thm:finite-trace-evaluator-root-boundary-completion}. The consumer
+receives accepted-result data through $I \to T \to A$ and validation-facing
+data through $V,H,C,P,N$, with no access to a host validator, total truth
+predicate, total halting predicate, infinite trace, unbounded evaluator, or
+detached checkpoint source.
+\end{theorem}
+\begin{proof}
+Begin with the root acceptance route of
+\autoref{thm:finite-trace-evaluator-root-acceptance-totality}. It supplies the
+only accepted root packet available to downstream consumers.
+
+Next apply the boundary completion theorem above. Its carrier, bounded-trace,
+validation-refusal, checkpoint, NameCert, ledger, and route-totality rows
+exhaust the root boundary of the same packet.
+
+Finally use the checkpoint consumer route and runtime readback non-escape,
+\autoref{thm:finite-trace-evaluator-checkpoint-consumer-route} and
+\autoref{thm:finite-trace-evaluator-root-runtime-readback-nonescape}. A
+$\ReflectionRuntimeCheckpointUp$ consumer therefore reads only the completed
+finite route and cannot attach any outside host, truth, halting, trace, or
+runtime source to the accepted packet.
+\end{proof}
