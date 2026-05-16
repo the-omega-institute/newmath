@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness Phase Real source-window exhaustion]
+\label{thm:critical-line-witness-phase-real-source-window-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Any root read of $W$ using the Phase Real source window factors through the displayed $\RatUp$ row, $\RealUp$ row, $\RegSeqRatUp$ row, zero-strip row, finite modulus row, $\BHist$ transport, $\Cont$ replay, $\hsame$ comparison, package provenance, and local $\NameCert$ row. No root read using that window can add an off-packet analytic source, host zero selector, or detached real-line certificate.
+\end{theorem}
+\begin{proof}
+First expose the source side. Apply \autoref{thm:critical-line-witness-root-zeta-real-rat-source-readiness} and \autoref{thm:critical-line-witness-root-source-triad}. These rows place the zeta, real, rational, supplied-zero, critical-strip, and source-facing comparison data on the displayed finite packet before a root consumer reads $W$.
+
+Next bind the modulus and zero-strip faces. Use \autoref{thm:critical-line-witness-root-modulus-classifier-exactness} for the finite modulus classifier and \autoref{thm:critical-line-witness-zero-strip-readback-totality} for the supplied zero-strip readback route. The two rows share the same $H,C,P,N$ support surface, so the Phase Real window has no second route around the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally attach the Phase Real source totality of \autoref{thm:critical-line-witness-phase-real-source-totality}. It identifies $\RealUp$ and $\RegSeqRatUp$ as the only visible Phase Real endpoints for this source window, while the rational comparison row supplies the $\RatUp$ face. Thus the root read is exhausted by the stated finite source-window packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RegSeqRat-to-Real modulus handoff]
+\label{thm:critical-line-witness-regseqrat-real-modulus-handoff}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every handoff from a $\RegSeqRatUp$ finite-request row to a $\RealUp$ endpoint row inside the Phase Real source window must pass through the supplied $\BHist$ carrier rows, the displayed $\Cont$ route, and the componentwise $\hsame$ comparison carried by $H,C$. The handoff cannot skip directly from a regular rational sequence to a host real value, a quotient representative, or an unrecorded modulus witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-phase-real-source-triad}. The Phase Real source face already names $\RegSeqRatUp$ and $\RealUp$ through the same fixed-strip source row and the displayed support rows of $W$.
+
+Now apply the modulus classifier. By \autoref{thm:critical-line-witness-root-modulus-classifier-exactness}, any modulus read used by the root route is read through $M,R,Q$ together with $H,C,P,N$. The zero-strip readback totality of \autoref{thm:critical-line-witness-zero-strip-readback-totality} fixes the source side of that route before the regular-rational-to-real handoff is consumed.
+
+It remains to exclude detached real semantics. The source-window exhaustion row above leaves only the $\BHist$, $\Cont$, and $\hsame$ route between the finite request and the endpoint row. A host real value, quotient representative, or unrecorded modulus witness is not one of those coordinates, so it cannot serve as the handoff.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zeta refusal consumer scope]
+\label{thm:critical-line-witness-zeta-refusal-consumer-scope}
+Every $\mathsf{RH}$ or zeta-facing consumer of an accepted $\CriticalLineWitnessUp$ packet that reads the Phase Real source window sees only the displayed refusal ledger, source triad, rational comparison row, finite modulus row, zero-strip readback row, $\BHist$ route, $\Cont$ route, $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ row. Such a consumer cannot import an external analytic truth primitive, analytic-continuation certificate, global zero-set classifier, quotient equality, or ambient-completeness witness.
+\end{theorem}
+\begin{proof}
+First collect the positive surface. Apply \autoref{thm:critical-line-witness-root-zeta-real-rat-source-readiness}, \autoref{thm:critical-line-witness-root-source-triad}, and the source-window exhaustion theorem above. These rows identify exactly the source, zeta, real, rational, modulus, zero-strip, transport, replay, provenance, and naming coordinates visible to the consumer.
+
+Next read the refusal side through the existing root package. The Phase Real source non-escape row \autoref{thm:critical-line-witness-phase-real-source-nonescape} and the root downstream unblock package \autoref{thm:critical-line-witness-root-downstream-unblock-package} refuse $\mathsf{RH}$ proof data, analytic continuation, host zero search, quotient representatives, host equality, and ambient completeness outside the displayed packet.
+
+Therefore the zeta-facing consumer has no carrier slot in which to place an external analytic truth primitive or detached analytic certificate. Its only admissible imports are the refusal ledger and the finite BEDC rows named in the statement.
+\end{proof}
