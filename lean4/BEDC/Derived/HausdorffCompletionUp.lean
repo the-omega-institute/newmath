@@ -294,6 +294,30 @@ theorem HausdorffCompletionCarrier_public_certificate [AskSetup] [PackageSetup]
       exact ⟨provenancePkg, transportRouteProvenance⟩
   }
 
+theorem HausdorffCompletionCarrier_public_route_composition [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance publicRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont source handoff publicRoute ->
+        PkgSig bundle publicRoute pkg ->
+          UnaryHistory source ∧ UnaryHistory entourage ∧ UnaryHistory separated ∧
+            UnaryHistory handoff ∧ UnaryHistory publicRoute ∧
+              Cont source entourage transport ∧ Cont transport route provenance ∧
+                Cont source handoff publicRoute ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle publicRoute pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro carrier sourceHandoffPublicRoute publicRoutePkg
+  obtain ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, sourceEntourageTransport, _separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed sourceUnary handoffUnary sourceHandoffPublicRoute
+  exact
+    ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, publicRouteUnary,
+      sourceEntourageTransport, transportRouteProvenance, sourceHandoffPublicRoute,
+      provenancePkg, publicRoutePkg⟩
+
 def HausdorffCompletionPacket [AskSetup] [PackageSetup]
     (source entourage sealRow handoff transports routes provenance nameRow exported : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
