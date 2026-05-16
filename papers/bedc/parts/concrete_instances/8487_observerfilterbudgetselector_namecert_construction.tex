@@ -181,6 +181,24 @@ The dyadic and terminal components are then forced by \autoref{thm:observer-filt
 It remains to account for the remaining coordinates. The carrier definition assigns $H$ to $\hsame$ transport, $C$ to $\Cont$ replay, $P$ to $\Pkg$ provenance, and $N$ to the local $\NameCert$ row, so none of them can become an additional observation or completion source. The displayed chain is therefore the bridge-ready route exported by the packet.
 \end{proof}
 
+\begin{theorem}[Observer-filter budget-selector completion-consumer factorization]
+\label{thm:observer-filter-budget-selector-completion-consumer-factorization}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\ObserverFilterBudgetSelectorUp$ packet factors through
+$$
+I \to F \to S \to B \to W \to D \to R \to E
+$$
+together with the structural rows $H,C,P,N$. The omitted ledger $O$ remains boundary-only: it cannot feed $\StreamNameUp$ windows, dyadic readback, $\RegSeqRatUp$ handoff, $\RealUp$ seals, quotient streams, host real equality, hidden selectors, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the local NameCert surface of \autoref{thm:observer-filter-budget-selector-namecert-surface}. It exposes the packet as $G=(F,I,S,O,B,W,D,R,E,H,C,P,N)$ and fixes $H,C,P,N$ as transport, displayed replay, provenance, and local naming rows for the same carrier.
+
+The selected-row gate and omitted-row exclusion give the source side of the factorization. \autoref{thm:observer-filter-budget-selector-selected-row-gate} forces every consumer of $B,W,D,R,E$ through $S$, while \autoref{thm:observer-filter-budget-selector-omitted-row-exclusion} keeps $O$ from becoming a window, dyadic ledger, regular handoff, Real seal, quotient stream, host equality row, hidden selector, or ambient completeness row.
+
+Next use dyadic readback exactness. \autoref{thm:observer-filter-budget-selector-dyadic-readback-exactness} pins $D$ to the finite-window route through $I,F,S,B,W$, so the downstream $\RegSeqRatUp$ handoff row $R$ cannot be read from a separate omitted ledger.
+
+Finally apply Real-seal terminality and the bridge-ready route. \autoref{thm:observer-filter-budget-selector-real-seal-terminality} makes $E$ terminal only after $R$, and \autoref{thm:observer-filter-budget-selector-bridge-ready-route} packages the whole route as the completion-facing chain $I \to F \to S \to B \to W \to D \to R \to E$ with $H,C,P,N$ as the only structural support rows.
+\end{proof}
+
 \begin{theorem}[Observer-filter budget-selector bridge boundary locality]
 \label{thm:observer-filter-budget-selector-locality-bridge-boundary}
 The bridge-ready route of \autoref{thm:observer-filter-budget-selector-bridge-ready-route} is local to $\ObserverHistoryIdentityUp$, $\ObserverFilterUp$, $\FiniteObservationBudgetSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no quotient stream, host real equality, countable choice selector, hidden limit selector, or ambient completeness row.
