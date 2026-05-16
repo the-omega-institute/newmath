@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealityConstrainedOpenFitUp
+namespace BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealityConstrainedOpenFitUp : Type where
-  | mk : (H Pi O M F Q L R N : BHist) → RealityConstrainedOpenFitUp
+  | mk :
+      (trace bundle observed model fit continuation ledger refutation nameRow : BHist) →
+      RealityConstrainedOpenFitUp
   deriving DecidableEq
 
 def realityConstrainedOpenFitEncodeBHist : BHist → RawEvent
@@ -25,7 +27,7 @@ def realityConstrainedOpenFitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realityConstrainedOpenFitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realityConstrainedOpenFitDecodeBHist tail)
 
-private theorem realityConstrainedOpenFit_decode_encode_bhist :
+private theorem realityConstrainedOpenFitDecode_encode_bhist :
     ∀ h : BHist,
       realityConstrainedOpenFitDecodeBHist (realityConstrainedOpenFitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -35,142 +37,444 @@ private theorem realityConstrainedOpenFit_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def realityConstrainedOpenFitFields : RealityConstrainedOpenFitUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RealityConstrainedOpenFitUp.mk H Pi O M F Q L R N => [H, Pi, O, M, F, Q, L, R, N]
-
 def realityConstrainedOpenFitToEventFlow : RealityConstrainedOpenFitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (realityConstrainedOpenFitFields x).map realityConstrainedOpenFitEncodeBHist
+  | RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation ledger
+      refutation nameRow =>
+      [[BMark.b0],
+        realityConstrainedOpenFitEncodeBHist trace,
+        [BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist bundle,
+        [BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist observed,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist model,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist fit,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist ledger,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        realityConstrainedOpenFitEncodeBHist refutation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        realityConstrainedOpenFitEncodeBHist nameRow]
 
-def realityConstrainedOpenFitFromEventFlow :
-    EventFlow → Option RealityConstrainedOpenFitUp
+def realityConstrainedOpenFitFromEventFlow : EventFlow → Option RealityConstrainedOpenFitUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | H :: rest0 =>
+  | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | Pi :: rest1 =>
+      | trace :: rest1 =>
           match rest1 with
           | [] => none
-          | O :: rest2 =>
+          | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | M :: rest3 =>
+              | bundle :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | F :: rest4 =>
+                  | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | Q :: rest5 =>
+                      | observed :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | L :: rest6 =>
+                          | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | R :: rest7 =>
+                              | model :: rest7 =>
                                   match rest7 with
                                   | [] => none
-                                  | N :: rest8 =>
+                                  | _tag4 :: rest8 =>
                                       match rest8 with
-                                      | [] =>
-                                          some
-                                            (RealityConstrainedOpenFitUp.mk
-                                              (realityConstrainedOpenFitDecodeBHist H)
-                                              (realityConstrainedOpenFitDecodeBHist Pi)
-                                              (realityConstrainedOpenFitDecodeBHist O)
-                                              (realityConstrainedOpenFitDecodeBHist M)
-                                              (realityConstrainedOpenFitDecodeBHist F)
-                                              (realityConstrainedOpenFitDecodeBHist Q)
-                                              (realityConstrainedOpenFitDecodeBHist L)
-                                              (realityConstrainedOpenFitDecodeBHist R)
-                                              (realityConstrainedOpenFitDecodeBHist N))
-                                      | _ :: _ => none
+                                      | [] => none
+                                      | fit :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | continuation :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | ledger :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | refutation :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameRow :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (RealityConstrainedOpenFitUp.mk
+                                                                                  (realityConstrainedOpenFitDecodeBHist trace)
+                                                                                  (realityConstrainedOpenFitDecodeBHist bundle)
+                                                                                  (realityConstrainedOpenFitDecodeBHist observed)
+                                                                                  (realityConstrainedOpenFitDecodeBHist model)
+                                                                                  (realityConstrainedOpenFitDecodeBHist fit)
+                                                                                  (realityConstrainedOpenFitDecodeBHist continuation)
+                                                                                  (realityConstrainedOpenFitDecodeBHist ledger)
+                                                                                  (realityConstrainedOpenFitDecodeBHist refutation)
+                                                                                  (realityConstrainedOpenFitDecodeBHist nameRow))
+                                                                          | _ :: _ => none
 
 private theorem realityConstrainedOpenFit_round_trip :
     ∀ x : RealityConstrainedOpenFitUp,
-      realityConstrainedOpenFitFromEventFlow
-        (realityConstrainedOpenFitToEventFlow x) = some x := by
+      realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk H Pi O M F Q L R N =>
+  | mk trace bundle observed model fit continuation ledger refutation nameRow =>
       change
-        some
-          (RealityConstrainedOpenFitUp.mk
+        some (RealityConstrainedOpenFitUp.mk
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist trace))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist bundle))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist observed))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist model))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist fit))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist continuation))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist ledger))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist refutation))
+          (realityConstrainedOpenFitDecodeBHist
+            (realityConstrainedOpenFitEncodeBHist nameRow))) =
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+            ledger refutation nameRow)
+      have hTrace :
+          some (RealityConstrainedOpenFitUp.mk
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist H))
+              (realityConstrainedOpenFitEncodeBHist trace))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist Pi))
+              (realityConstrainedOpenFitEncodeBHist bundle))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist O))
+              (realityConstrainedOpenFitEncodeBHist observed))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist M))
+              (realityConstrainedOpenFitEncodeBHist model))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist F))
+              (realityConstrainedOpenFitEncodeBHist fit))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist Q))
+              (realityConstrainedOpenFitEncodeBHist continuation))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist L))
+              (realityConstrainedOpenFitEncodeBHist ledger))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist R))
+              (realityConstrainedOpenFitEncodeBHist refutation))
             (realityConstrainedOpenFitDecodeBHist
-              (realityConstrainedOpenFitEncodeBHist N))) =
-          some (RealityConstrainedOpenFitUp.mk H Pi O M F Q L R N)
-      rw [realityConstrainedOpenFit_decode_encode_bhist H,
-        realityConstrainedOpenFit_decode_encode_bhist Pi,
-        realityConstrainedOpenFit_decode_encode_bhist O,
-        realityConstrainedOpenFit_decode_encode_bhist M,
-        realityConstrainedOpenFit_decode_encode_bhist F,
-        realityConstrainedOpenFit_decode_encode_bhist Q,
-        realityConstrainedOpenFit_decode_encode_bhist L,
-        realityConstrainedOpenFit_decode_encode_bhist R,
-        realityConstrainedOpenFit_decode_encode_bhist N]
-
-private theorem realityConstrainedOpenFitToEventFlow_injective
-    {x y : RealityConstrainedOpenFitUp} :
-    realityConstrainedOpenFitToEventFlow x =
-      realityConstrainedOpenFitToEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      realityConstrainedOpenFitFromEventFlow
-          (realityConstrainedOpenFitToEventFlow x) =
-        realityConstrainedOpenFitFromEventFlow
-          (realityConstrainedOpenFitToEventFlow y) :=
-    congrArg realityConstrainedOpenFitFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (realityConstrainedOpenFit_round_trip x).symm
-      (Eq.trans hread (realityConstrainedOpenFit_round_trip y)))
-
-private theorem realityConstrainedOpenFit_fields_faithful :
-    ∀ x y : RealityConstrainedOpenFitUp,
-      realityConstrainedOpenFitFields x = realityConstrainedOpenFitFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk H₁ Pi₁ O₁ M₁ F₁ Q₁ L₁ R₁ N₁ =>
-      cases y with
-      | mk H₂ Pi₂ O₂ M₂ F₂ Q₂ L₂ R₂ N₂ =>
-          injection hfields with hH tail0
-          injection tail0 with hPi tail1
-          injection tail1 with hO tail2
-          injection tail2 with hM tail3
-          injection tail3 with hF tail4
-          injection tail4 with hQ tail5
-          injection tail5 with hL tail6
-          injection tail6 with hR tail7
-          injection tail7 with hN _
-          subst hH
-          subst hPi
-          subst hO
-          subst hM
-          subst hF
-          subst hQ
-          subst hL
-          subst hR
-          subst hN
-          rfl
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist bundle))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist observed))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist bundle))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist observed))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist trace)
+      have hBundle :
+          some (RealityConstrainedOpenFitUp.mk trace
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist bundle))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist observed))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist model))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist fit))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist continuation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist observed))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist observed))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist bundle)
+      have hObserved :
+          some (RealityConstrainedOpenFitUp.mk trace bundle
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist observed))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist model))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist fit))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist continuation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist model))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist observed)
+      have hModel :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist model))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist fit))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist continuation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist fit))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist model)
+      have hFit :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist fit))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist continuation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist continuation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist fit)
+      have hContinuation :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist continuation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+              continuation
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist ledger))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist continuation)
+      have hLedger :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist ledger))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+              continuation ledger
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+              row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist refutation))
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist ledger)
+      have hRefutation :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+            ledger
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist refutation))
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+              continuation ledger refutation
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+              ledger row
+              (realityConstrainedOpenFitDecodeBHist
+                (realityConstrainedOpenFitEncodeBHist nameRow))))
+          (realityConstrainedOpenFitDecode_encode_bhist refutation)
+      have hNameRow :
+          some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+            ledger refutation
+            (realityConstrainedOpenFitDecodeBHist
+              (realityConstrainedOpenFitEncodeBHist nameRow))) =
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit
+              continuation ledger refutation nameRow) :=
+        congrArg
+          (fun row =>
+            some (RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation
+              ledger refutation row))
+          (realityConstrainedOpenFitDecode_encode_bhist nameRow)
+      exact
+        hTrace.trans
+          (hBundle.trans
+            (hObserved.trans
+              (hModel.trans
+                (hFit.trans
+                  (hContinuation.trans (hLedger.trans (hRefutation.trans hNameRow)))))))
 
 instance realityConstrainedOpenFitBHistCarrier :
     BHistCarrier RealityConstrainedOpenFitUp where
@@ -181,24 +485,69 @@ instance realityConstrainedOpenFitBHistCarrier :
 instance realityConstrainedOpenFitChapterTasteGate :
     ChapterTasteGate RealityConstrainedOpenFitUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change
-      realityConstrainedOpenFitFromEventFlow
-        (realityConstrainedOpenFitToEventFlow x) = some x
-    exact realityConstrainedOpenFit_round_trip x
+  round_trip := realityConstrainedOpenFit_round_trip
   layer_separation := by
-    intro x y hxy heq
-    exact hxy (realityConstrainedOpenFitToEventFlow_injective heq)
+    intro x y hxy flowEq
+    apply hxy
+    have optionEq :
+        realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+          realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow y) := by
+      exact congrArg realityConstrainedOpenFitFromEventFlow flowEq
+    rw [realityConstrainedOpenFit_round_trip x] at optionEq
+    rw [realityConstrainedOpenFit_round_trip y] at optionEq
+    exact Option.some.inj optionEq
+
+private theorem realityConstrainedOpenFitToEventFlow_injective
+    {x y : RealityConstrainedOpenFitUp} :
+    realityConstrainedOpenFitToEventFlow x =
+      realityConstrainedOpenFitToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro flowEq
+  have hread :
+      realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+        realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow y) :=
+    congrArg realityConstrainedOpenFitFromEventFlow flowEq
+  exact Option.some.inj
+    (Eq.trans (realityConstrainedOpenFit_round_trip x).symm
+      (Eq.trans hread (realityConstrainedOpenFit_round_trip y)))
 
 instance realityConstrainedOpenFitFieldFaithful :
     FieldFaithful RealityConstrainedOpenFitUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := realityConstrainedOpenFitFields
-  field_faithful := realityConstrainedOpenFit_fields_faithful
+  fields := fun x =>
+    match x with
+    | RealityConstrainedOpenFitUp.mk trace bundle observed model fit continuation ledger
+        refutation nameRow =>
+        [trace, bundle, observed, model, fit, continuation, ledger, refutation, nameRow]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk trace₁ bundle₁ observed₁ model₁ fit₁ continuation₁ ledger₁ refutation₁ nameRow₁ =>
+        cases y with
+        | mk trace₂ bundle₂ observed₂ model₂ fit₂ continuation₂ ledger₂ refutation₂ nameRow₂ =>
+            simp only at h
+            injection h with hTrace t1
+            injection t1 with hBundle t2
+            injection t2 with hObserved t3
+            injection t3 with hModel t4
+            injection t4 with hFit t5
+            injection t5 with hContinuation t6
+            injection t6 with hLedger t7
+            injection t7 with hRefutation t8
+            injection t8 with hNameRow _
+            subst hTrace
+            subst hBundle
+            subst hObserved
+            subst hModel
+            subst hFit
+            subst hContinuation
+            subst hLedger
+            subst hRefutation
+            subst hNameRow
+            rfl
 
-instance realityConstrainedOpenFitNontrivial : Nontrivial RealityConstrainedOpenFitUp where
-  -- BEDC touchpoint anchor: BHist BMark
+instance realityConstrainedOpenFitNontrivial :
+    Nontrivial RealityConstrainedOpenFitUp where
   witness_pair :=
     ⟨RealityConstrainedOpenFitUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
@@ -215,22 +564,37 @@ def taste_gate : ChapterTasteGate RealityConstrainedOpenFitUp :=
 theorem RealityConstrainedOpenFitTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       realityConstrainedOpenFitDecodeBHist
-        (realityConstrainedOpenFitEncodeBHist h) = h) ∧
+          (realityConstrainedOpenFitEncodeBHist h) =
+        h) ∧
       (∀ x : RealityConstrainedOpenFitUp,
-        realityConstrainedOpenFitFromEventFlow
-          (realityConstrainedOpenFitToEventFlow x) = some x) ∧
+        realityConstrainedOpenFitFromEventFlow (realityConstrainedOpenFitToEventFlow x) =
+          some x) ∧
         (∀ x y : RealityConstrainedOpenFitUp,
-          realityConstrainedOpenFitToEventFlow x =
-            realityConstrainedOpenFitToEventFlow y → x = y) ∧
-          realityConstrainedOpenFitEncodeBHist BHist.Empty = ([] : List BMark) := by
+          realityConstrainedOpenFitToEventFlow x = realityConstrainedOpenFitToEventFlow y →
+            x = y) ∧
+          Nonempty (ChapterTasteGate RealityConstrainedOpenFitUp) ∧
+            Nonempty (FieldFaithful RealityConstrainedOpenFitUp) ∧
+              (∀ x : RealityConstrainedOpenFitUp,
+                ∃ w : RawEvent, List.Mem w (BHistCarrier.toEventFlow x) ∧
+                  (List.Mem BMark.b0 w ∨ List.Mem BMark.b1 w)) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact realityConstrainedOpenFit_decode_encode_bhist
+  · exact realityConstrainedOpenFitDecode_encode_bhist
   · constructor
     · exact realityConstrainedOpenFit_round_trip
     · constructor
-      · intro x y heq
-        exact realityConstrainedOpenFitToEventFlow_injective heq
-      · rfl
+      · intro x y flowEq
+        exact realityConstrainedOpenFitToEventFlow_injective flowEq
+      · constructor
+        · exact Nonempty.intro inferInstance
+        · constructor
+          · exact Nonempty.intro inferInstance
+          · intro x
+            cases x with
+            | mk trace bundle observed model fit continuation ledger refutation nameRow =>
+                exact
+                  ⟨[BMark.b0],
+                    (List.Mem.head _),
+                    Or.inl (List.Mem.head _)⟩
 
-end BEDC.Derived.RealityConstrainedOpenFitUp
+end BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
