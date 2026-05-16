@@ -35,4 +35,18 @@ theorem KernelCategoryCarrier_identity_continuation
   cases sameDisplayed
   exact cont_right_unit object'
 
+theorem KernelCategoryCarrier_composition_continuation
+    {object hom identity composition associativity unit provenance name a b c f g fg : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name →
+      CategoryHomCarrier a b f →
+        CategoryHomCarrier b c g →
+          Cont f g fg →
+            CategoryHomCarrier a c fg ∧ hsame associativity (append hom composition) ∧
+              hsame unit identity ∧ hsame name (append provenance unit) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame CategoryHomCarrier
+  intro carrier left right comp
+  exact
+    ⟨CategoryHomCarrier_comp_closed left right comp, carrier.right.right.right.left,
+      carrier.right.right.right.right.left, carrier.right.right.right.right.right⟩
+
 end BEDC.Derived.KernelCategoryUp
