@@ -1499,6 +1499,7 @@ import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
+import BEDC.Derived.ProofTraceAuditWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
