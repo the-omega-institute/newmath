@@ -227,6 +227,24 @@ Apply \autoref{thm:finitenetminimumfold-order-selector-transport}. It shows that
 Finally use \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff}. The $\UniformModulusUp$ consumer therefore receives exactly $M$ with certificate $L$, and the carrier has no remaining coordinate from which a separate compactness witness, selected probe, host minimum, or external modulus could be read.
 \end{proof}
 
+\begin{theorem}[FiniteNetMinimumFold terminal readback]
+\label{thm:finite-net-minimum-fold-terminal-readback}
+For any terminal consumer read of an accepted $\FiniteNetMinimumFoldUp$ packet
+$$
+F=(P,R,M,L,H,C,Q,N),
+$$
+the delivered fold result is exactly the accumulator precision history $M$ together with the lower-bound certificate $L$, transported through $H$ and replayed through $C$ with provenance $Q$ and local name $N$. This terminal readback is equivalent to the displayed finite fold surface $P,R,H,C,Q,N$ producing $M,L$; it is not a host minimum, an external compactness witness, or a selected representative outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the lower-bound certificate of \autoref{thm:finite-net-minimum-fold-lower-bound-certificate}. It identifies $L$ as the internal certificate that the accumulator selected by the finite fold is a lower bound for the bundled pointwise-modulus rows.
+
+Use the positive precision obligation of \autoref{thm:finite-net-minimum-fold-positive-precision-obligation}. This makes the accumulator row $M$ an admissible positive precision history, so the terminal consumer does not need a separate positivity or compactness row.
+
+Next apply the uniform-modulus handoff \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff}. The handoff carries the displayed packet through $P,R,M,L,H,C,Q,N$, with transports and routes preserving the same fold result.
+
+Finally use modulus consumer exactness \autoref{thm:finitenetminimumfold-modulus-consumer-exactness}. It says that the consumer receives exactly $M$ and that $L$ is the only admissibility certificate for the bundled rows. Hence the terminal readback is precisely the finite fold surface, with no host minimum or selected representative outside the accepted packet.
+\end{proof}
+
 \begin{theorem}[FiniteNetMinimumFold selector totality]
 \label{thm:finite-net-minimum-fold-selector-totality}
 For every accepted $\FiniteNetMinimumFoldUp$ carrier
