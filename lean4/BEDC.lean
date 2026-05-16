@@ -75,6 +75,7 @@ import BEDC.Derived.ApophaticGateQuestionUp.SupplyKindRouteTotality
 import BEDC.Derived.ApophaticKernelBoundaryUp.TasteGate
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ApophaticNameUp.LedgerNonescape
+import BEDC.Derived.ApophaticNameUp.NonEscapeCertificate
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestTotality
 import BEDC.Derived.ApophaticNameUp.BoundaryCitationUniversalFactorization
 import BEDC.Derived.ApophaticNameUp.BoundaryRequestObligationTriad
