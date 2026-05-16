@@ -491,4 +491,76 @@ theorem ConsciousObserverStateTasteGate_single_carrier_alignment :
         exact ConsciousObserverStateTasteGate_single_carrier_alignment_injective heq
       · rfl
 
+theorem ConsciousObserverStateCarrier_locality_provenance_exactness [AskSetup] [PackageSetup]
+    {observer state recognition ledger gap transport route provenance nameRow endpoint
+      handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConsciousObserverStateCarrier observer state recognition ledger gap transport route provenance
+        nameRow endpoint bundle pkg →
+      Cont route provenance handoffRead →
+        PkgSig bundle handoffRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                ConsciousObserverStateCarrier observer state recognition ledger gap transport route
+                  provenance nameRow endpoint bundle pkg ∧ hsame row provenance)
+              (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+              (fun row : BHist =>
+                PkgSig bundle endpoint pkg ∧ hsame row provenance ∧
+                  Cont route provenance handoffRead)
+              hsame ∧
+            UnaryHistory observer ∧
+            UnaryHistory state ∧
+            UnaryHistory ledger ∧
+            UnaryHistory gap ∧
+            UnaryHistory handoffRead ∧
+            Cont observer route endpoint ∧
+            Cont recognition ledger gap ∧
+            Cont route provenance handoffRead ∧
+            PkgSig bundle endpoint pkg ∧
+            PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist AskSetup PackageSetup ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier routeProvenanceHandoff handoffPkg
+  have carrierPacket :
+      ConsciousObserverStateCarrier observer state recognition ledger gap transport route
+        provenance nameRow endpoint bundle pkg :=
+    carrier
+  obtain ⟨observerUnary, stateUnary, _recognitionUnary, ledgerUnary, gapUnary,
+    _transportUnary, routeUnary, provenanceUnary, _nameUnary, _endpointUnary,
+    observerRouteEndpoint, _stateRouteEndpoint, recognitionLedgerGap,
+    _transportProvenanceEndpoint, endpointPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceHandoff
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ConsciousObserverStateCarrier observer state recognition ledger gap transport route
+              provenance nameRow endpoint bundle pkg ∧ hsame row provenance)
+          (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+          (fun row : BHist =>
+            PkgSig bundle endpoint pkg ∧ hsame row provenance ∧
+              Cont route provenance handoffRead)
+          hsame := by
+    constructor
+    · constructor
+      · exact Exists.intro provenance ⟨carrierPacket, hsame_refl provenance⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro row row' same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    · intro row source
+      have rowSameProvenance : hsame row provenance := source.right
+      exact
+        ⟨rowSameProvenance,
+          unary_transport provenanceUnary (hsame_symm rowSameProvenance)⟩
+    · intro row source
+      exact ⟨endpointPkg, source.right, routeProvenanceHandoff⟩
+  exact
+    ⟨cert, observerUnary, stateUnary, ledgerUnary, gapUnary, handoffUnary,
+      observerRouteEndpoint, recognitionLedgerGap, routeProvenanceHandoff, endpointPkg,
+      handoffPkg⟩
+
 end BEDC.Derived.ConsciousObserverStateUp
