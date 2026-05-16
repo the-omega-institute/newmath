@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationReflectionSealUp$}
+\label{ch:concrete-instances-finite-observation-reflection-seal-namecert}
+\origin{ai}
+
+The $\FiniteObservationReflectionSealUp$ packet realizes the observation--reflection equivalence of \autoref{sec:observation-and-reflection} as a finite NameCert seal. It sits after the observation handoff of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the reflective inquiry carrier of \autoref{ch:concrete-instances-reflective-inquiry-namecert}. Those siblings expose observation, stream, or inquiry rows separately; this carrier binds physical observation and MetaCIC reflection to one shared classifier, ledger, and non-finalization surface.
+
+\begin{definition}[Finite observation-reflection seal carrier]
+\label{def:finite-observation-reflection-seal-carrier}
+A $\FiniteObservationReflectionSealUp$ carrier is a finite $\BHist$ packet
+$$
+F=(P,M,S,K,C,L,H,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the physical-observation source row, read through finite reality-facing traces;
+\item $M$ is the MetaCIC-reflection source row, read through finite formal self-study traces;
+\item $S$ is the shared finite signature row comparing the physical observation surface with the formal reflection surface;
+\item $K$ is the classifier row accepting the displayed observation-reflection role correspondence;
+\item $C$ is the shared $\Cont$ route under which both inquiry directions remain extendable;
+\item $L$ is the non-finalization ledger recording rejected final physical or MetaCIC truth-oracle demands;
+\item $H$ records componentwise $\hsame$ transport for $P,M,S,K,C,L$;
+\item $Q$ records $\Pkg$ provenance for the same finite packet and its sibling observation-reflection, stream, and reflective-inquiry rows;
+\item $N$ is the local $\NameCert_{\FiniteObservationReflectionSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a final physical truth oracle, a final MetaCIC truth oracle, source-domain identity, host validation, quotient stream equality, or an unbounded observation schedule.
+\end{definition}
+
+\begin{theorem}[Finite observation-reflection seal NameCert obligations]
+\label{thm:finite-observation-reflection-seal-namecert-obligations}
+For the carrier of \autoref{def:finite-observation-reflection-seal-carrier}, the local $\NameCert_{\FiniteObservationReflectionSealUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $F=(P,M,S,K,C,L,H,Q,N)$;
+\item physical-observation exposure through $P$ and formal-reflection exposure through $M$;
+\item shared signature and classifier acceptance through $S$ and $K$;
+\item continuation and non-finalization through the shared route $C$ and ledger $L$;
+\item componentwise transport, provenance, and local naming through $H,Q,N$.
+\end{enumerate}
+Thus the seal certifies a finite correspondence between physical inquiry and MetaCIC self-study without identifying their sources and without closing either inquiry direction.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed packet $F=(P,M,S,K,C,L,H,Q,N)$. The two source rows $P$ and $M$ are separate coordinates, so the seal can expose physical observation and MetaCIC reflection while refusing source identity.
+
+The signature and classifier rows provide the shared correspondence. Row $S$ records the finite signature comparison, and row $K$ records the accepted classifier judgment. These rows consume the observation-reflection packet and reflective inquiry surfaces rather than replacing them.
+
+The route and ledger rows then close the non-finality condition. The shared continuation row $C$ keeps both directions extendable, while $L$ records rejected final truth-oracle demands. Rows $H,Q,N$ transport, package, and name exactly the same displayed route, so no further NameCert obligation remains outside the packet.
+\end{proof}
+
+\begin{theorem}[Finite observation-reflection seal non-escape]
+\label{thm:finite-observation-reflection-seal-nonescape}
+No accepted $\FiniteObservationReflectionSealUp$ packet exports a final physical truth oracle, a final MetaCIC truth oracle, source-domain identity, host validation, quotient stream equality, or an unbounded observation schedule beyond the rows
+$$
+P,M,S,K,C,L,H,Q,N.
+$$
+Every consumer of the seal must read the displayed physical-observation row, MetaCIC-reflection row, shared signature, classifier, continuation, non-finalization ledger, transport, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:finite-observation-reflection-seal-carrier}. Its only source-facing rows are $P$ and $M$, its only correspondence rows are $S$ and $K$, and its only future-facing and refusal rows are $C$ and $L$.
+
+Apply the obligation theorem \autoref{thm:finite-observation-reflection-seal-namecert-obligations}. It forces every seal read through physical exposure, formal exposure, shared signature comparison, classifier acceptance, continuation, and the non-finalization ledger before the local name is consumed.
+
+The sibling packets do not add the missing oracle rows. $\ObservationReflectionPacketUp$ supplies finite observation-reflection roles, $\StreamNameUp$ supplies finite window discipline, and $\ReflectiveInquiryUp$ supplies the paired inquiry carrier, but none of them contributes a final physical oracle, final MetaCIC oracle, source identity, quotient stream equality, or unbounded schedule to this seal.
+\end{proof}
+
+\falsifiablePrediction{A finite observation-reflection seal is refuted by any accepted consumer that exports a final physical or MetaCIC truth oracle from the same finite packet.}
+
+\independenceWitness{observationreflectionpacket, streamname, reflectiveinquiry, realityconstrainedobservationreflection, namecert: the seal is not bijective to any sibling because it binds both physical-observation and MetaCIC-reflection rows plus the shared non-finalization ledger in one packet.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \FiniteObservationReflectionSealUp$ and $\mathsf{FieldFaithful}\ \FiniteObservationReflectionSealUp$ instances in \texttt{lean4/BEDC/Derived/FiniteObservationReflectionSealUp/TasteGate.lean}, preserving $P,M,S,K,C,L,H,Q,N$.
+
+\closureat{FiniteObservationReflectionSealUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationReflectionSealUp}
+  \constructivestory{A $\FiniteObservationReflectionSealUp$ packet is generated from physical-observation, MetaCIC-reflection, shared signature, classifier, continuation, non-finalization ledger, transport, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-reflection-seal-carrier}, \autoref{thm:finite-observation-reflection-seal-namecert-obligations}, and \autoref{thm:finite-observation-reflection-seal-nonescape} bind the finite observation-reflection seal and its non-finalization boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert final physical truth, final MetaCIC truth, source-domain identity, host validation, quotient stream equality, unbounded observation schedules, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, five NameCert obligations, non-escape theorem, TasteGate nontriviality, and field faithfulness for $P,M,S,K,C,L,H,Q,N$.}
+\end{closurestatus}
