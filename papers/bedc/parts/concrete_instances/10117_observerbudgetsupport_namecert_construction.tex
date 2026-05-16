@@ -133,6 +133,22 @@ Use the nontrivial boundary and field-faithfulness theorems, \autoref{thm:observ
 Finally apply route totality, ledger exactness, and public readback from \autoref{thm:observer-budget-support-route-totality}, \autoref{thm:observer-budget-support-ledger-exactness}, and \autoref{thm:observer-budget-support-public-readback}. These results bind observer-local support, selected budget, causal evidence, transport, replay, provenance, and local naming into one obligation surface.
 \end{proof}
 
+\begin{theorem}[Observer-budget support bridge surface]
+\label{thm:observer-budget-support-bridge-surface}
+Every bridge-facing observer-local support export of an accepted $\ObserverBudgetSupportUp$ packet factors through the finite tuple
+$$
+F,\quad S,\quad X,\quad B,\quad T,\quad H,\quad C,\quad P,\quad N.
+$$
+The observer-coordinate row $F$, finite-support row $S$, cross-$\BHist$ causal row $X$, selected budget row $B$, support-transport row $T$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\ObserverBudgetSupportUp}$ row $N$ are preserved as one bridge surface. No bridge-facing export may replace them by global observer frames, infinite support, unbounded budgets, detached host spacetime data, quotient history equality, or unwitnessed cross-$\BHist$ dependence.
+\end{theorem}
+\begin{proof}
+First read the local certificate. The carrier and NameCert obligations, \autoref{def:observer-budget-support-carrier} and \autoref{thm:observer-budget-support-namecert-obligations}, display exactly the observer-coordinate, finite-support, causal, budget, transport, replay, provenance, and naming rows.
+
+Next pass through the public surface. Public readback, \autoref{thm:observer-budget-support-public-readback}, requires every accepted observer-local read to consume $F,S,X,B,T,H,C,P,N$ together rather than as detachable host data.
+
+Finally use the obligation package and ledger exactness. Theorem~\ref{thm:observer-budget-support-obligation-closure-package} assembles the same finite tuple as the chapter surface, and Theorem~\ref{thm:observer-budget-support-ledger-exactness} rules out replacing support, budget, causal evidence, or route transport by external witnesses. Thus a bridge-facing export preserves precisely the displayed tuple, with no additional coordinate for the excluded objects.
+\end{proof}
+
 The later Lean \texttt{TasteGate.lean} development for $\ObserverBudgetSupportUp$ will need explicit $\Nontrivial\ \ObserverBudgetSupportUp$ and $\FieldFaithful\ \ObserverBudgetSupportUp$ instances. These instances must preserve the observer-coordinate row, finite-support row, cross-Hist causal row, selected-budget row, support-transport row, componentwise transport, displayed replay, provenance, and local naming row.
 
 \falsifiablePrediction{If an accepted observer-local reading keeps the observer-coordinate row while replacing finite support, selected budget, cross-Hist causal evidence, or support transport by detached host data, it refutes the $\ObserverBudgetSupportUp$ classifier.}
@@ -144,12 +160,12 @@ The later Lean \texttt{TasteGate.lean} development for $\ObserverBudgetSupportUp
 \begin{closurestatus}{\ObserverBudgetSupportUp}
   \constructivestory{An $\ObserverBudgetSupportUp$ packet is generated from observer-coordinate, finite-support, cross-Hist causal, selected-budget, support-transport, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
   \leanchecked{BEDC.Derived.ObserverBudgetSupportUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observer-budget-support-carrier}, \autoref{thm:observer-budget-support-namecert-obligations}, \autoref{thm:observer-budget-support-nontrivial-boundary}, and \autoref{thm:observer-budget-support-field-faithfulness} bind the observer-local support obligations to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ObserverCoordinateFrameUp$, $\FiniteSupportUp$, $\ObserverFilterBudgetSelectorUp$, $\CrossHistCausalUp$, and the support-transport row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:observer-budget-support-carrier}, \autoref{thm:observer-budget-support-namecert-obligations}, \autoref{thm:observer-budget-support-nontrivial-boundary}, \autoref{thm:observer-budget-support-field-faithfulness}, \autoref{thm:observer-budget-support-public-readback}, \autoref{thm:observer-budget-support-obligation-closure-package}, and \autoref{thm:observer-budget-support-bridge-surface} bind the observer-local support obligations, public readback row, obligation-closure package, and bridge-facing export surface to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ObserverCoordinateFrameUp$, $\FiniteSupportUp$, $\ObserverFilterBudgetSelectorUp$, $\CrossHistCausalUp$, and the support-transport row.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ObserverBudgetSupportUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close bridge checking, global observer frames, infinite support, unbounded budgets, host spacetime objects, quotient history equality, or unwitnessed cross-Hist dependence.}
-  \upgradepath{Public closure requires a public observer-local support export surface for the scoped carrier and obligation rows.}
+  \upgradepath{Bridge checking remains a separate verification-axis obligation for the observer-local support export surface.}
 \end{closurestatus}
