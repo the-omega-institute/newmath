@@ -1,0 +1,35 @@
+\begin{theorem}[CriticalLineWitness fixed-strip source admission completion]
+\label{thm:critical-line-witness-fixed-strip-source-admission-completion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The fixed-strip source admission row is complete when the consumer reads the supplied $\BHist$ source through the zero-strip row $Z$ or critical-strip row $S$, then through the modulus row $M$, real-part row $R$, rational comparison ledger $Q$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$. No fixed-strip consumer receives a source outside this packet before these rows have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with the source side of the root source obligation triad \autoref{thm:critical-line-witness-root-source-obligation-triad}. It places every root consumer behind the supplied $\BHist$ source, the zero-strip or critical-strip row, and the displayed modulus route.
+
+Use modulus classifier exhaustion from \autoref{thm:critical-line-witness-root-modulus-classifier-exhaustion}. Once the source row is admitted, every modulus, real-part, and rational-comparison read is exhausted by $M,R,Q,H,C,P,N$ over the same $Z,S$ source rows.
+
+Thus fixed-strip source admission has no remaining hidden source branch. A consumer that skips $Z,S$ or reads a source outside $W$ leaves the accepted $\CriticalLineWitnessUp$ packet.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness zero-source refusal readback]
+\label{thm:critical-line-witness-zero-source-refusal-readback}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Any request to read a zero-source refusal must pass through the source obligation triad and the modulus classifier exhaustion rows, so the refusal is read back through $Z,S,M,R,Q,H,C,P,N$ and not through a hidden zero search, global zero classifier, analytic-continuation theorem, quotient stream, host equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Apply the root source obligation triad \autoref{thm:critical-line-witness-root-source-obligation-triad}. It forces the zero-strip and critical-strip source rows to remain visible before a refusal boundary can be consumed.
+
+Next apply modulus classifier exhaustion \autoref{thm:critical-line-witness-root-modulus-classifier-exhaustion}. The refusal readback cannot inspect an unlisted classifier, since modulus and comparison data are already exhausted by $M,R,Q,H,C,P,N$.
+
+The zero-source refusal is therefore a finite readback row of the accepted packet. Demands for hidden zero search, global zero classification, analytic continuation, quotient streams, host equality, or ambient completeness are outside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH consumer unblock]
+\label{thm:critical-line-witness-rh-consumer-unblock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. An $\mathsf{RH}$-facing consumer is unblocked exactly to the finite readback surface supplied by the source obligation triad and modulus classifier exhaustion: it may consume $Z,S,M,R,Q,H,C,P,N$, but it receives no RH proof, no zero search, no global zero classifier, no analytic-continuation theorem, no quotient stream, no host equality, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the RH consumer boundary \autoref{thm:critical-line-witness-root-rh-consumer-boundary}. It already identifies the consumer surface as the source obligation triad together with modulus classifier exhaustion.
+
+The fixed-strip source admission completion above supplies the source-read side, and the zero-source refusal readback supplies the refusal side. Both rows keep the same accepted packet $W=(Z,S,M,R,Q,H,C,P,N)$ and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Consequently the $\mathsf{RH}$ consumer is unblocked only as a finite BEDC consumer. It can read the displayed root and modulus rows, but the analytic conclusion, zero search, global classifier, quotient stream, host equality, and ambient completeness demands have no coordinate in the packet.
+\end{proof}
