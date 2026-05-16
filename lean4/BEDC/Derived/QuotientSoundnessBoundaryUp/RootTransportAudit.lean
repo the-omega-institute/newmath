@@ -90,4 +90,66 @@ theorem QuotientSoundnessBoundary_root_psame_transport_admission
         (And.intro transportPkg hN)
   }
 
+theorem QuotientSoundnessBoundary_root_representative_refusal_certificate
+    [AskSetup] [PackageSetup]
+    {e a t v h c p n refusalRead transportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
+      Cont v t refusalRead ->
+        Cont t h transportRead ->
+          PkgSig bundle refusalRead pkg ->
+            PkgSig bundle transportRead pkg ->
+              SemanticNameCert
+                (fun row : BHist =>
+                  QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ∧
+                    Cont v t refusalRead ∧ Cont t h transportRead ∧
+                      hsame row refusalRead)
+                (fun row : BHist =>
+                  Cont e a v ∧ Cont v t row ∧ Cont t h transportRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle refusalRead pkg ∧
+                    PkgSig bundle transportRead pkg ∧ hsame h n)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier vTRefusal tHTransport refusalPkg transportPkg
+  have sourceWitness :
+      QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ∧
+        Cont v t refusalRead ∧ Cont t h transportRead ∧ hsame refusalRead refusalRead :=
+    ⟨carrier, vTRefusal, tHTransport, hsame_refl refusalRead⟩
+  obtain ⟨_eUnary, _aUnary, tUnary, vUnary, _hUnary, _cUnary, _pUnary, _nUnary, eAV,
+    _eTH, _hCN, _pPkg, _nPkg, hN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed vUnary tUnary vTRefusal
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro refusalRead sourceWitness
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          ⟨source.left, source.right.left, source.right.right.left,
+            hsame_trans (hsame_symm sameRows) source.right.right.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨eAV,
+          cont_result_hsame_transport source.right.left
+            (hsame_symm source.right.right.right),
+          source.right.right.left⟩
+    ledger_sound := by
+      intro row source
+      exact
+        ⟨unary_transport refusalUnary (hsame_symm source.right.right.right),
+          refusalPkg, transportPkg, hN⟩
+  }
+
 end BEDC.Derived.QuotientSoundnessBoundaryUp
