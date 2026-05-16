@@ -1430,14 +1430,11 @@ def main() -> int:
                         f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
                         "local research lane triggered first"
                     )
-                elif (
-                    candidate_inbox_has_refinement_backlog(inbox_health)
-                    and since_research_lane_m < grace_minutes
-                ):
+                elif candidate_inbox_has_refinement_backlog(inbox_health):
                     supervisor_log(
                         f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
-                        f"candidate refinement backlog present and research_lane ran {since_research_lane_m:.1f}m ago "
-                        f"(grace={grace_minutes:.1f}m)"
+                        f"candidate refinement backlog present; local lanes must drain/refine it before oracle refill "
+                        f"(research_lane ran {since_research_lane_m:.1f}m ago; legacy grace={grace_minutes:.1f}m)"
                     )
                 else:
                     supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")

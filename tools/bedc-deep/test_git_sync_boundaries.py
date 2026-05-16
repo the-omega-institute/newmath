@@ -160,6 +160,9 @@ def test_supervisor_runs_plain_review_research_lane() -> None:
     assert "--oracle-refill-research-grace-minutes" in text
     assert "research_lane_refinement" in text
     assert "deferred oracle_board_refill" in text
+    assert "local lanes must drain/refine it before oracle refill" in text
+    assert "candidate_inbox_has_refinement_backlog(inbox_health)" in text
+    assert "and since_research_lane_m < grace_minutes" not in text
     assert "does not write paper text directly" in text
 
 
