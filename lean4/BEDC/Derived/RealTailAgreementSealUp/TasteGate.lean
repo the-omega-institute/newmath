@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealTailAgreementSealUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -15,6 +19,32 @@ inductive RealTailAgreementSealUp : Type where
         nameCert : BHist) →
       RealTailAgreementSealUp
   deriving DecidableEq
+
+def RealTailAgreementSealCarrier
+    (leftSource rightSource tailWindow dyadicReadback agreement transport routes provenance
+      nameCert : BHist) : Prop :=
+  UnaryHistory leftSource ∧ UnaryHistory rightSource ∧ UnaryHistory tailWindow ∧
+    UnaryHistory dyadicReadback ∧ UnaryHistory agreement ∧ UnaryHistory transport ∧
+      UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+        Cont leftSource rightSource tailWindow ∧ Cont tailWindow dyadicReadback agreement ∧
+          Cont agreement nameCert routes ∧ hsame provenance (append leftSource rightSource)
+
+theorem RealTailAgreementSealCarrier_route_obligations
+    {leftSource rightSource tailWindow dyadicReadback agreement transport routes provenance
+      nameCert : BHist} :
+    RealTailAgreementSealCarrier leftSource rightSource tailWindow dyadicReadback agreement
+        transport routes provenance nameCert →
+      UnaryHistory tailWindow ∧ UnaryHistory agreement ∧ UnaryHistory routes ∧
+        Cont leftSource rightSource tailWindow ∧ Cont tailWindow dyadicReadback agreement ∧
+          Cont agreement nameCert routes ∧ hsame provenance (append leftSource rightSource) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier
+  obtain ⟨_leftUnary, _rightUnary, tailUnary, _dyadicUnary, agreementUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary, sourceTail,
+    tailAgreement, nameRoute, provenanceSame⟩ := carrier
+  exact
+    ⟨tailUnary, agreementUnary, routesUnary, sourceTail, tailAgreement, nameRoute,
+      provenanceSame⟩
 
 def realTailAgreementSealEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark

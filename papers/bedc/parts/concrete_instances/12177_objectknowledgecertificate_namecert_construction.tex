@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ObjectKnowledgeCertificateUp$}
+\label{ch:concrete-instances-objectknowledgecertificate-namecert}
+\origin{ai}
+
+The $\ObjectKnowledgeCertificateUp$ packet realizes the object-knowledge synthesis of \autoref{ch:visions-philosophy-object-knowledge-namecert} as finite BEDC NameCert data. It uses the five-field certificate discipline from \autoref{thm:philosophy-object-knowledge-certificate-synthesis}, reads certificate transport through \autoref{ch:concrete-instances-namecertmorphism-namecert}, and reads classifier transport through \autoref{ch:concrete-instances-classifiermorphism-namecert}. The carrier therefore exposes an object as a licensed name and knowledge as an auditable witness before any consumer receives a mature object-knowledge export.
+
+\begin{definition}[Object-knowledge certificate carrier]
+\label{def:object-knowledge-certificate-carrier}
+An $\ObjectKnowledgeCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+O=(N,W,S,P,K,T,L,A,C,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the object-name row, read as the licensed name of the object rather than as a bare object primitive.
+\item $W$ is the auditable witness row whose possession supports the knowledge claim.
+\item $S$ is the source row recording the histories, observations, declarations, or prior certificates from which the name and witness are admitted.
+\item $P$ is the pattern row naming the stable behavior, recurrence, or constructive presentation that the name claims to track.
+\item $K$ is the classifier row specifying when two presentations count as the same object-knowledge packet.
+\item $T$ is the stability row recording the displayed transport by which the name, witness, source, pattern, and classifier persist across accepted continuations.
+\item $L$ is the ledger row recording gaps, failed reads, refused exports, missing witness routes, and residual obligations.
+\item $A$ is the audit-route row exposing how a consumer checks the witness against the licensed object name.
+\item $C$ is the componentwise transport row over $N,W,S,P,K,T,L,A$ and over the sibling $\NameCertMorphismUp$ and $\ClassifierMorphismUp$ routes.
+\item $Q$ is the local $\NameCert_{\ObjectKnowledgeCertificateUp}$ row, whose five-field certificate surface is source, pattern, classifier, stability, and ledger, tied to the object-name and witness rows.
+\end{enumerate}
+The carrier has no coordinate for an unlicensed object, a bare truth predicate, a witness-free knowledge claim, an anonymous classifier, a hidden ledger, or a local name detached from the displayed NameCert row.
+\end{definition}
+
+\begin{theorem}[Object-knowledge NameCert obligations]
+\label{thm:object-knowledge-certificate-namecert-obligations}
+For the carrier of \autoref{def:object-knowledge-certificate-carrier}, the local $\NameCert_{\ObjectKnowledgeCertificateUp}$ surface consists exactly of carrier admission for
+$$
+O=(N,W,S,P,K,T,L,A,C,Q),
+$$
+object-name licensing through $N$, witness exposure through $W$, source exposure through $S$, pattern exposure through $P$, classifier exposure through $K$, stability exposure through $T$, ledger exposure through $L$, audit routing through $A$, componentwise transport through $C$, and local naming through $Q$.
+
+Consequently every accepted object-knowledge export is a finite packet whose object read is licensed by $N$ and whose knowledge read is witnessed by $W$ under the five displayed NameCert fields.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:object-knowledge-certificate-carrier}. Its rows are exactly $N,W,S,P,K,T,L,A,C,Q$, so no additional object primitive, witness predicate, classifier, stability route, ledger, audit path, or local name is available to the consumer.
+
+Read the local NameCert row. The certificate fields are $S,P,K,T,L$, and the object-knowledge rows $N,W,A$ identify which licensed object is being read, which witness supports the knowledge claim, and which audit route checks that witness.
+
+Finally use the componentwise transport row $C$. It preserves the displayed name, witness, five-field certificate, sibling morphism routes, and local certificate row together. Therefore an accepted export is exactly the stated finite NameCert packet, not a projection with the witness or ledger suppressed.
+\end{proof}
+
+\begin{theorem}[Object-knowledge witness exactness]
+\label{thm:object-knowledge-certificate-witness-exactness}
+Every accepted $\ObjectKnowledgeCertificateUp$ knowledge read exposes the same witness row $W$ that the audit route $A$ checks against the licensed object name $N$. Replacing $W$ by the pattern row $P$, the classifier row $K$, the stability row $T$, or the ledger row $L$ is not an accepted knowledge read.
+\end{theorem}
+\begin{proof}
+The carrier separates the witness row from the certificate fields. The row $W$ records the auditable witness, while $P,K,T,L$ record pattern, classifier, stability, and ledger data.
+
+The audit route $A$ is defined as a displayed check of the witness against the licensed object name. It therefore consumes $N$ and $W$ as rows of the same finite packet, with $S,P,K,T,L$ supplying certificate context rather than replacing the witness.
+
+The local NameCert row $Q$ names the whole packet. Since $C$ transports $W$ componentwise with the other rows, a consumer that substitutes a certificate field for $W$ changes the accepted packet and loses the knowledge read.
+\end{proof}
+
+\begin{theorem}[Object-knowledge nonescape]
+\label{thm:object-knowledge-certificate-nonescape}
+No accepted $\ObjectKnowledgeCertificateUp$ packet exports object knowledge outside the displayed rows
+$$
+N,W,S,P,K,T,L,A,C,Q.
+$$
+In particular, the packet does not export an unlicensed object, a witness-free knowledge claim, a classifier-free identity, an unledgered residue, or a local name outside the local $\NameCert_{\ObjectKnowledgeCertificateUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with the exact obligation surface of \autoref{thm:object-knowledge-certificate-namecert-obligations}. It exhausts the public export by the object-name, witness, source, pattern, classifier, stability, ledger, audit-route, transport, and local-name rows.
+
+Use \autoref{thm:object-knowledge-certificate-witness-exactness} to keep the witness row from collapsing into the certificate fields. The knowledge component remains auditable only through $W$ checked by $A$ against $N$.
+
+The sibling morphism routes preserve the displayed certificate and classifier data, but they do not add an inverse, a bare object, or a truth predicate. Hence every accepted read remains inside the finite row list, and the listed escapes are not exports of this carrier.
+\end{proof}
+
+\falsifiablePrediction{If an object-knowledge export bypasses either the displayed five-field NameCert row or the displayed witness row, the packet is refuted.}
+
+\independenceWitness{namecertmorphism, classifiermorphism, semanticnamecert, namecert: none is bijective because this carrier binds object license, auditable witness, five-field certificate, classifier transport, ledger, and local naming as one packet.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \ObjectKnowledgeCertificateUp$ and $\mathsf{FieldFaithful}\ \ObjectKnowledgeCertificateUp$ instances in $\mathsf{lean4/BEDC/Derived/ObjectKnowledgeCertificateUp/TasteGate.lean}$. The target $\mathsf{BEDC.Derived.ObjectKnowledgeCertificateUp.ObjectKnowledgeCertificateTasteGate\_single\_carrier\_alignment}$ may be cited only after those instances distinguish the object-name, witness, source, pattern, classifier, stability, ledger, audit-route, componentwise transport, and local NameCert rows.
+
+\closureat{ObjectKnowledgeCertificateUp}{seedStr}
