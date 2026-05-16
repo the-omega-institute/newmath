@@ -42,4 +42,33 @@ theorem ReflectionRuntimeCheckpointCarrier_trace_provenance_lock [AskSetup] [Pac
     ⟨traceUnary, provenanceUnary, traceReadUnary, inputStateTrace, traceProvenanceRoute,
       checkpointMatchesValidation, checkpointPkg'⟩
 
+theorem ReflectionRuntimeCheckpointCarrier_state_trace_coupling [AskSetup] [PackageSetup]
+    {input state trace validation transport route provenance localName stateTraceRead
+      validationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ReflectionRuntimeCheckpointCarrier input state trace validation transport route provenance
+        localName ->
+      Cont state trace stateTraceRead ->
+        Cont stateTraceRead validation validationRead ->
+          PkgSig bundle validationRead pkg ->
+            UnaryHistory input ∧ UnaryHistory state ∧ UnaryHistory trace ∧
+              UnaryHistory validation ∧ UnaryHistory stateTraceRead ∧
+                UnaryHistory validationRead ∧ Cont input state trace ∧
+                  Cont state trace stateTraceRead ∧
+                    Cont stateTraceRead validation validationRead ∧
+                      Cont trace validation route ∧ PkgSig bundle validationRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier stateTraceRoute validationReadRoute validationReadPkg
+  obtain ⟨inputUnary, stateUnary, traceUnary, validationUnary, _transportUnary,
+    _provenanceUnary, inputStateTrace, traceValidationRoute,
+    _provenanceValidationLocalName, _localNameMatchesValidation⟩ := carrier
+  have stateTraceUnary : UnaryHistory stateTraceRead :=
+    unary_cont_closed stateUnary traceUnary stateTraceRoute
+  have validationReadUnary : UnaryHistory validationRead :=
+    unary_cont_closed stateTraceUnary validationUnary validationReadRoute
+  exact
+    ⟨inputUnary, stateUnary, traceUnary, validationUnary, stateTraceUnary,
+      validationReadUnary, inputStateTrace, stateTraceRoute, validationReadRoute,
+      traceValidationRoute, validationReadPkg⟩
+
 end BEDC.Derived.ReflectionRuntimeCheckpointUp
