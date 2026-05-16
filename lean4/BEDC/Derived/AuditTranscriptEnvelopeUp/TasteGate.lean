@@ -12,7 +12,7 @@ open BEDC.Meta.TasteGate
 inductive AuditTranscriptEnvelopeUp : Type where
   | mk :
       (claimKind carrier ledger status gap anchor replay notClaimed transport route provenance
-        nameCert : BHist) →
+        name : BHist) →
       AuditTranscriptEnvelopeUp
   deriving DecidableEq
 
@@ -28,7 +28,7 @@ def auditTranscriptEnvelopeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (auditTranscriptEnvelopeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (auditTranscriptEnvelopeDecodeBHist tail)
 
-private theorem auditTranscriptEnvelopeDecode_encode_bhist :
+private theorem auditTranscriptEnvelope_decode_encode_bhist :
     ∀ h : BHist,
       auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,16 +38,20 @@ private theorem auditTranscriptEnvelopeDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def auditTranscriptEnvelopeFields : AuditTranscriptEnvelopeUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | AuditTranscriptEnvelopeUp.mk claimKind carrier ledger status gap anchor replay notClaimed
+      transport route provenance name =>
+      [claimKind, carrier, ledger, status, gap, anchor, replay, notClaimed, transport, route,
+        provenance, name]
+
 def auditTranscriptEnvelopeToEventFlow : AuditTranscriptEnvelopeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | AuditTranscriptEnvelopeUp.mk claimKind carrier ledger status gap anchor replay notClaimed
-      transport route provenance nameCert =>
-      [[BMark.b0],
-        auditTranscriptEnvelopeEncodeBHist claimKind,
-        [BMark.b1, BMark.b0],
-        auditTranscriptEnvelopeEncodeBHist carrier,
-        [BMark.b1, BMark.b1, BMark.b0],
-        auditTranscriptEnvelopeEncodeBHist ledger,
+      transport route provenance name =>
+      [[BMark.b0], auditTranscriptEnvelopeEncodeBHist claimKind,
+        [BMark.b1, BMark.b0], auditTranscriptEnvelopeEncodeBHist carrier,
+        [BMark.b1, BMark.b1, BMark.b0], auditTranscriptEnvelopeEncodeBHist ledger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         auditTranscriptEnvelopeEncodeBHist status,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -70,127 +74,32 @@ def auditTranscriptEnvelopeToEventFlow : AuditTranscriptEnvelopeUp → EventFlow
         auditTranscriptEnvelopeEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        auditTranscriptEnvelopeEncodeBHist nameCert]
+        auditTranscriptEnvelopeEncodeBHist name]
 
-def auditTranscriptEnvelopeFromEventFlow : EventFlow → Option AuditTranscriptEnvelopeUp
+private def auditTranscriptEnvelopeEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | claimKind :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | carrier :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | ledger :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | status :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | gap :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | anchor :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | replay :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | notClaimed :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | transport :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 :: rest18 =>
-                                                                              match rest18 with
-                                                                              | [] => none
-                                                                              | route :: rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] => none
-                                                                                  | _tag10 ::
-                                                                                      rest20 =>
-                                                                                      match
-                                                                                        rest20
-                                                                                      with
-                                                                                      | [] =>
-                                                                                          none
-                                                                                      | provenance ::
-                                                                                          rest21 =>
-                                                                                          match
-                                                                                            rest21
-                                                                                          with
-                                                                                          | [] =>
-                                                                                              none
-                                                                                          | _tag11 ::
-                                                                                              rest22 =>
-                                                                                              match
-                                                                                                rest22
-                                                                                              with
-                                                                                              | [] =>
-                                                                                                  none
-                                                                                              | nameCert ::
-                                                                                                  rest23 =>
-                                                                                                  match
-                                                                                                    rest23
-                                                                                                  with
-                                                                                                  | [] =>
-                                                                                                      some
-                                                                                                        (AuditTranscriptEnvelopeUp.mk
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            claimKind)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            carrier)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            ledger)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            status)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            gap)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            anchor)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            replay)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            notClaimed)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            transport)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            route)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            provenance)
-                                                                                                          (auditTranscriptEnvelopeDecodeBHist
-                                                                                                            nameCert))
-                                                                                                  | _ ::
-                                                                                                      _ =>
-                                                                                                      none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => auditTranscriptEnvelopeEventAtDefault index rest
+
+def auditTranscriptEnvelopeFromEventFlow (ef : EventFlow) :
+    Option AuditTranscriptEnvelopeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (AuditTranscriptEnvelopeUp.mk
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 1 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 3 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 5 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 7 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 9 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 11 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 13 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 15 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 17 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 19 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 21 ef))
+      (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEventAtDefault 23 ef)))
 
 private theorem auditTranscriptEnvelope_round_trip :
     ∀ x : AuditTranscriptEnvelopeUp,
@@ -199,52 +108,39 @@ private theorem auditTranscriptEnvelope_round_trip :
   intro x
   cases x with
   | mk claimKind carrier ledger status gap anchor replay notClaimed transport route provenance
-      nameCert =>
+      name =>
       change
         some
           (AuditTranscriptEnvelopeUp.mk
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist claimKind))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist carrier))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist ledger))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist status))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist gap))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist anchor))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist replay))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist notClaimed))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist transport))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist route))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist provenance))
-            (auditTranscriptEnvelopeDecodeBHist
-              (auditTranscriptEnvelopeEncodeBHist nameCert))) =
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist claimKind))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist carrier))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist ledger))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist status))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist gap))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist anchor))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist replay))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist notClaimed))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist transport))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist route))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist provenance))
+            (auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist name))) =
           some
             (AuditTranscriptEnvelopeUp.mk claimKind carrier ledger status gap anchor replay
-              notClaimed transport route provenance nameCert)
-      rw [auditTranscriptEnvelopeDecode_encode_bhist claimKind,
-        auditTranscriptEnvelopeDecode_encode_bhist carrier,
-        auditTranscriptEnvelopeDecode_encode_bhist ledger,
-        auditTranscriptEnvelopeDecode_encode_bhist status,
-        auditTranscriptEnvelopeDecode_encode_bhist gap,
-        auditTranscriptEnvelopeDecode_encode_bhist anchor,
-        auditTranscriptEnvelopeDecode_encode_bhist replay,
-        auditTranscriptEnvelopeDecode_encode_bhist notClaimed,
-        auditTranscriptEnvelopeDecode_encode_bhist transport,
-        auditTranscriptEnvelopeDecode_encode_bhist route,
-        auditTranscriptEnvelopeDecode_encode_bhist provenance,
-        auditTranscriptEnvelopeDecode_encode_bhist nameCert]
+              notClaimed transport route provenance name)
+      rw [auditTranscriptEnvelope_decode_encode_bhist claimKind,
+        auditTranscriptEnvelope_decode_encode_bhist carrier,
+        auditTranscriptEnvelope_decode_encode_bhist ledger,
+        auditTranscriptEnvelope_decode_encode_bhist status,
+        auditTranscriptEnvelope_decode_encode_bhist gap,
+        auditTranscriptEnvelope_decode_encode_bhist anchor,
+        auditTranscriptEnvelope_decode_encode_bhist replay,
+        auditTranscriptEnvelope_decode_encode_bhist notClaimed,
+        auditTranscriptEnvelope_decode_encode_bhist transport,
+        auditTranscriptEnvelope_decode_encode_bhist route,
+        auditTranscriptEnvelope_decode_encode_bhist provenance,
+        auditTranscriptEnvelope_decode_encode_bhist name]
 
-private theorem auditTranscriptEnvelopeToEventFlow_injective
-    {x y : AuditTranscriptEnvelopeUp} :
+private theorem auditTranscriptEnvelopeToEventFlow_injective {x y : AuditTranscriptEnvelopeUp} :
     auditTranscriptEnvelopeToEventFlow x = auditTranscriptEnvelopeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -255,6 +151,20 @@ private theorem auditTranscriptEnvelopeToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (auditTranscriptEnvelope_round_trip x).symm
       (Eq.trans hread (auditTranscriptEnvelope_round_trip y)))
+
+private theorem auditTranscriptEnvelope_field_faithful :
+    ∀ x y : AuditTranscriptEnvelopeUp,
+      auditTranscriptEnvelopeFields x = auditTranscriptEnvelopeFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk claimKind₁ carrier₁ ledger₁ status₁ gap₁ anchor₁ replay₁ notClaimed₁ transport₁
+      route₁ provenance₁ name₁ =>
+      cases y with
+      | mk claimKind₂ carrier₂ ledger₂ status₂ gap₂ anchor₂ replay₂ notClaimed₂ transport₂
+          route₂ provenance₂ name₂ =>
+          cases hfields
+          rfl
 
 instance auditTranscriptEnvelopeBHistCarrier : BHistCarrier AuditTranscriptEnvelopeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -274,31 +184,18 @@ instance auditTranscriptEnvelopeChapterTasteGate :
 
 instance auditTranscriptEnvelopeFieldFaithful : FieldFaithful AuditTranscriptEnvelopeUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | AuditTranscriptEnvelopeUp.mk claimKind carrier ledger status gap anchor replay notClaimed
-        transport route provenance nameCert =>
-        [claimKind, carrier, ledger, status, gap, anchor, replay, notClaimed, transport,
-          route, provenance, nameCert]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk claimKind₁ carrier₁ ledger₁ status₁ gap₁ anchor₁ replay₁ notClaimed₁ transport₁
-        route₁ provenance₁ nameCert₁ =>
-        cases y with
-        | mk claimKind₂ carrier₂ ledger₂ status₂ gap₂ anchor₂ replay₂ notClaimed₂ transport₂
-            route₂ provenance₂ nameCert₂ =>
-            cases h
-            rfl
+  fields := auditTranscriptEnvelopeFields
+  field_faithful := auditTranscriptEnvelope_field_faithful
 
 instance auditTranscriptEnvelopeNontrivial : Nontrivial AuditTranscriptEnvelopeUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨AuditTranscriptEnvelopeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      AuditTranscriptEnvelopeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨AuditTranscriptEnvelopeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty,
+      AuditTranscriptEnvelopeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -306,25 +203,5 @@ instance auditTranscriptEnvelopeNontrivial : Nontrivial AuditTranscriptEnvelopeU
 def taste_gate : ChapterTasteGate AuditTranscriptEnvelopeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   auditTranscriptEnvelopeChapterTasteGate
-
-theorem AuditTranscriptEnvelopeTasteGate_single_carrier_alignment
-    {K C L S G A R U H T P N : BHist} :
-    (∀ h : BHist,
-        auditTranscriptEnvelopeDecodeBHist (auditTranscriptEnvelopeEncodeBHist h) = h) ∧
-      (auditTranscriptEnvelopeFromEventFlow
-          (auditTranscriptEnvelopeToEventFlow
-            (AuditTranscriptEnvelopeUp.mk K C L S G A R U H T P N)) =
-        some (AuditTranscriptEnvelopeUp.mk K C L S G A R U H T P N)) ∧
-      (auditTranscriptEnvelopeToEventFlow
-          (AuditTranscriptEnvelopeUp.mk K C L S G A R U H T P N) ≠
-        [[BMark.b0]]) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
-  constructor
-  · exact auditTranscriptEnvelopeDecode_encode_bhist
-  · constructor
-    · exact auditTranscriptEnvelope_round_trip _
-    · intro heq
-      injection heq with _ tailEq
-      cases tailEq
 
 end BEDC.Derived.AuditTranscriptEnvelopeUp
