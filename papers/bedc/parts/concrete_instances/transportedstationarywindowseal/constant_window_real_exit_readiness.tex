@@ -1,0 +1,57 @@
+\begin{theorem}[Transported stationary window-seal constant StreamName classifier coverage]
+\label{thm:transported-stationary-window-seal-constant-stream-classifier-coverage}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The transported $\RatUp$ classifier row $R$ covers the constant $\StreamNameUp$ window $S$ and the $\RegSeqRatUp$ finite seal $G$ through the same displayed route
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N .
+\end{aligned}
+$$
+Every read of the constant window or its finite seal is therefore a read of this transported classifier route, with the support rows $H,C,P,N$ carrying the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligation surface of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It exposes the accepted packet only through $R,S,G,W,E,H,C,P,N$, so the source side has no coordinate outside the transported rational classifier, constant stream name, and RegSeqRat seal rows.
+
+Next apply readback determinacy, \autoref{thm:transported-stationary-window-seal-readback-determinacy}. The constant $\StreamNameUp$ row $S$ is read after $R$ and before the finite seal row $G$, and the same order is preserved by the displayed support rows.
+
+Finally use route exhaustion, \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. Since the exposed route surface is exhausted by the transported source triad and its support rows, the classifier coverage for the constant window and finite seal is exactly $R,S,G,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal finite envelope handoff exhaustion]
+\label{thm:transported-stationary-window-seal-finite-envelope-handoff-exhaustion}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every $\RealUp$-facing handoff through the finite envelope $W$ and seal row $E$ is exhausted by the same finite route
+$$
+\begin{aligned}
+  R,S,G
+  \longrightarrow
+  W
+  \longrightarrow
+  E
+\end{aligned}
+$$
+together with the support rows $H,C,P,N$. Such a handoff cannot import quotient streams, host equality, choice, hidden tail oracles, selected limits, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-real-factorization}. It places every $\RealUp$ seal read behind the transported $\RatUp$, constant $\StreamNameUp$, $\RegSeqRatUp$, and finite envelope rows.
+
+Then use \autoref{thm:transported-stationary-window-seal-completion-schedule-envelope-determinacy}. The schedule fixes the envelope $W$ between the source triad and the Real-facing row $E$, so a handoff preserving $W,E$ must preserve the same finite route.
+
+It remains to exclude off-route sources. Apply \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}: the support rows $H,C,P,N$ enumerate the accepted route surface, leaving no coordinate for quotient streams, host equality, choice, hidden tail data, selected limits, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real completion exit readiness]
+\label{thm:transported-stationary-window-seal-real-completion-exit-readiness}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The displayed route
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N
+\end{aligned}
+$$
+is the exact $\RealUp/\CompletionUp$ exit-readiness packet consumed by downstream L10 chapters: $R$ supplies the transported rational classifier, $S$ supplies the constant stream-name window, $G$ supplies the RegSeqRat finite seal, $W$ supplies the finite envelope, $E$ supplies the Real-facing row, and $H,C,P,N$ supply the BEDC support, package, and naming rows.
+\end{theorem}
+\begin{proof}
+Start with the constant-window coverage theorem above. It identifies the source side of the packet as the finite transported route $R,S,G,H,C,P,N$.
+
+Next use the finite-envelope handoff theorem above. It extends the same route through $W$ and $E$ while excluding quotient-stream, host-equality, choice, hidden-tail, selected-limit, and ambient-completeness sources.
+
+Finally combine \autoref{thm:transported-stationary-window-seal-readback-determinacy}, \autoref{thm:transported-stationary-window-seal-real-factorization}, and \autoref{thm:transported-stationary-window-seal-completion-schedule-envelope-determinacy}. These rows fix the read order from the transported classifier through the finite seal and envelope to the Real-facing endpoint. Thus downstream L10 consumers receive exactly $R,S,G,W,E,H,C,P,N$ as their $\RealUp/\CompletionUp$ exit-readiness packet.
+\end{proof}

@@ -365,19 +365,40 @@ Next use the nontrivial witness, \autoref{thm:real-limit-uniqueness-seal-nontriv
 Finally apply field-faithful projection, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}. Equality and determination of accepted packets are exhausted by the displayed fields, and the consumer exhaustion theorem keeps downstream reads inside the same packet. Therefore the public route exports exactly the listed rows and no external Real or Completion object.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness bridged seal surface]
+\label{thm:real-limit-uniqueness-bridged-seal-surface}
+The bridge-facing $\RealLimitUniquenessSealUp$ surface is exactly the packet
+$$
+L_0,L_1,Q,S,D,R,V,H,C,P,N .
+$$
+Here $L_0$ and $L_1$ are the two $\CauchyLimitSealUp$ rows, $Q$ is the shared $\RegSeqRatUp$ comparison row, $S$ is the finite $\StreamNameUp$ window row, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, $R$ is the $\RealUp$ classifier row, $V$ is the $\RegularLimitUniquenessUp$ handoff, $H$ is componentwise $\hsame$ transport, $C$ is the displayed $\Cont$ route, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\RealLimitUniquenessSealUp}$ row.
+
+This surface provides the two-seal uniqueness route needed by Real and Completion consumers. It still provides no selected host limit, quotient stream equality, host Real equality, detached selector choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}. It lists the carrier row, the two completion-seal rows, the shared comparison row, the finite window row, the dyadic tolerance ledger, the Real classifier, the regular-limit uniqueness handoff, componentwise transport, continuation, provenance, and local NameCert row as the complete packet inventory.
+
+The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, keeps every consumer inside that inventory. It rules out selected host limits, quotient stream equality, host Real equality, detached selector choices, and ambient Real completeness as routes for reading the uniqueness surface.
+
+Next apply the primitive-scope route and the public-route surface. By \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, every displayed row is tied to the concrete BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. By \autoref{thm:real-limit-uniqueness-seal-public-route-surface}, the same rows are exactly what a public consumer receives.
+
+Finally use the nontrivial witness and field-faithful projection. The witness of \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness} prevents the two-seal surface from collapsing to a one-row shell, and \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection} says that accepted packets are determined componentwise by $L_0,L_1,Q,S,D,R,V,H,C,P,N$. Therefore the bridge-facing surface is precisely the displayed two-seal uniqueness packet and carries none of the excluded host or completeness data.
+\end{proof}
+
 \closureat{RealLimitUniquenessSealUp}{seedStr}
 \closureat{RealLimitUniquenessSealUp}{obligationStr}
 \closureat{RealLimitUniquenessSealUp}{scopedStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
 \closureat{RealLimitUniquenessSealUp}{publicStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
+\closureat{RealLimitUniquenessSealUp}{bridgedStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
 
 \begin{closurestatus}{\RealLimitUniquenessSealUp}
   \constructivestory{A $\RealLimitUniquenessSealUp$ packet is generated from two CauchyLimitSeal rows, a shared RegSeqRat comparison row, a finite StreamName window row, a DyadicRatCore tolerance ledger, a RealUp classifier row, a RegularLimitUniqueness row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, and \autoref{thm:real-limit-uniqueness-seal-public-route-surface} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, primitive route, and public consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, \autoref{thm:real-limit-uniqueness-seal-phase-real-boundary}, \autoref{thm:real-limit-uniqueness-seal-consumer-exhaustion}, and \autoref{thm:real-limit-uniqueness-seal-public-route-surface} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, primitive route, Phase Real boundary, consumer exhaustion surface, and public consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate}
   \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host Real equality, Lean verification, or bridge checking for $\RealLimitUniquenessSealUp$.}
-  \upgradepath{The next paper-side obligation is a bridge surface that reads the public two-seal uniqueness route without adding selected limits, quotient streams, host Real equality, or ambient completeness.}
+  \upgradepath{The next paper-side route is bridged closure for the public two-seal uniqueness surface without adding selected limits, quotient streams, host Real equality, or ambient completeness.}
 \end{closurestatus}
