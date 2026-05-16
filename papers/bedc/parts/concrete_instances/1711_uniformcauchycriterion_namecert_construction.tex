@@ -653,6 +653,22 @@ Next apply the Real seal and completion boundary, \autoref{thm:uniform-cauchy-cr
 Finally use the finite-tail-filter Real seal handoff, \autoref{thm:finite-tail-filter-real-seal-handoff}, and sibling tail handoff, \autoref{thm:finite-tail-filter-sibling-tail-handoff}. The first carries the same cofinal-tail packet to Real and Completion consumers; the second prevents a sibling consumer from substituting another tail selector, comparison row, or seal route. Hence the shared-window route of $U$ determines exactly the finite-tail-filter cofinal-tail packet described above, and the reverse implication is obtained by reading the same packet rows back through $W,Q,T,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-window Real-seal extraction]
+\label{thm:uniform-cauchy-criterion-finite-window-real-seal-extraction}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Its $\RealUp$-seal route is extracted from exactly the finite window family $W$, the dyadic tolerance row $Q$, the tail ledger $T$, and the structural rows $H,C,P,N$. The extraction exposes no quotient stream family, host real equality, selected family limit, choice schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-cauchy-criterion-finite-tail-filter-alignment}. It identifies the Real-facing route with the shared finite-window route through $W,Q,T,E,H,C,P,N$ and excludes any second window family or tail selector.
+
+Apply \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. The seal row $E$ is read only after the public rows $H,C,P,N$ have carried the finite tail and tolerance data to the Real-facing boundary.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-public-non-escape-export}. Since the public route is already exhausted by $I,W,M,Q,T,E,H,C,P,N$, the extracted Real-seal route has no coordinate for quotient stream families, host real equality, selected family limits, choice schedules, or ambient completeness.
+\end{proof}
+
 \closureat{UniformCauchyCriterionUp}{seedStr}
 \closureat{UniformCauchyCriterionUp}{obligationStr}
 \closureat{UniformCauchyCriterionUp}{scopedStr}
