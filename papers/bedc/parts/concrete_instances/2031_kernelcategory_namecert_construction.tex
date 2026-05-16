@@ -150,6 +150,98 @@ Apply \autoref{thm:kernel-category-certificate-surface}. The ledger non-escape o
 Functor semantics and limit objects would require additional carrier rows and additional laws. Since $P$ records only provenance for the displayed finite packet, it cannot export those structures.
 \end{proof}
 
+\begin{theorem}[KernelCategory carrier admission obligation]
+\label{thm:kernel-category-carrier-admission-obligation}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, carrier admission is
+exactly the finite obligation surface consisting of unary object histories in
+$O$, continuation-ledger hom rows in $H$, empty-continuation identity rows in
+$I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ law transports
+in $A$ and $U$, provenance in $P$, and local $\NameCert$ in $N$. It admits no
+host category object, quotient morphism, external arrow equality, functor
+semantics, natural transformation, limit object, or global naming row outside
+that tuple.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:kernel-category-carrier}. Its carrier tuple exposes
+the object, hom, identity, composition, law-transport, provenance, and local
+naming rows as the available finite packet.
+
+Use \autoref{thm:kernel-category-identity-continuation} for the identity side.
+It identifies identity admission with empty continuation rows over unary object
+histories already present in $O$.
+
+Use \autoref{thm:kernel-category-composition-continuation} for the hom side.
+It identifies composition admission with displayed $\Cont$ composites whose
+endpoints remain in the continuation-ledger hom rows of $H$.
+
+Finally apply \autoref{thm:kernel-category-certificate-surface} and
+\autoref{thm:kernel-category-pkg-provenance-nonescape}. The certificate and
+provenance rows expose the $\hsame$ law transports, package row, and local
+naming row, while their non-escape clauses exclude all host category and
+quotient coordinates outside $K$.
+\end{proof}
+
+\begin{theorem}[KernelCategory continuation composition stability]
+\label{thm:kernel-category-cont-composition-stability}
+Let $K=(O,H,I,C,A,U,P,N)$ and $K'=(O',H',I',C',A',U',P',N')$ be
+$\KernelCategoryUp$ packets whose endpoints and hom rows are related by
+componentwise $\hsame$ transports. Any displayed $\Cont$ composite admitted by
+$C$ transports to the corresponding displayed $\Cont$ composite admitted by
+$C'$ using only the endpoint rows, hom rows, and law transports of the two
+packets. The stability statement has no coordinate for host category
+composition, quotient morphism, or external equality of arrows.
+\end{theorem}
+\begin{proof}
+Read composition through \autoref{thm:kernel-category-cont-composition-locality}.
+It says that a composition read is local to displayed $\Cont$ rows and the
+endpoint ledgers already present in $O$ and $H$.
+
+Apply \autoref{thm:kernel-category-composition-continuation}. The composite
+hom row is constructed from the two input continuation-ledger hom rows and the
+displayed $\Cont$ composite row joining them.
+
+The componentwise $\hsame$ endpoint and hom transports move those input rows
+from $K$ to $K'$. The associativity and unit transports in $A,U,A',U'$ compare
+only displayed continuation ledgers, so the transported composite remains a
+displayed $\Cont$ composite rather than a host category composition.
+
+Finally use \autoref{thm:kernel-category-certificate-surface}. Its non-escape
+clause removes quotient morphisms and external arrow equality, leaving the
+displayed continuation route as the entire stability witness.
+\end{proof}
+
+\begin{theorem}[KernelCategory NameCert route exhaustion]
+\label{thm:kernel-category-namecert-route-exhaustion}
+Every public read of a $\KernelCategoryUp$ packet factors through carrier
+admission, identity continuation, composition continuation, associativity and
+unit transports, package provenance, and local naming. Thus the local
+$\NameCert$ route is exhausted by the rows $O,H,I,C,A,U,P,N$ and exports no
+host category universe, quotient morphism, external arrow equality, functorial
+semantics, natural transformation, limit object, adjunction, or second naming
+source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:kernel-category-carrier-admission-obligation}. It fixes the
+available carrier rows as unary object histories, continuation-ledger hom
+rows, identity rows, displayed composites, law transports, provenance, and
+local naming.
+
+Next use \autoref{thm:kernel-category-identity-continuation} and
+\autoref{thm:kernel-category-composition-continuation}. These identify the two
+operation routes available to a public read and keep both routes inside the
+displayed continuation ledger.
+
+The law rows are supplied by \autoref{thm:kernel-category-certificate-surface}.
+They transport associativity and unit comparisons through $\hsame$ rows rather
+than through external equality of arrows.
+
+Finally apply \autoref{thm:kernel-category-pkg-provenance-nonescape}. The
+provenance row records only the finite BEDC carrier and local NameCert route,
+so all host category, quotient, functorial, limit, adjunction, and second
+naming coordinates are outside the public read.
+\end{proof}
+
 \closureat{KernelCategoryUp}{seedStr}
 
 \begin{closurestatus}{\KernelCategoryUp}
