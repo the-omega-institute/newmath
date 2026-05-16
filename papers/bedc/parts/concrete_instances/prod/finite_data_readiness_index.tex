@@ -1,0 +1,15 @@
+\begin{theorem}[Prod hub finite-data readiness index]
+\label{thm:prod-hub-finite-data-readiness-index}
+The finite-data public surface indexed by the $\ProdUp$ hub is exhausted by five already displayed routes: the product history envelope, the componentwise interface, the ledger certificate, the $\OptionUp$--$\SumUp$ sibling route, and the public finite-data exit package. Equivalently, every public product read factors through $\BHist$, the componentwise classifier, displayed-pair ledger rows, source $\NameCert$ rows, $\hsame$, $\Cont$, and $\Pkg$ provenance before it reaches any finite-data consumer.
+
+The index has no extra host tuple equality, outside-ledger projection, generic finite-data quotient, or untagged carrier beyond the child-file surfaces named by the hub.
+\end{theorem}
+\begin{proof}
+Begin with the history envelope. The carrier and classifier surfaces of \autoref{def:prod-carrier}, \autoref{thm:concrete-prod-namecert}, and \autoref{cor:prod-history-envelope-licensed-not-primitive} put the product read inside the BEDC history envelope rather than in a host tuple object.
+
+Next use the componentwise interface. The descent and exactness rows of \autoref{thm:prod-component-history-classifier-descends-to-envelope}, \autoref{thm:prod-component-history-classifier-displayed-exactness}, and \autoref{thm:prod-component-history-semantic-certificate-target} make component reads pass through the displayed classifier and source certificate rows.
+
+The ledger certificate supplies the finite display route. Apply \autoref{def:prod-displayed-pair-ledger}, \autoref{thm:prod-component-history-classifier-displayed-ledger-endpoints}, and \autoref{thm:produp-obligation-surface-package}; these expose the displayed-pair ledger, $\hsame$ transport, $\Cont$ continuation, and $\Pkg$ provenance rows.
+
+Finally pass through the finite-data siblings and public exit package. The sibling coverage is \autoref{thm:prod-finite-data-sibling-lattice} and \autoref{thm:prod-option-sum-component-sibling-route}; the public consumer boundary is \autoref{thm:prod-public-finite-data-exit-package} and \autoref{thm:prod-finite-data-public-exit-consumer-universality}. These rows exhaust the hub-indexed readiness surface, so no additional product consumer coordinate remains.
+\end{proof}
