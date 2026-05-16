@@ -317,6 +317,40 @@ the constant rational route.
 The intended Lean target shape for this certificate is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
 
+\begin{theorem}[RealAlgOrder positive-radius window stability]
+\label{thm:real-alg-order-positive-radius-window-stability}
+Let $A$ and $B$ be accepted $\RealAlgOrder$ constant packets whose endpoints
+are sealed by the same $\StreamNameUp$ finite-window source, the same
+$\RegSeqRat$ seal, the same $\RealUp$ component row, and the same positive
+$\RatUp$ order-radius row after the displayed $\hsame$ and $\Cont$ transports.
+Then their apartness and order read is the same finite L10 window read. The
+read is determined by the StreamName finite observation window, the RegSeqRat
+regularity seal, the RealUp constant endpoint, and the RatUp positive-radius
+order witness; it cannot import quotient stream equality, host real equality,
+trichotomy, selected limits, ambient completeness, metric structure, or a
+standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the constant rational order boundary,
+\autoref{thm:realalgorder-constant-rational-order-boundary}. It routes every
+positive-radius apartness or order read through the RatUp witness before the
+result is embedded as a RealUp constant endpoint.
+
+Next apply the scoped certificate of
+\autoref{thm:realalgorder-constant-rational-scoped-certificate}. Since the two
+packets agree on the StreamName finite-window source, the RegSeqRat seal, the
+RealUp component row, and the RatUp radius row through $\hsame$ and $\Cont$,
+the accepted read has no remaining coordinate from which to choose a different
+order window.
+
+Finally use the StreamName and RegSeqRat finite-window handoffs cited by the
+RealUp seal, including the constant rational embedding and classifier readback
+certificates. These handoffs identify the L10 observation window as the public
+source of the RealAlgOrder read and leave no route to quotient equality, host
+real equality, trichotomy, selected limits, completeness, metric data, or a
+standard bridge.
+\end{proof}
+
 \input{parts/concrete_instances/real/13_realalgorder_public_certificate_surface}
 
 \begin{closurestatus}{\RealAlgOrderUp}
