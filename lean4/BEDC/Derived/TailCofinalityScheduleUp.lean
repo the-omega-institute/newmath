@@ -180,6 +180,37 @@ theorem TailCofinalityScheduleCarrier_real_seal_readback [AskSetup] [PackageSetu
       routeUnary, provenanceUnary, localCertUnary, endpointUnary, sealReadUnary,
       precisionWindowDyadic, dyadicRegseqSeal, regseqSealRead, endpointPkg, sealReadPkg⟩
 
+theorem TailCofinalityScheduleCarrier_regular_cauchy_completion_route [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      completionRead completionSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      Cont dyadic regseq completionRead →
+        Cont completionRead sealRow completionSeal →
+          PkgSig bundle completionSeal pkg →
+            UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+              UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory completionRead ∧
+                UnaryHistory completionSeal ∧ Cont precision window dyadic ∧
+                  Cont dyadic regseq sealRow ∧ Cont dyadic regseq completionRead ∧
+                    Cont completionRead sealRow completionSeal ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle completionSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier dyadicRegseqCompletion completionSealRoute completionSealPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary regseqUnary dyadicRegseqCompletion
+  have completionSealUnary : UnaryHistory completionSeal :=
+    unary_cont_closed completionReadUnary sealUnary completionSealRoute
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary, completionReadUnary,
+      completionSealUnary, precisionWindowDyadic, dyadicRegseqSeal, dyadicRegseqCompletion,
+      completionSealRoute, endpointPkg, completionSealPkg⟩
+
 theorem TailCofinalityScheduleCarrier_selector_seal_pullback [AskSetup] [PackageSetup]
     {precision budget window dyadic regseq sealRow transport route provenance localCert endpoint
       selectorRead sealRead pullback : BHist}

@@ -1,0 +1,89 @@
+\begin{theorem}[CriticalLineWitness zeta source lock]
+\label{thm:critical-line-witness-zeta-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every zeta-facing read of $W$ factors through the supplied zero row $Z$, the
+fixed critical-strip row $S$, the modulus row $M$, the rational comparison
+row $Q$, and the displayed support rows $H,C,P,N$ before any
+$\mathsf{RH}$-facing consumer can inspect it. The zeta-facing route is
+therefore a finite source lock over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+the local $\NameCert_{\CriticalLineWitnessUp}$ row, not an analytic
+continuation theorem or a host zero-classifier.
+\end{theorem}
+\begin{proof}
+Start from the dependency lattice of
+\autoref{thm:critical-line-witness-zeta-link}. It places every zeta or
+critical-line read behind the supplied zero row and the fixed strip row before
+any modulus witness is visible.
+
+Use the carrier and local NameCert obligations in
+\autoref{thm:critical-line-witness-namecert-obligations}. They bind the
+modulus, rational comparison, transport, replay, provenance, and local naming
+rows to the same accepted packet.
+
+Finally apply the source-modulus public readiness surface,
+\autoref{thm:critical-line-witness-source-modulus-public-readiness}. The
+readiness route exposes $Z,S,M,R,Q,H,C,P,N$ together and leaves no field from
+which a zeta-facing read could bypass the finite source lock before the
+$\mathsf{RH}$ consumer sees it.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness source-modulus zeta readback]
+\label{thm:critical-line-witness-source-modulus-zeta-readback}
+For every accepted $\CriticalLineWitnessUp$ packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the source surface and the modulus surface share the same displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support. A
+zeta-facing readback may distinguish the supplied zero row, the fixed-strip
+source row, the modulus row, the real-part row, and the rational comparison
+row, but it cannot detach any of them from the shared support route
+$H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier and NameCert rows of
+\autoref{thm:critical-line-witness-namecert-obligations}. The source and
+modulus coordinates are rows of one finite packet, with $H,C,P,N$ carrying
+transport, replay, provenance, and local naming.
+
+Apply the zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link}. It keeps zero-strip and
+critical-line reads on the same finite witness surface before the modulus
+read is exposed.
+
+Use \autoref{thm:critical-line-witness-source-modulus-public-readiness} to
+read the source and modulus surfaces as one public route. Thus the zeta
+readback can replay the individual rows only through their common
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH consumer source nonescape]
+\label{thm:critical-line-witness-rh-consumer-source-nonescape}
+Every $\mathsf{RH}$-facing consumer of an accepted
+$\CriticalLineWitnessUp$ packet receives only the finite source, modulus, and
+zeta packet
+$$
+Z,\quad S,\quad M,\quad R,\quad Q,\quad H,\quad C,\quad P,\quad N.
+$$
+The consumer receives no proof of $\mathsf{RH}$, analytic-continuation
+theorem, host equality, quotient zero set, global zero classifier, ambient
+completeness row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with the source lock above. It forces zeta-facing inspection through
+the supplied zero, fixed strip, modulus, comparison, and displayed support
+rows before any $\mathsf{RH}$-facing consumer sees the packet.
+
+Next use the source-modulus zeta readback theorem. It keeps the source and
+modulus surfaces on the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ route, so the consumer cannot detach a host source from the
+finite readback.
+
+Finally apply
+\autoref{thm:critical-line-witness-source-modulus-consumer-nonescape}. That
+consumer boundary removes analytic continuation, host equality, quotient
+representatives, ambient completeness, zero search, selected host limits, and
+$\mathsf{RH}$ proof content. Since the accepted packet also has no standard
+bridge coordinate, the $\mathsf{RH}$-facing consumer receives only the finite
+source, modulus, and zeta rows listed above.
+\end{proof}
