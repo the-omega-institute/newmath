@@ -189,6 +189,46 @@ completeness, arithmetic or order package, or metric-completeness coordinate,
 the comparison is exhausted by the four displayed faces.
 \end{proof}
 
+\begin{theorem}[Real L10 four-source audit-clean handoff]
+\label{thm:real-l10-four-source-audit-clean-handoff}
+Every current Phase Real and Completion exit read of an accepted $\RealUp$
+packet factors through the ordered four-source packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The only structural transports available to the handoff are the displayed
+$\BHist$ packets, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance
+rows, and local $\NameCert$ rows attached to those four sources. In
+particular, the handoff admits no quotient stream equality, selected limit,
+host real equality, ambient completeness, arithmetic package, order package,
+metric-completeness row, or bridge row as an additional source surface.
+\end{theorem}
+\begin{proof}
+Start from the Real L10 dependency lattice,
+\autoref{def:real-l10-dependency-lattice}. It names the four source faces and
+places the dyadic observation rows before StreamName windows, RegSeqRat
+readback, and the local $\RealUp$ seal.
+
+Apply interface totality and terminal face order,
+\autoref{thm:real-l10-dependency-lattice-interface-totality} and
+\autoref{thm:real-l10-terminal-face-order}. These results make every current
+Phase Real and Completion interface read pass through the same ordered packet
+before any terminal exit can consume the Real seal.
+
+Read the checked source surfaces in that order. The DyadicRatCore face is the
+standard-source bridge \texttt{DyadicRatCoreCarrier\_standard\_source\_bridge},
+the StreamName face is supplied by
+\texttt{RatStreamName\_certificate\_fields}, the RegSeqRat face is the
+real-seal handoff \texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff}, and
+the Real face is the standard bridge \texttt{RealUp\_StdBridge}.
+
+Each cited surface exports only its local row data into the ordered packet.
+Thus the common handoff can transport by $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ rows, and has no coordinate through which to import any
+extra completion, arithmetic, order, metric, quotient, limit, or bridge
+surface.
+\end{proof}
+
 \begin{theorem}[Real L10 dependency-lattice exit handoff]
 \label{thm:real-l10-dependency-lattice-exit-handoff}
 Every current Phase Real and Completion exit read of an accepted $\RealUp$
