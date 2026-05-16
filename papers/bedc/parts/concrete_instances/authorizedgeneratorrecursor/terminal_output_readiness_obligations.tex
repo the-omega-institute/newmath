@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor terminal-output readiness]
+\label{thm:authorized-generator-recursor-terminal-output-readiness}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the terminal output row $O$ is dependency-ready only as a read of the same displayed carrier rows. Any terminal-output consumer must first preserve signature admission $I$, emitted recursor naming $E$, motive checking $M$, branch coverage $B$, structural descent $D$, audit provenance $A$, componentwise transport $H$, displayed routes $C$, package provenance $P$, boundary row $G$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. No terminal-output read may detach $O$ into a hidden generator, host induction rule, external axiom, or proof-producing channel.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The output row $O$ is one coordinate of $I,E,M,B,D,O,A,H,C,P,G,N$, not a second carrier.
+
+Use audit provenance factorization and audit boundary. Theorems~\ref{thm:authorized-generator-recursor-audit-provenance-factorization} and \ref{thm:authorized-generator-recursor-audit-boundary} keep public exposure of $O$ behind the audit row, branch package, descent row, transports, routes, package provenance, boundary, and local name.
+
+Finally attach output-name stability and ground-compiler handoff. Theorems~\ref{thm:authorized-generator-recursor-output-name-stability} and \ref{thm:authorized-generator-recursor-ground-compiler-handoff} preserve the name of $O$ only on the same finite carrier, so no hidden generator or host proof channel can replace the displayed packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit-gated output coverage]
+\label{thm:authorized-generator-recursor-audit-gated-output-coverage}
+Every public terminal-output read of an accepted $\AuthorizedGeneratorRecursorUp$ packet is covered by the audit-gated rows $A,H,C,P,G,N$ together with the source rows $I,E,M,B,D$. In particular, if a consumer reads $O$, it also reads the audit boundary, output-name stability, and ground-compiler handoff for the same carrier surface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-audit-boundary}. It places public output exposure behind accepted signature, motive, branch coverage, structural descent, and audit provenance.
+
+Next use \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}. The audit, transport, continuation, package, boundary, and local naming rows remain attached before $O$ is exported.
+
+Output-name stability then prevents the terminal row from being renamed away from this audit package. The ground-compiler handoff consumes the same carrier only as a finite handoff, so terminal-output coverage is exactly the displayed rows and not an external generator route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor local-name output exhaustion]
+\label{thm:authorized-generator-recursor-local-name-output-exhaustion}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ exhausts terminal-output naming together with $O,A,H,C,P,G$. Any two terminal-output reads preserving the carrier rows $I,E,M,B,D,O,A,H,C,P,G,N$ name the same authorized output surface, and no consumer can add a detached local name, substitute branch table, unaudited proof object, or external compiler certificate.
+\end{theorem}
+\begin{proof}
+Read the carrier and retain $N$ with the output package. The local name row is attached to the same finite packet as $O,A,H,C,P,G$.
+
+Apply output-name stability. Theorem~\ref{thm:authorized-generator-recursor-output-name-stability} keeps terminal naming componentwise stable under the displayed $\hsame$ transports and continuation routes.
+
+Use audit provenance factorization and ground-compiler handoff to close the consumer boundary. Theorems~\ref{thm:authorized-generator-recursor-audit-provenance-factorization} and \ref{thm:authorized-generator-recursor-ground-compiler-handoff} leave no coordinate for a detached name, substitute branch table, unaudited proof object, or external compiler certificate outside the carrier.
+\end{proof}
