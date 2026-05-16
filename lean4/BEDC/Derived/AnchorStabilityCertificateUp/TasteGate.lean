@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive AnchorStabilityCertificateUp : Type where
-  | mk :
-      (family invariant route classifier ledger transport continuation provenance name : BHist) →
-        AnchorStabilityCertificateUp
+  | mk (F I R K L H C P N : BHist) : AnchorStabilityCertificateUp
   deriving DecidableEq
 
 def anchorStabilityCertificateEncodeBHist : BHist → RawEvent
@@ -27,23 +25,24 @@ def anchorStabilityCertificateDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (anchorStabilityCertificateDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (anchorStabilityCertificateDecodeBHist tail)
 
-private theorem anchorStabilityCertificateDecode_encode :
+private theorem anchorStabilityCertificateDecode_encode_bhist :
     ∀ h : BHist,
       anchorStabilityCertificateDecodeBHist
-          (anchorStabilityCertificateEncodeBHist h) =
-        h := by
+        (anchorStabilityCertificateEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def anchorStabilityCertificateFields :
+private def anchorStabilityCertificateFields :
     AnchorStabilityCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | AnchorStabilityCertificateUp.mk F I R K L H C P N =>
-      [F, I, R, K, L, H, C, P, N]
+  | AnchorStabilityCertificateUp.mk F I R K L H C P N => [F, I, R, K, L, H, C, P, N]
 
 def anchorStabilityCertificateToEventFlow :
     AnchorStabilityCertificateUp → EventFlow
@@ -70,44 +69,52 @@ def anchorStabilityCertificateToEventFlow :
           BMark.b1, BMark.b0],
         anchorStabilityCertificateEncodeBHist N]
 
-private def anchorStabilityCertificateEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def anchorStabilityCertificateRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      anchorStabilityCertificateEventAtDefault index rest
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => anchorStabilityCertificateRawAt n rest
 
-def anchorStabilityCertificateFromEventFlow
-    (ef : EventFlow) : Option AnchorStabilityCertificateUp :=
+private def anchorStabilityCertificateLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (AnchorStabilityCertificateUp.mk
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 1 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 3 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 5 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 7 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 9 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 11 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 13 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 15 ef))
-      (anchorStabilityCertificateDecodeBHist
-        (anchorStabilityCertificateEventAtDefault 17 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => anchorStabilityCertificateLengthEq n rest
+
+def anchorStabilityCertificateFromEventFlow :
+    EventFlow → Option AnchorStabilityCertificateUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match anchorStabilityCertificateLengthEq 18 flow with
+      | true =>
+          some
+            (AnchorStabilityCertificateUp.mk
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 1 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 3 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 5 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 7 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 9 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 11 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 13 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 15 flow))
+              (anchorStabilityCertificateDecodeBHist
+                (anchorStabilityCertificateRawAt 17 flow)))
+      | false => none
 
 private theorem anchorStabilityCertificate_round_trip :
     ∀ x : AnchorStabilityCertificateUp,
       anchorStabilityCertificateFromEventFlow
-          (anchorStabilityCertificateToEventFlow x) =
-        some x := by
+        (anchorStabilityCertificateToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -134,21 +141,21 @@ private theorem anchorStabilityCertificate_round_trip :
             (anchorStabilityCertificateDecodeBHist
               (anchorStabilityCertificateEncodeBHist N))) =
           some (AnchorStabilityCertificateUp.mk F I R K L H C P N)
-      rw [anchorStabilityCertificateDecode_encode F,
-        anchorStabilityCertificateDecode_encode I,
-        anchorStabilityCertificateDecode_encode R,
-        anchorStabilityCertificateDecode_encode K,
-        anchorStabilityCertificateDecode_encode L,
-        anchorStabilityCertificateDecode_encode H,
-        anchorStabilityCertificateDecode_encode C,
-        anchorStabilityCertificateDecode_encode P,
-        anchorStabilityCertificateDecode_encode N]
+      rw [anchorStabilityCertificateDecode_encode_bhist F,
+        anchorStabilityCertificateDecode_encode_bhist I,
+        anchorStabilityCertificateDecode_encode_bhist R,
+        anchorStabilityCertificateDecode_encode_bhist K,
+        anchorStabilityCertificateDecode_encode_bhist L,
+        anchorStabilityCertificateDecode_encode_bhist H,
+        anchorStabilityCertificateDecode_encode_bhist C,
+        anchorStabilityCertificateDecode_encode_bhist P,
+        anchorStabilityCertificateDecode_encode_bhist N]
 
 private theorem anchorStabilityCertificateToEventFlow_injective
     {x y : AnchorStabilityCertificateUp} :
     anchorStabilityCertificateToEventFlow x =
-      anchorStabilityCertificateToEventFlow y →
-        x = y := by
+        anchorStabilityCertificateToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -161,17 +168,17 @@ private theorem anchorStabilityCertificateToEventFlow_injective
     (Eq.trans (anchorStabilityCertificate_round_trip x).symm
       (Eq.trans hread (anchorStabilityCertificate_round_trip y)))
 
-private theorem anchorStabilityCertificate_fields_faithful :
+private theorem anchorStabilityCertificate_field_faithful :
     ∀ x y : AnchorStabilityCertificateUp,
       anchorStabilityCertificateFields x =
-        anchorStabilityCertificateFields y →
-          x = y := by
+          anchorStabilityCertificateFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk F₁ I₁ R₁ K₁ L₁ H₁ C₁ P₁ N₁ =>
+  | mk F1 I1 R1 K1 L1 H1 C1 P1 N1 =>
       cases y with
-      | mk F₂ I₂ R₂ K₂ L₂ H₂ C₂ P₂ N₂ =>
+      | mk F2 I2 R2 K2 L2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -188,8 +195,7 @@ instance anchorStabilityCertificateChapterTasteGate :
     intro x
     change
       anchorStabilityCertificateFromEventFlow
-          (anchorStabilityCertificateToEventFlow x) =
-        some x
+          (anchorStabilityCertificateToEventFlow x) = some x
     exact anchorStabilityCertificate_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -199,7 +205,7 @@ instance anchorStabilityCertificateFieldFaithful :
     FieldFaithful AnchorStabilityCertificateUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := anchorStabilityCertificateFields
-  field_faithful := anchorStabilityCertificate_fields_faithful
+  field_faithful := anchorStabilityCertificate_field_faithful
 
 instance anchorStabilityCertificateNontrivial :
     Nontrivial AnchorStabilityCertificateUp where
@@ -207,8 +213,9 @@ instance anchorStabilityCertificateNontrivial :
   witness_pair :=
     ⟨AnchorStabilityCertificateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      AnchorStabilityCertificateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      AnchorStabilityCertificateUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -216,5 +223,47 @@ instance anchorStabilityCertificateNontrivial :
 def taste_gate : ChapterTasteGate AnchorStabilityCertificateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   anchorStabilityCertificateChapterTasteGate
+
+theorem AnchorStabilityCertificateTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        anchorStabilityCertificateDecodeBHist
+          (anchorStabilityCertificateEncodeBHist h) = h) ∧
+      (∀ x : AnchorStabilityCertificateUp,
+        anchorStabilityCertificateFromEventFlow
+          (anchorStabilityCertificateToEventFlow x) = some x) ∧
+        (∀ x y : AnchorStabilityCertificateUp,
+          anchorStabilityCertificateToEventFlow x =
+              anchorStabilityCertificateToEventFlow y →
+            x = y) ∧
+          anchorStabilityCertificateEncodeBHist BHist.Empty =
+            ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  constructor
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  · constructor
+    · intro x
+      cases x with
+      | mk F I R K L H C P N =>
+          exact anchorStabilityCertificate_round_trip
+            (AnchorStabilityCertificateUp.mk F I R K L H C P N)
+    · constructor
+      · intro x y heq
+        have hread :
+            anchorStabilityCertificateFromEventFlow
+                (anchorStabilityCertificateToEventFlow x) =
+              anchorStabilityCertificateFromEventFlow
+                (anchorStabilityCertificateToEventFlow y) :=
+          congrArg anchorStabilityCertificateFromEventFlow heq
+        exact Option.some.inj
+          (Eq.trans (anchorStabilityCertificate_round_trip x).symm
+            (Eq.trans hread (anchorStabilityCertificate_round_trip y)))
+      · rfl
 
 end BEDC.Derived.AnchorStabilityCertificateUp
