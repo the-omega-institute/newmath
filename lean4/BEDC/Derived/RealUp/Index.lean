@@ -33,3 +33,4 @@ import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
 import BEDC.Derived.RealUp.FiniteWindowDyadicObservationCoverage
 import BEDC.Derived.RealUp.TailClassifierPullback
 import BEDC.Derived.RealUp.RegseqratStreamCertificateSpine
+import BEDC.Derived.RealUp.L10DependencyLattice
