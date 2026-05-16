@@ -141,6 +141,72 @@ The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, rules
 Finally, \autoref{thm:real-limit-uniqueness-seal-independent-witness} identifies the simultaneous presence of $L_0$ and $L_1$ as part of the independence witness. Thus any accepted uniqueness read must expose both seal rows first.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal window-classifier lock]
+\label{thm:real-limit-uniqueness-seal-window-classifier-lock}
+For every accepted $\RealLimitUniquenessSealUp$ packet
+$U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$, any accepted uniqueness read reaches the
+$\RealUp$ classifier row $R$ only after both $\CauchyLimitSealUp$ rows
+$L_0,L_1$, the shared $\RegSeqRatUp$ comparison row $Q$, the finite
+$\StreamNameUp$ window row $S$, and the $\DyadicRatCoreUp$ tolerance row $D$
+are exposed. No one-sided seal, selector endpoint, quotient stream, host Real
+equality, or ambient completeness route can supply $R$.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of
+\autoref{thm:real-limit-uniqueness-seal-obligation-surface}. It orders the two
+candidate seal rows, the shared comparison row, the finite window row, the
+dyadic tolerance ledger, and then the Real classifier as one local
+$\NameCert_{\RealLimitUniquenessSealUp}$ route.
+
+Next apply \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}. Both
+$L_0$ and $L_1$ must be present before any uniqueness read can reach $V$, so
+the classifier row cannot be supplied by a one-sided completion seal.
+
+Use \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} to lock
+the comparison route through $Q,S,D,R,V$. The finite window and dyadic
+tolerance rows therefore sit before the $\RealUp$ classifier in every accepted
+read.
+
+Finally combine \autoref{thm:real-limit-uniqueness-seal-nonescape},
+\autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, and
+\autoref{thm:real-limit-uniqueness-selector-seal-nonescape}. These remove
+one-sided selector, quotient-stream, host-equality, and completeness routes
+from the consumer boundary. Thus $R$ is read only after the displayed finite
+window-classifier route has appeared.
+\end{proof}
+
+\begin{theorem}[Real limit uniqueness seal two-candidate totality]
+\label{thm:real-limit-uniqueness-seal-two-candidate-totality}
+Every $\RealUp$-facing or $\CauchyLimitSealUp$-facing consumer of an accepted
+$\RealLimitUniquenessSealUp$ packet receives both candidate seals $L_0,L_1$ and
+the shared comparison route $Q,S,D,R,V$ as one finite packet. The consumer
+receives no detached selector, one-sided completion seal, quotient stream,
+selected host limit, host Real equality, or ambient completeness object in
+place of that packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}. A
+downstream $\RealUp$-facing or $\CauchyLimitSealUp$-facing consumer receives
+the displayed packet and local NameCert row, rather than an external completion
+or selector object.
+
+Next use \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}. The two
+candidate seals are exposed together before any uniqueness read is available,
+so the consumer cannot receive only one endpoint of the comparison.
+
+Now apply \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} and
+\autoref{thm:real-limit-uniqueness-seal-window-classifier-lock}. These bind the
+shared route $Q,S,D,R,V$ to the two seals as the finite comparison packet that
+the consumer can replay.
+
+Finally use \autoref{thm:real-limit-uniqueness-seal-nonescape},
+\autoref{thm:real-limit-uniqueness-selector-seal-nonescape}, and
+\autoref{thm:real-limit-uniqueness-seal-independent-witness}. The non-escape
+results exclude detached selector and host-completeness routes, while the
+independence witness identifies the simultaneous two-seal comparison route as
+the packet's distinguishing finite surface.
+\end{proof}
+
 \begin{theorem}[Real limit uniqueness seal shared comparison window]
 \label{thm:real-limit-uniqueness-seal-shared-comparison-window}
 For every accepted $\RealLimitUniquenessSealUp$ packet, the two seal candidates share the route through the regular-rational comparison row $Q$, the finite window row $S$, the dyadic tolerance row $D$, the Real classifier row $R$, and the uniqueness row $V$. The packet admits no detached selector, quotient stream, or external comparison stream as a substitute for this shared route.

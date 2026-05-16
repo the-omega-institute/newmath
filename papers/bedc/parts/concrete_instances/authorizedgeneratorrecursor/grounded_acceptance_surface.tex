@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor grounded acceptance surface]
+\label{thm:authorized-generator-recursor-grounded-acceptance-surface}
+For every accepted $\AuthorizedGeneratorRecursorUp$ carrier, the generator-row input is admitted only as a displayed $\BHist$ row of the same root packet
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+The accepted surface reads $E$ through the source signature $I$, branch package $B$, structural descent row $D$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, boundary and ledger row $G$, and local $\NameCert$ row $N$. Hence no acceptance read can treat the generator as a detached host recursor, an abstract carrier equivalence, or an unstated authorization token.
+\end{theorem}
+\begin{proof}
+Start with the root-unblock carrier admission of \autoref{thm:authorized-generator-recursor-root-unblock-carrier-admission}. It identifies the accepted generator-row input with the finite $\BHist$ packet $I,E,M,B,D,O,A,H,C,P,G,N$ and gives no off-packet coordinate for generator admission.
+
+Next use route totality, \autoref{thm:authorized-generator-recursor-root-unblock-route-totality}. The output-facing route must pass through the source signature, emitted generator, motive, branch package, descent, output, audit, transport, continuation, provenance, boundary, and local certificate rows before any consumer may read the output.
+
+Finally apply the root carrier and route surfaces in \autoref{thm:authorized-generator-recursor-root-carrier-admission} and \autoref{thm:authorized-generator-recursor-ground-compiler-route-totality}. These keep the ground-compiler and TasteGate-facing reads attached to the same finite packet, so acceptance is grounded in concrete $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows rather than in carrier-equivalence transport.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor readback provenance surface]
+\label{thm:authorized-generator-recursor-readback-provenance-surface}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, any readback of the generated output $O$ is provenance-preserving: it must pass through the componentwise $\hsame$ row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ row $P$, the boundary ledger $G$, and the local $\NameCert$ row $N$ of the same $\BHist$ carrier. A readback therefore cannot replace $O$ by a hidden generator output, a host normalization result, or a package whose provenance is detached from $I,E,M,B,D,A$.
+\end{theorem}
+\begin{proof}
+Begin with the ledger provenance closure of \autoref{thm:authorized-generator-recursor-ledger-provenance-closure}. It keeps audit ledger and output provenance inside $A,H,C,P,G,N$ before any closed-substitution, normalization-frontier, or operational-membrane consumer reads $O$.
+
+The readback route is then the same displayed replay route. By \autoref{thm:authorized-generator-recursor-boundary-closure}, closed-substitution and generator-normalization consumers pass through the displayed source, authorization, boundary, $\Cont$, $\Pkg$, ledger, $\hsame$, and $\NameCert$ rows before reading the output.
+
+Use root-unblock route totality to recover the source side of the packet. Since $I,E,M,B,D$ remain attached to $O$ through $H,C,P,G,N$, the readback has a concrete provenance surface and cannot be substituted by a detached output package.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger nonescape surface]
+\label{thm:authorized-generator-recursor-ledger-nonescape-surface}
+No ledger-facing read of an accepted $\AuthorizedGeneratorRecursorUp$ root packet can export an unlicensed generator, hidden authorization, host recursion oracle, detached substitution step, or provenance-free output. Every such read remains inside the displayed $\BHist$ packet and its $\hsame$, $\Cont$, $\Pkg$, boundary, and $\NameCert$ rows
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+The ledger therefore records nonescape for generator-row input, readback, continuation replay, package provenance, local naming, and boundary evidence on the existing AuthorizedGeneratorRecursor root carrier surface.
+\end{theorem}
+\begin{proof}
+First apply the root-unblock ledger nonescape theorem, \autoref{thm:authorized-generator-recursor-root-unblock-ledger-nonescape}. It rules out unlicensed generators, host recursion oracles, detached substitution steps, and hidden authorization for ledger-facing reads of the displayed root-unblock packet.
+
+Next attach output provenance through the readback surface above. Any read of $O$ has already passed through $H,C,P,G,N$ together with the source and branch rows, so the ledger cannot export a provenance-free output.
+
+Finally combine consumer nonescape with terminal readiness. Theorems~\ref{thm:authorized-generator-recursor-consumer-nonescape}, \ref{thm:authorized-generator-recursor-terminal-reader-nonescape}, and \ref{thm:authorized-generator-recursor-output-readiness} keep closed-substitution, terminal output, and ground-compiler-facing consumers inside the same displayed carrier. Thus the ledger has no escape coordinate beyond the concrete AuthorizedGeneratorRecursor root carrier surface.
+\end{proof}
