@@ -1,3 +1,5 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicToleranceTriangleLedgerUp
@@ -11,13 +13,16 @@ inductive DyadicToleranceTriangleLedgerUp : Type where
   | mk :
       (Dm Dn Im In Em En M Q T H C P N : BHist) →
         DyadicToleranceTriangleLedgerUp
+  deriving DecidableEq
 
 def dyadicToleranceTriangleLedgerEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: dyadicToleranceTriangleLedgerEncodeBHist h
   | BHist.e1 h => BMark.b1 :: dyadicToleranceTriangleLedgerEncodeBHist h
 
 def dyadicToleranceTriangleLedgerDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (dyadicToleranceTriangleLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicToleranceTriangleLedgerDecodeBHist tail)
