@@ -68,4 +68,22 @@ Attach the terminal faces. The $\RealCompletionExactBoundaryUp$ row $X$ keeps th
 Finally inspect the excluded objects. None occurs in the carrier or in the local classifier, and the structural rows $H,C,P,N$ preserve only the displayed packet. Therefore every accepted Real-facing or completion-facing consumer reaches the terminal seal through the stated meet.
 \end{proof}
 
+\begin{theorem}[Cofinal-window Real-seal source exhaustion]
+\label{thm:cofinal-window-real-seal-source-exhaustion}
+Every accepted Real-facing or completion-facing consumer of a $\CofinalWindowRealSealUp$ carrier can project only the rows
+$$
+B,T,W,D,R,E,X,G,H,C,P,N
+$$
+of \autoref{def:cofinal-window-real-seal-carrier}. A terminal $\RealUp$ seal is available only after the selector-budget row $B$, the tail-schedule row $T$, the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RegSeqRatUp$ readback row $R$, the exact-boundary row $X$, and the cofinal diagonal row $G$ have been displayed on the same route, with $H,C,P,N$ carrying the componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support.
+
+Thus the terminal seal cannot be reached through a quotient stream, host real equality, selected host limit, hidden selector, countable-choice row, detached Real seal, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cofinal-window-real-seal-carrier}. The packet has exactly the selector-budget, tail-schedule, window, dyadic-ledger, RegSeqRat readback, terminal Real-seal, exact-boundary, cofinal-diagonal, transport, continuation, package, and local naming rows.
+
+Invoke \autoref{thm:cofinal-window-real-seal-namecert-obligations}. It identifies those rows as the whole local NameCert surface and gives no additional source for budget, schedule, window, dyadic, readback, boundary, diagonal, or seal data.
+
+Use \autoref{thm:cofinal-window-real-seal-terminal-meet} for non-escape. Since every Real-facing or completion-facing consumer reaches the terminal meet through the displayed route, a consumer that tries to bypass $B,T,W,D,R,X,G$ before reading $E$ has left the accepted packet.
+\end{proof}
+
 Lean development for this route must provide \texttt{Nontrivial CofinalWindowRealSealUp} and \texttt{FieldFaithful CofinalWindowRealSealUp} in \texttt{lean4/BEDC/Derived/CofinalWindowRealSealUp/TasteGate.lean}.
