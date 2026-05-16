@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MachineInterfaceSocketUp$}
+\label{ch:concrete-instances-machine-interface-socket-namecert}
+\origin{ai}
+
+The $\MachineInterfaceSocketUp$ packet realizes the machine-facing formalization target interface of \autoref{subsec:philosophy-machine-facing-interface} as a finite socket-routed NameCert carrier. It sits beside the kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the use ledger of \autoref{ch:concrete-instances-socket-use-ledger-namecert}, the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, the apophatic socket of \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the supply socket ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}. Those siblings classify, record, police, refuse, or account for socket traffic; this packet routes formalization targets through the same finite audit-facing rows.
+
+\begin{definition}[MachineInterfaceSocket carrier]
+\label{def:machine-interface-socket-carrier}
+A $\MachineInterfaceSocketUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,K,U,A,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the formalization-target row recording the target name, intended namespace, source registry, statement skeleton, dependency list, expected status, and not-claimed surface from \autoref{def:philosophy-formalization-target-interface};
+\item $K$ is the $\SocketKindClassifierUp$ row naming the socket kind that governs the target route;
+\item $U$ is the $\SocketUseLedgerUp$ row recording the visible use of that socket by the machine-facing target;
+\item $A$ is the $\AuditGateBoundaryUp$ row whose local verdict must accept the displayed socket kind before the target can be authorized;
+\item $S$ is the $\SupplySocketLedgerUp$ row tying the requested machine support to the finite supply ledger;
+\item $R$ is the refusal-locality row recording that refused audit-gate kinds do not authorize target admission;
+\item $H$ records componentwise $\hsame$ transport for $T,K,U,A,S,R$;
+\item $C$ records displayed $\Cont$ routes from the target row through the classifier, use ledger, audit gate, supply ledger, and refusal-locality row;
+\item $P$ is the $\Pkg$ provenance over $\SocketKindClassifierUp$, $\SocketUseLedgerUp$, $\AuditGateBoundaryUp$, $\ApophaticSocketUp$, $\SupplySocketLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MachineInterfaceSocketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for anonymous target admission, global namespace correctness, host-side proof search success, bypassed audit acceptance, supplied witness content, or a theorem asserting that every declared target is true.
+\end{definition}
+
+\begin{theorem}[MachineInterfaceSocket NameCert obligations]
+\label{thm:machine-interface-socket-namecert-obligations}
+For the carrier of \autoref{def:machine-interface-socket-carrier}, the local $\NameCert_{\MachineInterfaceSocketUp}$ surface consists exactly of carrier admission for
+$$
+M=(T,K,U,A,S,R,H,C,P,N),
+$$
+formalization-target exposure through $T$, socket-kind exactness through $K$, visible socket-use accounting through $U$, audit-gate boundary readback through $A$, supply-ledger accounting through $S$, refusal-locality through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Consequently every accepted machine-facing target route is a finite NameCert packet whose public reads are target row, socket-kind row, use row, audit-gate row, supply-ledger row, refusal-locality row, transport, continuation, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The packet lists $T,K,U,A,S,R,H,C,P,N$, so the local certificate cannot introduce another formalization target, socket kind, socket use, audit verdict, supply ledger, refusal row, transport, route, provenance, or local name.
+
+Read the dependency rows in order. The target row $T$ gives the machine-facing request, the classifier row $K$ fixes the socket kind, the use ledger $U$ records the visible invocation, the audit boundary $A$ supplies the local verdict surface, and the supply ledger $S$ accounts for the requested machine support.
+
+Finally inspect $R,H,C,P,N$. The refusal-locality row blocks refused gate kinds, while the support rows only transport, replay, package, and name the same finite packet. Thus the NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[MachineInterfaceSocket gate locality]
+\label{thm:machine-interface-socket-gate-locality}
+Every accepted $\MachineInterfaceSocketUp$ packet authorizes a formalization target only through the audit-gate row displayed in $A$. If the audit-gate row refuses the socket kind named by $K$, then the refusal-locality row $R$ prevents the packet from authorizing the target named by $T$.
+\end{theorem}
+\begin{proof}
+Begin with the target and kind rows. The row $T$ records the intended namespace, dependencies, expected status, and not-claimed surface, while $K$ records the socket kind through which that target asks to be routed.
+
+Use the use ledger and audit boundary. The row $U$ makes the socket use visible, and $A$ is the only displayed audit-gate boundary available to judge that use. No carrier coordinate stores a detached authorization predicate.
+
+Apply refusal-locality. When $A$ refuses the kind named by $K$, the row $R$ records that refusal as a local obstruction to target admission. Since $H,C,P,N$ only preserve the same rows, the target route cannot be authorized by another hidden gate.
+\end{proof}
+
+\begin{theorem}[MachineInterfaceSocket sibling separation]
+\label{thm:machine-interface-socket-sibling-separation}
+The $\MachineInterfaceSocketUp$ carrier is not bijective, under NameCert-row preservation, to $\SocketKindClassifierUp$, $\SocketUseLedgerUp$, $\AuditGateBoundaryUp$, $\ApophaticSocketUp$, or $\SupplySocketLedgerUp$. The machine-interface socket carries the formalization-target row $T$ together with the gate-locality row $R$, while those siblings respectively classify socket kinds, record uses, expose audit verdicts, refuse external supply, or account for supply sockets without preserving both rows at once.
+\end{theorem}
+\begin{proof}
+Compare the classifier and use ledger first. $\SocketKindClassifierUp$ supplies kind exactness, and $\SocketUseLedgerUp$ records visible use, but neither carries the formalization-target row with namespace, dependency, expected-status, and not-claimed fields.
+
+Compare the audit and apophatic siblings next. $\AuditGateBoundaryUp$ exposes audit verdict surfaces, and $\ApophaticSocketUp$ records non-internalizing supply requests, but neither combines the target row with a socket-use ledger and the local refusal row for target authorization.
+
+Finally compare $\SupplySocketLedgerUp$. It accounts for requested supply sockets but does not bind a machine-facing target row to the classifier, use ledger, audit gate, and refusal-locality rows in one packet. Therefore no bijection preserves the target row plus gate-locality row together with all displayed NameCert fields.
+\end{proof}
+
+\falsifiablePrediction{A $\MachineInterfaceSocketUp$ packet cannot authorize a formalization target whose audit-gate row refuses its socket kind.}
+
+\independenceWitness{socketkindclassifier, socketuseledger, auditgateboundary, apophaticsocket, supplysocketledger: the classifier lacks the formalization-target row, the use ledger lacks the target-bound gate refusal row, the audit gate lacks socket-use and supply-ledger accounting for target routing, the apophatic socket refuses supply without target admission, and the supply socket ledger lacks target-row authorization; no bijection preserves target row plus gate-locality row.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \MachineInterfaceSocketUp$ and $\mathsf{FieldFaithful}\ \MachineInterfaceSocketUp$ instances in $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.TasteGate}$ before the target $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{MachineInterfaceSocketUp}{seedStr}
+\closureat{MachineInterfaceSocketUp}{obligationStr}
