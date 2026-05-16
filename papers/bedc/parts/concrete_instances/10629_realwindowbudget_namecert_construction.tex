@@ -372,6 +372,51 @@ or ambient completeness coordinate. Hence the two completion consumers pull
 back through the displayed finite rows and nowhere else.
 \end{proof}
 
+\begin{theorem}[Real-window budget terminal pullback non-escape]
+\label{thm:real-window-budget-terminal-pullback-nonescape}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted
+$\RealWindowBudgetUp$ packet whose finite route is consumed simultaneously by
+a $\RealCompletionSelectorSealUp$ terminal route and a
+$\RealCompletionExactBoundaryUp$ four-face boundary. Then every
+completion-facing coordinate of the common consumer lies among
+$Q,V,D,R,S,B,O,H,C,P,N$. In particular the common consumer has no quotient
+stream, selected limit, host equality, countable-choice row, ambient
+completeness row, metric-completeness row, detached selector row, or second
+terminal route.
+\end{theorem}
+\begin{proof}
+Start with the Real-completion scope theorem,
+\autoref{thm:realwindowbudget-real-completion-scope}. It restricts every
+Real or Completion consumer of the accepted packet to
+$Q \to V \to D \to R \to S$ together with the support rows $B,O,H,C,P,N$.
+
+Now apply the terminal pullback coherence theorem,
+\autoref{thm:real-window-budget-terminal-pullback-coherence}. It says that
+the selector-seal terminal consumer and the exact-boundary four-face consumer
+meet on those same displayed rows rather than on an external completion
+object.
+
+On the selector side, use selector-budget totality and terminality,
+\autoref{thm:real-completion-selector-seal-selector-budget-totality} and
+\autoref{thm:real-completion-selector-seal-terminality}, together with
+selector-seal non-escape,
+\autoref{thm:real-completion-selector-seal-nonescape}. These force the
+terminal selector-seal read through its finite selector, window, readback,
+seal, endpoint, and structural rows and exclude hidden selectors, detached
+limits, quotient streams, host equality, second completion routes, and
+ambient completeness.
+
+On the exact-boundary side, use four-face exactness and boundary non-escape,
+\autoref{thm:real-completion-exact-boundary-four-face-exactness} and
+\autoref{thm:real-completion-exact-boundary-nonescape}. The four faces
+expose only the StreamName window, RegSeqRat readback, DyadicRatCore ledger,
+and terminal Real seal, while the non-escape boundary excludes quotient,
+selected-limit, host-equality, choice, metric-completeness,
+ambient-completeness, bridge, and second-route coordinates. Combined with
+the Real-window budget non-escape surface, these exclusions leave exactly the
+rows $Q,V,D,R,S,B,O,H,C,P,N$ for the simultaneous consumer.
+\end{proof}
+
 \falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}
