@@ -1,0 +1,106 @@
+\begin{theorem}[CriticalLineWitness route classifier exhaustion]
+\label{thm:critical-line-witness-route-classifier-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted classifier read of $W$ is exhausted by the finite zero-strip,
+modulus, comparison, transport, continuation, provenance, and local
+$\NameCert_{\CriticalLineWitnessUp}$ rows
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The read has no accepted coordinate for host equality, zero search,
+analytic-continuation certificates, quotient representatives, ambient
+completeness, a global zero classifier, or a proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Start with classifier exactness,
+\autoref{thm:critical-line-witness-classifier-exactness}. It identifies the
+root classifier with the supplied zero row $Z$, the supplied critical-strip
+row $S$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ surface carried by $H,C,P,N$.
+
+Next apply ledger route stability,
+\autoref{thm:critical-line-witness-ledger-route-stability}. The modulus,
+real-part, and rational-comparison rows $M,R,Q$ remain attached to the same
+transport, replay, provenance, and naming route, so the classifier cannot
+branch to an off-packet comparison or host representative.
+
+Finally combine downstream consumer unblock,
+\autoref{thm:critical-line-witness-downstream-consumer-unblock}, with
+source-signature readback,
+\autoref{thm:critical-line-witness-source-signature-readback}. These rows
+make the finite packet the whole admitted source and consumer surface. Hence
+every accepted classifier read is exhausted by
+$Z,S,M,R,Q,H,C,P,N$ and every analytic, host, quotient, completeness, global
+zero-classification, or $\mathsf{RH}$ demand is refused outside the route.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip zeta consumer separation]
+\label{thm:critical-line-witness-fixed-strip-zeta-consumer-separation}
+For an accepted fixed-strip $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, fixed-strip source reads and zeta-facing downstream
+consumers remain separated by the displayed signature, gap, and ledger rows.
+The fixed-strip side may read the supplied zero and strip rows $Z,S$, while
+the zeta-facing consumer may read only the modulus, comparison, transport,
+continuation, provenance, and naming rows $M,R,Q,H,C,P,N$ already displayed
+by the same packet. No accepted consumer route imports an $\mathsf{RH}$ proof
+or analytic-continuation certificate across that separation.
+\end{theorem}
+\begin{proof}
+Read the source side through
+\autoref{thm:critical-line-witness-source-signature-readback}. It places the
+critical-strip source behind the displayed finite signature route and the
+gap row, rather than behind a hidden analytic-continuation or host-zero
+coordinate.
+
+Apply gap-policy stability,
+\autoref{thm:critical-line-witness-gap-policy-stability}. The displayed
+$\hsame$ transport and $\Cont$ replay preserve refusal rows as refusal rows,
+so moving along $H$ and $C$ cannot turn a missing analytic or $\mathsf{RH}$
+coordinate into accepted source data.
+
+Now use the fixed-strip zeta consumer boundary,
+\autoref{thm:critical-line-witness-fixed-strip-zeta-consumer-boundary}, and
+ledger route stability,
+\autoref{thm:critical-line-witness-ledger-route-stability}. The zeta-facing
+consumer receives the refusal budget and rational comparison ledger through
+$M,R,Q,H,C,P,N$ on the same finite route.
+
+Thus the fixed-strip source and downstream zeta consumer meet only at the
+displayed signature, gap, and ledger rows. The route supplies no
+$\mathsf{RH}$ proof, analytic-continuation certificate, host equality,
+quotient representative, or ambient-completeness datum.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness finite NameCert consumer route]
+\label{thm:critical-line-witness-finite-namecert-consumer-route}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every accepted $\NameCert_{\CriticalLineWitnessUp}$ consumer route factors
+through the displayed $\BHist$ carrier, $\hsame$ transport row, $\Cont$
+replay row, $\Pkg$ provenance row, and local naming row of $W$. The route may
+consume only the local source, signature, gap, modulus, comparison, and
+refusal rows already named by $Z,S,M,R,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with NameCert route exhaustion,
+\autoref{thm:critical-line-witness-namecert-route-exhaustion}. It already
+forces accepted consumer routes through the packet-local $\BHist$, $\Cont$,
+$\hsame$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$ surface.
+
+Attach the classifier and ledger rows. Classifier exactness
+\autoref{thm:critical-line-witness-classifier-exactness} binds classifier
+reads to $Z,S,H,C,P,N$, while ledger route stability
+\autoref{thm:critical-line-witness-ledger-route-stability} binds comparison
+reads to $M,R,Q,H,C,P,N$.
+
+It remains to include the source and downstream interfaces. Source-signature
+readback \autoref{thm:critical-line-witness-source-signature-readback} keeps
+the source behind the displayed signature and gap rows, and downstream
+consumer unblock \autoref{thm:critical-line-witness-downstream-consumer-unblock}
+confines every consumer to the finite packet surface.
+
+Therefore every accepted NameCert consumer route factors through the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming rows. A route
+that asks for host equality, analytic continuation, quotient representatives,
+ambient completeness, global zero classification, or an $\mathsf{RH}$ proof
+is outside the accepted $\CriticalLineWitnessUp$ consumer route.
+\end{proof}
