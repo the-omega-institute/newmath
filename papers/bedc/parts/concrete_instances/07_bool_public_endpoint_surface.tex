@@ -200,3 +200,103 @@ The remaining possible cuts are negative. \autoref{thm:bool-public-surface-no-hi
 
 Consequently the final consumer-visible surface is precisely the finite packet named in the statement. The endpoint rows, readback rows, mark-comparison row, carrier and classifier rows, and the two certificate rows are noneliminable because they are the rows used to reconstruct the endpoint choice, the history read, the classifier comparison, and the public Bool certificate. All other local route names are either projected away by the forgetful boundary or excluded by the public-surface and mirror-boundary theorems.
 \end{proof}
+
+\begin{lemma}[Bool public endpoint equivalence-completion boundary]
+\label{lem:bool-public-endpoint-equivalence-completion-boundary}
+The public Bool endpoint constructor surface of \autoref{def:bool-public-endpoint-constructors} has a complete equivalence boundary over its displayed local classifier and readback rows. For histories $h,k:\BHist$, the carrier and classifier two-sided part is exactly
+$$
+\begin{aligned}
+\mathsf{BoolHistoryCarrier}(h)
+&\quad\Longleftrightarrow\quad
+\exists v:\BMark,\ \exists e_v:\BHist,\
+  ((v=\bzero \land e_v=\emp)\lor(v=\bone \land e_v=\Eone(\emp)))
+  \land \hsame(h,e_v),\\
+\mathsf{BoolHistoryClassifier}(h,k)
+&\quad\Longleftrightarrow\quad
+\exists v,w:\BMark,\ \exists e_v,e_w:\BHist,\
+  \mathsf{BoolSourceSpec}(v)
+  \land
+  \mathsf{BoolSourceSpec}(w)
+  \land
+  ((v=\bzero \land e_v=\emp)\lor(v=\bone \land e_v=\Eone(\emp)))
+  \land
+  ((w=\bzero \land e_w=\emp)\lor(w=\bone \land e_w=\Eone(\emp)))
+  \land
+  \hsame(h,e_v)
+  \land
+  \hsame(k,e_w)
+  \land
+  \msame(v,w).
+\end{aligned}
+$$
+For marks $v,w:\BMark$ and endpoint-history witnesses $e_v,e_w:\BHist$ satisfying the displayed constructor equations
+$$
+\begin{aligned}
+&((v=\bzero \land e_v=\emp)\lor(v=\bone \land e_v=\Eone(\emp))),\\
+&((w=\bzero \land e_w=\emp)\lor(w=\bone \land e_w=\Eone(\emp))),
+\end{aligned}
+$$
+the endpoint-agreement part is exactly
+$$
+\msame(v,w)
+\quad\Longleftrightarrow\quad
+\hsame(e_v,e_w).
+$$
+The endpoint witnesses are precisely the same visible endpoint rows as the public false and true constructor rows: $v=\bzero$ carries $e_v=\emp$, and $v=\bone$ carries $e_v=\Eone(\emp)$, with the same alternatives for $w,e_w$. Thus any displayed forward carrier, classifier, endpoint-agreement, or constructor-readback implication in the local chapter has its reverse implication on the same finite rows.
+
+The remaining displayed directions in the local public-surface discussion are one-way interpretation boundaries. Erasing constructor-row names, endpoint-table names, and public-surface annotations maps a public constructor read to the carrier, classifier, core $\NameCert$, and public semantic certificate rows, but those retained rows do not reconstruct the erased names or annotations. The no-hidden-leakage row is also one-way: it excludes host propositions, decidable predicates, eliminators, truth-table-completeness data, payload carriers, payload classifiers, option-packaging rows, separate source-side constructor carriers, result rows, termination rows, and continuation rows from the public endpoint surface, and no reverse implication is claimed from their absence to any additional public constructor structure.
+\end{lemma}
+\begin{proof}
+The carrier row is already two-sided by \autoref{thm:bool-history-carrier-endpoint-coverage}. Its forward direction reads a Bool carrier history as one of the two endpoint histories, witnessed by some $e_v:\BHist$ satisfying $(v=\bzero \land e_v=\emp)\lor(v=\bone \land e_v=\Eone(\emp))$; its reverse direction repacks the same endpoint readback witness as $\mathsf{BoolHistoryCarrier}(h)$. Since \autoref{def:bool-public-endpoint-constructors} displays only the two constructor histories $\emp$ and $\Eone(\emp)$, this carrier equivalence has no third public endpoint row.
+
+The classifier row is two-sided by \autoref{thm:bool-source-qualified-classifier-readback-exactness}. The forward implication exposes source-qualified marks $v,w$, endpoint-history witnesses $e_v,e_w$ with their constructor equations, and the mark comparison $\msame(v,w)$. The reverse implication rebuilds $\mathsf{BoolHistoryClassifier}(h,k)$ from exactly those rows. The more explicit constructor-row version is \autoref{lem:bool-public-endpoint-constructor-classifier-alignment-boundary}, which identifies the endpoint witnesses through the two displayed constructor histories $\emp$ and $\Eone(\emp)$.
+
+Endpoint agreement is two-sided by \autoref{thm:bool-endpoint-bridge-exactness}. The case-readback theorem \autoref{thm:bool-public-constructor-case-readback} then says that a public constructor read is classified by exactly one of the displayed false and true endpoint rows, represented by an endpoint-history witness $e_v$ with its constructor equation, while \autoref{thm:bool-endpoint-readback-determinism} makes the chosen mark unique up to $\msame$. Hence the visible constructor readback direction is completed by the same endpoint-history witnesses, constructor equations, and mark-comparison rows, not by a host proposition or by an external equivalence carrier.
+
+It remains to identify the directions that are not equivalences. The forgetful projection of \autoref{lem:bool-public-endpoint-forgetful-projection-boundary} deliberately erases constructor-row names, endpoint-table names, and public-surface annotations. Its target rows are the retained carrier, classifier, $\NameCert$, and public semantic certificate rows fixed by \autoref{def:bool-history-semantic-fields}, \autoref{thm:concrete-bool-namecert}, and \autoref{thm:bool-concrete-semantic-namecert}; those rows remember the endpoint-history witness and classifier comparison, not the erased presentation names. This is therefore a one-way interpretation boundary.
+
+The negative rows are one-way for the same local reason. By \autoref{thm:bool-public-surface-no-hidden-leakage}, the public surface exposes no host proposition, decidable predicate, eliminator, or truth-table-completeness row. By \autoref{lem:bool-public-constructor-target-source-mirror-boundary}, the target-facing and source-facing reads are the same finite endpoint packet rather than separate constructor carriers, result rows, termination rows, or continuation rows. By \autoref{lem:bool-public-endpoint-bridge-cut-elimination-boundary}, every final consumer route factors through the finite endpoint packet and the Bool semantic certificate rows, while payload and option-packaging coordinates are rejected as unlisted. Thus the local chapter has no unmatched forward classifier or readback implication: the carrier, classifier, endpoint-agreement, and constructor-readback rows are completed by reverse implications on the same visible rows, and the projection and exclusion rows are recorded as one-way interpretation boundaries.
+\end{proof}
+
+\begin{lemma}[Bool public endpoint substrate bisimulation boundary]
+\label{lem:bool-public-endpoint-substrate-bisimulation-boundary}
+The public Bool endpoint constructors of \autoref{def:bool-public-endpoint-constructors} admit a substrate relation boundary, not a definitional-equality boundary. The BEDC-local relation certificate has source rows only from the displayed finite endpoint packet
+$$
+\begin{gathered}
+\mathsf{BoolEndpoint}(\bzero)=\emp,\quad
+\mathsf{BoolEndpoint}(\bone)=\Eone(\emp),\\
+v,w:\BMark,\quad e_v,e_w:\BHist,\\
+\bigl((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp))\bigr),\quad
+\bigl((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp))\bigr),\\
+\hsame(h,e_v),\quad \hsame(k,e_w),\quad \msame(v,w),\\
+\mathsf{BoolHistoryCarrier},\quad
+\mathsf{BoolHistoryClassifier},\quad
+\NameCert(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}),\\
+\mathsf{SemanticNameCert}(\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryCarrier},
+\mathsf{BoolHistoryCarrier},\mathsf{BoolHistoryClassifier}).
+\end{gathered}
+$$
+Its forward leg sends a public endpoint read through $\hsame(h,e_v)$ to the carrier row $\mathsf{BoolHistoryCarrier}(h)$. Its reverse leg reads every carrier row used by the Bool public surface back through one of the two displayed endpoint rows. Its comparison leg is the reflected equivalence
+$$
+\mathsf{BoolHistoryClassifier}(h,k)
+\quad\Longleftrightarrow\quad
+\exists v,w:\BMark,\ e_v,e_w:\BHist,\
+\begin{aligned}[t]
+&\bigl((v=\bzero \land e_v=\emp) \lor (v=\bone \land e_v=\Eone(\emp))\bigr)\land{}\\
+&\bigl((w=\bzero \land e_w=\emp) \lor (w=\bone \land e_w=\Eone(\emp))\bigr)\land{}\\
+&\hsame(h,e_v)\land \hsame(k,e_w)\land \msame(v,w).
+\end{aligned}
+$$
+Thus a $\BHist$-facing reading of the public Bool endpoint surface is a substrate mirror, and any consumer that names a $\mathsf{Rule110}$, cellular, binary, or $\mathsf{FKernel}$ substrate must state its use as a bisimulation or row-embedding relation whose Bool side is exactly the packet above. No such substrate name is available here as a definitional equality with the Bool public constructors. Any host coordinate, source coordinate, transition coordinate, external substrate row, result row, termination row, continuation row, payload row, option-packaging row, or equality row not listed in the packet is rejected at this boundary rather than silently identified with the Bool public surface.
+\end{lemma}
+\begin{proof}
+The local constructor source is exhausted by \autoref{def:bool-public-endpoint-constructors}: the only public endpoint rows are $\mathsf{BoolEndpoint}(\bzero)=\emp$ and $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Applying \autoref{thm:bool-public-constructor-case-readback} to a public read supplies a displayed mark $v:\BMark$ and an endpoint history witness $e_v:\BHist$ in one of those two cases, together with the readback row $\hsame(h,e_v)$. The determinacy clause of \autoref{thm:bool-endpoint-readback-determinism} prevents replacement of that mark by an unlisted host or substrate coordinate.
+
+The carrier leg is exactly a mirror leg. By \autoref{thm:bool-history-carrier-endpoint-coverage}, the endpoint readback row repacks as $\mathsf{BoolHistoryCarrier}(h)$, and every carrier row used by this Bool surface is covered by such an endpoint readback. Hence the relation runs in both directions between the public endpoint packet and the $\BHist$ carrier readback packet, but the two sides are not introduced as a single definitional object; they are the same displayed history read viewed through endpoint and carrier roles.
+
+The comparison leg is the bisimulation clause. For two reads $h,k$ with endpoint witnesses through $v,w$, \autoref{thm:bool-history-classifier-mark-readback-exactness} identifies $\mathsf{BoolHistoryClassifier}(h,k)$ with the two endpoint readbacks and the mark comparison $\msame(v,w)$. The explicit endpoint-row form is the classifier alignment boundary of \autoref{lem:bool-public-endpoint-constructor-classifier-alignment-boundary}. Thus classifier comparison is both preserved and reflected by the endpoint packet: endpoint mark agreement rebuilds the history classifier, and a history-classifier comparison exposes endpoint witnesses and mark agreement.
+
+The certificate rows are fixed by \autoref{lem:bool-public-endpoint-forgetful-projection-boundary} and \autoref{lem:bool-public-endpoint-bridge-cut-elimination-boundary}. After constructor-row names, endpoint-table names, and public-surface annotations are erased, the retained rows are exactly the carrier, classifier, carrier-as-source-pattern-ledger, core $\NameCert$, and public semantic certificate rows displayed in the statement. The target-source mirror theorem \autoref{lem:bool-public-constructor-target-source-mirror-boundary} further says that the source-facing and target-facing reads are opposite views of the same finite endpoint packet, not separate constructor carriers.
+
+Finally, the negative part follows from the same row exhaustion. \autoref{thm:bool-public-surface-no-hidden-leakage} excludes host propositions, decidable predicates, eliminators, and truth-table completeness from the public surface, while \autoref{lem:bool-public-endpoint-bridge-cut-elimination-boundary} rejects unlisted source, result, termination, continuation, payload, and option-packaging coordinates. The chapter displays no $\mathsf{Rule110}$, cellular, binary, or $\mathsf{FKernel}$ substrate row inside the Bool public endpoint constructors. Therefore any later consumer using one of those substrate names must provide its own target-side rows and relate them to the Bool packet by bisimulation, row embedding, or substrate mirror. The BEDC-local Bool boundary supplies no definitional equality from the public endpoint constructors to such a substrate.
+\end{proof}
