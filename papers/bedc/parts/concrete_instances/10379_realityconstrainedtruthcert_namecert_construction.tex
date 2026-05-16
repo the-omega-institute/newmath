@@ -559,6 +559,104 @@ consumed before $N$ certifies the local $\NameCert_{\RealityConstrainedTruthCert
 packet.
 \end{proof}
 
+\begin{theorem}[Reality-constrained TruthCert root readiness packet]
+\label{thm:reality-constrained-truth-cert-root-readiness-packet}
+For the carrier
+$$
+Q=(S,\Sigma,K,T,U,D,I,L,F,N),
+$$
+root readiness of $\RealityConstrainedTruthCertUp$ is exactly the packet route
+that passes through carrier admission, field coverage, sibling handoff
+totality, ledger exactness, failure-surface exactness, and export readiness
+over the displayed rows $S,\Sigma,K,T,U,D,I,L,F,N$. A root consumer receives a
+TruthCert packet only along that route, not along a separate truth coordinate
+or a projection of the carrier.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and field coverage,
+\autoref{thm:reality-constrained-truth-cert-carrier-admission} and
+\autoref{thm:reality-constrained-truth-cert-field-coverage}. They identify
+$Q=(S,\Sigma,K,T,U,D,I,L,F,N)$ as the admitted carrier and make the source,
+signature, classifier, tower, stability, descent, invariant, ledger, and
+failure-surface rows mandatory before $N$ is readable.
+
+Next use sibling handoff totality,
+\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. It
+forces the open-fit, objectivity, explanation, physical-induction stability,
+and tower-compression routes to be consumed before the local name exports the
+packet.
+
+Finally apply ledger exactness, failure-surface exactness, and export
+readiness:
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness},
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}, and
+\autoref{thm:reality-constrained-truth-cert-export-readiness}. These results
+make $L$ and $F$ exact rows and allow $N$ to certify export only after the same
+displayed packet has been read. Thus root readiness is neither more nor less
+than this carrier route through $S,\Sigma,K,T,U,D,I,L,F,N$.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root defeat projection]
+\label{thm:reality-constrained-truth-cert-root-defeat-projection}
+Any downstream consumer that changes or omits the failure row $F$ of an
+accepted $\RealityConstrainedTruthCertUp$ packet reads only a projection of the
+TruthCert carrier. Such a consumer does not receive the root-ready packet
+unless the changed or disputed failure surface is routed through the displayed
+open-fit, defeat, classifier, ledger, and export rows before $N$ is read.
+\end{theorem}
+\begin{proof}
+Use failure routing,
+\autoref{thm:reality-constrained-truth-cert-failure-routing}. Defeating
+observations, domain exits, classifier mismatches, and later observations land
+only in $F$ before $N$ certifies export; they do not create a hidden truth
+coordinate or an unledgered compression route.
+
+Now apply the open-fit export boundary,
+\autoref{thm:reality-constrained-truth-cert-open-fit-export-boundary}. A
+changed $F$ must remain visible through the open-fit and failure-surface
+siblings together with the carrier rows $S,\Sigma,K,T,U,D,I,L,F,N$.
+
+Finally use export defeat exhaustion,
+\autoref{thm:reality-constrained-truth-cert-export-defeat-exhaustion}. A later
+observation, classifier mismatch, domain exit, or finite defeat recorded by
+$F$ must be discharged through the same displayed route. Omitting or changing
+$F$ without that route leaves only a projection, so the downstream consumer has
+not received the root-ready TruthCert packet.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root consumer totality]
+\label{thm:reality-constrained-truth-cert-root-consumer-totality}
+Every methodology, open-fit, objectivity, physical-induction, or
+tower-compression consumer of the $\RealityConstrainedTruthCertUp$ name must
+consume all five sibling routes before $N$ exports the TruthCert packet. No
+such consumer may read one sibling route as an independent root authority while
+claiming the full rows $S,\Sigma,K,T,U,D,I,L,F,N$.
+\end{theorem}
+\begin{proof}
+Begin with sibling dependency and sibling handoff totality,
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency} and
+\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. They
+assign finite fit and defeat to open-fit, invariant reading to objectivity,
+source-to-claim handoff to explanation, continuation stability to physical
+induction, and tower route, descent, ledger, and hidden residue to tower
+compression.
+
+For methodology consumption, use
+\autoref{thm:reality-constrained-truth-cert-methodology-ledger-handoff}. It
+requires the methodology consumer to preserve the TruthCert source, signature,
+classifier, tower, stability, descent, invariant, ledger, and failure rows
+together with the methodology-ledger export row.
+
+For the remaining root consumers, apply export readiness and root readiness,
+\autoref{thm:reality-constrained-truth-cert-export-readiness} and
+\autoref{thm:reality-constrained-truth-cert-root-readiness-packet}. The local
+name $N$ is readable only after field coverage, sibling routing, ledger
+exactness, classifier stability, and failure-surface exactness have all passed
+through the displayed carrier. Therefore each named downstream consumer must
+consume all five sibling routes before treating $N$ as the exported TruthCert
+packet.
+\end{proof}
+
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
 
 \independenceWitness{reality-constrained-open-fit, reality-constrained-objectivity, reality-constrained-explanation, physical-induction-stability-seal, reality-constrained-tower-compression: the full nine-field TruthCert packet is available only after these sibling dependencies are consumed together.}
