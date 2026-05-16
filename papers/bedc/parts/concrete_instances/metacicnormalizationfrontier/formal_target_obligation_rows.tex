@@ -1,0 +1,43 @@
+\begin{theorem}[MetaCIC normalization frontier formal-target carrier coverage]
+\label{thm:metacic-normalization-frontier-formal-target-carrier-coverage}
+For every formal target surface attached to an accepted $\MetaCICNormalizationFrontierUp$ packet, carrier coverage is exactly the finite packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The rows $C,K$ carry candidate evidence and closed-candidate placement, the rows $E,N$ carry finished-normal evidence and the normal endpoint, the row $S$ retains the subject-reduction obstruction, and the rows $H,R,P,L$ expose componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetaCICNormalizationFrontierUp}$ surface. No formal target row may read a carrier coordinate outside that packet.
+\end{theorem}
+\begin{proof}
+Project the carrier theorem and the NameCert obligation theorem. They list $C,K,E,N,S,H,R,P,L$ as the whole $\BHist$ carrier and attach the local certificate to those rows.
+
+Next read the root formal handoff totality theorem. It makes the formal handoff total only over the displayed rows, with candidate, endpoint, obstruction, replay, provenance, and naming all preserved inside the same packet.
+
+Finally apply non-escape. A carrier coordinate outside $F$ would require a hidden normalization source, scheduler state, closed-consistency theorem, or erased subject-reduction transport, and none is exported by the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier formal-target classifier totality]
+\label{thm:metacic-normalization-frontier-formal-target-classifier-totality}
+For every formal target surface attached to an accepted $\MetaCICNormalizationFrontierUp$ packet, classifier totality is exhausted by the candidate route through $C,K,R,P,L$ and the finished-normal route through $E,N,R,P,L$, with obstruction retention through $S,H,L$. The classifier cannot add a third positive normalization route, cannot discharge $S$, and cannot replace the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows by host evidence.
+\end{theorem}
+\begin{proof}
+Start with evidence-choice exhaustion. Every positive consumer route chooses either $C,K$ or $E,N$, and the structural rows $R,P,L$ only replay, package, and name the chosen route.
+
+Use obstruction retention next. The row $S$ remains present across both positive routes, while $H$ transports the displayed packet componentwise rather than solving the obstruction.
+
+The classifier is therefore total on exactly those two routes. Root gate scope exactness and downstream consumer coverage rule out a third route through scheduler progress, host reachability, closed consistency, or erased subject-reduction transport.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier formal-target ledger nonescape]
+\label{thm:metacic-normalization-frontier-formal-target-ledger-nonescape}
+For every formal target surface attached to an accepted $\MetaCICNormalizationFrontierUp$ packet, any ledger read of candidate evidence, finished-normal evidence, normal endpoint use, obstruction status, replay, provenance, or local naming remains inside
+$$
+C,K,E,N,S,H,R,P,L.
+$$
+A ledger row that omits obstruction retention, bypasses the evidence choice, or replaces $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ by hidden host material is outside the formal target surface.
+\end{theorem}
+\begin{proof}
+Read ledger exhaustion together with the public obligation package. They place candidate reads at $C,K$, finished-normal reads at $E,N$, obstruction accounting at $S$, and consumer support at $H,R,P,L$.
+
+Now use the root normal endpoint route and root downstream consumer coverage. These theorems keep endpoint use and downstream consumption inside the same displayed packet before any formal target surface can consume them.
+
+Finally apply the kernel non-escape theorem. A ledger read that bypasses the displayed rows asks for an unlisted coordinate, so it is rejected rather than admitted as part of the formal target surface.
+\end{proof}
