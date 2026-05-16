@@ -565,4 +565,29 @@ theorem HausdorffCompletionCarrier_cauchy_filter_uniqueness_boundary [AskSetup]
       ⟨sourceUnary, sourceUnary', separatedReadUnary, sourceEntourageTransport,
         separatedProvenanceRead, provenancePkg, separatedReadPkg⟩
 
+theorem HausdorffCompletionCarrier_uniform_regseqrat_seal_coherence [AskSetup]
+    [PackageSetup]
+    {source entourage separated handoff transport route provenance regseqSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont source provenance regseqSeal ->
+        PkgSig bundle regseqSeal pkg ->
+          UnaryHistory source ∧ UnaryHistory entourage ∧ UnaryHistory separated ∧
+            UnaryHistory handoff ∧ UnaryHistory provenance ∧ UnaryHistory regseqSeal ∧
+              Cont source entourage transport ∧ Cont separated handoff route ∧
+                Cont transport route provenance ∧ Cont source provenance regseqSeal ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle regseqSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceProvenanceSeal sealPkg
+  obtain ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, _transportUnary,
+    _routeUnary, provenanceUnary, sourceEntourageTransport, separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  have sealUnary : UnaryHistory regseqSeal :=
+    unary_cont_closed sourceUnary provenanceUnary sourceProvenanceSeal
+  exact
+    ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, provenanceUnary, sealUnary,
+      sourceEntourageTransport, separatedHandoffRoute, transportRouteProvenance,
+      sourceProvenanceSeal, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.HausdorffCompletionUp

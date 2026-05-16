@@ -547,4 +547,30 @@ theorem UnaryContMonoidKernelScope_namecert_surface [AskSetup] [PackageSetup]
     }
   exact ⟨carrierWitness, scopeRoute, scopePkg, cert⟩
 
+theorem UnaryContMonoidCarrier_continuationmonad_unit_handoff [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name monadRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont unitLeft ledger monadRead ->
+        PkgSig bundle monadRead pkg ->
+          UnaryHistory a ∧ UnaryHistory unitLeft ∧ UnaryHistory ledger ∧
+            UnaryHistory monadRead ∧ Cont BHist.Empty a unitLeft ∧
+              Cont ab name ledger ∧ Cont unitLeft ledger monadRead ∧
+                hsame e BHist.Empty ∧ PkgSig bundle monadRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier monadRoute monadPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, leftUnitRoute, _rightUnitRoute,
+    ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLeftUnit : UnaryHistory unitLeft :=
+    unary_cont_closed unary_empty unaryA leftUnitRoute
+  have unaryLedger : UnaryHistory ledger :=
+    unary_cont_closed unaryProduct unaryName ledgerRoute
+  have unaryMonadRead : UnaryHistory monadRead :=
+    unary_cont_closed unaryLeftUnit unaryLedger monadRoute
+  exact
+    ⟨unaryA, unaryLeftUnit, unaryLedger, unaryMonadRead, leftUnitRoute, ledgerRoute,
+      monadRoute, sameUnit, monadPkg⟩
+
 end BEDC.Derived.UnaryContMonoidUp
