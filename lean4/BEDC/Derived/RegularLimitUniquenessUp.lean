@@ -389,4 +389,63 @@ theorem RegularLimitUniquenessCarrier_shared_family_scope [AskSetup] [PackageSet
       familyThresholdDiagonalLeft, familyThresholdDiagonalRight, familyReadRoute, endpointPkg,
       familyReadPkg⟩
 
+theorem RegularLimitUniquenessCarrier_ledger_non_escape_scope [AskSetup] [PackageSetup]
+    {family diagonalLeft diagonalRight threshold readbackLeft readbackRight sealLeft sealRight
+      separated transport route provenance localCert endpoint auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLimitUniquenessCarrier family diagonalLeft diagonalRight threshold readbackLeft
+        readbackRight sealLeft sealRight separated transport route provenance localCert endpoint
+        bundle pkg ->
+      Cont endpoint localCert auditRead ->
+        PkgSig bundle auditRead pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+            (fun row : BHist => hsame row auditRead ∧ Cont endpoint localCert auditRead)
+            (fun row : BHist => PkgSig bundle auditRead pkg ∧ hsame row auditRead)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier endpointLocalCertAudit auditReadPkg
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, thresholdUnary,
+    readbackLeftUnary, readbackRightUnary, transportUnary, _routeUnary, _provenanceUnary,
+    localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
+    _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback, readbackLeftThresholdSeal,
+    readbackRightThresholdSeal, sealComparison, separatedTransportEndpoint,
+    _routeProvenanceEndpoint, _endpointPkg⟩ := carrier
+  have sealLeftUnary : UnaryHistory sealLeft :=
+    unary_cont_closed readbackLeftUnary thresholdUnary readbackLeftThresholdSeal
+  have sealRightUnary : UnaryHistory sealRight :=
+    unary_cont_closed readbackRightUnary thresholdUnary readbackRightThresholdSeal
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed sealLeftUnary sealRightUnary sealComparison
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed separatedUnary transportUnary separatedTransportEndpoint
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed endpointUnary localCertUnary endpointLocalCertAudit
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro auditRead ⟨hsame_refl auditRead, auditReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, endpointLocalCertAudit⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨auditReadPkg, sourceRow.left⟩
+  }
+
 end BEDC.Derived.RegularLimitUniquenessUp

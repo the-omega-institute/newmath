@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\PointwiseModulusLedgerUp$}
+\label{ch:concrete-instances-pointwise-modulus-ledger-namecert}
+\origin{ai}
+
+The $\PointwiseModulusLedgerUp$ interface is the concrete source packet for the pointwise-modulus relation isolated in \autoref{ch:visions-compact-uniform-continuity}. It reads the $\ContinuousMapUp$ graph and pointwise-continuity rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the source and target metric rows of \autoref{ch:concrete-instances-metric-namecert}, the positive tolerance and radius histories of \autoref{ch:concrete-instances-rat-namecert}, and the finite selector boundary later consumed by \autoref{ch:concrete-instances-compactnetmodulusselector-namecert}. Its role is to store the center-specific continuity implication before the compact finite-net fold has selected a tolerance-only precision.
+
+\falsifiablePrediction{If the local radius row is absent, no accepted \PointwiseModulusLedgerUp packet can hand a center-specific continuity implication to a compact-net selector.}
+
+\independenceWitness{continuousmap, metric, rat, compactnetmodulusselector, compactuniformcontinuity: the packet is not bijective to any one sibling because it binds source and target metric rows, graph row, center row, tolerance row, local radius row, and implication certificate before compact folding; each sibling omits at least one of those source-ledger obligations.}
+
+\begin{definition}[Pointwise modulus ledger carrier]
+\label{def:pointwise-modulus-ledger-carrier}
+A $\PointwiseModulusLedgerUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(X,Y,F,C,E,R,I,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row whose distance comparisons are tested near the displayed center;
+\item $Y$ is the target $\MetricSpaceUp$ row whose distance comparisons read the requested tolerance;
+\item $F$ is the $\ContinuousMapUp$ graph row over the same source and target metrics;
+\item $C$ is the center history at which the local continuity row is requested;
+\item $E$ is the positive $\RatUp$ tolerance history;
+\item $R$ is the positive $\RatUp$ local radius history attached to $C$ and $E$;
+\item $I$ is the implication certificate saying that every source history within radius $R$ of $C$ is mapped by $F$ within tolerance $E$ in $Y$;
+\item $H$ records componentwise $\hsame$ transport for the metric, graph, center, tolerance, radius, implication, route, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes through which continuous-map and compact-net consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\ContinuousMapUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and local naming rows;
+\item $N$ is the local $\NameCert_{\PointwiseModulusLedgerUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed source metric, target metric, graph, center, tolerance, radius, implication, transport, route, provenance, and local naming rows. It has no coordinate for compactness, a finite-net selector, a folded lower bound, a host continuity theorem, a chosen global modulus, or an open-cover argument.
+\end{definition}
+
+\begin{theorem}[Pointwise modulus ledger NameCert obligations]
+\label{thm:pointwise-modulus-ledger-namecert-obligations}
+The local $\NameCert_{\PointwiseModulusLedgerUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet of \autoref{def:pointwise-modulus-ledger-carrier};
+\item graph compatibility, requiring $F$ to be read as a $\ContinuousMapUp$ row from the source metric $X$ to the target metric $Y$;
+\item center-tolerance-radius exactness, requiring $C$, $E$, and $R$ to be displayed together as the local pointwise request;
+\item implication exactness, requiring $I$ to consume only the source-distance row in $X$, the target-distance row in $Y$, the graph row $F$, and the displayed $C,E,R$ rows;
+\item non-escape, requiring every compact-net consumer read to pass through $X,Y,F,C,E,R,I,H,Q,P,N$ and forbidding compactness data, finite selector output, folded lower bounds, host continuity, chosen global moduli, and open-cover subcovers.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Carrier admission is projection from \autoref{def:pointwise-modulus-ledger-carrier}. The packet displays the source and target metrics, graph row, center, tolerance, radius, implication, transports, routes, provenance, and local name.
+
+Graph compatibility reads $F$ only over $X$ and $Y$. The pointwise row is therefore attached to the same metric surfaces later used by a compact-net selector.
+
+Center-tolerance-radius exactness binds $C,E,R$ as one local request. The radius row is not reconstructed from compactness or a folded minimum; it is the displayed positive $\RatUp$ radius carried by the packet.
+
+Implication exactness reads $I$ as the local continuity certificate. Its antecedent is a source-metric comparison to $C$ below $R$, and its conclusion is a target-metric comparison below $E$ after applying the graph row $F$.
+
+The non-escape clause follows from the carrier inventory and the displayed route rows. Since no compactness, finite selector, lower-bound fold, host theorem, global modulus, or open-cover coordinate is present, no accepted projection can export such data.
+\end{proof}
+
+\begin{theorem}[Pointwise modulus ledger center-radius handoff]
+\label{thm:pointwise-modulus-ledger-center-radius-handoff}
+Let
+$$
+L=(X,Y,F,C,E,R,I,H,Q,P,N)
+$$
+be an accepted $\PointwiseModulusLedgerUp$ carrier. Any downstream $\CompactNetModulusSelectorUp$ read of the center-specific pointwise modulus factors through the displayed center row $C$, local radius row $R$, tolerance row $E$, graph row $F$, source and target metric rows $X,Y$, and implication certificate $I$. The selector receives a center-radius implication packet, not a compact finite-net fold or a host modulus.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier. The center, tolerance, and radius rows are visible as $C,E,R$, and the graph and metric rows are visible as $F,X,Y$.
+
+Apply \autoref{thm:pointwise-modulus-ledger-namecert-obligations}. Its graph compatibility and center-tolerance-radius exactness clauses bind these rows before any consumer can read the implication certificate.
+
+Now read $I$. The implication certificate consumes exactly the source-distance comparison to $C$ below $R$ and returns exactly the target-distance comparison below $E$ through $F$ and $Y$.
+
+The compact-net selector can therefore use the row only as a center-radius handoff. It must still supply its own finite $\mathsf{ProbeBundle}$ spine and lower-bound fold, because neither coordinate appears in the accepted $\PointwiseModulusLedgerUp$ packet.
+\end{proof}
+
+\begin{theorem}[Pointwise modulus ledger non-escape]
+\label{thm:pointwise-modulus-ledger-nonescape}
+Every consumer read of an accepted $\PointwiseModulusLedgerUp$ packet factors through the displayed source metric, target metric, graph, center, tolerance, radius, implication, transport, route, provenance, and local naming rows of \autoref{def:pointwise-modulus-ledger-carrier}. The packet exports no compact finite-net row, no selected precision, no lower-bound fold, no open-cover compactness, no host continuity theorem, and no external modulus function.
+\end{theorem}
+
+\begin{proof}
+Read the carrier coordinates $X,Y,F,C,E,R,I,H,Q,P,N$. These are the only rows available to the local $\NameCert_{\PointwiseModulusLedgerUp}$ projection.
+
+Use \autoref{thm:pointwise-modulus-ledger-namecert-obligations}. Its exactness clauses route graph reads through $F$, local request reads through $C,E,R$, and continuity implication reads through $I$.
+
+The transport, continuation, provenance, and naming rows $H,Q,P,N$ replay that same finite route componentwise. No coordinate remains from which a consumer could read compact finite-net data, a selected precision, a lower-bound fold, open-cover compactness, host continuity, or an external modulus function.
+\end{proof}
+
+\begin{theorem}[Pointwise modulus ledger TasteGate obligation]
+\label{thm:pointwise-modulus-ledger-tastegate-obligation}
+The Lean follow-up file $\mathsf{lean4/BEDC/Derived/PointwiseModulusLedgerUp/TasteGate.lean}$ must provide $\mathsf{Nontrivial}\ \PointwiseModulusLedgerUp$ and $\mathsf{FieldFaithful}\ \PointwiseModulusLedgerUp$ instances for the same carrier. These instances must preserve the source metric row, target metric row, graph row, center row, tolerance row, local radius row, implication certificate, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+
+\begin{proof}
+Nontriviality is witnessed by the dependency mix of the carrier. Removing the source metric row breaks the antecedent of $I$; removing the target metric row breaks its conclusion; removing the graph, center, tolerance, or radius row leaves no pointwise-modulus request.
+
+Field faithfulness records that these rows are preserved as one packet. A TasteGate consumer must distinguish $\PointwiseModulusLedgerUp$ from $\ContinuousMapUp$, $\MetricSpaceUp$, $\RatUp$, $\CompactNetModulusSelectorUp$, and the compact-uniform-continuity packet by the full coordinate surface $X,Y,F,C,E,R,I,H,Q,P,N$.
+\end{proof}
