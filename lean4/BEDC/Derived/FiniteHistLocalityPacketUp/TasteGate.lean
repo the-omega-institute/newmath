@@ -11,8 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive FiniteHistLocalityPacketUp : Type where
   | mk :
-      (historyLeft historyRight locality invariant symmetry transport replay provenance
-        localName : BHist) →
+      (H0 H1 L I S T C Q N : BHist) →
       FiniteHistLocalityPacketUp
   deriving DecidableEq
 
@@ -30,8 +29,7 @@ def finiteHistLocalityPacketDecodeBHist : RawEvent → BHist
 
 private theorem finiteHistLocalityPacket_decode_encode_bhist :
     ∀ h : BHist,
-      finiteHistLocalityPacketDecodeBHist
-        (finiteHistLocalityPacketEncodeBHist h) = h := by
+      finiteHistLocalityPacketDecodeBHist (finiteHistLocalityPacketEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,160 +40,86 @@ private theorem finiteHistLocalityPacket_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+def finiteHistLocalityPacketFields : FiniteHistLocalityPacketUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N =>
+      [H0, H1, L, I, S, T, C, Q, N]
+
 def finiteHistLocalityPacketToEventFlow : FiniteHistLocalityPacketUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteHistLocalityPacketUp.mk historyLeft historyRight locality invariant symmetry transport
-      replay provenance localName =>
-      [[BMark.b0],
-        finiteHistLocalityPacketEncodeBHist historyLeft,
-        [BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist historyRight,
-        [BMark.b1, BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist locality,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist invariant,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist symmetry,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist replay,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        finiteHistLocalityPacketEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        finiteHistLocalityPacketEncodeBHist localName]
+  | FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N =>
+      [[BMark.b1, BMark.b0, BMark.b1],
+        finiteHistLocalityPacketEncodeBHist H0,
+        finiteHistLocalityPacketEncodeBHist H1,
+        finiteHistLocalityPacketEncodeBHist L,
+        finiteHistLocalityPacketEncodeBHist I,
+        finiteHistLocalityPacketEncodeBHist S,
+        finiteHistLocalityPacketEncodeBHist T,
+        finiteHistLocalityPacketEncodeBHist C,
+        finiteHistLocalityPacketEncodeBHist Q,
+        finiteHistLocalityPacketEncodeBHist N]
 
-def finiteHistLocalityPacketFromEventFlow : EventFlow → Option FiniteHistLocalityPacketUp
+def finiteHistLocalityPacketFromEventFlow :
+    EventFlow → Option FiniteHistLocalityPacketUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | historyLeft :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | historyRight :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | locality :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | invariant :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | symmetry :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | transport :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | replay :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | provenance :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | localName ::
-                                                                          rest17 =>
-                                                                          match rest17
-                                                                            with
-                                                                          | [] =>
-                                                                              some
-                                                                                (FiniteHistLocalityPacketUp.mk
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    historyLeft)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    historyRight)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    locality)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    invariant)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    symmetry)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    transport)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    replay)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    provenance)
-                                                                                  (finiteHistLocalityPacketDecodeBHist
-                                                                                    localName))
-                                                                          | _ :: _ =>
-                                                                              none
+  | [[BMark.b1, BMark.b0, BMark.b1], H0, H1, L, I, S, T, C, Q, N] =>
+      some
+        (FiniteHistLocalityPacketUp.mk
+          (finiteHistLocalityPacketDecodeBHist H0)
+          (finiteHistLocalityPacketDecodeBHist H1)
+          (finiteHistLocalityPacketDecodeBHist L)
+          (finiteHistLocalityPacketDecodeBHist I)
+          (finiteHistLocalityPacketDecodeBHist S)
+          (finiteHistLocalityPacketDecodeBHist T)
+          (finiteHistLocalityPacketDecodeBHist C)
+          (finiteHistLocalityPacketDecodeBHist Q)
+          (finiteHistLocalityPacketDecodeBHist N))
+  | _ => none
 
 private theorem finiteHistLocalityPacket_round_trip :
     ∀ x : FiniteHistLocalityPacketUp,
-      finiteHistLocalityPacketFromEventFlow
-        (finiteHistLocalityPacketToEventFlow x) = some x := by
+      finiteHistLocalityPacketFromEventFlow (finiteHistLocalityPacketToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk historyLeft historyRight locality invariant symmetry transport replay provenance
-      localName =>
+  | mk H0 H1 L I S T C Q N =>
       change
         some
           (FiniteHistLocalityPacketUp.mk
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist historyLeft))
+              (finiteHistLocalityPacketEncodeBHist H0))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist historyRight))
+              (finiteHistLocalityPacketEncodeBHist H1))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist locality))
+              (finiteHistLocalityPacketEncodeBHist L))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist invariant))
+              (finiteHistLocalityPacketEncodeBHist I))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist symmetry))
+              (finiteHistLocalityPacketEncodeBHist S))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist transport))
+              (finiteHistLocalityPacketEncodeBHist T))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist replay))
+              (finiteHistLocalityPacketEncodeBHist C))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist provenance))
+              (finiteHistLocalityPacketEncodeBHist Q))
             (finiteHistLocalityPacketDecodeBHist
-              (finiteHistLocalityPacketEncodeBHist localName))) =
-          some
-            (FiniteHistLocalityPacketUp.mk historyLeft historyRight locality invariant symmetry
-              transport replay provenance localName)
-      rw [finiteHistLocalityPacket_decode_encode_bhist historyLeft,
-        finiteHistLocalityPacket_decode_encode_bhist historyRight,
-        finiteHistLocalityPacket_decode_encode_bhist locality,
-        finiteHistLocalityPacket_decode_encode_bhist invariant,
-        finiteHistLocalityPacket_decode_encode_bhist symmetry,
-        finiteHistLocalityPacket_decode_encode_bhist transport,
-        finiteHistLocalityPacket_decode_encode_bhist replay,
-        finiteHistLocalityPacket_decode_encode_bhist provenance,
-        finiteHistLocalityPacket_decode_encode_bhist localName]
+              (finiteHistLocalityPacketEncodeBHist N))) =
+          some (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N)
+      rw [finiteHistLocalityPacket_decode_encode_bhist H0,
+        finiteHistLocalityPacket_decode_encode_bhist H1,
+        finiteHistLocalityPacket_decode_encode_bhist L,
+        finiteHistLocalityPacket_decode_encode_bhist I,
+        finiteHistLocalityPacket_decode_encode_bhist S,
+        finiteHistLocalityPacket_decode_encode_bhist T,
+        finiteHistLocalityPacket_decode_encode_bhist C,
+        finiteHistLocalityPacket_decode_encode_bhist Q,
+        finiteHistLocalityPacket_decode_encode_bhist N]
 
 private theorem finiteHistLocalityPacketToEventFlow_injective
     {x y : FiniteHistLocalityPacketUp} :
-    finiteHistLocalityPacketToEventFlow x =
-      finiteHistLocalityPacketToEventFlow y → x = y := by
+    finiteHistLocalityPacketToEventFlow x = finiteHistLocalityPacketToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -205,6 +129,35 @@ private theorem finiteHistLocalityPacketToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (finiteHistLocalityPacket_round_trip x).symm
       (Eq.trans hread (finiteHistLocalityPacket_round_trip y)))
+
+private theorem finiteHistLocalityPacket_field_faithful :
+    ∀ x y : FiniteHistLocalityPacketUp,
+      finiteHistLocalityPacketFields x = finiteHistLocalityPacketFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk H0a H1a La Ia Sa Ta Ca Qa Na =>
+      cases y with
+      | mk H0b H1b Lb Ib Sb Tb Cb Qb Nb =>
+          injection hfields with hH0 t1
+          injection t1 with hH1 t2
+          injection t2 with hL t3
+          injection t3 with hI t4
+          injection t4 with hS t5
+          injection t5 with hT t6
+          injection t6 with hC t7
+          injection t7 with hQ t8
+          injection t8 with hN _
+          cases hH0
+          cases hH1
+          cases hL
+          cases hI
+          cases hS
+          cases hT
+          cases hC
+          cases hQ
+          cases hN
+          rfl
 
 instance finiteHistLocalityPacketBHistCarrier :
     BHistCarrier FiniteHistLocalityPacketUp where
@@ -228,38 +181,8 @@ instance finiteHistLocalityPacketChapterTasteGate :
 instance finiteHistLocalityPacketFieldFaithful :
     FieldFaithful FiniteHistLocalityPacketUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields
-    | FiniteHistLocalityPacketUp.mk historyLeft historyRight locality invariant symmetry
-        transport replay provenance localName =>
-        [historyLeft, historyRight, locality, invariant, symmetry, transport, replay,
-          provenance, localName]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk historyLeft historyRight locality invariant symmetry transport replay provenance
-        localName =>
-        cases y with
-        | mk historyLeft' historyRight' locality' invariant' symmetry' transport' replay'
-            provenance' localName' =>
-            injection hfields with hHistoryLeft hTail0
-            injection hTail0 with hHistoryRight hTail1
-            injection hTail1 with hLocality hTail2
-            injection hTail2 with hInvariant hTail3
-            injection hTail3 with hSymmetry hTail4
-            injection hTail4 with hTransport hTail5
-            injection hTail5 with hReplay hTail6
-            injection hTail6 with hProvenance hTail7
-            injection hTail7 with hLocalName _hNil
-            cases hHistoryLeft
-            cases hHistoryRight
-            cases hLocality
-            cases hInvariant
-            cases hSymmetry
-            cases hTransport
-            cases hReplay
-            cases hProvenance
-            cases hLocalName
-            rfl
+  fields := finiteHistLocalityPacketFields
+  field_faithful := finiteHistLocalityPacket_field_faithful
 
 instance finiteHistLocalityPacketNontrivial :
     Nontrivial FiniteHistLocalityPacketUp where
@@ -276,5 +199,23 @@ instance finiteHistLocalityPacketNontrivial :
 def taste_gate : ChapterTasteGate FiniteHistLocalityPacketUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteHistLocalityPacketChapterTasteGate
+
+theorem FiniteHistLocalityPacketTasteGate_single_carrier_alignment :
+    forall H0 H1 L I S T C Q N : BHist,
+      finiteHistLocalityPacketToEventFlow
+          (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+        [[BMark.b1, BMark.b0, BMark.b1],
+          finiteHistLocalityPacketEncodeBHist H0,
+          finiteHistLocalityPacketEncodeBHist H1,
+          finiteHistLocalityPacketEncodeBHist L,
+          finiteHistLocalityPacketEncodeBHist I,
+          finiteHistLocalityPacketEncodeBHist S,
+          finiteHistLocalityPacketEncodeBHist T,
+          finiteHistLocalityPacketEncodeBHist C,
+          finiteHistLocalityPacketEncodeBHist Q,
+          finiteHistLocalityPacketEncodeBHist N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro H0 H1 L I S T C Q N
+  rfl
 
 end BEDC.Derived.FiniteHistLocalityPacketUp
