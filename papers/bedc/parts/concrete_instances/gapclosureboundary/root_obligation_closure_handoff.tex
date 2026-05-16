@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary consumer obligation closure]
+\label{thm:gap-closure-boundary-consumer-obligation-closure}
+Every accepted $\GapClosureBoundaryUp$ consumer route must expose the displayed $\BHist$ request row, classifier row, refusal row, $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ row before it can read the boundary. The route may transport those rows by the recorded $\hsame$ data, but it cannot consume a hidden request, hidden classifier, unrecorded refusal, off-packet replay, detached provenance row, or unnamed boundary packet.
+\end{theorem}
+\begin{proof}
+Start from the root boundary obligation packet and the source-refusal obligation scope. They expose the finite request, classifier, refusal, replay, provenance, and naming rows as the public root surface of the carrier.
+
+Use root NameCert route totality. Every accepted consumer route is named by the same local certificate and is replayed through the displayed $\Cont$ row rather than through a private continuation.
+
+Finally apply refusal route totality and route-completion totality. The $\hsame$ transport rows preserve the displayed request/classifier/refusal packet, while $\Pkg$ provenance records the same source. Hence any route omitting one of these rows leaves the accepted consumer surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary source-refusal exactness]
+\label{thm:gap-closure-boundary-source-refusal-exactness}
+A source-refusal read of $\GapClosureBoundaryUp$ is exact only when the same displayed refusal row is consumed by every downstream route that reads the source boundary. If a downstream route replaces the refusal row, hides the classifier that selected it, or detaches it from the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, the route is no longer an exact source-refusal read.
+\end{theorem}
+\begin{proof}
+Begin with source-refusal consumer totality and source-refusal terminal unblock. They force the downstream source-facing route to consume the same refusal row that the root packet displays.
+
+Next use the root source-refusal readiness and decision-surface theorems. The classifier row selects the refusal route before any consumer handoff, so a later route cannot replace the refusal row without changing the boundary decision.
+
+The structural rows preserve exactness. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row carry the same refusal row to each consumer. A route that hides or swaps any of them exits the source-refusal packet.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal handoff exhaustion]
+\label{thm:gap-closure-boundary-refusal-handoff-exhaustion}
+No accepted $\GapClosureBoundaryUp$ consumer handoff can use a hidden source, hidden classifier, or unrecorded gap route. Every handoff is exhausted by the displayed request row, source/refusal decision rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row already present in the root packet.
+\end{theorem}
+\begin{proof}
+Project the root acceptance route exhaustion theorem. It leaves only the displayed request, source/refusal, transport, replay, provenance, and naming rows available to a consumer handoff.
+
+Apply the consumer obligation closure theorem. Any accepted route has to expose the request, classifier, refusal, replay, provenance, and local certificate rows before handoff.
+
+Finally use source-refusal exactness. Because every downstream route consumes the same displayed refusal row, no hidden source, hidden classifier, or unrecorded gap route remains available. The handoff is therefore exhausted by the root packet.
+\end{proof}
