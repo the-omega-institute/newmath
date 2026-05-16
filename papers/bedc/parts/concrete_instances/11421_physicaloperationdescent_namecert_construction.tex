@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalOperationDescentUp$}
+\label{ch:concrete-instances-physical-operation-descent-namecert}
+\origin{ai}
+
+The $\PhysicalOperationDescentUp$ packet realizes the operation-descent demand of \autoref{ch:visions-reality-constrained-approximation-towers} as a finite NameCert carrier. It sits beside the signature-fit packet of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, the endpoint audit of \autoref{ch:concrete-instances-compression-descent-audit-namecert}, the paired-tower boundary of \autoref{ch:concrete-instances-tower-equivalence-namecert}, and the physical audit packet of \autoref{ch:concrete-instances-physical-model-audit-namecert}. Those siblings expose physical-signature compatibility, endpoint-operation audit, tower comparison, and model-facing audit rows; this packet isolates the descent route of a single operation across source and endpoint classifiers before a consumer may apply the operation after classification.
+
+\begin{definition}[PhysicalOperationDescent carrier]
+\label{def:physical-operation-descent-carrier}
+A $\PhysicalOperationDescentUp$ carrier is a finite $\BHist$ packet
+$$
+D=(O,S,E,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the operation row, naming the operation, predicate, or comparison whose post-classifier use is requested.
+\item $S$ is the source-classifier row, read through the physical-signature and representation data of $\RealityConstrainedSignatureFitUp$.
+\item $E$ is the endpoint-classifier row, read through the compressed or tower-facing endpoint at which $O$ is intended to act.
+\item $R$ is the descent-route row, recording the displayed proof route that $O$ respects $S$ and lands in $E$.
+\item $F$ is the failure-exposure row, naming absent classifier compatibility, missing source signature, missing endpoint classifier, failed operation preservation, and audit defeat as displayed refusal reasons.
+\item $H$ records componentwise $\hsame$ transport for $O,S,E,R,F$.
+\item $C$ records displayed $\Cont$ replay through the same operation, classifier, route, and failure rows.
+\item $P$ is the $\Pkg$ provenance over $\PhysicalOperationDescentUp$, $\RealityConstrainedSignatureFitUp$, $\CompressionDescentAuditUp$, $\TowerEquivalenceUp$, $\PhysicalModelAuditUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PhysicalOperationDescentUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for applying $O$ after a classifier step without a displayed descent route, no endpoint-only operation oracle, no hidden physical-signature source, and no refusal surface outside $F$.
+\end{definition}
+
+\begin{definition}[PhysicalOperationDescent classifier]
+\label{def:physical-operation-descent-classifier}
+For accepted packets
+$$
+D=(O,S,E,R,F,H,C,P,N)
+\quad\hbox{and}\quad
+D'=(O',S',E',R',F',H',C',P',N'),
+$$
+the predicate $\mathsf{PhysicalOperationDescentClassifier}(D,D')$ holds when $H$ transports operation rows, source classifiers, endpoint classifiers, descent routes, failure rows, continuation replays, provenance, and local names componentwise, and when the transported route still records that the operation respects the source classifier and lands in the endpoint classifier.
+
+Classifier agreement is therefore not equality of endpoint results and not equality of operation syntax alone. It is agreement of the finite operation, source-classifier, endpoint-classifier, descent-route, failure-exposure, transport, replay, provenance, and local-name rows as one packet.
+\end{definition}
+
+\begin{theorem}[PhysicalOperationDescent NameCert obligations]
+\label{thm:physical-operation-descent-namecert-obligations}
+For the carrier of \autoref{def:physical-operation-descent-carrier}, the local $\NameCert_{\PhysicalOperationDescentUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly $D=(O,S,E,R,F,H,C,P,N)$;
+\item classifier stability: every accepted comparison uses the classifier of \autoref{def:physical-operation-descent-classifier};
+\item route exposure: every accepted post-classifier operation read displays the operation row $O$, source classifier $S$, endpoint classifier $E$, and descent route $R$ in the same packet;
+\item failure exposure: every missing source signature, endpoint classifier, operation-preservation proof, or model-audit defeat appears through the failure row $F$ before acceptance is refused;
+\item non-escape: no consumer may apply $O$ after a classifier step, export endpoint operation validity, or suppress a descent failure from rows outside $O,S,E,R,F,H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:physical-operation-descent-carrier}. The displayed tuple lists the operation, source classifier, endpoint classifier, descent route, failure row, transport, replay, provenance, and local name as the only available rows.
+
+Classifier stability follows from \autoref{def:physical-operation-descent-classifier}. Transport preserves the operation row and the two classifier rows together with the route that relates them, so an accepted comparison cannot replace route preservation by endpoint syntax or host equality.
+
+Route exposure is the operational content of the packet. A post-classifier application of $O$ is accepted only when $O,S,E,R$ appear together, because $R$ is the row that records respect for the source classifier and landing in the endpoint classifier.
+
+Failure exposure and non-escape are the finite-packet boundary. Missing classifier compatibility, missing signatures, failed preservation, and audit defeat live in $F$, while every accepted or refused read remains inside $O,S,E,R,F,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[PhysicalOperationDescent signature preservation]
+\label{thm:physical-operation-descent-signature-preservation}
+Let
+$$
+D=(O,S,E,R,F,H,C,P,N)
+$$
+be an accepted $\PhysicalOperationDescentUp$ packet. If a consumer applies $O$ after reading the source classifier $S$, the resulting endpoint read is physically admissible only through the displayed route $R$ and endpoint classifier $E$, with the failure row $F$ still visible in the same packet.
+\end{theorem}
+\begin{proof}
+Use the route-exposure clause of \autoref{thm:physical-operation-descent-namecert-obligations}. The source classifier $S$ is not a permission to apply $O$ at an endpoint; it is one row of the accepted descent packet.
+
+The descent route $R$ supplies the displayed preservation claim from the source classifier to the endpoint classifier. The endpoint classifier $E$ records the target comparison in which the result of $O$ is read.
+
+The failure row $F$ remains part of the same carrier. If preservation fails, or if source-signature or endpoint-classifier data are missing, that refusal is still visible and the operation cannot be exported as a physically admissible endpoint read.
+\end{proof}
+
+\begin{theorem}[PhysicalOperationDescent ledger non-escape]
+\label{thm:physical-operation-descent-ledger-nonescape}
+Every accepted $\PhysicalOperationDescentUp$ consumer route factors through
+$$
+O,S,E,R,F,H,C,P,N.
+$$
+In particular, a consumer that applies an operation after a classifier step is rejected unless the descent route and failure row are displayed in the same packet.
+\end{theorem}
+\begin{proof}
+The carrier definition exposes exactly the nine rows $O,S,E,R,F,H,C,P,N$. The classifier definition transports those rows componentwise and keeps the operation, two classifiers, descent route, and failure exposure tied together.
+
+Apply the NameCert obligations. Route exposure forces $O,S,E,R$ into every accepted post-classifier operation read, and failure exposure forces $F$ to remain available for every refusal reason attached to that read.
+
+Therefore an operation application that keeps the source classifier while omitting the route or failure row has no coordinate in the accepted packet. The consumer has left the finite $\PhysicalOperationDescentUp$ carrier rather than reading it.
+\end{proof}
+
+\falsifiablePrediction{A consumer that applies an operation after a classifier step is rejected unless the descent route and failure row are displayed in the same packet.}
+
+\independenceWitness{realityconstrainedsignaturefit, compressiondescentaudit, towerequivalence, physicalmodelaudit, openfitpacket: none is bijective because PhysicalOperationDescentUp isolates operation, source classifier, endpoint classifier, descent proof route, and failure exposure in one carrier.}
+
+The Lean chapter \texttt{TasteGate.lean} for $\PhysicalOperationDescentUp$ is expected to provide explicit $\mathsf{Nontrivial}\ \PhysicalOperationDescentUp$ and $\mathsf{FieldFaithful}\ \PhysicalOperationDescentUp$ instances. Its gate-facing theorem is expected at \texttt{BEDC.Derived.PhysicalOperationDescentUp.taste\_gate}.
+
+\closureat{PhysicalOperationDescentUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalOperationDescentUp}
+  \constructivestory{A $\PhysicalOperationDescentUp$ packet is generated from operation, source-classifier, endpoint-classifier, descent-route, failure-exposure, componentwise transport, continuation replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-operation-descent-carrier}, \autoref{def:physical-operation-descent-classifier}, \autoref{thm:physical-operation-descent-namecert-obligations}, \autoref{thm:physical-operation-descent-signature-preservation}, and \autoref{thm:physical-operation-descent-ledger-nonescape} bind operation descent through reality-constrained approximation classifiers to a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert Lean verification, bridge checking, endpoint-only operation validity, total descent for all operations, host physical truth, or operation application without the displayed failure surface.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, classifier stability, signature preservation, ledger non-escape, TasteGate nontriviality, and field faithfulness for $O,S,E,R,F,H,C,P,N$.}
+\end{closurestatus}
