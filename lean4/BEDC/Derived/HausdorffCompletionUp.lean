@@ -378,4 +378,27 @@ theorem HausdorffCompletionPacket_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨sourceRow.right.right, transportsRoutesProvenance, provenanceNameExported⟩
   }
 
+theorem HausdorffCompletionCarrier_separated_ledger_transport_scope [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont provenance route ledger ->
+        PkgSig bundle ledger pkg ->
+          UnaryHistory separated ∧ UnaryHistory handoff ∧ UnaryHistory route ∧
+            UnaryHistory provenance ∧ UnaryHistory ledger ∧ Cont separated handoff route ∧
+              Cont transport route provenance ∧ Cont provenance route ledger ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle ledger pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier provenanceRouteLedger ledgerPkg
+  obtain ⟨_sourceUnary, _entourageUnary, separatedUnary, handoffUnary, _transportUnary,
+    routeUnary, provenanceUnary, _sourceEntourageTransport, separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed provenanceUnary routeUnary provenanceRouteLedger
+  exact
+    ⟨separatedUnary, handoffUnary, routeUnary, provenanceUnary, ledgerUnary,
+      separatedHandoffRoute, transportRouteProvenance, provenanceRouteLedger, provenancePkg,
+      ledgerPkg⟩
+
 end BEDC.Derived.HausdorffCompletionUp
