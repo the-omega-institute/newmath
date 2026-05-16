@@ -152,6 +152,24 @@ Next apply \autoref{thm:finite-reflection-tuple-dependency-ledger-totality}. The
 
 Finally use \autoref{thm:finite-reflection-tuple-componentwise-transport} and \autoref{thm:finite-reflection-tuple-request-exhaustion}. They keep transport and bridge-facing requests inside the same finite packet. Since the excluded objects have no carrier coordinate, no image row, no readback row, and no request row, an audit-result read cannot escape to them.
 \end{proof}
+
+\begin{theorem}[FiniteReflectionTuple StdBridge request scope]
+\label{thm:finite-reflection-tuple-stdbridge-request-scope}
+For every accepted $\FiniteReflectionTupleUp$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+every $\StdBridge$-facing request over $F$ must read the candidate identity, $\TasteGateStabilityUp$ input, $\TasteGateAdmissionUp$ input, $\TasteGateCompilerWitnessUp$ input, tuple image, readback, componentwise transport, replay, provenance, request, and local $\NameCert$ rows through that same packet. No such request may import hidden prompt state, a second image/readback surface, host approval, oracle taste, or an unlisted compiler theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-reflection-tuple-request-exhaustion}. It identifies the bridge-facing request with the displayed row $Q$ attached to the same tuple image, readback, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:finite-reflection-tuple-dependency-ledger-totality}. The only dependency inputs available to that request are the three consumed TasteGate packets and the displayed BEDC support rows.
+
+Apply \autoref{thm:finite-reflection-tuple-audit-result-nonescape}. Hidden prompt state, oracle taste, host approval, detached requests, second image/readback surfaces, and unlisted compiler theorems have no carrier coordinate in an accepted audit-result read.
+
+Finally invoke \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. Since each reflected field is read through $I$ and recovered through $R$, the request scope is exactly the displayed finite packet $X,S,A,W,I,R,H,C,P,Q,N$.
+\end{proof}
 \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment}
 
 \falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
