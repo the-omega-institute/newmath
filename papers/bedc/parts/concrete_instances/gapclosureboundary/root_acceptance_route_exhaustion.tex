@@ -1,0 +1,49 @@
+\begin{theorem}[GapClosureBoundary acceptance row exhaustion]
+\label{thm:gap-closure-boundary-acceptance-row-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the accepted root row is exhausted by the displayed $\BHist$ inventory $G,S,R$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. A source-supported consumer route must read the accepted source row as
+$$
+G \longrightarrow S,
+$$
+and an unsupported closure request must read the refusal route as
+$$
+G \longrightarrow R.
+$$
+No root acceptance row exports a third consumer route, hidden closure coordinate, hidden $\mathsf{T}$ supply, host equality row, quotient datum, private selector, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+First read the source/refusal consumer ledger. \autoref{thm:gap-closure-boundary-source-route-totality} requires every supported hard-problem read to expose $G \longrightarrow S$ before consuming $H,C,P,N$, while \autoref{thm:gap-closure-boundary-refusal-route-exactness} sends every unsupported closure request through $G \longrightarrow R$ with the same structural rows.
+
+Next use the root refusal-route obligations. \autoref{thm:gap-closure-boundary-refusal-verdict-totality} makes the refusal endpoint and ledger visible before supported consumption, and \autoref{thm:gap-closure-boundary-supported-route-exhaustion} confines supported routes to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+The terminal source unblock removes the remaining root entry. \autoref{thm:gap-closure-boundary-terminal-source-admission} admits terminal source reads only through $G \longrightarrow S$ and sends non-supported reads through $G \longrightarrow R$, and \autoref{thm:gap-closure-boundary-consumer-ledger-nonescape} keeps every listed consumer inside $G,S,R,H,C,P,N$.
+
+Finally apply refusal route totality, \autoref{thm:gap-closure-boundary-refusal-route-totality}. Since every unsupported request is exhausted by the displayed refusal branch and the structural rows cannot generate another endpoint, the accepted root row has no third consumer route or hidden closure supply.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal route readback]
+\label{thm:gap-closure-boundary-refusal-route-readback}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, refusal-route readback is determined by the displayed $\BHist$ request row $G$, refusal row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ route row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. If a consumer route lacks the accepted source row $G \longrightarrow S$, then its readback is exactly the refusal route $G \longrightarrow R$ over $H,C,P,N$, and the readback cannot be reclassified as a source route, a private root, a closure witness, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the source-refusal ledger. \autoref{thm:gap-closure-boundary-refusal-route-exactness} identifies the unsupported request endpoint as $R$ and keeps the transport, continuation, provenance, and naming rows attached to that endpoint.
+
+Now apply the root refusal-route obligations. \autoref{thm:gap-closure-boundary-refusal-verdict-totality} fixes the verdict row before supported consumption, while \autoref{thm:gap-closure-boundary-namecert-consumer-nonescape} says downstream consumers receive only the refusal-plus-supported-route packet named by $N$ and transported through $H,C,P$.
+
+For terminal readback, use \autoref{thm:gap-closure-boundary-refusal-classifier-stability}. Componentwise $\hsame$ transport through $H$, followed by replay through $C$, preserves unsupported requests as refusal data rather than source evidence.
+
+The totality lock closes the route. By \autoref{thm:gap-closure-boundary-refusal-route-totality}, every unsupported closure request reaches $R$ through $H,C,P,N$ and has no hidden closure, host-equality, private-access, or off-packet continuation branch. Hence refusal readback is exactly the displayed route $G \longrightarrow R$.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary NameCert route closure]
+\label{thm:gap-closure-boundary-namecert-route-closure}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the local $\NameCert_{\GapClosureBoundaryUp}$ route surface is closed by the accepted source row $G \longrightarrow S$, the refusal route $G \longrightarrow R$, and the displayed structural rows $H,C,P,N$. The certificate records the $\BHist$ carrier rows componentwise, transports them by $\hsame$, replays them through $\Cont$, packages them by $\Pkg$, and names them locally by $N$; it exports no unregistered consumer route, global closure row, hidden $\mathsf{T}$ supply, host equality row, quotient datum, private source selector, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+First assemble the consumer ledger. By \autoref{thm:gap-closure-boundary-consumer-ledger-exhaustion}, supported reads are accounted for by $G \longrightarrow S$ with $H,C,P,N$, unsupported closure requests are accounted for by $G \longrightarrow R$ with the same rows, and no third consumer route is exported.
+
+Next apply the root refusal-route obligation surface. \autoref{thm:gap-closure-boundary-supported-route-exhaustion} keeps the supported branch inside the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, while \autoref{thm:gap-closure-boundary-namecert-consumer-nonescape} prevents a downstream consumer from escaping that named packet.
+
+The terminal source unblock supplies the root-facing split. \autoref{thm:gap-closure-boundary-terminal-source-admission} admits source reads only through $G \longrightarrow S$ and routes non-supported requests through $G \longrightarrow R$; \autoref{thm:gap-closure-boundary-consumer-ledger-nonescape} keeps the listed hard-problem consumers inside the same packet.
+
+Finally use the refusal route totality lock, \autoref{thm:gap-closure-boundary-refusal-route-totality}. It exhausts the refusal side by the displayed branch and structural rows, so the local $\NameCert$ route surface is closed by the two named routes and exports no unregistered consumer route or hidden closure coordinate.
+\end{proof}

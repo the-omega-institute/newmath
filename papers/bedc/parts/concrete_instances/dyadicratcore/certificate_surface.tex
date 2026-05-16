@@ -55,6 +55,20 @@ radius refinement entirely inside the displayed unary ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_monotone\_radius\_obligation}
 
+\begin{theorem}[DyadicRatCore scale-window obligation surface]
+\label{thm:dyadicratcore-scale-window-obligation-surface}
+The canonical common-exponent scale window, monotone radius obligation, denominator ledger, and arithmetic-window stability together provide the exact dyadic tolerance row consumed by $\StreamNameUp$ finite windows and $\RegSeqRatUp$ regularity checks. The consumed row is the visible dyadic packet formed from the signed mantissa, positive unary exponent, denominator ledger, common-exponent scaling row, monotone radius refinement, arithmetic stability row, $\BHist$ carrier data, $\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance; it is not a quotient rational class, host rational equality, or host real distance.
+\end{theorem}
+\begin{proof}
+First use monotone-radius obligation, \autoref{thm:dyadicratcore-monotone-radius-obligation}. It refines the dyadic radius by appending visible unary denominator entries and keeps the radius row inside the displayed carrier and continuation surface.
+
+Next use common-exponent exactness, \autoref{thm:dyadicratcore-common-exponent-exactness}, together with the denominator ledger transport of \autoref{thm:dyadicratcore-denominator-ledger}. These rows put the compared packets on one common exponent while preserving the visible mantissa and denominator-ledger sources.
+
+Then apply arithmetic-window stability, \autoref{thm:dyadicratcore-arithmetic-window-stability}, and the RegSeqRat window-radius handoff, \autoref{thm:dyadicratcore-regseqrat-window-radius-handoff}. The arithmetic and radius windows are the same finite dyadic tolerance packet consumed by StreamName finite windows and RegSeqRat regularity checks.
+
+The cited rows mention only displayed dyadic data, carrier histories, transports, continuations, and provenance. None provides quotient rational classes, host equality, or a host real distance coordinate, so the obligation surface is exact.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore arithmetic-monotone window package]
 \label{thm:dyadicratcore-arithmetic-monotone-window-package}
 Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets satisfying
@@ -114,6 +128,59 @@ classifier rows therefore gives the same visible classifier row, with no
 appeal to quotient equality of dyadic pairs.
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreClassifier\_common\_exponent\_e0\_exclusion}
+
+\begin{definition}[DyadicRatCore canonical comparison window]
+\label{def:dyadicratcore-canonical-window}
+For accepted packets $D$ and $D'$ of $\DyadicRatCoreUp$, the canonical
+comparison window is the finite BEDC packet
+$$
+\begin{gathered}
+  (G,\ \Delta_D^G,\ \Delta_{D'}^G,\ M_D^G,\ M_{D'}^G,\
+  R_G,\ H_G,\ S_G,\ C_G,\ P_G,\ N_G).
+\end{gathered}
+$$
+Here $G$ is a chosen common positive unary exponent, $\Delta_D^G$ and
+$\Delta_{D'}^G$ are the transported denominator ledgers, $M_D^G$ and
+$M_{D'}^G$ are the scaled mantissa rows, and $R_G$ is the displayed $\RatUp$
+classifier row between those scaled mantissas. The remaining rows $H_G$,
+$S_G$, $C_G$, $P_G$, and $N_G$ are the attached $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ provenance carried by the accepted packets and their
+transport ledgers. The window is a finite BEDC comparison surface; it is not a
+quotient equality of dyadic pairs and not a host rational representative.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore canonical-window uniqueness]
+\label{thm:dyadicratcore-canonical-window-uniqueness}
+If two canonical comparison windows compare the same accepted
+$\DyadicRatCoreUp$ packets $D$ and $D'$, then after displayed unary exponent
+refinement to a common terminal exponent they expose the same transported
+denominator ledgers, scaled mantissa rows, $\RatUp$ classifier row, and
+support rows. No quotient rational, host equality, completed $\RealUp$
+endpoint, or trichotomy row can distinguish the two windows.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:dyadicratcore-canonical-window}. Each window consists of
+a common positive unary exponent, two transported denominator ledgers, two
+scaled mantissa rows, one $\RatUp$ classifier row, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Apply \autoref{thm:dyadicratcore-common-exponent-exactness} to the two
+classifier witnesses. Refining both displayed exponents to a common terminal
+exponent puts the two comparison rows on the same scaled mantissa surface.
+
+Use \autoref{thm:dyadicratcore-denominator-ledger} to identify the transported
+denominator rows after the same exponent refinement. Use
+\autoref{thm:dyadicratcore-distance-window-stability} to keep the finite
+observation rows stable under the resulting $\hsame$ transport.
+
+It remains only to read the carrier inventory. The available rows are exactly
+the mantissa, exponent, denominator, classifier, history, sameness,
+continuation, package, and name-certificate rows listed in
+\autoref{def:dyadicratcore-carrier}. The exclusions in
+\autoref{thm:dyadicratcore-scoped-source-boundary} remove quotient rational
+equality, host equality, completed real endpoints, and trichotomy classifiers,
+so no additional row can separate the two refined windows.
+\end{proof}
 
 \begin{theorem}[DyadicRatCore real-phase source coverage]
 \label{thm:dyadicratcore-real-phase-source-coverage}

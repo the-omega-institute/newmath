@@ -19,6 +19,7 @@ Q=(E,A,T,V,H,C,P,N),
 $$
 any request to recover an erased quotient derivation is first routed to the representative-request row $A$ and the refusal-verdict row $V$. The request is refused before the positive transport row $T$ is readable by a downstream consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_erased\_derivation\_refusal\_certificate}
 \begin{proof}
 The carrier in \autoref{def:quotient-soundness-boundary-carrier} separates representative requests, refusal verdicts, and positive transport into the rows $A,V,T$. A recovery demand for an erased derivation is therefore not a transport demand; it is a representative-side demand.
 
@@ -42,6 +43,7 @@ Use the $\psame$ bridge handoff, \autoref{thm:quotient-soundness-boundary-psame-
 
 The excluded quotient primitives have no coordinate in those rows. Hence an accepted descent route is psame-only and cannot pass through representative selection, quotient equality elimination, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_psame\_only\_descent}
 
 \begin{theorem}[QuotientSoundnessBoundary consumer non-escape]
 \label{thm:quotient-soundness-boundary-consumer-nonescape}
@@ -202,6 +204,7 @@ Finally apply NameCert refusal totality, \autoref{thm:quotient-soundness-boundar
 \label{thm:quotient-soundness-boundary-consumer-scope-triad}
 Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet must first read the refusal surface $E,A,V$: the visible relation rows $E$, the representative-demand rows $A$, and the refusal verdict rows $V$. Only after that triad is visible may the consumer read any positive motion through the classifier-respecting $\psame$ route $E,T,H,C,P,N$. The handoff receives no quotient carrier, representative selector, erased derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_consumer\_scope\_triad\_certificate}
 \begin{proof}
 Use psame request determinacy, \autoref{thm:quotient-soundness-boundary-psame-request-determinacy}. It routes every representative-side request to $E,A,V$ before the positive $\psame$ route is readable.
 
