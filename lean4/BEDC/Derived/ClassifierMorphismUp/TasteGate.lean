@@ -173,6 +173,25 @@ instance classifierMorphismChapterTasteGate : ChapterTasteGate ClassifierMorphis
     intro x y hxy heq
     exact hxy (classifierMorphismToEventFlow_injective heq)
 
+instance classifierMorphismFieldFaithful : FieldFaithful ClassifierMorphismUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ClassifierMorphismUp.mk source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert =>
+        [source, target, graph, extPreservation, sigPreservation, contPreservation, transport,
+          provenance, nameCert]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk source target graph extPreservation sigPreservation contPreservation transport provenance
+        nameCert =>
+        cases y with
+        | mk source' target' graph' extPreservation' sigPreservation' contPreservation'
+            transport' provenance' nameCert' =>
+            cases hfields
+            rfl
+
 def taste_gate : ChapterTasteGate ClassifierMorphismUp :=
   classifierMorphismChapterTasteGate
 
