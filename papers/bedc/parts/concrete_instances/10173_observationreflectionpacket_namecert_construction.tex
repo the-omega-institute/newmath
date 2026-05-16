@@ -66,6 +66,22 @@ The sibling closed-observation packets make the same inventory boundary explicit
 Thus any demand for source-domain identity, final truth, host physical law, unbounded observation, or runtime validation has no coordinate in the accepted packet. It is recorded as a non-exported demand at the ledger or continuation boundary rather than as a readable row.
 \end{proof}
 
+\begin{theorem}[ObservationReflectionPacket public export surface]
+\label{thm:observation-reflection-packet-public-export-surface}
+The public export surface of an accepted $\ObservationReflectionPacketUp$ packet is exactly
+$$
+Q=(S,H,\Sigma,C,P,L,E,T,R,N).
+$$
+It exports the source trace, finite history, signature extraction, classifier, package, ledger, open continuation, transport, route, and local $\NameCert$ rows. It does not export ontological identity, a final oracle, host physical law, or an unbounded observation stream.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observation-reflection-packet-carrier}. Its ten displayed rows are precisely $S,H,\Sigma,C,P,L,E,T,R,N$.
+
+Apply the local $\NameCert$ obligations from \autoref{thm:observation-reflection-packet-namecert-obligations}. Source trace, finite history, signature extraction, classifier fit, package provenance, ledger status, open continuation, transport, route, and local naming are the rows made available to a public consumer.
+
+Finally use the non-escape boundary of \autoref{thm:observation-reflection-packet-nonescape}. Since the accepted packet has no coordinate for source-domain identity, final truth, host physical law, or unbounded observation, the public export surface is exactly the displayed finite packet.
+\end{proof}
+
 \falsifiablePrediction{No accepted \ObservationReflectionPacketUp packet exports an ontological identity between physical reality and MetaCIC, a final truth oracle, or a host-level physical law beyond its displayed finite inquiry rows.}
 
 \independenceWitness{finiteobservationinterface, closedobservationsystem, observationconservationledger, packagereflection, reflectionruntimecheckpoint: $\ObservationReflectionPacketUp$ is not bijective to any listed sibling because it simultaneously carries source trace, finite history, signature extraction, classifier fit, package provenance, ledgered gap status, open continuation, transport, route, and local naming rows. The finite observation sibling lacks the reflection-side classifier and open-continuation ledger; the closed observation and conservation siblings lack the signature-package reflection row; the package-reflection surface lacks observation-source and conservation rows; the runtime checkpoint sibling lacks the physical-inquiry source trace and empirical signature inventory.}
@@ -75,16 +91,18 @@ The Lean follow-up in \texttt{lean4/BEDC/Derived/ObservationReflectionPacketUp/T
 \closureat{ObservationReflectionPacketUp}{seedStr}
 \closureat{ObservationReflectionPacketUp}{obligationStr}[BEDC.Derived.ObservationReflectionPacketUp.ObservationReflectionPacketTasteGate\_single\_carrier\_alignment]
 \closureat{ObservationReflectionPacketUp}{scopedStr}[BEDC.Derived.ObservationReflectionPacketUp.ObservationReflectionPacketTasteGate\_single\_carrier\_alignment]
+\closureat{ObservationReflectionPacketUp}{publicStr}[BEDC.Derived.ObservationReflectionPacketUp.ObservationReflectionPacketTasteGate\_single\_carrier\_alignment]
+\closureat{ObservationReflectionPacketUp}{bridgeStr}[BEDC.Derived.ObservationReflectionPacketUp.ObservationReflectionPacketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ObservationReflectionPacketUp}
   \constructivestory{An $\ObservationReflectionPacketUp$ packet is generated from a source trace, finite history carrier, signature extraction row, classifier row, package provenance, ledger row, open continuation, componentwise transport, displayed route, and local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observation-reflection-packet-carrier}, \autoref{thm:observation-reflection-packet-namecert-obligations}, and \autoref{thm:observation-reflection-packet-nonescape} bind the finite role-correspondence packet and its non-escape boundary for observation--reflection equivalence.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:observation-reflection-packet-carrier}, \autoref{thm:observation-reflection-packet-namecert-obligations}, \autoref{thm:observation-reflection-packet-nonescape}, and \autoref{thm:observation-reflection-packet-public-export-surface} bind the finite role-correspondence packet, non-escape boundary, and public export surface for observation--reflection equivalence.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ObservationReflectionPacketUp.ObservationReflectionPacketTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \leanchecked{BEDC.Derived.ObservationReflectionPacketUp.taste\_gate}
-  \notclaimed{This chapter does not assert ontological identity between physical reality and MetaCIC, final truth, host-level physical laws, unbounded observation streams, public export, or bridge checking.}
-  \upgradepath{Public closure requires export of the finite observation-reflection packet as a stable public BEDC surface.}
+  \notclaimed{This chapter does not assert ontological identity between physical reality and MetaCIC, final truth, host-level physical laws, unbounded observation streams, or bridge checking.}
+  \upgradepath{Mature treatment requires downstream reuse analysis for the same finite observation-reflection packet.}
 \end{closurestatus}

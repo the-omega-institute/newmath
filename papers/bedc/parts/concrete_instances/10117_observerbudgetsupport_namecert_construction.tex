@@ -74,21 +74,81 @@ Field faithfulness is therefore rowwise. Dropping $S$ erases the support ledger,
 The structural rows are also part of the same carrier. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ cannot be read as detached evidence because the carrier has no coordinate outside the displayed tuple. Hence a faithful consumer preserves all nine rows.
 \end{proof}
 
+\begin{theorem}[Observer-budget support route totality]
+\label{thm:observer-budget-support-route-totality}
+Every accepted observer-local read of an $\ObserverBudgetSupportUp$ packet routes through the finite tuple
+$$
+F,S,X,B,T,H,C,P,N.
+$$
+The route may read the observer-coordinate row, finite support row, cross-Hist causal row, selected budget row, support transport row, componentwise $\hsame$ row, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, but it has no coordinate for a global observer frame, infinite support set, unbounded budget, host spacetime object, or unwitnessed cross-Hist relation.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:observer-budget-support-carrier}. It lists $F,S,X,B,T,H,C,P,N$ as the complete support-and-budget packet.
+
+Apply the NameCert obligations of \autoref{thm:observer-budget-support-namecert-obligations}. They force observer-coordinate admission through $F$, finite support through $S$, selected budget through $B$, causal visibility through $X$, and support transport through $T$ before the structural rows can be consumed.
+
+Finally use the nontrivial boundary and field-faithfulness rows from \autoref{thm:observer-budget-support-nontrivial-boundary} and \autoref{thm:observer-budget-support-field-faithfulness}. Since no faithful consumer can drop any content row, every accepted route is total on the displayed tuple.
+\end{proof}
+
+\begin{theorem}[Observer-budget support ledger exactness]
+\label{thm:observer-budget-support-ledger-exactness}
+In an accepted $\ObserverBudgetSupportUp$ packet, finite support, selected budget, cross-Hist causal evidence, and support transport are exact ledger rows rather than detached evidence. A consumer reads $S$, $B$, $X$, and $T$ only as rows of the same carrier
+$$
+F,S,X,B,T,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier. The finite support row $S$, selected budget row $B$, causal row $X$, and transport row $T$ appear in the same packet as the observer-coordinate and structural rows.
+
+Use the NameCert obligations to read these rows together. The local certificate does not allow the support row to detach from the budget, the causal evidence to detach from transport, or the provenance and naming rows to certify a different object.
+
+Now apply the nontrivial boundary and field-faithfulness theorems. Removing $S$, $B$, $X$, or $T$ destroys the intended observer-local support-and-budget packet, so these rows are exact ledger content and not replaceable external evidence.
+\end{proof}
+
+\begin{theorem}[Observer-budget support public readback]
+\label{thm:observer-budget-support-public-readback}
+Every public readback of an accepted $\ObserverBudgetSupportUp$ packet consumes the observer-coordinate row $F$, finite support row $S$, cross-Hist causal row $X$, selected budget row $B$, and support route row $T$ together with the structural rows $H,C,P,N$. Thus public readback cannot expose support, causal evidence, budget, or route as independent host data.
+\end{theorem}
+\begin{proof}
+Start with route totality from \autoref{thm:observer-budget-support-route-totality}. Any accepted observer-local read already passes through $F,S,X,B,T,H,C,P,N$.
+
+Add ledger exactness from \autoref{thm:observer-budget-support-ledger-exactness}. The support, budget, causal, and route rows are not detachable evidence; they are ledger rows of the same accepted carrier.
+
+Finally apply field faithfulness from \autoref{thm:observer-budget-support-field-faithfulness}. A public consumer that drops any of $F,S,X,B,T$ no longer preserves the accepted packet, so every public readback consumes the full observer-coordinate, support, causal, budget, and route surface together.
+\end{proof}
+
+\begin{theorem}[Observer-budget support obligation-closure package]
+\label{thm:observer-budget-support-obligation-closure-package}
+The carrier, NameCert obligations, nontrivial boundary, field-faithfulness, route-totality, ledger-exactness, and public-readback rows assemble the obligation-closure surface for $\ObserverBudgetSupportUp$. Every accepted observer-local support reading is bound to
+$$
+F,S,X,B,T,H,C,P,N
+$$
+through the displayed $\BHist$ carrier, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ObserverBudgetSupportUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:observer-budget-support-carrier} and the NameCert obligations of \autoref{thm:observer-budget-support-namecert-obligations}. They display the observer-coordinate, finite-support, cross-Hist causal, selected-budget, support-transport, and structural rows.
+
+Use the nontrivial boundary and field-faithfulness theorems, \autoref{thm:observer-budget-support-nontrivial-boundary} and \autoref{thm:observer-budget-support-field-faithfulness}. Together they show that no accepted consumer can collapse the packet to one sibling row or drop any displayed field.
+
+Finally apply route totality, ledger exactness, and public readback from \autoref{thm:observer-budget-support-route-totality}, \autoref{thm:observer-budget-support-ledger-exactness}, and \autoref{thm:observer-budget-support-public-readback}. These results bind observer-local support, selected budget, causal evidence, transport, replay, provenance, and local naming into one obligation surface.
+\end{proof}
+
 The later Lean \texttt{TasteGate.lean} development for $\ObserverBudgetSupportUp$ will need explicit $\Nontrivial\ \ObserverBudgetSupportUp$ and $\FieldFaithful\ \ObserverBudgetSupportUp$ instances. These instances must preserve the observer-coordinate row, finite-support row, cross-Hist causal row, selected-budget row, support-transport row, componentwise transport, displayed replay, provenance, and local naming row.
 
 \falsifiablePrediction{If an accepted observer-local reading keeps the observer-coordinate row while replacing finite support, selected budget, cross-Hist causal evidence, or support transport by detached host data, it refutes the $\ObserverBudgetSupportUp$ classifier.}
 
 \independenceWitness{observercoordinateframe, observerfilterbudgetselector, finitesupport, crosshistcausal, observationbudgetlimiter: none is bijective to $\ObserverBudgetSupportUp$ because the carrier binds observer-local frame, finite support, cross-Hist causal evidence, selected budget, route transport, structural replay, provenance, and local NameCert rows in one packet.}
 
-\closureat{ObserverBudgetSupportUp}{seedStr}
+\closureat{ObserverBudgetSupportUp}{obligationStr}
 
 \begin{closurestatus}{\ObserverBudgetSupportUp}
   \constructivestory{An $\ObserverBudgetSupportUp$ packet is generated from observer-coordinate, finite-support, cross-Hist causal, selected-budget, support-transport, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
+  \leanchecked{BEDC.Derived.ObserverBudgetSupportUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:observer-budget-support-carrier}, \autoref{thm:observer-budget-support-namecert-obligations}, \autoref{thm:observer-budget-support-nontrivial-boundary}, and \autoref{thm:observer-budget-support-field-faithfulness} specify the finite observer-local support-and-budget packet and its field-faithful consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global observer frames, infinite support, unbounded budgets, host spacetime objects, quotient history equality, or unwitnessed cross-Hist dependence.}
-  \upgradepath{Obligation closure requires checked carrier admission, observer-coordinate admission, finite-support and budget admission, cross-Hist causal visibility, support transport, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Scoped closure requires binding these obligations explicitly to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the cited observer-coordinate, finite-support, selected-budget, cross-Hist causal, and support-transport sibling rows.}
 \end{closurestatus}

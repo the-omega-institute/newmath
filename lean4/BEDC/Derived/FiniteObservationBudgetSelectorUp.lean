@@ -427,4 +427,59 @@ theorem FiniteObservationBudgetSelectorCarrier_nonescape
       exact ⟨unary_transport unarySealRead (hsame_symm source.right), sealPkg⟩
   }
 
+theorem FiniteObservationBudgetSelectorCarrier_terminal_window_minimality
+    [AskSetup] [PackageSetup]
+    {B S W D R E H C P N terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ->
+      Cont R E terminal ->
+        PkgSig bundle terminal pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              FiniteObservationBudgetSelectorCarrier B S W D R E H C P N ∧
+                hsame row terminal)
+            (fun row : BHist =>
+              UnaryHistory row ∧ hsame row terminal ∧
+                Cont B S W ∧ Cont W D R ∧ Cont R E terminal)
+            (fun row : BHist =>
+              PkgSig bundle terminal pkg ∧ hsame row terminal ∧ hsame N E)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier terminalRoute terminalPkg
+  have carrierWitness := carrier
+  obtain ⟨unaryB, unaryS, unaryD, unaryE, budgetSchedule, windowDyadic,
+    _regularSeal, sameEndpoint⟩ := carrier
+  have unaryW : UnaryHistory W :=
+    unary_cont_closed unaryB unaryS budgetSchedule
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryW unaryD windowDyadic
+  have unaryTerminal : UnaryHistory terminal :=
+    unary_cont_closed unaryR unaryE terminalRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro terminal (And.intro carrierWitness (hsame_refl terminal))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨unary_transport unaryTerminal (hsame_symm source.right), source.right,
+          budgetSchedule, windowDyadic, terminalRoute⟩
+    ledger_sound := by
+      intro row source
+      exact ⟨terminalPkg, source.right, sameEndpoint⟩
+  }
+
 end BEDC.Derived.FiniteObservationBudgetSelectorUp
