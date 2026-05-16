@@ -1,0 +1,43 @@
+\begin{theorem}[MetaCIC normalization frontier carrier admission]
+\label{thm:metacic-normalization-frontier-carrier-admission}
+Every accepted $\MetaCICNormalizationFrontierUp$ packet admits a root carrier only as the displayed finite $\BHist$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The admission exposes candidate evidence through $C,K$, the normal-form boundary through $E,N$, the audit route through $K,R$, the seal route through $S,H$, the closed-normal route through $E,N,R,P,L$, componentwise $\hsame$ transports through $H$, $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local $\NameCert$ rows through $L$. No accepted carrier admission can hide any of those rows or replace them by a host normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the root carrier rows of \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. They expose exactly the finite $\BHist$ packet $C,K,E,N,S,H,R,P,L$ and give the root reader no carrier coordinate outside that packet.
+
+Next read the boundary and route clauses. \autoref{thm:metacic-normalization-frontier-root-candidate-gate-projection} fixes candidate evidence through $C,K$, while \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} and \autoref{thm:metacic-normalization-frontier-root-closed-normal-route-totality} fix the normal-form and closed-normal routes through $E,N,R,P,L$.
+
+It remains to keep the structural witnesses visible. Apply \autoref{thm:metacic-normalization-frontier-root-obstruction-preserving-namecert-triad}, \autoref{thm:metacic-normalization-frontier-public-obligation-package}, and \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion}. These rows retain the seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ surface, so carrier admission displays all kernel-facing rows without exporting host normalization.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier normal-form boundary]
+\label{thm:metacic-normalization-frontier-normal-form-boundary}
+No consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet can read finished normalization before both the candidate-evidence boundary rows $C,K$ and the finished-normal boundary rows $E,N$ are displayed inside the same packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+Any normal-form read must keep the obstruction row $S$, componentwise $\hsame$ transports $H$, $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert$ row $L$ visible alongside those two boundary surfaces.
+\end{theorem}
+\begin{proof}
+Project the candidate side first. \autoref{thm:metacic-normalization-frontier-candidate-evidence-totality} and \autoref{thm:metacic-normalization-frontier-candidate-evidence-noncollapse} force candidate evidence through $C,K$ and prevent it from being identified with finished-normal evidence by host equality or quotient rows.
+
+Now project the finished side. \autoref{thm:metacic-normalization-frontier-finished-normal-boundary} places every finished-normal read inside $E,N,H,R,P,L$, and \autoref{thm:metacic-normalization-frontier-normal-route-nonescape} excludes host normalization, quotient term equality, and hidden normalizers outside the displayed packet.
+
+Finally apply the consumer route theorem \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion}. Since every closed-normal, consistency-facing, or SubjectReductionBoundary-facing consumer route factors through $C,K,E,N,S,H,R,P,L$, no consumer can read finished normalization until both the candidate-evidence and finished-normal boundary rows are displayed together.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier substitution stability]
+\label{thm:metacic-normalization-frontier-substitution-stability}
+Substitution-facing transports for an accepted $\MetaCICNormalizationFrontierUp$ packet preserve the displayed frontier rows $C,K,E,N,S,H,R,P,L$ under componentwise $\hsame$, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. Such transports may carry candidate evidence, normal-form boundary evidence, the seal row, and consumer routes across the packet, but they do not create a host normalization theorem, erased subject-reduction transport, or quotient-level term equality.
+\end{theorem}
+\begin{proof}
+Begin with classifier stability. \autoref{thm:metacic-normalization-frontier-classifier-stability} permits componentwise $\hsame$ transport only along the displayed carrier rows, and \autoref{thm:metacic-normalization-frontier-root-obstruction-stability} keeps the obstruction coordinate $S$ transported but unconsumed.
+
+Next follow the consumer and route surfaces. \autoref{thm:metacic-normalization-frontier-root-normalization-gate-exhaustion} exhausts every root normalization-facing read by $C,K,E,N,S,H,R,P,L$, while \autoref{thm:metacic-normalization-frontier-consumer-route-exhaustion} keeps downstream routes inside the same $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+
+The forbidden exports are excluded by the sibling non-escape rows. Use \autoref{thm:metacic-normalization-frontier-kernel-nonescape}, \autoref{thm:metacic-normalization-frontier-fuel-ledger-nonescape}, and \autoref{thm:metacic-normalization-frontier-normal-route-nonescape}. They rule out blanket normalization, erased subject reduction, quotient term equality, and hidden normalizers, so substitution-facing transport preserves the frontier rows without producing a host normalization theorem.
+\end{proof}
