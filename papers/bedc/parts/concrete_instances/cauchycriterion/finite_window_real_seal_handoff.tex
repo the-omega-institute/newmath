@@ -53,3 +53,47 @@ hidden tail oracles, ambient completeness, or an extra completion endpoint, so
 each accepted handoff factors through the displayed finite route and nowhere
 else.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion limit-seal route stability]
+\label{thm:cauchy-criterion-limit-seal-route-stability}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let
+$K'$ be any displayed replay of the same finite-window handoff that preserves
+the rows $M,Q,T,W,E,H,C,P,N$ through the visible $\BHist$ packet, componentwise
+$\hsame$ transports, and $\Cont$ replay. Then the replayed handoff preserves the
+same route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+No displayed replay of this route can substitute a quotient stream, hidden tail
+oracle, host real equality, selected limit, ambient completeness principle, or
+completion endpoint outside the rows already carried by $K$.
+\end{theorem}
+\begin{proof}
+Start with the finite handoff theorem. By
+\autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}, every accepted
+finite-window read of $K$ reaches the limit-seal boundary only through
+$M,Q,T,W,E,H,C,P,N$ and the displayed
+$\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp \to
+\CauchyLimitSealUp$ route.
+
+Next identify the route coordinates. The RegSeqRat and StreamName handoff
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff} binds the
+regular readback to the StreamName window, while
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary} and
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary} keep the
+budget selector and completion-facing reads on the same finite rows.
+
+Finally attach the seal side.
+\autoref{thm:streamname-budget-cauchy-limit-seal-pullback} pulls the seal read
+back to the StreamName budget surface, and
+\autoref{thm:cauchy-limit-seal-public-route-boundary} confines public
+CauchyLimitSeal consumption to that surface. Since $K'$ preserves exactly the
+displayed $\BHist$, $\hsame$, and $\Cont$ rows, carrier-coordinate exhaustion
+leaves no coordinate from which a quotient stream, hidden tail oracle, host
+real equality, selected limit, ambient completeness principle, or off-route
+completion endpoint could be read.
+\end{proof}
