@@ -148,6 +148,61 @@ Next apply the TailMeet threshold handoff, \autoref{thm:budgeted-real-seal-route
 Then apply Real-seal readback exactness, \autoref{thm:budgeted-real-seal-route-real-seal-readback-exactness}. It identifies $R$ as readable only after the displayed $S,T,O,L$ route and confines $H,C,P,N$ to transport, replay, provenance, and local naming.
 \end{proof}
 
+\begin{theorem}[Budgeted real seal route public export]
+\label{thm:budgeted-real-seal-route-public-export}
+For every accepted $\BudgetedRealSealRouteUp$ packet
+$$
+B=(S,T,O,L,R,H,C,P,N),
+$$
+the rows $S,T,O,L,R,H,C,P,N$ export the public
+$\BudgetedRealSealRouteUp$ interface consumed by finite Real-completion
+readers. The exported interface is exactly the selector row, TailMeet threshold,
+observation-budget entrance, CauchyLimitSeal handoff, Real seal readback,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and local $\NameCert_{\BudgetedRealSealRouteUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with obligation closure,
+\autoref{thm:budgeted-real-seal-route-obligation-closure}. It identifies the
+complete displayed packet surface and leaves no row outside
+$S,T,O,L,R,H,C,P,N$.
+
+Apply ledger scope,
+\autoref{thm:budgeted-real-seal-route-ledger-scope}. The public reader may use
+the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ grounds already
+listed by the packet, but it does not receive an additional ground.
+
+Finally apply source exactness,
+\autoref{thm:budgeted-real-seal-route-source-exactness}. The readable Real
+route is $S \longmapsto T \longmapsto O \longmapsto L \longmapsto R$, and the
+remaining rows transport, replay, package, and name that route. This is exactly
+the public finite Real-completion interface.
+\end{proof}
+
+\begin{theorem}[Budgeted real seal route public consumer exactness]
+\label{thm:budgeted-real-seal-route-public-consumer-exactness}
+Any public finite Real-completion consumer of an accepted
+$\BudgetedRealSealRouteUp$ packet factors through the exported route
+$S,T,O,L,R,H,C,P,N$. No such consumer factors through a quotient stream, host
+real equality, countable choice, selected limit, ambient completeness theorem,
+or bridge row.
+\end{theorem}
+\begin{proof}
+Use the public export theorem to fix the consumer surface. Its rows are the
+only exported coordinates of the accepted packet, so a public consumer must
+read through $S,T,O,L,R,H,C,P,N$.
+
+The source-exactness theorem then pins down the order of the Real route:
+selector admission, TailMeet threshold admission, RealObservationBudget
+entrance, CauchyLimitSeal handoff, and Real readback. The structural rows
+$H,C,P,N$ carry transport, replay, provenance, and naming for that route.
+
+The ledger-scope theorem excludes every proposed bypass. Quotient streams,
+host real equality, countable choice, selected limits, ambient completeness, and
+bridge rows are absent from the carrier and from the ledger grounds, so they
+cannot be routes for a public consumer of the displayed packet.
+\end{proof}
+
 \falsifiablePrediction{If the displayed TailMeet threshold row $T$ is absent, no accepted $\BudgetedRealSealRouteUp$ packet can expose the $\RealUp$ seal row $R$.}
 
 \independenceWitness{finiteobservationbudgetselector, regularcauchytailmeet, real-observation-budget, cauchylimitseal, real: $\BudgetedRealSealRouteUp$ combines a selector row, a TailMeet threshold, a Real observation-budget entrance, a CauchyLimitSeal handoff, and a Real seal/readback row; none of the named siblings is bijective to this combined route packet because each omits at least one required route coordinate.}
@@ -155,14 +210,15 @@ Then apply Real-seal readback exactness, \autoref{thm:budgeted-real-seal-route-r
 \closureat{BudgetedRealSealRouteUp}{seedStr}
 \closureat{BudgetedRealSealRouteUp}{obligationStr}[BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment]
 \closureat{BudgetedRealSealRouteUp}{scopedStr}[BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment]
+\closureat{BudgetedRealSealRouteUp}{publicStr}[BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BudgetedRealSealRouteUp}
   \constructivestory{A $\BudgetedRealSealRouteUp$ packet is generated from a finite observation-budget selector, a TailMeet threshold row, a Real observation-budget entrance, a CauchyLimitSeal route, a Real seal and readback row, componentwise transports, displayed replay routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:budgeted-real-seal-route-carrier}, \autoref{thm:budgeted-real-seal-route-namecert-obligations}, \autoref{thm:budgeted-real-seal-route-obligation-closure}, \autoref{thm:budgeted-real-seal-route-ledger-scope}, \autoref{thm:budgeted-real-seal-route-source-exactness}, \autoref{thm:budgeted-real-seal-route-nonescape}, and \autoref{thm:budgeted-real-seal-route-tastegate-obligation} bind the selector row, TailMeet threshold, observation budget, CauchyLimitSeal handoff, Real readback row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows as one finite Real-completion budget route.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:budgeted-real-seal-route-carrier}, \autoref{thm:budgeted-real-seal-route-namecert-obligations}, \autoref{thm:budgeted-real-seal-route-obligation-closure}, \autoref{thm:budgeted-real-seal-route-ledger-scope}, \autoref{thm:budgeted-real-seal-route-source-exactness}, \autoref{thm:budgeted-real-seal-route-public-export}, \autoref{thm:budgeted-real-seal-route-public-consumer-exactness}, \autoref{thm:budgeted-real-seal-route-nonescape}, and \autoref{thm:budgeted-real-seal-route-tastegate-obligation} bind the selector row, TailMeet threshold, observation budget, CauchyLimitSeal handoff, Real readback row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows as one public finite Real-completion budget route.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.BudgetedRealSealRouteUp.BudgetedRealSealRouteTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, external limit selection, ambient Real completeness, or bridge checking for $\BudgetedRealSealRouteUp$.}
-  \upgradepath{Public closure requires a downstream public export over the named selector, TailMeet threshold, observation budget, CauchyLimitSeal handoff, Real readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Bridged closure requires an explicit standard-bridge surface for the same displayed selector, TailMeet threshold, observation budget, CauchyLimitSeal handoff, Real readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
 \end{closurestatus}
