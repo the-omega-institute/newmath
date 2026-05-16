@@ -927,6 +927,7 @@ import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
 import BEDC.Derived.ContinuationTraceNormalFormUp
+import BEDC.Derived.ContinuationCountermodelUp.TasteGate
 import BEDC.Derived.CellularRowClassifierUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
 import BEDC.Derived.AnalyticContinuationSocketUp
@@ -1622,6 +1623,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorTerminality
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalReadbackDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalFormalTarget
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalModulusBudgetComparison
+import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalPullbackConsumerNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalRealRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalSelectorNonescape
 import BEDC.Derived.DiagonallimitcompatibilityUp.ToleranceLedgerHandoff
@@ -2362,6 +2364,7 @@ import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.RealCompletionFourObjectExitRoute
+import BEDC.Derived.StreamNameUp.RegseqratRealDyadicWindowPullback
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
