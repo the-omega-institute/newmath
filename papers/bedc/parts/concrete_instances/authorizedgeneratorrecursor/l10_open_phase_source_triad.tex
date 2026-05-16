@@ -1,0 +1,49 @@
+\begin{theorem}[AuthorizedGeneratorRecursor L10 source triad]
+\label{thm:authorized-generator-recursor-l10-open-phase-source-triad}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Any L10-facing finite-source consumer for $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ may read the packet only through the displayed rows $I,E,M,B,D,O,A,H,C,P,G,N$: signature admission in $I$, emitted recursor naming in $E$, motive checking in $M$, branch coverage in $B$, structural descent in $D$, audit provenance in $A$, boundary refusal in $G$, continuation locality in $C$, package provenance in $P$, componentwise $\hsame$ transport in $H$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. No L10 source route may read the packet as a host choice, a detached induction rule, a selected real witness, a quotient stream, or an external proof producer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The displayed packet lists exactly the signature, eliminator, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local naming rows available to a consumer.
+
+Use branch exhaustion, \autoref{thm:authorized-generator-recursor-branch-exhaustion}, together with structural descent locality, \autoref{thm:authorized-generator-recursor-structural-descent-locality}. These keep every recursive read on the accepted constructor signature, complete branch package, and displayed descent row before any finite-source route can use the output name.
+
+Attach the output and audit locks. Theorems~\ref{thm:authorized-generator-recursor-output-route-determinacy}, \ref{thm:authorized-generator-recursor-boundary-audit-exhaustion}, and \ref{thm:authorized-generator-recursor-root-output-totality-lock} keep $O$ with $A,H,C,P,G,N$ on the same finite route.
+
+The $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers therefore receive only a $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route over the displayed packet. The carrier has no coordinate for host choice, detached induction, selected real data, quotient stream data, or an external proof producer.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor consumer handoff]
+\label{thm:authorized-generator-recursor-open-phase-consumer-handoff}
+Every downstream $\RealUp$ or completion-facing consumer of an accepted $\AuthorizedGeneratorRecursorUp$ packet must preserve the output row $O$ together with $A,H,C,P,G,N$. The consumer may specialize the packet to a finite real-source or completion-source route, but it cannot reinterpret the recursor packet as a host choice principle, hidden induction principle, selected limit, quotient stream, or external proof-producing channel.
+\end{theorem}
+\begin{proof}
+Start with the L10 source triad above. It gives downstream consumers access to $O$ only through the same finite packet rows, with the audit, transport, continuation, provenance, boundary, and local naming rows still attached.
+
+Read the existing downstream locks. Theorems~\ref{thm:authorized-generator-recursor-output-route-determinacy}, \ref{thm:authorized-generator-recursor-closed-substitution-consumer-lock}, and \ref{thm:authorized-generator-recursor-normalization-frontier-consumer-lock} treat downstream consumers as readers of the authorized output route rather than as producers of a second generator result.
+
+Now specialize the route to real and completion consumers. A $\RealUp$ or completion-facing route may consume finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence, but the row $O$ remains attached to $A,H,C,P,G,N$ by output provenance coverage and root-output totality.
+
+The excluded interpretations would require a separate host choice coordinate, hidden induction row, selected-limit witness, quotient-stream equality, or proof-producing channel. None is present in the carrier, and the boundary row $G$ records their refusal.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor ledger non-escape]
+\label{thm:authorized-generator-recursor-open-phase-ledger-nonescape}
+For L10-facing use of an accepted $\AuthorizedGeneratorRecursorUp$ packet, the audit row $A$ and boundary row $G$ exhaust the ledger exported to consumers. Every consumer route is a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route over
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+No route exports a completion object, a real-completeness datum, a quotient completion equality, a selected limit, or a host proof of completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier and retain the audit and boundary rows. The definition of the carrier places $A$ and $G$ in the same finite packet as the branch, descent, output, transport, continuation, provenance, and local naming rows.
+
+Use the local boundary results. Theorems~\ref{thm:authorized-generator-recursor-audit-boundary}, \ref{thm:authorized-generator-recursor-boundary-audit-exhaustion}, and \ref{thm:authorized-generator-recursor-recursion-channel-refusal} route every rejected generator, recursion, or dependency request to the displayed boundary and audit rows.
+
+Next use root-output totality and output provenance coverage. They keep L10-facing reads inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface before the output row becomes public.
+
+Thus the ledger exported to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and completion-facing consumers is finite and local to the packet. Completion objects, real-completeness data, quotient completion equality, selected limits, and host completeness proofs are not rows of $R$, so they cannot escape from the ledger.
+\end{proof}
