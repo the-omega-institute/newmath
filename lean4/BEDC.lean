@@ -226,6 +226,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridLedgerNonescape
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.GridSynchronizerTerminalEnvelope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapConvergenceSealCofinality
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.L10ExitConsumerPackage
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LimitSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.LocatedTrapRefinement
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.MonotoneSourceSealBridge
@@ -404,6 +405,7 @@ import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
+import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion

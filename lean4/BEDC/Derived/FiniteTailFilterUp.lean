@@ -333,6 +333,38 @@ theorem FiniteTailFilterCarrier_real_completion_lattice_link
     ⟨unaryS, unaryD, unaryR, unaryE, unaryCofinalWindow, unaryLatticeRead, routeR,
       cofinalRoute, latticeRoute, cofinalWindowSameR, sameNameSeal, latticePkg⟩
 
+theorem FiniteTailFilterCarrier_shared_window_meet
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N meetWindow siblingRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N →
+      Cont S D meetWindow →
+        Cont meetWindow E siblingRead →
+          Cont siblingRead H realRead →
+            PkgSig bundle realRead pkg →
+              UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧
+                UnaryHistory meetWindow ∧ UnaryHistory siblingRead ∧ UnaryHistory realRead ∧
+                  Cont S D R ∧ Cont S D meetWindow ∧ Cont meetWindow E siblingRead ∧
+                    Cont siblingRead H realRead ∧ hsame meetWindow R ∧ hsame N E ∧
+                      PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier meetRoute siblingRoute realRoute realPkg
+  obtain ⟨unaryS, unaryD, _unaryB, unaryE, unaryH, routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryMeet : UnaryHistory meetWindow :=
+    unary_cont_closed unaryS unaryD meetRoute
+  have unarySibling : UnaryHistory siblingRead :=
+    unary_cont_closed unaryMeet unaryE siblingRoute
+  have unaryReal : UnaryHistory realRead :=
+    unary_cont_closed unarySibling unaryH realRoute
+  have sameMeet : hsame meetWindow R :=
+    cont_deterministic meetRoute routeR
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryE, unaryMeet, unarySibling, unaryReal, routeR,
+      meetRoute, siblingRoute, realRoute, sameMeet, sameNameSeal, realPkg⟩
+
 theorem FiniteTailFilterCarrier_nonescape
     [AskSetup] [PackageSetup]
     {S D R B Q E H C P N S' D' R' B' Q' E' H' C' P' N' : BHist} :
