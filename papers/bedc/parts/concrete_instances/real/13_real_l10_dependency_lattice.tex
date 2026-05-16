@@ -486,7 +486,7 @@ Finally apply non-escape and interface totality, \autoref{thm:real-l10-source-ro
 \label{thm:real-l10-terminal-source-lock}
 Every $\RealUp$ seal or completion-facing consumer in the L10 route is admitted exactly through the displayed source lock
 $$
-\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp.
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp.
 $$
 The lock consists of finite stream windows, dyadic endpoint and radius rows, the regular-sequence classifier handoff, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local $\RealUp$ seal. No quotient stream, host real equality, selected limit, ambient completeness principle, or hidden completion carrier is exported by this terminal route.
 \end{theorem}
@@ -495,7 +495,7 @@ Start with the L10 dependency lattice of \autoref{def:real-l10-dependency-lattic
 
 Use the RegSeqRat source lattice pointer through \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The regular-sequence classifier handoff is read only after the StreamName finite windows and the DyadicRatCore observation rows have been displayed.
 
-Next apply the RealUp seal handoff and the four-face route, \autoref{thm:real-streamname-regseqrat-seal-lattice} and \autoref{thm:real-l10-four-face-canonical-route}. They place every current seal or completion-facing consumer on the same ordered route through StreamName, DyadicRatCore, RegSeqRat, and the local Real seal.
+Next apply the RealUp seal handoff and the four-face route, \autoref{thm:real-streamname-regseqrat-seal-lattice} and \autoref{thm:real-l10-four-face-canonical-route}. They place every current seal or completion-facing consumer on the same ordered route through DyadicRatCore, StreamName, RegSeqRat, and the local Real seal.
 
 Finally use \autoref{thm:real-l10-terminal-comparison-exhaustion} and \autoref{thm:real-l10-terminal-four-face-correspondence}. These exhaust terminal comparisons by the displayed finite windows, dyadic endpoint and radius data, regular readback, transport, continuation replay, package provenance, and local naming. Since none of the cited rows carries quotient streams, host real equality, selected limits, ambient completeness, or a hidden completion carrier, the terminal source lock is exact.
 \end{proof}
@@ -571,4 +571,24 @@ For the reverse direction, start from a fixed Real L10 public boundary. By \auto
 It remains to isolate the RegSeqRat finite-request section. Apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} to the seal-facing finite request already present in the public boundary. The terminal budget consumer can factor only through the displayed source section, so the RegSeqRat section surface is determined by the same boundary data.
 
 The same exclusion lists are stable under each cited theorem. None of the constructions introduces quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, or bridge rows; hence the Real L10 public boundary determines exactly the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, and the RegSeqRat section surface, with nothing beyond those faces.
+\end{proof}
+
+\begin{theorem}[Real L10 finite-window witness determinacy]
+\label{thm:real-l10-finite-window-witness-determinacy}
+For any current Phase Real and Completion terminal $\RealUp$ read accepted by the Real L10 dependency lattice, every finite-window witness consumed by the Real L10 public boundary is determined exactly by the fused $\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\RegSeqRatUp$ finite-request section, the local $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+If two presentations agree on those rows, then they have the same finite-window witness surface. Conversely, the public boundary recovers exactly those rows and no additional coordinate. The determinacy claim excludes quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, and bridge rows.
+\end{theorem}
+\begin{proof}
+Start with the terminal-window fusion section compatibility theorem, \autoref{thm:real-l10-terminal-window-fusion-section-compatibility}. It identifies the Real L10 public boundary with the fused $\StreamNameUp$ terminal-window packet, the $\DyadicRatCoreUp$ endpoint and radius ledger, the $\RegSeqRatUp$ finite-request section surface, and the local $\RealUp$ seal over the displayed support rows.
+
+For two presentations agreeing on those rows, apply \autoref{thm:streamname-terminal-fusion-common-refinement-stability}. The common refinement makes their $\StreamNameUp$ windows the same fused terminal packet after transport along the same endpoint and radius ledger.
+
+Next apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. The common seal-facing finite request factors through the same RegSeqRat finite-request source section, so the classifier, regularity, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows are the same finite witness data.
+
+Transport the resulting four-face packet through \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}. Agreement of the StreamName classifier pullback is exactly agreement of the Real L10 public boundary, so the two presentations have the same finite-window witness surface.
+
+Conversely, begin with the Real L10 public boundary. The reverse direction of \autoref{thm:real-l10-terminal-window-fusion-section-compatibility} recovers the fused StreamName terminal-window packet, the DyadicRatCore endpoint and radius ledger, and the RegSeqRat finite-request section surface. The local $\RealUp$ seal and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are part of the same boundary packet.
+
+Finally use the exclusion clauses from \autoref{thm:real-l10-terminal-window-fusion-section-compatibility} and \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}. They keep quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, and bridge rows outside the public boundary, so the finite-window witness surface is exactly the displayed four-face data.
 \end{proof}

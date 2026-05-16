@@ -440,3 +440,33 @@ Apply the observation-budget grid pullback and the criterion-grid-synchronizer c
 
 Finally use Real-seal consumer exhaustion. A downstream seal consumer has only the displayed witness, grid, criterion, synchronizer, observation-budget, transport, continuation, provenance, and naming rows listed above. Therefore two reads that preserve those rows determine the same public $\RealUp$ seal boundary, and the excluded quotient-stream, selected-limit, host-equality, choice, completeness, compactness, and bypass routes have no carrier coordinate.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness grid selector exactness]
+\label{thm:bounded-monotone-cauchy-witness-grid-selector-exactness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Let
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)
+$$
+be an accepted $\RealCauchyWitnessGridUp$ packet, let
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, let $Y$ be an accepted $\CauchySealBudgetSynchronizerUp$ packet, and let
+$$
+O=(E_O,W_O,D_O,R_O,S_O,H_O,C_O,P_O,N_O)
+$$
+be an accepted $\RealObservationBudgetUp$ packet. Suppose these packets read the same finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ regular readbacks, and $\RealUp$ seal row displayed by the root route of $W$.
+
+Then the public selector route from $W,G,U,Y,O$ is exact. Any two selector-facing reads that preserve the bounded-source rows $S,F,\sigma,\mu,\lambda,I,Q$, the grid-budget rows $B,L,K,T,S_G,R_G,E_G$, the uniform-criterion rows $I_U,W_U,M_U,Q_U,T_U,E_U$, the synchronizer seal-budget rows of $Y$, the observation-budget rows $E_O,W_O,D_O,R_O,S_O$, the componentwise transport rows $H,H_G,H_U,H_O$, the displayed continuation rows $C,C_G,C_U,C_O$, the provenance rows $P,P_G,P_U,P_O$, and the local NameCert rows $N,N_G,N_U,N_O$ expose the same selector-facing $\RealUp$ seal boundary.
+
+The exact selector surface has no coordinate for quotient streams, selected host limits, host real equality, choice selectors, ambient completeness, open-cover compactness, hidden family limits, or a direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+First extract the root route. Root extraction and root tail-window totality force every selector-facing read of $W$ through the displayed bounded source, regular readback, finite window, modulus, dyadic ledger, located trap, seal row, transport, continuation, provenance, and local naming rows.
+
+Next attach the grid route. Grid budget precedence and grid route compatibility keep $G$ on the same finite-window, dyadic-ledger, regular-readback, and seal boundary as $W$. The grid rows therefore refine the selector budget on the displayed route rather than adding a second completion stream.
+
+Now add the criterion, synchronizer, and observation faces. The observation-budget grid pullback identifies the observation rows with the same window, ledger, readback, and seal surface, while the criterion-grid-synchronizer correspondence places the uniform criterion and synchronizer rows on that shared surface before the seal is public.
+
+Finally apply root Real-seal determinacy. Once the bounded-source, grid-budget, uniform-criterion, synchronizer, observation-budget, transport, continuation, provenance, and NameCert rows are preserved, any two public selector reads expose the same $\RealUp$ seal boundary. Since the preceding route inventory contains no quotient, selected-limit, host-equality, choice, completeness, compactness, hidden-family, or bypass coordinate, no such data can enter the selector.
+\end{proof}
