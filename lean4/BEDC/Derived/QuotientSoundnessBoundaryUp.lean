@@ -161,31 +161,6 @@ theorem QuotientSoundnessBoundary_cont_route_locality [AskSetup] [PackageSetup]
     ⟨eUnary, aUnary, tUnary, vUnary, hUnary, cUnary, consumerUnary, eAV, eTH,
       hCConsumer, nPkg, consumerPkg, hN⟩
 
-theorem QuotientSoundnessBoundary_psame_transport_exhaustion [AskSetup] [PackageSetup]
-    {e a t v h c p n transportRead consumer : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
-      Cont t h transportRead ->
-        Cont h c consumer ->
-          PkgSig bundle transportRead pkg ->
-            PkgSig bundle consumer pkg ->
-              UnaryHistory e ∧ UnaryHistory t ∧ UnaryHistory h ∧
-                UnaryHistory transportRead ∧ UnaryHistory consumer ∧ Cont e t h ∧
-                  Cont t h transportRead ∧ Cont h c consumer ∧
-                    PkgSig bundle transportRead pkg ∧ PkgSig bundle consumer pkg ∧
-                      hsame h n := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
-  intro carrier tHTransport hCConsumer transportPkg consumerPkg
-  obtain ⟨eUnary, _aUnary, tUnary, _vUnary, hUnary, cUnary, _pUnary, _nUnary,
-    _eAV, eTH, _hCN, _pPkg, _nPkg, hN⟩ := carrier
-  have transportUnary : UnaryHistory transportRead :=
-    unary_cont_closed tUnary hUnary tHTransport
-  have consumerUnary : UnaryHistory consumer :=
-    unary_cont_closed hUnary cUnary hCConsumer
-  exact
-    ⟨eUnary, tUnary, hUnary, transportUnary, consumerUnary, eTH, tHTransport,
-      hCConsumer, transportPkg, consumerPkg, hN⟩
-
 theorem QuotientSoundnessBoundaryCarrier_transport_replacement [AskSetup] [PackageSetup]
     {e a t v h c p n replacement : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     QuotientSoundnessBoundaryCarrier e a t v h c p n bundle pkg ->
