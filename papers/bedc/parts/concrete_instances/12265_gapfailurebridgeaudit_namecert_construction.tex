@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\GapFailureBridgeAuditUp$}
+\label{ch:concrete-instances-gap-failure-bridge-audit-namecert}
+\origin{ai}
+
+The $\GapFailureBridgeAuditUp$ packet realizes the gap-report, failure-certificate, and standard-bridge audit surface of \autoref{subsec:philosophy-failure-certificates} and \autoref{subsec:philosophy-standard-bridge-writing} as one finite NameCert carrier. It sits beside the certificate gate of \autoref{ch:concrete-instances-certificateauditgate-namecert}, the claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the standard bridge audit packet of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}, the host primitive leakage boundary of \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, and the effective replacement ledger of \autoref{ch:concrete-instances-effective-replacement-ledger-namecert}. Those siblings gate certificate export, register claims, display bridge fields, refuse host leakage, and record replacement discipline; this packet binds the exact point where a typed gap, a failure branch, and a bridge-preservation row must be inspected together.
+
+\begin{definition}[Gap-failure-bridge audit carrier]
+\label{def:gap-failure-bridge-audit-carrier}
+A $\GapFailureBridgeAuditUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,F,B,L,X,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed gap-report row, recording site, requested supply, socket type, gate, consequence if internalized, and admitted route.
+\item $F$ is the failure-certificate row, recording the branch that blocks a theory grade, a formal status, or their verified combination.
+\item $B$ is the standard-bridge row, recording encoding, decoding, two return witnesses, finite theorem preservation, and bridge scope.
+\item $L$ is the no-host-leak row, recording host primitives, quotient principles, semantic equality assumptions, choice, propositional extensionality, and compiler readings that are absent from the BEDC public surface.
+\item $X$ is the axis-separation row, recording that theory closure, formal verification, and bridge status are read as distinct coordinates.
+\item $A$ is the audit-route row, recording the certificate gate, registry entry, standard-bridge packet, host-leak refusal, and replacement-ledger route consulted by the audit.
+\item $H$ stores componentwise $\hsame$ transport for gap reports, failure certificates, bridge rows, no-host-leak rows, axis-separation rows, audit routes, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay for gap inspection, failure-branch lookup, bridge preservation, no-host-leak inspection, and axis-separation checking.
+\item $P$ is the $\Pkg$ provenance row over $\CertificateAuditGateUp$, $\ClaimRegistryLayerUp$, $\StandardBridgeAuditPacketUp$, $\HostPrimitiveLeakageUp$, $\EffectiveReplacementLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GapFailureBridgeAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an untyped gap, an unbranched failure, a bridge row without no-host-leak evidence, a bridge-checked reading detached from theorem preservation, or a conversion of bridge status into theory closure.
+\end{definition}
+
+\begin{theorem}[Gap-failure-bridge audit NameCert obligations]
+\label{thm:gap-failure-bridge-audit-namecert-obligations}
+For the carrier of \autoref{def:gap-failure-bridge-audit-carrier}, the local $\NameCert_{\GapFailureBridgeAuditUp}$ obligation surface consists exactly of typed gap admission through $T$, failure-branch admission through $F$, bridge-field admission through $B$, no-host-leak inspection through $L$, axis separation through $X$, audit routing through $A$, transport and replay through $H,C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $G=(T,F,B,L,X,A,H,C,P,N)$. The typed gap report, failure certificate, bridge row, no-host-leak row, axis-separation row, audit route, transport, replay, provenance, and local name are the only displayed coordinates.
+
+Use \autoref{ch:concrete-instances-certificateauditgate-namecert} and \autoref{ch:concrete-instances-claimregistrylayer-namecert} for gate and registry exposure. They ensure that a cited audit packet is read through an admitted certificate surface and through a registered or refused claim row.
+
+Use \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}, \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, and \autoref{ch:concrete-instances-effective-replacement-ledger-namecert} for bridge preservation, host-leak refusal, and replacement discipline. These sibling surfaces account for $B,L,A,P$ without importing any host primitive as a BEDC input.
+
+The remaining rows $H,C,N$ preserve and name the same finite packet. Since no other row is available, every local NameCert obligation for the audit surface is one of the displayed rows above.
+\end{proof}
+
+\begin{theorem}[Gap-failure-bridge audit axis separation]
+\label{thm:gap-failure-bridge-audit-axis-separation}
+An accepted $\GapFailureBridgeAuditUp$ packet cannot read bridge status as theory closure and cannot read a failure certificate as a checked theorem. The row $X$ keeps theory closure, formal verification, bridge status, and failure blocking as distinct audit coordinates over the same typed gap, failure branch, bridge row, no-host-leak row, audit route, transport, replay, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Start with the axis-separation row in \autoref{def:gap-failure-bridge-audit-carrier}. The row $X$ is a separate carrier coordinate rather than a predicate computed from $B$ or $F$.
+
+Apply \autoref{thm:gap-failure-bridge-audit-namecert-obligations}. The typed gap row, failure-certificate row, standard-bridge row, and no-host-leak row are admitted separately before transport or replay can export the audit packet.
+
+Thus a bridge-preservation row cannot promote itself to theory closure, and a failure branch cannot promote itself to formal verification. Any such reading would identify two coordinates that the accepted packet stores separately.
+\end{proof}
+
+\begin{theorem}[Gap-failure-bridge audit non-escape]
+\label{thm:gap-failure-bridge-audit-nonescape}
+Every accepted bridge-audit read through $\GapFailureBridgeAuditUp$ factors through
+$$
+T,F,B,L,X,A,H,C,P,N.
+$$
+If either the typed gap row $T$ or the failure-certificate row $F$ is absent, the packet may still record a bridge-writing attempt, but it cannot export a bridge-checked reading.
+\end{theorem}
+\begin{proof}
+Project the carrier. The public audit surface is exactly $T,F,B,L,X,A,H,C,P,N$, so a route that omits $T$ or $F$ is not a route through the accepted packet.
+
+The standard-bridge row $B$ supplies bridge fields, and the no-host-leak row $L$ refuses host import. These rows still require the typed gap and failure-certificate rows to explain which missing supply and which blocking branch are being audited.
+
+Finally use the audit-route, transport, replay, provenance, and local naming rows $A,H,C,P,N$. They can preserve the displayed packet, but they cannot manufacture a missing typed gap or failure branch. Therefore a bridge-writing attempt without $T$ or $F$ has no bridge-checked export through $\GapFailureBridgeAuditUp$.
+\end{proof}
+
+\falsifiablePrediction{An accepted bridge audit packet that omits either the typed gap row or the failure-certificate row cannot export a bridge-checked reading.}
+
+\independenceWitness{certificateauditgate, claimregistrylayer, standardbridgeauditpacket, hostprimitiveleakage, effective-replacement-ledger: none is bijective because the packet stores gap report, failure branch, bridge preservation, no-host-leak, and axis-separation rows together.}
+
+The Lean site \texttt{lean4/BEDC/Derived/GapFailureBridgeAuditUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \GapFailureBridgeAuditUp$ and $\mathsf{FieldFaithful}\ \GapFailureBridgeAuditUp$ instances preserving $T,F,B,L,X,A,H,C,P,N$.
+
+\closureat{GapFailureBridgeAuditUp}{seedStr}
+\closureat{GapFailureBridgeAuditUp}{obligationStr}

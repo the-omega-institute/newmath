@@ -4,6 +4,18 @@
 
 The $\WritingItemAuditUp$ packet realizes the writing-item discipline of \autoref{subsec:philosophy-writing-items} as a concrete NameCert carrier. It turns kind, carrier, classifier, ledger, theory status, formal status, gap exposure, claim text, transport, continuation, provenance, and local naming into one finite object that registry and export chapters can read without identifying paper closure with machine verification.
 
+\begin{theorem}[Writing item audit sibling dependency]
+\label{thm:writing-item-audit-sibling-dependency}
+Every accepted $\WritingItemAuditUp$ packet consumes $\AuditWritingDisciplineUp$ from \autoref{ch:concrete-instances-audit-writing-discipline-namecert} for legal writing discipline and $\WritingItemAuditPacketUp$ from \autoref{ch:concrete-instances-writing-item-audit-packet-namecert} for packet export shape. The former supplies the rule surface for claim legality, while the latter supplies the export packet read by registries.
+\end{theorem}
+\begin{proof}
+Read the opening carrier role of $\WritingItemAuditUp$. Its item kind, claim text, status rows, and gap row are legal only against a writing-discipline surface, so the rule side is supplied by $\AuditWritingDisciplineUp$.
+
+The same packet must also be exported to registry and audit consumers. That outward shape is supplied by $\WritingItemAuditPacketUp$, which records how the item audit is packaged for downstream readers.
+
+Since these siblings supply different surfaces, the present carrier consumes both without identifying them: one governs legality of the writing item, and the other governs the registry-readable packet shape.
+\end{proof}
+
 \falsifiablePrediction{If the theory-status row or formal-status row is removed, no accepted WritingItemAuditUp packet can distinguish paper closure from machine verification.}
 
 \independenceWitness{registryexportsurface, axiszeckendorfcannotclaim, physical-namecert-audit, focused-multi-hist-ledger, runtimecandidateboundary: registry export controls machine-facing export but not the eight-field item legality packet; cannot-claim rows refuse overstrong claims but do not carry both closure axes; physical NameCert audit checks naming surfaces without item kind and claim text; focused ledgers restrict histories but not writing-item status; runtime candidates record object-level execution boundaries without prose claim legality.}

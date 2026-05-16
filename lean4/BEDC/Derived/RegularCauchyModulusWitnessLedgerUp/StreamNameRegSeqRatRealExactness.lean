@@ -59,4 +59,47 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_streamname_regseqrat_real_exact
       dyadicUnary, readbackUnary, consumerUnary, witnessWindowNormalizer, normalizerTailDyadic,
       dyadicReadbackSeal, consumerExactness.right.right⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_tail_service_uniqueness [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint serviceRead serviceRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg →
+      Cont sealRow transport endpoint →
+        Cont endpoint route serviceRead →
+          Cont endpoint route serviceRead' →
+            PkgSig bundle serviceRead pkg →
+              PkgSig bundle serviceRead' pkg →
+                hsame serviceRead serviceRead' ∧ hsame endpoint sealRow ∧
+                  Cont witness window normalizer ∧ Cont normalizer tail dyadic ∧
+                    Cont dyadic readback sealRow ∧ PkgSig bundle serviceRead pkg ∧
+                      PkgSig bundle serviceRead' pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame
+  intro carrier sealTransportEndpoint endpointRouteService endpointRouteService' servicePkg
+    servicePkg'
+  have carrierWitness :
+      RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg :=
+    carrier
+  obtain ⟨_sourceUnary, _witnessUnary, _windowUnary, _normalizerUnary, _tailUnary,
+    _dyadicUnary, _readbackUnary, _sealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _transportEmpty, witnessWindowNormalizer,
+    normalizerTailDyadic, dyadicReadbackSeal, _transportRouteProvenance, _routeSeal,
+    _provenancePkg, _namePkg⟩ := carrier
+  have sealDeterminacy :=
+    RegularCauchyModulusWitnessLedgerCarrier_seal_route_determinacy
+      (source := source) (witness := witness) (window := window)
+      (normalizer := normalizer) (tail := tail) (dyadic := dyadic)
+      (readback := readback) (sealRow := sealRow) (transport := transport)
+      (route := route) (provenance := provenance) (name := name)
+      (bundle := bundle) (pkg := pkg) (endpoint := endpoint) carrierWitness
+      sealTransportEndpoint
+  have serviceSame : hsame serviceRead serviceRead' :=
+    cont_respects_hsame (hsame_refl endpoint) (hsame_refl route) endpointRouteService
+      endpointRouteService'
+  exact
+    ⟨serviceSame, sealDeterminacy.left, witnessWindowNormalizer, normalizerTailDyadic,
+      dyadicReadbackSeal, servicePkg, servicePkg'⟩
+
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
