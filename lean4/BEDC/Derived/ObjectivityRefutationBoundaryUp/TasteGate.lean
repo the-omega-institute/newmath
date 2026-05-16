@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObjectivityRefutationBoundaryUp
@@ -32,9 +33,12 @@ private theorem objectivityRefutationBoundaryDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def objectivityRefutationBoundaryFields :
     ObjectivityRefutationBoundaryUp → List BHist
@@ -196,6 +200,10 @@ theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
       (∀ x y : ObjectivityRefutationBoundaryUp,
         objectivityRefutationBoundaryToEventFlow x =
           objectivityRefutationBoundaryToEventFlow y → x = y) ∧
+      Nonempty (Nontrivial ObjectivityRefutationBoundaryUp) ∧
+      Nonempty (ChapterTasteGate ObjectivityRefutationBoundaryUp) ∧
+      Nonempty (FieldFaithful ObjectivityRefutationBoundaryUp) ∧
+      objectivityRefutationBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
       objectivityRefutationBoundaryToEventFlow
           (ObjectivityRefutationBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
@@ -214,13 +222,47 @@ theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact objectivityRefutationBoundaryToEventFlow_injective heq
-      · intro h
-        have hx :
-            ObjectivityRefutationBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty =
-              ObjectivityRefutationBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty :=
-          objectivityRefutationBoundaryToEventFlow_injective h
-        cases hx
+      · constructor
+        · exact ⟨objectivityRefutationBoundaryNontrivial⟩
+        · constructor
+          · exact ⟨objectivityRefutationBoundaryChapterTasteGate⟩
+          · constructor
+            · exact ⟨objectivityRefutationBoundaryFieldFaithful⟩
+            · constructor
+              · rfl
+              · intro h
+                have hx :
+                    ObjectivityRefutationBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty
+                        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty =
+                      ObjectivityRefutationBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty :=
+                  objectivityRefutationBoundaryToEventFlow_injective h
+                cases hx
+
+namespace TasteGate
+
+theorem ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      objectivityRefutationBoundaryDecodeBHist
+        (objectivityRefutationBoundaryEncodeBHist h) = h) ∧
+      (∀ x : ObjectivityRefutationBoundaryUp,
+        objectivityRefutationBoundaryFromEventFlow
+          (objectivityRefutationBoundaryToEventFlow x) = some x) ∧
+      (∀ x y : ObjectivityRefutationBoundaryUp,
+        objectivityRefutationBoundaryToEventFlow x =
+          objectivityRefutationBoundaryToEventFlow y → x = y) ∧
+      Nonempty (Nontrivial ObjectivityRefutationBoundaryUp) ∧
+      Nonempty (ChapterTasteGate ObjectivityRefutationBoundaryUp) ∧
+      Nonempty (FieldFaithful ObjectivityRefutationBoundaryUp) ∧
+      objectivityRefutationBoundaryEncodeBHist BHist.Empty = ([] : List BMark) ∧
+      objectivityRefutationBoundaryToEventFlow
+          (ObjectivityRefutationBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+        objectivityRefutationBoundaryToEventFlow
+          (ObjectivityRefutationBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) :=
+  _root_.BEDC.Derived.ObjectivityRefutationBoundaryUp.ObjectivityRefutationBoundaryTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.ObjectivityRefutationBoundaryUp
