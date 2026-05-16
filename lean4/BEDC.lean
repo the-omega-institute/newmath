@@ -1622,6 +1622,8 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RouteBudgetExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SharedTerminalConsumerComparison
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformWindowRealSealPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.FourFaceTerminalPullback
+import BEDC.Derived.DiagonallimitcompatibilityUp.RealRegseqSourceFactorization
+import BEDC.Derived.DiagonallimitcompatibilityUp.TailSealSourceUniqueness
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
 import BEDC.Derived.StoneDualityUp
