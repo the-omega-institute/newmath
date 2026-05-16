@@ -292,3 +292,33 @@ Next read the StreamName-facing side through the ambient finite-section theorem.
 
 Finally attach the open Real-and-Completion consumers. The UniformCauchyCriterion pullback, \autoref{thm:finite-observation-budget-selector-uniform-cauchycriterion-pullback}, places any compatible uniform-Cauchy read on the same finite observation route, while the readiness correspondence already covers the $\RealUp$, diagonal-completion, and selector-seal handoff surfaces. Thus every such consumer factors through the displayed route and can export only $B,S,W,D,R,E,H,C,P,N$, with the quotient, host-equality, choice, hidden-selector, detached-witness, metric-completeness, and ambient-completeness coordinates absent.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal cofinal schedule lock]
+\label{thm:finite-observation-budget-selector-terminal-cofinal-schedule-lock}
+Let
+$$
+F_0=(B,S,W,D,R,E,H,C,P,N)
+$$
+and
+$$
+F_1=(B,S',W,D,R,E,H,C,P,N)
+$$
+be accepted $\FiniteObservationBudgetSelectorUp$ packets. Suppose both packets are compatible with the same terminal cofinal-window route and with the same four-face pullback through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Then every terminal consumer reads the same budget-to-seal surface from $F_0$ and $F_1$:
+$$
+B \to W \to D \to R \to E
+$$
+with transport, continuation, provenance, and local naming supplied only by $H,C,P,N$. In particular, the terminal consumer can read no distinction between $S$ and $S'$. Any actual schedule separation must alter the displayed route before the terminal seal, not only a hidden scheduling coordinate behind the common four-face surface.
+
+The locked surface contains no quotient stream, countable choice operation, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First apply terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, to $F_0$ and to $F_1$. Each compatible terminal consumer is forced onto the displayed finite route through the $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, and $\RealUp$ seal $E$.
+
+Next use terminal cofinal-window transport invariance, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-transport-invariance}, on the rows shared by the two packets. The only row not literally shared is the schedule coordinate, and the hypothesis says that both schedules feed the same terminal cofinal-window route and the same four-face pullback. Transport therefore carries terminal compatibility from $F_0$ to $F_1$ and back without creating a second terminal read.
+
+Now exhaust the terminal budget. By \autoref{thm:finite-observation-budget-selector-terminal-budget-exhaustion}, any terminal consumer that reaches $E$ is already confined to the displayed budget, finite window, dyadic ledger, regular handoff, seal, transport, continuation, provenance, and local naming rows. Cofinal route choice freeness, \autoref{thm:finite-observation-budget-selector-cofinal-route-choice-freeness}, removes any independent route choice or hidden selector that could record a separate schedule decision.
+
+Finally apply the terminal four-face pullback lock, \autoref{thm:finite-observation-budget-selector-terminal-four-face-pullback-lock}. Since both packets present the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces, the terminal consumer sees the same locked surface. Thus a real schedule separation must appear before the terminal seal as a displayed route change; it cannot be stored only in a hidden scheduling coordinate.
+
+The non-escape clauses in the cited theorems exclude quotient streams, countable choice, hidden selectors, detached completion limits, metric-completeness rows, and ambient completeness oracles from the terminal surface.
+\end{proof}
