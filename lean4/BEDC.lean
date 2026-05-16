@@ -313,6 +313,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RealSealScopePackage
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
+import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealConsumerExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealSourceConservation
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
@@ -895,6 +896,7 @@ import BEDC.Derived.MonotoneCauchyUp.LocatedRealCompletionHandoff
 import BEDC.Derived.MonotoneCauchyUp.LocatedScopePackage
 import BEDC.Derived.MonotoneCauchyUp.MatureRouteSummary
 import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
+import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
