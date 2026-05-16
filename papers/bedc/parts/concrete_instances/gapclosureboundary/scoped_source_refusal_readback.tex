@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary source-refusal totality]
+\label{thm:gap-closure-boundary-source-refusal-totality}
+For every accepted $\GapClosureBoundaryUp$ request row in the finite $\BHist$ carrier
+$$
+B=(G,S,R,H,C,P,N),
+$$
+the readback factors through exactly one displayed branch before any downstream consumer receives it. A supported read factors through the source branch $G \longrightarrow S$; an unsupported read factors through the refusal branch $G \longrightarrow R$; and both branches are transported only through the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\GapClosureBoundaryUp}$ row $N$. The packet exports no hidden closure coordinate and no hidden $\mathsf{T}$-supply coordinate.
+\end{theorem}
+\begin{proof}
+Start with terminal source admission, \autoref{thm:gap-closure-boundary-terminal-source-admission}. It identifies the supported terminal request with the branch $G \longrightarrow S$ and keeps the structural rows $H,C,P,N$ attached to that branch.
+
+For the unsupported side, apply refusal totality readback, \autoref{thm:gap-closure-boundary-refusal-totality-readback}. It sends every source-absent read to the refusal branch $G \longrightarrow R$ under the same transport, replay, provenance, and naming rows.
+
+Finally use route ledger exhaustion from \autoref{thm:gap-closure-boundary-ledger-exhaustion}. Since the carrier exposes no endpoint beyond $S$ and $R$ and no structural rows beyond $H,C,P,N$, the accepted request has no hidden closure or $\mathsf{T}$-supply coordinate.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary NameCert scope readiness]
+\label{thm:gap-closure-boundary-namecert-scope-readiness}
+The carrier admission, source/refusal split, local $\NameCert_{\GapClosureBoundaryUp}$ obligations, route completion, refusal totality, and ledger exhaustion form the scoped obligation surface of $\GapClosureBoundaryUp$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Concretely, every accepted packet is read as
+$$
+G \to (S \mid R) \to H \to C \to P \to N,
+$$
+with the route branch selected before transport, replay, package provenance, or local naming is consumed.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet of \autoref{def:gap-closure-boundary-carrier}. The local certificate obligations of \autoref{thm:gap-closure-boundary-namecert-obligations} assign the visible rows to request exposure, source-route exactness, refusal-ledger routing, structural transport, continuation replay, provenance, and naming.
+
+Route completion, \autoref{thm:gap-closure-boundary-namecert-route-completion}, turns those rows into the displayed source-or-refusal route. Refusal totality, \autoref{thm:gap-closure-boundary-refusal-totality-readback}, handles every source-absent read without adding another endpoint.
+
+Ledger exhaustion, \autoref{thm:gap-closure-boundary-ledger-exhaustion}, then closes the obligation surface. The only remaining rows are $\BHist$ carrier data, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary bridge readback scope]
+\label{thm:gap-closure-boundary-bridge-readback-scope}
+Any later bridge-facing readback of $\GapClosureBoundaryUp$ must first display source/refusal totality, componentwise transport through $H$, local $\NameCert$ provenance through $P,N$, and the TasteGate row for the same packet. Such a readback may expose the scoped source/refusal surface, but it does not claim $\Gap$ discharge, does not provide a standard bridge, and does not turn the refusal branch into a source witness.
+\end{theorem}
+\begin{proof}
+First apply source-refusal totality from \autoref{thm:gap-closure-boundary-source-refusal-totality}. A bridge-facing read must therefore show whether the request is on $G \longrightarrow S$ or on $G \longrightarrow R$ before it is read by any consumer.
+
+Next use NameCert scope readiness from \autoref{thm:gap-closure-boundary-namecert-scope-readiness}. It requires the componentwise transport, continuation replay, package provenance, and local naming rows to remain visible as $H,C,P,N$.
+
+The TasteGate row is the same scoped packet boundary already recorded by the chapter status. Since terminal source admission and ledger exhaustion leave no row that discharges $\Gap$ or supplies a standard bridge, the readback is only a bridge precondition surface.
+\end{proof}
