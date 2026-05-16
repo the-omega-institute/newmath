@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\PhilosophySynthesisAuditUp$}
+\label{ch:concrete-instances-philosophy-synthesis-audit-namecert}
+\origin{ai}
+
+The $\PhilosophySynthesisAuditUp$ packet realizes the auditable-generativity reading of \autoref{ch:visions-philosophy-auditable-generativity} as a finite synthesis-audit NameCert carrier. It sits beside the core registry index of \autoref{ch:concrete-instances-core-registry-index-namecert}, the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the theorem-gap registry of \autoref{ch:concrete-instances-theoremgapregistry-namecert}, the audit gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the focused ledger of \autoref{ch:concrete-instances-focused-ledger-namecert}. Those siblings index, export, gate, audit, and focus finite rows; this carrier binds the philosophical synthesis only when the same rows make the synthesis auditable.
+
+\begin{definition}[Philosophy synthesis audit carrier]
+\label{def:philosophy-synthesis-audit-carrier}
+A $\PhilosophySynthesisAuditUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,E,G,A,L,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\CoreRegistryIndexUp$ row naming the concept, theorem, gap, tradition, scientific-claim, refusal, route, ordinary-language, and audit entries that the synthesis may read;
+\item $E$ is the $\RegistryExportSurfaceUp$ row recording whether a synthesized reading is exported, blocked, horizon-facing, or held as a formalization target;
+\item $G$ is the $\TheoremGapRegistryUp$ row separating theorem-strength readings from gap-gate readings;
+\item $A$ is the $\AuditGateBoundaryUp$ row recording the audit route by which the synthesis is checked before export;
+\item $L$ is the $\FocusedLedgerUp$ row recording the finite focus, selector, digest, gap, relation, invariant, dependence, self-proxy, and audit rows consumed by the reading;
+\item $Q$ is the synthesis-question row recording the philosophical reading, its allowed registry entries, its blocked readings, its audit-route requirement, and its not-claimed surface;
+\item $H$ records componentwise $\hsame$ transport for $R,E,G,A,L,Q$;
+\item $C$ records displayed $\Cont$ replay through the registry index, export surface, theorem-gap registry, audit boundary, focused ledger, and synthesis-question row;
+\item $P$ is the $\Pkg$ provenance over $\CoreRegistryIndexUp$, $\RegistryExportSurfaceUp$, $\TheoremGapRegistryUp$, $\AuditGateBoundaryUp$, $\FocusedLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\PhilosophySynthesisAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for inspiration-only synthesis, hidden registry export, gate-free theorem strength, audit-free philosophical conclusion, unledgered focus selection, or a reading that bypasses the not-claimed surface in $Q$.
+\end{definition}
+
+\begin{theorem}[Philosophy synthesis audit NameCert obligations]
+\label{thm:philosophy-synthesis-audit-namecert-obligations}
+For the carrier of \autoref{def:philosophy-synthesis-audit-carrier}, the local $\NameCert_{\PhilosophySynthesisAuditUp}$ surface consists exactly of carrier admission for
+$$
+S=(R,E,G,A,L,Q,H,C,P,N),
+$$
+registry-index coverage through $R$, export-status coverage through $E$, theorem-gap separation through $G$, audit-route exposure through $A$, focused-ledger support through $L$, synthesis-question accountability through $Q$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:philosophy-synthesis-audit-carrier}. The rows $R,E,G,A,L,Q$ display the registry, export, theorem-gap, audit, focus, and synthesis-question data before any public reading of auditable generativity is allowed.
+
+Read the sibling rows in order. $\CoreRegistryIndexUp$ supplies the finite registry entries, $\RegistryExportSurfaceUp$ controls whether the reading may leave the registry, $\TheoremGapRegistryUp$ keeps theorem strength distinct from gap status, $\AuditGateBoundaryUp$ supplies the audit route, and $\FocusedLedgerUp$ records the finite focused ledger consumed by the reading.
+
+Finally inspect $Q,H,C,P,N$. The synthesis-question row records the philosophical reading and its not-claimed surface, while the structural rows only transport, replay, source, and name the same finite packet. Hence the local NameCert obligations are exactly the displayed synthesis-audit rows.
+\end{proof}
+
+\begin{theorem}[Philosophy synthesis audit nonescape]
+\label{thm:philosophy-synthesis-audit-nonescape}
+Every exported auditable-generativity reading of an accepted $\PhilosophySynthesisAuditUp$ packet must read the registry-index row $R$, export row $E$, theorem-gap row $G$, audit-route row $A$, focused-ledger row $L$, synthesis-question row $Q$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. A packet without the audit-route row $A$ cannot export an auditable-generativity reading.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:philosophy-synthesis-audit-namecert-obligations}. They require the registry, export, theorem-gap, audit, focused-ledger, and synthesis-question rows as one finite packet before a reading can be exported.
+
+If $A$ is absent, the reading still has no audit route. The registry index can name entries, the export surface can classify status, the theorem-gap registry can separate theorem and gap rows, and the focused ledger can display finite focus data, but none of those rows records the audit-route check by itself.
+
+The structural rows $H,C,P,N$ preserve an admitted packet; they do not synthesize a missing audit boundary. Thus a synthesis-audit packet without $A$ exits the accepted carrier and cannot export an auditable-generativity reading.
+\end{proof}
+
+\falsifiablePrediction{A synthesis-audit packet without the audit-route row cannot export an auditable-generativity reading.}
+
+\independenceWitness{coreregistryindex, registryexportsurface, theoremgapregistry, auditgateboundary, focusedledger: the core registry index lacks export-status and synthesis-question accountability, the registry export surface lacks theorem-gap and focused-ledger rows, the theorem-gap registry lacks the philosophical synthesis-question row, the audit gate boundary lacks registry-index and focused-ledger content, and the focused ledger lacks export-status and audit-route authority; no sibling is bijective to $\PhilosophySynthesisAuditUp$.}
+
+The Lean follow-up must provide $\Nontrivial\ \PhilosophySynthesisAuditUp$ and $\FieldFaithful\ \PhilosophySynthesisAuditUp$ in \texttt{lean4/BEDC/Derived/PhilosophySynthesisAuditUp/TasteGate.lean}. Those instances must preserve $R,E,G,A,L,Q,H,C,P,N$ as separate displayed fields before the target $\mathsf{BEDC.Derived.PhilosophySynthesisAuditUp.taste\_gate}$ can be cited by a checked paper marker.
+
+\closureat{PhilosophySynthesisAuditUp}{seedStr}
+\closureat{PhilosophySynthesisAuditUp}{obligationStr}
+
+\begin{closurestatus}{\PhilosophySynthesisAuditUp}
+  \constructivestory{A $\PhilosophySynthesisAuditUp$ packet is generated from core-registry, registry-export, theorem-gap, audit-route, focused-ledger, synthesis-question, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:philosophy-synthesis-audit-carrier}, \autoref{thm:philosophy-synthesis-audit-namecert-obligations}, and \autoref{thm:philosophy-synthesis-audit-nonescape} bind auditable generativity to the displayed finite synthesis-audit packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, full philosophical completeness, theorem truth for every registry entry, or export of readings without an audit route.}
+  \upgradepath{Lean closure requires Nontrivial PhilosophySynthesisAuditUp and FieldFaithful PhilosophySynthesisAuditUp instances in \texttt{lean4/BEDC/Derived/PhilosophySynthesisAuditUp/TasteGate.lean}.}
+\end{closurestatus}
