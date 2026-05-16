@@ -169,6 +169,39 @@ Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. The route dow
 Use \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. After the displayed readback, the only remaining exported rows are the Real seal, componentwise transports, continuations, provenance, and local certificate. Hence the third surface is $(E,H,C,P,N)$, and the excluded coordinates cannot be supplied by any downstream consumer.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus normalizer tail-budget extraction]
+\label{thm:regular-cauchy-modulus-normalizer-tail-budget-extraction}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+every $\RegularCauchyTailBudgetUp$, $\UniformCauchyCriterionUp$, or $\RealUp$
+seal consumer of $K$ reads its tail-budget route through the single chain
+$$
+(X,Y,\mu_X,\mu_Y) \longmapsto M \longmapsto (W,D,R) \longmapsto (E,H,C,P,N).
+$$
+The extraction supplies no side-specific tail oracle, quotient stream, host real
+equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:regular-cauchy-modulus-normalizer-carrier}.
+The only source rows are $X,Y,\mu_X,\mu_Y$, the only common tail-meet row is
+$M$, and the only downstream shared-window, readback, seal, transport, replay,
+provenance, and naming rows are $W,D,R,E,H,C,P,N$.
+
+Apply \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}. The
+source-exposure and shared-window exactness obligations force every accepted
+consumer to enter through the displayed source schedules and then through the
+common window rows rather than through a side-specific oracle.
+
+Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window},
+\autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, and
+\autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}.
+Together they identify the ordered source-meet, shared-window, and seal
+surfaces and exclude any quotient stream, host real equality, selected limit,
+or ambient completeness coordinate from the exported route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus normalizer public route]
 \label{thm:regular-cauchy-modulus-normalizer-public-route}
 For every accepted $\RegularCauchyModulusNormalizerUp$ carrier

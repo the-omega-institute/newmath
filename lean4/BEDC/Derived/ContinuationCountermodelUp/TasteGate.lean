@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ContinuationCountermodelUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -295,5 +299,22 @@ theorem ContinuationCountermodelTasteGate_single_carrier_alignment :
   exact
     ⟨continuationCountermodelDecode_encode_bhist, continuationCountermodel_round_trip,
       fun _x _y heq => continuationCountermodelToEventFlow_injective heq, rfl⟩
+
+theorem ContinuationCountermodelUp_root_replay_transport
+    {root reuse replay defeat routed : BHist} :
+    Cont root reuse replay ->
+      Cont replay defeat routed ->
+        UnaryHistory root ->
+          UnaryHistory reuse ->
+            UnaryHistory defeat ->
+              UnaryHistory replay ∧ UnaryHistory routed ∧ Cont root reuse replay ∧
+                Cont replay defeat routed := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro rootReuseReplay replayDefeatRouted rootUnary reuseUnary defeatUnary
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed rootUnary reuseUnary rootReuseReplay
+  have routedUnary : UnaryHistory routed :=
+    unary_cont_closed replayUnary defeatUnary replayDefeatRouted
+  exact ⟨replayUnary, routedUnary, rootReuseReplay, replayDefeatRouted⟩
 
 end BEDC.Derived.ContinuationCountermodelUp

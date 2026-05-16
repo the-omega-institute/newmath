@@ -168,6 +168,46 @@ The ledger exactness theorem then handles the exceptional analytic surfaces. Pol
 It remains to rule out route escape. The analytic-operation boundary and ZetaBasic source lock keep $A$ and $E$ from becoming a second continuation theorem, and the carrier definition has no coordinate for RH or an off-route branch. Therefore the displayed boundary rows exhaust the public application packet.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication root boundary triad]
+\label{thm:zeta-continuation-application-root-boundary-triad}
+For every accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the root source locks are the Gamma horizon row $G$, the analytic-operation routing row $A$, and the $\ZetaBasicUp$ source row $E$. Every root read of $E,F,P,T,G,A,H,C,Q,N$ must expose that triad before the application row is consumed, and the support rows $H,C,Q,N$ may only transport, replay, package, and name the same displayed triad.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and route totality. The accepted packet is the finite carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, and every eta, functional-equation, pole, zero, Gamma, or application read factors through those rows.
+
+Now attach the three source locks. The Gamma horizon boundary and Gamma eta handoff place Gamma-facing reads in $G$, the analytic-operation boundary places application routing in $A$, and the ZetaBasic source lock places eta-source reads in $E$.
+
+Finally use ledger exactness and boundary exhaustion. The rows $P,T$ remain pole and trivial-zero ledgers, while $H,C,Q,N$ only preserve the displayed packet. Thus the root source locks are exactly the triad $G,A,E$ inside the carrier.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root source readiness]
+\label{thm:zeta-continuation-application-root-source-readiness}
+Any eta, Gamma, or analytic-operation consumer of an accepted $\ZetaContinuationApplicationUp$ carrier must expose its source lock before using the application row. Eta consumers expose $E$, Gamma consumers expose $G$, and analytic-operation consumers expose $A$; only after that exposure may the consumer read $F,P,T,H,C,Q,N$ as the displayed application support surface.
+\end{theorem}
+\begin{proof}
+Read the source route from \autoref{thm:zeta-continuation-application-root-boundary-triad}. The triad $G,A,E$ is the complete root source-lock surface for the accepted packet.
+
+Handle the three consumer classes separately. An eta consumer reaches the packet through the ZetaBasic source lock at $E$, a Gamma consumer reaches it through the Gamma horizon and eta handoff at $G$, and an analytic-operation consumer reaches it through the operation boundary at $A$.
+
+The support rows then become available only as support. Route totality and ledger exactness allow $F,P,T,H,C,Q,N$ to be read after the source lock is displayed, and boundary exhaustion prevents those support rows from supplying a hidden source.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root non-escape]
+\label{thm:zeta-continuation-application-root-nonescape}
+Every root-facing consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the displayed rows
+$$
+E,F,P,T,G,A,H,C,Q,N.
+$$
+The root boundary excludes RH, a completed $\GammaUp$ construction, a pole value, a nontrivial-zero classifier, and any off-route continuation branch.
+\end{theorem}
+\begin{proof}
+Begin with root source readiness. Eta, Gamma, and analytic-operation consumers must first expose $E,G,A$ respectively before they may use the application support rows.
+
+Apply route totality and ledger exactness. They place all pole, trivial-zero, Gamma, application, transport, replay, provenance, and naming reads on $P,T,G,A,H,C,Q,N$ inside the same finite carrier.
+
+Finally invoke analytic-operation boundary, Gamma horizon boundary, ZetaBasic source locking, and boundary exhaustion. These results exclude RH, completed Gamma data, pole values, nontrivial-zero classification, and off-route continuation branches because none has a coordinate in $Z$.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationApplication public export]
 \label{thm:zeta-continuation-application-public-export}
 The public application packet consumed by $\GammaUp$, $\AnalyticContinuationOperationUp$, and $\ZetaBasicUp$ is exactly the finite NameCert surface
@@ -499,6 +539,83 @@ Finally apply root replay non-escape. Any downstream zeta or RH boundary
 consumer receives only the displayed root packet through $H,C,Q,N$, so the
 packet is ready as a boundary obligation without exporting RH, zero
 classification, completed Gamma data, or bridge verification.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root functional-row readiness]
+\label{thm:zeta-continuation-application-root-functional-row-readiness}
+For every accepted $\ZetaContinuationApplicationUp$ carrier
+$Z=(E,F,P,T,G,A,H,C,Q,N)$, the functional-equation continuation row $F$ is
+root-ready for downstream zeta and RH boundary consumers exactly as a finite
+$\BHist$ row transported by the displayed $\hsame$ data and replayed through
+$\Cont$, $\Pkg$, and $\NameCert$. The row is read together with the eta source
+row $E$, the separated Gamma and analytic-operation rows $G,A$, the pole and
+trivial-zero ledgers $P,T$, and the replay support $H,C,Q,N$; it does not
+assert RH, classify nontrivial zeros, construct a completed $\GammaUp$ object,
+or verify a bridge.
+\end{theorem}
+\begin{proof}
+Start with row-inventory coverage. It places $F$ inside the same accepted
+carrier as $E,P,T,G,A,H,C,Q,N$, so a downstream consumer cannot read a
+functional-equation continuation row apart from the displayed packet.
+
+Use source-lock triad separation and the root ledger boundary. The source rows
+$G,A,E$ remain separated under $\hsame$ and $\Cont$, while $P,T$ carry only the
+pole and trivial-zero ledgers needed by the root interface.
+
+Finally apply root replay non-escape and root-obligation readiness. The
+functional row is available as a finite replay row of $Z$, but the carrier has
+no coordinate for RH, nontrivial-zero classification, completed Gamma data, or
+bridge verification.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root Gamma handoff readiness]
+\label{thm:zeta-continuation-application-root-gamma-handoff-readiness}
+For every accepted $\ZetaContinuationApplicationUp$ carrier
+$Z=(E,F,P,T,G,A,H,C,Q,N)$, the Gamma handoff available to root consumers is the
+separated source row $G$ together with its finite replay through $H,C,Q,N$ and
+its boundary interaction with $F,P,T,A,E$. The handoff is a $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of the displayed packet; it is
+not a completed $\GammaUp$ construction, an RH assertion, a nontrivial-zero
+classifier, or a checked bridge.
+\end{theorem}
+\begin{proof}
+Use the Gamma eta handoff and source-lock triad separation. The Gamma source
+row is $G$, and the eta and analytic-operation rows remain $E$ and $A$ rather
+than substitutes for $G$.
+
+Apply the root ledger boundary. The pole and trivial-zero rows $P,T$ record the
+ledger side of the handoff, while $F$ records the functional row adjacent to the
+Gamma source route.
+
+Root replay non-escape then keeps the handoff on $G,F,P,T,A,E,H,C,Q,N$. Since
+no completed Gamma coordinate, RH coordinate, zero-classifier row, or bridge
+verification row is present, none can be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root public-export readiness]
+\label{thm:zeta-continuation-application-root-public-export-readiness}
+For every accepted $\ZetaContinuationApplicationUp$ carrier
+$Z=(E,F,P,T,G,A,H,C,Q,N)$, the public export available to downstream zeta and
+RH boundary chapters is exactly the root packet formed by row-inventory
+coverage, source-lock triad separation, root ledger boundary, root replay
+non-escape, root functional-row readiness, and root Gamma handoff readiness.
+The export is anchored in the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ rows and refuses RH, nontrivial-zero classification, completed
+Gamma construction, and bridge verification.
+\end{theorem}
+\begin{proof}
+First collect the finite rows. Row-inventory coverage gives
+$E,F,P,T,G,A,H,C,Q,N$, while source-lock triad separation keeps the three source
+rows $G,A,E$ distinct under transport and replay.
+
+Next attach the two root handoffs. Functional-row readiness exposes $F$ as the
+functional-equation continuation row of the same packet, and Gamma handoff
+readiness exposes $G$ only through its finite replay and ledger boundary.
+
+Finally use root ledger boundary, root replay non-escape, and root-obligation
+readiness. The public export is therefore the displayed root packet, with no
+coordinate for RH, nontrivial-zero classification, completed Gamma
+construction, or bridge verification.
 \end{proof}
 
 \closureat{ZetaContinuationApplicationUp}{seedStr}
