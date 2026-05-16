@@ -341,6 +341,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RealSealRefusal
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealRootHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerCoverage
+import BEDC.Derived.CauchyModulusRefinementUp.RealConsumerNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealConsumerExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.RealSealSourceConservation
 import BEDC.Derived.CauchyModulusRefinementUp.RealCompletenessHandoff
