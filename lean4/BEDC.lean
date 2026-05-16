@@ -91,6 +91,7 @@ import BEDC.Derived.ApophaticNameUp.SocketRequestCoherence
 import BEDC.Derived.ApophaticNameUp.SourceRefusalTotality
 import BEDC.Derived.ApophaticNameUp.RootRefusalGateTotality
 import BEDC.Derived.ApophaticNameUp.SocketGateLedgerPullback
+import BEDC.Derived.ApophaticNameUp.RootUnblockRefusalBoundary
 import BEDC.Derived.ApophaticFixedPointUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -1182,6 +1183,7 @@ import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusWitnessLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
