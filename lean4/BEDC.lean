@@ -262,6 +262,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdScope
 import BEDC.Derived.CauchyModulusRefinementUp.SharedSelectorDeterminacy
 import BEDC.Derived.CauchyModulusRefinementUp.SharedMeetRegSeqRatRoute
 import BEDC.Derived.CauchyModulusRefinementUp.SharedRouteTotality
+import BEDC.Derived.CauchyModulusRefinementUp.SharedTailHandoff
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqStreamNameRealCoherence
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqStreamNameRealTerminalFactorization
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqRealSelectorExactness
@@ -729,6 +730,7 @@ import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
 import BEDC.Derived.CertificateCompilerUp.KernelMorphismRouteScope
 import BEDC.Derived.CertificateCompilerUp.MatureConsumerInventory
+import BEDC.Derived.CertificateCompilerUp.MiddleRowHandoff
 import BEDC.Derived.CertificateCompilerUp.NameCertObligations
 import BEDC.Derived.CertificateCompilerUp.PublicConsumerBoundary
 import BEDC.Derived.CertificateCompilerUp.RouteReplayScope
