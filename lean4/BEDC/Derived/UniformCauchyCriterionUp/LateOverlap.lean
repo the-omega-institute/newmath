@@ -109,4 +109,18 @@ theorem UniformCauchyCriterionPacket_tail_overlap_budget_exhaustion
       leftTailRoute, rightTailRoute, leftSealRoute, rightSealRoute, overlapRoute, namePkg,
       overlapPkg⟩
 
+theorem UniformCauchyCriterionPacket_regseqrat_real_seal_overlap
+    [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (hU :
+      UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports
+        routes provenance name bundle pkg) :
+    hsame (append (append (append windows modulus) tolerance) tail)
+        (append (append (append windows modulus) tolerance) tail) ∧
+      UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports
+        routes provenance name bundle pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  exact ⟨hsame_refl (append (append (append windows modulus) tolerance) tail), hU⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
