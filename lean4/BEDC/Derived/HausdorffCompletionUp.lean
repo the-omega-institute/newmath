@@ -508,4 +508,38 @@ theorem HausdorffCompletionCarrier_separated_ledger_transport_scope [AskSetup] [
       separatedHandoffRoute, transportRouteProvenance, provenanceRouteLedger, provenancePkg,
       ledgerPkg⟩
 
+theorem HausdorffCompletionCarrier_separated_source_identity_criterion [AskSetup]
+    [PackageSetup]
+    {source entourage separated handoff transport route provenance source' entourage'
+      separated' handoff' transport' route' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      hsame source source' ->
+        hsame entourage entourage' ->
+          hsame separated separated' ->
+            hsame handoff handoff' ->
+              hsame transport transport' ->
+                Cont separated' handoff' route' ->
+                  Cont transport' route' provenance' ->
+                    PkgSig bundle provenance' pkg ->
+                      HausdorffCompletionCarrier source' entourage' separated' handoff'
+                          transport' route' provenance' bundle pkg ∧
+                        hsame route route' ∧ hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameSource sameEntourage sameSeparated sameHandoff sameTransport routeRow'
+    provenanceRow' provenancePkg'
+  have transported :
+      HausdorffCompletionCarrier source' entourage' separated' handoff' transport'
+          route' provenance' bundle pkg ∧ hsame route route' :=
+    HausdorffCompletionCarrier_classifier_transport carrier sameSource sameEntourage
+      sameSeparated sameHandoff sameTransport routeRow' provenanceRow' provenancePkg'
+  obtain ⟨carrier', sameRoute⟩ := transported
+  obtain ⟨_sourceUnary, _entourageUnary, _separatedUnary, _handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _sourceEntourageTransport, _routeRow,
+    provenanceRow, _provenancePkg⟩ := carrier
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameRoute provenanceRow provenanceRow'
+  exact ⟨carrier', sameRoute, sameProvenance⟩
+
 end BEDC.Derived.HausdorffCompletionUp
