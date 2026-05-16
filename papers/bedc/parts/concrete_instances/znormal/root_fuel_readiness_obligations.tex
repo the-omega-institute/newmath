@@ -1,0 +1,79 @@
+\begin{theorem}[ZNormal root fuel obligation surface]
+\label{thm:znormal-root-fuel-obligation-surface}
+Every accepted $\ZNormalUp$ packet exposes a finite root-fuel obligation
+surface consisting of the finite fuel row, typed endpoint row,
+Zeckendorf/carry comparison row, continuation terminal-read row, componentwise
+transport row, displayed continuation row, package provenance row, and local
+$\NameCert_{\ZNormalUp}$ row. A root-facing read of terminal normality must
+pass through those rows before it can use the packet as normal-form evidence.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the local NameCert obligations of
+\autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}.
+They place typed endpoint readback, finite fuel, terminal normality, sibling
+normal-word evidence, continuation terminal read, transport, replay,
+provenance, and local naming in one accepted packet.
+
+Next apply \autoref{thm:znormal-carry-normalization-obligation} and
+\autoref{thm:znormal-continuation-terminal-route}. The sibling normal-word row
+is read through the finite Zeckendorf and carry-facing comparison route, while
+the continuation row is read only after the typed endpoint, fuel, and terminal
+normality rows.
+
+Finally use \autoref{thm:znormal-route-transport} and
+\autoref{thm:znormal-root-namecert-readiness}. These bind the route through
+$H,C,P,N$, so the root-fuel obligation surface is exactly the finite packet
+displayed by the carrier and its local NameCert row.
+\end{proof}
+
+\begin{theorem}[ZNormal normal-form consumer readiness]
+\label{thm:znormal-normal-form-consumer-readiness}
+Every downstream normal-form consumer of an accepted $\ZNormalUp$ packet reads
+terminal normality only through the finite fuel, typed endpoint,
+Zeckendorf/carry comparison, continuation terminal-read, componentwise
+transport, displayed continuation, package provenance, and local NameCert rows
+of \autoref{thm:znormal-root-fuel-obligation-surface}. The consumer receives no
+separate host conversion row, quotient computation, divergence oracle, or
+global normalization procedure.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:znormal-root-fuel-obligation-surface}. It supplies the
+finite route through which terminal normality is exposed to root-facing reads.
+
+Next use \autoref{thm:znormal-root-normal-form-consumer-exhaustion} and
+\autoref{thm:znormal-terminal-consumer-totality}. These force downstream
+normal-form consumers to read the displayed root packet, not an external
+normalizer or host-side evaluation object.
+
+Finally combine \autoref{thm:znormal-fuel-normality-nonescape} with
+\autoref{thm:znormal-root-unblock-nonescape-ledger}. The non-escape boundary
+excludes host conversion, quotient computation, divergence, unrestricted
+evaluation, and global normalization from the consumer interface. Thus
+consumer readiness is exactly readiness to replay the finite fuel route.
+\end{proof}
+
+\begin{theorem}[ZNormal fuel route nonescape]
+\label{thm:znormal-fuel-route-nonescape}
+The root-fuel readiness route of an accepted $\ZNormalUp$ packet exports no
+divergence oracle, host conversion, quotient computation, unrestricted
+evaluator, or global normalization coordinate. Its public boundary is exhausted
+by finite fuel, terminal normality, sibling Zeckendorf/carry comparison,
+continuation terminal read, $\BHist$, componentwise $\hsame$, displayed
+$\Cont$, $\Pkg$ provenance, and local $\NameCert_{\ZNormalUp}$ data.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:znormal-root-fuel-obligation-surface}. It identifies
+the complete route inventory used by a root-facing terminal-normality read.
+
+Apply \autoref{thm:znormal-normal-form-consumer-readiness}. Any downstream
+consumer receives terminal normality through that same inventory, so an
+excluded host-side object cannot be introduced by changing the consumer.
+
+Finally use \autoref{thm:znormal-fuel-normality-nonescape},
+\autoref{thm:znormal-root-unblock-nonescape-ledger}, and
+\autoref{thm:znormal-terminal-host-classifier-route-nonescape}. These results
+remove divergence, host conversion, quotient computation, unrestricted
+evaluation, global normalization, and off-packet classifier routes from the
+accepted surface. Hence the fuel route is a finite BEDC route and not a host
+normalization principle.
+\end{proof}
