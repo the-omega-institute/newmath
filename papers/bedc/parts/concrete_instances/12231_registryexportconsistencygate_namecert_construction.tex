@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RegistryExportConsistencyGateUp$}
+\label{ch:concrete-instances-registry-export-consistency-gate-namecert}
+\origin{ai}
+
+The $\RegistryExportConsistencyGateUp$ packet realizes the registry-consistency side of \autoref{sec:visions-philosophy-machine-interface} as a finite NameCert gate for machine-facing registry export. It sits beside the claim-entry layer of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the formal target socket of \autoref{ch:concrete-instances-machine-interface-socket-namecert}. Those siblings admit claims, expose export rows, and route machine targets; this packet binds status-consistency, audit-route, and no-smuggling checks before any accepted registry packet exports a claim.
+
+\begin{definition}[Registry export consistency gate carrier]
+\label{def:registry-export-consistency-gate-carrier}
+A $\RegistryExportConsistencyGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(R,B,S,F,A,U,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the registry-entry row, recording the primary registry location and the claim surface being exported;
+\item $B$ is the blocking row, recording the cannot-claim, refusal, or non-export row that must stop the export when the claim is barred;
+\item $S$ is the status-consistency row, recording agreement between registry entry, export grade, closure status, and formalization target;
+\item $F$ is the formal-target row, recording the Lean target, statement-only target, encoded definition, or explicit absence of a machine target for the same claim;
+\item $A$ is the audit-route row, recording the finite route by which the machine-facing review reads $R,B,S,F$;
+\item $U$ is the no-smuggling row, recording that hidden prose synthesis, host semantics, model output, and private registry state are not export sources;
+\item $H$ stores componentwise $\hsame$ transport for registry entry, blocking, status consistency, formal target, audit route, no-smuggling, replay, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ replay for registry lookup, block inspection, status comparison, formal-target readback, audit traversal, and no-smuggling refusal;
+\item $P$ is the $\Pkg$ provenance over $\RegistryExportConsistencyGateUp$, $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\AxisZeckendorfCannotClaimUp$, $\GroundCompilerRecognitionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegistryExportConsistencyGateUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an export grade that bypasses $S$, no private override of $B$, no machine target outside $F$, and no audit path outside $A$.
+\end{definition}
+
+\begin{definition}[Registry export consistency gate classifier]
+\label{def:registry-export-consistency-gate-classifier}
+The $\RegistryExportConsistencyGateUp$ classifier accepts exactly those packets of \autoref{def:registry-export-consistency-gate-carrier} in which the status-consistency row $S$ compares the same claim across $R$, the export grade, the closure-status reading, and the formal-target row $F$, while the audit row $A$ and no-smuggling row $U$ remain visible to the same local $\NameCert$ row $N$.
+\end{definition}
+
+\begin{theorem}[Registry export consistency gate NameCert obligations]
+\label{thm:registry-export-consistency-gate-namecert-obligations}
+For the carrier of \autoref{def:registry-export-consistency-gate-carrier}, the local $\NameCert_{\RegistryExportConsistencyGateUp}$ surface consists exactly of six obligation rows:
+\begin{enumerate}
+\item carrier admission for $G=(R,B,S,F,A,U,H,C,P,N)$;
+\item registry-entry and blocking coverage through $R$ and $B$;
+\item status-consistency exactness through $S$ for registry entry, export grade, closure status, and formal target;
+\item formal-target readback through $F$;
+\item audit-route and no-smuggling accountability through $A$ and $U$;
+\item componentwise transport, continuation replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:registry-export-consistency-gate-carrier}. Rows $R$ and $B$ expose the registry entry and the blocking row before any export decision is read.
+
+Next read $S$ together with $F$. The classifier of \autoref{def:registry-export-consistency-gate-classifier} requires $S$ to compare the registry entry, export grade, closure-status reading, and formal-target row for the same claim, so the status check cannot be supplied by a separate packet.
+
+The audit and no-smuggling rows are then consumed by $A$ and $U$. They record the permitted machine-facing route and the readings that remain forbidden at the export boundary.
+
+Finally $H,C,P,N$ transport, replay, package, and name these same rows. Since the carrier has no additional coordinate, the six obligation rows exhaust the local $\NameCert_{\RegistryExportConsistencyGateUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Registry export consistency gate blocks status conflicts]
+\label{thm:registry-export-consistency-gate-no-conflict-export}
+If status consistency fails between a registry entry, its export grade, its closure-status reading, and its formalization target, then no accepted $\RegistryExportConsistencyGateUp$ packet exports the claim.
+\end{theorem}
+\begin{proof}
+Assume an accepted packet
+$$
+G=(R,B,S,F,A,U,H,C,P,N).
+$$
+By \autoref{def:registry-export-consistency-gate-classifier}, acceptance requires $S$ to compare the registry entry in $R$, the export grade, the closure-status reading, and the formal-target row $F$ for the same claim.
+
+If those readings disagree, the required status-consistency row is absent. The blocking row $B$ cannot be erased, and the audit row $A$ has no accepted route from the inconsistent status data to an exported claim.
+
+The no-smuggling row $U$ rules out recovering the export from prose, host semantics, model output, or private registry state. Therefore the packet is not accepted as an exporting gate for the claim.
+\end{proof}
+
+\begin{theorem}[Registry export consistency gate sibling dependency]
+\label{thm:registry-export-consistency-gate-sibling-dependency}
+The $\RegistryExportConsistencyGateUp$ carrier is not bijective, under NameCert-row preservation, to $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\AxisZeckendorfCannotClaimUp$, or $\GroundCompilerRecognitionUp$.
+\end{theorem}
+\begin{proof}
+Compare the displayed rows. $\ClaimRegistryLayerUp$ supplies claim-entry export control, while $\RegistryExportSurfaceUp$ binds registration, blocking, status, machine target, audit, and non-smuggling rows for export.
+
+$\MachineInterfaceSocketUp$ routes formalization targets, $\AxisZeckendorfCannotClaimUp$ supplies cannot-claim refusal rows, and $\GroundCompilerRecognitionUp$ supplies generated-recognition and accepted-export rows.
+
+None of these siblings carries the joint status-consistency row $S$ together with the audit-route row $A$, no-smuggling row $U$, formal-target row $F$, and the local $\NameCert_{\RegistryExportConsistencyGateUp}$ row $N$ in one finite packet. A row-preserving bijection would have to preserve that combined consistency gate, so no such bijection exists.
+\end{proof}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \RegistryExportConsistencyGateUp$ and $\FieldFaithful\ \RegistryExportConsistencyGateUp$ instances in \texttt{lean4/BEDC/Derived/RegistryExportConsistencyGateUp/TasteGate.lean}. The field-faithfulness witness must preserve $R,B,S,F,A,U,H,C,P,N$ as distinct rows, and the eventual checked target is $\mathsf{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateTasteGate\_single\_carrier\_alignment}$.
+
+\falsifiablePrediction{If status consistency fails between registry entry, export grade, closure status, and formalization target, no accepted $\RegistryExportConsistencyGateUp$ packet exports the claim.}
+
+\independenceWitness{claimregistrylayer, registryexportsurface, machineinterfacesocket, axiszeckendorfcannotclaim, groundcompilerrecognition: none carries the joint status-consistency, audit-route, no-smuggling, formal-target, and local NameCert packet of $\RegistryExportConsistencyGateUp$.}
+
+\closureat{RegistryExportConsistencyGateUp}{seedStr}
+\closureat{RegistryExportConsistencyGateUp}{obligationStr}
