@@ -1,0 +1,42 @@
+\begin{theorem}[Closed-term substitution boundary route saturation]
+\label{thm:closed-term-substitution-boundary-route-saturation}
+Every accepted route of a $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. A route may read the term row, value row, inspected depth, source and value closedness rows, closed shift row, substitute-closed row, finite ledger, audit row, componentwise transport, displayed continuation, package provenance, and local naming row, but it has no additional coordinate for a host substitution relation, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free variable.
+\end{theorem}
+\begin{proof}
+Start from the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They make the displayed rows the complete carrier surface and allow only componentwise $\hsame$ transport and recorded $\Cont$ reads across that surface.
+
+Next apply the local $\NameCert$ obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. Source closedness, value closedness, substitution-row exactness, ledger accounting, audit visibility, package provenance, and local naming are all attached to the same finite packet.
+
+Finally use source/value admission, substitution-row exactness, and ledger non-escape from \autoref{thm:closed-term-substitution-boundary-source-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}, and \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. These rows leave no route outside the listed BEDC primitives, so the accepted route is saturated by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary NameCert source lock]
+\label{thm:closed-term-substitution-boundary-namecert-source-lock}
+In every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the source closedness row $C_{\mathsf{src}}$ and the value closedness row $C_{\mathsf{val}}$ remain locked before any closed shift or substitute-closed read. Thus a consumer must read the source/value closedness rows, the local $\NameCert$ obligations, and the finite ledger before reading $Q$ or $R$ through a shift/substitution route.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through \autoref{def:closed-term-substitution-boundary-carrier}. The rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ are explicit carrier coordinates, not hidden side conditions.
+
+Use the classifier and local $\NameCert$ obligations from \autoref{def:closed-term-substitution-boundary-classifier} and \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make closed-source admission and closed-value admission prerequisites for the operation rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-source-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}, and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. The shift/substitution read is therefore locked behind the source/value rows and the finite ledger before $Q$ or $R$ can be consumed.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary consumer non-escape]
+\label{thm:closed-term-substitution-boundary-consumer-nonescape}
+No consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet can recover an unregistered free variable, host equality, unchecked compiler state, subject reduction, or host substitution semantics. Every consumer-facing read is confined to the carrier, classifier, source/value admission rows, substitution-row exactness, finite ledger, audit non-escape row, and local $\NameCert$ route over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+First inspect the carrier, classifier, and $\NameCert$ obligations. The only available rows are the term, value, depth, closedness, operation, ledger, audit, transport, continuation, package, and local naming rows displayed in the accepted packet.
+
+Next use source/value admission and substitution-row exactness. By \autoref{thm:closed-term-substitution-boundary-source-closedness-admission}, \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}, and \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness}, the operation rows are readable only through the displayed closedness and ledger surface.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, together with the consumer boundary supplied by \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. The ledger and consumer rows contain no coordinate for free variables, host equality, unchecked compiler state, subject reduction, or host substitution semantics, so no consumer can recover those objects from the packet.
+\end{proof}

@@ -476,3 +476,51 @@ cited routes expose only the listed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows,
 there is no host limit, quotient stream, or ambient completion coordinate left
 for the replay to branch through.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_root\_transport\_replay\_exactness}
+
+\begin{theorem}[Diagonal-limit compatibility root-budget public-route cover]
+\label{thm:diagonal-limit-compatibility-root-budget-public-route-cover}
+Every public root-budget consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet reaches a $\RealUp$ or $\CompletionUp$
+endpoint exactly through the displayed diagonal rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N,
+$$
+then the $\RegularCauchyTailMeetUp$ refinement route, then the
+$\CauchyModulusRefinementUp$ budget route, and finally the
+$\RealTailAgreementSealUp$ completion lattice. No public endpoint consumer can
+factor through host real equality, quotient streams, choice selectors, or
+ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from a public root-budget consumer of the accepted diagonal packet. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-consumer-chain}; it
+places the consumer on the displayed diagonal route
+$R,T,S,D,W,Q,L,H,C,P,N$ before any public endpoint read is available.
+
+Next attach the TailMeet and refinement stages. The correspondence of
+\autoref{thm:diagonal-limit-compatibility-root-tailmeet-refinement-real-seal-correspondence}
+identifies the root-budget route with the staged read through
+$\RegularCauchyTailMeetUp$, $\CauchyModulusRefinementUp$, and the agreement
+seal. The replay exactness of
+\autoref{thm:diagonal-limit-compatibility-root-transport-replay-exactness}
+keeps that route on the same transported diagonal spine.
+
+It remains to cover the public endpoints. Apply
+\autoref{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion} and
+\autoref{thm:cauchy-modulus-refinement-tailmeet-budget-route-uniqueness}. These
+force every TailMeet-entering budget consumer through the displayed refinement
+handoff and exclude a second public route or side-channel completion carrier.
+
+Finally use
+\autoref{thm:real-tail-agreement-seal-root-selector-completion-lattice}. The
+$\RealUp/\CompletionUp$ endpoint is read only after the selector, window,
+dyadic readback, regular readback, and agreement-seal rows of the completion
+lattice have been consumed.
+
+The composed certificates exhaust the available
+$\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows. Since none of the displayed diagonal,
+TailMeet, refinement, or agreement-seal rows contains host real equality,
+quotient streams, choice selectors, or ambient completeness, no public
+root-budget endpoint consumer can reach such a coordinate.
+\end{proof}
