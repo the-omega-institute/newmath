@@ -230,4 +230,33 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_completion_consumer_boundary [A
       completionUnary, witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal,
       endpointRouteCompletion, provenancePkg, endpointPkg, completionPkg⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_window_budget_exhaustion [AskSetup]
+    [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        PkgSig bundle endpoint pkg ->
+          hsame endpoint sealRow ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory readback ∧ UnaryHistory endpoint ∧ Cont witness window normalizer ∧
+              Cont normalizer tail dyadic ∧ Cont dyadic readback sealRow ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier sealTransportEndpoint endpointPkg
+  obtain ⟨_sourceUnary, _witnessUnary, windowUnary, _normalizerUnary, _tailUnary,
+    dyadicUnary, readbackUnary, sealUnary, transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, transportEmpty, witnessWindowNormalizer, normalizerTailDyadic,
+    dyadicReadbackSeal, _transportRouteProvenance, _routeSeal, _provenancePkg, _namePkg⟩ :=
+    carrier
+  have endpointSameSeal : hsame endpoint sealRow := by
+    cases transportEmpty
+    exact cont_deterministic sealTransportEndpoint (cont_right_unit sealRow)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sealUnary transportUnary sealTransportEndpoint
+  exact
+    ⟨endpointSameSeal, windowUnary, dyadicUnary, readbackUnary, endpointUnary,
+      witnessWindowNormalizer, normalizerTailDyadic, dyadicReadbackSeal, endpointPkg⟩
+
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
