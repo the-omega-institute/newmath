@@ -1,0 +1,11 @@
+\begin{proposition}[Prod finite-data dependency lattice read]
+\label{prop:prod-finite-data-dependency-lattice-read}
+Every public $\ProdUp$ finite-data read factors through the sibling lattice of \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-sum-namecert}, and \autoref{ch:concrete-instances-list-namecert} before exporting the ordered-pair $\NameCert$ rows. The factorization uses \autoref{thm:prod-finite-data-sibling-lattice} to expose the tag, possible-absence, branch, and finite-transport surfaces, then uses \autoref{thm:prod-option-sum-component-sibling-route} to route component reads through the option and sum faces before a downstream consumer receives the pair certificate.
+\end{proposition}
+\begin{proof}
+Apply \autoref{thm:prod-finite-data-sibling-lattice}. It places every public product read behind the BoolUp tag discipline, SumUp branch partition, ListUp finite transport, and OptionUp possible-absence surface.
+
+Next apply \autoref{thm:prod-option-sum-component-sibling-route}. Component reads must pass through the option and sum sibling route before a consumer treats them as optional projections or case-split inputs.
+
+The ordered-pair $\NameCert$ rows are therefore exported only after the four finite-data siblings have supplied the dependency lattice. No host tuple equality or outside component projection is added to the public $\ProdUp$ read.
+\end{proof}
