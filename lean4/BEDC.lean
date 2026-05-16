@@ -619,6 +619,7 @@ import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.CertificateCompilerUp.FiniteRouteNonescape
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerSourceLock
+import BEDC.Derived.KernelMorphismUp.CertificateCompilerHandoff
 import BEDC.Derived.KernelMorphismUp.CertificateCompilerRouteNonescape
 import BEDC.Derived.KernelMorphismUp.CompositeCompilerHandoffBoundary
 import BEDC.Derived.KernelMorphismUp.NameCertObligations
@@ -816,6 +817,7 @@ import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CertificateCompilerUp.EdgeClassifierExactness
 import BEDC.Derived.CertificateCompilerUp.EndpointCertificateAvailability
 import BEDC.Derived.CertificateCompilerUp.EndpointDecompilerHandoff
+import BEDC.Derived.CertificateCompilerUp.DownstreamBoundarySiblingLink
 import BEDC.Derived.CertificateCompilerUp.FiniteGraphNonescape
 import BEDC.Derived.CertificateCompilerUp.FormalTargetSurface
 import BEDC.Derived.CertificateCompilerUp.IdentityLedger
