@@ -255,18 +255,57 @@ Use \autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. Te
 Finally apply \autoref{thm:real-completion-exact-boundary-no-completeness-escape}. Quotient streams, host real equality, selected limits, countable choice, metric-completeness, ambient-completeness, and bridge rows have neither carrier slots nor consumer insertion points. Hence the displayed packet rows exhaust the scoped obligation surface.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary public bridge factorization]
+\label{thm:real-completion-exact-boundary-public-bridge-factorization}
+For every accepted $\RealCompletionExactBoundaryUp$ packet
+$$
+B=(L,K,J,S,W,R,D,E,H,C,P,N),
+$$
+the public exact-boundary surface factors the four Phase Real and Completion
+faces through the displayed packet $L,K,J,S,W,R,D,E,H,C,P,N$. The bridge is a
+paper-side factorization only: it exports no quotient stream, host real
+equality, selected limit, countable choice, ambient completeness,
+metric-completeness, or machine bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-completion-exact-boundary-scoped-obligation-closure}. It
+places the accepted boundary on the finite route
+$L,K,J,S,W,R,D,E,H,C,P,N$ and leaves no carrier slot outside those rows.
+
+Next use \autoref{thm:real-completion-exact-boundary-four-face-exactness}.
+The completion-facing and terminal Real faces are exactly the displayed
+StreamName, RegSeqRat, DyadicRatCore, and Real rows $W,R,D,E$ inside the same
+packet.
+
+Now apply
+\autoref{thm:real-completion-exact-boundary-terminal-consumer-exactness}. A
+public consumer of the exact-boundary surface can reach those four faces only
+through the seal, classifier, witness-ledger, synchronizer, transport,
+continuation, package, and local naming rows already present in $B$.
+
+Finally use
+\autoref{thm:real-completion-exact-boundary-no-completeness-escape}. Quotient
+streams, host real equality, selected limits, countable choice, ambient or
+metric completeness, and machine bridge rows have no coordinate in the
+displayed packet, so the factorization is a paper-side bridge and not a
+checked machine bridge.
+\end{proof}
+
 \closureat{RealCompletionExactBoundaryUp}{scopedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{RealCompletionExactBoundaryUp}{publicStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{RealCompletionExactBoundaryUp}{bridgedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealCompletionExactBoundaryUp}
   \constructivestory{A $\RealCompletionExactBoundaryUp$ packet is generated from displayed seal, classifier, witness-ledger, synchronizer, StreamName, RegSeqRat, DyadicRatCore, terminal Real, transport, continuation, package, and local naming rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:real-completion-exact-boundary-scoped-obligation-closure} closes the concrete Real-completion finite route through $L,K,J,S,W,R,D,E,H,C,P,N$, and \leanchecked{BEDC.Derived.RealCompletionExactBoundaryUp.taste\_gate} witnesses the matching TasteGate boundary.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric completeness, or bridge checking.}
-  \upgradepath{Public closure would require a reusable public-object surface for downstream consumers rather than only this scoped finite packet.}
+  \upgradepath{Mature closure requires examples or completeness-style consumers for the exact-boundary route plus a checked StdBridge target.}
 \end{closurestatus}
 
 Lean development for this route must provide $\mathsf{Nontrivial}\ \RealCompletionExactBoundaryUp$ and $\mathsf{FieldFaithful}\ \RealCompletionExactBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/RealCompletionExactBoundaryUp/TasteGate.lean}.
