@@ -72,6 +72,42 @@ Use \autoref{thm:kernel-category-identity-continuation} for the identity law row
 Finally inspect the package row $P$ and the naming row $N$. They name only the BEDC history, continuation, transport, package, NameCert, and $\CategoryUp$ rows listed in the carrier. A host category object or quotient morphism would require an additional coordinate, so it is outside the certificate surface.
 \end{proof}
 
+\begin{theorem}[KernelCategory associativity scope]
+\label{thm:kernel-category-associativity-scope}
+Every triple composite admitted by a $\KernelCategoryUp$ packet is scoped by the displayed $\Cont$ rows in $C$ together with the $\hsame$ associativity row in $A$. The packet reads both parenthesized composites as finite continuation-ledger histories with the same endpoints, and it has no row for a host category object, quotient morphism, or external arrow equality.
+\end{theorem}
+\begin{proof}
+Start with the finite packet of \autoref{def:kernel-category-carrier}. Its hom rows live in $H$, its displayed binary composite rows live in $C$, and its associativity transports live in $A$.
+
+Apply \autoref{thm:kernel-category-composition-continuation} twice. The two applications build the two parenthesized triple composites using only the displayed $\Cont$ ledgers in $C$, so the source and target endpoints remain the ones inherited from the three input hom rows.
+
+The comparison between the two readings is then exactly the $\hsame$ row named in $A$. By \autoref{thm:kernel-category-certificate-surface}, the certificate has no additional coordinate for a host category primitive, quotient morphism, or external equality of arrows. Thus associativity is scoped only by the displayed continuation rows and the named transport row.
+\end{proof}
+
+\begin{theorem}[KernelCategory unit scope]
+\label{thm:kernel-category-unit-scope}
+Every left or right unit read admitted by a $\KernelCategoryUp$ packet is exhausted by the empty-continuation identity rows in $I$ and the unit transports in $U$. The read never imports a host identity arrow, quotient morphism, or external arrow equality beyond the finite continuation-ledger rows already present in $K$.
+\end{theorem}
+\begin{proof}
+The identity surface is fixed by \autoref{thm:kernel-category-identity-continuation}: identities are exactly the empty continuation rows over unary object histories. Thus a unit read can begin only with the displayed identity row in $I$.
+
+Compose the displayed identity row with the displayed hom row through \autoref{thm:kernel-category-composition-continuation}. The resulting ledger is again a finite continuation-ledger hom row whose endpoints are inherited from the input rows.
+
+The return from this composite ledger to the original hom row is precisely the left or right unit $\hsame$ transport listed in $U$. The non-escape clause of \autoref{thm:kernel-category-certificate-surface} excludes host category objects, quotient morphisms, and external arrow equality, so no further unit principle is available.
+\end{proof}
+
+\begin{theorem}[KernelCategory public NameCert surface]
+\label{thm:kernel-category-namecert-public-surface}
+The public $\NameCert_{\KernelCategoryUp}$ surface is exactly the carrier, hom classifier, identity, composition, associativity, unit, package, and non-escape rows named by $K=(O,H,I,C,A,U,P,N)$. Public consumers may cite the rows exposed by \autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-certificate-surface}, but they cannot add host category objects, quotient morphisms, or external arrow equality.
+\end{theorem}
+\begin{proof}
+Project the tuple $K=(O,H,I,C,A,U,P,N)$ from \autoref{def:kernel-category-carrier}. These coordinates supply the object table, hom classifier, identity rows, composition rows, associativity transports, unit transports, package provenance, and local naming row.
+
+\autoref{thm:kernel-category-identity-continuation} and \autoref{thm:kernel-category-composition-continuation} expose the identity and composition readings. \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-category-unit-scope} expose the law transports without adding any host-side category structure.
+
+Finally, \autoref{thm:kernel-category-certificate-surface} states the ledger non-escape boundary. Since the public surface is the displayed NameCert surface of the same packet, a consumer receives exactly those rows and no quotient morphism, external arrow equality, or host category object.
+\end{proof}
+
 \closureat{KernelCategoryUp}{seedStr}
 
 \begin{closurestatus}{\KernelCategoryUp}
