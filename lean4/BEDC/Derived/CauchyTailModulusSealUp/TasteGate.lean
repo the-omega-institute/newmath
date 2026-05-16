@@ -224,18 +224,22 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
       cauchyTailModulusSealDecodeBHist
           (cauchyTailModulusSealEncodeBHist h) =
         h) ∧
-      (∀ x : CauchyTailModulusSealUp,
-        cauchyTailModulusSealFromEventFlow (cauchyTailModulusSealToEventFlow x) =
-          some x) ∧
-        (∀ x y : CauchyTailModulusSealUp,
-          cauchyTailModulusSealToEventFlow x = cauchyTailModulusSealToEventFlow y →
-            x = y) ∧
-          Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-            Nonempty
-              (@ChapterTasteGate CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
-              Nonempty
-                (@FieldFaithful CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
-                cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        (∀ x : CauchyTailModulusSealUp,
+          cauchyTailModulusSealFromEventFlow (cauchyTailModulusSealToEventFlow x) =
+            some x) ∧
+          (∀ x y : CauchyTailModulusSealUp, x ≠ y →
+            cauchyTailModulusSealToEventFlow x ≠ cauchyTailModulusSealToEventFlow y) ∧
+            (∀ x y : CauchyTailModulusSealUp,
+              cauchyTailModulusSealFields x = cauchyTailModulusSealFields y → x = y) ∧
+              (∀ x y : CauchyTailModulusSealUp,
+                cauchyTailModulusSealToEventFlow x = cauchyTailModulusSealToEventFlow y →
+                  x = y) ∧
+                Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
+                  Nonempty
+                    (@ChapterTasteGate CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
+                    Nonempty
+                      (@FieldFaithful CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) := by
   constructor
   · intro h
     induction h with
@@ -246,28 +250,21 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
     | e1 h ih =>
         exact congrArg BHist.e1 ih
   · constructor
-    · exact cauchyTailModulusSeal_round_trip
+    · rfl
     · constructor
-      · intro x y heq
-        exact cauchyTailModulusSealToEventFlow_injective heq
+      · exact cauchyTailModulusSeal_round_trip
       · constructor
-        · exact ⟨cauchyTailModulusSealNontrivial⟩
+        · intro x y hxy heq
+          exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
         · constructor
-          · exact ⟨{
-              round_trip := by
-                intro x
-                change cauchyTailModulusSealFromEventFlow
-                  (cauchyTailModulusSealToEventFlow x) = some x
-                exact cauchyTailModulusSeal_round_trip x
-              layer_separation := by
-                intro x y hxy heq
-                exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
-            }⟩
+          · exact cauchyTailModulusSeal_fields_faithful
           · constructor
-            · exact ⟨{
-                fields := cauchyTailModulusSealFields
-                field_faithful := cauchyTailModulusSeal_fields_faithful
-              }⟩
-            · rfl
+            · intro x y heq
+              exact cauchyTailModulusSealToEventFlow_injective heq
+            · constructor
+              · exact ⟨cauchyTailModulusSealNontrivial⟩
+              · constructor
+                · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
+                · exact ⟨cauchyTailModulusSealFieldFaithful⟩
 
 end BEDC.Derived.CauchyTailModulusSealUp
