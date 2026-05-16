@@ -49,3 +49,17 @@ Now use \autoref{thm:transported-stationary-window-seal-completion-consumer-boun
 
 Finally apply \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}. The only tail information available to the consumer is the scheduled sibling route of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}; no hidden tail oracle is introduced. Together with the StreamName, RegSeqRat, DyadicRatCore, FiniteWindowEnvelope, and Real sibling chapters, this gives the exact finite consumer factorization claimed above.
 \end{proof}
+
+\begin{theorem}[Transported stationary window-seal open-phase exit boundary]
+\label{thm:transported-stationary-window-seal-open-phase-exit-boundary}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every accepted $\RealUp$ or $\CompletionUp$ consumer of $T$ that preserves the displayed rows $R,S,G,W,E,H,C,P,N$ lands on the same four-face Phase Real and Completion route as \autoref{thm:real-l10-open-phase-sibling-route} and \autoref{thm:real-open-phase-four-object-terminal-route}. Its terminal boundary is the finite route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. No quotient stream, selected host limit, host equality, choice row, ambient real-completeness datum, or standard bridge row can replace one of those four faces.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}. The accepted transported packet exposes only the finite handoff route through $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$, read through the rows $R,S,G,W,E,H,C,P,N$ and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next use \autoref{thm:transported-stationary-window-seal-real-regseq-consumer-exactness}. It forces every $\RealUp$ or $\CompletionUp$ consumer preserving those rows to enter the Real-facing route through the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and finite-window surfaces, without quotient streams, selected limits, choice, host equality, hidden tail data, or real-completeness input.
+
+Now compare this transported route with the open-phase Real route. Theorem~\ref{thm:real-l10-open-phase-sibling-route} places every public $\RealUp$ seal read in the open phase after the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ sibling surfaces and before the local $\RealUp$ naming row.
+
+Finally apply \autoref{thm:real-open-phase-four-object-terminal-route}. The terminal Phase Real and Completion packet is determined by the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since the transported consumer preserves $R,S,G,W,E,H,C,P,N$ and supplies no extra accepted face, it reaches exactly that four-face exit boundary.
+\end{proof}

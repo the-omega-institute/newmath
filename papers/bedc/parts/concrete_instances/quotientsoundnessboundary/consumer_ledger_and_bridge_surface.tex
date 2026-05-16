@@ -38,6 +38,7 @@ displayed $\Cont$ locality, $\Pkg$ provenance, and local $\NameCert$ naming;
 it contains no quotient primitive, no host quotient eliminator, no
 representative-selection export, and no $\mathsf{Quot.sound}$ dependency.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_downstream\_handoff\_readiness}
 \begin{proof}
 First take the ordered refusal surface from
 \autoref{thm:quotient-soundness-boundary-root-request-triad} and
@@ -165,6 +166,24 @@ Read the positive surface next. By \autoref{thm:quotient-soundness-boundary-psam
 The classifier boundary is exact because \autoref{thm:quotient-soundness-boundary-non-escape} removes the quotient-side primitives, while \autoref{thm:quotient-soundness-boundary-kernel-refusal-ledger} records the exported surface as refusal plus displayed transport.
 
 Finally apply \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier} again to identify the positive side as the named $\psame$ replacement rather than a hidden quotient route. The downstream consumer therefore has only the refused pair or the displayed transport package.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary two-surface exhaustion]
+\label{thm:quotient-soundness-boundary-two-surface-exhaustion}
+Every downstream quotient-like consumer route for an accepted $\QuotientSoundnessBoundaryUp$ packet is exhausted by exactly the refused request rows $A,V$ and the classifier-respecting $\psame$ transport rows
+$$
+E,T,H,C,P,N.
+$$
+There is no hidden third route through a quotient carrier, representative selector, quotient eliminator, unrestricted quotient recursion principle, erased derivation recovery, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Read the negative request surface from the root request triad, \autoref{thm:quotient-soundness-boundary-root-request-triad}. A representative-style demand is recorded as the requested rows $A$ together with the refusal verdict $V$.
+
+Read the positive replacement surface from \autoref{thm:quotient-soundness-boundary-psame-replacement-classifier}. The only surviving operation is classifier-respecting $\psame$ transport through the displayed relation and structural rows $E,T,H,C,P,N$.
+
+Apply consumer ledger coverage and downstream factorization exactness. The ledger covers all downstream quotient-like reads, and \autoref{thm:quotient-soundness-boundary-downstream-factorization-exactness} separates them into the refused request surface or the displayed transport surface.
+
+Finally invoke kernel non-escape. Since the accepted packet has no coordinate for quotient carriers, representative selectors, quotient eliminators, unrestricted quotient recursion, erased derivation recovery, or $\mathsf{Quot.sound}$, the two displayed surfaces exhaust the downstream route space.
 \end{proof}
 
 \begin{theorem}[QuotientSoundnessBoundary kernel refusal ledger]

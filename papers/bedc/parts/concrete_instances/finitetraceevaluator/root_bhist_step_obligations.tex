@@ -1,0 +1,39 @@
+\begin{definition}[FiniteTraceEvaluator BHist step carrier]
+\label{def:finitetraceevaluator-bhist-step-carrier}
+For an accepted $\FiniteTraceEvaluatorUp$ packet, the root $\BHist$ step carrier is the finite evaluator packet
+$$
+B_{\mathrm{step}}=(I,T,K,R,H,C,P,N),
+$$
+where $I$ is the source trace row, $T$ is the checkpoint row, $K$ is the runtime-state row, $R$ is the result image, $H$ is the componentwise $\hsame$ transport, $C$ is the displayed continuation route, $P$ is the package provenance, and $N$ is the local $\NameCert_{\FiniteTraceEvaluatorUp}$ row. The carrier is read inside the root evaluator surface of \autoref{def:finite-trace-evaluator-carrier} and the root exactness surface of \autoref{def:finite-trace-evaluator-root-exactness-surface}.
+\end{definition}
+
+\begin{theorem}[FiniteTraceEvaluator route totality]
+\label{thm:finitetraceevaluator-route-totality}
+Every accepted evaluator read of the step carrier in \autoref{def:finitetraceevaluator-bhist-step-carrier} passes through the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows
+$$
+I,T,K,R,H,C,P,N.
+$$
+The source trace, checkpoint, runtime state, result image, componentwise transport, continuation, provenance, and local naming rows therefore form the complete finite route for root evaluator consumers.
+\end{theorem}
+\begin{proof}
+Begin with the checkpoint route of \autoref{thm:finitetraceevaluator-root-checkpoint-totality}. It sends checkpoint-facing reads through the displayed finite evaluator rows before any downstream checkpoint consumer can inspect the accepted result.
+
+Next use the runtime surface of \autoref{thm:finitetraceevaluator-root-runtime-totality} and the checkpoint source lock of \autoref{thm:finite-trace-evaluator-checkpoint-source-lock}. These identify the source trace, checkpoint row, runtime-state boundary, and accepted-result image as one finite route inside the root evaluator packet.
+
+Finally attach the root NameCert obligations of \autoref{thm:finitetrace-evaluator-root-namecert-obligations}. The local naming row, package provenance, continuation, and componentwise $\hsame$ transport are part of the same accepted carrier, so every evaluator read factors through $I,T,K,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FiniteTraceEvaluator nonescape boundary]
+\label{thm:finitetraceevaluator-nonescape-boundary}
+No accepted read of the step carrier in \autoref{def:finitetraceevaluator-bhist-step-carrier} exports host runtime validation, hidden interpreter state, quotient trace equality, or unbounded execution evidence. Every checkpoint or runtime consumer remains on the displayed finite route
+$$
+I,T,K,R,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finitetraceevaluator-root-validation-refusal}. Host validation requests stop at the displayed validation and naming boundary of the accepted evaluator packet and do not become host runtime evidence.
+
+Next use bounded replay ledger exhaustion and checkpoint consumer nonescape, \autoref{thm:finitetraceevaluator-bounded-replay-ledger-exhaustion} and \autoref{thm:finitetraceevaluator-checkpoint-consumer-nonescape}. They exclude hidden runtime state, infinite trace evidence, unchecked compiler data, and second checkpoint sources from checkpoint-facing reads.
+
+Finally combine route totality with the root exactness scope, \autoref{thm:finitetraceevaluator-route-totality} and \autoref{thm:finite-trace-evaluator-root-exactness-scope}. Since every read has already been forced through $I,T,K,R,H,C,P,N$, quotient trace equality and unbounded execution evidence have no carrier coordinate and no continuation route from the accepted packet.
+\end{proof}
