@@ -1,0 +1,281 @@
+\subsection{The BEDC form of proof}
+\label{subsec:philosophy-bedc-form-proof}
+
+\begin{definition}[BEDC proof]
+\label{def:philosophy-bedc-proof}
+A BEDC proof of a claim \(A\) is a finite witness chain using generated
+materials such as marks, histories, internal sameness judgments,
+extension and continuation rows, signatures, packages, gaps, and naming
+certificates. It must display its sources, continuation steps,
+classifier comparisons, hidden material, ledger rows, and certificate
+surface.
+\end{definition}
+
+\begin{definition}[Positive proof]
+\label{def:philosophy-positive-proof}
+A positive proof constructs a witness for an object, proposition,
+relation, or certificate field. It does not merely show that the
+absence of such a witness would be contradictory.
+\end{definition}
+
+\begin{definition}[Negative proof]
+\label{def:philosophy-negative-proof}
+A negative proof transforms any purported witness of \(A\) into
+\(\bot\), thereby proving \(\neg A\). The conclusion means that every
+internal witness of \(A\) fails inside the displayed carrier,
+classifier, or certificate; it is not a God's-eye denial over all
+possible structures.
+\end{definition}
+
+\begin{theorem}[Proof is witness, not truth-possession]
+\label{thm:philosophy-proof-witness-not-truth-possession}
+In BEDC, the basic proof form is an auditable witness chain rather than
+possession of bare truth.
+\end{theorem}
+\begin{proof}
+Object-layer contents enter through generated carriers and licensed
+interfaces. A claim that lacks source rows, continuation witnesses,
+classifier transport, gap provenance, or certificate fields cannot be
+consumed by the object layer. Thus a proof must expose the chain by
+which the claim is generated and stabilized.
+\end{proof}
+
+\begin{corollary}[Logic follows certificate discipline]
+\label{cor:philosophy-logic-follows-certificate-discipline}
+BEDC logic is the proof-theoretic face of certificate discipline.
+\end{corollary}
+\begin{proof}
+Objects enter through naming certificates and knowledge enters through
+witnesses. A rule that creates positive content without a witness would
+bypass that entry discipline. Hence admissible reasoning must preserve
+witnesses, classifiers, stability, and ledgers.
+\end{proof}
+
+\subsection{Permitted contradiction}
+\label{subsec:philosophy-permitted-contradiction}
+
+\begin{definition}[Permitted refutation]
+\label{def:philosophy-permitted-refutation}
+A refutation is permitted when it has the form \(A\to\bot\), and the
+derivation of \(\bot\) uses only fixed carrier data, constructor
+no-confusion, internal sameness, continuation rows, fixed naming
+certificate laws, and classifier inversion. It does not use a total
+truth predicate, arbitrary excluded middle, unwitnessed choice,
+quotient collapse, or propositional extensionality.
+\end{definition}
+
+\begin{theorem}[Negative proof is accepted locally]
+\label{thm:philosophy-negative-proof-accepted-locally}
+If a proof only converts any witness of \(A\) into an internal
+contradiction, BEDC accepts it as a proof of \(\neg A\).
+\end{theorem}
+\begin{proof}
+Such a proof creates no new object and supplies no unwitnessed positive
+existence. It shows that a purported witness conflicts with the fixed
+constructor, classifier, carrier, or certificate laws already in view.
+The proof remains inside the closed ground loop.
+\end{proof}
+
+\begin{example}[Mark no-confusion]
+\label{ex:philosophy-mark-no-confusion-refutation}
+The judgment \(\neg\msame(\bzero,\bone)\) is a permitted refutation.
+Assuming a witness of \(\msame(\bzero,\bone)\), inversion on the closed
+generation of \(\msame\) leaves only the two diagonal cases and no
+cross-mark constructor. The contradiction uses the mark carrier and
+constructor no-confusion, not a total truth predicate.
+\end{example}
+
+\begin{definition}[Decidable double-negation elimination]
+\label{def:philosophy-decidable-double-negation-elimination}
+For a displayed decidability witness of \(P(h)\), the passage from
+\(\neg\neg P(h)\) to \(P(h)\) is decidable double-negation elimination.
+\end{definition}
+
+\begin{theorem}[Double-negation elimination requires decidability]
+\label{thm:philosophy-double-negation-requires-decidability}
+BEDC accepts \(\mathsf{Decidable}(P(h))\to\neg\neg P(h)\to P(h)\), but
+not \(\neg\neg P(h)\to P(h)\) without a displayed decidability witness.
+\end{theorem}
+\begin{proof}
+With decidability, the case split is itself a witness. The positive
+case supplies \(P(h)\). The negative case contradicts \(\neg\neg P(h)\)
+and therefore also yields the positive case. Without decidability,
+\(\neg\neg P(h)\) contains no constructor for \(P(h)\); turning it into
+one would inject missing constructive content.
+\end{proof}
+
+\begin{definition}[Refuting false existence]
+\label{def:philosophy-refuting-false-existence}
+To refute an existential claim is to give a uniform method converting
+any purported pair \((x, P(x))\) into a contradiction inside the
+displayed carrier or classifier.
+\end{definition}
+
+\begin{theorem}[False existence may be refuted]
+\label{thm:philosophy-false-existence-may-be-refuted}
+BEDC accepts a refutation of an existential claim when every purported
+existential witness can be converted into an internal contradiction.
+\end{theorem}
+\begin{proof}
+An existential witness, if present, must be usable as internal data.
+Mapping every such witness to \(\bot\) proves that the witness type is
+uninhabited; it does not construct a positive object.
+\end{proof}
+
+\begin{corollary}[Negative proof is local]
+\label{cor:philosophy-negative-proof-local}
+Negative proof in BEDC must be local to a fixed carrier, classifier, or
+certificate surface.
+\end{corollary}
+\begin{proof}
+A global negation over all propositions or all certificate extensions
+would require a meta-level truth classifier. BEDC permits local
+inversion and refutation, not total truth closure.
+\end{proof}
+
+\subsection{Prohibited contradiction}
+\label{subsec:philosophy-prohibited-contradiction}
+
+\begin{definition}[Prohibited positive extraction]
+\label{def:philosophy-prohibited-positive-extraction}
+A proof pattern is prohibited when it produces positive content without
+constructing the corresponding witness. Typical cases are extracting
+\(\exists h, P(h)\) from \(\neg\forall h,\neg P(h)\) without an
+exhibited \(h\), using double-negation elimination without a
+decidability witness, or applying excluded middle to arbitrary
+certificate-level predicates.
+\end{definition}
+
+\begin{theorem}[Unwitnessed positive existence is meta closure]
+\label{thm:philosophy-unwitnessed-existence-meta-closure}
+Deriving \(\exists h, P(h)\) from \(\neg\forall h,\neg P(h)\) without
+displaying \(h\) and a witness of \(P(h)\) closes the meta loop.
+\end{theorem}
+\begin{proof}
+The existential claim is a witness obligation. If no witness is
+displayed, the system has nevertheless accepted a value that later
+constructions may consume. That value is an oracle rather than a
+generated object.
+\end{proof}
+
+\begin{theorem}[Undecided double-negation elimination is meta closure]
+\label{thm:philosophy-undecided-double-negation-meta-closure}
+Without \(\mathsf{Decidable}(P(h))\), the rule
+\(\neg\neg P(h)\to P(h)\) is not a BEDC rule.
+\end{theorem}
+\begin{proof}
+The conclusion \(P(h)\) requires a constructor witness. The premise
+only says that denying such a witness leads to contradiction. Using it
+as the witness itself replaces construction by meta-level extraction.
+\end{proof}
+
+\begin{theorem}[Global excluded middle is meta closure]
+\label{thm:philosophy-global-excluded-middle-meta-closure}
+Excluded middle over arbitrary certificate-level predicates is a
+truth-totalizing operation and therefore closes the open meta loop.
+\end{theorem}
+\begin{proof}
+Such a principle would decide, for each certificate-level predicate,
+whether a witness exists or any witness is impossible. This is a
+fragment of an internal truth predicate over the certificate space, not
+a local classifier witness.
+\end{proof}
+
+\begin{corollary}[Existence requires a witness]
+\label{cor:philosophy-existence-requires-witness}
+Every positive existence theorem in BEDC must exhibit the object and
+the proof that it satisfies the stated predicate.
+\end{corollary}
+\begin{proof}
+An existential conclusion without witness is precisely the prohibited
+positive extraction described above.
+\end{proof}
+
+\begin{corollary}[Classical contradiction must be audited]
+\label{cor:philosophy-classical-contradiction-audited}
+Classical proofs by contradiction must be separated into refutational
+content and positive existence content before entering BEDC.
+\end{corollary}
+\begin{proof}
+The refutational part may survive as a local proof of negation. The
+positive existential part must either exhibit a witness or remain
+outside the certified fragment.
+\end{proof}
+
+\subsection{Closed ground loop and open meta loop}
+\label{subsec:philosophy-ground-meta-loop}
+
+\begin{definition}[Closed ground loop]
+\label{def:philosophy-closed-ground-loop}
+The closed ground loop is the mark-level distinction supplied by the
+two primitive mark constructors and their constructor no-confusion. It
+is closed because the declaration of the two constructors is already an
+act of distinction.
+\end{definition}
+
+\begin{definition}[Open meta loop]
+\label{def:philosophy-open-meta-loop}
+The open meta loop is the position that cannot be closed inside BEDC:
+an internal truth predicate, internal runtime validator, total halting
+predicate, or global decision predicate for all certificate-level
+propositions.
+\end{definition}
+
+\begin{theorem}[Ground must close]
+\label{thm:philosophy-ground-must-close}
+A formal system whose ground never closes cannot start.
+\end{theorem}
+\begin{proof}
+If the first primitive required a prior primitive to explain it, the
+regress would not terminate. BEDC pays this cost once, at the minimal
+mark distinction.
+\end{proof}
+
+\begin{theorem}[Meta must stay open]
+\label{thm:philosophy-meta-must-stay-open}
+A sufficiently expressive system cannot internalize its own total truth
+predicate.
+\end{theorem}
+\begin{proof}
+Once a system can represent enough of its own syntax, a total truth
+predicate produces the familiar Tarski-style fixed-point obstruction.
+Truth recovery requires a stronger metalanguage rather than another
+object-layer predicate of the same system.
+\end{proof}
+
+\begin{theorem}[Two-loop balance]
+\label{thm:philosophy-two-loop-balance}
+BEDC requires the ground loop to close and the meta loop to remain
+open.
+\end{theorem}
+\begin{proof}
+The ground loop closes at the minimal productive distinction, allowing
+generation to begin. The meta loop remains open because truth,
+runtime, and total decision cannot be absorbed into the object layer
+without self-reference collapse. The two requirements occupy different
+levels and therefore do not conflict.
+\end{proof}
+
+\begin{corollary}[BEDC exposes rather than evades the boundary]
+\label{cor:philosophy-bedc-exposes-boundary}
+BEDC does not evade incompleteness or undefinability phenomena; it
+exposes the primitive distinction on which they depend.
+\end{corollary}
+\begin{proof}
+Syntax, formula, proof, and classifier distinctions already presuppose
+distinguishability. BEDC makes that condition explicit at the ground
+instead of pretending that it can be eliminated at the meta level.
+\end{proof}
+
+\begin{corollary}[Only the ground closes]
+\label{cor:philosophy-only-ground-closes}
+The only loop that closes in BEDC is the form of distinction at the
+ground layer.
+\end{corollary}
+\begin{proof}
+Higher layers are built by classifier-based generation, transport, and
+certification. If a higher layer attempts to close over its own truth,
+runtime, or total decision procedure, it is no longer a productive
+ground loop but a meta closure.
+\end{proof}
+

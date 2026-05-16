@@ -79,18 +79,50 @@ Apply the locality obligations to force any inter-history read through the two d
 Finally apply the symmetric boundary theorem. The only cross-history content exported to downstream rate or invariant consumers is the ledger $L$, so no global synchronization value, host observer frame, ambient spacetime coordinate, selected maximum-rate witness, quotient equality, or undisplayed causal relation can be projected from the packet.
 \end{proof}
 
+\begin{theorem}[Observation coupling standard-bridge boundary]
+\label{thm:observation-coupling-standard-bridge-boundary}
+The standard bridge for $\ObservationCouplingUp$ is exactly the displayed
+two-history packet
+$$
+h_a,h_b,r_a,r_b,H,C,L,P,N.
+$$
+It preserves the paired $\Cont$ routes, componentwise $\hsame$ transport,
+symmetric ledger replay, $\Pkg$ provenance, and the local $\NameCert$ row. It
+exports no global frame, synchronized clock, host metric, quotient equality, or
+selected rate witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observation-coupling-carrier}. The bridge
+source contains only the two displayed histories, the paired observation
+routes, componentwise transport, replay, symmetric ledger, provenance, and
+local naming rows.
+
+Apply the locality obligations and symmetric rate boundary,
+\autoref{thm:observation-coupling-locality-obligations} and
+\autoref{thm:observation-coupling-symmetric-rate-boundary}. They force bridge
+reads to preserve the paired $\Cont$ routes and the symmetric replay of the
+ledger rather than selecting a preferred observer slot.
+
+Finally apply the NameCert obligations and ledger non-escape,
+\autoref{thm:observation-coupling-namecert-obligations} and
+\autoref{thm:observation-coupling-ledger-nonescape}. These bind $H,C,L,P,N$ as
+the public certificate surface and exclude global frames, synchronized clocks,
+host metrics, quotient equalities, and selected rate witnesses from the bridge.
+\end{proof}
+
 \closureat{ObservationCouplingUp}{seedStr}
 \closureat{ObservationCouplingUp}{obligationStr}
 \closureat{ObservationCouplingUp}{scopedStr}
 \closureat{ObservationCouplingUp}{publicStr}
+\closureat{ObservationCouplingUp}{bridgedStr}
 
 \begin{closurestatus}{\ObservationCouplingUp}
   \constructivestory{An $\ObservationCouplingUp$ packet is generated from two displayed $\BHist$ rows, paired $\Cont$ observation routes, componentwise $\hsame$ transports, consumer replay routes, a symmetric coupling ledger, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:observation-coupling-carrier}, \autoref{thm:observation-coupling-locality-obligations}, \autoref{thm:observation-coupling-symmetric-rate-boundary}, \autoref{thm:observation-coupling-namecert-obligations}, and \autoref{thm:observation-coupling-ledger-nonescape} bind the displayed $\BHist$ rows, paired $\Cont$ routes, componentwise $\hsame$ transports, symmetric ledger, $\Pkg$ provenance, and local $\NameCert$ rows as the finite two-history coupling scope.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:observation-coupling-carrier}, \autoref{thm:observation-coupling-locality-obligations}, \autoref{thm:observation-coupling-symmetric-rate-boundary}, \autoref{thm:observation-coupling-namecert-obligations}, \autoref{thm:observation-coupling-ledger-nonescape}, and \autoref{thm:observation-coupling-standard-bridge-boundary} bind the displayed $\BHist$ rows, paired $\Cont$ routes, componentwise $\hsame$ transports, symmetric ledger, $\Pkg$ provenance, and local $\NameCert$ rows as the finite two-history coupling bridge scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close multi-history causal semantics, numeric light-speed values, global synchronization, ambient metric geometry, Lean verification, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard-bridge surface for the displayed two-history carrier, paired $\Cont$ routes, componentwise $\hsame$ transports, symmetric ledger replay, $\Pkg$ provenance, and $\NameCert$ rows.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumer coverage for the same displayed bridge boundary.}
 \end{closurestatus}
