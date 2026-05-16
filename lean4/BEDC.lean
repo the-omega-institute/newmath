@@ -1114,6 +1114,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TailSealCoprovenanceLock
 import BEDC.Derived.UniformCauchyCriterionUp.TailCofinalityScheduleHandoff
 import BEDC.Derived.UniformCauchyCriterionUp.TailCofinalSealReflector
 import BEDC.Derived.UniformCauchyCriterionUp.TailFiberSealCompatibility
+import BEDC.Derived.UniformCauchyCriterionUp.ThresholdSealBudgetFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.WindowStability
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
