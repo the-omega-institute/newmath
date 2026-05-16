@@ -138,4 +138,26 @@ theorem KernelCategoryCarrier_continuation_monad_consumer_exhaustion
     ⟨unitReadUnary, bindUnary, identityCompositionHom, bindRoute, unitReadSame,
       associativitySame, unitSame, nameSame⟩
 
+theorem KernelCategoryCarrier_cont_composition_stability
+    {object hom identity composition associativity unit provenance name a b c f g fg fPrime
+      gPrime fgPrime : BHist} :
+    KernelCategoryCarrier object hom identity composition associativity unit provenance name ->
+      CategoryHomCarrier a b f ->
+        CategoryHomCarrier b c g ->
+          Cont f g fg ->
+            hsame f fPrime ->
+              hsame g gPrime ->
+                Cont fPrime gPrime fgPrime ->
+                  CategoryHomCarrier a c fg ∧ hsame fg fgPrime ∧
+                    CategoryHomCarrier a c fgPrime := by
+  -- BEDC touchpoint anchor: BHist Cont hsame CategoryHomCarrier
+  intro _carrier left right comp sameF sameG compPrime
+  have composite : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  have sameComposite : hsame fg fgPrime :=
+    cont_respects_hsame sameF sameG comp compPrime
+  have compositePrime : CategoryHomCarrier a c fgPrime :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl c) sameComposite composite
+  exact ⟨composite, sameComposite, compositePrime⟩
+
 end BEDC.Derived.KernelCategoryUp
