@@ -698,6 +698,28 @@ selected limits, host real equality, ambient completeness, and any additional
 family-limit object.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion CompleteMetric consumer boundary]
+\label{thm:cauchycriterion-complete-metric-consumer-boundary}
+Every $\CompleteMetricUp$ consumer of an accepted $\CauchyCriterionUp$ packet
+$K=(W,M,T,Q,E,H,C,P,N)$ must pass through the displayed tail-budget route, the
+$\RegSeqRatUp$ handoff, and the $\RealUp$ seal before any completion-facing use.
+The consumer cannot import quotient streams, selected limits, host real
+equality, ambient completeness, or uniqueness of limits.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycriterion-uniformcriterion-finite-family-reduction}
+and \autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence}.
+They force the finite tail route through $M,Q,T,W,E$ and place the
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before completion-facing
+readback.
+
+The terminal completion routes below then expose only the same sealed endpoint
+to $\CompleteMetricUp$ consumers. Since the packet has no quotient stream,
+selected limit, host equality, ambient completeness, or uniqueness-of-limit
+coordinate, the displayed tail-budget and Real-seal route is the whole
+consumer boundary.
+\end{proof}
+
 \input{parts/concrete_instances/cauchycriterion/terminal_completion_route}
 \input{parts/concrete_instances/cauchycriterion/streamname_real_budget_selector_boundary}
 \input{parts/concrete_instances/cauchycriterion/finite_window_real_seal_handoff}

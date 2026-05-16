@@ -130,3 +130,17 @@ keeps $\RegSeqRat$ regularity and $\RealUp$ seal or completeness obligations
 outside the StreamName source packet, and it rules out the infinite-stream,
 quotient, selected-real, and host-index data excluded above.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window transport RegSeqRat Real readiness]
+\label{thm:streamname-finite-window-transport-regseqrat-real-readiness}
+A transported finite $\StreamNameUp$ window is ready for $\RegSeqRat$ and finite-window $\RealUp$ consumers exactly when the finite-window classifier, selected point certificates, $\mathsf{UnaryHistory}$ rows, $\mathsf{InBundle}$ rows, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\StreamNameUp}$ row are all present in the source packet. This readiness surface exports no quotient stream equality, host Nat stream, selected real value, $\RegSeqRat$ regularity row, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First apply pointwise transport, \autoref{thm:streamname-window-pointwise-transport}. It moves the finite classifier to the transported window while preserving the same bundle, membership, unary-history, pointwise $\hsame$, route, provenance, and local naming rows.
+
+Use constant-window classifier stability when the selected observations are constant endpoints. Theorem~\ref{thm:streamname-constant-window-classifier-stability} shows that the same finite classifier and ledger rows remain the consumer-facing surface for $\RegSeqRat$ and finite-window $\RealUp$ handoff.
+
+Next apply RegSeqRat window handoff exactness, \autoref{thm:streamname-regseq-window-handoff-exactness}. It identifies the complete source packet as the finite-window classifier, selected point certificates, $\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data.
+
+Finally cite the pointwise handoff theorem \autoref{thm:streamname-regseqrat-pointwise-handoff}. It keeps $\RegSeqRat$ regularity and $\RealUp$ completion obligations on the downstream side, so the transported StreamName source packet is ready for those consumers without exporting quotient stream equality, a host Nat stream, a selected real value, regularity, or completeness.
+\end{proof}
