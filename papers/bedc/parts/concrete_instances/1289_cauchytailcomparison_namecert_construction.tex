@@ -292,6 +292,38 @@ Finally apply \autoref{thm:cauchy-tail-comparison-non-escape-boundary}. The carr
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyTailComparisonUp.CauchyTailComparisonCarrier\_standard\_bridge\_source}
 
+\begin{theorem}[CauchyTailComparison completion-classifier equivalence]
+\label{thm:cauchy-tail-comparison-completion-classifier-equivalence}
+Let
+$$
+Q=(X,Y,\mu,W,T,R,P,N)
+$$
+and
+$$
+Q'=(X',Y',\mu',W',T',R',P',N')
+$$
+be accepted $\CauchyTailComparisonUp$ packets. The completion-facing $\RealUp$ classifier reads exported by $Q$ and $Q'$ determine the same finite BEDC route exactly when the following displayed rows agree componentwise: the two $\RegSeqRatUp$ regular-name rows, the common modulus rows, the finite $\StreamNameUp$ common-window rows, the $\DyadicRatCoreUp$ endpoint ledgers, the tail-comparison readback rows, the $\Pkg$ provenance rows, and the local $\NameCert_{\CauchyTailComparisonUp}$ rows.
+
+Equivalently, equality of the completion-facing classifier route is neither coarser nor finer than agreement of
+$$
+(X,Y,\mu,W,T,R,P,N)
+\quad\text{and}\quad
+(X',Y',\mu',W',T',R',P',N')
+$$
+on those displayed coordinates. The equivalence introduces no quotient stream, selected host limit, host real equality, choice row, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+For the forward direction, project the common $\RealUp$ classifier read through \autoref{thm:cauchy-tail-comparison-real-completion-handoff}. The handoff exposes the completion-facing read only through the two regular-name rows, the modulus row, the common finite window, the dyadic endpoint ledger, the readback row, package provenance, and the local naming row.
+
+Apply \autoref{thm:cauchy-tail-comparison-standard-bridge-source}. The standard bridge source identifies those exposed rows as the entire finite source of a regular-Cauchy completion-interface read, so equality of the classifier route projects back to componentwise agreement of the displayed packet coordinates.
+
+For the reverse direction, assume componentwise agreement of the displayed rows. Transport the classifier along the agreed $\Pkg$ provenance and local $\NameCert_{\CauchyTailComparisonUp}$ rows, then use \autoref{thm:cauchy-tail-comparison-dyadic-endpoint-exactness} to keep the endpoint ledger exact.
+
+Use \autoref{thm:cauchy-tail-comparison-tail-stability} and \autoref{thm:cauchy-tail-comparison-common-window-transitivity} to keep every late precision read inside the common finite window. Then apply \autoref{thm:cauchy-tail-comparison-window-composition-seal-exhaustion}; the transported rows rebuild the same completion-facing $\RealUp$ classifier route and leave no remaining coordinate to vary.
+
+Finally apply \autoref{thm:cauchy-tail-comparison-non-escape-boundary}. Since neither packet carries a quotient stream, selected host limit, host real equality, choice row, or ambient completeness datum, the equivalence is exhausted by the displayed finite BEDC rows.
+\end{proof}
+
 \closureat{CauchyTailComparisonUp}{seedStr}
 \closureat{CauchyTailComparisonUp}{obligationStr}
 \closureat{CauchyTailComparisonUp}{scopedStr}
