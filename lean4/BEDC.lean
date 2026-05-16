@@ -207,6 +207,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootLocatedTrapStability
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowSealSynchronizer
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowExtraction
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootWindowReadiness
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.RootCriterionTailPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.SourceRowExhaustion
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailModulusScope
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.TailServiceSealHandoff
@@ -370,6 +371,7 @@ import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.RealityConstrainedModelAuditUp.TasteGate
 import BEDC.Derived.RealityConstrainedOpenFitUp.TasteGate
+import BEDC.Derived.RealityConstrainedSynthesisSealUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
