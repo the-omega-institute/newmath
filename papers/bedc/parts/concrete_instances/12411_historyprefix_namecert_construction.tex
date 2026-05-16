@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\HistoryPrefixUp$}
+\label{ch:concrete-instances-historyprefix-namecert}
+\origin{ai}
+
+The $\HistoryPrefixUp$ packet realizes the history-prefix surface of \autoref{ch:visions-philosophy-auditable-generativity} as a finite NameCert carrier. It sits before the countable-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. Those siblings consume finite observations, regular readbacks, and completed seals; this packet isolates the prefix-residual observation that lets a finite $\BHist$ prefix feed those consumers without becoming a host stream, quotient sequence, hidden tail oracle, or ambient time primitive.
+
+\falsifiablePrediction{If a HistoryPrefixUp packet is accepted, dropping the residual-tail row destroys the Cont reconstruction route to StreamNameUp finite observations.}
+
+\independenceWitness{streamname, regseqrat, real, dyadicratcore: HistoryPrefixUp carries a prefix-residual Cont obligation none of these siblings carries as a primitive row, so no bijection preserves the NameCert ledger.}
+
+\begin{definition}[History-prefix NameCert carrier]
+\label{def:history-prefix-namecert-carrier}
+A $\HistoryPrefixUp$ carrier is a finite $\BHist$ packet
+$$
+P=(S,p,r,C,H,E,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\BHist$ row whose generated history is being inspected;
+\item $p$ is the finite prefix row retained as the public observation;
+\item $r$ is the residual-tail row recording the finite distinction trace by which the source history is reconstructed from the prefix;
+\item $C$ is the displayed $\Cont$ witness routing $p$ through $r$ back to $S$ and forward to finite $\StreamNameUp$ observations;
+\item $H$ records componentwise $\hsame$ compatibility for the source, prefix, residual tail, continuation route, evidence, ledger, and local name;
+\item $E$ is the $\Pkg$ evidence row over $\HistoryPrefixUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$;
+\item $L$ is the NameCert ledger row recording prefix admission, residual-tail admission, continuation replay, sibling handoff, and refusal of hidden tail data;
+\item $N$ is the local $\NameCert_{\HistoryPrefixUp}$ row.
+\end{enumerate}
+The carrier exports a finite prefix observation together with the residual route that justifies it. It exports no host stream, global clock, quotient sequence, chosen limit, unbounded observation oracle, or residual tail detached from the displayed source history.
+\end{definition}
+
+\begin{definition}[History-prefix classifier]
+\label{def:history-prefix-namecert-classifier}
+For accepted $\HistoryPrefixUp$ carriers $P=(S,p,r,C,H,E,L,N)$ and $P'=(S',p',r',C',H',E',L',N')$, the classifier $\mathsf{HistoryPrefixClassifier}(P,P')$ holds exactly when the displayed prefix rows $p,p'$ are related by the recorded $\hsame$ comparison, the residual-tail rows $r,r'$ reconstruct compatible source histories through the displayed $\Cont$ witnesses $C,C'$, and the sibling handoff ledgers $L,L'$ expose the same finite observation route to $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers.
+
+Thus the classifier reads only the source $\BHist$ rows, prefix rows, residual-tail rows, continuation witnesses, $\hsame$ compatibility rows, package evidence, NameCert ledgers, and local names. It does not compare host streams, external time indices, quotient sequences, selected real limits, or unrecorded tails.
+\end{definition}
+
+\begin{theorem}[History-prefix NameCert obligations]
+\label{thm:history-prefix-namecert-obligations}
+For the carrier of \autoref{def:history-prefix-namecert-carrier}, the local $\NameCert_{\HistoryPrefixUp}$ surface consists exactly of carrier admission for $P=(S,p,r,C,H,E,L,N)$, source-history exposure through $S$, finite-prefix exposure through $p$, residual-tail exposure through $r$, $\Cont$ reconstruction and sibling handoff through $C$, componentwise $\hsame$ compatibility through $H$, $\Pkg$ evidence through $E$, ledger exactness through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $P$. Its coordinates are precisely the source $\BHist$ row, finite prefix, residual tail, continuation route, compatibility row, package evidence, ledger, and local name.
+
+Read the reconstruction route next. The residual-tail row $r$ is not an ambient hidden tail; it is the displayed finite trace that lets $C$ reconstruct the source from the prefix and then hand the prefix observation to the finite StreamName-facing route.
+
+Finally attach compatibility, evidence, ledger, and naming. The row $H$ transports only the displayed coordinates, $E$ records the source of the packet, $L$ records admission and sibling handoff, and $N$ names the local certificate. Repacking these rows gives the listed obligations and leaves no coordinate for a host stream or unrecorded tail.
+\end{proof}
+
+\begin{theorem}[History-prefix continuation stability]
+\label{thm:history-prefix-cont-stability}
+For accepted $\HistoryPrefixUp$ carriers, the classifier of \autoref{def:history-prefix-namecert-classifier} is stable under displayed $\Cont$ replay and componentwise $\hsame$ transport of the source, prefix, residual-tail, package-evidence, ledger, and local-name rows. Every downstream $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer sees the same finite prefix route only through
+$$
+S,p,r,C,H,E,L,N.
+$$
+Deleting $r$ destroys the reconstruction route from the accepted prefix packet to the StreamName-facing finite observation.
+\end{theorem}
+\begin{proof}
+Start with the classifier definition. It compares accepted packets only through the displayed source, prefix, residual-tail, continuation, compatibility, evidence, ledger, and local-name rows.
+
+Now replay the continuation route. Since $C$ records both reconstruction from $p$ through $r$ to $S$ and handoff from $p$ to finite observation consumers, componentwise $\hsame$ transport can preserve the classifier only by transporting $r$ together with the prefix and source rows.
+
+If the residual-tail row is removed, the prefix row remains visible but the reconstruction witness no longer has the displayed trace needed to reach the source history. A downstream StreamName-facing read therefore lacks the route required by the accepted carrier rather than discovering an implicit tail outside the NameCert ledger.
+\end{proof}
+
+The Lean follow-up file \texttt{lean4/BEDC/Derived/HistoryPrefixUp/TasteGate.lean} must provide explicit $\Nontrivial\ \HistoryPrefixUp$ and $\FieldFaithful\ \HistoryPrefixUp$ instances, preserving $S,p,r,C,H,E,L,N$ as separate displayed fields.
+
+\closureat{HistoryPrefixUp}{seedStr}
