@@ -1,0 +1,35 @@
+\begin{theorem}[GapClosureBoundary L10 terminal obligation pack]
+\label{thm:gap-closure-boundary-l10-terminal-obligation-pack}
+Every accepted $\GapClosureBoundaryUp$ packet routes an L10 terminal consumer through the displayed $\BHist$ request, source, and refusal rows; the componentwise $\hsame$ transport row; the displayed $\Cont$ replay row; the $\Pkg$ provenance row; the local $\NameCert_{\GapClosureBoundaryUp}$ row; and the downstream $\RealUp$ and $\StreamNameUp$ rows before the terminal boundary is exported. No L10 terminal consumer receives a hidden closure row, hidden Real limit, anonymous stream name, host equality, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with the L10 terminal consumer boundary. It fixes the terminal interface to the source and refusal branches over the structural rows $H,C,P,N$ and excludes hidden completion supply.
+
+Use the root obligation closure handoff next. It requires any root-facing consumer to expose the same request, classifier, refusal, replay, provenance, and naming rows before the boundary can be read.
+
+Finally attach the real-completion consumers. The $\RealUp$ and $\StreamNameUp$ rows are therefore read only after the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support has already been displayed, so the terminal export has no coordinate for hidden Real or stream-name supply.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary Real and StreamName dependency]
+\label{thm:gap-closure-boundary-real-streamname-dependency}
+Any real-completion gap closure read of an accepted $\GapClosureBoundaryUp$ packet must display both the $\RealUp$ row and the $\StreamNameUp$ row before closure is exported. A read that displays only one of these rows remains a partial terminal request and cannot be exported as a real-completion gap closure.
+\end{theorem}
+\begin{proof}
+Start from the root source-refusal obligation scope. It separates supported source reads from refusal reads before any terminal consumer inspects completion-facing data.
+
+Apply scoped root unblock obligations. They keep the root packet inside the displayed source/refusal split and prevent a downstream consumer from replacing the missing row by hidden supply or off-packet replay.
+
+Thus the $\RealUp$ row and the $\StreamNameUp$ row must both be visible at the terminal read. If either row is absent, the source/refusal boundary has not supplied the data needed for real-completion export, and the read remains outside the accepted closure surface.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary finite refusal consumer exhaustion]
+\label{thm:gap-closure-boundary-finite-refusal-consumer-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ packet, the consumer-facing boundary is exhausted by finite witnessed refusal, source refusal, and readback handoff rows together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No consumer-facing boundary row remains for hidden source selection, hidden completion supply, Real-row synthesis, StreamName-row synthesis, or off-packet terminal replay.
+\end{theorem}
+\begin{proof}
+First use the L10 terminal consumer boundary to expose the two terminal branches available to downstream consumers.
+
+Next use the root source-refusal obligation scope. It records the source-refusal split as part of the same accepted packet rather than as a detachable consumer-side choice.
+
+Finally apply scoped root unblock obligations and root obligation closure handoff. These rows identify the readback handoff and close the root-facing inventory, so finite witnessed refusal, source refusal, and readback handoff exhaust the consumer-facing boundary.
+\end{proof}
