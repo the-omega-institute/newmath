@@ -736,3 +736,42 @@ choice, ambient completeness, an independent Real-completeness witness, or a
 second selector or disclosure route, so no accepted downstream consumer can
 recover one.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real-window terminal consumer]
+\label{thm:cauchy-modulus-refinement-real-window-terminal-consumer}
+For every accepted $\CauchyModulusRefinementUp$ route whose threshold rows
+are accepted by a $\RealWindowBudgetUp$ packet, the terminal
+consumer-visible surface for any $\RealUp$, $\RealWindowBudgetUp$, or
+Completion-facing reader is exactly the displayed packet consisting of the
+finite request, $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback,
+$\RegSeqRatUp$ handoff, $\RealUp$ seal, $\CauchyDiagonalBudgetUp$ selector,
+$\RealObservationBudgetUp$ disclosure, and support rows $H,C,P,N$.
+Every such consumer factors through that packet, and conversely that packet
+supplies the full consumer-visible route.
+
+No additional quotient stream, host real equality, selected limit,
+countable-choice row, ambient completeness witness, independent
+Real-completeness row, second selector, or second disclosure row is part of
+the terminal consumer surface.
+\end{theorem}
+\begin{proof}
+First use the Real-window budget pullback,
+\autoref{thm:cauchy-modulus-refinement-real-window-budget-pullback}. It
+places every accepted budget-facing read on the same finite request, window,
+dyadic readback, regular handoff, Real seal, selector, disclosure, and
+support rows.
+
+Next apply Real-window budget terminality,
+\autoref{thm:cauchy-modulus-refinement-real-window-budget-terminality}. This
+turns the pullback packet into the terminal route for $\RealUp$ and
+Completion-facing consumers, so no downstream reader can detach from the
+displayed finite packet.
+
+Finally combine selector-spine terminal pullback with L10 row exactness,
+\autoref{thm:cauchy-modulus-refinement-selector-spine-terminal-pullback} and
+\autoref{thm:cauchy-modulus-refinement-l10-row-exactness}. These identify the
+converse direction: the displayed packet is already the full selector path
+followed by the L10 spine with $H,C,P,N$. Since the excluded rows are absent
+from that exact inventory, the same packet is the whole terminal consumer
+surface.
+\end{proof}
