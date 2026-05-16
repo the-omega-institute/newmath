@@ -102,6 +102,28 @@ Use the NameCert obligation theorem to read the remaining route data. The $\hsam
 Finally apply non-escape. Since the carrier has no excluded coordinate, the Real and Completion consumers receive the finite route $S,D,R,B,Q,H,C,P,N$ before reaching $E$ and nothing outside that route.
 \end{proof}
 
+\begin{theorem}[FiniteTailFilter Real-window consumer]
+\label{thm:finite-tail-filter-real-window-consumer}
+Every $\RealWindowBudgetUp$ or Real-completion consumer reading an accepted $\FiniteTailFilterUp$ carrier
+$$
+F=(S,D,R,B,Q,E,H,C,P,N)
+$$
+receives the displayed finite cofinal-tail route
+$$
+S,D,R,B,Q,E,H,C,P,N.
+$$
+The Real-window budget row may use only the already displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\DyadicTailBoundUp$, $\CauchyTailComparisonUp$, and $\RealUp$ rows. It receives no quotient stream equality, selected limit, host real equality, countable-choice row, ambient completeness theorem, metric-completeness datum, or unrecorded completion carrier.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:finite-tail-filter-namecert-obligations}. They expose the accepted packet exactly as $S,D,R,B,Q,E,H,C,P,N$, with $S,D,R,B,Q,E$ as the Real-facing analytic rows and $H,C,P,N$ as the structural rows.
+
+Apply tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}. The tail-budget row $B$, common-tail comparison row $Q$, and RealUp seal row $E$ all read the same displayed $S,D$ window and tolerance packet, so a Real-window budget consumer cannot introduce a separate selector or tolerance ledger.
+
+Use the Real seal handoff theorem, \autoref{thm:finite-tail-filter-real-seal-handoff}, to identify the downstream route. Any Real or Completion read reaches $E$ only through $S,D,R,B,Q,H,C,P,N$, and the present consumer includes $E$ as the displayed seal row reached by that route.
+
+Finally apply non-escape, \autoref{thm:finite-tail-filter-nonescape}. Since quotient stream equality, selected limits, host real equality, countable choice, ambient completeness, metric-completeness data, and unrecorded completion carriers are not coordinates of $F$, the $\RealWindowBudgetUp$ or Real-completion consumer receives only the finite cofinal-tail packet already displayed.
+\end{proof}
+
 \begin{theorem}[FiniteTailFilter sibling tail handoff]
 \label{thm:finite-tail-filter-sibling-tail-handoff}
 Every consumer whose route passes through $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, $\DyadicTailBoundUp$ budget, $\CauchyTailComparisonUp$ common-tail rows, or the $\RealUp$ seal factors through the displayed finite packet
