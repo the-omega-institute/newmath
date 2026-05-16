@@ -219,20 +219,19 @@ Any attempted bypass asks for a row absent from the accepted
 $\RealWindowBudgetUp$ packet.
 \end{proof}
 
-\begin{theorem}[Real-window budget scoped dependency envelope]
-\label{thm:realwindowbudget-scoped-dependency-envelope}
+\begin{theorem}[Real-window budget scoped dependency binding]
+\label{thm:realwindowbudget-scoped-dependency-binding}
 For every accepted $\RealWindowBudgetUp$ packet
 $$
 W=(Q,V,D,R,S,B,O,H,C,P,N),
 $$
-the displayed rows have exactly the following scoped dependencies:
-$Q$ is scoped through $\StreamNameUp$, $V$ through the finite
-$\StreamNameUp$ window surface, $D$ through $\DyadicRatCoreUp$, $R$ through
-$\RegSeqRatUp$, $S$ through $\RealUp$, $B$ through
-$\CauchyDiagonalBudgetUp$, $O$ through $\RealObservationBudgetUp$, $H$
-through $\BHist$ and $\hsame$, $C$ through $\Cont$, $P$ through $\Pkg$, and
-$N$ through $\NameCert$. The envelope admits no dependency outside these
-displayed rows.
+every scoped read factors through the displayed rows
+$Q,V,D,R,S,B,O,H,C,P,N$: $V$ is the $\StreamNameUp$ window surface, $D$ the
+$\DyadicRatCoreUp$ readback surface, $R$ the $\RegSeqRatUp$ handoff, $S$ the
+$\RealUp$ seal, $B$ the $\CauchyDiagonalBudgetUp$ selector, $O$ the
+$\RealObservationBudgetUp$ disclosure, and $H,C,P,N$ the $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows. No scoped read is accepted outside this
+displayed dependency binding.
 \end{theorem}
 \begin{proof}
 Project the carrier of \autoref{def:real-window-budget-carrier}. Its finite
@@ -336,16 +335,18 @@ finite route plus $B,O,H,C,P,N$.
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}
 
+\closureat{RealWindowBudgetUp}{obligationStr}
 \closureat{RealWindowBudgetUp}{scopedStr}
+\closureat{RealWindowBudgetUp}{publicStr}
 
 \begin{closurestatus}{\RealWindowBudgetUp}
   \constructivestory{A $\RealWindowBudgetUp$ packet is generated from a finite request, StreamName windows, DyadicRatCore readbacks, RegSeqRat handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.RealWindowBudgetUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:real-window-budget-carrier}, \autoref{thm:real-window-budget-namecert-obligations}, \autoref{thm:realwindowbudget-scoped-dependency-envelope}, \autoref{thm:realwindowbudget-selector-disclosure-scope}, and \autoref{thm:realwindowbudget-real-completion-scope} bind the finite request, StreamName windows, DyadicRatCore readbacks, RegSeqRat handoff, Real seal, selector budget, disclosure budget, transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:realwindowbudget-scoped-dependency-binding} binds every accepted scoped read to the displayed $Q,V,D,R,S,B,O,H,C,P,N$ dependency rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient streams, host equality, selected limits, host completeness, unbounded observation schedules, hidden selector choice, or bridge checking.}
-  \upgradepath{Public closure requires a public consumer surface for the scoped finite request, StreamName, DyadicRatCore, RegSeqRat, Real seal, selector, disclosure, transport, continuation, provenance, and local naming rows.}
+  \upgradepath{Bridged closure requires a checked bridge for the same finite Real-window budget route.}
 \end{closurestatus}
