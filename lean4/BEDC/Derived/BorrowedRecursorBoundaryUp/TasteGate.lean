@@ -11,7 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive BorrowedRecursorBoundaryUp : Type where
   | mk :
-      (recursor ancestry socket failure transport route provenance name : BHist) →
+      (recursor ancestry socket failure transport replay provenance localName : BHist) →
         BorrowedRecursorBoundaryUp
   deriving DecidableEq
 
@@ -41,20 +41,31 @@ private theorem borrowedRecursorBoundary_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def borrowedRecursorBoundaryFields : BorrowedRecursorBoundaryUp → List BHist
+def borrowedRecursorBoundaryFields :
+    BorrowedRecursorBoundaryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | BorrowedRecursorBoundaryUp.mk recursor ancestry socket failure transport route
-      provenance name =>
-      [recursor, ancestry, socket, failure, transport, route, provenance, name]
+  | BorrowedRecursorBoundaryUp.mk recursor ancestry socket failure transport replay
+      provenance localName =>
+      [recursor, ancestry, socket, failure, transport, replay, provenance, localName]
 
-def borrowedRecursorBoundaryToEventFlow : BorrowedRecursorBoundaryUp → EventFlow
+def borrowedRecursorBoundaryToEventFlow :
+    BorrowedRecursorBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (borrowedRecursorBoundaryFields x).map borrowedRecursorBoundaryEncodeBHist
 
-def borrowedRecursorBoundaryFromEventFlow : EventFlow → Option BorrowedRecursorBoundaryUp
+def borrowedRecursorBoundaryFromEventFlow :
+    EventFlow → Option BorrowedRecursorBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | recursor :: ancestry :: socket :: failure :: transport :: route :: provenance ::
-      name :: [] =>
+  | [] => none
+  | _a :: [] => none
+  | _a :: _b :: [] => none
+  | _a :: _b :: _c :: [] => none
+  | _a :: _b :: _c :: _d :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: [] => none
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: [] => none
+  | recursor :: ancestry :: socket :: failure :: transport :: replay :: provenance ::
+      localName :: [] =>
       some
         (BorrowedRecursorBoundaryUp.mk
           (borrowedRecursorBoundaryDecodeBHist recursor)
@@ -62,10 +73,10 @@ def borrowedRecursorBoundaryFromEventFlow : EventFlow → Option BorrowedRecurso
           (borrowedRecursorBoundaryDecodeBHist socket)
           (borrowedRecursorBoundaryDecodeBHist failure)
           (borrowedRecursorBoundaryDecodeBHist transport)
-          (borrowedRecursorBoundaryDecodeBHist route)
+          (borrowedRecursorBoundaryDecodeBHist replay)
           (borrowedRecursorBoundaryDecodeBHist provenance)
-          (borrowedRecursorBoundaryDecodeBHist name))
-  | _ => none
+          (borrowedRecursorBoundaryDecodeBHist localName))
+  | _a :: _b :: _c :: _d :: _e :: _f :: _g :: _h :: _rest => none
 
 private theorem borrowedRecursorBoundary_round_trip :
     ∀ x : BorrowedRecursorBoundaryUp,
@@ -74,7 +85,7 @@ private theorem borrowedRecursorBoundary_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk recursor ancestry socket failure transport route provenance name =>
+  | mk recursor ancestry socket failure transport replay provenance localName =>
       change
         some
           (BorrowedRecursorBoundaryUp.mk
@@ -89,22 +100,22 @@ private theorem borrowedRecursorBoundary_round_trip :
             (borrowedRecursorBoundaryDecodeBHist
               (borrowedRecursorBoundaryEncodeBHist transport))
             (borrowedRecursorBoundaryDecodeBHist
-              (borrowedRecursorBoundaryEncodeBHist route))
+              (borrowedRecursorBoundaryEncodeBHist replay))
             (borrowedRecursorBoundaryDecodeBHist
               (borrowedRecursorBoundaryEncodeBHist provenance))
             (borrowedRecursorBoundaryDecodeBHist
-              (borrowedRecursorBoundaryEncodeBHist name))) =
+              (borrowedRecursorBoundaryEncodeBHist localName))) =
           some
-            (BorrowedRecursorBoundaryUp.mk recursor ancestry socket failure transport
-              route provenance name)
+            (BorrowedRecursorBoundaryUp.mk recursor ancestry socket failure transport replay
+              provenance localName)
       rw [borrowedRecursorBoundary_decode_encode_bhist recursor,
         borrowedRecursorBoundary_decode_encode_bhist ancestry,
         borrowedRecursorBoundary_decode_encode_bhist socket,
         borrowedRecursorBoundary_decode_encode_bhist failure,
         borrowedRecursorBoundary_decode_encode_bhist transport,
-        borrowedRecursorBoundary_decode_encode_bhist route,
+        borrowedRecursorBoundary_decode_encode_bhist replay,
         borrowedRecursorBoundary_decode_encode_bhist provenance,
-        borrowedRecursorBoundary_decode_encode_bhist name]
+        borrowedRecursorBoundary_decode_encode_bhist localName]
 
 private theorem borrowedRecursorBoundaryToEventFlow_injective
     {x y : BorrowedRecursorBoundaryUp} :
@@ -122,15 +133,16 @@ private theorem borrowedRecursorBoundaryToEventFlow_injective
     (Eq.trans (borrowedRecursorBoundary_round_trip x).symm
       (Eq.trans hread (borrowedRecursorBoundary_round_trip y)))
 
-private theorem borrowedRecursorBoundaryFieldsFaithful :
+private theorem borrowedRecursorBoundary_fields_faithful :
     ∀ x y : BorrowedRecursorBoundaryUp,
       borrowedRecursorBoundaryFields x = borrowedRecursorBoundaryFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk recursor ancestry socket failure transport route provenance name =>
+  | mk recursor ancestry socket failure transport replay provenance localName =>
       cases y with
-      | mk recursor' ancestry' socket' failure' transport' route' provenance' name' =>
+      | mk recursor' ancestry' socket' failure' transport' replay' provenance'
+          localName' =>
           cases hfields
           rfl
 
@@ -157,10 +169,10 @@ instance borrowedRecursorBoundaryFieldFaithful :
     FieldFaithful BorrowedRecursorBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := borrowedRecursorBoundaryFields
-  field_faithful := borrowedRecursorBoundaryFieldsFaithful
+  field_faithful := borrowedRecursorBoundary_fields_faithful
 
 instance borrowedRecursorBoundaryNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial BorrowedRecursorBoundaryUp where
+    Nontrivial BorrowedRecursorBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨BorrowedRecursorBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
