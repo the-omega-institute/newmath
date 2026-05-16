@@ -246,6 +246,7 @@ Finish with \autoref{thm:reflection-runtime-checkpoint-audit-provenance-exhausti
 \label{thm:reflection-runtime-checkpoint-validation-prefix-exhaustion}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, each validation-facing read exposes the runtime-candidate input row $I$, checkpoint-state row $S$, bounded trace row $T$, and validation-boundary row $V$ before any transport, continuation, provenance, or local naming row $H,C,P,N$ is consumed. No validation consumer reaches $H,C,P,N$ as a substitute for that prefix.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_validation\_prefix\_exhaustion}
 \begin{proof}
 Project the carrier by \autoref{def:reflection-runtime-checkpoint-carrier}. The validation prefix of the packet is exactly $I,S,T,V$, followed by the transport, route, provenance, and naming rows.
 
@@ -258,6 +259,7 @@ Use \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-route}. It p
 \label{thm:reflection-runtime-checkpoint-trace-provenance-lock}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the trace row $T$ is locked to the runtime candidate $I$, the finite-trace evaluator, the finite-trace gap socket, and the reflection-limit provenance cited by $P$. A consumer may replay $T$ only through this finite provenance route and not as a detached host validator, total truth predicate, or unbounded evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_trace\_provenance\_lock}
 \begin{proof}
 Read $T$ from \autoref{def:reflection-runtime-checkpoint-carrier}. The trace row is bundled with the runtime candidate $I$ and checkpoint state $S$, and the provenance row $P$ names the finite trace siblings and reflection-limit source used by the route.
 
