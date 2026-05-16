@@ -54,6 +54,24 @@ It remains to account for the consumer surface. The continuation row $C$ supplie
 The no-supplied-object conclusion follows because no coordinate of $A$ stores a supplied object, hidden theorem, quotient representative, generated witness, host datum, or closure principle. Any consumer request for such content therefore leaves the accepted tuple surface and is rejected at the refusal boundary.
 \end{proof}
 
+\begin{theorem}[ApophaticName refusal tuple bridge scope]
+\label{thm:apophatic-name-refusal-tuple-bridge-scope}
+Any bridge-facing consumer of an accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+must preserve the image row, readback row, componentwise NameCert transport, refusal ledger, continuation route, package provenance, and local naming row together. The bridge scope exports no supplied object, hidden theorem, quotient representative, host datum, generated witness, or closure principle.
+\end{theorem}
+\begin{proof}
+Begin with the image and readback rows, \autoref{thm:apophatic-name-boundary-request-image-row} and \autoref{thm:apophatic-name-refusal-readback-row}. They place every accepted boundary-request image inside $S,R,G,L,H,C,P,N$ and return each accepted read to the corresponding finite $\BHist$ component.
+
+Use boundary-request tuple totality, \autoref{thm:apophatic-name-boundary-request-tuple-totality}. The continuation route, package provenance, and local naming row already exhaust the consumer surface, so a bridge-facing consumer receives the same finite refusal tuple rather than a separate boundary object.
+
+Apply componentwise NameCert transport, \autoref{thm:apophatic-name-componentwise-namecert-transport-row}. It replays the image and readback rows over the same displayed coordinates under $\hsame$ transport, preserving the refusal ledger, continuation route, package provenance, and local naming row together.
+
+Since the accepted tuple has no coordinate for a supplied object, hidden theorem, quotient representative, host datum, generated witness, or closure principle, the bridge scope cannot export any such object. It exports only the displayed refusal tuple and its componentwise transport route.
+\end{proof}
+
 \begin{theorem}[ApophaticName componentwise NameCert transport row]
 \label{thm:apophatic-name-componentwise-namecert-transport-row}
 For accepted $\ApophaticNameUp$ packets transported along the displayed componentwise $\hsame$ row $H$, the local $\NameCert_{\ApophaticNameUp}$ component replays the image and readback rows componentwise over $S,R,G,L,H,C,P,N$. The transport keeps the socket a public boundary component and never converts it into an internal object, supplied dependency, quotient representative, hidden theorem, host datum, or closure principle.
