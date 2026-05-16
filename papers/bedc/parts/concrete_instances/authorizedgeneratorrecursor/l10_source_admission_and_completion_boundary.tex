@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor L10 source-row admission]
+\label{thm:authorized-generator-recursor-l10-source-row-admission}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Every L10-facing accepted output packet exposes its $\RealUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source rows only as displayed finite $\BHist$ rows inside the authorized output route. The source rows are visible only together with the displayed authorization, branch, descent, audit, componentwise $\hsame$, $\Cont$, $\Pkg$, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows of $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. That theorem already identifies $\RealUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source use as finite packet access rather than as host source selection.
+
+Next retain the route side. Theorems~\ref{thm:authorized-generator-recursor-regseqrat-route-factorization} and~\ref{thm:authorized-generator-recursor-real-stream-route} keep regular-rational, stream-name, and Real reads on the displayed packet $I,E,M,B,D,O,A,H,C,P,G,N$ before the output is public.
+
+Finally attach the handoff rows. The closed-substitution handoff \autoref{thm:authorized-generator-recursor-closed-substitution-handoff} and terminal-output readback \autoref{thm:authorized-generator-recursor-terminal-output-readback} preserve $A,H,C,P,G,N$ with the output row. Thus source admission is exactly admission through the displayed finite $\BHist$ route with $\hsame$, $\Cont$, $\Pkg$, boundary, and local $\NameCert$ evidence attached.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor L10 Real-stream output factorization]
+\label{thm:authorized-generator-recursor-l10-real-stream-output-factorization}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, each $\RealUp$, $\StreamNameUp$, or $\RegSeqRatUp$ consumer of the output row $O$ factors through the already displayed authorization, branch, descent, audit, componentwise $\hsame$, $\Cont$, $\Pkg$, boundary, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows. No such consumer receives an output route that omits $I,E,M,B,D,A,H,C,P,G,N$ while retaining $O$.
+\end{theorem}
+\begin{proof}
+Begin with L10 source-row admission above. It fixes the consumer's input surface as the finite displayed packet, so a Real, stream-name, or regular-rational consumer begins from $R$ rather than from a detached output token.
+
+Use the route-factorization layer next. Theorems~\ref{thm:authorized-generator-recursor-regseqrat-route-factorization}, \ref{thm:authorized-generator-recursor-real-seal-route-nonescape}, and \ref{thm:authorized-generator-recursor-l10-output-authorization-closure} keep $O$ attached to the source, authorization, audit, transport, continuation, provenance, boundary, and local naming rows.
+
+Now pass to terminal readback. Theorem~\ref{thm:authorized-generator-recursor-terminal-output-readback} requires every terminal read by $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ to expose the same $\BHist$ packet, replay through $C$, preserve $H$, retain $P$, and name the read by $N$.
+
+Therefore the consumer map factors through the displayed BEDC route. Since the carrier has no coordinate for a bare public output token, every consumer that reaches $O$ has already retained the named rows of $R$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor L10 completion-boundary nonescape]
+\label{thm:authorized-generator-recursor-l10-completion-boundary-nonescape}
+Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ packet. No $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, or completion-facing consumer of $R$ can recover a selected Real limit, quotient stream equality, host evaluation, detached generator state, ambient completion principle, or off-packet proof channel from the packet. Every such read remains bounded by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, audit, and local $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+First use L10 source-row admission and L10 Real-stream output factorization. Together they put every Real, stream-name, regular-rational, or completion-facing read on the displayed packet before any output row can be consumed.
+
+Next read the boundary facts. Theorems~\ref{thm:authorized-generator-recursor-completion-boundary-exhaustion} and~\ref{thm:authorized-generator-recursor-open-phase-ledger-nonescape} exhaust the completion-facing ledger by $A,H,C,P,G,N$ on the same finite route, with no exported completion object, quotient completion equality, selected limit, host completeness proof, or off-packet generator certificate.
+
+Finally apply terminal-output readback and terminal authorized output cover. Theorems~\ref{thm:authorized-generator-recursor-terminal-output-readback} and~\ref{thm:authorized-generator-recursor-terminal-authorized-output-cover} keep output consumption inside $I,E,M,B,D,O,A,H,C,P,G,N$ and leave no route for host evaluation or hidden generator state.
+
+The excluded data would require an additional carrier coordinate or a separate completion-seal row. Neither is supplied by the AuthorizedGeneratorRecursor packet, so the completion boundary cannot escape the displayed BEDC route.
+\end{proof}

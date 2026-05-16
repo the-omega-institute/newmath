@@ -9,6 +9,18 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Sig
 
+inductive FourierObservationSubpacket [AskSetup] :
+    ProbeBundle ProbeName → ProbeBundle ProbeName → Prop where
+  | nil {bundle : ProbeBundle ProbeName} :
+      FourierObservationSubpacket ProbeBundle.Bnil bundle
+  | keep {pi : ProbeName} {selected bundle : ProbeBundle ProbeName} :
+      FourierObservationSubpacket selected bundle →
+        FourierObservationSubpacket
+          (ProbeBundle.Bcons pi selected) (ProbeBundle.Bcons pi bundle)
+  | drop {pi : ProbeName} {selected bundle : ProbeBundle ProbeName} :
+      FourierObservationSubpacket selected bundle →
+        FourierObservationSubpacket selected (ProbeBundle.Bcons pi bundle)
+
 theorem FourierFiniteObservation_carrier_obligation [AskSetup]
     {bundle : ProbeBundle ProbeName} {source observed : BHist} :
     SigRel bundle source observed ->
@@ -349,5 +361,34 @@ theorem FourierFiniteObservation_standard_bridge [AskSetup]
                           exact Exists.intro s
                             (Exists.intro t
                               (And.intro sigH (And.intro sigK classified)))
+
+theorem FourierFiniteObservation_subpacket_restriction [AskSetup] {D : BHist → Prop}
+    (_policy : AskPolicy D) {bundle selected : ProbeBundle ProbeName} {h observed : BHist} :
+    FourierObservationSubpacket selected bundle →
+      D h → SigRel bundle h observed →
+        ∃ selectedObserved : BHist, SigRel selected h selectedObserved := by
+  -- BEDC touchpoint anchor: ProbeBundle SigRel AskPolicy Ext BHist
+  intro subpacket carrierH sigObserved
+  induction subpacket generalizing observed with
+  | nil =>
+      exact Exists.intro BHist.Empty (SigRel.empty h)
+  | keep tailSubpacket ih =>
+      cases sigObserved with
+      | cons pi bundle h tailObserved observed mark evidence askRow tailSig extRow =>
+          cases ih tailSig with
+          | intro selectedTail selectedTailSig =>
+              cases mark with
+              | b0 =>
+                  exact Exists.intro (BHist.e0 selectedTail)
+                    (SigRel.cons _ _ h selectedTail (BHist.e0 selectedTail)
+                      BMark.b0 evidence askRow selectedTailSig (Ext.e0 selectedTail))
+              | b1 =>
+                  exact Exists.intro (BHist.e1 selectedTail)
+                    (SigRel.cons _ _ h selectedTail (BHist.e1 selectedTail)
+                      BMark.b1 evidence askRow selectedTailSig (Ext.e1 selectedTail))
+  | drop tailSubpacket ih =>
+      cases sigObserved with
+      | cons _ _ _ tailObserved _ _ _ _ tailSig _ =>
+          exact ih tailSig
 
 end BEDC.Derived.FourierUp
