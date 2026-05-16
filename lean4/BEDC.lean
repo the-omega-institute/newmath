@@ -239,6 +239,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SharedRouteTotality
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqStreamNameRealCoherence
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqStreamNameRealTerminalFactorization
 import BEDC.Derived.CauchyModulusRefinementUp.RegSeqRealSelectorExactness
+import BEDC.Derived.CauchyModulusRefinementUp.RegSeqRealSelectorLockstep
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowFrontTotality
 import BEDC.Derived.CauchyModulusRefinementUp.RootRouteCompleteness
 import BEDC.Derived.CauchyModulusRefinementUp.RootThresholdSurfaces
@@ -728,6 +729,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerNormalization
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootTransportAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
+import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
