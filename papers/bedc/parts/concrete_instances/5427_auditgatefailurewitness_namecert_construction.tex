@@ -78,6 +78,96 @@ The failed items remain boundary items of their original witnesses. Since neithe
 The composed trace also cannot replace the diagnostic rows. It is a consumer of $D_0$ and $D_1$, not a primitive diagnostic for either gate row. Thus the handoff preserves both failure witnesses while keeping the failures outside theorem content.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness refusal attachment stability]
+\label{thm:audit-gate-failure-witness-refusal-attachment-stability}
+Let
+$$
+W=(G,F,R,D,H,C,P,N)
+$$
+be an accepted $\AuditGateFailureWitnessUp$ carrier. Componentwise $\hsame$
+transport through $H$ preserves the attachment of the refusal target $R$ to the
+concrete pair $(F,D)$. A transported witness may rename the displayed rows only
+componentwise; it cannot detach $R$ from the failed boundary item $F$ or from
+the diagnostic readback row $D$.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:audit-gate-failure-witness-carrier}. The
+displayed packet contains the failed item, diagnostic row, refusal target,
+transport row, replay row, provenance row, and local name as separate finite
+coordinates.
+
+Use the NameCert obligations of
+\autoref{thm:audit-gate-failure-witness-namecert-obligations}. Their refusal
+attachment clause binds $R$ to the pair $(F,D)$, while their replay visibility
+clause keeps public reads on the displayed continuation rows.
+
+The composition handoff,
+\autoref{thm:audit-gate-failure-witness-composition-handoff}, only consumes
+the diagnostic and refusal rows after the witness has supplied them. Since $H$
+acts componentwise on the same carrier coordinates, any accepted transport
+preserves the attachment rather than creating a detached refusal target.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness diagnostic nonescape]
+\label{thm:audit-gate-failure-witness-diagnostic-nonescape}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+no public route can bypass the diagnostic row $D$ to turn the failed boundary
+item $F$ into theorem content, a repaired marker, an admitted internalizer, or
+a host-supplied replacement for the failed gate item.
+\end{theorem}
+\begin{proof}
+Project $W$ and read the carrier inventory of
+\autoref{def:audit-gate-failure-witness-carrier}. The only route out of the
+gate row passes through the displayed failed item, diagnostic row, refusal
+target, transports, replay rows, provenance, and local name.
+
+The NameCert obligations,
+\autoref{thm:audit-gate-failure-witness-namecert-obligations}, place the
+diagnostic row before any consumer reaches the refusal target and explicitly
+exclude theorem content, marker repair, host supply, admitted internalizers,
+and gate-bypass routes for $F$.
+
+The composition handoff theorem shows that even a composed audit surface
+receives $D$ as diagnostic input rather than replacing it. Thus every public
+consumer must read the diagnostic before the refusal, and no route can turn
+$F$ into admitted theorem content or a repaired marker.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness replay factorization]
+\label{thm:audit-gate-failure-witness-replay-factorization}
+Every public replay of an accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N)
+$$
+factors first through the displayed diagnostic path
+$$
+G \to F \to D \to R
+$$
+and then through the visible support rows $H,C,P,N$. No replay may skip the
+failed item, replace the diagnostic, or read a refusal target outside the
+displayed transport, continuation, provenance, and local naming surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its continuation row $C$ displays the route from
+$G$ to $F$, from $F$ to $D$, from $D$ to $R$, and from the local witness to any
+composed refusal handoff.
+
+Apply the NameCert obligations of
+\autoref{thm:audit-gate-failure-witness-namecert-obligations}. Carrier
+admission and replay visibility identify the public replay spine, while
+diagnostic exactness and refusal attachment force the order
+$G \to F \to D \to R$.
+
+Finally apply the composition handoff,
+\autoref{thm:audit-gate-failure-witness-composition-handoff}. It permits a
+composed gate surface to consume only the displayed diagnostic, refusal, and
+replay rows. The remaining support is therefore exactly $H,C,P,N$, and no
+undisplayed repair, bypass, or replacement diagnostic participates in replay.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 
 \closureat{AuditGateFailureWitnessUp}{seedStr}

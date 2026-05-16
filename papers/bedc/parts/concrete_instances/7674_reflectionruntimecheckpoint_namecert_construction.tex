@@ -170,6 +170,7 @@ Finally apply \autoref{thm:reflection-runtime-checkpoint-validation-nonescape-ro
 \label{thm:reflection-runtime-checkpoint-state-trace-coupling}
 For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the checkpoint state row $S$ and trace-evidence row $T$ are consumed together before a validation-facing read reaches $V$. A consumer may not read $S$ as a detached runtime state or read $T$ as a detached validation act.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointCarrier\_state\_trace\_coupling}
 \begin{proof}
 Project the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}. The rows $S$ and $T$ are adjacent checkpoint coordinates of the same finite packet, following the admitted runtime-candidate input row $I$ and preceding the validation-boundary row $V$.
 

@@ -564,6 +564,72 @@ seals, or ambient completeness, preserving those rows is precisely the
 pullback condition for reaching the Real seal.
 \end{proof}
 
+\begin{theorem}[Real-window budget StreamName-RegSeqRat factorization]
+\label{thm:real-window-budget-streamname-regseqrat-factorization}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
+Every accepted consumer of $\RealWindowBudgetUp$ that reaches the $\RealUp$
+seal factors through the displayed rows in the order
+$$
+Q \to V \to D \to R \to S,
+$$
+with $B,O,H,C,P,N$ supplying selector, disclosure, componentwise transport,
+continuation, provenance, and local naming support. Thus the route first reads
+the $\StreamNameUp$ window rows, then the $\DyadicRatCoreUp$ readback rows,
+then the $\RegSeqRatUp$ handoff, and only then the $\RealUp$ seal. No quotient
+stream, selected limit, hidden schedule, or ambient completeness row can supply
+an alternate factor of this route.
+\end{theorem}
+\begin{proof}
+Start with selector pullback exactness,
+\autoref{thm:real-window-budget-selector-pullback-exactness}. It identifies
+reaching the Real seal with preservation of exactly
+$Q,V,D,R,S,B,O,H,C,P,N$.
+
+Next read the cross-chapter current-phase route through the StreamName status
+ledger and the four-object exit theorem,
+\autoref{thm:streamname-real-completion-status-ledger-exactness} and
+\autoref{thm:streamname-real-completion-four-object-exit-route}. These place
+the public completion path in the order StreamName windows, DyadicRatCore
+readbacks, RegSeqRat handoff, and RealUp seal.
+
+Finally apply observation-scope exhaustion and Real-seal readback totality,
+\autoref{thm:real-window-budget-observation-scope-exhaustion} and
+\autoref{thm:real-window-budget-real-seal-readback-totality}. They remove the
+remaining non-displayed coordinates, so quotient streams, selected limits,
+hidden schedules, and ambient completeness rows cannot appear in the
+factorization.
+\end{proof}
+
+\begin{theorem}[Real-window budget four-object readback lock]
+\label{thm:real-window-budget-four-object-readback-lock}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
+The only public current-phase status faces available to a $\RealWindowBudgetUp$
+consumer are exactly $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, each read through the same finite rows $Q,V,D,R,S,B,O,H,C,P,N$.
+The packet has no public face for a quotient stream, selected limit, hidden
+schedule, ambient completeness theorem, or additional completion object.
+\end{theorem}
+\begin{proof}
+The StreamName status ledger and four-object exit route,
+\autoref{thm:streamname-real-completion-status-ledger-exactness} and
+\autoref{thm:streamname-real-completion-four-object-exit-route}, identify the
+current Phase Real and Completion surface with the four named objects:
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Selector pullback exactness,
+\autoref{thm:real-window-budget-selector-pullback-exactness}, pins those faces
+to the single displayed RealWindowBudget carrier route. The rows
+$Q,V,D,R,S,B,O,H,C,P,N$ therefore serve all four status reads rather than four
+independent host objects.
+
+Observation-scope exhaustion and Real-seal readback totality,
+\autoref{thm:real-window-budget-observation-scope-exhaustion} and
+\autoref{thm:real-window-budget-real-seal-readback-totality}, close the public
+readback surface. Since no carrier coordinate names a quotient stream,
+selected limit, hidden schedule, ambient completeness theorem, or further
+completion object, those cannot be public current-phase status faces.
+\end{proof}
+
 \begin{theorem}[Real-window budget open-phase four-face status pullback]
 \label{thm:real-window-budget-open-phase-four-face-status-pullback}
 Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
