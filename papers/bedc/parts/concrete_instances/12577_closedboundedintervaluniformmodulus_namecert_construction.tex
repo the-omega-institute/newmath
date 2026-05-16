@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedIntervalUniformModulusUp$}
+\label{ch:concrete-instances-closed-bounded-interval-uniform-modulus-namecert}
+\origin{human}
+
+The $\ClosedBoundedIntervalUniformModulusUp$ packet records the Bishop--Bridges and Heine--Cantor interval route inside the BEDC finite-ledger substrate. It specializes the compact-uniform-continuity vision of \autoref{ch:visions-compact-uniform-continuity} to a closed bounded real interval: the endpoint and membership rows come from $\RealUp$ and $\IntervalUp$, compactness is read through the finite dyadic-cover surface of \autoref{ch:concrete-instances-compactmetric-namecert}, pointwise continuity is read through \autoref{ch:concrete-instances-continuousmap-namecert}, the Lebesgue-radius ledger is supplied by \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, and the output is the $\UniformModulusUp$ consumer row.
+
+\begin{definition}[Closed bounded interval uniform-modulus carrier]
+\label{def:closed-bounded-interval-uniform-modulus-carrier}
+A $\ClosedBoundedIntervalUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,B,R,C,D,L,M,U,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are $\RealUp$ endpoint rows with the displayed interval orientation $A \le B$;
+\item $R$ is the $\IntervalUp$ membership row for the closed bounded source interval $[A,B]$;
+\item $C$ is the $\CompactMetricUp$ finite dyadic-cover row whose centers and mesh are carried by a finite $\mathsf{ProbeBundle}$;
+\item $D$ is the $\DyadicCoverUp$ mesh ledger relating the interval endpoints, dyadic centers, and half-radius coverage rows;
+\item $L$ is the $\FiniteLebesgueNumberUp$ radius ledger giving one positive radius below every dyadic cover radius used by $C$ and $D$;
+\item $M$ is the $\ContinuousMapUp$ pointwise-modulus row for the displayed map on the interval source;
+\item $U$ is the $\UniformModulusUp$ output row carrying the tolerance-to-precision history produced from $L$ and $M$;
+\item $H$ records componentwise $\hsame$ transport for endpoints, membership, dyadic cover, Lebesgue radius, pointwise modulus, and uniform-modulus output;
+\item $Q$ records the displayed $\Cont$ routes through which interval, compact-metric, continuous-map, dyadic-cover, Lebesgue-number, and uniform-modulus consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\IntervalUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicCoverUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, and $\Cont$ rows;
+\item $N$ is the local $\NameCert_{\ClosedBoundedIntervalUniformModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, sequential compactness, a host minimum over radii, quotient real equality, or an external modulus function. Every public read of the interval Heine--Cantor route must pass through the displayed finite dyadic cover and finite Lebesgue-number ledger.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval uniform-modulus NameCert obligations]
+\label{thm:closed-bounded-interval-uniform-modulus-namecert-obligations}
+For the carrier of \autoref{def:closed-bounded-interval-uniform-modulus-carrier}, the local $\NameCert_{\ClosedBoundedIntervalUniformModulusUp}$ surface consists exactly of five finite obligations: carrier admission for the displayed packet $I$; classifier preservation under the componentwise $\hsame$ rows $H$; dyadic-cover coverage for every $\IntervalUp$ member read from $R$; finite Lebesgue-number compatibility between $D$ and $L$; and output exactness saying that the $\UniformModulusUp$ row $U$ is read only through $C,D,L,M,H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is immediate from the displayed packet: every endpoint, interval-membership, dyadic-cover, Lebesgue-radius, pointwise-modulus, output, transport, route, provenance, and local naming row is one of the coordinates of $I$.
+
+Classifier preservation follows by reading the componentwise $\hsame$ rows in $H$. These rows transport the endpoint orientation, interval membership, dyadic cover mesh, finite Lebesgue-number radius, pointwise modulus, and uniform-modulus output without adding a row outside the carrier.
+
+The coverage and radius clauses are supplied by $C,D,L$. The compact-metric finite cover chooses only bundled dyadic centers from $D$, and the finite Lebesgue-number ledger $L$ gives a positive radius below the displayed cover radii.
+
+Finally the output exactness clause routes the continuous-map rows $M$ and the finite radius ledger $L$ into $U$ through $Q,P,N$. Thus every local naming obligation is discharged by rows already visible in $I$.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval Heine--Cantor route]
+\label{thm:closed-bounded-interval-uniform-modulus-heine-cantor-route}
+Let $I=(A,B,R,C,D,L,M,U,H,Q,P,N)$ be an accepted $\ClosedBoundedIntervalUniformModulusUp$ carrier. For every positive target-tolerance history read by the $\ContinuousMapUp$ row $M$, the $\UniformModulusUp$ output $U$ factors through the finite dyadic cover $D$ and the finite Lebesgue-number ledger $L$: a source-distance read below the precision exported by $U$ is routed to one bundled dyadic center, then through the corresponding pointwise-modulus row of $M$, and finally through the target metric triangle row.
+
+The factorization uses the interval membership row $R$, compact finite-cover row $C$, dyadic mesh row $D$, Lebesgue-number row $L$, pointwise-modulus row $M$, and transport and provenance rows $H,Q,P,N$. It uses no open-cover compactness theorem, no host minimum, no selected subsequence, no quotient equality of reals, and no external modulus selector.
+\end{theorem}
+\begin{proof}
+Start with the interval source. The endpoint rows $A,B$ and the membership row $R$ identify the closed bounded interval as the only source domain visible to the packet.
+
+Read compactness through the finite dyadic-cover rows $C$ and $D$. For each source history admitted by $R$, the cover returns a bundled dyadic center and a displayed mesh-radius comparison; the center is a row of the finite $\mathsf{ProbeBundle}$, not an externally chosen real point.
+
+Use the finite Lebesgue-number ledger $L$ to choose the precision handed to the uniform-modulus output. Since $L$ is below every displayed dyadic cover radius, any pair of interval histories whose source distance is below the exported precision remains inside one cover member after transport through $H$.
+
+At that bundled center, the $\ContinuousMapUp$ row $M$ supplies the pointwise modulus for the requested tolerance. The target metric triangle row then combines the two pointwise estimates through the same center, and the route rows $Q,P,N$ repack the result as the $\UniformModulusUp$ output $U$.
+
+All rows used in the argument are coordinates of $I$. Hence the Heine--Cantor interval route is realized by finite dyadic cover data plus the finite Lebesgue-number ledger, with no appeal to an open cover, host minimum, selected subsequence, quotient real equality, or external analytic modulus.
+\end{proof}
