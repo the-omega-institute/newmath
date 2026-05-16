@@ -49,3 +49,28 @@ The remaining structural access is exhausted by the same packet rows. Componentw
 
 Coordinate exhaustion now rules out bypasses. A hidden normalization oracle, host equality proof, subject-reduction bridge, or external consistency claim is not one of the displayed rows, so it cannot be supplied by a public consumer of the accepted completion surface.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier public route exhaustion]
+\label{thm:metacic-normalization-frontier-consumer-route-public-exhaustion}
+Every public consumer route through an accepted
+$\MetaCICNormalizationFrontierUp$ packet chooses either the candidate route
+$C,K,R,P,L$ or the endpoint route $E,N,R,P,L$. In both cases it retains the
+obstruction row $S$ and the structural rows $H,R,P,L$. The packet exports no
+third route through hidden normalization, scheduler state, host equality,
+subject-reduction bridge, or external consistency claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-normalization-frontier-candidate-coverage} to the
+candidate-facing case. The read is forced through $C,K,R,P,L$, with $H$ only
+transporting displayed rows.
+
+Apply \autoref{thm:metacic-normalization-frontier-endpoint-readback} to the
+normal-endpoint case. The read is forced through $E,N,R,P,L$, while $S$
+remains a visible obstruction coordinate of the same packet.
+
+Finally combine \autoref{thm:metacic-normalization-frontier-consumer-nonescape}
+with \autoref{thm:metacic-normalization-frontier-consumer-boundary-lock}. A
+public consumer that avoids both positive routes, erases $S$, or imports a
+hidden normalization, scheduler, host-equality, subject-reduction, or external
+consistency row is outside the accepted frontier packet.
+\end{proof}
