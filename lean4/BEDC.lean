@@ -751,6 +751,7 @@ import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.TailCofinalityScheduleUp
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
+import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
@@ -886,6 +887,7 @@ import BEDC.Derived.MonotoneCauchyUp.LocatedRealCompletionHandoff
 import BEDC.Derived.MonotoneCauchyUp.LocatedScopePackage
 import BEDC.Derived.MonotoneCauchyUp.MatureRouteSummary
 import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
+import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.MultihistCouplingUp.TasteGate
