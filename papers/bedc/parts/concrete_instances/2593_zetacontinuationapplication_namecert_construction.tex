@@ -306,6 +306,42 @@ Next attach the sibling source-lock theorems. The Gamma eta handoff, analytic-op
 Finally use \autoref{thm:zeta-continuation-application-non-escape}. The excluded objects have no displayed coordinate in the carrier, so the public package cannot export them through a bridge or application consumer.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication root source lock]
+\label{thm:zeta-continuation-application-root-source-lock}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every root-level read of the $\GammaUp$ horizon, the analytic-operation application surface, or the $\ZetaBasicUp$ eta source must pass through the displayed rows $G,A,E$ and then through the transport, replay, provenance, and naming rows $H,C,Q,N$. The root packet has no source coordinate outside $G,A,E,H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition and the NameCert obligation surface. The tuple $Z=(E,F,P,T,G,A,H,C,Q,N)$ displays the Gamma horizon row $G$, analytic-operation row $A$, eta source row $E$, transport row $H$, replay row $C$, provenance row $Q$, and local name $N$ as named coordinates of one finite packet.
+
+Apply the source-lock theorems. The Gamma eta handoff forces Gamma-facing reads through $G$, the analytic-operation boundary forces operation-facing reads through $A$, and the ZetaBasic source lock forces eta-source reads through $E$.
+
+Finally use componentwise stability, primitive scope, and the public non-escape package. Transport and replay preserve the three source rows separately through $H$ and $C$, while $Q$ and $N$ record only the package provenance and local name of the same carrier. Therefore every root source read is locked to $G,A,E,H,C,Q,N$.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root ledger boundary]
+\label{thm:zeta-continuation-application-root-ledger-boundary}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the root ledgers for the pole boundary, trivial-zero surface, Gamma horizon, application provenance, and local naming are exhausted by $P,T,G,Q,N$. They export no pole value, completed $\GammaUp$ construction, nontrivial-zero classifier, RH statement, or ledger row outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with ledger exactness. The pole ledger is $P$, the trivial-zero ledger is $T$, the Gamma horizon ledger is $G$, and the provenance and local naming ledgers are $Q$ and $N$.
+
+Use carrier admission and componentwise stability to keep these rows attached to the same accepted packet. A root ledger read transported by $H$ and replayed by $C$ returns to the corresponding coordinate of $Z$ rather than to an external analytic object.
+
+Now attach boundary exhaustion and the public non-escape package. The carrier has no coordinate for a regular pole value, completed Gamma construction, nontrivial-zero classifier, RH statement, or additional ledger surface, so the root ledger boundary is exactly $P,T,G,Q,N$.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root replay non-escape]
+\label{thm:zeta-continuation-application-root-replay-nonescape}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every root consumer replay after the displayed carrier rows factors through $H,C,Q,N$. Such replay may inspect the source rows $E,G,A$ and the public coordinates $F,P,T$ only through the same finite package, and it exports no RH statement, completed $\GammaUp$ construction, pole value, nontrivial-zero classifier, or off-route continuation branch.
+\end{theorem}
+\begin{proof}
+Begin with route totality and the public export surface. They identify the complete replay-readable inventory as the displayed carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$.
+
+Next apply the primitive scope package and bridge consumer boundary. A root consumer can move across the packet only by using componentwise $\hsame$ transport in $H$, finite $\Cont$ replay in $C$, package provenance in $Q$, and the local $\NameCert$ row $N$.
+
+It remains to exclude replay escape. The public non-escape package combines the sibling source locks with boundary exhaustion, so RH, completed Gamma data, pole values, nontrivial-zero classifiers, and off-route branches have no carrier coordinate. Every root consumer replay therefore factors through $H,C,Q,N$ over the displayed finite packet.
+\end{proof}
+
 \closureat{ZetaContinuationApplicationUp}{seedStr}
 \closureat{ZetaContinuationApplicationUp}{obligationStr}
 \closureat{ZetaContinuationApplicationUp}{scopedStr}
@@ -314,7 +350,7 @@ Finally use \autoref{thm:zeta-continuation-application-non-escape}. The excluded
 \begin{closurestatus}{\ZetaContinuationApplicationUp}
   \constructivestory{A $\ZetaContinuationApplicationUp$ packet is generated from eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application routes, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-carrier-admission}, \autoref{thm:zeta-continuation-application-componentwise-stability}, \autoref{thm:zeta-continuation-application-ledger-exactness}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, \autoref{thm:zeta-continuation-application-route-totality}, \autoref{thm:zeta-continuation-application-boundary-exhaustion}, \autoref{thm:zeta-continuation-application-public-export}, \autoref{thm:zeta-continuation-application-non-escape}, \autoref{thm:zeta-continuation-application-primitive-scope-package}, \autoref{thm:zeta-continuation-application-public-export-surface}, \autoref{thm:zeta-continuation-application-bridge-consumer-boundary}, and \autoref{thm:zeta-continuation-application-public-nonescape-package} with \leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.taste\_gate} define the local application carrier, obligation rows, carrier admission, componentwise stability, ledger exactness, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, route totality, boundary exhaustion, public export exactness, non-escape ledger, primitive scope package, public export surface, bridge consumer boundary, and public non-escape package.}
+  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-carrier-admission}, \autoref{thm:zeta-continuation-application-componentwise-stability}, \autoref{thm:zeta-continuation-application-ledger-exactness}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, \autoref{thm:zeta-continuation-application-route-totality}, \autoref{thm:zeta-continuation-application-boundary-exhaustion}, \autoref{thm:zeta-continuation-application-public-export}, \autoref{thm:zeta-continuation-application-non-escape}, \autoref{thm:zeta-continuation-application-primitive-scope-package}, \autoref{thm:zeta-continuation-application-public-export-surface}, \autoref{thm:zeta-continuation-application-bridge-consumer-boundary}, \autoref{thm:zeta-continuation-application-public-nonescape-package}, \autoref{thm:zeta-continuation-application-root-source-lock}, \autoref{thm:zeta-continuation-application-root-ledger-boundary}, and \autoref{thm:zeta-continuation-application-root-replay-nonescape} with \leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.taste\_gate} define the local application carrier, obligation rows, carrier admission, componentwise stability, ledger exactness, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, route totality, boundary exhaustion, public export exactness, non-escape ledger, primitive scope package, public export surface, bridge consumer boundary, public non-escape package, root source lock, root ledger boundary, and root replay non-escape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
