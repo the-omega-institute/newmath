@@ -627,6 +627,49 @@ claimed three-row factorization and excludes quotient, selected-limit,
 countable-choice, host-equality, and ambient-completeness exports.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat tail-budget uniformity]
+\label{thm:streamname-regseqrat-tail-budget-uniformity}
+Let a finite accepted $\StreamNameUp$--$\RegSeqRat$ handoff packet present
+StreamName finite observations through a common pointwise classifier, with
+matching $\BHist$ rows, $\hsame$ transports, finite $\Cont$ routes, shared
+$\Pkg$ provenance, and a displayed $\NameCert$ for the handoff surface. Suppose
+the $\RegSeqRat$ tail selector carries a dyadic budget row consumed by the
+finite-prefix $\RealUp$ endpoint. Then every later finite window accepted by
+the same StreamName pointwise classifier factors through the same tail-budget
+certificate.
+
+Equivalently, once the packet has fixed the StreamName finite observations,
+the RegSeqRat tail selector, and the RealUp budget consumer, enlarging the
+finite window changes only the visible window ledger. It does not export a new
+tail selector, budget witness, completion datum, quotient stream, host equality,
+or ambient regularity row outside the certified $\NameCert$, $\Cont$, $\hsame$,
+$\BHist$, and $\Pkg$ surface.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-factorization}. The
+tail-selector read factors through the StreamName finite-window classifier,
+the RegSeqRat scheduled projection and readback row, and the RealUp
+finite-prefix classifier. Thus the budget row is already located on the
+displayed finite ledger rather than on a selected completion representative.
+
+Next use
+\autoref{thm:streamname-regseqrat-nested-window-seal-determinacy} for a later
+finite window accepted by the same pointwise StreamName classifier. The nested
+window has the same $\BHist$ source rows, $\hsame$ transport witnesses, finite
+$\Cont$ routes, and $\Pkg$ provenance on the overlap, so the RegSeqRat
+scheduled projection reads the same tail-selector certificate on the shared
+part.
+
+Finally compare all later windows with
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. The finite
+cover determinacy theorem pastes the overlapping StreamName, RegSeqRat, and
+RealUp rows into one cover-indexed source surface. Therefore each RealUp
+budget consumer sees the same dyadic tail-budget certificate, and no further
+completion, quotient, host-index, or off-ledger regularity datum can enter the
+handoff.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat finite-window cover determinacy]
 \label{thm:streamname-regseqrat-finite-window-cover-determinacy}
 Let $\{W_i\}_{i\in I}$ be a finite public $\StreamNameUp$ cover of rational

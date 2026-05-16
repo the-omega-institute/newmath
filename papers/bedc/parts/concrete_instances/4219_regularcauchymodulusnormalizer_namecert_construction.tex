@@ -207,15 +207,109 @@ Use \autoref{thm:regular-cauchy-modulus-normalizer-common-window}. The common-wi
 Use \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}. Since the packet has no coordinate for host equality, quotient streams, selected limits, side-specific tail oracles, or ambient completeness, none of those structures can source an obligation row or replace the primitive bindings just projected.
 \end{proof}
 
-\closureat{RegularCauchyModulusNormalizerUp}{publicStr}
+\begin{theorem}[Regular Cauchy modulus normalizer normalized route bridge]
+\label{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+the public route
+$$
+(X,Y,\mu_X,\mu_Y,M)\mapsto(W,D,R)\mapsto(E,H,C,P,N)
+$$
+bridges to the completion-facing shared-window comparison interface through the single normalized route
+$$
+\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N .
+$$
+The bridge reads only the displayed $\BHist$ packet, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no quotient stream, host real equality, selected limit, side-specific tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations. Carrier admission, source exposure,
+meet exactness, shared-window exactness, classifier stability, and non-escape
+from \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}
+display the whole finite packet and keep every public read inside it.
+
+Use the source-exposure, shared-window, and seal-replay obligations next.
+\autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}
+places the two schedules before the meet row,
+\autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}
+forces $W,D,R$ to serve both sources after $M$, and
+\autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}
+replays the $\RealUp$ seal through $E,H,C,P,N$.
+
+Now apply common-window exactness and non-escape.
+\autoref{thm:regular-cauchy-modulus-normalizer-common-window} identifies the
+normalized public route through $\mu_X,\mu_Y,M,W,D,R,H,C,P,N$, while
+\autoref{thm:regular-cauchy-modulus-normalizer-nonescape} removes
+source-equivalence shortcuts, quotient streams, host real equality, selected
+limits, side-specific tail oracles, and ambient completeness.
+
+Finally use the public route of
+\autoref{thm:regular-cauchy-modulus-normalizer-public-route}. The completion-facing
+shared-window comparison interface receives exactly the displayed normalized
+route, so it is the bridge from the two source schedules to that public
+consumer surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus normalizer bridge obstruction boundary]
+\label{thm:regular-cauchy-modulus-normalizer-bridge-obstruction-boundary}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+any bridge-facing request that preserves the public normalized route as a same-surface bridge must expose the same rows
+$$
+\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N .
+$$
+It must also preserve the primitive binding through the displayed $\BHist$
+packet, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance,
+and local $\NameCert$ row. A request that omits the meet row $M$, shared
+window $W$, dyadic tolerance $D$, paired readback $R$, $\RealUp$ seal $E$,
+route replay through $C$, or provenance through $P,N$ is outside this chapter's
+bridge surface rather than an obstruction to the public route.
+\end{theorem}
+\begin{proof}
+Start from the local NameCert obligations.
+\autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations} reads
+carrier admission, source exposure, meet exactness, shared-window exactness,
+classifier stability, and non-escape from the coordinates of the displayed
+packet.
+
+The source-facing and seal-facing obligations fix the rows that a bridge request
+must keep visible. Use
+\autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation},
+\autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, and
+\autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation} to expose
+the two schedules, the meet row, the common window, the dyadic tolerance, the
+paired readback, the $\RealUp$ seal, the route replay, and the provenance rows.
+
+Common-window exactness and non-escape supply the obstruction boundary.
+\autoref{thm:regular-cauchy-modulus-normalizer-common-window} keeps the
+normalized route on $\mu_X,\mu_Y,M,W,D,R,H,C,P,N$, while
+\autoref{thm:regular-cauchy-modulus-normalizer-nonescape} prevents quotient
+streams, host real equality, selected limits, side-specific tail oracles, and
+ambient completeness from replacing those coordinates.
+
+Finally apply the scoped primitive binding, public route, and normalized route
+bridge. \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}
+binds the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\autoref{thm:regular-cauchy-modulus-normalizer-public-route} identifies the
+public consumer route; and
+\autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge} reads
+the completion-facing bridge from that same surface. Any request missing one of
+the displayed rows therefore leaves the bridge surface instead of producing an
+internal obstruction to the public normalized route.
+\end{proof}
+
+\closureat{RegularCauchyModulusNormalizerUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularCauchyModulusNormalizerUp}
   \constructivestory{A $\RegularCauchyModulusNormalizerUp$ packet is generated from two $\RegSeqRatUp$ source rows, two displayed Cauchy-modulus schedules, a shared $\CauchyModulusMeetUp$ row, one shared $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ tolerance, paired $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, and \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, and public consumer route.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}, and \autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, public consumer route, and normalized-route bridge.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient regular streams, source-equivalence shortcuts, host real equality, selected limits, side-specific tail oracles, ambient completeness, Lean verification, or bridge checking for $\RegularCauchyModulusNormalizerUp$.}
-  \upgradepath{The next paper-side obligation is a bridge theorem for the normalized public route over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Mature closure requires verification-axis strengthening for the normalized public route over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}

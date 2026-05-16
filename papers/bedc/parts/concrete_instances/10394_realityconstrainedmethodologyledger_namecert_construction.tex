@@ -193,6 +193,97 @@ Apply the scope exactness and domain-leakage clauses of \autoref{thm:reality-con
 Now use \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal}. A beyond-scope export that lacks its witness in $D$ is rejected before it reaches $C$. Finally, \autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy} rules out deleting, replacing, or bypassing the carrier as a competing source for the same accepted export.
 \end{proof}
 
+\begin{theorem}[Reality-constrained methodology-ledger root audit source lock]
+\label{thm:reality-constrained-methodology-ledger-root-audit-source-lock}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted
+$\RealityConstrainedMethodologyLedgerUp$ packet. Every root audit read of the
+methodology ledger must expose the sibling rows $X,A,O,T,I$ and the kernel
+support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before the
+consumer route $C$ can treat the read as methodology authority.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and certificate,
+\autoref{def:reality-constrained-methodology-ledger-carrier} and
+\autoref{def:reality-constrained-methodology-ledger-certificate}. They place
+the explanation, audit, objectivity, tower-compression, and open-fit siblings
+in $X,A,O,T,I$ and preserve them through the displayed comparison surface.
+
+Apply the NameCert obligations of
+\autoref{thm:reality-constrained-methodology-ledger-namecert-obligations}. The
+sibling-accountability and carrier-admission rows require those five sibling
+sources inside the same finite $\BHist$ packet, while the transport,
+continuation, provenance, and local naming rows are read through
+$H,C,Q,N$ as $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally use scope-export exactness and source-refusal boundary,
+\autoref{thm:reality-constrained-methodology-ledger-scope-export-exactness} and
+\autoref{thm:reality-constrained-methodology-ledger-source-refusal-boundary}.
+They prevent a root audit read from exporting sibling authority beyond $S$
+unless the same packet records the refusal and route rows. Thus the audit source
+is locked to $X,A,O,T,I$ over the displayed kernel support.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger root open-fit refusal route]
+\label{thm:reality-constrained-methodology-ledger-root-open-fit-refusal-route}
+Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted
+$\RealityConstrainedMethodologyLedgerUp$ packet. Any root read that uses the
+open-fit sibling row $I$ as a public methodology refusal must route the read
+through the displayed sibling rows $X,A,O,T,I$, the refusal and failure rows
+$D,F$, and the $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support of $H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The open-fit material is one sibling row $I$ of the same
+packet $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, not a separate public refusal oracle.
+
+Use the NameCert obligations, scope-export exactness, and source-refusal
+boundary. The obligations require sibling accountability and failure-surface
+exposure, scope-export exactness requires $S$ before public methodology use, and
+the source-refusal boundary sends any beyond-scope sibling read through the
+displayed refusal row $D$ before $C$ accepts it.
+
+Now apply root open-fit refusal package and failure-route locality,
+\autoref{thm:reality-constrained-methodology-ledger-root-open-fit-refusal-package}
+and
+\autoref{thm:reality-constrained-methodology-ledger-failure-route-locality}.
+They keep the open-fit defeat in $F$ and the refusal route in $D$ inside the
+same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, so the route
+cannot become an off-ledger empirical-fit authority.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger root upgrade readiness]
+\label{thm:reality-constrained-methodology-ledger-root-upgrade-readiness}
+For every accepted $\RealityConstrainedMethodologyLedgerUp$ packet
+$L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, the root upgrade surface is ready exactly when
+the sibling rows $X,A,O,T,I$, the scope/refusal/failure rows $S,D,F$, the
+upgrade row $U$, and the $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support
+$H,C,Q,N$ are displayed together. No upgrade route may delete the present
+carrier or replace it by an external methodology source.
+\end{theorem}
+\begin{proof}
+First assemble the displayed packet from
+\autoref{def:reality-constrained-methodology-ledger-carrier}. The upgrade row
+$U$ is part of $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, so it is read together with the
+sibling, scope, refusal, failure, transport, consumer, provenance, and local
+naming rows.
+
+Apply upgrade-route determinacy and upgrade scope lock,
+\autoref{thm:reality-constrained-methodology-ledger-upgrade-route-determinacy}
+and
+\autoref{thm:reality-constrained-methodology-ledger-upgrade-scope-lock}. These
+results make every accepted extension a route through the displayed $D,U$
+surface and prevent the upgrade row from replacing the carrier.
+
+Finally combine
+\autoref{thm:reality-constrained-methodology-ledger-root-audit-source-lock},
+\autoref{thm:reality-constrained-methodology-ledger-root-open-fit-refusal-route},
+and
+\autoref{thm:reality-constrained-methodology-ledger-obligation-closure-package}.
+The audit lock keeps $X,A,O,T,I$ visible, the open-fit refusal route keeps
+$D,F$ visible for empirical defeats, and the closure package binds $H,C,Q,N$ to
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Hence upgrade readiness is exactly
+the displayed root surface and not an external methodology authority.
+\end{proof}
+
 \begin{theorem}[Reality-constrained methodology-ledger upgrade scope lock]
 \label{thm:reality-constrained-methodology-ledger-upgrade-scope-lock}
 Let $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$ be an accepted $\RealityConstrainedMethodologyLedgerUp$ packet. An accepted upgrade row $U$ preserves the same displayed packet
@@ -622,6 +713,20 @@ failure reading, and consumer reading.
 The independence witness then separates the five siblings by the rows they do
 not jointly carry. Since the carrier has no collapse coordinate for replacing
 $X,A,O,T,I$ with one sibling, the audit remains a joint row-wise obligation.
+\end{proof}
+
+\begin{theorem}[Reality-constrained methodology-ledger public obligation surface]
+\label{thm:reality-constrained-methodology-ledger-public-obligation-surface}
+For every accepted $\RealityConstrainedMethodologyLedgerUp$ packet $L=(X,A,O,T,I,S,D,U,F,H,C,Q,N)$, the public obligation surface consists exactly of the refusal, upgrade, failure-surface, consumer-route, prediction, sibling-audit, TruthCert handoff, open-fit refusal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows displayed in this chapter. It exports no domain-truth oracle, no physical-model adequacy theorem, no hidden fit selector, and no external methodology primitive.
+\end{theorem}
+\begin{proof}
+First assemble the refusal and upgrade rows. Apply \autoref{thm:reality-constrained-methodology-ledger-domain-leakage-refusal} and \autoref{thm:reality-constrained-methodology-ledger-root-refusal-upgrade-coverage}. They force every beyond-scope methodology export to pass through the displayed domain-leakage refusal row $D$ and accepted route row $U$.
+
+Next add the public consumer and failure rows. Use \autoref{thm:reality-constrained-methodology-ledger-failure-consumer-public-scope}. It requires the failure surface and consumer route to be read together before the packet can be consumed as a methodology-ledger export.
+
+The TruthCert and open-fit interfaces are then local handoffs, not external sources. Apply \autoref{thm:reality-constrained-methodology-ledger-root-truthcert-handoff} and \autoref{thm:reality-constrained-methodology-ledger-root-open-fit-refusal-package}; these keep TruthCert and open-fit readings inside the same refusal, route, package, and naming rows.
+
+Finally use \autoref{thm:reality-constrained-methodology-ledger-sibling-audit-triad}. It keeps $X,A,O,T,I$ as accountable sibling rows and prevents their replacement by a domain-truth oracle, physical-model adequacy theorem, hidden fit selector, or external methodology primitive. The remaining $\hsame$, $\Cont$, $\Pkg$, prediction, and local $\NameCert$ rows are already the displayed support rows of the same packet, so the public surface is exactly the listed finite interface.
 \end{proof}
 
 \falsifiablePrediction{A carrier with no domain-leakage refusal row cannot support the methodology-ledger NameCert obligations.}
