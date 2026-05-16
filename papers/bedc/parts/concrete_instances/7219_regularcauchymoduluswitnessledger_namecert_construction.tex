@@ -90,6 +90,48 @@ Use \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route}. It identifie
 Since the carrier lacks coordinates for quotient regular streams, host real equality, hidden modulus replacement, countable selection, selected limits, and ambient completeness, no downstream consumer can recover any of those data from an accepted packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger source-window order]
+\label{thm:regular-cauchy-modulus-witness-ledger-source-window-order}
+In every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet, the $\RegSeqRatUp$ source row $X$ and its witnessed $\CauchyModulusUp$ ledger row $\mu$ are displayed before the $\StreamNameUp$ finite-window row $W$. The componentwise $\hsame$ data, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyModulusWitnessLedgerUp}$ rows preserve the same order from $X,\mu$ to $W$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier tuple of \autoref{def:regular-cauchy-modulus-witness-ledger-carrier}. The tuple places $X$ and $\mu$ before the finite-window service row $W$, and it has no separate window coordinate outside that displayed service row.
+
+Use \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. Its source and witness exposure row requires $X$ and $\mu$ to be read before any finite window is served, while its finite-window service row identifies $W$ as the only StreamName row available to the readback route.
+
+The transport, continuation, provenance, and local certificate rows are then read as replay data. Componentwise $\hsame$ in $H$ transports the same named rows, the displayed $\Cont$ route in $C$ runs from $\mu$ to $W$, and $P,M$ package exactly that ordered surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger normalized tail compatibility]
+\label{thm:regular-cauchy-modulus-witness-ledger-normalized-tail-compatibility}
+In every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet, the rows $N_0$ and $T$ are read as the same witnessed-modulus route before dyadic readback $D$ and RegSeqRat readback $Q$. Thus the normalized shared-modulus row and the tail-budget row cannot name different modulus ledgers before the Real-facing readback is formed.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple. The only witnessed modulus ledger coordinate is $\mu$, and both $N_0$ and $T$ occur as rows of the same packet before the dyadic tolerance row $D$ and RegSeqRat readback row $Q$ are consumed.
+
+Apply \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. The normalized route exactness row attaches $N_0$ to the witnessed ledger, and the tail-budget compatibility row attaches $T$ to that same witness-ledger route.
+
+The displayed continuations in $C$ carry the route from $\mu$ through $W$ to $D$, then from $D$ to $Q$ through $N_0$ and $T$. Since there is no second modulus ledger coordinate, the normalized row and the tail-budget row cannot diverge before dyadic or RegSeqRat readback.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger seal consumer totality]
+\label{thm:regular-cauchy-modulus-witness-ledger-seal-consumer-totality}
+Every $\RealUp$ or completion-seal consumer of an accepted $\RegularCauchyModulusWitnessLedgerUp$ packet factors through the displayed route
+$$
+X,\mu,W,N_0,T,D,Q,S,H,C,P,M.
+$$
+No quotient stream, host equality, hidden modulus replacement, selected limit, countable selector, or ambient completeness row can mediate the route.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route}. It identifies the finite route by which any RealUp or completion-seal consumer reaches the seal row $S$.
+
+Use \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. It states that the packet exports only the displayed rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$ and that every normalizer, tail-budget, completion-seal, or RealUp consumer factors through them.
+
+The source-window order theorem above fixes $X,\mu,W$ as the front of the route, and the normalized-tail compatibility theorem above fixes $N_0,T,D,Q$ before the Real-facing readback. The remaining rows $S,H,C,P,M$ carry the seal, transport, continuation, provenance, and local certificate surface.
+
+Because the carrier has no coordinates for quotient streams, host equality, hidden modulus replacement, selected limits, countable selectors, or ambient completeness, no such row can mediate a consumer route.
+\end{proof}
+
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cauchymodulusmeet, regular-cauchy-tail-budget, real-completion-seal-classifier, streamname: no sibling is bijective because this packet uniquely binds the witnessed modulus ledger to the downstream finite-window and RealUp seal route; each sibling omits either the single witness ledger, the normalized route, or the RealUp consumer seal.}
