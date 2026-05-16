@@ -415,6 +415,67 @@ theorem UnaryContMonoidCarrier_sibling_dependency [AskSetup] [PackageSetup]
     ⟨unaryA, unaryB, unaryProduct, siblingKUnary, siblingLUnary, productRoute,
       siblingRoute, tailRoute, sameUnit, ledgerPkg, siblingPkg⟩
 
+theorem UnaryContMonoidCarrier_public_formal_target [AskSetup] [PackageSetup]
+    {a b ab e unitLeft unitRight ledger name formalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryContMonoidCarrier a b ab e unitLeft unitRight ledger name bundle pkg ->
+      Cont ledger name formalRead ->
+        PkgSig bundle formalRead pkg ->
+          UnaryHistory formalRead ∧ Cont ledger name formalRead ∧
+            PkgSig bundle formalRead pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row formalRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row formalRead ∧ Cont ledger name formalRead ∧
+                    hsame e BHist.Empty)
+                (fun row : BHist => hsame row formalRead ∧ PkgSig bundle formalRead pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier formalRoute formalPkg
+  obtain ⟨unaryA, unaryB, unaryName, productRoute, _leftUnitRoute, _rightUnitRoute,
+    ledgerRoute, _ledgerPkg, sameUnit⟩ := carrier
+  have unaryProduct : UnaryHistory ab :=
+    unary_cont_closed unaryA unaryB productRoute
+  have unaryLedger : UnaryHistory ledger :=
+    unary_cont_closed unaryProduct unaryName ledgerRoute
+  have unaryFormalRead : UnaryHistory formalRead :=
+    unary_cont_closed unaryLedger unaryName formalRoute
+  have sourceFormal :
+      (fun row : BHist => hsame row formalRead ∧ UnaryHistory row) formalRead := by
+    exact ⟨hsame_refl formalRead, unaryFormalRead⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row formalRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row formalRead ∧ Cont ledger name formalRead ∧ hsame e BHist.Empty)
+        (fun row : BHist => hsame row formalRead ∧ PkgSig bundle formalRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro formalRead sourceFormal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, formalRoute, sameUnit⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, formalPkg⟩
+    }
+  exact ⟨unaryFormalRead, formalRoute, formalPkg, cert⟩
+
 def UnaryContMonoidKernelScope [AskSetup] [PackageSetup]
     (a b ab e unitLeft unitRight ledger name scopeRead : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
