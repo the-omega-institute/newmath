@@ -697,6 +697,73 @@ consume all five sibling routes before treating $N$ as the exported TruthCert
 packet.
 \end{proof}
 
+\begin{theorem}[Reality-constrained TruthCert root carrier obligation]
+\label{thm:reality-constrained-truth-cert-root-carrier-obligation}
+Every root-facing consumer of $\RealityConstrainedTruthCertUp$ must receive the
+displayed carrier packet $S,\Sigma,K,T,U,D,I,L,F,N$. Omitting any one of these
+rows leaves only a projection and cannot be read as the root-ready TruthCert
+export named by $N$.
+\end{theorem}
+\begin{proof}
+Use the carrier and classifier definitions,
+\autoref{def:reality-constrained-truth-cert-carrier} and
+\autoref{def:reality-constrained-truth-cert-classifier}. They make the ten
+displayed rows the whole accepted packet and the whole comparison surface.
+
+Apply root consumer totality,
+\autoref{thm:reality-constrained-truth-cert-root-consumer-totality}. Each
+methodology, open-fit, objectivity, physical-induction, or tower-compression
+consumer must consume the sibling routes through this same packet. Therefore a
+consumer that omits one displayed row has not received the carrier required for
+root export.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root classifier stability]
+\label{thm:reality-constrained-truth-cert-root-classifier-stability}
+If a root-facing transport compares two accepted
+$\RealityConstrainedTruthCertUp$ packets, then the classifier rows $K,K'$ remain
+the rows governing signature comparison for the transported packets
+$S,\Sigma,K,T,U,D,I,L,F,N$ and
+$S',\Sigma',K',T',U',D',I',L',F',N'$. The transport cannot replace the
+classifier row while preserving root readiness.
+\end{theorem}
+\begin{proof}
+Start with classifier stability and carrier transport,
+\autoref{thm:reality-constrained-truth-cert-classifier-stability} and
+\autoref{thm:reality-constrained-truth-cert-carrier-transport}. They keep the
+classifier component attached to the accepted signature comparison across the
+transported carrier.
+
+Now use root readiness,
+\autoref{thm:reality-constrained-truth-cert-root-readiness-packet}. Root
+readiness is the carrier route through field coverage, sibling handoff, ledger
+exactness, failure exactness, and export readiness. A changed classifier row
+would leave that route, so the transported export remains root-ready only when
+$K$ and $K'$ are the classifier rows being compared.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert root ledger nonescape]
+\label{thm:reality-constrained-truth-cert-root-ledger-nonescape}
+No root-facing export may expose the local name $N$ while bypassing the ledger
+row $L$ or the failure row $F$. The accepted export of
+$S,\Sigma,K,T,U,D,I,L,F,N$ therefore records compression, provenance, hidden
+residue, finite defeat, domain exit, classifier mismatch, and later observation
+before $N$ is readable.
+\end{theorem}
+\begin{proof}
+Apply ledger exactness and failure-surface exactness,
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness} and
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. They
+make $L$ and $F$ exact displayed rows, not optional annotations.
+
+Finally use export readiness and sibling handoff totality,
+\autoref{thm:reality-constrained-truth-cert-export-readiness} and
+\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. The local
+name $N$ is readable only after all displayed rows and sibling routes are
+consumed, so an export that bypasses $L$ or $F$ cannot be the root-ready
+$\RealityConstrainedTruthCertUp$ packet.
+\end{proof}
+
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
 
 \independenceWitness{reality-constrained-open-fit, reality-constrained-objectivity, reality-constrained-explanation, physical-induction-stability-seal, reality-constrained-tower-compression: the full nine-field TruthCert packet is available only after these sibling dependencies are consumed together.}

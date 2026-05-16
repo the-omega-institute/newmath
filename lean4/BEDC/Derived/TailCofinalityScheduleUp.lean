@@ -254,4 +254,52 @@ theorem TailCofinalityScheduleCarrier_transport_determinacy [AskSetup] [PackageS
     cont_respects_hsame sameRegseq sameSealRow regseqSealRead regseqSealRead'
   exact ⟨sameSealRead, sealReadUnary, sealReadUnary', endpointPkg, endpointPkg'⟩
 
+theorem TailCofinalityScheduleCarrier_regular_cauchy_tail_meet_handoff [AskSetup]
+    [PackageSetup]
+    {precision window dyadic regseq sealRow transport route provenance localCert endpoint
+      pairedSource pairedWindow modulus sharedThreshold meetRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TailCofinalityScheduleCarrier precision window dyadic regseq sealRow transport route
+        provenance localCert endpoint bundle pkg →
+      UnaryHistory pairedSource →
+        UnaryHistory pairedWindow →
+          Cont pairedSource pairedWindow modulus →
+            Cont modulus dyadic sharedThreshold →
+              Cont sharedThreshold regseq meetRead →
+                Cont meetRead sealRow sealRead →
+                  PkgSig bundle sealRead pkg →
+                    UnaryHistory precision ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+                      UnaryHistory regseq ∧ UnaryHistory sealRow ∧
+                        UnaryHistory pairedSource ∧ UnaryHistory pairedWindow ∧
+                          UnaryHistory modulus ∧ UnaryHistory sharedThreshold ∧
+                            UnaryHistory meetRead ∧ UnaryHistory sealRead ∧
+                              Cont precision window dyadic ∧ Cont dyadic regseq sealRow ∧
+                                Cont pairedSource pairedWindow modulus ∧
+                                  Cont modulus dyadic sharedThreshold ∧
+                                    Cont sharedThreshold regseq meetRead ∧
+                                      Cont meetRead sealRow sealRead ∧
+                                        PkgSig bundle endpoint pkg ∧
+                                          PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier pairedSourceUnary pairedWindowUnary pairedWindowModulus
+    modulusDyadicThreshold thresholdRegseqMeet meetSealRead sealReadPkg
+  obtain ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    precisionWindowDyadic, dyadicRegseqSeal, _sealTransportRoute, _routeProvenanceEndpoint,
+    _endpointLocalCert, endpointPkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed pairedSourceUnary pairedWindowUnary pairedWindowModulus
+  have sharedThresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed modulusUnary dyadicUnary modulusDyadicThreshold
+  have meetReadUnary : UnaryHistory meetRead :=
+    unary_cont_closed sharedThresholdUnary regseqUnary thresholdRegseqMeet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed meetReadUnary sealUnary meetSealRead
+  exact
+    ⟨precisionUnary, windowUnary, dyadicUnary, regseqUnary, sealUnary,
+      pairedSourceUnary, pairedWindowUnary, modulusUnary, sharedThresholdUnary,
+      meetReadUnary, sealReadUnary, precisionWindowDyadic, dyadicRegseqSeal,
+      pairedWindowModulus, modulusDyadicThreshold, thresholdRegseqMeet, meetSealRead,
+      endpointPkg, sealReadPkg⟩
+
 end BEDC.Derived.TailCofinalityScheduleUp
