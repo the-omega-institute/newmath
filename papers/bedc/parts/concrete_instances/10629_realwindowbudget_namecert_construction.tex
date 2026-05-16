@@ -516,6 +516,49 @@ claim of completeness, quotient-stream identity, selected host limit, or
 host-Real equality.
 \end{proof}
 
+\begin{theorem}[Real-window budget selector pullback exactness]
+\label{thm:real-window-budget-selector-pullback-exactness}
+Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet.
+A selector-disclosure consumer reaches the Real seal row $S$ if and only if it
+preserves the same request row $Q$, $\StreamNameUp$ window rows $V$,
+$\DyadicRatCoreUp$ readback rows $D$, $\RegSeqRatUp$ handoff row $R$,
+selector row $B$, disclosure row $O$, and structural rows $H,C,P,N$.
+No quotient stream, host equality, selected limit, hidden schedule, private
+seal, or ambient completeness coordinate can witness this pullback.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from the local NameCert obligations,
+\autoref{thm:real-window-budget-namecert-obligations}. They expose only the
+displayed request, window, dyadic readback, handoff, Real seal, selector,
+disclosure, transport, continuation, provenance, and naming rows.
+
+Selector stability and finite-route visibility,
+\autoref{thm:real-window-budget-selector-stability} and
+\autoref{thm:real-window-budget-finite-route-visibility}, then force any
+selector-disclosure read to stay on $Q \to V \to D \to R \to S$ with
+$B,O,H,C,P,N$ as its support. The RegSeqRat selector exactness theorem,
+\autoref{thm:real-window-budget-regseq-selector-exactness}, identifies $R$ as
+the handoff reached through those same finite rows rather than through a
+detached sequence or quotient representative.
+
+Observation-scope exhaustion and Real-seal readback totality,
+\autoref{thm:real-window-budget-observation-scope-exhaustion} and
+\autoref{thm:real-window-budget-real-seal-readback-totality}, remove the
+remaining escape coordinates. Thus a consumer that reaches $S$ has preserved
+exactly the displayed carrier rows.
+
+For the reverse direction, assume the consumer preserves
+$Q,V,D,R,S,B,O,H,C,P,N$. Project the accepted packet onto its continuation row
+$C$ and read the displayed route $Q \to V \to D \to R \to S$ together with the
+selector and disclosure rows $B,O$.
+
+The same projection supplies $H$ for componentwise transport, $P$ for
+provenance, and $N$ for local naming. Since the carrier has no field for
+quotient streams, host equality, selected limits, hidden schedules, private
+seals, or ambient completeness, preserving those rows is precisely the
+pullback condition for reaching the Real seal.
+\end{proof}
+
 \falsifiablePrediction{A Real-facing consumer that omits the displayed $\RealWindowBudgetUp$ packet $W=(Q,V,D,R,S,B,O,H,C,P,N)$ cannot cite the finite observation route of \autoref{sec:reality-constrained-synthesis} as a completed Real handoff.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchydiagonalbudget, realobservationbudget: none is bijective to $\RealWindowBudgetUp$ because the carrier packages the request, finite windows, dyadic readbacks, regular handoff, Real seal, selector budget, disclosure budget, componentwise transport, continuation replay, provenance, and local naming as one finite route.}
