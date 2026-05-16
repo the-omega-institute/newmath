@@ -1,0 +1,47 @@
+\begin{theorem}[AuthorizedGeneratorRecursor accepted signature route]
+\label{thm:authorized-generator-recursor-accepted-signature-route}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+any public read that consumes the output row $O$ must first expose the accepted signature row $I$, emitted recursor row $E$, checked motive row $M$, authorized branch package $B$, and structural-descent row $D$. The route may then read $O$ only as the output row of the same carrier; it has no detached branch table, motive-free recursive channel, hidden generator source, or off-packet signature route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. It places $I,E,M,B,D$ before $O$ in one finite $\BHist$ packet, so the public consumer begins with the displayed signature, recursor, motive, branch, and descent rows rather than with a separate generator source.
+
+Use \autoref{thm:authorized-generator-recursor-carrier-admission} and \autoref{thm:authorized-generator-recursor-route-authorization}. These results identify accepted route consumption with the same finite carrier and require the route to retain the source signature, emitted recursor, motive, branch package, descent row, output row, audit row, and local certificate together.
+
+Finally apply branch exhaustion and descent locality. Theorems~\ref{thm:authorized-generator-recursor-branch-exhaustion} and~\ref{thm:authorized-generator-recursor-structural-descent-locality} keep the branch package on the accepted constructor list and keep recursive use local to the motive and descent rows. Therefore $O$ is reached only after $I,E,M,B,D$ have become visible on the accepted signature route.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output boundary totality]
+\label{thm:authorized-generator-recursor-output-boundary-totality}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+the output row $O$ becomes public only while the audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, boundary row $G$, and local $\NameCert$ row $N$ are retained. The public output boundary exports no hidden generator, free induction principle, external axiom channel, or unaudited dependency route outside $R$.
+\end{theorem}
+\begin{proof}
+Start with the output side of the displayed packet. The rows $O,A,H,C,P,G,N$ are not separate public surfaces; they are the output, audit, transport, continuation, provenance, boundary, and local naming coordinates of the same carrier.
+
+Apply \autoref{thm:authorized-generator-recursor-root-boundary-ledger-totality}. It exhausts the output boundary ledger by $I,E,M,B,D,O,A,H,C,P,G,N$ and rules out a hidden generator, unaudited dependency route, external axiom channel, host-kernel completeness claim, or naming certificate outside the displayed packet.
+
+Use \autoref{thm:authorized-generator-recursor-terminal-authorized-output-cover} for terminal consumption. That theorem keeps terminal readers on the same authorized output rows, so public exposure of $O$ cannot discard $A,H,C,P,G,N$ while retaining an output name.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor audit NameCert lock]
+\label{thm:authorized-generator-recursor-audit-namecert-lock}
+Every downstream closed-substitution, ground-compiler, or TasteGate-facing consumer of an accepted $\AuthorizedGeneratorRecursorUp$ output is locked to the displayed packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The lock is the composite of accepted signature exposure, output boundary totality, the chapter's TasteGate handoff, and the $\OperationalMembraneUp$ audit route; it permits no closed-substitution read, ground-compiler read, or local $\NameCert$ read through a row outside that packet.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:authorized-generator-recursor-accepted-signature-route} with \autoref{thm:authorized-generator-recursor-output-boundary-totality}. The first theorem exposes $I,E,M,B,D$ before output consumption, and the second retains $O,A,H,C,P,G,N$ at the public boundary.
+
+Next add the closed-substitution and ground-compiler consumers. Theorems~\ref{thm:authorized-generator-recursor-closed-substitution-handoff} and~\ref{thm:authorized-generator-recursor-ground-compiler-authorization} require both consumer families to read the output only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, and $\NameCert$ rows.
+
+Finally synchronize the audit route with the operational membrane and the TasteGate handoff already cited by the chapter. Apply \autoref{thm:authorized-generator-recursor-operational-membrane-audit-handoff}, \autoref{thm:operational-membrane-scoped-boundary}, and the checked carrier handoff named by \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate}. These identify the audit and carrier-alignment reads with the same displayed packet, so downstream consumers cannot replace $I,E,M,B,D,O,A,H,C,P,G,N$ by an off-packet route.
+\end{proof}

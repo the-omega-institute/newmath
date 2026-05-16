@@ -690,3 +690,27 @@ Now synchronize the intermediate route. The StreamName--RegSeqRat synchronizatio
 
 Finally use \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff}. The forward direction gives uniqueness of the displayed terminal row for every admissible Phase Real and Completion consumer. The reverse direction reads the same endpoint and selector-seal rows already displayed in the packet; it does not invoke a new completion principle, countable choice, open-cover compactness, a second ledger, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion overlap roundtrip confluence]
+\label{thm:uniform-cauchy-criterion-overlap-roundtrip-confluence}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose two refined finite-window reads of $U$ overlap on a common tail and each read passes through the diagonal selector row, the selector-seal exact pullback, and the root threshold seal roundtrip displayed in this chapter.
+
+Then the two reads determine the same finite Phase Real and Completion route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+In particular, the overlap cannot produce a second selector, a second tolerance ledger, a second selector-seal route, quotient-stream equality, a selected host limit, countable choice, host equality, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the overlapping refined windows. By \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy}, the common tail forces both refinements to read the same tail ledger row and the same seal-facing route of $U$.
+
+Next attach the diagonal selector surface. \autoref{thm:uniform-cauchy-criterion-common-window-diagonal-selector-coherence} identifies the common window, diagonal selector row, and refined modulus row as one $\RealUp$ seal budget, so neither refined read can detach a selector or tolerance ledger from that budget.
+
+Now pass through the selector-seal interface. Apply \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} and \autoref{thm:uniform-cauchy-criterion-root-threshold-seal-roundtrip}. The outgoing selector route and the returning root route display the same $\BHist$ window, the same $\RegSeqRatUp$ readback row, and the same terminal $\RealUp$ endpoint row.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff}. Since both refined reads preserve exactly the displayed ordered route and the selector-seal row when present, they are admissible through the same finite Phase Real and Completion route. The excluded quotient, host-limit, choice, host-equality, and ambient-completeness coordinates never appear in the packet-local surface, and hence cannot distinguish the two overlap reads.
+\end{proof}
