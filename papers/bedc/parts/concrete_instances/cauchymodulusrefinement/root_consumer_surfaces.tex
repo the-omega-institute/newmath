@@ -421,6 +421,24 @@ Now pass through the pullback handoff. By \autoref{thm:cauchy-modulus-refinement
 Finally apply terminal Real-seal pullback exhaustion, \autoref{thm:cauchy-modulus-refinement-terminal-real-seal-pullback-exhaustion}. Since the two consumers expose the same displayed pullback rows, their terminal seal surfaces are the same, and the excluded off-route coordinates have no accepted slot from which to separate them.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement selector-budget normal form]
+\label{thm:cauchy-modulus-refinement-selector-budget-normal-form}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Any consumer route of $R$ shared by $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ is exhausted by one finite selector-budget normal form:
+$$
+U,V,T,W,Q,E,H,C,P,N.
+$$
+The rows are, in order, the shared meet row, extraction row, selector-budget row, selected-window row, tolerance-readback row, $\RealUp$ seal row, and the support, provenance, and local naming rows. No quotient stream, hidden selector, second meet row, host real equality, selected host limit, side-channel completion row, or ambient completeness coordinate supplies another shared consumer route.
+\end{theorem}
+\begin{proof}
+First force the shared meet and extraction route. The RegSeqRat--StreamName--Real coherence surface, \autoref{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence}, and the selector exactness surface, \autoref{thm:cauchy-modulus-refinement-regseq-real-selector-exactness}, place the four sibling consumers behind the same $U,V,T$ spine before a selected window or Real seal is read.
+
+Next expose the finite observation budget. The shared-budget pullback handoff, \autoref{thm:cauchy-modulus-refinement-shared-budget-pullback-handoff}, carries that spine through $W,Q,E,H,C,P,N$ across the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+
+Then apply terminal pullback consumer uniqueness, \autoref{thm:cauchy-modulus-refinement-terminal-pullback-consumer-uniqueness}. Once a consumer exposes the displayed $U,V,T,W,Q,E,H,C,P,N$ rows, it has the same terminal $\RealUp$ seal consumer surface as any other consumer exposing those rows.
+
+Finally use \autoref{thm:cauchy-modulus-refinement-tail-budget-selector-lock}. The off-route coordinates listed in the statement are not rows of the accepted packet, so the selector-budget normal form is the only shared consumer route available to the four sibling surfaces.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement uniform monotone terminal route]
 \label{thm:cauchy-modulus-refinement-uniform-monotone-terminal-route}
 Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose a $\UniformCauchyCriterionUp$ consumer and a $\MonotoneCauchyUp$ consumer both read the selector-budget row $T$, selected-window row $W$, dyadic-tolerance row $Q$, and $\RealUp$ seal row $E$ of $R$ through the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyModulusRefinementUp}$ rows.
