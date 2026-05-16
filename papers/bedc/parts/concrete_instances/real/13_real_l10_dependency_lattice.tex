@@ -502,3 +502,30 @@ For the reverse direction, assume the StreamName four-object classifier pullback
 
 Finally repack the recovered packet by \autoref{thm:real-l10-terminal-four-face-correspondence}. Since the packet carries only the DyadicRatCore observations, StreamName finite windows, RegSeqRat readback, local Real seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, the two terminal reads have the same Real L10 public boundary. The exclusions from the StreamName classifier surface and the Real L10 dependency lattice remove quotient stream equality, host real equality, selected limits, countable choice, completeness, metric completeness, arithmetic, order, and bridge rows from both directions.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal-window fusion section compatibility]
+\label{thm:real-l10-terminal-window-fusion-section-compatibility}
+Let $\mathcal W_L$ and $\mathcal W_R$ be current Phase Real and Completion terminal $\RealUp$ reads accepted by the Real L10 dependency lattice. Suppose their $\StreamNameUp$ finite windows agree after terminal-window fusion through a certified common refinement, and suppose the induced $\RegSeqRatUp$ finite-request sections agree after applying the terminal budget factorization to the same seal-facing request. Then $\mathcal W_L$ and $\mathcal W_R$ have the same Real L10 public boundary.
+
+Conversely, the Real L10 public boundary of such a terminal read determines exactly the fused $\StreamNameUp$ terminal-window packet together with the $\RegSeqRatUp$ finite-request section surface:
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,\quad
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+This compatibility exports no quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, or bridge rows.
+\end{theorem}
+\begin{proof}
+For the forward direction, first use \autoref{thm:streamname-terminal-fusion-common-refinement-stability}. The certified common refinement makes the two $\StreamNameUp$ finite windows one fused terminal packet after transport of the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the displayed support rows.
+
+Next use \autoref{thm:regseqrat-finite-request-terminal-budget-factorization}. Applied to the common seal-facing finite request, it identifies the RegSeqRat classifier, regularity, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegSeqRatUp}$ rows with the finite request source section for both reads.
+
+These two packets have the same four faces and support rows, so apply \autoref{thm:streamname-real-completion-classifier-pullback}. The fused StreamName terminal packet and the RegSeqRat finite-request section determine one StreamName four-object classifier pullback over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally apply \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}. Agreement of that StreamName classifier pullback is exactly agreement of the Real L10 public boundary, so the two terminal $\RealUp$ reads have the same public boundary.
+
+For the reverse direction, start from a fixed Real L10 public boundary. By \autoref{thm:real-l10-streamname-classifier-pullback-correspondence}, it determines the StreamName four-object classifier pullback and therefore the displayed faces and support rows. Reading this classifier through \autoref{thm:streamname-real-completion-classifier-pullback} recovers the public fused terminal-window surface.
+
+It remains to isolate the RegSeqRat finite-request section. Apply \autoref{thm:regseqrat-finite-request-terminal-budget-factorization} to the seal-facing finite request already present in the public boundary. The terminal budget consumer can factor only through the displayed source section, so the RegSeqRat section surface is determined by the same boundary data.
+
+The same exclusion lists are stable under each cited theorem. None of the constructions introduces quotient stream equality, host real equality, selected limits, countable choice, ambient completeness, metric-completeness rows, arithmetic or order packages, or bridge rows; hence the Real L10 public boundary determines exactly the fused StreamName/RegSeqRat section surface and nothing beyond it.
+\end{proof}
