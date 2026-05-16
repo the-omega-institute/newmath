@@ -1,0 +1,56 @@
+\begin{theorem}[Transported stationary window-seal tail-budget carrier]
+\label{thm:transported-stationary-window-seal-tail-budget-carrier}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The finite tail/window budget carrier read by $T$ is the single route
+$$
+\begin{aligned}
+  \StreamNameUp(S),\quad
+  \RegSeqRatUp(G),\quad
+  \FiniteWindowEnvelopeUp(W),\quad
+  \RealUp(E)
+\end{aligned}
+$$
+carried by the displayed $\BHist$ row $H$, componentwise $\hsame$ transport, $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. Any tail-cofinality or completion-facing consumer of $T$ reads that carrier through the same finite window budget and not through a selected host tail, quotient stream, detached Real row, or off-packet completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:transported-stationary-window-seal-constant-window-triad}. It fixes the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source triad under the displayed support rows of $T$.
+
+Next apply \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}. The tail schedule is attached to that same finite StreamName and RegSeqRat surface, so every tail-facing read uses the already displayed window budget.
+
+Finally use \autoref{thm:transported-stationary-window-seal-root-envelope-exhaustion}. It places the finite envelope $W$ and the Real-facing seal row $E$ downstream of the same transported source. The carrier is therefore exactly the displayed finite tail/window route, with no selected host tail, quotient stream, detached Real row, or off-packet completeness datum.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal StreamName-RegSeqRat-Real route]
+\label{thm:transported-stationary-window-seal-streamname-regseqrat-real-route}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The public root route exposed to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers has the fixed order
+$$
+\begin{aligned}
+  \StreamNameUp(S)
+  \longrightarrow
+  \RegSeqRatUp(G)
+  \longrightarrow
+  \FiniteWindowEnvelopeUp(W)
+  \longrightarrow
+  \RealUp(E),
+\end{aligned}
+$$
+with the $\BHist/\hsame/\Cont/\Pkg/\NameCert$ rows $H,C,P,N$ transported along the route. No accepted consumer can read $E$ before the finite envelope or separate $G$ from the stationary StreamName window.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-constant-window-triad}. The StreamName and RegSeqRat rows are already one transported finite source surface, so a consumer cannot choose an independent regular sequence row.
+
+Then use \autoref{thm:transported-stationary-window-seal-root-envelope-exhaustion}. It forces every root read to pass through the finite envelope before the $\RealUp$ seal row is available.
+
+Finally invoke \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. The displayed $\NameCert$ surface is exhausted by the transported source triad, tail schedule, finite envelope, and Real seal. Hence the only public route order is the StreamName-RegSeqRat-envelope-Real route stated above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal root-readiness package]
+\label{thm:transported-stationary-window-seal-root-readiness-package}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. The packet is root-ready for the current Real and Completion dependency surface exactly through the tail-budget carrier of \autoref{thm:transported-stationary-window-seal-tail-budget-carrier} and the StreamName-RegSeqRat-Real route of \autoref{thm:transported-stationary-window-seal-streamname-regseqrat-real-route}. Thus every public root consumer sees only the finite rows $S,G,W,E$ and the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier theorem \autoref{thm:transported-stationary-window-seal-tail-budget-carrier} supplies the finite tail/window budget used by tail-cofinality and completion-facing consumers. It fixes the available carrier rows as $S,G,W,E$ with the support rows $H,C,P,N$.
+
+The route theorem \autoref{thm:transported-stationary-window-seal-streamname-regseqrat-real-route} then orders those rows for public StreamName, RegSeqRat, and Real reads. Together with \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}, there is no remaining root coordinate outside the displayed carrier and route.
+
+Consequently the accepted packet supplies the root-readiness package needed by the current Real and Completion dependency surface. It does not assert full real completeness, quotient-stream identification, host real equality, a selected host limit, a metric-completeness principle, or a bridge row.
+\end{proof}
