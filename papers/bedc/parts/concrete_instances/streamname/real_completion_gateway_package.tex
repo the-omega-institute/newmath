@@ -83,3 +83,21 @@ Use \autoref{thm:streamname-dyadicratcore-window-anchor} to rule out a dyadic by
 
 Finally apply \autoref{thm:streamname-real-completion-gateway-terminality}. Since all terminal Real-completion routes factor through the same four-face packet, a consumer cannot reorder the faces or jump directly from $S$ to $E$ without leaving the exported gateway carrier.
 \end{proof}
+
+\begin{theorem}[StreamName Real-completion gateway status exactness]
+\label{thm:streamname-real-completion-gateway-status-exactness}
+Let
+$$
+G=(S,D,R,E,B,H,C,P,N)
+$$
+be an accepted $\StreamNameUp$ Real-completion gateway packet. The packet is status-exact for the current Phase Real and Completion boundary exactly when the four public status faces are read as the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ closurestatus and formalstatus records, respectively, with only $B,H,C,P,N$ as support rows. No aggregate token, fifth completion object, quotient stream, selected limit, countable-choice row, metric-completeness datum, or standard bridge row can replace any one of the four faces or enter as an additional status face.
+\end{theorem}
+\begin{proof}
+Project the gateway carrier of \autoref{def:streamname-real-completion-gateway-carrier}. Its accepted packet exposes exactly the four faces $S,D,R,E$ and the support rows $B,H,C,P,N$, so status information has no carrier coordinate outside that displayed list.
+
+Use \autoref{thm:streamname-real-completion-gateway-ordered-source-readback}. The gateway reads $S$ before $D$, reads $R$ only from the paired $S,D$ route, and reads $E$ only after $R$. Thus the four status faces cannot be permuted, fused into an aggregate token, or bypassed through a direct completion row.
+
+Apply \autoref{thm:streamname-real-completion-four-object-exit-route} and \autoref{thm:streamname-real-completion-status-ledger-exactness}. These theorems identify the same four Phase Real and Completion faces as the StreamName finite window, DyadicRatCore finite dyadic budget, RegSeqRat regularity handoff, and RealUp seal route.
+
+Finally use the two-axis discipline recorded by the roadmap closurestatus blocks. The closurestatus and formalstatus rows are read per object, while $B,H,C,P,N$ only observe, transport, replay, package, and name the displayed faces. Therefore the gateway is status-exact precisely for those four per-object records, with no extra completion, quotient, choice, metric-completeness, selected-limit, or bridge status row hidden in the route.
+\end{proof}
