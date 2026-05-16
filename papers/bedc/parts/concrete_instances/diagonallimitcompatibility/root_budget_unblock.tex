@@ -379,3 +379,52 @@ envelope, refinement, or uniform finite-family rows. Thus the shared diagonal
 budget prefix is the common terminal-consumer boundary for the current
 $\RealUp$ and $\CompletionUp$ routes.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility Real-completion terminal pullback]
+\label{thm:diagonal-limit-compatibility-real-completion-terminal-pullback}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal route
+read by a $\RealUp$ or $\CompletionUp$ consumer, and suppose that this read is
+then consumed by one of $\CauchyTailWitnessEnvelopeUp$,
+$\CauchyModulusRefinementUp$, or $\UniformCauchyCriterionUp$. The
+Real-completion-facing terminal read pulls back first to the same displayed
+diagonal tuple
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The branch-specific rows are downstream-only: envelope, refinement, and
+uniform finite-family data may be read only after the tuple above has been
+fixed. No quotient stream, selected host limit, host real equality, choice
+datum, ambient completeness coordinate, hidden tail oracle, or hidden selector
+is exported by the pullback boundary.
+\end{theorem}
+\begin{proof}
+First bind the Real-completion terminal read to the root diagonal route. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These identify
+the budget source, finite stream window, regular-rational readback, Real seal,
+transport, continuation, package, provenance, and local-name rows with
+$R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next close the route under the consumer boundary. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} and
+\autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The
+accepted packet has no coordinate from which a Real or completion consumer can
+leave the displayed diagonal tuple for a quotient stream, selected host limit,
+host real equality, choice datum, ambient completeness coordinate, hidden tail
+oracle, or hidden selector.
+
+It remains to compare the downstream consumers. The envelope branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization},
+the refinement branch is
+\autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}, and
+the uniform finite-family branch is
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}.
+Each branch starts only after the same diagonal tuple has already been read.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}.
+The three-way comparison makes the shared tuple the terminal-consumer boundary
+for all three downstream routes, so the Real-completion terminal read pulls
+back to that tuple before any branch-specific rows are available.
+\end{proof}
