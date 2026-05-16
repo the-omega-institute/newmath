@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\DyadicToleranceTriangleLedgerUp$}
+\label{ch:concrete-instances-dyadic-tolerance-triangle-ledger-namecert}
+\origin{ai}
+
+The $\DyadicToleranceTriangleLedgerUp$ packet realizes the three-leg diagonal-regularity estimate of \autoref{thm:real-completeness-diagonal-regular} inside the Real-completeness route of \autoref{ch:visions-real-completeness}. It is a dyadic ledger layer over the existing $\RegularCauchyTriangleBoundUp$ estimate of \autoref{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}: $\DyadicRatCoreUp$ supplies tolerance arithmetic through \autoref{ch:concrete-instances-dyadicratcore-namecert}, $\StreamNameUp$ supplies the finite diagonal and intermediate windows through \autoref{ch:concrete-instances-streamname-namecert}, $\RegSeqRatUp$ supplies endpoint regularity reads through \autoref{ch:concrete-instances-regseqrat-namecert}, and $\RealUp$ is the downstream seal surface of \autoref{ch:concrete-instances-real-namecert}. The packet does not select a limit, quotient a stream, or appeal to ambient completeness; it records the finite tolerance rows that the diagonal proof must read before the Real-facing handoff.
+
+\begin{definition}[Dyadic tolerance triangle ledger carrier]
+\label{def:dyadic-tolerance-triangle-ledger-carrier}
+A $\DyadicToleranceTriangleLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D_m$ and $D_n$ are the two $\StreamNameUp$ diagonal observation rows for the requested indices $m$ and $n$.
+\item $I_m$ and $I_n$ are the two intermediate $\StreamNameUp$ rows used by the diagonal-regularity triangle.
+\item $E_m$ and $E_n$ are the endpoint $\RegSeqRatUp$ regularity reads for the legs $D_m \longrightarrow I_m$ and $I_n \longrightarrow D_n$.
+\item $M$ is the middle Cauchy-modulus read for the leg $I_m \longrightarrow I_n$.
+\item $Q$ is the $\DyadicRatCoreUp$ ledger carrying the two endpoint tolerances, the middle tolerance, and the displayed dyadic output bound.
+\item $T$ is the consumed $\RegularCauchyTriangleBoundUp$ row that assembles the same three legs as one diagonal estimate.
+\item $H$ records componentwise $\hsame$ transport for the four window rows, the three leg rows, the dyadic ledger, the consumed triangle-bound row, provenance, and the local name.
+\item $C$ records displayed $\Cont$ routes for reading endpoint legs, reading the middle leg, summing dyadic tolerances, checking the consumed triangle-bound row, and handing the packet to the Real-facing diagonal consumer.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyTriangleBoundUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicToleranceTriangleLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a missing endpoint leg, a missing middle modulus leg, quotient stream equality, host real equality, selected limits, or ambient completeness.
+\end{definition}
+
+\begin{definition}[Dyadic tolerance triangle ledger classifier]
+\label{def:dyadic-tolerance-triangle-ledger-classifier}
+Two accepted $\DyadicToleranceTriangleLedgerUp$ carriers classify as the same ledger only when their four $\StreamNameUp$ windows, two $\RegSeqRatUp$ endpoint reads, middle modulus read, $\DyadicRatCoreUp$ tolerance row, consumed $\RegularCauchyTriangleBoundUp$ row, and $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows are componentwise transported by the displayed $\hsame$ data. The classifier does not identify packets by host equality of real numbers, by quotienting streams, or by forgetting one of the three triangle legs.
+\end{definition}
+
+\begin{theorem}[Dyadic tolerance triangle ledger obligations]
+\label{thm:dyadic-tolerance-triangle-ledger-obligations}
+For every accepted $\DyadicToleranceTriangleLedgerUp$ carrier $L=(D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N)$, the local $\NameCert_{\DyadicToleranceTriangleLedgerUp}$ surface consists exactly of carrier exposure, classifier transport, endpoint-leg coverage for $E_m,E_n$, middle-leg coverage for $M$, dyadic tolerance addition through $Q$, consumed $\RegularCauchyTriangleBoundUp$ compatibility through $T$, Real-facing continuation through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:dyadic-tolerance-triangle-ledger-carrier}. The displayed rows name the two diagonal windows, the two intermediate windows, the two endpoint legs, the middle leg, the dyadic ledger, the consumed triangle-bound packet, and the support rows.
+
+Classifier transport is exactly the relation of \autoref{def:dyadic-tolerance-triangle-ledger-classifier}. It keeps the four windows, three leg rows, dyadic ledger, consumed triangle-bound row, and support rows on one componentwise transported surface.
+
+The endpoint and middle obligations are then read from the sibling surfaces. The endpoint reads use $\RegSeqRatUp$ through \autoref{ch:concrete-instances-regseqrat-namecert}; the middle read is the Cauchy-modulus leg already assembled by \autoref{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}; and the tolerance addition is the $\DyadicRatCoreUp$ row of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+Finally $C,P,N$ hand this finite ledger to the $\RealUp$ diagonal consumer. Since the carrier omits quotient streams, selected limits, host real equality, missing-leg shortcuts, and ambient completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance triangle ledger nonescape]
+\label{thm:dyadic-tolerance-triangle-ledger-nonescape}
+Every diagonal-regularity consumer of an accepted $\DyadicToleranceTriangleLedgerUp$ packet reads the two endpoint legs $E_m,E_n$, the middle Cauchy-modulus leg $M$, the dyadic tolerance ledger $Q$, the consumed triangle-bound row $T$, and the displayed $\BHist/\hsame/\Cont/\Pkg/\NameCert$ support rows. It cannot replace any leg by a host real equality, quotient-stream comparison, selected limit, detached completion witness, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:dyadic-tolerance-triangle-ledger-obligations}. It exposes the two endpoint legs, the middle leg, the tolerance ledger, and the consumed triangle-bound row as required rows of the local certificate.
+
+Use the classifier of \autoref{def:dyadic-tolerance-triangle-ledger-classifier}. A consumer that transports the ledger must transport all three leg rows and the dyadic output row together; forgetting one leg changes the accepted packet.
+
+The excluded objects have no coordinate in \autoref{def:dyadic-tolerance-triangle-ledger-carrier}. Therefore no continuation route can export host equality, quotient-stream comparison, selected limits, detached completion witnesses, or ambient completeness in place of the displayed three-leg ledger.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance triangle ledger window handoff]
+\label{thm:dyadic-tolerance-triangle-ledger-window-handoff}
+Every $\RealUp$ or diagonal-limit consumer that uses a $\DyadicToleranceTriangleLedgerUp$ packet receives the finite handoff
+$$
+D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N
+$$
+after the four $\StreamNameUp$ windows have been read and before any Real seal is consumed. The handoff realizes the three-leg estimate of \autoref{thm:real-completeness-diagonal-regular} as finite $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First read the carrier. The four window rows $D_m,D_n,I_m,I_n$ are the only stream observations available to the packet, and the leg rows $E_m,E_n,M$ are attached to those windows.
+
+Next apply the obligation theorem. It requires the dyadic output bound to be read through $Q$ and the compatibility with the existing three-leg estimate to be read through $T$.
+
+Finally use non-escape. Since no selected limit, quotient stream, host real equality, detached completion witness, or ambient completeness row can be exported, the Real-facing consumer receives exactly the displayed finite handoff.
+\end{proof}
+
+\falsifiablePrediction{A diagonal-regularity consumer that omits one of the two endpoint legs or the middle Cauchy-modulus leg refutes the packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-triangle-bound: none is bijective to $\DyadicToleranceTriangleLedgerUp$, because the dyadic core lacks stream windows, the stream-name surface lacks rational tolerance addition, the regular-rational surface lacks the middle Cauchy-modulus leg, the Real surface is downstream of the seal, and the regular-cauchy triangle-bound packet does not isolate the dyadic tolerance ledger as its own classifier and Real-window handoff.}
+
+Lean \texttt{TasteGate.lean} for $\DyadicToleranceTriangleLedgerUp$ must provide explicit $\mathsf{Nontrivial}\ \DyadicToleranceTriangleLedgerUp$ and $\mathsf{FieldFaithful}\ \DyadicToleranceTriangleLedgerUp$ instances for $D_m,D_n,I_m,I_n,E_m,E_n,M,Q,T,H,C,P,N$.
+
+\closureat{DyadicToleranceTriangleLedgerUp}{seedStr}
+
+\begin{closurestatus}{\DyadicToleranceTriangleLedgerUp}
+  \constructivestory{A $\DyadicToleranceTriangleLedgerUp$ packet is generated from four stream windows, two endpoint regularity reads, one middle Cauchy-modulus read, a dyadic tolerance-addition ledger, a consumed RegularCauchyTriangleBound row, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-tolerance-triangle-ledger-carrier}, \autoref{def:dyadic-tolerance-triangle-ledger-classifier}, \autoref{thm:dyadic-tolerance-triangle-ledger-obligations}, \autoref{thm:dyadic-tolerance-triangle-ledger-nonescape}, and \autoref{thm:dyadic-tolerance-triangle-ledger-window-handoff} bind the finite dyadic ledger surface for the diagonal-regularity triangle.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, the full Real-completeness theorem, quotient stream equality, selected limits, host real equality, detached completion witnesses, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier transport, endpoint-leg coverage, middle-leg coverage, dyadic tolerance addition, triangle-bound compatibility, and Real-window handoff for the displayed packet.}
+\end{closurestatus}
