@@ -1,0 +1,71 @@
+\begin{theorem}[Transported stationary window-seal source triad completion]
+\label{thm:transported-stationary-window-seal-source-triad-completion}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with the source-triad completion packet of \autoref{def:transported-stationary-window-seal-source-triad-completion-packet}. The accepted route completes the $\RatUp$--$\StreamNameUp$--$\RegSeqRatUp$ source triad before any finite-envelope, $\RealUp$, or $\CompletionUp$ consumer can read the packet:
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  W
+  \longrightarrow
+  E .
+\end{aligned}
+$$
+The completed triad is carried by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows only; it has no quotient-stream coordinate, host equality row, selected limit, choice datum, or ambient-completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation surface of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It exposes the accepted packet exactly as the rows $R,S,G,W,E,H,C,P,N$, with local naming and package provenance attached to the same route.
+
+Apply the root source lock \autoref{thm:transported-stationary-window-seal-root-source-lock}. It fixes $R,S,G$ as one transported source route, so the stream window and regular-rational seal cannot be read as detached sources.
+
+Finally combine readback determinacy with \autoref{thm:transported-stationary-window-seal-envelope-realup-totality}. The finite envelope and Real-facing rows are reachable only after the completed triad has been read, and the non-escape clauses remove quotient streams, host equality, selected limits, choice, and ambient completeness from the route.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal tail-filter source triad handoff]
+\label{thm:transported-stationary-window-seal-tail-filter-source-triad-handoff}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet and let $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ be an accepted $\TailCofinalityScheduleUp$ packet consumed on the same finite $\StreamNameUp$ window and $\RegSeqRatUp$ seal row. The finite-tail-filter and cofinal-tail surface receives exactly the completed source triad $R,S,G$ together with its support rows $H,C,P,N$, then hands it through the schedule rows of $Q$ before the route reaches $W$ and $E$.
+
+Equivalently, every accepted tail-filter or cofinal-tail read preserving the packet is routed through
+$$
+\begin{aligned}
+  R,S,G,H,C,P,N
+  \longrightarrow
+  E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T
+  \longrightarrow
+  W
+  \longrightarrow
+  E .
+\end{aligned}
+$$
+No such handoff exports a quotient stream, host equality, selected limit, hidden tail oracle, choice principle, ambient-completeness datum, or independent completion carrier.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:transported-stationary-window-seal-source-triad-completion}. It supplies the completed $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source triad before any envelope or Real-facing read.
+
+Next attach the tail surface. Apply \autoref{thm:transported-stationary-window-seal-tail-cofinality-totality} and \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}; these place the accepted schedule packet $Q$ on the same finite window and regular-rational seal row, downstream of $R,S,G,H,C,P,N$ and upstream of $W,E$.
+
+The completion boundary is then determined by \autoref{thm:transported-stationary-window-seal-completion-source-triad-closure} and \autoref{thm:transported-stationary-window-seal-downstream-obligation-basis}. They identify the consumer-facing obligation basis with the same completed triad and schedule rows, so no separate tail oracle or completion carrier remains available.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-completion-route-nonescape}. It excludes quotient streams, host equality, selected limits, choice, ambient completeness, and hidden tail data from the exported handoff.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal L10 exit source triad readiness]
+\label{thm:transported-stationary-window-seal-l10-exit-source-triad-readiness}
+For accepted packets $T=(R,S,G,W,E,H,C,P,N)$ and $Q=(E_T,W_T,D_T,R_T,L_T,H_T,C_T,P_T,N_T)$ as above, the completed source-triad route exposes exactly the L10 Phase Real and Completion faces
+$$
+\begin{aligned}
+  \RatUp,\StreamNameUp,\RegSeqRatUp,
+  \DyadicRatCoreUp,\TailCofinalityScheduleUp,
+  \FiniteWindowEnvelopeUp,\RealUp,\CompletionUp .
+\end{aligned}
+$$
+The exposure is through the finite route $R,S,G,H,C,P,N$, the schedule rows of $Q$, and the envelope-seal rows $W,E$. It is therefore exit-ready for later L10 Real and Completion formalization, while making no claim of quotient-stream equality, host equality, selected limits, choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the source-triad completion theorem above. It closes the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source side of the route inside the accepted packet rows.
+
+Use \autoref{thm:transported-stationary-window-seal-tail-filter-source-triad-handoff} to pass that completed source side through the finite-tail-filter and cofinal-tail surface. The handoff supplies the $\DyadicRatCoreUp$ and $\TailCofinalityScheduleUp$ faces only as downstream reads of the same finite window and regular-rational seal.
+
+Now apply \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}, \autoref{thm:transported-stationary-window-seal-regseqrat-real-lock}, and \autoref{thm:transported-stationary-window-seal-l10-exit-readiness}. These identify the Phase Real and Completion exit surface with the finite envelope row $W$, the Real-facing seal row $E$, and the same displayed support rows.
+
+The non-escape boundary is inherited from \autoref{thm:transported-stationary-window-seal-completion-route-nonescape} and \autoref{thm:transported-stationary-window-seal-real-handoff-nonescape}. Since the accepted route has no coordinate for quotient streams, host equality, selected limits, choice, or ambient completeness, the L10 exit surface consists exactly of the displayed Phase Real and Completion faces.
+\end{proof}
