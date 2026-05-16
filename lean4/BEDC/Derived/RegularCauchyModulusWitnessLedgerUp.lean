@@ -452,4 +452,30 @@ theorem RegularCauchyModulusWitnessLedgerCarrier_route_field_faithfulness [AskSe
     ⟨endpointSame, detEndpoint.right, detEndpoint'.right, witnessWindowNormalizer,
       normalizerTailDyadic, dyadicReadbackSeal, endpointPkg, endpointPkg'⟩
 
+theorem RegularCauchyModulusWitnessLedgerCarrier_real_seal_consumer_exactness
+    [AskSetup] [PackageSetup]
+    {source witness window normalizer tail dyadic readback sealRow transport route provenance
+      name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyModulusWitnessLedgerCarrier source witness window normalizer tail dyadic
+        readback sealRow transport route provenance name bundle pkg ->
+      Cont sealRow transport endpoint ->
+        Cont endpoint route consumer ->
+          PkgSig bundle consumer pkg ->
+            hsame (append dyadic (append readback transport)) endpoint ∧
+              hsame (append endpoint route) consumer ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier sealTransportEndpoint endpointRouteConsumer consumerPkg
+  obtain ⟨_sourceUnary, _witnessUnary, _windowUnary, _normalizerUnary, _tailUnary,
+    _dyadicUnary, _readbackUnary, _sealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, transportEmpty, _witnessWindowNormalizer,
+    _normalizerTailDyadic, dyadicReadbackSeal, _transportRouteProvenance, _routeSeal,
+    _provenancePkg, _namePkg⟩ := carrier
+  constructor
+  · cases transportEmpty
+    cases dyadicReadbackSeal
+    cases sealTransportEndpoint
+    rfl
+  · exact ⟨endpointRouteConsumer.symm, consumerPkg⟩
+
 end BEDC.Derived.RegularCauchyModulusWitnessLedgerUp
