@@ -670,3 +670,23 @@ For the reverse direction, suppose the consumer preserves exactly the displayed 
 
 These are exactly the current Phase Real and Completion consumer locks already available in the chapter. Since every displayed row is finite and packet-local, the reverse construction has no place to introduce quotient streams, selected host limits, host equality, countable choice, second tolerance ledgers, open-cover compactness, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Phase Real endpoint determinacy]
+\label{thm:uniform-cauchy-criterion-phase-real-endpoint-determinacy}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Any current Phase Real and Completion consumer preserving the finite ordered route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealCompletionSelectorSealUp$, and $\RealUp$ has a unique displayed endpoint row: the terminal $\RealUp$ seal $E$ reached after the same schedule $M$, tolerance ledger $Q,T$, transport $H$, route $C$, provenance $P$, and local name $N$.
+
+Conversely, preserving that endpoint row together with the selector-seal row is exactly the endpoint component of the admissible Phase Real route of \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff}. The endpoint determination exposes no quotient stream, selected host limit, host equality, countable choice, second tolerance ledger, open-cover compactness, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the accepted packet through \autoref{thm:uniform-cauchy-criterion-root-budget-package}. The root budget package fixes the finite schedule, tolerance ledger, transport, continuation route, provenance, and local naming rows available to every consumer.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-root-finite-window-real-seal-extraction}. The terminal $\RealUp$ seal is extracted from the same finite window, so an endpoint consumer has no separate stream quotient, selected limit, or host-equality row from which to choose another endpoint.
+
+Now synchronize the intermediate route. The StreamName--RegSeqRat synchronization of \autoref{thm:uniform-cauchy-criterion-regseqrat-streamname-seal-synchronization} and the selector-seal synchronization of \autoref{thm:uniform-cauchy-criterion-selector-seal-synchronization} place the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealCompletionSelectorSealUp$, and $\RealUp$ rows on the same displayed packet $I,W,M,Q,T,E,H,C,P,N$.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-phase-real-route-iff}. The forward direction gives uniqueness of the displayed terminal row for every admissible Phase Real and Completion consumer. The reverse direction reads the same endpoint and selector-seal rows already displayed in the packet; it does not invoke a new completion principle, countable choice, open-cover compactness, a second ledger, or ambient completeness.
+\end{proof}
