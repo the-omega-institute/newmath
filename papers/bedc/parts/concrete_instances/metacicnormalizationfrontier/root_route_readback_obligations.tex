@@ -45,3 +45,35 @@ Transport then follows the root separation rows. Theorem~\ref{thm:metacic-normal
 
 Finally use the two positive route projections. Theorem~\ref{thm:metacic-normalization-frontier-root-candidate-gate-projection} gives the only closed-candidate readback route, and Theorem~\ref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} gives the only finished-endpoint route. Since neither route consumes $S$, obstruction-visible transport under $H,R,P,L$ cannot become positive normalization evidence or any of the excluded global objects.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier route readback public export]
+\label{thm:metacic-normalization-frontier-route-readback-public-export}
+Every public readback export of an accepted $\MetaCICNormalizationFrontierUp$
+packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+factors through the closed-candidate route $C,K,R,P,L$, the finished endpoint
+route $E,N,R,P,L$, and obstruction-visible transport $S,H,R,P,L$. The exported
+surface has no route through host normalization, scheduler progress, quotient
+equality, a closed-consistency shortcut, or erased subject-reduction transport.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:metacic-normalization-frontier-closed-candidate-readback-exhaustion}.
+It identifies the closed-candidate public readback route as $C,K,R,P,L$ and
+rules out host normalization, scheduler, quotient-equality, and
+closed-consistency sources for that face.
+
+Next apply
+\autoref{thm:metacic-normalization-frontier-finished-endpoint-use-totality}.
+The finished endpoint face is total only over $E,N,R,P,L$, with candidate
+consultation confined to the already displayed $C,K$ boundary.
+
+Finally apply
+\autoref{thm:metacic-normalization-frontier-obstruction-visible-transport}.
+The obstruction row $S$ remains visible only under $H,R,P,L$ and cannot become
+positive normalization evidence, quotient equality, closed consistency, or
+erased subject-reduction transport. Combining the three route rows gives the
+whole public export surface.
+\end{proof}

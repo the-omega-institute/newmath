@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path root socket totality]
+\label{thm:metacic-critical-path-root-socket-totality}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every consistency-facing read first exposes the discharge socket $D$ together with the displayed rows $S,N,O,U,H,C,P,L$. Thus the packet presents the socket as part of the root surface before the read may pass from the closed-strong-normalization row $S$ to the normal-form row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:metacic-critical-path-packet}. The row list of $K$ includes the discharge socket $D$ beside the closed-normalization source, normal-form endpoint, obstruction, handoff, transport, continuation, provenance, and local naming rows.
+
+Use the consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff}. A consistency-facing consumer can travel from $S$ to $N$ only through the displayed route rows, and the theorem keeps $D$ separate from a filled subject-reduction input.
+
+Finally apply the obstruction boundary, \autoref{thm:metacic-critical-path-obstruction-boundary}. It prevents the handoff row or componentwise transport from erasing $O$ or converting $D$ into a discharged bundle. Hence every accepted root read exposes $D$ together with $S,N,O,U,H,C,P,L$ before the consistency-facing passage is accepted.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path handoff exhaustion]
+\label{thm:metacic-critical-path-handoff-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the finite handoff route is exhausted by the closed-normalization row $S$, normal-form row $N$, obstruction row $O$, handoff row $U$, discharge socket $D$, transport row $H$, route replay row $C$, provenance row $P$, and local naming row $L$. It has no coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient term equality.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface. By \autoref{thm:metacic-critical-path-namecert-obligation-surface}, the local certificate obligations are exactly carrier admission, visibility of $S,N,O,U,D$, componentwise transport through $H$, displayed route replay through $C$, and provenance and local naming through $P,L$.
+
+Next stabilize the visible rows. The transport row stability theorem \autoref{thm:metacic-critical-path-transport-row-stability} keeps $S,N,O,U,D,C,P,L$ under $H$, while provenance nonescape and local naming exhaustion from \autoref{thm:metacic-critical-path-provenance-nonescape} and \autoref{thm:metacic-critical-path-local-naming-exhaustion} keep $P$ and $L$ from naming an outside theorem coordinate.
+
+It remains to handle the blocked side. Apply discharge-socket nonescape, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. The socket $D$ can be preserved and routed, but it cannot be filled by $S,N,O,U,H,C,P,L$. Therefore the finite handoff is exhausted by the nine displayed rows and contains no coordinate for the four excluded metatheoretic claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path downstream unblock readiness]
+\label{thm:metacic-critical-path-downstream-unblock-readiness}
+A downstream MetaCIC consumer may cite an accepted $\MetaCICCriticalPathUp$ packet only as a finite socket-aware route from closed strong normalization to normal-form consistency. The citation may use $S,N,O,U,D,H,C,P,L$ and the displayed socket route, but it may not treat the packet as a discharged subject-reduction theorem or as a full closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+First expose the root socket. By \autoref{thm:metacic-critical-path-root-socket-totality}, every consistency-facing read displays $D$ with the rest of $K$ before the route from $S$ to $N$ is accepted.
+
+Next exhaust the handoff route. Theorem~\ref{thm:metacic-critical-path-handoff-exhaustion} says that the finite route has only the nine displayed coordinates and no coordinate for closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient term equality.
+
+Finally combine discharge-socket coverage with socket-route totality. Theorems~\ref{thm:metacic-critical-path-discharge-socket-coverage} and~\ref{thm:metacic-critical-path-socket-route-totality} force any downstream socket read to remain inside $S,N,O,U,D,H,C,P,L$ unless a separate subject-reduction input is displayed. Hence a downstream consumer may cite the packet as a socket-aware normalization-to-normal-form route, and not as either excluded discharged theorem.
+\end{proof}

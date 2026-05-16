@@ -186,6 +186,30 @@ replay determine the accepted selector route, and the hidden completion data
 listed in the statement cannot distinguish another accepted completion route.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement uniform diagonal consumer pullback]
+\label{thm:cauchy-modulus-refinement-uniform-diagonal-consumer-pullback}
+Let an accepted $\CauchyModulusRefinementUp$ packet expose the shared route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Any $\UniformCauchyCriterionUp$ or $\DiagonalLimitCompatibilityUp$ consumer of that packet factors through the same finite selector route
+$$
+U,V,T,W,Q,E,H,C,P,N
+$$
+before any $\RealUp$ or Completion endpoint is public. The consumer first reads the shared meet $U$, extraction row $V$, selector-budget row $T$, selected-window row $W$, tolerance-readback row $Q$, $\RealUp$ seal row $E$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$.
+
+Thus the UniformCauchyCriterion and DiagonalLimitCompatibility routes have one consumer pullback over the displayed CauchyModulusRefinement selector surface. No quotient stream, selected host limit, host real equality, countable-choice schedule, detached completion seal, ambient completeness coordinate, hidden selector, or second meet supplies another route to the endpoint.
+\end{theorem}
+\begin{proof}
+Start with the diagonal-facing side. The diagonal-budget cofinality theorem \autoref{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route} keeps every diagonal-budget consumer on the displayed route through $U,V,T,W,Q,E,H,C,P,N$, and it excludes hidden selectors, second meets, quotient streams, host equality, selected limits, and ambient completeness from that read.
+
+Next attach the criterion side. The CauchyCriterion selector cofinality theorem \autoref{thm:cauchy-modulus-refinement-cauchycriterion-selector-cofinality} places the CauchyCriterion and UniformCauchyCriterion consumers on the same selector route before any criterion output is exposed. The UniformCauchyCriterion diagonal-budget pullback \autoref{thm:uniform-cauchy-criterion-diagonal-budget-pullback} then identifies the uniform family read with the diagonal-budget route rather than with a second schedule or completion coordinate.
+
+Now use the completion-facing determinacy theorem \autoref{thm:cauchy-modulus-refinement-completion-consumer-route-determinacy}. Once the rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ are displayed, every $\RealUp$ or Completion consumer reaches the same selector route up to the visible $\hsame$ transport and $\Cont$ replay.
+
+The pullback is therefore the finite selector surface listed in the statement. The excluded quotient streams, selected host limits, host real equalities, countable-choice schedules, detached completion seals, ambient completeness coordinates, hidden selectors, and second meets have no displayed row from which to alter the common consumer route before the endpoint becomes public.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement budget naturality]
 \label{thm:cauchy-modulus-refinement-budget-naturality}
 Suppose two accepted $\CauchyModulusRefinementUp$ packets share the same source schedules $M_0,M_1$, meet row $U$, extraction row $V$, selector budget $T$, selected window $W$, tolerance readback $Q$, Real seal $E$, and structural rows $H,C,P,N$. Then every $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, or Completion consumer reads the same budget-refinement route up to the displayed $\hsame$ transport and $\Cont$ replay.

@@ -1,0 +1,29 @@
+\begin{theorem}[GapClosureBoundary refusal route totality]
+\label{thm:gap-closure-boundary-refusal-route-totality}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, every
+unsupported closure request reaches the refusal row $R$ through the same
+structural rows $H,C,P,N$. The route is total over the displayed branch
+$$
+G \longrightarrow R
+$$
+and cannot branch to hidden closure, hidden $\mathsf{T}$ supply, host equality,
+private access, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with refusal route exactness,
+\autoref{thm:gap-closure-boundary-refusal-route-exactness}. It sends each
+unsupported closure request to $R$ over the displayed structural rows
+$H,C,P,N$ and removes hidden closure and hidden $\mathsf{T}$ supply as exits.
+
+Use refusal branch determinacy and refusal non-escape,
+\autoref{thm:gap-closure-boundary-refusal-branch-determinacy} and
+\autoref{thm:gap-closure-boundary-refusal-nonescape}. These keep the request at
+the displayed endpoint $G \longrightarrow R$ rather than at host equality,
+private access, or a concealed source branch.
+
+Finally apply structural row conservation,
+\autoref{thm:gap-closure-boundary-structural-row-conservation}. Since
+$H,C,P,N$ only preserve, replay, package, and name the displayed refusal
+branch, every unsupported closure request is exhausted by the public refusal
+route.
+\end{proof}
