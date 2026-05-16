@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor readiness determinacy]
+\label{thm:authorized-generator-recursor-readiness-determinacy}
+Let $Q$ and $Q'$ be accepted $\AuthorizedGeneratorRecursorUp$ readiness routes read from the same admitted carrier rows. If they agree on the authorization row $U$, generator row $J$, ground-compiler recognition row $K$, refusal ledger $L$, componentwise transport $H$, continuation replay $C$, provenance row $P$, and local name row $N$, then they expose the same public output row $O$. Thus the readiness packet has no hidden branch, detached generator, or off-packet substitution channel from which a second public output can be read.
+\end{theorem}
+\begin{proof}
+Start from carrier admission. \autoref{thm:authorized-generator-recursor-root-carrier-admission} exposes the accepted route only through the finite rows $I,E,M,B,D,O,A,H,C,P,G,N$, and \autoref{def:authorized-generator-recursor-readiness-route} repackages those rows as $Q=(U,J,K,O,L,H,C,P,N)$.
+
+The shared rows determine the authorization side. Agreement on $U$ and $J$ fixes the accepted signature, emitted eliminator, checked motive, branch package, structural descent, and authorized generator call. The ground-compiler admission theorem keeps any compiler-facing read of the output on the same $U$ and $K$ rows.
+
+It remains to rule out a second output route. The output refusal theorem blocks any request missing the refusal ledger $L$, while the root output route saturation theorem exposes public output only through the displayed finite carrier. NameCert obligation exhaustion then packages the carrier, classifier, stability, ledger, and non-escape obligations in the same readiness route, so two such routes must expose the same $O$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor closed substitution admission]
+\label{thm:authorized-generator-recursor-closed-substitution-admission}
+Every closed-substitution consumer of the public output row $O$ of an accepted $\AuthorizedGeneratorRecursorUp$ readiness route retains the branch package $B$, structural descent row $D$, audit row $A$, boundary row $G$, and refusal ledger $L$. A route that omits one of those rows remains $\mathsf{GAP}$-ledger content and is not admitted as a closed-substitution handoff.
+\end{theorem}
+\begin{proof}
+First read the closed-substitution handoff. \autoref{thm:authorized-generator-recursor-closed-substitution-handoff} sends $O$ to closed-substitution and generator-audit consumers only through the finite route $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+The branch, descent, audit, and boundary rows are therefore not optional. The carrier admission theorem supplies those rows before the output is public, and the readiness route definition records their authorization, refusal, transport, replay, provenance, and local naming projections inside $Q$.
+
+Now apply output refusal. By \autoref{thm:authorized-generator-recursor-output-refusal}, any request that omits the authorization row or the refusal ledger remains at the $\mathsf{GAP}$ boundary. Since $B,D,A,G$ are the carrier coordinates through which $U,K,L$ are read by closed-substitution consumers, a route missing one of them cannot be the admitted handoff.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor public output coverage]
+\label{thm:authorized-generator-recursor-public-output-coverage}
+Normalization consumers, closed-substitution consumers, and ground-compiler public consumers of an accepted $\AuthorizedGeneratorRecursorUp$ output all factor through the readiness packet
+$$
+Q=(U,J,K,O,L,H,C,P,N).
+$$
+No public consumer reads $O$ through a route outside that packet.
+\end{theorem}
+\begin{proof}
+Begin with public output saturation. \autoref{thm:authorized-generator-recursor-root-output-route-saturation} says that every public output route factors through $I,E,M,B,D,O,A,H,C,P,G,N$, and the readiness route definition records exactly the authorization, generator, compiler-recognition, output, refusal, transport, replay, provenance, and local naming view of those rows.
+
+Closed-substitution consumers are covered by the admission theorem above and by the closed-substitution handoff. They retain the branch, descent, audit, boundary, refusal, transport, continuation, provenance, and naming rows before reading $O$.
+
+Ground-compiler consumers are covered by ground compiler admission. Normalization consumers use the same public output row because NameCert obligation exhaustion leaves no extra classifier, stability, ledger, or non-escape obligation outside $Q$. Hence all three public consumer families factor through the readiness packet.
+\end{proof}

@@ -131,6 +131,28 @@ theorem ConsciousObserverStateCarrier_gap_ledger_nonescape [AskSetup] [PackageSe
     unary_transport gapUnary (hsame_symm consumerSame)
   exact ⟨consumerUnary, recognitionLedgerGap, observerRouteEndpoint, endpointPkg⟩
 
+theorem ConsciousObserverStateCarrier_primitive_scope [AskSetup] [PackageSetup]
+    {observer state recognition ledger gap transport route provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConsciousObserverStateCarrier observer state recognition ledger gap transport route provenance
+        name endpoint bundle pkg ->
+      UnaryHistory observer ∧ UnaryHistory state ∧ UnaryHistory recognition ∧
+        UnaryHistory ledger ∧ UnaryHistory gap ∧ UnaryHistory transport ∧
+          UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont observer route endpoint ∧ Cont state route endpoint ∧
+              Cont recognition ledger gap ∧ Cont transport provenance endpoint ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier
+  obtain ⟨observerUnary, stateUnary, recognitionUnary, ledgerUnary, gapUnary,
+    transportUnary, routeUnary, provenanceUnary, nameUnary, _endpointUnary,
+    observerRoute, stateRoute, recognitionLedgerGap, transportProvenanceEndpoint,
+    endpointPkg⟩ := carrier
+  exact
+    ⟨observerUnary, stateUnary, recognitionUnary, ledgerUnary, gapUnary, transportUnary,
+      routeUnary, provenanceUnary, nameUnary, observerRoute, stateRoute, recognitionLedgerGap,
+      transportProvenanceEndpoint, endpointPkg⟩
+
 theorem ConsciousObserverStateCarrier_current_ledger_route [AskSetup] [PackageSetup]
     {observer state recognition ledger gap transport route provenance name endpoint
       consumer : BHist}
