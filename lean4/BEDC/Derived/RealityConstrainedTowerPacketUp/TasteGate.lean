@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -250,5 +252,29 @@ theorem RealityConstrainedTowerPacketTasteGate_single_carrier_alignment :
         by
           intro h
           cases h⟩⟩
+
+theorem RealityConstrainedTowerPacketUp_nonescape_transport
+    {source schedule readback realSeal residue ledger descent transport replay provenance
+      localName source2 schedule2 readback2 realSeal2 residue2 ledger2 descent2 transport2
+      replay2 provenance2 localName2 : BHist} :
+    realityConstrainedTowerPacketToEventFlow
+        (RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName) =
+      realityConstrainedTowerPacketToEventFlow
+        (RealityConstrainedTowerPacketUp.mk source2 schedule2 readback2 realSeal2 residue2
+          ledger2 descent2 transport2 replay2 provenance2 localName2) →
+        Cont source ledger replay →
+          Cont source2 ledger2 replay2 ∧ hsame source source2 ∧ hsame residue residue2 ∧
+            hsame ledger ledger2 ∧ hsame descent descent2 := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro heq hCont
+  have hPacket :
+      RealityConstrainedTowerPacketUp.mk source schedule readback realSeal residue ledger
+          descent transport replay provenance localName =
+        RealityConstrainedTowerPacketUp.mk source2 schedule2 readback2 realSeal2 residue2
+          ledger2 descent2 transport2 replay2 provenance2 localName2 :=
+    realityConstrainedTowerPacketToEventFlow_injective heq
+  cases hPacket
+  exact ⟨hCont, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.RealityConstrainedTowerPacketUp.TasteGate
