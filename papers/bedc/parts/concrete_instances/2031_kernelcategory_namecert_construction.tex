@@ -188,6 +188,48 @@ The remaining category-shaped laws are exactly the rows described by \autoref{th
 Finally apply \autoref{thm:kernel-category-certificate-surface}. Its public surface and non-escape clauses show that no host category law, quotient morphism, external equality of arrows, functorial semantics, natural transformation, or limit object remains after $A$ and $U$ have been read.
 \end{proof}
 
+\begin{theorem}[KernelCategory identity Cont route exhaustion]
+\label{thm:kernel-category-identity-cont-route-exhaustion}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every identity read factors through the unary object row $O$, the empty $\Cont$ identity row $I$, componentwise $\hsame$ transport, $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$. The identity route has no coordinate for host identities, quotient morphisms, external arrow equality, functorial semantics, natural transformations, limits, or a second naming source outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the packet from \autoref{def:kernel-category-carrier}. The only object data available to an identity read are the unary object histories in $O$, with package and naming support confined to $P,N$.
+
+Apply \autoref{thm:kernel-category-identity-continuation}. It identifies the identity row as the empty $\Cont$ route over the displayed unary object history, not as a host identity arrow.
+
+Use \autoref{thm:kernel-category-certificate-surface} together with \autoref{thm:kernel-category-law-transport-exhaustion}. The componentwise $\hsame$ rows and law transports are already local to $A$ and $U$, so identity transport does not create a new category-shaped equality source.
+
+Finally use \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-category-unit-scope} only as law-boundary checks. They keep later law reads attached to the displayed continuation packet, while the identity route remains exhausted by $O,I,P,N$ and the local certificate surface.
+\end{proof}
+
+\begin{theorem}[KernelCategory composition Cont route exactness]
+\label{thm:kernel-category-composition-cont-route-exactness}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, a composable pair of displayed hom rows is accepted exactly through the $\Cont$ composite row $C$ whose source endpoint is inherited from the first hom row and whose target endpoint is inherited from the second hom row. This exact route uses the hom ledger $H$, componentwise $\hsame$ law transports in $A,U$, $\Pkg$ provenance in $P$, and local $\NameCert$ naming in $N$, and it imports no external arrow equality or host composition operation.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:kernel-category-carrier}. The carrier gives only the unary endpoint row $O$, hom ledger $H$, composition row $C$, law transports $A,U$, package row $P$, and local naming row $N$ for a composite read.
+
+Apply \autoref{thm:kernel-category-composition-continuation}. The accepted composite is the displayed $\Cont$ row in $C$, and its endpoints are inherited from the two continuation-ledger hom rows rather than supplied by a host category.
+
+Use \autoref{thm:kernel-category-associativity-scope} and \autoref{thm:kernel-category-unit-scope}. They place subsequent associativity and unit comparisons in componentwise $\hsame$ rows over the same displayed continuation data.
+
+Finally apply \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-law-transport-exhaustion}. The certificate and transport exhaustion clauses leave no coordinate for quotient morphisms, external arrow equality, host composition, functorial semantics, natural transformations, or limits.
+\end{proof}
+
+\begin{theorem}[KernelCategory NameCert root route readiness]
+\label{thm:kernel-category-namecert-root-route-readiness}
+The local $\NameCert$ root surface of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ is route-ready exactly through the displayed rows: unary $\BHist$ object histories in $O$, continuation-ledger hom histories in $H$, empty $\Cont$ identities in $I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ associativity and unit transports in $A,U$, $\Pkg$ provenance in $P$, and the local naming row $N$. This root surface is the one consumed by downstream category-shaped BEDC packets, and it contains no host category object, quotient morphism, external arrow equality, functorial semantic row, natural transformation, limit object, or detached global certificate.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:kernel-category-carrier}. It presents the complete root surface as the finite tuple $O,H,I,C,A,U,P,N$, so downstream consumers begin from displayed BEDC rows rather than a host category carrier.
+
+Use \autoref{thm:kernel-category-identity-continuation} for identity readiness and \autoref{thm:kernel-category-composition-continuation} for composition readiness. These two theorems provide the empty $\Cont$ identity route and the displayed $\Cont$ composite route needed by category-shaped consumers.
+
+Add the law rows with \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-law-transport-exhaustion}. They ensure that associativity and unit reads remain componentwise $\hsame$ transports over the displayed identity and composition routes.
+
+Finish with \autoref{thm:kernel-category-certificate-surface}. The certificate surface combines the local $\NameCert$ row with the $\Pkg$ provenance row, and its non-escape clauses exclude every host, quotient, external-equality, functorial, natural-transformation, limit, or global-certificate route outside the packet.
+\end{proof}
+
 \begin{theorem}[KernelCategory carrier admission obligation]
 \label{thm:kernel-category-carrier-admission-obligation}
 For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, carrier admission is

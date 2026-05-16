@@ -251,6 +251,56 @@ route, so it is the bridge from the two source schedules to that public
 consumer surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus normalizer bridge obstruction boundary]
+\label{thm:regular-cauchy-modulus-normalizer-bridge-obstruction-boundary}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+any bridge-facing request that preserves the public normalized route as a same-surface bridge must expose the same rows
+$$
+\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N .
+$$
+It must also preserve the primitive binding through the displayed $\BHist$
+packet, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance,
+and local $\NameCert$ row. A request that omits the meet row $M$, shared
+window $W$, dyadic tolerance $D$, paired readback $R$, $\RealUp$ seal $E$,
+route replay through $C$, or provenance through $P,N$ is outside this chapter's
+bridge surface rather than an obstruction to the public route.
+\end{theorem}
+\begin{proof}
+Start from the local NameCert obligations.
+\autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations} reads
+carrier admission, source exposure, meet exactness, shared-window exactness,
+classifier stability, and non-escape from the coordinates of the displayed
+packet.
+
+The source-facing and seal-facing obligations fix the rows that a bridge request
+must keep visible. Use
+\autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation},
+\autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, and
+\autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation} to expose
+the two schedules, the meet row, the common window, the dyadic tolerance, the
+paired readback, the $\RealUp$ seal, the route replay, and the provenance rows.
+
+Common-window exactness and non-escape supply the obstruction boundary.
+\autoref{thm:regular-cauchy-modulus-normalizer-common-window} keeps the
+normalized route on $\mu_X,\mu_Y,M,W,D,R,H,C,P,N$, while
+\autoref{thm:regular-cauchy-modulus-normalizer-nonescape} prevents quotient
+streams, host real equality, selected limits, side-specific tail oracles, and
+ambient completeness from replacing those coordinates.
+
+Finally apply the scoped primitive binding, public route, and normalized route
+bridge. \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}
+binds the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\autoref{thm:regular-cauchy-modulus-normalizer-public-route} identifies the
+public consumer route; and
+\autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge} reads
+the completion-facing bridge from that same surface. Any request missing one of
+the displayed rows therefore leaves the bridge surface instead of producing an
+internal obstruction to the public normalized route.
+\end{proof}
+
 \closureat{RegularCauchyModulusNormalizerUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyModulusNormalizerUp}
