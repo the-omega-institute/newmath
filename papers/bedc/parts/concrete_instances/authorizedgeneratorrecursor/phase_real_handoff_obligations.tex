@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor Phase Real carrier readiness]
+\label{thm:authorized-generator-recursor-phase-real-carrier-readiness}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. Any Phase Real handoff that reads $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ dependency rows for $R$ must first admit the displayed carrier as the finite $\BHist$ route $I,E,M,B,D,O,A,H,C,P,G,N$, with $H$ carrying componentwise $\hsame$, $C$ carrying displayed $\Cont$ replay, $P$ carrying package provenance, $G$ carrying the boundary ledger, and $N$ carrying the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:authorized-generator-recursor-carrier}. The generator route exposes exactly the signature, emitted recursor, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local naming rows.
+
+Use the L10 source triad \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It already confines $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ reads to the displayed packet and rejects host choice, detached induction, selected real data, quotient stream data, and external proof production.
+
+The Phase Real handoff therefore begins with carrier admission for the same finite $\BHist$ route. No dependency row can be read before $I,E,M,B,D,O,A,H,C,P,G,N$ are retained.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor Phase Real RegSeqRat handoff]
+\label{thm:authorized-generator-recursor-phase-real-regseqrat-handoff}
+For an accepted $\AuthorizedGeneratorRecursorUp$ packet $R=(I,E,M,B,D,O,A,H,C,P,G,N)$, every Phase Real $\RegSeqRatUp$ handoff is mediated by the same authorized generator route as the $\StreamNameUp$ source and the $\RealUp$ endpoint. The handoff preserves $O,A,H,C,P,G,N$ together with the signature, motive, branch, and descent rows, and it does not expose a quotient stream, selected limit, host equality, hidden generator, or off-packet proof channel.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}. It fixes the carrier route and makes $O,A,H,C,P,G,N$ part of every Phase Real dependency read.
+
+Now apply the Real stream route \autoref{thm:authorized-generator-recursor-real-stream-route}. That theorem identifies the public generator output as a finite read of $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ source rows through the same packet.
+
+Finally use \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. A downstream real or completion-facing consumer may specialize the finite source route, but it cannot reinterpret the recursor as quotient stream data, selected real data, host equality, hidden generator state, or an off-packet proof channel.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor Phase Real ledger non-escape]
+\label{thm:authorized-generator-recursor-phase-real-ledger-nonescape}
+Every Phase Real ledger exported by an accepted $\AuthorizedGeneratorRecursorUp$ packet is exhausted by the finite route $I,E,M,B,D,O,A,H,C,P,G,N$. The audit row $A$, boundary row $G$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ are the only ledger surface visible to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or completion-facing consumers.
+\end{theorem}
+\begin{proof}
+Read the carrier and retain the audit and boundary rows. By \autoref{thm:authorized-generator-recursor-phase-real-carrier-readiness}, every Phase Real dependency read already uses the displayed finite route.
+
+Use \autoref{thm:authorized-generator-recursor-phase-real-regseqrat-handoff} for the regular-rational route. It keeps the $\RegSeqRatUp$ handoff attached to the stream-name source, real endpoint, output row, audit row, transport, continuation, package provenance, boundary, and local naming rows.
+
+Close with \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. The exported ledger has no coordinate for completion objects, real-completeness data, quotient completion equality, selected limits, host completeness proofs, or off-packet generator certificates.
+\end{proof}
