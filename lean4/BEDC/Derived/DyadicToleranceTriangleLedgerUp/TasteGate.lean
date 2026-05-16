@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
+namespace BEDC.Derived.DyadicToleranceTriangleLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DyadicToleranceTriangleLedgerUp : Type where
-  | mk (Dm Dn Im In Em En M Q T H C P N : BHist) : DyadicToleranceTriangleLedgerUp
+  | mk :
+      (Dm Dn Im In Em En M Q T H C P N : BHist) →
+        DyadicToleranceTriangleLedgerUp
   deriving DecidableEq
 
 def dyadicToleranceTriangleLedgerEncodeBHist : BHist → RawEvent
@@ -25,22 +27,28 @@ def dyadicToleranceTriangleLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (dyadicToleranceTriangleLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicToleranceTriangleLedgerDecodeBHist tail)
 
-private theorem dyadicToleranceTriangleLedger_decode_encode_bhist :
+private theorem dyadicToleranceTriangleLedgerDecode_encode_bhist :
     ∀ h : BHist,
       dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEncodeBHist h) = h := by
+          (dyadicToleranceTriangleLedgerEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def dyadicToleranceTriangleLedgerToEventFlow :
-    DyadicToleranceTriangleLedgerUp → EventFlow
+    DyadicToleranceTriangleLedgerUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
+  fun
   | DyadicToleranceTriangleLedgerUp.mk Dm Dn Im In Em En M Q T H C P N =>
-      [dyadicToleranceTriangleLedgerEncodeBHist Dm,
+      [[BMark.b1, BMark.b0, BMark.b1],
+        dyadicToleranceTriangleLedgerEncodeBHist Dm,
         dyadicToleranceTriangleLedgerEncodeBHist Dn,
         dyadicToleranceTriangleLedgerEncodeBHist Im,
         dyadicToleranceTriangleLedgerEncodeBHist In,
@@ -54,131 +62,67 @@ def dyadicToleranceTriangleLedgerToEventFlow :
         dyadicToleranceTriangleLedgerEncodeBHist P,
         dyadicToleranceTriangleLedgerEncodeBHist N]
 
-private def dyadicToleranceTriangleLedgerEventAtDefault : Nat → EventFlow → RawEvent
+def dyadicToleranceTriangleLedgerFromEventFlow :
+    EventFlow → Option DyadicToleranceTriangleLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => dyadicToleranceTriangleLedgerEventAtDefault index rest
+  fun
+  | _tag :: Dm :: Dn :: Im :: In :: Em :: En :: M :: Q :: T :: H :: C :: P :: N :: [] =>
+      some
+        (DyadicToleranceTriangleLedgerUp.mk
+          (dyadicToleranceTriangleLedgerDecodeBHist Dm)
+          (dyadicToleranceTriangleLedgerDecodeBHist Dn)
+          (dyadicToleranceTriangleLedgerDecodeBHist Im)
+          (dyadicToleranceTriangleLedgerDecodeBHist In)
+          (dyadicToleranceTriangleLedgerDecodeBHist Em)
+          (dyadicToleranceTriangleLedgerDecodeBHist En)
+          (dyadicToleranceTriangleLedgerDecodeBHist M)
+          (dyadicToleranceTriangleLedgerDecodeBHist Q)
+          (dyadicToleranceTriangleLedgerDecodeBHist T)
+          (dyadicToleranceTriangleLedgerDecodeBHist H)
+          (dyadicToleranceTriangleLedgerDecodeBHist C)
+          (dyadicToleranceTriangleLedgerDecodeBHist P)
+          (dyadicToleranceTriangleLedgerDecodeBHist N))
+  | _ => none
 
-def dyadicToleranceTriangleLedgerFromEventFlow (ef : EventFlow) :
-    Option DyadicToleranceTriangleLedgerUp :=
+def dyadicToleranceTriangleLedgerFields :
+    DyadicToleranceTriangleLedgerUp → List BHist :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DyadicToleranceTriangleLedgerUp.mk
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 0 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 1 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 2 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 3 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 4 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 5 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 6 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 7 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 8 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 9 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 10 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 11 ef))
-      (dyadicToleranceTriangleLedgerDecodeBHist
-        (dyadicToleranceTriangleLedgerEventAtDefault 12 ef)))
+  fun
+  | DyadicToleranceTriangleLedgerUp.mk Dm Dn Im In Em En M Q T H C P N =>
+      [Dm, Dn, Im, In, Em, En, M, Q, T, H, C, P, N]
 
 private theorem dyadicToleranceTriangleLedger_round_trip :
     ∀ x : DyadicToleranceTriangleLedgerUp,
       dyadicToleranceTriangleLedgerFromEventFlow
-        (dyadicToleranceTriangleLedgerToEventFlow x) = some x := by
+          (dyadicToleranceTriangleLedgerToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk Dm Dn Im In Em En M Q T H C P N =>
-      change
-        some
-          (DyadicToleranceTriangleLedgerUp.mk
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist Dm))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist Dn))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist Im))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist In))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist Em))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist En))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist M))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist Q))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist T))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist H))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist C))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist P))
-            (dyadicToleranceTriangleLedgerDecodeBHist
-              (dyadicToleranceTriangleLedgerEncodeBHist N))) =
-          some (DyadicToleranceTriangleLedgerUp.mk Dm Dn Im In Em En M Q T H C P N)
-      rw [dyadicToleranceTriangleLedger_decode_encode_bhist Dm,
-        dyadicToleranceTriangleLedger_decode_encode_bhist Dn,
-        dyadicToleranceTriangleLedger_decode_encode_bhist Im,
-        dyadicToleranceTriangleLedger_decode_encode_bhist In,
-        dyadicToleranceTriangleLedger_decode_encode_bhist Em,
-        dyadicToleranceTriangleLedger_decode_encode_bhist En,
-        dyadicToleranceTriangleLedger_decode_encode_bhist M,
-        dyadicToleranceTriangleLedger_decode_encode_bhist Q,
-        dyadicToleranceTriangleLedger_decode_encode_bhist T,
-        dyadicToleranceTriangleLedger_decode_encode_bhist H,
-        dyadicToleranceTriangleLedger_decode_encode_bhist C,
-        dyadicToleranceTriangleLedger_decode_encode_bhist P,
-        dyadicToleranceTriangleLedger_decode_encode_bhist N]
+      simp only [dyadicToleranceTriangleLedgerToEventFlow,
+        dyadicToleranceTriangleLedgerFromEventFlow,
+        dyadicToleranceTriangleLedgerDecode_encode_bhist]
 
 private theorem dyadicToleranceTriangleLedgerToEventFlow_injective
     {x y : DyadicToleranceTriangleLedgerUp} :
-    dyadicToleranceTriangleLedgerToEventFlow x = dyadicToleranceTriangleLedgerToEventFlow y →
+    dyadicToleranceTriangleLedgerToEventFlow x =
+        dyadicToleranceTriangleLedgerToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      dyadicToleranceTriangleLedgerFromEventFlow
-          (dyadicToleranceTriangleLedgerToEventFlow x) =
-        dyadicToleranceTriangleLedgerFromEventFlow
-          (dyadicToleranceTriangleLedgerToEventFlow y) :=
-    congrArg dyadicToleranceTriangleLedgerFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (dyadicToleranceTriangleLedger_round_trip x).symm
-      (Eq.trans hread (dyadicToleranceTriangleLedger_round_trip y)))
-
-private def dyadicToleranceTriangleLedgerFields :
-    DyadicToleranceTriangleLedgerUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | DyadicToleranceTriangleLedgerUp.mk Dm Dn Im In Em En M Q T H C P N =>
-      [Dm, Dn, Im, In, Em, En, M, Q, T, H, C, P, N]
-
-private theorem dyadicToleranceTriangleLedger_field_faithful :
-    ∀ x y : DyadicToleranceTriangleLedgerUp,
-      dyadicToleranceTriangleLedgerFields x = dyadicToleranceTriangleLedgerFields y →
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk Dm₁ Dn₁ Im₁ In₁ Em₁ En₁ M₁ Q₁ T₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk Dm₂ Dn₂ Im₂ In₂ Em₂ En₂ M₂ Q₂ T₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x =
+          dyadicToleranceTriangleLedgerFromEventFlow
+            (dyadicToleranceTriangleLedgerToEventFlow x) :=
+        (dyadicToleranceTriangleLedger_round_trip x).symm
+      _ =
+          dyadicToleranceTriangleLedgerFromEventFlow
+            (dyadicToleranceTriangleLedgerToEventFlow y) :=
+        congrArg dyadicToleranceTriangleLedgerFromEventFlow hxy
+      _ = some y := dyadicToleranceTriangleLedger_round_trip y
+  exact Option.some.inj optionEq
 
 instance dyadicToleranceTriangleLedgerBHistCarrier :
     BHistCarrier DyadicToleranceTriangleLedgerUp where
@@ -191,112 +135,72 @@ instance dyadicToleranceTriangleLedgerChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change dyadicToleranceTriangleLedgerFromEventFlow
-      (dyadicToleranceTriangleLedgerToEventFlow x) = some x
+    change
+      dyadicToleranceTriangleLedgerFromEventFlow
+          (dyadicToleranceTriangleLedgerToEventFlow x) =
+        some x
     exact dyadicToleranceTriangleLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (dyadicToleranceTriangleLedgerToEventFlow_injective heq)
 
-instance dyadicToleranceTriangleLedgerFieldFaithful :
-    FieldFaithful DyadicToleranceTriangleLedgerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := dyadicToleranceTriangleLedgerFields
-  field_faithful := dyadicToleranceTriangleLedger_field_faithful
-
-instance dyadicToleranceTriangleLedgerNontrivial : Nontrivial DyadicToleranceTriangleLedgerUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨DyadicToleranceTriangleLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      DyadicToleranceTriangleLedgerUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate DyadicToleranceTriangleLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   dyadicToleranceTriangleLedgerChapterTasteGate
 
-theorem DyadicToleranceTriangleLedgerTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-        dyadicToleranceTriangleLedgerDecodeBHist
-          (dyadicToleranceTriangleLedgerEncodeBHist h) = h) ∧
-      (∀ x : DyadicToleranceTriangleLedgerUp,
-        dyadicToleranceTriangleLedgerFromEventFlow
-          (dyadicToleranceTriangleLedgerToEventFlow x) = some x) ∧
-        (∀ x y : DyadicToleranceTriangleLedgerUp,
-          dyadicToleranceTriangleLedgerToEventFlow x =
-            dyadicToleranceTriangleLedgerToEventFlow y → x = y) ∧
-          dyadicToleranceTriangleLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  constructor
-  · intro h
-    induction h with
-    | Empty => rfl
-    | e0 h ih => exact congrArg BHist.e0 ih
-    | e1 h ih => exact congrArg BHist.e1 ih
-  · constructor
-    · intro x
-      cases x with
-      | mk Dm Dn Im In Em En M Q T H C P N =>
-          change
-            some
-              (DyadicToleranceTriangleLedgerUp.mk
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist Dm))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist Dn))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist Im))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist In))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist Em))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist En))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist M))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist Q))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist T))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist H))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist C))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist P))
-                (dyadicToleranceTriangleLedgerDecodeBHist
-                  (dyadicToleranceTriangleLedgerEncodeBHist N))) =
-              some (DyadicToleranceTriangleLedgerUp.mk Dm Dn Im In Em En M Q T H C P N)
-          rw [dyadicToleranceTriangleLedger_decode_encode_bhist Dm,
-            dyadicToleranceTriangleLedger_decode_encode_bhist Dn,
-            dyadicToleranceTriangleLedger_decode_encode_bhist Im,
-            dyadicToleranceTriangleLedger_decode_encode_bhist In,
-            dyadicToleranceTriangleLedger_decode_encode_bhist Em,
-            dyadicToleranceTriangleLedger_decode_encode_bhist En,
-            dyadicToleranceTriangleLedger_decode_encode_bhist M,
-            dyadicToleranceTriangleLedger_decode_encode_bhist Q,
-            dyadicToleranceTriangleLedger_decode_encode_bhist T,
-            dyadicToleranceTriangleLedger_decode_encode_bhist H,
-            dyadicToleranceTriangleLedger_decode_encode_bhist C,
-            dyadicToleranceTriangleLedger_decode_encode_bhist P,
-            dyadicToleranceTriangleLedger_decode_encode_bhist N]
-    · constructor
-      · intro x y heq
-        have hread :
-            dyadicToleranceTriangleLedgerFromEventFlow
-                (dyadicToleranceTriangleLedgerToEventFlow x) =
-              dyadicToleranceTriangleLedgerFromEventFlow
-                (dyadicToleranceTriangleLedgerToEventFlow y) :=
-          congrArg dyadicToleranceTriangleLedgerFromEventFlow heq
-        exact Option.some.inj
-          (Eq.trans (dyadicToleranceTriangleLedger_round_trip x).symm
-            (Eq.trans hread (dyadicToleranceTriangleLedger_round_trip y)))
-      · rfl
+instance dyadicToleranceTriangleLedgerFieldFaithful :
+    FieldFaithful DyadicToleranceTriangleLedgerUp where
+  fields := dyadicToleranceTriangleLedgerFields
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk Dm1 Dn1 Im1 In1 Em1 En1 M1 Q1 T1 H1 C1 P1 N1 =>
+        cases y with
+        | mk Dm2 Dn2 Im2 In2 Em2 En2 M2 Q2 T2 H2 C2 P2 N2 =>
+            injection h with hDm t1
+            injection t1 with hDn t2
+            injection t2 with hIm t3
+            injection t3 with hIn t4
+            injection t4 with hEm t5
+            injection t5 with hEn t6
+            injection t6 with hM t7
+            injection t7 with hQ t8
+            injection t8 with hT t9
+            injection t9 with hH t10
+            injection t10 with hC t11
+            injection t11 with hP t12
+            injection t12 with hN _
+            cases hDm
+            cases hDn
+            cases hIm
+            cases hIn
+            cases hEm
+            cases hEn
+            cases hM
+            cases hQ
+            cases hT
+            cases hH
+            cases hC
+            cases hP
+            cases hN
+            rfl
 
-end BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
+instance dyadicToleranceTriangleLedgerNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial DyadicToleranceTriangleLedgerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DyadicToleranceTriangleLedgerUp.mk
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      DyadicToleranceTriangleLedgerUp.mk
+        (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        -- BEDC touchpoint anchor: BHist BMark
+        intro h
+        cases h⟩
+
+end BEDC.Derived.DyadicToleranceTriangleLedgerUp
