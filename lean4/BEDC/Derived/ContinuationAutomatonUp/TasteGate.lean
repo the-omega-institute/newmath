@@ -435,4 +435,31 @@ theorem ContinuationAutomatonCarrier_ledger_factorization [AskSetup] [PackageSet
       exact ⟨rowUnary, nameCertPkg, consumerPkg⟩
   }
 
+theorem ContinuationAutomatonTraceExhaustion [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert traceRead
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont transitions routes traceRead ->
+        Cont traceRead behaviour endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory transitions ∧ UnaryHistory routes ∧ UnaryHistory traceRead ∧
+              UnaryHistory endpoint ∧ Cont transitions routes provenance ∧
+                Cont transitions routes traceRead ∧ Cont traceRead behaviour endpoint ∧
+                  PkgSig bundle nameCert pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier transitionsRoutesTrace traceBehaviourEndpoint endpointPkg
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, transitionsUnary, behaviourUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary,
+    _initialTransitionsBehaviour, transitionsRoutesProvenance, _acceptingBehaviourTransport,
+    _provenanceNameStates, nameCertPkg⟩ := carrier
+  have traceUnary : UnaryHistory traceRead :=
+    unary_cont_closed transitionsUnary routesUnary transitionsRoutesTrace
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceUnary behaviourUnary traceBehaviourEndpoint
+  exact
+    ⟨transitionsUnary, routesUnary, traceUnary, endpointUnary, transitionsRoutesProvenance,
+      transitionsRoutesTrace, traceBehaviourEndpoint, nameCertPkg, endpointPkg⟩
+
 end BEDC.Derived.ContinuationAutomatonUp

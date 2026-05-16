@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionEventBufferSealUp$}
+\label{ch:concrete-instances-inscriptioneventbufferseal-namecert}
+\origin{ai}
+
+The $\InscriptionEventBufferSealUp$ packet realizes a replayable finite window
+of inscription events. It sits beside the event carrier of
+\autoref{ch:concrete-instances-inscriptionevent-namecert}, the gap ledger of
+\autoref{ch:concrete-instances-inscription-gap-ledger-namecert}, the
+inscription point of \autoref{ch:concrete-instances-inscriptionpoint-namecert},
+the audit trace of \autoref{ch:concrete-instances-inscriptionaudittrace-namecert},
+and the digest inscription packet of
+\autoref{ch:concrete-instances-digestinscription-namecert}. Those siblings
+provide single-event admission, gap accounting, pointwise commitment, audit
+trace routing, and digest naming; the buffer seal binds a finite replay window
+without exporting an unbounded inscription stream.
+
+\begin{definition}[Inscription event buffer seal carrier]
+\label{def:inscription-event-buffer-seal-carrier}
+An $\InscriptionEventBufferSealUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,W,R,D,A,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite inscription-event row, listing the accepted event
+records admitted into the buffer;
+\item $W$ is the finite buffer-window row, naming the bounded replay interval
+and its visible endpoints;
+\item $R$ is the replay row, recording the ordered finite readback route
+through the events in $W$;
+\item $D$ is the digest row, binding the replayed window to its digest
+inscription and digest provenance;
+\item $A$ is the audit-route row, recording accepted checks, gap residues, and
+consumer-facing route obligations for the replay;
+\item $H$ is the componentwise $\hsame$ transport row for event, window,
+replay, digest, and audit-route presentations;
+\item $Q$ is the displayed $\Cont$ row carrying replay consumers through the
+same finite window;
+\item $P$ is the $\Pkg$ provenance over the event, window, replay, digest,
+audit, transport, continuation, and local naming rows;
+\item $N$ is the local $\NameCert_{\InscriptionEventBufferSealUp}$ row naming
+exactly this replay buffer seal.
+\end{enumerate}
+The carrier has no coordinate for an unbounded inscription stream, a
+host-level replay oracle, or replay data outside the finite event window.
+\end{definition}
+
+\begin{theorem}[Inscription event buffer seal NameCert obligations]
+\label{thm:inscription-event-buffer-seal-namecert-obligations}
+For the carrier of \autoref{def:inscription-event-buffer-seal-carrier}, the
+local $\NameCert_{\InscriptionEventBufferSealUp}$ surface consists exactly of
+carrier admission for $B=(E,W,R,D,A,H,Q,P,N)$, finite window exactness, replay
+row determinacy, digest attachment, audit-route coverage, componentwise
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:inscription-event-buffer-seal-carrier}. The accepted packet
+contains exactly the rows $E,W,R,D,A,H,Q,P,N$.
+
+Window exactness comes from $W$ and replay determinacy from $R$. The event row
+$E$ supplies only the finite event records admitted into that window, and the
+replay row orders only those records.
+
+Digest attachment and audit-route coverage are supplied by $D$ and $A$. The
+digest row binds the finite replay to the digest inscription surface, while
+the audit-route row records accepted checks, gap residues, and consumer-facing
+obligations.
+
+Finally $H,Q,P,N$ transport, continue, package, and name the same finite buffer
+seal. Since these rows add no unbounded stream or host replay oracle, the
+listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Inscription event buffer seal non-escape]
+\label{thm:inscription-event-buffer-seal-nonescape}
+No accepted $\InscriptionEventBufferSealUp$ packet exports an unbounded
+inscription stream, a host-level replay oracle, or a replay route outside the
+displayed rows $E,W,R,D,A,H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of
+\autoref{def:inscription-event-buffer-seal-carrier}. Its only event-facing row
+is $E$, its only window row is $W$, and its only replay row is $R$.
+
+Apply the NameCert obligations of
+\autoref{thm:inscription-event-buffer-seal-namecert-obligations}. Every
+accepted replay must attach the digest row $D$, audit-route row $A$, transport
+row $H$, continuation row $Q$, provenance row $P$, and local name $N$ to that
+same finite window.
+
+Thus an unbounded inscription stream, host-level replay oracle, or hidden
+replay route has no coordinate in the accepted packet. Such a demand can only
+be rejected at the audit-route boundary, not exported by the buffer seal.
+\end{proof}
+
+\falsifiablePrediction{No accepted \InscriptionEventBufferSealUp packet exports an unbounded inscription stream or host-level replay oracle beyond the displayed finite event window.}
+
+\independenceWitness{inscriptionevent, inscriptiongapledger, inscriptionpoint, inscriptionaudittrace, digestinscription: $\InscriptionEventBufferSealUp$ is not bijective to any listed sibling because it simultaneously carries finite event admission, bounded replay window, replay order, digest attachment, audit-route coverage, componentwise transport, displayed continuation, provenance, and local naming rows.}
+
+Lean follow-up must provide \texttt{Nontrivial InscriptionEventBufferSealUp} and \texttt{FieldFaithful InscriptionEventBufferSealUp} instances before the replay buffer seal is treated as an atomic Lean carrier.
+
+\closureat{InscriptionEventBufferSealUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionEventBufferSealUp}
+  \constructivestory{An $\InscriptionEventBufferSealUp$ packet is generated from finite inscription events, a bounded replay window, replay readback, digest attachment, audit-route records, componentwise transport, continuation routing, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-event-buffer-seal-carrier}, \autoref{thm:inscription-event-buffer-seal-namecert-obligations}, and \autoref{thm:inscription-event-buffer-seal-nonescape} bind the finite replay-buffer carrier, its local obligations, and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert an unbounded inscription stream, a host-level replay oracle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, replay-window exactness, digest attachment, audit-route coverage, TasteGate nontriviality, and field faithfulness for the replay buffer seal.}
+\end{closurestatus}
