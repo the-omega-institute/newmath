@@ -279,24 +279,31 @@ instance contextWindowCommitmentNontrivial :
         intro h
         cases h⟩
 
+def contextWindowCommitmentFields : ContextWindowCommitmentUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
+      provenance nameCert =>
+      [scope, prompt, boundary, refusal, consumer, transport, routes, provenance, nameCert]
+
+private theorem contextWindowCommitment_field_faithful :
+    ∀ x y : ContextWindowCommitmentUp,
+      contextWindowCommitmentFields x = contextWindowCommitmentFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk scope₁ prompt₁ boundary₁ refusal₁ consumer₁ transport₁ routes₁ provenance₁
+      nameCert₁ =>
+      cases y with
+      | mk scope₂ prompt₂ boundary₂ refusal₂ consumer₂ transport₂ routes₂ provenance₂
+          nameCert₂ =>
+          cases h
+          rfl
+
 instance contextWindowCommitmentFieldFaithful :
     FieldFaithful ContextWindowCommitmentUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | ContextWindowCommitmentUp.mk scope prompt boundary refusal consumer transport routes
-        provenance nameCert =>
-        [scope, prompt, boundary, refusal, consumer, transport, routes, provenance, nameCert]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk scope₁ prompt₁ boundary₁ refusal₁ consumer₁ transport₁ routes₁ provenance₁
-        nameCert₁ =>
-        cases y with
-        | mk scope₂ prompt₂ boundary₂ refusal₂ consumer₂ transport₂ routes₂ provenance₂
-            nameCert₂ =>
-            cases h
-            rfl
+  fields := contextWindowCommitmentFields
+  field_faithful := contextWindowCommitment_field_faithful
 
 theorem ContextWindowCommitmentTasteGate_single_carrier_alignment :
     (∀ h : BHist,

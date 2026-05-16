@@ -55,6 +55,44 @@ ambient completeness, or extra completion carrier, the Real-and-Completion
 consumer has no route to export any of them.
 \end{proof}
 
+\begin{theorem}[Real RegSeqRat--StreamName audit-clean handoff]
+\label{thm:real-regseqrat-streamname-auditclean-handoff}
+Every Phase Real and Completion consumer that reaches the $\RealUp$ seal
+through an accepted $\UniformCauchyCriterionUp$ packet must pass through the
+$\StreamNameUp$ finite-window row, the $\DyadicRatCoreUp$ tolerance ledger, the
+$\RegSeqRatUp$ regular readback row, and the local $\RealUp$ seal before it can
+claim an audit-clean L10 handoff.
+
+Equivalently, the handoff is readable only through the displayed
+UniformCauchyCriterion rows, the four Real L10 row owners of
+\autoref{def:real-l10-dependency-lattice}, and the shared $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ support. Quotient streams, selected host
+limits, host real equality, countable choice, and ambient completion have no
+coordinate in the audit-clean handoff route.
+\end{theorem}
+\begin{proof}
+Start with the route lock of
+\autoref{thm:real-uniform-cauchy-completion-route-lock}. It already forces any
+Phase Real and Completion read through the finite UniformCauchyCriterion chain
+before a $\RealUp$ seal or completion-facing endpoint is exposed.
+
+Then read the Real-side lattice. The dependency lattice of
+\autoref{def:real-l10-dependency-lattice} names the four row owners used by
+the route: $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The exclusion boundary is inherited from the Real L10 source theorems.
+\autoref{thm:real-l10-source-route-nonescape} removes quotient streams,
+selected host limits, host real equality, countable choice, and ambient
+completion from the source route, while
+\autoref{thm:real-l10-terminal-source-lock} makes the Real seal terminal over
+the displayed source rows.
+
+Thus an audit-clean handoff cannot be claimed before the consumer has exposed
+the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat
+readback, and RealUp local seal. Since none of the excluded host objects occurs
+as a row in that route, none can supply an alternate handoff coordinate.
+\end{proof}
+
 \begin{theorem}[Real uniform Cauchy budget pullback exhaustion]
 \label{thm:real-uniform-cauchy-budget-pullback-exhaustion}
 Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted $\UniformCauchyCriterionUp$
