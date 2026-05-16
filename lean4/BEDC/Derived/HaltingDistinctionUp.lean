@@ -427,4 +427,100 @@ theorem HaltingDistinctionCarrier_finite_obstruction_ledger_exhaustion
       obstructionReadUnary, ledgerReadUnary, traceRouteRead, classifierRouteObstruction,
       traceObstructionLedger, provenancePkg, ledgerPkg⟩
 
+theorem HaltingDistinctionDiagonalObstructionPublicPackage [AskSetup] [PackageSetup]
+    {question trace diagonal halt classifier route provenance cert diagonalRead traceRead
+      endpoint obstructionRead packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg ->
+      Cont diagonal halt diagonalRead ->
+        Cont trace route traceRead ->
+          Cont traceRead classifier endpoint ->
+            Cont classifier route obstructionRead ->
+              Cont endpoint obstructionRead packageRead ->
+                PkgSig bundle packageRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row cert ∧
+                          HaltingDistinctionCarrier question trace diagonal halt classifier
+                            route provenance cert bundle pkg)
+                      (fun row : BHist =>
+                        hsame row cert ∧ UnaryHistory question ∧ UnaryHistory trace ∧
+                          UnaryHistory diagonal)
+                      (fun row : BHist => hsame row cert ∧ PkgSig bundle provenance pkg)
+                      hsame ∧
+                    UnaryHistory diagonalRead ∧ UnaryHistory traceRead ∧
+                      UnaryHistory endpoint ∧ UnaryHistory obstructionRead ∧
+                        UnaryHistory packageRead ∧ Cont diagonal halt diagonalRead ∧
+                          Cont trace route traceRead ∧ Cont traceRead classifier endpoint ∧
+                            Cont classifier route obstructionRead ∧
+                              Cont endpoint obstructionRead packageRead ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle packageRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier diagonalHaltRead traceRouteRead traceReadClassifierEndpoint
+    classifierRouteObstruction endpointObstructionPackage packagePkg
+  have carrierFull :
+      HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+        bundle pkg :=
+    carrier
+  obtain ⟨questionUnary, traceUnary, diagonalUnary, haltUnary, classifierUnary, routeUnary,
+    _provenanceUnary, _certUnary, _questionTraceDiagonal, _diagonalHaltClassifier,
+    _classifierRouteCert, provenancePkg⟩ := carrier
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed diagonalUnary haltUnary diagonalHaltRead
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed traceUnary routeUnary traceRouteRead
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceReadUnary classifierUnary traceReadClassifierEndpoint
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed classifierUnary routeUnary classifierRouteObstruction
+  have packageReadUnary : UnaryHistory packageRead :=
+    unary_cont_closed endpointUnary obstructionReadUnary endpointObstructionPackage
+  have sourceAtCert :
+      hsame cert cert ∧
+        HaltingDistinctionCarrier question trace diagonal halt classifier route provenance cert
+          bundle pkg :=
+    And.intro (hsame_refl cert) carrierFull
+  have semanticCert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row cert ∧
+              HaltingDistinctionCarrier question trace diagonal halt classifier route provenance
+                cert bundle pkg)
+          (fun row : BHist =>
+            hsame row cert ∧ UnaryHistory question ∧ UnaryHistory trace ∧
+              UnaryHistory diagonal)
+          (fun row : BHist => hsame row cert ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cert sourceAtCert
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        constructor
+        · exact hsame_trans (hsame_symm sameRows) source.left
+        · exact source.right
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro source.left
+        (And.intro questionUnary (And.intro traceUnary diagonalUnary))
+    ledger_sound := by
+      intro row source
+      exact And.intro source.left provenancePkg
+  }
+  exact
+    ⟨semanticCert, diagonalReadUnary, traceReadUnary, endpointUnary, obstructionReadUnary,
+      packageReadUnary, diagonalHaltRead, traceRouteRead, traceReadClassifierEndpoint,
+      classifierRouteObstruction, endpointObstructionPackage, provenancePkg, packagePkg⟩
+
 end BEDC.Derived.HaltingDistinctionUp
