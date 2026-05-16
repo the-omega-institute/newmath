@@ -1,40 +1,3 @@
-\chapter{Real Completeness via Regular Cauchy Sequences}
-\label{ch:visions-real-completeness}
-
-This capstone records the conditional analytical target for the Phase Real and Completion milestone of \autoref{sec:roadmap-l10-construction-order}. It treats the real naming certificate $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}) as complete in the Bishop sense only after the DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp certificate obligations are available at machine-checked strength. The chapter defines a regular Cauchy sequence over $\RegSeqRat$ as a sequence of regular rational sequences together with an explicit modulus of convergence, gives the intended limit modulus and $\RegSeqRat$ representative by diagonal extraction, and records the uniqueness criterion up to the standard $\psame$ equivalence on naming certificates. The construction is fully constructive as a proof target: every modulus is an explicit function on naturals and rationals, no real number is identified with an equivalence class, and the required Lean target is expected to use neither $\mathsf{Classical.choice}$ nor $\mathsf{Quot.sound}$ nor $\mathsf{propext}$.
-
-\section{Regular Cauchy sequences and their limits}
-\label{sec:real-completeness-regular-cauchy}
-
-\begin{definition}[Regular sequence over $\RatUp$]
-\label{def:real-completeness-regular-rat-sequence}
-A \emph{regular sequence} over $\NameCert_{\RatUp}$ is a function $x \colon \mathbb{N} \to \mathbb{Q}$ together with the explicit regularity witness
-$$ \forall\, m, n \in \mathbb{N}, \quad |x_m - x_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
-The carrier $\RegSeqRat$ of \autoref{ch:concrete-instances-real-namecert} packages such pairs as a closed inductive over $\NameCert_{\RatUp}$ data, with $\RealClassifier$ the $\psame$ closure that identifies two regular sequences whose pointwise difference shrinks at the regularity rate.
-\end{definition}
-
-\begin{definition}[Regular Cauchy sequence over $\RegSeqRat$]
-\label{def:real-completeness-regular-cauchy-rat}
-A \emph{regular Cauchy sequence} of regular rational sequences is a function $X \colon \mathbb{N} \to \RegSeqRat$ together with an explicit modulus $\mu \colon \mathbb{Q}_{>0} \to \mathbb{N}$ such that, for every $\varepsilon \in \mathbb{Q}_{>0}$ and every $m, n \ge \mu(\varepsilon)$, the regular rational sequence $X_m - X_n$ (computed pointwise on representatives) lies inside the $\varepsilon$-ball at $0$ in the sense of $\NameCert_{\RegSeqRat}$.
-\end{definition}
-
-\begin{definition}[Diagonal limit representative]
-\label{def:real-completeness-diagonal-limit}
-The \emph{diagonal limit representative} of $(X, \mu)$ is the rational sequence $L \colon \mathbb{N} \to \mathbb{Q}$ given by
-$$ L_n \;=\; \big(X_{\mu(1/(n+1))}\big)_{\,\mu(1/(n+1)) + n + 1}, $$
-that is, the value at index $\mu(1/(n+1)) + n + 1$ of the $\mu(1/(n+1))$-th member of the Cauchy sequence. The construction is primitive recursion on $n$ together with $\NameCert_{\RatUp}$ arithmetic on the indices.
-\end{definition}
-
-\begin{theorem}[Diagonal limit is a regular sequence]
-\label{thm:real-completeness-diagonal-regular}
-The diagonal limit representative $L$ of \autoref{def:real-completeness-diagonal-limit} is a regular sequence in the sense of \autoref{def:real-completeness-regular-rat-sequence}: for every $m, n \in \mathbb{N}$,
-$$ |L_m - L_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
-\end{theorem}
-
-\begin{proof}[Sketch]
-Fix $m \le n$. Bound $|L_m - L_n|$ by triangle inequality through three intermediate points: the value of $X_{\mu(1/(m+1))}$ at the diagonal index, the value of $X_{\mu(1/(n+1))}$ at the same index, and the value at $L_n$'s diagonal index. The first and third differences are controlled by the regularity of the constituent regular sequences (\autoref{def:real-completeness-regular-rat-sequence}); the middle difference is controlled by the Cauchy modulus $\mu$ (\autoref{def:real-completeness-regular-cauchy-rat}). Each bound is at most $1/(m+1) + 1/(n+1)$ after a one-line rational arithmetic step.
-\end{proof}
-
 \section{The limit theorem}
 \label{sec:real-completeness-limit-theorem}
 
@@ -775,26 +738,3 @@ certificate; standard bridge RegSeqRat stationary observation partitions read
 through the one-window classifier; downstream use RegSeqRat and RealUp
 diagonal-limit arguments without carrying arbitrary finite segmentation data.
 Status: $\mathsf{ProofTarget}$.
-
-\input{parts/visions/real_completeness/transported_stationary_diagonal}
-
-\input{parts/visions/real_completeness/constructive_content_axiom_purity}
-
-\input{parts/visions/real_completeness/concretization_links}
-
-\input{parts/visions/real_completeness/concretization_link_packets}
-\concretizedIn{ch:concrete-instances-observationbudgetlimiter-namecert}{Observation-budget limiters realize finite request caps before StreamName, RegSeqRat, and RealUp seal reads.}
-\concretizedIn{ch:concrete-instances-real-cauchy-witness-grid-namecert}{Real Cauchy witness grids realize the Real completeness diagonal route as finite selector-budget, witness-ledger, completion-seal, StreamName, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert rows.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-tail-budget-namecert}{Regular Cauchy tail budgets realize finite tail-threshold, observation-budget, window-service, dyadic-readback, RegSeqRat handoff, and RealUp seal rows for the Real completeness route.}
-\concretizedIn{ch:concrete-instances-tail-budget-coherence-namecert}{Tail budget coherence packets realize the Real completeness route as one finite threshold, observation-budget, selector-budget, agreement-seal, and limit-seal NameCert surface.}
-\concretizedIn{ch:concrete-instances-cofinaltailagreement-namecert}{CofinalTailAgreementUp realizes the paired cofinal-tail agreement route between regular Cauchy tail evidence and the Real completion seal.}
-\concretizedIn{ch:concrete-instances-finite-prefix-limit-budget-namecert}{Finite-prefix limit budgets realize the bounded observation surface used by the Real completeness diagonal-limit route.}
-\concretizedIn{ch:concrete-instances-bounded-monotone-convergence-seal-namecert}{Bounded monotone convergence seals realize the bounded monotone Cauchy witness as a finite RealUp convergence handoff.}
-\concretizedIn{ch:concrete-instances-finite-real-route-commitment-namecert}{Finite real route commitments realize the Real-completion route as finite precision, budget, StreamName, RegSeqRat, RealUp seal, and non-escape NameCert rows.}
-\concretizedIn{ch:concrete-instances-diagonal-limit-observer-namecert}{Diagonal-limit observers realize the Real-completeness diagonal route as finite StreamName window, RegSeqRat readback, Dyadic tolerance, CauchyLimitSeal, RealUp seal, and observer budget NameCert rows.}
-\concretizedIn{ch:concrete-instances-real-window-synchronizer-namecert}{Real window synchronizers realize the StreamName, RegSeqRat, CauchyLimitSeal, RegularCauchyTailBudget, and RealUp seal route as one finite NameCert packet.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-modulus-witness-ledger-namecert}{Regular Cauchy modulus witness ledgers realize the explicit-modulus route of the Real completeness proof target as finite StreamName, DyadicRatCore, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert rows.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-classifier-normal-form-namecert}{Regular Cauchy classifier normal forms realize the Real-completeness route as a finite DyadicRatCore, StreamName, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert packet.}
-\concretizedIn{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}{Cauchy shared-tail moduli realize the Real-completeness route as one shared dyadic tail threshold, StreamName window, RegSeqRat handoff, RealUp seal, hsame, Cont, Pkg, and NameCert packet.}
-\concretizedIn{ch:concrete-instances-cauchy-tail-consensus-namecert}{Cauchy tail consensus realizes the Real-completeness route as one finite shared-tail, tail-agreement, CauchyLimitSeal, StreamName, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert packet.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-apartness-budget-namecert}{Regular Cauchy apartness budgets realize finite nonzero lower-bound windows for RegSeqRat, DyadicRatCore, StreamName, and RealUp consumers.}

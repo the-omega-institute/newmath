@@ -1,0 +1,138 @@
+\subsection{Gap reports}
+\label{subsec:philosophy-gap-report-discipline}
+
+\begin{definition}[Gap report]
+\label{def:philosophy-gap-report-discipline}
+A gap report records site, requested supply, socket type, gate,
+consequence if internalized, and upgrade path.
+\end{definition}
+
+\begin{definition}[Gap status]
+\label{def:philosophy-gap-status}
+A gap is open when it is identified without an upgrade path, deferred
+when it has an upgrade path, and forbidden when the requested move is
+principally refused.
+\end{definition}
+
+\begin{theorem}[Gaps must be typed]
+\label{thm:philosophy-gaps-must-be-typed}
+An untyped gap is not a complete BEDC gap report.
+\end{theorem}
+\begin{proof}
+The report must say whether the missing supply is unrestricted
+induction, witness, identity, causal persistence, inter-history
+coordination, inscription novelty, self-reference closure, or a stack
+of these. Different kinds have different gates.
+\end{proof}
+
+\begin{corollary}[Gaps are positive honesty structures]
+\label{cor:philosophy-gaps-positive-honesty}
+A gap is a visible boundary, not a proof failure hidden in prose.
+\end{corollary}
+
+\subsection{Cannot-claim registry}
+\label{subsec:philosophy-cannot-claim-discipline}
+
+\begin{definition}[Cannot-claim entry]
+\label{def:philosophy-cannot-claim-entry-discipline}
+A cannot-claim entry records claim text, status, reason not claimable,
+and required upgrade. Its status is forbidden, deferred, or partial.
+\end{definition}
+
+\begin{definition}[Cannot-claim registry]
+\label{def:philosophy-cannot-claim-registry}
+The cannot-claim registry is the finite export surface of claims that
+the manuscript explicitly does not make.
+\end{definition}
+
+\begin{theorem}[Refusals must be recorded]
+\label{thm:philosophy-refusals-recorded}
+BEDC writing must explicitly record what it does not claim.
+\end{theorem}
+\begin{proof}
+The certified surface is finite. If unsupported adjacent claims are
+left implicit, readers may infer them from nearby positive results.
+The registry prevents that inference.
+\end{proof}
+
+\begin{corollary}[Cannot-claim is not roadmap]
+\label{cor:philosophy-cannot-claim-not-roadmap}
+The cannot-claim registry is not a future schedule.
+\end{corollary}
+\begin{proof}
+A roadmap names intended work. A cannot-claim entry names a current
+refusal. A deferred refusal may later be removed only after its upgrade
+is discharged; a forbidden refusal has no upgrade path.
+\end{proof}
+
+\subsection{Failure certificates}
+\label{subsec:philosophy-failure-certificates}
+
+\begin{definition}[Failure certificate]
+\label{def:philosophy-failure-certificate-discipline}
+A failure certificate \(\mathsf{FailureCert}(N,c,v)\) records a typed
+reason why a claimed theory grade \(c\), formal status \(v\), or their
+combination fails. Branches include missing source, missing classifier,
+classifier failure, exactness failure, descent failure, absent gap
+ledger, unstable completion, overstated scope, failed bridge, host
+primitive leakage, checker failure, audit failure, and axis confusion.
+\end{definition}
+
+\begin{theorem}[Failure blocks the corresponding gate]
+\label{thm:philosophy-failure-blocks-corresponding-gate}
+Theory-side failure blocks the theory gate, verification-side failure
+blocks formal status, and axis-confusion failure blocks the verified
+gate.
+\end{theorem}
+\begin{proof}
+Theory-side branches deny source, classifier, exactness, descent,
+ledger, stability, scope, bridge, or no-host-leak fields.
+Verification-side branches deny checking or audit cleanliness.
+Axis-confusion denies the independence of the two axes.
+\end{proof}
+
+\begin{corollary}[Failure is certificate dual]
+\label{cor:philosophy-failure-certificate-dual}
+Certificates license export; failure certificates block export. Both
+are typed audit objects.
+\end{corollary}
+
+\subsection{Standard bridges}
+\label{subsec:philosophy-standard-bridge-writing}
+
+\begin{definition}[Standard bridge writing form]
+\label{def:philosophy-standard-bridge-writing-form}
+A standard bridge must display encoding, decoding, return witnesses in
+both directions, finite theorem preservation, and no-host-leak.
+\end{definition}
+
+\begin{definition}[Finite preservation list]
+\label{def:philosophy-finite-preservation-list}
+The theorem-preservation field is a finite list of host theorems paired
+with BEDC counterparts and translation witnesses. No theorem outside
+the list is claimed preserved.
+\end{definition}
+
+\begin{definition}[No-host-leak discipline]
+\label{def:philosophy-no-host-leak-discipline}
+No-host-leak states that host numbers, quotients, function spaces,
+equality, choice, and propositional extensionality do not enter the
+BEDC public surface.
+\end{definition}
+
+\begin{theorem}[Standard bridge is not fusion]
+\label{thm:philosophy-standard-bridge-not-fusion-writing}
+A standard bridge is conservative recognition, not fusion with the host
+theory.
+\end{theorem}
+\begin{proof}
+The bridge compares BEDC and host objects through explicit maps and
+finite preservation rows. No-host-leak prevents host primitives from
+becoming BEDC inputs.
+\end{proof}
+
+\begin{corollary}[Bridge claims are host-relative]
+\label{cor:philosophy-bridge-claims-host-relative}
+A bridge claim must name the host theory. There is no absolute bridge
+independent of host semantics.
+\end{corollary}
