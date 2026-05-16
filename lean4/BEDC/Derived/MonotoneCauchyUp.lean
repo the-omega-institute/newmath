@@ -510,4 +510,31 @@ theorem MonotoneCauchyCarrier_located_interval_cell_coherence [AskSetup] [Packag
       modulusLedgerInterval, ledgerIntervalCell, cellRealSeal, intervalRealSealNameRow,
       transportRouteProvenance, nameRowPkg, sealReadPkg⟩
 
+theorem MonotoneCauchyCarrier_ledger_exhaustion [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg →
+      Cont interval realSeal publicRead →
+        PkgSig bundle publicRead pkg →
+          UnaryHistory regular ∧ UnaryHistory schedule ∧ UnaryHistory modulus ∧
+            UnaryHistory ledger ∧ UnaryHistory interval ∧ UnaryHistory realSeal ∧
+              UnaryHistory publicRead ∧ Cont regular schedule modulus ∧
+                Cont modulus ledger interval ∧ Cont interval realSeal publicRead ∧
+                  Cont transportRow route provenance ∧ PkgSig bundle nameRow pkg ∧
+                    PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier intervalRealSealPublic publicPkg
+  obtain ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    regularScheduleModulus, modulusLedgerInterval, _intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed intervalUnary realSealUnary intervalRealSealPublic
+  exact
+    ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary, realSealUnary,
+      publicUnary, regularScheduleModulus, modulusLedgerInterval, intervalRealSealPublic,
+      transportRouteProvenance, nameRowPkg, publicPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
