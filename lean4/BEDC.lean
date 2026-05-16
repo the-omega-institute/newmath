@@ -786,6 +786,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalRealRequestReuseUp.TasteGate
 import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
+import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
