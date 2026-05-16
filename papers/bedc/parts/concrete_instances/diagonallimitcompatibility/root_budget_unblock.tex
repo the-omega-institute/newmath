@@ -429,3 +429,54 @@ The three-way comparison makes the shared tuple the terminal-consumer boundary
 for all three downstream routes, so the Real-completion terminal read pulls
 back to that tuple before any branch-specific rows are available.
 \end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility terminal branch exhaustion]
+\label{thm:diagonal-limit-compatibility-terminal-branch-exhaustion}
+Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal
+$\RealUp$ or $\CompletionUp$ read consumed by the current terminal branch
+surface. Then the read first factors through the displayed diagonal terminal
+prefix
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+After this prefix the only admitted branch rows are the
+$\CauchyTailWitnessEnvelopeUp$ rows, the $\CauchyModulusRefinementUp$ rows, or
+the $\UniformCauchyCriterionUp$ finite-family seal rows. The terminal surface
+exports no quotient stream, selected host limit, host equality, choice datum,
+ambient completeness coordinate, hidden tail oracle, hidden selector, or fourth
+terminal branch.
+\end{theorem}
+\begin{proof}
+First bind the root prefix. Apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-source},
+\autoref{thm:diagonal-limit-compatibility-root-window-route}, and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. These place the
+terminal $\RealUp$ or $\CompletionUp$ read behind the budget, window, readback,
+seal, transport, route, provenance, and local-name rows
+$R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next close the prefix against nonlocal escape. Use
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape},
+\autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}, and
+\autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion}. The
+accepted carrier has no coordinate for quotient streams, selected host limits,
+host equality, choice data, ambient completeness, hidden tail oracles, or hidden
+selectors before a displayed branch surface is read.
+
+Now enumerate the admitted terminal branches. The envelope route is
+\autoref{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization};
+the refinement route is
+\autoref{thm:diagonal-limit-compatibility-cauchy-modulus-refinement-route}; and
+the uniform finite-family route is
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-terminal-handoff}.
+Each begins only after the same diagonal prefix and then reads its own displayed
+branch rows.
+
+Finally apply the three-way comparison and terminal pullback,
+\autoref{thm:diagonal-limit-compatibility-uniform-cauchy-three-way-terminal-comparison}
+and
+\autoref{thm:diagonal-limit-compatibility-real-completion-terminal-pullback}.
+They make the three displayed consumers exhaustive for the current terminal
+surface: any accepted terminal branch is one of those rows after
+$R,T,S,D,W,Q,L,H,C,P,N$, and no fourth branch or hidden terminal export remains.
+\end{proof}
