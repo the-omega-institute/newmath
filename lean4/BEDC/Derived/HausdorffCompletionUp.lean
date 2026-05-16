@@ -508,4 +508,61 @@ theorem HausdorffCompletionCarrier_separated_ledger_transport_scope [AskSetup] [
       separatedHandoffRoute, transportRouteProvenance, provenanceRouteLedger, provenancePkg,
       ledgerPkg⟩
 
+theorem HausdorffCompletionCarrier_cauchy_filter_uniqueness_boundary [AskSetup]
+    [PackageSetup]
+    {source entourage separated handoff transport route provenance source' separatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg →
+      hsame source source' →
+        Cont separated provenance separatedRead →
+          PkgSig bundle separatedRead pkg →
+            SemanticNameCert
+              (fun row : BHist => hsame row source' ∧ UnaryHistory row ∧
+                PkgSig bundle provenance pkg)
+              (fun row : BHist => hsame row source ∧ Cont separated provenance separatedRead)
+              (fun row : BHist => PkgSig bundle separatedRead pkg ∧
+                Cont separated provenance separatedRead ∧ hsame row source')
+              (fun row row' : BHist => hsame row row') ∧
+            UnaryHistory source ∧ UnaryHistory source' ∧ UnaryHistory separatedRead ∧
+              Cont source entourage transport ∧ Cont separated provenance separatedRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle separatedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier sameSource separatedProvenanceRead separatedReadPkg
+  obtain ⟨sourceUnary, _entourageUnary, separatedUnary, _handoffUnary, _transportUnary,
+    _routeUnary, provenanceUnary, sourceEntourageTransport, _separatedHandoffRoute,
+    _transportRouteProvenance, provenancePkg⟩ := carrier
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have separatedReadUnary : UnaryHistory separatedRead :=
+    unary_cont_closed separatedUnary provenanceUnary separatedProvenanceRead
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro source' ⟨hsame_refl source', sourceUnary', provenancePkg⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows sourceRow
+          cases sameRows
+          exact sourceRow
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨hsame_trans sourceRow.left (hsame_symm sameSource), separatedProvenanceRead⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨separatedReadPkg, separatedProvenanceRead, sourceRow.left⟩
+    }
+  · exact
+      ⟨sourceUnary, sourceUnary', separatedReadUnary, sourceEntourageTransport,
+        separatedProvenanceRead, provenancePkg, separatedReadPkg⟩
+
 end BEDC.Derived.HausdorffCompletionUp
