@@ -46,24 +46,66 @@ def cauchyTailModulusSealToEventFlow : CauchyTailModulusSealUp → EventFlow
   | x => (cauchyTailModulusSealFields x).map cauchyTailModulusSealEncodeBHist
 
 def cauchyTailModulusSealFromEventFlow : EventFlow → Option CauchyTailModulusSealUp
-  | [M, F, X, tau, D, W0, W1, Q0, Q1, E, H, C, P, N] =>
-      some
-        (CauchyTailModulusSealUp.mk
-          (cauchyTailModulusSealDecodeBHist M)
-          (cauchyTailModulusSealDecodeBHist F)
-          (cauchyTailModulusSealDecodeBHist X)
-          (cauchyTailModulusSealDecodeBHist tau)
-          (cauchyTailModulusSealDecodeBHist D)
-          (cauchyTailModulusSealDecodeBHist W0)
-          (cauchyTailModulusSealDecodeBHist W1)
-          (cauchyTailModulusSealDecodeBHist Q0)
-          (cauchyTailModulusSealDecodeBHist Q1)
-          (cauchyTailModulusSealDecodeBHist E)
-          (cauchyTailModulusSealDecodeBHist H)
-          (cauchyTailModulusSealDecodeBHist C)
-          (cauchyTailModulusSealDecodeBHist P)
-          (cauchyTailModulusSealDecodeBHist N))
-  | _ => none
+  | [] => none
+  | M :: rest0 =>
+      match rest0 with
+      | [] => none
+      | F :: rest1 =>
+          match rest1 with
+          | [] => none
+          | X :: rest2 =>
+              match rest2 with
+              | [] => none
+              | tau :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | D :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | W0 :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | W1 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | Q0 :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | Q1 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | E :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | H :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | C :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | P :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | N :: rest13 =>
+                                                          match rest13 with
+                                                          | [] =>
+                                                              some
+                                                                (CauchyTailModulusSealUp.mk
+                                                                  (cauchyTailModulusSealDecodeBHist M)
+                                                                  (cauchyTailModulusSealDecodeBHist F)
+                                                                  (cauchyTailModulusSealDecodeBHist X)
+                                                                  (cauchyTailModulusSealDecodeBHist tau)
+                                                                  (cauchyTailModulusSealDecodeBHist D)
+                                                                  (cauchyTailModulusSealDecodeBHist W0)
+                                                                  (cauchyTailModulusSealDecodeBHist W1)
+                                                                  (cauchyTailModulusSealDecodeBHist Q0)
+                                                                  (cauchyTailModulusSealDecodeBHist Q1)
+                                                                  (cauchyTailModulusSealDecodeBHist E)
+                                                                  (cauchyTailModulusSealDecodeBHist H)
+                                                                  (cauchyTailModulusSealDecodeBHist C)
+                                                                  (cauchyTailModulusSealDecodeBHist P)
+                                                                  (cauchyTailModulusSealDecodeBHist N))
+                                                          | _ :: _ => none
 
 private theorem cauchyTailModulusSeal_round_trip :
     ∀ x : CauchyTailModulusSealUp,
@@ -168,18 +210,23 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
       cauchyTailModulusSealDecodeBHist
           (cauchyTailModulusSealEncodeBHist h) =
         h) ∧
-      Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-        Nonempty (ChapterTasteGate CauchyTailModulusSealUp) ∧
-          Nonempty (FieldFaithful CauchyTailModulusSealUp) ∧
-            cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        (∀ x : CauchyTailModulusSealUp,
+          cauchyTailModulusSealFromEventFlow (cauchyTailModulusSealToEventFlow x) =
+            some x) ∧
+          (∀ x y : CauchyTailModulusSealUp, x ≠ y →
+            cauchyTailModulusSealToEventFlow x ≠ cauchyTailModulusSealToEventFlow y) ∧
+            (∀ x y : CauchyTailModulusSealUp,
+              cauchyTailModulusSealFields x = cauchyTailModulusSealFields y → x = y) := by
   constructor
   · exact cauchyTailModulusSealDecode_encode_bhist
   · constructor
-    · exact ⟨cauchyTailModulusSealNontrivial⟩
+    · rfl
     · constructor
-      · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
+      · exact cauchyTailModulusSeal_round_trip
       · constructor
-        · exact ⟨cauchyTailModulusSealFieldFaithful⟩
-        · rfl
+        · intro x y hxy heq
+          exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+        · exact cauchyTailModulusSeal_fields_faithful
 
 end BEDC.Derived.CauchyTailModulusSealUp
