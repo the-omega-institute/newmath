@@ -115,6 +115,20 @@ operation by which they can hide $A$, recover an erased representative demand,
 or turn the refused demand into an admitted representative-selection export.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary refusal ledger consumer frontier]
+\label{thm:quotient-soundness-boundary-refusal-ledger-consumer-frontier}
+Every downstream consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet that reaches the representative-demand rows must first pass through the visible refusal rows $E,A,V$. Any later positive route through $T,H,C,P,N$ remains classifier-respecting $\psame$ transport with componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, and local $\NameCert$ naming rather than a quotient eliminator.
+\end{theorem}
+\begin{proof}
+Start with representative-demand exposure, \autoref{thm:quotient-soundness-boundary-representative-demand-exposure}. It keeps the requested representative rows $A$ audit-visible after sibling handoff and prevents later reads from treating them as admitted representative selectors.
+
+Use psame consumer normalization, \autoref{thm:quotient-soundness-boundary-psame-consumer-normalization}. Once the refusal rows have been read, the surviving positive route normalizes to $E,T,H,C,P,N$ and the transport row $T$ is a classifier-respecting $\psame$ route.
+
+Apply downstream factorization exactness and two-surface exhaustion. \autoref{thm:quotient-soundness-boundary-downstream-factorization-exactness} separates downstream reads into the refused request surface or the displayed transport surface, while \autoref{thm:quotient-soundness-boundary-two-surface-exhaustion} rules out a third quotient-side route.
+
+Therefore a consumer that reaches the representative-demand rows has already crossed $E,A,V$, and any later positive use of $T,H,C,P,N$ is only the displayed replacement transport. It cannot be read as $\mathsf{Quot.sound}$, a quotient carrier eliminator, or a hidden representative-selection principle.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary psame consumer normalization]
 \label{thm:quotient-soundness-boundary-psame-consumer-normalization}
 Every surviving quotient-like consumer route of an accepted
