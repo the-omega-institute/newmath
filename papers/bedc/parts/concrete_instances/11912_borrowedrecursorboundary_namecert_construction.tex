@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BorrowedRecursorBoundaryUp$}
+\label{ch:concrete-instances-borrowedrecursorboundary-namecert}
+\origin{ai}
+
+The $\BorrowedRecursorBoundaryUp$ packet concretizes the borrowed-recursor boundary of \autoref{ch:visions-audit-gates-as-transcendental-boundary} as a finite NameCert carrier. It sits beside the strict gate packet of \autoref{ch:concrete-instances-auditgateboundary-namecert}, the socket refusal surface of \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the failed-gate witness of \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}. The packet allows host Lean recursors to serve as checking infrastructure only after proof ancestry, gate verdict, socket refusal, and local naming rows are displayed.
+
+\begin{definition}[Borrowed-recursor boundary carrier]
+\label{def:apophatic-borrowed-recursor-boundary-carrier}
+A $\BorrowedRecursorBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,A,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the borrowed host-recursor use, recorded as a checking route rather than theorem content;
+\item $A$ is the proof-ancestry audit row classifying whether the route depends on forbidden host commitments;
+\item $S$ is the visible $\ApophaticSocketUp$ row that names the external host supply position;
+\item $F$ is the $\AuditGateFailureWitnessUp$ row used when the ancestry row refuses the route;
+\item $H$ records componentwise $\hsame$ transport for recursor use, ancestry, socket, failure witness, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from the recursor use through ancestry audit, socket naming, refusal, and local consumption;
+\item $P$ records $\Pkg$ provenance over auditgateboundary, apophaticsocket, apophaticname, certificateauditgate, auditgatefailurewitness, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BorrowedRecursorBoundaryUp}$ row.
+\end{enumerate}
+The carrier exports a boundary certificate for checked host-recursion use. It exports no host recursion principle, global kernel completeness theorem, hidden eliminator, or proof dependency absent from the ancestry row.
+\end{definition}
+
+\begin{theorem}[Borrowed-recursor boundary nonescape]
+\label{thm:apophatic-borrowed-recursor-boundary-nonescape}
+Every accepted $\BorrowedRecursorBoundaryUp$ packet exposes the proof-ancestry row $A$ before any consumer may use the borrowed recursor row $R$. If $A$ records a forbidden dependency or lacks the displayed ancestry report, the route must pass through the socket row $S$ and the failure witness row $F$ as an apophatic refusal rather than as theorem content.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:apophatic-borrowed-recursor-boundary-carrier}. The only accepted recursor use is the displayed row $R$, and the next row in the packet is the proof-ancestry audit $A$.
+
+The socket row $S$ names the host supply position without internalizing it. If the ancestry row is absent or refuses the route, the failure witness $F$ is the only displayed consumer-facing continuation.
+
+The transport, replay, provenance, and local naming rows $H,C,P,N$ can repack only these visible rows. Thus a consumer receives either an ancestry-cleared checking route or a visible refusal path, never an uninspected host-recursion principle.
+\end{proof}
+
+\begin{theorem}[Borrowed-recursor gate correspondence]
+\label{thm:apophatic-borrowed-recursor-boundary-gate-correspondence}
+For an accepted $\BorrowedRecursorBoundaryUp$ packet, the strict audit gate may certify host-recursion nonescape exactly through the displayed tuple $R,A,S,F,H,C,P,N$. The gate consumes the proof-ancestry row $A$, the socket row $S$, the failure-witness row $F$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before it treats the borrowed recursor as a BEDC checking route.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:apophatic-borrowed-recursor-boundary-carrier}. Its rows separate host-recursion use $R$ from proof ancestry $A$, socket naming $S$, and refusal witness $F$.
+
+Use the gate sibling of \autoref{ch:concrete-instances-auditgateboundary-namecert}. The strict gate can inspect only the finite audit-facing rows it is given, so it reads ancestry and refusal through $A,S,F$ rather than through a hidden host predicate.
+
+The remaining rows $H,C,P,N$ supply transport, replay, provenance, and local naming. Together they are exactly the finite route through which the borrowed recursor is admitted as checking infrastructure, with no extra host-recursion content exported.
+\end{proof}
+
+\falsifiablePrediction{A BorrowedRecursorBoundaryUp packet without the proof-ancestry row cannot certify host-recursion nonescape.}
+
+\independenceWitness{auditgateboundary, apophaticsocket, apophaticname, certificateauditgate, auditgatefailurewitness: the borrowed-recursor boundary combines proof ancestry, visible host-socket naming, failed-gate refusal, transport, replay, provenance, and local naming; none of the named siblings carries all rows $R,A,S,F,H,C,P,N$ together.}
+
+The Lean follow-up lives at \texttt{lean4/BEDC/Derived/BorrowedRecursorBoundaryUp/TasteGate.lean} and must provide \texttt{Nontrivial BorrowedRecursorBoundaryUp} and \texttt{FieldFaithful BorrowedRecursorBoundaryUp} instances for the same displayed carrier.
+
+\closureat{BorrowedRecursorBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\BorrowedRecursorBoundaryUp}
+  \constructivestory{A $\BorrowedRecursorBoundaryUp$ packet is generated from a borrowed recursor-use row, proof-ancestry audit row, socket row, failure-witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apophatic-borrowed-recursor-boundary-carrier}, \autoref{thm:apophatic-borrowed-recursor-boundary-nonescape}, and \autoref{thm:apophatic-borrowed-recursor-boundary-gate-correspondence} bind borrowed host-recursion use to displayed proof ancestry, audit refusal, socket naming, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a public standard bridge, host kernel completeness, a global recursion theorem, or theorem content for refused host dependencies.}
+  \upgradepath{Obligation closure requires checked carrier admission, proof-ancestry exactness, strict-gate correspondence, socket refusal, componentwise transport, displayed continuation, provenance, and local naming rows.}
+\end{closurestatus}
