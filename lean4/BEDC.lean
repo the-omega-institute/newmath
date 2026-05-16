@@ -2741,6 +2741,7 @@ import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.ContextualActionCertificate
 import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.FieldCertificateObligations
+import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
