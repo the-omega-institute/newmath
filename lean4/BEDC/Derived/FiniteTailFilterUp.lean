@@ -333,6 +333,58 @@ theorem FiniteTailFilterCarrier_real_completion_lattice_link
     ⟨unaryS, unaryD, unaryR, unaryE, unaryCofinalWindow, unaryLatticeRead, routeR,
       cofinalRoute, latticeRoute, cofinalWindowSameR, sameNameSeal, latticePkg⟩
 
+theorem FiniteTailFilterCarrier_structural_provenance_obligation
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      UnaryHistory P ->
+        Cont P N E ->
+          PkgSig bundle P pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row N /\ UnaryHistory row)
+                (fun row : BHist => Cont P row E /\ hsame N E)
+                (fun row : BHist => hsame row N /\ PkgSig bundle P pkg)
+                hsame /\
+              UnaryHistory P /\ UnaryHistory N /\ hsame N E /\ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier unaryP provenanceRoute provenancePkg
+  obtain ⟨_unaryS, _unaryD, _unaryB, unaryE, _unaryH, _routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryE (hsame_symm sameNameSeal)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N /\ UnaryHistory row)
+        (fun row : BHist => Cont P row E /\ hsame N E)
+        (fun row : BHist => hsame row N /\ PkgSig bundle P pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro N ⟨hsame_refl N, unaryN⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left
+        exact ⟨provenanceRoute, sameNameSeal⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg⟩
+    }
+  exact ⟨cert, unaryP, unaryN, sameNameSeal, provenancePkg⟩
+
 theorem FiniteTailFilterCarrier_nonescape
     [AskSetup] [PackageSetup]
     {S D R B Q E H C P N S' D' R' B' Q' E' H' C' P' N' : BHist} :
