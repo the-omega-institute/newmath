@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SelectedTailSeedUp$}
+\label{ch:concrete-instances-selected-tail-seed-namecert}
+\origin{ai-composite}
+
+The $\SelectedTailSeedUp$ packet realizes the stationary selected-tail seed exactness surface of \autoref{ch:visions-real-completeness} as a finite concrete NameCert carrier. It is structurally composite over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FiniteTailFilterUp$: rational endpoints are read through \autoref{ch:concrete-instances-rat-namecert}; stream windows through \autoref{ch:concrete-instances-streamname-namecert}; regular-rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}; dyadic tolerance ledgers through \autoref{ch:concrete-instances-dyadicratcore-namecert}; Real sealing through \autoref{ch:concrete-instances-real-namecert}; and selected finite-tail filtering through \autoref{ch:concrete-instances-finite-tail-filter-namecert}. The packet supplies the finite handoff used by \autoref{thm:real-completeness-stationary-rational-selected-tail-seed-exactness} without quotient streams, host real equality, or ambient completeness.
+
+\begin{definition}[Selected-tail seed carrier]
+\label{def:selected-tail-seed-carrier}
+A $\SelectedTailSeedUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,E,A,W,K,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ seed-rational row naming the stationary rational endpoint.
+\item $E$ is the endpoint-exactness row comparing the selected seed endpoint with the rational seed under the displayed rational classifier.
+\item $A$ is the admission row for the selected finite tail, read against $\FiniteTailFilterUp$.
+\item $W$ is the $\StreamNameUp$ window exposing the selected stationary tail segment.
+\item $K$ is the $\RegSeqRatUp$ readback row for the stationary regular-rational sequence at the selected window.
+\item $S$ is the $\DyadicRatCoreUp$ tolerance and arithmetic ledger attached to the selected endpoint.
+\item $R$ is the $\RealUp$ seal row obtained from the selected stationary readback.
+\item $H$ records componentwise $\hsame$ transport for $Q,E,A,W,K,S,R,P,N$.
+\item $C$ records displayed $\Cont$ replay from rational seed through selected finite tail, stream window, regular-rational readback, dyadic ledger, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SelectedTailSeedUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\FiniteTailFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SelectedTailSeedUp}$ row.
+\end{enumerate}
+The carrier exports no quotient stream, host real equality, countable-choice selector, detached limit object, or ambient Real-completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Selected-tail seed NameCert obligations]
+\label{thm:selected-tail-seed-namecert-obligations}
+For the carrier of \autoref{def:selected-tail-seed-carrier}, the local $\NameCert_{\SelectedTailSeedUp}$ surface consists exactly of carrier admission for $T=(Q,E,A,W,K,S,R,H,C,P,N)$, rational seed admission through $Q$, endpoint exactness through $E$, finite-tail admission through $A$, stationary stream-window exposure through $W$, regular-rational readback through $K$, dyadic tolerance and arithmetic exposure through $S$, Real sealing through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its coordinates list the rational seed, endpoint-exactness row, finite-tail admission row, selected stream window, regular-rational readback, dyadic ledger, Real seal, transport, replay, provenance, and local name.
+
+The sibling certificate surfaces account for the data-bearing rows. $\RatUp$ supplies $Q$; $\FiniteTailFilterUp$ supplies $A$; $\StreamNameUp$ supplies $W$; $\RegSeqRatUp$ supplies $K$; $\DyadicRatCoreUp$ supplies $S$; and $\RealUp$ supplies $R$.
+
+The endpoint row $E$ is therefore not an additional host equality. It is the displayed comparison tying the selected finite tail back to the stationary rational seed, while $H,C,P,N$ only transport, replay, source, and name the already displayed rows. These rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Selected-tail seed Real-window handoff]
+\label{thm:selected-tail-seed-real-window-handoff}
+Every Real-window consumer of an accepted $\SelectedTailSeedUp$ packet factors through the finite route
+$$
+Q,E,A,W,K,S,R,H,C,P,N.
+$$
+In particular, the stationary rational selected finite-window endpoint is read as a finite $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ handoff rather than as quotient stream equality or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the selected finite-tail admission row $A$. It identifies the tail segment whose stationary window is visible, but it does not by itself expose a Real-facing endpoint.
+
+Next read the route through $W,K,S$. The stream window displays the selected stationary segment, the regular-rational row reads that segment as a regular sequence observation, and the dyadic ledger records the finite tolerance and arithmetic used by the endpoint exactness row.
+
+Finally pass through $R,H,C,P,N$. The Real seal $R$ is downstream of the selected finite route, and the structural rows only preserve the displayed handoff. Since the carrier has no quotient stream, host real equality, countable-choice selector, detached limit, or ambient completeness coordinate, every Real-window consumer remains inside the finite route.
+\end{proof}
+
+This chapter is composite rather than atomic. Its independence from the sibling chapters is not expressed by row-by-row atomic separation: $\SelectedTailSeedUp$ deliberately joins $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\FiniteTailFilterUp$ into one stationary selected-tail seed packet, and each sibling omits at least one coordinate needed for the full Real-window handoff.
+
+The Lean \texttt{TasteGate.lean} boundary for $\SelectedTailSeedUp$ must provide explicit $\mathsf{Nontrivial}\ \SelectedTailSeedUp$ and $\mathsf{FieldFaithful}\ \SelectedTailSeedUp$ instances preserving $Q,E,A,W,K,S,R,H,C,P,N$.
+
+\falsifiablePrediction{If the finite-tail admission row $A$ or the Real seal row $R$ is absent, no accepted $\SelectedTailSeedUp$ packet can expose the stationary selected-tail endpoint as a Real-window handoff.}
+
+\closureat{SelectedTailSeedUp}{seedStr}
+
+\begin{closurestatus}{\SelectedTailSeedUp}
+  \constructivestory{A $\SelectedTailSeedUp$ packet is generated from a rational seed row, selected endpoint exactness, finite-tail admission, stream window, regular-rational readback, dyadic tolerance ledger, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:selected-tail-seed-carrier}, \autoref{thm:selected-tail-seed-namecert-obligations}, and \autoref{thm:selected-tail-seed-real-window-handoff} bind the stationary selected-tail seed packet as a finite Real-window handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient streams, host real equality, countable choice, detached limit selection, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, finite-tail admission, Real-window handoff, and TasteGate nontriviality with field faithfulness for $Q,E,A,W,K,S,R,H,C,P,N$.}
+\end{closurestatus}
