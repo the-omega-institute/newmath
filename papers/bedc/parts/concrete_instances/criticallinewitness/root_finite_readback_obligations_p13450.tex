@@ -1,0 +1,95 @@
+\begin{theorem}[Critical-line witness root finite readback totality]
+\label{thm:critical-line-witness-root-finite-readback-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$
+packet. Every root finite readback exposed by $W$ is read through exactly the
+displayed packet rows $Z,S,M,R,Q,H,C,P,N$ together with their finite
+$\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local
+$\NameCert$ surface. No root readback imports an analytic-continuation row,
+host equality, quotient representative, ambient completeness coordinate,
+global zero-search coordinate, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Begin with the root source triad
+\autoref{thm:critical-line-witness-root-source-triad}. It exposes the supplied
+zero row $Z$, the critical-strip row $S$, and the source-facing comparison row
+as finite packet data before any downstream consumer reads $W$.
+
+Next attach the comparison and dependency rows. The root comparison ledger
+\autoref{thm:critical-line-witness-root-comparison-ledger} accounts for
+$M,R,Q,H,C,P,N$, while the zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link} keeps zeta-facing reads on the
+existing $\ZetaZerosUp$ and boundary surfaces rather than on a new analytic
+object.
+
+Finally apply root refusal boundary totality
+\autoref{thm:critical-line-witness-root-refusal-boundary-totality}. The
+positive rows have already been exhausted by $Z,S,M,R,Q,H,C,P,N$, so every
+remaining request is refused on the displayed finite boundary and cannot be
+repackaged as analytic continuation, host equality, quotient data, ambient
+completeness, zero search, or $\mathsf{RH}$ proof content.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root modulus classifier exactness]
+\label{thm:critical-line-witness-root-modulus-classifier-exactness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+After the zero-strip source rows $Z$ and $S$ have been supplied, the modulus
+and rational comparison classifier of $W$ is exhausted by the displayed rows
+$M,R,Q,H,C,P,N$. The classifier reads the $\NatUp$ depth, $\RealUp$ real-part,
+$\RatUp$ comparison ledger, transport, continuation, provenance, and local
+naming rows, and it has no additional coordinate for zero search, analytic
+continuation, quotient representatives, host equality, ambient completeness,
+or an $\mathsf{RH}$ proof.
+\end{theorem}
+\begin{proof}
+First use the root source triad
+\autoref{thm:critical-line-witness-root-source-triad}. It supplies the
+zero-strip source side $Z,S$ and fixes the source-facing comparison entry as a
+finite row of the accepted packet.
+
+Now apply the root comparison ledger
+\autoref{thm:critical-line-witness-root-comparison-ledger}. Once $Z$ and $S$
+are available, every modulus or rational comparison read is routed through
+$M,R,Q$ and carried by $H,C,P,N$.
+
+The zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link} prevents the classifier from
+being replaced by a completed zeta or analytic-continuation object. Combining
+that lattice with the root refusal route
+\autoref{thm:critical-line-witness-root-refusal-route} sends every off-packet
+classifier demand to refusal, so the displayed modulus and comparison rows are
+exact.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root RH consumer refusal]
+\label{thm:critical-line-witness-root-rh-consumer-refusal}
+Every $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$
+packet receives only the displayed finite refusal boundary over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The consumer may read the supplied zero-strip, critical-strip, modulus,
+real-part, rational-comparison, transport, continuation, package, and naming
+rows. It receives no $\mathsf{RH}$ proof, zero search, analytic-continuation
+row, quotient representative, host equality, or completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the root refusal route
+\autoref{thm:critical-line-witness-root-refusal-route}. It classifies
+$\mathsf{RH}$-facing requests as finite refusal reads rather than as analytic
+proof surfaces.
+
+Next combine the root source triad and the root comparison ledger,
+\autoref{thm:critical-line-witness-root-source-triad} and
+\autoref{thm:critical-line-witness-root-comparison-ledger}. These rows account
+for every positive packet coordinate visible to the consumer, namely
+$Z,S,M,R,Q,H,C,P,N$.
+
+Finally use the zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link} together with root refusal
+boundary totality
+\autoref{thm:critical-line-witness-root-refusal-boundary-totality}. The
+lattice supplies only dependency information over the existing zeta-facing
+surfaces, and the boundary theorem refuses all remaining $\mathsf{RH}$ proof,
+zero-search, analytic-continuation, quotient, host-equality, and completeness
+demands on the displayed finite boundary.
+\end{proof}
