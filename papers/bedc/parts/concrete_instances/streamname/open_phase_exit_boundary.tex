@@ -284,6 +284,22 @@ Now use \autoref{thm:real-window-budget-real-completion-handoff}. The $\RealWind
 Finally read the $\BudgetedRealSealRouteUp$ carrier and NameCert obligations of \autoref{def:budgeted-real-seal-route-carrier} and \autoref{thm:budgeted-real-seal-route-namecert-obligations}. Its accepted packet consumes the displayed selector, threshold, observation-budget, limit-seal, Real readback, transport, continuation, provenance, and local naming rows; along the StreamName exit boundary these are reached only through the already displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealWindowBudgetUp$ rows. The non-escape theorem \autoref{thm:budgeted-real-seal-route-nonescape} then excludes host equality, selected limits, quotient streams, ambient completeness, countable choice, metric-completeness data, and standard bridge rows from the handoff.
 \end{proof}
 
+\begin{theorem}[StreamName open-phase budget route lock]
+\label{thm:streamname-open-phase-budget-route-lock}
+Any accepted $\BudgetedRealSealRouteUp$ consumer whose finite window is read through $\StreamNameUp$ factors through the same four-face open-phase exit boundary
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+with only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. The budgeted route is therefore a consumer of the boundary, not a fifth Real-completion object, and it cannot smuggle quotient streams, selected limits, host real equality, ambient completeness, countable choice, or metric-completeness data into the exit packet.
+\end{theorem}
+\begin{proof}
+Start with the open-phase exit boundary, \autoref{thm:streamname-open-phase-exit-boundary}. It identifies the current Real-completion exit with the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat regularity readback, RealUp seal, and the visible support rows.
+
+Next use budgeted real window handoff totality, \autoref{thm:streamname-budgeted-real-window-handoff-totality}. It already routes an accepted $\BudgetedRealSealRouteUp$ consumer through the four local faces, the $\RealWindowBudgetUp$ packet, and only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally read the budgeted route selector, TailMeet threshold, Real-seal readback, and non-escape theorems from \autoref{ch:concrete-instances-budgeted-real-seal-route-namecert}. The selector and threshold rows feed the route into the RealObservationBudget and CauchyLimitSeal handoff, while the Real readback and non-escape rows prevent a separate completion object or hidden stream source from appearing.
+\end{proof}
+
 \begin{theorem}[StreamName open-phase local status nonescape]
 \label{thm:streamname-open-phase-local-status-nonescape}
 For any current Phase Real and Completion exit read through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, suppose one of the four local face status records is absent: the $\DyadicRatCoreUp$ tolerance-ledger status, the $\StreamNameUp$ finite-window status, the $\RegSeqRatUp$ readback and seal status, or the $\RealUp$ seal status. Then the absent local record is not supplied by any aggregate formalstatus token, aggregate bridge row, selected limit, quotient stream, ambient completeness theorem, countable-choice row, metric-completeness datum, or standard bridge row.
