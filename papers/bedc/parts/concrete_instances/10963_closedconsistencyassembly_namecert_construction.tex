@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClosedConsistencyAssemblyUp$}
+\label{ch:concrete-instances-closed-consistency-assembly-namecert}
+\origin{ai-composite}
+
+The $\ClosedConsistencyAssemblyUp$ packet realizes the assembly view of \autoref{ch:closed-metacic-consistency-assembly} as a finite composite NameCert surface. It sits beside \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}, \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, \autoref{ch:concrete-instances-closed-consistency-reduction-boundary-namecert}, \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, and \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}: those siblings expose the positive normal-form exclusion and the subject-reduction boundary in separate packets, while the present chapter binds their rows into one composite naming certificate.
+
+\begin{definition}[Closed-consistency assembly carrier]
+\label{def:closed-consistency-assembly-carrier}
+A $\ClosedConsistencyAssemblyUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,T,E,F,S,O,D,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the closedness row for the inspected MetaCIC proof candidate;
+\item $T$ is the empty-context typing row for the same proof candidate and its displayed false type;
+\item $E$ is the typed normal endpoint row, including beta-strong normality and the endpoint false-type read;
+\item $F$ is the normal false-proof exclusion row consumed at the endpoint;
+\item $S$ is the subject-reduction boundary row separating the arbitrary closed source from the typed-normal endpoint;
+\item $O$ is the obstruction row recording the dependent-codomain reduction frontier;
+\item $D$ is the assembly ledger row joining closedness, endpoint, exclusion, subject-reduction boundary, and obstruction entries;
+\item $R$ records displayed $\Cont$ routes for every consumer read of the assembly packet;
+\item $P$ is the $\Pkg$ provenance over the closed-normal consistency boundary, normal false exclusion, reduction-boundary, normal-form seal, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedConsistencyAssemblyUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for full closed consistency, no hidden subject-reduction theorem, no endpoint transport outside $S$, and no host-level proof search channel.
+\end{definition}
+
+\begin{definition}[Closed-consistency assembly classifier]
+\label{def:closed-consistency-assembly-classifier}
+Two $\ClosedConsistencyAssemblyUp$ carriers
+$$
+A=(L,T,E,F,S,O,D,R,P,N)
+\quad\hbox{and}\quad
+A'=(L',T',E',F',S',O',D',R',P',N')
+$$
+are classified by the componentwise $\hsame$ comparison of the displayed rows together with route replay through $R,R'$ and provenance comparison through $P,P'$. The classifier is undefined on any attempted comparison that omits $S$ or $O$, because the assembly route is a boundary certificate rather than a proof of closed subject reduction.
+\end{definition}
+
+\begin{theorem}[Closed-consistency assembly NameCert obligations]
+\label{thm:closed-consistency-assembly-namecert-obligations}
+For the carrier of \autoref{def:closed-consistency-assembly-carrier}, the local $\NameCert_{\ClosedConsistencyAssemblyUp}$ surface consists exactly of carrier admission for $A$, classifier exactness for the rows $L,T,E,F,S,O,D,R,P,N$, closedness readback, typed-normal endpoint readback, normal false-proof exclusion, subject-reduction boundary exposure, obstruction-ledger exposure, displayed continuation replay, provenance accounting, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite row list in \autoref{def:closed-consistency-assembly-carrier}. The classifier of \autoref{def:closed-consistency-assembly-classifier} compares only those displayed rows, so no unlisted proof object or host equality can enter the NameCert surface.
+
+The positive consistency read is inherited as rows, not as an ambient theorem. Closedness and typing are read through $L,T$; the typed normal endpoint is read through $E$; and the normal false-proof exclusion is read through $F$, matching the closed-normal packets in \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert} and \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}.
+
+The boundary rows are equally part of the certificate. The subject-reduction row $S$ and obstruction row $O$ record the frontier named in \autoref{ch:concrete-instances-closed-consistency-reduction-boundary-namecert}. Since $D,R,P,N$ only ledger, replay, package, and locally name the same surface, the local NameCert obligations are exhausted by the stated rows.
+\end{proof}
+
+\begin{theorem}[Closed-consistency assembly boundary nonescape]
+\label{thm:closed-consistency-assembly-boundary-nonescape}
+Every accepted $\ClosedConsistencyAssemblyUp$ carrier keeps full closed consistency outside the exported route. A consumer may read closedness, empty-context typing, the typed-normal endpoint, normal false-proof exclusion, the subject-reduction boundary, obstruction ledger, replay routes, provenance, and local naming, but it cannot export a closed subject-reduction theorem or an arbitrary closed proof contradiction detached from $S$ and $O$.
+\end{theorem}
+\begin{proof}
+Project the carrier $A=(L,T,E,F,S,O,D,R,P,N)$. The positive rows $L,T,E,F$ give the closed-normal endpoint route, while $S$ and $O$ remain displayed boundary rows rather than discharged theorems.
+
+The continuation row $R$ only replays the displayed rows, and the package row $P$ records provenance over the sibling packets already cited by the chapter. Neither row contains a coordinate for full closed consistency or for an independent subject-reduction theorem.
+
+Thus every consumer route remains inside the finite assembly packet. Detaching the contradiction read from $S$ and $O$ would require an unlisted row, so the boundary cannot escape through this NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed-consistency assembly sibling routing]
+\label{thm:closed-consistency-assembly-sibling-routing}
+The $\ClosedConsistencyAssemblyUp$ packet routes every public read through the sibling surfaces named in its provenance row: closed-normal boundary data, normal false-proof exclusion, closed-consistency reduction boundary, normal-form consistency seal, and closed-normal consistency packet data. No public read bypasses those siblings by appealing directly to an ambient MetaCIC consistency principle.
+\end{theorem}
+\begin{proof}
+Read the provenance row $P$. It names the sibling packet sources for the positive normal-form route and for the reduction boundary route, so the assembly consumer obtains a composite route rather than a new primitive consistency principle.
+
+The closed-normal and normal-form siblings supply $L,T,E,F$ as finite rows. The reduction-boundary sibling supplies the displayed $S,O$ frontier. The ledger and continuation rows $D,R$ join these routes without identifying the frontier with a discharged subject-reduction theorem.
+
+Therefore sibling routing is exhaustive for public reads of the assembly carrier. Any route that skips the sibling packet rows would have no carrier coordinate in $A$ and no local $\NameCert_{\ClosedConsistencyAssemblyUp}$ admission.
+\end{proof}
