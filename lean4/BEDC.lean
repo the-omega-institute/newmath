@@ -1395,6 +1395,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.BoundaryExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.FiniteWindowHandoffBoundary
 import BEDC.Derived.DiagonallimitcompatibilityUp.FormalTargetPacket
 import BEDC.Derived.DiagonallimitcompatibilityUp.RouteLedgerTotality
+import BEDC.Derived.DiagonallimitcompatibilityUp.RouteBudgetExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.UniformWindowRealSealPullback
 import BEDC.Derived.RealityConstrainedObjectivityUp.TasteGate
 import BEDC.Derived.OpenFitPacketUp.TasteGate
