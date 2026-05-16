@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ModelSelectionBoundaryUp$}
+\label{ch:concrete-instances-model-selection-boundary-namecert}
+\origin{ai}
+
+The $\ModelSelectionBoundaryUp$ packet realizes the comparative-selection boundary of \autoref{sec:reality-constrained-synthesis} as a finite BEDC NameCert carrier for reality-constrained physical truth. It sits beside the open-fit packet of \autoref{ch:concrete-instances-open-fit-packet-namecert}, the model-audit packet of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, the signature-fit packet of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, and the synthesis seal of \autoref{ch:concrete-instances-realityconstrainedsynthesisseal-namecert}. It also consumes the truth-certificate discipline of \autoref{ch:concrete-instances-physical-truth-certificate-namecert}: those siblings expose fit, audit, signature, synthesis, and truth-certificate faces, while this boundary records which finite candidate currently wins and which displayed defeats keep that selection provisional.
+
+\begin{definition}[ModelSelectionBoundary carrier]
+\label{def:model-selection-boundary-carrier}
+A $\ModelSelectionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,S,F,D,L,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite model-family row listing the accepted candidate packets under comparison.
+\item $S$ is the observed-signature row shared by the comparison.
+\item $F$ is the comparative-fit row recording the selected packet, its displayed fit score, and the losing rows that remain accepted but not selected.
+\item $D$ is the defeat-surface row naming finite observations, signature mismatches, audit failures, domain exits, and ledger conflicts that overturn the displayed selection.
+\item $L$ is the selection-ledger row recording admissibility, tie policy, defeat visibility, provenance, and refused final-oracle demands.
+\item $T$ is the componentwise transport row preserving the candidate family, observed signatures, fit comparison, defeat surface, and ledger under displayed $\hsame$ routes.
+\item $P$ is the $\Pkg$ provenance row over $\ModelSelectionBoundaryUp$, $\OpenFitPacketUp$, $\RealityConstrainedModelAuditUp$, $\RealityConstrainedSignatureFitUp$, $\RealityConstrainedSynthesisSealUp$, $\PhysicalTruthCertificateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ModelSelectionBoundaryUp}$ row naming the whole boundary.
+\end{enumerate}
+The carrier has no coordinate for model--reality identity, total confirmation, a hidden winner outside $M$, an erased losing row, an unledgered defeat, or a final oracle deciding all future observations.
+\end{definition}
+
+\begin{theorem}[ModelSelectionBoundary fit-ledger separation]
+\label{thm:model-selection-boundary-fit-ledger-separation}
+For an accepted $\ModelSelectionBoundaryUp$ carrier $B=(M,S,F,D,L,T,P,N)$, the selected row in $F$ is a finite ledgered selection from the displayed candidate family $M$, not a truth identity between the selected model and physical reality. Every public selection read must expose the observed signatures $S$, the comparative fit row $F$, the losing accepted rows recorded by $F$, the selection ledger $L$, the transport row $T$, provenance $P$, and local name $N$ before it can be consumed as a reality-constrained physical-truth certificate.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes exactly $B=(M,S,F,D,L,T,P,N)$. The only row that selects a candidate is $F$, and $F$ is indexed by the finite family $M$ and the displayed signature row $S$.
+
+The ledger row $L$ separates acceptance from selection. A losing row may remain an accepted packet while failing to be the displayed winner; conversely, the winning row is selected only under the current finite comparison and ledger policy.
+
+The transport and provenance rows keep the comparison public. Since $T,P,N$ preserve the same candidate family, signature, fit, ledger, and local name, no consumer can replace the selected row by hidden model identity or final physical truth.
+\end{proof}
+
+\begin{theorem}[ModelSelectionBoundary defeat surface]
+\label{thm:model-selection-boundary-defeat-surface}
+An accepted $\ModelSelectionBoundaryUp$ packet is locally refuted whenever a competing accepted packet in $M$ beats the displayed selected row of $F$ while the relevant finite defeat is hidden from $D$ or erased from $L$. A selection that keeps $D$ and $L$ visible remains a current finite winner; a selection that suppresses the defeat surface is outside the boundary.
+\end{theorem}
+\begin{proof}
+Read the carrier rows componentwise. The family row $M$ supplies the competing accepted packets, the signature row $S$ supplies the shared observation surface, and the comparative-fit row $F$ records the selected and losing rows.
+
+If a competing accepted packet beats the selected row, the defeat must be visible in $D$ and ledgered in $L$. Those two rows are the only coordinates that expose overturned fit, mismatch, audit failure, domain exit, or policy conflict.
+
+When the defeat is hidden or erased, the claimed selection asks the packet to export a winning status without the displayed boundary rows that make the comparison auditable. Such a route is not an accepted $\ModelSelectionBoundaryUp$ read.
+\end{proof}
+
+\falsifiablePrediction{A selected model packet is refuted whenever its displayed fit row is beaten by a competing accepted packet while the defeat surface is hidden or erased.}
+
+\independenceWitness{openfitpacket, realityconstrainedmodelaudit, realityconstrainedsignaturefit, realityconstrainedsynthesisseal, physicaltruthcertificate: none is bijective because each supplies one fit, audit, signature, synthesis, or truth-certificate face, while ModelSelectionBoundaryUp carries the comparative candidate family, selected row, losing rows, finite defeat surface, ledger, transport, and no-final-oracle refusal together.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/ModelSelectionBoundaryUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \ModelSelectionBoundaryUp$ and $\mathsf{FieldFaithful}\ \ModelSelectionBoundaryUp$ instances preserving $M,S,F,D,L,T,P,N$, together with the target \texttt{BEDC.Derived.ModelSelectionBoundaryUp.TasteGate.ModelSelectionBoundaryTasteGate\_single\_carrier\_alignment}.
+
+\closureat{ModelSelectionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ModelSelectionBoundaryUp}
+  \constructivestory{A $\ModelSelectionBoundaryUp$ packet is generated from a finite model-family row, observed signatures, comparative fit, finite defeat surface, selection ledger, componentwise transport, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:model-selection-boundary-carrier}, \autoref{thm:model-selection-boundary-fit-ledger-separation}, and \autoref{thm:model-selection-boundary-defeat-surface} bind comparative model selection to finite fit, ledgered defeat, and no-final-oracle refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert final physical truth, model--reality identity, total confirmation, host-level model ordering, Lean verification, or bridge checking for $\ModelSelectionBoundaryUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, comparative-fit ledger separation, defeat-surface visibility, TasteGate nontriviality, and field faithfulness for $M,S,F,D,L,T,P,N$.}
+\end{closurestatus}
