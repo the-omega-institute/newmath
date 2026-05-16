@@ -1,0 +1,43 @@
+\begin{theorem}[GapClosureBoundary scoped carrier admission]
+\label{thm:gap-closure-boundary-scoped-carrier-admission}
+Every scoped boundary read accepted by $\GapClosureBoundaryUp$ must first expose the same seven-row packet $B=(G,S,R,H,C,P,N)$. The rows $G,S,R$ are the displayed $\BHist$ request, source, and refusal rows, $H$ is the componentwise $\hsame$ transport row, $C$ is the displayed $\Cont$ route row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert_{\GapClosureBoundaryUp}$ row. No accepted scoped read can replace any of these rows by hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or an off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the scoped dependency inventory. By \autoref{thm:gap-closure-boundary-scoped-dependency-inventory}, the accepted boundary packet already displays $G,S,R,H,C,P,N$ before any consumer read.
+
+Next read the displayed rows through the root obligation packet and source-refusal obligation scope. The packet records $G,S,R$ as the finite $\BHist$ rows and keeps $H,C,P,N$ attached as transport, route, provenance, and local naming data.
+
+Finally apply scoped consumer non-escape. Since the consumer surface has no coordinate for hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or off-packet continuation, a scoped read that omits one of the seven displayed rows is not an accepted $\GapClosureBoundaryUp$ boundary read.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary scoped route totality]
+\label{thm:gap-closure-boundary-scoped-route-totality}
+For every accepted scoped consumer read of $\GapClosureBoundaryUp$, the route is exhausted by exactly one of the two displayed branches
+$$
+G \longrightarrow S
+$$
+or
+$$
+G \longrightarrow R
+$$
+over the same rows $H,C,P,N$. Supported reads use the source branch, unsupported reads use the refusal branch, and there is no third accepted source, refusal, bridge, or continuation route outside $G,S,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First expose the admitted packet. By \autoref{thm:gap-closure-boundary-scoped-carrier-admission}, any accepted scoped read is already a read of $G,S,R,H,C,P,N$.
+
+Apply scoped source-refusal exactness. \autoref{thm:gap-closure-boundary-scoped-source-refusal-exactness} assigns supported reads to $G \longrightarrow S$ and unsupported reads to $G \longrightarrow R$ over the same structural rows $H,C,P,N$.
+
+It remains to exclude residual routes. The scoped dependency inventory supplies no additional route coordinate, and scoped consumer non-escape prevents a consumer from importing a hidden source, hidden refusal, bridge-only continuation, quotient witness, or off-packet route. Thus the source and refusal branches exhaust the accepted scoped consumer reads.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary scoped TasteGate readback]
+\label{thm:gap-closure-boundary-scoped-tastegate-readback}
+Any $\TasteGate$ reader or $\StdBridge$ reader for $\GapClosureBoundaryUp$ that reads the scoped boundary must read the same packet $B=(G,S,R,H,C,P,N)$ and the same source/refusal split of \autoref{thm:gap-closure-boundary-scoped-route-totality}. Such a reader cannot use hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient data, or an off-packet continuation to identify, complete, or replace the displayed boundary packet.
+\end{theorem}
+\begin{proof}
+Begin with the scoped carrier admission theorem. It fixes the carrier rows, transport row, route row, provenance row, and local naming row as the whole readable packet for scoped boundary access.
+
+Next use scoped route totality. Every accepted scoped read available to a later $\TasteGate$ or $\StdBridge$ reader has already been assigned to the displayed source branch or the displayed refusal branch over $H,C,P,N$.
+
+Finally apply the TasteGate boundary and bridge precondition surface assembled in \autoref{thm:gap-closure-boundary-obligation-status-assembly}. Those rows require any TasteGate or bridge-facing read to preserve the same seven packet fields. Because the packet contains no hidden closure, hidden $\mathsf{T}$ supply, host equality, quotient coordinate, or off-packet continuation, such data cannot be used to identify, complete, or replace the scoped boundary.
+\end{proof}
