@@ -171,6 +171,36 @@ property of the public packet itself rather than of an ambient category or host
 evaluator.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad root public formal-target boundary]
+\label{thm:continuation-monad-root-public-formal-target-boundary}
+Any formal target for the root public face of an accepted
+$\ContinuationMonadUp$ packet must use exactly the displayed tuple
+$Z=(A,B,C,f,g,u,H,K,L,N)$. The tuple supplies the source histories,
+continuation tails, unit row, componentwise $\hsame$ transport, displayed
+$\Cont$ route, $\Pkg$ provenance, ledger row, and local $\NameCert$ row needed
+by the public face.
+
+The formal target may not introduce host function composition, quotient
+Kleisli arrows, ambient hom sets, or an external evaluator.
+\end{theorem}
+\begin{proof}
+First apply the root public obligation triad. It names the full public tuple
+$A,B,C,f,g,u,H,K,L,N$ and exposes the source histories, continuation tails,
+unit row, transport row, route row, package row, ledger row, and local naming
+row as the available formal surface.
+
+Next use the generator boundary and Kleisli readback theorems. They show that
+generator-facing and Kleisli-facing reads are read back through the same tuple,
+not through host composition, quotient arrows, ambient hom sets, or an
+external evaluator.
+
+Finally combine the Cont-associativity ledger, route exactness, and consumer
+totality. These results keep associativity, public routing, and downstream
+consumption inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, ledger,
+and local $\NameCert$ rows. Hence any Lean-facing formal target for the root
+public face is bounded by exactly the tuple stated above.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad root refusal exhaustion]
 \label{thm:continuation-monad-root-refusal-exhaustion}
 For every accepted $\ContinuationMonadUp$ packet
