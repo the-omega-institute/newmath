@@ -1,0 +1,117 @@
+\subsection{Verification reporting}
+\label{subsec:philosophy-programme-verification-reporting}
+
+\begin{definition}[Checked report]
+\label{def:philosophy-programme-checked-report}
+A checked formalization report states the proof-checker version, the
+exact command used, whether external libraries are imported, the names
+of the theorems successfully checked, the admitted or pending
+statements, and whether public APIs expose host equality, host natural
+numbers, host lists, or host functions as BEDC internals.
+\end{definition}
+
+\begin{definition}[Lean target status]
+\label{def:philosophy-programme-lean-target-status}
+Lean target status is reported theorem by theorem through inline
+markers for checked theorem, definition, statement-only target, or
+temporary unclosed target. These markers report verification status;
+they do not by themselves settle theory closure.
+\end{definition}
+
+\begin{definition}[Audit report]
+\label{def:philosophy-programme-audit-report}
+An audit report records marker resolution and axiom purity: checked
+targets must resolve to real declarations in the Lean source, and the
+axiom audit must report no prohibited axiom contamination.
+\end{definition}
+
+\begin{theorem}[Verification report is not object theory]
+\label{thm:philosophy-programme-verification-not-object-theory}
+Verification reporting belongs to project and implementation status;
+it does not replace BEDC object theory.
+\end{theorem}
+\begin{proof}
+The report says which commands, markers, and declarations are clean.
+Object theory requires carrier, classifier, ledger, certificate,
+closure, and bridge fields. A clean report can support those fields but
+does not constitute them.
+\end{proof}
+
+\begin{corollary}[Implementation scaffold is external]
+\label{cor:philosophy-programme-scaffold-external}
+An implementation scaffold is an external artifact unless and until its
+claims are tied to the relevant BEDC certificates and audit gates.
+\end{corollary}
+
+\subsection{Failure and downgrade}
+\label{subsec:philosophy-programme-failure-downgrade}
+
+\begin{definition}[Failure certificate at strength]
+\label{def:philosophy-programme-failure-cert-strength}
+A failure certificate for a name \(N\) at strength \(s\) is a typed
+reason why the claimed gate fails: missing source, missing classifier,
+classifier failure, exactness failure, operation descent failure,
+absent gap ledger, unstable completion, failed bridge, host primitive
+leakage, or checker failure.
+\end{definition}
+
+\begin{theorem}[Failure blocks gate]
+\label{thm:philosophy-programme-failure-blocks-gate}
+If a failure certificate is exhibited for \(N\) at strength \(s\), the
+corresponding acceptance gate for \(N\) at \(s\) does not hold.
+\end{theorem}
+\begin{proof}
+Every failure branch denies a field required by the gate. The gate
+therefore cannot be satisfied at that strength.
+\end{proof}
+
+\begin{definition}[Downgrade]
+\label{def:philosophy-programme-downgrade}
+Downgrade is the required lowering of a reported status when a failure
+certificate shows that the stronger marker or claim is not licensed.
+\end{definition}
+
+\begin{corollary}[Failure is a result]
+\label{cor:philosophy-programme-failure-is-result}
+A failure certificate is structural information: it identifies the
+field that blocks promotion.
+\end{corollary}
+\begin{proof}
+The branch says whether source, classifier, exactness, ledger, bridge,
+host-leak, checker, or another field fails. That is a precise research
+outcome and a guide for the next obligation or refusal.
+\end{proof}
+
+\subsection{Roadmap and cannot-claim}
+\label{subsec:philosophy-programme-roadmap-cannot-claim}
+
+\begin{definition}[Roadmap]
+\label{def:philosophy-programme-roadmap}
+A roadmap states what may become claimable after named blockers are
+cleared.
+\end{definition}
+
+\begin{definition}[Cannot-claim registry]
+\label{def:philosophy-programme-cannot-claim-registry}
+A cannot-claim registry states what the manuscript currently refuses
+to assert.
+\end{definition}
+
+\begin{theorem}[Roadmap does not license theorem status]
+\label{thm:philosophy-programme-roadmap-not-theorem}
+The occurrence of a target in a roadmap does not license its statement
+as a theorem.
+\end{theorem}
+\begin{proof}
+A roadmap gives dependency order and upgrade conditions. Without a
+certificate, witness, bridge, or checked target at the required
+strength, the target remains unproved.
+\end{proof}
+
+\begin{corollary}[Roadmap use in philosophy]
+\label{cor:philosophy-programme-roadmap-use}
+The philosophy package may name future formal structures such as
+philosophy maps, tradition maps, gap reports, conscious-record
+certificates, and multi-history physics chains, but those names do not
+thereby become formalized.
+\end{corollary}
