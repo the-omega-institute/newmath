@@ -172,6 +172,24 @@ Finally invoke \autoref{thm:finite-reflection-tuple-fieldfaithful-prediction}. S
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteReflectionTupleUp.FiniteReflectionTupleTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[FiniteReflectionTuple bridge-facing row totality]
+\label{thm:finite-reflection-tuple-bridge-facing-row-totality}
+For every accepted $\FiniteReflectionTupleUp$ packet
+$$
+F=(X,S,A,W,I,R,H,C,P,Q,N),
+$$
+every bridge-facing request over $F$ factors through the displayed tuple image $I$, readback row $R$, componentwise transports $H$, replay row $C$, provenance row $P$, request row $Q$, and local NameCert row $N$, together with the candidate and consumed TasteGate sibling rows $X,S,A,W$. No hidden prompt state, second image/readback surface, host approval, oracle taste, or unlisted compiler theorem can serve the request.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They expose the carrier row $X$, consumed stability, admission, and compiler-witness rows $S,A,W$, the tuple image $I$, readback $R$, componentwise transports $H$, replay $C$, provenance $P$, request row $Q$, and local naming row $N$.
+
+Apply image-readback exactness. It forces every public image read through $I$ and every recovery of reflected data through $R$, so a bridge-facing request cannot introduce a second image/readback surface.
+
+Use request exhaustion and componentwise transport. The request row $Q$ is attached to the same tuple image, readback, transports, replay, provenance, and local naming rows, and the transports keep the reflected components inside the accepted finite packet.
+
+Finally invoke the StdBridge request-scope theorem. It already excludes hidden prompt state, host approval, oracle taste, second image/readback surfaces, and unlisted compiler theorems for $\StdBridge$-facing requests, so every bridge-facing row is total over the displayed packet $X,S,A,W,I,R,H,C,P,Q,N$.
+\end{proof}
+
 \falsifiablePrediction{A FiniteReflectionTupleUp packet without displayed image and readback rows cannot support a StdBridge request.}
 
 \independenceWitness{tastegatestability, tastegateadmission, tastegatecompilerwitness, kernelacceptancetrace: none contains the fixed tuple image/readback/componentwise transport surface together with a reflection-request row.}
