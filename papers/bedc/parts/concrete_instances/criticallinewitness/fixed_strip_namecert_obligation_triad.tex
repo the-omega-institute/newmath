@@ -1,0 +1,96 @@
+\begin{theorem}[CriticalLineWitness fixed-strip NameCert source lock]
+\label{thm:critical-line-witness-fixed-strip-namecert-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted fixed-strip
+$\CriticalLineWitnessUp$ packet. Every accepted $\NameCert$ source read of
+$W$ is locked to the supplied $\ZetaZerosUp$ row $Z$, the supplied
+$\CritStripUp$ row $S$, the fixed-strip source and refusal-budget packet,
+and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert_{\CriticalLineWitnessUp}$ rows carried by $H,C,P,N$. The read
+has no coordinate for zero search, $\mathsf{RH}$ proof data, analytic
+continuation, host equality, quotient representatives, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:critical-line-witness-carrier}. It
+lists the accepted witness as the finite packet $Z,S,M,R,Q,H,C,P,N$, so a
+NameCert source read begins on the displayed zero row, strip row, support
+rows, and local naming row.
+
+Apply the NameCert obligations of
+\autoref{thm:critical-line-witness-namecert-obligations}. These obligations
+bind the local naming row to the same $\BHist$, $\hsame$, $\Cont$, and
+$\Pkg$ surface and leave no independent host or quotient naming coordinate.
+
+Now attach the fixed-strip refusal-budget packet
+\autoref{def:critical-line-witness-fixed-strip-refusal-budget-packet}. Its
+row inventory adds the fixed-strip source, line-modulus, comparison, budget,
+transport, replay, provenance, and local naming rows without adding an
+analytic or ambient completion row.
+
+Finally use the fixed-strip budget route determinacy theorem
+\autoref{thm:critical-line-witness-fixed-strip-budget-route-determinacy}.
+It forces every budget-facing source read through that finite packet, so
+zero search, $\mathsf{RH}$ proof data, analytic continuation, host equality,
+quotient representatives, and ambient completeness are refused rather than
+read.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip classifier stability]
+\label{thm:critical-line-witness-fixed-strip-classifier-stability}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted fixed-strip
+$\CriticalLineWitnessUp$ packet. The fixed-strip classifier determined by
+$W$ is stable under componentwise $\hsame$ transport and displayed $\Cont$
+replay on the same rows $Z,S,M,R,Q,H,C,P,N$. Transport or replay may move
+the accepted read along the displayed packet route, but it cannot replace
+the classifier by zero search, $\mathsf{RH}$ proof data, analytic
+continuation, host equality, quotient representatives, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Begin with classifier exactness,
+\autoref{thm:critical-line-witness-classifier-exactness}. It identifies the
+root classifier with the supplied zero row $Z$, critical-strip row $S$, and
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface.
+
+Use componentwise StdBridge transport,
+\autoref{thm:critical-line-witness-componentwise-stdbridge-transport}. The
+transport row preserves the displayed packet components, and the replay row
+keeps the read on the same $Z,S,M,R,Q,H,C,P,N$ carrier.
+
+It remains to exclude alternate classifier sources after transport. Apply
+\autoref{thm:critical-line-witness-fixed-strip-namecert-source-lock}. Since
+the NameCert source itself is locked to the fixed-strip packet and refuses
+zero search, $\mathsf{RH}$ proof data, analytic continuation, host equality,
+quotient representatives, and ambient completeness, the transported
+classifier is stable on exactly the displayed fixed-strip rows.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip ledger exactness]
+\label{thm:critical-line-witness-fixed-strip-ledger-exactness}
+Every downstream zeta or $\mathsf{RH}$-boundary consumer of an accepted
+fixed-strip $\CriticalLineWitnessUp$ packet receives exactly the fixed-strip
+ledger rows $Z,S,M,R,Q,H,C,P,N$ and no stronger analytic coordinate. The
+consumer may read the supplied zero row, critical-strip row, modulus row,
+real-part row, rational comparison and refusal-budget ledger, transport
+row, replay row, provenance row, and local naming row; it does not receive
+zero search, $\mathsf{RH}$ proof data, analytic continuation, host equality,
+quotient representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply ledger route stability,
+\autoref{thm:critical-line-witness-ledger-route-stability}. It keeps the
+modulus and comparison ledger on the displayed $M,R,Q,H,C,P,N$ route and
+prevents branching to host comparison, quotient representatives, analytic
+continuation, or ambient completeness.
+
+Next use the fixed-strip zeta consumer boundary,
+\autoref{thm:critical-line-witness-fixed-strip-zeta-consumer-boundary}. It
+places every downstream zeta-facing read on the refusal budget and rational
+comparison ledger of the same finite packet.
+
+Finally apply fixed-strip classifier stability,
+\autoref{thm:critical-line-witness-fixed-strip-classifier-stability}. Since
+transport and replay preserve the classifier only on
+$Z,S,M,R,Q,H,C,P,N$, a downstream zeta or $\mathsf{RH}$-boundary consumer
+receives exactly those ledger rows and no stronger analytic coordinate.
+\end{proof}
