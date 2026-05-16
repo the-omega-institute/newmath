@@ -104,6 +104,35 @@ theorem ApophaticNameCarrier_root_bridge_tuple_ledger [AskSetup] [PackageSetup]
     ⟨ledgerUnary, downstreamUnary, handoffUnary, ledgerSameRequestGate,
       ledgerNameRowDownstream, downstreamRouteHandoff, provenancePkg, handoffPkg⟩
 
+theorem ApophaticNameCarrier_root_bridge_tuple_terminal_exhaustion
+    [AskSetup] [PackageSetup]
+    {socket request gate ledger transport route provenance nameRow downstreamRead handoffRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticNameCarrier socket request gate ledger transport route provenance nameRow
+        bundle pkg ->
+      Cont ledger nameRow downstreamRead ->
+        Cont downstreamRead route handoffRead ->
+          PkgSig bundle handoffRead pkg ->
+            UnaryHistory socket ∧ UnaryHistory request ∧ UnaryHistory gate ∧
+              UnaryHistory ledger ∧ UnaryHistory downstreamRead ∧ UnaryHistory handoffRead ∧
+                Cont socket request gate ∧ Cont ledger nameRow downstreamRead ∧
+                  Cont downstreamRead route handoffRead ∧ hsame ledger (append request gate) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle PkgSig
+  intro carrier ledgerNameRowDownstream downstreamRouteHandoff handoffPkg
+  obtain ⟨socketUnary, requestUnary, gateUnary, ledgerUnary, _transportUnary,
+    routeUnary, _provenanceUnary, nameRowUnary, socketRequestGate, _requestGateRoute,
+    _gateLedgerRoute, _gateLedgerNameRow, ledgerSameRequestGate, provenancePkg⟩ := carrier
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameRowDownstream
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed downstreamUnary routeUnary downstreamRouteHandoff
+  exact
+    ⟨socketUnary, requestUnary, gateUnary, ledgerUnary, downstreamUnary, handoffUnary,
+      socketRequestGate, ledgerNameRowDownstream, downstreamRouteHandoff,
+      ledgerSameRequestGate, provenancePkg, handoffPkg⟩
+
 theorem ApophaticNameCarrier_classifier_stability [AskSetup] [PackageSetup]
     {socket request gate ledger transport route provenance nameRow transported : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
