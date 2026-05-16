@@ -129,3 +129,59 @@ $\hsame$ comparison, or a shared DyadicRatCore ledger row used by the RegSeqRat
 handoff. Completion data, quotient data, host index equality, and RealUp
 completeness rows have no carrier coordinate in this finite pasted source.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-cover pasted seal exhaustion]
+\label{thm:streamname-regseqrat-finite-cover-pasted-seal-exhaustion}
+Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ windows satisfying the source hypotheses of
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion}.
+Assume moreover that every triple overlap satisfies
+\autoref{thm:streamname-regseqrat-triple-overlap-seal-cocycle}, and that all
+displayed overlaps consume one shared $\DyadicRatCoreUp$ ledger in the
+induced $\RegSeqRat$ handoff packages. Then the induced finite-window
+$\RealUp$ seal classifier rows paste to one seal surface over the finite union
+of the windows.
+
+The pasted seal surface is exhausted by the finite-window RealUp classifier
+rows forced by the common StreamName source and the shared DyadicRatCore
+ledger. It excludes completion data, quotient data, host index equality,
+selected limits, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First fix the source surface. Apply
+\autoref{thm:streamname-regseqrat-finite-cover-pasted-source-exhaustion} to
+the family of windows. This gives one RegSeqRat and finite-window RealUp
+source surface over the finite union, with no completion, quotient,
+host-index, or completeness coordinate.
+
+We now attach seal rows by finite $\mathsf{ProbeBundle}$ induction over the
+cover inventory. The empty inventory has no classifier row to paste, and the
+singleton inventory carries the seal row induced from its certified StreamName
+window and shared DyadicRatCore ledger.
+
+For the induction step, assume a finite subcover already carries one pasted
+seal surface. Let $\mathcal{W}_j$ be the next certified window. On each
+displayed overlap with the existing subcover, apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-stability}; the source row is
+the fixed source surface, and the dyadic ledger is the shared ledger from the
+hypotheses.
+
+Use \autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to attach the
+seal row of $\mathcal{W}_j$ along those overlap rows. When two old windows and
+$\mathcal{W}_j$ meet, the triple-overlap seal cocycle identifies the three
+restricted classifier rows, so the attachment does not depend on which overlap
+is read first.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. The associativity
+of pasted seal rows, together with the triple-overlap seal cocycle, makes the
+finite $\mathsf{ProbeBundle}$ induction order-independent. Thus all induced
+finite-window RealUp seal classifier rows determine one seal surface over the
+finite union.
+
+Every coordinate used in the construction is a finite-window classifier row
+obtained from the common StreamName source and the shared DyadicRatCore
+ledger. Completion data, quotient data, host index equality, selected limits,
+and RealUp completeness are not introduced by pointwise seal stability,
+pointwise seal pasting, or pasted seal associativity.
+\end{proof}
