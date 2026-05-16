@@ -124,6 +124,20 @@ host adequacy judgment, the listed rows are exactly the formal target surface
 that can be attacked without first asserting a public physical-signature fit.
 \end{proof}
 
+\begin{theorem}[Reality-constrained signature-fit StreamName-Real-Metric dependency]
+\label{thm:reality-constrained-signature-fit-metric-streamname-real-dependency}
+Every public physical-signature fit read of an accepted $\RealityConstrainedSignatureFitUp$ packet first displays the $\StreamNameUp$ observation schedule $S$, $\RealUp$ approximation row $A$, $\MetricUp$ comparison row $M$, GAP-policy row $G$, physical-representation certificate $P$, classifier row $C$, componentwise transport row $H$, package provenance row $Q$, and local naming row $N$. No accepted read may identify Real approximation with physical adequacy, bypass the Metric comparison row, bypass the StreamName observation schedule, or export a physical-fit claim before the GAP and representation-certificate rows are visible.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:reality-constrained-signature-fit-carrier}. The packet lists $S,A,M,G,P,C,H,Q,N$ as the complete finite surface for physical-signature compatibility.
+
+Apply the classifier definition of \autoref{def:reality-constrained-signature-fit-classifier}. It compares transported StreamName, Real, Metric, GAP, representation-certificate, package, and local naming rows while preserving the distinction between mathematical approximation and physical-signature compatibility.
+
+Next use the NameCert obligations of \autoref{thm:reality-constrained-signature-fit-namecert-obligations}. They require physical-signature exposure through $S,G,P,C$ and mathematical-approximation exposure through $A,M,C$ before any fit read is public.
+
+The no-free descent theorem \autoref{thm:reality-constrained-signature-fit-no-free-descent} prevents an operation transported through the mathematical classifier from descending to a physical-signature claim without the stream schedule, GAP policy, and representation certificate. The formal target surface of \autoref{thm:reality-constrained-signature-fit-formal-target-surface} then exhausts the available rows, so the StreamName, Real, and Metric dependencies are mandatory for every public physical-fit read.
+\end{proof}
+
 \falsifiablePrediction{An accepted RealityConstrainedSignatureFitUp consumer that transports an operation through a mathematical classifier without a displayed physical-signature descent row refutes the packet.}
 
 \independenceWitness{streamname, real, metric, gap-policy, physical-representation-certificate: no sibling is bijective because RealityConstrainedSignatureFitUp binds the stream schedule, Real approximation endpoint, Metric comparison, GAP-policy residue, and physical-representation certificate in one classifier packet. StreamName has finite observations without Real or physical-fit rows; Real has endpoints without physical signatures; Metric has comparison without representation certificates; GAP policy records admitted absence without approximation transport; a physical-representation certificate records source, pattern, stability, and ledger data without the combined mathematical classifier.}
