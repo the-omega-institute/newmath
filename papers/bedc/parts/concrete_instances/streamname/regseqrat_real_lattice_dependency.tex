@@ -346,6 +346,28 @@ delivers precisely that finite packet to downstream seal consumers and no
 hidden completion witness beyond it.
 \end{proof}
 
+\begin{theorem}[StreamName RealCompletionExactBoundary terminal pullback lock]
+\label{thm:streamname-realcompletionexactboundary-terminal-pullback-lock}
+Every accepted four-face $\StreamNameUp$--$\RegSeqRatUp$--$\DyadicRatCoreUp$--$\RealUp$ finite pullback consumed by a $\RealCompletionExactBoundaryUp$ packet factors through the exact terminal route
+$$
+L,K,J,S,W,R,D,E,H,C,P,N.
+$$
+The StreamName window is read as $W$, the RegSeqRat readback as $R$, the DyadicRatCore ledger as $D$, and the Real seal as $E$ after the governing seal, classifier, witness-ledger, and budget rows $L,K,J,S$.
+
+Conversely, the exact-boundary packet reads the same StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal as the four faces of the StreamName pullback. The lock exports no quotient stream, host sequence equality, selected limit, countable choice, ambient completeness, metric completeness, or bridge row.
+\end{theorem}
+\begin{proof}
+First isolate the StreamName-side surface. By \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}, the accepted finite-window packet exposes exactly the StreamName finite-window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ observation ledger, the $\RealUp$ seal row, and their displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next exhaust the seal read. Apply \autoref{thm:streamname-real-regseq-seal-pullback-exhaustion}: a Real seal pullback routed through StreamName, RegSeqRat, and Real delivers precisely that finite packet to downstream seal consumers and supplies no quotient stream, selected limit, host real equality, or ambient completeness witness.
+
+Now read the completion boundary. The four-face exactness theorem \autoref{thm:real-completion-exact-boundary-four-face-exactness} says that an accepted $\RealCompletionExactBoundaryUp$ packet exposes the four Phase Real and Completion faces $W,R,D,E$ after the rows $L,K,J,S$ and before the structural rows $H,C,P,N$. The terminal-route theorem \autoref{thm:real-completion-exact-boundary-terminal-route-pullback} then pins the terminal $\RealUp(E)$ read to the same route $L,K,J,S,W,R,D,E,H,C,P,N$.
+
+It remains to identify the two reads. The StreamName pullback names its four faces as the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal; the exact-boundary packet names the same four faces as $W,R,D,E$. Since both cited routes expose only their displayed finite BEDC coordinates, there is no additional row on which the two reads could diverge.
+
+The exclusion clause follows from the same inventories. Neither the StreamName pullback exhaustion nor the exact-boundary terminal route contains a quotient stream, host sequence equality, selected limit, countable-choice row, ambient-completeness row, metric-completeness row, or bridge row, so an accepted consumer of one surface cannot import any of those objects into the other.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp lattice budget cover]
 \label{thm:streamname-regseqrat-realup-lattice-budget-cover}
 Every accepted $\StreamNameUp$ finite-window packet used as a Phase Real and

@@ -330,3 +330,50 @@ a route through the packet provides precisely the selector rows and support
 rows listed in the statement, and every omitted object has no coordinate from
 which such a consumer could read it.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion finite-observation budget selector pullback]
+\label{thm:cauchycriterion-finite-observation-budget-selector-pullback}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and
+let $F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet. Suppose the two packets share the
+displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$
+rows at the selector-to-seal boundary, and suppose their $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ support rows are compatible componentwise. Then the
+CauchyCriterion selector route and the finite observation-budget selector
+route determine the same finite pullback surface from selector request to
+$\RealUp$ seal.
+
+The pullback surface contains exactly the displayed selector request, finite
+StreamName window, dyadic readback, RegSeqRat handoff, Real seal, transport,
+continuation, package, and local naming rows. It refuses quotient streams,
+selected host limits, host real equality, countable choice, hidden selectors,
+ambient completeness, and any second completion seal.
+\end{theorem}
+\begin{proof}
+First place the CauchyCriterion side on the selector boundary. Apply
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary} and
+\autoref{thm:cauchycriterion-selector-seal-route-pullback}; these identify the
+displayed StreamName, DyadicRatCore, RegSeqRat, and Real rows used before the
+seal is read.
+
+Next make the CauchyCriterion selector total on that surface. Use
+\autoref{thm:cauchycriterion-selector-seal-synchronizer-totality} and
+\autoref{thm:cauchycriterion-finite-selector-exhaustion} to show that every
+consumer preserving the displayed rows factors through the same finite
+selector-refinement packet.
+
+Now read the finite observation-budget selector packet. The obligations of
+\autoref{thm:finite-observation-budget-selector-namecert-obligations} expose
+the same kind of finite budget, window, dyadic, handoff, seal, transport,
+continuation, package, and local naming rows. Route determinacy,
+\autoref{thm:finite-observation-budget-selector-budget-route-determinacy},
+forces the selector request to reach the Real seal along that displayed chain.
+
+Finally apply the diagonal consumer boundary,
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}.
+Because both accepted packets preserve the same support rows, the two chains
+meet in one finite pullback surface. The excluded quotient stream, selected
+host limit, host real equality, countable-choice, hidden-selector, ambient
+completeness, and second-seal objects have no coordinate in either packet, so
+they cannot appear in the pullback.
+\end{proof}
