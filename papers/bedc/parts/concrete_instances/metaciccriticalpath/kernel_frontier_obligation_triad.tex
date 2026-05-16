@@ -1,0 +1,43 @@
+\begin{theorem}[MetaCIC critical-path kernel frontier exposure]
+\label{thm:metacic-critical-path-kernel-frontier-exposure}
+For every accepted $\MetaCICCriticalPathUp$ root-unblock packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the kernel-facing frontier exposes exactly the finite $\BHist$ rows for closed normalization-frontier source data $S$, the normal-form endpoint $N$, the consistency-facing refusal rows $O,D$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ naming $L$. The frontier has no row for closed subject reduction, full closed consistency, hidden scheduler state, or a host reachability edge.
+\end{theorem}
+\begin{proof}
+Project the carrier inventory of \autoref{def:metacic-critical-path-packet}. The displayed tuple is the only packet read available to the kernel frontier, and its coordinates already name the closed normalization-frontier rows, the normal-form endpoint, the refusal rows, transport, replay, provenance, and local naming.
+
+Use the public route certificate and obstruction scope separation. The route certificate reads every public kernel-facing path through $S,N,O,U,D,H,C,P,L$, while the obstruction separation keeps the consistency-facing refusal rows $O,D$ visible rather than turning them into subject reduction or full consistency.
+
+Thus exposure is a projection from the finite packet followed by route replay. Since the carrier has no additional coordinate, the listed rows exhaust the kernel frontier.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path normalization consumer handoff]
+\label{thm:metacic-critical-path-normalization-consumer-handoff}
+Every normalization-facing consumer of an accepted $\MetaCICCriticalPathUp$ packet must read the closed normalization-frontier rows through $S$, then consume the normal-form row $N$ through the displayed $\Cont$ route $C$, with componentwise $\hsame$ transport $H$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ naming $L$ still attached. The handoff cannot bypass the consistency-facing refusal rows $O,D$ and cannot reinterpret the handoff row $U$ as a closed-consistency theorem.
+\end{theorem}
+\begin{proof}
+Begin with the consistency handoff and public route certificate. They place the normalization-facing read on the route from the closed normalization-frontier source row $S$ to the normal-form row $N$ and keep the route inside the displayed packet.
+
+Next read the replay and transport rows. The $\Cont$ row $C$ records the replay path, the $\hsame$ row $H$ preserves componentwise agreement of the same packet rows, and the $\Pkg$ and $\NameCert$ rows $P,L$ name the provenance and local boundary of that handoff.
+
+Finally apply the obstruction boundary. The refusal rows $O,D$ remain visible along the handoff, so the consumer receives a bounded normalization-to-normal-form route rather than a proof of closed subject reduction or full consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path consistency refusal boundary]
+\label{thm:metacic-critical-path-consistency-refusal-boundary}
+Every consistency-facing read of an accepted $\MetaCICCriticalPathUp$ packet is bounded by the same finite $\BHist$ surface
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+The closed normalization-frontier rows may route a consumer to the normal-form endpoint $N$, but the consistency-facing refusal rows $O,D$, together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, prevent the read from exporting closed subject reduction, full closed consistency, global beta-conversion decidability, or quotient data over MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the consistency-facing surface from the packet carrier. The only available rows are the closed normalization-frontier source, normal-form endpoint, obstruction and discharge-socket refusal rows, handoff row, transport, replay, provenance, and local naming.
+
+Use route exhaustion to keep every consumer read inside this surface. The $\Cont$ replay and $\hsame$ transport rows preserve the same finite packet, while $\Pkg$ provenance and the local $\NameCert$ row identify the route as the MetaCICCriticalPath packet rather than an ambient theorem export.
+
+The refusal boundary is then immediate from the absence of hidden rows. Since neither closed subject reduction nor full closed consistency is a carrier coordinate, every consistency-facing read remains bounded by $O,D$ and the displayed packet rows.
+\end{proof}
