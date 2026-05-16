@@ -236,4 +236,37 @@ theorem RealObservationBudgetTasteGate_single_carrier_alignment :
         exact realObservationBudgetToEventFlow_injective heq
       · rfl
 
+def realObservationBudgetFields : RealObservationBudgetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RealObservationBudgetUp.mk E W D R S H C P N => [E, W, D, R, S, H, C, P, N]
+
+private theorem realObservationBudget_field_faithful :
+    ∀ x y : RealObservationBudgetUp,
+      realObservationBudgetFields x = realObservationBudgetFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk E₁ W₁ D₁ R₁ S₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk E₂ W₂ D₂ R₂ S₂ H₂ C₂ P₂ N₂ =>
+          simp only [realObservationBudgetFields] at h
+          cases h
+          rfl
+
+instance realObservationBudgetFieldFaithful : FieldFaithful RealObservationBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realObservationBudgetFields
+  field_faithful := realObservationBudget_field_faithful
+
+instance realObservationBudgetNontrivial : Nontrivial RealObservationBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealObservationBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealObservationBudgetUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 end BEDC.Derived.RealObservationBudgetUp
