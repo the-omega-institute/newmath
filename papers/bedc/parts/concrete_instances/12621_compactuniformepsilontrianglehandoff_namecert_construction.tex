@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformEpsilonTriangleHandoffUp$}
+\label{ch:concrete-instances-compact-uniform-epsilon-triangle-handoff-namecert}
+\origin{human}
+
+The $\CompactUniformEpsilonTriangleHandoffUp$ packet isolates the epsilon-third source and target triangle step in the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. It sits after the source metric and compact finite-net rows of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-compact-namecert}, the continuous-map pointwise-modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the rational tolerance rows of \autoref{ch:concrete-instances-rat-namecert}, the selected uniform-modulus consumer row of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the final triangle estimate packet of \autoref{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}. Its carrier is narrower than $\MetricTriangleUniformEstimateUp$: it records the precise source triangle that keeps $x'$ inside the selected compact center and the target triangle that combines the two $\varepsilon/3$ pointwise estimates.
+
+\begin{definition}[Compact-uniform epsilon-triangle handoff carrier]
+\label{def:compact-uniform-epsilon-triangle-handoff-carrier}
+A $\CompactUniformEpsilonTriangleHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,Y,c,x,x',\varepsilon,\mu,\rho,d_x,d_{x'},d_y,d_{y'},H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row, read together with the $\CompactUp$ finite-net center row for $c$;
+\item $Y$ is the target $\MetricSpaceUp$ row carrying the target triangle certificate;
+\item $c$ is the compact center selected from the finite cover for the tolerance history $\varepsilon$;
+\item $x$ and $x'$ are the source histories whose target images are compared by the uniform-modulus consumer;
+\item $\varepsilon$ is the positive $\RatUp$ tolerance row whose three equal thirds are read by the pointwise target estimates;
+\item $\mu$ is the positive $\RatUp$ uniform precision row exported to $\UniformModulusUp$;
+\item $\rho$ is the positive $\RatUp$ local center radius subordinate to the pointwise-modulus row at $c$;
+\item $d_x$ is the compact coverage distance row certifying $d_X(x,c)<\rho/2$;
+\item $d_{x'}$ is the source triangle row certifying $d_X(x',c) \le d_X(x',x)+d_X(x,c)<\rho$ from the $\mu$-bound on $d_X(x,x')$ and the coverage row $d_x$;
+\item $d_y$ is the pointwise-modulus target row at $c$ for the pair $(c,x)$, bounded by $\varepsilon/3$;
+\item $d_{y'}$ is the pointwise-modulus target row at $c$ for the pair $(c,x')$, bounded by $\varepsilon/3$;
+\item $H$ records componentwise $\hsame$ transport for the metric, compact center, source histories, rational tolerance, precision, radius, source triangle, pointwise target, and target triangle rows;
+\item $C$ records the displayed $\Cont$ routes from compact coverage to source triangle, from source triangle to the double pointwise-modulus application, and from those target estimates to the uniform-modulus output;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\CompactUp$, $\ContinuousMapUp$, $\RatUp$, $\UniformModulusUp$, $\MetricTriangleUniformEstimateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CompactUniformEpsilonTriangleHandoffUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these displayed rows. It has no coordinate for an open-cover compactness proof, a selected subsequence, a host-level modulus function, a quotient real equality, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Compact-uniform epsilon-triangle handoff NameCert obligations]
+\label{thm:compact-uniform-epsilon-triangle-handoff-namecert-obligations}
+For the carrier of \autoref{def:compact-uniform-epsilon-triangle-handoff-carrier}, the local $\NameCert_{\CompactUniformEpsilonTriangleHandoffUp}$ surface consists exactly of carrier admission for
+$$
+E=(X,Y,c,x,x',\varepsilon,\mu,\rho,d_x,d_{x'},d_y,d_{y'},H,C,P,N),
+$$
+compact-center preservation through $c$, source triangle admission through $d_x$ and $d_{x'}$, double pointwise-modulus admission through $d_y$ and $d_{y'}$, target triangle admission through $Y$, uniform-modulus output through $\mu$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $X,c,x,x',\varepsilon,\mu,\rho,d_x,d_{x'},d_y,d_{y'}$ are the analytic rows, while $H,C,P,N$ are the structural rows that transport, replay, package, and name the same finite packet.
+
+The compact center is preserved because $c$ is a carrier coordinate and every consumer route in $C$ starts from the coverage row at that center. The source triangle row $d_{x'}$ is therefore read from the same $X,c,x,x'$ data as the coverage row $d_x$.
+
+The two pointwise-modulus rows then use the same center $c$ and the same tolerance split $\varepsilon/3$. The target metric row $Y$ consumes those two target estimates and sends the resulting bound to the $\UniformModulusUp$ output row attached to $\mu$.
+
+No further row is present in the carrier. Thus the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact-uniform epsilon-triangle handoff estimate]
+\label{thm:compact-uniform-epsilon-triangle-handoff-estimate}
+For every accepted $\CompactUniformEpsilonTriangleHandoffUp$ packet
+$$
+E=(X,Y,c,x,x',\varepsilon,\mu,\rho,d_x,d_{x'},d_y,d_{y'},H,C,P,N),
+$$
+the uniform-modulus consumer receives the following finite estimate route. The compact row preserves the selected center $c$ and supplies $d_X(x,c)<\rho/2$. The source metric row combines this with the $\mu$-bound on $d_X(x,x')$ to certify
+$$
+d_X(x',c) \le d_X(x',x)+d_X(x,c)<\rho.
+$$
+The continuous-map pointwise-modulus row at $c$ then applies to both $x$ and $x'$, giving $d_y<\varepsilon/3$ and $d_{y'}<\varepsilon/3$. The target metric triangle row combines $d_y$ and $d_{y'}$ into the displayed $\varepsilon$-bound exported to $\UniformModulusUp$.
+\end{theorem}
+\begin{proof}
+Start with the compact center row. The carrier preserves $c$ together with the coverage row $d_x$, so the input point $x$ is within the displayed half-radius around $c$.
+
+Use the source triangle row in $X$. Since the uniform precision row $\mu$ bounds the distance between $x$ and $x'$ and is below the selected half-radius ledger, the source triangle gives the displayed bound on $d_X(x',c)$ and keeps $x'$ inside the same local radius $\rho$.
+
+Now apply the pointwise-modulus rows at $c$. The radius bound $\rho$ is subordinate to the local modulus, so the same continuous-map packet supplies the target estimates $d_y<\varepsilon/3$ and $d_{y'}<\varepsilon/3$.
+
+Finally read the target triangle certificate in $Y$. It joins the two target estimates through the same center image and exports the resulting $\varepsilon$-bound along the continuation route to $\UniformModulusUp$.
+\end{proof}
+
+\falsifiablePrediction{If the source triangle row $d_{x'}$ is removed, the packet cannot certify that $x'$ lies inside the local radius around the selected compact center, and the second pointwise-modulus application at $c$ is unavailable.}
+
+\independenceWitness{metric, compact, continuousmap, rat, uniformmodulus, metric-triangle-uniform-estimate: $\CompactUniformEpsilonTriangleHandoffUp$ binds one selected center, two source points, the epsilon-third split, the source triangle route, two pointwise target rows, and the final target triangle route; none of the named siblings alone contains both the source and target triangle handoff as one finite packet.}
+
+\closureat{CompactUniformEpsilonTriangleHandoffUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformEpsilonTriangleHandoffUp}
+  \constructivestory{A $\CompactUniformEpsilonTriangleHandoffUp$ packet is generated from source and target metric rows, a compact finite-net center, two source histories, a positive rational tolerance, a positive uniform precision, a local radius, source-distance rows, pointwise target estimates, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-epsilon-triangle-handoff-carrier}, \autoref{thm:compact-uniform-epsilon-triangle-handoff-namecert-obligations}, and \autoref{thm:compact-uniform-epsilon-triangle-handoff-estimate} bind the epsilon-third source and target triangle handoff for compact-uniform-continuity to one finite carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, Real completion, open-cover compactness, selected subsequences, quotient real equality, or an ambient completeness principle.}
+  \upgradepath{The next paper grade is obligation closure for compact-center preservation, source triangle admission, double pointwise-modulus admission, target triangle admission, and $\UniformModulusUp$ output.}
+\end{closurestatus}
