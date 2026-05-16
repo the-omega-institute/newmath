@@ -1,0 +1,31 @@
+\section{Regular Cauchy sequences and their limits}
+\label{sec:real-completeness-regular-cauchy}
+
+\begin{definition}[Regular sequence over $\RatUp$]
+\label{def:real-completeness-regular-rat-sequence}
+A \emph{regular sequence} over $\NameCert_{\RatUp}$ is a function $x \colon \mathbb{N} \to \mathbb{Q}$ together with the explicit regularity witness
+$$ \forall\, m, n \in \mathbb{N}, \quad |x_m - x_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+The carrier $\RegSeqRat$ of \autoref{ch:concrete-instances-real-namecert} packages such pairs as a closed inductive over $\NameCert_{\RatUp}$ data, with $\RealClassifier$ the $\psame$ closure that identifies two regular sequences whose pointwise difference shrinks at the regularity rate.
+\end{definition}
+
+\begin{definition}[Regular Cauchy sequence over $\RegSeqRat$]
+\label{def:real-completeness-regular-cauchy-rat}
+A \emph{regular Cauchy sequence} of regular rational sequences is a function $X \colon \mathbb{N} \to \RegSeqRat$ together with an explicit modulus $\mu \colon \mathbb{Q}_{>0} \to \mathbb{N}$ such that, for every $\varepsilon \in \mathbb{Q}_{>0}$ and every $m, n \ge \mu(\varepsilon)$, the regular rational sequence $X_m - X_n$ (computed pointwise on representatives) lies inside the $\varepsilon$-ball at $0$ in the sense of $\NameCert_{\RegSeqRat}$.
+\end{definition}
+
+\begin{definition}[Diagonal limit representative]
+\label{def:real-completeness-diagonal-limit}
+The \emph{diagonal limit representative} of $(X, \mu)$ is the rational sequence $L \colon \mathbb{N} \to \mathbb{Q}$ given by
+$$ L_n \;=\; \big(X_{\mu(1/(n+1))}\big)_{\,\mu(1/(n+1)) + n + 1}, $$
+that is, the value at index $\mu(1/(n+1)) + n + 1$ of the $\mu(1/(n+1))$-th member of the Cauchy sequence. The construction is primitive recursion on $n$ together with $\NameCert_{\RatUp}$ arithmetic on the indices.
+\end{definition}
+
+\begin{theorem}[Diagonal limit is a regular sequence]
+\label{thm:real-completeness-diagonal-regular}
+The diagonal limit representative $L$ of \autoref{def:real-completeness-diagonal-limit} is a regular sequence in the sense of \autoref{def:real-completeness-regular-rat-sequence}: for every $m, n \in \mathbb{N}$,
+$$ |L_m - L_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+\end{theorem}
+
+\begin{proof}[Sketch]
+Fix $m \le n$. Bound $|L_m - L_n|$ by triangle inequality through three intermediate points: the value of $X_{\mu(1/(m+1))}$ at the diagonal index, the value of $X_{\mu(1/(n+1))}$ at the same index, and the value at $L_n$'s diagonal index. The first and third differences are controlled by the regularity of the constituent regular sequences (\autoref{def:real-completeness-regular-rat-sequence}); the middle difference is controlled by the Cauchy modulus $\mu$ (\autoref{def:real-completeness-regular-cauchy-rat}). Each bound is at most $1/(m+1) + 1/(n+1)$ after a one-line rational arithmetic step.
+\end{proof}

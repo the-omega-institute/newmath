@@ -304,4 +304,55 @@ theorem FiniteTailFilterCarrier_transport_obligation
       unaryS', unaryD', unaryR', unaryB', unaryQ', unaryE', routeR', routeQ',
       sameNameSeal', pkgSig⟩
 
+theorem FiniteTailFilterCarrier_real_completion_lattice_link
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N cofinalWindow latticeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont S D cofinalWindow ->
+        Cont cofinalWindow E latticeRead ->
+          PkgSig bundle latticeRead pkg ->
+            UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧
+              UnaryHistory cofinalWindow ∧ UnaryHistory latticeRead ∧ Cont S D R ∧
+                Cont S D cofinalWindow ∧ Cont cofinalWindow E latticeRead ∧
+                  hsame cofinalWindow R ∧ hsame N E ∧
+                    PkgSig bundle latticeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier cofinalRoute latticeRoute latticePkg
+  obtain ⟨unaryS, unaryD, _unaryB, unaryE, _unaryH, routeR, _routeQ,
+    sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryCofinalWindow : UnaryHistory cofinalWindow :=
+    unary_cont_closed unaryS unaryD cofinalRoute
+  have unaryLatticeRead : UnaryHistory latticeRead :=
+    unary_cont_closed unaryCofinalWindow unaryE latticeRoute
+  have cofinalWindowSameR : hsame cofinalWindow R :=
+    cont_deterministic cofinalRoute routeR
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryE, unaryCofinalWindow, unaryLatticeRead, routeR,
+      cofinalRoute, latticeRoute, cofinalWindowSameR, sameNameSeal, latticePkg⟩
+
+theorem FiniteTailFilterCarrier_nonescape
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N S' D' R' B' Q' E' H' C' P' N' : BHist} :
+    FiniteTailFilterCarrier S D R B Q E H C P N →
+      FiniteTailFilterCarrier S' D' R' B' Q' E' H' C' P' N' →
+        hsame S S' → hsame D D' → hsame B B' → hsame E E' →
+          hsame R R' ∧ hsame Q Q' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier carrier' sameS sameD sameB sameE
+  obtain ⟨_unaryS, _unaryD, _unaryB, _unaryE, _unaryH, routeR, routeQ,
+    sameNameSeal⟩ := carrier
+  obtain ⟨_unaryS', _unaryD', _unaryB', _unaryE', _unaryH', routeR', routeQ',
+    sameNameSeal'⟩ := carrier'
+  have sameR : hsame R R' :=
+    cont_respects_hsame sameS sameD routeR routeR'
+  have sameQ : hsame Q Q' :=
+    cont_respects_hsame sameR sameB routeQ routeQ'
+  have sameN : hsame N N' :=
+    hsame_trans sameNameSeal
+      (hsame_trans sameE (hsame_symm sameNameSeal'))
+  exact ⟨sameR, sameQ, sameN⟩
+
 end BEDC.Derived.FiniteTailFilterUp
