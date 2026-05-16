@@ -1,0 +1,21 @@
+\begin{theorem}[GapClosureBoundary route completion totality]
+\label{thm:gap-closure-boundary-route-completion-totality}
+For every accepted $\GapClosureBoundaryUp$ packet $B=(G,S,R,H,C,P,N)$, the source/refusal route completion surface is total for the listed hard-problem consumers. A supported consumer route is exactly the displayed source route
+$$
+G \longrightarrow S,
+$$
+and an unsupported closure request is exactly the displayed refusal route
+$$
+G \longrightarrow R,
+$$
+with $H,C,P,N$ supplying the only componentwise transport, replay, provenance, and local naming rows. The completed route exports no hidden closure coordinate, hidden $\mathsf{T}$ supply, private source witness, host equality row, quotient datum, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Begin with source-route exactness, \autoref{thm:gap-closure-boundary-source-route-exactness}. It requires every supported hard-problem read to display the branch $G \longrightarrow S$ before any sibling consumer may use the boundary.
+
+For the unsupported side, apply refusal route totality, \autoref{thm:gap-closure-boundary-refusal-route-totality}. Every off-source closure request reaches $R$ through the same structural rows and cannot branch to hidden closure, hidden $\mathsf{T}$ supply, host equality, private access, or an off-packet continuation.
+
+Structural row conservation, \autoref{thm:gap-closure-boundary-structural-row-conservation}, keeps $H,C,P,N$ attached to the selected branch. These rows transport, replay, package, and name the displayed source or refusal route; they do not generate a third route.
+
+Finally assemble the status surface with \autoref{thm:gap-closure-boundary-obligation-status-assembly}. The carrier, source/refusal split, root-unblock package, consumer exactness package, and TasteGate boundary are already recorded over the same packet $G,S,R,H,C,P,N$. Hence the source/refusal route completion is total exactly on the two displayed branches.
+\end{proof}
