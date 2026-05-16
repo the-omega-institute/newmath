@@ -168,6 +168,50 @@ replay rows. The remaining support is therefore exactly $H,C,P,N$, and no
 undisplayed repair, bypass, or replacement diagnostic participates in replay.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness boundary coverage]
+\label{thm:audit-gate-failure-witness-boundary-coverage}
+Every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N)
+$$
+covers exactly the gate row, failed item, diagnostic row, refusal target, transport rows, replay rows, provenance row, and local $\NameCert$ row displayed by its carrier. No accepted witness adds a separate repair row, host-supplied theorem row, omitted diagnostic, or off-packet internalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-failure-witness-carrier}. Its visible rows are $G,F,R,D,H,C,P,N$, so the gate row, failed item, refusal target, diagnostic, transport, replay, provenance, and local naming rows are the full inventory.
+
+Apply the NameCert obligations of \autoref{thm:audit-gate-failure-witness-namecert-obligations}. Carrier admission, diagnostic exactness, refusal attachment, replay visibility, and non-internalization account for every accepted row in that inventory.
+
+The composition handoff and replay factorization theorems preserve the same rows for downstream consumers. They consume diagnostic, refusal, replay, transport, provenance, and naming data from the witness, but they do not add a repair row, theorem row, replacement diagnostic, or internalizer outside $W$.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness origin refusal]
+\label{thm:audit-gate-failure-witness-origin-refusal}
+If the failed item $F$ records an origin or import-crossing failure, then every accepted $\AuditGateFailureWitnessUp$ consumer reads that failure as refusal data through $D$ and $R$. It cannot be converted into baseline theorem content, repaired marker content, or an admitted internalizer by replaying $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the diagnostic row. The carrier makes $D$ the displayed readback explaining why $F$ failed under the gate row $G$, and the NameCert obligations force consumers to reach $D$ before the refusal target $R$.
+
+Use diagnostic nonescape and replay factorization. Diagnostic nonescape blocks replacement of the gate-visible failure by theorem content, while replay factorization keeps public replay on the path $G \to F \to D \to R$ with support rows $H,C,P,N$.
+
+Finally apply the composition handoff. A composed audit surface may pass along the diagnostic and refusal rows, but it remains a consumer of the failure witness. Hence an origin or import-crossing failure stays refusal data and cannot become baseline theorem content, repaired marker content, or an admitted internalizer.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness ledger exhaustion]
+\label{thm:audit-gate-failure-witness-ledger-exhaustion}
+Every public consumer of an accepted $\AuditGateFailureWitnessUp$ packet factors through
+$$
+G,F,D,R,H,C,P,N.
+$$
+The packet exports no marker repair, host supply, theorem object, admitted internalizer, or route that bypasses the displayed gate, failed item, diagnostic, refusal, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First read the public replay spine from \autoref{thm:audit-gate-failure-witness-replay-factorization}. It forces every public replay through the diagnostic route $G \to F \to D \to R$ and then through the support rows $H,C,P,N$.
+
+Next apply boundary coverage. The accepted witness contains no public coordinate beyond the gate row, failed item, diagnostic, refusal target, transport, replay, provenance, and local naming rows.
+
+The NameCert obligations and composition handoff then exclude all escape routes. Non-internalization blocks marker repair, host supply, theorem content, and admitted internalizers, while the composed surface may only consume the displayed diagnostic, refusal, and replay rows. Therefore the listed ledger exhausts every public consumer.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 
 \closureat{AuditGateFailureWitnessUp}{seedStr}
