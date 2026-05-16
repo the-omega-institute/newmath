@@ -378,6 +378,30 @@ The four cases are exhaustive for finite tail readbacks because every request is
 The consumer handoff is therefore the displayed route through $I,W,M,Q,T,E$ and then through $H,C,P,N$. Since the accepted packet has no coordinate for quotient stream families, selected limits, host equality, or ambient completeness, none of those principles can escape through a finite tail readback.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-tail window factorization]
+\label{thm:uniform-cauchy-criterion-finite-tail-window-factorization}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every finite tail readback covered by the empty-family, singleton, paired-family, or nonempty-subfamily case of \autoref{thm:uniform-cauchy-criterion-finite-tail-readback-coverage} factors through one L10 handoff route:
+$$
+I,W,M,Q,T \longmapsto \FiniteTailFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+together with the structural rows $E,H,C,P,N$. The $\FiniteTailFilterUp$ stage is the finite-tail window route supplied by the tail-window exactness and Real-seal handoff rows of \autoref{ch:concrete-instances-finite-tail-filter-namecert}; the $\StreamNameUp$ stage reads the finite-window classifier already displayed by $W$; the $\RegSeqRatUp$ stage consumes the tail readback carried by $T$; and the $\RealUp$ stage seals the same route through $E$.
+
+Thus the finite readback coverage of $U$ exports no indexwise modulus family, quotient stream family, selected limit, host real equality, ambient completeness principle, or detached tail filter outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:uniform-cauchy-criterion-finite-tail-readback-coverage}. It reduces every finite tail readback to one of the empty, singleton, paired-family, or nonempty-subfamily routes before any terminal consumer is inspected.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-shared-tail-ledger-coverage}. The four routes share the same finite family ledger and the same tail ledger $T$, so their readback evidence is already on the displayed $I,W,M,Q,T$ surface.
+
+Now pass through the finite-tail window route. By \autoref{thm:finite-tail-filter-tail-window-exactness}, the relevant stream window, dyadic tolerance row, regular readback, tail-budget row, common-tail comparison, and seal-facing row are coordinates of one $\FiniteTailFilterUp$ packet. By \autoref{thm:finite-tail-filter-real-seal-handoff}, that packet is the route seen by Real and Completion consumers.
+
+Finally identify the two terminal consumers. The RegSeqRat-facing part is exhausted by \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, and the Real-facing part is exhausted by \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. These two rows read the same $W,T,E,H,C,P,N$ surface, so the L10 handoff has no carrier coordinate for an indexwise modulus family, quotient stream family, selected limit, host real equality, ambient completeness principle, or detached tail filter.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion late-overlap exhaustion]
 \label{thm:uniform-cauchy-criterion-late-overlap-exhaustion}
 Let
