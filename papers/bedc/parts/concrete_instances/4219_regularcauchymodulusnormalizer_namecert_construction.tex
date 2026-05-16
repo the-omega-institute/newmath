@@ -577,13 +577,56 @@ cannot acquire any side-specific tail oracle, quotient stream, host equality,
 selected limit, completeness row, choice row, metric row, or bridge row.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus normalizer shared-tail meet determinacy]
+\label{thm:regular-cauchy-modulus-normalizer-shared-tail-meet-determinacy}
+For every accepted $\RegularCauchyModulusNormalizerUp$ carrier
+$$
+K=(X,Y,\mu_X,\mu_Y,M,W,D,R,E,H,C,P,N),
+$$
+every $\RegularCauchyTailBudgetUp$, $\UniformCauchyCriterionUp$,
+$\CauchySharedTailModulusUp$, or $\RealUp$ consumer route that uses the
+displayed meet row $M$ reads the same shared tail window $(W,D,R)$ before the
+Real seal $E$. If two such consumer routes start from the packet $K$ and pass
+through $M$, then their downstream classifications agree by the componentwise
+$\hsame$ rows recorded in $H$, and neither route can introduce a
+side-specific tail oracle, hidden modulus selector, quotient regular stream,
+or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the shared-window obligation and common-window exactness. By
+\autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation} and
+\autoref{thm:regular-cauchy-modulus-normalizer-common-window}, every consumer
+that reads the displayed meet row $M$ is already routed through the single
+packet projection
+$$
+(X,Y,\mu_X,\mu_Y,M)\longmapsto(W,D,R)\longmapsto(E,H,C,P,N).
+$$
+Thus the tail window is not an extra choice made by the consumer; it is the
+displayed $W,D,R$ coordinate triple of $K$.
+
+Next apply tail-budget extraction and the witness-ledger handoff. The former
+keeps every tail-budget read on the shared dyadic window and paired
+$\RegSeqRatUp$ readback, while the latter carries the same rows into the
+completion-facing witness ledger. Hence $\RegularCauchyTailBudgetUp$,
+$\UniformCauchyCriterionUp$, $\CauchySharedTailModulusUp$, and $\RealUp$
+consumers all receive the same tail data whenever they use $M$.
+
+Finally use budget-pullback exhaustion. It confines every downstream budget or
+witness-ledger pullback to the displayed support rows $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$, with the componentwise $\hsame$ rows in $H$
+providing the common classifier comparison. Since the only available
+coordinates are the unique $M,W,D,R,E,H,C,P,N$ entries of $K$, two routes
+through $M$ classify together and cannot acquire a side-specific tail oracle,
+hidden modulus selector, quotient regular stream, or host real equality.
+\end{proof}
+
 \closureat{RegularCauchyModulusNormalizerUp}{bridgedStr}
 \closureat{RegularCauchyModulusNormalizerUp}{matureStr}
 
 \begin{closurestatus}{\RegularCauchyModulusNormalizerUp}
   \constructivestory{A $\RegularCauchyModulusNormalizerUp$ packet is generated from two $\RegSeqRatUp$ source rows, two displayed Cauchy-modulus schedules, a shared $\CauchyModulusMeetUp$ row, one shared $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ tolerance, paired $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, \autoref{thm:regular-cauchy-modulus-normalizer-carrier-admission}, \autoref{thm:regular-cauchy-modulus-normalizer-comparison-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exchange-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}, \autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge}, \autoref{thm:regular-cauchy-modulus-normalizer-mature-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-formal-target-surface}, and \autoref{thm:regular-cauchy-modulus-normalizer-budget-pullback-exhaustion} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, public consumer route, carrier admission, comparison stability, source-exchange stability, witness-ledger handoff, normalized-route bridge, mature witness-ledger handoff, compact formal target surface, and budget pullback exhaustion.}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalizer-carrier}, \autoref{def:regular-cauchy-modulus-normalizer-classifier}, \autoref{thm:regular-cauchy-modulus-normalizer-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exposure-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-shared-window-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-seal-replay-obligation}, \autoref{thm:regular-cauchy-modulus-normalizer-common-window}, \autoref{thm:regular-cauchy-modulus-normalizer-nonescape}, \autoref{thm:regular-cauchy-modulus-normalizer-source-meet-window-seal-triad}, \autoref{thm:regular-cauchy-modulus-normalizer-public-route}, \autoref{thm:regular-cauchy-modulus-normalizer-carrier-admission}, \autoref{thm:regular-cauchy-modulus-normalizer-comparison-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-source-exchange-stability}, \autoref{thm:regular-cauchy-modulus-normalizer-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-scoped-primitive-binding}, \autoref{thm:regular-cauchy-modulus-normalizer-normalized-route-bridge}, \autoref{thm:regular-cauchy-modulus-normalizer-mature-witness-ledger-handoff}, \autoref{thm:regular-cauchy-modulus-normalizer-formal-target-surface}, \autoref{thm:regular-cauchy-modulus-normalizer-budget-pullback-exhaustion}, and \autoref{thm:regular-cauchy-modulus-normalizer-shared-tail-meet-determinacy} explicitly name the carrier, classifier, source exposure, meet exactness, shared-window exactness, seal replay, classifier stability, non-escape obligation rows, primitive binding, public consumer route, carrier admission, comparison stability, source-exchange stability, witness-ledger handoff, normalized-route bridge, mature witness-ledger handoff, compact formal target surface, budget pullback exhaustion, and shared-tail meet determinacy.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
