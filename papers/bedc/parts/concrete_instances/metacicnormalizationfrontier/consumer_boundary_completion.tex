@@ -1,0 +1,51 @@
+\begin{theorem}[MetaCIC normalization frontier candidate coverage]
+\label{thm:metacic-normalization-frontier-candidate-coverage}
+Every candidate-facing consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+must read the candidate evidence row $C$, the closed-candidate placement row $K$, the displayed replay row $R$, the provenance row $P$, and the local naming row $L$. The structural row $H$ may transport the read componentwise, but it cannot replace $C,K,R,P,L$ by an unnamed normalization source.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The carrier lists $C,K,E,N,S,H,R,P,L$ as the complete finite packet, and the candidate-evidence boundary assigns candidate-facing reads to $C$ and $K$.
+
+The consumer side is then routed by the displayed support rows. The row $R$ replays the candidate read, $P$ records the package provenance, and $L$ names the local certificate surface; $H$ only transports the displayed rows.
+
+Apply non-escape. A candidate consumer that bypasses any of $C,K,R,P,L$ would need a hidden normalization coordinate outside the accepted packet, so candidate coverage is exactly the displayed route through those rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier endpoint readback]
+\label{thm:metacic-normalization-frontier-endpoint-readback}
+Every normal-endpoint consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet reads the finished-normal evidence row $E$, the normal-endpoint row $N$, the displayed replay row $R$, the provenance row $P$, and the local naming row $L$, while retaining the subject-reduction obstruction row $S$ as a visible coordinate of the same packet. A read of $N$ outside $E,N,R,P,L$ is not an endpoint readback of the frontier.
+\end{theorem}
+\begin{proof}
+Start with the finished-normal boundary. The NameCert obligations place $E$ before $N$, and the carrier keeps both rows inside the same finite $\BHist$ packet as $S,H,R,P,L$.
+
+Next inspect the handoff rows. The endpoint is replayed through $R$, packaged through $P$, and locally named by $L$; none of those rows supplies an independent endpoint witness.
+
+It remains to account for the obstruction row. Since $S$ is displayed separately from $E$ and $N$, endpoint readback preserves $S$ rather than discharging it. Non-escape then rules out any free-standing read of $N$ outside the stated route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consumer non-escape]
+\label{thm:metacic-normalization-frontier-consumer-nonescape}
+No closed-normal consumer or SubjectReductionBoundary-facing consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet can bypass both positive routes $C,K,R,P,L$ and $E,N,R,P,L$ while remaining inside the packet. Such a consumer also cannot erase the obstruction row $S$ or replace it by blanket strong normalization, full closed consistency, or erased subject-reduction transport.
+\end{theorem}
+\begin{proof}
+First exhaust the positive routes. Candidate coverage forces candidate-facing reads through $C,K,R,P,L$, while endpoint readback forces normal-endpoint reads through $E,N,R,P,L$.
+
+Now consider a closed-normal or SubjectReductionBoundary-facing consumer that avoids both routes. The carrier has no third positive normalization evidence surface: $H$ transports, $R$ replays, $P$ records provenance, and $L$ names the local certificate surface.
+
+Finally use the obstruction row. The row $S$ remains a displayed obstruction coordinate under both positive routes, and the non-escape theorem excludes any hidden coordinate that could erase it. Therefore a consumer that bypasses both positive routes or erases $S$ is outside the accepted frontier packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consumer-boundary lock]
+\label{thm:metacic-normalization-frontier-consumer-boundary-lock}
+Every public consumer of the $\MetaCICNormalizationFrontierUp$ completion surface must pass through the displayed source, boundary, route, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows already present in the child packet. In particular, such a consumer cannot import a hidden normalization oracle, host equality, subject-reduction bridge, or external consistency claim as a replacement for the displayed boundary packet.
+\end{theorem}
+\begin{proof}
+Project the consumer-boundary rows already established in this child file. Candidate-facing reads pass through $C,K,R,P,L$, while normal-endpoint reads pass through $E,N,R,P,L$ and retain $S$ as a visible obstruction coordinate.
+
+The remaining structural access is exhausted by the same packet rows. Componentwise $\hsame$ transport may move displayed coordinates, $\Cont$ may replay the displayed routes, $\Pkg$ records their provenance, and the local $\NameCert$ row names the boundary surface.
+
+Coordinate exhaustion now rules out bypasses. A hidden normalization oracle, host equality proof, subject-reduction bridge, or external consistency claim is not one of the displayed rows, so it cannot be supplied by a public consumer of the accepted completion surface.
+\end{proof}

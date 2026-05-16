@@ -1,0 +1,116 @@
+\chapter{A Concrete Naming Certificate for $\OpenFitPacketUp$}
+\label{ch:concrete-instances-open-fit-packet-namecert}
+\origin{ai}
+
+The $\OpenFitPacketUp$ carrier realizes the finite-observation open-fit discipline of \autoref{sec:finite-observation-open-fit} as a finite NameCert packet. It consumes the physical signature tower of \autoref{ch:concrete-instances-physical-fit-tower-namecert}, the classifier boundary of \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, and the audit gate of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}. Those packets separately expose physical-fit towers, signature compatibility, and audit ledgers; $\OpenFitPacketUp$ binds the open-fit failure surface and no-final-oracle boundary into one finite observational carrier.
+
+\begin{definition}[OpenFitPacket carrier]
+\label{def:open-fit-packet-carrier}
+An $\OpenFitPacketUp$ carrier is a finite $\BHist$ packet
+$$
+P=(H,\Pi,S,M,F,E,L,B,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the finite observation trace row.
+\item $\Pi$ is the admissible observation-bundle row.
+\item $S$ is the observed-signature row extracted from $H$ through $\Pi$.
+\item $M$ is the model-signature row compared against $S$ at the displayed trace.
+\item $F$ is the finite fit row certifying the currently accepted signature comparison.
+\item $E$ is the failure-surface row naming finite signature comparisons that refute $F$.
+\item $L$ is the ledger row recording accepted fit, undecided continuation, failure evidence, and refused final-fit demands.
+\item $B$ is the boundary row forbidding export of a final-fit oracle from the finite packet.
+\item $N$ is the local $\NameCert_{\OpenFitPacketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for total confirmation, host identity between model and system, unobserved future signatures, or a global oracle deciding all admissible observation histories.
+\end{definition}
+\leanchecked{BEDC.Derived.OpenFitPacketUp.OpenFitPacketTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[OpenFitPacket obligation surface]
+\label{def:open-fit-obligation-surface}
+For the carrier of \autoref{def:open-fit-packet-carrier}, the local $\NameCert_{\OpenFitPacketUp}$ surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier admission for $P=(H,\Pi,S,M,F,E,L,B,N)$;
+\item finite signature exactness through $S$ and $M$ over the displayed trace $H$ and bundle $\Pi$;
+\item finite fit exactness through $F$;
+\item finite refutation exposure through the failure-surface row $E$;
+\item ledger exactness through $L$;
+\item no-final-oracle boundary preservation through $B$;
+\item local naming through $N$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[OpenFitPacket finite refutation surface]
+\label{thm:open-fit-finite-refutation-surface}
+Every accepted $\OpenFitPacketUp$ packet is refuted locally by a finite failed signature comparison displayed in $E$. Conversely, a consumer route that does not display such a failed comparison has no refutation witness inside the packet and must leave continuation status ledgered as open rather than confirmed.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes exactly $P=(H,\Pi,S,M,F,E,L,B,N)$. The only row naming failed comparisons is $E$, and the only finite fit row that can be defeated is $F$.
+
+When $E$ displays a failed comparison between the observed signature $S$ and the model signature $M$ over the same $H$ and $\Pi$, the packet contains a finite witness against the accepted fit row. This is a local refutation because all participating rows are part of the same finite carrier.
+
+When no such failed comparison is displayed, the ledger row $L$ still records the status as open. The boundary row $B$ prevents the missing failure from being converted into final confirmation, so the packet remains a finite open-fit certificate rather than an oracle for all continuations.
+\end{proof}
+
+\begin{theorem}[OpenFitPacket no-final-oracle boundary]
+\label{thm:open-fit-no-final-oracle-boundary}
+No accepted $\OpenFitPacketUp$ packet exports a final-fit oracle. Its public evidence is exhausted by finite observation, finite signature comparison, finite fit, finite refutation exposure, ledger status, boundary refusal, and local naming through $H,\Pi,S,M,F,E,L,B,N$.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:open-fit-packet-carrier} contains no row for total confirmation or global quantification over every admissible observation history. The obligation surface of \autoref{def:open-fit-obligation-surface} instead requires finite signature exactness, finite fit exactness, finite refutation exposure, ledger exactness, and preservation of the boundary row.
+
+Thus a consumer may read the displayed finite fit, and it may read a finite refutation when $E$ displays one. The same route must also read $L$ and $B$, so undecided continuation remains ledgered and the final-fit demand is refused.
+
+Any purported oracle for all future or counterfactual histories would need a coordinate outside $H,\Pi,S,M,F,E,L,B,N$. Since the NameCert surface admits only these rows, the purported oracle has no accepted route in the packet.
+\end{proof}
+
+\begin{theorem}[OpenFitPacket signature-fit handoff]
+\label{thm:open-fit-signature-fit-handoff}
+An $\OpenFitPacketUp$ consumer can hand finite fit to the signature-fit and audit stack only through the displayed signature rows $S,M$, finite fit row $F$, failure-surface row $E$, ledger row $L$, and boundary row $B$. The handoff may consume $\PhysicalFitTowerUp$, $\RealityConstrainedSignatureFitUp$, and $\RealityConstrainedModelAuditUp$ certificates, but it cannot erase the open-fit failure surface or the no-final-oracle boundary.
+\end{theorem}
+\begin{proof}
+The physical-fit tower supplies the reality-facing tower context, the signature-fit packet supplies the comparison discipline, and the model-audit packet supplies the audit gate. The $\OpenFitPacketUp$ carrier reads those surfaces only through its own displayed rows.
+
+The handoff therefore preserves $S,M,F,E,L,B$. Signature comparison travels through $S$ and $M$, accepted finite fit through $F$, finite defeat through $E$, audit status through $L$, and the final-oracle refusal through $B$.
+
+If a consumer route drops $E$ or $B$, it no longer carries the open-fit failure surface or the no-final-oracle boundary. Such a route may still mention a physical tower, signature classifier, or audit gate, but it is not an accepted $\OpenFitPacketUp$ handoff.
+\end{proof}
+
+\begin{theorem}[OpenFitPacket bridge-facing surface]
+\label{thm:open-fit-packet-bridge-facing-surface}
+Every bridge-facing consumer of an accepted $\OpenFitPacketUp$ packet must read exactly the displayed rows $H,\Pi,S,M,F,E,L,B,N$. These rows preserve the finite observation trace, observation bundle, observed and model signature rows, finite fit row, failure surface, ledger row, no-final-oracle boundary, and local NameCert row. No bridge-facing route may erase the finite observation trace, bypass $E$ or $B$, replace the ledger, or import a final-fit oracle from a physical tower, signature classifier, audit packet, host approval, or ambient model class.
+\end{theorem}
+\begin{proof}
+Start from the carrier and obligation surface. The packet has exactly the rows $H,\Pi,S,M,F,E,L,B,N$, and the local NameCert obligations assign finite observation, observation bundle, signature comparison, finite fit, failure exposure, ledger, boundary, and naming roles to those rows.
+
+Use the finite refutation surface. It forces any failed comparison read to pass through $E$ over the same $S,M$ comparison surface, so a bridge-facing consumer cannot replace the failure surface while preserving packet acceptance.
+
+Apply the no-final-oracle boundary and signature-fit handoff. The boundary keeps continuation status finite and refuses global confirmation, while the handoff routes signature fit through $S,M,F,E,L,B$.
+
+Therefore the bridge-facing surface is exactly the displayed packet. A consumer missing one of $H,\Pi,S,M,F,E,L,B,N$ or importing an outside oracle is not reading the accepted $\OpenFitPacketUp$ bridge-facing row.
+\end{proof}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/OpenFitPacketUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OpenFitPacketUp$ and $\mathsf{FieldFaithful}\ \OpenFitPacketUp$ instances preserving $H,\Pi,S,M,F,E,L,B,N$.
+
+\falsifiablePrediction{A finite failed signature comparison refutes the packet locally, while no accepted packet exports a final-fit oracle.}
+
+\independenceWitness{physicalfittower, realityconstrainedsignaturefit, realityconstrainedmodelaudit, streamname, real: none contains the open-fit failure-surface and no-final-oracle rows together.}
+
+\closureat{OpenFitPacketUp}{seedStr}
+\closureat{OpenFitPacketUp}{obligationStr}
+\closureat{OpenFitPacketUp}{scopedStr}[BEDC.Derived.OpenFitPacketUp.OpenFitPacketTasteGate\_single\_carrier\_alignment]
+\closureat{OpenFitPacketUp}{publicStr}[BEDC.Derived.OpenFitPacketUp.OpenFitPacketTasteGate\_single\_carrier\_alignment]
+\closureat{OpenFitPacketUp}{bridgedStr}[BEDC.Derived.OpenFitPacketUp.OpenFitPacketTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\OpenFitPacketUp}
+  \constructivestory{An $\OpenFitPacketUp$ packet is generated from a finite observation trace, observation bundle, observed signature, model signature, finite fit row, failure surface, ledger, no-final-oracle boundary, and local NameCert row.}
+  \leanchecked{BEDC.Derived.OpenFitPacketUp.taste\_gate}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:open-fit-packet-carrier}, \autoref{def:open-fit-obligation-surface}, \autoref{thm:open-fit-finite-refutation-surface}, \autoref{thm:open-fit-no-final-oracle-boundary}, and \autoref{thm:open-fit-signature-fit-handoff} bind the finite carrier, obligation surface, finite refutation route, oracle refusal, and signature-fit handoff.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.OpenFitPacketUp.OpenFitPacketTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert bridge checking, host physical truth, model identity, total confirmation, or a global observation-history oracle.}
+  \upgradepath{No further paper-side closure upgrade remains for the finite observation trace, observation bundle, signature rows, finite fit row, failure surface, ledger, no-final-oracle boundary, and local NameCert row.}
+\end{closurestatus}

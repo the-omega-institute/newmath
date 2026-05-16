@@ -1,0 +1,628 @@
+\begin{theorem}[MetaCIC normalization frontier root obligation triad]
+\label{thm:metacic-normalization-frontier-root-obligation-triad}
+For downstream closed-normal packets, an accepted $\MetaCICNormalizationFrontierUp$ packet presents exactly the following root obligation triad: the candidate boundary through $C,K$, the finished-normal boundary through $E,N$, and the obstruction separation through $S$, all transported through $H,R,P,L$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-normalization-frontier-namecert-obligations} to read the three obligations. The candidate-evidence boundary is carried by $C,K$, the finished-normal boundary is carried by $E,N$, and subject-reduction obstruction remains separated at $S$.
+
+Apply \autoref{thm:metacic-normalization-frontier-redex-boundary}. It identifies those three surfaces as the finite redex boundary for inspected empty-context typed closed MetaCIC terms.
+
+Finally combine \autoref{thm:metacic-normalization-frontier-fuel-route} with \autoref{thm:metacic-normalization-frontier-root-consumer-nonescape}. Downstream closed-normal packets may consume the triad only through the displayed replay, provenance, transport, package, and local naming rows, and they cannot replace the triad with a blanket normalization, consistency, or erased subject-reduction object.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier kernel non-escape]
+\label{thm:metacic-normalization-frontier-kernel-nonescape}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the finite kernel-facing route determined by $C,K,E,N,S,H,R,P,L$ is exhausted by the candidate route of \autoref{thm:metacic-normalization-frontier-candidate-route}, the finished route of \autoref{thm:metacic-normalization-frontier-finished-route}, the obstruction ledger of \autoref{thm:metacic-normalization-frontier-obstruction-ledger}, and the public obligation package of \autoref{thm:metacic-normalization-frontier-public-obligation-package}. A kernel consumer cannot bypass those rows to obtain a blanket strong-normalization theorem, a full closed consistency theorem, or erased subject-reduction transport.
+\end{theorem}
+\begin{proof}
+First project the public obligation package of \autoref{thm:metacic-normalization-frontier-public-obligation-package}. It lists the finite carrier, the candidate-evidence boundary, the finished-normal boundary, the closed-normal handoff through $R,P,L$, and the obstruction row $S$.
+
+Next use \autoref{thm:metacic-normalization-frontier-candidate-route} and \autoref{thm:metacic-normalization-frontier-finished-route}. These two route the positive kernel-facing reads through $C,K$ or through $E,N$, with replay, provenance, and naming supplied by the displayed rows.
+
+Apply \autoref{thm:metacic-normalization-frontier-obstruction-ledger}. The row $S$ remains a separate obstruction coordinate and cannot be erased by reading candidate or finished-normal evidence.
+
+Finally invoke \autoref{thm:metacic-normalization-frontier-nonescape}. A kernel consumer outside the listed rows would require one of the exported objects that the packet explicitly lacks, so the finite frontier route has no escape coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier candidate route]
+\label{thm:metacic-normalization-frontier-candidate-route}
+Every closed-normal consumer of candidate evidence in an accepted $\MetaCICNormalizationFrontierUp$ packet factors through the candidate row $C$, the closed-candidate row $K$, the replay row $R$, the provenance row $P$, and the local naming row $L$. The support rows are read inside the same finite $\BHist$ packet and transported only by the displayed $\hsame$ and $\Cont$ coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(C,K,E,N,S,H,R,P,L)$. The only candidate-facing rows are $C$ and $K$, and the only consumer-facing support rows for replay, provenance, and local naming are $R$, $P$, and $L$.
+
+Apply the candidate-evidence boundary clause of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It requires any candidate-mediated read to pass through $C$ and $K$ before it can be used by a closed-normal consumer.
+
+Finally use \autoref{thm:metacic-normalization-frontier-nonescape}. A consumer bypassing $C,K,R,P,L$ has no carrier coordinate from which to read candidate evidence, so the displayed route is the whole candidate route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier finished route]
+\label{thm:metacic-normalization-frontier-finished-route}
+Every closed-normal consumer of finished-normal evidence in an accepted $\MetaCICNormalizationFrontierUp$ packet factors through the finished-normal evidence row $E$, the normal-endpoint row $N$, the replay row $R$, the provenance row $P$, and the local naming row $L$. The route uses only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the frontier packet.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The finished-normal side is represented by $E$ and $N$, while $R$, $P$, and $L$ record the replay, provenance, and local certificate rows through which a consumer can read that side.
+
+Apply the finished-normal boundary and closed-normal handoff clauses of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. They place $E$ before $N$ and then replay the endpoint through $R,P,L$.
+
+The non-escape theorem rules out a hidden blanket normalization coordinate. Thus a finished-normal consumer that stays inside the packet must read exactly the displayed finished route and cannot replace it with an ambient normalization theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction ledger]
+\label{thm:metacic-normalization-frontier-obstruction-ledger}
+In every accepted $\MetaCICNormalizationFrontierUp$ packet, the subject-reduction obstruction row $S$ is transported and named as a separate coordinate. It cannot be discharged by reading the candidate rows $C,K$ or the finished-normal rows $E,N$, and no consumer may erase it while remaining inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The row $S$ is listed separately from $C,K,E,N$ before the transport, replay, provenance, and local naming rows are attached.
+
+Use the subject-reduction-obstruction separation clause of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It states that $S$ remains distinct from the candidate and finished-normal evidence surfaces.
+
+Apply \autoref{thm:metacic-normalization-frontier-nonescape}. Since no erased subject-reduction transport is exported, $S$ can only be carried as a named obstruction coordinate; it cannot be solved by reading $C,K,E,N$.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier public obligation package]
+\label{thm:metacic-normalization-frontier-public-obligation-package}
+Every accepted $\MetaCICNormalizationFrontierUp$ packet exposes the public obligation package consisting of carrier admission for
+$$
+F=(C,K,E,N,S,H,R,P,L),
+$$
+the candidate-evidence boundary $C,K$, the finished-normal boundary $E,N$, the closed-normal handoff through $R,P,L$, and the obstruction-separation row $S$.
+
+The package is a finite BEDC obligation surface. It does not assert blanket strong normalization, full closed consistency, or erased subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-frontier-carrier}. The rows $C,K,E,N,S,H,R,P,L$ are exactly the finite frontier packet.
+
+Apply \autoref{thm:metacic-normalization-frontier-namecert-obligations}. Its carrier, candidate-boundary, finished-normal-boundary, handoff, and obstruction-separation clauses are precisely the public obligation rows listed in the statement.
+
+Finally use \autoref{thm:metacic-normalization-frontier-nonescape}. It prevents the public package from being read as a global normalization theorem, a full consistency theorem, or an erased subject-reduction transport.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier boundary disjointness]
+\label{thm:metacic-normalization-frontier-boundary-disjointness}
+For an accepted $\MetaCICNormalizationFrontierUp$ packet, the rows $C,K,E,N,S$ remain distinct BEDC coordinates: candidate evidence $C$, closed-candidate placement $K$, finished-normal evidence $E$, normal-endpoint use $N$, and subject-reduction obstruction $S$. They cannot be collapsed into a blanket normalization theorem or a single unnamed normalization row.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:metacic-normalization-frontier-carrier}. The five rows $C,K,E,N,S$ are listed as separate coordinates before the transport, replay, provenance, and local naming rows are attached.
+
+Now apply \autoref{thm:metacic-normalization-frontier-namecert-obligations}. It assigns different obligations to the candidate boundary, the finished-normal boundary, the closed-normal handoff, and the obstruction row.
+
+The non-escape theorem \autoref{thm:metacic-normalization-frontier-nonescape} excludes the blanket theorem reading. Therefore no consumer can collapse $C,K,E,N,S$ into a single normalization assertion while remaining inside the accepted packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consumer-route totality]
+\label{thm:metacic-normalization-frontier-consumer-route-totality}
+Every consumer route for an accepted $\MetaCICNormalizationFrontierUp$ packet factors through either the candidate-evidence surface $C,K$ or the finished-normal evidence surface $E,N$. The rows $H,R,P,L$ only transport, replay, package, and name that surface; they do not add a third normalization evidence route.
+\end{theorem}
+\begin{proof}
+Start from the route inventory in \autoref{def:metacic-normalization-frontier-carrier}. The only evidence surfaces available to a consumer are $C,K$ and $E,N$, with $S$ retained as the obstruction coordinate.
+
+Use \autoref{thm:metacic-normalization-frontier-namecert-obligations}. The candidate-evidence clause routes through $C,K$, the finished-normal clause routes through $E,N$, and the handoff clause routes closed-normal use through $R,P,L$ after one of those surfaces is present.
+
+Finally apply \autoref{thm:metacic-normalization-frontier-nonescape}. A consumer bypassing both $C,K$ and $E,N$ has no carrier coordinate from which to read normalization evidence, so the listed alternatives are total for the accepted frontier packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier carrier-admission route]
+\label{thm:metacic-normalization-frontier-carrier-admission-route}
+Carrier admission for an accepted $\MetaCICNormalizationFrontierUp$ packet exposes exactly the finite rows
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The rows $C,K$ are the candidate and closed-candidate evidence surface, $E,N$ are the finished-normal and normal-endpoint surface, $S$ is the subject-reduction obstruction row, and $H,R,P,L$ transport, replay, package, and locally name the displayed surface. Carrier admission exposes no blanket normalization source outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier definition \autoref{def:metacic-normalization-frontier-carrier}. It lists the nine rows $C,K,E,N,S,H,R,P,L$ as the whole accepted packet.
+
+Apply the NameCert obligations of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. Carrier admission is the first obligation, and the remaining clauses sort the rows into candidate evidence, finished-normal evidence, consumer handoff, and obstruction separation.
+
+Use \autoref{thm:metacic-normalization-frontier-nonescape}. Since the packet exports no blanket strong-normalization theorem or erased subject-reduction transport, carrier admission cannot expose any normalization source beyond the displayed frontier rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier evidence-choice exhaustion]
+\label{thm:metacic-normalization-frontier-evidence-choice-exhaustion}
+Every positive consumer route out of an accepted $\MetaCICNormalizationFrontierUp$ packet chooses either the candidate surface $C,K$ or the finished-normal surface $E,N$. The rows $H,R,P,L$ only transport, replay, package, and locally name the chosen surface; they do not supply a third positive normalization evidence row.
+\end{theorem}
+\begin{proof}
+Read the candidate route \autoref{thm:metacic-normalization-frontier-candidate-route}. It routes candidate-facing consumers through $C,K,R,P,L$ inside the same finite packet.
+
+Read the finished route \autoref{thm:metacic-normalization-frontier-finished-route}. It routes finished-normal consumers through $E,N,R,P,L$ and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Apply consumer-route totality, \autoref{thm:metacic-normalization-frontier-consumer-route-totality}. It exhausts positive routes by the two evidence surfaces and assigns $H,R,P,L$ only transport, replay, packaging, and naming roles. The non-escape theorem \autoref{thm:metacic-normalization-frontier-nonescape} rules out a hidden third source.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction retention]
+\label{thm:metacic-normalization-frontier-obstruction-retention}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the subject-reduction obstruction row $S$ survives every candidate read through $C,K$ and every finished-normal read through $E,N$. It is transported and replayed as a displayed row of the same packet and is not discharged by any candidate or finished-normal evidence surface.
+\end{theorem}
+\begin{proof}
+Use the obstruction ledger \autoref{thm:metacic-normalization-frontier-obstruction-ledger}. It names $S$ as a separate coordinate and states that reading $C,K$ or $E,N$ does not erase it.
+
+Combine this with the candidate and finished routes. \autoref{thm:metacic-normalization-frontier-candidate-route} and \autoref{thm:metacic-normalization-frontier-finished-route} consume their positive surfaces through $R,P,L$, but neither route includes a discharge coordinate for $S$.
+
+Finally invoke \autoref{thm:metacic-normalization-frontier-consumer-route-totality} and \autoref{thm:metacic-normalization-frontier-nonescape}. All positive reads choose one of the two evidence surfaces, while erased subject-reduction transport remains outside the packet; therefore $S$ is retained through every accepted consumer route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier candidate-finished boundary totality]
+\label{thm:metacic-normalization-frontier-candidate-finished-boundary-totality}
+Every accepted consumer route for a $\MetaCICNormalizationFrontierUp$ packet
+passes through either the candidate boundary rows $C,K$ or the
+finished-normal boundary rows $E,N$. The displayed carrier
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+has no third positive normalization evidence surface: $H,R,P,L$ only
+transport, replay, package, and locally name one of the two boundary routes.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The carrier lists $C,K,E,N$ as
+the only positive normalization evidence rows, and
+\autoref{thm:metacic-normalization-frontier-namecert-obligations} assigns
+consumer reads to the candidate boundary or the finished-normal boundary.
+
+Use the candidate route and finished route theorems.
+\autoref{thm:metacic-normalization-frontier-candidate-route} routes
+candidate-facing consumers through $C,K,R,P,L$, while
+\autoref{thm:metacic-normalization-frontier-finished-route} routes
+finished-normal consumers through $E,N,R,P,L$.
+
+Finally apply consumer-route totality,
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality}, and
+non-escape, \autoref{thm:metacic-normalization-frontier-nonescape}. A route
+outside both positive boundaries has no carrier coordinate from which to read
+normalization evidence.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root candidate readback]
+\label{thm:metacic-normalization-frontier-root-candidate-readback}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, any root candidate consumer reads the candidate row
+$C$ and the closed-candidate row $K$ before it may read any finished-normal
+endpoint row. The consumer route is therefore rooted at $C,K,R,P,L$, not at
+the finished-normal pair $E,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The accepted packet is exactly
+$F=(C,K,E,N,S,H,R,P,L)$, and the local obligations assign candidate-facing
+reads to the candidate boundary before a finished-normal endpoint is exposed.
+
+Apply the candidate route
+\autoref{thm:metacic-normalization-frontier-candidate-route}. It routes
+candidate-facing consumers through $C,K,R,P,L$ and leaves $E,N$ as the
+separate finished-normal surface.
+
+Finally use consumer-route totality and non-escape. A root candidate read
+that bypasses $C,K$ or starts from $E,N$ has no carrier coordinate from which
+to read candidate evidence, so it is not a read of the accepted packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root obstruction retention]
+\label{thm:metacic-normalization-frontier-root-obstruction-retention}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, the obstruction row $S$ remains present under every
+candidate read through $C,K$ and every finished-normal read through $E,N$.
+Neither the endpoint row $E$ nor the normal row $N$ discharges $S$.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger
+\autoref{thm:metacic-normalization-frontier-obstruction-ledger}. It keeps
+$S$ as a displayed coordinate of the same packet as $C,K,E,N,H,R,P,L$.
+
+Use the candidate route and the finished route. The candidate route consumes
+$C,K,R,P,L$, while the finished route consumes $E,N,R,P,L$; neither route
+contains a discharge coordinate for subject-reduction obstruction.
+
+Apply the obstruction consumer lock and kernel non-escape. Since erased
+subject-reduction transport is outside the packet, $S$ remains visible under
+both positive evidence routes.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root normal endpoint handoff]
+\label{thm:metacic-normalization-frontier-root-normal-endpoint-handoff}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$F=(C,K,E,N,S,H,R,P,L)$, the normal endpoint row $N$ is exposed only after the
+finished-normal evidence row $E$ and only through the replay, provenance, and
+local-name rows $R,P,L$. A root consumer cannot read $N$ as a free-standing
+normalization endpoint.
+\end{theorem}
+\begin{proof}
+Project the finished route
+\autoref{thm:metacic-normalization-frontier-finished-route}. It routes
+finished-normal consumers through $E,N,R,P,L$ inside the same accepted packet.
+
+Use the public obligation package. Its handoff row assigns closed-normal
+consumer exposure to the displayed replay, provenance, and local naming rows,
+so $N$ is not available before $E$ or outside $R,P,L$.
+
+Finally apply non-escape. A free-standing read of $N$ would require a hidden
+blanket normalization coordinate, full closed consistency coordinate, or
+erased subject-reduction transport; none belongs to $F$.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction consumer lock]
+\label{thm:metacic-normalization-frontier-obstruction-consumer-lock}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the obstruction
+row $S$ remains visible to consumer routes and cannot be erased by reading
+either the candidate boundary $C,K$ or the finished-normal boundary $E,N$.
+The public route may transport $S$ through $H,R,P,L$, but it cannot replace
+$S$ by blanket strong normalization, full closed consistency, or erased
+subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger,
+\autoref{thm:metacic-normalization-frontier-obstruction-ledger}. It keeps
+$S$ as a separate coordinate in the same finite packet as $C,K,E,N,H,R,P,L$.
+
+Apply candidate and finished route exactness. The candidate route consumes
+$C,K$ and the finished route consumes $E,N$, but neither theorem discharges
+the separate obstruction coordinate.
+
+Use kernel non-escape and consumer-route totality.
+\autoref{thm:metacic-normalization-frontier-kernel-nonescape} excludes a
+hidden global theorem behind the public route, and
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality} leaves
+only the two positive evidence surfaces with $S$ still displayed.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obligation triad]
+\label{thm:metacic-normalization-frontier-obligation-triad}
+The public obligation surface of an accepted
+$\MetaCICNormalizationFrontierUp$ packet is the triad made of carrier
+admission for $F=(C,K,E,N,S,H,R,P,L)$, candidate-or-finished boundary
+totality through $C,K$ or $E,N$, and obstruction separation for $S$, with
+consumer handoff through the displayed rows $H,R,P,L$.
+
+This triad is the chapter's consumer-facing obligation surface. It does not
+claim blanket normalization, closed consistency, or erased subject reduction.
+\end{theorem}
+\begin{proof}
+First use the public obligation package,
+\autoref{thm:metacic-normalization-frontier-public-obligation-package}. It
+supplies carrier admission, candidate evidence, finished-normal evidence,
+closed-normal handoff, and obstruction separation for the displayed packet.
+
+Next apply
+\autoref{thm:metacic-normalization-frontier-candidate-finished-boundary-totality}.
+This packages the positive evidence side into the two available boundary
+routes, $C,K$ and $E,N$.
+
+Then apply
+\autoref{thm:metacic-normalization-frontier-obstruction-consumer-lock}. The
+obstruction row $S$ stays visible alongside those positive routes and is not
+erased by the handoff.
+
+Finally use non-escape,
+\autoref{thm:metacic-normalization-frontier-nonescape}. Since the packet has
+no coordinate for blanket normalization, closed consistency, or erased
+subject reduction, the triad is exactly the public obligation surface for
+downstream consumers.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier scope binding]
+\label{thm:metacic-normalization-frontier-scope-binding}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L),
+$$
+carrier admission, the candidate rows $C,K$, the finished-normal rows $E,N$,
+the obstruction row $S$, and the structural rows $H,R,P,L$ are scoped over the
+same $\BHist$ carrier, componentwise $\hsame$ transport, displayed $\Cont$
+route, $\Pkg$ provenance, and local $\NameCert$ row. No row may be read as a
+detached host normalization or closed-consistency object.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and the local NameCert obligations.
+\autoref{thm:metacic-normalization-frontier-carrier-admission-route} places
+$C,K,E,N,S,H,R,P,L$ inside one accepted packet, and
+\autoref{thm:metacic-normalization-frontier-namecert-obligations} reads the
+same rows as the local certificate surface.
+
+Next apply the public obligation triad. It keeps the candidate rows, the
+finished-normal rows, and the obstruction row on the same consumer-facing
+surface, while $H,R,P,L$ provide only transport, replay, provenance, and local
+naming.
+
+Finally use non-escape. Since no coordinate exports blanket strong
+normalization, closed consistency, erased subject reduction, or host
+normalization, every scoped read remains a read of the displayed BEDC packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consumer scope exhaustion]
+\label{thm:metacic-normalization-frontier-consumer-scope-exhaustion}
+Every closed-normal or consistency-facing consumer route for an accepted
+$\MetaCICNormalizationFrontierUp$ packet chooses either the candidate surface
+$C,K$ or the finished-normal surface $E,N$ before any structural handoff
+through $H,R,P,L$. A consumer route cannot bypass both positive evidence
+surfaces and still remain inside the packet.
+\end{theorem}
+\begin{proof}
+Use consumer-route totality from
+\autoref{thm:metacic-normalization-frontier-consumer-route-totality}. It lists
+the candidate and finished-normal routes as the available positive evidence
+surfaces for downstream reads.
+
+Then apply evidence-choice exhaustion and the candidate-finished boundary
+totality theorem. These results force the consumer to pick $C,K$ or $E,N$
+before the packet is replayed, packaged, or locally named.
+
+The bypass case is excluded by kernel non-escape. A route that avoids both
+positive surfaces would need a hidden blanket normalization, full closed
+consistency, or erased subject-reduction coordinate, and
+\autoref{thm:metacic-normalization-frontier-kernel-nonescape} gives no such
+coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier obstruction scope stability]
+\label{thm:metacic-normalization-frontier-obstruction-scope-stability}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the obstruction
+row $S$ remains a displayed obstruction row under componentwise transport by
+$H$ and under the structural replay, provenance, and local naming rows $R,P,L$.
+Transport may carry $S$ through the packet, but it cannot discharge $S$ as
+blanket strong normalization, full closed consistency, or erased
+subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Begin with obstruction retention,
+\autoref{thm:metacic-normalization-frontier-obstruction-retention}. It keeps
+$S$ as a separate row of the same finite frontier packet after the positive
+evidence surfaces are read.
+
+Use the obstruction consumer lock together with the scope-binding theorem
+above. The obstruction row is transported and named with the same structural
+rows as the rest of the packet, so componentwise transport preserves it as a
+displayed row rather than removing it.
+
+Finally apply non-escape. The carrier has no hidden coordinate that could turn
+$S$ into a global normalization or consistency proof, so obstruction stability
+is exactly stability of the displayed $S$ row.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier normal endpoint exhaustion]
+\label{thm:metacic-normalization-frontier-normal-endpoint-exhaustion}
+Every normal-endpoint consumer of an accepted $\MetaCICNormalizationFrontierUp$
+packet
+$$
+F=(C,K,E,N,S,H,R,P,L)
+$$
+factors through the candidate rows $C,K$, the finished-normal rows $E,N$, and
+the structural handoff rows $H,R,P,L$ before reading the normal endpoint row
+$N$. The consumer cannot bypass the obstruction row $S$, and no read of $N$
+exports blanket strong normalization, full closed consistency, or erased
+subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Begin with the candidate route and finished route.
+\autoref{thm:metacic-normalization-frontier-candidate-route} routes
+candidate-facing reads through $C,K,R,P,L$, while
+\autoref{thm:metacic-normalization-frontier-finished-route} routes endpoint
+reads through $E,N,R,P,L$.
+
+Next use consumer-route totality and the root normal endpoint handoff. These
+theorems force every normal-endpoint consumer onto the displayed positive
+surface before $N$ is available, and they keep $H,R,P,L$ as handoff rows rather
+than independent normalization evidence.
+
+Apply the obstruction ledger. The row $S$ remains a separate coordinate of the
+same packet and is not removed by the candidate route, the finished route, or
+the normal endpoint handoff.
+
+Finally invoke non-escape. A bypass of $S$ or a free-standing read of $N$ would
+require a hidden blanket normalization, closed-consistency, or erased
+subject-reduction coordinate, and the packet has none.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consistency consumer factorization]
+\label{thm:metacic-normalization-frontier-consistency-consumer-factorization}
+Every closed-normal consistency consumer of an accepted
+$\MetaCICNormalizationFrontierUp$ packet factors through either the candidate
+route $C,K,R,P,L$ or the finished route $E,N,R,P,L$ before reading the normal
+endpoint row $N$. The packet has no third consistency-facing route outside
+those two displayed surfaces.
+\end{theorem}
+\begin{proof}
+Start from consumer-route totality. It lists the candidate route and the
+finished route as the complete positive evidence alternatives available to a
+consumer of the accepted packet.
+
+Use the candidate-finished boundary totality theorem together with consumer
+scope exhaustion. A closed-normal consistency consumer must choose the
+candidate surface or the finished-normal surface before any structural replay,
+provenance, or local naming row can be read as part of the route.
+
+The normal endpoint row is then controlled by the root normal endpoint handoff
+and the scope-binding theorem. These results keep $N$ inside the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet instead of exposing
+it as an independent consistency witness.
+
+Finally apply kernel non-escape and the obstruction consumer lock. They rule
+out a hidden third route and keep the obstruction row $S$ visible alongside
+whichever positive surface the consumer selected.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier subject obstruction preservation]
+\label{thm:metacic-normalization-frontier-subject-obstruction-preservation}
+For every accepted $\MetaCICNormalizationFrontierUp$ packet, the
+subject-reduction obstruction row $S$ is preserved across both the candidate
+consumer route $C,K,R,P,L$ and the finished-normal consumer route $E,N,R,P,L$.
+Positive normalization evidence may expose candidate rows, finished-normal
+rows, and the normal endpoint row $N$, but it does not discharge $S$.
+\end{theorem}
+\begin{proof}
+Read the obstruction ledger and obstruction retention theorems. They keep $S$
+as a named row of the same packet and state that neither candidate evidence nor
+finished-normal evidence erases it.
+
+Next apply the candidate route and the finished route. These are the two
+positive consumer routes exposed by the packet, and both pass through the same
+structural rows $R,P,L$ without adding a discharge coordinate for $S$.
+
+Use consumer-route totality to exhaust the positive alternatives. Since every
+consumer route chooses $C,K$ or $E,N$, preservation across those two routes is
+preservation across the whole positive consumer surface.
+
+Finally invoke non-escape. Erased subject-reduction transport is not exported
+by the packet, so positive normalization evidence cannot turn the displayed
+obstruction row into a solved subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier root handoff scope]
+\label{thm:metacic-normalization-frontier-root-handoff-scope}
+Every root handoff from an accepted $\MetaCICNormalizationFrontierUp$ packet to
+a closed-normal consumer exposes exactly the carrier rows
+$$
+C,K,E,N,S,H,R,P,L
+$$
+through the displayed $\BHist$ history, componentwise $\hsame$ transport,
+$\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ certificate surface.
+No handoff row is available outside those five BEDC access layers.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. The carrier theorem names the
+nine rows of the packet, while the NameCert obligation theorem attaches the
+local naming certificate to the same rows rather than to an external
+normalization witness.
+
+Next use the root normal endpoint handoff and consumer-route totality. These
+results force a closed-normal consumer to read the packet through the displayed
+history and transport rows before any endpoint evidence can be consumed.
+
+Finally apply consistency-consumer factorization and subject-obstruction
+preservation. The positive route chosen by the consumer and the retained
+obstruction row are both still rows of the same $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ surface, so the handoff exposes no further coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier downstream boundary]
+\label{thm:metacic-normalization-frontier-downstream-normalization-boundary}
+Every downstream normalization consumer of an accepted
+$\MetaCICNormalizationFrontierUp$ packet must choose either the candidate route
+$C,K,R,P,L$ or the finished-normal route $E,N,R,P,L$. In both cases the
+subject-reduction obstruction row $S$ remains a displayed boundary row of the
+same packet.
+\end{theorem}
+\begin{proof}
+Apply consumer-route totality together with consistency-consumer
+factorization. These theorems list the candidate and finished-normal routes as
+the complete positive alternatives for a downstream normalization consumer.
+
+For the candidate side, use the candidate route theorem. It exposes $C,K$
+together with the structural rows $R,P,L$, and it does not read an independent
+endpoint proof.
+
+For the finished-normal side, use the finished route and normal endpoint
+exhaustion theorems. They expose $E,N$ through the same structural rows
+$R,P,L$ and keep the normal endpoint inside the packet.
+
+It remains to control the obstruction row. Subject-obstruction preservation
+states that both positive routes retain $S$, while non-escape rules out any
+consumer route that turns $S$ into an erased subject-reduction proof.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier open-problem ledger unblock]
+\label{thm:metacic-normalization-frontier-open-problem-ledger-unblock}
+The accepted $\MetaCICNormalizationFrontierUp$ packet unblocks the MetaCIC
+open-frontier ledger only as the finite boundary object
+$$
+(C,K,E,N,S,H,R,P,L).
+$$
+It does not assert blanket normalization, closed consistency, or discharged
+subject reduction beyond the displayed candidate route, finished-normal route,
+obstruction row, and BEDC handoff surface.
+\end{theorem}
+\begin{proof}
+Read the carrier theorem, NameCert obligations, and root handoff scope. They
+provide a finite packet with named rows and a local certificate interface for
+root consumers.
+
+Next apply downstream boundary and consistency-consumer factorization. Any
+normalization or consistency consumer must stay on the candidate route
+$C,K,R,P,L$ or the finished-normal route $E,N,R,P,L$.
+
+Finally use subject-obstruction preservation and non-escape. The obstruction
+row $S$ remains visible, and the packet has no row that exports blanket
+normalization, closed consistency, or erased subject-reduction transport.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier audit seal consumer route]
+\label{thm:metacic-normalization-frontier-audit-seal-consumer-route}
+Every MetaCICNormalizationAuditSeal-facing consumer of an accepted
+$\MetaCICNormalizationFrontierUp$ packet reads the same packet
+$F=(C,K,E,N,S,H,R,P,L)$ through the candidate rows $C,K$, the finished-normal
+rows $E,N$, the obstruction row $S$, the replay row $R$, the provenance row
+$P$, and the local naming row $L$. No such consumer obtains a blanket
+normalization source outside that displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. They expose exactly
+$C,K,E,N,S,H,R,P,L$ and attach audit-facing reads to the local certificate.
+
+Use the candidate route and the finished route. These route seal consumers
+through $C,K,R,P,L$ or $E,N,R,P,L$, and consumer-route totality exhausts the
+positive alternatives.
+
+Apply the obstruction ledger, obstruction consumer lock, and non-escape. The
+row $S$ remains visible, and no packet coordinate projects a blanket
+normalization source.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier closed-normal route boundary]
+\label{thm:metacic-normalization-frontier-closed-normal-route-boundary}
+Every ClosedNormalRouteCertificate-facing read of an accepted
+$\MetaCICNormalizationFrontierUp$ packet reaches the normal endpoint $N$ only
+after the finished-normal evidence row $E$ has been read through the displayed
+route $E,N,R,P,L$. The obstruction row $S$ remains a visible coordinate of the
+same packet throughout the read.
+\end{theorem}
+\begin{proof}
+Start from the finished route and normal endpoint exhaustion. They place the
+read of $N$ behind the finished-normal evidence row $E$ and the structural
+handoff rows $R,P,L$.
+
+Apply the NameCert obligations and consumer-route totality. The consumer reads
+the endpoint through the local certificate surface, not as a free-standing
+endpoint.
+
+Use the obstruction ledger, obstruction consumer lock, and non-escape. They
+keep $S$ visible and rule out a route that discharges the obstruction before
+$N$ is read.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier subject-reduction obstruction compatibility]
+\label{thm:metacic-normalization-frontier-subject-reduction-obstruction-compatibility}
+Every SubjectReductionBoundary-facing consumer of an accepted
+$\MetaCICNormalizationFrontierUp$ packet treats $S$ as a retained obstruction
+coordinate. Neither the candidate rows $C,K$ nor the finished-normal evidence
+rows $E,N$ discharge that obstruction.
+\end{theorem}
+\begin{proof}
+Project the carrier and obstruction ledger. The row $S$ is a named coordinate
+of the same finite packet as the positive evidence and handoff rows.
+
+Use the candidate route and the finished route. They expose the positive
+normalization surfaces $C,K,R,P,L$ and $E,N,R,P,L$, but neither route contains
+a subject-reduction discharge coordinate.
+
+Apply the obstruction consumer lock, consumer-route totality, and non-escape.
+Every SubjectReductionBoundary-facing read stays on a displayed packet route,
+so positive evidence cannot turn $S$ into a closed subject-reduction theorem.
+\end{proof}
+
+\falsifiablePrediction{If the frontier packet is accepted, any closed-normal consistency consumer route factors through either the candidate-evidence row or the finished-normal row; a route that bypasses both is outside the carrier.}
+\independenceWitness{metacic-open-frontier-ledger, metacicnormalizationaudit, metacicnormalizationauditseal, closednormalroutecertificate: the new packet is not bijective to any sibling because it carries the normalization frontier as an explicit obstruction-preserving coordinate rather than an audit report, a seal, a route certificate, or a mixed open-frontier inventory.}
+
+The Lean follow-up target is \texttt{lean4/BEDC/Derived/MetaCICNormalizationFrontierUp/TasteGate.lean}, with explicit \texttt{Nontrivial MetaCICNormalizationFrontierUp} and \texttt{FieldFaithful MetaCICNormalizationFrontierUp} instances.
+
+\closureat{MetaCICNormalizationFrontierUp}{seedStr}
+\closureat{MetaCICNormalizationFrontierUp}{obligationStr}
+\closureat{MetaCICNormalizationFrontierUp}{scopedStr}[BEDC.Derived.MetaCICNormalizationFrontierUp.taste\_gate]
+\closureat{MetaCICNormalizationFrontierUp}{publicStr}[BEDC.Derived.MetaCICNormalizationFrontierUp.taste\_gate]
+
+\begin{closurestatus}{\MetaCICNormalizationFrontierUp}
+  \constructivestory{A $\MetaCICNormalizationFrontierUp$ packet is generated from candidate evidence, closed-candidate evidence, finished-normal evidence, normal-endpoint use, subject-reduction obstruction, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-frontier-carrier}, \autoref{thm:metacic-normalization-frontier-namecert-obligations}, \autoref{thm:metacic-normalization-frontier-nonescape}, \autoref{thm:metacic-normalization-frontier-carrier-admission-route}, \autoref{thm:metacic-normalization-frontier-evidence-choice-exhaustion}, \autoref{thm:metacic-normalization-frontier-obstruction-retention}, \autoref{thm:metacic-normalization-frontier-obligation-closure-carrier-totality}, \autoref{thm:metacic-normalization-frontier-obligation-closure-evidence-split}, \autoref{thm:metacic-normalization-frontier-obligation-closure-obstruction-retention}, and the TasteGate marker \texttt{BEDC.Derived.MetaCICNormalizationFrontierUp.taste\_gate} at \autoref{def:metacic-normalization-frontier-carrier} bind the finite obstruction-preserving normalization frontier packet, the NameCert obligations, non-escape, carrier-admission route, evidence-choice exhaustion, obstruction-retention rows, obligation carrier totality, obligation evidence split, obligation obstruction retention, and singleton-carrier alignment site.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close blanket strong normalization for all empty-context typed closed MetaCIC terms, full closed consistency, erased subject-reduction transport, or a public standard bridge.}
+  \upgradepath{Bridged closure requires a bridge theorem for the same obstruction-preserving normalization frontier packet under \texttt{BEDC.Derived.MetaCICNormalizationFrontierUp}.}
+\end{closurestatus}

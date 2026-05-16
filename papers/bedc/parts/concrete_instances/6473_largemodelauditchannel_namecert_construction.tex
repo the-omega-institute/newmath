@@ -115,6 +115,24 @@ Apply \autoref{def:large-model-audit-channel-classifier}. Route and replay compa
 Use \autoref{thm:large-model-audit-channel-namecert-obligations} together with the existing TasteGate carrier alignment marker $\mathsf{BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment}$. The public replay route is therefore the finite audit-channel packet itself, with no hidden model state or global semantic truth exported.
 \end{proof}
 
+\begin{theorem}[LargeModelAuditChannel public route scope]
+\label{thm:large-model-audit-channel-public-route-scope}
+Every public consumer route for an accepted $\LargeModelAuditChannelUp$ packet
+$$
+A=(M,Q,O,C,R,U,V,H,K,P,N)
+$$
+reads $M,Q,O,C,R,U,V,H,K,P,N$ through the checker row, refusal row, audit membrane, displayed route and replay rows, provenance row, and local $\NameCert$ row. It cannot bypass the checker row, collapse refusal into output acceptance, or export hidden model intention, corpus-wide truth, host semantic understanding, private evaluator correctness, or unchecked output.
+\end{theorem}
+\begin{proof}
+First project the carrier and its local obligations by \autoref{thm:large-model-audit-channel-namecert-obligations}. The public packet is the displayed tuple $M,Q,O,C,R,U,V,H,K,P,N$, so no consumer route has a coordinate beyond those rows.
+
+Apply \autoref{thm:large-model-audit-channel-audited-output-boundary} and \autoref{thm:large-model-audit-channel-checker-exposure-obligation}. These results force every audited-output read to expose $C$ before $O$ is consumed through the audit membrane, excluding unchecked output and private evaluator replacement.
+
+Next use \autoref{thm:large-model-audit-channel-refusal-exactness-obligation}. The refusal row $R$ remains its own finite row attached to $Q,O,C$, so unsupported checker outcomes and rejected claims cannot be absorbed into output acceptance.
+
+Finally apply \autoref{thm:large-model-audit-channel-route-replay-obligation}. The consumer route factors through $U,V,K,P,N$, and the same replay surface excludes hidden model intention, corpus-wide truth, host semantic understanding, private evaluator correctness, and any continuation not displayed by the carrier.
+\end{proof}
+
 \falsifiablePrediction{If the checker row is absent, the packet cannot distinguish audited output from an unaudited model emission.}
 
 \independenceWitness{largemodelinscriptionpoint, inscriptionevent, inscription-acceptance-budget, auditmembrane, observerinterface: none is bijective because the audit-channel packet carries prompt, output, checker, refusal, route, provenance, and local NameCert rows together.}
@@ -123,16 +141,17 @@ The future Lean TasteGate namespace $\mathsf{BEDC.Derived.LargeModelAuditChannel
 
 \closureat{LargeModelAuditChannelUp}{seedStr}
 \closureat{LargeModelAuditChannelUp}{obligationStr}[BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment]
+\closureat{LargeModelAuditChannelUp}{scopedStr}[BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LargeModelAuditChannelUp}
   \constructivestory{A $\LargeModelAuditChannelUp$ packet is generated from a large-model inscription row, prompt row, output row, checker row, refusal row, audit membrane, displayed route, componentwise transport, replay, package provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.LargeModelAuditChannelUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:large-model-audit-channel-carrier}, \autoref{def:large-model-audit-channel-classifier}, \autoref{thm:large-model-audit-channel-namecert-obligations}, \autoref{thm:large-model-audit-channel-audited-output-boundary}, \autoref{thm:large-model-audit-channel-checker-exposure-obligation}, \autoref{thm:large-model-audit-channel-refusal-exactness-obligation}, and \autoref{thm:large-model-audit-channel-route-replay-obligation} specify the finite consumer-facing audit-channel packet and its checker, refusal, and route-replay obligations for large-model output records.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:large-model-audit-channel-carrier}, \autoref{def:large-model-audit-channel-classifier}, \autoref{thm:large-model-audit-channel-namecert-obligations}, \autoref{thm:large-model-audit-channel-audited-output-boundary}, \autoref{thm:large-model-audit-channel-checker-exposure-obligation}, \autoref{thm:large-model-audit-channel-refusal-exactness-obligation}, \autoref{thm:large-model-audit-channel-route-replay-obligation}, and \autoref{thm:large-model-audit-channel-public-route-scope} specify the finite consumer-facing audit-channel packet and its checker, refusal, route-replay, and public-route obligations for large-model output records.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.LargeModelAuditChannelUp.LargeModelAuditChannelTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close model consciousness, corpus truth, host semantic understanding, private evaluator correctness, global proof checking, Lean verification, or bridge checking for $\LargeModelAuditChannelUp$.}
-  \upgradepath{Scoped closure requires a public route theorem binding checker exposure, refusal exactness, membrane handoff, route replay, provenance, and local naming to the same audit-channel packet.}
+  \upgradepath{Public closure requires an explicit public-object surface for checker exposure, refusal exactness, membrane handoff, route replay, provenance, and local naming over the same audit-channel packet.}
 \end{closurestatus}

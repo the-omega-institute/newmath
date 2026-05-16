@@ -12,6 +12,33 @@ Use the local NameCert obligations and scoped dependency package, \autoref{thm:b
 
 Finally apply root extraction and root seal route exhaustion, \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-seal-route-exhaustion}. Those theorems identify every root consumer with the same finite packet, so the window route $S,F,\sigma,\mu,\lambda$ is the first extracted segment of the route.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_window\_extraction}
+
+\begin{theorem}[Bounded monotone Cauchy witness root window readiness]\label{thm:bounded-monotone-cauchy-witness-root-window-readiness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$, $\CauchyLimitSealUp$, or completion-facing seal consumer of $W$ must first read the displayed packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+as its explicit readiness surface. The prefix
+$$
+S,F,\sigma,\mu,\lambda
+$$
+is the readiness prefix, and the suffix
+$$
+I,Q,H,C,P,N
+$$
+is the seal suffix. The surface exports the bounded source row, regular rational handoff, scheduled window, tail modulus, dyadic ledger, located trap, Real seal row, transport, continuation, provenance, and local naming row, and it exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_window\_readiness}
+\begin{proof}
+First read the root window extraction row. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-window-extraction} forces every root-facing consumer through $S,F,\sigma,\mu,\lambda$ before any located trap, Real seal, transport, continuation, provenance, or naming suffix is available.
+
+Next read the tail-modulus ledger. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger} keeps every tail request on the displayed $\mu,\sigma,\lambda$ ledger, so the readiness prefix is not merely a carrier projection but the public tail-service surface consumed before a seal route can be read.
+
+Now pull the route back to the public criterion-tail boundary. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} identifies any such $\RealUp$, $\CauchyLimitSealUp$, or completion-facing consumer with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ packet displayed by $W$.
+
+Finally apply root Real-seal nonescape. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape} identifies the remaining rows as exactly $I,Q,H,C,P,N$. The accepted carrier has no coordinate for a selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection, so the displayed prefix and suffix together form the whole readiness surface consumed by Real-facing and completion-facing seal routes.
+\end{proof}
 
 \begin{theorem}[Bounded monotone Cauchy witness root tail modulus ledger]\label{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every root-facing tail request made to $W$ is ledgered by the displayed triple
@@ -49,6 +76,7 @@ Finally use the limit-seal handoff and the root Real-seal nonescape boundary. Th
 
 The resulting pullback is therefore exactly the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet displayed by the accepted carrier. Since this packet has no coordinate for selected limits, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection, none of those objects is available to the root-facing consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_criterion\_tail\_pullback}
 
 \begin{theorem}[Bounded monotone Cauchy witness root Real-seal nonescape]\label{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. The rows $I,Q,H,C,P,N$ hand off only the displayed packet
@@ -114,6 +142,29 @@ The accepted carrier has no further coordinate for selected limits, quotient rea
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_window\_seal\_synchronizer}
 
+\begin{theorem}[Bounded monotone Cauchy witness Real-seal selector exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-real-seal-selector-exhaustion}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Any $\RealUp$, $\CauchyLimitSealUp$, or completion-facing consumer that asks for a selector must factor through the displayed prefix
+$$
+S,F,\sigma,\mu,\lambda
+$$
+and the displayed suffix
+$$
+I,Q,H,C,P,N.
+$$
+After those rows are fixed, the accepted packet has no coordinate for a second selector, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First expose the selector prefix. Root window extraction and the root tail modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-window-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, place every root-facing selector request on $S,F,\sigma,\mu,\lambda$ and on the displayed $\mu,\sigma,\lambda$ tail ledger before any Real seal is read.
+
+Next pull the selector request back to the public tail boundary. The criterion-tail pullback \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} identifies the consumer with the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ route already displayed by the accepted packet.
+
+Then read the seal suffix. Root Real-seal nonescape and the window-meet route, \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape} and \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route}, identify the remaining rows as exactly $I,Q,H,C,P,N$ and exclude any unshown completion or choice service.
+
+Finally apply the root window seal synchronizer \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}. It binds the prefix and suffix into the single packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, so a consumer that asks for selector data has exhausted every selector-facing coordinate before the Real seal is read.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_real\_seal\_selector\_exhaustion}
+
 \begin{theorem}[Bounded monotone Cauchy witness window Real-seal pullback]
 \label{thm:bounded-monotone-cauchy-witness-window-real-seal-pullback}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer using the synchronized window factors through the displayed packet
@@ -131,6 +182,7 @@ Now use root Real-seal nonescape. Theorem~\ref{thm:bounded-monotone-cauchy-witne
 
 Finally apply the window-meet route and root window seal synchronizer. Theorems~\ref{thm:bounded-monotone-cauchy-witness-window-meet-route} and~\ref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer} combine the prefix and suffix into the single finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Since the accepted carrier has no further coordinate, every synchronized root-facing Real or limit-seal read factors through exactly that displayed BEDC packet.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_real\_seal\_pullback}
 
 \begin{theorem}[Bounded monotone Cauchy witness window completion pullback]
 \label{thm:bounded-monotone-cauchy-witness-window-completion-pullback}
@@ -140,6 +192,7 @@ S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
 $$
 The pullback is completion-facing only through the displayed bounded source row, regular rational handoff, scheduled window, tail modulus, dyadic ledger, located trap, Real seal, componentwise transport, continuation, package provenance, and local naming row. It exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_completion\_pullback}
 \begin{proof}
 Begin with root window extraction. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-window-extraction} places every root-facing completion read on the displayed prefix $S,F,\sigma,\mu,\lambda$ before the consumer can reach a seal or naming suffix.
 
@@ -171,6 +224,7 @@ Finally use the window completion pullback, \autoref{thm:bounded-monotone-cauchy
 
 Coordinate exhaustion of the accepted carrier now gives terminality. The carrier of \autoref{def:bounded-monotone-cauchy-witness-carrier} has exactly the displayed coordinates and has no coordinate for a selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, hidden tail selector, or choice-like tail service. Hence all completion-facing consumers of the synchronized route factor through exactly the displayed packet, and there is no further completion-facing datum through which they can factor.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_completion\_terminality}
 
 \begin{theorem}[Bounded monotone Cauchy witness Real-seal modulus determinacy]
 \label{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}
@@ -192,3 +246,154 @@ Finally use the window Real-seal pullback, window completion pullback, and windo
 Coordinate exhaustion of \autoref{def:bounded-monotone-cauchy-witness-carrier} completes the comparison. Since the two accepted packets agree in every displayed coordinate and the carrier has no coordinate for selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection, every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer reads the same finite Real-seal route from $W$ and $W'$.
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_real\_seal\_modulus\_determinacy}
+
+\begin{theorem}[Bounded monotone Cauchy witness monotone-source seal bridge]
+\label{thm:bounded-monotone-cauchy-witness-monotone-source-seal-bridge}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be the accepted $\MonotoneCauchyUp$ monotone source component read by $W$. Every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer of $W$ factors first through the monotone-source finite tail-window and cofinality handoff of $M$, then through the bounded-witness root window seal synchronizer for $W$, and finally through the bounded-witness Real-seal modulus determinacy route. The composed bridge is the displayed finite packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,
+$$
+with the monotone-source window rows $F,\sigma,\mu,\lambda,I,Q$ read before the bounded source row $S$ is allowed to expose any root-facing seal consumption. The bridge supplies no quotient real equality, selected representative, trichotomy, open-cover compactness, ambient completeness, host real equality, or choice-like tail selector.
+\end{theorem}
+\begin{proof}
+First read the monotone source through $M$. Theorem~\ref{thm:monotone-cauchy-window-tail-cofinality-handoff} forces any $\RealUp$ seal consumer using the monotone Cauchy source and a cofinal tail schedule through $F,\sigma,\mu,\lambda,I,Q$ before the seal row is readable, and it excludes quotient equality, selected representatives, host real order, ambient completeness, open-cover compactness, and choice.
+
+Next attach the bounded-witness root row. Theorem~\ref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer} synchronizes the bounded source prefix $S,F,\sigma,\mu,\lambda$ with the seal suffix $I,Q,H,C,P,N$ as one finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ route.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}. Once the monotone-source handoff and bounded-witness synchronizer have displayed the same rows, the tail-modulus packet uniquely determines the root-facing Real-seal readback. The accepted packets contain no additional coordinate for quotient real equality, selected representatives, trichotomy, open-cover compactness, ambient completeness, host real equality, or choice-like tail selection, so every root-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer factors through exactly the composed finite bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_monotone\_source\_seal\_bridge}
+
+\begin{theorem}[Bounded monotone Cauchy witness window seal completeness]
+\label{thm:bounded-monotone-cauchy-witness-window-seal-completeness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$ consumer, root-facing $\CauchyLimitSealUp$ consumer, or completion consumer that uses the synchronized window route factors through exactly the finite packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
+$$
+Conversely, every displayed window-seal read of that packet supplies the whole readiness surface for those consumers: bounded source, regular rational handoff, scheduled window, tail modulus, dyadic ledger, located trap, Real seal, componentwise $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ naming row. No selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, hidden tail selector, or choice-like tail service is part of the readiness surface.
+\end{theorem}
+\begin{proof}
+First build the finite route. The window-meet route and root window seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, identify the root window prefix $S,F,\sigma,\mu,\lambda$ with the seal suffix $I,Q,H,C,P,N$ as one packet.
+
+Next pass to the Real and completion boundaries. The window Real-seal pullback and window completion pullback, \autoref{thm:bounded-monotone-cauchy-witness-window-real-seal-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-window-completion-pullback}, make every root-facing $\RealUp$, root-facing $\CauchyLimitSealUp$, and completion read factor through that synchronized packet.
+
+Then use terminality. By \autoref{thm:bounded-monotone-cauchy-witness-window-completion-terminality}, the displayed coordinates are the terminal readiness packet for completion-facing and seal-facing consumers, so no consumer can require data outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Finally apply Real-seal modulus determinacy, \autoref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}. It states that componentwise agreement of the displayed packet determines the root-facing Real-seal readback, which gives the converse: reading the displayed window-seal packet supplies exactly the readiness surface used by the Real, limit-seal, and completion consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_seal\_completeness}
+
+\begin{theorem}[Bounded monotone Cauchy witness window readback stability]
+\label{thm:bounded-monotone-cauchy-witness-window-readback-stability}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ and $W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')$ be accepted $\BoundedMonotoneCauchyWitnessUp$ packets. Suppose the displayed rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ are preserved componentwise by $\hsame$ and that both packets replay the same displayed $\Cont$ window-seal route. Then every root-facing $\RealUp$, $\CauchyLimitSealUp$, or completion consumer reads the same window-seal readiness surface from $W$ and $W'$. The stability claim uses only the finite window-meet route, root window seal synchronizer, window Real-seal pullback, window completion pullback, terminality, and Real-seal modulus determinacy; it does not select limits, identify quotient reals, assert host equality, use trichotomy, invoke ambient completeness, appeal to open-cover compactness, or install choice-like tail services.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_readback\_stability}
+\begin{proof}
+First compose the shared window route. The window-meet route and root window seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, force both packets through the same displayed prefix and suffix under the assumed componentwise $\hsame$ transport and $\Cont$ replay.
+
+Next pull the read to the Real and completion boundaries. The window Real-seal pullback and window completion pullback, \autoref{thm:bounded-monotone-cauchy-witness-window-real-seal-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-window-completion-pullback}, make every root-facing $\RealUp$, $\CauchyLimitSealUp$, and completion consumer factor through the finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Finally apply terminality and Real-seal modulus determinacy. Theorem~\ref{thm:bounded-monotone-cauchy-witness-window-completion-terminality} leaves no completion-facing datum outside the displayed carrier, and Theorem~\ref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy} makes the componentwise-preserved window packet determine the Real-seal readback. The carrier has no coordinate for selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail services, so the readiness surface read from $W$ and $W'$ is the same.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness CauchyCriterion selector handoff]
+\label{thm:bounded-monotone-cauchy-witness-cauchycriterion-selector-handoff}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $K=(W_K,M,T,Q_K,E,H_K,C_K,P_K,N_K)$ be an accepted $\CauchyCriterionUp$ packet. Suppose the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows displayed by the two packets agree at the selector-seal boundary. Then every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, or completion-facing read of the bounded monotone window-seal packet factors through the same finite $\CauchyCriterionUp$ budget-selector surface
+$$
+M,\quad Q_K,\quad T,\quad W_K,\quad E,\quad H_K,\quad C_K,\quad P_K,\quad N_K
+$$
+before any $\RealUp$ seal is exposed. The handoff uses only the shared StreamName--RegSeqRat--DyadicRatCore--Real rows and the finite support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; it does not introduce quotient streams, selected limits, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selectors.
+\end{theorem}
+\begin{proof}
+First close the bounded monotone window packet. The window seal completeness and window readback stability theorems, \autoref{thm:bounded-monotone-cauchy-witness-window-seal-completeness} and \autoref{thm:bounded-monotone-cauchy-witness-window-readback-stability}, put every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, and completion-facing read of $W$ on the displayed finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Next expose the selector surface. The CauchyCriterion StreamName Real budget-selector boundary, \autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary}, makes every consumer sharing the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows read through $M,Q_K,T,W_K,E,H_K,C_K,P_K,N_K$ before selector output is exposed.
+
+Then use uniform selector-seal compatibility, \autoref{thm:cauchycriterion-uniform-selector-seal-compatibility}. It records that the selector-facing CauchyCriterion route and any matching seal route factor through the same finite StreamName--RegSeqRat--DyadicRatCore--Real surface with the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally match the shared boundary rows. By hypothesis the bounded monotone packet and the CauchyCriterion packet display the same four public rows at the selector-seal boundary, so the terminal window-seal read of $W$ must pass through the CauchyCriterion budget-selector packet before a $\RealUp$ seal is exposed. Neither accepted carrier has an extra completion coordinate, and the listed exclusions have no displayed row in either packet.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_cauchycriterion\_selector\_handoff}
+
+\begin{theorem}[Bounded monotone Cauchy witness window-seal readback completeness]
+\label{thm:bounded-monotone-cauchy-witness-window-seal-readback-completeness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. A current Phase Real or Completion readback through $\RealUp$, $\CauchyLimitSealUp$, or any completion-facing seal is complete exactly when it exposes the bounded source row $S$, regular rational handoff $F$, scheduled window $\sigma,\lambda$, tail modulus $\mu$, dyadic ledger, located trap $I$, Real seal $Q$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row $N$. Conversely, any accepted packet exposing those rows supplies the whole readback surface for the bounded monotone witness window. The statement excludes selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, and choice-like tail selection.
+\end{theorem}
+\begin{proof}
+First expose the bounded source prefix. The root window extraction and root tail modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-window-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, place every Phase Real or Completion read on $S,F,\sigma,\mu,\lambda$ and the dyadic tail ledger before a trap, seal, transport, route, provenance, or naming row can be read.
+
+Next pull the readback to the public seal boundary. The criterion-tail pullback and root Real-seal nonescape, \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}, identify the remaining surface as $I,Q,H,C,P,N$ rather than a selected limit or host completion object.
+
+The route is then synchronized as one finite packet. Apply the window-meet route and root window seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, to bind the source prefix, tail ledger, located trap, Real seal, transports, continuations, provenance, and local name into the same displayed $\BHist$ packet.
+
+For the forward direction, window completion terminality and Real-seal modulus determinacy, \autoref{thm:bounded-monotone-cauchy-witness-window-completion-terminality} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-modulus-determinacy}, leave no completion-facing or Real-facing coordinate outside the displayed rows. Thus a complete $\RealUp$, $\CauchyLimitSealUp$, or completion-facing read must expose exactly the listed surface.
+
+For the converse, start from an accepted packet exposing all listed rows. The CauchyCriterion selector handoff, \autoref{thm:bounded-monotone-cauchy-witness-cauchycriterion-selector-handoff}, supplies the selector-facing budget route before any Real seal is exposed, while the synchronized window packet supplies the completion-facing suffix. Since the carrier contains no row for selected limits, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection, these rows supply the whole readback surface.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_seal\_readback\_completeness}
+
+\begin{theorem}[Bounded monotone Cauchy witness root window terminal factorization]
+\label{thm:bounded-monotone-cauchy-witness-root-window-terminal-factorization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every root-facing $\RealUp$, $\CauchyLimitSealUp$, or completion consumer of $W$ factors through the single displayed root-window route
+$$
+S,\quad F,\quad \sigma,\quad \mu,\quad \lambda,\quad I,\quad Q,\quad H,\quad C,\quad P,\quad N.
+$$
+This route is the only completion-facing factorization surface for the accepted packet: any consumer preserving the bounded source, regular rational handoff, scheduled root window, tail modulus ledger, located trap, Real seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row preserves the same root-window readback. No selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector is part of the factorization.
+\end{theorem}
+\begin{proof}
+First build the root-window spine. Root window extraction and the root tail modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-window-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, put every root-facing read on the displayed bounded source, rational handoff, scheduled window, and tail modulus rows.
+
+Next pull the spine to the public seal boundary. Criterion-tail pullback and root Real-seal nonescape, \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}, force the located trap, Real seal, componentwise transports, continuation replay, provenance, and local naming row to remain attached to that same root route.
+
+Finally close the completion-facing side. Window completion terminality, \autoref{thm:bounded-monotone-cauchy-witness-window-completion-terminality}, says a completion consumer has no further route outside the displayed packet, and window-seal readback completeness, \autoref{thm:bounded-monotone-cauchy-witness-window-seal-readback-completeness}, identifies the whole exposed surface as $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Therefore every root-facing $\RealUp$, $\CauchyLimitSealUp$, or completion consumer factors through exactly this route, and the excluded objects have no carrier coordinate through which a second factorization could pass.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_window\_terminal\_factorization}
+
+\begin{theorem}[Bounded monotone Cauchy witness finite-window factorization package]
+\label{thm:bounded-monotone-cauchy-witness-window-factorization}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every $\RealUp$-facing or completion-facing read of $W$ factors through the finite prefix
+$$
+S,\quad F,\quad \sigma,\quad \mu,\quad \lambda
+$$
+and then through the finite suffix
+$$
+I,\quad Q,\quad H,\quad C,\quad P,\quad N.
+$$
+The prefix records the bounded source, regular rational handoff, scheduled root window, tail modulus ledger, and window selector. The suffix records the located trap, Real seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row. Thus any $\RealUp$, $\CauchyLimitSealUp$, RegSeqRat, StreamName, or completion-seal consumer preserving these eleven rows reads the same finite window package.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_window\_factorization}
+\begin{proof}
+First isolate the prefix. Root window extraction and the root tail-modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-window-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, place every source-facing and tail-facing read on $S,F,\sigma,\mu,\lambda$ before a located trap or Real seal can be exposed.
+
+Next bind the suffix to that same prefix. Criterion-tail pullback and root Real-seal nonescape, \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback} and \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}, keep the trap, seal, transport, continuation, provenance, and local naming rows attached to the displayed root window.
+
+The window-meet route and root window seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, identify the two halves as one finite $\BHist$ packet. The terminal factorization theorem, \autoref{thm:bounded-monotone-cauchy-witness-root-window-terminal-factorization}, then rules out any further completion-facing route outside these eleven rows.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness Real-seal route]
+\label{thm:bounded-monotone-cauchy-witness-real-seal-route}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. The $\RealUp$ seal of $W$ is readable only through the displayed finite route
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert_{\BoundedMonotoneCauchyWitnessUp}
+$$
+carried by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. This route excludes quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, and choice-like tail selection. In particular, a Real-seal consumer receives the finite BHist row, the componentwise hsame transports, the Cont replay, the Pkg provenance row, and the local NameCert row, and receives no additional real-completion witness.
+\end{theorem}
+\begin{proof}
+Start from root Real-seal nonescape, \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}. It says the Real-facing row cannot leave the finite root-window packet for a selected limit, a host equality judgment, or an ambient completion object.
+
+The window-meet route and window-seal synchronizer, \autoref{thm:bounded-monotone-cauchy-witness-window-meet-route} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-seal-synchronizer}, then display the seal route as the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support carried by $W$.
+
+Finally use terminal factorization, \autoref{thm:bounded-monotone-cauchy-witness-root-window-terminal-factorization}. Since the accepted packet has no coordinate for quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection, no Real-seal route can factor through those objects.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness modulus ledger exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-modulus-ledger-exhaustion}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. The modulus ledger $\mu,\sigma,\lambda$ is exhausted before either located-trap row $I$ or Real-seal row $Q$ is readable. Equivalently, every located-trap, Real-seal, $\CauchyLimitSealUp$, or completion-facing read first passes through the scheduled window and tail-modulus budget, and only then reaches $I,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The root tail-modulus ledger, \autoref{thm:bounded-monotone-cauchy-witness-root-tail-modulus-ledger}, records the selector and modulus rows $\sigma,\mu,\lambda$ as the finite budget consumed by the root window. Thus a trap or seal row cannot be read before that budget is displayed.
+
+Criterion-tail pullback, \autoref{thm:bounded-monotone-cauchy-witness-root-criterion-tail-pullback}, transports any criterion-facing tail read back to the same budget rows. Root Real-seal nonescape, \autoref{thm:bounded-monotone-cauchy-witness-root-real-seal-nonescape}, keeps the Real-seal side on the finite packet rather than on a selected limit or ambient completion object.
+
+The finite-window factorization package above and the terminal factorization theorem, \autoref{thm:bounded-monotone-cauchy-witness-window-factorization} and \autoref{thm:bounded-monotone-cauchy-witness-root-window-terminal-factorization}, identify every downstream read as a prefix read through $S,F,\sigma,\mu,\lambda$ followed by a suffix read through $I,Q,H,C,P,N$. Hence the modulus ledger is exhausted before the located-trap and seal rows are readable.
+\end{proof}

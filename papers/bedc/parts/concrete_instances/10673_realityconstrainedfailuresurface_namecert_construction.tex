@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\RealityConstrainedFailureSurfaceUp$}
+\label{ch:concrete-instances-realityconstrainedfailuresurface-namecert}
+\label{ch:concrete-instances-reality-constrained-failure-surface-namecert}
+\origin{ai}
+
+The $\RealityConstrainedFailureSurfaceUp$ packet realizes the failure-surface requirement of \autoref{sec:reality-constrained-synthesis} as a finite NameCert carrier. It sits between the audit row of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert} and the TruthCert packet of \autoref{ch:concrete-instances-reality-constrained-truth-cert-namecert}: those sibling chapters name the audit and truth-export surfaces, while this chapter isolates the finite row that records how a certified physical truth claim can be defeated.
+
+\begin{definition}[Reality-constrained failure-surface carrier]
+\label{def:reality-constrained-failure-surface-carrier}
+A $\RealityConstrainedFailureSurfaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,D,K,U,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite row of defeating observations and later observation traces;
+\item $D$ is the domain-exit row recording where the certified claim is no longer licensed;
+\item $K$ is the classifier-mismatch row comparing reality-facing and model-facing signatures;
+\item $U$ is the continuation-scope row naming the class over which the claim remains reusable;
+\item $L$ is the ledger row recording hidden compression, idealization, source loss, and packaging material relevant to the defeat;
+\item $H$ records componentwise $\hsame$ transport for $O,D,K,U,L,C,P,N$;
+\item $C$ records displayed $\Cont$ replay of the defeat, domain-exit, mismatch, continuation, and ledger reads;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, ledger, classifier, continuation-scope, and truth-export rows;
+\item $N$ is the local $\NameCert_{\RealityConstrainedFailureSurfaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unbounded confirmation, final model--reality identity, hidden classifier choice, unledgered defeat, or truth export outside the displayed failure row.
+\end{definition}
+\leandef{BEDC.Derived.RealityConstrainedFailureSurfaceUp.RealityConstrainedFailureSurfaceUp}
+
+\begin{theorem}[Reality-constrained failure-surface NameCert obligations]
+\label{thm:reality-constrained-failure-surface-namecert-obligations}
+For the carrier of \autoref{def:reality-constrained-failure-surface-carrier}, the local $\NameCert_{\RealityConstrainedFailureSurfaceUp}$ surface consists exactly of carrier admission, defeating-observation visibility, domain-exit visibility, classifier-mismatch visibility, continuation-scope visibility, ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(O,D,K,U,L,H,C,P,N)$. The first five rows expose the defeating observations, exits, mismatches, continuation scope, and ledger entries that can overturn a certified truth claim.
+
+Read the structural rows. Transport through $H$ preserves the displayed components, replay through $C$ keeps the consumer inside the same finite route, provenance through $P$ records the source of the failure row, and $N$ names the packet.
+
+Since the carrier has no additional coordinate, the listed rows exhaust the local NameCert surface. A purported failure certificate that omits one of them is a projection of the packet, not the accepted packet itself.
+\end{proof}
+
+\begin{theorem}[Reality-constrained failure-surface non-escape]
+\label{thm:reality-constrained-failure-surface-nonescape}
+Any truth export that depends on a defeating observation, domain exit, classifier mismatch, continuation boundary, or hidden ledger entry absent from
+$$
+O,D,K,U,L,H,C,P,N
+$$
+is rejected by the $\RealityConstrainedFailureSurfaceUp$ classifier. In particular, omitting the displayed failure row from a $\RealityConstrainedTruthCertUp$ export leaves no accepted route for certified physical truth.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:reality-constrained-failure-surface-namecert-obligations}. Defeat, exit, mismatch, continuation, and ledger reads are all projections from the same finite packet.
+
+If a truth export cites a defeat or exit not present in $O,D,K,U,L$, then the cited row is outside the carrier. The structural rows cannot add it: $\hsame$ transports displayed components, $\Cont$ replays displayed reads, and $\Pkg$ records provenance for the same packet.
+
+Thus the classifier rejects any export that omits the displayed failure row or replaces it by hidden host evidence. The certified truth route remains open exactly because the failure surface is retained.
+\end{proof}
+
+\begin{theorem}[Reality-constrained failure-surface continuation scope]
+\label{thm:reality-constrained-failure-surface-continuation-scope}
+For an accepted $\RealityConstrainedFailureSurfaceUp$ packet, continuation reuse is scoped by $U$ and replayed only through $C$. A consumer may transport the failure surface along $H$ and cite provenance through $P$, but it cannot extend the truth claim beyond the displayed continuation class or erase a listed defeat by moving to a different continuation route.
+\end{theorem}
+\begin{proof}
+Start from the continuation-scope row $U$ in the carrier. It is the only row that licenses reuse of the truth claim beyond the finite source trace.
+
+The replay row $C$ then determines how the defeat, domain-exit, mismatch, and ledger reads are consumed under that scope. Transport through $H$ preserves those rows componentwise; it does not create a wider continuation class.
+
+Finally apply non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. A consumer that moves outside $U$ or erases a listed defeat asks for a coordinate absent from the packet, so the accepted continuation scope is exactly the displayed one.
+\end{proof}
+
+\begin{theorem}[Reality-constrained failure-surface domain-export refusal]
+\label{thm:reality-constrained-failure-surface-domain-export-refusal}
+For an accepted $\RealityConstrainedFailureSurfaceUp$ packet $F=(O,D,K,U,L,H,C,P,N)$, any truth export that crosses the displayed domain-exit row $D$ or omits the classifier-mismatch row $K$ is rejected by the failure-surface classifier unless the same packet exposes the defeating observation row $O$, continuation-scope row $U$, ledger row $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance row $P$, and local $\NameCert_{\RealityConstrainedFailureSurfaceUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(O,D,K,U,L,H,C,P,N)$. The rows $D$ and $K$ are displayed coordinates, so a truth export that crosses $D$ or omits $K$ asks the classifier to ignore part of the accepted packet.
+
+Invoke the NameCert obligations of \autoref{thm:reality-constrained-failure-surface-namecert-obligations}. The defeating observation, continuation scope, ledger, transport, replay, provenance, and local naming rows are all part of the same finite surface; none may be supplied by a hidden host witness.
+
+Use the continuation-scope theorem \autoref{thm:reality-constrained-failure-surface-continuation-scope}. Reuse is licensed only through $U$ and replayed only through $C$, so crossing the domain-exit row cannot create a wider export route.
+
+Finally apply non-escape from \autoref{thm:reality-constrained-failure-surface-nonescape}. Hidden evidence outside $O,D,K,U,L,H,C,P,N$ is not a coordinate of the packet, and the classifier rejects the attempted export unless the full displayed defeat surface is exposed.
+\end{proof}
+
+\falsifiablePrediction{Any certified truth export that omits the displayed $\RealityConstrainedFailureSurfaceUp$ row $F=(O,D,K,U,L,H,C,P,N)$ is rejected by the reality-constrained truth classifier.}
+
+\independenceWitness{realityconstrainedmodelaudit, realityconstrainedtruthcert, openfitpacket, lawcertificate, realityconstrainedsynthesisseal: none is bijective to $\RealityConstrainedFailureSurfaceUp$ because the carrier isolates defeating observations, domain exits, classifier mismatches, continuation scope, ledger, componentwise transport, replay, provenance, and local naming as one finite failure packet.}
+
+Lean follow-up must provide \texttt{Nontrivial RealityConstrainedFailureSurfaceUp} and \texttt{FieldFaithful RealityConstrainedFailureSurfaceUp} instances in the future namespace \texttt{BEDC.Derived.RealityConstrainedFailureSurfaceUp} before this carrier is treated as an atomic Lean object.
+
+\closureat{RealityConstrainedFailureSurfaceUp}{seedStr}
+
+\begin{closurestatus}{\RealityConstrainedFailureSurfaceUp}
+  \constructivestory{A $\RealityConstrainedFailureSurfaceUp$ packet is generated from defeating observations, domain exits, classifier mismatches, continuation scope, ledger entries, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:reality-constrained-failure-surface-carrier}, \autoref{thm:reality-constrained-failure-surface-namecert-obligations}, \autoref{thm:reality-constrained-failure-surface-nonescape}, \autoref{thm:reality-constrained-failure-surface-continuation-scope}, \autoref{thm:reality-constrained-failure-surface-domain-export-refusal}, and \leanchecked{BEDC.Derived.RealityConstrainedFailureSurfaceUp.taste\_gate} bind the carrier, NameCert obligations, non-escape theorem, continuation-scope theorem, domain-export refusal, and TasteGate instance for the finite failure-surface packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, final model--reality identity, unbounded confirmation, hidden classifier choice, or truth export outside the displayed failure row.}
+  \upgradepath{Scoped closure requires checked carrier admission, defeating-observation visibility, domain-exit visibility, classifier-mismatch visibility, continuation-scope visibility, ledger exactness, transport, replay, provenance, and local naming over the same finite failure-surface packet.}
+\end{closurestatus}

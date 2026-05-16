@@ -274,20 +274,15 @@ theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
         (∀ x y : CauchyLimitWitnessLedgerUp,
           cauchyLimitWitnessLedgerToEventFlow x =
             cauchyLimitWitnessLedgerToEventFlow y → x = y) ∧
-          cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+            cauchyLimitWitnessLedgerEncodeBHist BHist.Empty = ([] : RawEvent) ∧
             cauchyLimitWitnessLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
               cauchyLimitWitnessLedgerDecodeBHist ([] : RawEvent) = BHist.Empty := by
-  constructor
-  · exact cauchyLimitWitnessLedgerDecode_encode_bhist
-  · constructor
-    · exact cauchyLimitWitnessLedger_round_trip
-    · constructor
-      · intro x y heq
-        exact cauchyLimitWitnessLedgerToEventFlow_injective heq
-      · constructor
-        · rfl
-        · constructor
-          · rfl
-          · rfl
+  exact
+    ⟨cauchyLimitWitnessLedgerDecode_encode_bhist,
+      cauchyLimitWitnessLedger_round_trip,
+      @cauchyLimitWitnessLedgerToEventFlow_injective,
+      rfl,
+      rfl,
+      rfl⟩
 
 end BEDC.Derived.CauchyLimitWitnessLedgerUp

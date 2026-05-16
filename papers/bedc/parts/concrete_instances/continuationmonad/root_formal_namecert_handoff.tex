@@ -26,6 +26,7 @@ $\mathsf{ContinuationMorphism}$ rows. The route is the finite continuation
 packet route; it is not host function composition, a quotient Kleisli arrow,
 an ambient category completion, or an external monad evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_hom\_carrier\_route}
 \begin{proof}
 Start with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It
 fixes the downstream formal handoff to the finite packet
@@ -46,6 +47,23 @@ source and ledger saturation results leave no additional coordinate for host
 composition, quotient Kleisli arrows, ambient category completion, external
 evaluators, or unlisted continuation generators, so the Category hom-carrier
 route is exactly the displayed continuation packet route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad Category hom readback correspondence]
+\label{thm:continuation-monad-category-hom-readback-correspondence}
+Any $\CategoryUp$ hom-carrier read consumed by the $\ContinuationMonadUp$ formal target is exactly the readback of the finite packet rows
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The correspondence is carried by the displayed $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows of the packet. It cannot be replaced by quotient Kleisli arrows, host-function composition, ambient category completion, an external monad evaluator, or an unlisted continuation generator.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_category\_hom\_readback\_correspondence}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It fixes the formal target handoff to the finite packet $A,B,C,f,g,u,H,K,L,N$ and names the Category hom-carrier and $\mathsf{ContinuationMorphism}$ rows as part of that packet.
+
+Next use \autoref{thm:category-continuationmonad-hom-carrier-route}. The Category hom-carrier exposure reaches the formal target only through the displayed $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings, so the Category-side readback is already the continuation packet readback.
+
+Finally compose with \autoref{thm:continuation-monad-formal-target-readback-exhaustion}. The formal target has no remaining coordinate for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or unlisted generators. Hence every consumed $\CategoryUp$ hom-carrier read corresponds exactly to the finite continuation packet rows.
 \end{proof}
 
 \begin{theorem}[ContinuationMonad formal target readback exhaustion]
@@ -80,6 +98,7 @@ row. It cannot obtain quotient Kleisli arrows, host-function composition,
 ambient category completion, external monad evaluators, or unlisted
 generators.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_formal\_route\_target\_exhaustion}
 \begin{proof}
 First apply
 \autoref{thm:continuation-monad-root-formal-namecert-handoff}. It fixes the

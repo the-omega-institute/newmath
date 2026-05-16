@@ -6,6 +6,7 @@ Z=(A,B,C,f,g,u,H,K,L,N),
 $$
 every root consumer reads the unit row and bind rows only through the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $K$, ledger row $L$, and local $\NameCert$ row $N$. No unit or bind reading is available as a host function, quotient Kleisli arrow, ambient monad evaluator, or continuation rule outside this finite packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_unit\_bind\_coverage}
 \begin{proof}
 Start with carrier admission from \autoref{thm:continuation-monad-carrier-obligation}. It identifies the accepted packet with exactly the displayed rows $A,B,C,f,g,u,H,K,L,N$.
 
@@ -18,6 +19,7 @@ Finally apply the root bind-unit boundary of \autoref{thm:continuation-monad-roo
 \label{thm:continuation-monad-root-kleisli-associativity-scope}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, Kleisli associativity at the root is scoped exactly by the displayed $\Cont$ rows in $K$, the componentwise $\hsame$ transports in $H$, the ledger row $L$, and the $\mathsf{CategoryHomCarrier}$ readings attached to $f,g,u$ over $A,B,C$. The associativity surface is therefore a finite BEDC route reading of $Z$, not a host composition law or quotient Kleisli equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_associativity\_scope}
 \begin{proof}
 Begin with \autoref{thm:continuation-monad-associativity}. The associativity row is recorded in $L$, transported by $H$, and read through the displayed $\Cont$ row $K$.
 
@@ -30,6 +32,7 @@ Now combine \autoref{thm:continuation-monad-root-kleisli-associativity-surface} 
 \label{thm:continuation-monad-root-downstream-generator-package}
 The downstream $\CategoryUp$ and generator-boundary consumers of an accepted $\ContinuationMonadUp$ packet receive exactly the finite package $A,B,C,f,g,u,H,K,L,N$ together with the displayed $\mathsf{CategoryHomCarrier}$ readings, generator-boundary refusal, $\Cont$ routes, $\hsame$ transports, ledger, provenance, and local naming rows. They receive no host function composition, quotient Kleisli arrow, ambient category completion, external evaluator, or unlisted continuation rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_downstream\_generator\_package}
 \begin{proof}
 First use \autoref{thm:continuation-monad-root-downstream-surface-exactness}. It identifies the downstream root surface with the category row, generator refusal row, carrier rows, classifier stability, ledger exactness, package provenance, and local $\NameCert$ row over $A,B,C,f,g,u,H,K,L,N$.
 
@@ -46,6 +49,7 @@ Z=(A,B,C,f,g,u,H,K,L,N),
 $$
 every terminal unit-bind read routes through the histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $K$, ledger row $L$, local $\NameCert$ row $N$, and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings. The terminal route is a finite BEDC packet route, not host function composition or quotient Kleisli equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_unit\_bind\_terminal\_route}
 \begin{proof}
 Start with the root unit-bind coverage of \autoref{thm:continuation-monad-root-unit-bind-coverage}. It identifies every root unit or bind read with the displayed rows $A,B,C,f,g,u,H,K,L,N$.
 
@@ -58,6 +62,7 @@ Finally use the downstream generator package of \autoref{thm:continuation-monad-
 \label{thm:continuation-monad-unit-bind-completion-nonescape}
 No accepted $\ContinuationMonadUp$ consumer can replace the unit-bind terminal route of \autoref{thm:continuation-monad-unit-bind-terminal-route} by host function composition, quotient Kleisli equality, ambient monad completion, or an evaluator outside the packet. Any such replacement would require a coordinate not present among $A,B,C,f,g,u,H,K,L,N$ or among the displayed $\mathsf{CategoryHomCarrier}$ and Kleisli rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_unit\_bind\_completion\_nonescape}
 \begin{proof}
 Use \autoref{thm:continuation-monad-root-consumer-nonescape}. It excludes host function composition, quotient Kleisli arrows, ambient category completion, external evaluators, and unlisted continuation rules from every root consumer route.
 
@@ -76,4 +81,57 @@ Begin with \autoref{thm:continuation-monad-root-downstream-generator-package}. I
 Use \autoref{thm:continuation-monad-unit-bind-terminal-route} to specialize that package to terminal unit-bind reads. The same rows supply the unit tail, bind tails, $\mathsf{CategoryHomCarrier}$ readings, and Kleisli route.
 
 Finally apply \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. The handoff therefore exports only the finite packet route and refuses host composition, quotient Kleisli equality, ambient completion, and external evaluators.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_unit\_bind\_kleisli\_consumer\_handoff}
+
+\begin{theorem}[ContinuationMonad unit-bind KernelMorphism compiler coherence]
+\label{thm:continuation-monad-unit-bind-kernelmorphism-compiler-coherence}
+Every $\KernelMorphismUp$ or $\CertificateCompilerUp$ consumer of an accepted $\ContinuationMonadUp$ unit-bind terminal route reads the same finite packet
+$$
+A,B,C,f,g,u,H,K,L,N
+$$
+and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli rows. Such a consumer cannot replace the route by host function composition, quotient Kleisli equality, ambient monad completion, or an external evaluator.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_unit\_bind\_kernelmorphism\_compiler\_coherence}
+\begin{proof}
+First apply root unit-bind coverage, \autoref{thm:continuation-monad-root-unit-bind-coverage}. It identifies every accepted unit or bind read with the displayed histories $A,B,C$, continuation tails $f,g$, unit tail $u$, transport row $H$, route row $K$, ledger $L$, and local naming row $N$.
+
+Next use the root downstream generator package of \autoref{thm:continuation-monad-root-downstream-generator-package}. This is the package available to downstream route consumers, so a kernel-morphism or compiler consumer receives the same displayed packet together with the category, generator, transport, ledger, provenance, and local naming rows.
+
+Apply the terminal route theorem \autoref{thm:continuation-monad-unit-bind-terminal-route}. The $\mathsf{CategoryHomCarrier}$ and Kleisli rows are attached to the same packet rather than to a host operation.
+
+Finally invoke completion nonescape, \autoref{thm:continuation-monad-unit-bind-completion-nonescape}. Host function composition, quotient Kleisli equality, ambient monad completion, and external evaluators are not coordinates of $A,B,C,f,g,u,H,K,L,N$, so the KernelMorphism and CertificateCompiler consumers preserve the displayed terminal route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root bind completion classifier]
+\label{thm:continuationmonad-root-bind-completion-classifier}
+For every completion-facing root read of an accepted $\ContinuationMonadUp$
+packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+the classifier surface is the same as the displayed unit-bind terminal route:
+histories $A,B,C$, continuation tails $f,g$, unit tail $u$, componentwise
+$\hsame$ row $H$, displayed $\Cont$ row $K$, ledger $L$, local $\NameCert$
+row $N$, and the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings.
+No completion-facing root consumer can reread the packet as host function
+composition, quotient Kleisli equality, ambient monad completion, or an
+external evaluator.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_bind\_completion\_classifier}
+\begin{proof}
+First use \autoref{thm:continuation-monad-unit-bind-terminal-route}. It fixes
+the unit-bind terminal route as the rows $A,B,C,f,g,u,H,K,L,N$ together with
+the attached $\mathsf{CategoryHomCarrier}$ and Kleisli readings.
+
+Next apply \autoref{thm:continuation-monad-unit-bind-completion-nonescape}.
+Any completion-facing root read that tried to use host composition, quotient
+Kleisli equality, ambient monad completion, or an external evaluator would
+require a coordinate outside the displayed packet.
+
+Finally use
+\autoref{thm:continuation-monad-unit-bind-kernelmorphism-compiler-coherence}.
+KernelMorphism and CertificateCompiler consumers preserve the same finite
+terminal route, so the completion-facing classifier surface is exactly the
+displayed unit-bind packet and the attached category and Kleisli readings.
 \end{proof}

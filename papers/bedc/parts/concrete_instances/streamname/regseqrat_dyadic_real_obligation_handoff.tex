@@ -1,0 +1,46 @@
+\section{StreamName RegSeqRat Dyadic Real obligation handoff}
+\label{sec:streamname-regseqrat-dyadic-real-obligation-handoff}
+
+\begin{theorem}[StreamName RegSeqRat Dyadic Real obligation handoff]
+\label{thm:streamname-regseqrat-dyadic-real-obligation-handoff}
+Let $U$ be an accepted L10 consumer whose four visible faces are a $\StreamNameUp$ finite window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, and a $\RealUp$ seal boundary. Then every carrier, classifier, stability, ledger, and non-escape obligation for $U$ factors through those four faces together with the displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ rows. No quotient stream equality, host sequence equality, selected limit, ambient completeness row, metric-completeness datum, or bridge row is exported by this handoff.
+\end{theorem}
+\begin{proof}
+First use open-phase terminal exactness, \autoref{thm:streamname-open-phase-terminal-seal-exactness}. It places every seal-facing L10 read on the ordered StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal route, with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next apply the terminal factorization and boundary theorems, \autoref{thm:streamname-real-regseq-terminal-factorization} and \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary}. They make the four-face route the consumer contract for seal reads and refuse quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, and bridge rows as alternate factors.
+
+Now use the DyadicRatCore window handoff supplied by \autoref{thm:streamname-dyadicratcore-window-anchor} and the Dyadic-RegSeq route factorization of \autoref{thm:streamname-dyadic-regseq-route-factorization}. These keep the observation ledger and readback row on the same finite StreamName window instead of on a detached host sequence or selected limit.
+
+Finally combine the ledger coverage of \autoref{thm:streamname-open-phase-terminal-ledger-coverage} with the public seal no-quotient boundary of \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}. The resulting surface is exactly the four visible faces and their displayed support rows, so carrier, classifier, stability, ledger, and non-escape obligations have no remaining source outside that handoff.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Dyadic Real obligation terminality]
+\label{thm:streamname-regseqrat-dyadic-real-obligation-terminality}
+Let $U$ be an accepted L10 consumer whose visible faces are exactly a $\StreamNameUp$ finite window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, and a $\RealUp$ seal boundary. Then the carrier, classifier, stability, ledger, and non-escape obligations form the terminal finite $\BEDC$ interface for that read. Every downstream consumer factors through the displayed $\BHist$ rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert$ rows; and two accepted presentations of the same read are the same whenever those rows agree componentwise. This terminal interface exports no quotient stream equality, host sequence equality, selected limit, ambient completeness row, metric-completeness datum, bridge row, trichotomy row, open-cover compactness row, or choice datum.
+\end{theorem}
+\begin{proof}
+Begin with the four-face obligation handoff of \autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. It already places the carrier, classifier, stability, ledger, and non-escape obligations on the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal boundary, supported only by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The terminal seal exactness of \autoref{thm:streamname-open-phase-terminal-seal-exactness} fixes the ordered route through those four faces. The Real-RegSeq factorization of \autoref{thm:streamname-real-regseq-terminal-factorization} and the seal-boundary theorem \autoref{thm:streamname-regseqrat-realup-terminal-seal-boundary} make any accepted downstream consumer read the same finite packet rather than a detached stream, host sequence, limit, completeness assertion, or bridge row.
+
+It remains to exclude an additional source row between the dyadic ledger and the regular-rational readback. Use the window anchor \autoref{thm:streamname-dyadicratcore-window-anchor} together with the Dyadic-RegSeq route factorization \autoref{thm:streamname-dyadic-regseq-route-factorization}. These results pin every observation and tolerance coordinate to the same finite StreamName window before the RegSeqRat and RealUp consumers can inspect it.
+
+Finally apply the ledger coverage theorem \autoref{thm:streamname-open-phase-terminal-ledger-coverage} and the public seal no-quotient boundary \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}. Coverage says every public coordinate of the packet is one of the displayed faces or support rows, while the no-quotient boundary excludes quotient stream equality, host sequence equality, selected limits, ambient completeness, metric-completeness data, and bridge rows as alternate public data.
+
+Trichotomy, open-cover compactness, and choice data are not among the displayed rows and cannot enter through any of the preceding terminal routes. Hence no fifth source row remains: every downstream consumer factors through the listed finite interface, and componentwise agreement of those rows identifies the two accepted consumer presentations.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Dyadic Real four-face exactness]
+\label{thm:streamname-regseqrat-dyadic-real-four-face-exactness}
+An accepted L10 seal-facing read is admissible exactly when its public carrier, classifier, stability, ledger, and non-escape obligations factor through the four displayed faces $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, together with the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Conversely, any packet with precisely those four faces and no quotient-stream, host-sequence, selected-limit, ambient-completeness, metric-completeness, bridge, trichotomy, open-cover compactness, or choice row supplies the admissible public interface for the same L10 seal-facing read.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with \autoref{thm:streamname-regseqrat-dyadic-real-obligation-handoff}. It places the carrier, classifier, stability, ledger, and non-escape obligations on the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal boundary.
+
+Apply \autoref{thm:streamname-regseqrat-dyadic-real-obligation-terminality} and \autoref{thm:streamname-open-phase-terminal-seal-exactness}. These make the same four faces terminal for the accepted read and keep every support coordinate among the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+It remains to exclude alternate public data. Use \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient} and \autoref{thm:streamname-dyadic-regseq-route-factorization}. The first refuses quotient streams, host sequence equality, selected limits, ambient completeness, metric-completeness data, and bridge rows; the second pins the dyadic ledger and regular-rational readback to the same finite StreamName route. Trichotomy, open-cover compactness, and choice rows have no coordinate in that route.
+
+For the reverse direction, suppose a packet displays exactly those four faces and support rows and contains none of the excluded rows. Repack the StreamName, RegSeqRat, DyadicRatCore, and RealUp coordinates through terminality. The no-quotient boundary supplies the non-escape clause, and the route factorization supplies the finite dyadic-readback ledger. The resulting packet is therefore the admissible public interface for the L10 seal-facing read.
+\end{proof}

@@ -1,0 +1,44 @@
+\begin{theorem}[MetaCIC normalization frontier candidate evidence totality]
+\label{thm:metacic-normalization-frontier-candidate-evidence-totality}
+Every accepted frontier candidate evidence route of a $\MetaCICNormalizationFrontierUp$ packet is read from the displayed $\BHist$ packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The route passes through the candidate evidence row $C$, the audit-facing evidence row $K$, the frontier seal row $S$, the normal-route rows $E,N$, componentwise $\hsame$ transports in $H$, displayed $\Cont$ routes in $R$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row $L$. No accepted candidate evidence route has a second source outside those rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier surface of \autoref{def:metacic-normalization-frontier-carrier}. It displays one finite $\BHist$ packet and assigns the candidate, audit-facing, seal, normal-route, transport, continuation, provenance, and local naming roles to $C,K,E,N,S,H,R,P,L$.
+
+Apply the NameCert obligations of \autoref{thm:metacic-normalization-frontier-namecert-obligations}. The candidate-evidence boundary forces candidate reads through $C,K$, the finished-normal boundary places $E$ before $N$, and the closed-normal handoff keeps the consumer route under the displayed replay and provenance rows.
+
+Use the obligation closure package and route surface. \autoref{thm:metacic-normalization-frontier-obligation-closure-carrier-totality} exhausts carrier admission by the displayed rows, while \autoref{thm:metacic-normalization-frontier-candidate-route} and \autoref{thm:metacic-normalization-frontier-kernel-nonescape} rule out a candidate route outside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierCarrier\_candidate\_evidence\_totality}
+
+\begin{theorem}[MetaCIC normalization frontier seal boundary]
+\label{thm:metacic-normalization-frontier-seal-boundary}
+In an accepted $\MetaCICNormalizationFrontierUp$ packet, a frontier seal cannot be replaced by a closed-normal route unless the candidate-evidence rows $C,K$ and the audit rows carried by the displayed $\BHist$ packet are already exposed. A closed-normal consumer may use the seal only through $S,H,R,P,L$ together with the normal-route rows $E,N$ and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the root carrier rows of \autoref{thm:metacic-normalization-frontier-root-carrier-rows}. A root consumer first receives the same finite packet $C,K,E,N,S,H,R,P,L$, so the frontier seal has no free-standing replacement coordinate.
+
+Apply the candidate and endpoint route theorems. \autoref{thm:metacic-normalization-frontier-root-candidate-gate-projection} exposes the candidate side through $C,K$, and \autoref{thm:metacic-normalization-frontier-root-normal-endpoint-route-exhaustion} exposes normal-endpoint use through $E,N,R,P,L$.
+
+It remains to keep the seal boundary visible. \autoref{thm:metacic-normalization-frontier-obstruction-ledger} and \autoref{thm:metacic-normalization-frontier-obstruction-retention} keep $S$ as a displayed row under $\hsame$ transport and $\Cont$ replay. Therefore the seal can participate in a closed-normal route only after the candidate-evidence and audit rows have already been displayed inside the same $\Pkg$ provenance and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier normal route non-escape]
+\label{thm:metacic-normalization-frontier-normal-route-nonescape}
+Normal-form consumers of an accepted $\MetaCICNormalizationFrontierUp$ packet cannot import host normalization, quotient term equality, or a hidden normalizer outside the displayed packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+Every normal-route read is confined to the candidate rows $C,K$, normal rows $E,N$, seal row $S$, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the non-escape theorem \autoref{thm:metacic-normalization-frontier-nonescape}. It excludes blanket strong normalization, full closed consistency, and erased subject-reduction transport from the accepted packet.
+
+Use the route theorems to identify the allowed normal-form path. \autoref{thm:metacic-normalization-frontier-finished-route} routes finished-normal consumers through $E,N,R,P,L$, and \autoref{thm:metacic-normalization-frontier-root-closed-normal-route-totality} exhausts closed-normal root routes by the candidate, endpoint, replay, provenance, local naming, and obstruction rows.
+
+Finally apply \autoref{thm:metacic-normalization-frontier-public-obligation-package} and \autoref{thm:metacic-normalization-frontier-closed-normal-route-boundary}. Their public and closed-normal surfaces expose only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, so host normalization, quotient term equality, and hidden normalizers have no accepted route into the packet.
+\end{proof}

@@ -193,7 +193,7 @@ instance certificateAuditGateBHistCarrier : BHistCarrier CertificateAuditGateUp 
   toEventFlow := certificateAuditGateToEventFlow
   fromEventFlow := certificateAuditGateFromEventFlow
 
-instance certificateAuditGateChapterTasteGate :
+private def certificateAuditGateChapterTasteGateConcrete :
     ChapterTasteGate CertificateAuditGateUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -204,16 +204,19 @@ instance certificateAuditGateChapterTasteGate :
     intro x y hxy heq
     exact hxy (certificateAuditGateToEventFlow_injective heq)
 
-instance certificateAuditGateFieldFaithful :
-    FieldFaithful CertificateAuditGateUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
-        continuation provenance name =>
-        [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
-          provenance, name]
-  field_faithful := by
+instance certificateAuditGateChapterTasteGate :
+    ChapterTasteGate CertificateAuditGateUp :=
+  certificateAuditGateChapterTasteGateConcrete
+
+private def certificateAuditGateFields : CertificateAuditGateUp -> List BHist
+  | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
+      continuation provenance name =>
+      [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+        provenance, name]
+
+private theorem certificateAuditGate_field_faithful :
+    forall x y : CertificateAuditGateUp,
+      certificateAuditGateFields x = certificateAuditGateFields y -> x = y := by
     -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
@@ -225,20 +228,36 @@ instance certificateAuditGateFieldFaithful :
             cases h
             rfl
 
-instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp where
+private def certificateAuditGateFieldFaithfulConcrete :
+    FieldFaithful CertificateAuditGateUp where
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CertificateAuditGateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CertificateAuditGateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  fields := certificateAuditGateFields
+  field_faithful := certificateAuditGate_field_faithful
+
+instance certificateAuditGateFieldFaithful :
+    FieldFaithful CertificateAuditGateUp :=
+  certificateAuditGateFieldFaithfulConcrete
+
+private def certificateAuditGateWitnessPair :
+    Σ' (x : CertificateAuditGateUp) (y : CertificateAuditGateUp), x ≠ y :=
+  ⟨CertificateAuditGateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    CertificateAuditGateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+    by
+      intro h
+      cases h⟩
+
+private def certificateAuditGateNontrivialConcrete : Nontrivial CertificateAuditGateUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair := certificateAuditGateWitnessPair
+
+instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp :=
+  certificateAuditGateNontrivialConcrete
 
 def taste_gate : ChapterTasteGate CertificateAuditGateUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  certificateAuditGateChapterTasteGate
+  certificateAuditGateChapterTasteGateConcrete
 
 theorem CertificateAuditGateTasteGate_single_carrier_alignment :
     (forall h : BHist,
@@ -260,11 +279,11 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact certificateAuditGateToEventFlow_injective heq
       · constructor
-        · exact ⟨certificateAuditGateChapterTasteGate⟩
+        · exact ⟨certificateAuditGateChapterTasteGateConcrete⟩
         · constructor
-          · exact ⟨certificateAuditGateFieldFaithful⟩
+          · exact ⟨certificateAuditGateFieldFaithfulConcrete⟩
           · constructor
-            · exact ⟨certificateAuditGateNontrivial⟩
+            · exact ⟨certificateAuditGateNontrivialConcrete⟩
             · rfl
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate

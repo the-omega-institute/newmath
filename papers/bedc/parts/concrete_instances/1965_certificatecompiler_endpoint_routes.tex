@@ -78,6 +78,38 @@ compiler packets.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_identity\_composite\_public\_boundary}
 
+\begin{theorem}[CertificateCompiler endpoint determinacy]
+\label{thm:certificate-compiler-endpoint-determinacy}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. If
+two accepted target endpoint routes for $K$ agree on the source row $S$, the
+compiler graph $G$, the landing row $E$, the classifier transport $H$, the
+continuation row $C$, the provenance row $P$, and the local name $N$, then
+they determine the same target certificate row $T$. No host compiler
+semantics, optimiser equality, ambient program equality, or unrecorded target
+behavior can create a second endpoint.
+\end{theorem}
+\begin{proof}
+First apply the target endpoint route theorem,
+\autoref{thm:certificate-compiler-target-endpoint-route}. It exhausts every
+route to $T$ by the displayed source, graph, landing, classifier transport,
+continuation, package, and local naming rows.
+
+Endpoint certificate availability,
+\autoref{thm:certificate-compiler-endpoint-certificate-availability}, supplies
+the target certificate as part of that displayed packet, and edge-classifier
+exactness, \autoref{thm:certificate-compiler-edge-classifier-exactness}, keeps
+graph edges tied to the same landing and classifier rows. Thus two accepted
+reads agreeing on $S,G,E,H,C,P,N$ have no further endpoint coordinate to vary.
+
+Now use the public consumer boundary,
+\autoref{thm:certificate-compiler-public-consumer-boundary}, together with
+\autoref{thm:certificate-compiler-identity-composite-public-boundary}. Public
+consumers, identities, binary composites, and triple composites remain on the
+same finite row surface. Since the packet contains no host compiler semantics,
+optimiser equality, ambient program equality, or unrecorded target behavior,
+the agreed displayed rows determine the same target certificate row $T$.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler downstream stage unblock package]
 \label{thm:certificate-compiler-downstream-stage-unblock-package}
 The target endpoint route of
@@ -130,6 +162,7 @@ Next apply the identity and composite public boundary of \autoref{thm:certificat
 
 Finally combine the downstream stage package of \autoref{thm:certificate-compiler-downstream-stage-unblock-package} with the $\KernelMorphismUp$ source-target scope named in \autoref{ch:concrete-instances-kernelmorphism-namecert}. The consumer-facing route is exactly the finite $\BHist$ handoff through $S,G,E,H,C,P,N$ together with the KernelMorphism graph-admission and classifier-lift rows, leaving optimiser correctness, decompiler correctness, and unrecorded target behavior outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_kernelmorphism\_route\_scope}
 
 \begin{theorem}[CertificateCompiler KernelMorphism decompiler boundary]
 \label{thm:certificate-compiler-kernelmorphism-decompiler-boundary}
@@ -142,6 +175,7 @@ Next apply the KernelMorphism route scope of \autoref{thm:certificate-compiler-k
 
 Finally apply the decompiler right-inverse non-escape boundary of \autoref{thm:decompiler-right-inverse-non-escape-boundary}. A downstream inverse consumer may read only the displayed compiler packet, decompiler graph, target optimisation row, right-inverse ledger, transport, continuation, provenance, and local naming rows. Combining the three non-escape clauses leaves no route to optimiser correctness, ambient program equality, host decompiler behavior, or target behavior absent from the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_kernelmorphism\_decompiler\_boundary}
 
 \begin{theorem}[CertificateCompiler target endpoint determinacy]
 \label{thm:certificate-compiler-target-endpoint-determinacy}
@@ -168,6 +202,18 @@ carrier exports no external compiler semantics or target behavior, so the
 fixed displayed rows determine the endpoint route.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_target\_endpoint\_determinacy}
+
+\begin{theorem}[CertificateCompiler endpoint-route pullback determinacy]
+\label{thm:certificate-compiler-endpoint-route-pullback-determinacy}
+Let a downstream route pass through $\CertificateCompilerUp$ into $\KernelMorphismUp$ and then into $\DecompilerRightInverseUp$. If two such routes have the same displayed source row, graph edge, landing row, classifier transport row, and $\Cont$ row, then their endpoint pullbacks are the same finite route through $S,G,E,H,C,P,N$. No host compiler semantics, optimiser correctness, ambient program equality, host decompiler function, or unrecorded target behavior can distinguish the pullbacks.
+\end{theorem}
+\begin{proof}
+First apply target endpoint determinacy, \autoref{thm:certificate-compiler-target-endpoint-determinacy}. Agreement of the displayed source row, graph edge, landing row, classifier transport row, and continuation row fixes the compiler endpoint route through $S,G,E,H,C,P,N$.
+
+Next use the KernelMorphism route scope, \autoref{thm:certificate-compiler-kernelmorphism-route-scope}. The morphism consumer can add only the graph-admission and classifier-lift rows licensed by $\KernelMorphismUp$, so it cannot separate two already fixed compiler endpoint routes.
+
+Finally apply the KernelMorphism decompiler boundary, \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}. The decompiler-facing leg remains on the displayed compiler packet and inverse-boundary rows, leaving no coordinate for host compiler semantics, optimiser correctness, ambient equality, host decompiler functions, or unrecorded target behavior.
+\end{proof}
 
 \begin{theorem}[CertificateCompiler route composition exactness]
 \label{thm:certificate-compiler-route-composition-exactness}
@@ -247,6 +293,7 @@ Now pass through the KernelMorphism route scope, \autoref{thm:certificate-compil
 
 Finally apply the KernelMorphism decompiler boundary, \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}, together with the decompiler right-inverse non-escape boundary of \autoref{thm:decompiler-right-inverse-non-escape-boundary}. A downstream inverse consumer therefore receives only the displayed compiler packet, the fixed KernelMorphism rows, and the inverse-boundary rows, with no coordinate for host compiler semantics, optimiser correctness, ambient equality, host decompiler functions, or unrecorded target behavior.
 \end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_endpoint\_decompiler\_handoff\_determinacy}
 
 \begin{theorem}[CertificateCompiler endpoint-composite determinacy]
 \label{thm:certificate-compiler-endpoint-composite-determinacy}

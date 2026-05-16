@@ -118,15 +118,16 @@ Use \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger} to exclude off-
 Finally repack with \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package}. That package is exactly the shared erased row, typing row, erasure route, compatibility row, audit stamp, transports, provenance, and local naming boundary. Therefore every downstream classifier consumer sees the same erased replay surface.
 \end{proof}
 
-\closureat{ProofTermErasureAuditRouteUp}{obligationStr}
+\closureat{ProofTermErasureAuditRouteUp}{scopedStr}[BEDC.Derived.ProofTermErasureAuditRouteUp.ProofTermErasureAuditRoute\_erased\_replay\_determinacy]
 
 \begin{closurestatus}{\ProofTermErasureAuditRouteUp}
   \constructivestory{A $\ProofTermErasureAuditRouteUp$ packet is generated from proof-term, erased-term, Ext typing, erasure Cont, subject-reduction compatibility, audit-stamp, hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:proofterm-erasure-audit-route-carrier}, \autoref{thm:proofterm-erasure-audit-route-namecert-obligations}, \autoref{thm:proofterm-erasure-audit-route-ext-membership-preservation}, \autoref{thm:proofterm-erasure-audit-route-erased-cont-replay}, \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger}, \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package}, and \autoref{thm:proof-term-erasure-audit-route-erased-replay-determinacy} define the finite audit-route surface and the downstream erased-replay determinacy boundary.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.ProofTermErasureAuditRouteUp.ProofTermErasureAuditRoute\_erased\_replay\_determinacy}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, host conversion, quotient term equality, proof irrelevance, normalization oracles, or public compiler correctness outside the displayed audit-route packet.}
-  \upgradepath{Scoped closure requires Ext-membership preservation, erased Cont replay, subject-reduction compatibility, audit-stamp exactness, and downstream package exactness to be collected as one closed audit-route surface.}
+  \upgradepath{Public export requires the erased replay audit surface to be packaged for downstream classifier and compiler consumers.}
 \end{closurestatus}

@@ -1,0 +1,203 @@
+\begin{theorem}[CauchyCriterion finite-window Real seal handoff]
+\label{thm:cauchy-criterion-finite-window-real-seal-handoff}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Every
+accepted finite-window budget-selector read of $K$ that is handed to a
+$\RealUp$-facing consumer, a $\CompletionUp$-facing consumer, a
+$\RealCauchyCompletionUp$-facing consumer, or a $\CauchyLimitSealUp$ consumer
+factors through the displayed route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp.
+$$
+The route reads the CauchyCriterion rows $M,Q,T,W,E$ before the consumer sees
+the selected finite window, the regular-rational readback, the dyadic
+tolerance ledger, the Real seal row, and the limit-seal boundary. Its support
+rows are precisely the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows carried by $H,C,P,N$.
+
+No accepted handoff exports a quotient stream, a selected limit, host real
+equality, a hidden tail oracle, ambient completeness, or a completion endpoint
+outside the displayed finite route.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_finite\_window\_real\_seal\_handoff}
+\begin{proof}
+Project the accepted CauchyCriterion carrier. The finite selector and budget
+rows of the chapter expose the route $M,Q,T,W,E$ together with the structural
+rows $H,C,P,N$; no consumer can read beyond those rows before the selector
+surface has been displayed.
+
+Next use the StreamName and RegSeqRat handoff route. The
+CauchyCriterion-to-StreamName theorem
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff} places the
+finite window, regular-rational readback, dyadic ledger, and Real seal on the
+same packet. The selector boundary
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary} then
+forces every finite-window budget-selector read through that route before a
+Real-facing or completion-facing consumer receives it.
+
+Now attach the completion and seal boundary. The completion-boundary theorem
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary} confines
+$\CompletionUp$ and $\RealCauchyCompletionUp$ consumers to the same
+$M,Q,T,W,E,H,C,P,N$ surface, while the StreamName CauchyLimitSeal pullback
+\autoref{thm:streamname-budget-cauchy-limit-seal-pullback} and the public
+CauchyLimitSeal route boundary
+\autoref{thm:cauchy-limit-seal-public-route-boundary} put the limit-seal
+consumer after the displayed StreamName window, RegSeqRat readback,
+DyadicRatCore tolerance ledger, and Real seal row.
+
+Finally apply the non-escape clauses of the cited boundaries. The carrier has
+no coordinate for quotient streams, selected host limits, host real equality,
+hidden tail oracles, ambient completeness, or an extra completion endpoint, so
+each accepted handoff factors through the displayed finite route and nowhere
+else.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion limit-seal route stability]
+\label{thm:cauchy-criterion-limit-seal-route-stability}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, and let
+$K'$ be any displayed replay of the same finite-window handoff that preserves
+the rows $M,Q,T,W,E,H,C,P,N$ through the visible $\BHist$ packet, componentwise
+$\hsame$ transports, and $\Cont$ replay. Then the replayed handoff preserves the
+same route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+No displayed replay of this route can substitute a quotient stream, hidden tail
+oracle, host real equality, selected limit, ambient completeness principle, or
+completion endpoint outside the rows already carried by $K$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_limit\_seal\_route\_stability}
+\begin{proof}
+Start with the finite handoff theorem. By
+\autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}, every accepted
+finite-window read of $K$ reaches the limit-seal boundary only through
+$M,Q,T,W,E,H,C,P,N$ and the displayed
+$\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp \to
+\CauchyLimitSealUp$ route.
+
+Next identify the route coordinates. The RegSeqRat and StreamName handoff
+\autoref{thm:cauchycriterion-regseqrat-streamname-realup-handoff} binds the
+regular readback to the StreamName window, while
+\autoref{thm:cauchycriterion-streamname-real-budget-selector-boundary} and
+\autoref{thm:cauchycriterion-tail-budget-real-completion-boundary} keep the
+budget selector and completion-facing reads on the same finite rows.
+
+Finally attach the seal side.
+\autoref{thm:streamname-budget-cauchy-limit-seal-pullback} pulls the seal read
+back to the StreamName budget surface, and
+\autoref{thm:cauchy-limit-seal-public-route-boundary} confines public
+CauchyLimitSeal consumption to that surface. Since $K'$ preserves exactly the
+displayed $\BHist$, $\hsame$, and $\Cont$ rows, carrier-coordinate exhaustion
+leaves no coordinate from which a quotient stream, hidden tail oracle, host
+real equality, selected limit, ambient completeness principle, or off-route
+completion endpoint could be read.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion Real L10 terminal-window sufficiency]
+\label{thm:cauchycriterion-real-l10-terminal-window-sufficiency}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet whose
+finite-window budget-selector read follows the route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+Then the same displayed rows $M,Q,T,W,E,H,C,P,N$, together with their visible
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, suffice to
+supply the Real L10 finite-window witness surface consumed by the public
+boundary.
+
+Conversely, any Real L10 public-boundary read sourced through $K$ recovers
+exactly the selector rows $M,Q,T,W,E,H,C,P,N$ and no additional coordinate. The
+sufficiency and recovery clauses exclude quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, metric-completeness
+rows, arithmetic packages, order packages, and bridge rows.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}. It
+places every accepted finite-window budget-selector read of $K$ on the
+displayed route and exposes the rows $M,Q,T,W,E,H,C,P,N$ before any Real-facing,
+completion-facing, or limit-seal consumer can read the packet.
+
+Next apply \autoref{thm:cauchy-criterion-limit-seal-route-stability}. The
+route remains fixed under displayed replay of the same $\BHist$, $\hsame$, and
+$\Cont$ rows, so the terminal-window read cannot be replaced by a quotient
+stream, hidden tail oracle, host equality row, selected limit, or completeness
+principle.
+
+Now attach the Real L10 boundary. The lattice budget cover
+\autoref{thm:streamname-regseqrat-realup-lattice-budget-cover} identifies the
+StreamName, RegSeqRat, DyadicRatCore, and Real seal faces as one finite route,
+with only the displayed support coordinates. Feeding that route into
+\autoref{thm:real-l10-finite-window-witness-determinacy} supplies exactly the
+finite-window witness surface consumed by the Real L10 public boundary.
+
+For the converse, start from a Real L10 public-boundary read sourced through
+$K$. By \autoref{thm:real-l10-source-route-exactness}, the boundary can be
+sourced only through the ordered finite-window route displayed by the Real L10
+lattice. Comparing this route with the CauchyCriterion handoff and its replay
+stability recovers precisely $M,Q,T,W,E,H,C,P,N$.
+
+The exclusion clause is inherited from the cited route and L10 boundary
+theorems. None of those packets carries quotient streams, host real equality,
+selected limits, countable choice, ambient completeness, metric-completeness
+rows, arithmetic packages, order packages, or bridge rows, so no such row can be
+introduced at the terminal public boundary.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion Real seal finite-route uniqueness]
+\label{thm:cauchy-criterion-real-seal-unique-finite-route}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ and
+$K'=(W',M',T',Q',E',H',C',P',N')$ be accepted $\CauchyCriterionUp$ packets.
+Suppose their public-boundary reads expose the same rows
+$M,Q,T,W,E,H,C,P,N$ through the same visible $\BHist$ packet, componentwise
+$\hsame$ transports, $\Cont$ replay, and matching $\Pkg$ and $\NameCert$
+coordinates. Then the two Real L10 public-boundary reads determine the same
+terminal finite route
+$$
+\StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \CauchyLimitSealUp .
+$$
+No quotient stream, host equality, selected limit, countable-choice row,
+ambient completeness principle, or bridge row can distinguish the two reads at
+the terminal public boundary.
+\end{theorem}
+\begin{proof}
+First expose the common route. By
+\autoref{thm:cauchy-criterion-finite-window-real-seal-handoff}, each accepted
+read reaches the Real and limit-seal boundary only through the displayed rows
+$M,Q,T,W,E,H,C,P,N$ and the finite route from $\StreamNameUp$ to
+$\CauchyLimitSealUp$.
+
+Next compare the two displayed reads under replay. The hypothesis identifies
+the visible $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+coordinates, so \autoref{thm:cauchy-criterion-limit-seal-route-stability} keeps
+both reads on the same replayed route rather than on two independently selected
+completion surfaces.
+
+Now attach the public Real face. The lattice budget cover
+\autoref{thm:streamname-regseqrat-realup-lattice-budget-cover} makes the
+StreamName, RegSeqRat, DyadicRatCore, and Real faces a single finite support
+surface. The Real L10 witness determinacy theorem
+\autoref{thm:real-l10-finite-window-witness-determinacy} then identifies the
+public-boundary witnesses carried by the two reads on that shared surface.
+
+Finally use source-route exactness. By
+\autoref{thm:real-l10-source-route-exactness}, a Real L10 public-boundary read
+has no source outside the ordered finite-window route already exposed by the
+CauchyCriterion handoff. Hence the two reads determine the same terminal finite
+route, and the absent rows listed in the statement have no coordinate from
+which a distinction could be read.
+\end{proof}

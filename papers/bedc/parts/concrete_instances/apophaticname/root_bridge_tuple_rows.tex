@@ -30,6 +30,7 @@ Finally use the sibling socket and gate boundaries already binding the chapter, 
 \label{thm:apophatic-name-refusal-readback-row}
 For an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, every accepted image-row read has a readback to the corresponding finite $\BHist$ component: $S$ reads back the socket, $R$ the request, $G$ the refusal decision, $L$ the refusal ledger, $H$ the componentwise transport, $C$ the route, $P$ the provenance, and $N$ the local $\NameCert_{\ApophaticNameUp}$ component. The readback does not convert the socket into an internal object or supplied dependency.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_refusal\_readback\_row}
 \begin{proof}
 Start with the carrier of \autoref{def:apophatic-name-carrier}. Each displayed coordinate of $S,R,G,L,H,C,P,N$ is finite $\BHist$ data or a public row over that data.
 
@@ -38,10 +39,45 @@ Use the refusal ledger theorem and exactness theorem, \autoref{thm:apophatic-nam
 The socket and gate boundaries, \autoref{thm:apophatic-name-socket-carrier}, \autoref{thm:apophatic-name-root-unblock-refusal-boundary}, and \autoref{thm:apophatic-name-boundary-request-image-row}, then exclude every readback path that would replace the displayed component by supplied content. Thus readback recovers the finite row and nothing beyond it.
 \end{proof}
 
+\begin{theorem}[ApophaticName boundary request tuple totality]
+\label{thm:apophatic-name-boundary-request-tuple-totality}
+For an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, every accepted boundary-request read has both its image row and its readback row inside the same displayed tuple. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ApophaticNameUp}$ row exhaust the consumer surface, so the read cannot escape to a supplied object, hidden theorem, quotient representative, generated witness, host datum, or closure principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_boundary\_request\_tuple\_totality}
+\begin{proof}
+Begin with the image and readback rows, \autoref{thm:apophatic-name-boundary-request-image-row} and \autoref{thm:apophatic-name-refusal-readback-row}. The image row confines each accepted boundary-request read to $S,R,G,L,H,C,P,N$, and the readback row returns each accepted image read to the corresponding finite $\BHist$ component of that tuple.
+
+Apply the componentwise transport row, \autoref{thm:apophatic-name-componentwise-namecert-transport-row}. It says that the local $\NameCert_{\ApophaticNameUp}$ component replays exactly those image and readback rows over the same displayed coordinates under $\hsame$ transport.
+
+It remains to account for the consumer surface. The continuation row $C$ supplies only replay through the displayed boundary-request tuple, the provenance row $P$ names the same finite packet, and the local naming row $N$ exports no additional object. Thus the tuple already contains every accepted image, readback, transport, replay, provenance, and naming row.
+
+The no-supplied-object conclusion follows because no coordinate of $A$ stores a supplied object, hidden theorem, quotient representative, generated witness, host datum, or closure principle. Any consumer request for such content therefore leaves the accepted tuple surface and is rejected at the refusal boundary.
+\end{proof}
+
+\begin{theorem}[ApophaticName refusal tuple bridge scope]
+\label{thm:apophatic-name-refusal-tuple-bridge-scope}
+Any bridge-facing consumer of an accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N)
+$$
+must preserve the image row, readback row, componentwise NameCert transport, refusal ledger, continuation route, package provenance, and local naming row together. The bridge scope exports no supplied object, hidden theorem, quotient representative, host datum, generated witness, or closure principle.
+\end{theorem}
+\begin{proof}
+Begin with the image and readback rows, \autoref{thm:apophatic-name-boundary-request-image-row} and \autoref{thm:apophatic-name-refusal-readback-row}. They place every accepted boundary-request image inside $S,R,G,L,H,C,P,N$ and return each accepted read to the corresponding finite $\BHist$ component.
+
+Use boundary-request tuple totality, \autoref{thm:apophatic-name-boundary-request-tuple-totality}. The continuation route, package provenance, and local naming row already exhaust the consumer surface, so a bridge-facing consumer receives the same finite refusal tuple rather than a separate boundary object.
+
+Apply componentwise NameCert transport, \autoref{thm:apophatic-name-componentwise-namecert-transport-row}. It replays the image and readback rows over the same displayed coordinates under $\hsame$ transport, preserving the refusal ledger, continuation route, package provenance, and local naming row together.
+
+Since the accepted tuple has no coordinate for a supplied object, hidden theorem, quotient representative, host datum, generated witness, or closure principle, the bridge scope cannot export any such object. It exports only the displayed refusal tuple and its componentwise transport route.
+\end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_refusal\_tuple\_bridge\_scope}
+
 \begin{theorem}[ApophaticName componentwise NameCert transport row]
 \label{thm:apophatic-name-componentwise-namecert-transport-row}
 For accepted $\ApophaticNameUp$ packets transported along the displayed componentwise $\hsame$ row $H$, the local $\NameCert_{\ApophaticNameUp}$ component replays the image and readback rows componentwise over $S,R,G,L,H,C,P,N$. The transport keeps the socket a public boundary component and never converts it into an internal object, supplied dependency, quotient representative, hidden theorem, host datum, or closure principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_componentwise\_namecert\_transport\_row}
 \begin{proof}
 Project the carrier from \autoref{def:apophatic-name-carrier}. The transport row $H$ is one coordinate of the same accepted packet as the socket, request, gate, ledger, continuation, provenance, and local NameCert rows.
 
@@ -69,6 +105,7 @@ Apply the obligation surface of \autoref{thm:apophatic-name-obligation-surface}.
 
 Componentwise $\hsame$ transport can therefore move only the displayed coordinates. Since $C$ and $P$ preserve the continuation and package provenance rows, and since $N$ remains the local naming row for that transported packet, no additional coordinate appears in which a supplied object, axiom, quotient representative, hidden theorem, or host-side realization could be stored.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_classifier\_stability}
 
 \begin{theorem}[ApophaticName source-refusal totality]
 \label{thm:apophatic-name-source-refusal-totality}
@@ -87,6 +124,7 @@ Use classifier stability from \autoref{thm:apophatic-name-classifier-stability}.
 
 Finally apply non-escape through \autoref{thm:apophatic-name-non-escape-certificate}. The displayed $\Cont$, $\Pkg$, and $\NameCert$ rows export the refusal surface but do not install an internal witness behind the socket.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_source\_refusal\_totality}
 
 \begin{theorem}[ApophaticName public boundary package]\label{thm:apophatic-name-public-boundary-package}
 For every accepted $\ApophaticNameUp$ packet
@@ -128,6 +166,7 @@ Use the socket citation scope from \autoref{thm:apophatic-name-socket-citation-s
 
 Apply source-refusal totality and the non-escape certificate, \autoref{thm:apophatic-name-source-refusal-totality} and \autoref{thm:apophatic-name-non-escape-certificate}. These rule out every route from the audit package to an internal witness or host-side closure object, leaving only the displayed refusal rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_refusal\_audit\_package}
 
 \begin{theorem}[ApophaticName refusal transport totality]
 \label{thm:apophatic-name-refusal-transport-totality}
@@ -165,6 +204,7 @@ Now apply refusal transport totality from \autoref{thm:apophatic-name-refusal-tr
 
 Finally use source-refusal totality and downstream refusal-ledger exhaustion, \autoref{thm:apophatic-name-source-refusal-totality} and \autoref{thm:apophaticname-downstream-refusal-ledger-exhaustion}. These exhaust the requested supply row, refusal ledger, continuation route, provenance, and local naming rows, leaving no socket route outside the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_socket\_gate\_route\_exhaustion}
 
 \begin{theorem}[ApophaticName downstream boundary consumption]
 \label{thm:apophatic-name-downstream-boundary-consumption}
@@ -252,6 +292,7 @@ A=(S,R,G,L,H,C,P,N),
 $$
 the socket row $S$, refusal gate $G$, and refusal ledger $L$ remain separate readable rows while being transported together by $H,C,P,N$. The gate records the refusal decision, the ledger records permitted reads and barred conversions, and the socket row remains the visible downstream handle; none of these rows is absorbed into another row or converted into supplied content.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_gate\_ledger\_separation}
 \begin{proof}
 Project $A$ through \autoref{def:apophatic-name-carrier}. The socket, request, gate, and ledger are distinct coordinates of the finite carrier, while $H,C,P,N$ are the displayed transport, replay, provenance, and local naming rows.
 

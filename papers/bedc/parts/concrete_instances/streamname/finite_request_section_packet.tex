@@ -67,6 +67,47 @@ streams, host sequence equality, selected limits, second dyadic sources, and
 ambient completion data from the packet.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section budget exactness]
+\label{thm:streamname-finite-request-section-budget-exactness}
+Every finite $\StreamNameUp$ request consumed by a $\RegSeqRatUp$ readback and
+then by a public $\RealUp$ seal uses one displayed budget section. Its rows
+are precisely the $\StreamNameUp$ finite-window rows, the
+$\DyadicRatCoreUp$ endpoint and radius budget rows, the $\RegSeqRatUp$
+regularity and readback rows, the $\RealUp$ seal rows, componentwise
+$\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert$ rows. Hence
+two Real-facing presentations over the same finite request cannot be
+distinguished by a second dyadic budget, a second regular-sequence source,
+quotient stream equality, a selected limit, host real equality, or any ambient
+completion coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-endpoint-finite-request-section}. This reads the
+Real-facing endpoint as a finite $\StreamNameUp$ section whose visible rows
+already include the endpoint, readback, budget, support, package, and naming
+coordinates.
+
+Next apply \autoref{thm:streamname-regseqrat-window-budget-section} to the
+same request. The $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ budget rows
+are not parallel witnesses; they are the readback and budget faces of the
+same displayed section packet.
+
+Now compose with
+\autoref{thm:streamname-regseqrat-real-budget-route-exactness}. The composed
+route identifies the four public faces $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$ together with the same componentwise $\hsame$,
+displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. Thus the Real-facing
+presentation is determined by that single finite budget section.
+
+Finally close the boundary with
+\autoref{thm:streamname-tail-compatible-window-nonescape} and
+\autoref{thm:streamname-regseqrat-real-budget-nonescape}. These non-escape
+clauses remove second budget sources, second regular-sequence sources,
+quotient stream equality, selected limits, host real equality, and ambient
+completion coordinates from the observation packet, so none can separate two
+presentations over the same finite request.
+\end{proof}
+
 \begin{theorem}[StreamName Real seal request section nonescape]
 \label{thm:streamname-real-seal-request-section-nonescape}
 Every finite StreamName request that reaches a $\RealUp$ seal through
@@ -97,6 +138,50 @@ budget boundary contains no coordinate for quotient stream equality, quotient
 Cauchy-presentation equality, selected limits, host real equality,
 metric-completeness data, or ambient completion. The finite-request section
 therefore reaches the Real seal only through the displayed rows.
+\end{proof}
+
+\begin{theorem}[StreamName finite-request section terminal coherence]
+\label{thm:streamname-finite-request-section-terminal-coherence}
+Let $Q$ and $Q'$ be accepted finite request sections for the current
+$\StreamNameUp$ Real-and-Completion route. Suppose that $Q$ and $Q'$ expose
+the same $\StreamNameUp$ finite window, the same $\DyadicRatCoreUp$ budget
+row, the same $\RegSeqRatUp$ readback row, the same $\RealUp$ seal boundary,
+and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ rows. Then $Q$ and $Q'$ determine the same terminal four-face
+route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+Conversely, every current terminal four-face route restricts to a finite
+request section with exactly those StreamName window, DyadicRatCore budget,
+RegSeqRat readback, RealUp seal, and displayed support rows. The coherence
+claim includes no quotient stream equality, host sequence equality, selected
+limit, ambient Real completeness, metric-completeness datum, countable-choice
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read each accepted section through
+\autoref{thm:streamname-finite-request-section-budget-exactness}. The budget
+row and the RegSeqRat readback row are not separate witnesses; they are faces
+of the same finite request section under the displayed support rows.
+
+Next apply
+\autoref{thm:streamname-real-seal-request-section-nonescape}. The Real seal
+cannot add quotient stream equality, Cauchy-presentation equality, selected
+limits, host equality, metric-completeness data, or ambient completion to the
+section.
+
+Use \autoref{thm:streamname-finite-section-classifier-determinacy} for the
+two sections. Since their StreamName window, DyadicRatCore budget, RegSeqRat
+readback, RealUp seal, and support rows agree, the carrier and classifier
+verdicts at the terminal route agree.
+
+Finally apply \autoref{thm:streamname-four-face-terminal-completeness}. Its
+forward direction identifies same-section reads with the terminal four-face
+route, and its converse restricts every current terminal route back to such a
+finite request section. The listed exclusions are exactly the coordinates
+absent from that terminal completeness surface.
 \end{proof}
 
 \begin{theorem}[StreamName finite-request terminal coherence]

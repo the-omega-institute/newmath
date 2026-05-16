@@ -29,6 +29,7 @@ The local classifier compares two accepted carriers only through the displayed s
 \label{thm:kernel-morphism-namecert-obligations}
 The local $\NameCert_{\KernelMorphismUp}$ surface for \autoref{def:kernel-morphism-carrier} has five finite obligations: expose the carrier $K=(S,T,G,E,L,H,C,P,N)$; admit only graph edges recorded by $E$ as source-to-target carrier edges; lift source classifier membership only through the displayed row $L$; transport graph, edge, and lift comparisons through $H$ and $C$; and exclude any export of a host compiler semantics, quotient of programs, ambient category law, or undisplayed target object.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier exposure is projection from the finite tuple. The source, target, graph, edge-admission, classifier-lift, transport, continuation, package, and local naming rows are all displayed coordinates.
 
@@ -117,6 +118,7 @@ Read the request through the displayed continuation route $C$. If it asks for th
 
 All other requests leave the carrier inventory. The NameCert obligations allow graph and classifier evidence only through $E$ and $L$, so a request for host compiler semantics, optimization, decompilation, quotient equality, or an undisplayed target object has no certificate row from which it can be exported.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_non\_escape}
 
 \begin{theorem}[KernelMorphism public export]
 \label{thm:kernel-morphism-public-export}
@@ -164,6 +166,7 @@ Apply public export and the existing compiler handoff to the repacked composite.
 
 Finally use non-escape. \autoref{thm:kernel-morphism-non-escape} blocks compiler semantics, quotient program equality, inverse data, and unnamed target objects, while the composition theorem itself asserts no ambient category law. Hence the composite handoff supplies the chained finite input and nothing stronger.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_composite\_compiler\_handoff\_boundary}
 
 \begin{theorem}[KernelMorphism scoped consumer packet]
 \label{thm:kernel-morphism-scoped-consumer-packet}
@@ -182,6 +185,7 @@ Transport-stability keeps these rows readable through $H$ and $C$. For composabl
 
 Finally apply non-escape and public export. They rule out host compiler semantics, quotient program equality, inverse data, and ambient category laws, leaving downstream consumers with exactly the scoped morphism packet.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_scoped\_consumer\_packet}
 
 \begin{theorem}[KernelMorphism source-target scope]
 \label{thm:kernel-morphism-source-target-scope}
@@ -276,12 +280,57 @@ Finally use the $\CertificateCompilerUp$ endpoint route \autoref{thm:certificate
 \label{thm:kernel-morphism-standard-reflection-bridge}
 The edge-admission, classifier-lift, transport-stability, composition-surface, public-export, source-lock, and $\NameCert$-scope rows assemble a standard reflection bridge for $\KernelMorphismUp$. The bridge reads only the finite packet rows $S,T,G,E,L,H,C,P,N$ and composable middle rows, and imports no host equality, host function space, compiler semantics, inverse data, or ambient category law.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_standard\_reflection\_bridge}
 \begin{proof}
 Start with edge admission and classifier lift, \autoref{thm:kernel-morphism-edge-admission-obligation} and \autoref{thm:kernel-morphism-classifier-lift-obligation}. These rows expose the source-to-target graph route and the classifier read without leaving the finite carrier.
 
 Transport stability and composition surface, \autoref{thm:kernel-morphism-transport-stability-obligation} and \autoref{thm:kernel-morphism-composition-surface}, supply the bridge replay and the composable middle-row surface.
 
 Finally apply the public export, source-lock, and $\NameCert$ scope theorems, \autoref{thm:kernel-morphism-public-export}, \autoref{thm:kernel-morphism-certificate-compiler-source-lock}, and \autoref{thm:kernel-morphism-namecert-scope}. They package the displayed rows as the bridge-facing public object and exclude host equality, host functions, compiler semantics, inverse data, and ambient category laws.
+\end{proof}
+
+\begin{theorem}[KernelMorphism CertificateCompiler route non-escape]
+\label{thm:kernel-morphism-certificatecompiler-route-nonescape}
+Every $\CertificateCompilerUp$-facing consumer of an accepted
+$\KernelMorphismUp$ packet
+$$
+K=(S,T,G,E,L,H,C,P,N)
+$$
+factors through the displayed source row $S$, target row $T$, graph row $G$,
+edge-lift and edge-admission row $E$, classifier-lift row $L$, componentwise
+$\hsame$ transport row $H$, displayed $\Cont$ route row $C$, $\Pkg$
+provenance row $P$, and local $\NameCert$ row $N$. The consumer may use the
+CertificateCompiler route only after those KernelMorphism rows have been
+read.
+
+In particular, the handoff cannot introduce a second compiler endpoint, host
+equality of kernels, hidden decompiler inverse, off-ledger reflection tuple,
+quotient program equality, or ambient category law.
+\end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_certificate\_compiler\_route\_nonescape}
+\begin{proof}
+Start with the CertificateCompiler handoff theorem,
+\autoref{thm:kernel-morphism-certificate-compiler-handoff}. It exposes the
+compiler-facing route only through the displayed KernelMorphism packet rows
+$S,T,G,E,L,H,C,P,N$.
+
+Next apply the source lock,
+\autoref{thm:kernel-morphism-certificate-compiler-source-lock}. It forces the
+compiler-facing consumer to read the source, target, graph, edge-admission,
+classifier-lift, transport, route, provenance, and local naming rows before
+the compiler endpoint can add any target landing data of its own.
+
+The standard reflection bridge of
+\autoref{thm:kernel-morphism-standard-reflection-bridge} repacks those same
+rows as the bridge-facing public object and imports no host equality, host
+function space, compiler semantics, inverse data, or ambient category law.
+
+Finally use the sibling CertificateCompiler route scope,
+\autoref{thm:certificate-compiler-kernelmorphism-route-scope}. It permits the
+morphism leg to contribute only the graph-admission and classifier-lift rows
+licensed by $\KernelMorphismUp$. Therefore no second compiler endpoint,
+hidden decompiler inverse, off-ledger reflection tuple, quotient program
+equality, or host equality of kernels has a route into the accepted handoff.
 \end{proof}
 
 \closureat{KernelMorphismUp}{seedStr}
@@ -294,7 +343,7 @@ Finally apply the public export, source-lock, and $\NameCert$ scope theorems, \a
 \begin{closurestatus}{\KernelMorphismUp}
   \constructivestory{A $\KernelMorphismUp$ packet is generated from source and target NameCert rows, a finite compiler graph, edge-admission and classifier-lift rows, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, \autoref{thm:kernel-morphism-public-export}, \autoref{thm:kernel-morphism-composition-scope}, \autoref{thm:kernel-morphism-namecert-scope}, \autoref{thm:kernel-morphism-scoped-edge-lift-consumer}, \autoref{thm:kernel-morphism-certificate-compiler-source-lock}, and \autoref{thm:kernel-morphism-standard-reflection-bridge} define the finite morphism-packet surface, its public export, compiler-facing source lock, and the bridge-facing consumer surface.}
+  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, \autoref{thm:kernel-morphism-public-export}, \autoref{thm:kernel-morphism-composition-scope}, \autoref{thm:kernel-morphism-namecert-scope}, \autoref{thm:kernel-morphism-scoped-edge-lift-consumer}, \autoref{thm:kernel-morphism-certificate-compiler-source-lock}, \autoref{thm:kernel-morphism-standard-reflection-bridge}, and \autoref{thm:kernel-morphism-certificatecompiler-route-nonescape} define the finite morphism-packet surface, its public export, compiler-facing source lock, route non-escape, and the bridge-facing consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

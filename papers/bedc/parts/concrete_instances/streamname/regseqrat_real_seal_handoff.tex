@@ -1,0 +1,30 @@
+\section{StreamName RegSeqRat Real seal handoff}
+\label{sec:streamname-regseqrat-real-seal-handoff}
+
+\begin{theorem}[StreamName RegSeqRat Real seal handoff]
+\label{thm:streamname-regseqrat-real-seal-handoff}
+Let $W$ be a finite-window packet accepted by $\StreamNameUp$. Suppose each point row of $W$ is certified by $\DyadicRatCoreUp$, adjacent windows satisfy the $\RegSeqRatUp$ regularity budget, and the displayed support rows are exactly the finite-window $\BHist$ rows, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\StreamNameUp}$ row. Then $W$ reaches the $\RealUp$ seal boundary through the existing finite-window route, the $\RegSeqRatUp$ pointwise handoff, and the Real completion sibling route. The handoff exports no quotient stream equality, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First read the finite-window packet through the hub routes. The finite-window budget and finite-request section rows expose the StreamName schedule, point rows, transport rows, continuation routes, package provenance, and local naming surface before any real-seal consumer is reached.
+
+Next apply the RegSeqRat pointwise handoff. The DyadicRatCore-certified point rows and the adjacent-window regularity budget place the packet inside the displayed $\RegSeqRatUp$ regularity ledger rather than inside quotient stream equality or a selected host sequence.
+
+Then compose with the Real completion sibling route. That route consumes the finite StreamName window and the RegSeqRat regularity ledger as the source face of the $\RealUp$ seal boundary.
+
+The non-escape statement follows from the visible coordinate list. Since the packet contains only finite-window rows, DyadicRatCore point certificates, RegSeqRat regularity rows, the RealUp seal face, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, it has no coordinate for quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real tail-section pullback]
+\label{thm:streamname-regseqrat-real-tail-section-pullback}
+Let $U$ and $V$ be two finite tail-section requests of the same accepted $\StreamNameUp$ packet. Suppose the point rows displayed by $U$ and $V$ are $\DyadicRatCoreUp$-certified, the adjacent windows in both requests satisfy the $\RegSeqRatUp$ budget, and each request reaches the $\RealUp$ seal boundary through the handoff of \autoref{thm:streamname-regseqrat-real-seal-handoff}. Then $U$ and $V$ determine the same seal-visible source exactly when their visible rows admit a common finite pullback over the displayed StreamName window, the DyadicRatCore endpoint and radius ledger, the RegSeqRat regularity and classifier rows, componentwise $\hsame$ transports, $\Cont$ replay rows, $\Pkg$ provenance, and the local $\NameCert_{\StreamNameUp}$ rows. This pullback exports no quotient stream equality, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply \autoref{thm:streamname-regseqrat-real-seal-handoff} to each request. The seal-visible source of either request is read only through the finite StreamName window, the DyadicRatCore point certificates, the RegSeqRat budget rows, the transport and replay rows, provenance, and local naming.
+
+Use the RegSeqRat common-window surface and the tail-selector rows to compare the two finite requests before the $\RealUp$ seal is read. Since the accepted StreamName packet is the same, the overlap is a pullback of displayed rows rather than a comparison of host sequences.
+
+For the reverse direction, start with the common finite pullback. Its projections recover the visible rows of $U$ and $V$, including the endpoint and radius ledger, regularity/classifier data, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Composing each projection with the seal handoff gives the same $\RealUp$ seal-visible source. The coordinate inventory excludes quotient stream equality, selected limits, host real equality, and ambient completeness, so equality at the seal is exactly the displayed finite pullback condition.
+\end{proof}

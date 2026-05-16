@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateBoundaryClassifierUp$}
+\label{ch:concrete-instances-twinsubstrateboundaryclassifier-namecert}
+\origin{ai}
+
+\falsifiablePrediction{A packet that identifies the two substrate roles without a displayed refusal ledger is not an accepted TwinSubstrateBoundaryClassifierUp carrier.}
+\independenceWitness{twinsubstratesynthesis, metacicauditmapfamily, groundcompilerflowlevelroundtrip, certificateauditgate, substitutionboundaryaudit: none is bijective because each lacks the simultaneous two-substrate role classifier plus shared refusal ledger carried here.}
+
+The $\TwinSubstrateBoundaryClassifierUp$ packet realizes the MetaCIC/GroundCompiler separation of \autoref{ch:twin-substrate-synthesis} as a finite role classifier rather than as a request router. It sits beside the architecture packet of \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert} and the request-level router of \autoref{ch:concrete-instances-twin-substrate-boundary-router-namecert}: those siblings name the cross-substrate architecture and its public routing discipline, while this chapter names the carrier that classifies the two substrate roles and records their shared refusal ledger before any consumer reads a boundary claim.
+
+\begin{definition}[Twin-substrate boundary-classifier carrier]
+\label{def:twin-substrate-boundary-classifier-carrier}
+A $\TwinSubstrateBoundaryClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,G,Q,L,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC substrate-role row, recording closed-CIC theorem inventory, proof-theoretic frontiers, substitution boundaries, and MetaCIC-side non-discharge clauses;
+\item $G$ is the GroundCompiler substrate-role row, recording compiler event-flow, recognizer, certificate, report, source-channel, and cannot-claim rows;
+\item $Q$ is the two-substrate classifier row, assigning each displayed boundary request to MetaCIC role data, GroundCompiler role data, paired-context data, or refusal data;
+\item $L$ is the shared refusal ledger, recording every forbidden conversion between compiler reports and proof evidence, between MetaCIC theorem rows and compiler-channel evidence, and between hidden host input and finite carrier data;
+\item $D$ is the downstream consumer row, exposing how a reader may use $Q$ and $L$ without collapsing $M$ and $G$;
+\item $H$ records componentwise $\hsame$ transports for the two role rows, classifier row, refusal ledger, downstream consumer row, continuation row, provenance, and local naming;
+\item $C$ records displayed $\Cont$ routes replaying $M,G,Q,L,D$ in finite order for boundary consumers;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, \autoref{ch:concrete-instances-twin-substrate-boundary-router-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateBoundaryClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for identifying MetaCIC and GroundCompiler as one substrate, converting reports into proof evidence, converting proof rows into compiler-channel evidence, or hiding refusal data outside the packet.
+\end{definition}
+\leanchecked{BEDC.Derived.TwinSubstrateBoundaryClassifierUp.TwinSubstrateBoundaryClassifierTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Twin-substrate boundary-classifier NameCert obligations]
+\label{thm:twin-substrate-boundary-classifier-namecert-obligations}
+For every accepted $\TwinSubstrateBoundaryClassifierUp$ carrier
+$$
+B=(M,G,Q,L,D,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateBoundaryClassifierUp}$ surface consists exactly of MetaCIC role readback through $M$, GroundCompiler role readback through $G$, two-substrate classification through $Q$, shared refusal-ledger accounting through $L$, downstream consumer exposure through $D$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The only substrate-role rows are $M$ and $G$, the only classifier row is $Q$, and the only shared refusal ledger is $L$.
+
+The classifier $Q$ assigns a boundary read to MetaCIC role data, GroundCompiler role data, paired-context data, or refusal data before any consumer can use the read. The ledger $L$ records the forbidden conversions for the same classification, so a role assignment is never separated from its refusal surface.
+
+The downstream row $D$ exposes only this classified and ledgered surface. Componentwise $\hsame$ transport in $H$ preserves the projected rows, while $\Cont$ replay in $C$ presents them in finite order.
+
+Finally $P$ records the twin-substrate provenance and $N$ binds the local certificate name. Since no other coordinate is present, these rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-classifier refusal discipline]
+\label{thm:twin-substrate-boundary-classifier-refusal-discipline}
+In every accepted $\TwinSubstrateBoundaryClassifierUp$ carrier, identifying a boundary read as MetaCIC-facing, GroundCompiler-facing, paired-context, or refused requires the same shared refusal ledger $L$. A packet that supplies the role classifier $Q$ but omits the displayed ledger $L$ is not an accepted carrier.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:twin-substrate-boundary-classifier-carrier}. The classifier row $Q$ and refusal ledger $L$ are separate displayed coordinates of the same finite packet.
+
+Apply the NameCert obligations of \autoref{thm:twin-substrate-boundary-classifier-namecert-obligations}. They require classifier readback and ledger accounting together before the local certificate surface is complete.
+
+If $Q$ is present without $L$, a consumer could identify a substrate role while losing the explicit record that blocks report-to-proof conversion, proof-to-compiler conversion, and hidden host input. That packet lacks one mandatory NameCert coordinate, so it is outside the accepted carrier class.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-classifier non-escape]
+\label{thm:twin-substrate-boundary-classifier-nonescape}
+Every public read exported by an accepted $\TwinSubstrateBoundaryClassifierUp$ carrier factors through the finite package
+$$
+M,G,Q,L,D,H,C,P,N .
+$$
+The export cannot collapse MetaCIC into GroundCompiler, collapse GroundCompiler into MetaCIC, replace the refusal ledger by prose, or route through a hidden host-level substrate classifier.
+\end{theorem}
+\begin{proof}
+Use the carrier projection. Every exported read begins with the two displayed role rows, then passes through the classifier and the shared refusal ledger.
+
+The downstream consumer row $D$ only exposes the classified and ledgered surface. It does not add a role coordinate, a hidden classifier, or a conversion witness between the two substrate roles.
+
+Transport, continuation, provenance, and naming preserve the same finite packet. Since the carrier contains no field for substrate collapse or host-level classification, no public read can export one.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-classifier public surface]
+\label{thm:twin-substrate-boundary-classifier-public-surface}
+The public surface of an accepted $\TwinSubstrateBoundaryClassifierUp$ carrier is exactly the finite export of the MetaCIC role row, GroundCompiler role row, two-substrate classifier, shared refusal ledger, downstream consumer row, transport row, continuation row, provenance row, and local naming row. Downstream audit readers may distinguish the two substrate roles through this packet, but only with the displayed refusal ledger carried alongside the classifier.
+\end{theorem}
+\begin{proof}
+Project the public carrier fields. The reader receives $M,G,Q,L,D,H,C,P,N$ and no further role or refusal coordinate.
+
+The classifier row $Q$ distinguishes MetaCIC-facing, GroundCompiler-facing, paired-context, and refused reads. The refusal ledger $L$ remains part of the same public surface, so every distinction carries the record of forbidden conversions.
+
+The consumer, transport, continuation, provenance, and naming rows expose this data to downstream audit readers. They preserve the two-substrate classification without turning it into an unledgered route or a single merged substrate.
+\end{proof}
+
+\closureat{TwinSubstrateBoundaryClassifierUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateBoundaryClassifierUp}
+  \constructivestory{A $\TwinSubstrateBoundaryClassifierUp$ packet is generated from MetaCIC and GroundCompiler substrate-role rows, a two-substrate classifier, a shared refusal ledger, a downstream consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-boundary-classifier-carrier}, \autoref{thm:twin-substrate-boundary-classifier-namecert-obligations}, \autoref{thm:twin-substrate-boundary-classifier-refusal-discipline}, \autoref{thm:twin-substrate-boundary-classifier-nonescape}, and \autoref{thm:twin-substrate-boundary-classifier-public-surface} bind the finite role classifier, shared refusal ledger, non-escape boundary, and public export surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close MetaCIC proof-theoretic frontiers, prove GroundCompiler self-hosting, certify compiler report soundness, provide the Lean TasteGate Nontrivial and FieldFaithful instances, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, role classification, refusal-ledger exactness, consumer exposure, public export exactness, transport, continuation, provenance, naming, and TasteGate Nontrivial and FieldFaithful instances for the same finite packet.}
+\end{closurestatus}

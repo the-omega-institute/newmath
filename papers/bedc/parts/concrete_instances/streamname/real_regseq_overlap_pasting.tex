@@ -222,3 +222,62 @@ quotient data, host index equality, and RealUp completeness rows have no
 carrier coordinate in either association, so the two pasted classifier
 surfaces are identical.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real finite-cover descent exactness]
+\label{thm:streamname-regseqrat-real-finite-cover-descent-exactness}
+Let $\{\mathcal{W}_i\}_{i\in I}$ be a finite family of certified
+$\StreamNameUp$ rational windows. Suppose every pairwise certified overlap
+has the unique source surface of
+\autoref{thm:streamname-real-regseq-overlap-unique-source}, and suppose the
+triple overlaps satisfy the cocycle compatibility witnessed by
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. Then the
+induced $\RegSeqRatUp$ handoffs and the finite-window $\RealUp$ seal rows
+descend to one cover-indexed finite surface.
+
+The descended surface is assembled only from the displayed $\BMark$ and
+$\BHist$ observations, selected $\mathsf{RatHistoryClassifier}$ rows,
+$\mathsf{ProbeBundle}$ ledger rows, $\mathsf{InBundle}$ membership rows,
+displayed $\hsame$ and $\Cont$ transports, consumed $\DyadicRatCoreUp$
+ledger rows, $\Pkg$ provenance, local $\NameCert$ rows, induced
+$\RegSeqRatUp$ handoff rows, and finite-window $\RealUp$ seal rows.
+Conversely, every row of that descended surface restricts on some certified
+window or certified overlap to exactly one local $\StreamNameUp$ row, one
+$\RegSeqRatUp$ dyadic-ledger row, or one finite-window $\RealUp$ seal row.
+
+No row of the construction is a quotient stream, host index equality, selected
+limit, countable-choice selector, metric-completeness datum, or ambient
+$\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the cover index set $I$. For a singleton
+cover, the claim is exactly
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}: the visible
+surface is exhausted by the local StreamName rows, the consumed dyadic ledger,
+and the finite RealUp seal rows, with no quotient, host, choice, or
+completeness coordinate.
+
+For the induction step, assume a descended finite surface has already been
+assembled over a finite subcover and adjoin one further certified window
+$\mathcal{W}$. On each certified overlap with the existing subcover, apply
+\autoref{thm:streamname-real-regseq-overlap-unique-source} to identify the
+StreamName source rows, then apply
+\autoref{thm:streamname-regseqrat-pointwise-seal-pasting} to paste the
+induced $\RegSeqRatUp$ handoff rows and finite-window $\RealUp$ seal rows
+across that common source.
+
+The result is independent of the order in which the new overlap faces are
+adjoined. Indeed, whenever three windows meet, the two possible iterated
+pastings have the same seal classifier surface by
+\autoref{thm:streamname-regseqrat-pasted-seal-associativity}. Thus the
+finite induction produces one cover-indexed surface rather than an
+order-indexed family of surfaces.
+
+It remains to read the rows of the descended surface back to local data. Use
+\autoref{thm:streamname-real-regseq-obligation-separation} to keep downstream
+regularity, seal, quotient, host, choice, and completeness data outside the
+StreamName source. Then use
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} on every
+window and overlap face. Each exported row is therefore a local StreamName
+row, a consumed RegSeqRat dyadic-ledger row, or a finite-window RealUp seal
+row on a certified member of the cover, as required.
+\end{proof}

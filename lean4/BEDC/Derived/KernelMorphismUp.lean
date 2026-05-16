@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -553,5 +555,46 @@ theorem KernelMorphismCarrier_namecert_scope [AskSetup] [PackageSetup]
     ⟨sourceReadUnary, targetReadUnary, graphReadUnary, edgeReadUnary, liftReadUnary,
       transportReadUnary, routesReadUnary, provenanceReadUnary, certReadUnary,
       sourceGraphEdge, edgeLiftTarget, transportRoutesProvenance, provenancePkg, certPkg⟩
+
+theorem KernelMorphismCarrier_standard_reflection_bridge [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport routes provenance cert bridgeRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source target graph edgeAdmission classifierLift transport routes
+        provenance cert bundle pkg → Cont source target bridgeRead → PkgSig bundle bridgeRead pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row bridgeRead ∧ KernelMorphismCarrier source target graph edgeAdmission
+            classifierLift transport routes provenance cert bundle pkg)
+        (fun row : BHist =>
+          Cont source graph edgeAdmission ∧ Cont edgeAdmission classifierLift target ∧
+            Cont source target bridgeRead ∧ hsame row bridgeRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg ∧
+            PkgSig bundle bridgeRead pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont PkgSig
+  intro carrier sourceTargetBridge bridgePkg
+  have carrierPacket := carrier
+  obtain ⟨sourceUnary, targetUnary, _graphUnary, _edgeUnary, _liftUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _certUnary, sourceGraphEdge, edgeLiftTarget,
+    _transportRoutesProvenance, provenancePkg, certPkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed sourceUnary targetUnary sourceTargetBridge
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, carrierPacket⟩
+      equiv_refl := by intro row _sourceRow; exact hsame_refl row
+      equiv_symm := by intro row row' sameRows; exact hsame_symm sameRows
+      equiv_trans := by intro row row' row'' sameLeft sameRight; exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro row sourceRow; exact ⟨sourceGraphEdge, edgeLiftTarget, sourceTargetBridge, sourceRow.left⟩
+    ledger_sound := by
+      intro row sourceRow; exact ⟨unary_transport_symm bridgeUnary sourceRow.left, provenancePkg, certPkg, bridgePkg⟩
+  }
 
 end BEDC.Derived.KernelMorphismUp

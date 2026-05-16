@@ -57,3 +57,140 @@ Next use transport replay. \autoref{thm:diagonal-limit-compatibility-root-transp
 
 Finally apply consumer coverage. \autoref{thm:diagonal-limit-compatibility-root-consumer-coverage} exhausts every $\RealUp$-facing or completion-facing consumer by the same five sibling handoffs and the same structural rows. Since the carrier contains no quotient stream, selected limit, host real equality, ambient completeness, or second completion witness, every such consumer is equivalent to the finite L10 spine and nothing beyond it.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root selector pullback]
+\label{thm:diagonal-limit-compatibility-root-selector-pullback}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any root selector route for $K$ is the pullback, along the structural rows $H,C,P,N$, of the displayed $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback $Q$, $\RealUp$ seal row $L$, and $\CauchyLimitSealUp$ boundary carried by $S$. No quotient stream, selected limit, host equality, ambient completeness principle, or second selector source can factor through the same consumer.
+\end{theorem}
+\begin{proof}
+Start with root readback exactness. \autoref{thm:diagonal-limit-compatibility-root-readback-exactness} identifies the selector-facing route with the five concrete L10 certificate surfaces carried by $W,D,Q,L,S$, and records the structural rows through which the route is read.
+
+Transport the route next. \autoref{thm:diagonal-limit-compatibility-root-transport-replay} shows that componentwise $\hsame$ movement and displayed $\Cont$ replay preserve exactly the same root readback route, so pulling back along $H,C,P,N$ does not introduce a new selector coordinate.
+
+Finally apply consumer coverage and spine exhaustion. \autoref{thm:diagonal-limit-compatibility-root-consumer-coverage} limits every admissible consumer to the displayed sibling handoffs and structural rows, while \autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion} excludes quotient streams, selected limits, host real equality, ambient completeness, and any second completion witness. Hence every root selector route factors as the stated pullback and no second selector source reaches the same consumer.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorPullback}
+
+\begin{theorem}[Diagonal-limit compatibility root selector terminality]
+\label{thm:diagonal-limit-compatibility-root-selector-terminality}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any root selector route
+for $K$ that reaches a $\RealUp$-facing or completion-facing consumer is
+terminal among the displayed routes: if two admissible selector reads agree on
+the $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$
+readback $Q$, $\RealUp$ seal $L$, $\CauchyLimitSealUp$ boundary carried by
+$S$, and structural rows $H,C,P,N$, then they determine the same public
+consumer endpoint. No quotient stream, selected host limit, host real equality,
+ambient completeness coordinate, alternate Cauchy witness, or second selector
+source creates another endpoint.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorTerminality}
+\begin{proof}
+First identify the selector readback. By
+\autoref{thm:diagonal-limit-compatibility-root-readback-exactness}, every
+root-facing read travels through the displayed StreamName window, RegSeqRat
+readback, DyadicRatCore ledger, RealUp seal row, CauchyLimitSeal boundary, and
+structural rows of the packet.
+
+Next replay the same rows under transport. The transport replay theorem,
+\autoref{thm:diagonal-limit-compatibility-root-transport-replay}, preserves
+the displayed route under componentwise $\hsame$ movement and $\Cont$ replay,
+so an admissible selector read cannot gain a new coordinate while moving along
+$H,C,P,N$.
+
+Now exhaust the consumer boundary. Consumer coverage,
+\autoref{thm:diagonal-limit-compatibility-root-consumer-coverage}, lists the
+only rows visible to $\RealUp$-facing and completion-facing consumers, and
+\autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion} identifies
+that list with the finite L10 spine.
+
+Finally apply the selector pullback theorem,
+\autoref{thm:diagonal-limit-compatibility-root-selector-pullback}. Since both
+reads pull back from the same five sibling handoffs along the same structural
+rows, they land at the same public consumer endpoint, with all host-side,
+quotient, choice, completeness, and alternate-witness routes absent.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root selector uniqueness]
+\label{thm:diagonal-limit-compatibility-root-selector-uniqueness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose their root selector routes expose the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal row, $\CauchyLimitSealUp$ boundary, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then every Phase Real-facing and completion-facing consumer boundary reads the same displayed selector route from $K$ and $K'$. No second selector source, quotient stream, selected host limit, host real equality, countable choice principle, ambient completeness coordinate, or alternate Cauchy witness can distinguish the two routes.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootSelectorUniqueness}
+\begin{proof}
+First identify both selector reads with the same root handoff surface. By \autoref{thm:diagonal-limit-compatibility-root-readback-exactness}, each route is read through the displayed StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal row, CauchyLimitSeal boundary, and the structural rows carried by the packet.
+
+Next transport the displayed support rows. \autoref{thm:diagonal-limit-compatibility-root-transport-replay} moves componentwise $\hsame$ transports through the same $\Cont$ replay, so the shared $\BHist$, $\Pkg$, and $\NameCert$ rows remain attached to the same visible route.
+
+It remains to rule out hidden selector coordinates. \autoref{thm:diagonal-limit-compatibility-root-consumer-coverage} exhausts every Phase Real-facing and completion-facing consumer by the displayed rows, and \autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion} excludes quotient streams, selected limits, host real equality, ambient completeness, and a second completion witness.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-selector-pullback}. Since both routes pull back along the same visible support rows to the same five sibling handoffs, every consumer boundary sees the same displayed selector route and no alternate source can distinguish them.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root readback selector determinacy]
+\label{thm:diagonal-limit-compatibility-root-readback-selector-determinacy}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose their root selector routes expose the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal row, $\CauchyLimitSealUp$ boundary, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then every $\RealUp$-facing or completion-facing consumer reads the same root selector route from $K$ and $K'$. No quotient stream, selected host limit, host real equality, countable choice principle, ambient completeness coordinate, alternate Cauchy witness, or second selector source can distinguish the two accepted routes.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityRootReadbackSelectorDeterminacy}
+\begin{proof}
+First identify the readback surface for each packet. \autoref{thm:diagonal-limit-compatibility-root-readback-exactness} pins both root reads to the displayed StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal row, CauchyLimitSeal boundary, and structural rows.
+
+Next replay the common support. \autoref{thm:diagonal-limit-compatibility-root-transport-replay} preserves the displayed route under componentwise $\hsame$ movement and $\Cont$ replay, so the shared $\BHist$, $\Pkg$, and $\NameCert$ rows cannot create a second selector coordinate.
+
+Now exhaust the consumer side. \autoref{thm:diagonal-limit-compatibility-root-consumer-coverage} restricts every $\RealUp$-facing or completion-facing consumer to the displayed rows, and \autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion} identifies that surface with the finite L10 spine.
+
+Finally use the selector results. \autoref{thm:diagonal-limit-compatibility-root-selector-pullback} makes every root selector route the pullback of the five sibling handoffs along the displayed support rows, and \autoref{thm:diagonal-limit-compatibility-root-selector-uniqueness} states that two routes with those same exposed rows are indistinguishable to every relevant consumer boundary. Therefore every $\RealUp$-facing or completion-facing consumer reads the same root selector route from $K$ and $K'$, and none of the excluded host-side or choice-based data can separate them.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility four-face terminal pullback]
+\label{thm:diagonal-limit-compatibility-four-face-terminal-pullback}
+Let $K$ and $K'$ be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose their root routes expose the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\CauchyLimitSealUp$ boundary, and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Then the two packets determine the same terminal root pullback for the L10 finite route.
+
+Every top-frontier consumer of the route reads the same displayed pullback. No quotient stream, selected host limit, host real equality, ambient completeness coordinate, alternate Cauchy witness, countable choice row, or second selector source can distinguish $K$ from $K'$ at the root boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_four\_face\_terminal\_pullback}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-root-readback-exactness}. It identifies the root readback surface with the displayed StreamName window, RegSeqRat readback, DyadicRatCore ledger, Real seal row, CauchyLimitSeal boundary, and structural support rows.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-selector-pullback}. The selector route is the pullback of the five sibling handoffs along those same displayed rows, so two packets with matching exposed data land on the same root pullback surface.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-root-selector-uniqueness}. Since $K$ and $K'$ expose the same support rows, every selector-facing route available to a consumer is already identified through the same finite packet.
+
+Finally invoke \autoref{thm:diagonal-limit-compatibility-root-readback-selector-determinacy}. Determinacy says that accepted packets with those matching rows are read identically by every $\RealUp$-facing or completion-facing consumer, leaving no hidden quotient, selected-limit, host-equality, completeness, Cauchy-witness, choice, or selector coordinate to separate the terminal root pullback.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility terminal pullback consumer non-escape]
+\label{thm:diagonal-limit-compatibility-terminal-pullback-consumer-nonescape}
+Every $\RealUp$-facing or completion-facing consumer of the terminal root pullback from \autoref{thm:diagonal-limit-compatibility-four-face-terminal-pullback} factors through the displayed $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\CauchyLimitSealUp$ boundary, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows of the accepted root packet. No quotient stream, selected host limit, host equality, countable choice row, ambient completeness coordinate, alternate Cauchy witness, or second selector source can separate the consumer route from that displayed terminal pullback.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-root-readback-exactness}. It identifies the root readback with the visible StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal row, CauchyLimitSeal boundary, and structural support rows.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-l10-spine-exhaustion}. It says that every relevant root consumer is already equivalent to the finite L10 spine through those five sibling surfaces and the displayed structural rows.
+
+Apply \autoref{thm:diagonal-limit-compatibility-root-selector-pullback}. The selector route for the accepted packet is the pullback of the same sibling handoffs along the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Finally combine \autoref{thm:diagonal-limit-compatibility-root-selector-uniqueness} with \autoref{thm:diagonal-limit-compatibility-root-readback-selector-determinacy}. The first theorem rules out a competing selector source once the displayed rows agree, and the second makes every $\RealUp$-facing or completion-facing consumer read that same route. Hence the terminal pullback is the only route available to such consumers, with all excluded host-side, quotient, choice, completeness, and alternate-witness coordinates absent.
+\end{proof}

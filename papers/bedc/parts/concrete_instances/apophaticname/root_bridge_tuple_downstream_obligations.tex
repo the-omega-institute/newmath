@@ -41,11 +41,13 @@ Use the externality handoff theorem, \autoref{thm:apophatic-name-externality-han
 
 Combining these rows with the source and classifier bridge tuple theorems above shows that every downstream consumer reads the ledger and non-internalization boundary before the externality handoff, with no hidden supply coordinate left to export.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_ledger}
 
 \begin{theorem}[ApophaticName root bridge tuple noninternalization]
 \label{thm:apophatic-name-root-bridge-tuple-noninternalization}
 Every downstream consumer of an accepted $\ApophaticNameUp$ root bridge tuple must keep the socket row $S$, gate-question row $R$, refusal row $G$, transport row $H$, route row $C$, provenance row $P$, and local $\NameCert_{\ApophaticNameUp}$ row $N$ as boundary rows. The consumer may read the refusal ledger $L$ through the same packet, but it cannot internalize the requested supply as an object, generated witness, host datum, quotient representative, hidden theorem, or closure principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_noninternalization}
 \begin{proof}
 Start with the source, classifier, and ledger rows above. Theorems~\ref{thm:apophatic-name-root-bridge-tuple-source}, \ref{thm:apophatic-name-root-bridge-tuple-classifier}, and~\ref{thm:apophatic-name-root-bridge-tuple-ledger} expose the tuple as $S,R,G,L,H,C,P,N$ and exhaust both comparison and downstream ledger reads on those displayed coordinates.
 
@@ -62,6 +64,7 @@ S,R,G,L,H,C,P,N
 $$
 before any downstream refusal read. The downstream consumer may inspect the socket, gate-question, refusal, ledger, transport, route, provenance, and local naming rows, but it receives no supplied dependency, internal object, generated witness, host datum, quotient representative, hidden theorem, or closure principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_source\_route\_totality}
 \begin{proof}
 Start with the source and classifier tuple theorems, \autoref{thm:apophatic-name-root-bridge-tuple-source} and \autoref{thm:apophatic-name-root-bridge-tuple-classifier}. They expose the tuple before downstream reading as the finite socket, gate-question, refusal, ledger, transport, route, provenance, and naming surface.
 
@@ -81,6 +84,7 @@ Apply the root bridge tuple ledger theorem, \autoref{thm:apophatic-name-root-bri
 
 Finally use the sibling gate surface, \autoref{thm:apophatic-gate-question-visible-socket-nonescape}, together with the externality handoff theorem cited in \autoref{thm:apophatic-name-root-bridge-tuple-ledger}. The gate question and refusal are read as visible boundary rows, and the handoff carries only the displayed tuple.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_gate\_refusal\_interface}
 
 \begin{theorem}[ApophaticName root bridge tuple transport-naming exhaustion]
 \label{thm:apophatic-name-root-bridge-tuple-transport-naming-exhaustion}
@@ -93,6 +97,7 @@ Next use the gate-refusal interface of \autoref{thm:apophatic-name-root-bridge-t
 
 Finally apply the sibling socket and gate surfaces, \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-gate-question-visible-socket-nonescape}. They keep the source and gate sides visible, so transport, continuation, provenance, and local naming remain route witnesses rather than downstream payload.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_transport\_naming\_exhaustion}
 
 \begin{theorem}[ApophaticName root bridge tuple terminal exhaustion]
 \label{thm:apophatic-name-root-bridge-tuple-terminal-exhaustion}
@@ -104,4 +109,43 @@ Start with the source, classifier, ledger, and noninternalization tuple theorems
 Next apply \autoref{thm:apophatic-name-root-bridge-tuple-gate-refusal-interface}. The gate question and refusal ledger are consumed before the externality handoff is public, so the handoff cannot reopen $G$ or $L$ as supplied content.
 
 Finally use \autoref{thm:apophatic-name-root-bridge-tuple-transport-naming-exhaustion}. The rows $H,C,P,N$ only replay transport, continuation, provenance, and local naming for the same finite route. Therefore every downstream externality handoff is exhausted by $S,R,G,L,H,C,P,N$ and has no hidden export coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_terminal\_exhaustion}
+
+\begin{theorem}[ApophaticName downstream refusal uniqueness]
+\label{thm:apophatic-name-root-bridge-tuple-downstream-refusal-uniqueness}
+Every downstream externality handoff from an accepted $\ApophaticNameUp$ root bridge tuple has a unique refusal-reading route through
+$$
+S,R,G,L,H,C,P,N.
+$$
+If a second downstream route has the same socket row $S$ and gate-question row $R$, then it agrees on the refusal row $G$, refusal ledger $L$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$. Neither route can expose supplied content, host proof, quotient representative, hidden theorem, closure principle, internalized object, or generated witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_downstream\_refusal\_uniqueness}
+\begin{proof}
+First fix the source side. Apply \autoref{thm:apophatic-name-root-bridge-tuple-source-route-totality} to any downstream externality handoff. The handoff begins on the displayed socket and gate-question rows and then has only the route $S,R,G,L,H,C,P,N$ available before refusal reading.
+
+Next read the refusal interface. By \autoref{thm:apophatic-name-root-bridge-tuple-gate-refusal-interface}, the same socket and gate-question rows force the handoff through the same refusal gate and ledger rows $G,L$ before the handoff is public.
+
+Now compare the structural tail. The transport-naming exhaustion theorem \autoref{thm:apophatic-name-root-bridge-tuple-transport-naming-exhaustion} says that $H,C,P,N$ only replay the displayed refusal boundary. Therefore a second route with the same $S$ and $R$ has no alternative transport, continuation, provenance, or local naming row to select.
+
+Finally apply terminal exhaustion, \autoref{thm:apophatic-name-root-bridge-tuple-terminal-exhaustion}, together with the sibling socket and gate surfaces \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-gate-question-visible-socket-nonescape}. These keep both routes on the visible boundary rows and exclude supplied content, host proof, quotient representatives, hidden theorems, closure principles, internalized objects, and generated witnesses.
+\end{proof}
+
+\begin{theorem}[ApophaticName root bridge tuple audit normal form]
+\label{thm:apophatic-name-root-bridge-tuple-audit-normal-form}
+Every accepted $\ApophaticNameUp$ root bridge tuple has audit normal form exactly
+$$
+S,R,G,L,H,C,P,N.
+$$
+The source and classifier read the socket, gate-question, and refusal rows; the ledger and noninternalization rows prevent supplied-content export; and terminal exhaustion leaves no hidden supply, quotient representative, generated witness, host datum, theorem cache, or closure principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.ApophaticNameUp.ApophaticNameCarrier\_root\_bridge\_tuple\_audit\_normal\_form}
+\begin{proof}
+First expose the source and classifier rows. Apply \autoref{thm:apophatic-name-root-bridge-tuple-source} and \autoref{thm:apophatic-name-root-bridge-tuple-classifier}; both reads factor through $S,R,G,L,H,C,P,N$ and never through hidden supply or host realization data.
+
+Next bind the ledger and noninternalization boundary. Use \autoref{thm:apophatic-name-root-bridge-tuple-ledger} and \autoref{thm:apophatic-name-root-bridge-tuple-noninternalization}. These rows force downstream package reads through the refusal ledger and prevent the requested supply from becoming an internal object, generated witness, host datum, quotient representative, hidden theorem, or closure principle.
+
+Now assemble the route interface. The source-route, gate-refusal, and transport-naming rows in \autoref{thm:apophatic-name-root-bridge-tuple-source-route-totality}, \autoref{thm:apophatic-name-root-bridge-tuple-gate-refusal-interface}, and \autoref{thm:apophatic-name-root-bridge-tuple-transport-naming-exhaustion} keep $H,C,P,N$ attached to the same visible socket, gate, refusal, and ledger rows.
+
+Finally apply terminal exhaustion and downstream refusal uniqueness, \autoref{thm:apophatic-name-root-bridge-tuple-terminal-exhaustion} and \autoref{thm:apophatic-name-root-bridge-tuple-downstream-refusal-uniqueness}, together with the sibling ApophaticSocket and ApophaticGateQuestion surfaces \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-gate-question-visible-socket-nonescape}. No second route can add supplied content, quotient representatives, generated witnesses, host data, theorem caches, or closure principles, so the audit normal form is exactly $S,R,G,L,H,C,P,N$.
 \end{proof}

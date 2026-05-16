@@ -61,6 +61,7 @@ Q \longmapsto B \longmapsto S \longmapsto K.
 $$
 Every read of the root surface factors through these two displayed chains and the structural rows $H,C,P,N$; no consumer receives a second stream-name branch, an alternate regular-rational readback, or a detached Real completion endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_root\_streamname\_pullback}
 \begin{proof}
 Begin with \autoref{thm:cauchy-witness-ledger-completion-consumer-factorization}. It already places every completion-facing consumer on the sibling chain from $\DyadicRatCoreUp$ through $\StreamNameUp$ and $\RegSeqRatUp$ to $\RealUp$, and on the internal ledger route $Q \longmapsto B \longmapsto S \longmapsto K$.
 
@@ -79,4 +80,52 @@ Read the allowed data from \autoref{thm:cauchy-witness-ledger-root-streamname-pu
 The regular-Real dependency scope of \autoref{thm:cauchy-witness-ledger-regular-real-dependency-scope} excludes host equality, quotient streams, selected limits, countable choice, and ambient completeness from the dependency surface.
 
 The root-unblock obligation package of \autoref{thm:cauchy-witness-ledger-root-unblock-obligation-package} supplies the same exclusion to downstream root consumers. Since no metric-completion datum or standard bridge row is one of $Q,B,S,K,H,C,P,N$ or one of the four sibling objects, neither is exported by the terminal pullback.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger root seal-selector exhaustion]
+\label{thm:cauchy-witness-ledger-root-seal-selector-exhaustion}
+Every root seal-selector read of an accepted $\CauchyWitnessLedgerUp$ packet factors through the two displayed routes
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+and
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp.
+$$
+The read may use the structural rows $H,C,P,N$, but it has no separate selector row, no hidden tail selector, no detached $\RealUp$ endpoint, and no off-route completion coordinate.
+\end{theorem}
+\begin{proof}
+Start with the root pullback of \autoref{thm:cauchy-witness-ledger-root-streamname-pullback}. It fixes the sibling route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ together with the internal ledger route $Q \longmapsto B \longmapsto S \longmapsto K$.
+
+Apply root completion nonescape from \autoref{thm:cauchy-witness-ledger-root-real-completion-nonescape}. A selector-facing read cannot leave those displayed rows to obtain a quotient stream, selected limit, host equality, choice row, ambient completeness principle, metric-completion datum, or standard bridge row.
+
+Finally use the root budget refusal boundary of \autoref{thm:cauchy-witness-ledger-root-budget-refusal-boundary}. Any requested seal selector not carried by the displayed routes lands at the refusal boundary, so the two chains exhaust every admitted root seal-selector read.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger completion observer refusal factorization]
+\label{thm:cauchy-witness-ledger-completion-observer-refusal-factorization}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Every observer-filter or selector-seal consumer of $L$ either reads the displayed ledger route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+together with the sibling route $\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp$, or lands in the refusal boundary for off-route completion requests. No third observer channel is exported.
+\end{theorem}
+\begin{proof}
+First read the admitted route from \autoref{thm:cauchy-witness-ledger-root-seal-selector-exhaustion}. It gives the only seal-selector path available to a root consumer.
+
+Next apply terminal observer exactness, \autoref{thm:cauchy-witness-ledger-terminal-observer-exactness}. The observer side is forced onto the same four terminal faces and the same structural support rows, so an observer-filter consumer has no independent completion face to inspect.
+
+For requests outside those rows, use \autoref{thm:cauchy-witness-ledger-root-budget-refusal-boundary}. The refusal boundary receives the off-route quotient, selected-limit, host-equality, countable-choice, ambient-completeness, hidden-tail, alternate-seal, and bridge-shaped requests. Thus observer-filter and selector-seal consumers factor through the displayed route or through refusal, with no third case.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger terminal four-face refusal exactness]
+\label{thm:cauchy-witness-ledger-terminal-four-face-refusal-exactness}
+Once the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces of an accepted $\CauchyWitnessLedgerUp$ packet are fixed, the terminal consumer surface contains exactly those faces, the ledger route $Q \longmapsto B \longmapsto S \longmapsto K$, and the structural rows $H,C,P,N$. No quotient stream, selected limit, host equality, countable-choice row, ambient completeness principle, metric-completion datum, or standard bridge row remains.
+\end{theorem}
+\begin{proof}
+Begin with terminal selector-observer uniqueness, \autoref{thm:cauchy-witness-ledger-terminal-selector-observer-uniqueness}. Agreement on the four terminal faces and the support rows identifies the ledger route, observer-filter route, and selector-seal route as the same finite selector-observer route.
+
+Use terminal observer exactness, \autoref{thm:cauchy-witness-ledger-terminal-observer-exactness}, to remove residual observer data. The observer can read only the fixed four faces and the displayed support rows.
+
+Finally combine root completion nonescape and completion observer refusal factorization, \autoref{thm:cauchy-witness-ledger-root-real-completion-nonescape} and \autoref{thm:cauchy-witness-ledger-completion-observer-refusal-factorization}. Off-route completion requests are refused, while admitted requests use the displayed routes. Hence none of the quotient, limit, host-equality, choice, ambient-completeness, metric-completion, or bridge rows remains at the terminal surface.
 \end{proof}

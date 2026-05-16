@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CellularBoundaryConditionUp$}
+\label{ch:concrete-instances-cellular-boundary-condition-namecert}
+\origin{ai}
+
+The $\CellularBoundaryConditionUp$ packet realizes the edge-policy surface left implicit by the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative}. It sits beside the local update packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, the substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, the carrier-encoding packet of \autoref{ch:concrete-instances-cellularcarrierencoding-namecert}, the substrate classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, and the row classifier of \autoref{ch:concrete-instances-cellularrowclassifier-namecert}. Its datum is not another orbit evaluator; it is the finite edge policy by which local reads at the boundary are admitted, refused, or padded before a local update rule may inspect them.
+
+\falsifiablePrediction{No accepted $\CellularBoundaryConditionUp$ packet exports a global orbit, hidden evaluator, or unregistered boundary row beyond its displayed edge policy.}
+
+\independenceWitness{cellularlocalupdaterule, cellularsubstrate, cellularcarrierencoding, cellularsubstrateclassifier, cellularrowclassifier: none is bijective to $\CellularBoundaryConditionUp$ because the listed siblings respectively carry local transition, substrate, encoding, substrate-classifier, or row-classifier rows, while this packet carries the finite edge-policy rows that determine which boundary reads are admitted before local update.}
+
+\begin{definition}[Cellular boundary condition carrier]
+\label{def:cellular-boundary-condition-carrier}
+A $\CellularBoundaryConditionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,W,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite edge-policy row, displaying the admitted boundary convention such as fixed edge, periodic edge, reflected edge, refused edge, or explicitly padded edge.
+\item $W$ is the boundary-window row, naming the finite cell positions at which a local neighbourhood would otherwise cross the displayed row boundary.
+\item $R$ is the local update-read row, citing the $\CellularLocalUpdateRuleUp$ surface whose neighbourhood reads are constrained by $E$ and $W$.
+\item $A$ is the admission ledger recording which boundary reads are accepted, which are refused, and which are filled by a displayed padding row.
+\item $H$ records componentwise $\hsame$ transport for the edge policy, boundary window, update-read row, admission ledger, continuation route, package provenance, and local name.
+\item $C$ records the displayed $\Cont$ route through $E,W,R,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CellularBoundaryConditionUp$, $\CellularLocalUpdateRuleUp$, $\CellularSubstrateUp$, $\CellularCarrierEncodingUp$, $\CellularSubstrateClassifierUp$, $\CellularRowClassifierUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CellularBoundaryConditionUp}$ row.
+\end{enumerate}
+The classifier for $B$ reads only the displayed edge policy, boundary window, constrained local update read, admission ledger, transport row, continuation route, provenance, and local name. It has no coordinate for a global orbit, host evaluator, unregistered boundary row, unstated padding convention, or detached substrate classifier.
+\end{definition}
+
+\begin{theorem}[CellularBoundaryCondition NameCert obligations]
+\label{thm:cellular-boundary-condition-namecert-obligations}
+For the carrier of \autoref{def:cellular-boundary-condition-carrier}, the local $\NameCert_{\CellularBoundaryConditionUp}$ surface consists exactly of carrier admission for
+$$
+B=(E,W,R,A,H,C,P,N),
+$$
+edge-policy exposure through $E$, boundary-window exposure through $W$, local update-read accountability through $R$, admission and refusal replay through $A$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. A consumer may use the packet as boundary-condition evidence only through those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-boundary-condition-carrier}. The packet displays the edge policy, boundary window, local update-read row, admission ledger, transport row, continuation route, provenance row, and local name before any consumer can read the boundary surface.
+
+The cellular content is split between $E,W,R,A$. The edge-policy row $E$ states the accepted boundary convention, the window row $W$ identifies the finite neighbourhood reads that meet the edge, and the update-read row $R$ records which local rule surface is constrained by that edge policy.
+
+Admission and refusal are read from $A$. This ledger records accepted boundary reads, refused boundary reads, and explicitly padded reads, so the consumer cannot replace the displayed edge policy by an unregistered boundary row.
+
+Finally use $H,C,P,N$. These rows transport, replay, package, and name the same finite packet, and they introduce no global orbit, host evaluator, hidden padding convention, or detached substrate classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CellularBoundaryConditionUp.CellularBoundaryConditionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CellularBoundaryCondition non-escape boundary]
+\label{thm:cellular-boundary-condition-nonescape-boundary}
+Every accepted $\CellularBoundaryConditionUp$ public read factors through the finite route
+$$
+E,W,R,A,H,C,P,N.
+$$
+The route may expose the displayed edge policy, the affected boundary windows, the constrained local update-read row, and the admission ledger. It cannot export a global cellular orbit, a hidden evaluator, an unregistered boundary row, an unstated padding convention, or a substrate-wide classifier.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:cellular-boundary-condition-namecert-obligations}. Every public read reaches the local name only after the edge-policy row, boundary-window row, local update-read row, admission ledger, transport row, continuation route, and provenance row have been displayed.
+
+The local update read is present only as $R$. It can use the boundary policy named by $E$ and the finite boundary window named by $W$, but it cannot import the global orbit or a host evaluator as an extra source of boundary cells.
+
+The admission ledger $A$ separates accepted, refused, and padded boundary reads. Because the padding row must be displayed when it is used, an unstated padding convention or unregistered boundary row has no coordinate in the packet.
+
+Thus any read of a global orbit, hidden evaluator, unregistered boundary row, unstated padding convention, or substrate-wide classifier would require data absent from $B=(E,W,R,A,H,C,P,N)$. Such a read is outside the accepted boundary-condition certificate.
+\end{proof}
+
+The Lean TasteGate surface expected for this packet is \texttt{BEDC.Derived.CellularBoundaryConditionUp.TasteGate.CellularBoundaryConditionTasteGate\_single\_carrier\_alignment}. Its paper-side carrier is already fixed by $E,W,R,A,H,C,P,N$ and by the non-escape boundary above.
+
+\closureat{CellularBoundaryConditionUp}{seedStr}
+
+\begin{closurestatus}{\CellularBoundaryConditionUp}
+  \constructivestory{A $\CellularBoundaryConditionUp$ packet is generated from a finite edge-policy row, boundary-window row, constrained local update-read row, admission ledger, componentwise hsame transports, displayed continuation route, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-boundary-condition-carrier}, \autoref{thm:cellular-boundary-condition-namecert-obligations}, and \autoref{thm:cellular-boundary-condition-nonescape-boundary} bind the finite edge-policy carrier, its local NameCert obligations, and its non-escape boundary for local update reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global cellular orbit evaluation, host evaluator correctness, substrate universality, complete row-classifier coverage, Lean implementation, or standard bridge.}
+  \upgradepath{Checked closure requires Lean encoding of the carrier plus Nontrivial and FieldFaithful TasteGate instances preserving the edge policy, boundary window, constrained local update read, admission ledger, route, provenance, and local naming projections.}
+\end{closurestatus}

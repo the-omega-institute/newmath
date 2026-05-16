@@ -47,7 +47,7 @@ These rows must live inside the existing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\
 \conjectureStatus{weakened}
 
 \paragraph{Recognizer-to-carrier status.}
-The surviving recognizer-to-carrier claim is exactly the seven-row finite BEDC-kernel landing test supplied by \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition} and \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}. The test is the existence of those seven displayed rows inside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\GroundCompilerRecognizerFlowUp$, and $\FiniteReflectionTupleUp$ kernel surface. No $\StdBridge$ theorem is claimed, and no full recognizer-to-carrier map is claimed.
+The active conjecture is the seven-row closed landing test, not construction of a recognizer-to-carrier map. The decomposition of \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition}, the exhaustion theorem \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}, and the closed landing test of \autoref{prop:finite-bhist-injection-recognizer-closed-landing-test} identify exactly the recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, component readback, componentwise $\hsame$ and $\NameCert$ transport, and $\ChapterTasteGate$ rows inside the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\GroundCompilerRecognizerFlowUp$, and $\FiniteReflectionTupleUp$ kernel surface. The full carrier-map construction remains outside this conjecture, and no $\StdBridge$ theorem is claimed here.
 
 \begin{theorem}[Finite BHist injection fixed tuple route]
 \label{thm:finite-bhist-injection-fixed-tuple-route}
@@ -188,6 +188,34 @@ Next use the fixed tuple route and its obligation surface. \autoref{thm:finite-b
 Finally apply the recognizer counter-boundary. \autoref{thm:finite-bhist-injection-recognizer-counter-boundary} separates missing recognizer, extraction, readback, transport, or taste-gate rows from a genuine recognizer-to-carrier obstruction. Therefore the strengthened test reaches the weakened route only after the full landing surface is displayed, and any later failure is located at the recognizer-to-carrier boundary.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection regular recognizer row separation]
+\label{thm:finite-bhist-injection-regular-recognizer-row-separation}
+A regular recognizer attempt for \autoref{conj:finite-bhist-injection-recognizer-to-carrier} is not on the weakened fixed-tuple surface until all of the following rows are displayed: recognizer acceptance through $\GroundCompilerRecognizerFlowUp$, generated-recognizer mediation, certificate-gate passage, finite tuple image and readback through $\FiniteReflectionTupleUp$, componentwise $\hsame$ and $\NameCert$ transport, the $\ChapterTasteGate$ row, and the non-escape boundary. Missing one of these rows is a missing landing row rather than a recognizer-to-carrier obstruction; only after all are present can a remaining failure be assigned to the recognizer-to-carrier boundary.
+\end{theorem}
+\begin{proof}
+Start with the landing surface. By \autoref{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}, recognizer-flow evidence must pass through generated-recognizer mediation and the certificate gate before it can be read as finite tuple image and readback data.
+
+Next apply the landing refinement. \autoref{thm:finite-bhist-injection-recognizer-landing-refinement} adds componentwise $\hsame$ and $\NameCert$ transport, the $\ChapterTasteGate$ row, and the non-escape boundary before the weakened route is tested.
+
+Now use \autoref{thm:finite-bhist-injection-recognizer-counter-boundary}. It separates absence of recognizer, extraction, readback, transport, or taste-gate rows from an obstruction that remains after the recognizer has landed on the carrier-facing surface.
+
+Finally apply \autoref{thm:finite-bhist-injection-weakened-status-closure}. The fixed finite tuple route is the closed weakened surface, so the theorem records row separation only; it does not construct a $\StdBridge$ theorem and does not construct the missing recognizer-to-carrier map.
+\end{proof}
+
+\begin{theorem}[Finite BHist injection recognizer-to-carrier status tightening]
+\label{thm:finite-bhist-injection-recognizer-to-carrier-status-tightening}
+After recognizer acceptance, generated-recognizer mediation, certificate-gate passage, finite tuple image and readback, componentwise $\hsame$ and $\NameCert$ transport, the $\ChapterTasteGate$ row, and the non-escape boundary are displayed, any remaining failure is located only at the recognizer-to-carrier construction boundary. It is not a failure of the fixed finite tuple $\StdBridge$ route, and it is not caused by missing landing-surface data.
+\end{theorem}
+\begin{proof}
+Begin with the landing surface, \autoref{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}. It places accepted recognizer-flow evidence behind generated-recognizer mediation and certificate-gate passage before finite tuple image and readback rows are consumed.
+
+Apply landing refinement, \autoref{thm:finite-bhist-injection-recognizer-landing-refinement}. Once componentwise $\hsame$ and $\NameCert$ transport, the $\ChapterTasteGate$ row, and the non-escape boundary are present, the landing surface is no longer missing data.
+
+Use regular recognizer row separation, \autoref{thm:finite-bhist-injection-regular-recognizer-row-separation}. It identifies absent displayed rows as missing landing data and assigns only post-landing failure to the recognizer-to-carrier boundary.
+
+Finally apply weakened status closure, \autoref{thm:finite-bhist-injection-weakened-status-closure}. The fixed finite tuple route remains the closed weakened surface, so the theorem tightens location of failure without changing the conjecture status or claiming a $\StdBridge$ construction.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection weakened status closure]
 \label{thm:finite-bhist-injection-weakened-status-closure}
 The currently weakened finite $\BHist$ injection conjecture is closed exactly for the fixed finite tuple route. Once the tuple carrier, image row, readback row, componentwise $\NameCert$ transports, and $\ChapterTasteGate$ row are displayed, the fixed-route $\StdBridge$ obligation surface is complete. The recognizer-to-carrier strengthening remains outside this closure.
@@ -276,6 +304,18 @@ Apply \autoref{thm:finite-bhist-injection-recognizer-carrier-map-decomposition}.
 The recognizer-flow rows are exactly recognizer acceptance, generated-recognizer mediation, and certificate-gate admission. The finite tuple rows are exactly finite tuple extraction, component readback into $\BHist$, componentwise $\hsame$ and $\NameCert$ transport, and $\ChapterTasteGate$.
 
 Therefore the admissible test surface has no further row beyond those seven displayed rows. This exhausts the finite BEDC-kernel test while leaving the construction of a full recognizer-to-carrier map outside the conclusion.
+\end{proof}
+
+\begin{proposition}[Finite BHist recognizer closed landing test]
+\label{prop:finite-bhist-injection-recognizer-closed-landing-test}
+The weakened recognizer-side test for \autoref{conj:finite-bhist-injection-recognizer-to-carrier} is exactly the seven rows of \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}: recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, component readback, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. Passing this landing test asserts no $\StdBridge$ theorem, no recognizer-to-carrier map, and no arbitrary regular-language carrier construction.
+\end{proposition}
+\begin{proof}
+Apply \autoref{thm:finite-bhist-injection-recognizer-row-exhaustion}. It states that every admissible recognizer-to-carrier test is exhausted by the seven displayed rows.
+
+The first three rows place the recognizer input on the existing $\GroundCompilerRecognizerFlowUp$ surface. The last four rows place the resulting tuple on the existing $\FiniteReflectionTupleUp$ and $\ChapterTasteGate$ surface.
+
+Thus the test is closed as a finite landing surface only. The theorem explicitly leaves the full carrier map outside the conclusion, and the fixed tuple bridge results do not add a $\StdBridge$ theorem or a regular-language carrier construction here.
 \end{proof}
 
 \paragraph{Refutation route (if false).}

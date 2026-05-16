@@ -1,0 +1,20 @@
+\begin{theorem}[Diagonal-limit window ledger pullback]
+\label{thm:diagonal-limit-compatibility-window-ledger-pullback}
+For any accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+preserving the displayed $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback $Q$, and terminal $\RealUp$ seal $L$ is exactly the finite pullback condition needed for selector-mediated terminal Real reads. A terminal selector read that preserves these four rows and the displayed $H,C,P,N$ support is the same finite Real-seal route; a read that changes one of them is not the accepted selector-mediated terminal route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-compatibility-carrier}. The rows $W,D,Q,L$ are displayed as the window family, dyadic ledger, regular readback, and terminal Real seal of the packet, while $H,C,P,N$ provide the only transport, route, provenance, and local naming support.
+
+Apply \autoref{thm:diagonal-limit-compatibility-terminal-selector-real-seal-pullback}. It states that any terminal $\RealUp$ seal read mediated by a $\FiniteObservationBudgetSelectorUp$ row factors through the same displayed $W,D,Q,S,L$ rows, and that preserving those rows together with $H,C,P,N$ preserves the selector-mediated terminal seal route.
+
+Next use \autoref{thm:diagonal-limit-compatibility-terminal-real-route}. It forces every terminal $\RealUp$ seal read of $K$ through the finite route $R,T,S,D,W,Q,L,H,C,P,N$. The finite observation selector boundary \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary} supplies the matching selector side, where a diagonal-limit or Real-completion consumer reads only the finite budget, schedule, window, dyadic, regular, seal-facing, transport, route, provenance, and naming rows.
+
+The forward direction follows by intersection of these two finite routes: their shared Real-facing data are exactly $W,D,Q,L$ with support $H,C,P,N$. The reverse direction follows because preserving those rows preserves the selector-mediated terminal seal route already fixed by the terminal selector pullback theorem.
+
+Finally inspect the excluded coordinates in both packets. Neither the diagonal carrier nor the finite selector boundary contains quotient streams, selected host limits, host real equality, choice data, hidden selectors, or ambient completeness. Therefore no external route can replace the displayed window-ledger pullback.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_window\_ledger\_pullback}

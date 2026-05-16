@@ -1,0 +1,54 @@
+\begin{definition}[Transported stationary window-seal scoped route]
+\label{def:transported-stationary-window-seal-scoped-route}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the scoped route is the finite dependency packet that reads $R$ as the transported $\RatUp$ classifier, $S$ as the induced $\StreamNameUp$ finite window, $G$ as the $\RegSeqRatUp$ seal on that window, $W$ as the $\FiniteWindowEnvelopeUp$ observation packet with its $\DyadicRatCoreUp$ radius ledger, $E$ as the $\RealUp$-facing completion boundary, $H$ as the transported handoff row, $C$ as the displayed $\hsame$ and $\Cont$ route table, $P$ as the $\Pkg$ provenance row, and $N$ as the local $\NameCert$ row.
+
+Its dependency basis is exactly the sibling surface
+$$
+\begin{aligned}
+  \RatUp,\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\FiniteWindowEnvelopeUp,
+  \TailCofinalityScheduleUp,\RealUp,\CompletionUp,
+  \BHist,\hsame,\Cont,\Pkg,\NameCert .
+\end{aligned}
+$$
+The route supplies a finite $\RealUp$ and $\CompletionUp$ handoff boundary; it does not add quotient streams, host equality, selected limits, choice, or full real-completeness data.
+\end{definition}
+
+\begin{theorem}[Transported stationary window-seal scoped dependency basis]
+\label{thm:transported-stationary-window-seal-scoped-dependency-basis}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet equipped with the scoped route of \autoref{def:transported-stationary-window-seal-scoped-route}. Every public read of $T$ factors through the displayed rows $R,S,G,W,E,H,C,P,N$ and through the named dependencies $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, $\TailCofinalityScheduleUp$, $\RealUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No public read of the packet has a further dependency coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier and naming surface. The carrier definition and \autoref{thm:transported-stationary-window-seal-namecert-obligations} expose only the rows $R,S,G,W,E,H,C,P,N$, with the componentwise classifier, displayed $\BHist$ support, $\hsame$ comparisons, $\Cont$ transports, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Next apply the source-triad completion packet and the L10 handoff basis. Theorems~\ref{thm:transported-stationary-window-seal-source-triad-completion} and~\ref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis} place the public route through $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, $\TailCofinalityScheduleUp$, $\RealUp$, and $\CompletionUp$ in that finite order.
+
+Finally use the Real and completion boundary theorems. Theorems~\ref{thm:transported-stationary-window-seal-root-real-seal-nonescape}, \ref{thm:transported-stationary-window-seal-completion-consumer-boundary}, and~\ref{thm:transported-stationary-window-seal-namecert-route-exhaustion} rule out quotient streams, host equality, selected limits, choice, ambient real completeness, and hidden completion carriers. Thus every public read factors through exactly the scoped dependency basis displayed above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal source-triad scope exhaustion]
+\label{thm:transported-stationary-window-seal-source-triad-scope-exhaustion}
+In the scoped route of \autoref{def:transported-stationary-window-seal-scoped-route}, the source triad $R,S,G$ cannot be detached from the $\StreamNameUp/\RegSeqRatUp/\RealUp$ route. The row $R$ determines the constant stream window $S$, the row $S$ owns the regular-rational seal $G$, and every $\RealUp$ or $\CompletionUp$ read of $W$ or $E$ must consume that same triad before it reaches the finite envelope or the seal row.
+\end{theorem}
+\begin{proof}
+First read the transported source side. The readback determinacy and root window-ownership theorems identify $R$ as the transported $\RatUp$ row, $S$ as the induced constant $\StreamNameUp$ window, and $G$ as the $\RegSeqRatUp$ seal owned by that window.
+
+Next attach the completion packet. The source-triad completion packet and the tail-filter handoff theorem keep $R,S,G$ upstream of the tail schedule, dyadic ledger, finite envelope, and Real-facing seal.
+
+It remains to exclude detached sources. Apply \autoref{thm:transported-stationary-window-seal-real-regseqrat-source-totality}, \autoref{thm:transported-stationary-window-seal-root-completion-source-order}, and \autoref{thm:transported-stationary-window-seal-namecert-route-exhaustion}. These theorems identify every Real and Completion consumer with the same source triad and leave no public coordinate for a moving stream window, independent regular-rational seal, or off-route real source.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal real-completion boundary]
+\label{thm:transported-stationary-window-seal-real-completion-boundary}
+The scoped route of \autoref{def:transported-stationary-window-seal-scoped-route} supplies only the finite $\RealUp$-facing completion boundary determined by $R,S,G,W,E,H,C,P,N$. It does not supply quotient streams, host equality, selected limits, choice, full real completeness, or an independent $\CompletionUp$ carrier beyond the finite handoff named by the packet.
+\end{theorem}
+\begin{proof}
+Begin with the Real-facing seal. By \autoref{thm:transported-stationary-window-seal-real-factorization} and \autoref{thm:transported-stationary-window-seal-root-real-seal-nonescape}, the row $E$ is read only through the finite envelope $W$, the regular-rational seal $G$, and the displayed transport and provenance rows.
+
+Next use the completion handoff controls. Theorems~\ref{thm:transported-stationary-window-seal-completion-consumer-exhaustion}, \ref{thm:transported-stationary-window-seal-real-handoff-nonescape}, and~\ref{thm:transported-stationary-window-seal-real-regseq-consumer-exactness} force every completion-facing consumer back to the same finite source triad, tail schedule, envelope, and Real seal.
+
+Finally apply route exhaustion. The NameCert route exhaustion theorem enumerates the visible packet rows and support rows, so there is no remaining coordinate for quotient streams, host equality, selected host limits, choice, full real completeness, or an independent completion carrier. The route therefore supplies exactly the finite Real-facing completion boundary and nothing stronger.
+\end{proof}

@@ -73,3 +73,88 @@ Core theorem:
 \autoref{thm:rat-streamname-unary-context-e1-tail-determinacy}. Exactness:
 uniqueness of displayed e-one tails. Standard bridge: RegSeqRat selected
 observation canonicalization. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat StreamName unary-context bundled tail determinacy]
+\label{thm:rat-streamname-unary-context-bundled-tail-determinacy}
+Let $s,t:\Hist\to\Hist$ be public rational $\StreamNameUp$ rows with
+$\mathsf{RatStreamNameClassifier}(s,t)$. Let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite bundle of unary observation
+requests. Suppose that every bundled request $n$ with
+$\mathsf{InBundle}(n,\mathcal P)$ carries $\mathsf{UnaryHistory}(n)$, shared
+prefix rows $p_s(n),p_t(n):\Hist$, shared tail-context rows
+$q_s(n),q_t(n):\Hist$, middle rows $m_s(n),m_t(n):\Hist$, output rows
+$o_s(n),o_t(n):\Hist$, and displayed tails
+$a(n),a'(n),b(n),b'(n):\Hist$ satisfying
+$$
+\begin{aligned}
+\mathsf{UnaryHistory}(p_s(n)),\quad \hsame(p_s(n),p_t(n)),\quad
+\mathsf{UnaryHistory}(q_s(n)),\quad \hsame(q_s(n),q_t(n)),\\
+\mathsf{Cont}(p_s(n),s(n),m_s(n)),\quad
+\mathsf{Cont}(m_s(n),q_s(n),o_s(n)),\\
+\mathsf{Cont}(p_t(n),t(n),m_t(n)),\quad
+\mathsf{Cont}(m_t(n),q_t(n),o_t(n)).
+\end{aligned}
+$$
+and the four e-one endpoint displays
+$$
+\hsame(o_s(n),\Eone(a(n))),\quad
+\hsame(o_s(n),\Eone(a'(n))),\quad
+\hsame(o_t(n),\Eone(b(n))),\quad
+\hsame(o_t(n),\Eone(b'(n))).
+$$
+Then the bundled displayed tail rows are unary and pairwise $\hsame$ across
+all source and target endpoint reads. More explicitly, for every bundled
+$n$, the four rows $a(n),a'(n),b(n),b'(n)$ are unary, and the six comparisons
+$$
+\begin{gathered}
+\hsame(a(n),a'(n)),\quad \hsame(a(n),b(n)),\quad
+\hsame(a(n),b'(n)),\\
+\hsame(a'(n),b(n)),\quad \hsame(a'(n),b'(n)),\quad
+\hsame(b(n),b'(n))
+\end{gathered}
+$$
+hold inside the same finite bundle surface. This surface is exactly the
+finite source surface consumed by the $\RegSeqRatUp/\RealUp$ handoff: the
+bundled unary rows, their $\mathsf{InBundle}$ witnesses, the shared
+prefix--tail context, the continuation rows, the endpoint displays, the
+pointwise rational-stream handoff rows, and the support rows
+$\hsame,\Cont,\Pkg,\NameCert$. It contains no quotient stream equality,
+selected limit, host real equality, metric-completion point, or $\RealUp$
+completeness row.
+\end{theorem}
+\begin{proof}
+Fix a bundled observation $n$ and its membership row
+$\mathsf{InBundle}(n,\mathcal P)$. Apply
+\autoref{thm:rat-streamname-unary-context-e1-tail-determinacy} to the
+displayed prefix, tail-context, continuation, output, and e-one rows attached
+to $n$. This gives the four unary tail rows and the six pairwise $\hsame$
+comparisons for that bundled request.
+
+Repeat this pointwise over the finite $\mathsf{ProbeBundle}$. The
+$\mathsf{InBundle}$ membership witnesses keep each selected observation
+inside $\mathcal P$, so the collected rows are one finite family rather than
+a hidden choice of endpoint tails.
+
+Finally apply
+\autoref{thm:streamname-tail-compatible-window-cofinal-bundle-lock}. Its
+cofinal packet identifies the collected unary observations, membership rows,
+shared tail-compatible context, pointwise $\RegSeqRatUp$ handoff rows, and
+support rows as the finite bundled handoff surface. The non-escape clauses in
+that lock exclude quotient stream equality, selected limits, host real
+equality, metric-completion data, and ambient $\RealUp$ completeness from the
+surface just constructed.
+\end{proof}
+
+Fit. Traditional target: finite contextual rational-stream tail determinacy.
+BEDC source: $\StreamNameUp+\RatUp+\mathsf{ProbeBundle}+\mathsf{BHist}$.
+Carrier: public rational StreamName rows over $\Hist$ with bundled unary
+requests. Classifier: $\mathsf{RatStreamNameClassifier}$ together with
+$\mathsf{InBundle}$ membership. Stability: pointwise unary-context closure,
+e-one no-confusion, finite-bundle collection, and tail-compatible cofinal
+locking. Ledger: bundled observation rows, shared prefix and tail-context
+rows, continuation rows, endpoint displays, pointwise rational handoff rows,
+and $\Pkg/\NameCert$ support. Core theorem:
+\autoref{thm:rat-streamname-unary-context-bundled-tail-determinacy}.
+Exactness: all displayed source and target e-one tails in the bundle are
+unary and pairwise $\hsame$. Standard bridge: finite $\RegSeqRatUp/\RealUp$
+handoff surface. Status: $\mathsf{ProofTarget}$.

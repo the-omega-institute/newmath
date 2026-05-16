@@ -95,6 +95,7 @@ The carrier definition lists all rows available to the package. The NameCert the
 
 Reading these clauses together gives the obligation surface. Each required proof target is tied to one displayed coordinate of $K,S_0,G,A,L,Q,P,N$, and no additional supply coordinate is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_obligation\_closure\_package}
 
 \begin{theorem}[ApophaticSocket gated supply route exhaustion]
 \label{thm:apophatic-socket-gated-supply-route-exhaustion}
@@ -140,6 +141,7 @@ Apply the gated supply route exhaustion of \autoref{thm:apophatic-socket-gated-s
 
 Finally apply the boundary noninternalization ledger of \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. The scoped packet can expose the request and its audit route, but it has no coordinate from which the requested external supply itself can be projected.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_scoped\_supply\_ledger}
 
 \begin{theorem}[ApophaticSocket kernel-scope obligation package]
 \label{thm:apophatic-socket-kernel-scope-obligation-package}
@@ -165,6 +167,7 @@ K,S_0,G,A,L,Q,P,N,
 $$
 any visible request through these rows remains a request row. It cannot be consumed as a constructor, theorem, setup field, import permission, or positive internal description of the requested supply.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_positive\_supply\_refusal\_scope}
 \begin{proof}
 Use the gate correspondence of \autoref{thm:apophatic-socket-gate-correspondence}. Visibility of the request is exposed only through the socket kind $K$, requested supply shape $S_0$, audit gate $G$, and site row $A$.
 
@@ -210,9 +213,10 @@ visible refusal boundary rather than a consumable supply object.
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The public export is the consumer surface and gated supply route over $K,S_0,G,A,L,Q,P,N$, as displayed by \autoref{thm:apophatic-socket-consumer-surface} and \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, with the carrier, NameCert rows, positive supply refusal, refusal ledger boundary, scoped supply ledger, and kernel-scope obligation package of \autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-positive-supply-refusal-scope}, \autoref{thm:apophatic-socket-refusal-ledger-boundary}, \autoref{thm:apophatic-socket-scoped-supply-ledger}, and \autoref{thm:apophatic-socket-kernel-scope-obligation-package} fixing the same finite socket ledger.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_consumer\_surface}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close a Lean implementation, bridge checking, a positive description of the external source, hidden witnesses for requested supply, or global closure for every apophatic name.}
-  \upgradepath{Only formal verification and bridge checking remain on the independent verification axis.}
+  \notclaimed{This chapter does not close bridge checking, a positive description of the external source, hidden witnesses for requested supply, or global closure for every apophatic name.}
+  \upgradepath{Bridge checking and axiom-clean audit remain on the independent verification axis.}
 \end{closurestatus}

@@ -104,18 +104,44 @@ Apply \autoref{thm:taste-gate-compiler-witness-non-escape}. The exported package
 Thus $\mathsf{Pub}(W)$ is precisely the concrete compiler-witness NameCert packet available to downstream chapter-promotion checks.
 \end{proof}
 
+\begin{theorem}[TasteGateCompilerWitness mature downstream package]
+\label{thm:taste-gate-compiler-witness-mature-downstream-package}
+For every accepted $\TasteGateCompilerWitnessUp$ carrier
+$$
+W=(X,T,E,N,R,L,D,A,H,C,P,Z),
+$$
+every downstream AI-origin promotion, conservativity-audit consumer, or compiler-witness audit consumer of the accepted packet factors through
+$$
+\mathsf{Pub}(W)=(X,T,E,N,R,L,D,A,H,C,P,Z).
+$$
+The consumer receives the displayed candidate token, $\ChapterTasteGate$ row, ground-compiler event-flow row, no-hidden-input row, round-trip row, layer-separation row, dependency ledger, audit result, componentwise transports, replay routes, package provenance, and local NameCert, and receives no hidden prompt state, oracle taste, unlisted compiler fact, host-side approval, or dependency outside $D$.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The accepted packet has exactly the rows $X,T,E,N,R,L,D,A,H,C,P,Z$, with no carrier coordinate for hidden prompt state, oracle taste, unlisted compiler facts, host-side approval, or dependencies outside $D$.
+
+Use \autoref{thm:taste-gate-compiler-witness-namecert-obligations} to identify the local NameCert obligations exposed by those rows. The downstream consumer can name the candidate token, taste-gate row, compiler evidence, ledger, audit result, transports, replay routes, provenance, and local certificate only through that displayed surface.
+
+Use \autoref{thm:taste-gate-compiler-witness-ground-compiler-route} to force every taste-gate and compiler-witness read through the ground-compiler event-flow, replay, layer-separation, dependency-ledger, and audit-result rows. This prevents the consumer from replacing the public route with an unlisted compiler fact or host-side approval.
+
+Finally apply \autoref{thm:taste-gate-compiler-witness-non-escape} and \autoref{thm:taste-gate-compiler-witness-public-package}. The exported package is precisely $\mathsf{Pub}(W)$, so the downstream promotion or audit consumer factors through the same public package and obtains no additional state.
+\end{proof}
+
 \closureat{TasteGateCompilerWitnessUp}{seedStr}
 \closureat{TasteGateCompilerWitnessUp}{obligationStr}[BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment]
+\closureat{TasteGateCompilerWitnessUp}{scopedStr}[BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment]
+\closureat{TasteGateCompilerWitnessUp}{publicStr}[BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment]
+\closureat{TasteGateCompilerWitnessUp}{bridgedStr}[BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment]
+\closureat{TasteGateCompilerWitnessUp}{matureStr}[BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\TasteGateCompilerWitnessUp}
   \constructivestory{A $\TasteGateCompilerWitnessUp$ packet is generated from a candidate chapter token, ChapterTasteGate row, compiler event-flow row, no-hidden-input row, round-trip row, layer-separation row, dependency ledger, audit result row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
   \leanchecked{BEDC.Derived.TasteGateCompilerWitnessUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:taste-gate-compiler-witness-carrier}, \autoref{thm:taste-gate-compiler-witness-namecert-obligations}, \autoref{thm:taste-gate-compiler-witness-ground-compiler-route}, \autoref{thm:taste-gate-compiler-witness-non-escape}, and \autoref{thm:taste-gate-compiler-witness-public-package} bind the seed carrier, local NameCert surface, compiler witness route, non-escape boundary, and public package for TasteGate compiler witnesses.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:taste-gate-compiler-witness-carrier}, \autoref{thm:taste-gate-compiler-witness-namecert-obligations}, \autoref{thm:taste-gate-compiler-witness-ground-compiler-route}, \autoref{thm:taste-gate-compiler-witness-non-escape}, \autoref{thm:taste-gate-compiler-witness-public-package}, and \autoref{thm:taste-gate-compiler-witness-mature-downstream-package} bind the seed carrier, local NameCert surface, compiler witness route, non-escape boundary, public package, and representative downstream consumer package for TasteGate compiler-witness audits.}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify arbitrary host semantics, or close bridge checking for the compiler-witness packet.}
-  \upgradepath{Scoped closure requires the same candidate-token, TasteGate, event-flow, no-hidden-input, round-trip, layer-separation, dependency-ledger, audit-result, transport, continuation, provenance, and NameCert rows to be bound by the chapter's public closure statement.}
+  \upgradepath{No further paper-axis theory step remains for this packet; verification-axis bridge checking is a separate closure task.}
 \end{closurestatus}

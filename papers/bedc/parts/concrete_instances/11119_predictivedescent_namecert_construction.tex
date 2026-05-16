@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\PredictiveDescentUp$}
+\label{ch:concrete-instances-predictive-descent-namecert}
+\origin{ai}
+
+The $\PredictiveDescentUp$ packet realizes the predictive reuse and descent condition of \autoref{sec:physical-induction-open-continuation} as a finite BEDC NameCert surface. It sits beside the physical-induction packet of \autoref{ch:concrete-instances-reality-constrained-physical-induction-namecert}, the stability seal of \autoref{ch:concrete-instances-physical-induction-stability-seal-namecert}, the law certificate of \autoref{ch:concrete-instances-law-certificate-namecert}, the open-fit packet of \autoref{ch:concrete-instances-open-fit-packet-namecert}, and the failure surface of \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}. Those siblings supply induction, stability, law, fit, and failure-surface rows; this packet isolates the prediction-operation descent row between observed and continuation classifiers.
+
+\begin{definition}[PredictiveDescent carrier]
+\label{def:predictive-descent-carrier}
+A $\PredictiveDescentUp$ carrier is a finite $\BHist$ packet
+$$
+D=(F,O,K,A,S,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite-fit row recording the observed history, fitted model, comparison bundle, and visible signature that admitted the source classifier.
+\item $O$ is the observed-classifier row recording the classifier under which the fitted model was formed.
+\item $K$ is the continuation-classifier row recording the classifier used after predictive reuse over the displayed continuation class.
+\item $A$ is the prediction-operation row naming the operation whose output is consumed by the continuation classifier.
+\item $S$ is the stability-scope row recording the continuation class, reuse license, and sibling stability certificate.
+\item $X$ is the failure-surface row recording classifier mismatches, finite defeats, and continuations on which descent is not licensed.
+\item $H$ is the componentwise $\hsame$ transport row preserving finite fit, observed classifier, continuation classifier, prediction operation, stability scope, and failure surface.
+\item $C$ is the displayed $\Cont$ replay row through the same predictive-descent packet.
+\item $P$ is the package row over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling packets cited above.
+\item $N$ is the local $\NameCert_{\PredictiveDescentUp}$ row binding the displayed predictive-descent packet.
+\end{enumerate}
+The carrier has no coordinate for representative-dependent prediction, unbounded future success, final empirical confirmation, hidden model state, host real equality, or a continuation classifier outside the displayed row $K$.
+\end{definition}
+\leanchecked{BEDC.Derived.PredictiveDescentUp.PredictiveDescentTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[PredictiveDescent NameCert obligations]
+\label{thm:predictive-descent-namecert-obligations}
+For the carrier of \autoref{def:predictive-descent-carrier}, the local $\NameCert_{\PredictiveDescentUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed tuple $F,O,K,A,S,X,H,C,P,N$;
+\item finite-fit exposure through $F$ together with observed-classifier exposure through $O$;
+\item prediction-operation descent from $O$ through $A$ to the continuation classifier $K$;
+\item stability-scope and failure-surface exposure through $S$ and $X$;
+\item structural transport, replay, provenance, package, and local naming through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier $D=(F,O,K,A,S,X,H,C,P,N)$. The first two obligations read the finite-fit and observed-classifier data from $F$ and $O$.
+
+The descent obligation is the separating row. It records that the prediction operation $A$ is accepted only when its output is readable by the continuation classifier $K$ from the observed classifier $O$.
+
+The stability and failure rows then bound the route. The row $S$ fixes the continuation class and reuse license, while $X$ records the continuations and classifier mismatches that stop the predictive export.
+
+Finally the structural rows $H,C,P,N$ transport, replay, package, and locally name the same finite packet. Since the carrier has no other coordinates, these five rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[PredictiveDescent stability scope]
+\label{thm:predictive-descent-stability-scope}
+An accepted $\PredictiveDescentUp$ packet licenses predictive reuse only over the displayed stability scope $S$ and only through the prediction operation $A$ descending from the observed classifier $O$ to the continuation classifier $K$. A consumer that changes the continuation class, replaces either classifier, or reads a different prediction operation leaves the accepted packet surface.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:predictive-descent-namecert-obligations}. The stability row $S$ is part of the same local certificate as $O,K,A$, so the continuation classifier cannot be read independently of the displayed stability scope.
+
+The transport and replay rows do not widen the scope. They preserve and replay the listed components of the same finite packet, while the package and local name authenticate only that packet.
+
+Therefore the accepted reuse is scoped by $S$ and by the descent route $O \to A \to K$. Changing the continuation class, either classifier, or the prediction operation requires a coordinate absent from the carrier.
+\end{proof}
+
+\begin{theorem}[PredictiveDescent non-escape]
+\label{thm:predictive-descent-nonescape}
+No accepted $\PredictiveDescentUp$ packet exports representative-dependent prediction, unbounded future success, final empirical confirmation, hidden model state, host real equality, or a continuation classifier outside the displayed row $K$. Any packet whose prediction operation respects finite fit but fails descent from the observed classifier to the continuation classifier is rejected by the local $\NameCert_{\PredictiveDescentUp}$ surface.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:predictive-descent-carrier}. The only prediction route available to a consumer is the displayed path through finite fit, observed classifier, prediction operation, continuation classifier, stability scope, and failure surface.
+
+Apply the NameCert obligations. They require the descent row from $O$ through $A$ to $K$ before the continuation classifier is accepted, and they keep the failure surface visible as $X$.
+
+Finally use the absence of additional coordinates. Representative-dependent prediction, unbounded future success, final empirical confirmation, hidden model state, host real equality, and off-row continuation classifiers are not entries of $D$. A finite-fit-preserving operation that does not descend from $O$ to $K$ therefore lacks the required local naming certificate.
+\end{proof}
+
+\falsifiablePrediction{A packet whose prediction operation respects finite fit but fails descent from the observed classifier to the continuation classifier is rejected by the PredictiveDescentUp classifier.}
+
+\independenceWitness{realityconstrainedphysicalinduction, physicalinductionstabilityseal, lawcertificate, openfitpacket, realityconstrainedfailuresurface: none is bijective because PredictiveDescentUp isolates the prediction-operation descent row between observed and continuation classifiers, while the siblings supply induction, stability, law, fit, or failure-surface rows.}
+
+Lean follow-up must provide \texttt{Nontrivial PredictiveDescentUp} and \texttt{FieldFaithful PredictiveDescentUp} instances in \texttt{lean4/BEDC/Derived/PredictiveDescentUp/TasteGate.lean}.
+
+\closureat{PredictiveDescentUp}{seedStr}
+
+\begin{closurestatus}{\PredictiveDescentUp}
+  \constructivestory{A $\PredictiveDescentUp$ packet is generated from finite fit, observed classifier, continuation classifier, prediction operation, stability scope, failure surface, componentwise transport, continuation replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:predictive-descent-carrier}, \autoref{thm:predictive-descent-namecert-obligations}, \autoref{thm:predictive-descent-stability-scope}, and \autoref{thm:predictive-descent-nonescape} bind the finite predictive-descent carrier, five-row NameCert obligation surface, scoped reuse theorem, and non-escape theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, unbounded future success, final empirical confirmation, representative-dependent prediction, or a continuation classifier outside the displayed packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-fit exposure, classifier descent, stability-scope exposure, failure-surface exposure, transport, replay, provenance, local naming, TasteGate nontriviality, and field faithfulness for $F,O,K,A,S,X,H,C,P,N$.}
+\end{closurestatus}

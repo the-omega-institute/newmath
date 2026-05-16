@@ -322,6 +322,14 @@ _SIBLING_REF_RE = re.compile(
 _VISION_REF_RE = re.compile(
     r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}"
 )
+# Catch-all: any `\autoref{ch:<slug>}` referencing a chapter that is NOT the
+# own chapter (vision chapters historically use `ch:<slug>` not
+# `ch:visions-<slug>`, so the strict patterns above miss legitimate
+# cross-references). The orphan check accepts a match here as a valid
+# sibling/anchor reference.
+_GENERIC_CH_REF_RE = re.compile(
+    r"\\autoref\{ch:([a-z][a-z0-9\-]*)\}"
+)
 # Capture the full label tail (greedy). Self-ref classification is done by
 # walking the dashed parts and joining prefixes; the lazy regex used before
 # matched just the first character as the slug, causing every self-ref to
@@ -417,8 +425,17 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
         for label_tail in _LABEL_RE.findall(text):
             if not _label_is_self_ref(label_tail, own_slug_compact):
                 thm_def_refs.add(label_tail)
+        # Generic chapter cross-refs: accept any `\autoref{ch:X}` where X is
+        # not the own chapter slug. Covers vision chapters labeled as
+        # `\label{ch:<slug>}` (legacy style without `visions-` prefix).
+        generic_ch_refs: set[str] = set()
+        for slug in _GENERIC_CH_REF_RE.findall(text):
+            slug_norm = slug.replace("-", "").replace("_", "")
+            # exclude self-ref (own_slug_compact already drops underscores)
+            if slug_norm and own_slug_compact not in slug_norm and slug_norm not in own_slug_compact:
+                generic_ch_refs.add(slug_norm)
 
-        if not (sibling_refs or vision_refs or thm_def_refs):
+        if not (sibling_refs or vision_refs or thm_def_refs or generic_ch_refs):
             violations.append(
                 f"{rel}: ORPHAN — new NameCert chapter has zero cross-references "
                 f"to a sibling concrete-instances chapter or vision chapter. "
@@ -438,14 +455,23 @@ _FIELD_FAITHFUL_INSTANCE_RE = re.compile(
 
 
 def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -> list[str]:
-    """Reject newly-added or newly-marked `\\origin{ai}` chapters whose
-    Lean-side `TasteGate.lean` does not contain a `FieldFaithful <X>Up`
-    instance. Background: TasteGate `round_trip` + `layer_separation`
-    forces injectivity on inhabitants but not field-level faithfulness
-    — a chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass
-    those gates while `toEventFlow` only encodes 2 of the 9 fields.
-    `FieldFaithful` closes that loophole; `\\origin{ai}` chapters MUST
-    inhabit it. `\\origin{human}` chapters are exempt.
+    """Reject FIRST-PROPOSAL `\\origin{ai}` chapter commits whose Lean-side
+    `TasteGate.lean` does not contain a `FieldFaithful <X>Up` instance.
+
+    "First proposal" means EITHER the .tex file is newly added in this
+    round, OR this round's diff added a `\\origin{ai}` line (transition
+    from `\\origin{human}` or no origin marker). Maintenance edits on
+    chapters that were ALREADY `\\origin{ai}` in `base_sha` are exempt —
+    the FF backfill is R-side responsibility tracked via critical_path,
+    not a per-P-commit gate (the old behavior retroactively penalized
+    chapters predating the 2026-05-13 TasteGate stage C upgrade).
+
+    Background: TasteGate `round_trip` + `layer_separation` forces
+    injectivity on inhabitants but not field-level faithfulness — a
+    chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass those
+    gates while `toEventFlow` only encodes 2 of the 9 fields.
+    `FieldFaithful` closes that loophole. `\\origin{human}` chapters
+    are exempt entirely.
     """
     if not base_sha:
         return []
@@ -457,6 +483,33 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     changed = [p for p in changed if p.endswith(".tex")]
     if not changed:
         return []
+
+    # First-proposal classifier: union of (a) newly-added .tex files and
+    # (b) files where `\origin{ai}` is present in HEAD but was NOT in
+    # the base_sha version (genuine human→ai or none→ai transition).
+    # Do NOT use `_added_lines_per_file` here: a file rewrite shows every
+    # existing line as both deleted+added, which would mis-classify
+    # routine maintenance commits as first-proposal.
+    added_files = set(_changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/",
+        diff_filter="A",
+    ))
+    first_proposal: set[str] = set(added_files)
+    for rel in changed:
+        if rel in first_proposal:
+            continue
+        # File existed in base_sha. Check if `\origin{ai}` was already
+        # present there. If yes → maintenance. If no → transition.
+        try:
+            base_text = _git(
+                ["show", f"{base_sha}:{rel}"], cwd=worktree
+            )
+        except Exception:
+            base_text = ""
+        if _ORIGIN_AI_RE.search(base_text):
+            continue  # already ai in base — maintenance edit
+        first_proposal.add(rel)
 
     violations: list[str] = []
     for rel in changed:
@@ -474,6 +527,14 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
         if not _ORIGIN_AI_RE.search(text):
             continue  # `\origin{human}` or no origin — exempt
 
+        if rel not in first_proposal:
+            # Maintenance edit on chapter that was already `\origin{ai}`
+            # before this round. FF backfill is R-side responsibility,
+            # tracked via critical_path FF-gap signal; not a per-commit
+            # gate. This prevents retroactive penalty on chapters
+            # predating the 2026-05-13 TasteGate stage C upgrade.
+            continue
+
         # Locate the chapter's TasteGate.lean. Convention: PascalCase the
         # compact slug then append `Up/TasteGate.lean`. e.g.
         # `dyadicprecision` → `DyadicPrecisionUp/TasteGate.lean`. Walk
@@ -490,22 +551,15 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
                 target_folder = child
                 break
         if target_folder is None:
-            # Chapter's Lean folder not created yet. For newly-added
-            # AI chapters this is a violation (the round adding the
-            # paper chapter must also add the Lean scaffold). For
-            # chapters merely re-marked `\origin{ai}`, skip — the
-            # operator may be backfilling.
-            if rel in _changed_files(
-                worktree=worktree, base_sha=base_sha,
-                prefix="papers/bedc/parts/concrete_instances/",
-                diff_filter="A",
-            ):
-                violations.append(
-                    f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
-                    f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
-                    f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
-                    f"instance must be created alongside the paper chapter."
-                )
+            # First-proposal AI chapter without Lean scaffold — violation.
+            # (We already filtered out maintenance edits above, so reaching
+            # here means rel is a first-proposal.)
+            violations.append(
+                f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
+                f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
+                f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
+                f"instance must be created alongside the paper chapter."
+            )
             continue
 
         taste_file = target_folder / "TasteGate.lean"
@@ -545,20 +599,27 @@ _INDEPENDENCE_WITNESS_RE = re.compile(r"\\independenceWitness\{")
 def detect_ai_chapter_missing_falsifiable_prediction(
     *, worktree: Path, base_sha: str
 ) -> list[str]:
-    """Newly-added `\\origin{ai}` chapters MUST include one
+    """First-proposal `\\origin{ai}` chapters MUST include one
     `\\falsifiablePrediction{...}` row stating a BEDC-verifiable
     consequence that, if disproved within N rounds, invalidates the
-    chapter. Without this row, the chapter is not committing to any
-    refutable claim and is therefore a vacuous placeholder."""
+    chapter. "First-proposal" = chapter file did NOT exist at base_sha.
+
+    Maintenance edits on existing chapters are exempt — if the chapter
+    landed on BASE_BRANCH without a falsifiable row, that's a historical
+    state issue, not a per-round penalty. (Same first-proposal-vs-
+    maintenance logic as the FieldFaithful gate; using `diff_filter="A"`
+    alone is fooled by merge-in of base commits with files added after
+    the worker's base_sha.)
+    """
     if not base_sha:
         return []
-    added = _changed_files(
+    changed = _changed_files(
         worktree=worktree, base_sha=base_sha,
-        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+        prefix="papers/bedc/parts/concrete_instances/",
     )
-    added = [p for p in added if p.endswith(".tex")]
+    changed = [p for p in changed if p.endswith(".tex")]
     violations: list[str] = []
-    for rel in added:
+    for rel in changed:
         m = _NAMECERT_FILE_RE.match(rel)
         if not m:
             continue
@@ -571,11 +632,18 @@ def detect_ai_chapter_missing_falsifiable_prediction(
             continue
         if not _ORIGIN_AI_RE.search(text):
             continue  # human chapter — exempt
+        # First-proposal detection: did the chapter file exist at base_sha?
+        try:
+            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
+        except Exception:
+            base_text = ""
+        if base_text.strip():
+            continue  # already on BASE — maintenance edit, exempt
         if not _FALSIFIABLE_PRED_RE.search(text):
             violations.append(
-                f"{rel}: AI MISSING FALSIFIABLE — `\\origin{{ai}}` "
-                f"chapter has no `\\falsifiablePrediction{{...}}` row. "
-                f"Every AI chapter must commit one BEDC-verifiable "
+                f"{rel}: AI MISSING FALSIFIABLE — newly-added "
+                f"`\\origin{{ai}}` chapter has no `\\falsifiablePrediction{{...}}` "
+                f"row. Every AI chapter must commit one BEDC-verifiable "
                 f"consequence that, if disproved within N rounds, "
                 f"invalidates the chapter (see preamble.tex / phase_c.txt)."
             )
@@ -585,22 +653,20 @@ def detect_ai_chapter_missing_falsifiable_prediction(
 def detect_ai_chapter_missing_independence_witness(
     *, worktree: Path, base_sha: str
 ) -> list[str]:
-    """Newly-added `\\origin{ai}` chapters claiming structural atomicity
-    (i.e. NOT marked `\\origin{ai-composite}`) MUST include one
-    `\\independenceWitness{...}` row naming 3-5 nearest siblings and
-    explaining why the carrier is not bijective to any of them. This
-    is the BEDC analogue of "this number is prime, not a product of
-    smaller numbers". A chapter that cannot name siblings or justify
-    independence is presumptively derivative."""
+    """First-proposal `\\origin{ai}` chapters claiming structural
+    atomicity (NOT `\\origin{ai-composite}`) MUST include one
+    `\\independenceWitness{...}` row naming 3-5 nearest siblings.
+    First-proposal = chapter file did NOT exist at base_sha. Maintenance
+    edits exempt (same fix as FALSIFIABLE / FIELDFAITHFUL gates)."""
     if not base_sha:
         return []
-    added = _changed_files(
+    changed = _changed_files(
         worktree=worktree, base_sha=base_sha,
-        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+        prefix="papers/bedc/parts/concrete_instances/",
     )
-    added = [p for p in added if p.endswith(".tex")]
+    changed = [p for p in changed if p.endswith(".tex")]
     violations: list[str] = []
-    for rel in added:
+    for rel in changed:
         m = _NAMECERT_FILE_RE.match(rel)
         if not m:
             continue
@@ -616,6 +682,13 @@ def detect_ai_chapter_missing_independence_witness(
             continue
         if re.search(r"\\origin\{ai-composite\}", text):
             continue  # composite chapters opt out
+        # First-proposal detection.
+        try:
+            base_text = _git(["show", f"{base_sha}:{rel}"], cwd=worktree)
+        except Exception:
+            base_text = ""
+        if base_text.strip():
+            continue  # maintenance edit, exempt
         if not _INDEPENDENCE_WITNESS_RE.search(text):
             violations.append(
                 f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
@@ -652,7 +725,11 @@ GATE_DISPATCH = {
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
-    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    # FieldFaithful is a Lean-side instance; checking it from P is a layer
+    # violation. R phase_c.txt enforces the FF HARD GATE on its own side
+    # when formalizing `\origin{ai}` chapters. If R cannot satisfy FF,
+    # R revises (carrier design, or relabels chapter origin) — not P.
+    # "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
     "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
     "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }

@@ -1,0 +1,30 @@
+\begin{definition}[RegSeqRat tail-budget packet]
+\label{def:regseqrat-tail-budget-packet}
+The RegSeqRat tail-budget packet is the finite packet displayed to a $\RealUp$ seal consumer of an accepted $\RegSeqRatUp$ carrier. Its rows are the dyadic observation rows from $\DyadicRatCoreUp$, the StreamName window rows naming the finite request, the regularity-budget rows of the accepted $\RegSeqRatUp$ carrier, the tail-selector rows used by the request, the componentwise transport rows, displayed $\Cont$ continuations, $\Pkg$ provenance, and the local $\NameCert_{\RegSeqRatUp}$ naming row.
+
+The packet has no hidden completion carrier. Its visible data are exactly the tail-budget source rows that feed the public $\RealUp$ seal.
+\end{definition}
+
+\begin{theorem}[RegSeqRat tail-budget non-escape]
+\label{thm:regseqrat-tail-budget-nonescape}
+A $\RealUp$ seal consumer of a RegSeqRat tail-budget packet can read only the displayed dyadic observation rows, StreamName window rows, regularity-budget rows, tail-selector rows, transport, continuation, provenance, and local naming rows of \autoref{def:regseqrat-tail-budget-packet}. It cannot obtain quotient sequence equality, a selected limit, countable choice, or ambient completeness from that packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regseqrat-tail-budget-terminal-real-seal}. It places every completion-facing tail-budget consumer on the finite route through the StreamName schedule, DyadicRatCore ledger, RegSeqRat classifier and regularity rows, displayed support rows, and the public RealUp seal.
+
+Next apply \autoref{thm:regseqrat-shared-window-selector-determinacy}. The shared-window selector is determined by the displayed finite source rows and by the local transport, continuation, provenance, and naming data; hidden selectors and selected limits do not distinguish a second route.
+
+Use \autoref{thm:regseqrat-real-seal-selector-nonescape} to remove the excluded coordinates at the Real-facing boundary. It prevents quotient streams, selected limits, detached completion rows, and second seal data from being exported by the selector surface.
+
+The rows remaining after these references are precisely the packet rows of \autoref{def:regseqrat-tail-budget-packet}. Since no cited boundary supplies quotient sequence equality, a selected limit, countable choice, or ambient completeness, a RealUp seal consumer cannot obtain them from the tail-budget packet.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-budget sibling route]
+\label{thm:regseqrat-tail-budget-sibling-route}
+Every RegSeqRat tail-budget packet used by a $\RealUp$ seal consumer factors through the sibling chapter surfaces \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before \autoref{thm:regseqrat-tail-budget-nonescape} applies. The StreamName surface supplies the finite windows, the DyadicRatCore surface supplies the dyadic tolerances, and the RealUp surface supplies the terminal seal reads for the same displayed packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regseqrat-tail-budget-nonescape}. Its route inventory already identifies the dyadic observation rows, StreamName window rows, regularity-budget rows, tail-selector rows, transports, continuations, provenance, and local naming rows that can be read by a RealUp seal consumer.
+
+The three sibling surfaces provide the named external faces of that inventory. The StreamName chapter supplies the finite-window reads, the DyadicRatCore chapter supplies the dyadic tolerance rows, and the Real chapter supplies the terminal RealUp seal reads. Once those faces are displayed, the local non-escape theorem applies to the same tail-budget packet.
+\end{proof}

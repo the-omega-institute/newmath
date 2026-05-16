@@ -244,19 +244,39 @@ For field faithfulness, use \autoref{thm:cellular-carrier-encoding-field-project
 
 The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
 
+\begin{theorem}[CellularCarrierEncoding bridge-facing route]
+\label{thm:cellular-carrier-encoding-bridge-facing-route}
+For every accepted $\CellularCarrierEncodingUp$ packet, the public rows
+$$
+B,T,R,S,H,C,P,N
+$$
+form the bridge-facing route from the source $\BHist$ row to the displayed cellular automaton and cellular trust substrate surfaces. The route exposes bit encoding and readback, cell-row placement, substrate witness, componentwise transport, displayed continuation, package provenance, and local $\NameCert$ rows as one finite public certificate, and it exports no host byte string, hidden row offset, detached cellular evaluator, orbit quotient, or unrecorded substrate witness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cellular-carrier-encoding-formal-target-boundary}. It fixes the paper surface on the carrier rows consumed by the checked TasteGate alignment.
+
+Apply \autoref{thm:cellular-carrier-encoding-nonescape} and \autoref{thm:cellular-carrier-encoding-readback-exactness}. The source trace, bit encoding, readback, and cell-row placement are visible only through $B,T,R$ and cannot be replaced by host bytes or hidden offsets.
+
+Next use \autoref{thm:cellular-carrier-encoding-route-stability} and \autoref{thm:cellular-carrier-encoding-provenance-exhaustion}. They keep the substrate surface, transport rows, continuation rows, package provenance, and local naming row on $S,H,C,P,N$.
+
+Therefore the public packet already presents the bridge-facing route from $\BHist$ source rows to the cellular automaton and cellular trust substrate surfaces, while bridge checking itself remains outside this paper-axis claim.
+\end{proof}
+
 \closureat{CellularCarrierEncodingUp}{seedStr}
 \closureat{CellularCarrierEncodingUp}{obligationStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
 \closureat{CellularCarrierEncodingUp}{scopedStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
 \closureat{CellularCarrierEncodingUp}{publicStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
+\closureat{CellularCarrierEncodingUp}{bridgedStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
+\closureat{CellularCarrierEncodingUp}{matureStr}[BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CellularCarrierEncodingUp}
   \constructivestory{A $\CellularCarrierEncodingUp$ packet is generated from a source $\BHist$ row, bit encoding and readback row, cell-row embedding coordinate, cellular substrate witness row, componentwise transports, displayed continuations, provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, \autoref{thm:cellular-carrier-encoding-nonescape}, \autoref{thm:cellular-carrier-encoding-readback-exactness}, \autoref{thm:cellular-carrier-encoding-route-stability}, \autoref{thm:cellular-carrier-encoding-provenance-exhaustion}, \autoref{thm:cellular-carrier-encoding-primitive-scope-binding}, \autoref{thm:cellular-carrier-encoding-sibling-scope-binding}, \autoref{thm:cellular-carrier-encoding-obligation-closure}, \autoref{thm:cellular-carrier-encoding-formal-target-boundary}, and \leanchecked{BEDC.Derived.CellularCarrierEncodingUp.taste\_gate} bind the scoped $B,T,R,S,H,C,P,N$ route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CellularAutomatonUp$, and $\CellularTrustSubstrateUp$ together with the checked TasteGate single-carrier alignment.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:cellular-carrier-encoding-carrier}, \autoref{thm:cellular-carrier-encoding-namecert-obligations}, \autoref{thm:cellular-carrier-encoding-nonescape}, \autoref{thm:cellular-carrier-encoding-readback-exactness}, \autoref{thm:cellular-carrier-encoding-route-stability}, \autoref{thm:cellular-carrier-encoding-provenance-exhaustion}, \autoref{thm:cellular-carrier-encoding-primitive-scope-binding}, \autoref{thm:cellular-carrier-encoding-sibling-scope-binding}, \autoref{thm:cellular-carrier-encoding-obligation-closure}, \autoref{thm:cellular-carrier-encoding-formal-target-boundary}, \autoref{thm:cellular-carrier-encoding-bridge-facing-route}, and \leanchecked{BEDC.Derived.CellularCarrierEncodingUp.taste\_gate} bind the scoped and bridge-facing $B,T,R,S,H,C,P,N$ route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CellularAutomatonUp$, and $\CellularTrustSubstrateUp$ together with the checked TasteGate single-carrier alignment.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, hidden offset exclusion beyond the displayed packet, or bridge checking.}
-  \upgradepath{Bridged closure next requires a bridge-facing route for the same displayed $B,T,R,S,H,C,P,N$ packet, its BHist, hsame, Cont, CellularAutomatonUp, CellularTrustSubstrateUp, Pkg, NameCert rows, and the Lean TasteGate alignment.}
+  \notclaimed{This chapter does not close bit-readback Lean verification, cell-row embedding uniqueness, substrate replay completeness, or hidden offset exclusion beyond the displayed packet.}
+  \upgradepath{No further paper-theory upgrade remains; bridge checking remains on the verification axis.}
 \end{closurestatus}

@@ -95,6 +95,7 @@ Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCau
 
 Consequently the located-trap obligation is stable under the accepted root route for $\BoundedMonotoneConvergenceSealUp$, $\CauchyLimitSealUp$, and $\RealUp$ consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_located\_trap\_stability}
 \begin{proof}
 Read the located row from the carrier. The definition makes $I$ the unique $\LocatedIntervalUp$ trap row and places it after $S,F,\sigma,\mu,\lambda$ and before the seal row $Q$.
 
@@ -123,6 +124,7 @@ Now use the monotone-bound route and root tail-window totality. The monotone-bou
 
 Finally apply located-trap stability and root seal route exhaustion. The trap theorem fixes $I$ as the pre-seal enclosure, and the exhaustion theorem leaves the seal-facing suffix with no coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Hence the $\RealUp$ threshold consumption is exhausted by the displayed root route and exports none of the excluded completion principles.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessRootRealSealThresholdExhaustion}
 
 \begin{theorem}[Bounded monotone Cauchy witness grid route compatibility]
 \label{thm:bounded-monotone-cauchy-witness-grid-route-compatibility}
@@ -158,6 +160,30 @@ The two packets therefore compose without adding an escape coordinate. The grid 
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_grid\_ledger\_nonescape}
 
+\begin{theorem}[Bounded monotone Cauchy witness diagonal-limit compatibility pullback]
+\label{thm:bounded-monotone-cauchy-witness-diagonal-limit-compatibility-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose its root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L_G,K_G,T_G,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ and an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+D=(R_D,T_D,S_D,D_D,W_D,Q_D,L_D,H_D,C_D,P_D,N_D)
+$$
+through the budget-seal factorization route of \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization}. Then every terminal $\RealUp$ or completion-seal read from the root route factors through one finite pullback surface consisting of the bounded source $S$, scheduled $\StreamNameUp$ window $\sigma$, dyadic ledger $\lambda$, $\RegSeqRatUp$ handoff $F$, located trap $I$, grid selector and witness ledger rows $B,L_G,K_G,T_G,S_G,R_G,E_G$, diagonal budget rows $R_D,T_D,S_D,D_D,W_D,Q_D,L_D$, the $\CauchyLimitSealUp$ boundary, the terminal $\RealUp$ seal rows $Q,E_G,L_D$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+$$
+H,H_G,H_D,\quad C,C_G,C_D,\quad P,P_G,P_D,\quad N,N_G,N_D.
+$$
+
+The pullback exports no selected limit, quotient real equality, host equality, trichotomy, countable choice, ambient completeness, open-cover compactness, hidden selector enlargement, or unlisted tail selector.
+\end{theorem}
+\begin{proof}
+First project the bounded monotone root packet. By \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}, every root-facing read of $W$ is confined to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, with no external completion coordinate.
+
+Next attach the grid route. The compatibility theorem \autoref{thm:bounded-monotone-cauchy-witness-grid-route-compatibility} places the selector budget, witness ledger, classifier, and tail rows of $G$ before the $\RealUp$ seal row of $W$, and \autoref{thm:bounded-monotone-cauchy-witness-grid-ledger-nonescape} says that the grid contributes only the displayed rows $B,L_G,K_G,T_G,S_G,R_G,E_G,H_G,C_G,P_G,N_G$.
+
+Now read the diagonal-limit compatibility packet. The budget-seal factorization of \autoref{thm:diagonal-limit-compatibility-root-budget-seal-factorization} sends terminal Real and completion-seal consumers through $R_D,T_D,S_D,D_D,W_D,Q_D,L_D,H_D,C_D,P_D,N_D$, while \autoref{thm:diagonal-limit-compatibility-root-provenance-exhaustion} keeps the same route inside its displayed provenance and local naming rows.
+
+Finally apply terminal pullback non-escape for the diagonal route, \autoref{thm:diagonal-limit-compatibility-terminal-pullback-consumer-nonescape}. The bounded source, grid ledger, diagonal budget route, CauchyLimitSeal boundary, RealUp seal, and all transport, continuation, package, and naming rows have already been listed. Since the exhausted finite packet has no coordinate for selected limits, quotient equality, host equality, trichotomy, choice, completeness, compactness, hidden selector growth, or tail-selector enlargement, every terminal read factors through exactly the displayed pullback surface.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_diagonal\_limit\_compatibility\_pullback}
+
 \begin{theorem}[Bounded monotone Cauchy witness grid root package]
 \label{thm:bounded-monotone-cauchy-witness-grid-root-package}
 An accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes an accepted $\RealCauchyWitnessGridUp$ packet forms a finite L10 root package through \autoref{ch:concrete-instances-real-cauchy-witness-grid-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
@@ -191,6 +217,7 @@ The tail-window and trap theorems close the middle of the route. Root tail-windo
 
 Finally apply Real-seal threshold exhaustion. The threshold theorem consumes the seal row $Q$ only after the displayed source, tail, and trap rows, and root seal route exhaustion leaves no coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Therefore the full source-to-seal route is total on the finite packet and exports none of the excluded completion principles.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_source\_seal\_totality}
 
 \begin{theorem}[Bounded monotone Cauchy witness root synchronizer handoff]
 \label{thm:bounded-monotone-cauchy-witness-root-synchronizer-handoff}
@@ -206,6 +233,7 @@ after the displayed bounded monotone source, schedule, tail witness, dyadic ledg
 
 Consequently the root packet supplies the shared synchronizer-facing surface for the limit-seal and Real-observation-budget routes. It supplies no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, hidden synchronizer state, or choice-like selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_synchronizer\_handoff}
 \begin{proof}
 Begin with root extraction and source-seal totality. \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} confines every root read of $W$ to the displayed packet, while \autoref{thm:bounded-monotone-cauchy-witness-root-source-seal-totality} carries that packet from the bounded monotone source through the $\RealUp$ seal.
 
@@ -214,6 +242,26 @@ Next attach the limit-seal and synchronizer-facing legs. The limit-seal handoff 
 The middle rows are forced by the tail and trap obligations. Root tail-window totality consumes $\sigma,\mu,\lambda$ before any seal-facing read, and located-trap stability keeps $I$ as the pre-seal enclosure rather than replacing it by an ambient interval choice.
 
 Finally use Real-seal threshold exhaustion. The $\RealUp$ threshold is reached only after $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ have been traversed, so a $\CauchySealBudgetSynchronizerUp$ or $\RealObservationBudgetUp$ consumer has no hidden synchronizer coordinate beyond the displayed route. The excluded completion and choice principles are absent from the packet and cannot be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness synchronizer-grid route]
+\label{thm:bounded-monotone-cauchy-witness-synchronizer-grid-route}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ be an accepted $\RealCauchyWitnessGridUp$ packet consumed on the root route of $W$. Every root-facing synchronizer consumer of $W$ that also consumes $G$ must route through the same finite witness rows
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N
+$$
+and through the grid rows $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$ before reaching any $\RealUp$ seal.
+
+The route exports no selected limit, quotient real equality, host equality, trichotomy, countable choice, ambient completeness, open-cover compactness, hidden synchronizer state, or detached grid selector.
+\end{theorem}
+\begin{proof}
+Begin with the root synchronizer handoff. It sends every $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, and $\RealUp$ consumer through the displayed rows of $W$ and leaves no hidden synchronizer coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Attach the grid by grid route compatibility. Any accepted route that consumes $G$ reaches the grid selector budget, witness ledger, completion classifier, and tail envelope before the $\RealUp$ seal row $Q$ of $W$ is read.
+
+Use grid ledger non-escape to identify the grid contribution. The grid packet contributes only $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$ together with the displayed rows of $W$, and it does not supply a detached selector or ambient completion principle.
+
+Finally apply root Real-seal threshold exhaustion. The $\RealUp$ seal can be consumed only after the finite bounded-source, tail-window, located-trap, synchronizer, and grid rows have already been traversed, so none of the excluded selected-limit, equality, choice, completeness, compactness, hidden-state, or detached-selector data is exported.
 \end{proof}
 
 \begin{theorem}[Bounded monotone Cauchy witness root tail-seal nesting]
@@ -226,6 +274,7 @@ The $S,F$ stage supplies the bounded monotone source and dyadic bound data; the 
 
 Consequently the L10 source-to-seal route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealObservationBudgetUp$, and $\RealUp$ remains inside the displayed packet. It exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, hidden synchronizer state, or choice-like selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessTailSealNesting}
 \begin{proof}
 First confine the packet. Root extraction, \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}, says that every root-facing read of $W$ is a read of the displayed carrier rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
 
@@ -302,4 +351,148 @@ Next apply schedule factorization. It records that $\sigma,\mu,\lambda$ are fini
 If the root route consumes a grid packet, use grid budget precedence. The rows $B,L,K,T$ are read before $Q$, and the remaining grid rows are exactly the carrier, handoff, transport, continuation, provenance, and naming rows already listed by the grid package.
 
 Finally apply the synchronizer handoff and route tightening. They exhaust the Real-seal, synchronizer, and observation-budget consumers by the displayed witness and grid rows, so none of the excluded selected-limit, host-equality, completeness, compactness, trichotomy, choice, or hidden-selector data can be imported.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness four-face budget correspondence]
+\label{thm:bounded-monotone-cauchy-witness-four-face-budget-correspondence}
+Every accepted bounded monotone Cauchy witness consumed by the Real-seal route factors through exactly the four licensed L10 faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, the $\StreamNameUp$ face is the finite observation schedule $\sigma$, the $\DyadicRatCoreUp$ face is the dyadic tolerance and upper-bound ledger $\lambda$ together with the grid selector budget when a $\RealCauchyWitnessGridUp$ packet is consumed, the $\RegSeqRatUp$ face is the regular rational readback row $F$ together with the grid readback rows, and the $\RealUp$ face is the seal row $Q$.
+
+The correspondence is exhausted by displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It has no coordinate for quotient streams, selected host limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First confine the consumer to the witness packet. By \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} and \autoref{thm:bounded-monotone-cauchy-witness-monotone-bound-route}, every root-facing read stays inside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, with the bounded source and regular rational readback before the scheduled tail service.
+
+Next identify the licensed faces. Theorems~\ref{thm:bounded-monotone-cauchy-witness-root-tail-window-totality} and~\ref{thm:bounded-monotone-cauchy-witness-schedule-factorization} make $\sigma,\mu,\lambda$ unavoidable before a seal read and read those rows as finite $\BHist$ data transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$.
+
+Now attach the budget side. The grid-budget theorem \autoref{thm:bounded-monotone-cauchy-witness-grid-budget-precedes-seal} places the selector budget, witness ledger, completion-seal classifier, and tail envelope before $Q$ whenever a grid packet is present, and \autoref{thm:bounded-monotone-cauchy-witness-route-tightening} keeps those rows on the same Real-facing chain rather than on a parallel completion route.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-root-synchronizer-handoff} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-consumer-exhaustion}. These keep observation-budget and seal-budget consumers on the same finite surface and list all rows available to the downstream consumer. Therefore the four faces above are the entire budget correspondence, and the excluded quotient-stream, selected-limit, choice, and ambient-completeness data have no displayed carrier row from which to be read.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness uniform criterion handoff]
+\label{thm:bounded-monotone-cauchy-witness-uniform-criterion-handoff}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and suppose a downstream $\UniformCauchyCriterionUp$ consumer reads the root route of $W$ through an accepted packet
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U).
+$$
+Then the bounded-source route of $W$ factors through the finite chain
+$$
+S,F \longrightarrow \sigma,\mu,\lambda \longrightarrow I,Q \longrightarrow I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U.
+$$
+The first stage supplies the displayed bounded monotone source and regular rational readback; the second supplies the $\StreamNameUp$ finite-window schedule, Cauchy tail witness, and dyadic tolerance ledger; the third supplies the located trap and $\RealUp$ seal row; and the final stage is exactly the UniformCauchyCriterion family-test surface over its finite index, shared window, shared modulus, dyadic tolerance, tail ledger, seal handoff, transport, continuation, package, and local naming rows.
+
+The StreamName finite-window handoff and the $\RegSeqRatUp$--$\RealUp$ seal rows remain explicit throughout the chain. Thus the handoff exports no quotient streams, selected host limits, host real equality, countable choice, ambient completeness, open-cover compactness, hidden family limit, or direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+First project the bounded monotone witness. Root extraction confines every root read of $W$ to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, and root tail-window totality forces the consumer to pass through $\sigma,\mu,\lambda$ before any located-trap or seal row is available.
+
+Next factor the schedule route. The schedule factorization theorem records $\sigma,\mu,\lambda$ as finite $\BHist$ rows transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$. The four-face budget correspondence then identifies the licensed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces that the downstream consumer may read.
+
+Now attach the UniformCauchyCriterion packet. By \autoref{thm:uniform-cauchy-criterion-window-stability}, the family request preserves the same finite index ledger, shared window family, and shared modulus before a tail comparison is inspected. By \autoref{thm:uniform-cauchy-criterion-root-downstream-unblock}, the full criterion-facing surface is exhausted by $I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U$.
+
+Finally bind the StreamName and regular-real handoff rows. The StreamName finite-window handoff of \autoref{thm:streamname-real-regseq-finite-window-handoff} keeps the finite observation window and $\RegSeqRatUp$ seed rows visible, while the bounded monotone root seal route and Real-seal consumer exhaustion keep the $I,Q$ suffix tied to the same regular-source and seal route. Since neither side contributes quotient streams, selected limits, host real equality, countable choice, ambient completeness, open-cover compactness, or a direct $\RealUp$ bypass, their composite handoff is exactly the finite chain displayed above.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness observation-budget grid pullback]
+\label{thm:bounded-monotone-cauchy-witness-observation-budget-grid-pullback}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Let
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)
+$$
+be an accepted $\RealCauchyWitnessGridUp$ packet, let
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let
+$$
+O=(E_O,W_O,D_O,R_O,S_O,H_O,C_O,P_O,N_O)
+$$
+be an accepted $\RealObservationBudgetUp$ packet reading the same finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ regular readbacks, and $\RealUp$ seal rows used by the root route of $W$, the grid packet $G$, and the uniform criterion packet $U$. Then the bounded-source route, grid-budget route, uniform-criterion route, and observation-budget route determine one pullback surface before any $\RealUp$ seal is public:
+$$
+S,F,\sigma,\mu,\lambda,I,Q,B,L,K,T,S_G,R_G,E_G,I_U,W_U,M_U,Q_U,T_U,E_U,E_O,W_O,D_O,R_O,S_O,H,H_G,H_U,H_O,C,C_G,C_U,C_O,P,P_G,P_U,P_O,N,N_G,N_U,N_O.
+$$
+Every consumer of this surface first reads the root source and tail-window rows of $W$, then the grid budget rows of $G$, then the uniform-criterion rows of $U$, and finally the finite observation-budget rows that name the same windows, dyadic ledgers, regular readbacks, and seal boundary. The surface exports no quotient stream, selected host limit, host real equality, countable-choice selector, ambient completeness theorem, open-cover compactness principle, hidden family limit, or direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+First project the bounded-source route. Root extraction confines all reads of $W$ to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, and schedule factorization records $\sigma,\mu,\lambda$ as finite $\BHist$ rows transported only by $H$, replayed only by $C$, packaged only by $P$, and named only by $N$.
+
+Next attach the grid side. The grid-budget precedence theorem places $B,L,K,T$ before the seal row $Q$ on the same root route, while the grid readback rows $S_G,R_G,E_G$ sit on the same $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces. Thus the grid packet contributes budget rows to the same surface rather than a second completion route.
+
+Now attach the uniform criterion. The uniform-criterion handoff sends the family-test packet $U$ through the already displayed finite windows, dyadic tolerance ledger, regular readback, and seal handoff. Its rows $I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U$ therefore meet the bounded-source and grid rows along the shared L10 faces.
+
+Finally read the observation-budget route. By \autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, and \autoref{thm:real-observation-budget-nonescape}, the observation-budget consumer exposes only its finite request, window, dyadic, regular-handoff, seal, transport, continuation, provenance, and naming rows. Since those rows are assumed to be the same finite windows, ledgers, readbacks, and seal rows already displayed by $W$, $G$, and $U$, the four routes share exactly the pullback surface above before any $\RealUp$ seal can be public.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness criterion-grid-synchronizer correspondence]
+\label{thm:bounded-monotone-cauchy-witness-criterion-grid-synchronizer-correspondence}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Its public route to $\CauchyCriterionUp$, $\RealCauchyWitnessGridUp$, $\CauchySealBudgetSynchronizerUp$, and $\RealObservationBudgetUp$ is a single displayed correspondence before $Q$ is read as the $\RealUp$ seal: the criterion tail exposes the scheduled window and modulus ledger, the grid packet exposes the finite observation and witness-budget rows, and the synchronizer exposes the seal budget.
+
+The correspondence is exhausted by the rows of $W$, the grid-budget rows, the criterion-tail rows, the synchronizer seal-budget rows, the observation-budget rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ names. It exports no quotient streams, selected limits, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selection.
+\end{theorem}
+\begin{proof}
+Apply root extraction to the accepted packet $W$. This confines the public route to the bounded source, regular readback, schedule, modulus, dyadic ledger, located trap, seal, transport, route, provenance, and naming rows.
+
+Apply root tail-window totality. The scheduled window $\sigma$, modulus witness $\mu$, and dyadic ledger $\lambda$ are read before any located-trap, synchronizer, observation-budget, or $\RealUp$ seal consumer can inspect $Q$.
+
+Apply grid budget precedence. The $\RealCauchyWitnessGridUp$ packet contributes its finite observation and witness-budget rows before the seal row, so the grid route is a budgeted face of the same root route rather than a hidden completion route.
+
+Apply the synchronizer handoff and the observation-budget grid pullback. The synchronizer exposes the seal budget on the same displayed chain, and the observation-budget route reads the same finite windows, dyadic ledgers, regular readbacks, and seal boundary.
+
+Finally apply Real-seal consumer exhaustion. The downstream consumer has only the displayed witness, criterion, grid, synchronizer, observation-budget, transport, continuation, provenance, and naming rows, so the excluded quotient-stream, selected-limit, host-equality, trichotomy, completeness, compactness, and choice-like tail-selection routes have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness root Real-seal determinacy]
+\label{thm:bounded-monotone-cauchy-witness-root-real-seal-determinacy}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Let $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ be an accepted $\RealCauchyWitnessGridUp$ packet, let $U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)$ be an accepted $\UniformCauchyCriterionUp$ packet, and let $O=(E_O,W_O,D_O,R_O,S_O,H_O,C_O,P_O,N_O)$ be an accepted $\RealObservationBudgetUp$ packet reading the same displayed finite-window, dyadic-ledger, regular-readback, and seal rows as the root route of $W$ and the grid and criterion packets.
+
+Then any public $\RealUp$ seal read on the shared surface is determined by the common displayed rows of the bounded-source route, grid-budget route, uniform-criterion route, synchronizer route, and observation-budget route. If two public seal reads preserve
+$$
+S,F,\sigma,\mu,\lambda,I,Q,B,L,K,T,S_G,R_G,E_G,I_U,W_U,M_U,Q_U,T_U,E_U,E_O,W_O,D_O,R_O,S_O,H,H_G,H_U,H_O,C,C_G,C_U,C_O,P,P_G,P_U,P_O,N,N_G,N_U,N_O,
+$$
+then they expose the same $\RealUp$ seal boundary. The shared surface carries no quotient stream, selected host limit, host equality, choice principle, ambient completeness theorem, open-cover compactness principle, hidden family limit, or direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+Begin with root extraction and tail-window totality. Root extraction confines every public read of $W$ to $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, and tail-window totality forces $\sigma,\mu,\lambda$ to be consumed before any located-trap, synchronizer, observation-budget, or $\RealUp$ seal read can inspect $Q$.
+
+Next apply grid budget precedence. The grid rows $B,L,K,T$ occur before the seal row on the same root route, while $S_G,R_G,E_G$ are the displayed StreamName, RegSeqRat, and Real-seal faces of that route. Thus the grid packet cannot alter the seal boundary without altering a displayed row.
+
+Now use the uniform criterion handoff. The packet $U$ reads the same finite windows, shared modulus, dyadic tolerance, tail ledger, and seal handoff already exposed by the bounded-source and grid routes, so a public criterion read preserving those rows preserves the same seal-facing boundary.
+
+Apply the observation-budget grid pullback and the criterion-grid-synchronizer correspondence. These identify the observation request, window, dyadic, regular-handoff, seal, synchronizer, transport, continuation, provenance, and naming rows as one shared pullback surface before the $\RealUp$ seal is public.
+
+Finally use Real-seal consumer exhaustion. A downstream seal consumer has only the displayed witness, grid, criterion, synchronizer, observation-budget, transport, continuation, provenance, and naming rows listed above. Therefore two reads that preserve those rows determine the same public $\RealUp$ seal boundary, and the excluded quotient-stream, selected-limit, host-equality, choice, completeness, compactness, and bypass routes have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness grid selector exactness]
+\label{thm:bounded-monotone-cauchy-witness-grid-selector-exactness}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Let
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)
+$$
+be an accepted $\RealCauchyWitnessGridUp$ packet, let
+$$
+U=(I_U,W_U,M_U,Q_U,T_U,E_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, let $Y$ be an accepted $\CauchySealBudgetSynchronizerUp$ packet, and let
+$$
+O=(E_O,W_O,D_O,R_O,S_O,H_O,C_O,P_O,N_O)
+$$
+be an accepted $\RealObservationBudgetUp$ packet. Suppose these packets read the same finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ regular readbacks, and $\RealUp$ seal row displayed by the root route of $W$.
+
+Then the public selector route from $W,G,U,Y,O$ is exact. Any two selector-facing reads that preserve the bounded-source rows $S,F,\sigma,\mu,\lambda,I,Q$, the grid-budget rows $B,L,K,T,S_G,R_G,E_G$, the uniform-criterion rows $I_U,W_U,M_U,Q_U,T_U,E_U$, the synchronizer seal-budget rows of $Y$, the observation-budget rows $E_O,W_O,D_O,R_O,S_O$, the componentwise transport rows $H,H_G,H_U,H_O$, the displayed continuation rows $C,C_G,C_U,C_O$, the provenance rows $P,P_G,P_U,P_O$, and the local NameCert rows $N,N_G,N_U,N_O$ expose the same selector-facing $\RealUp$ seal boundary.
+
+The exact selector surface has no coordinate for quotient streams, selected host limits, host real equality, choice selectors, ambient completeness, open-cover compactness, hidden family limits, or a direct $\RealUp$ bypass.
+\end{theorem}
+\begin{proof}
+First extract the root route. Root extraction and root tail-window totality force every selector-facing read of $W$ through the displayed bounded source, regular readback, finite window, modulus, dyadic ledger, located trap, seal row, transport, continuation, provenance, and local naming rows.
+
+Next attach the grid route. Grid budget precedence and grid route compatibility keep $G$ on the same finite-window, dyadic-ledger, regular-readback, and seal boundary as $W$. The grid rows therefore refine the selector budget on the displayed route rather than adding a second completion stream.
+
+Now add the criterion, synchronizer, and observation faces. The observation-budget grid pullback identifies the observation rows with the same window, ledger, readback, and seal surface, while the criterion-grid-synchronizer correspondence places the uniform criterion and synchronizer rows on that shared surface before the seal is public.
+
+Finally apply root Real-seal determinacy. Once the bounded-source, grid-budget, uniform-criterion, synchronizer, observation-budget, transport, continuation, provenance, and NameCert rows are preserved, any two public selector reads expose the same $\RealUp$ seal boundary. Since the preceding route inventory contains no quotient, selected-limit, host-equality, choice, completeness, compactness, hidden-family, or bypass coordinate, no such data can enter the selector.
 \end{proof}

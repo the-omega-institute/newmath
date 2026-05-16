@@ -13,6 +13,7 @@ Use \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock}, \autoref{
 \label{thm:cauchy-witness-ledger-streamname-regseq-factorization}
 For an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$, the $\StreamNameUp$ window source and every $\RegSeqRatUp$ readback factor through the same $Q \longmapsto B$ budget source before $S$ or $K$ is public. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve this source without adding a tail oracle, detached dyadic completion, or host Real limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_streamname\_regseq\_factorization}
 \begin{proof}
 Read \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock}. The stream window is fixed by the diagonal-budget and observation-budget rows, then transported through $H,C,P,N$.
 
@@ -130,4 +131,24 @@ Next apply \autoref{thm:cauchy-witness-ledger-budget-selector-four-face-exhausti
 Use the agreement hypotheses for $T$. The selected window $W$, readback row $R$, and limit row $L_0$ are the same rows already consumed by the ledger route, so the selector-seal packet is attached to the handoff rather than forming a second completion source.
 
 Finally use \autoref{thm:real-completion-selector-seal-route-determinacy} and \autoref{thm:real-completion-selector-seal-nonescape}. Determinacy gives a single finite selector-seal route, and non-escape exhausts every completion consumer at $B_0,W,R,L_0,E,H_0,C_0,P_0,N_0$. Hence the only remaining route is the displayed terminal chain from $\CauchyWitnessLedgerUp$ to $\RealUp$ through the selector and seal packets.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger selector agreement terminal collapse]
+\label{thm:cauchy-witness-ledger-selector-agreement-terminal-collapse}
+Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Let $F=(B_0,S_0,W,D,R_F,E_F,H_F,C_F,P_F,N_F)$ be an accepted $\FiniteObservationBudgetSelectorUp$ packet, and let $T=(B_1,W_1,R_T,L_1,E_T,H_T,C_T,P_T,N_T)$ be an accepted $\RealCompletionSelectorSealUp$ packet. Suppose the three packets agree on the selected window, the $\RegSeqRatUp$ readback, the $\CauchyLimitSealUp$ row, and the $\RealUp$ seal row exposed by the ledger route.
+
+Then every $\RealAlgOrderUp$, $\MetricSpaceUp$, or $\SOneUp$ consumer of the Real-and-completion surface factors through the single terminal chain
+$$
+\CauchyWitnessLedgerUp \longmapsto \FiniteObservationBudgetSelectorUp \longmapsto \RealCompletionSelectorSealUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyLimitSealUp \longmapsto \RealUp.
+$$
+The consumer receives only the displayed selected-window route, regular-rational readback, limit-seal row, Real seal row, and the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It cannot introduce quotient streams, selected limits, host equality, ambient completeness, countable choice, a second completion route, or any separate RealAlgOrder, MetricSpace, or $\SOneUp$ completion source.
+\end{theorem}
+\begin{proof}
+First attach the ledger to the selector-seal route. By \autoref{thm:cauchy-witness-ledger-selector-seal-terminality}, the accepted ledger packet and selector-seal packet already force every Phase Real and Completion consumer through the displayed route from $\CauchyWitnessLedgerUp$ to $\RealUp$.
+
+Next identify the four open faces. Apply \autoref{thm:streamname-open-phase-four-face-terminality} to the agreed selected window, dyadic observation window, regular readback, and Real seal rows, and then apply \autoref{thm:real-l10-four-face-audit-clean-handoff}. These rows are consumed as one terminal four-face packet rather than as independent completion coordinates.
+
+Now read the downstream positive-boundary consumers. The RealAlgOrder, MetricSpace, and $\SOneUp$ consumer theorems use the same positive Real boundary: they read the Real row after the StreamName, RegSeqRat, CauchyLimitSeal, and Real seal faces have already been fixed. Since the hypotheses identify those faces across $L$, $F$, and $T$, no consumer in this family has another source from which a completion route could be read.
+
+Finally use nonescape for the selector-seal and ledger routes. The selector-seal packet exports no quotient stream, selected limit, host equality, ambient completeness, countable choice, or second completion route, and the ledger route exports no off-packet Real completion data. Thus the only available route for the three consumer families is the displayed terminal chain.
 \end{proof}

@@ -1,0 +1,46 @@
+The current $\RealUp$ L10 carrier is read through the $\StreamNameUp$ finite observation interface of \autoref{ch:concrete-instances-streamname-namecert} and the $\RegSeqRatUp$ regularity certificate of \autoref{ch:concrete-instances-regseqrat-namecert}. The later $\MetricSpaceUp$ consumer in \autoref{ch:concrete-instances-metric-namecert} uses the resulting $\RealUp$-valued distance interface only after those two sibling certificates are present, so the Real route is a sibling lattice through StreamName and rational regular sequences before it becomes a metric-distance surface.
+
+\begin{theorem}[Real StreamName RegSeqRat metric-observation factorization]
+\label{thm:real-streamname-regseqrat-metric-observation-factorization}
+Every $\MetricSpaceUp$-facing observation of an accepted $\RealUp$
+finite-window carrier factors through the ordered BEDC observation route
+$$
+\StreamNameUp \to \RegSeqRatUp \to \RealUp \to
+\mathsf{MetricDistanceWitness}.
+$$
+The first leg reads only the $\StreamNameUp$ finite observation interface and
+its displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The
+second leg reads the $\RegSeqRatUp$ regularity rows together with the dyadic
+window rows that lock the finite rational schedule. The third leg exposes the
+local $\RealUp$ seal and readback surface. Only after that seal is visible may
+the downstream $\MetricSpaceUp$ consumer read the
+$\mathsf{MetricDistanceWitness}$ ledger.
+
+Thus the metric observation exports no quotient Cauchy class, host real
+equality, ambient completeness principle, or direct metric access to an
+unsealed stream.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-dyadic-stream-regseq-route}. It places the
+accepted Real-facing read on the route from dyadic observations through
+$\StreamNameUp$ finite windows and $\RegSeqRatUp$ regular readback to the
+local $\RealUp$ seal, using only the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-real-regseq-finite-window-handoff} and
+\autoref{thm:regseqrat-streamname-dyadic-window-lock}. The handoff fixes the
+finite StreamName observation interface, while the lock identifies the
+regular-rational rows with the dyadic finite-window schedule consumed by
+$\RegSeqRatUp$.
+
+Now use \autoref{thm:real-l10-metric-boundary-nonescape}. It keeps every
+metric-facing read outside the Real construction boundary until the local
+$\RealUp$ seal and readback surface are already visible.
+
+Finally apply the metric witness ledger only at the downstream consumer
+boundary, as in \autoref{thm:metric-distance-witness-cont-depth-add}. This
+records the $\mathsf{MetricDistanceWitness}$ depth accounting after the Real
+seal is available, and it supplies no coordinate for quotient Cauchy classes,
+host real equality, ambient completeness, or direct metric access to an
+unsealed stream.
+\end{proof}

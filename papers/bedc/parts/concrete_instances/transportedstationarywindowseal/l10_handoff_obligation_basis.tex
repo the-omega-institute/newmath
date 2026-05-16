@@ -1,0 +1,65 @@
+\begin{theorem}[Transported stationary window-seal L10 handoff obligation basis]
+\label{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Its L10 handoff basis for Real and Completion consumers is the finite route
+$$
+\begin{aligned}
+  \RatUp
+  \longrightarrow
+  \StreamNameUp
+  \longrightarrow
+  \RegSeqRatUp
+  \longrightarrow
+  \DyadicRatCoreUp
+  \longrightarrow
+  \FiniteWindowEnvelopeUp
+  \longrightarrow
+  \RealUp ,
+\end{aligned}
+$$
+read through the visible rows $R,S,G,W,E,H,C,P,N$ and through the sibling surfaces of \autoref{ch:concrete-instances-rat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-finitewindowenvelope-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}. The basis is an obligation route for later checked carriers; it is not a host completion theorem.
+\end{theorem}
+\begin{proof}
+Begin with the local obligation theorem \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It exposes the accepted packet only through the carrier rows $R,S,G,W,E,H,C,P,N$, with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+
+Next use \autoref{thm:transported-stationary-window-seal-real-factorization}. The $\RealUp$ read cannot appear before the regular-rational seal and finite envelope rows; it must pass through the same $\RegSeqRatUp$ source and the same $\FiniteWindowEnvelopeUp$ row already displayed by the packet.
+
+Finally attach the completion-facing side by \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary} and \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}. These place every completion consumer after the transported $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ source, after the dyadic and finite-window ledger rows, and before any off-packet real-completeness datum could be read. The result is exactly the stated finite handoff basis.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal dyadic window ledger totality]
+\label{thm:transported-stationary-window-seal-dyadic-window-ledger-totality}
+For an accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the dyadic window ledger available to the Real and Completion route is total only through the displayed rows $R,S,G,W,E,H,C,P,N$ and the sibling certificates for $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$. In particular, any accepted dyadic tolerance, finite-window, or regular-readback consumer must read the finite $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ seal of \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\DyadicRatCoreUp$ ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} before it can use $W$ or $E$.
+\end{theorem}
+\begin{proof}
+First project the accepted packet. The obligation theorem \autoref{thm:transported-stationary-window-seal-namecert-obligations} lists exactly the root rows $R,S,G,W,E,H,C,P,N$ and gives no separate dyadic or window carrier outside them.
+
+The finite window and regular seal are then fixed by \autoref{thm:transported-stationary-window-seal-real-factorization} and by the sibling StreamName and RegSeqRat chapters. The dyadic ledger is read only as the tolerance and observation surface compatible with those same rows, through \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The route boundary \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary} and the schedule handoff \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff} rule out any second window budget, second regular seal, or detached dyadic ledger. Hence the dyadic window ledger is total exactly over the displayed packet and the named sibling certificates.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real RegSeq consumer exactness]
+\label{thm:transported-stationary-window-seal-real-regseq-consumer-exactness}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every $\RealUp$ or $\CompletionUp$ consumer of $T$ factors through the finite route from transported $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$ displayed in \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}. No such consumer can import quotient streams, host equality, selected limits, choice, hidden tail oracles, or real-completeness data.
+\end{theorem}
+\begin{proof}
+Start with the Real-facing side. By \autoref{thm:transported-stationary-window-seal-real-factorization}, every $\RealUp$ read of $E$ factors through the same $\RegSeqRatUp$ seal row and the finite envelope $W$, so there is no direct host-real read.
+
+Now use \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary}. It forces every $\CompletionUp$ consumer back to the displayed root packet rather than to quotient streams, host equality, selected limits, choice, or ambient real completeness.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-tail-cofinality-handoff}. The only tail information available to the consumer is the scheduled sibling route of \autoref{ch:concrete-instances-tailcofinalityschedule-namecert}; no hidden tail oracle is introduced. Together with the StreamName, RegSeqRat, DyadicRatCore, FiniteWindowEnvelope, and Real sibling chapters, this gives the exact finite consumer factorization claimed above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal open-phase exit boundary]
+\label{thm:transported-stationary-window-seal-open-phase-exit-boundary}
+Let $T=(R,S,G,W,E,H,C,P,N)$ be an accepted $\TransportedStationaryWindowSealUp$ packet. Every accepted $\RealUp$ or $\CompletionUp$ consumer of $T$ that preserves the displayed rows $R,S,G,W,E,H,C,P,N$ lands on the same four-face Phase Real and Completion route as \autoref{thm:real-l10-open-phase-sibling-route} and \autoref{thm:real-open-phase-four-object-terminal-route}. Its terminal boundary is the finite route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. No quotient stream, selected host limit, host equality, choice row, ambient real-completeness datum, or standard bridge row can replace one of those four faces.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:transported-stationary-window-seal-l10-handoff-obligation-basis}. The accepted transported packet exposes only the finite handoff route through $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$, read through the rows $R,S,G,W,E,H,C,P,N$ and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next use \autoref{thm:transported-stationary-window-seal-real-regseq-consumer-exactness}. It forces every $\RealUp$ or $\CompletionUp$ consumer preserving those rows to enter the Real-facing route through the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and finite-window surfaces, without quotient streams, selected limits, choice, host equality, hidden tail data, or real-completeness input.
+
+Now compare this transported route with the open-phase Real route. Theorem~\ref{thm:real-l10-open-phase-sibling-route} places every public $\RealUp$ seal read in the open phase after the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ sibling surfaces and before the local $\RealUp$ naming row.
+
+Finally apply \autoref{thm:real-open-phase-four-object-terminal-route}. The terminal Phase Real and Completion packet is determined by the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ with their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since the transported consumer preserves $R,S,G,W,E,H,C,P,N$ and supplies no extra accepted face, it reaches exactly that four-face exit boundary.
+\end{proof}

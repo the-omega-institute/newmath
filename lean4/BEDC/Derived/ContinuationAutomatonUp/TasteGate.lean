@@ -213,6 +213,42 @@ instance continuationAutomatonChapterTasteGate : ChapterTasteGate ContinuationAu
     intro x y hxy heq
     exact hxy (continuationAutomatonToEventFlow_injective heq)
 
+instance continuationAutomatonFieldFaithful : FieldFaithful ContinuationAutomatonUp where
+  fields := fun x =>
+    match x with
+    | ContinuationAutomatonUp.mk states initial accepting transitions behaviour transport routes
+        provenance nameCert =>
+        [states, initial, accepting, transitions, behaviour, transport, routes, provenance,
+          nameCert]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk states₁ initial₁ accepting₁ transitions₁ behaviour₁ transport₁ routes₁ provenance₁
+        nameCert₁ =>
+        cases y with
+        | mk states₂ initial₂ accepting₂ transitions₂ behaviour₂ transport₂ routes₂ provenance₂
+            nameCert₂ =>
+            injection h with hstates tail₁
+            injection tail₁ with hinitial tail₂
+            injection tail₂ with haccepting tail₃
+            injection tail₃ with htransitions tail₄
+            injection tail₄ with hbehaviour tail₅
+            injection tail₅ with htransport tail₆
+            injection tail₆ with hroutes tail₇
+            injection tail₇ with hprovenance tail₈
+            injection tail₈ with hnameCert _
+            cases hstates
+            cases hinitial
+            cases haccepting
+            cases htransitions
+            cases hbehaviour
+            cases htransport
+            cases hroutes
+            cases hprovenance
+            cases hnameCert
+            rfl
+
 def taste_gate : ChapterTasteGate ContinuationAutomatonUp :=
   -- BEDC touchpoint anchor: BHist BMark
   continuationAutomatonChapterTasteGate
@@ -291,5 +327,176 @@ theorem ContinuationAutomatonCarrier_behaviour_classifier_stability [AskSetup] [
         unary_transport behaviourUnary (hsame_symm source.right)
       exact And.intro rowUnary namePkg
   }
+
+theorem ContinuationAutomatonCarrier_acceptance_nonescape [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      acceptingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont accepting behaviour acceptingRead ->
+        UnaryHistory acceptingRead ∧ UnaryHistory accepting ∧ UnaryHistory behaviour ∧
+          Cont accepting behaviour transport ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier acceptingBehaviourRead
+  obtain ⟨_statesUnary, _initialUnary, acceptingUnary, _transitionsUnary, behaviourUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _initialTransitionsBehaviour, _transitionsRoutesProvenance, acceptingBehaviourTransport,
+    _provenanceNameStates, namePkg⟩ := carrier
+  have acceptingReadUnary : UnaryHistory acceptingRead :=
+    unary_cont_closed acceptingUnary behaviourUnary acceptingBehaviourRead
+  exact
+    ⟨acceptingReadUnary, acceptingUnary, behaviourUnary, acceptingBehaviourTransport, namePkg⟩
+
+theorem ContinuationAutomatonCarrier_transition_determinacy [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      readA readB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg →
+      hsame readA behaviour →
+        hsame readB behaviour →
+          UnaryHistory readA ∧ UnaryHistory readB ∧ hsame readA readB ∧
+            Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+              Cont accepting behaviour transport ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  intro carrier sameReadA sameReadB
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, _transitionsUnary, behaviourUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    initialTransitionsBehaviour, transitionsRoutesProvenance, acceptingBehaviourTransport,
+    _provenanceNameStates, namePkg⟩ := carrier
+  have readAUnary : UnaryHistory readA :=
+    unary_transport behaviourUnary (hsame_symm sameReadA)
+  have readBUnary : UnaryHistory readB :=
+    unary_transport behaviourUnary (hsame_symm sameReadB)
+  have sameReads : hsame readA readB :=
+    hsame_trans sameReadA (hsame_symm sameReadB)
+  exact
+    And.intro readAUnary
+      (And.intro readBUnary
+        (And.intro sameReads
+          (And.intro initialTransitionsBehaviour
+            (And.intro transitionsRoutesProvenance
+              (And.intro acceptingBehaviourTransport namePkg)))))
+
+theorem ContinuationAutomatonCarrier_ledger_factorization [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont provenance nameCert consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              ContinuationAutomatonCarrier states initial accepting transitions behaviour
+                transport routes provenance nameCert bundle pkg ∧ hsame row consumer)
+            (fun row : BHist =>
+              Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+                Cont provenance nameCert consumer ∧ hsame row consumer)
+            (fun row : BHist =>
+              UnaryHistory row ∧ PkgSig bundle nameCert pkg ∧ PkgSig bundle consumer pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier provenanceNameConsumer consumerPkg
+  have carrierWitness := carrier
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, _transitionsUnary, _behaviourUnary,
+    _transportUnary, _routesUnary, provenanceUnary, nameCertUnary, initialTransitionsBehaviour,
+    transitionsRoutesProvenance, _acceptingBehaviourTransport, _provenanceNameStates,
+    nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary nameCertUnary provenanceNameConsumer
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro consumer
+        (And.intro carrierWitness (hsame_refl consumer))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨initialTransitionsBehaviour, transitionsRoutesProvenance, provenanceNameConsumer,
+          sourceRow.right⟩
+    ledger_sound := by
+      intro row sourceRow
+      have rowUnary : UnaryHistory row :=
+        unary_transport consumerUnary (hsame_symm sourceRow.right)
+      exact ⟨rowUnary, nameCertPkg, consumerPkg⟩
+  }
+
+theorem ContinuationAutomatonTraceExhaustion [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert traceRead
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont transitions routes traceRead ->
+        Cont traceRead behaviour endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory transitions ∧ UnaryHistory routes ∧ UnaryHistory traceRead ∧
+              UnaryHistory endpoint ∧ Cont transitions routes provenance ∧
+                Cont transitions routes traceRead ∧ Cont traceRead behaviour endpoint ∧
+                  PkgSig bundle nameCert pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier transitionsRoutesTrace traceBehaviourEndpoint endpointPkg
+  obtain ⟨_statesUnary, _initialUnary, _acceptingUnary, transitionsUnary, behaviourUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary,
+    _initialTransitionsBehaviour, transitionsRoutesProvenance, _acceptingBehaviourTransport,
+    _provenanceNameStates, nameCertPkg⟩ := carrier
+  have traceUnary : UnaryHistory traceRead :=
+    unary_cont_closed transitionsUnary routesUnary transitionsRoutesTrace
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceUnary behaviourUnary traceBehaviourEndpoint
+  exact
+    ⟨transitionsUnary, routesUnary, traceUnary, endpointUnary, transitionsRoutesProvenance,
+      transitionsRoutesTrace, traceBehaviourEndpoint, nameCertPkg, endpointPkg⟩
+
+theorem ContinuationAutomatonCarrier_namecert_obligation_pack [AskSetup] [PackageSetup]
+    {states initial accepting transitions behaviour transport routes provenance nameCert traceRead
+      endpoint acceptingRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationAutomatonCarrier states initial accepting transitions behaviour transport routes
+        provenance nameCert bundle pkg ->
+      Cont accepting behaviour acceptingRead ->
+        Cont transitions routes traceRead ->
+          Cont traceRead behaviour endpoint ->
+            Cont provenance nameCert consumer ->
+              PkgSig bundle endpoint pkg ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory acceptingRead ∧ UnaryHistory traceRead ∧
+                    UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+                      Cont initial transitions behaviour ∧ Cont transitions routes provenance ∧
+                        Cont provenance nameCert consumer ∧ PkgSig bundle nameCert pkg ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier acceptingBehaviourRead transitionsRoutesTrace traceBehaviourEndpoint
+    provenanceNameConsumer endpointPkg consumerPkg
+  obtain ⟨_statesUnary, initialUnary, acceptingUnary, transitionsUnary, behaviourUnary,
+    _transportUnary, routesUnary, provenanceUnary, nameCertUnary, initialTransitionsBehaviour,
+    transitionsRoutesProvenance, _acceptingBehaviourTransport, _provenanceNameStates,
+    nameCertPkg⟩ := carrier
+  have acceptingReadUnary : UnaryHistory acceptingRead :=
+    unary_cont_closed acceptingUnary behaviourUnary acceptingBehaviourRead
+  have traceReadUnary : UnaryHistory traceRead :=
+    unary_cont_closed transitionsUnary routesUnary transitionsRoutesTrace
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceReadUnary behaviourUnary traceBehaviourEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary nameCertUnary provenanceNameConsumer
+  exact
+    ⟨acceptingReadUnary, traceReadUnary, endpointUnary, consumerUnary,
+      initialTransitionsBehaviour, transitionsRoutesProvenance, provenanceNameConsumer,
+      nameCertPkg, endpointPkg, consumerPkg⟩
 
 end BEDC.Derived.ContinuationAutomatonUp

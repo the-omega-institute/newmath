@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CompressionDescentAuditUp$}
+\label{ch:concrete-instances-compression-descent-audit-namecert}
+\origin{ai-composite}
+
+The $\CompressionDescentAuditUp$ packet realizes endpoint-operation descent as a finite audit object rather than as a claim read from an endpoint alone. It composes the tower-compression carrier of \autoref{ch:concrete-instances-reality-constrained-tower-compression-namecert}, the tower-equivalence surface of \autoref{ch:concrete-instances-towerequivalence-namecert}, the composite-ledger classifier of \autoref{ch:concrete-instances-compression-ledger-functor-namecert}, and the physical model audit of \autoref{ch:concrete-instances-physical-model-audit-namecert}. Those chapters name the tower, endpoint, ledger, equivalence, and model-facing audit rows; this packet names the finite decision surface that accepts or refuses an endpoint operation by displayed descent.
+
+\begin{definition}[CompressionDescentAudit carrier]
+\label{def:compression-descent-audit-carrier}
+A $\CompressionDescentAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,E,O,D,L,F,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the tower-route row, naming the accepted approximation or compression route whose endpoint is being queried.
+\item $E$ is the endpoint row, naming the visible terminal package on which the operation is stated.
+\item $O$ is the endpoint-operation row, naming the operation, predicate, or comparison proposed at $E$.
+\item $D$ is the descent-witness row, recording the displayed route by which $O$ survives the tower classifiers back to the licensed source-facing level.
+\item $L$ is the composite-ledger row, importing every hidden-source, classifier, residue, and endpoint dependency required by the descent witness.
+\item $F$ is the failure-surface row, naming every displayed reason for refusing descent, including missing ledger material, failed classifier compatibility, endpoint-only equality, and model-audit defeat.
+\item $H$ records componentwise $\hsame$ transport for $T,E,O,D,L,F$.
+\item $P$ is the $\Pkg$ provenance over $\CompressionDescentAuditUp$, the cited tower-compression, tower-equivalence, ledger-functor, and physical-audit packets, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompressionDescentAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for endpoint truth as source truth, no private descent oracle, no unledgered tower collapse, and no physical acceptance route outside the displayed failure surface and model-audit provenance.
+\end{definition}
+\leandef{BEDC.Derived.CompressionDescentAuditUp.TasteGate.CompressionDescentAuditUp}
+
+\begin{theorem}[CompressionDescentAudit route soundness]
+\label{thm:compression-descent-audit-route-soundness}
+Let
+$$
+A=(T,E,O,D,L,F,H,P,N)
+$$
+be an accepted $\CompressionDescentAuditUp$ packet. If the packet accepts the endpoint operation $O$, then $O$ is read only through the displayed descent witness $D$, the composite ledger $L$, the failure surface $F$, and the transported tower route $T,E,H$. Endpoint truth at $E$ alone is not a source-facing or model-facing acceptance claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compression-descent-audit-carrier}. The endpoint row $E$ and operation row $O$ are only two coordinates of a nine-row finite packet, and neither coordinate contains a source-facing acceptance route by itself.
+
+The descent witness $D$ records the route by which the operation survives the tower classifiers. The composite ledger $L$ records the hidden material and classifier dependencies that the witness consumes. The failure surface $F$ records the finite reasons for refusing the route.
+
+Therefore an accepted read factors through $D,L,F$ and through the componentwise transport $H$ of the same tower route. A consumer that keeps $E$ and $O$ while dropping those rows has an endpoint statement, not a $\CompressionDescentAuditUp$ acceptance.
+\end{proof}
+
+\begin{theorem}[CompressionDescentAudit ledger exhaustion]
+\label{thm:compression-descent-audit-ledger-exhaustion}
+For the carrier of \autoref{def:compression-descent-audit-carrier}, every accepted descent decision is exhausted by the tower route $T$, endpoint $E$, operation $O$, descent witness $D$, composite ledger $L$, failure surface $F$, transports $H$, provenance $P$, and local name $N$. No later consumer may add a hidden source distinction, private endpoint equivalence, or detached model-audit reason without entering it through one of these rows.
+\end{theorem}
+\begin{proof}
+The displayed tuple lists all coordinates admitted by the local NameCert. The tower route, endpoint, operation, descent witness, ledger, failure surface, transport, provenance, and name are therefore the complete finite surface available to the audit.
+
+The ledger-functor component contributes only through $L$, and the physical model-audit component contributes only through the failure and provenance rows $F,P$. Tower equivalence contributes endpoint and ledger compatibility only as transported through the same packet.
+
+Thus every accepted or refused descent decision is already represented by the displayed rows. Adding another hidden source distinction, endpoint equivalence, or model-audit reason changes the packet rather than reading the accepted carrier.
+\end{proof}
+
+\begin{theorem}[CompressionDescentAudit non-escape]
+\label{thm:compression-descent-audit-nonescape}
+An endpoint operation refused by the failure surface $F$ of an accepted $\CompressionDescentAuditUp$ packet cannot be exported as a tower-valid operation by appealing to endpoint agreement, tower equivalence, composite-ledger functoriality, or physical model audit outside the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the route-soundness theorem. \autoref{thm:compression-descent-audit-route-soundness} says that acceptance factors through $D,L,F,H$ with the same tower route and endpoint operation.
+
+Endpoint agreement is not enough, because the tower-equivalence surface also requires ledger and descent compatibility. Composite-ledger functoriality is not enough, because it preserves ledger routes but does not by itself supply a descent witness for $O$.
+
+The physical model audit is likewise not a bypass. Its role in this packet is visible through $F$ and $P$, so a model-facing reason that is not carried by those rows is not a reason of the accepted audit. A refusal recorded in $F$ therefore blocks export until the packet itself displays a repaired descent witness and ledger route.
+\end{proof}
+
+\falsifiablePrediction{An accepted CompressionDescentAuditUp packet is refuted by any endpoint operation exported as tower-valid while its descent witness is absent or its failure surface records a classifier, ledger, endpoint-equivalence, or model-audit defeat.}
+
+\closureat{CompressionDescentAuditUp}{seedStr}
+
+\begin{closurestatus}{\CompressionDescentAuditUp}
+  \constructivestory{A $\CompressionDescentAuditUp$ packet is generated from tower route, endpoint, operation, descent witness, composite ledger, failure surface, componentwise transport, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compression-descent-audit-carrier}, \autoref{thm:compression-descent-audit-route-soundness}, \autoref{thm:compression-descent-audit-ledger-exhaustion}, and \autoref{thm:compression-descent-audit-nonescape} bind endpoint-operation descent to a finite tower-route, composite-ledger, failure-surface, transport, provenance, and NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert Lean verification, bridge checking, source truth from endpoint truth, private descent, unledgered tower collapse, or physical acceptance outside the displayed audit packet.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, descent route soundness, ledger exhaustion, refusal non-escape, and field faithfulness for $T,E,O,D,L,F,H,P,N$.}
+\end{closurestatus}

@@ -34,6 +34,7 @@ $L$, package provenance, and local $\NameCert$ row $N$. The boundary exports
 no unit rule, bind rule, continuation generator, host evaluator, quotient
 Kleisli arrow, or ambient hom set outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_generator\_boundary}
 \begin{proof}
 Read the root source through
 \autoref{thm:continuation-monad-root-kleisli-source-totality}. It exhausts
@@ -63,6 +64,7 @@ surface. It exports no host function composition, quotient Kleisli category,
 ambient category completion, external evaluator, or unlisted continuation
 rule.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_kleisli\_readback}
 \begin{proof}
 Begin with
 \autoref{thm:continuation-monad-root-kleisli-associativity-surface}. It
@@ -90,6 +92,7 @@ route row $K$, ledger row $L$, and local name $N$. The route exports no host
 function composition, quotient Kleisli category, ambient hom set, or external
 evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_cont\_associativity\_ledger}
 \begin{proof}
 Begin with \autoref{thm:continuation-monad-root-public-obligation-triad}. It
 places every root public consumer behind the displayed source histories,
@@ -112,3 +115,146 @@ Therefore associativity is a ledger row inside $A,B,C,f,g,u,H,K,L,N$, not an
 export of host function composition, a quotient Kleisli category, an ambient
 hom set, or an external evaluator.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root public route exactness]
+\label{thm:continuation-monad-root-public-route-exactness}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, the root public route exposed to downstream readers
+is exactly the displayed source histories, continuation tails, unit tail,
+transport row, route row, ledger row, package provenance, and local naming row.
+It has no additional coordinate for host function composition, quotient
+Kleisli arrows, ambient hom sets, or external evaluators.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_route\_exactness}
+\begin{proof}
+Begin with the root public obligation triad,
+\autoref{thm:continuation-monad-root-public-obligation-triad}. It exposes
+$A,B,C,f,g,u,H,K,L,N$ before any Category, generator, or Kleisli read is
+available.
+
+Next use the generator boundary and Kleisli readback theorems,
+\autoref{thm:continuation-monad-root-public-generator-boundary} and
+\autoref{thm:continuation-monad-root-public-kleisli-readback}. They place both
+generator-facing and Kleisli-facing consumers behind the same finite root
+packet.
+
+Finally apply the Cont-associativity ledger,
+\autoref{thm:continuation-monad-root-cont-associativity-ledger}. Since
+associativity is recorded inside the displayed continuation and ledger rows,
+the public route is exact on $A,B,C,f,g,u,H,K,L,N$ and exports none of the
+excluded host or quotient surfaces.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root consumer totality]
+\label{thm:continuation-monad-root-consumer-totality}
+Every downstream consumer that reads the root public face of an accepted
+$\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$ first consumes the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, ledger, and local $\NameCert$
+rows. Category reads, generator-boundary reads, and Kleisli readbacks are
+therefore total only after the route $A,B,C,f,g,u,H,K,L,N$ is available.
+\end{theorem}
+\begin{proof}
+Start from root public route exactness,
+\autoref{thm:continuation-monad-root-public-route-exactness}. It identifies the
+complete finite route exposed by the packet.
+
+The generator-boundary side is handled by
+\autoref{thm:continuation-monad-root-public-generator-boundary}; the
+Kleisli-readback side is handled by
+\autoref{thm:continuation-monad-root-public-kleisli-readback}. Together they
+show that no downstream consumer can read Category, generator, or Kleisli data
+before the root packet has supplied the displayed rows.
+
+Finally use \autoref{thm:continuation-monad-root-downstream-monad-package}. The
+downstream monad package consumes the same route, so consumer totality is a
+property of the public packet itself rather than of an ambient category or host
+evaluator.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root refusal exhaustion]
+\label{thm:continuation-monad-root-refusal-exhaustion}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, every refused root public read is exhausted by absence
+of one of the displayed source-history, continuation-tail, transport, route,
+ledger, package, or local naming rows. The refusal surface cannot be discharged
+by host function composition, quotient Kleisli arrows, ambient hom sets,
+external evaluators, or an unlisted continuation rule.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_refusal\_exhaustion}
+\begin{proof}
+First bind refusals to the public route. By
+\autoref{thm:continuation-monad-root-public-route-exactness}, the only admitted
+route is the displayed packet $A,B,C,f,g,u,H,K,L,N$.
+
+Next account for the two root readers. The generator boundary theorem,
+\autoref{thm:continuation-monad-root-public-generator-boundary}, refuses
+unlisted generator data, while the Kleisli readback theorem,
+\autoref{thm:continuation-monad-root-public-kleisli-readback}, refuses host or
+quotient Kleisli data outside the finite packet.
+
+Finally apply the Cont-associativity ledger and downstream package theorems,
+\autoref{thm:continuation-monad-root-cont-associativity-ledger} and
+\autoref{thm:continuation-monad-root-downstream-monad-package}. They keep
+associativity and downstream monad consumption inside the same public route, so
+every failed read is exhausted by the displayed refusal surface.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root public readiness package]
+\label{thm:continuation-monad-root-public-readiness-package}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, the root public obligation triad, generator boundary,
+Kleisli readback, $\Cont$-associativity ledger, route exactness, consumer
+totality, and refusal exhaustion assemble a public readiness package over
+$A,B,C,f,g,u,H,K,L,N$. Downstream monad, category, and generator-boundary
+consumers therefore receive one finite public packet, not separate host
+composition, quotient-arrow, or evaluator surfaces.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_readiness\_package}
+\begin{proof}
+Start with the root public obligation triad,
+\autoref{thm:continuation-monad-root-public-obligation-triad}. It exposes the
+source histories, continuation tail, generator row, unit row, transport row,
+route row, ledger row, package row, and local NameCert row.
+
+Next combine the public readers. The generator boundary theorem,
+\autoref{thm:continuation-monad-root-public-generator-boundary}, and the Kleisli
+readback theorem, \autoref{thm:continuation-monad-root-public-kleisli-readback},
+place both advertised reads behind the same finite packet.
+
+Apply the $\Cont$-associativity ledger,
+\autoref{thm:continuation-monad-root-cont-associativity-ledger}, together with
+route exactness, \autoref{thm:continuation-monad-root-public-route-exactness}.
+These results keep associativity and route consumption on
+$A,B,C,f,g,u,H,K,L,N$.
+
+Finally use consumer totality and refusal exhaustion,
+\autoref{thm:continuation-monad-root-consumer-totality} and
+\autoref{thm:continuation-monad-root-refusal-exhaustion}. Successful reads and
+failed reads are both classified by displayed rows of the same packet, which is
+the advertised readiness package.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root public refusal totality]
+\label{thm:continuation-monad-root-public-refusal-totality}
+Every failed public read of an accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$ is exactly the absence of a displayed row among
+$A,B,C,f,g,u,H,K,L,N$. It is not a route through host function composition,
+quotient Kleisli arrows, ambient hom sets, external evaluators, or unlisted
+continuation rules.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-monad-root-public-readiness-package} to reduce a
+public read to the single readiness packet. The only admissible surface is
+$A,B,C,f,g,u,H,K,L,N$.
+
+Apply \autoref{thm:continuation-monad-root-refusal-exhaustion}. Its refusal
+classification already lists the displayed source-history, continuation-tail,
+transport, route, ledger, package, and naming rows as the exhaustive failure
+surface.
+
+The excluded routes are not rows of the packet. Host function composition,
+quotient Kleisli arrows, ambient hom sets, external evaluators, and unlisted
+continuation rules therefore cannot turn a failed public read into an accepted
+one.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_public\_refusal\_totality}

@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\CompressionLedgerFunctorUp$}
+\label{ch:concrete-instances-compression-ledger-functor-namecert}
+\origin{ai}
+
+The $\CompressionLedgerFunctorUp$ packet realizes the functorial composite-ledger side of \autoref{sec:approximation-towers-ledgered-compression} as a finite BEDC NameCert carrier. It answers the tower-compression vision of \autoref{ch:visions-reality-constrained-approximation-towers} at the point where \autoref{ch:concrete-instances-reality-constrained-tower-compression-namecert} records a composite ledger, \autoref{ch:concrete-instances-towerequivalence-namecert} binds endpoint equivalence to ledger compatibility, \autoref{ch:concrete-instances-approximation-tower-residue-namecert} exposes hidden-source residue, \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert} supplies the indexed tower carrier, and \autoref{ch:concrete-instances-ontic-tower-namecert} supplies the stage-refinement tower. Those siblings name the pieces; this carrier names the classifier that preserves ledger routes under tower-arrow composition.
+
+\begin{definition}[CompressionLedgerFunctor carrier]
+\label{def:compression-ledger-functor-carrier}
+A $\CompressionLedgerFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,K,E,R,O,M,L,Q,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealityConstrainedApproximationTowerUp$ row naming the indexed tower objects.
+\item $K$ is the $\RealityConstrainedTowerCompressionUp$ row naming the accepted composite compression packet.
+\item $E$ is the $\TowerEquivalenceUp$ row naming endpoint, ledger, and descent compatibility for compared towers.
+\item $R$ is the $\ApproximationTowerResidueUp$ row naming hidden-source and failed-descent residue.
+\item $O$ is the $\OnticTowerUp$ row naming stage-refinement and ledger-continuity data.
+\item $M$ is the tower-arrow row, displaying the composable tower arrows whose ledgers are being routed.
+\item $L$ is the composite-ledger row, recording each tower arrow as a finite source-history, classifier, residue, and endpoint route.
+\item $Q$ is the classifier row, assigning to each displayed tower arrow its ledger route through $L$.
+\item $J$ is the composition row, recording ledger-route composition for every displayed composable pair in $M$.
+\item $H$ is componentwise $\hsame$ transport for $A,K,E,R,O,M,L,Q,J$.
+\item $C$ is the displayed $\Cont$ replay route through the tower-arrow and ledger-route rows.
+\item $P$ is the $\Pkg$ provenance over $\CompressionLedgerFunctorUp$, the five cited siblings, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompressionLedgerFunctorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for endpoint-only equality, unledgered tower-arrow composition, hidden source identity, private residue transport, or a second classifier outside $Q$.
+\end{definition}
+\leandef{BEDC.Derived.CompressionLedgerFunctorUp.CompressionLedgerFunctorUp}
+\leanchecked{BEDC.Derived.CompressionLedgerFunctorUp.CompressionLedgerFunctorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CompressionLedgerFunctor NameCert obligations]
+\label{thm:compression-ledger-functor-namecert-obligations}
+For the carrier of \autoref{def:compression-ledger-functor-carrier}, the local $\NameCert_{\CompressionLedgerFunctorUp}$ surface consists exactly of six obligation rows:
+\begin{enumerate}
+\item carrier admission for $F=(A,K,E,R,O,M,L,Q,J,H,C,P,N)$;
+\item tower-object exposure through $A,K,E,R,O$;
+\item tower-arrow exposure through $M$;
+\item composite-ledger and classifier exposure through $L,Q$;
+\item composition-law exposure through $J$;
+\item componentwise transport, replay, provenance, and local naming closure through $H,C,P,N$.
+\end{enumerate}
+Every accepted consumer of the functorial ledger must display these rows before using tower-arrow composition as a ledger-preserving operation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compression-ledger-functor-carrier}. The admitted object is the thirteen-row packet $F=(A,K,E,R,O,M,L,Q,J,H,C,P,N)$, so the tower-object, arrow, ledger, classifier, composition, transport, replay, provenance, and local-name coordinates are visible.
+
+The rows $A,K,E,R,O$ bind the packet to the indexed tower, composite compression, tower-equivalence, residue, and ontic-stage surfaces. The tower-arrow row $M$ then supplies the finite composable pairs whose ledger routes can be inspected.
+
+The rows $L$ and $Q$ expose the route assigned to each arrow. The row $J$ is separate because preservation of composition is not implied by endpoint agreement or by the existence of individual arrow ledgers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no additional coordinate, an accepted read is exhausted by the six displayed obligation rows.
+\end{proof}
+
+\begin{theorem}[CompressionLedgerFunctor composition law]
+\label{thm:compression-ledger-functor-composition-law}
+Let $F=(A,K,E,R,O,M,L,Q,J,H,C,P,N)$ be an accepted $\CompressionLedgerFunctorUp$ packet. If $\alpha$ and $\beta$ are composable tower arrows displayed by $M$, then the classifier row sends their composite to the composite of their ledger routes:
+$$
+Q(\beta\circ\alpha)
+=
+Q(\beta)\circ_{\mathsf{led}}Q(\alpha),
+$$
+where $\circ_{\mathsf{led}}$ is the ledger-route operation recorded by $J$.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:compression-ledger-functor-namecert-obligations}. They require every accepted consumer to expose the tower-arrow row $M$, the composite-ledger row $L$, the classifier row $Q$, and the composition row $J$.
+
+The pair $\alpha,\beta$ is composable only as displayed by $M$. The classifier row therefore assigns individual ledger routes through the same ledger row $L$, not through a private endpoint comparison.
+
+The row $J$ records exactly how the ledger route of a composite tower arrow is obtained from the two displayed component routes. Replaying $J$ gives the stated equality with $\circ_{\mathsf{led}}$.
+\end{proof}
+
+\begin{theorem}[CompressionLedgerFunctor sibling independence]
+\label{thm:compression-ledger-functor-sibling-independence}
+The carrier of \autoref{def:compression-ledger-functor-carrier} is not bijective with any one of $\RealityConstrainedTowerCompressionUp$, $\TowerEquivalenceUp$, $\ApproximationTowerResidueUp$, $\RealityConstrainedApproximationTowerUp$, or $\OnticTowerUp$. Each sibling supplies a constituent tower, compression, equivalence, residue, or stage-refinement surface, while $\CompressionLedgerFunctorUp$ additionally carries the tower-arrow row $M$, the classifier row $Q$, and the composition row $J$ as one finite NameCert packet.
+\end{theorem}
+\begin{proof}
+The compression sibling supplies the composite ledger but not the functorial assignment from tower arrows to ledger routes. The equivalence sibling supplies endpoint and ledger compatibility but not the classifier that sends a composed tower arrow to a composed ledger route.
+
+The residue sibling supplies hidden-source and failed-descent rows, the approximation sibling supplies indexed tower objects, and the ontic sibling supplies stage-refinement and ledger-continuity rows. None of these packets has all three rows $M,Q,J$.
+
+Because the $\CompressionLedgerFunctorUp$ carrier keeps $M,Q,J$ together with the five sibling surfaces and the structural rows $H,C,P,N$, any bijection to a single sibling would have to erase either a tower-arrow coordinate, a classifier coordinate, or the composition-law coordinate. That erasure is outside the accepted carrier.
+\end{proof}
+
+The Lean follow-up path \texttt{lean4/BEDC/Derived/CompressionLedgerFunctorUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \CompressionLedgerFunctorUp$ and $\mathsf{FieldFaithful}\ \CompressionLedgerFunctorUp$ instances preserving the indexed tower, compression, equivalence, residue, ontic tower, tower-arrow, composite-ledger, classifier, composition, transport, replay, provenance, and local naming rows.
+
+\falsifiablePrediction{An accepted CompressionLedgerFunctorUp classifier is refuted by any composable tower-arrow pair whose composite endpoint agrees while the transported composite ledger differs from the ledger-route composite recorded by the component arrows.}
+
+\independenceWitness{reality-constrained-tower-compression, towerequivalence, approximation-tower-residue, reality-constrained-approximation-tower, ontic-tower: none is bijective because $\CompressionLedgerFunctorUp$ binds tower objects, composite compression, tower equivalence, residue, ontic refinement, tower arrows, ledger routes, classifier assignment, composition law, transport, replay, provenance, and local NameCert rows in one finite packet. Each sibling exposes a constituent surface without the functorial ledger-preservation classifier.}
+
+\closureat{CompressionLedgerFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CompressionLedgerFunctorUp}
+  \constructivestory{A $\CompressionLedgerFunctorUp$ packet is generated from indexed tower, composite compression, tower equivalence, residue, ontic refinement, tower-arrow, composite-ledger, classifier, composition, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compression-ledger-functor-carrier}, \autoref{thm:compression-ledger-functor-namecert-obligations}, \autoref{thm:compression-ledger-functor-composition-law}, and \autoref{thm:compression-ledger-functor-sibling-independence} bind the finite functorial ledger carrier, its NameCert surface, its composition law, and its sibling separation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, endpoint-only equality, unledgered tower-arrow composition, source identity, private residue transport, or a classifier outside the displayed packet.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, tower-arrow classification, ledger-route composition, sibling separation, TasteGate nontriviality, and field faithfulness for $A,K,E,R,O,M,L,Q,J,H,C,P,N$.}
+\end{closurestatus}

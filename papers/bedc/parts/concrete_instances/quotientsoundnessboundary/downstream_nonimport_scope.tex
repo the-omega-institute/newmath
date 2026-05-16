@@ -2,6 +2,7 @@
 \label{thm:quotient-soundness-boundary-public-bridge-nonescape}
 The public bridge supplied by $\QuotientSoundnessBoundaryUp$ is non-escaping: every consumer read remains inside $E,A,T,V,H,C,P,N$, and any request for quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery maps, host-level class selectors, unrestricted quotient recursion, or $\mathsf{Quot.sound}$ lies outside the bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_public\_bridge\_nonescape}
 \begin{proof}
 Apply the bridge schema theorem above to identify the public bridge with the refusal-and-transport tuple $E,A,T,V,H,C,P,N$.
 
@@ -62,6 +63,7 @@ Finally use public bridge non-escape, \autoref{thm:quotient-soundness-boundary-p
 \label{thm:quotient-soundness-boundary-representative-request-frontier}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, any request for a representative, representative selector, erased derivation, or host quotient witness is exhausted by the source row $E$, representative-request row $A$, and refusal-verdict row $V$ before the positive transport row $T$ is readable. The request therefore reaches a visible refusal frontier before any downstream $\psame$ transport is exposed.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_representative\_request\_frontier}
 \begin{proof}
 Start with erased derivation refusal, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal}. It routes recovery demands to $A,V$ before the positive transport row is available.
 
@@ -98,6 +100,7 @@ For the surviving route, use psame consumer closure above. Once the refusal is r
 \label{thm:quotient-soundness-boundary-refusal-stability-row}
 In every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, componentwise $\hsame$ transport through the history row $H$ preserves the visible refusal pair $A,V$ and the surviving transport row $T$. The stable row remains a refusal-and-$\psame$ ledger entry and does not admit representative selection, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_stability\_row}
 \begin{proof}
 The carrier definition, \autoref{def:quotient-soundness-boundary-carrier}, makes $H$ a row of the finite packet rather than a quotient eliminator. Hence componentwise $\hsame$ transport can only move along the displayed history coordinate of $Q$.
 
@@ -127,6 +130,7 @@ Quot.sound refusal exactness, \autoref{thm:quotient-soundness-boundary-quot-soun
 \label{thm:quotient-soundness-boundary-pkg-namecert-ledger-totality}
 In every accepted $\QuotientSoundnessBoundaryUp$ packet, the package row $P$ and NameCert row $N$ account for the whole finite ledger $E,A,T,V,H,C$. The exported object is exactly this ledger package and exports no quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery primitive, host quotient recursion principle, or $\mathsf{Quot.sound}$ primitive.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_pkg\_namecert\_ledger\_totality}
 \begin{proof}
 By the carrier definition, the public packet has exactly the displayed rows $Q=(E,A,T,V,H,C,P,N)$. The rows $P,N$ package and certify the preceding ledger rows; they are not extra quotient primitives.
 
@@ -141,6 +145,7 @@ Finally use Quot.sound refusal exactness. Since $\mathsf{Quot.sound}$ is refused
 \label{thm:quotient-soundness-boundary-psame-request-determinacy}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet $Q=(E,A,T,V,H,C,P,N)$, a representative-side request is deterministically routed to the visible refusal rows $E,A,V$ before the admitted $\psame$ route through $E,T,H,C,P,N$ is readable. Thus a downstream consumer can read either the recorded refusal frontier or the surviving classifier-respecting $\psame$ transport, but it receives no ambiguous branch between representative access and positive transport.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_psame\_request\_determinacy}
 \begin{proof}
 Apply the representative request frontier, \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. It sends every representative, selector, erased-derivation, host-quotient, and $\mathsf{Quot.sound}$ demand to $E,A,V$ before $T$ is exposed.
 
@@ -153,6 +158,7 @@ The two surfaces are separated by Quot.sound refusal exactness, \autoref{thm:quo
 \label{thm:quotient-soundness-boundary-namecert-refusal-totality}
 For every accepted $\QuotientSoundnessBoundaryUp$ packet, the package row $P$ and NameCert row $N$ are total for the refusal-plus-transport ledger consisting of the visible refusal rows $E,A,V$ and the admitted transport rows $E,T,H,C,P,N$. The certified export exposes no $\mathsf{Quot.sound}$ primitive, representative selector, erased-derivation recovery coordinate, or host quotient recursion coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_namecert\_refusal\_totality}
 \begin{proof}
 First apply psame request determinacy above. It fixes the order in which $E,A,V$ are readable as refusal rows and $E,T,H,C,P,N$ are readable as the positive $\psame$ route.
 
@@ -173,6 +179,25 @@ Apply NameCert refusal totality above. The certified export is the finite refusa
 Use Cont route locality and Pkg NameCert ledger totality, \autoref{thm:quotient-soundness-boundary-cont-route-locality} and \autoref{thm:quotient-soundness-boundary-pkg-namecert-ledger-totality}. They force every continuation and package read to stay inside the same finite ledger, so the surviving $\psame$ route is a consumer closure route rather than a quotient eliminator.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary refusal exact complement]
+\label{thm:quotient-soundness-boundary-refusal-exact-complement}
+In an accepted $\QuotientSoundnessBoundaryUp$ packet
+$$
+Q=(E,A,T,V,H,C,P,N),
+$$
+every downstream consumer request is either the visible representative-side refusal through $E,A,V$ or the admitted $\psame$-only route through $E,T,H,C,P,N$. These two surfaces are exact complements inside the finite packet: a request that asks for a representative, selector, erased-derivation recovery, host quotient recursion, quotient equality eliminator, or $\mathsf{Quot.sound}$ witness is refused at $E,A,V$, while a request that survives the refusal boundary factors through the classifier-respecting $\psame$ route and no third route remains.
+\end{theorem}
+\begin{proof}
+Apply the representative request frontier, \autoref{thm:quotient-soundness-boundary-representative-request-frontier}. It places every representative-side demand at the visible refusal surface $E,A,V$ before a positive transport row can be consumed.
+
+Use psame consumer closure, \autoref{thm:quotient-soundness-boundary-psame-consumer-closure}. Once the representative-side request has been refused, the surviving consumer route is the classifier-respecting $\psame$ route through $E,T,H,C,P,N$.
+
+Invoke Quot.sound refusal exactness, \autoref{thm:quotient-soundness-boundary-quot-sound-refusal-exactness}. It separates the forbidden representative primitive from the admitted $\psame$ transport, so the refusal surface cannot be reinterpreted as a hidden quotient witness.
+
+Finally apply NameCert refusal totality, \autoref{thm:quotient-soundness-boundary-namecert-refusal-totality}. The package and naming rows certify only the refusal-plus-transport ledger, hence the two surfaces exhaust the finite packet and form exact complements for downstream consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_refusal\_exact\_complement\_certificate}
+
 \begin{theorem}[QuotientSoundnessBoundary consumer scope triad]
 \label{thm:quotient-soundness-boundary-consumer-scope-triad}
 Every downstream quotient-like consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet must first read the refusal surface $E,A,V$: the visible relation rows $E$, the representative-demand rows $A$, and the refusal verdict rows $V$. Only after that triad is visible may the consumer read any positive motion through the classifier-respecting $\psame$ route $E,T,H,C,P,N$. The handoff receives no quotient carrier, representative selector, erased derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ witness.
@@ -189,6 +214,7 @@ Finally use downstream representative non-escape above. It keeps the surviving r
 \label{thm:quotient-soundness-boundary-psame-consumer-factorization}
 After the refusal surface $E,A,V$ has been read, every surviving positive motion of a downstream quotient-like consumer factors only through the classifier-respecting $\psame$ package $E,T,H,C,P,N$. The factorization uses the displayed relation rows, transport replacement, componentwise $\hsame$ stability, $\Cont$ locality, $\Pkg$ provenance, and local $\NameCert$ naming, and it has no coordinate for a quotient carrier, representative selector, erased derivation recovery map, host quotient recursion principle, or $\mathsf{Quot.sound}$ witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_psame\_consumer\_factorization}
 \begin{proof}
 Begin with the consumer scope triad above. It places the downstream read at $E,A,V$ before any positive transport row can be consumed.
 
@@ -209,4 +235,18 @@ First apply the consumer scope triad. It fixes the downstream entry surface as $
 Next apply psame consumer factorization above. It identifies every surviving positive motion with the displayed classifier-respecting route $E,T,H,C,P,N$.
 
 Finally use downstream representative non-escape together with public bridge non-escape. These results prevent the boundary package from exporting quotient carriers, representative selectors, erased derivation recovery maps, host quotient recursion, or $\mathsf{Quot.sound}$ witnesses, so the chapter is ready as a downstream nonimport boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_downstream\_boundary\_readiness}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream nonimport totality]
+\label{thm:quotient-soundness-boundary-downstream-nonimport-totality}
+Every downstream consumer of an accepted $\QuotientSoundnessBoundaryUp$ packet factors through the refused representative surface $E,A,V$ and the admitted $\psame$ transport surface $E,T,H,C,P,N$. This factorization is total for the downstream nonimport boundary: no downstream consumer imports quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_downstream\_nonimport\_totality}
+\begin{proof}
+First apply public bridge non-escape, \autoref{thm:quotient-soundness-boundary-public-bridge-nonescape}. It keeps every consumer read inside $E,A,T,V,H,C,P,N$ and gives no bridge coordinate for the excluded quotient primitives.
+
+Next use erased derivation refusal and psame-only descent, \autoref{thm:quotient-soundness-boundary-erased-derivation-refusal} and \autoref{thm:quotient-soundness-boundary-psame-only-descent}. The representative-side demand is routed to $E,A,V$ and refused before the admitted positive motion is read as classifier-respecting $\psame$ transport through $E,T,H,C,P,N$.
+
+Finally cite the root nonimport ledger, \autoref{thm:quotient-soundness-boundary-root-nonimport-ledger}. The root ledger already packages the same refusal surface and positive transport surface without quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery, host quotient recursion, or $\mathsf{Quot.sound}$, so the downstream consumer has no additional import route.
 \end{proof}

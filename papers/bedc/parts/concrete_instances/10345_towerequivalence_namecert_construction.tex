@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\TowerEquivalenceUp$}
+\label{ch:concrete-instances-towerequivalence-namecert}
+\label{ch:concrete-instances-tower-equivalence-namecert}
+\origin{ai}
+
+The $\TowerEquivalenceUp$ packet realizes the tower-equivalence boundary of \autoref{sec:approximation-towers-ledgered-compression} as a finite BEDC NameCert carrier. It consumes the tower packet of \autoref{ch:concrete-instances-reality-constrained-tower-packet-namecert}, the indexed approximation tower of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the physical-fit descent surface of \autoref{ch:concrete-instances-physical-fit-tower-namecert}, the open-fit refutation surface of \autoref{ch:concrete-instances-reality-constrained-open-fit-namecert}, and the observer-invariant surface of \autoref{ch:concrete-instances-reality-constrained-objectivity-namecert}. Those siblings supply tower carriers, indexed approximation rows, physical descent data, open refutation, and observer-stability rows; this packet binds endpoint agreement to ledger and descent compatibility before any consumer treats two towers as equivalent.
+
+\begin{definition}[TowerEquivalence carrier]
+\label{def:tower-equivalence-carrier}
+A $\TowerEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ and $T'$ are the two $\RealityConstrainedTowerPacketUp$ rows whose endpoint packages are being compared.
+\item $A$ and $A'$ are the $\RealityConstrainedApproximationTowerUp$ rows exposing the indexed approximation levels of the two towers.
+\item $P$ and $P'$ are the $\PhysicalFitTowerUp$ rows recording source-facing signatures, hidden-source ledgers, and descent policies.
+\item $O$ and $O'$ are the $\RealityConstrainedOpenFitUp$ rows recording open-continuation and finite-refutation surfaces for the two endpoint reads.
+\item $B$ is the $\RealityConstrainedObjectivityUp$ row that transports the comparison across the admitted observer anchors without selecting a global observer.
+\item $L$ is the paired ledger row. It records source-history agreement, hidden-residue agreement, omitted-row exposure, and every open adequacy gap that remains visible after endpoint comparison.
+\item $D$ is the descent-compatibility row. It lists exactly which operations descend through both towers and records refusal for any operation lacking a paired displayed route.
+\item $R$ is the endpoint-agreement row, comparing the terminal packages only under the displayed classifier bundle.
+\item $H$ records componentwise $\hsame$ transport for $T,T',A,A',P,P',O,O',B,L,D,R,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over the sibling carriers, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TowerEquivalenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for endpoint-only equivalence, no hidden route from terminal agreement to source identity, no descent outside $D$, and no observer-stable claim outside $B,L,H$.
+\end{definition}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[TowerEquivalence NameCert obligations]
+\label{thm:tower-equivalence-namecert-obligations}
+For the carrier of \autoref{def:tower-equivalence-carrier}, the local $\NameCert_{\TowerEquivalenceUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $E=(T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N)$;
+\item endpoint agreement through $R$ together with the two tower-packet rows $T,T'$;
+\item ledger compatibility through $L$ together with the approximation rows $A,A'$, physical-fit rows $P,P'$, and open-fit rows $O,O'$;
+\item descent compatibility through $D$ and observer-stable transport through $B,H$;
+\item provenance and local naming closure through $Q,N$.
+\end{enumerate}
+Every accepted tower-equivalence read must display these five rows before exporting equivalence between the two towers.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tower-equivalence-carrier}. The admitted packet lists the two tower rows, the two approximation rows, the two physical-fit rows, the two open-fit rows, the objectivity row, the paired ledger, the descent row, endpoint agreement, transport, provenance, and local naming.
+
+Endpoint agreement is therefore only one coordinate of the packet. The local certificate reads it through $R$ together with $T$ and $T'$, so terminal package agreement cannot by itself certify the two towers.
+
+Ledger compatibility is read next. The rows $A,A',P,P',O,O'$ expose indexed approximation, physical signature, descent policy, open continuation, and finite refutation data on both sides, while $L$ records source-history and hidden-residue agreement across those rows.
+
+Descent and observer stability close the comparison. The row $D$ lists exactly the operations that descend through both towers, and $B,H$ preserve the comparison across observer anchors and componentwise transport. The provenance and local name rows then name the same displayed packet, giving exactly the five listed obligations.
+\end{proof}
+
+\begin{theorem}[TowerEquivalence endpoint refusal]
+\label{thm:tower-equivalence-endpoint-refusal}
+Let
+$$
+E=(T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N)
+$$
+be an accepted $\TowerEquivalenceUp$ packet. Endpoint agreement through $R$ does not by itself export tower equivalence. A consumer route is accepted only when the paired ledger $L$, descent row $D$, objectivity row $B$, and componentwise transport row $H$ travel with the same endpoint comparison.
+\end{theorem}
+\begin{proof}
+Read the NameCert obligations of \autoref{thm:tower-equivalence-namecert-obligations}. The endpoint row $R$ appears only as one row of a five-row local surface.
+
+The paired ledger $L$ records the source histories, hidden residues, omitted rows, and open adequacy gaps that endpoint comparison may hide. Removing $L$ leaves no displayed evidence that the two towers agree below the terminal package.
+
+The descent row $D$ and objectivity row $B$ are also mandatory. Without $D$, an operation may descend through one tower but not the other; without $B,H$, the comparison may depend on a privileged observer anchor or an untransported component. Thus endpoint agreement alone is refused as tower equivalence.
+\end{proof}
+
+\begin{theorem}[TowerEquivalence ledger-descent stability]
+\label{thm:tower-equivalence-ledger-descent-stability}
+Every accepted $\TowerEquivalenceUp$ transport preserves ledger and descent compatibility componentwise. If $H$ transports $E$ to another accepted carrier, then the transported paired ledger still records the same source-history, hidden-residue, omitted-row, and adequacy-gap comparison, and the transported descent row still refuses exactly the operations not displayed on both towers.
+\end{theorem}
+\begin{proof}
+Use the carrier definition. The transport row $H$ is componentwise over the tower rows, approximation rows, physical-fit rows, open-fit rows, objectivity row, ledger, descent row, endpoint row, provenance, and local name.
+
+The ledger row $L$ is one of those transported components, so source-history agreement, hidden-residue agreement, omitted-row exposure, and open adequacy gaps cannot be dropped by transport. They remain attached to the same comparison after transport.
+
+The descent row $D$ is transported in the same packet. Since $D$ lists only paired displayed descent routes, any operation missing on either side remains outside the accepted transported descent row.
+\end{proof}
+
+\begin{theorem}[TowerEquivalence refinement separation]
+\label{thm:tower-equivalence-refinement-separation}
+Two $\TowerEquivalenceUp$ candidates may agree at the endpoint row $R$ and still be separated by a refinement that exposes a difference in $L$ or $D$. Such a separation does not contradict endpoint agreement; it shows that the endpoint comparison was not a complete tower-equivalence certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:tower-equivalence-endpoint-refusal}. Endpoint agreement is not the accepted certificate unless the paired ledger, descent row, objectivity row, and transport row are present in the same packet.
+
+A refinement may inspect a source-history residue, omitted physical-signature row, open-fit refutation row, or operation descent route that was invisible to the endpoint classifier. Those data live in $L$ and $D$, not in $R$ alone.
+
+If the refinement separates the candidates through $L$ or $D$, the result is exactly the refusal boundary: the endpoint comparison remains an endpoint comparison, while the full tower-equivalence carrier is not accepted.
+\end{proof}
+
+\falsifiablePrediction{An accepted TowerEquivalenceUp classifier is refuted by any pair of endpoint-agreeing towers whose displayed refinement exposes a source-ledger mismatch or an operation that descends through one tower but not the other.}
+
+\independenceWitness{realityconstrainedtowerpacket, realityconstrainedapproximationtower, physicalfittower, realityconstrainedopenfit, realityconstrainedobjectivity: none is bijective because $\TowerEquivalenceUp$ carries two tower packets, two approximation rows, two physical-fit rows, two open-fit rows, observer-stable transport, paired ledger compatibility, descent compatibility, endpoint agreement, provenance, and local NameCert rows in one packet. Each sibling supplies a constituent surface, while only this packet binds endpoint agreement to ledger and descent compatibility.}
+
+The Lean development for this carrier must provide $\mathsf{Nontrivial}\ \TowerEquivalenceUp$ and $\mathsf{FieldFaithful}\ \TowerEquivalenceUp$ TasteGate instances in \texttt{lean4/BEDC/Derived/TowerEquivalenceUp/TasteGate.lean}. The expected namespace is \texttt{BEDC.Derived.TowerEquivalenceUp}.
+
+\closureat{TowerEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\TowerEquivalenceUp}
+  \constructivestory{A $\TowerEquivalenceUp$ packet is generated from two tower packets, two approximation rows, two physical-fit rows, two open-fit rows, an objectivity row, paired ledger compatibility, descent compatibility, endpoint agreement, componentwise transport, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tower-equivalence-carrier}, \autoref{thm:tower-equivalence-namecert-obligations}, \autoref{thm:tower-equivalence-endpoint-refusal}, \autoref{thm:tower-equivalence-ledger-descent-stability}, and \autoref{thm:tower-equivalence-refinement-separation} bind endpoint agreement to ledger and descent compatibility for finite tower-equivalence packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert Lean verification, bridge checking, endpoint-only tower identity, host source equality, unrestricted descent, or observer-independent comparison outside the displayed objectivity row.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, endpoint refusal, ledger-descent stability, refinement separation, TasteGate nontriviality, and field faithfulness for $T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N$.}
+\end{closurestatus}

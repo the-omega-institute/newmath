@@ -66,6 +66,7 @@ displayed continuation routes in $C$;
 equality, choice data, and ambient completeness.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of
 \autoref{def:diagonal-limit-compatibility-carrier}. The rows
@@ -99,6 +100,7 @@ R,T,S,D,W,Q,L,H,C,P,N.
 $$
 Here $R$ is read from $\RealCompletenessUp$, $T$ from $\RegularCauchyTriangleBoundUp$, $S$ from $\CauchyLimitSealUp$, $D$ from $\DyadicRatCoreUp$, $W$ from $\StreamNameUp$, $Q$ from $\RegSeqRatUp$, and $L$ from $\RealUp$. The terminal read has no quotient stream, host limit, choice datum, or ambient completeness principle available outside this route.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityTerminalRealRoute}
 \begin{proof}
 Project the accepted carrier of \autoref{def:diagonal-limit-compatibility-carrier}. Its displayed rows name the diagonal-limit packet, triangle estimate, seal route, tolerance ledger, window family, rational readback, terminal Real seal, transport rows, continuation rows, provenance, and local naming row.
 
@@ -117,6 +119,7 @@ any terminal $\RealUp$ seal read mediated by a $\FiniteObservationBudgetSelector
 
 Thus the selector route and the terminal $\RealUp$ seal form one pullback packet over the displayed $\BHist$ carrier rows. The packet exports no quotient stream, selected host limit, host real equality, choice datum, hidden selector, or ambient completeness coordinate outside $K$ and the finite selector boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_terminal\_selector\_real\_seal\_pullback}
 \begin{proof}
 Project the accepted carrier of \autoref{def:diagonal-limit-compatibility-carrier}. The rows $W,D,Q,S,L$ are displayed coordinates of $K$, and the structural rows $H,C,P,N$ are the only transport, route, provenance, and local naming rows available to the terminal read.
 
@@ -128,6 +131,8 @@ The two routes meet on $W,D,Q,S,L$ and their displayed $H,C,P,N$ transports. The
 
 Finally use \autoref{thm:diagonal-limit-compatibility-non-escape} together with the non-escape clause of the finite selector boundary. Neither side exports quotient streams, selected host limits, host real equality, choice data, hidden selectors, or ambient completeness; hence no external coordinate can witness another terminal seal route.
 \end{proof}
+
+\input{parts/concrete_instances/diagonallimitcompatibility/window_ledger_pullback}
 
 \begin{theorem}[Diagonal-limit triangle selector alignment]
 \label{thm:diagonal-limit-compatibility-triangle-selector-alignment}
@@ -144,6 +149,7 @@ Use the NameCert obligations of \autoref{thm:diagonal-limit-compatibility-namece
 
 The non-escape theorem \autoref{thm:diagonal-limit-compatibility-non-escape} excludes any additional selector or ledger coordinate. Hence the triangle selector surface is exactly $W,D$ over the diagonal packet $R$.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_triangle\_selector\_alignment}
 
 \begin{theorem}[Diagonal-limit seal route compatibility]
 \label{thm:diagonal-limit-compatibility-seal-route-compatibility}
@@ -185,6 +191,7 @@ $C,C_U,C_O$, $P,P_U,P_O$, and $N,N_U,N_O$ rows. No quotient stream, host real
 equality, hidden selector, selected host limit, detached limit object, or
 ambient completeness principle can witness equality of the terminal route.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilitySelectorObserverSealCorrespondence}
 \begin{proof}
 Project the three accepted carriers. The compatibility packet exposes
 $W,Q,S,D,L$ through $H,C,P,N$; the selector-seal packet exposes
@@ -217,6 +224,8 @@ has no witness except componentwise $\hsame$ through the displayed $\Cont$,
 $\Pkg$, and $\NameCert$ rows.
 \end{proof}
 
+\input{parts/concrete_instances/diagonallimitcompatibility/functor_uniform_terminal_factorization}
+
 \begin{theorem}[Diagonal-limit compatibility classifier transport]
 \label{thm:diagonal-limit-compatibility-classifier-transport}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
@@ -232,6 +241,7 @@ Apply \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. Its class
 
 The non-escape theorem then fixes the transport boundary. Because no extra quotient, host-limit, equality, choice, or completeness coordinate is exported, the transported packet remains on the same $\DiagonalLimitCompatibilityUp$ classifier surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityClassifierTransport}
 
 \begin{theorem}[Diagonal-limit compatibility non-escape]
 \label{thm:diagonal-limit-compatibility-non-escape}
@@ -686,3 +696,64 @@ It remains to identify the two finite routes. The hypotheses give componentwise 
 
 Finally use \autoref{thm:real-window-synchronizer-nonescape}. Since the synchronizer packet exports no quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate, the pulled-back consumer has no route outside the finite window-to-seal packet.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility window source exhaustion]
+\label{thm:diagonal-limit-compatibility-window-source-exhaustion}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every accepted diagonal-limit consumer route that reaches the $\RealUp$ seal row $L$ first factors through the displayed source ledger, the window-budget triad $(D,W,Q)$, the shared modulus route, the synchronizer pullback surface, and the seal route rows $S,L$.
+
+The exhausted route exports no quotient stream, selected host limit, ambient completeness principle, or independent real-equality coordinate. Its only available coordinates are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $K$ together with the compatible finite-window packets through which the route is explicitly pulled back.
+\end{theorem}
+\begin{proof}
+Begin with the source ledger. Apply \autoref{thm:diagonal-limit-compatibility-source-ledger} to identify the readable source rows as $R,T,S,D,W,Q,L,H,C,P,N$ and to exclude any hidden host-limit or quotient-stream source.
+
+Next lock the finite window route. The shared window ledger and consumer transport of \autoref{thm:diagonal-limit-compatibility-window-budget-triad-lock} force the consumer through $(D,W,Q)$ before the seal row is available, while \autoref{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal} identifies the terminal seal read with the same finite budget-window-modulus route.
+
+The ambient-completeness refusal is supplied by \autoref{thm:diagonal-limit-compatibility-ambient-completeness-refusal}. It prevents the consumer from replacing the displayed finite route by a host completeness principle, selected limit, or host real-equality coordinate.
+
+Finally apply \autoref{thm:diagonal-limit-window-synchronizer-pullback}. The terminal consumer is repacked through the synchronizer finite window-to-seal packet, and the carrier projection together with the non-escape clauses of the displayed packets leaves no coordinate outside the stated source, window, modulus, synchronizer, and seal rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility formal target packet]
+\label{thm:diagonal-limit-compatibility-formal-target-packet}
+Every Lean-facing formal target for an accepted $\DiagonalLimitCompatibilityUp$
+packet exposes exactly the carrier rows
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+together with the compatible finite-window packets cited by
+\autoref{thm:diagonal-limit-compatibility-window-source-exhaustion}. The
+target may consume $\RealCompletenessUp$,
+$\RegularCauchyTriangleBoundUp$, $\CauchyLimitSealUp$, $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ only through those displayed
+rows and their finite-window pullbacks.
+
+The formal target has no coordinate for quotient streams, selected host
+limits, host real equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of the accepted diagonal-limit packet. The projection
+displays exactly $R,T,S,D,W,Q,L,H,C,P,N$, and the local NameCert obligations
+make the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+the only routes available to a formal target.
+
+Next apply the terminal Real route and the window-budget triad lock. The
+terminal route keeps the Real-facing consumer on $R,T,S,D,W,Q,L,H,C,P,N$, while
+\autoref{thm:diagonal-limit-compatibility-window-budget-triad-lock} forces any
+seal-facing read through the displayed $(D,W,Q)$ finite-window triad.
+
+Now attach the shared modulus terminal seal and the synchronizer pullback.
+\autoref{thm:diagonal-limit-compatibility-shared-modulus-terminal-seal}
+identifies the terminal $\RealUp$ and $\CauchyLimitSealUp$ reads with one
+finite budget-window-modulus route, and
+\autoref{thm:diagonal-limit-window-synchronizer-pullback} repacks that route
+through the compatible $\RealWindowSynchronizerUp$ packet.
+
+Finally use
+\autoref{thm:diagonal-limit-compatibility-window-source-exhaustion}. It
+exhausts the source, window, shared modulus, synchronizer, and seal rows
+available to the Lean-facing packet. The named upstream chapters may be
+consumed only through these rows, so quotient streams, selected host limits,
+host real equality, choice data, and ambient completeness have no target
+coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_formal\_target\_packet}

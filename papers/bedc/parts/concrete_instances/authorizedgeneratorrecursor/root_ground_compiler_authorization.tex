@@ -1,0 +1,43 @@
+\begin{theorem}[AuthorizedGeneratorRecursor ground compiler authorization]
+\label{thm:authorized-generator-recursor-ground-compiler-authorization}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, any ground-compiler consumer of the recursor output must read the packet through the displayed rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+The consumer may reach $O$ only after the accepted signature row $I$, emitted eliminator row $E$, motive row $M$, branch row $B$, structural descent row $D$, audit row $A$, $\BHist$ carrier row, displayed $\Cont$ row $C$, package row $\Pkg$ at $P$, boundary row $G$, and local $\NameCert$ row $N$ have all been retained in the same route.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:authorized-generator-recursor-carrier}. It presents the accepted recursor output as one row of the finite $\BHist$ packet, so the ground compiler has no initial read outside $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+The computational rows are fixed by the existing branch and descent obligations. Apply \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality}; the branch row is exhausted by the displayed constructors, and the recursive use is local to the motive and descent rows.
+
+The audit and naming side is fixed by \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}, \autoref{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}. These rows retain audit provenance, carrier admission, boundary exhaustion, $\Pkg$ provenance, and the local $\NameCert$ certificate before any ground-compiler consumer may read $O$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor finite route exposure]
+\label{thm:authorized-generator-recursor-finite-route-exposure}
+Every public route exposed by an accepted $\AuthorizedGeneratorRecursorUp$ root packet is exhausted by the finite packet rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Consequently the public surface cannot introduce an unregistered branch, a hidden induction channel, or an off-packet generator path beyond the accepted signature, eliminator, motive, branch, descent, output, audit, transport, continuation, package, boundary, and local certificate rows.
+\end{theorem}
+\begin{proof}
+Read the route from \autoref{thm:authorized-generator-recursor-root-carrier-route}. It already factors every closed-substitution-facing public route through the displayed packet and leaves no carrier coordinate outside the finite row list.
+
+Branch exposure is exhausted by \autoref{thm:authorized-generator-recursor-branch-exhaustion}. A public route can name only the branch package associated with the accepted constructors and the emitted eliminator, so an unregistered branch has no row from which to enter.
+
+The remaining escape routes are closed by descent locality and ledger descent. Use \autoref{thm:authorized-generator-recursor-structural-descent-locality}, \autoref{thm:authorized-generator-recursor-audit-ledger-nonescape}, and \autoref{thm:authorized-generator-recursor-ground-compiler-handoff}; together they keep recursive use, audit provenance, and ground-compiler consumption inside the same finite packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output audit nonescape]
+\label{thm:authorized-generator-recursor-output-audit-nonescape}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet, the output row $O$ cannot be consumed apart from the audit provenance row $A$, the ground-compiler boundary row $G$, and the local certificate row $N$. Any consumer of $O$ must preserve the same displayed route through audit provenance, boundary exposure, and $\NameCert_{\AuthorizedGeneratorRecursorUp}$ certification.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-audit-provenance-factorization}. It attaches public exposure of $O$ to the audit and provenance rows, so the output cannot be read as an isolated generator result.
+
+The boundary side is supplied by \autoref{thm:authorized-generator-recursor-root-host-boundary-namecert-exhaustion}. The row $G$ is exhausted by the displayed packet and cannot export a hidden proof generator, external axiom, or detached induction channel.
+
+Finally apply \autoref{thm:authorized-generator-recursor-ground-compiler-authorization}. Since every ground-compiler consumer reads $O$ only after the carrier, audit, boundary, package, and local $\NameCert$ rows are retained, the output row has no nonescaping consumer route apart from $A,G,N$ and the finite packet that carries them.
+\end{proof}

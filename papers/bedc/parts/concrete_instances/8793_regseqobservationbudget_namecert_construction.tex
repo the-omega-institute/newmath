@@ -62,17 +62,93 @@ The positive route is fixed by the carrier itself. The window row $W$ feeds the 
 The structural rows preserve that order. Componentwise $\hsame$ transport in $H$ and replay in $C$ move the displayed route, while $P$ and $N$ record provenance and local naming for the same packet. Therefore any omitted filter row, hidden selector, quotient, host equality, or ambient completeness object remains outside the accepted route.
 \end{proof}
 
+\begin{theorem}[Regular observer-budget window admission]\label{thm:regseq-observation-budget-window-admission}
+Every accepted $\RegSeqObservationBudgetUp$ route exposes the finite window row $W$ before it may read the regular-source row $R$, the dyadic tolerance row $\epsilon$, the diagonal selector row $D$, or the RealUp observation-budget row $E$. In particular, no accepted consumer may enter through $R$, $\epsilon$, $D$, or $E$ while leaving the StreamName window undisplayed.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:regular-observer-budget-carrier}. Its accepted packet is the displayed row
+$$
+O=(W,R,E,D,\epsilon,H,C,P,N),
+$$
+and the classifier has no coordinate for an alternate entry point.
+
+Apply \autoref{thm:regular-observer-budget-namecert-obligations}. The local NameCert surface lists StreamName window exposure through $W$ before RegSeqRat readback, dyadic tolerance exposure, diagonal selector exposure, and RealUp budget exposure.
+
+Finally apply \autoref{thm:regular-observer-budget-filter-schedule-nonescape}. Any consumer route to the seal must factor through the finite schedule in which $W$ is already visible before $R$, $\epsilon$, $D$, and $E$ are consumed. Hence a route that enters through those later rows without exposing $W$ is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Regular observer-budget tail monotonicity]\label{thm:regseq-observation-budget-tail-monotonicity}
+Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same finite observation budget
+$$
+W,R,\epsilon,D,E,H,C,P,N
+$$
+for an accepted $\RegSeqObservationBudgetUp$ route. They may transport or replay the displayed rows, but they cannot introduce a hidden selector, quotient stream, host real equality, unbounded observation schedule, or second terminal seal read.
+\end{theorem}
+\begin{proof}
+Project the structural rows from \autoref{def:regular-observer-budget-carrier}. The row $H$ records only componentwise $\hsame$ transports for the displayed window, readback, RealUp budget, diagonal selector, tolerance, continuation, provenance, and local naming rows, while $C$ records only the displayed replay route from $W$ to $R$, from $R$ and $\epsilon$ to $D$, and from $D$ to $E$.
+
+Apply \autoref{thm:regular-observer-budget-namecert-obligations}. The accepted NameCert surface is exhausted by the same finite carrier rows, so transport and replay have no independent coordinate in which a new selector, quotient, host equality, unbounded schedule, or extra seal read could be stored.
+
+Apply \autoref{thm:regular-observer-budget-filter-schedule-nonescape}. Since every accepted seal-facing route factors through the finite observation schedule, extending along a transported or replayed tail preserves that schedule and cannot escape to an undisplayed observation object.
+\end{proof}
+
+\begin{theorem}[Regular observer-budget Real seal handoff]\label{thm:regseq-observation-budget-real-seal-handoff}
+The RealUp seal-facing row $E$ of an accepted $\RegSeqObservationBudgetUp$ carrier is consumed only after the StreamName window $W$, RegSeqRat readback $R$, dyadic tolerance $\epsilon$, and CauchyDiagonalBudget selector $D$ have been displayed. Thus the terminal seal handoff is a consequence of the finite observation-budget route, not an independent Real equality, quotient stream, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:regular-observer-budget-carrier}. The row $E$ is a displayed RealUp observation-budget row inside the same finite packet as $W$, $R$, $\epsilon$, and $D$.
+
+Apply \autoref{thm:regular-observer-budget-namecert-obligations}. The obligation surface reaches RealUp budget exposure through $E$ only as part of the listed window exposure, regular readback, dyadic tolerance, diagonal selector, transport, replay, provenance, and local naming rows.
+
+Now apply \autoref{thm:regular-observer-budget-filter-schedule-nonescape}. It forbids inspecting the terminal RealUp seal before $W$, $R$, $\epsilon$, and $D$ have been read. Therefore any seal-facing use of $E$ is a handoff from the finite observation-budget route, and not from an independent equality, quotient, or completeness principle.
+\end{proof}
+
 The Lean TasteGate boundary for this packet must provide \texttt{Nontrivial RegSeqObservationBudgetUp} and \texttt{FieldFaithful RegSeqObservationBudgetUp} instances in \texttt{Derived/RegSeqObservationBudgetUp/TasteGate.lean}, with the canonical obligation theorem expected at \texttt{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetPacket\_namecert\_obligations}.
 
-\closureat{RegSeqObservationBudgetUp}{seedStr}
+\begin{theorem}[Regular observer-budget scoped closure]\label{thm:regseq-observation-budget-scoped-closure}
+The carrier definition, NameCert obligations, filter-schedule non-escape, window admission, tail monotonicity, Real seal handoff, and the two Lean TasteGate witnesses bind the scoped $\RegSeqObservationBudgetUp$ surface exactly over the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Inside this scope, every accepted seal-facing consumer is a consumer of the finite observation-budget packet
+$$
+W,R,\epsilon,D,E,H,C,P,N.
+$$
+The scope has no classifier coordinate for quotient streams, host real equality, hidden selectors, unbounded schedules, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply the carrier description of \autoref{def:regular-observer-budget-carrier} and the obligation surface of \autoref{thm:regular-observer-budget-namecert-obligations}. These identify the accepted object with the listed finite rows and leave no independent row beyond the displayed window, readback, Real budget, diagonal selector, tolerance, transport, continuation, provenance, and local naming data.
+
+Next apply \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, and \autoref{thm:regseq-observation-budget-tail-monotonicity}. The window is visible before later rows, every seal-facing route factors through the finite schedule, and transport or replay preserves the same observation budget rather than creating a new selector or schedule.
+
+Finally apply \autoref{thm:regseq-observation-budget-real-seal-handoff}. The RealUp seal row is reached only as the terminal handoff of the displayed route. The Lean TasteGate names \texttt{RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment} and \texttt{taste\_gate} witness that the same singleton carrier boundary supplies nontriviality and field faithfulness, so the paper scope and kernel TasteGate evidence refer to the same finite packet.
+\end{proof}
+
+\begin{theorem}[Regular observer-budget public consumer export]
+\label{thm:regseq-observation-budget-public-consumer-export}
+Every public $\RealUp$, $\DiagonalLimitStabilityUp$, or $\CauchyDiagonalBudgetUp$ consumer of an accepted $\RegSeqObservationBudgetUp$ packet receives exactly the displayed finite route
+$$
+W,R,\epsilon,D,E,H,C,P,N.
+$$
+The exported route reads the $\StreamNameUp$ window $W$ before $\RegSeqRatUp$ readback $R$, reads the dyadic tolerance row $\epsilon$ and diagonal selector row $D$ before $\RealUp$ budget exposure $E$, and then replays only the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. The export contains no quotient stream equality, host real equality, hidden selector, unbounded schedule, detached seal read, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First expose the public entry row. Theorem~\ref{thm:regseq-observation-budget-window-admission} forces every accepted route to display the StreamName window $W$ before it may read $R$, $\epsilon$, $D$, or $E$.
+
+Next preserve the finite tail budget. Theorem~\ref{thm:regseq-observation-budget-tail-monotonicity} keeps componentwise $\hsame$ transport and displayed $\Cont$ replay on the same rows $W,R,\epsilon,D,E,H,C,P,N$, so public $\DiagonalLimitStabilityUp$ and $\CauchyDiagonalBudgetUp$ consumers cannot replace the selector or schedule by an unshown coordinate.
+
+Then apply the Real seal handoff. Theorem~\ref{thm:regseq-observation-budget-real-seal-handoff} reaches the RealUp budget row $E$ only after the window, readback, dyadic tolerance, and diagonal selector have been displayed. Thus a public $\RealUp$ consumer receives the same finite route rather than a detached seal read.
+
+Finally use \autoref{thm:regseq-observation-budget-scoped-closure}. The scoped closure binds the carrier, NameCert obligations, non-escape theorem, window admission, tail monotonicity, and Real seal handoff to the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyDiagonalBudgetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The accepted carrier has no coordinate for quotient stream equality, host real equality, hidden selectors, unbounded schedules, detached seal reads, or ambient completeness, so the displayed route is the whole public export surface.
+\end{proof}
+
+\closureat{RegSeqObservationBudgetUp}{obligationStr}
+\closureat{RegSeqObservationBudgetUp}{scopedStr}[BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegSeqObservationBudgetUp}
   \constructivestory{A $\RegSeqObservationBudgetUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, RealUp observation-budget row, CauchyDiagonalBudget selector row, DyadicRatCore tolerance row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, and \autoref{thm:regular-observer-budget-filter-schedule-nonescape} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regular-observer-budget-carrier}, \autoref{thm:regular-observer-budget-namecert-obligations}, \autoref{thm:regular-observer-budget-filter-schedule-nonescape}, \autoref{thm:regseq-observation-budget-window-admission}, \autoref{thm:regseq-observation-budget-tail-monotonicity}, \autoref{thm:regseq-observation-budget-real-seal-handoff}, \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}, and \leanchecked{BEDC.Derived.RegSeqObservationBudgetUp.taste\_gate} bind the finite RegSeq observation-budget route over StreamNameUp, RegSeqRatUp, RealUp, CauchyDiagonalBudgetUp, DyadicRatCoreUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RegSeqObservationBudgetUp.RegSeqObservationBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected external limits, hidden selectors, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, window exposure, RegSeqRat readback, RealUp budget exposure, diagonal selector exposure, dyadic tolerance exposure, filter-schedule non-escape, nontriviality, and field faithfulness for the same finite packet.}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, selected external limits, hidden selectors, ambient completeness, or bridge checking.}
+  \upgradepath{The next paper obligation is a public consumer/export theorem for the same finite observation-budget packet.}
 \end{closurestatus}

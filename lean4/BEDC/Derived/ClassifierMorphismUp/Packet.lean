@@ -138,4 +138,60 @@ theorem ClassifierMorphismPacket_source_target_route_lock [AskSetup] [PackageSet
     ⟨sourceUnary, targetUnary, graphUnary, extUnary, sigUnary, contUnary, publicUnary,
       contRow, transportSame, provenanceSame, nameSame, pkgRow⟩
 
+theorem ClassifierMorphismPacket_type_membership_dependency [AskSetup] [PackageSetup]
+    {source target graph extPreservation sigPreservation contPreservation transport
+      provenance nameCert : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert mark bundle pkg →
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+        Ext source mark extPreservation ∧ SigRel bundle target sigPreservation ∧
+          Cont extPreservation sigPreservation contPreservation ∧
+            hsame transport contPreservation ∧ hsame provenance contPreservation ∧
+              hsame nameCert contPreservation ∧ PkgSig bundle contPreservation pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext SigRel Cont hsame UnaryHistory
+  intro packet
+  obtain ⟨sourceUnary, targetUnary, graphUnary, _extUnary, _sigUnary, _contUnary,
+    _transportUnary, _provenanceUnary, _nameUnary, extRow, sigRow, contRow, transportSame,
+    provenanceSame, nameSame, pkgRow⟩ := packet
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, extRow, sigRow, contRow, transportSame,
+      provenanceSame, nameSame, pkgRow⟩
+
+theorem ClassifierMorphismPacket_public_composition_export [AskSetup] [PackageSetup]
+    {source middle target graphAB graphBD extAB sigB contAB extBD sigD contBD
+      compositeGraph compositeCont transport provenance nameCert publicRead : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source middle graphAB extAB sigB contAB transport provenance
+        nameCert mark bundle pkg ->
+      ClassifierMorphismPacket middle target graphBD extBD sigD contBD transport provenance
+        nameCert mark bundle pkg ->
+        Cont graphAB graphBD compositeGraph ->
+          Cont extAB sigD compositeCont ->
+            PkgSig bundle compositeCont pkg ->
+              Cont compositeCont nameCert publicRead ->
+                PkgSig bundle publicRead pkg ->
+                  ClassifierMorphismPacket source target compositeGraph extAB sigD
+                      compositeCont compositeCont compositeCont compositeCont mark bundle pkg ∧
+                    UnaryHistory publicRead ∧ Cont compositeCont nameCert publicRead ∧
+                      PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext SigRel Cont hsame UnaryHistory
+  intro packetAB packetBD graphComposite contComposite compositePkg publicRoute publicPkg
+  have compositePacket :
+      ClassifierMorphismPacket source target compositeGraph extAB sigD compositeCont
+        compositeCont compositeCont compositeCont mark bundle pkg :=
+    ClassifierMorphismPacket_composition_closure packetAB packetBD graphComposite
+      contComposite compositePkg
+  obtain ⟨_sourceUnary, _middleUnary, _graphABUnary, extABUnary, _sigBUnary, _contABUnary,
+    _transportUnary, _provenanceUnary, nameCertUnary, _extRow, _sigBRow, _contABRow,
+    _transportSame, _provenanceSame, _nameSame, _pkgRow⟩ := packetAB
+  obtain ⟨_middleUnaryBD, _targetUnary, _graphBDUnary, _extBDUnary, sigDUnary, _contBDUnary,
+    _transportBDUnary, _provenanceBDUnary, _nameBDUnary, _extBDRow, _sigDRow, _contBDRow,
+    _transportBDSame, _provenanceBDSame, _nameBDSame, _pkgBD⟩ := packetBD
+  have compositeContUnary : UnaryHistory compositeCont :=
+    unary_cont_closed extABUnary sigDUnary contComposite
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed compositeContUnary nameCertUnary publicRoute
+  exact ⟨compositePacket, publicUnary, publicRoute, publicPkg⟩
+
 end BEDC.Derived.ClassifierMorphismUp

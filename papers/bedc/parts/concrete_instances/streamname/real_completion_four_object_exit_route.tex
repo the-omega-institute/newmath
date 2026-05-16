@@ -14,6 +14,7 @@ $$
 
 No quotient stream equality, host sequence equality, selected limit, ambient $\RealUp$ completeness theorem, metric-completeness datum, countable-choice row, or standard bridge row belongs to this exit boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamNameUp.StreamNameRealCompletionFourObjectExitRoute}
 \begin{proof}
 Begin with \autoref{thm:streamname-open-phase-exit-boundary}. It identifies every current Phase Real and Completion consumer with a finite StreamName window, RegSeqRat readback, DyadicRatCore ledger, RealUp seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
 
@@ -111,6 +112,30 @@ For the converse direction, invoke \autoref{thm:streamname-cauchy-witness-ledger
 Combining the route theorem, consumer exhaustion, four-face terminality, and witness-ledger route gives a single terminal finite BEDC pullback for all accepted completion-facing and Real-seal-facing reads. The same cited exclusions leave no place for quotient stream equality, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, countable-choice rows, or standard bridge rows.
 \end{proof}
 
+\begin{theorem}[StreamName Real-completion terminal exactness]
+\label{thm:streamname-real-completion-four-object-terminal-exactness}
+A current Phase Real and Completion read is publicly accepted exactly when it factors through the terminal finite pullback whose four faces are
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and whose support rows are only
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, componentwise agreement on the StreamName finite window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, and displayed support rows is necessary and sufficient for the public classifier surface of the read.
+
+The exact terminal boundary exports no quotient stream equality, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness theorem, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+For necessity, begin with \autoref{thm:streamname-real-completion-four-object-exit-route}. It identifies every accepted current Phase Real and Completion read with exactly the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, supported only by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Apply \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. The accepted read must factor through the terminal finite pullback determined by those four faces and rows, so any public acceptance witness has the displayed terminal boundary.
+
+For sufficiency, use \autoref{thm:streamname-real-completion-dependency-exactness}. It states that exposing precisely the four dependency faces with the displayed support rows is enough for the current paper-side Real-completion boundary.
+
+Finally apply \autoref{thm:streamname-real-completion-classifier-pullback}. Componentwise agreement on the four faces and support rows determines the public classifier surface, and the axis separation theorem \autoref{thm:streamname-real-completion-exit-axis-separation} removes quotient stream equality, host sequence equality, selected limits, ambient completeness, metric-completeness data, choice, and bridge rows from the boundary. Thus terminal factorization through the four L10 faces is necessary and sufficient for public acceptance.
+\end{proof}
+
 \begin{theorem}[StreamName Real-completion exit axis separation]
 \label{thm:streamname-real-completion-exit-axis-separation}
 The current Phase Real and Completion exit packet supplies only the paper-side finite four-face boundary through
@@ -151,6 +176,28 @@ Next apply the terminal pullback of \autoref{thm:streamname-real-completion-four
 Now use the axis separation theorem, \autoref{thm:streamname-real-completion-exit-axis-separation}. It blocks the exit packet from changing verification-axis tokens, supplying completeness data, or creating bridge claims for any of the four faces.
 
 Finally read the result through the roadmap two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. Closure axis, formalstatus token, Lean target, and bridge status are reported by each face's own closurestatus block; the exit packet merely gathers those references and adds no promotion or fifth status coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName four-face audit-clean exit boundary]
+\label{thm:streamname-four-face-auditclean-exit-boundary}
+Assume the four face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each expose their local closurestatus record at $\scopedClosure/\auditCleanV$ or above on their own axes. Assume also that the finite handoff rows read by the current Phase Real and Completion roadmap are exactly the StreamName finite window, DyadicRatCore ledger, RegSeqRat readback, RealUp seal, and the displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the current Phase Real and Completion exit boundary is exactly that four-face packet: four independent status faces, with the three machine-route positions naming the finite-window, dyadic-ledger, and regular-to-real seal handoffs, and with no additional completion coordinate.
+
+This boundary refuses quotient stream equality, host sequence equality, selected limits, ambient $\RealUp$ completeness, metric-completeness data, countable choice, and bridge rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-real-completion-four-object-exit-route}. It identifies the current exit read with the four displayed faces and the finite support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next use \autoref{thm:streamname-real-completion-exit-axis-separation}. The assumed $\scopedClosure/\auditCleanV$-or-above records are read only from the four local closurestatus blocks, so the packet cannot turn paper closure into verification status or verification status into paper closure.
+
+Now apply \autoref{thm:streamname-real-completion-face-status-pullback}. The four local records pull back as four independent face references. The exit read therefore has no aggregate status coordinate and no fifth record that could hide a completion theorem.
+
+It remains to bind the finite handoff rows. Use \autoref{thm:streamname-real-completion-three-touchpoint-handoff-route}: the StreamName singleton finite-window handoff, the DyadicRatCore RegSeqRat bridge handoff exactness, and the RegSeqRat Real seal handoff are route positions for the existing window, ledger, readback, and seal rows. Together with the four-object route, axis separation, and face-status pullback, these positions make the four local audit-clean records exactly the current roadmap exit boundary.
+
+The exclusions are the same exclusions carried by the cited route and separation theorems. Quotient stream equality, selected limits, ambient completeness, metric-completeness data, countable choice, host sequence equality, and bridge rows are absent from the four-face packet.
 \end{proof}
 
 \begin{theorem}[StreamName Real-completion classifier pullback]
@@ -196,6 +243,26 @@ Next use \autoref{thm:streamname-real-completion-four-object-terminal-pullback}.
 Now apply \autoref{thm:streamname-real-completion-exit-axis-separation} and \autoref{thm:streamname-real-completion-face-status-pullback}. Axis separation blocks verification promotion, completeness claims, quotient stream equality, and host real equality from entering the packet, while face status pullback says that closure and verification records are imported only as references to the four faces.
 
 Finally use \autoref{thm:streamname-real-completion-classifier-pullback}. The public classifier surface is determined componentwise by the same four faces and displayed support rows, so the ledger is exact and axis-separated for every current Phase Real and Completion exit read.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion bridge nonaggregation]
+\label{thm:streamname-real-completion-bridge-nonaggregation}
+For the current Phase Real and Completion exit packet, bridge status or audit-clean status on any subset of the four faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+does not supply a standard bridge row for the aggregate packet. Even if one or more face records expose paperBridge, bridgeChecked, auditClean, or stronger local status in their own closurestatus blocks, the four-face packet remains a paper-side exit boundary unless an explicit aggregate bridge theorem names a standard bridge for the whole Phase Real and Completion route.
+
+Thus the packet cannot infer a bridge row from the $\DyadicRatCoreUp$ dyadic budget, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ regular handoff, the $\RealUp$ seal, or any proper subfamily of these faces.
+\end{theorem}
+\begin{proof}
+Start with face-status pullback, \autoref{thm:streamname-real-completion-face-status-pullback}. It says that the closure grade, formalstatus token, Lean target, and bridge status of each face are imported only as references to that face's own closurestatus block.
+
+Next apply exit-axis separation, \autoref{thm:streamname-real-completion-exit-axis-separation}. The current exit packet has no coordinate for turning a local bridge or audit-clean entry into a packet-level standard bridge row.
+
+Use the three-touchpoint handoff route of \autoref{thm:streamname-real-completion-three-touchpoint-handoff-route}. The StreamName finite-window handoff, DyadicRatCore ledger handoff, and RegSeqRat-to-Real seal handoff are route positions for displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; they are not an aggregate bridge constructor.
+
+Finally read the four local closurestatus blocks for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Those blocks control their own bridge axes only. Therefore no subset of the face records aggregates into a standard bridge for the current Phase Real and Completion packet, and only an explicit aggregate bridge theorem may change the bridge axis of that packet.
 \end{proof}
 
 \begin{theorem}[StreamName Real-completion dependency exactness]
@@ -269,6 +336,30 @@ Next use the terminal pullback, \autoref{thm:streamname-real-completion-four-obj
 Finally bind the named handoff positions by \autoref{thm:streamname-real-completion-three-touchpoint-handoff-route}. The StreamName finite-window row, DyadicRatCore tolerance ledger, and RegSeqRat-to-Real seal are witnesses for existing route entries rather than new data rows.
 
 Reading the result through the roadmap two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}, the factorization reports only the current closure and verification records already attached to the four faces. Since choice rows, selected limits, quotient stream equality, host sequence equality, metric-completeness data, and standard bridge rows are absent from that boundary, each such attempted row is outside the packet.
+\end{proof}
+
+\begin{theorem}[StreamName Real-completion failure localization]
+\label{thm:streamname-real-completion-failure-localization}
+Let a current Phase Real and Completion exit read be presented through the four displayed faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+Assume the read cannot be accepted as the public four-face boundary. Then the obstruction is localized to failure of at least one displayed face record or at least one displayed support row
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, the failed read has no fifth completion object in which the obstruction can be stored.
+
+In particular, the obstruction is not quotient stream equality, selected limit data, an ambient $\RealUp$ completeness theorem, a metric-completeness datum, a countable-choice row, a standard bridge row, or any hidden fifth face.
+\end{theorem}
+\begin{proof}
+Begin with dependency exactness, \autoref{thm:streamname-real-completion-dependency-exactness}. Acceptance is exactly exposure of the four finite dependency faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ together with only the support rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Now apply terminal pullback, \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. When those faces and rows are present, every accepted downstream read factors through the same finite boundary. Therefore a read that cannot be accepted must fail before this terminal pullback is available, at one of the listed face records or support rows.
+
+Next use no-choice route factorization, \autoref{thm:streamname-real-completion-route-no-choice-factorization}. The factorization has no coordinate for countable choice, selected limits, quotient stream equality, host sequence equality, metric-completeness data, or standard bridge rows, so none of those rows can serve as the missing obstruction carrier.
+
+Finally apply exit-axis separation, \autoref{thm:streamname-real-completion-exit-axis-separation}. Axis separation blocks an ambient $\RealUp$ completeness theorem or verification upgrade from becoming an extra paper-side face. The only remaining obstruction sites are the four displayed face records and the five displayed support rows, so the failed read has no hidden fifth object.
 \end{proof}
 
 \begin{theorem}[StreamName Real-completion budget-selector lock]

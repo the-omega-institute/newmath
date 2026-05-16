@@ -1,0 +1,48 @@
+\section{StreamName terminal window fusion}
+\label{sec:streamname-terminal-window-fusion}
+
+\begin{theorem}[StreamName Real-completion terminal-window fusion]
+\label{thm:streamname-real-completion-terminal-window-fusion}
+Every accepted Phase Real and Completion read through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+is determined by the fused terminal window consisting of the StreamName finite request window, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealUp$ seal, and the support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Equivalently, two accepted reads with the same fused terminal window have the same public classifier surface and the same terminal factorization through the four Real and Completion exit faces.
+
+The fused packet exports no quotient stream equality, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness theorem, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with the four-object exit route of \autoref{thm:streamname-real-completion-four-object-exit-route}. It identifies every accepted current read with the four displayed faces and with only the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Next apply the terminal pullback and terminal exactness results, \autoref{thm:streamname-real-completion-four-object-terminal-pullback} and \autoref{thm:streamname-real-completion-four-object-terminal-exactness}. These results say that agreement on the StreamName finite request window, the DyadicRatCore tolerance ledger, the RegSeqRat readback, the RealUp seal, and the displayed support rows is precisely the terminal boundary for public acceptance.
+
+Now transport this terminal boundary to the classifier surface. Use \autoref{thm:streamname-real-completion-classifier-pullback}: once the fused terminal window agrees componentwise, the public classifier has no second coordinate on which to distinguish the two reads.
+
+It remains to bind the dependency and handoff rows. The dependency exactness theorem \autoref{thm:streamname-real-completion-dependency-exactness} names the same four faces as necessary and sufficient, while \autoref{thm:streamname-real-completion-three-touchpoint-handoff-route} reads the StreamName finite-window handoff, DyadicRatCore ledger handoff, and RegSeqRat-to-Real seal as route witnesses for those existing rows.
+
+Finally apply the no-choice route factorization, \autoref{thm:streamname-real-completion-route-no-choice-factorization}. It removes every attempted selector, quotient, completeness, metric, choice, or bridge coordinate from the packet. Therefore the fused terminal window determines the accepted Phase Real and Completion read exactly through the four displayed exit faces and the five displayed support rows.
+\end{proof}
+
+\begin{theorem}[StreamName terminal fusion common-refinement stability]
+\label{thm:streamname-terminal-fusion-common-refinement-stability}
+Let $\mathcal W_L$ and $\mathcal W_R$ be accepted Phase Real and Completion reads whose $\StreamNameUp$ finite windows admit a certified common refinement $\mathcal R$. Suppose the refinement transports the same $\DyadicRatCoreUp$ tolerance ledger, the same $\RegSeqRatUp$ readback, the same $\RealUp$ seal, and the same displayed support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the fused terminal-window packet read through $\mathcal W_L$ is the same packet read through $\mathcal W_R$. In particular the public classifier surface is unchanged by passing to $\mathcal R$ and restricting back to either selected window.
+
+The stability statement adds no quotient stream equality, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness theorem, no metric-completeness datum, no countable-choice row, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First read the common refinement at the StreamName boundary. Apply \autoref{thm:streamname-finite-window-common-refinement-export} and \autoref{thm:streamname-common-refinement-source-determinacy}. The refinement $\mathcal R$ supplies one finite-window classifier, one $\mathsf{ProbeBundle}$ row, the same $\mathsf{InBundle}$ membership rows, the same selected histories, and the same displayed $\hsame/\Cont/\Pkg$ ledger rows for both selected windows.
+
+Next pass from the source tuple to the Real and Completion exit packet. Use \autoref{thm:streamname-common-refinement-public-exactness}: every downstream $\RegSeqRat$ handoff and every finite-window $\RealUp$ handoff read from $\mathcal R$ factors through that common source tuple. The hypotheses identify the $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and local $\NameCert$ rows as the same transported data on the two restrictions.
+
+Now apply the terminal pullback theorem \autoref{thm:streamname-real-completion-four-object-terminal-pullback}. Since the four faces $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ and the displayed support rows agree after transport along $\mathcal R$, the two accepted reads determine the same terminal finite BEDC pullback. The terminal-window fusion theorem \autoref{thm:streamname-real-completion-terminal-window-fusion} repacks this pullback as one fused terminal-window packet.
+
+Finally transport the equality of terminal packets to the public classifier surface by \autoref{thm:streamname-real-completion-classifier-pullback}. The no-choice route factorization \autoref{thm:streamname-real-completion-route-no-choice-factorization} removes every selector, quotient, completeness, metric, choice, and bridge coordinate, so a common refinement cannot create a second public presentation of the same terminal route.
+\end{proof}

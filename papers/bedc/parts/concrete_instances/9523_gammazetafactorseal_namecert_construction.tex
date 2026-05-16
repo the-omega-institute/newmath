@@ -1,0 +1,151 @@
+\chapter{A Concrete Naming Certificate for $\GammaZetaFactorSealUp$}
+\label{ch:concrete-instances-gammazetafactorseal-namecert}
+\origin{ai}
+
+The $\GammaZetaFactorSealUp$ packet is the finite seal consumed by zeta
+functional-equation routes when they read the factor $\Gamma(1-s)$. It sits
+between the constructive Gamma surface of \autoref{ch:concrete-instances-gamma-function-namecert},
+the application packet of
+\autoref{ch:concrete-instances-zetacontinuationapplication-namecert}, and the
+witness packet of \autoref{ch:concrete-instances-zeta-continuation-witness-namecert}.
+Its role is to make the Gamma factor a displayed NameCert packet rather than a
+horizon mention inside the zeta continuation application.
+
+\begin{definition}[Gamma-Zeta factor seal carrier]
+\label{def:gamma-zeta-factor-seal-carrier}
+A $\GammaZetaFactorSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,R,F,A,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the Gamma-domain row for the input $1-s$, including the pole
+exclusion and complex-history carrier inherited from $\GammaUp$;
+\item $R$ is the reflected-input row, recording the source input $s$ and the
+displayed reflection route to $1-s$;
+\item $F$ is the functional-equation factor row, recording the product slot in
+which $\Gamma(1-s)$ is consumed together with the elementary factors;
+\item $A$ is the zeta-application row that binds the factor read to the
+$\ZetaContinuationApplicationUp$ packet;
+\item $H$ stores componentwise $\hsame$ transports for $D,R,F,A$ and for the
+local naming row;
+\item $C$ stores the finite $\Cont$ replay routes by which downstream consumers
+read Gamma-domain, reflection, factor, zeta-application, transport, provenance,
+and local naming data;
+\item $Q$ is the $\Pkg$ provenance row over the Gamma, zeta-application, and
+zeta-witness source packets;
+\item $N$ is the local $\NameCert_{\GammaZetaFactorSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an undisplayed Gamma value, an external
+functional-equation proof, a second zeta-application packet, a branch outside
+the reflected-input route, or a nontrivial-zero classifier.
+\end{definition}
+\leanchecked{BEDC.Derived.GammaZetaFactorSealUp.GammaZetaFactorSealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Gamma-Zeta factor seal NameCert obligations]
+\label{thm:gamma-zeta-factor-seal-namecert-obligations}
+For the carrier of \autoref{def:gamma-zeta-factor-seal-carrier}, the local
+$\NameCert_{\GammaZetaFactorSealUp}$ surface consists exactly of carrier
+admission for
+$$
+S=(D,R,F,A,H,C,Q,N),
+$$
+Gamma-domain exactness through $D$, reflected-input exactness through $R$,
+functional-equation factor exactness through $F$, zeta-application exactness
+through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$
+replay through $C$, package provenance through $Q$, and local naming through
+$N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $D,R,F,A$ are the complete analytic
+content of the seal, while $H,C,Q,N$ transport, replay, package, and name the
+same finite packet.
+
+Read the source packets in their displayed roles. The $\GammaUp$ chapter
+supplies the Gamma-domain row, the $\ZetaContinuationApplicationUp$ chapter
+supplies the application row that consumes the factor, and the
+$\ZetaContinuationWitnessUp$ chapter supplies the continuation witness route
+in which the factor is replayed.
+
+The NameCert surface is exhausted by these rows. Since the carrier has no
+coordinate for an undisplayed Gamma value, an external functional-equation
+proof, a second zeta-application packet, an outside branch, or a nontrivial-zero
+classifier, no accepted read can obtain any of those objects from the seal.
+\end{proof}
+
+\begin{theorem}[Functional-equation Gamma-factor readback]
+\label{thm:gamma-zeta-factor-seal-readback}
+Every accepted $\GammaZetaFactorSealUp$ consumer that reads the
+functional-equation Gamma factor must receive the displayed packet
+$$
+S=(D,R,F,A,H,C,Q,N).
+$$
+In particular, a read of $\Gamma(1-s)$ is accepted only when the Gamma-domain
+row, reflected-input row, functional-equation factor row, zeta-application row,
+componentwise transport, replay route, provenance row, and local name occur in
+the same finite packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory in
+\autoref{def:gamma-zeta-factor-seal-carrier}. A Gamma-factor read has only one
+factor coordinate, namely $F$, and that coordinate is displayed together with
+$D,R,A,H,C,Q,N$.
+
+Apply the NameCert obligations of
+\autoref{thm:gamma-zeta-factor-seal-namecert-obligations}. The readback route
+must preserve the Gamma-domain row through $D$, the reflected input through
+$R$, the factor slot through $F$, and the zeta application through $A$ before
+it can replay through $C$.
+
+The missing alternatives named in the carrier definition have no coordinate.
+Thus the accepted readback is exactly the finite seal packet, not a detached
+Gamma theorem or an external functional-equation route.
+\end{proof}
+
+\begin{theorem}[Gamma-Zeta factor seal non-escape]
+\label{thm:gamma-zeta-factor-seal-non-escape}
+Every downstream zeta functional-equation route that consumes a
+$\GammaZetaFactorSealUp$ packet factors through $D,R,F,A,H,C,Q,N$. Requests for
+a Gamma value outside the displayed domain row, an unreflected input, an
+undisplayed functional-equation factor, a second application packet, a hidden
+transport, or a nontrivial-zero conclusion are rejected by the carrier
+inventory.
+\end{theorem}
+\begin{proof}
+Let a downstream route be given. By carrier admission, the route can inspect
+only the Gamma-domain row, reflected-input row, factor row, application row,
+transport row, replay row, provenance row, and local name.
+
+Componentwise transport keeps these rows separate. A Gamma-domain read returns
+to $D$, an input-reflection read returns to $R$, a factor read returns to $F$,
+and a zeta-application read returns to $A$.
+
+Every request listed in the statement asks for a coordinate absent from the
+carrier. The route therefore remains a read of the displayed seal and cannot
+export any stronger analytic object.
+\end{proof}
+
+\falsifiablePrediction{A zeta functional-equation read using a Gamma factor is rejected unless the Gamma-domain row, reflected-input row, functional-equation row, and zeta-application row appear in the same displayed packet.}
+
+\independenceWitness{Nearest siblings: GammaFunction, ZetaContinuationApplication, ZetaContinuationWitness, Complex, and Holomorphic. None is bijective to GammaZetaFactorSealUp because none simultaneously stores the Gamma-domain row, reflected-input row, functional-equation factor row, zeta-application row, transport, replay, provenance, and local name.}
+
+The Lean TasteGate boundary is
+\texttt{lean4/BEDC/Derived/GammaZetaFactorSealUp/TasteGate.lean}. It must
+provide explicit \texttt{Nontrivial GammaZetaFactorSealUp} and
+\texttt{FieldFaithful GammaZetaFactorSealUp} instances so downstream zeta
+functional-equation routes can consume the same finite seal packet without
+collapsing the Gamma-domain, reflected-input, factor, application, transport,
+replay, provenance, and naming rows.
+
+\closureat{GammaZetaFactorSealUp}{seedStr}
+
+\begin{closurestatus}{\GammaZetaFactorSealUp}
+  \constructivestory{A $\GammaZetaFactorSealUp$ packet is generated from Gamma-domain, reflected-input, functional-equation factor, zeta-application, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gamma-zeta-factor-seal-carrier}, \autoref{thm:gamma-zeta-factor-seal-namecert-obligations}, \autoref{thm:gamma-zeta-factor-seal-readback}, \autoref{thm:gamma-zeta-factor-seal-non-escape}, the falsifiable prediction, and the independence witness bind the finite Gamma-factor seal consumed by zeta functional-equation routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close the full constructive Gamma function, the zeta functional equation, meromorphic uniqueness, nontrivial-zero classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires explicit carrier, NameCert, readback, non-escape, TasteGate, Nontrivial, and FieldFaithful theorems for the displayed Gamma-Zeta factor seal.}
+\end{closurestatus}

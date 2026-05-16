@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DigestInscriptionUp$}
+\label{ch:concrete-instances-digest-inscription-namecert}
+\origin{ai}
+
+The $\DigestInscriptionUp$ packet realizes the digest-surface inscription of \autoref{ch:visions-hash-like-apophatic-fixed-point} as a finite NameCert surface. It sits beside the hash-like fiber boundary of \autoref{ch:concrete-instances-hashlikefiberboundary-namecert}, the digest-fiber ledger of \autoref{ch:concrete-instances-digestfiberledger-namecert}, the apophatic fixed-point fiber of \autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert}, the inscription event surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}, and the observer-history identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}. Its role is narrower than those siblings: it binds the visible digest, observation fiber, GAP row, apophatic far end, local self-center inscription, no-subject observer identity, transport, continuation, package, and local name in one displayed packet.
+
+\begin{definition}[DigestInscription carrier]
+\label{def:digest-inscription-carrier}
+A $\DigestInscriptionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,F,G,T,S,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the visible digest row read from $\mathrm{ObsDigest}(\mathcal{C},t)$;
+\item $F$ is the observation-fiber row $\mathrm{ObsFib}(D)$ behind the visible digest;
+\item $G$ is the $\mathsf{GAP}$ provenance row witnessing that the fiber is displayed rather than inferred from digest equality;
+\item $T$ is the apophatic far-end boundary row read through $\ApophaticFixedPointFiberUp$;
+\item $S$ is the local self-center inscription row read through the public inscription event surface;
+\item $O$ is the observer-history identity row preserving the no-subject discipline of the inscription site;
+\item $H$ records componentwise $\hsame$ transports for $D,F,G,T,S,O,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes for digest, fiber, GAP, far-end, inscription, observer-history, transport, package, and local naming reads;
+\item $P$ is the $\Pkg$ provenance over $\HashLikeFiberBoundaryUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointFiberUp$, $\InscriptionEventUp$, $\ObserverHistIdentityUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DigestInscriptionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for digest-as-source equality, direct digest-to-$\mathsf{T}$ identification, observer-substance, unledgered fiber membership, private inscription agency, or hidden preimage recovery.
+\end{definition}
+\leandef{BEDC.Derived.DigestInscriptionUp.DigestInscriptionUp}
+
+\begin{definition}[DigestInscription classifier]
+\label{def:digest-inscription-classifier}
+The $\DigestInscriptionUp$ classifier compares accepted carriers componentwise through $D,F,G,T,S,O,H,C,P,N$. Two carriers classify together only when the visible digest, observation fiber, GAP provenance, apophatic far-end boundary, local self-center inscription, observer-history identity, transport rows, continuation routes, package provenance, and local names agree through the displayed packet.
+\end{definition}
+
+\begin{theorem}[DigestInscription NameCert obligations]
+\label{thm:digest-inscription-namecert-obligations}
+For the carrier of \autoref{def:digest-inscription-carrier}, the local $\NameCert_{\DigestInscriptionUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item visible digest and fiber exposure through $D,F,G$;
+\item apophatic far-end exposure through $T$;
+\item local inscription and observer-history exposure through $S,O$;
+\item componentwise stability through $H,C,P$;
+\item local naming through $N$.
+\end{enumerate}
+Every accepted digest-surface inscription must display all five rows before a consumer may read the visible digest as carrying an inscription site.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:digest-inscription-carrier}. The rows $D,F,G$ place the digest inside an explicit observation fiber rather than inside source equality.
+
+Read the far-end and inscription rows next. The row $T$ is only an apophatic boundary, while $S$ records the local self-center inscription as a public event row. The observer-history row $O$ keeps that event on the no-subject side.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same packet. Since the carrier has no other coordinate, the five listed obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[DigestInscription fiber far-end nonescape]
+\label{thm:digest-inscription-fiber-far-end-nonescape}
+Every accepted $\DigestInscriptionUp$ consumer that reads the apophatic far-end row $T$ must first keep the visible digest row $D$, observation-fiber row $F$, GAP row $G$, local inscription row $S$, observer-history row $O$, transport row $H$, continuation row $C$, package row $P$, and local name row $N$ in the same displayed packet. Hence the far end cannot be exported as a digest value, source payload, selected preimage, observer subject, private inscription agent, or BEDC kernel object.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:digest-inscription-classifier}. It permits comparison only through the displayed rows $D,F,G,T,S,O,H,C,P,N$.
+
+Apply the obligation theorem. The far-end row belongs to the second obligation row, but the first and third rows force it to remain attached to the digest fiber, GAP provenance, local inscription, and observer-history surface.
+
+Finally inspect the carrier exclusions in \autoref{def:digest-inscription-carrier}. There is no coordinate for a digest value equal to $\mathsf{T}$, a source payload, selected preimage, observer subject, private inscription agent, or kernel object. Any such consumer therefore leaves the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted DigestInscriptionUp consumer refutes the packet if it reads the far-end row without the visible digest, observation-fiber, GAP, local-inscription, and observer-history rows in the same NameCert surface.}
+
+\independenceWitness{hashlikefiberboundary, digestfiberledger, apophaticfixedpointfiber, inscriptionevent, observerhistidentity: no sibling is bijective to DigestInscriptionUp because only this packet carries visible digest, observation fiber, GAP provenance, apophatic far end, local self-center inscription, observer-history identity, transport, continuation, package, and local NameCert rows together.}
+
+The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/DigestInscriptionUp/TasteGate.lean}. It must provide \texttt{Nontrivial DigestInscriptionUp} and \texttt{FieldFaithful DigestInscriptionUp} instances preserving $D,F,G,T,S,O,H,C,P,N$.
+
+\closureat{DigestInscriptionUp}{seedStr}
+
+\begin{closurestatus}{\DigestInscriptionUp}
+  \constructivestory{A $\DigestInscriptionUp$ packet is generated from visible digest, observation-fiber, GAP, apophatic far-end, local self-center inscription, observer-history identity, componentwise hsame transport, displayed Cont routes, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:digest-inscription-carrier}, \autoref{def:digest-inscription-classifier}, \autoref{thm:digest-inscription-namecert-obligations}, \autoref{thm:digest-inscription-fiber-far-end-nonescape}, the falsifiable prediction, and the independence witness bind the finite digest-inscription packet and its fiber far-end nonescape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close digest-as-source equality, direct digest-to-T identification, hidden preimage recovery, observer-substance, private inscription agency, Lean verification, or bridge checking for $\DigestInscriptionUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, classifier, NameCert obligation surface, fiber far-end nonescape boundary, TasteGate nontriviality, and field faithfulness for $D,F,G,T,S,O,H,C,P,N$.}
+\end{closurestatus}

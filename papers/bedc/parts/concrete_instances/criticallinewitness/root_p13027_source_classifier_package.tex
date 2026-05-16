@@ -1,0 +1,45 @@
+\begin{theorem}[CriticalLineWitness zero-strip source classifier lock]
+\label{thm:critical-line-witness-zero-strip-source-classifier-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied zero row $Z$ and the critical-strip row $S$ determine the source/classifier surface only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$ rows of $W$. No host zero search, quotient representative, analytic-continuation certificate, or ambient completeness row may replace the displayed $Z,S,H,C,P,N$ route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:critical-line-witness-carrier}. The source-facing coordinates are the supplied zero row $Z$ and critical-strip row $S$, and every classifier-facing read is attached to the same finite carrier.
+
+Apply the visible source triad of \autoref{thm:critical-line-witness-visible-source-triad} and the root-line row exposure of \autoref{thm:critical-line-witness-root-line-row-exposure}. These rows expose the $\BHist$ source before any downstream consumer can use the witness.
+
+Use the supplied zero-strip transport lock \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}. It binds $Z$ and $S$ to the componentwise $\hsame$ row, the displayed $\Cont$ replay, the $\Pkg$ provenance row, and the local $\NameCert$ row.
+
+The excluded objects are not coordinates of $W$ and are not introduced by any of the cited rows. Thus the source/classifier surface is locked to the finite $Z,S,H,C,P,N$ route, with no replacement by host zero search, quotient choice, analytic continuation, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus ledger readback exhaustion]
+\label{thm:critical-line-witness-modulus-ledger-readback-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. After the zero-strip source has been exposed through $Z$ and $S$, every read of the modulus row $M$, the real-part row $R$, and the rational comparison ledger $Q$ factors through $M,R,Q,H,C,P,N$. This readback exports neither a proof of $\mathsf{RH}$ nor a global zero classifier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-zero-strip-source-classifier-lock}. The zero-strip source is already exposed through the supplied source rows and the local transport, replay, provenance, and naming rows.
+
+Apply the strip-modulus readback theorem \autoref{thm:critical-line-witness-strip-modulus-readback} and the root modulus classifier exhaustion theorem \autoref{thm:critical-line-witness-root-modulus-classifier-exhaustion}. Together they place every modulus, real-part, and rational comparison read behind the displayed $M,R,Q$ rows.
+
+The same packet route is carried by \autoref{thm:critical-line-witness-hsame-cont-ledger-obligation}. Hence the readback cannot leave $H,C,P,N$ after reading $M,R,Q$.
+
+Finally use the modulus refusal scope of \autoref{thm:critical-line-witness-modulus-refusal-scope}. It keeps the rational modulus ledger from becoming a zero locator, analytic oracle, host equality, or $\mathsf{RH}$ proof. The readback is therefore exhausted by $M,R,Q,H,C,P,N$ over the already exposed source rows.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness RH boundary consumer nonescape]
+\label{thm:critical-line-witness-rh-boundary-consumer-nonescape}
+Every $\mathsf{RH}$-facing downstream consumer of an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ receives only the finite route
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The boundary combines the zero-strip source classifier lock and the modulus ledger readback exhaustion with the refusal rows of \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} and \autoref{thm:critical-line-witness-root-refusal-route}; it exports no $\mathsf{RH}$ proof, host zero search, global zero classifier, quotient representative, analytic-continuation certificate, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-zero-strip-source-classifier-lock}. It fixes the only source/classifier route available to the consumer before any RH-facing request is considered.
+
+Next apply \autoref{thm:critical-line-witness-modulus-ledger-readback-exhaustion}. It routes the modulus row, real-part row, and rational comparison ledger through the same finite continuation, provenance, and local naming surface.
+
+Use the refusal ledger completeness row \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} and the root refusal route \autoref{thm:critical-line-witness-root-refusal-route}. These rows classify RH proof requests, host zero search, quotient representatives, analytic-continuation certificates, global zero classifiers, and ambient completeness requests as outside the accepted packet.
+
+Thus every downstream RH-facing consumer receives exactly the finite BEDC route $Z,S,M,R,Q,H,C,P,N$. The route is a readback boundary for the witness package, not an analytic escape hatch.
+\end{proof}

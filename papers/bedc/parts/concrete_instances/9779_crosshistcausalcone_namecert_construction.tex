@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\CrossHistCausalConeUp$}
+\label{ch:concrete-instances-crosshistcausalcone-namecert}
+\origin{ai}
+
+The $\CrossHistCausalConeUp$ packet realizes the bounded two-history cone object in the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the finite configuration surface of \autoref{ch:concrete-instances-multihistconfig-namecert}, the causal witness surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the observer-locality transport surface of \autoref{ch:concrete-instances-observer-locality-transport-namecert}, and the no-global-synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}. Its role is to bind one directed affected-prefix window and its maximum-rate ledger into a finite carrier before any downstream consumer reads a causal cone as physical structure.
+
+\begin{definition}[Cross-Hist causal-cone carrier]
+\label{def:cross-hist-causal-cone-carrier}
+A $\CrossHistCausalConeUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(A,B,K,W,R,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source-history row, read through the same finite configuration surface as $\MultiHistConfigUp$;
+\item $B$ is the target-history row whose affected prefix is inspected;
+\item $K$ is the unary slot or budget row selecting the bounded two-history time window;
+\item $W$ is the affected-prefix route, naming the finite $\CrossHistCausalUp$ dependence rows from $A$ into the selected prefix of $B$;
+\item $R$ is the $\MaxCausalRateUp$ bound row attached to the displayed route $W$;
+\item $M$ is the observer-symmetry row, recording that the cone can be reread through the observer-locality transport of \autoref{ch:concrete-instances-observer-locality-transport-namecert} without changing the displayed bound;
+\item $S$ is the no-global-frame refusal row, inherited from \autoref{ch:concrete-instances-noglobalsyncboundary-namecert} and excluding privileged frames, synchronized clocks, ambient metric tensors, and host-valued speed rows;
+\item $H$ records componentwise $\hsame$ and $\psame$ transport for the two history rows, slot row, affected-prefix route, maximum-rate bound, symmetry row, refusal row, continuation routes, provenance, and local name;
+\item $C$ records displayed $\Cont$ replay of the source row, target row, window row, affected-prefix route, maximum-rate bound, symmetry row, refusal row, and transport rows;
+\item $P$ is the $\Pkg$ provenance over $\CrossHistCausalConeUp$, $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\ObserverLocalityTransportUp$, $\NoGlobalSyncBoundaryUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CrossHistCausalConeUp}$ row.
+\end{enumerate}
+The carrier contains one bounded two-history cone packet. It contains no global frame, synchronized clock, ambient metric geometry, host real-valued speed, detached causal relation, or maximum-rate row outside the displayed cone.
+\end{definition}
+
+\begin{theorem}[Cross-Hist causal-cone NameCert obligations]
+\label{thm:cross-hist-causal-cone-namecert-obligations}
+For the carrier of \autoref{def:cross-hist-causal-cone-carrier}, the local $\NameCert_{\CrossHistCausalConeUp}$ surface consists exactly of carrier admission for
+$$
+Z=(A,B,K,W,R,M,S,H,C,P,N),
+$$
+source and target history exactness, bounded slot/window exactness, affected-prefix route replay through $W$, maximum-rate attachment through $R$, observer-symmetry transport through $M$, no-global-frame refusal through $S$, componentwise $\hsame$ and $\psame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cross-hist-causal-cone-carrier}. The coordinates $A,B,K,W,R,M,S,H,C,P,N$ are the complete public inventory of the cone packet.
+
+The source, target, and slot rows fix the bounded two-history window. The affected-prefix route $W$ is the only causal-dependence coordinate, and the maximum-rate row $R$ is attached to that route rather than to an unlisted family of histories.
+
+The observer-symmetry row $M$ and refusal row $S$ then determine the observer-facing boundary. Transport in $H$ and replay in $C$ preserve the same finite cone, while $P$ and $N$ record provenance and local naming. Since no further coordinate is present, the listed clauses exhaust the local $\NameCert_{\CrossHistCausalConeUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-cone zero-rate exclusion]
+\label{thm:cross-hist-causal-cone-zero-rate-exclusion}
+If an accepted $\CrossHistCausalConeUp$ packet has a zero maximum-rate row $R$, then no public consumer can read a nonempty affected-prefix dependence route through the same packet. Any such route would have to be the displayed row $W$ and hence would be bounded by the zero row attached to $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only affected-prefix coordinate is $W$, and the only maximum-rate coordinate is $R$.
+
+Apply \autoref{thm:cross-hist-causal-cone-namecert-obligations}. It attaches $R$ to $W$ inside the same local certificate, so a consumer cannot detach the route from its bound or replace the bound by an external rate row.
+
+When $R$ is the zero bound, an accepted public dependence read through the same cone would have to be both nonempty and zero-bounded. That violates the displayed cone packet rather than producing a second route, because the carrier has no coordinate for an alternate causal family or host-side rate comparison.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-cone observer-local boundary]
+\label{thm:cross-hist-causal-cone-observer-local-boundary}
+Every observer-local consumer of an accepted $\CrossHistCausalConeUp$ packet factors through the single finite tuple
+$$
+A,B,K,W,R,M,S,H,C,P,N.
+$$
+The consumer reads the source and target histories through the finite configuration surface, the affected-prefix dependence through $\CrossHistCausalUp$, the bound through $\MaxCausalRateUp$, the observer-symmetry transport through $\ObserverLocalityTransportUp$, and the refusal row through $\NoGlobalSyncBoundaryUp$. It receives no global frame, synchronized clock, metric tensor, Lorentz coordinate, host real-valued speed, detached rate row, or quotient of histories.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory in \autoref{def:cross-hist-causal-cone-carrier}. The only public cone rows are the source, target, slot, affected-prefix route, maximum-rate bound, observer-symmetry row, refusal row, transport, replay, provenance, and local name.
+
+Use \autoref{thm:cross-hist-causal-cone-namecert-obligations}. It routes the history rows through the finite configuration surface, the affected-prefix row through $\CrossHistCausalUp$, and the bound through $\MaxCausalRateUp$ before any observer-local consumer can read the cone.
+
+The observer-symmetry and no-global-frame rows then close the consumer boundary. Because $M$ and $S$ are part of the same finite packet, observer-local transport cannot supply a privileged frame or a detached metric datum. The consumer remains inside $A,B,K,W,R,M,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-cone sibling independence]
+\label{thm:cross-hist-causal-cone-sibling-independence}
+The $\CrossHistCausalConeUp$ carrier is not bijective to $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\ObserverLocalityTransportUp$, or $\NoGlobalSyncBoundaryUp$. It carries all five sibling roles at once: source and target histories, affected-prefix causal row, maximum-rate bound, observer-symmetry transport, and no-global-frame refusal.
+\end{theorem}
+\begin{proof}
+Compare the carrier rows. $\MultiHistConfigUp$ supplies finite history slots but not the affected-prefix route, maximum-rate bound, observer-symmetry transport, or refusal row as one cone. $\CrossHistCausalUp$ supplies causal witness rows but not the bound and observer-local refusal ledger.
+
+$\MaxCausalRateUp$ supplies the unary bound but not the selected affected-prefix route as a cone carrier. $\ObserverLocalityTransportUp$ supplies transport but not the bounded causal route itself. $\NoGlobalSyncBoundaryUp$ supplies refusal data but not the positive causal and maximum-rate rows.
+
+Thus each sibling omits at least one coordinate of $Z=(A,B,K,W,R,M,S,H,C,P,N)$. No projection to a single sibling can be inverted without recreating omitted cone data.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-cone TasteGate surface]
+\label{thm:cross-hist-causal-cone-tastegate-surface}
+The later Lean \texttt{TasteGate.lean} development for $\CrossHistCausalConeUp$ must include explicit $\Nontrivial\ \CrossHistCausalConeUp$ and $\FieldFaithful\ \CrossHistCausalConeUp$ instances. These instances must preserve the source row, target row, slot/window row, affected-prefix route, maximum-rate bound, observer-symmetry row, no-global-frame refusal, transport rows, continuation replay, package provenance, and local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CrossHistCausalConeUp.CrossHistCausalConeTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Nontriviality is forced by the carrier inventory. A cone packet must distinguish at least the two history rows, selected window, affected-prefix route, maximum-rate bound, observer-symmetry row, and refusal row.
+
+Field faithfulness is rowwise. A gate-facing instance that forgets any of $A,B,K,W,R,M,S,H,C,P,N$ would let a consumer read a collapsed object as a cone while omitting one of the local $\NameCert_{\CrossHistCausalConeUp}$ obligations.
+
+Therefore the TasteGate surface must preserve exactly the finite packet named in \autoref{def:cross-hist-causal-cone-carrier}.
+\end{proof}
+
+\falsifiablePrediction{If the cone carrier is accepted, zero max-rate rows forbid any public affected-prefix dependence route through the same cone packet.}
+
+\independenceWitness{Compare multihistconfig, crosshistcausal, maxcausalrate, observerlocalitytransport, and noglobalsyncboundary: none is bijective because none carries all of causal row, max-rate bound, observer-symmetry transport, and no-global-frame refusal in one carrier.}
+
+\closureat{CrossHistCausalConeUp}{seedStr}
+
+\begin{closurestatus}{\CrossHistCausalConeUp}
+  \constructivestory{A $\CrossHistCausalConeUp$ packet is generated from source and target history rows, a bounded slot/window row, an affected-prefix causal route, a maximum-rate bound, observer-symmetry transport, no-global-frame refusal, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cross-hist-causal-cone-carrier}, \autoref{thm:cross-hist-causal-cone-namecert-obligations}, \autoref{thm:cross-hist-causal-cone-zero-rate-exclusion}, \autoref{thm:cross-hist-causal-cone-observer-local-boundary}, \autoref{thm:cross-hist-causal-cone-sibling-independence}, and \autoref{thm:cross-hist-causal-cone-tastegate-surface} specify the finite bounded two-history causal-cone packet and its local consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive a numerical speed constant, Lorentz geometry, metric tensors, synchronized clocks, global frames, host real-valued speed, Lean verification, or bridge checking for $\CrossHistCausalConeUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, affected-prefix replay, maximum-rate attachment, observer-symmetry preservation, no-global-frame refusal, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

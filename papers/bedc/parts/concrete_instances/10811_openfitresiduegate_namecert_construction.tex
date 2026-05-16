@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for \OpenFitResidueGateUp}
+\label{ch:concrete-instances-open-fit-residue-gate-namecert}
+\origin{ai}
+
+The \OpenFitResidueGateUp packet realizes the open physical fit discipline of \autoref{ch:visions-reality-constrained-open-fit} as a finite residue-gate certificate. It sits beside the open physical fit surface of \autoref{ch:concrete-instances-open-physical-fit-namecert}, the finite-observation residue boundary of \autoref{ch:concrete-instances-finite-observation-residue-boundary-namecert}, the observation-reflection packet of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, and the GAP-policy surfaces of \autoref{ch:core-gap-policies-coverage-separation-and-composition} and \autoref{ch:concrete-instances-gap-policy}. Those siblings expose open fit, visible residue, observation readback, and gap-policy accountability; this gate binds them into the packet a consumer must read before treating finite undefeated fit as physically admissible.
+
+\begin{definition}[Open-fit residue-gate carrier]
+\label{def:open-fit-residue-gate-carrier}
+An \OpenFitResidueGateUp carrier is a finite $\BHist$ packet
+$$
+G=(T,F,R,V,C,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the trace-request row, recording the finite observation request and the reality-facing readback route that generated the question.
+\item $F$ is the finite-fit certificate row, read through the open physical fit and finite observational fit surfaces of \autoref{sec:finite-observation-open-fit}.
+\item $R$ is the open-residue row, recording the unqueried admissible continuations and the hidden residue boundary inherited from \autoref{ch:concrete-instances-finite-observation-residue-boundary-namecert}.
+\item $V$ is the refutation-verdict row, recording whether a displayed finite observation defeats $F$, leaves $F$ undefeated at the current prefix, or refuses any final-fit oracle reading.
+\item $C$ is the classifier row deciding which observed signature, model signature, residue boundary, and verdict rows are compared.
+\item $H$ records componentwise $\hsame$ transport for $T,F,R,V,C,Q,P,N$.
+\item $Q$ records displayed $\Cont$ replay through the observation-reflection route and the open continuation route.
+\item $P$ is the $\Pkg$ provenance over \OpenFitResidueGateUp, \OpenPhysicalFitUp, \RealityConstrainedOpenFitUp, \FiniteObservationResidueBoundaryUp, \ObservationReflectionPacketUp, GAP-policy rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OpenFitResidueGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for final fit, total model identity, host physical truth, residue erasure, hidden observation closure, or a refutation verdict detached from the finite packet.
+\end{definition}
+\leandef{BEDC.Derived.OpenFitResidueGateUp.taste\_gate}
+\leanchecked{BEDC.Derived.OpenFitResidueGateUp.TasteGate.OpenFitResidueGateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Open-fit residue-gate NameCert obligations]
+\label{thm:open-fit-residue-gate-namecert-obligations}
+For the carrier of \autoref{def:open-fit-residue-gate-carrier}, the local $\NameCert_{\OpenFitResidueGateUp}$ surface consists exactly of trace-request exposure through $T$, finite-fit certificate exposure through $F$, open-residue exposure through $R$, refutation-verdict exposure through $V$, classifier exactness through $C$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ continuation replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(T,F,R,V,C,H,Q,P,N)$. The request, finite fit, residue, verdict, and classifier rows are the complete content-facing surface of the packet.
+
+Read $F$ through \autoref{def:open-physical-fit} and the open physical fit carrier of \autoref{def:open-physical-fit-carrier}. Finite undefeated fit is therefore a displayed prefix certificate, not a final-fit oracle.
+
+Read $R$ through \autoref{def:finite-observation-residue-boundary-carrier}. The residue row keeps unqueried continuations, hidden source content, compression residue, and observation-access limits visible rather than allowing the finite fit row to erase them.
+
+The verdict row $V$ is then bound by the classifier $C$. It records finite defeat, current undefeated status, or refusal of a final-fit reading as a row of the same packet, so a consumer cannot detach the verdict from the observed/model signature comparison.
+
+Finally the structural rows preserve the same surface. Transport through $H$, replay through $Q$, provenance through $P$, and local naming through $N$ provide no additional coordinate for final fit, host truth, or residue erasure. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{A consumer that treats finite undefeated fit as final fit without the residue verdict row refutes the OpenFitResidueGateUp packet.}
+
+\independenceWitness{open-physical-fit, finite-observation-residue-boundary, observation-reflection-packet, reality-constrained-open-fit, gap-policy: none is bijective because the residue gate binds finite fit, open residue, refutation verdict, classifier, route, provenance, and local naming in one packet.}
+
+Later Lean development in \texttt{lean4/BEDC/Derived/OpenFitResidueGateUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OpenFitResidueGateUp$ and $\mathsf{FieldFaithful}\ \OpenFitResidueGateUp$ instances.
+
+\closureat{OpenFitResidueGateUp}{seedStr}
+
+\begin{closurestatus}{\OpenFitResidueGateUp}
+  \constructivestory{An $\OpenFitResidueGateUp$ packet is generated from trace request, finite-fit certificate, open-residue, verdict, classifier, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:open-fit-residue-gate-carrier} and \autoref{thm:open-fit-residue-gate-namecert-obligations} bind trace request, finite-fit certificate, open residue, verdict, classifier, transport, replay, provenance, and local naming into one finite residue-gate packet.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.OpenFitResidueGateUp.TasteGate.OpenFitResidueGateTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not assert final fit, host physical truth, residue erasure, hidden observation closure, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier exclusion, verdict accountability, non-escape, Nontrivial, and FieldFaithful rows for the displayed OpenFitResidueGateUp packet.}
+\end{closurestatus}

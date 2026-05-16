@@ -77,6 +77,7 @@ Next transport the displayed rows. By \autoref{thm:bounded-monotone-cauchy-witne
 
 It remains to rule out a second place where the consumer could read. Use \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion} to exhaust all completion-facing routes by the same witness package, and then apply \autoref{thm:bounded-monotone-cauchy-witness-finite-seal-route-determinacy} to identify the finite seal-read surfaces. The excluded completion objects are not coordinates of that route, so they cannot separate the two downstream reads.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_convergence\_seal\_read\_determinacy}
 
 \begin{theorem}[Bounded monotone Cauchy witness seal-route minimality]
 \label{thm:bounded-monotone-cauchy-witness-seal-route-minimality}
@@ -93,3 +94,26 @@ Now rule out escape routes. By \autoref{thm:bounded-monotone-cauchy-witness-comp
 
 Finally apply read determinacy from \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-read-determinacy}. Accepted reads of the displayed route are equal at the downstream finite seal surface, so removing a displayed row leaves no accepted read of that surface. The excluded completion principles are not coordinates of the route and therefore play no role in the minimality statement.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_seal\_route\_minimality}
+
+\begin{theorem}[Bounded monotone Cauchy witness seal-route universal property]
+\label{thm:bounded-monotone-cauchy-witness-seal-route-universal-property}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Any finite consumer route from the accepted packet $W$ to a $\BoundedMonotoneConvergenceSealUp$ seal input factors through the displayed witness-to-seal route
+$$
+\MonotoneCauchyUp,\ \CauchyCriterionUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \CauchyLimitSealUp,\ \RealUp .
+$$
+
+The factorization is unique at the finite seal-read surface: two accepted factorizations with the same displayed source, monotone window, Cauchy criterion, stream schedule, dyadic ledger, regular-rational handoff, limit-seal compatibility row, Real seal, transport rows, continuation rows, provenance row, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ row induce the same downstream read, and any candidate omitting one of these rows is not an accepted route. The statement does not assert Real completeness, a selected limit, quotient real equality, host equality, trichotomy, open-cover compactness, or any choice-like tail selector.
+\end{theorem}
+\begin{proof}
+Existence of the factorization is the input-package statement. By \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-input-package}, every convergence-seal input exported by $W$ is first read through the displayed packet rows and then through the public monotone, Cauchy, stream, dyadic, regular-rational, limit-seal, and Real rows.
+
+The factorization is stable under the only permitted replacements. Apply \autoref{thm:bounded-monotone-cauchy-witness-seal-input-transport}: componentwise $\hsame$ transport and matching $\Cont$ reads preserve exactly the same displayed rows and do not create a detached seal input or a second compatibility boundary.
+
+There is no competing completion-facing route. \autoref{thm:bounded-monotone-cauchy-witness-completion-route-exhaustion} exhausts every route consumable by $\BoundedMonotoneConvergenceSealUp$ by the witness package just described.
+
+Uniqueness at the finite seal-read surface follows by combining \autoref{thm:bounded-monotone-cauchy-witness-finite-seal-route-determinacy} with \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-read-determinacy}. These identify any two accepted reads of the displayed route after componentwise agreement, so a second accepted factorization has the same downstream finite surface.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-seal-route-minimality}. A route that omits a displayed row is not accepted, and the excluded completion principles are not coordinates of the finite route. Hence the displayed route has the stated universal property among finite seal-input consumers of $W$.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_seal\_route\_universal\_property}

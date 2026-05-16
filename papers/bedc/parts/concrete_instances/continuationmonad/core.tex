@@ -40,6 +40,7 @@ Admission to the carrier means that these rows form the only readable continuati
 \label{thm:continuation-monad-unit-laws}
 For every accepted carrier $\mathcal{K}(A,B,C)$ of \autoref{def:continuation-monad-carrier}, the displayed unit tail $u$ is left and right neutral for the finite continuation routes recorded in $K$. The left-unit route reads $u$ before $f$ and returns the same $A$-to-$B$ tail row, while the right-unit route reads $f$ before $u$ and returns the same $A$-to-$B$ tail row, both under the componentwise $\hsame$ transports stored in $H$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_unit\_route\_laws}
 \begin{proof}
 Read the carrier through the route row $K$. The unit route and the two small-step routes are displayed coordinates of the packet, so the left-unit and right-unit reads are finite ledger reads rather than host equalities.
 
@@ -295,6 +296,7 @@ Use ledger exactness to read the unit, first step, second step, and composite fr
 
 Finally apply the Kleisli composition boundary and scope non-escape. The only route available to a public consumer is the displayed $\Cont$ route row, so no second host route or host monad equality can be projected.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_route\_readback\_determinacy}
 
 \begin{theorem}[ContinuationMonad route readback totality]
 \label{thm:continuation-monad-route-readback-totality}
@@ -493,6 +495,7 @@ Apply the associativity row to replay the two nested composites against that sam
 
 For the reverse direction, assume both nested composites replay through associativity and the scoped-route dependencies. Since the route bridge boundary exports only the displayed ledger and no host evaluator, the two consumer-visible ledgers coincide exactly as reads of $L$.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_kleisli\_ledger\_associativity}
 
 \begin{theorem}[ContinuationMonad downstream consumer exhaustion]
 \label{thm:continuation-monad-downstream-consumer-exhaustion}
@@ -505,6 +508,7 @@ Next apply the unit laws, associativity, scoped route dependencies, and route br
 
 The downstream CategoryUp and generator-closure consumers therefore have no remaining coordinate to inspect. Any extra evaluator, quotient Kleisli category, host function composition, or independent monad law would have to be a row outside $A,B,C,f,g,u,H,K,L,N$ and the $\Pkg$ provenance surface, which the bridge package does not export.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_downstream\_consumer\_exhaustion}
 
 \begin{theorem}[ContinuationMonad generator-category consumer triad]
 \label{thm:continuation-monad-generator-category-consumer-triad}
@@ -550,6 +554,7 @@ $\NameCert$ row. Any requested continuation rule not displayed by
 $A,B,C,f,g,u,H,K,L,N$ is refused at that ledger and cannot be supplied by a
 quotient Kleisli arrow, host function, or host monad equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_generator\_refusal\_certified\_row}
 \begin{proof}
 Start from the displayed unit and bind rows. The unit tail is $u$, the non-unit
 tails are $f,g$, and the accepted route and ledger are $K,L$.

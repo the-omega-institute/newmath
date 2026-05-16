@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\OnticAdequacyAuditUp$}
+\label{ch:concrete-instances-ontic-adequacy-audit-namecert}
+\origin{ai}
+
+The $\OnticAdequacyAuditUp$ packet realizes the adequacy discipline of \autoref{ch:visions-reality-constrained-ontic-state} as one finite NameCert boundary. It sits after the ontic-source certificate of \autoref{ch:concrete-instances-onticstate-namecert}, the model-audit packet of \autoref{ch:concrete-instances-physical-model-audit-namecert}, the tower certificate of \autoref{ch:concrete-instances-reality-constrained-approximation-tower-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real carrier of \autoref{ch:concrete-instances-real-namecert}. Its role is to bind source, audit, Real-facing readback, classifier, residue, transport, route, provenance, and local naming rows before signature exactness is read as ontic adequacy.
+
+\begin{definition}[Ontic adequacy audit carrier]
+\label{def:ontic-adequacy-audit-carrier}
+An $\OnticAdequacyAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,M,S,R,E,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OnticStateUp$ source row naming the stable reality-facing source under audit.
+\item $M$ is the $\PhysicalModelAuditUp$ row recording the finite source traces, observed signatures, model signatures, tower data, failure surface, strength, and audit ledger already accepted for the candidate model.
+\item $S$ is the $\mathsf{StreamName}^{\uparrow}$ schedule row selecting the finite observation windows that may be used for adequacy readback.
+\item $R$ is the $\mathsf{RegSeqRat}^{\uparrow}$ readback row attached to the scheduled windows.
+\item $E$ is the $\RealUp$ facing row reached only through the displayed stream and regular-rational readback rows.
+\item $K$ is the signature classifier row comparing the ontic source signatures with the audited model signatures at the declared adequacy level.
+\item $L$ is the approximation and residue ledger, recording selected tower limits, rejected shortcut limits, unrepresented source content, and the gap between signature exactness and total ontic exhaustion.
+\item $H$ records componentwise $\hsame$ transport for the source, audit, stream, regular-rational, Real-facing, classifier, ledger, route, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ route through $O,M,S,R,E,K,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\OnticAdequacyAuditUp$, $\OnticStateUp$, $\PhysicalModelAuditUp$, $\mathsf{StreamName}^{\uparrow}$, $\mathsf{RegSeqRat}^{\uparrow}$, $\RealUp$, $\RealityConstrainedApproximationTowerUp$, $\ObservationReflectionPacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OnticAdequacyAuditUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host truth, unbounded observation, selected limits outside $L$, quotient-real equality, Real completeness as physical adequacy, or a detached model-syntax route. Signature exactness may be read as ontic adequacy only through the full displayed packet.
+\end{definition}
+\leanchecked{BEDC.Derived.OnticAdequacyAuditUp.OnticAdequacyAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Ontic adequacy audit NameCert obligations]
+\label{thm:ontic-adequacy-audit-namecert-obligations}
+For the carrier of \autoref{def:ontic-adequacy-audit-carrier}, the local $\NameCert_{\OnticAdequacyAuditUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $A=(O,M,S,R,E,K,L,H,C,P,N)$;
+\item signature-exactness admission through the joint $\OnticStateUp$ source row $O$, $\PhysicalModelAuditUp$ audit row $M$, and classifier row $K$;
+\item Real-facing readback admission through the displayed $\mathsf{StreamName}^{\uparrow}$, $\mathsf{RegSeqRat}^{\uparrow}$, and $\RealUp$ rows $S,R,E$;
+\item residue-ledger exactness through $L$, including the selected tower limits, rejected shortcuts, and unrepresented source content;
+\item non-escape from host truth, selected limits, quotient reals, Real completeness, and model syntax through componentwise transport, displayed replay, provenance, and local naming rows $H,C,P,N$.
+\end{enumerate}
+Thus an accepted adequacy read can promote signature exactness to ontic adequacy only when source trace, model audit, Real-facing readback, classifier, residue ledger, transport, route, provenance, and local name are displayed together.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:ontic-adequacy-audit-carrier}. The accepted tuple displays the ontic source $O$, the physical model audit $M$, the stream schedule $S$, the regular-rational readback $R$, the Real-facing row $E$, the classifier $K$, the residue ledger $L$, and the structural rows $H,C,P,N$.
+
+The signature-exactness row is not a model-only comparison. It reads the source signatures from $O$, the audited model signatures from $M$, and the comparison row $K$ inside the same packet. The Real-facing readback is likewise constrained: $E$ is available only after the scheduled stream row $S$ and regular-rational row $R$ have been displayed.
+
+The residue ledger closes the remaining adequacy boundary. Selected tower limits, rejected shortcut limits, and unrepresented source content must be recorded in $L$, so Real completion or quotient-real equality cannot replace the ledger. The rows $H,C,P,N$ only transport, replay, source, and name the displayed packet. They add no host truth oracle, no hidden physical-object coordinate, and no second route from model syntax to ontic adequacy.
+
+Therefore the five listed rows exhaust the local NameCert surface, and every accepted adequacy read remains inside the finite packet $A$.
+\end{proof}
+
+The Lean TasteGate file \texttt{lean4/BEDC/Derived/OnticAdequacyAuditUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OnticAdequacyAuditUp$ and $\mathsf{FieldFaithful}\ \OnticAdequacyAuditUp$ instances preserving $O,M,S,R,E,K,L,H,C,P,N$ as separate displayed fields.
+
+\falsifiablePrediction{If the source-trace row or residue ledger is absent, no accepted OnticAdequacyAuditUp route can promote signature exactness to ontic adequacy.}
+
+\independenceWitness{onticstate, physicalmodelaudit, realityconstrainedapproximationtower, observationreflectionpacket, real: none is bijective because the audit packet binds source, audit, Real-facing readback, classifier, residue, transport, route, provenance, and local naming rows together.}
+
+\closureat{OnticAdequacyAuditUp}{seedStr}
+
+\begin{closurestatus}{\OnticAdequacyAuditUp}
+  \constructivestory{An $\OnticAdequacyAuditUp$ packet is generated from an ontic source row, physical model audit row, stream schedule, regular-rational readback, Real-facing row, signature classifier, approximation and residue ledger, componentwise hsame transport, displayed Cont route, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ontic-adequacy-audit-carrier} and \autoref{thm:ontic-adequacy-audit-namecert-obligations} bind the finite adequacy-audit carrier and its source, audit, readback, classifier, ledger, transport, route, provenance, and local naming obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, total physical ontology, host truth, quotient-real adequacy, selected-limit sufficiency, Real completeness as physical adequacy, or model syntax as ontic adequacy.}
+  \upgradepath{Obligation closure requires checked carrier admission, signature-exactness admission, Real-facing readback admission, residue-ledger exactness, non-escape, TasteGate nontriviality, and field faithfulness for $O,M,S,R,E,K,L,H,C,P,N$.}
+\end{closurestatus}

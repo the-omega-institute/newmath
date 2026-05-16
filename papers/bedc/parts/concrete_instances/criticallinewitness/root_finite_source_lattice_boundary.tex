@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness finite source lattice boundary]
+\label{thm:critical-line-witness-finite-source-lattice-boundary}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The finite source lattice exposed by $W$ is exactly the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison row $Q$, $\BHist$ carrier structure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CriticalLineWitnessUp}$ row carried by $H,C,P,N$. The lattice factors through the zeta dependency lattice of \autoref{thm:critical-line-witness-zeta-link}, the fixed-strip obstruction and zeta consumer rows of \autoref{thm:critical-line-witness-fixed-strip-obstruction-exactness} and \autoref{thm:critical-line-witness-zeta-consumer-nonescape}, and the root boundary totality rows of \autoref{thm:critical-line-witness-root-refusal-boundary-totality}. It exports no analytic-continuation theorem, host equality, quotient representative, ambient completeness row, or proof of $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:critical-line-witness-carrier}. The finite packet already displays $Z,S,M,R,Q,H,C,P,N$, so the source lattice has no coordinate outside the $\BHist$ tuple and its structural rows.
+
+Use the zeta dependency lattice to place the zero-facing side behind the existing $\ZetaZerosUp$ and RH-boundary surfaces. Then use the fixed-strip obstruction and zeta-consumer rows to keep fixed-strip and zeta-facing reads on the same finite packet.
+
+Finally apply root refusal-boundary totality. Any request for analytic continuation, host equality, quotient data, ambient completeness, or an $\mathsf{RH}$ proof is classified as absent from the displayed source lattice.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH consumer route]
+\label{thm:critical-line-witness-rh-consumer-route}
+Every $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet that reads the finite source lattice must factor through
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The route may use the zeta dependency lattice, fixed-strip obstruction surface, and root boundary totality rows, but it cannot add a private zero classifier, completed zeta object, analytic-continuation certificate, host equality row, quotient representative, ambient completeness row, or proof object for $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-finite-source-lattice-boundary}. It identifies the only source lattice available to an RH-facing consumer as the displayed packet rows and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
+
+The zeta dependency lattice fixes the zero-strip side before the modulus witness is read. The fixed-strip obstruction and zeta-consumer non-escape rows then route any obstruction or zeta-facing demand through the same finite readback.
+
+Root boundary totality closes the remaining RH-facing demands. Since proof content, analytic continuation, quotient representatives, host equality, and ambient completeness are not carrier fields, the consumer route remains a refusal-side route over $Z,S,M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness NameCert row exhaustion]
+\label{thm:critical-line-witness-namecert-row-exhaustion}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the local $\NameCert_{\CriticalLineWitnessUp}$ rows seen by finite source-lattice and $\mathsf{RH}$-consumer reads are exhausted by carrier admission, zero-strip exposure, modulus and comparison exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No additional NameCert row can be inserted for analytic continuation, global zero classification, host equality, quotient presentation, ambient completeness, or $\mathsf{RH}$ proof export.
+\end{theorem}
+\begin{proof}
+First read the existing NameCert obligations through the carrier. They place carrier admission, zero-strip compatibility, modulus discipline, ledger exactness, transport, replay, provenance, and naming on the same finite packet.
+
+The finite source lattice theorem accounts for all source-facing rows. The RH consumer route theorem accounts for every downstream RH-facing read that can consume those rows.
+
+Thus the local NameCert surface has no further row to expose. Any attempted analytic, host-level, quotient, completeness, or proof export is a request outside $Z,S,M,R,Q,H,C,P,N$ and is refused by the same root boundary.
+\end{proof}

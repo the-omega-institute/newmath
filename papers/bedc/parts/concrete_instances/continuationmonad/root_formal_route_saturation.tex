@@ -23,6 +23,7 @@ A,B,C,f,g,u,H,K,L,N.
 $$
 The boundary is supplied by the existing root ledger formal boundary together with downstream route exhaustion, and it admits no additional ledger entry for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or continuation generators outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_ledger\_saturation\_boundary}
 \begin{proof}
 First use \autoref{thm:continuation-monad-root-ledger-formal-boundary}. It states that the ledger available to root formal targets is the finite package $A,B,C,f,g,u,H,K,L,N$ with source, tail, unit, transport, route, provenance, generator-refusal, Category hom, and local naming rows.
 
@@ -35,6 +36,7 @@ It remains to exclude extra ledger entries. The root ledger boundary records no 
 \label{thm:continuation-monad-root-formal-handoff-saturation}
 The root formal handoff for $\ContinuationMonadUp$ is saturated by the composition of \autoref{thm:continuation-monad-root-formal-target-surface}, \autoref{thm:continuation-monad-root-route-formal-handoff}, \autoref{thm:continuation-monad-root-ledger-formal-boundary}, and \autoref{thm:continuation-monad-downstream-route-exhaustion}. Consequently every downstream formal target receives exactly $A,B,C,f,g,u,H,K,L,N$ and receives no quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluator, or unlisted continuation generator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_handoff\_saturation}
 \begin{proof}
 First compose the formal target surface with the route handoff. The target surface lists the rows available to downstream formal targets, while the handoff states that the target may consume them only along the displayed continuation route.
 
@@ -58,11 +60,13 @@ Apply the root ledger saturation boundary. It records the same finite rows as th
 
 Finally use root formal handoff saturation together with the sibling formal NameCert handoff of \autoref{thm:continuation-monad-root-formal-namecert-handoff}. The handoff keeps downstream formal targets on the same displayed packet, so every formal read factors through the audit rows and their named BEDC carriers.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_audit\_factorization}
 
 \begin{theorem}[ContinuationMonad root formal route budget exhaustion]
 \label{thm:continuation-monad-root-formal-route-budget-exhaustion}
 The root formal route budget exported by $\ContinuationMonadUp$ is exhausted by $A,B,C,f,g,u,H,K,L,N$, $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$, and the local $\NameCert$ surface. It exports no quotient Kleisli arrows, no host-function composition, no ambient category completion, no external evaluator, and no unlisted continuation generator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_route\_budget\_exhaustion}
 \begin{proof}
 Use root formal route saturation to fix the exported formal surface. The saturation theorem already lists the accepted rows and the allowed BEDC readings for downstream formal targets.
 
@@ -75,6 +79,7 @@ The sibling formal NameCert handoff confirms the same refusal at the local namin
 \label{thm:continuation-monad-root-formal-namecert-consumer-lock}
 The downstream formal consumers of $\ContinuationMonadUp$ are locked to the audit factorization of \autoref{thm:continuation-monad-root-formal-audit-factorization} and the route-budget exhaustion of \autoref{thm:continuation-monad-root-formal-route-budget-exhaustion}. Together with root formal handoff saturation and the root formal NameCert handoff, this lock permits only reads through $A,B,C,f,g,u,H,K,L,N$, $\BHist$, $\Cont$, $\hsame$, $\Pkg$, $\CategoryUp$, and local $\NameCert$, and refuses all quotient, host-composition, ambient-completion, evaluator, and unlisted-generator reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_namecert\_consumer\_lock}
 \begin{proof}
 First apply the audit factorization theorem. It routes every downstream formal read through the finite audit rows and their displayed BEDC carriers.
 

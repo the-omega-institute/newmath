@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\SubstitutionBoundaryAuditUp$}
+\label{ch:concrete-instances-substitutionboundaryaudit-namecert}
+\origin{ai}
+
+The $\SubstitutionBoundaryAuditUp$ packet realizes the substitution audit map of \autoref{ch:metacic-substitution-audit-map} as finite NameCert data. It consumes the closed shift and substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the authorized generator surface of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, and the gap-closure boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}. Its role is to expose exactly the rows by which a closed shift or closed substitution route may be audited before a consumer reads the operation result.
+
+\begin{definition}[SubstitutionBoundaryAudit carrier]
+\label{def:substitution-boundary-audit-carrier}
+A $\SubstitutionBoundaryAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed source-term row whose boundary is being audited;
+\item $V$ is the closed value row used by a substitution route, or the inert value row for a shift-only route;
+\item $d$ is the displayed depth row at which shift or substitution is read;
+\item $C_{\mathsf{src}}$ is the closedness witness for the source term at depth $d$;
+\item $C_{\mathsf{val}}$ is the closedness witness for the value row at the same audit boundary;
+\item $Q$ is the shift-boundary row recording the closed shift operation and its classifier read;
+\item $R$ is the substitute-boundary row recording the closed substitution operation and its classifier read;
+\item $L$ is the audit ledger for operation order, closed composition, and generator-closure classification;
+\item $E$ is the audit-exposure row that must be read before either $Q$ or $R$ is exported to a downstream consumer;
+\item $H$ records componentwise $\hsame$ transport for the term, value, depth, closedness, operation, ledger, exposure, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes for closedness reads, shift reads, substitution reads, ledger reads, and audit exposure;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-substitution-audit-map}, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GapClosureBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubstitutionBoundaryAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an open source term, host substitution semantics, subject reduction, unrestricted generator recursion, hidden evaluator state, or a gap discharge outside the displayed packet.
+\end{definition}
+\leanchecked{BEDC.Derived.SubstitutionBoundaryAuditUp.SubstitutionBoundaryAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[SubstitutionBoundaryAudit NameCert obligations]
+\label{thm:substitution-boundary-audit-namecert-obligations}
+For the carrier of \autoref{def:substitution-boundary-audit-carrier}, the local $\NameCert_{\SubstitutionBoundaryAuditUp}$ surface consists exactly of carrier admission, classifier stability, closedness-read order, audit non-escape, and consumer exactness for
+$$
+A=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,E,H,C,P,N).
+$$
+Carrier admission exposes all displayed rows; classifier stability keeps the shift row $Q$ and substitute row $R$ attached to the same term, value, and depth rows; closedness-read order places $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ before either operation row; audit non-escape forces $L,E,H,C,P,N$ to travel with the operation reads; consumer exactness says that every accepted consumer of $Q$ or $R$ reads only this packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:substitution-boundary-audit-carrier}. The displayed tuple lists the source, value, depth, closedness, operation, ledger, exposure, transport, continuation, provenance, and local naming rows.
+
+Classifier stability follows from the closed shift and substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. Both operation rows are read at the same displayed term, value, and depth boundary, so no second classifier source is available.
+
+Closedness-read order is the route through $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$. The authorized generator surface of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert} contributes only the permitted generator-closure classifier rows recorded in $L$ and does not supply a replacement closedness witness.
+
+Audit non-escape is the row $E$ together with the ledger, transport, continuation, provenance, and local name rows $L,H,C,P,N$. The gap-closure boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert} remains a sibling refusal surface: it can be cited as a boundary, but it is not discharged by this packet.
+
+Finally, consumer exactness follows because $Q$ and $R$ are the only operation rows and $E$ is their shared audit-exposure gate. Any accepted consumer route for a closed shift or substitution result therefore factors through the displayed packet and nowhere else.
+\end{proof}
+
+\begin{theorem}[SubstitutionBoundaryAudit falsifiable route]
+\label{thm:substitution-boundary-audit-falsifiable-route}
+Any accepted $\SubstitutionBoundaryAuditUp$ consumer route that reaches $Q$ or $R$ must expose both the relevant closedness rows $C_{\mathsf{src}},C_{\mathsf{val}}$ and the audit ledger $L$ before the operation row. A route that reaches $Q$ or $R$ while bypassing those rows is not an accepted carrier route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:substitution-boundary-audit-namecert-obligations}. It places closedness-read order and audit non-escape among the local certificate obligations.
+
+If a route reaches the shift row $Q$, the classifier stability clause ties $Q$ to $T,d,C_{\mathsf{src}},L,E$ and to the displayed transport and continuation rows. The shift read therefore cannot be consumed before the source closedness and ledger rows are visible.
+
+If a route reaches the substitute row $R$, the same obligation surface ties $R$ to $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},L,E$. The value closedness row is part of the substitution boundary, so a consumer that bypasses it is outside the carrier.
+
+Thus the prediction is refuted exactly by a counter-route that accepts $Q$ or $R$ without the relevant closedness and ledger rows. Such a route would contradict the displayed NameCert surface rather than extend it.
+\end{proof}
+
+\begin{theorem}[SubstitutionBoundaryAudit independence witness]
+\label{thm:substitution-boundary-audit-independence-witness}
+The carrier of \autoref{def:substitution-boundary-audit-carrier} is not bijective, row for row, to any of $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GapClosureBoundaryUp$, or $\MetaCICNormalizationFrontierUp$. A bijection preserving local NameCert obligations would have to preserve the dedicated audit-exposure row $E$ coupled to both the shift boundary row $Q$ and the substitute boundary row $R$, and no listed sibling carries exactly that joint exposure surface.
+\end{theorem}
+\begin{proof}
+Compare first with $\ClosedTermSubstitutionBoundaryUp$. That sibling supplies the closed shift and substitution boundary rows, but it does not isolate a separate audit-exposure row $E$ whose only role is to gate both operation rows before downstream use.
+
+Compare next with $\AuthorizedGeneratorRecursorUp$ and $\GapClosureBoundaryUp$. The generator sibling supplies permitted generator-recursion rows, while the gap sibling records a closure boundary. Neither carries the paired shift and substitute operation rows together with the closedness, ledger, and exposure order required here.
+
+Finally compare with $\MetaCICNormalizationFrontierUp$. It records candidate and endpoint normalization routes with obstruction retention, not the term/value/depth substitution audit packet. Since each sibling omits at least one of $Q,R,L,E$ or carries a different endpoint surface, no carrier bijection can preserve all NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Any accepted SubstitutionBoundaryAuditUp consumer route that reaches $Q$ or $R$ must expose both the relevant ClosedAt rows and the audit ledger before the operation row; a counter-route bypassing those rows refutes the chapter.}
+
+\independenceWitness{closedtermsubstitutionboundary, authorizedgeneratorrecursor, gapclosureboundary, metacicnormalizationfrontier: the audit carrier is not bijective to any sibling because it has a dedicated audit-exposure row $E$ coupled to both shift and substitute boundary reads.}
+
+The later Lean TasteGate file will provide $\mathsf{Nontrivial}\ \SubstitutionBoundaryAuditUp$ with two explicit witness packets, one for a shift audit route and one for a substitute audit route, and $\mathsf{FieldFaithful}\ \SubstitutionBoundaryAuditUp$ by matching and injection over the displayed fields $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,E,H,C,P,N$.
+
+\closureat{SubstitutionBoundaryAuditUp}{seedStr}
+
+\begin{closurestatus}{\SubstitutionBoundaryAuditUp}
+  \constructivestory{A $\SubstitutionBoundaryAuditUp$ packet is generated from a source term, value row, depth row, closedness witnesses, shift and substitute boundary rows, audit ledger, audit-exposure row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substitution-boundary-audit-carrier}, \autoref{thm:substitution-boundary-audit-namecert-obligations}, \autoref{thm:substitution-boundary-audit-falsifiable-route}, and \autoref{thm:substitution-boundary-audit-independence-witness} display the finite NameCert surface for closed shift and substitution audit routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, unrestricted substitution commutation, open-term substitution semantics, generator recursion, gap discharge, or bridge checking for $\SubstitutionBoundaryAuditUp$.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, checked route theorem, independence theorem, and TasteGate nontriviality with field faithfulness for the same audit packet.}
+\end{closurestatus}

@@ -132,6 +132,7 @@ Separated comparison exactness is the role of $S$. The comparison occurs only at
 
 Ledger non-escape is the completion-facing boundary of \autoref{thm:regular-limit-uniqueness-completion-consumer-boundary}. Every consumer route is a route through the listed BEDC rows, so the packet exports no quotient stream, selected host limit, host equality, ambient completeness theorem, or choice witness.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularLimitUniquenessUp.RegularLimitUniquenessCarrier\_obligation\_closure\_package}
 
 \begin{theorem}[RegularLimitUniqueness readback seal exactness]
 \label{thm:regular-limit-uniqueness-readback-seal-exactness}
@@ -201,6 +202,7 @@ The consumer boundary theorem \autoref{thm:regular-limit-uniqueness-completion-c
 
 Therefore every exported route is already listed in the carrier ledger. Since quotient streams, selected host limits, host equality, ambient completeness, and choice are not listed coordinates, no consumer route can recover them from the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularLimitUniquenessUp.RegularLimitUniquenessCarrier\_choice\_free\_ledger\_exhaustion}
 
 \begin{theorem}[RegularLimitUniqueness shared family scope]
 \label{thm:regular-limit-uniqueness-shared-family-scope}
@@ -332,6 +334,30 @@ Start with the bridge handoff of \autoref{thm:regular-limit-uniqueness-bridge-ha
 The public completion export of \autoref{thm:regular-limit-uniqueness-public-completion-export} supplies the downstream route from the shared family through the two diagonal completion candidates and their readbacks into the two Real seals. Consumer determinacy from \autoref{thm:regular-limit-uniqueness-consumer-determinacy} makes any two reads of that exported route agree at the same separated comparison row $S$.
 
 Finally combine readback-seal exactness with the non-escape rows recorded in the bridge handoff. Since quotient completion, selected host limits, host real equality, and ambient completeness are outside the finite carrier and outside the exported completion-consumer surface, the displayed route is the mature consumer route for this packet.
+\end{proof}
+
+\begin{theorem}[RegularLimitUniqueness L10 terminal handoff]
+\label{thm:regular-limit-uniqueness-l10-terminal-handoff}
+Let
+$$
+A=(F,D_0,D_1,\mu,R_0,R_1,E_0,E_1,S,H,C,P,N)
+$$
+be an accepted $\RegularLimitUniquenessUp$ packet whose public route is read by a current Phase Real and Completion terminal consumer. If that consumer uses the mature route of \autoref{thm:regular-limit-uniqueness-mature-consumer-route}, then its visible terminal boundary factors through exactly the finite four-face L10 packet
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The $\RegularLimitUniquenessUp$ rows are used only as the separated-comparison consumer of this boundary: they read the shared family, the two diagonal completion candidates, the regular-rational readbacks, the two Real seal rows, and the separated comparison row $S$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+The handoff exports no quotient completion, selected host limit, host real equality, countable-choice selector, ambient completeness principle, metric-completeness row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First expose the local completion consumer. Apply \autoref{thm:regular-limit-uniqueness-bridge-handoff} and \autoref{thm:regular-limit-uniqueness-mature-consumer-route}. The accepted packet can be read by downstream consumers only through the displayed route from the shared $\RegularCauchyFamilyUp$ family, through the two $\RealDiagonalCompletionUp$ candidates and their $\RegSeqRatUp$ and $\StreamNameUp$ readbacks, into the two $\RealUp$ seal rows and the separated comparison row $S$.
+
+Next attach the current terminal boundary. By \autoref{thm:streamname-regseqrat-realup-lattice-budget-cover}, every StreamName, RegSeqRat, and Real budget cover used by the Phase Real and Completion surface is confined to the four sibling rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Now apply \autoref{thm:real-l10-four-face-exactness}. The current terminal $\RealUp$ read is accepted exactly when its visible rows factor through the finite four-face packet in the statement, and the converse read adds no further visible coordinate.
+
+Finally use \autoref{thm:real-l10-terminal-pullback-uniqueness}. Since the mature $\RegularLimitUniquenessUp$ consumer reaches the terminal read through the same four faces and the same displayed coordinates, the consumer boundary is the unique terminal pullback over that packet. The exclusion clauses follow from the inventories in the cited handoff, budget-cover, exactness, and uniqueness theorems: quotient completion, selected host limits, host real equality, countable choice, ambient completeness, metric-completeness rows, and standard bridge rows have no coordinate in the resulting handoff.
 \end{proof}
 
 \closureat{RegularLimitUniquenessUp}{seedStr}

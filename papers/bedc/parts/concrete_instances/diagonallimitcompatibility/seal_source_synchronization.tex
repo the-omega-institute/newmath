@@ -136,6 +136,7 @@ K=(R,T,S,D,W,Q,L,H,C,P,N)
 $$
 exposes a seal-facing $\RealUp$ or $\CauchyLimitSealUp$ consumer only after the finite budget-selector route, synchronized triangle row, dyadic ledger, stream window, $\RegSeqRatUp$ readback, Real seal, transports, continuations, provenance, and $\NameCert$ rows have been fixed. Thus the consumer reads only the displayed rows $R,T,S,D,W,Q,L,H,C,P,N$ and cannot obtain a second source route, quotient stream, host limit, choice datum, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_seal\_source\_scope\_row}
 \begin{proof}
 Project the carrier of \autoref{def:diagonal-limit-compatibility-carrier}. The accepted packet displays the finite route rows $R,T,S,D,W,Q,L$ and the structural rows $H,C,P,N$ before any seal-facing consumer can be addressed.
 
@@ -173,6 +174,7 @@ determine the same seal-facing finite route. In particular, they cannot be
 distinguished by a host limit, quotient stream, choice datum, ambient
 completeness principle, or second source route.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_seal\_source\_determinacy}
 \begin{proof}
 Apply seal source synchronization,
 \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}, to
@@ -226,6 +228,7 @@ metric-completeness datum, countable-choice datum, or standard bridge row. The
 same four faces are the Phase Real and Completion boundary faces named by
 \autoref{thm:streamname-real-completion-four-object-exit-route}.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_four\_face\_budget\_ownership}
 \begin{proof}
 First apply seal source synchronization,
 \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}. It
@@ -258,6 +261,73 @@ exactly the same four faces with the current Phase Real and Completion exit
 route, so the diagonal seal packet contributes no fifth mathematical face or
 standard bridge row.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_four\_face\_budget\_ownership}
+
+\begin{theorem}[Diagonal-limit four-face budget determinacy]
+\label{thm:diagonal-limit-compatibility-four-face-budget-determinacy}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+and
+$$
+K'=(R',T',S',D',W',Q',L',H',C',P',N')
+$$
+be accepted $\DiagonalLimitCompatibilityUp$ packets. Suppose the
+$\StreamNameUp$ window/source face, the $\DyadicRatCoreUp$ tolerance face, the
+$\RegSeqRatUp$ readback face, the $\RealUp$ seal face, and the support rows
+$H,C,P,N$ agree by $\hsame$:
+$$
+\begin{gathered}
+\hsame{S}{S'},\quad \hsame{W}{W'},\quad \hsame{D}{D'},\quad
+\hsame{Q}{Q'},\quad \hsame{L}{L'},\\
+\hsame{H}{H'},\quad \hsame{C}{C'},\quad \hsame{P}{P'},\quad
+\hsame{N}{N'}.
+\end{gathered}
+$$
+Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer that passes through the
+two accepted packets reads the same finite seal route. The route has exactly the
+four faces owned by $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$, with $H,C,P,N$ as support rows, and it has no second source route,
+quotient stream, host limit, choice datum, ambient completeness row, metric
+completion row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with seal source synchronization,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}. It
+places each seal-facing read behind the displayed diagonal source, triangle,
+dyadic, window, readback, seal, transport, continuation, provenance, and naming
+rows.
+
+Use the triangle readback lock,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}. The readback
+row $Q$ cannot move independently of the synchronized triangle, dyadic, and
+window rows, so the $\hsame$ agreement on $D,W,Q$ fixes the tolerance and
+readback part of the route seen by either consumer.
+
+Next apply real seal factorization,
+\autoref{thm:diagonal-limit-compatibility-real-seal-factorization}, and real
+seal consumer scope,
+\autoref{thm:diagonal-limit-compatibility-real-seal-consumer-scope}. These
+results force the $\RealUp$ or $\CauchyLimitSealUp$ consumer to pass through the
+displayed seal row $L$ and prevent any hidden host limit, quotient stream,
+choice datum, ambient completeness row, or second source route from entering the
+consumer route.
+
+Now invoke seal source determinacy,
+\autoref{thm:diagonal-limit-compatibility-seal-source-determinacy}. Together
+with the stated $\hsame$ agreement on $S,W,D,Q,L,H,C,P,N$, it identifies all
+coordinates that the consumer can read after synchronization and factorization.
+
+Finally use four-face budget ownership,
+\autoref{thm:diagonal-limit-compatibility-four-face-budget-ownership}. The only
+owned mathematical faces are the $\StreamNameUp$ window/source face, the
+$\DyadicRatCoreUp$ tolerance face, the $\RegSeqRatUp$ readback face, and the
+$\RealUp$ seal face, while $H,C,P,N$ only support transport, continuation,
+packaging, and naming. Hence both consumers read the same finite seal route and
+no additional completion, bridge, choice, quotient, or host row remains.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityFourFaceBudgetDeterminacy}
 
 \begin{theorem}[Diagonal-limit four-face pullback exactness]
 \label{thm:diagonal-limit-compatibility-four-face-pullback-exactness}
@@ -328,3 +398,65 @@ contains quotient stream equality, host equality, selected limits, ambient
 completeness, metric-completeness data, countable-choice rows, or standard
 bridge rows, so none can be part of the exact pullback.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibility\_four\_face\_pullback\_exactness}
+
+\begin{theorem}[Diagonal-limit tail-seal source uniqueness]
+\label{thm:diagonal-limit-compatibility-tail-seal-source-uniqueness}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any terminal
+$\RealUp$ seal read using the displayed $\StreamNameUp$ window row $W$ and
+source row $S$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$
+tolerance ledger $D$, and the $\CauchyLimitSealUp$ route has a unique
+displayed tail-seal source up to componentwise $\hsame$ through the support
+rows $H,C,P,N$.
+
+Equivalently, two terminal seal reads whose $\StreamNameUp$,
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\CauchyLimitSealUp$ faces are
+accepted by the same packet determine the same consumer-visible source route
+after transport through $H$, replay through $C$, packaging through $P$, and
+local naming through $N$. The uniqueness statement exports no quotient stream,
+host real equality, hidden selector, selected host limit, detached completion
+object, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with two terminal $\RealUp$ seal reads of the accepted packet. Seal
+source synchronization,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization},
+places both reads behind the displayed $R,T,S,D,W,Q,L,H,C,P,N$ rows.
+
+The triangle readback lock,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}, fixes
+$Q$ behind the same $T,D,W$ route. Hence neither read can choose a separate
+regular readback, tolerance witness, or window source while still being a
+read of $K$.
+
+Next use real seal factorization,
+\autoref{thm:diagonal-limit-compatibility-real-seal-factorization}. A
+$\RealUp$ or $\CauchyLimitSealUp$ consumer reaches the terminal seal only
+after the displayed source, window, tolerance, readback, and seal rows have
+already been fixed.
+
+Four-face budget determinacy,
+\autoref{thm:diagonal-limit-compatibility-four-face-budget-determinacy},
+identifies the consumer-visible mathematical faces as the
+$\StreamNameUp$ window/source face, the $\DyadicRatCoreUp$ tolerance face,
+the $\RegSeqRatUp$ readback face, and the $\RealUp$ seal face. The support
+rows $H,C,P,N$ only transport, replay, package, and name those same faces.
+
+Finally apply four-face pullback exactness,
+\autoref{thm:diagonal-limit-compatibility-four-face-pullback-exactness}.
+The four accepted faces repack as one terminal pullback surface, and seal
+source determinacy identifies the resulting source route. Thus any two
+terminal seal reads have the same displayed tail-seal source up to
+componentwise $\hsame$ through $H,C,P,N$.
+
+The refusal clauses are inherited from the cited synchronization,
+factorization, budget, and pullback results. Since no accepted row contains a
+quotient stream, host real equality, hidden selector, selected host limit,
+detached completion object, or ambient completeness theorem, none can be used
+to produce another terminal tail-seal source.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityTailSealSourceUniqueness}

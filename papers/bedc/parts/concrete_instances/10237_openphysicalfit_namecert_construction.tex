@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\OpenPhysicalFitUp$}
+\label{ch:concrete-instances-open-physical-fit-namecert}
+\origin{ai}
+
+The $\OpenPhysicalFitUp$ packet realizes the finite-observation open-fit discipline of \autoref{sec:finite-observation-open-fit} as a finite BEDC NameCert carrier. It sits beside $\PhysicalFitTowerUp$ of \autoref{ch:concrete-instances-physical-fit-tower-namecert}, $\ObserverApproximationTowerUp$ of \autoref{ch:concrete-instances-observer-approximation-tower-namecert}, $\RealityConstrainedModelAuditUp$ of \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, and $\ObservationReflectionPacketUp$ of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}. Those siblings expose tower, observer, audit, and observation--reflection surfaces; $\OpenPhysicalFitUp$ binds the finite fit certificate itself, its displayed refutation surface, and its open-continuation ledger without adding a final-fit oracle.
+
+\begin{definition}[OpenPhysicalFit carrier]
+\label{def:open-physical-fit-carrier}
+An $\OpenPhysicalFitUp$ carrier is a finite $\BHist$ packet
+$$
+P=(H,\Pi,O,M,C,F,E,L,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the finite reality trace row, recording the observed history through which the physical system is read;
+\item $\Pi$ is the observation-bundle row, naming the admissible questions used to extract finite signatures;
+\item $O$ is the observed-signature row $\operatorname{ObsSig}_{\Pi}(R\mid H)$;
+\item $M$ is the model-generated signature row $\operatorname{ModSig}_{\Pi}(M\mid H)$;
+\item $C$ is the packet classifier row comparing $O$ and $M$ at the declared finite-fit level;
+\item $F$ is the refutation row, naming displayed finite observations whose observed and model-generated signatures fail $C$;
+\item $E$ is the open-continuation row, recording admissible observation extensions still outside the finite certificate;
+\item $L$ is the ledger row recording hidden source residue, idealization residue, undefeated finite-fit scope, and open adequacy gaps;
+\item $R$ is the replay row, recording the displayed $\Cont$ route through $H,\Pi,O,M,C,F,E,L$;
+\item $N$ is the local $\NameCert_{\OpenPhysicalFitUp}$ row naming exactly this finite packet.
+\end{enumerate}
+The carrier has no coordinate for total physical identity, no internal proof of $\forall n,\operatorname{Fit}_n(M,R;\Pi)$, no final-fit oracle, and no route from finite success to unrestricted confirmation.
+\end{definition}
+\leanchecked{BEDC.Derived.OpenPhysicalFitUp.OpenPhysicalFitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[OpenPhysicalFit NameCert obligations]
+\label{thm:open-physical-fit-namecert-obligations}
+For the carrier of \autoref{def:open-physical-fit-carrier}, the local $\NameCert_{\OpenPhysicalFitUp}$ surface consists of six obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $P=(H,\Pi,O,M,C,F,E,L,R,N)$;
+\item trace and bundle exactness through $H$ and $\Pi$;
+\item observed and model-generated signature exposure through $O$ and $M$;
+\item finite classifier accountability through $C$;
+\item refutation and open-continuation visibility through $F$ and $E$;
+\item ledger, replay, and local naming closure through $L,R,N$.
+\end{enumerate}
+Every accepted finite open-fit read must display these rows before a consumer may treat the model as undefeated by the observed trace.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:open-physical-fit-carrier}. The admitted object is the ten-row packet $P=(H,\Pi,O,M,C,F,E,L,R,N)$, so a consumer begins with the finite trace and the declared observation bundle.
+
+The signature rows then expose the two sides compared by finite fit. The observed row $O$ and model row $M$ are the only signatures available to the classifier $C$.
+
+The boundary rows make the open status explicit. The refutation row $F$ records finite defeating observations, while the open-continuation row $E$ records admissible extensions that are not collapsed into a total certificate.
+
+Finally $L,R,N$ ledger, replay, and name the same packet. Since no other coordinate is admitted, the NameCert surface contains exactly the six displayed obligation rows.
+\end{proof}
+
+\begin{theorem}[OpenPhysicalFit refutation boundary]
+\label{thm:open-physical-fit-refutation-boundary}
+An accepted $\OpenPhysicalFitUp$ packet is refuted by a displayed finite observation whose observed and model-generated signatures fail the packet classifier. Conversely, finite acceptance of $P$ records only undefeatedness by the displayed trace and does not certify total fit, model-reality identity, or a final theory.
+\end{theorem}
+\begin{proof}
+Read the classifier and refutation rows of \autoref{def:open-physical-fit-carrier}. A finite defeating observation belongs to $F$ precisely when the observed and model-generated signatures cannot pass $C$.
+
+Such a row is internal to the packet, so the accepted certificate itself names the finite observation that defeats the fit claim. The local NameCert obligations of \autoref{thm:open-physical-fit-namecert-obligations} require this row to remain visible to consumers.
+
+The reverse boundary follows from the absence of any total-fit coordinate. The packet records $H,\Pi,O,M,C,F,E,L,R,N$ only. None of those rows is an internal proof of all future finite fits, an identity between model and reality, or a final-fit oracle.
+\end{proof}
+
+\begin{theorem}[OpenPhysicalFit observation-extension stability]
+\label{thm:open-physical-fit-observation-extension-stability}
+Let
+$$
+P=(H,\Pi,O,M,C,F,E,L,R,N)
+$$
+be an accepted $\OpenPhysicalFitUp$ packet. If an admissible extension of the observation trace remains classified by $C$, then it can be recorded as an extension of the same open-continuation ledger. If the extension fails $C$, the result is a refutation row rather than a hidden weakening of the packet.
+\end{theorem}
+\begin{proof}
+Start with the extension row $E$. It records admissible continuation observations without converting them into a final certificate.
+
+When the extended observed and model-generated signatures pass $C$, the same finite classifier route can be replayed through $R$ and recorded in the ledger $L$ as another undefeated finite trace.
+
+When the extended signatures fail $C$, the refutation row $F$ is the only row that can receive the displayed mismatch. The packet therefore separates stable continuation from refutation and never hides a classifier failure inside the open ledger.
+\end{proof}
+
+\falsifiablePrediction{An accepted OpenPhysicalFitUp packet is refuted by a displayed finite observation whose observed and model-generated signatures fail the packet classifier.}
+
+\independenceWitness{physicalfittower, observerapproximationtower, realityconstrainedmodelaudit, observationreflectionpacket, onticstate: none is bijective because $\OpenPhysicalFitUp$ carries the finite open-fit certificate, refutation row, and open-continuation ledger in one packet. $\PhysicalFitTowerUp$ packages tower descent and hidden-source residue, $\ObserverApproximationTowerUp$ packages observer-side approximation routes, $\RealityConstrainedModelAuditUp$ packages audit strength and failure surfaces, $\ObservationReflectionPacketUp$ packages observation--reflection role correspondence, and $\OnticStateUp$ names state rows; none of them alone gives the exact finite-fit classifier with both refutation and open-continuation rows.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/OpenPhysicalFitUp/TasteGate.lean} should provide \texttt{Nontrivial OpenPhysicalFitUp} and \texttt{FieldFaithful OpenPhysicalFitUp}, together with the future target \texttt{BEDC.Derived.OpenPhysicalFitUp.TasteGate.OpenPhysicalFitTasteGate\_single\_carrier\_alignment}.
+
+\closureat{OpenPhysicalFitUp}{seedStr}
+
+\begin{closurestatus}{\OpenPhysicalFitUp}
+  \constructivestory{An $\OpenPhysicalFitUp$ packet is generated from a finite trace, observation bundle, observed signature, model-generated signature, classifier, refutation row, open-continuation row, ledger, replay route, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:open-physical-fit-carrier}, \autoref{thm:open-physical-fit-namecert-obligations}, \autoref{thm:open-physical-fit-refutation-boundary}, and \autoref{thm:open-physical-fit-observation-extension-stability} bind the finite open-fit carrier, NameCert obligations, refutation boundary, and observation-extension stability surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, total physical fit, model-reality identity, final theory, or a final-fit oracle.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier accountability, finite refutation, observation-extension stability, TasteGate nontriviality, and field faithfulness for $H,\Pi,O,M,C,F,E,L,R,N$.}
+\end{closurestatus}

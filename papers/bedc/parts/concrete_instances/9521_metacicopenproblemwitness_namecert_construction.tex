@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICOpenProblemWitnessUp$}
+\label{ch:concrete-instances-metacicopenproblemwitness-namecert}
+\origin{ai}
+
+The $\MetaCICOpenProblemWitnessUp$ packet realizes the consolidated open-problem surface of \autoref{ch:metacic-open-problems} as one finite frontier-witness NameCert carrier. It sits beside the subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction}, the confluence audit map of \autoref{ch:metacic-confluence-audit-map}, the normalization audit map of \autoref{ch:metacic-normalization-audit-map}, the decidability audit map of \autoref{ch:metacic-decidable-audit-map}, and the typed-examples audit map of \autoref{ch:metacic-typedexamples-audit-map}. Those siblings expose separate audit faces; this packet records the joint ledger that a consistency-facing consumer must read before any stronger route is cited.
+
+The concrete critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} consumes this witness packet as the shared frontier ledger for subject reduction, normalization, decidability, typed-example coverage, and consistency-frontier rows. $\MetaCICCriticalPathUp$ may cite the witness only as that joint ledger: it cannot read it as a closed consistency proof or as a replacement for the named audit-face obligations.
+
+\begin{definition}[MetaCIC open-problem witness carrier]
+\label{def:metacic-open-problem-witness-carrier}
+A $\MetaCICOpenProblemWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,C,N,D,T,K,H,R,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the subject-reduction frontier row, naming \texttt{metacic\_subject\_reduction\_obstruction} and the simultaneous beta-substitution, application-argument, lambda-domain, and Pi-domain discharge obligations;
+\item $C$ is the confluence frontier row, naming \texttt{metacic\_confluence\_audit} and the residual-substitution, closed parallel diamond, and arbitrary closed Church--Rosser endpoints;
+\item $N$ is the normalization frontier row, naming \texttt{metacic\_normalization\_audit} and the candidate-mediated strong-normalization boundary;
+\item $D$ is the decidability frontier row, naming \texttt{metacic\_decidable\_audit} and the bounded normal-comparison and closed beta-conversion boundary;
+\item $T$ is the typed-examples frontier row, naming \texttt{metacic\_typedexamples\_audit} and the gallery-versus-coverage boundary;
+\item $K$ is the consistency-frontier row, recording that any consistency-facing route must pass through one of $S,C,N,D,T$ before it may cite a closed-normal or stronger consistency surface;
+\item $H$ records componentwise $\hsame$ transport for $S,C,N,D,T,K$;
+\item $R$ records displayed $\Cont$ replay routes for the five audit faces and the consistency frontier;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-open-problems}, the five sibling audit chapters, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $Q$ is the local $\NameCert_{\MetaCICOpenProblemWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive typed-example coverage, host quotient equality of represented terms, or full closed consistency.
+\end{definition}
+\leandef{BEDC.Derived.MetaCICOpenProblemWitnessUp.MetaCICOpenProblemWitnessUp}
+
+\begin{theorem}[MetaCIC open-problem witness NameCert obligations]
+\label{thm:metacic-open-problem-witness-namecert-obligations}
+The local $\NameCert_{\MetaCICOpenProblemWitnessUp}$ surface for \autoref{def:metacic-open-problem-witness-carrier} consists exactly of carrier admission for $W=(S,C,N,D,T,K,H,R,P,Q)$, subject-reduction obstruction visibility through $S$, confluence audit visibility through $C$, normalization audit visibility through $N$, decidability audit visibility through $D$, typed-example audit visibility through $T$, consistency-frontier visibility through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $R$, package provenance through $P$, and local naming through $Q$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICOpenProblemWitnessUp.MetaCICOpenProblemWitnessTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted carrier. Its audit-face rows are $S,C,N,D,T$, and its consistency-facing row is $K$.
+
+Read the sibling references in the provenance row. The subject-reduction obstruction, confluence audit map, normalization audit map, decidability audit map, and typed-examples audit map supply the five named faces, while \autoref{ch:metacic-open-problems} supplies the consolidated frontier reading.
+
+The structural rows $H,R,P,Q$ only transport, replay, package, and name those displayed rows. Since no further coordinate appears in the carrier, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC open-problem witness frontier nonescape]
+\label{thm:metacic-open-problem-witness-frontier-nonescape}
+Any accepted consumer of a $\MetaCICOpenProblemWitnessUp$ packet reaches one of the named frontier rows $S,C,N,D,T$ before it may cite the consistency-facing row $K$. A route that exports full closed consistency without passing through one of those rows does not factor through the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The consistency-facing row $K$ is displayed only as a frontier row inside $W=(S,C,N,D,T,K,H,R,P,Q)$.
+
+The five audit rows are the only inputs to $K$. Subject reduction must pass through $S$, confluence through $C$, normalization through $N$, decidability through $D$, and typed-example coverage through $T$. Transport through $H$ and replay through $R$ preserve that routing rather than adding a separate consistency coordinate.
+
+Finally read the excluded objects. Since the carrier contains no closed subject-reduction theorem, no arbitrary closed Church--Rosser theorem, no evidence-free normalization theorem, no unrestricted conversion decider, and no exhaustive coverage theorem, a full closed-consistency export without one of the named frontier rows has no coordinate in the packet.
+\end{proof}
+
+\falsifiablePrediction{Any accepted consumer of $\MetaCICOpenProblemWitnessUp$ reaches a named frontier row before it may cite a consistency-facing route; a route that exports full closed consistency without one of those rows refutes the packet.}
+
+\independenceWitness{metacic\_subject\_reduction\_obstruction, metacic\_confluence\_audit, metacic\_normalization\_audit, metacic\_decidable\_audit, metacic\_typedexamples\_audit: none is bijective with $\MetaCICOpenProblemWitnessUp$ because each sibling records one audit face, while this carrier records the joint frontier ledger $S,C,N,D,T,K,H,R,P,Q$ and the consistency-facing non-escape route.}
+
+\closureat{MetaCICOpenProblemWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICOpenProblemWitnessUp}
+  \constructivestory{A $\MetaCICOpenProblemWitnessUp$ packet is generated from subject-reduction obstruction, confluence audit, normalization audit, decidability audit, typed-example audit, consistency-frontier, transport, route, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-open-problem-witness-carrier}, \autoref{thm:metacic-open-problem-witness-namecert-obligations}, and \autoref{thm:metacic-open-problem-witness-frontier-nonescape} bind the finite open-problem witness packet and its consistency-facing non-escape rule.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive typed-example coverage, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact row coverage for the five audit faces, consistency-frontier routing, route replay, provenance, local naming, and downstream non-escape over the same packet.}
+\end{closurestatus}
