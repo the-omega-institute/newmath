@@ -246,6 +246,40 @@ Next build the handoff package. Apply \autoref{thm:finite-kernel-category-root-h
 Finally compose with \autoref{thm:finite-kernel-category-tastegate-obligation-handoff}. The TasteGate side consumes the same single-carrier packet, so a downstream route that preserves all listed rows is unblocked, while a route omitting object/hom data, identity/composition data, ledger non-escape, or TasteGate handoff leaves the root obligation surface.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category hom endpoint transport determinacy]
+\label{thm:finite-kernel-category-hom-endpoint-transport-determinacy}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. Any accepted hom-history
+read transported by componentwise $\hsame$ preserves the displayed source and
+target object rows named by the same packet. A $\FunctorUp$ or $\NatTransUp$
+consumer cannot reuse the hom row $M$ with different endpoints unless it also
+transports the corresponding object rows through the same $H,C,P,N$ packet.
+\end{theorem}
+\begin{proof}
+Start with the object and hom boundary,
+\autoref{thm:finite-kernel-category-object-hom-boundary}. It makes the object
+rows $O$ and hom rows $M$ the only displayed endpoints and arrows available
+to a category-shaped consumer.
+
+Apply the identity and composition boundary together with the composition
+laws, \autoref{thm:finite-kernel-category-identity-composition-boundary} and
+\autoref{thm:finite-kernel-category-composition-laws}. Identities and
+composites are stored in $I,Q,A,U$ only after their source and target object
+rows have been kept aligned through the same transport and continuation
+surface.
+
+Finally use the category interface handoff and ledger non-escape boundary,
+\autoref{thm:finite-kernel-category-category-interface-handoff} and
+\autoref{thm:finite-kernel-category-ledger-nonescape-boundary}. A functor or
+natural-transformation reader therefore receives endpoint data only as part
+of the displayed $O,M,I,Q,A,U,H,C,P,N$ packet. Reusing $M$ with different
+endpoints would require an extra host arrow equality or quotient morphism,
+and those coordinates are not exported by the carrier.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 \closureat{FiniteKernelCategoryUp}{obligationStr}
 
