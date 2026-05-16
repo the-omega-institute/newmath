@@ -925,6 +925,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.DependentEliminatorRefusal
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RefusalTransportSurface
 import BEDC.Derived.QuotientSoundnessBoundaryUp.RootRequestTriad
+import BEDC.Derived.QuotientSoundnessBoundaryUp.DownstreamPackage
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
