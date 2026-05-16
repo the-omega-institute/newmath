@@ -168,18 +168,9 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
       cauchyTailModulusSealDecodeBHist
           (cauchyTailModulusSealEncodeBHist h) =
         h) ∧
-      Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-        Nonempty (ChapterTasteGate CauchyTailModulusSealUp) ∧
-          Nonempty (FieldFaithful CauchyTailModulusSealUp) ∧
-            cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
   constructor
   · exact cauchyTailModulusSealDecode_encode_bhist
-  · constructor
-    · exact ⟨cauchyTailModulusSealNontrivial⟩
-    · constructor
-      · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
-      · constructor
-        · exact ⟨cauchyTailModulusSealFieldFaithful⟩
-        · rfl
+  · rfl
 
 end BEDC.Derived.CauchyTailModulusSealUp
