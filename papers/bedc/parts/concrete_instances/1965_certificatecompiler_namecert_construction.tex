@@ -83,6 +83,18 @@ The carrier has no coordinate for host compiler semantics, program equality, or 
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerClassifier\_displayed\_edge\_witness\_totality}
 
+\begin{theorem}[CertificateCompiler KernelMorphism route coverage]
+\label{thm:certificatecompiler-kernel-morphism-route-coverage}
+Every accepted $\CertificateCompilerUp$ edge route whose source and target certificates are read by a downstream $\KernelMorphismUp$ dependency must expose the source certificate row $S$, target certificate row $T$, displayed graph row $G$, edge-landing row $E$, continuation row $C$, componentwise $\hsame$ transport row $H$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ before the route is consumed as a kernel-morphism route.
+\end{theorem}
+\begin{proof}
+Unfold the carrier and classifier of \autoref{def:certificate-compiler-carrier} and \autoref{def:certificate-compiler-classifier}. The route inventory is exactly $S,T,G,E,C,H,P,N$, with graph edges landing through $E$ and classifier transport through $H$ and $C$.
+
+Use endpoint certificate availability and displayed-edge witness totality. Theorems~\ref{thm:certificate-compiler-endpoint-certificate-availability} and~\ref{thm:certificate-compiler-displayed-edge-witness-totality} force source and target certificates to be read before the graph edge is consumed, and force each accepted comparison to expose graph, landing, transport, and continuation witnesses.
+
+The downstream consumer is the $\KernelMorphismUp$ chapter of \autoref{ch:concrete-instances-kernelmorphism-namecert}. It may consume only this finite compiler route together with its own graph-admission rows, so no host compiler semantics, ambient program equality, or unrecorded target behavior becomes a kernel-morphism route.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler consumer replay obligation triad]
 \label{thm:certificate-compiler-consumer-replay-obligation-triad}
 Every consumer replay of an accepted $\CertificateCompilerUp$ packet must read three local obligations before package provenance or local naming is used: carrier landing through $G$ and $E$, classifier transport through $S,T,H$, and continuation compatibility through $C$. Package and $\NameCert_{\CertificateCompilerUp}$ rows may repack only this displayed triad.

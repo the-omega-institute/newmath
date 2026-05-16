@@ -1,0 +1,39 @@
+\begin{theorem}[$\ZNormalUp$ terminal route component totality]
+\label{thm:znormal-terminal-route-component-totality}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+terminal use is exposed only through the finite component surface $T,F,V,K,R,H,C,P,N$. The typed endpoint row $T$, finite fuel row $F$, terminal-normality row $V$, sibling normal-word row $K$, continuation readback row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert_{\ZNormalUp}$ row $N$ exhaust the public route. No accepted packet exports host conversion, quotient normalization, divergence detection, unrestricted evaluation, substrate halting, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Start from the carrier and local obligation packet of \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They name the accepted surface as the tuple $T,F,V,K,R,H,C,P,N$, so every terminal read begins inside the finite BEDC rows.
+
+Next apply \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-terminal-readback-exactness}. These theorems keep finite fuel, terminal normality, and continuation readback inside the displayed packet rather than inside a host evaluator.
+
+Finally use \autoref{thm:znormal-sibling-normalword-handoff} and \autoref{thm:znormal-root-visible-source-package}. The sibling typed endpoint, finite normal-word, carry, and continuation surfaces of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} enter only through the named component rows. Hence terminal use is total over the finite packet and has no extra host-facing route.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ TasteGate field readback lock]
+\label{thm:znormal-tastegate-field-readback-lock}
+The Lean TasteGate rows \texttt{FieldFaithful ZNormalUp} and \texttt{Nontrivial ZNormalUp} are read on the paper side as the $\ZNormalUp$ field-readback lock for the finite surface $T,F,V,K,R,H,C,P,N$. They certify that the accepted field surface is nonempty and field-faithful for local readback; they do not add host conversion, quotient normalization, a divergence oracle, unrestricted evaluation, substrate halting, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:znormal-carrier}. The field inventory available to the TasteGate reader is exactly $T,F,V,K,R,H,C,P,N$, with local naming controlled by the $\NameCert_{\ZNormalUp}$ row.
+
+Apply \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, and \autoref{thm:znormal-terminal-readback-exactness}. Together they identify field readback with finite fuel, terminal normality, continuation readback, transport, replay, provenance, and naming, and they exclude the omitted host-side objects from the carrier.
+
+The Lean rows are therefore interpreted as a lock on this finite surface. FieldFaithful says the rows can be read back as the displayed packet fields, while Nontrivial says the surface is not empty; neither row changes the packet into host conversion or quotient normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root obligation downstream handoff]
+\label{thm:znormal-root-obligation-downstream-handoff}
+Every downstream normal-form consumer of the local $\NameCert_{\ZNormalUp}$ row must first pass through the sibling surfaces of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. After those surfaces have supplied the typed endpoint, finite normal-word, carry, and terminal continuation rows, the consumer may use the local row $N$ only as part of the same packet $T,F,V,K,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:znormal-carrier}. It places the downstream-facing rows in the finite packet and assigns $N$ to the local $\NameCert_{\ZNormalUp}$ surface, not to an independent host-normalization object.
+
+Use \autoref{thm:znormal-sibling-normalword-handoff} for the $K$ row and \autoref{thm:znormal-terminal-readback-exactness} for the $R$ row. The typed endpoint chapter supplies $T$, the Zeckendorf and carry chapters supply the finite normal-word route behind $K$, and the continuation-trace chapter supplies terminal readback behind $R$.
+
+Finally apply \autoref{thm:znormal-root-visible-source-package} together with \autoref{thm:znormal-namecert-obligations}. The source package and local obligations require consumers to reach $N$ through $T,F,V,K,R,H,C,P$ first. Thus downstream use of the local NameCert row is a handoff from the sibling normal-form surfaces, not a direct host-normalization route.
+\end{proof}
