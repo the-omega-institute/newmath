@@ -1,0 +1,51 @@
+\begin{theorem}[AuthorizedGeneratorRecursor boundary audit exhaustion]
+\label{thm:authorized-generator-recursor-boundary-audit-exhaustion}
+Every accepted $\AuthorizedGeneratorRecursorUp$ packet that exposes the boundary row $G$ must retain the audit row $A$, componentwise transport row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$ before any output row $O$ is public. The retained root-boundary packet is exactly the finite $\BHist$ surface
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+Thus an output-facing consumer may reach $G$ only through the same audited carrier, not through a detached boundary witness or a public output name alone.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition \autoref{def:authorized-generator-recursor-carrier}. It places $G$ in one finite $\BHist$ packet with $O,A,H,C,P$ and the local certificate row $N$, and it gives no separate coordinate for a boundary witness outside that packet.
+
+Apply the local surface theorem \autoref{thm:authorized-generator-recursor-namecert-surface}. It allows a downstream consumer to treat $O$ as recursor-generated only through the displayed packet, while \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality} keep the signature, branch package, and descent rows attached to that read.
+
+Finally use the root-unblock rows already available in this chapter. Theorems~\ref{thm:authorized-generator-recursor-root-unblock-carrier-admission} and~\ref{thm:authorized-generator-recursor-root-unblock-route-totality} force every output-facing route through $I,E,M,B,D,O,A,H,C,P,G,N$, and \autoref{thm:authorized-generator-recursor-root-unblock-ledger-nonescape} excludes a hidden authorization route. Therefore the audit, transport, continuation, provenance, and local naming rows are retained before $O$ becomes public.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor output provenance coverage]
+\label{thm:authorized-generator-recursor-output-provenance-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet, public provenance for the output row $O$ factors through exactly the displayed rows
+
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+
+The provenance cannot be replaced by an unaudited generator route, an off-packet $\Pkg$ witness, or a local name that omits the audit row $A$ and boundary row $G$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:authorized-generator-recursor-carrier}. The output row $O$ is listed with the constructor signature, emitted eliminator, motive, branch package, descent row, audit row, transport row, continuation row, package provenance, boundary row, and local certificate.
+
+Use \autoref{thm:authorized-generator-recursor-namecert-surface} to read this list as the local NameCert surface. Branch coverage and structural descent are not optional provenance side data: by \autoref{thm:authorized-generator-recursor-branch-exhaustion} and \autoref{thm:authorized-generator-recursor-structural-descent-locality}, they remain part of every public recursive read.
+
+Now attach the root-boundary audit exhaustion just proved. It keeps $A,H,C,P,G,N$ on the same route before $O$ is public. The root-unblock route totality theorem \autoref{thm:authorized-generator-recursor-root-unblock-route-totality} supplies the matching output-facing path, and \autoref{thm:authorized-generator-recursor-root-unblock-ledger-nonescape} rules out a ledger export of an unaudited generator route.
+
+Since the displayed tuple has no coordinate for an off-packet package witness, hidden generator, or local name without audit provenance, the output provenance is covered exactly by $I,E,M,B,D,O,A,H,C,P,G,N$.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor recursion-channel refusal]
+\label{thm:authorized-generator-recursor-recursion-channel-refusal}
+Any attempted use of an accepted $\AuthorizedGeneratorRecursorUp$ packet as a non-structural recursion channel, missing-branch repair, detached substitution step, or hidden proof-producing generator is routed to the displayed boundary row $G$ and the audited rows $A,H,C,P,N$ rather than exported as a public output. In particular, the packet exports only the structural recursor route witnessed by $I,E,M,B,D,O,A,H,C,P,G,N$.
+\end{theorem}
+\begin{proof}
+Start with branch exhaustion and structural descent locality. Theorems~\ref{thm:authorized-generator-recursor-branch-exhaustion} and~\ref{thm:authorized-generator-recursor-structural-descent-locality} leave no public branch outside $B$ and no recursive call whose descent is absent from $D$.
+
+Next read the carrier and NameCert surface. By \autoref{def:authorized-generator-recursor-carrier} and \autoref{thm:authorized-generator-recursor-namecert-surface}, the boundary row $G$ is the displayed place where unlisted branches, non-structural recursion, external axioms, and hidden proof generators are refused.
+
+Detached substitution is handled by the root-unblock packet rows. Theorems~\ref{thm:authorized-generator-recursor-root-unblock-route-totality} and~\ref{thm:authorized-generator-recursor-root-unblock-ledger-nonescape} force output-facing and ledger-facing reads to stay inside the same $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so a substitution step cannot become an off-packet generator.
+
+Finally apply boundary audit exhaustion and output provenance coverage above. They keep $A,H,C,P,G,N$ attached before $O$ is public. Therefore every rejected recursion channel is recorded at the displayed boundary rather than exported as a public proof-producing route.
+\end{proof}
