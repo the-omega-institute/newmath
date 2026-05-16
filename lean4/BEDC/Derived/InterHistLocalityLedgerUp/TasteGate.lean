@@ -291,4 +291,33 @@ theorem InterHistLocalityLedger_symmetric_route_source_swap_separates :
   injection h with hSourceLeft _hTail
   cases hSourceLeft
 
+theorem InterHistLocalityLedgerLocalityCell_handoff_separation
+    {sourceLeft sourceRight transport continuation localityCell provenance localName : BHist} :
+    localityCell ≠ BHist.Empty →
+      BHistCarrier.toEventFlow
+          (InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation localityCell
+            BHist.Empty provenance localName) ≠
+        BHistCarrier.toEventFlow
+          (InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation BHist.Empty
+            BHist.Empty provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hlocalityCell heq
+  apply hlocalityCell
+  have hcarrier :
+      InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation localityCell
+          BHist.Empty provenance localName =
+        InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation BHist.Empty
+          BHist.Empty provenance localName := by
+    apply interHistLocalityLedgerToEventFlow_injective
+    change
+      interHistLocalityLedgerToEventFlow
+          (InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation localityCell
+            BHist.Empty provenance localName) =
+        interHistLocalityLedgerToEventFlow
+          (InterHistLocalityLedgerUp.mk sourceLeft sourceRight transport continuation BHist.Empty
+            BHist.Empty provenance localName)
+    exact heq
+  cases hcarrier
+  rfl
+
 end BEDC.Derived.InterHistLocalityLedgerUp
