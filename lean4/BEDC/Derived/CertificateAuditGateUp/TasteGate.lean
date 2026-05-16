@@ -193,7 +193,7 @@ instance certificateAuditGateBHistCarrier : BHistCarrier CertificateAuditGateUp 
   toEventFlow := certificateAuditGateToEventFlow
   fromEventFlow := certificateAuditGateFromEventFlow
 
-instance certificateAuditGateChapterTasteGate :
+private def certificateAuditGateChapterTasteGateConcrete :
     ChapterTasteGate CertificateAuditGateUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
@@ -203,6 +203,10 @@ instance certificateAuditGateChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (certificateAuditGateToEventFlow_injective heq)
+
+instance certificateAuditGateChapterTasteGate :
+    ChapterTasteGate CertificateAuditGateUp :=
+  certificateAuditGateChapterTasteGateConcrete
 
 private def certificateAuditGateFields : CertificateAuditGateUp -> List BHist
   | CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity transport
@@ -224,11 +228,15 @@ private theorem certificateAuditGate_field_faithful :
             cases h
             rfl
 
-instance certificateAuditGateFieldFaithful :
+private def certificateAuditGateFieldFaithfulConcrete :
     FieldFaithful CertificateAuditGateUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := certificateAuditGateFields
   field_faithful := certificateAuditGate_field_faithful
+
+instance certificateAuditGateFieldFaithful :
+    FieldFaithful CertificateAuditGateUp :=
+  certificateAuditGateFieldFaithfulConcrete
 
 private def certificateAuditGateWitnessPair :
     Σ' (x : CertificateAuditGateUp) (y : CertificateAuditGateUp), x ≠ y :=
@@ -240,13 +248,16 @@ private def certificateAuditGateWitnessPair :
       intro h
       cases h⟩
 
-instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp where
+private def certificateAuditGateNontrivialConcrete : Nontrivial CertificateAuditGateUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair := certificateAuditGateWitnessPair
 
+instance certificateAuditGateNontrivial : Nontrivial CertificateAuditGateUp :=
+  certificateAuditGateNontrivialConcrete
+
 def taste_gate : ChapterTasteGate CertificateAuditGateUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  certificateAuditGateChapterTasteGate
+  certificateAuditGateChapterTasteGateConcrete
 
 theorem CertificateAuditGateTasteGate_single_carrier_alignment :
     (forall h : BHist,
@@ -268,20 +279,11 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact certificateAuditGateToEventFlow_injective heq
       · constructor
-        · exact ⟨{
-            round_trip := by
-              intro x
-              change certificateAuditGateFromEventFlow (certificateAuditGateToEventFlow x) = some x
-              exact certificateAuditGate_round_trip x
-            layer_separation := by
-              intro x y hxy heq
-              exact hxy (certificateAuditGateToEventFlow_injective heq) }⟩
+        · exact ⟨certificateAuditGateChapterTasteGateConcrete⟩
         · constructor
-          · exact ⟨{
-              fields := certificateAuditGateFields
-              field_faithful := certificateAuditGate_field_faithful }⟩
+          · exact ⟨certificateAuditGateFieldFaithfulConcrete⟩
           · constructor
-            · exact ⟨{ witness_pair := certificateAuditGateWitnessPair }⟩
+            · exact ⟨certificateAuditGateNontrivialConcrete⟩
             · rfl
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
