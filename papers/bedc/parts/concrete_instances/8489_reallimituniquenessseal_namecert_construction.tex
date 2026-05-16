@@ -141,72 +141,6 @@ The nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}, rules
 Finally, \autoref{thm:real-limit-uniqueness-seal-independent-witness} identifies the simultaneous presence of $L_0$ and $L_1$ as part of the independence witness. Thus any accepted uniqueness read must expose both seal rows first.
 \end{proof}
 
-\begin{theorem}[Real limit uniqueness seal window-classifier lock]
-\label{thm:real-limit-uniqueness-seal-window-classifier-lock}
-For every accepted $\RealLimitUniquenessSealUp$ packet
-$U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$, any accepted uniqueness read reaches the
-$\RealUp$ classifier row $R$ only after both $\CauchyLimitSealUp$ rows
-$L_0,L_1$, the shared $\RegSeqRatUp$ comparison row $Q$, the finite
-$\StreamNameUp$ window row $S$, and the $\DyadicRatCoreUp$ tolerance row $D$
-are exposed. No one-sided seal, selector endpoint, quotient stream, host Real
-equality, or ambient completeness route can supply $R$.
-\end{theorem}
-\begin{proof}
-Begin with the obligation surface of
-\autoref{thm:real-limit-uniqueness-seal-obligation-surface}. It orders the two
-candidate seal rows, the shared comparison row, the finite window row, the
-dyadic tolerance ledger, and then the Real classifier as one local
-$\NameCert_{\RealLimitUniquenessSealUp}$ route.
-
-Next apply \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}. Both
-$L_0$ and $L_1$ must be present before any uniqueness read can reach $V$, so
-the classifier row cannot be supplied by a one-sided completion seal.
-
-Use \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} to lock
-the comparison route through $Q,S,D,R,V$. The finite window and dyadic
-tolerance rows therefore sit before the $\RealUp$ classifier in every accepted
-read.
-
-Finally combine \autoref{thm:real-limit-uniqueness-seal-nonescape},
-\autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, and
-\autoref{thm:real-limit-uniqueness-selector-seal-nonescape}. These remove
-one-sided selector, quotient-stream, host-equality, and completeness routes
-from the consumer boundary. Thus $R$ is read only after the displayed finite
-window-classifier route has appeared.
-\end{proof}
-
-\begin{theorem}[Real limit uniqueness seal two-candidate totality]
-\label{thm:real-limit-uniqueness-seal-two-candidate-totality}
-Every $\RealUp$-facing or $\CauchyLimitSealUp$-facing consumer of an accepted
-$\RealLimitUniquenessSealUp$ packet receives both candidate seals $L_0,L_1$ and
-the shared comparison route $Q,S,D,R,V$ as one finite packet. The consumer
-receives no detached selector, one-sided completion seal, quotient stream,
-selected host limit, host Real equality, or ambient completeness object in
-place of that packet.
-\end{theorem}
-\begin{proof}
-First apply \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}. A
-downstream $\RealUp$-facing or $\CauchyLimitSealUp$-facing consumer receives
-the displayed packet and local NameCert row, rather than an external completion
-or selector object.
-
-Next use \autoref{thm:real-limit-uniqueness-seal-two-seal-exposure}. The two
-candidate seals are exposed together before any uniqueness read is available,
-so the consumer cannot receive only one endpoint of the comparison.
-
-Now apply \autoref{thm:real-limit-uniqueness-seal-shared-comparison-window} and
-\autoref{thm:real-limit-uniqueness-seal-window-classifier-lock}. These bind the
-shared route $Q,S,D,R,V$ to the two seals as the finite comparison packet that
-the consumer can replay.
-
-Finally use \autoref{thm:real-limit-uniqueness-seal-nonescape},
-\autoref{thm:real-limit-uniqueness-selector-seal-nonescape}, and
-\autoref{thm:real-limit-uniqueness-seal-independent-witness}. The non-escape
-results exclude detached selector and host-completeness routes, while the
-independence witness identifies the simultaneous two-seal comparison route as
-the packet's distinguishing finite surface.
-\end{proof}
-
 \begin{theorem}[Real limit uniqueness seal shared comparison window]
 \label{thm:real-limit-uniqueness-seal-shared-comparison-window}
 For every accepted $\RealLimitUniquenessSealUp$ packet, the two seal candidates share the route through the regular-rational comparison row $Q$, the finite window row $S$, the dyadic tolerance row $D$, the Real classifier row $R$, and the uniqueness row $V$. The packet admits no detached selector, quotient stream, or external comparison stream as a substitute for this shared route.
@@ -489,6 +423,26 @@ Next apply the primitive-scope route and the public-route surface. By \autoref{t
 Finally use the nontrivial witness and field-faithful projection. The witness of \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness} prevents the two-seal surface from collapsing to a one-row shell, and \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection} says that accepted packets are determined componentwise by $L_0,L_1,Q,S,D,R,V,H,C,P,N$. Therefore the bridge-facing surface is precisely the displayed two-seal uniqueness packet and carries none of the excluded host or completeness data.
 \end{proof}
 
+\begin{theorem}[Real limit uniqueness seal formal TasteGate boundary]
+\label{thm:real-limit-uniqueness-seal-formal-tastegate-boundary}
+The displayed packet rows
+$$
+L_0,L_1,Q,S,D,R,V,H,C,P,N
+$$
+are exactly the paper-side boundary consumed by the checked Lean TasteGate route $\texttt{BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate}$, together with the checked carrier-obligation surface and nonescape rows for $\RealLimitUniquenessSealUp$.
+
+This boundary records a formal TasteGate route for the finite two-seal uniqueness packet. It does not claim Real completeness, selected limits, quotient stream equality, host Real equality, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:real-limit-uniqueness-seal-carrier}. It names the full finite packet $U=(L_0,L_1,Q,S,D,R,V,H,C,P,N)$ and leaves no coordinate for selected host limits, quotient streams, host Real equality, detached selectors, or ambient completeness.
+
+Apply the checked obligation surface, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, and the checked nonescape theorem, \autoref{thm:real-limit-uniqueness-seal-nonescape}. These two results identify the NameCert rows consumed by the packet and keep every accepted uniqueness read inside the displayed two-seal route.
+
+Next use the nontrivial witness, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, the field-faithful projection, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, and the primitive-scope route, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}. They show that the two seal rows and shared comparison-window route are genuine finite coordinates, that accepted packets are determined by the listed fields, and that every row is scoped to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.
+
+Finally combine the public-route surface, \autoref{thm:real-limit-uniqueness-seal-public-route-surface}, with the checked Lean TasteGate route named in the statement. The Lean route consumes the same carrier, carrier-obligation, nonescape, nontrivial, and field-faithful evidence; the paper boundary is therefore exactly the displayed packet rows, with no additional Real, Completion, quotient, host-equality, or bridge assertion.
+\end{proof}
+
 \closureat{RealLimitUniquenessSealUp}{seedStr}
 \closureat{RealLimitUniquenessSealUp}{obligationStr}
 \closureat{RealLimitUniquenessSealUp}{scopedStr}[BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate]
@@ -498,11 +452,11 @@ Finally use the nontrivial witness and field-faithful projection. The witness of
 \begin{closurestatus}{\RealLimitUniquenessSealUp}
   \constructivestory{A $\RealLimitUniquenessSealUp$ packet is generated from two CauchyLimitSeal rows, a shared RegSeqRat comparison row, a finite StreamName window row, a DyadicRatCore tolerance ledger, a RealUp classifier row, a RegularLimitUniqueness row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, \autoref{thm:real-limit-uniqueness-seal-phase-real-boundary}, \autoref{thm:real-limit-uniqueness-seal-consumer-exhaustion}, and \autoref{thm:real-limit-uniqueness-seal-public-route-surface} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, primitive route, Phase Real boundary, consumer exhaustion surface, and public consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:real-limit-uniqueness-seal-carrier}, \autoref{thm:real-limit-uniqueness-seal-obligation-surface}, \autoref{thm:real-limit-uniqueness-seal-nonescape}, \autoref{thm:real-limit-uniqueness-seal-consumer-handoff}, \autoref{thm:real-limit-uniqueness-seal-nontrivial-witness}, \autoref{thm:real-limit-uniqueness-seal-field-faithful-projection}, \autoref{thm:real-limit-uniqueness-seal-primitive-scope-route}, \autoref{thm:real-limit-uniqueness-seal-phase-real-boundary}, \autoref{thm:real-limit-uniqueness-seal-consumer-exhaustion}, \autoref{thm:real-limit-uniqueness-seal-public-route-surface}, and \autoref{thm:real-limit-uniqueness-seal-formal-tastegate-boundary} bind the two-seal carrier, shared comparison row, finite StreamName window, DyadicRatCore tolerance, RealUp classifier, uniqueness handoff, nontrivial witness, field-faithful witness, primitive route, Phase Real boundary, consumer exhaustion surface, public consumer route, and formal TasteGate boundary to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.}
+  \formalstatus{\theoremCheckedV}
   \bridgestatus{none}
   \origin{ai}
-  \leanchecked{BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate}
-  \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host Real equality, Lean verification, or bridge checking for $\RealLimitUniquenessSealUp$.}
+  \leantarget{BEDC.Derived.RealLimitUniquenessSealUp.taste\_gate}
+  \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host Real equality, or bridge checking for $\RealLimitUniquenessSealUp$.}
   \upgradepath{No further theory-axis upgrade is claimed beyond the recorded formal and bridge verification boundaries.}
 \end{closurestatus}
