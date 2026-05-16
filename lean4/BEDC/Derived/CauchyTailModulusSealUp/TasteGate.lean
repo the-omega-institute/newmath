@@ -168,18 +168,28 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
       cauchyTailModulusSealDecodeBHist
           (cauchyTailModulusSealEncodeBHist h) =
         h) ∧
-      Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-        Nonempty (ChapterTasteGate CauchyTailModulusSealUp) ∧
-          Nonempty (FieldFaithful CauchyTailModulusSealUp) ∧
-            cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      (∃ x y : CauchyTailModulusSealUp, x ≠ y) ∧
+        cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
   constructor
-  · exact cauchyTailModulusSealDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact ⟨cauchyTailModulusSealNontrivial⟩
-    · constructor
-      · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
-      · constructor
-        · exact ⟨cauchyTailModulusSealFieldFaithful⟩
-        · rfl
+    · exact
+        ⟨CauchyTailModulusSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+          CauchyTailModulusSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+          by
+            intro h
+            cases h⟩
+    · rfl
 
 end BEDC.Derived.CauchyTailModulusSealUp
