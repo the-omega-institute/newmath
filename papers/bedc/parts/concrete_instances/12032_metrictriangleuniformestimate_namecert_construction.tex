@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetricTriangleUniformEstimateUp$}
+\label{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}
+\origin{human}
+
+The $\MetricTriangleUniformEstimateUp$ packet isolates the last estimate in the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. It is the Bishop--Bridges finite-net proof surface for Heine--Cantor in BEDC form: a selected compact-net center is used twice in the source metric, the continuous-map rows provide two pointwise target estimates at that center, and the target metric triangle row returns the final uniform estimate. The packet is anchored in the metric certificate of \autoref{ch:concrete-instances-metric-namecert}, compact metric data of \autoref{ch:concrete-instances-compactmetric-namecert}, continuous-map data of \autoref{ch:concrete-instances-continuousmap-namecert}, finite lower-bound folding of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, and the consumer surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+
+\begin{definition}[Metric-triangle uniform-estimate carrier]
+\label{def:metric-triangle-uniform-estimate-carrier}
+A $\MetricTriangleUniformEstimateUp$ carrier is a finite packet
+$$
+E=(X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ or $\CompactMetricUp$ row carrying the located source-distance classifier.
+\item $Y$ is the target $\MetricUp$ row carrying the target-distance classifier.
+\item $F$ is the $\ContinuousMapUp$ graph and pointwise-modulus packet for the displayed function from $X$ to $Y$.
+\item $x$ and $x'$ are the two source histories whose target images are compared by the uniform-modulus consumer.
+\item $c$ is the compact-net center selected from the finite bundle associated to the tolerance row.
+\item $d_x$ is the source distance row from $x$ to $c$ supplied by compact-net coverage.
+\item $d_{x'}$ is the source distance row from $x'$ to $c$ obtained from the selected precision row, the source distance between $x$ and $x'$, and the source triangle ledger.
+\item $e_c$ is the selected precision row exported by the finite fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}.
+\item $e_x$ and $e_{x'}$ are the two pointwise target-distance estimates at $c$, one for $f(x)$ and one for $f(x')$.
+\item $T$ is the final target triangle ledger joining the two pointwise target estimates into the displayed estimate between $f(x)$ and $f(x')$.
+\item $H$ stores the componentwise $\hsame$ transports for all source, target, precision, and triangle rows.
+\item $C$ stores the $\Cont$ routes by which a consumer reads the source triangle, the target triangle, and the uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, and $\Cont$ rows.
+\item $N$ is the local $\NameCert_{\MetricTriangleUniformEstimateUp}$ registration row.
+\end{enumerate}
+The classifier compares carriers only through these displayed rows. It has no coordinate for host compactness, selected subsequences, choice principles, open-cover compactness, or completeness of the real numbers.
+\end{definition}
+
+\begin{theorem}[Metric-triangle uniform-estimate NameCert obligations]
+\label{thm:metric-triangle-uniform-estimate-namecert-obligations}
+The local $\NameCert_{\MetricTriangleUniformEstimateUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier exposure, requiring every public read of $E$ to factor through the displayed source metric, target metric, continuous graph, selected center, distance, precision, triangle, transport, continuation, provenance, and local naming rows;
+\item classifier stability, requiring componentwise $\hsame$ transport for $X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N$;
+\item source triangle admissibility, requiring $d_{x'}$ to be read from the source metric triangle row using the selected precision $e_c$, the compact-net coverage row $d_x$, and the displayed source distance between $x$ and $x'$;
+\item target triangle admissibility, requiring $T$ to be read from the target metric triangle row using the two pointwise target-distance estimates $e_x$ and $e_{x'}$ at the same center $c$;
+\item $\UniformModulusUp$ consumer handoff, requiring the downstream uniform-modulus packet to receive only the finite selected precision row, the two source metric bounds, the two pointwise target bounds, the final target triangle row, and the visible transport and provenance rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(X,Y,F,x,x',c,d_x,d_{x'},e_c,e_x,e_{x'},T,H,C,P,N)$. Carrier exposure and classifier stability are the displayed coordinates and the componentwise transports in $H$.
+
+For source admissibility, read the finite-fold precision row $e_c$ and the compact-net coverage row $d_x$. The source metric triangle row in $X$ combines those rows with the displayed distance between $x$ and $x'$ and produces the source bound $d_{x'}$ at the same center $c$.
+
+For target admissibility, use the pointwise rows in $F$ at the chosen center. They give $e_x$ and $e_{x'}$ as target estimates from $f(c)$ to $f(x)$ and from $f(c)$ to $f(x')$. The target metric triangle row in $Y$ then supplies $T$.
+
+The consumer handoff is the continuation route $C$ with provenance $P$ and local name $N$. Since the packet has no coordinate for host compactness, selected subsequences, choice, open-cover compactness, or real completeness, none of those objects can be exported to $\UniformModulusUp$.
+\end{proof}
+
+\begin{theorem}[Metric-triangle uniform-estimate consumer handoff]
+\label{thm:metric-triangle-uniform-estimate-consumer-handoff}
+Every $\UniformModulusUp$ consumer of an accepted $\MetricTriangleUniformEstimateUp$ carrier receives exactly the selected precision row $e_c$, the two source metric bounds $d_x$ and $d_{x'}$, the two pointwise target bounds $e_x$ and $e_{x'}$, the final target triangle row $T$, and the displayed transport, continuation, provenance, and local naming rows $H,C,P,N$. It receives no host compactness coordinate, selected subsequence, choice-selected point outside the finite bundle, open-cover compactness object, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier exposure and source triangle admissibility of \autoref{thm:metric-triangle-uniform-estimate-namecert-obligations}. They identify the only source-side data delivered to a consumer: the selected precision row, compact-net coverage, the source distance between $x$ and $x'$, and the source triangle row producing $d_{x'}$.
+
+Next use target triangle admissibility. The pointwise target estimates $e_x$ and $e_{x'}$ are read from the continuous-map packet at the same selected center, and the final estimate is the target triangle row $T$.
+
+Finally apply the handoff obligation. The continuation and provenance rows send precisely those finite coordinates to $\UniformModulusUp$, while the excluded host compactness, subsequence, choice, open-cover, and real-completeness objects are absent from the carrier.
+\end{proof}
+
+\closureat{MetricTriangleUniformEstimateUp}{seedStr}
+
+\begin{closurestatus}{\MetricTriangleUniformEstimateUp}
+  \constructivestory{A $\MetricTriangleUniformEstimateUp$ packet is generated from source and target metric rows, a continuous-map pointwise row, two source histories, a selected compact-net center, two source-distance rows, a finite-fold precision row, two pointwise target estimates, a final target triangle row, componentwise $\hsame$ transport, $\Cont$ consumer routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the final source-and-target triangle estimate packet used by the compact-uniform-continuity construction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Lean target, a full compact-uniform-continuity theorem, open-cover compactness, selected subsequences, choice principles, or real completeness.}
+  \upgradepath{The next paper grade is obligation closure for carrier exposure, classifier stability, source triangle admissibility, target triangle admissibility, and $\UniformModulusUp$ consumer handoff.}
+\end{closurestatus}
