@@ -649,6 +649,65 @@ completed Gamma data, and bridge verification, the open-phase root read is
 exactly the displayed finite obligation row.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication root consumer exactness]
+\label{thm:zeta-continuation-application-root-consumer-exactness}
+Every root consumer of an accepted $\ZetaContinuationApplicationUp$ packet
+$Z=(E,F,P,T,G,A,H,C,Q,N)$ reads exactly the displayed rows
+$E,F,P,T,G,A,H,C,Q,N$ through the Gamma horizon lock, analytic-operation lock,
+and $\ZetaBasicUp$ source lock. The consumer receives no RH statement,
+nontrivial-zero classifier, completed $\GammaUp$ construction, or bridge
+verification.
+\end{theorem}
+\begin{proof}
+Use open-phase root readiness to place the consumer on the displayed carrier
+rows. Then apply root public-export readiness and source-lock triad separation:
+$G$ remains the Gamma-facing row, $A$ remains the analytic-operation row, and
+$E$ remains the $\ZetaBasicUp$ source row.
+
+Finally use root replay non-escape. Since the packet has no coordinate for RH,
+nontrivial-zero classification, completed Gamma data, or bridge verification,
+the root consumer surface is exactly the ten-row packet.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root pole-zero consumer readiness]
+\label{thm:zeta-continuation-application-root-pole-zero-consumer-readiness}
+Every pole- or zero-facing root consumer of an accepted
+$\ZetaContinuationApplicationUp$ packet $Z=(E,F,P,T,G,A,H,C,Q,N)$ reads the
+pole ledger $P$ and trivial-zero ledger $T$ only inside the same carrier route
+that exposes $E,F,G,A,H,C,Q,N$. The read may use the displayed Gamma,
+analytic-operation, and $\ZetaBasicUp$ sibling locks, but it exports no pole
+value, RH conclusion, nontrivial-zero classification, completed $\GammaUp$
+object, or bridge verification.
+\end{theorem}
+\begin{proof}
+Start with root ledger boundary and pole-zero ledger separation. They identify
+$P,T$ as ledger rows of the same accepted packet rather than as external
+analytic conclusions.
+
+Next attach root consumer exactness. The sibling locks keep Gamma reads in
+$G$, analytic-operation reads in $A$, and zeta source reads in $E$, so the
+ledger consumer cannot leave $E,F,P,T,G,A,H,C,Q,N$.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication root Gamma operation handoff]
+\label{thm:zeta-continuation-application-root-gamma-operation-handoff}
+For every accepted $\ZetaContinuationApplicationUp$ packet
+$Z=(E,F,P,T,G,A,H,C,Q,N)$, the root handoff between the Gamma horizon row and
+the analytic-operation row is the displayed pair $G,A$ transported through
+$H,C,Q,N$ and read against the eta source row $E$, functional row $F$, and
+ledgers $P,T$. This handoff remains a finite NameCert route and does not
+complete $\GammaUp$, assert RH, classify nontrivial zeros, or verify a bridge.
+\end{theorem}
+\begin{proof}
+Apply root Gamma handoff readiness and root functional-row readiness. They
+expose $G$ and $F$ as finite rows adjacent to the application row $A$.
+
+Then use root consumer exactness and root pole-zero consumer readiness. These
+keep the handoff inside $E,F,P,T,G,A,H,C,Q,N$ and leave RH, nontrivial-zero
+classification, completed Gamma data, and bridge verification outside the
+packet.
+\end{proof}
+
 \closureat{ZetaContinuationApplicationUp}{seedStr}
 \closureat{ZetaContinuationApplicationUp}{obligationStr}
 \closureat{ZetaContinuationApplicationUp}{scopedStr}
