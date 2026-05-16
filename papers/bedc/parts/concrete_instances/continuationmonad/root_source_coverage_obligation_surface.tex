@@ -76,3 +76,17 @@ Then apply the category-generator obligation surface. Category readings are avai
 
 Finally apply root NameCert ledger exactness. It assembles the four public readings into one ledgered route and leaves no coordinate for host functions, quotient Kleisli arrows, ambient hom sets, or unlisted continuation generators.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root public contract factorization]
+\label{thm:continuation-monad-root-public-contract-factorization}
+For every accepted root-source public consumer of $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the public contract factors through exactly the ordered chain of root source coverage, generator consumer lock, category-generator obligation surface, and root $\NameCert$ ledger exactness before any unit, bind, generator, or category reading is exposed. The factorization refuses host functions, quotient Kleisli arrows, ambient hom sets, and unlisted continuation generators at each public read boundary.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-root-source-coverage}. It fixes the source part of the public route to the displayed histories $A,B,C$, continuation tails $f,g,u$, and the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of $Z$.
+
+Next apply \autoref{thm:continuation-monad-root-generator-consumer-lock}. The generator-facing read is then locked to the displayed generator-boundary refusal, so no host function, quotient Kleisli arrow, ambient hom set, or unlisted continuation generator can be inserted before generator exposure.
+
+Then apply \autoref{thm:continuation-monad-root-category-generator-obligation-surface}. This makes the category-facing part a read of the displayed $\CategoryUp$ hom-carrier and continuation rows rather than a read of an ambient category or quotient Kleisli object.
+
+Finally apply \autoref{thm:continuation-monad-root-namecert-ledger-exactness} and then \autoref{thm:continuation-monad-root-source-public-contract}. The ledger assembles the three prior surfaces in the stated order, and the public-contract endpoint exposes only the resulting unit, bind, generator, and category readings. Since every excluded coordinate has already been refused along the chain, the public contract has exactly this factorization.
+\end{proof}
