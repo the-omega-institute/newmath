@@ -130,3 +130,19 @@ Use \autoref{thm:streamname-open-phase-tail-budget-stability}. Certified success
 
 Finally invoke \autoref{thm:streamname-open-phase-real-seal-route}. The Real handoff is the displayed four-face route through StreamName, RegSeqRat, DyadicRatCore, and the finite Real seal, and its non-escape clauses exclude quotient streams, host sequence equality, selected limits, ambient Real completeness, and metric-completeness data.
 \end{proof}
+
+\begin{theorem}[StreamName open-phase finite-window support row minimality]
+\label{thm:streamname-open-phase-finite-window-support-row-minimality}
+Every accepted four-face Phase Real and Completion read through the open StreamName route exposes exactly the StreamName finite-window budget, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the finite $\RealUp$ seal, supported by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Dropping any one of those support rows leaves the accepted finite packet without the row needed to read the next face of the route.
+
+Conversely, adding quotient stream equality, selected limit data, ambient completeness, countable choice, metric-completeness, arithmetic or order package data, or a bridge row leaves the current open-phase route. Such data are not coordinates of the terminal finite packet and cannot be read as part of the accepted Phase Real and Completion surface.
+\end{theorem}
+\begin{proof}
+Start from the finite-window budget theorem, \autoref{thm:streamname-open-phase-finite-window-budget}. It identifies the accepted budget as a finite StreamName packet whose downstream faces are exactly the RegSeqRat readback, the DyadicRatCore ledger, and the finite Real seal.
+
+Use the RegSeqRat budget source lock, \autoref{thm:streamname-open-phase-regseqrat-budget-source-lock}. The readback cannot acquire an independent source, so removing the StreamName budget or any displayed support row needed by that budget breaks the route rather than producing another accepted four-face read.
+
+Now apply the Real seal route theorem, \autoref{thm:streamname-open-phase-real-seal-route}. The Real-facing handoff is reached only through the ordered StreamName, RegSeqRat, DyadicRatCore, and Real faces, so the ledger and seal rows are necessary parts of the same finite packet.
+
+Finally invoke terminal non-escape. Since the terminal packet has no coordinate for quotient stream equality, selected limits, ambient completeness, countable choice, metric-completeness, arithmetic or order packages, or bridge rows, adding any such row moves the consumer outside the open-phase route instead of extending it.
+\end{proof}
