@@ -360,4 +360,33 @@ theorem RegularLimitUniquenessCarrier_separated_transport [AskSetup] [PackageSet
     cont_respects_hsame sameSealLeft sameSealRight sealComparison sealComparison'
   exact ⟨sameSeparated, endpointPkg, endpointPkg'⟩
 
+theorem RegularLimitUniquenessCarrier_shared_family_scope [AskSetup] [PackageSetup]
+    {family diagonalLeft diagonalRight threshold readbackLeft readbackRight sealLeft sealRight
+      separated transport route provenance localCert endpoint familyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLimitUniquenessCarrier family diagonalLeft diagonalRight threshold readbackLeft
+        readbackRight sealLeft sealRight separated transport route provenance localCert endpoint
+        bundle pkg ->
+      Cont family threshold familyRead ->
+        PkgSig bundle familyRead pkg ->
+          UnaryHistory family ∧ UnaryHistory threshold ∧ UnaryHistory diagonalLeft ∧
+            UnaryHistory diagonalRight ∧ UnaryHistory familyRead ∧
+              Cont family threshold diagonalLeft ∧ Cont family threshold diagonalRight ∧
+                Cont family threshold familyRead ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle familyRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier familyReadRoute familyReadPkg
+  obtain ⟨familyUnary, diagonalLeftUnary, diagonalRightUnary, thresholdUnary,
+    _readbackLeftUnary, _readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localCertUnary, familyThresholdDiagonalLeft, familyThresholdDiagonalRight,
+    _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback,
+    _readbackLeftThresholdSeal, _readbackRightThresholdSeal, _sealComparison,
+    _separatedTransportEndpoint, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have familyReadUnary : UnaryHistory familyRead :=
+    unary_cont_closed familyUnary thresholdUnary familyReadRoute
+  exact
+    ⟨familyUnary, thresholdUnary, diagonalLeftUnary, diagonalRightUnary, familyReadUnary,
+      familyThresholdDiagonalLeft, familyThresholdDiagonalRight, familyReadRoute, endpointPkg,
+      familyReadPkg⟩
+
 end BEDC.Derived.RegularLimitUniquenessUp
