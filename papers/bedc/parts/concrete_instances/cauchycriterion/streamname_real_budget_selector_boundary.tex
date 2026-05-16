@@ -473,3 +473,47 @@ host real equality, countable choice, ambient completeness, hidden selectors,
 and second seal sources, the selector-to-seal surface factors through the
 exact-boundary packet before any terminal Real seal is consumed.
 \end{proof}
+
+\begin{theorem}[CauchyCriterion StreamName--Real budget selector terminal boundary]
+\label{thm:cauchy-criterion-streamname-real-budget-selector-terminal-boundary}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet, let
+$F=(B,S,V,D,R,E_F,H_F,C_F,P_F,N_F)$ be an accepted
+$\FiniteObservationBudgetSelectorUp$ packet, and let
+$X=(L,K_X,J_X,S_X,W_X,R_X,D_X,E_X,H_X,C_X,P_X,N_X)$ be an accepted
+$\RealCompletionExactBoundaryUp$ packet. Suppose the packets share the
+displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$,
+componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+Then every terminal $\RealUp$ or $\CompletionUp$ selector read of the shared
+surface factors through the exact-boundary selector handoff of
+\autoref{thm:cauchycriterion-exact-boundary-selector-handoff}.
+
+Conversely, that handoff supplies all selector data available to such a
+terminal read: the selector request, finite StreamName window, RegSeqRat
+handoff, DyadicRatCore tolerance row, terminal Real boundary, and the displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. It supplies no quotient
+stream, selected host limit, host real equality, countable choice, ambient
+completeness, hidden selector, or second seal source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-pullback}. The
+CauchyCriterion packet and the finite observation-budget selector packet meet
+on the displayed finite selector-to-seal surface.
+
+Next use
+\autoref{thm:cauchycriterion-finite-observation-budget-selector-uniqueness}.
+The finite surface is determined by the shared StreamName, RegSeqRat,
+DyadicRatCore, Real, transport, continuation, package, and local naming rows,
+so no second selector surface remains for a terminal read.
+
+Now apply \autoref{thm:cauchycriterion-exact-boundary-selector-handoff}. It
+routes the shared selector surface through the accepted exact-boundary packet
+before a terminal Real or Completion selector read can consume the seal rows.
+
+The exact-boundary inventory is fixed by
+\autoref{thm:real-completion-exact-boundary-four-face-exactness}. Finally use
+\autoref{thm:real-completion-exact-boundary-real-seal-nonescape} to block any
+terminal seal escape. Thus the handoff gives exactly the selector data
+available to the read, and all excluded host, quotient, choice, completeness,
+hidden-selector, and second-seal coordinates remain outside the packet.
+\end{proof}
