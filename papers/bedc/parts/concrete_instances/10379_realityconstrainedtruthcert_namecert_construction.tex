@@ -40,6 +40,42 @@ The invariant field is the row $I$, the ledger field is the row $L$, and the fai
 Thus the NameCert surface covers the nine TruthCert fields and is exhausted by them. A consumer that omits any one row reads a projection of the packet, not an accepted $\RealityConstrainedTruthCertUp$ export.
 \end{proof}
 
+\begin{theorem}[Reality-constrained TruthCert source-signature-classifier obligation]
+\label{thm:reality-constrained-truth-cert-source-signature-classifier-obligation}
+Every accepted $\RealityConstrainedTruthCertUp$ truth export must expose the source row $S$, the reality-facing signature row $\Sigma$, and the classifier row $K$ before the local truth claim is readable. The source may not be replaced by an unnamed observation route, the signature may not be replaced by a model-side assertion, and the classifier may not be chosen after export.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:reality-constrained-truth-cert-carrier}. The displayed packet contains $S,\Sigma,K$ as separate rows: source, reality-facing signature, and classifier.
+
+Apply \autoref{thm:reality-constrained-truth-cert-field-coverage}. It makes these rows mandatory fields of the TruthCert surface before the local name $N$ is exposed, so omitting any one of them yields only a projection of the packet.
+
+Finally use \autoref{thm:reality-constrained-truth-cert-sibling-dependency}. The open-fit and explanation siblings supply finite source comparison and source-to-claim handoff, and the classifier row controls the accepted signature comparison. Thus truth export is blocked until $S,\Sigma,K$ have all been recorded.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert stability-descent-invariant obligation]
+\label{thm:reality-constrained-truth-cert-stability-descent-invariant-obligation}
+Every accepted $\RealityConstrainedTruthCertUp$ packet must preserve the tower route $T$, the continuation-stability row $U$, the descent row $D$, and the observer-invariant row $I$ as a joint obligation surface. These rows certify that the claim is read at the displayed endpoint, reused only over the named continuation class, transported only through the recorded descent operations, and exposed through an observer-invariant public reading.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:reality-constrained-truth-cert-carrier} displays the rows $T,U,D,I$ separately. They name the approximation tower, the continuation class, the surviving descent operations, and the observer-anchor transport.
+
+Apply \autoref{thm:reality-constrained-truth-cert-field-coverage}. Since tower, stability, descent, and invariant reading are mandatory TruthCert fields, the local name $N$ can certify a truth export only after these four rows are readable.
+
+Use \autoref{thm:reality-constrained-truth-cert-sibling-dependency}. Physical induction supplies the continuation-stability seal, tower compression supplies tower route and descent discipline, and objectivity supplies observer-invariant reading. Therefore $T,U,D,I$ form one preservation surface rather than four optional annotations.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert ledger-failure-local-name obligation]
+\label{thm:reality-constrained-truth-cert-ledger-failure-local-name-obligation}
+Every accepted $\RealityConstrainedTruthCertUp$ local name must be preceded by the ledger row $L$ and the failure-surface row $F$. The ledger records compression, idealization, hidden residue, provenance, and packaging, while the failure row records finite defeats, domain exits, classifier mismatches, and later observations before $N$ binds the packet as a local $\NameCert_{\RealityConstrainedTruthCertUp}$.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:reality-constrained-truth-cert-carrier}. It assigns compression, idealization, hidden residue, provenance, and packaging to $L$, assigns the defeat and exit surface to $F$, and reserves $N$ for the local NameCert row.
+
+Apply \autoref{thm:reality-constrained-truth-cert-field-coverage}. The ledger and failure-surface fields are mandatory before the local name is exposed, while $N$ binds the already displayed rows without adding an extra truth coordinate.
+
+Finally use \autoref{thm:reality-constrained-truth-cert-sibling-dependency}. Tower compression controls descent, ledger, and hidden residue; open-fit controls finite defeat; and the remaining siblings route invariant reading, explanation, and stability. Hence local naming is accepted only after ledger and failure obligations have been recorded in $L$ and $F$.
+\end{proof}
+
 \begin{theorem}[Reality-constrained TruthCert sibling dependency]
 \label{thm:reality-constrained-truth-cert-sibling-dependency}
 Every accepted $\RealityConstrainedTruthCertUp$ packet consumes the open-fit, objectivity, explanation, physical-induction, and tower-compression dependencies supplied by the sibling certificate family. The open-fit dependency controls finite fit and finite defeat; the objectivity dependency controls invariant observer reading; the explanation dependency controls source-to-claim handoff; the physical-induction dependency controls stability over continuations; and the tower-compression dependency controls descent, ledger, and hidden residue.
@@ -236,6 +272,38 @@ Consequently later observations, classifier mismatches, domain exits, and
 finite defeats have a single accepted public landing row: $F$. The other rows
 may supply the data that makes a defeat meaningful, but they do not certify a
 separate failure surface.
+\end{proof}
+
+\begin{theorem}[Reality-constrained TruthCert export defeat exhaustion]
+\label{thm:reality-constrained-truth-cert-export-defeat-exhaustion}
+Let an accepted $\RealityConstrainedTruthCertUp$ packet expose the rows
+$S,\Sigma,K,T,U,D,I,L,F,N$. If $F$ records a later observation, classifier
+mismatch, domain exit, or finite defeat, then no truth export through the local
+name $N$ is accepted unless that defeat is discharged through the same displayed
+$S,\Sigma,K,T,U,D,I,L,F,N$ route. A purported export that hides $F$ or bypasses
+it is outside the TruthCert packet.
+\end{theorem}
+\begin{proof}
+The carrier coverage theorem
+\autoref{thm:reality-constrained-truth-cert-field-coverage} first fixes the
+only rows that the local $\NameCert_{\RealityConstrainedTruthCertUp}$ surface
+can expose. Thus the name $N$ does not create a second export channel; it binds
+the nine displayed rows after they are readable.
+
+The ledger exactness theorem
+\autoref{thm:reality-constrained-truth-cert-ledger-exactness} keeps
+compression, residue, provenance, and package descent visible at $L$. Together
+with the sibling-dependency theorem
+\autoref{thm:reality-constrained-truth-cert-sibling-dependency}, this forces
+open-fit, objectivity, explanation, physical-induction, and tower-compression
+data to travel through the displayed route before a truth claim reaches $N$.
+
+Finally apply
+\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. Later
+observations, classifier mismatches, domain exits, and finite defeats land
+only at $F$. Therefore a discharge of such a defeat must be visible through the
+same carrier route that made $F$ visible. If a purported export hides or
+bypasses $F$, it is not an accepted export through the local TruthCert packet.
 \end{proof}
 
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
