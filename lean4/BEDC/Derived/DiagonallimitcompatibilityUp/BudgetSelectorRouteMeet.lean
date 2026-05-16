@@ -37,7 +37,8 @@ theorem DiagonalLimitCompatibilityBudgetSelectorRouteMeet [AskSetup] [PackageSet
     _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
     _routeCertTransport, provenancePkg⟩ := diagonalCarrier
   obtain ⟨_budgetUnary, _sourceUnary, _selectorDyadicUnary, _selectorSealUnary,
-    _budgetSourceWindow, _windowDyadicRead, _readSealC, _endpointSame⟩ := selectorCarrier
+    _selectorTransportUnary, _budgetSourceWindow, _windowDyadicRead, _readSealC,
+    _endpointSame⟩ := selectorCarrier
   have sharedWindowUnary : UnaryHistory sharedWindow :=
     unary_transport_symm windowsUnary sharedWindowSame
   have sharedReadUnary : UnaryHistory sharedRead :=
