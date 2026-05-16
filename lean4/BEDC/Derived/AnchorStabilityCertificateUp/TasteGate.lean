@@ -39,31 +39,6 @@ private theorem anchorStabilityCertificateDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem anchorStabilityCertificate_mk_congr
-    {F F' I I' R R' K K' L L' H H' C C' P P' N N' : BHist}
-    (hF : F' = F)
-    (hI : I' = I)
-    (hR : R' = R)
-    (hK : K' = K)
-    (hL : L' = L)
-    (hH : H' = H)
-    (hC : C' = C)
-    (hP : P' = P)
-    (hN : N' = N) :
-    AnchorStabilityCertificateUp.mk F' I' R' K' L' H' C' P' N' =
-      AnchorStabilityCertificateUp.mk F I R K L H C P N := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hF
-  cases hI
-  cases hR
-  cases hK
-  cases hL
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
-
 private def anchorStabilityCertificateFields :
     AnchorStabilityCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark

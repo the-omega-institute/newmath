@@ -170,6 +170,18 @@ fixed displayed rows determine the endpoint route.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_target\_endpoint\_determinacy}
 
+\begin{theorem}[CertificateCompiler endpoint-route pullback determinacy]
+\label{thm:certificate-compiler-endpoint-route-pullback-determinacy}
+Let a downstream route pass through $\CertificateCompilerUp$ into $\KernelMorphismUp$ and then into $\DecompilerRightInverseUp$. If two such routes have the same displayed source row, graph edge, landing row, classifier transport row, and $\Cont$ row, then their endpoint pullbacks are the same finite route through $S,G,E,H,C,P,N$. No host compiler semantics, optimiser correctness, ambient program equality, host decompiler function, or unrecorded target behavior can distinguish the pullbacks.
+\end{theorem}
+\begin{proof}
+First apply target endpoint determinacy, \autoref{thm:certificate-compiler-target-endpoint-determinacy}. Agreement of the displayed source row, graph edge, landing row, classifier transport row, and continuation row fixes the compiler endpoint route through $S,G,E,H,C,P,N$.
+
+Next use the KernelMorphism route scope, \autoref{thm:certificate-compiler-kernelmorphism-route-scope}. The morphism consumer can add only the graph-admission and classifier-lift rows licensed by $\KernelMorphismUp$, so it cannot separate two already fixed compiler endpoint routes.
+
+Finally apply the KernelMorphism decompiler boundary, \autoref{thm:certificate-compiler-kernelmorphism-decompiler-boundary}. The decompiler-facing leg remains on the displayed compiler packet and inverse-boundary rows, leaving no coordinate for host compiler semantics, optimiser correctness, ambient equality, host decompiler functions, or unrecorded target behavior.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler route composition exactness]
 \label{thm:certificate-compiler-route-composition-exactness}
 For accepted $\CertificateCompilerUp$ packets, the identity route, every
