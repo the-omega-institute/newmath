@@ -43,7 +43,21 @@ def cauchyTailModulusSealFields : CauchyTailModulusSealUp → List BHist
       [M, F, X, tau, D, W0, W1, Q0, Q1, E, H, C, P, N]
 
 def cauchyTailModulusSealToEventFlow : CauchyTailModulusSealUp → EventFlow
-  | x => (cauchyTailModulusSealFields x).map cauchyTailModulusSealEncodeBHist
+  | CauchyTailModulusSealUp.mk M F X tau D W0 W1 Q0 Q1 E H C P N =>
+      [cauchyTailModulusSealEncodeBHist M,
+        cauchyTailModulusSealEncodeBHist F,
+        cauchyTailModulusSealEncodeBHist X,
+        cauchyTailModulusSealEncodeBHist tau,
+        cauchyTailModulusSealEncodeBHist D,
+        cauchyTailModulusSealEncodeBHist W0,
+        cauchyTailModulusSealEncodeBHist W1,
+        cauchyTailModulusSealEncodeBHist Q0,
+        cauchyTailModulusSealEncodeBHist Q1,
+        cauchyTailModulusSealEncodeBHist E,
+        cauchyTailModulusSealEncodeBHist H,
+        cauchyTailModulusSealEncodeBHist C,
+        cauchyTailModulusSealEncodeBHist P,
+        cauchyTailModulusSealEncodeBHist N]
 
 def cauchyTailModulusSealFromEventFlow : EventFlow → Option CauchyTailModulusSealUp
   | [] => none
@@ -210,18 +224,50 @@ theorem CauchyTailModulusSealTasteGate_single_carrier_alignment :
       cauchyTailModulusSealDecodeBHist
           (cauchyTailModulusSealEncodeBHist h) =
         h) ∧
-      Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
-        Nonempty (ChapterTasteGate CauchyTailModulusSealUp) ∧
-          Nonempty (FieldFaithful CauchyTailModulusSealUp) ∧
-            cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      (∀ x : CauchyTailModulusSealUp,
+        cauchyTailModulusSealFromEventFlow (cauchyTailModulusSealToEventFlow x) =
+          some x) ∧
+        (∀ x y : CauchyTailModulusSealUp,
+          cauchyTailModulusSealToEventFlow x = cauchyTailModulusSealToEventFlow y →
+            x = y) ∧
+          Nonempty (Nontrivial CauchyTailModulusSealUp) ∧
+            Nonempty
+              (@ChapterTasteGate CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
+              Nonempty
+                (@FieldFaithful CauchyTailModulusSealUp cauchyTailModulusSealBHistCarrier) ∧
+                cauchyTailModulusSealEncodeBHist BHist.Empty = ([] : RawEvent) := by
   constructor
-  · exact cauchyTailModulusSealDecode_encode_bhist
+  · intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
   · constructor
-    · exact ⟨cauchyTailModulusSealNontrivial⟩
+    · exact cauchyTailModulusSeal_round_trip
     · constructor
-      · exact ⟨cauchyTailModulusSealChapterTasteGate⟩
+      · intro x y heq
+        exact cauchyTailModulusSealToEventFlow_injective heq
       · constructor
-        · exact ⟨cauchyTailModulusSealFieldFaithful⟩
-        · rfl
+        · exact ⟨cauchyTailModulusSealNontrivial⟩
+        · constructor
+          · exact ⟨{
+              round_trip := by
+                intro x
+                change cauchyTailModulusSealFromEventFlow
+                  (cauchyTailModulusSealToEventFlow x) = some x
+                exact cauchyTailModulusSeal_round_trip x
+              layer_separation := by
+                intro x y hxy heq
+                exact hxy (cauchyTailModulusSealToEventFlow_injective heq)
+            }⟩
+          · constructor
+            · exact ⟨{
+                fields := cauchyTailModulusSealFields
+                field_faithful := cauchyTailModulusSeal_fields_faithful
+              }⟩
+            · rfl
 
 end BEDC.Derived.CauchyTailModulusSealUp
