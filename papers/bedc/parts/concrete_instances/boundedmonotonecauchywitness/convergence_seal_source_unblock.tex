@@ -39,6 +39,32 @@ Now pass through the finite-tail interface. FiniteTailFilter tail-window exactne
 Finally use Real-seal public route exhaustion \autoref{thm:bounded-monotone-cauchy-witness-real-seal-public-unblock}. The remaining route is exactly through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$, together with the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already displayed by the carrier. Hence no selected limit, quotient equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector can escape the bounded witness and finite-tail handoff.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness tail-filter lock]
+\label{thm:bounded-monotone-cauchy-witness-tail-filter-lock}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Any completion-facing consumer that reads $W$ through $\FiniteTailFilterUp$ must first pass through the displayed witness rows
+
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,
+$$
+
+then through $\MonotoneCauchyUp$ and $\CauchyCriterionUp$, and then through the finite-tail packet rows supplied by \autoref{thm:finite-tail-filter-tail-window-exactness} and \autoref{thm:finite-tail-filter-real-seal-handoff}. Only after those rows have been read may the consumer continue to
+
+$$
+\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\CauchyLimitSealUp,\RealUp.
+$$
+
+The route contains no selected limit, quotient stream equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector outside the displayed witness and finite-tail packets.
+\end{theorem}
+\begin{proof}
+Begin with the convergence-seal source theorem, \autoref{thm:bounded-monotone-cauchy-witness-convergence-seal-source}. It fixes the accepted source of every seal-facing read as the finite packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and excludes a detached completion coordinate at the source boundary.
+
+Next apply criterion-tail factorization, \autoref{thm:bounded-monotone-cauchy-witness-criterion-tail-factorization}. This forces the route through $\MonotoneCauchyUp$ and $\CauchyCriterionUp$ before any completion-facing consumer can inspect a Real seal.
+
+Now use the finite-tail interface. Tail-window exactness, \autoref{thm:finite-tail-filter-tail-window-exactness}, identifies the stream window, dyadic ledger, regular readback, tail budget, common-tail row, and Real-seal row as one $\FiniteTailFilterUp$ packet. The Real seal handoff, \autoref{thm:finite-tail-filter-real-seal-handoff}, then sends exactly that packet to the Real-facing consumer.
+
+Finally apply Real-seal public route exhaustion, \autoref{thm:bounded-monotone-cauchy-witness-real-seal-public-unblock}. It lists the remaining public route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since no listed carrier exports the excluded completion data, every finite-tail consumer is locked to the stated L10 route.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness selector terminal pullback]
 \label{thm:bounded-monotone-cauchy-witness-selector-terminal-pullback}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Every terminal consumer preserving the L10 route across
