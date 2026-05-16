@@ -219,6 +219,48 @@ naming row, while their non-escape clauses exclude all host category and
 quotient coordinates outside $K$.
 \end{proof}
 
+\begin{theorem}[KernelCategory root hom-law triad]
+\label{thm:kernel-category-root-hom-law-triad}
+Every root consumer of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ must read the hom ledger $H$, the identity row $I$, and the composition row $C$ before it reads associativity or unit law rows in $A$ and $U$. The law rows therefore compare already displayed continuation-ledger operations; they do not introduce host category composition, quotient morphisms, external arrow equality, functorial semantics, natural transformations, or limit objects.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:kernel-category-carrier-admission-obligation}. It fixes $O,H,I,C,A,U,P,N$ as the full root admission surface and places hom, identity, and composition data in the displayed packet before the law transports are consumed.
+
+Apply \autoref{thm:kernel-category-identity-continuation}. Identity rows are empty-continuation reads over unary object histories, so a unit-law read has no host identity operation to import.
+
+Apply \autoref{thm:kernel-category-composition-continuation}. Composition rows are displayed $\Cont$ composites between continuation-ledger hom rows, so an associativity read must already have passed through $H$ and $C$.
+
+Finally use \autoref{thm:kernel-category-certificate-surface}. It supplies $A$ and $U$ as componentwise $\hsame$ law transports over those displayed rows, while \autoref{thm:kernel-category-pkg-provenance-nonescape} removes every host or quotient category coordinate outside the packet.
+\end{proof}
+
+\begin{theorem}[KernelCategory root endpoint exhaustion]
+\label{thm:kernel-category-root-endpoint-exhaustion}
+For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, every displayed $\Cont$ composite through the object row $O$, hom ledger $H$, identity row $I$, and composition row $C$ has endpoints exhausted by the unary object histories in $O$ and the continuation-ledger hom rows in $H$. No endpoint can be supplied by a host category object, quotient morphism, external arrow equality, functor semantic row, natural transformation, or limit object.
+\end{theorem}
+\begin{proof}
+Read the composite through \autoref{thm:kernel-category-composition-continuation}. It builds each composite from continuation-ledger hom rows in $H$ and a displayed $\Cont$ composition row in $C$.
+
+Use \autoref{thm:kernel-category-identity-continuation} for endpoint identities. The identity rows in $I$ are empty-continuation reads over unary object histories, so their endpoints are already in $O$.
+
+Apply \autoref{thm:kernel-category-cont-composition-locality}. Locality keeps the displayed composite inside the same endpoint and hom ledgers rather than moving through a host category composition operation.
+
+Finish with \autoref{thm:kernel-category-certificate-surface} and \autoref{thm:kernel-category-pkg-provenance-nonescape}. Their non-escape clauses exclude host endpoints, quotient endpoints, external arrow equality, functor semantics, natural transformations, and limits from the root endpoint surface.
+\end{proof}
+
+\begin{theorem}[KernelCategory root non-escape surface]
+\label{thm:kernel-category-root-nonescape-surface}
+The root public surface of a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$ is exhausted by unary object histories, continuation-ledger hom rows, empty-continuation identities, displayed $\Cont$ composites, componentwise $\hsame$ law transports, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no host category object, quotient morphism, external arrow equality, functor semantics, natural transformation, limit object, or detached global category certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:kernel-category-carrier-admission-obligation}. The theorem identifies the displayed packet rows $O,H,I,C,A,U,P,N$ and excludes additional category-shaped coordinates from carrier admission.
+
+Use \autoref{thm:kernel-category-certificate-surface}. The certificate surface supplies exactly the local naming and law-transport reads needed by the root packet.
+
+Use \autoref{thm:kernel-category-cont-composition-locality}. Any composite that reaches the public surface remains a displayed $\Cont$ composite over local endpoint and hom rows.
+
+Finally apply \autoref{thm:kernel-category-pkg-provenance-nonescape}. The provenance row is local to the packet and cannot be reread as host category data, quotient morphism data, functorial semantics, natural transformations, limits, or a second global naming source.
+\end{proof}
+
 \begin{theorem}[KernelCategory root public readiness]
 \label{thm:kernel-category-root-public-readiness}
 For a $\KernelCategoryUp$ packet $K=(O,H,I,C,A,U,P,N)$, the public root surface is ready exactly when every root read is a displayed $\BHist$ read of unary object histories in $O$, continuation-ledger hom rows in $H$, empty-continuation identity rows in $I$, displayed $\Cont$ composites in $C$, componentwise $\hsame$ law transports in $A$ and $U$, $\Pkg$ provenance in $P$, and the local $\NameCert$ row in $N$. The surface contains no host category object, quotient morphism, external arrow equality, functorial semantics, natural transformation, limit object, or global naming source outside those rows.
