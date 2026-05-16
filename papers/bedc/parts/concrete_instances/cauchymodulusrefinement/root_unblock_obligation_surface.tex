@@ -228,6 +228,24 @@ Finally combine \autoref{thm:cauchy-modulus-refinement-shared-selector-determina
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_regseq\_streamname\_real\_coherence}
 
+\begin{theorem}[Cauchy modulus refinement RegSeqRat--StreamName--Real terminal factorization]
+\label{thm:cauchy-modulus-refinement-regseq-streamname-real-terminal-factorization}
+For every accepted $\CauchyModulusRefinementUp$ packet whose displayed route is
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N,
+$$
+all $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, and Completion consumers factor through the same terminal finite route. The factorization is the carrier path through the source schedules, shared meet, extraction row, selector budget, selected-window row, tolerance-readback row, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No detached completion seal, hidden selector, second meet, quotient stream, selected limit, host equality, or ambient completeness coordinate can supply a separate consumer route.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-modulus-refinement-root-source-binding}. It fixes $M_0,M_1,U,V$ as the shared source-meet-extraction spine for every accepted root read before any selector or seal row is available.
+
+Next use \autoref{thm:cauchy-modulus-refinement-root-selector-readback}. The selected-window and tolerance-readback rows $W,Q$ are read only through the displayed selector-budget row $T$, so $\RegSeqRatUp$ and $\StreamNameUp$ consumers cannot detach a hidden selector from the source spine.
+
+Apply \autoref{thm:cauchy-modulus-refinement-root-route-completeness}. Every $\RealUp$ or Completion-facing root read is exhausted by $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, with no additional quotient, selected-limit, host-equality, or ambient-completeness coordinate.
+
+Finally combine \autoref{thm:cauchy-modulus-refinement-shared-selector-determinacy}, \autoref{thm:cauchy-modulus-refinement-selector-meet-noninterference}, and \autoref{thm:cauchy-modulus-refinement-regseq-streamname-real-coherence}. Determinacy identifies any two reads with the displayed rows, noninterference rules out hidden selector and second-meet requests, and coherence places the RegSeqRat, StreamName, and Real consumer surfaces on the same route. Completion consumers are already covered by route completeness, so all four consumer classes factor through the terminal finite packet.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement diagonal-budget cofinality route]
 \label{thm:cauchy-modulus-refinement-diagonal-budget-cofinality-route}
 Let an accepted $\CauchyModulusRefinementUp$ route display
