@@ -696,6 +696,42 @@ Attach identity, composition, and law transport. The identity theorem \autoref{t
 Finally apply route totality and downstream readiness. Theorems \autoref{thm:kernel-category-route-totality} and \autoref{thm:kernel-category-downstream-namecert-readiness} show that every public $\CategoryUp$ export is already exhausted by $O,H,I,C,A,U,P,N$, leaving no host category carrier, quotient arrow class, global morphism equality, semantic functor row, natural transformation, limit object, or detached public certificate.
 \end{proof}
 
+\begin{theorem}[KernelCategory root continuation dependency]
+\label{thm:kernel-category-root-continuation-dependency}
+For an accepted $\KernelCategoryUp$ route $K=(O,H,I,C,A,U,P,N)$, every $\CategoryUp$ hom read must first expose the UnaryHistory endpoint row $O$, the displayed $\Cont$ identity rows $I$, the displayed $\Cont$ composition rows $C$, and the $\ContinuationMonadUp$ source rows used by those identity and composition reads. No hom read may enter through a host category carrier, quotient morphism, or external arrow equality.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier. The carrier definition and \autoref{thm:kernel-category-root-namecert-obligation-triad} require carrier admission, identity-continuation admission, and composition-continuation admission before any category-shaped consumer can read the packet.
+
+The identity and composition obligations then expose the continuation surface. By \autoref{thm:kernel-category-identity-continuation} and \autoref{thm:kernel-category-composition-continuation}, identities are empty $\Cont$ rows over unary endpoints and composites are displayed $\Cont$ rows over the hom ledger.
+
+Finally use \autoref{thm:kernel-category-route-totality}. Its finite route lists exactly $O,H,I,C,A,U,P,N$, so the CategoryUp hom read has no host category, quotient, or external arrow-equality coordinate to consult before the continuation rows are visible.
+\end{proof}
+
+\begin{theorem}[KernelCategory root law dependency]
+\label{thm:kernel-category-root-law-dependency}
+For an accepted $\KernelCategoryUp$ route $K=(O,H,I,C,A,U,P,N)$, every associativity or unit read is exhausted by the displayed componentwise $\hsame$ transport rows $A$ and $U$ after the identity and composition rows have been read. Host associativity, host unit equality, quotient morphism equality, and external arrow equality are not law sources for $K$.
+\end{theorem}
+\begin{proof}
+First read the operation rows. \autoref{thm:kernel-category-root-continuation-dependency} places endpoints, identity rows, composition rows, and the ContinuationMonad source surface before any law read.
+
+Now apply the local law results. \autoref{thm:kernel-category-associativity-scope}, \autoref{thm:kernel-category-unit-scope}, and \autoref{thm:kernel-category-law-transport-exhaustion} identify the available associativity and unit comparisons with the componentwise $\hsame$ rows $A$ and $U$.
+
+The non-escape boundary closes the claim. By \autoref{thm:kernel-category-scoped-nonescape-surface}, no host category law, quotient equality, or external arrow equality can be added to those displayed transport rows.
+\end{proof}
+
+\begin{theorem}[KernelCategory root downstream unblock]
+\label{thm:kernel-category-root-downstream-unblock}
+Every $\CategoryUp$, $\FunctorUp$, and $\ContinuationMonadUp$ consumer of an accepted $\KernelCategoryUp$ route receives exactly the finite NameCert route $O,H,I,C,A,U,P,N$. The route is unblocked by the root obligation triad, the continuation dependency, the law dependency, route totality, and downstream readiness, and it has no detached consumer-specific carrier.
+\end{theorem}
+\begin{proof}
+Start with the root certificate obligations. \autoref{thm:kernel-category-root-namecert-obligation-triad}, \autoref{thm:kernel-category-root-continuation-dependency}, and \autoref{thm:kernel-category-root-law-dependency} expose the carrier, continuation operation rows, and law-transport rows needed by all three consumers.
+
+Next use the total route statement. \autoref{thm:kernel-category-route-totality} exhausts every accepted route on the finite rows $O,H,I,C,A,U,P,N$.
+
+Finally apply downstream readiness. \autoref{thm:kernel-category-downstream-namecert-readiness}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, and \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion} give the CategoryUp, FunctorUp, and ContinuationMonadUp handoffs from the same finite NameCert route, without a detached carrier for any one consumer.
+\end{proof}
+
 \closureat{KernelCategoryUp}{seedStr}
 \closureat{KernelCategoryUp}{obligationStr}
 \closureat{KernelCategoryUp}{scopedStr}
@@ -706,7 +742,7 @@ Finally apply route totality and downstream readiness. Theorems \autoref{thm:ker
 \begin{closurestatus}{\KernelCategoryUp}
   \constructivestory{A $\KernelCategoryUp$ packet is generated from unary object histories, continuation-ledger hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, $\hsame$ associativity and unit transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, \autoref{thm:kernel-category-certificate-surface}, \autoref{thm:kernel-category-root-namecert-obligation-triad}, \autoref{thm:kernel-category-root-hom-law-triad}, \autoref{thm:kernel-category-root-endpoint-exhaustion}, \autoref{thm:kernel-category-root-nonescape-surface}, \autoref{thm:kernel-category-namecert-public-surface}, \autoref{thm:kernel-category-root-public-readiness}, \autoref{thm:kernel-category-public-consumer-triad}, \autoref{thm:kernel-category-namecert-route-exhaustion}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion}, and \autoref{thm:kernel-category-categoryup-public-export-lock} bind the finite kernel-category carrier, identity continuation, composition continuation, certificate surface, root NameCert obligation triad, root hom-law triad, root endpoint exhaustion, root non-escape surface, public downstream NameCert route, downstream FunctorUp boundary, ContinuationMonad consumer exhaustion, and CategoryUp public export lock.}
+  \scopeclosed{\autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, \autoref{thm:kernel-category-certificate-surface}, \autoref{thm:kernel-category-root-namecert-obligation-triad}, \autoref{thm:kernel-category-root-continuation-dependency}, \autoref{thm:kernel-category-root-law-dependency}, \autoref{thm:kernel-category-root-downstream-unblock}, \autoref{thm:kernel-category-root-hom-law-triad}, \autoref{thm:kernel-category-root-endpoint-exhaustion}, \autoref{thm:kernel-category-root-nonescape-surface}, \autoref{thm:kernel-category-namecert-public-surface}, \autoref{thm:kernel-category-root-public-readiness}, \autoref{thm:kernel-category-public-consumer-triad}, \autoref{thm:kernel-category-namecert-route-exhaustion}, \autoref{thm:kernel-category-downstream-functor-route-boundary}, \autoref{thm:kernel-category-continuation-monad-consumer-exhaustion}, and \autoref{thm:kernel-category-categoryup-public-export-lock} bind the finite kernel-category carrier, identity continuation, composition continuation, certificate surface, root NameCert obligation triad, continuation dependency, law dependency, downstream unblock, root hom-law triad, root endpoint exhaustion, root non-escape surface, public downstream NameCert route, downstream FunctorUp boundary, ContinuationMonad consumer exhaustion, and CategoryUp public export lock.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

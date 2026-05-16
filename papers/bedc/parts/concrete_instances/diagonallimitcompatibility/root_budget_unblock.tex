@@ -196,6 +196,25 @@ Finally close the route against escape. Root consumer non-escape, budget-seal fa
 \end{proof}
 \leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_common\_refinement}
 
+\begin{theorem}[DiagonalLimitCompatibility finite-tail-filter handoff]
+\label{thm:diagonal-limit-compatibility-finite-tail-filter-handoff}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Let
+$$
+F=(S_F,D_F,R_F,B_F,Q_F,E_F,H_F,C_F,P_F,N_F)
+$$
+be an accepted $\FiniteTailFilterUp$ packet whose stream-window, dyadic, regular-readback, and Real-seal rows agree with the displayed rows of $K$ by $\hsame(S_F,W)$, $\hsame(D_F,D)$, $\hsame(R_F,Q)$, and $\hsame(E_F,L)$.
+
+Then every finite-tail-filter consumer of $F$ reads the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\Cont$, $\Pkg$, and $\NameCert$ route supplied by $K$ before any completion-facing read. The handoff introduces no hidden tail selector, quotient stream, selected host limit, host real equality, choice datum, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.DiagonallimitcompatibilityUp.DiagonalLimitCompatibilityCarrier\_selector\_budget\_finite\_tail\_filter\_handoff}
+\begin{proof}
+First apply the selector-budget common refinement of \autoref{thm:diagonal-limit-compatibility-selector-budget-common-refinement}. It places the diagonal root budget, stream-name window, regular-rational readback, dyadic ledger, Real seal boundary, continuation replay, package provenance, and local naming row on the single displayed route $R,T,S,D,W,Q,L,H,C,P,N$.
+
+Next read the finite-tail-filter carrier through the four shared rows. The $\hsame$ identifications force the $\FiniteTailFilterUp$ window, dyadic, readback, and Real-seal faces to be $W,D,Q,L$ as seen by the diagonal packet, while the carrier obligations keep the tail-budget, comparison, transport, continuation, provenance, and local $\NameCert$ rows inside the same finite packet.
+
+Finally use the finite-tail-filter non-escape and Real-seal handoff rows. They make every Real-facing or completion-facing consumer pass through the finite packet before it can read the completion boundary. Since the common refinement already fixes the corresponding diagonal route and its $\Pkg$ and $\NameCert$ rows, the composite handoff has no coordinate left for a hidden tail selector, quotient stream, selected host limit, host real equality, choice datum, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[DiagonalLimitCompatibility CauchyTailWitnessEnvelope factorization]
 \label{thm:diagonal-limit-compatibility-cauchy-tail-envelope-factorization}
 Let an accepted $\DiagonalLimitCompatibilityUp$ packet have a terminal $\RealUp$ or $\CompletionUp$ route consumed by an accepted $\CauchyTailWitnessEnvelopeUp$ packet. Then the terminal consumer route factors first through the displayed diagonal budget rows

@@ -720,6 +720,48 @@ coordinate, the displayed tail-budget and Real-seal route is the whole
 consumer boundary.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion four-face pullback correspondence]
+\label{thm:cauchycriterion-streamname-four-face-pullback-correspondence}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ packet. Suppose
+its $\StreamNameUp$ finite window row, $\DyadicRatCoreUp$ tolerance and budget
+row, $\RegSeqRatUp$ tail and readback row, and $\RealUp$ seal row agree
+componentwise with a terminal four-face finite section. Then the
+$\CauchyCriterionUp$ consumer route
+$$
+M\to Q\to T\to W\to E
+$$
+corresponds exactly to that four-face terminal pullback. Conversely, any
+terminal four-face pullback with those four rows supplies the same displayed
+$\CauchyCriterionUp$ route. The correspondence exports no quotient stream
+equality, selected limit, host sequence equality, ambient Real completeness,
+metric-completeness datum, countable-choice row, or bridge row.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:cauchycriterion-real-tail-agreement-seal-route-correspondence} and
+\autoref{thm:cauchycriterion-complete-metric-consumer-boundary}. These identify
+every CauchyCriterion consumer with the displayed finite route through
+$M,Q,T,W,E$ before any completion-facing readback is allowed.
+
+Next apply \autoref{thm:streamname-four-face-terminal-completeness} and
+\autoref{thm:streamname-finite-section-pullback-exactness}. Since the
+StreamName window, dyadic tolerance and budget, RegSeqRat tail readback, and
+Real seal rows are the same displayed rows, terminality reads the
+CauchyCriterion route as the unique four-face pullback route.
+
+For the reverse direction, start with such a terminal four-face pullback and
+project its four faces. The projected rows are precisely $W,Q,T,E$, while the
+accepted packet supplies the modulus row $M$ and the existing $H,C,P,N$
+certificates. Repacking these displayed rows gives the same route
+$M\to Q\to T\to W\to E$.
+
+The final exclusions are coordinate exclusions. None of the cited terminality
+or boundary results adds a quotient equality, a selected limit, host sequence
+equality, Real completeness, metric completeness, countable choice, or a bridge
+certificate, so the correspondence is only the finite BEDC pullback described
+above.
+\end{proof}
+
 \input{parts/concrete_instances/cauchycriterion/terminal_completion_route}
 \input{parts/concrete_instances/cauchycriterion/streamname_real_budget_selector_boundary}
 \input{parts/concrete_instances/cauchycriterion/finite_window_real_seal_handoff}

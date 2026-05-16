@@ -1,0 +1,419 @@
+\subsection{Self-description and truth boundary}
+\label{subsec:philosophy-self-description-truth-boundary}
+
+\begin{definition}[Structural self-description]
+\label{def:philosophy-structural-self-description}
+Structural self-description is the construction, inside BEDC, of a
+certificate-mediated reproduction of formal features of the host
+calculus: type formation, dependent function formation, inductive type
+formation, recursors, and well-founded classifier closures.
+\end{definition}
+
+\begin{definition}[Runtime boundary]
+\label{def:philosophy-runtime-boundary}
+The runtime boundary is the fact that a structural reproduction of a
+calculus is not the host runtime that checks proofs. The proof checker
+remains a metalanguage artifact relative to the BEDC object layer.
+\end{definition}
+
+\begin{theorem}[BEDC may describe formal structure]
+\label{thm:philosophy-bedc-describes-formal-structure}
+BEDC may describe formal structure resembling the calculus in which it
+is checked.
+\end{theorem}
+\begin{proof}
+Such a description is a certificate-mediated account of formation
+rules, inductive shapes, and closure operations. It is structural data
+inside the theory, not the running checker itself.
+\end{proof}
+
+\begin{theorem}[BEDC does not internalize its runtime]
+\label{thm:philosophy-bedc-does-not-internalize-runtime}
+BEDC cannot make the proof-checking runtime an object-layer component
+of itself.
+\end{theorem}
+\begin{proof}
+The external checker validates BEDC proofs from the metalanguage. A
+structural reproduction of checking rules does not become the
+implemented runtime that performs validation. No object layer contains
+the full runtime that interprets it.
+\end{proof}
+
+\begin{theorem}[Self-description is not truth definition]
+\label{thm:philosophy-self-description-not-truth-definition}
+BEDC self-description is not a BEDC truth predicate.
+\end{theorem}
+\begin{proof}
+Describing syntax and closure rules does not decide which arbitrary
+object-layer claims are true. A total truth predicate would require the
+meta loop to close, which is excluded by the Tarski boundary.
+\end{proof}
+
+\begin{corollary}[Reflection is layered]
+\label{cor:philosophy-reflection-layered}
+BEDC reflection is layered structural reflection, not a collapse of the
+described layer into the describing layer.
+\end{corollary}
+\begin{proof}
+The described structure, the structural description, and the external
+checker occupy distinct roles. Collapsing them would recreate the
+truth-totalization problem.
+\end{proof}
+
+\subsection{Three axioms, one meta closure}
+\label{subsec:philosophy-three-axioms-one-meta-closure}
+
+\begin{definition}[Meta-closure operation]
+\label{def:philosophy-meta-closure-operation}
+At a syntactic stratum \(S\), a meta-closure operation accepts a
+positive existential without a constructor witness and supplies a value
+at that stratum usable by later kernel constructions.
+\end{definition}
+
+\begin{definition}[Choice as term-level meta closure]
+\label{def:philosophy-choice-term-meta-closure}
+\(\mathsf{Classical.choice}\) is term-level meta closure when it turns
+pointwise existential information into a selector function whose body
+is not constructed from displayed witnesses.
+\end{definition}
+
+\begin{definition}[Quotient soundness as type-level meta closure]
+\label{def:philosophy-quot-sound-type-meta-closure}
+Quotient soundness is type-level meta closure when a relation or
+equivalence is consumed as quotient equality or representative
+transport without explicit classifier transport and ledger data.
+\end{definition}
+
+\begin{definition}[Propositional extensionality as proposition-level meta closure]
+\label{def:philosophy-propext-proposition-meta-closure}
+Propositional extensionality is proposition-level meta closure when a
+bidirectional implication is consumed as equality of propositions
+without recording direction, transport, or ledger.
+\end{definition}
+
+\begin{theorem}[The three classical axioms share one schema]
+\label{thm:philosophy-three-classical-axioms-one-schema}
+\(\mathsf{Classical.choice}\), quotient soundness, and propositional
+extensionality are instances of the same meta-closure schema at the
+term, type, and proposition strata.
+\end{theorem}
+\begin{proof}
+Each accepts insufficiently witnessed positive content and converts it
+into a value usable by subsequent constructions. The only difference is
+the stratum at which the value is supplied: selector at the term layer,
+quotient transport at the type layer, and proposition identification at
+the proposition layer.
+\end{proof}
+
+\begin{corollary}[Refusal of the axioms is not refusal of their subject matter]
+\label{cor:philosophy-axiom-refusal-not-content-refusal}
+BEDC refuses the unwitnessed shortcut, not the mathematical content
+that classical axioms often help express.
+\end{corollary}
+\begin{proof}
+The same content may enter through explicit witnesses, classifier
+transport, package sameness, and ledgers. What is rejected is the
+untracked conversion of existence, relation, or equivalence into a
+consumable object.
+\end{proof}
+
+\subsection{Witness-preserving replacements}
+\label{subsec:philosophy-witness-preserving-replacements}
+
+\begin{definition}[Effective choice]
+\label{def:philosophy-effective-choice}
+Effective choice in BEDC is finite choice by primitive recursion over
+closed lists, countable choice with displayed witness functions, or
+dependent choice along a continuation chain with explicit step
+functions.
+\end{definition}
+
+\begin{theorem}[Effective choice preserves witnesses]
+\label{thm:philosophy-effective-choice-preserves-witnesses}
+The BEDC replacements for choice do not introduce unwitnessed
+selectors.
+\end{theorem}
+\begin{proof}
+Each selector is built from displayed data: recursion over a finite
+carrier, a given witness function, or a given step function along a
+continuation chain. The selector body is therefore constructed rather
+than supplied by meta closure.
+\end{proof}
+
+\begin{definition}[Classifier transport instead of quotient collapse]
+\label{def:philosophy-classifier-transport-not-quotient-collapse}
+BEDC replaces quotient collapse by naming certificates, classifiers,
+package sameness, and classifier-respecting transport. Carrier
+elements identified by a classifier are not collapsed at the type
+level; operations consume explicit transport.
+\end{definition}
+
+\begin{theorem}[Classifier transport replaces quotient collapse]
+\label{thm:philosophy-classifier-transport-replaces-quotient-collapse}
+Quotient-like behavior in BEDC is implemented by explicit classifier
+transport rather than by primitive quotient equality.
+\end{theorem}
+\begin{proof}
+The operation that respects the classifier must display how it
+transports across the classifier relation. No canonical representative
+is selected without a witness, and no type-level equality is supplied
+without ledgered transport.
+\end{proof}
+
+\begin{definition}[Directional transport instead of propositional collapse]
+\label{def:philosophy-directional-transport-not-prop-collapse}
+BEDC replaces propositional extensionality by explicit directional
+transport. If \(P\to Q\) and \(Q\to P\) are available, each
+construction records which direction it consumes instead of identifying
+\(P\) and \(Q\) as the same proposition.
+\end{definition}
+
+\begin{theorem}[Explicit transport replaces proposition collapse]
+\label{thm:philosophy-explicit-transport-replaces-prop-collapse}
+BEDC does not replace \(P\leftrightarrow Q\) by \(P=Q\); it preserves
+direction, transport, and ledger.
+\end{theorem}
+\begin{proof}
+The bidirectional implication gives two maps. A consumer of \(P\) or
+\(Q\) must specify the map it uses. The propositions are not collapsed
+into a single object by an unwitnessed equality.
+\end{proof}
+
+\begin{theorem}[Certified content uses witness-preserving replacements]
+\label{thm:philosophy-certified-content-witness-preserving-replacements}
+BEDC certified content is supported by explicit choice, classifier
+transport, and directional transport rather than by the three
+meta-closure axioms.
+\end{theorem}
+\begin{proof}
+Whenever a construction needs a selection, it must display the
+selection function or recursion. Whenever it needs quotient-like
+behavior, it must display classifier transport. Whenever it needs a
+proposition to be consumed under an equivalent form, it must display
+the direction of transport.
+\end{proof}
+
+\subsection{Axiom-purity}
+\label{subsec:philosophy-axiom-purity}
+
+\begin{definition}[Axiom-pure theorem]
+\label{def:philosophy-axiom-pure-theorem}
+A theorem is axiom-pure when its transitive dependencies do not include
+\(\mathsf{Classical.choice}\), quotient soundness, or propositional
+extensionality.
+\end{definition}
+
+\begin{definition}[Axiom-purity gate]
+\label{def:philosophy-axiom-purity-gate}
+The axiom-purity gate rejects kernel-level theorems whose dependency
+graph passes through the three meta-closure axioms.
+\end{definition}
+
+\begin{theorem}[Axiom-purity rejects meta closure]
+\label{thm:philosophy-axiom-purity-rejects-meta-closure}
+The axiom-purity gate rejects meta closure simultaneously at the term,
+type, and proposition strata.
+\end{theorem}
+\begin{proof}
+The rejected dependencies are exactly the term-level, type-level, and
+proposition-level instances of unwitnessed positive content being made
+usable by later constructions. Excluding them keeps the open meta loop
+open.
+\end{proof}
+
+\begin{corollary}[The gate is philosophical discipline]
+\label{cor:philosophy-gate-philosophical-discipline}
+Axiom-purity is not only an engineering rule; it is the mechanical
+enforcement of witness discipline on proof dependencies.
+\end{corollary}
+\begin{proof}
+If no unwitnessed object may enter the object layer, then dependencies
+that supply hidden witnesses must be rejected. The gate implements that
+refusal at the dependency level.
+\end{proof}
+
+\begin{corollary}[Purity is not full maturity]
+\label{cor:philosophy-purity-not-full-maturity}
+Passing axiom-purity does not by itself show that a mature object has
+passed its acceptance gate.
+\end{corollary}
+\begin{proof}
+Axiom-purity checks proof dependencies. Object maturity also requires
+source, classifier, exactness, ledger, stability, strength, and
+possibly bridge obligations. These are separate audit surfaces.
+\end{proof}
+
+\subsection{Halting as the recursive face of the open meta loop}
+\label{subsec:philosophy-halting-open-meta-loop}
+
+\begin{definition}[Continuation-chain termination]
+\label{def:philosophy-cont-chain-termination}
+A continuation chain for a naming certificate terminates from a history
+when there is a finite displayed list of continuation steps ending at a
+history with no successor under the same continuation relation.
+\end{definition}
+
+\begin{definition}[Halting predicate]
+\label{def:philosophy-halting-predicate}
+A halting predicate for BEDC would decide, for arbitrary naming
+certificates and histories, whether the corresponding continuation
+chain terminates.
+\end{definition}
+
+\begin{theorem}[No total halting certificate]
+\label{thm:philosophy-no-total-halting-certificate}
+There is no BEDC naming certificate that decides termination for all
+naming certificates and all histories.
+\end{theorem}
+\begin{proof}
+Assume such a certificate exists. Build a diagonal certificate that
+consults the supposed halting certificate on a displayed certificate
+and initial history, then behaves oppositely: continuing when
+termination is predicted and stopping when nontermination is predicted.
+Applying the diagonal certificate to its own displayed code gives the
+standard contradiction.
+\end{proof}
+
+\begin{theorem}[Total halting closes the meta loop]
+\label{thm:philosophy-total-halting-closes-meta-loop}
+A total halting predicate is a certificate-stratum closure of the open
+meta loop.
+\end{theorem}
+\begin{proof}
+It would be a global decision procedure for all continuation behavior
+of naming certificates. That is a total meta-level classifier imported
+into the object layer.
+\end{proof}
+
+\begin{corollary}[No total proof-search oracle]
+\label{cor:philosophy-no-total-proof-search-oracle}
+BEDC has no internal oracle deciding whether arbitrary certificate
+construction succeeds.
+\end{corollary}
+\begin{proof}
+Such an oracle would decide termination of the corresponding
+certificate-search continuations, contradicting the absence of a total
+halting certificate.
+\end{proof}
+
+\begin{corollary}[Open targets require exposed status]
+\label{cor:philosophy-open-targets-exposed-status}
+When a construction has no displayed witness, its status must remain
+exposed by a target, horizon, or gap marker rather than absorbed by a
+total truth or halting oracle.
+\end{corollary}
+\begin{proof}
+A total oracle would close the meta loop. Exposed status preserves the
+difference between a witnessed construction and an unwitnessed
+obligation.
+\end{proof}
+
+\subsection{Type checking as classifier membership}
+\label{subsec:philosophy-type-checking-classifier-membership}
+
+\begin{definition}[Extension as type membership]
+\label{def:philosophy-extension-type-membership}
+For a language-like carrier \(L\), \(\Ext_{L}(t)\) may be read as the
+predicate that \(t\) lies in the well-typed subclass of terms.
+\end{definition}
+
+\begin{definition}[Continuation as typed reduction]
+\label{def:philosophy-continuation-typed-reduction}
+\(\Cont_{L}(t,m,t')\) may be read as a displayed small-step reduction
+from \(t\) to \(t'\) with mark \(m\), subject to preservation of the
+extension predicate.
+\end{definition}
+
+\begin{theorem}[Type checking is classifier membership]
+\label{thm:philosophy-type-checking-classifier-membership}
+In the BEDC reading, type checking is membership checking for a
+classifier-defined extension predicate.
+\end{theorem}
+\begin{proof}
+The extension predicate cuts out the admissible subclass of terms, and
+continuation describes allowed transitions within that subclass. To
+check the type is to check membership in the displayed classifier
+surface.
+\end{proof}
+
+\begin{definition}[Curry--Howard reading]
+\label{def:philosophy-curry-howard-reading}
+Under the BEDC Curry--Howard reading, a proposition is a classifier or
+type, a proof is a witness or inhabitant, and a program is a
+continuation-preserving construction.
+\end{definition}
+
+\begin{theorem}[Closure law as constructive proof]
+\label{thm:philosophy-closure-law-constructive-proof}
+Every classifier closure law is also the constructive proof of the
+corresponding type closure.
+\end{theorem}
+\begin{proof}
+If \(\Ext\) is read as membership in a type, then a closure law proves
+that the relevant construction sends admitted inputs to admitted
+outputs. The same witness is both the closure proof and the program
+transformer.
+\end{proof}
+
+\begin{corollary}[Proof checking is not proof search]
+\label{cor:philosophy-proof-checking-not-proof-search}
+Checking a displayed witness against a classifier is not the same as
+having a total proof-search procedure.
+\end{corollary}
+\begin{proof}
+Classifier membership can be local and decidable for the displayed
+interface. A total proof-search procedure would decide arbitrary
+certificate construction and would approach the prohibited halting
+predicate.
+\end{proof}
+
+\subsection{Synthesis}
+\label{subsec:philosophy-logic-meta-loop-synthesis}
+
+\begin{theorem}[Logic discipline synthesis]
+\label{thm:philosophy-logic-discipline-synthesis}
+BEDC permits explicit witness construction and local refutation inside
+fixed carriers, classifiers, and certificates. It rejects positive
+content without constructor witnesses and rejects global truth,
+halting, excluded-middle, choice, quotient, or proposition-equality
+closures over certificate space.
+\end{theorem}
+\begin{proof}
+Proofs are witness chains. Local negation stays inside fixed generated
+structure. Unwitnessed positive extraction supplies a value without
+construction. Ground closure is needed for generation, while meta
+closure would internalize truth or runtime. The three classical axioms
+are term-, type-, and proposition-level instances of the same hidden
+witness schema; axiom-purity rejects them. A total halting predicate is
+the recursive version of the same closure. Type checking remains local
+classifier membership rather than total proof search.
+\end{proof}
+
+\begin{corollary}[Positive existence must be constructed]
+\label{cor:philosophy-positive-existence-constructed}
+Every BEDC existence theorem must display the witness, its carrier
+membership, its classifier stability, and its ledger surface.
+\end{corollary}
+
+\begin{corollary}[Contradiction is not wholly rejected]
+\label{cor:philosophy-contradiction-not-wholly-rejected}
+BEDC does not reject contradiction reasoning as such. It accepts local
+refutation, decidable double-negation elimination, and explicit
+counterexample refutation; it rejects unwitnessed positive extraction
+and global truth closure.
+\end{corollary}
+
+\begin{corollary}[One explanation of three axioms]
+\label{cor:philosophy-one-explanation-three-axioms}
+Choice, quotient soundness, and propositional extensionality are one
+problem at three strata: unwitnessed existential content accepted as
+construction input.
+\end{corollary}
+
+\begin{corollary}[Passage to boundary sockets]
+\label{cor:philosophy-passage-to-boundary-sockets}
+Once proof patterns that close the meta loop are identified, the next
+task is to describe how commitments genuinely exceeding closed
+observation are exposed as gaps or boundary sockets rather than
+internal theorems.
+\end{corollary}
