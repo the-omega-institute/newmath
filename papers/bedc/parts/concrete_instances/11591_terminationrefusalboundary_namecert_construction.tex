@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\TerminationRefusalBoundaryUp$}
+\label{ch:concrete-instances-terminationrefusalboundary-namecert}
+\origin{ai}
+
+The $\TerminationRefusalBoundaryUp$ packet realizes the halting distinction of \autoref{ch:visions-halting-as-form-of-distinction-limit} as a finite NameCert surface that separates positive finite $\Cont$ traces from refusal-to-decide rows. It sits beside \autoref{ch:concrete-instances-haltingdiagonal-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, \autoref{ch:concrete-instances-finiterefutationboundary-namecert}, and \autoref{ch:concrete-instances-certificatetruthbranchboundary-namecert}: those sibling packets record diagonal fixed-point pressure, obstruction ledgers, permitted finite refutation, and certificate truth-branch boundaries, while this carrier stores the positive trace row and the refusal row without converting either into a global halting decision.
+
+\begin{definition}[Termination-refusal boundary carrier]
+\label{def:termination-refusal-boundary-carrier}
+A $\TerminationRefusalBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,I,T,F,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source certificate row naming the local $\NameCert_P$ whose continuation chain is being inspected;
+\item $I$ is the input-history row naming the starting history $h$;
+\item $T$ is the positive finite trace row, either displaying a finite $\Cont_P$ chain ending at a terminal history or recording that no such displayed trace is present;
+\item $F$ is the finite trace verifier row, checking that every displayed step in $T$ is a local $\Cont_P$ step and that a positive trace ends at the stated terminal history;
+\item $U$ is the refusal-to-decide row, recording that absence of a displayed finite trace is not reclassified as divergence, nontermination, or a total halting answer;
+\item $H$ records componentwise $\hsame$ transport for source certificates, input histories, trace rows, verifier rows, refusal rows, routes, provenance, and local names;
+\item $C$ records the displayed $\Cont$ routes by which consumers read $S,I,T,F,U,H$ as one packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-halting-as-form-of-distinction-limit}, \autoref{ch:concrete-instances-haltingdiagonal-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, \autoref{ch:concrete-instances-finiterefutationboundary-namecert}, \autoref{ch:concrete-instances-certificatetruthbranchboundary-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TerminationRefusalBoundaryUp}$ row.
+\end{enumerate}
+The carrier stores no divergence oracle, no unbounded search over continuation histories, no certificate-indexed truth branch, and no host evaluator for arbitrary certificate-history pairs.
+\end{definition}
+
+\begin{theorem}[Termination-refusal boundary NameCert obligations]
+\label{thm:termination-refusal-boundary-namecert-obligations}
+For the carrier of \autoref{def:termination-refusal-boundary-carrier}, the local $\NameCert_{\TerminationRefusalBoundaryUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $R=(S,I,T,F,U,H,C,P,N)$;
+\item source and input exactness, requiring every accepted read to preserve the certificate row $S$ and input-history row $I$;
+\item positive trace exactness, requiring a positive termination witness to be read only from the finite trace row $T$ together with the verifier row $F$;
+\item refusal exactness, requiring every no-trace read to remain in the refusal row $U$ rather than becoming a divergence classifier;
+\item transport and provenance closure, requiring all comparisons, consumer routes, package provenance, and local naming to be exactly the displayed rows $H,C,P,N$.
+\end{enumerate}
+Thus an accepted packet may expose a positive finite trace or a refusal boundary, but it cannot decide the global halting predicate of \autoref{def:halting-predicate}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:termination-refusal-boundary-carrier}. The accepted rows are exactly $S,I,T,F,U,H,C,P,N$.
+
+Source and input exactness keep the read attached to the same local certificate and starting history. A consumer therefore cannot change the inspected $\NameCert_P$ or history $h$ while preserving the packet.
+
+Positive trace exactness reads $T$ together with $F$. If $T$ displays a finite $\Cont_P$ chain, the verifier row checks only the listed steps and the stated terminal endpoint.
+
+Refusal exactness reads $U$ only when no displayed finite trace is being exported. The row records refusal to decide from missing finite evidence; it does not assert divergence, nontermination, or a total negative answer.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite surface. The sibling references supply provenance for the diagonal, obstruction, finite-refutation, and truth-branch boundary contexts, but none adds an unbounded search, host evaluator, or global halting classifier.
+\end{proof}
+
+\begin{theorem}[Termination-refusal boundary non-escape]
+\label{thm:termination-refusal-boundary-nonescape}
+Every accepted $\TerminationRefusalBoundaryUp$ packet exports only the displayed rows $S,I,T,F,U,H,C,P,N$. A consumer may read a verified finite $\Cont$ trace from $T,F$ or a refusal-to-decide boundary from $U$, but it cannot obtain a divergence oracle, a total halting predicate, an unbounded continuation search, a host evaluator, or a certificate-indexed truth branch from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. The source, input, trace, verifier, refusal, transport, route, provenance, and local naming rows are the whole accepted surface.
+
+For a positive trace read, the consumer must pass through $T$ and $F$. The verifier row checks only the displayed finite continuation chain, so the read is a finite witness rather than an evaluator for other histories.
+
+For a no-trace read, the consumer must pass through $U$. That row is a refusal boundary and not a negative halting proof.
+
+The listed escape routes require rows absent from $R$: a divergence oracle, total classifier, unbounded search surface, host evaluator, or certificate-indexed truth branch. Since no such coordinate is carried, no accepted consumer route can export one.
+\end{proof}
+
+\begin{theorem}[Termination-refusal boundary independence]
+\label{thm:termination-refusal-boundary-independence}
+The $\TerminationRefusalBoundaryUp$ carrier is not bijective to the carrier of \autoref{ch:concrete-instances-haltingdiagonal-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, \autoref{ch:concrete-instances-finiterefutationboundary-namecert}, or \autoref{ch:concrete-instances-certificatetruthbranchboundary-namecert} while preserving local $\NameCert$ obligations. Its distinguishing data are the simultaneous presence of a positive finite trace row $T,F$ and a refusal-to-decide row $U$ for the same source certificate and input history.
+\end{theorem}
+\begin{proof}
+Compare the sibling roles one at a time. The halting diagonal packet carries fixed-point diagonal pressure, while the termination-refusal boundary must additionally store the positive trace verifier and refusal row for one inspected continuation chain.
+
+The halting obstruction packet carries an obstruction ledger, not the paired positive finite trace and refusal-to-decide rows as one carrier. A bijection preserving NameCert obligations would have to send the verifier row $F$ and refusal row $U$ to distinct displayed coordinates, and those coordinates are not both present there.
+
+The finite-refutation boundary carries a permitted falsity route and optional local decision row for a proposition, not a continuation trace verifier paired with refusal to decide halting. The certificate truth-branch boundary carries a branch-refusal surface, not a positive trace verifier for $\Cont_P$ chains.
+
+Thus no listed sibling preserves $S,I,T,F,U,H,C,P,N$ with the same obligation surface. The carrier remains a separate finite boundary between positive termination evidence and refusal to decide.
+\end{proof}
+
+\begin{theorem}[Termination-refusal boundary TasteGate obligation]
+\label{thm:termination-refusal-boundary-tastegate-obligation}
+The Lean TasteGate file for $\TerminationRefusalBoundaryUp$ will include explicit $\mathsf{Nontrivial}\ \TerminationRefusalBoundaryUp$ and $\mathsf{FieldFaithful}\ \TerminationRefusalBoundaryUp$ instances for the same carrier rows $S,I,T,F,U,H,C,P,N$. These instances must preserve the distinction between positive finite trace rows and refusal-to-decide rows.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the separation of $T,F$ from $U$. A carrier with a verified finite trace and a carrier with only the refusal row cannot collapse without losing the distinction recorded by \autoref{def:halting-termination}.
+
+Field faithfulness records preservation of each displayed row. In particular, it keeps source certificate, input history, positive trace, verifier, refusal, transport, route, package, and local naming data visible to the same carrier, so the TasteGate surface cannot identify a refusal boundary with a positive termination witness.
+\end{proof}
+
+\falsifiablePrediction{A packet with no displayed finite Cont trace may carry a refusal boundary but cannot be read as a positive termination witness.}
+
+\independenceWitness{haltingdiagonal, haltingobstruction, finiterefutationboundary, certificatetruthbranchboundary: no sibling is bijective because this carrier stores both positive finite trace rows and refusal-to-decide rows while preserving their separation.}
