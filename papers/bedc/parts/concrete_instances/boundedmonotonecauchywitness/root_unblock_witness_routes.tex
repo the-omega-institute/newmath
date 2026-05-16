@@ -160,6 +160,58 @@ The two packets therefore compose without adding an escape coordinate. The grid 
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_grid\_ledger\_nonescape}
 
+\begin{theorem}[Bounded monotone Cauchy witness grid synchronizer terminal envelope]
+\label{thm:bounded-monotone-cauchy-witness-grid-synchronizer-terminal-envelope}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. Every root-facing $\CauchySealBudgetSynchronizerUp$, $\RealObservationBudgetUp$, or $\RealUp$ terminal read from the composed route factors through the finite envelope
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N,\quad B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G.
+$$
+The envelope reaches the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealCauchyWitnessGridUp$, $\FiniteObservationBudgetSelectorUp$, and $\RealUp$ sibling packets only through the displayed budget, ledger, classifier, seal, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First attach the synchronizer-facing route of $W$. Root seal route exhaustion and Real-seal threshold exhaustion keep every terminal read inside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ before the $\RealUp$ threshold is available.
+
+Next attach the grid route compatibility. The grid selector budget, witness ledger, completion-seal classifier, and tail envelope are consumed before the root route reaches the Real seal row $Q$.
+
+Now apply grid ledger non-escape. It identifies $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$ as the only rows contributed by the grid handoff, with no selected limit, host equality, quotient equality, trichotomy, compactness, completeness, or hidden selector state.
+
+The finite observation-budget selector handoff is therefore read as part of the same displayed budget ledger. Since neither $W$ nor $G$ has an additional terminal coordinate, every synchronizer, observation-budget, or Real consumer factors through the stated envelope.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness tail budget seal correspondence]
+\label{thm:bounded-monotone-cauchy-witness-tail-budget-seal-correspondence}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let its root route consume an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$. The scheduled tail budget $\sigma,\mu,\lambda$, the grid selector-budget rows $B,L,K,T$, and the Real-seal row $Q$ correspond on one finite route: a terminal $\RealUp$ read may consume $Q$ only after the tail-window rows of $W$ and the selector-budget rows of $G$ have both been traversed.
+
+Thus the composed route is a correspondence between tail budget and seal threshold, not a route through a selected limit, quotient real equality, host equality, countable choice, trichotomy, ambient completeness, compactness, or hidden selector.
+\end{theorem}
+\begin{proof}
+Begin with the tail-window side. Root tail-window totality forces $\sigma,\mu,\lambda$ to occur after the source rows and before any located-trap or seal-facing read from $W$.
+
+Place the seal threshold next. Real-seal threshold exhaustion says that $Q$ is reached only after the displayed tail window and located trap have been consumed, while root seal route exhaustion leaves no bypass around $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Attach the grid budget by route compatibility. The selector budget $B$, witness ledger $L$, completion-seal classifier $K$, and tail envelope $T$ of $G$ are read before the route exposes $Q$.
+
+Finally use grid ledger non-escape and the finite observation-budget selector handoff. The selector side contributes only its displayed budget rows, so the same finite route accounts for the tail-window obligation and the terminal seal threshold without importing any excluded completion or choice principle.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness cofinal grid readback exhaustion]
+\label{thm:bounded-monotone-cauchy-witness-cofinal-grid-readback-exhaustion}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier whose root route consumes accepted sibling packets
+$$
+G=(B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G)
+$$
+from $\RealCauchyWitnessGridUp$ together with the displayed $\FiniteObservationBudgetSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Every cofinal grid readback from this route is exhausted by the rows of $W$ and $G$ listed above. In particular, the readback cannot expose a selected cofinal subsequence, quotient real equality, host equality, trichotomy, countable choice, ambient completeness, compactness, hidden grid state, or unlisted observation selector.
+\end{theorem}
+\begin{proof}
+Project the bounded monotone witness first. Root seal route exhaustion and Real-seal threshold exhaustion constrain every terminal readback to the displayed packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+
+Read the grid packet through route compatibility. The grid budget, ledger, classifier, tail envelope, StreamName, RegSeqRat, RealUp, transport, continuation, provenance, and naming rows are consumed before the terminal Real read.
+
+Apply grid ledger non-escape to the composed route. The grid contributes exactly $B,L,K,T,S_G,R_G,E_G,H_G,C_G,P_G,N_G$, and the bounded monotone witness contributes exactly its displayed root rows.
+
+The finite observation-budget selector handoff supplies only the selected budget row already named in $B,L,K,T$. Therefore a cofinal readback has no extra carrier coordinate from which to recover an unlisted selector, cofinal subsequence, equality principle, completeness principle, compactness row, or choice-like tail object.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness diagonal-limit compatibility pullback]
 \label{thm:bounded-monotone-cauchy-witness-diagonal-limit-compatibility-pullback}
 Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. Suppose its root route consumes an accepted $\RealCauchyWitnessGridUp$ packet $G=(B,L_G,K_G,T_G,S_G,R_G,E_G,H_G,C_G,P_G,N_G)$ and an accepted $\DiagonalLimitCompatibilityUp$ packet
