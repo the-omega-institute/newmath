@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedIntervalNetUp$}
+\label{ch:concrete-instances-closedboundedintervalnet-namecert}
+\origin{human}
+
+The $\ClosedBoundedIntervalNetUp$ packet names the finite dyadic mesh used by Bishop-style constructive compactness arguments for located closed bounded intervals. It consumes the endpoint and cell route of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic refinement surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the rational cell carrier of \autoref{ch:concrete-instances-rationalinterval-namecert}, the finite Real seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream compact-uniform-continuity consumer of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}. The construction is an explicit finite net: the interval is read through located endpoints, rational cells, dyadic cells, unary mesh scale, displayed centers, finite coverage rows, StreamName and RegSeqRat windows, RealUp seal rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local NameCert row. It does not use open-cover compactness, choice of subcovers, quotient streams, host real equality, or an ambient completeness primitive.
+
+\begin{definition}[Closed bounded interval net carrier]
+\label{def:closed-bounded-interval-net-carrier}
+A $\ClosedBoundedIntervalNetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,M,Q,D,Z,F,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the located closed bounded interval row supplied by $\LocatedIntervalUp$, including lower and upper located endpoint windows;
+\item $M$ is the unary mesh scale naming the dyadic precision used for the net;
+\item $Q$ is the finite $\RationalIntervalUp$ cell ledger attached to $L$ at scale $M$;
+\item $D$ is the finite $\DyadicIntervalUp$ refinement ledger for the rational cells of $Q$;
+\item $Z$ is the $\ProbeBundle$ center-row ledger, with one displayed dyadic or rational center for each accepted cell;
+\item $F$ is the finite coverage ledger saying that every displayed containment read of $L$ enters one of the cells in $Q$ and its attached dyadic refinement in $D$;
+\item $S$ is the $\StreamNameUp$ finite-window row used to read the endpoint and center names at the mesh scale;
+\item $R$ is the $\RegSeqRatUp$ readback row for the same endpoint and center windows;
+\item $E$ is the $\RealUp$ seal row reached only after $L,M,Q,D,Z,F,S,R$ are displayed;
+\item $H$ records componentwise $\hsame$ transport for endpoints, cells, dyadic refinements, centers, coverage rows, windows, readbacks, and the Real seal;
+\item $C$ records displayed $\Cont$ routes from the located interval row through mesh selection, finite cell coverage, StreamName windows, RegSeqRat readback, and RealUp sealing;
+\item $P$ is the $\Pkg$ provenance over $\ClosedBoundedIntervalNetUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedBoundedIntervalNetUp}$ row.
+\end{enumerate}
+The carrier exports no open-cover object, selected finite subcover, quotient stream, host real equality, hidden center chooser, or ambient compactness principle.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval net NameCert obligations]
+\label{thm:closed-bounded-interval-net-namecert-obligations}
+For the carrier of \autoref{def:closed-bounded-interval-net-carrier}, the local $\NameCert_{\ClosedBoundedIntervalNetUp}$ surface consists exactly of carrier admission for $K=(L,M,Q,D,Z,F,S,R,E,H,C,P,N)$, located endpoint admission through $L$, unary mesh admission through $M$, rational cell admission through $Q$, dyadic refinement admission through $D$, ProbeBundle center-row admission through $Z$, finite coverage admission through $F$, StreamName and RegSeqRat readback through $S$ and $R$, RealUp sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its first rows display a located interval, a unary dyadic mesh scale, rational cells, dyadic refinements, center rows, and finite coverage rows before any Real seal is exposed.
+
+Read the analytic rows next. The $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks are attached to the same endpoint and center rows, and the $\RealUp$ seal is downstream of those finite windows rather than a completed host interval.
+
+The structural rows close the certificate surface. The transport row $H$, replay row $C$, package row $P$, and local name $N$ preserve and name only the displayed mesh packet, so there is no further NameCert obligation outside the listed rows.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval net dyadic coverage]
+\label{thm:closed-bounded-interval-net-dyadic-coverage}
+Every containment read of an accepted $\ClosedBoundedIntervalNetUp$ packet factors through the finite route
+$$
+L,M,Q,D,Z,F,H,C,P,N.
+$$
+The read first consumes the located endpoint row $L$, then the mesh scale $M$, then a displayed rational cell in $Q$, a displayed dyadic refinement in $D$, the corresponding center row in $Z$, and the coverage row $F$. It receives no open cover, subcover choice, hidden center selector, or host interval order outside that route.
+\end{theorem}
+\begin{proof}
+Begin with the located interval row. By the carrier definition, every containment read starts from $L$ and is admitted only at the unary mesh scale $M$.
+
+The coverage row $F$ names a finite cell route. It sends the read into a rational cell from $Q$, the attached dyadic refinement from $D$, and the matching ProbeBundle center row from $Z$.
+
+Finally the rows $H,C,P,N$ transport, replay, source, and name this finite route. Since the carrier has no coordinate for an open cover, a chosen subcover, a hidden selector, or a host interval order, the dyadic coverage read cannot escape the displayed net.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval net Real seal nonescape]
+\label{thm:closed-bounded-interval-net-real-seal-nonescape}
+Every $\RealUp$ or $\CompactUniformContinuityUp$ consumer of an accepted $\ClosedBoundedIntervalNetUp$ packet reads the interval through the finite route
+$$
+L,M,Q,D,Z,F,S,R,E,H,C,P,N.
+$$
+The Real seal row $E$ is reached only after the located endpoint row, mesh row, rational and dyadic cell rows, ProbeBundle center rows, finite coverage ledger, StreamName windows, and RegSeqRat readbacks have been displayed. Consequently the downstream compact-uniform-continuity route receives an explicit finite dyadic net and receives no open-cover compactness principle, quotient stream equality, selected host real, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closed-bounded-interval-net-namecert-obligations}. The accepted packet exposes $E$ only after $L,M,Q,D,Z,F,S,R$ have been read as one finite mesh surface.
+
+Use \autoref{thm:closed-bounded-interval-net-dyadic-coverage}. It identifies the containment side of the packet with the displayed rational and dyadic cells and their ProbeBundle centers, so a consumer cannot replace the mesh by an open-cover object or a hidden center choice.
+
+The $\CompactUniformContinuityUp$ consumer reads only the resulting Real-facing packet. The structural rows $H,C,P,N$ preserve the same finite route through transport, replay, provenance, and local naming, and no carrier coordinate supplies quotient streams, host real equality, or ambient completeness data.
+\end{proof}
+
+\falsifiablePrediction{Every compact-uniform-continuity read of a ClosedBoundedIntervalNetUp packet factors through the displayed finite dyadic mesh, not through an open-cover compactness row.}
+
+\independenceWitness{locatedinterval, dyadicinterval, rationalinterval, real, compactuniformcontinuity: ClosedBoundedIntervalNetUp is not bijective to any listed sibling because it jointly carries located endpoints, a unary mesh scale, rational and dyadic cell ledgers, ProbeBundle centers, finite coverage rows, StreamName and RegSeqRat readback, a RealUp seal, and the compact-uniform-continuity handoff route.}
+
+\closureat{ClosedBoundedIntervalNetUp}{seedStr}
+
+\begin{closurestatus}{\ClosedBoundedIntervalNetUp}
+  \constructivestory{A $\ClosedBoundedIntervalNetUp$ packet is generated from located interval endpoints, a unary dyadic mesh scale, rational cells, dyadic refinements, ProbeBundle centers, finite coverage rows, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-interval-net-carrier}, \autoref{thm:closed-bounded-interval-net-namecert-obligations}, \autoref{thm:closed-bounded-interval-net-dyadic-coverage}, and \autoref{thm:closed-bounded-interval-net-real-seal-nonescape} bind finite dyadic mesh coverage for located closed bounded RealUp intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient streams, host real equality, selected host limits, or ambient Real completeness.}
+  \upgradepath{Lean closure requires carrier admission, dyadic coverage, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.ClosedBoundedIntervalNetUp.}
+\end{closurestatus}
