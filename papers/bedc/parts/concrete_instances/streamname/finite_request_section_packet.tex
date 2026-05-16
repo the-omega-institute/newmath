@@ -140,6 +140,50 @@ metric-completeness data, or ambient completion. The finite-request section
 therefore reaches the Real seal only through the displayed rows.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request section terminal coherence]
+\label{thm:streamname-finite-request-section-terminal-coherence}
+Let $Q$ and $Q'$ be accepted finite request sections for the current
+$\StreamNameUp$ Real-and-Completion route. Suppose that $Q$ and $Q'$ expose
+the same $\StreamNameUp$ finite window, the same $\DyadicRatCoreUp$ budget
+row, the same $\RegSeqRatUp$ readback row, the same $\RealUp$ seal boundary,
+and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ rows. Then $Q$ and $Q'$ determine the same terminal four-face
+route through
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp.
+$$
+
+Conversely, every current terminal four-face route restricts to a finite
+request section with exactly those StreamName window, DyadicRatCore budget,
+RegSeqRat readback, RealUp seal, and displayed support rows. The coherence
+claim includes no quotient stream equality, host sequence equality, selected
+limit, ambient Real completeness, metric-completeness datum, countable-choice
+row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read each accepted section through
+\autoref{thm:streamname-finite-request-section-budget-exactness}. The budget
+row and the RegSeqRat readback row are not separate witnesses; they are faces
+of the same finite request section under the displayed support rows.
+
+Next apply
+\autoref{thm:streamname-real-seal-request-section-nonescape}. The Real seal
+cannot add quotient stream equality, Cauchy-presentation equality, selected
+limits, host equality, metric-completeness data, or ambient completion to the
+section.
+
+Use \autoref{thm:streamname-finite-section-classifier-determinacy} for the
+two sections. Since their StreamName window, DyadicRatCore budget, RegSeqRat
+readback, RealUp seal, and support rows agree, the carrier and classifier
+verdicts at the terminal route agree.
+
+Finally apply \autoref{thm:streamname-four-face-terminal-completeness}. Its
+forward direction identifies same-section reads with the terminal four-face
+route, and its converse restricts every current terminal route back to such a
+finite request section. The listed exclusions are exactly the coordinates
+absent from that terminal completeness surface.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request terminal coherence]
 \label{thm:streamname-finite-request-terminal-coherence}
 Any finite $\StreamNameUp$ request that is read both as a $\RealUp$ endpoint
