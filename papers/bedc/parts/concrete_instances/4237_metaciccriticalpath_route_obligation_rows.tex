@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path route replay coverage]
+\label{thm:metacic-critical-path-route-replay-coverage}
+Every route replay accepted by a $\MetaCICCriticalPathUp$ root-unblock packet factors through the displayed rows
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+The replay may use the closed-strong-normalization source $S$, the normal-form endpoint $N$, the handoff row $U$, componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $L$, but it keeps the obstruction row $O$ and discharge socket $D$ visible throughout the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:metacic-critical-path-packet}. Its finite row list is exactly $S,N,O,U,D,H,C,P,L$, so an accepted replay begins inside that displayed packet rather than inside an ambient scheduler or host dependency graph.
+
+Apply \autoref{thm:metacic-critical-path-consistency-handoff}. The consistency-facing part of the replay travels from $S$ to $N$ through the visible route rows and therefore cannot skip the packet surface that carries $H,C,P,L$.
+
+It remains to keep the blocked side attached to the same replay. Use \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. These boundary results preserve $O$ and $D$ while stopping the read at $N$, so every accepted route replay factors through the full displayed row list.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path consumer refusal exactness]
+\label{thm:metacic-critical-path-consumer-refusal-exactness}
+Any MetaCIC consumer that omits the obstruction row $O$ or the discharge socket $D$ is refused as a read of full consistency or subject reduction from an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Such a consumer may still read the displayed normal-form endpoint $N$, but only as the bounded endpoint of the same finite route certificate.
+\end{theorem}
+\begin{proof}
+Read the packet rows from \autoref{def:metacic-critical-path-packet}. The rows $O$ and $D$ are not optional annotations: $O$ records the subject-reduction obstruction, and $D$ records the discharge-bundle socket.
+
+Apply \autoref{thm:metacic-critical-path-obstruction-boundary}. A consumer that drops $O$ is no longer reading the accepted packet as a subject-reduction boundary, because the obstruction must remain visible under the handoff and transport rows.
+
+Now apply \autoref{thm:metacic-critical-path-discharge-socket-nonescape} and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. A consumer that drops $D$ cannot present a full-consistency or subject-reduction read, since the normal-form endpoint remains bounded at $N$ unless the separate socket is supplied. The refusal is therefore exact: missing $O$ or missing $D$ removes precisely the stronger read while preserving the bounded normal-form route.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path certificate row order]
+\label{thm:metacic-critical-path-certificate-row-order}
+In every accepted $\MetaCICCriticalPathUp$ certificate read, the source row $S$ and the normal-form row $N$ are read only after the obstruction row $O$ and discharge socket $D$ remain visible through $H,C,P,L$. Thus the certificate order never lets the positive normalization-to-normal-form route hide the blocked subject-reduction side.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The accepted packet exposes $S,N,O,U,D,H,C,P,L$ as one finite certificate, so the source and endpoint rows are not isolated from the obstruction and socket rows.
+
+Use \autoref{thm:metacic-critical-path-consistency-handoff} to read the positive route. It sends consistency-facing consumers from $S$ to $N$ only through the displayed route rows, and those rows are part of the same certificate surface.
+
+Finally combine \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. They keep $O$ and $D$ visible through transport, continuation, provenance, and local naming while stopping readback at $N$. Therefore $S$ and $N$ are read only in the row order that preserves the obstruction and socket throughout $H,C,P,L$.
+\end{proof}
