@@ -7,7 +7,7 @@ It does not write BEDC paper or Lean content.
 ## Current Signal
 
 - ACK rows: `29`
-- Gate rows: `14`
+- Gate rows: `16`
 - PI actions: `5`
 - Refinement targets: `9`
 
