@@ -162,6 +162,24 @@ Use window-budget exhaustion and normalizer-tail commutation, \autoref{thm:regul
 Finally combine Real-seal consumer exactness with non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. They make every Real-facing consumer read through the same finite packet and exclude hidden stream selectors, separate dyadic ledgers, quotient streams, selected limits, host real equality, countable choice, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger source-triad lock]
+\label{thm:regular-cauchy-modulus-witness-ledger-source-triad-lock}
+For any accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer that preserves the witnessed modulus route must consume $W,D,Q$ as one locked source triad over the same witnessed modulus $\mu$, normalized route $N_0$, and tail-budget row $T$. Replacing any one of $W,D,Q$ by a row from another packet is not an accepted seal route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed tuple. The only rows available for the source triad before the Real-facing seal are $W,D,Q$, and they occur in the same finite packet as $\mu,N_0,T$.
+
+Apply source-triad exactness from \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}. It identifies $W$ as the finite StreamName window row, $D$ as the dyadic tolerance row, and $Q$ as the RegSeqRat readback row consumed before $S$.
+
+Use normalizer-tail commutation from \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. This keeps the normalized route row $N_0$ and tail-budget row $T$ over the same witnessed modulus $\mu$ and over the same finite-window and dyadic rows.
+
+Finally apply Real-seal consumer exactness and non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Any attempted replacement of one triad row by a row from another packet would require a hidden selector, separate ledger, quotient stream, selected limit, host equality, countable-choice row, or ambient completeness row, none of which is exported by the accepted seal route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus witness-ledger TasteGate readiness]
 \label{thm:regular-cauchy-modulus-witness-ledger-tastegate-readiness}
 For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
@@ -246,6 +264,24 @@ If the changed row is $N_0$ or $T$, the normalized route exactness and tail-budg
 Thus the local classifier is field-faithful on the displayed tuple. The proof uses only carrier projection and the NameCert obligations, with no quotient stream, host real equality, hidden modulus replacement, selected limit, countable choice, or ambient completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus witness-ledger TasteGate field projection]
+\label{thm:regular-cauchy-modulus-witness-ledger-tastegate-field-projection}
+Let
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M)
+$$
+be an accepted $\RegularCauchyModulusWitnessLedgerUp$ packet. The nontrivial witness pair for the packet may be chosen by changing either the witnessed modulus ledger row $\mu$ or the finite-window service row $W$. The field-faithful projection is exactly the ordered tuple projection through $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, and every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer preserving the public seal route preserves those displayed fields componentwise.
+\end{theorem}
+\begin{proof}
+Use the nontrivial witness surface, \autoref{thm:regular-cauchy-modulus-witness-ledger-nontrivial-witness-surface}. It separates accepted packet surfaces by changing $\mu$ or $W$, and componentwise $\hsame$ refuses to identify either change without restoring the displayed coordinate.
+
+Apply the field-faithful surface, \autoref{thm:regular-cauchy-modulus-witness-ledger-field-faithful-surface}. It identifies the accepted packet surface with the ordered tuple projection through $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$.
+
+Now combine source-triad exactness and Real-seal consumer exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}. They force every public Real-facing read to pass through the same witnessed ledger, finite-window, dyadic, readback, seal, transport, replay, provenance, and naming rows.
+
+Finally use non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the carrier exports no quotient stream, host equality, hidden modulus replacement, selected limit, countable choice, or ambient completeness coordinate, no consumer preserving the public seal route can identify the witness pair or collapse any displayed field.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus witness-ledger carrier disjointness]
 \label{thm:regular-cauchy-modulus-witness-ledger-carrier-disjointness}
 No carrier automorphism preserving the local $\NameCert_{\RegularCauchyModulusWitnessLedgerUp}$ rows can collapse the witnessed-modulus coordinate $\mu$, the normalized-route coordinate $N_0$, the tail-budget coordinate $T$, and the Real-seal coordinate $S$ into one another. These four rows remain disjoint because they are read at different stages of the local route and are protected by the window-budget, normalizer-tail, and non-escape obligations.
@@ -258,6 +294,128 @@ Use window-budget exhaustion from \autoref{thm:regular-cauchy-modulus-witness-le
 Use normalizer-tail commutation from \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. It keeps $N_0$ and $T$ over the same witnessed modulus $\mu$ and the same finite-window rows before $S$, which prevents an automorphism preserving the local rows from exchanging the route coordinate with the tail-budget coordinate or with the seal.
 
 Finally apply non-escape from \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. The accepted packet exports only $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, so a collapse among $\mu,N_0,T,S$ would require a replacement coordinate or an external equality principle. No such coordinate is present in the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger consumer totality]
+\label{thm:regular-cauchy-modulus-witness-ledger-consumer-totality}
+For every accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer using the witnessed modulus route factors through the single displayed surface $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. The consumer reads $\mu$ before $W$, reads $W,D$ before $Q$, reads $N_0,T$ over the same witness before $S$, and reads $H,C,P,M$ as the structural transport, replay, provenance, and local naming rows. No quotient stream, host real equality, hidden modulus replacement, hidden window selector, separate dyadic ledger, selected limit, countable choice, or ambient completeness row can replace that route.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation theorem, \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. Its source and witness exposure rows put the displayed modulus ledger $\mu$ before the StreamName window row $W$, and its route-ordering clauses keep the later rows attached to the same accepted packet.
+
+Next use window-budget exhaustion and source-triad exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-window-budget-exhaustion} and \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}. These force the finite-window and dyadic rows $W,D$ before the RegSeqRat readback row $Q$, so a Real-facing consumer cannot insert a hidden window selector or a separate dyadic ledger.
+
+Use normalizer-tail commutation from \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. It keeps the normalized route row $N_0$ and the tail-budget row $T$ over the same witnessed modulus and over the same finite-window route before the seal row $S$.
+
+Apply Real-seal consumer exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}. It identifies the public RealUp and completion-seal read as the displayed route through $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, with $H,C,P,M$ supplying transport, replay, provenance, and local naming for that route.
+
+Finally apply non-escape from \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the carrier exports no quotient stream, host real equality, hidden modulus replacement, hidden window selector, separate dyadic ledger, selected limit, countable choice, or ambient completeness coordinate, every admitted consumer reads the displayed modulus-window-dyadic-readback-seal route as one total surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger tail-service uniqueness]
+\label{thm:regular-cauchy-modulus-witness-ledger-tail-service-uniqueness}
+For every accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the single witnessed modulus ledger row $\mu$ together with the displayed tail-budget row $T$ determines the tail-service route used by every $\RealUp$ or $\RealCompletionSealClassifierUp$ consumer of $L$. Any tail-service read preserving the accepted packet must pass through the same finite window row $W$, normalized row $N_0$, dyadic row $D$, RegSeqRat readback row $Q$, and seal row $S$; a second tail threshold, hidden witness ledger, quotient stream, selected limit, host equality, countable choice, or ambient completeness row is not an admitted route.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. The source and witness exposure rows display $X,\mu$, and the tail-budget compatibility row attaches $T$ to that same witnessed route before a Real-facing seal is consumed.
+
+Apply normalizer-tail commutation, \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. It keeps $N_0$ and $T$ over the same witnessed modulus $\mu$ and over the same finite-window and dyadic rows.
+
+Use window-budget exhaustion and source-triad exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-window-budget-exhaustion} and \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}. These identify $W,D,Q$ as the only finite-window, dyadic, and readback portion of the tail-service route.
+
+Finally apply Real-seal consumer exactness and non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the accepted packet exports only $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$, the pair $\mu,T$ determines the admitted tail-service path through the displayed rows and leaves no coordinate for a second service.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger dyadic-window coherence]
+\label{thm:regular-cauchy-modulus-witness-ledger-dyadic-window-coherence}
+For every accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the StreamName row $W$, DyadicRatCore row $D$, and RegSeqRat row $Q$ are consumed as one coherent source triad before the Real-facing seal row $S$ is read. A consumer cannot keep one of $W,D,Q$ while replacing another with a row from a different packet, a hidden dyadic ledger, a quotient stream, a selected limit, host equality, countable choice, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed tuple. The only StreamName, DyadicRatCore, and RegSeqRat coordinates available before the seal are $W,D,Q$.
+
+Apply the NameCert obligations and source-triad exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations} and \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}. They identify $W$ as finite-window service, $D$ as the dyadic tolerance ledger, and $Q$ as the readback row consumed before $S$.
+
+Use window-budget exhaustion and normalizer-tail commutation, \autoref{thm:regular-cauchy-modulus-witness-ledger-window-budget-exhaustion} and \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. The first forces $W,D$ before $Q$, while the second keeps the route tied to the same witnessed modulus $\mu$ and tail-budget row $T$.
+
+Conclude with the source-triad lock, Real-seal consumer exactness, and non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-lock}, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}, and \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. These results make the triad a single displayed route and exclude every replacement coordinate listed above.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger seal-readback factorization]
+\label{thm:regular-cauchy-modulus-witness-ledger-seal-readback-factorization}
+Every $\RealUp$ or $\RealCompletionSealClassifierUp$ read of an accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M)
+$$
+factors through the displayed rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$. The factorization reads the witnessed modulus row before the window service, reads the dyadic-window-RegSeqRat triad before the Real seal, and reads the transport, continuation, provenance, and local certificate rows as part of the same packet.
+\end{theorem}
+\begin{proof}
+Start from the seal route and consumer totality, \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route} and \autoref{thm:regular-cauchy-modulus-witness-ledger-consumer-totality}. They identify every Real-facing read as a route through the displayed packet surface rather than through a selected limit or completion principle.
+
+The tail-service uniqueness theorem fixes the tail side of the route. It makes $\mu$ and $T$ determine the admitted service path through $W,N_0,D,Q,S$.
+
+The dyadic-window coherence theorem fixes the readback side of the route. It forces $W,D,Q$ to travel as one source triad before $S$.
+
+Finally apply non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the carrier exports no quotient stream, host real equality, hidden modulus replacement, hidden window selector, separate dyadic ledger, selected limit, countable choice, or ambient completeness coordinate, every RealUp or completion-seal read factors through exactly $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger open-phase exit sufficiency]
+\label{thm:regular-cauchy-modulus-witness-ledger-open-phase-exit-sufficiency}
+For every accepted $\RegularCauchyModulusWitnessLedgerUp$ packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the displayed rows supply the Phase Real and Completion exit surface by routing $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ through one finite witness ledger. The rows $X,\mu,N_0,T$ bind the source, witnessed modulus, normalized route, and tail budget; $W,D,Q,S$ are the finite window, dyadic tolerance, regular readback, and Real seal; and $H,C,P,M$ supply transport, replay, provenance, and local naming. This exit surface exports no quotient stream, host real equality, selected limit, countable choice, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations, \autoref{def:regular-cauchy-modulus-witness-ledger-carrier} and \autoref{thm:regular-cauchy-modulus-witness-ledger-namecert-obligations}. They display exactly the rows $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$ and assign the StreamName, dyadic, regular-readback, and Real-seal roles to the same accepted packet.
+
+Use the seal route, source-triad exactness, and normalizer-tail commutation, \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route}, \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness}, and \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. These keep the finite window, dyadic tolerance, readback, normalized route, and tail budget attached to the witnessed modulus before the seal is read.
+
+Finally apply Real-seal consumer exactness and consumer totality, \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-consumer-totality}. Together with non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}, they make the displayed packet sufficient for the Phase Real and Completion exit surface and exclude every forbidden completion coordinate listed in the statement.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger readback seal determinacy]
+\label{thm:regular-cauchy-modulus-witness-ledger-readback-seal-determinacy}
+For every accepted packet
+$$
+L=(X,\mu,W,N_0,T,D,Q,S,H,C,P,M),
+$$
+the readback row $Q$ and seal row $S$ are determined by the same witnessed modulus row $\mu$, normalizer row $N_0$, tail-budget row $T$, finite-window row $W$, and dyadic tolerance row $D$. A Real-facing consumer cannot replace $Q$ or $S$ by a readback or seal from another packet while preserving the accepted modulus-ledger route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only readback and Real-seal coordinates available to a consumer of $L$ are the displayed rows $Q$ and $S$.
+
+Apply source-triad exactness and normalizer-tail commutation, \autoref{thm:regular-cauchy-modulus-witness-ledger-source-triad-exactness} and \autoref{thm:regular-cauchy-modulus-witness-ledger-normalizer-tail-commutation}. The first fixes $Q$ as the readback attached to $W$ and $D$, while the second keeps $N_0$ and $T$ over the same witnessed modulus $\mu$ before the seal.
+
+The seal route and Real-seal consumer exactness, \autoref{thm:regular-cauchy-modulus-witness-ledger-seal-route} and \autoref{thm:regular-cauchy-modulus-witness-ledger-real-seal-consumer-exactness}, then identify $S$ as the seal consumed after that same readback route. Non-escape rules out a second packet row, selected limit, host equality, quotient stream, countable choice, or ambient completeness datum as a replacement.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus witness-ledger completion boundary]
+\label{thm:regular-cauchy-modulus-witness-ledger-completion-boundary}
+Every Completion-facing consumer of an accepted $\RegularCauchyModulusWitnessLedgerUp$ packet may read only the finite boundary
+$$
+X,\mu,W,N_0,T,D,Q,S,H,C,P,M.
+$$
+It may consume the witnessed modulus ledger, finite window, dyadic tolerance, regular readback, Real seal, transport, replay, provenance, and local naming rows, but it cannot export quotient streams, host real equality, selected limits, countable choice, ambient completeness, or a completion object not displayed by this boundary.
+\end{theorem}
+\begin{proof}
+Start from consumer totality, \autoref{thm:regular-cauchy-modulus-witness-ledger-consumer-totality}. It factors every RealUp or completion-seal consumer through the displayed route $X,\mu,W,N_0,T,D,Q,S,H,C,P,M$.
+
+The open-phase exit sufficiency theorem identifies this route with the StreamName, DyadicRatCore, RegSeqRat, and RealUp exit packet. The readback seal determinacy theorem fixes $Q$ and $S$ to the same witnessed modulus, normalizer, tail-budget, window, and dyadic rows.
+
+Finally use non-escape, \autoref{thm:regular-cauchy-modulus-witness-ledger-nonescape}. Since the carrier has no coordinate for quotient streams, host real equality, selected limits, countable choice, ambient completeness, or undisplayed completion objects, no Completion-facing consumer can export such data from the accepted boundary.
 \end{proof}
 
 \falsifiablePrediction{If a RealUp seal consumer reads a regular Cauchy modulus without the displayed witness-ledger row, normalized route row, finite-window row, dyadic tolerance row, and RegSeqRat readback row, the packet is refuted.}

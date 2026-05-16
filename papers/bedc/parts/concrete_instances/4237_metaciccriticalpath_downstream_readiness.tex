@@ -1,0 +1,39 @@
+\begin{theorem}[MetaCIC critical-path discharge-socket totality]
+\label{thm:metacic-critical-path-discharge-socket-totality}
+Every accepted packet read of the $\MetaCICCriticalPathUp$ discharge socket exposes the tuple rows
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+The read may use $D$ as the named discharge socket, but it cannot treat $D$ as closed subject reduction, full closed consistency, or a hidden theorem-export row outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:metacic-critical-path-packet}. The packet definition makes $S,N,O,U,D,H,C,P,L$ the complete finite row inventory, with $D$ named as a socket rather than as a filled subject-reduction theorem.
+
+Apply the consistency handoff and obstruction boundary. Theorems \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-obstruction-boundary} keep the positive $S$-to-$N$ read and the blocked obstruction row in the same packet while refusing any conversion of $D$ into a closed subject-reduction row.
+
+Finally use discharge-socket nonescape and root consumer readiness from \autoref{thm:metacic-critical-path-discharge-socket-nonescape} and \autoref{thm:metacic-critical-path-root-unblock-consumer-readiness}. These two surfaces force every downstream socket read through the displayed tuple and leave no consumer-facing coordinate from which closed subject reduction or full closed consistency can be read.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path normalization-obstruction source order]
+\label{thm:metacic-critical-path-normalization-obstruction-source-order}
+Any normal-form consistency read of an accepted $\MetaCICCriticalPathUp$ packet consumes the closed-normalization route $S$ and the normal-form row $N$ only in the source order that preserves the obstruction row $O$ and the discharge socket $D$. Thus the normal-form endpoint remains a bounded route endpoint rather than a discharge of the blocked subject-reduction side.
+\end{theorem}
+\begin{proof}
+Start with normalization-frontier factorization. By \autoref{thm:metacic-critical-path-normalization-frontier-factorization}, a normal-form consistency read factors through the closed-normalization source row $S$ and the normal-form endpoint row $N$ while keeping the obstruction side visible.
+
+Next use the handoff rows that prepare the read. The bounded checker handoff of \autoref{thm:metacic-critical-path-bounded-checker-handoff-totality} and the substitution handoff visibility of \autoref{thm:metacic-critical-path-substitution-handoff-visibility} keep $U,H,C,P,L$ attached to the same packet instead of replacing $O$ or $D$ by an ambient checker fact.
+
+Finally apply \autoref{thm:metacic-critical-path-normalization-obstruction-route-coverage}. The normalization-to-normal-form route carries the obstruction row through the read and still stops at the separate discharge socket, so the source order consumes $S$ and $N$ without closing the blocked subject-reduction obligation.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path downstream readiness boundary]
+\label{thm:metacic-critical-path-downstream-readiness-boundary}
+Downstream MetaCIC consumers receive only the bounded readiness surface of an accepted $\MetaCICCriticalPathUp$ root-unblock packet. The exported surface is the displayed packet interface for carrier, route, obstruction, discharge socket, transport, continuation, provenance, local naming, and Lean intake; it is not full closed consistency and does not include closed subject reduction.
+\end{theorem}
+\begin{proof}
+Begin with the downstream surface. The downstream-unblock coverage theorem \autoref{thm:metacic-critical-path-downstream-unblock-coverage}, the Lean target intake theorem \autoref{thm:metacic-critical-path-lean-target-intake}, and the downstream unblock surface theorem \autoref{thm:metacic-critical-path-downstream-unblock-surface} make the consumer-facing interface finite and bounded by the displayed packet rows.
+
+Now factor that interface through the audit frontier. Apply \autoref{thm:metacic-critical-path-audit-frontier-factorization} together with carrier readiness and route readiness from \autoref{thm:metacic-critical-path-root-unblock-carrier-readiness} and \autoref{thm:metacic-critical-path-root-unblock-route-readiness}. These results account for the carrier rows, route rows, obstruction row, discharge socket, transport, continuation, provenance, and local naming without adding a closed theorem row.
+
+Finally use \autoref{thm:metacic-critical-path-root-unblock-consumer-readiness}. Every downstream MetaCIC consumer is restricted to the same bounded readiness surface, so the root-unblock packet opens consumer scheduling while refusing full closed consistency and closed subject reduction.
+\end{proof}

@@ -1,0 +1,84 @@
+\begin{theorem}[CriticalLineWitness fixed-strip zeta source factorization]
+\label{thm:critical-line-witness-fixed-strip-zeta-source-factorization}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every zeta-continuation or critical-line consumer of $W$ factors through the
+concrete packet $Z,S,M,R,Q,H,C,P,N$ before any $\mathsf{RH}$-facing read. The
+consumer receives only the fixed strip, modulus, rational comparison, refusal,
+transport, continuation, provenance, and local naming rows already displayed by
+$W$.
+\end{theorem}
+\begin{proof}
+Start with root handoff exhaustion,
+\autoref{thm:critical-line-witness-root-handoff-exhaustion}. It confines the
+root handoff to the displayed fixed-strip, modulus, rational-comparison,
+refusal-budget, transport, continuation, package, and naming rows.
+
+Next apply root downstream consumer totality,
+\autoref{thm:critical-line-witness-root-downstream-consumer-totality}. That
+result makes every zeta-continuation or critical-line consumer read the same
+finite packet before any public consumer read is accepted.
+
+Finally use the root classifier budget lock,
+\autoref{thm:critical-line-witness-root-classifier-budget-lock}. Since
+classifier and budget reads remain locked to the displayed route under
+$\hsame$ transport and $\Cont$ replay, no consumer can insert an
+$\mathsf{RH}$-facing coordinate before the packet factorization.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness modulus budget RH refusal exhaustion]
+\label{thm:critical-line-witness-modulus-budget-rh-refusal-exhaustion}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the
+modulus row, rational comparison ledger, and refusal budget exhaust every
+request for an $\mathsf{RH}$ proof, zero search, analytic continuation,
+quotient representative, host equality, or ambient completeness. Such a
+request has no accepted route outside the displayed $M,R,Q,H,C,P,N$ budget
+surface.
+\end{theorem}
+\begin{proof}
+Read the refusal side through
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It records
+the $\mathsf{RH}$-facing refusals on the finite ledger rather than on an
+analytic, host, quotient, or ambient-completeness coordinate.
+
+Use root handoff exhaustion,
+\autoref{thm:critical-line-witness-root-handoff-exhaustion}, to place every
+handoff on the same fixed-strip, modulus, rational-comparison, refusal,
+transport, continuation, package, and naming rows. Thus a request that reaches
+the root must be read through the displayed packet.
+
+Now apply the root classifier budget lock,
+\autoref{thm:critical-line-witness-root-classifier-budget-lock}. The modulus,
+comparison, and refusal reads stay locked to $M,R,Q,H,C,P,N$ under the
+displayed transport and replay rows, so each listed demand is exhausted by the
+finite refusal surface and receives no off-packet witness.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness NameCert root-unblock consumer scope]
+\label{thm:critical-line-witness-namecert-root-unblock-consumer-scope}
+The local $\NameCert_{\CriticalLineWitnessUp}$ root-unblock consumer scope of
+an accepted packet $W=(Z,S,M,R,Q,H,C,P,N)$ is exactly the fixed strip, modulus,
+rational comparison, refusal, transport, continuation, provenance, and naming
+rows displayed by $W$. It includes no analytic-continuation certificate,
+$\mathsf{RH}$ proof, zero-search oracle, quotient representative, host
+equality, ambient-completeness datum, or direct critical-line bypass.
+\end{theorem}
+\begin{proof}
+First apply root downstream consumer totality,
+\autoref{thm:critical-line-witness-root-downstream-consumer-totality}. It gives
+the consumer-facing inclusion into the fixed-strip, modulus,
+rational-comparison, refusal, transport, continuation, package, and local
+$\NameCert$ rows.
+
+For the reverse containment of the public scope, use root handoff exhaustion,
+\autoref{thm:critical-line-witness-root-handoff-exhaustion}. Each displayed row
+is part of the accepted handoff surface of the packet and is therefore
+available to the local root-unblock consumer.
+
+It remains to rule out extra rows. The root classifier budget lock
+\autoref{thm:critical-line-witness-root-classifier-budget-lock} keeps
+classifier and refusal reads on the same displayed route, while refusal ledger
+completeness
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness} accounts for
+the $\mathsf{RH}$-facing refusals. Hence the exact local scope is the displayed
+finite packet surface and no excluded coordinate is admitted.
+\end{proof}

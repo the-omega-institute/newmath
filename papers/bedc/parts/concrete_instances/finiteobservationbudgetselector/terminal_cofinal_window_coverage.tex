@@ -1,0 +1,176 @@
+\begin{theorem}[Finite observation-budget selector Real-seal window saturation]
+\label{thm:finite-observation-budget-selector-real-seal-window-saturation}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Any Real-completion or diagonal consumer that reaches the same terminal row $E$ through the same budget, schedule, dyadic, regular, transport, continuation, provenance, and local naming rows $B,S,D,R,H,C,P,N$ must use the displayed finite $\StreamNameUp$ window family $W$. Adding or replacing a window without changing the budget or schedule is not a refinement of the same selector packet; it is a different accepted packet with a different window row.
+\end{theorem}
+\begin{proof}
+Start with the route into the terminal Real seal. By \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, every Real-facing read of $E$ is reached only after the finite budget, schedule, selected window family, dyadic ledger, and regular handoff have been exposed.
+
+Use window exhaustion for the lower observation segment. By \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, the dyadic observations in $D$ are already covered by the displayed finite windows $W$, so a diagonal or completion consumer has no independent dyadic source outside that family.
+
+Now apply route determinacy. The theorem \autoref{thm:finite-observation-budget-selector-budget-route-determinacy} fixes the displayed route from $B$ through $S,W,D,R$ to $E$ whenever the structural rows $H,C,P,N$ are preserved.
+
+Finally use the terminal theorems to exclude a hidden selector. By \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching} and \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}, a consumer reaching the same endpoint through the same displayed rows cannot pass through a second window source. A changed window family therefore changes the accepted selector packet rather than refining the original one.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal window minimality]
+\label{thm:finite-observation-budget-selector-terminal-window-minimality}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every terminal $\RealUp$-facing read of $F$ factors through exactly the displayed finite budget row $B$, selected $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, with the selected schedule row $S$ mediating the route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+If any one of the displayed budget, schedule, window, dyadic ledger, regular handoff, seal, transport, continuation, provenance, or local naming rows is dropped, the remaining rows no longer determine the terminal endpoint exactness of \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}.
+\end{theorem}
+\begin{proof}
+First identify the only route available to a terminal consumer. The budget-route determinacy theorem \autoref{thm:finite-observation-budget-selector-budget-route-determinacy} fixes the path from $B$ through $S,W,D,R$ to $E$, and terminal selector synchronization \autoref{thm:finite-observation-budget-selector-terminal-selector-synchronization} keeps the selected schedule and window rows attached to that path.
+
+Next remove terminal branching. By \autoref{thm:finite-observation-budget-selector-terminal-route-no-branching}, two consumers exposing the same displayed rows determine the same terminal route, so there is no alternate endpoint route through quotient streams, host real equality, countable choice, hidden selectors, side-channel completion, or ambient completeness.
+
+It remains to record sufficiency and minimality. Sufficiency is exactly endpoint exactness from \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}: the displayed rows identify the terminal endpoint with $E$ by componentwise $\hsame$ transport. For minimality, each listed row is used by one segment of the displayed route or by its transport, continuation, provenance, and naming certificate. Dropping such a row removes the corresponding segment or certificate witness, so the endpoint can no longer be recovered by the cited exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_window\_minimality}
+
+\begin{theorem}[Finite observation-budget selector diagonal-tail coverage]
+\label{thm:finite-observation-budget-selector-diagonal-tail-coverage}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. The terminal window inventory of \autoref{thm:finite-observation-budget-selector-terminal-window-minimality} covers every diagonal-tail consumer route used by $\RegularCauchyTailSelectorUp$, $\RealDiagonalCompletionUp$, and $\RealCompletionSelectorSealUp$: such a consumer reads its terminal $\RealUp$ handoff only through the finite route
+$$
+B \to S \to W \to D \to R \to E
+$$
+and through the displayed $H,C,P,N$ rows. The coverage imports no quotient stream, countable choice operation, host real equality, hidden selector, detached completion limit, or independent completeness oracle.
+\end{theorem}
+\begin{proof}
+Begin with the tail-facing side. The tail-meet seal compatibility theorem \autoref{thm:finite-observation-budget-selector-tail-meet-seal-compatibility} places every selected-tail or seal consumer on the displayed finite chain, and the diagonal consumer boundary \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary} keeps diagonal-limit and Real-completion consumers inside the same rows.
+
+Now attach the selector-seal consumer. The RealCompletionSelectorSeal pullback \autoref{thm:finite-observation-budget-selector-realcompletionselectorseal-pullback} identifies the shared budget, selected window, regular readback, and terminal seal rows with the selector-seal route using only displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+
+Finally apply terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}. Its inventory is sufficient for the terminal endpoint and loses exactness when a displayed row is removed. Therefore the diagonal-tail consumers named in the statement are covered by the same finite terminal window, while the excluded quotient, choice, host-equality, hidden-selector, detached-limit, and completeness coordinates remain absent.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal section exactness]
+\label{thm:finite-observation-budget-selector-terminal-section-exactness}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every terminal Real-completion or diagonal-tail section whose displayed rows agree with $B,S,W,D,R,E,H,C,P,N$ is exactly the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. The section exports no quotient stream, host real equality, countable choice, hidden selector, detached completion limit, metric-completeness row, or ambient completeness oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_terminal\_section\_exactness}
+\begin{proof}
+First use terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}. It supplies the full selector inventory $B,S,W,D,R,E,H,C,P,N$ and says that dropping any one of those rows loses terminal endpoint determination.
+
+Next apply terminal route endpoint exactness, \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}. Since the displayed rows agree with the accepted packet, the terminal section reaches the same $\RealUp$ endpoint $E$ through the same componentwise $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+For diagonal-tail consumers, use \autoref{thm:finite-observation-budget-selector-diagonal-tail-coverage}. It keeps the $\RegularCauchyTailSelectorUp$, $\RealDiagonalCompletionUp$, and $\RealCompletionSelectorSealUp$ reads on the same finite route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+
+Finally identify that route with the existing four-face finite-section pullback. By \autoref{thm:streamname-finite-section-pullback-exactness}, agreement of the finite $\StreamNameUp$ windows with the $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and current $\RealUp$ seal determines exactly the same terminal section and exports none of the excluded quotient, host-equality, choice, hidden-selector, detached-limit, metric-completeness, or ambient-completeness coordinates.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal section pullback uniqueness]
+\label{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}
+Let
+$$
+F_0=(B,S,W,D,R,E,H,C,P,N)
+$$
+and
+$$
+F_1=(B,S,W,D,R,E,H,C,P,N)
+$$
+be accepted $\FiniteObservationBudgetSelectorUp$ packets with the same displayed budget, schedule, window, dyadic ledger, regular handoff, Real seal, transport, continuation, provenance, and local naming rows. Suppose that the terminal sections of $F_0$ and $F_1$ both satisfy the finite-section pullback along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Then the two terminal sections determine the same budget-to-seal route
+$$
+B \to S \to W \to D \to R \to E
+$$
+and the same $\RealUp$ seal up to the recorded componentwise $\hsame$ transports. No quotient stream, host real equality, choice row, hidden selector, metric-completeness row, or ambient-completeness oracle can distinguish the two terminal sections.
+\end{theorem}
+\begin{proof}
+First apply terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}, to each accepted packet. Since both displayed rows are $B,S,W,D,R,E,H,C,P,N$, both terminal sections are the finite section pulled back through the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ faces.
+
+Next identify the endpoint route. Terminal route endpoint exactness, \autoref{thm:finite-observation-budget-selector-terminal-route-endpoint-exactness}, fixes the endpoint at the displayed seal $E$, while terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}, keeps every route segment attached to the same rows $B,S,W,D,R,E,H,C,P,N$.
+
+Finally use the four-face pullback exactness \autoref{thm:streamname-finite-section-pullback-exactness}. The shared finite windows, dyadic ledger, regular readback, and Real seal determine one pulled-back section, so the two terminal sections induce the same displayed chain and the same $\RealUp$ seal under the componentwise $\hsame$ transports. The non-escape clauses in the cited exactness and minimality theorems exclude quotient streams, host equalities, choice rows, hidden selectors, metric-completeness rows, and ambient-completeness oracles as possible distinguishing data.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal cofinal-window coverage]
+\label{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every cofinal terminal consumer compatible with the displayed selector rows factors through the same finite window route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+Compatibility with $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyTailSelectorUp$, $\RealDiagonalCompletionUp$, and $\RealCompletionSelectorSealUp$ is therefore mediated only by the displayed budget, schedule, window, dyadic ledger, regular handoff, Real seal, componentwise $\hsame$ transports, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row. The exported terminal surface contains no quotient stream, countable choice operation, host real equality, hidden selector, detached completion limit, or ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+First fix the finite terminal inventory. Terminal window minimality, \autoref{thm:finite-observation-budget-selector-terminal-window-minimality}, says that every terminal $\RealUp$-facing read of $F$ uses exactly the displayed rows $B,S,W,D,R,E,H,C,P,N$ with $S$ mediating the route through the finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, and $\RegSeqRatUp$ handoff.
+
+Next attach the diagonal-tail consumers. By \autoref{thm:finite-observation-budget-selector-diagonal-tail-coverage}, the $\RegularCauchyTailSelectorUp$, $\RealDiagonalCompletionUp$, and $\RealCompletionSelectorSealUp$ reads of the packet all remain on the same finite route and import none of the excluded quotient, choice, host-equality, hidden-selector, detached-limit, or completeness coordinates.
+
+Now pass from a compatible terminal section to the displayed section. Terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}, identifies any section agreeing with the displayed rows as the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally use pullback uniqueness. The uniqueness theorem \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}, together with \autoref{thm:streamname-finite-section-pullback-exactness}, leaves only the chain $B \to S \to W \to D \to R \to E$ as the cofinal terminal route. Hence every compatible cofinal consumer factors through that route and exports only the displayed structural rows.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal cofinal-window transport invariance]
+\label{thm:finite-observation-budget-selector-terminal-cofinal-window-transport-invariance}
+Let
+$$
+F_0=(B,S,W,D,R,E,H,C,P,N)
+$$
+and
+$$
+F_1=(B,S,W,D,R,E,H,C,P,N)
+$$
+be accepted $\FiniteObservationBudgetSelectorUp$ packets whose terminal rows agree componentwise in the budget row $B$, schedule row $S$, finite $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Then every cofinal terminal consumer compatible with $F_0$ is compatible with $F_1$, and conversely, and both compatibilities factor through the same displayed route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+No quotient stream, host real equality, choice operation, hidden selector, detached completion limit, or ambient completeness oracle can distinguish the two packets at a cofinal terminal consumer.
+\end{theorem}
+\begin{proof}
+First apply terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}, to $F_0$ and to $F_1$. Since the two packets expose the same displayed rows $B,S,W,D,R,E,H,C,P,N$, every compatible cofinal terminal consumer on either side is already forced onto the same finite route through the selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, and terminal $\RealUp$ seal.
+
+Next identify the terminal sections. The terminal section exactness theorem \autoref{thm:finite-observation-budget-selector-terminal-section-exactness} turns compatibility with the displayed rows into the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Now use terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}. The two sections have the same budget, schedule, window, dyadic, regular, seal, transport, continuation, provenance, and local naming rows, so they determine one route and one terminal seal under the recorded componentwise $\hsame$ transports.
+
+Finally invoke \autoref{thm:streamname-finite-section-pullback-exactness}. The four-face pullback has no additional quotient, host-equality, choice, hidden-selector, detached-limit, or ambient-completeness coordinate. Thus transport along the shared rows carries cofinal terminal compatibility in either direction and leaves the route $B \to S \to W \to D \to R \to E$ invariant.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector terminal cofinal-window section decomposition]
+\label{thm:finite-observation-budget-selector-terminal-cofinal-window-section-decomposition}
+Let
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteObservationBudgetSelectorUp$ packet. Every cofinal terminal consumer compatible with $F$ decomposes into the four displayed section faces: the finite $\StreamNameUp$ window family $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RegSeqRatUp$ readback $R$, and the terminal $\RealUp$ seal $E$. The only transport data between these faces are the componentwise $\hsame$ rows $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+Equivalently, the consumer route is the finite section
+$$
+W \to D \to R \to E
+$$
+inside the budget and schedule envelope $B,S$. It exports no quotient stream, host real equality, choice row, hidden selector, detached limit, metric-completeness row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply terminal cofinal-window coverage, \autoref{thm:finite-observation-budget-selector-terminal-cofinal-window-coverage}. It places every compatible cofinal terminal consumer on the displayed route from the finite budget and selected schedule through $W,D,R$ to $E$.
+
+Next use terminal section exactness, \autoref{thm:finite-observation-budget-selector-terminal-section-exactness}. This identifies the compatible terminal section with the finite section pulled back along $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Now apply terminal section pullback uniqueness, \autoref{thm:finite-observation-budget-selector-terminal-section-pullback-uniqueness}. The rows $B,S,W,D,R,E,H,C,P,N$ determine a single budget-to-seal route, so any compatible consumer has the same four-face section decomposition.
+
+Finally use \autoref{thm:streamname-finite-section-pullback-exactness}. Its finite-section pullback gives the displayed $\StreamNameUp$ window face, $\DyadicRatCoreUp$ ledger face, $\RegSeqRatUp$ readback face, and $\RealUp$ seal face, while the non-escape clauses in the cited theorems exclude quotient streams, host real equality, choice rows, hidden selectors, detached limits, metric-completeness rows, and ambient completeness.
+\end{proof}

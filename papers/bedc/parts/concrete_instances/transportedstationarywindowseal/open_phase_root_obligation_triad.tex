@@ -1,0 +1,41 @@
+\begin{theorem}[Transported stationary window-seal constant-window exactness]
+\label{thm:transported-stationary-window-seal-constant-window-exactness}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the constant $\StreamNameUp$ window row $S$ is read only from the transported $\RatUp$ row $R$ and then from the $\RegSeqRatUp$ seal row $G$. No completion-facing consumer may read $S$ from a quotient stream, host equality, selected limit, choice principle, ambient real completeness object, hidden tail oracle, or second completion carrier.
+\end{theorem}
+\begin{proof}
+The carrier row of \autoref{thm:transported-stationary-window-seal-carrier-obligation} exposes exactly the displayed packet coordinates $R,S,G,W,E,H,C,P,N$.
+
+Apply the seed-window row \autoref{thm:transported-stationary-window-seal-seed-window-readback}. It places the constant $\StreamNameUp$ read at $S$ after the transported $\RatUp$ source row $R$ and before the $\RegSeqRatUp$ seal row $G$.
+
+Readback determinacy, \autoref{thm:transported-stationary-window-seal-readback-determinacy}, then fixes the same order for every accepted consumer. Since no further carrier coordinate is present, the displayed $R,S,G$ route is the exact constant-window route.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real seal factorization]
+\label{thm:transported-stationary-window-seal-real-seal-factorization}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, every $\RealUp$ seal read reaches $E$ only through the finite route
+$$
+\begin{aligned}
+  R,S,G,W,H,C,P,N .
+\end{aligned}
+$$
+The row $W$ is the finite-window envelope through which the transported $\RatUp$, constant $\StreamNameUp$, and $\RegSeqRatUp$ source rows become available to the $\RealUp$-facing seal row $E$.
+\end{theorem}
+\begin{proof}
+Begin with envelope exactness. The row \autoref{thm:transported-stationary-window-seal-envelope-window-exactness} identifies $W$ as the finite $\StreamNameUp$ envelope carried by the transported source rows.
+
+The completion-consumer boundary of \autoref{thm:transported-stationary-window-seal-completion-consumer-boundary} then permits a completion-facing read of $E$ only after the same source rows have passed through $W$.
+
+Finally, the Real factorization row \autoref{thm:transported-stationary-window-seal-real-factorization} supplies the $\RealUp$ seal-facing endpoint. Thus every Real seal read factors through $R,S,G,W,H,C,P,N$, with $W$ as the finite-window envelope.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion source nonescape]
+\label{thm:transported-stationary-window-seal-completion-source-nonescape}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, no completion-facing consumer may import quotient-stream equality, host real equality, selected limits, choice, hidden tail oracle, real-completeness data, or a second completion carrier outside the displayed packet. Every admissible source for such a consumer must be read from the packet rows $R,S,G,W,E,H,C,P,N$ and their displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+\end{theorem}
+\begin{proof}
+The ledger nonescape row, \autoref{thm:transported-stationary-window-seal-ledger-nonescape}, excludes quotient-stream equality, host equality, selected limits, choice, and ambient completeness data from the packet ledger.
+
+The shared-window budget is already exhausted by \autoref{thm:transported-stationary-window-seal-shared-window-budget-exhaustion}. Hence there is no remaining finite-window coordinate from which a hidden tail oracle or second completion carrier could be read.
+
+Root consumer nonescape, \autoref{thm:transported-stationary-window-seal-root-consumer-nonescape}, applies the same exclusion to downstream completion-facing consumers. Therefore every admissible source is one of the displayed packet rows together with its structural BEDC support.
+\end{proof}
