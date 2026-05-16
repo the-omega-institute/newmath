@@ -522,6 +522,7 @@ import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp
 import BEDC.Derived.RealWindowBudgetUp.DyadicHandoffSealObligation
+import BEDC.Derived.RealWindowBudgetUp.RealSealNonescape
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
@@ -1703,6 +1704,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.SealBudgetRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SelectorLockSealRouteExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceSynchronization
 import BEDC.Derived.DiagonallimitcompatibilityUp.SealSourceDeterminacy
+import BEDC.Derived.DiagonallimitcompatibilityUp.StreamNameBudgetTriad
 import BEDC.Derived.DiagonallimitcompatibilityUp.SynchronizedBudgetTerminality
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalSelectorRealSealPullback
 import BEDC.Derived.DiagonallimitcompatibilityUp.TerminalTailRebaseExactness
