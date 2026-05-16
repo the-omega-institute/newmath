@@ -37,3 +37,15 @@ Now consider a closed-normal or SubjectReductionBoundary-facing consumer that av
 
 Finally use the obstruction row. The row $S$ remains a displayed obstruction coordinate under both positive routes, and the non-escape theorem excludes any hidden coordinate that could erase it. Therefore a consumer that bypasses both positive routes or erases $S$ is outside the accepted frontier packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier consumer-boundary lock]
+\label{thm:metacic-normalization-frontier-consumer-boundary-lock}
+Every public consumer of the $\MetaCICNormalizationFrontierUp$ completion surface must pass through the displayed source, boundary, route, readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows already present in the child packet. In particular, such a consumer cannot import a hidden normalization oracle, host equality, subject-reduction bridge, or external consistency claim as a replacement for the displayed boundary packet.
+\end{theorem}
+\begin{proof}
+Project the consumer-boundary rows already established in this child file. Candidate-facing reads pass through $C,K,R,P,L$, while normal-endpoint reads pass through $E,N,R,P,L$ and retain $S$ as a visible obstruction coordinate.
+
+The remaining structural access is exhausted by the same packet rows. Componentwise $\hsame$ transport may move displayed coordinates, $\Cont$ may replay the displayed routes, $\Pkg$ records their provenance, and the local $\NameCert$ row names the boundary surface.
+
+Coordinate exhaustion now rules out bypasses. A hidden normalization oracle, host equality proof, subject-reduction bridge, or external consistency claim is not one of the displayed rows, so it cannot be supplied by a public consumer of the accepted completion surface.
+\end{proof}

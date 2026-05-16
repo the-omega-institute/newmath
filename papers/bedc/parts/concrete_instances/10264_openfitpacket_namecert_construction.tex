@@ -76,6 +76,20 @@ The handoff therefore preserves $S,M,F,E,L,B$. Signature comparison travels thro
 If a consumer route drops $E$ or $B$, it no longer carries the open-fit failure surface or the no-final-oracle boundary. Such a route may still mention a physical tower, signature classifier, or audit gate, but it is not an accepted $\OpenFitPacketUp$ handoff.
 \end{proof}
 
+\begin{theorem}[OpenFitPacket bridge-facing surface]
+\label{thm:open-fit-packet-bridge-facing-surface}
+Every bridge-facing consumer of an accepted $\OpenFitPacketUp$ packet must read exactly the displayed rows $H,\Pi,S,M,F,E,L,B,N$. These rows preserve the finite observation trace, observation bundle, observed and model signature rows, finite fit row, failure surface, ledger row, no-final-oracle boundary, and local NameCert row. No bridge-facing route may erase the finite observation trace, bypass $E$ or $B$, replace the ledger, or import a final-fit oracle from a physical tower, signature classifier, audit packet, host approval, or ambient model class.
+\end{theorem}
+\begin{proof}
+Start from the carrier and obligation surface. The packet has exactly the rows $H,\Pi,S,M,F,E,L,B,N$, and the local NameCert obligations assign finite observation, observation bundle, signature comparison, finite fit, failure exposure, ledger, boundary, and naming roles to those rows.
+
+Use the finite refutation surface. It forces any failed comparison read to pass through $E$ over the same $S,M$ comparison surface, so a bridge-facing consumer cannot replace the failure surface while preserving packet acceptance.
+
+Apply the no-final-oracle boundary and signature-fit handoff. The boundary keeps continuation status finite and refuses global confirmation, while the handoff routes signature fit through $S,M,F,E,L,B$.
+
+Therefore the bridge-facing surface is exactly the displayed packet. A consumer missing one of $H,\Pi,S,M,F,E,L,B,N$ or importing an outside oracle is not reading the accepted $\OpenFitPacketUp$ bridge-facing row.
+\end{proof}
+
 The Lean follow-up in \texttt{lean4/BEDC/Derived/OpenFitPacketUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OpenFitPacketUp$ and $\mathsf{FieldFaithful}\ \OpenFitPacketUp$ instances preserving $H,\Pi,S,M,F,E,L,B,N$.
 
 \falsifiablePrediction{A finite failed signature comparison refutes the packet locally, while no accepted packet exports a final-fit oracle.}
