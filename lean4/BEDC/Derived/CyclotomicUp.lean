@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -269,6 +271,80 @@ theorem CyclotomicRootCarrier_root_layer_classifier_transport [AskSetup] [Packag
                   (And.intro ledgerCont'
                     (And.intro sameComparison' pkgSig'))))))))
   exact And.intro carrier' (And.intro sameProvenance (And.intro sameAcceptance sameLedger))
+
+theorem CyclotomicRootCarrier_root_layer_source_coverage [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row ledger ∧
+              CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot
+                acceptance comparison provenance ledger bundle pkg)
+          (fun row : BHist =>
+            Cont numField splittingField provenance ∧ Cont exponent polynomial acceptance ∧
+              Cont acceptance primitiveRoot row)
+          (fun row : BHist => hsame row ledger ∧ PkgSig bundle ledger pkg)
+          hsame ∧
+        UnaryHistory numField ∧ UnaryHistory exponent ∧ UnaryHistory polynomial ∧
+          UnaryHistory splittingField ∧ UnaryHistory primitiveRoot ∧
+            UnaryHistory provenance ∧ UnaryHistory acceptance ∧ UnaryHistory ledger ∧
+              hsame comparison (append provenance acceptance) ∧ PkgSig bundle ledger pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier
+  have carrierPacket :
+      CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot
+        acceptance comparison provenance ledger bundle pkg :=
+    carrier
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row ledger ∧
+              CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot
+                acceptance comparison provenance ledger bundle pkg)
+          (fun row : BHist =>
+            Cont numField splittingField provenance ∧ Cont exponent polynomial acceptance ∧
+              Cont acceptance primitiveRoot row)
+          (fun row : BHist => hsame row ledger ∧ PkgSig bundle ledger pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro ledger ⟨hsame_refl ledger, carrierPacket⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          ⟨carrier.right.right.right.right.right.left,
+            carrier.right.right.right.right.right.right.left,
+            hsame_trans source.left
+              carrier.right.right.right.right.right.right.right.left⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, carrier.right.right.right.right.right.right.right.right.right⟩
+    }
+  exact
+    ⟨cert, carrier.left, carrier.right.left, carrier.right.right.left,
+      carrier.right.right.right.left, carrier.right.right.right.right.left,
+      sourceRows.right.right.right.left, sourceRows.right.right.right.right.left,
+      sourceRows.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      sourceRows.right.right.right.right.right.right.right.right.right⟩
 
 def CyclotomicRootClassifier [AskSetup] [PackageSetup]
     (numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
