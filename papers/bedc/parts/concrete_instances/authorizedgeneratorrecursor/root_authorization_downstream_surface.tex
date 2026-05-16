@@ -1,0 +1,39 @@
+\begin{theorem}[AuthorizedGeneratorRecursor root authorization downstream surface]
+\label{thm:authorized-generator-recursor-root-authorization-downstream-surface}
+Every downstream read of an accepted $\AuthorizedGeneratorRecursorUp$ root packet is authorized only through the finite carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+The authorization row, output audit row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, host-boundary row, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row must remain in the same $\BHist$ packet before a consumer may read the emitted recursor, branch package, structural descent, or output row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:authorized-generator-recursor-carrier-admission}. It admits the root object only as the displayed finite carrier and leaves no separate authorization channel.
+
+Apply \autoref{thm:authorized-generator-recursor-ledger-descent} and \autoref{thm:authorized-generator-recursor-consumer-nonescape}. Together they force downstream consumers to traverse the accepted signature, emitted recursor, motive, branch package, descent row, output row, audit row, transport, continuation, provenance, boundary, and local naming rows in one packet.
+
+Finally use the root obligation surfaces in \autoref{def:authorized-generator-recursor-root-output-boundary-package} and \autoref{thm:authorized-generator-recursor-branch-output-closure-row}. The output audit and authorization ledgers therefore reach downstream consumers only through finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor Real stream handoff row]
+\label{thm:authorized-generator-recursor-real-stream-handoff-row}
+If an accepted $\AuthorizedGeneratorRecursorUp$ packet is used by an L10 $\RealUp$, $\StreamNameUp$, or $\RegSeqRatUp$ consumer, then the handoff is the same authorized route $I,E,M,B,D,O,A,H,C,P,G,N$. The Real, stream-name, and regular-rational data may enter only as finite source rows carried by the displayed $\BHist$, transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by the local $\NameCert$ row; no selected Real limit, quotient stream equality, host evaluation, or detached generator state is exported.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:authorized-generator-recursor-real-stream-route}. It already places every L10 Real, stream-name, and regular-rational read on the displayed packet.
+
+Use \autoref{thm:authorized-generator-recursor-closed-substitution-handoff} to keep the output row behind the same authorized carrier before any downstream consumer receives it.
+
+Finally apply \autoref{thm:authorized-generator-recursor-root-authorization-downstream-surface}. The handoff row is therefore a finite authorized route with audit, transport, continuation, package, boundary, and local naming data, not a host-side stream or Real interface.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor closed substitution gate row]
+\label{thm:authorized-generator-recursor-closed-substitution-gate-row}
+The closed-substitution gate for an accepted $\AuthorizedGeneratorRecursorUp$ packet opens only after authorization, branch coverage, structural descent, output audit, Real/StreamName/RegSeqRat handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, host-boundary exposure, and local $\NameCert$ certification are all present in the finite route $I,E,M,B,D,O,A,H,C,P,G,N$. It cannot be opened by unrestricted substitution, unchecked recursion, external proof generation, host equality, or a private audit channel.
+\end{theorem}
+\begin{proof}
+First read the closed-substitution handoff of \autoref{thm:authorized-generator-recursor-closed-substitution-handoff}. It keeps closed-substitution consumers on the displayed route and excludes unrestricted substitution and external proof generation.
+
+Next attach the L10 handoff row from \autoref{thm:authorized-generator-recursor-real-stream-handoff-row}. This supplies the Real, stream-name, and regular-rational source rows without leaving the finite carrier.
+
+The gate is then closed by \autoref{thm:authorized-generator-recursor-root-authorization-downstream-surface} together with \autoref{thm:authorized-generator-recursor-substitution-membrane-lock}. Authorization, audit, transport, continuation, provenance, boundary, and naming all remain packet-local, so there is no coordinate for unchecked recursion, host equality, or a private audit channel.
+\end{proof}
