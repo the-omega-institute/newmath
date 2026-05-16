@@ -81,4 +81,39 @@ theorem FiniteTailFilterCarrier_tail_window_exactness
     ⟨unaryS, unaryD, unaryR, unaryQ, unaryE, unarySeal, routeR, routeQ, sealRoute,
       sameNameSeal, sealPkg, cert⟩
 
+theorem FiniteTailFilterCarrier_real_seal_handoff
+    [AskSetup] [PackageSetup]
+    {S D R B Q E H C P N sealRow realRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailFilterCarrier S D R B Q E H C P N ->
+      Cont Q E sealRow ->
+        UnaryHistory H ->
+          Cont sealRow H realRead ->
+            UnaryHistory C ->
+              Cont realRead C completionRead ->
+                PkgSig bundle completionRead pkg ->
+                  UnaryHistory S /\ UnaryHistory D /\ UnaryHistory R /\ UnaryHistory B /\
+                    UnaryHistory Q /\ UnaryHistory E /\ UnaryHistory sealRow /\
+                      UnaryHistory realRead /\ UnaryHistory completionRead /\ Cont S D R /\
+                        Cont R B Q /\ Cont Q E sealRow /\ Cont sealRow H realRead /\
+                          Cont realRead C completionRead /\ hsame N E /\
+                            PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sealRoute unaryH realRoute unaryC completionRoute completionPkg
+  obtain ⟨unaryS, unaryD, unaryB, unaryE, routeR, routeQ, sameNameSeal⟩ := carrier
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryS unaryD routeR
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryR unaryB routeQ
+  have unarySeal : UnaryHistory sealRow :=
+    unary_cont_closed unaryQ unaryE sealRoute
+  have unaryRealRead : UnaryHistory realRead :=
+    unary_cont_closed unarySeal unaryH realRoute
+  have unaryCompletionRead : UnaryHistory completionRead :=
+    unary_cont_closed unaryRealRead unaryC completionRoute
+  exact
+    ⟨unaryS, unaryD, unaryR, unaryB, unaryQ, unaryE, unarySeal, unaryRealRead,
+      unaryCompletionRead, routeR, routeQ, sealRoute, realRoute, completionRoute,
+      sameNameSeal, completionPkg⟩
+
 end BEDC.Derived.FiniteTailFilterUp
